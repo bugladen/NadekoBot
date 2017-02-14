@@ -96,11 +96,30 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to You have been banned from {0} server.
+        ///Reason: {1}.
+        /// </summary>
+        public static string administration_bandm {
+            get {
+                return ResourceManager.GetString("administration_bandm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to banned.
         /// </summary>
         public static string administration_banned_pl {
             get {
                 return ResourceManager.GetString("administration_banned_pl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to User Banned.
+        /// </summary>
+        public static string administration_banned_user {
+            get {
+                return ResourceManager.GetString("administration_banned_user", resourceCulture);
             }
         }
         
@@ -231,6 +250,42 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Sucessfully created role {0}.
+        /// </summary>
+        public static string administration_cr {
+            get {
+                return ResourceManager.GetString("administration_cr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Text channel {0} created..
+        /// </summary>
+        public static string administration_createtextchan {
+            get {
+                return ResourceManager.GetString("administration_createtextchan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Voice channel {0} created..
+        /// </summary>
+        public static string administration_createvoich {
+            get {
+                return ResourceManager.GetString("administration_createvoich", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Deafen successful..
+        /// </summary>
+        public static string administration_deafen {
+            get {
+                return ResourceManager.GetString("administration_deafen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Deleted server {0}.
         /// </summary>
         public static string administration_deleted_server {
@@ -240,11 +295,65 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Stopped automatic deletion of successful command invokations..
+        /// </summary>
+        public static string administration_delmsg_off {
+            get {
+                return ResourceManager.GetString("administration_delmsg_off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Now automatically deleting sucessful command invokations..
+        /// </summary>
+        public static string administration_delmsg_on {
+            get {
+                return ResourceManager.GetString("administration_delmsg_on", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Text channel {0} deleted..
+        /// </summary>
+        public static string administration_deltextchan {
+            get {
+                return ResourceManager.GetString("administration_deltextchan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Voice channel {0} deleted..
+        /// </summary>
+        public static string administration_delvoich {
+            get {
+                return ResourceManager.GetString("administration_delvoich", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to DM from.
         /// </summary>
         public static string administration_dm_from {
             get {
                 return ResourceManager.GetString("administration_dm_from", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Sucessfully added a new donator.Total donated amount from this user: {0} 👑.
+        /// </summary>
+        public static string administration_donadd {
+            get {
+                return ResourceManager.GetString("administration_donadd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Thanks to the people listed below for making this project hjappen!.
+        /// </summary>
+        public static string administration_donators {
+            get {
+                return ResourceManager.GetString("administration_donators", resourceCulture);
             }
         }
         
@@ -393,6 +502,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to You can&apos;t use this command on users with a role higher or equal to yours in the role hierarchy..
+        /// </summary>
+        public static string administration_hierarchy {
+            get {
+                return ResourceManager.GetString("administration_hierarchy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Images loaded after {0} seconds!.
         /// </summary>
         public static string administration_images_loaded {
@@ -425,6 +543,25 @@ namespace NadekoBot.Resources {
         public static string administration_joined {
             get {
                 return ResourceManager.GetString("administration_joined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You have been kicked from {0} server.
+        ///Reason: {1}.
+        /// </summary>
+        public static string administration_kickdm {
+            get {
+                return ResourceManager.GetString("administration_kickdm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to User Kicked.
+        /// </summary>
+        public static string administration_kicked_user {
+            get {
+                return ResourceManager.GetString("administration_kicked_user", resourceCulture);
             }
         }
         
@@ -561,6 +698,15 @@ namespace NadekoBot.Resources {
         public static string administration_log_stop {
             get {
                 return ResourceManager.GetString("administration_log_stop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} has invoked a mention on the following roles.
+        /// </summary>
+        public static string administration_menrole {
+            get {
+                return ResourceManager.GetString("administration_menrole", resourceCulture);
             }
         }
         
@@ -736,6 +882,24 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Error. Most likely I don&apos;t have sufficient permissions..
+        /// </summary>
+        public static string administration_perms {
+            get {
+                return ResourceManager.GetString("administration_perms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Permissions for this server are reset..
+        /// </summary>
+        public static string administration_perms_reset {
+            get {
+                return ResourceManager.GetString("administration_perms_reset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Active Protections.
         /// </summary>
         public static string administration_prot_active {
@@ -804,6 +968,105 @@ namespace NadekoBot.Resources {
         public static string administration_raid_time {
             get {
                 return ResourceManager.GetString("administration_raid_time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Successfully removed all roles from user {0}.
+        /// </summary>
+        public static string administration_rar {
+            get {
+                return ResourceManager.GetString("administration_rar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Failed to remove roles. I have insufficient permissions..
+        /// </summary>
+        public static string administration_rar_err {
+            get {
+                return ResourceManager.GetString("administration_rar_err", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Color of {0} role has been changed..
+        /// </summary>
+        public static string administration_rc {
+            get {
+                return ResourceManager.GetString("administration_rc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to That role does not exist..
+        /// </summary>
+        public static string administration_rc_not_exist {
+            get {
+                return ResourceManager.GetString("administration_rc_not_exist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to The parameters specified are invalid..
+        /// </summary>
+        public static string administration_rc_params {
+            get {
+                return ResourceManager.GetString("administration_rc_params", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Error occured due to invalid color or insufficient permissions..
+        /// </summary>
+        public static string administration_rc_perms {
+            get {
+                return ResourceManager.GetString("administration_rc_perms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Successfully removed role {0} from user {1}.
+        /// </summary>
+        public static string administration_remrole {
+            get {
+                return ResourceManager.GetString("administration_remrole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Failed to remove role. I have insufficient permissions..
+        /// </summary>
+        public static string administration_remrole_err {
+            get {
+                return ResourceManager.GetString("administration_remrole_err", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Role renamed..
+        /// </summary>
+        public static string administration_renrole {
+            get {
+                return ResourceManager.GetString("administration_renrole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Failed to rename role. I have insufficient permissions..
+        /// </summary>
+        public static string administration_renrole_err {
+            get {
+                return ResourceManager.GetString("administration_renrole_err", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You can&apos;t edit roles higher than your highest role..
+        /// </summary>
+        public static string administration_renrole_perms {
+            get {
+                return ResourceManager.GetString("administration_renrole_perms", resourceCulture);
             }
         }
         
@@ -998,6 +1261,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to New channel name set..
+        /// </summary>
+        public static string administration_set_channel_name {
+            get {
+                return ResourceManager.GetString("administration_set_channel_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to New game set!.
         /// </summary>
         public static string administration_set_game {
@@ -1012,6 +1284,33 @@ namespace NadekoBot.Resources {
         public static string administration_set_stream {
             get {
                 return ResourceManager.GetString("administration_set_stream", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to New channel topic set..
+        /// </summary>
+        public static string administration_set_topic {
+            get {
+                return ResourceManager.GetString("administration_set_topic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Sucessfully added role {0} to user {1}.
+        /// </summary>
+        public static string administration_setrole {
+            get {
+                return ResourceManager.GetString("administration_setrole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Failed to add role. I have insufficient permissions..
+        /// </summary>
+        public static string administration_setrole_err {
+            get {
+                return ResourceManager.GetString("administration_setrole_err", resourceCulture);
             }
         }
         
@@ -1121,6 +1420,15 @@ namespace NadekoBot.Resources {
         public static string administration_text_chan_destroyed {
             get {
                 return ResourceManager.GetString("administration_text_chan_destroyed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Undeafen successful..
+        /// </summary>
+        public static string administration_undeafen {
+            get {
+                return ResourceManager.GetString("administration_undeafen", resourceCulture);
             }
         }
         
@@ -1269,6 +1577,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Username.
+        /// </summary>
+        public static string administration_username {
+            get {
+                return ResourceManager.GetString("administration_username", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Username Changed.
         /// </summary>
         public static string administration_username_changed {
@@ -1377,6 +1694,16 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to You have been soft-banned from {0} server.
+        ///Reason: {1}.
+        /// </summary>
+        public static string administraton_sbdm {
+            get {
+                return ResourceManager.GetString("administraton_sbdm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to User Unbanned.
         /// </summary>
         public static string administraton_user_unbanned {
@@ -1409,6 +1736,15 @@ namespace NadekoBot.Resources {
         public static string adminsitration_presence_updates {
             get {
                 return ResourceManager.GetString("adminsitration_presence_updates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to User Soft-Banned.
+        /// </summary>
+        public static string adminsitration_sb_user {
+            get {
+                return ResourceManager.GetString("adminsitration_sb_user", resourceCulture);
             }
         }
         

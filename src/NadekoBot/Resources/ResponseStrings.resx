@@ -310,9 +310,16 @@
   <data name="administration_avatar_changed" xml:space="preserve">
     <value>Avatar Changed</value>
   </data>
+  <data name="administration_bandm" xml:space="preserve">
+    <value>You have been banned from {0} server.
+Reason: {1}</value>
+  </data>
   <data name="administration_banned_pl" xml:space="preserve">
     <value>banned</value>
     <comment>PLURAL</comment>
+  </data>
+  <data name="administration_banned_user" xml:space="preserve">
+    <value>User Banned</value>
   </data>
   <data name="administration_bot_name" xml:space="preserve">
     <value>Bot name changed to {0}</value>
@@ -356,11 +363,41 @@
   <data name="administration_content" xml:space="preserve">
     <value>Content</value>
   </data>
+  <data name="administration_cr" xml:space="preserve">
+    <value>Sucessfully created role {0}</value>
+  </data>
+  <data name="administration_createtextchan" xml:space="preserve">
+    <value>Text channel {0} created.</value>
+  </data>
+  <data name="administration_createvoich" xml:space="preserve">
+    <value>Voice channel {0} created.</value>
+  </data>
+  <data name="administration_deafen" xml:space="preserve">
+    <value>Deafen successful.</value>
+  </data>
   <data name="administration_deleted_server" xml:space="preserve">
     <value>Deleted server {0}</value>
   </data>
+  <data name="administration_delmsg_off" xml:space="preserve">
+    <value>Stopped automatic deletion of successful command invokations.</value>
+  </data>
+  <data name="administration_delmsg_on" xml:space="preserve">
+    <value>Now automatically deleting sucessful command invokations.</value>
+  </data>
+  <data name="administration_deltextchan" xml:space="preserve">
+    <value>Text channel {0} deleted.</value>
+  </data>
+  <data name="administration_delvoich" xml:space="preserve">
+    <value>Voice channel {0} deleted.</value>
+  </data>
   <data name="administration_dm_from" xml:space="preserve">
     <value>DM from</value>
+  </data>
+  <data name="administration_donadd" xml:space="preserve">
+    <value>Sucessfully added a new donator.Total donated amount from this user: {0} 👑</value>
+  </data>
+  <data name="administration_donators" xml:space="preserve">
+    <value>Thanks to the people listed below for making this project hjappen!</value>
   </data>
   <data name="administration_fwall_start" xml:space="preserve">
     <value>I will forward DMs to all owners.</value>
@@ -410,6 +447,9 @@
   <data name="administration_greet_on" xml:space="preserve">
     <value>Greet announcements enabled on this channel.</value>
   </data>
+  <data name="administration_hierarchy" xml:space="preserve">
+    <value>You can't use this command on users with a role higher or equal to yours in the role hierarchy.</value>
+  </data>
   <data name="administration_images_loaded" xml:space="preserve">
     <value>Images loaded after {0} seconds!</value>
   </data>
@@ -421,6 +461,13 @@
   </data>
   <data name="administration_joined" xml:space="preserve">
     <value>{0} has joined {1}</value>
+  </data>
+  <data name="administration_kickdm" xml:space="preserve">
+    <value>You have been kicked from {0} server.
+Reason: {1}</value>
+  </data>
+  <data name="administration_kicked_user" xml:space="preserve">
+    <value>User Kicked</value>
   </data>
   <data name="administration_lang_list" xml:space="preserve">
     <value>List Of Languages
@@ -467,6 +514,9 @@
   </data>
   <data name="administration_log_stop" xml:space="preserve">
     <value>Stopped logging {0} event.</value>
+  </data>
+  <data name="administration_menrole" xml:space="preserve">
+    <value>{0} has invoked a mention on the following roles</value>
   </data>
   <data name="administration_message_from_bo" xml:space="preserve">
     <value>Message from {0} `[Bot Owner]`:</value>
@@ -527,6 +577,12 @@
   <data name="administration_old_topic" xml:space="preserve">
     <value>Old Topic</value>
   </data>
+  <data name="administration_perms" xml:space="preserve">
+    <value>Error. Most likely I don't have sufficient permissions.</value>
+  </data>
+  <data name="administration_perms_reset" xml:space="preserve">
+    <value>Permissions for this server are reset.</value>
+  </data>
   <data name="administration_prot_active" xml:space="preserve">
     <value>Active Protections</value>
   </data>
@@ -550,6 +606,39 @@
   </data>
   <data name="administration_raid_time" xml:space="preserve">
     <value>Time must be between {0} and {1} seconds.</value>
+  </data>
+  <data name="administration_rar" xml:space="preserve">
+    <value>Successfully removed all roles from user {0}</value>
+  </data>
+  <data name="administration_rar_err" xml:space="preserve">
+    <value>Failed to remove roles. I have insufficient permissions.</value>
+  </data>
+  <data name="administration_rc" xml:space="preserve">
+    <value>Color of {0} role has been changed.</value>
+  </data>
+  <data name="administration_rc_not_exist" xml:space="preserve">
+    <value>That role does not exist.</value>
+  </data>
+  <data name="administration_rc_params" xml:space="preserve">
+    <value>The parameters specified are invalid.</value>
+  </data>
+  <data name="administration_rc_perms" xml:space="preserve">
+    <value>Error occured due to invalid color or insufficient permissions.</value>
+  </data>
+  <data name="administration_remrole" xml:space="preserve">
+    <value>Successfully removed role {0} from user {1}</value>
+  </data>
+  <data name="administration_remrole_err" xml:space="preserve">
+    <value>Failed to remove role. I have insufficient permissions.</value>
+  </data>
+  <data name="administration_renrole" xml:space="preserve">
+    <value>Role renamed.</value>
+  </data>
+  <data name="administration_renrole_err" xml:space="preserve">
+    <value>Failed to rename role. I have insufficient permissions.</value>
+  </data>
+  <data name="administration_renrole_perms" xml:space="preserve">
+    <value>You can't edit roles higher than your highest role.</value>
   </data>
   <data name="administration_reprm" xml:space="preserve">
     <value>Removed the playing message: {0}</value>
@@ -612,14 +701,26 @@
   <data name="administration_self_assign_sucess" xml:space="preserve">
     <value>You now have {0} role.</value>
   </data>
+  <data name="administration_setrole" xml:space="preserve">
+    <value>Sucessfully added role {0} to user {1}</value>
+  </data>
+  <data name="administration_setrole_err" xml:space="preserve">
+    <value>Failed to add role. I have insufficient permissions.</value>
+  </data>
   <data name="administration_set_avatar" xml:space="preserve">
     <value>New avatar set!</value>
+  </data>
+  <data name="administration_set_channel_name" xml:space="preserve">
+    <value>New channel name set.</value>
   </data>
   <data name="administration_set_game" xml:space="preserve">
     <value>New game set!</value>
   </data>
   <data name="administration_set_stream" xml:space="preserve">
     <value>New stream set!</value>
+  </data>
+  <data name="administration_set_topic" xml:space="preserve">
+    <value>New channel topic set.</value>
   </data>
   <data name="administration_shard_reconnected" xml:space="preserve">
     <value>Shard {0} reconnected.</value>
@@ -659,9 +760,15 @@
   <data name="administration_text_chan_destroyed" xml:space="preserve">
     <value>Text Channel Destroyed </value>
   </data>
+  <data name="administration_undeafen" xml:space="preserve">
+    <value>Undeafen successful.</value>
+  </data>
   <data name="administration_unmuted_sn" xml:space="preserve">
     <value>Unmuted</value>
     <comment>singular</comment>
+  </data>
+  <data name="administration_username" xml:space="preserve">
+    <value>Username</value>
   </data>
   <data name="administration_username_changed" xml:space="preserve">
     <value>Username Changed</value>
@@ -744,6 +851,10 @@
   <data name="administration_xmuted_voice" xml:space="preserve">
     <value>User {0} from voice chat</value>
   </data>
+  <data name="administraton_sbdm" xml:space="preserve">
+    <value>You have been soft-banned from {0} server.
+Reason: {1}</value>
+  </data>
   <data name="administraton_user_unbanned" xml:space="preserve">
     <value>User Unbanned</value>
   </data>
@@ -755,6 +866,9 @@
   </data>
   <data name="adminsitration_presence_updates" xml:space="preserve">
     <value>Presence Updates</value>
+  </data>
+  <data name="adminsitration_sb_user" xml:space="preserve">
+    <value>User Soft-Banned</value>
   </data>
   <data name="help_back_to_toc" xml:space="preserve">
     <value>Back to ToC</value>
