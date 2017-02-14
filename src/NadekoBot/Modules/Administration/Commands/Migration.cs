@@ -51,12 +51,12 @@ namespace NadekoBot.Modules.Administration
                                 break;
                         }
                     }
-                    await Context.Channel.SendMessageAsync("🆙 **Migration done.**").ConfigureAwait(false);
+                    await ReplyConfirmLocalized("migration_done").ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
                     _log.Error(ex);
-                    await Context.Channel.SendMessageAsync("⚠️ **Error while migrating, check `logs` for more informations.**").ConfigureAwait(false);
+                    await ReplyErrorLocalized("migration_error").ConfigureAwait(false);
                 }
             }
 

@@ -691,6 +691,24 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Migration done!.
+        /// </summary>
+        public static string adminsitration_migration_done {
+            get {
+                return ResourceManager.GetString("adminsitration_migration_done", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Error while migrating, check bot&apos;s console for more information..
+        /// </summary>
+        public static string adminsitration_migration_error {
+            get {
+                return ResourceManager.GetString("adminsitration_migration_error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Presence Updates.
         /// </summary>
         public static string adminsitration_presence_updates {
