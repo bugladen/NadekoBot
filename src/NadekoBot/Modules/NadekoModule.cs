@@ -12,7 +12,7 @@ namespace NadekoBot.Modules
     public abstract class NadekoModule : ModuleBase
     {
         protected readonly Logger _log;
-        protected CultureInfo _cultureInfo { get; private set; }
+        protected CultureInfo _cultureInfo;
         public readonly string Prefix;
         public readonly string ModuleTypeName;
         public readonly string LowerModuleTypeName;
@@ -58,23 +58,23 @@ namespace NadekoBot.Modules
         /// <summary>
         /// Used as failsafe in case response key doesn't exist in the selected or default language.
         /// </summary>
-        private static readonly CultureInfo usCultureInfo = new CultureInfo("en-US");
+        private static readonly CultureInfo _usCultureInfo = new CultureInfo("en-US");
 
-        public static string GetTextStatic(string key, CultureInfo _cultureInfo, string lowerModuleTypeName)
+        public static string GetTextStatic(string key, CultureInfo cultureInfo, string lowerModuleTypeName)
         {
-            var text = NadekoBot.ResponsesResourceManager.GetString(lowerModuleTypeName + "_" + key, _cultureInfo);
+            var text = NadekoBot.ResponsesResourceManager.GetString(lowerModuleTypeName + "_" + key, cultureInfo);
 
             if (string.IsNullOrWhiteSpace(text))
             {
-                LogManager.GetCurrentClassLogger().Warn(lowerModuleTypeName + "_" + key + " key is missing from " + _cultureInfo + " response strings. PLEASE REPORT THIS.");
-                return NadekoBot.ResponsesResourceManager.GetString(lowerModuleTypeName + "_" + key, usCultureInfo) ?? $"Error: dkey {lowerModuleTypeName + "_" + key} found!";
+                LogManager.GetCurrentClassLogger().Warn(lowerModuleTypeName + "_" + key + " key is missing from " + cultureInfo + " response strings. PLEASE REPORT THIS.");
+                return NadekoBot.ResponsesResourceManager.GetString(lowerModuleTypeName + "_" + key, _usCultureInfo) ?? $"Error: dkey {lowerModuleTypeName + "_" + key} found!";
             }
-            return text ?? $"Error: key {lowerModuleTypeName + "_" + key} not found.";
+            return text;
         }
 
-        public static string GetTextStatic(string key, CultureInfo _cultureInfo, string lowerModuleTypeName, params object[] replacements)
+        public static string GetTextStatic(string key, CultureInfo cultureInfo, string lowerModuleTypeName, params object[] replacements)
         {
-            return string.Format(GetTextStatic(key, _cultureInfo, lowerModuleTypeName), replacements);
+            return string.Format(GetTextStatic(key, cultureInfo, lowerModuleTypeName), replacements);
         }
 
         protected string GetText(string key) =>

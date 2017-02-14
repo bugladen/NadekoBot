@@ -78,6 +78,69 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Attachments.
+        /// </summary>
+        public static string administration_attachments {
+            get {
+                return ResourceManager.GetString("administration_attachments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Avatar Changed.
+        /// </summary>
+        public static string administration_avatar_changed {
+            get {
+                return ResourceManager.GetString("administration_avatar_changed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to banned.
+        /// </summary>
+        public static string administration_banned_pl {
+            get {
+                return ResourceManager.GetString("administration_banned_pl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Channel Name Changed.
+        /// </summary>
+        public static string administration_ch_name_change {
+            get {
+                return ResourceManager.GetString("administration_ch_name_change", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Old Name.
+        /// </summary>
+        public static string administration_ch_old_name {
+            get {
+                return ResourceManager.GetString("administration_ch_old_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Channel Topic Changed.
+        /// </summary>
+        public static string administration_ch_topic_change {
+            get {
+                return ResourceManager.GetString("administration_ch_topic_change", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Content.
+        /// </summary>
+        public static string administration_content {
+            get {
+                return ResourceManager.GetString("administration_content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to DM from.
         /// </summary>
         public static string administration_dm_from {
@@ -119,6 +182,15 @@ namespace NadekoBot.Resources {
         public static string administration_fwdm_stop {
             get {
                 return ResourceManager.GetString("administration_fwdm_stop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} has joined {1}.
+        /// </summary>
+        public static string administration_joined {
+            get {
+                return ResourceManager.GetString("administration_joined", resourceCulture);
             }
         }
         
@@ -178,6 +250,105 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to {0} has left {1}.
+        /// </summary>
+        public static string administration_left {
+            get {
+                return ResourceManager.GetString("administration_left", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Logging {0} event in this channel..
+        /// </summary>
+        public static string administration_log {
+            get {
+                return ResourceManager.GetString("administration_log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Logging all events in this channel..
+        /// </summary>
+        public static string administration_log_all {
+            get {
+                return ResourceManager.GetString("administration_log_all", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Logging disabled..
+        /// </summary>
+        public static string administration_log_disabled {
+            get {
+                return ResourceManager.GetString("administration_log_disabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Log events you can subscribe to:.
+        /// </summary>
+        public static string administration_log_events {
+            get {
+                return ResourceManager.GetString("administration_log_events", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Logging will ignore {0}.
+        /// </summary>
+        public static string administration_log_ignore {
+            get {
+                return ResourceManager.GetString("administration_log_ignore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Logging will not ignore {0}.
+        /// </summary>
+        public static string administration_log_not_ignore {
+            get {
+                return ResourceManager.GetString("administration_log_not_ignore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Stopped logging {0} event..
+        /// </summary>
+        public static string administration_log_stop {
+            get {
+                return ResourceManager.GetString("administration_log_stop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} moved from {1} to {2}.
+        /// </summary>
+        public static string administration_moved {
+            get {
+                return ResourceManager.GetString("administration_moved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Message Deleted in #{0}.
+        /// </summary>
+        public static string administration_msg_del {
+            get {
+                return ResourceManager.GetString("administration_msg_del", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Message Updated in #{0}.
+        /// </summary>
+        public static string administration_msg_update {
+            get {
+                return ResourceManager.GetString("administration_msg_update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to I don&apos;t have the permission necessary for that most likely..
         /// </summary>
         public static string administration_mute_error {
@@ -192,6 +363,132 @@ namespace NadekoBot.Resources {
         public static string administration_mute_role_set {
             get {
                 return ResourceManager.GetString("administration_mute_role_set", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Muted.
+        /// </summary>
+        public static string administration_muted_pl {
+            get {
+                return ResourceManager.GetString("administration_muted_pl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Muted.
+        /// </summary>
+        public static string administration_muted_sn {
+            get {
+                return ResourceManager.GetString("administration_muted_sn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to New Message.
+        /// </summary>
+        public static string administration_new_msg {
+            get {
+                return ResourceManager.GetString("administration_new_msg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to New Nickname.
+        /// </summary>
+        public static string administration_new_nick {
+            get {
+                return ResourceManager.GetString("administration_new_nick", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to New Topic.
+        /// </summary>
+        public static string administration_new_topic {
+            get {
+                return ResourceManager.GetString("administration_new_topic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Nickname Changed.
+        /// </summary>
+        public static string administration_nick_change {
+            get {
+                return ResourceManager.GetString("administration_nick_change", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Old Message.
+        /// </summary>
+        public static string administration_old_msg {
+            get {
+                return ResourceManager.GetString("administration_old_msg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Old Nickname.
+        /// </summary>
+        public static string administration_old_nick {
+            get {
+                return ResourceManager.GetString("administration_old_nick", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Old Topic.
+        /// </summary>
+        public static string administration_old_topic {
+            get {
+                return ResourceManager.GetString("administration_old_topic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to soft-banned (kicked).
+        /// </summary>
+        public static string administration_soft_banned_pl {
+            get {
+                return ResourceManager.GetString("administration_soft_banned_pl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Text Channel Destroyed .
+        /// </summary>
+        public static string administration_text_chan_created {
+            get {
+                return ResourceManager.GetString("administration_text_chan_created", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Text Channel Destroyed .
+        /// </summary>
+        public static string administration_text_chan_destroyed {
+            get {
+                return ResourceManager.GetString("administration_text_chan_destroyed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Unmuted.
+        /// </summary>
+        public static string administration_unmuted_sn {
+            get {
+                return ResourceManager.GetString("administration_unmuted_sn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to User Banned.
+        /// </summary>
+        public static string administration_user_banned {
+            get {
+                return ResourceManager.GetString("administration_user_banned", resourceCulture);
             }
         }
         
@@ -214,6 +511,24 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to User Joined.
+        /// </summary>
+        public static string administration_user_joined {
+            get {
+                return ResourceManager.GetString("administration_user_joined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to User Left.
+        /// </summary>
+        public static string administration_user_left {
+            get {
+                return ResourceManager.GetString("administration_user_left", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to {0} has been **muted** from text and voice chat..
         /// </summary>
         public static string administration_user_muted {
@@ -223,11 +538,65 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to User&apos;s Role Added.
+        /// </summary>
+        public static string administration_user_role_add {
+            get {
+                return ResourceManager.GetString("administration_user_role_add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to User&apos;s  Role Removed.
+        /// </summary>
+        public static string administration_user_role_rem {
+            get {
+                return ResourceManager.GetString("administration_user_role_rem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} is now {1}.
+        /// </summary>
+        public static string administration_user_status_change {
+            get {
+                return ResourceManager.GetString("administration_user_status_change", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to {0} has been **unmuted** from text and voice chat..
         /// </summary>
         public static string administration_user_unmuted {
             get {
                 return ResourceManager.GetString("administration_user_unmuted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} has joined {1} voice channel..
+        /// </summary>
+        public static string administration_user_vjoined {
+            get {
+                return ResourceManager.GetString("administration_user_vjoined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} has left {1} voice channel..
+        /// </summary>
+        public static string administration_user_vleft {
+            get {
+                return ResourceManager.GetString("administration_user_vleft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} moved from {1} to {2} voice channel..
+        /// </summary>
+        public static string administration_user_vmoved {
+            get {
+                return ResourceManager.GetString("administration_user_vmoved", resourceCulture);
             }
         }
         
@@ -246,6 +615,87 @@ namespace NadekoBot.Resources {
         public static string administration_user_voice_unmute {
             get {
                 return ResourceManager.GetString("administration_user_voice_unmute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Username Changed.
+        /// </summary>
+        public static string administration_username_changed {
+            get {
+                return ResourceManager.GetString("administration_username_changed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Users.
+        /// </summary>
+        public static string administration_users {
+            get {
+                return ResourceManager.GetString("administration_users", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Voice Channel Destroyed.
+        /// </summary>
+        public static string administration_voice_chan_created {
+            get {
+                return ResourceManager.GetString("administration_voice_chan_created", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Voice Channel Destroyed.
+        /// </summary>
+        public static string administration_voice_chan_destroyed {
+            get {
+                return ResourceManager.GetString("administration_voice_chan_destroyed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to User {0} from text chat.
+        /// </summary>
+        public static string administration_xmuted_text {
+            get {
+                return ResourceManager.GetString("administration_xmuted_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to User {0} from text and voice chat.
+        /// </summary>
+        public static string administration_xmuted_text_and_voice {
+            get {
+                return ResourceManager.GetString("administration_xmuted_text_and_voice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to User {0} from voice chat.
+        /// </summary>
+        public static string administration_xmuted_voice {
+            get {
+                return ResourceManager.GetString("administration_xmuted_voice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to User Unbanned.
+        /// </summary>
+        public static string administraton_user_unbanned {
+            get {
+                return ResourceManager.GetString("administraton_user_unbanned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Presence Updates.
+        /// </summary>
+        public static string adminsitration_presence_updates {
+            get {
+                return ResourceManager.GetString("adminsitration_presence_updates", resourceCulture);
             }
         }
         
