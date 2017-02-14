@@ -102,14 +102,14 @@ namespace NadekoBot.Modules.Administration
 
                 if (shard == null)
                 {
-                    await Context.Channel.SendErrorAsync("No shard by that id found.").ConfigureAwait(false);
+                    await ReplyErrorLocalized("no_shard_id").ConfigureAwait(false);
                     return;
                 }
                 try
                 {
-                    await Context.Channel.SendConfirmAsync($"Shard **#{shardid}** reconnecting.").ConfigureAwait(false);
+                    await ReplyConfirmLocalized("shard_reconnecting", Format.Bold("#" + shardid)).ConfigureAwait(false);
                     await shard.ConnectAsync().ConfigureAwait(false);
-                    await Context.Channel.SendConfirmAsync($"Shard **#{shardid}** reconnected.").ConfigureAwait(false);
+                    await ReplyConfirmLocalized("shard_reconnected", Format.Bold("#" + shardid)).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
@@ -127,18 +127,18 @@ namespace NadekoBot.Modules.Administration
 
                 if (server == null)
                 {
-                    await Context.Channel.SendErrorAsync("⚠️ Cannot find that server").ConfigureAwait(false);
+                    await ReplyErrorLocalized("no_server").ConfigureAwait(false);
                     return;
                 }
                 if (server.OwnerId != NadekoBot.Client.CurrentUser.Id)
                 {
                     await server.LeaveAsync().ConfigureAwait(false);
-                    await Context.Channel.SendConfirmAsync("✅ Left server " + server.Name).ConfigureAwait(false);
+                    await ReplyConfirmLocalized("left_server", Format.Bold(server.Name)).ConfigureAwait(false);
                 }
                 else
                 {
                     await server.DeleteAsync().ConfigureAwait(false);
-                    await Context.Channel.SendConfirmAsync("Deleted server " + server.Name).ConfigureAwait(false);
+                    await ReplyConfirmLocalized("deleted_server",Format.Bold(server.Name)).ConfigureAwait(false);
                 }
             }
 
@@ -147,7 +147,14 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task Die()
             {
-                try { await Context.Channel.SendConfirmAsync("ℹ️ **Shutting down.**").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+                try
+                {
+                    await ReplyConfirmLocalized("shutting_down").ConfigureAwait(false);
+                }
+                catch
+                {
+                    // ignored
+                }
                 await Task.Delay(2000).ConfigureAwait(false);
                 Environment.Exit(0);
             }
@@ -161,7 +168,7 @@ namespace NadekoBot.Modules.Administration
 
                 await NadekoBot.Client.CurrentUser.ModifyAsync(u => u.Username = newName).ConfigureAwait(false);
 
-                await Context.Channel.SendConfirmAsync($"Bot name changed to **{newName}**").ConfigureAwait(false);
+                await ReplyConfirmLocalized("bot_name", Format.Bold(newName)).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -170,7 +177,7 @@ namespace NadekoBot.Modules.Administration
             {
                 await NadekoBot.Client.SetStatusAsync(SettableUserStatusToUserStatus(status)).ConfigureAwait(false);
 
-                await Context.Channel.SendConfirmAsync($"Bot status changed to **{status}**").ConfigureAwait(false);
+                await ReplyConfirmLocalized("bot_status", Format.Bold(status.ToString())).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -192,7 +199,7 @@ namespace NadekoBot.Modules.Administration
                     }
                 }
 
-                await Context.Channel.SendConfirmAsync("🆒 **New avatar set.**").ConfigureAwait(false);
+                await ReplyConfirmLocalized("set_avatar").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -201,7 +208,7 @@ namespace NadekoBot.Modules.Administration
             {
                 await NadekoBot.Client.SetGameAsync(game).ConfigureAwait(false);
 
-                await Context.Channel.SendConfirmAsync("👾 **New game set.**").ConfigureAwait(false);
+                await ReplyConfirmLocalized("set_game").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -212,7 +219,7 @@ namespace NadekoBot.Modules.Administration
 
                 await NadekoBot.Client.SetGameAsync(name, url, StreamType.Twitch).ConfigureAwait(false);
 
-                await Context.Channel.SendConfirmAsync("ℹ️ **New stream set.**").ConfigureAwait(false);
+                await ReplyConfirmLocalized("set_stream").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -253,8 +260,10 @@ namespace NadekoBot.Modules.Administration
                 }
                 else
                 {
-                    await Context.Channel.SendErrorAsync("⚠️ Invalid format.").ConfigureAwait(false);
+                    await ReplyErrorLocalized("invalid_format").ConfigureAwait(false);
+                    return;
                 }
+                await ReplyConfirmLocalized("message_sent").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -264,10 +273,10 @@ namespace NadekoBot.Modules.Administration
                 var channels = NadekoBot.Client.GetGuilds().Select(g => g.DefaultChannel).ToArray();
                 if (channels == null)
                     return;
-                await Task.WhenAll(channels.Where(c => c != null).Select(c => c.SendConfirmAsync($"🆕 Message from {Context.User} `[Bot Owner]`:", message)))
+                await Task.WhenAll(channels.Where(c => c != null).Select(c => c.SendConfirmAsync(GetText("message_from_bo", Context.User.ToString()), message)))
                         .ConfigureAwait(false);
 
-                await Context.Channel.SendConfirmAsync("🆗").ConfigureAwait(false);
+                await ReplyConfirmLocalized("message_sent").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -275,7 +284,7 @@ namespace NadekoBot.Modules.Administration
             public async Task ReloadImages()
             {
                 var time = await NadekoBot.Images.Reload().ConfigureAwait(false);
-                await Context.Channel.SendConfirmAsync($"Images loaded after {time.TotalSeconds:F3}s!").ConfigureAwait(false);
+                await ReplyConfirmLocalized("images_loaded", time.TotalSeconds.ToString("F3")).ConfigureAwait(false);
             }
 
             private static UserStatus SettableUserStatusToUserStatus(SettableUserStatus sus)

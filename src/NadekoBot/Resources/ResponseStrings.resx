@@ -298,12 +298,6 @@
   <data name="pokemon_you_fainted" xml:space="preserve">
     <value>You fainted, so you are not able to move!</value>
   </data>
-  <data name="administartion_self_assign_already" xml:space="preserve">
-    <value>You already have {0} role.</value>
-  </data>
-  <data name="administartion_self_assign_remove" xml:space="preserve">
-    <value>You no longer have {0} role.</value>
-  </data>
   <data name="administration_aar_disabled" xml:space="preserve">
     <value>**Auto assign role** on user join is now **disabled**.</value>
   </data>
@@ -320,6 +314,12 @@
     <value>banned</value>
     <comment>PLURAL</comment>
   </data>
+  <data name="administration_bot_name" xml:space="preserve">
+    <value>Bot name changed to {0}</value>
+  </data>
+  <data name="administration_bot_status" xml:space="preserve">
+    <value>Bot status changed to {0}</value>
+  </data>
   <data name="administration_ch_name_change" xml:space="preserve">
     <value>Channel Name Changed</value>
   </data>
@@ -331,6 +331,9 @@
   </data>
   <data name="administration_content" xml:space="preserve">
     <value>Content</value>
+  </data>
+  <data name="administration_deleted_server" xml:space="preserve">
+    <value>Deleted server {0}</value>
   </data>
   <data name="administration_dm_from" xml:space="preserve">
     <value>DM from</value>
@@ -346,6 +349,12 @@
   </data>
   <data name="administration_fwdm_stop" xml:space="preserve">
     <value>I will stop forwarding DMs from now on.</value>
+  </data>
+  <data name="administration_images_loaded" xml:space="preserve">
+    <value>Images loaded after {0} seconds!</value>
+  </data>
+  <data name="administration_invalid_format" xml:space="preserve">
+    <value>Invalid input format.</value>
   </data>
   <data name="administration_invalid_params" xml:space="preserve">
     <value>Invalid parameters.</value>
@@ -375,6 +384,9 @@
   <data name="administration_left" xml:space="preserve">
     <value>{0} has left {1}</value>
   </data>
+  <data name="administration_left_server" xml:space="preserve">
+    <value>Left server {0}</value>
+  </data>
   <data name="administration_log" xml:space="preserve">
     <value>Logging {0} event in this channel.</value>
   </data>
@@ -395,6 +407,12 @@
   </data>
   <data name="administration_log_stop" xml:space="preserve">
     <value>Stopped logging {0} event.</value>
+  </data>
+  <data name="administration_message_from_bo" xml:space="preserve">
+    <value>Message from {0} `[Bot Owner]`:</value>
+  </data>
+  <data name="administration_message_sent" xml:space="preserve">
+    <value>Message sent.</value>
   </data>
   <data name="administration_moved" xml:space="preserve">
     <value>{0} moved from {1} to {2}</value>
@@ -430,6 +448,12 @@
   </data>
   <data name="administration_nick_change" xml:space="preserve">
     <value>Nickname Changed</value>
+  </data>
+  <data name="administration_no_server" xml:space="preserve">
+    <value>Can't find that server</value>
+  </data>
+  <data name="administration_no_shard_id" xml:space="preserve">
+    <value>No shard with that ID found.</value>
   </data>
   <data name="administration_old_msg" xml:space="preserve">
     <value>Old Message</value>
@@ -468,7 +492,7 @@
     <value>Removed the playing message: {0}</value>
   </data>
   <data name="administration_role_added" xml:space="preserve">
-    <value>Role {0} is added to the list.</value>
+    <value>Role {0} as been added to the list.</value>
   </data>
   <data name="administration_role_clean" xml:space="preserve">
     <value>{0} not found.Cleaned up.</value>
@@ -492,6 +516,9 @@
   <data name="administration_ropl_not_set" xml:space="preserve">
     <value>No rotating playing statuses set.</value>
   </data>
+  <data name="administration_self_assign_already" xml:space="preserve">
+    <value>You already have {0} role.</value>
+  </data>
   <data name="administration_self_assign_already_excl" xml:space="preserve">
     <value>You already have {0} exclusive self-assigned role.</value>
   </data>
@@ -499,8 +526,7 @@
     <value>Self assigned roles are now exclusive!</value>
   </data>
   <data name="administration_self_assign_list" xml:space="preserve">
-    <value>There are {0} self assignable roles:
-{1}</value>
+    <value>There are {0} self assignable roles</value>
   </data>
   <data name="administration_self_assign_not" xml:space="preserve">
     <value>That role is not self-assignable.</value>
@@ -517,8 +543,29 @@
   <data name="administration_self_assign_rem" xml:space="preserve">
     <value>{0} has been removed from the list of self-assignable roles.</value>
   </data>
-  <data name="administration_self_assign_sucsess" xml:space="preserve">
+  <data name="administration_self_assign_remove" xml:space="preserve">
+    <value>You no longer have {0} role.</value>
+  </data>
+  <data name="administration_self_assign_sucess" xml:space="preserve">
     <value>You now have {0} role.</value>
+  </data>
+  <data name="administration_set_avatar" xml:space="preserve">
+    <value>New avatar set!</value>
+  </data>
+  <data name="administration_set_game" xml:space="preserve">
+    <value>New game set!</value>
+  </data>
+  <data name="administration_set_stream" xml:space="preserve">
+    <value>New stream set!</value>
+  </data>
+  <data name="administration_shard_reconnected" xml:space="preserve">
+    <value>Shard {0} reconnected.</value>
+  </data>
+  <data name="administration_shard_reconnecting" xml:space="preserve">
+    <value>Shard {0} reconnecting.</value>
+  </data>
+  <data name="administration_shutting_down" xml:space="preserve">
+    <value>Shutting down</value>
   </data>
   <data name="administration_slowmode_desc" xml:space="preserve">
     <value>Users can't send more than {0} messages every {1} seconds.</value>

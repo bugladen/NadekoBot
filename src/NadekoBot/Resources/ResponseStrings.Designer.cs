@@ -60,24 +60,6 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to You already have {0} role..
-        /// </summary>
-        public static string administartion_self_assign_already {
-            get {
-                return ResourceManager.GetString("administartion_self_assign_already", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to You no longer have {0} role..
-        /// </summary>
-        public static string administartion_self_assign_remove {
-            get {
-                return ResourceManager.GetString("administartion_self_assign_remove", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///    Looks up a localized string similar to **Auto assign role** on user join is now **disabled**..
         /// </summary>
         public static string administration_aar_disabled {
@@ -123,6 +105,24 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Bot name changed to {0}.
+        /// </summary>
+        public static string administration_bot_name {
+            get {
+                return ResourceManager.GetString("administration_bot_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Bot status changed to {0}.
+        /// </summary>
+        public static string administration_bot_status {
+            get {
+                return ResourceManager.GetString("administration_bot_status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Channel Name Changed.
         /// </summary>
         public static string administration_ch_name_change {
@@ -155,6 +155,15 @@ namespace NadekoBot.Resources {
         public static string administration_content {
             get {
                 return ResourceManager.GetString("administration_content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Deleted server {0}.
+        /// </summary>
+        public static string administration_deleted_server {
+            get {
+                return ResourceManager.GetString("administration_deleted_server", resourceCulture);
             }
         }
         
@@ -200,6 +209,24 @@ namespace NadekoBot.Resources {
         public static string administration_fwdm_stop {
             get {
                 return ResourceManager.GetString("administration_fwdm_stop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Images loaded after {0} seconds!.
+        /// </summary>
+        public static string administration_images_loaded {
+            get {
+                return ResourceManager.GetString("administration_images_loaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Invalid input format..
+        /// </summary>
+        public static string administration_invalid_format {
+            get {
+                return ResourceManager.GetString("administration_invalid_format", resourceCulture);
             }
         }
         
@@ -286,6 +313,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Left server {0}.
+        /// </summary>
+        public static string administration_left_server {
+            get {
+                return ResourceManager.GetString("administration_left_server", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Logging {0} event in this channel..
         /// </summary>
         public static string administration_log {
@@ -345,6 +381,24 @@ namespace NadekoBot.Resources {
         public static string administration_log_stop {
             get {
                 return ResourceManager.GetString("administration_log_stop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Message from {0} `[Bot Owner]`:.
+        /// </summary>
+        public static string administration_message_from_bo {
+            get {
+                return ResourceManager.GetString("administration_message_from_bo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Message sent..
+        /// </summary>
+        public static string administration_message_sent {
+            get {
+                return ResourceManager.GetString("administration_message_sent", resourceCulture);
             }
         }
         
@@ -444,6 +498,24 @@ namespace NadekoBot.Resources {
         public static string administration_nick_change {
             get {
                 return ResourceManager.GetString("administration_nick_change", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Can&apos;t find that server.
+        /// </summary>
+        public static string administration_no_server {
+            get {
+                return ResourceManager.GetString("administration_no_server", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No shard with that ID found..
+        /// </summary>
+        public static string administration_no_shard_id {
+            get {
+                return ResourceManager.GetString("administration_no_shard_id", resourceCulture);
             }
         }
         
@@ -629,6 +701,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to You already have {0} role..
+        /// </summary>
+        public static string administration_self_assign_already {
+            get {
+                return ResourceManager.GetString("administration_self_assign_already", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to You already have {0} exclusive self-assigned role..
         /// </summary>
         public static string administration_self_assign_already_excl {
@@ -701,11 +782,74 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to You no longer have {0} role..
+        /// </summary>
+        public static string administration_self_assign_remove {
+            get {
+                return ResourceManager.GetString("administration_self_assign_remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to You now have {0} role..
         /// </summary>
         public static string administration_self_assign_sucess {
             get {
                 return ResourceManager.GetString("administration_self_assign_sucess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to New avatar set!.
+        /// </summary>
+        public static string administration_set_avatar {
+            get {
+                return ResourceManager.GetString("administration_set_avatar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to New game set!.
+        /// </summary>
+        public static string administration_set_game {
+            get {
+                return ResourceManager.GetString("administration_set_game", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to New stream set!.
+        /// </summary>
+        public static string administration_set_stream {
+            get {
+                return ResourceManager.GetString("administration_set_stream", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shard {0} reconnected..
+        /// </summary>
+        public static string administration_shard_reconnected {
+            get {
+                return ResourceManager.GetString("administration_shard_reconnected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shard {0} reconnecting..
+        /// </summary>
+        public static string administration_shard_reconnecting {
+            get {
+                return ResourceManager.GetString("administration_shard_reconnecting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shutting down.
+        /// </summary>
+        public static string administration_shutting_down {
+            get {
+                return ResourceManager.GetString("administration_shutting_down", resourceCulture);
             }
         }
         
