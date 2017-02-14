@@ -298,6 +298,12 @@
   <data name="pokemon_you_fainted" xml:space="preserve">
     <value>You fainted, so you are not able to move!</value>
   </data>
+  <data name="administration_aar_disabled" xml:space="preserve">
+    <value>**Auto assign role** on user join is now **disabled**.</value>
+  </data>
+  <data name="administration_aar_enabled" xml:space="preserve">
+    <value>**Auto assign role** on user join is now **enabled**.</value>
+  </data>
   <data name="administration_mute_error" xml:space="preserve">
     <value>I don't have the permission necessary for that most likely.</value>
   </data>

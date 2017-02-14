@@ -60,6 +60,24 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to **Auto assign role** on user join is now **disabled**..
+        /// </summary>
+        public static string administration_aar_disabled {
+            get {
+                return ResourceManager.GetString("administration_aar_disabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to **Auto assign role** on user join is now **enabled**..
+        /// </summary>
+        public static string administration_aar_enabled {
+            get {
+                return ResourceManager.GetString("administration_aar_enabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to I don&apos;t have the permission necessary for that most likely..
         /// </summary>
         public static string administration_mute_error {
