@@ -22,9 +22,6 @@ namespace NadekoBot.Modules.Administration
     [NadekoModule("Administration", ".")]
     public partial class Administration : NadekoModule
     {
-
-        private static ConcurrentDictionary<ulong, string> GuildMuteRoles { get; } = new ConcurrentDictionary<ulong, string>();
-
         private static ConcurrentHashSet<ulong> DeleteMessagesOnCommand { get; } = new ConcurrentHashSet<ulong>();
 
         private new static Logger _log { get; }
@@ -206,7 +203,7 @@ namespace NadekoBot.Modules.Administration
                 return;
             }
             var roleName = args[0].ToUpperInvariant();
-            var role = Context.Guild.Roles.Where(r => r.Name.ToUpperInvariant() == roleName).FirstOrDefault();
+            var role = Context.Guild.Roles.FirstOrDefault(r => r.Name.ToUpperInvariant() == roleName);
 
             if (role == null)
             {
@@ -513,7 +510,7 @@ namespace NadekoBot.Modules.Administration
             await Context.Channel.SendMessageAsync(send).ConfigureAwait(false);
         }
 
-        IGuild nadekoSupportServer;
+        IGuild _nadekoSupportServer;
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Donators()
         {
@@ -525,16 +522,13 @@ namespace NadekoBot.Modules.Administration
             }
             await Context.Channel.SendConfirmAsync("Thanks to the people listed below for making this project happen!", string.Join("⭐", donatorsOrdered.Select(d => d.Name))).ConfigureAwait(false);
 
-            nadekoSupportServer = nadekoSupportServer ?? NadekoBot.Client.GetGuild(117523346618318850);
+            _nadekoSupportServer = _nadekoSupportServer ?? NadekoBot.Client.GetGuild(117523346618318850);
 
-            if (nadekoSupportServer == null)
-                return;
-
-            var patreonRole = nadekoSupportServer.GetRole(236667642088259585);
+            var patreonRole = _nadekoSupportServer?.GetRole(236667642088259585);
             if (patreonRole == null)
                 return;
 
-            var usrs = (await nadekoSupportServer.GetUsersAsync()).Where(u => u.RoleIds.Contains(236667642088259585u));
+            var usrs = (await _nadekoSupportServer.GetUsersAsync()).Where(u => u.RoleIds.Contains(236667642088259585u));
             await Context.Channel.SendConfirmAsync("Patreon supporters", string.Join("⭐", usrs.Select(d => d.Username))).ConfigureAwait(false);
         }
 

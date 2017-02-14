@@ -8,8 +8,6 @@ using NadekoBot.Services.Database.Models;
 using NLog;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,9 +18,8 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class MuteCommands : NadekoSubmodule
         {
-            private static ConcurrentDictionary<ulong, string> GuildMuteRoles { get; } = new ConcurrentDictionary<ulong, string>();
-
-            private static ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>> MutedUsers { get; } = new ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>>();
+            private static ConcurrentDictionary<ulong, string> guildMuteRoles { get; }
+            private static ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>> mutedUsers { get; }
 
             public static event Action<IGuildUser, MuteType> UserMuted = delegate { };
             public static event Action<IGuildUser, MuteType> UserUnmuted = delegate { };
@@ -37,11 +34,11 @@ namespace NadekoBot.Modules.Administration
             static MuteCommands()
             {
                 var configs = NadekoBot.AllGuildConfigs;
-                GuildMuteRoles = new ConcurrentDictionary<ulong, string>(configs
+                guildMuteRoles = new ConcurrentDictionary<ulong, string>(configs
                         .Where(c => !string.IsNullOrWhiteSpace(c.MuteRoleName))
                         .ToDictionary(c => c.GuildId, c => c.MuteRoleName));
 
-                MutedUsers = new ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>>(configs.ToDictionary(
+                mutedUsers = new ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>>(configs.ToDictionary(
                     k => k.GuildId,
                     v => new ConcurrentHashSet<ulong>(v.MutedUsers.Select(m => m.UserId))
                 ));
@@ -54,7 +51,7 @@ namespace NadekoBot.Modules.Administration
                 try
                 {
                     ConcurrentHashSet<ulong> muted;
-                    MutedUsers.TryGetValue(usr.Guild.Id, out muted);
+                    mutedUsers.TryGetValue(usr.Guild.Id, out muted);
 
                     if (muted == null || !muted.Contains(usr.Id))
                         return;
@@ -79,7 +76,7 @@ namespace NadekoBot.Modules.Administration
                         UserId = usr.Id
                     });
                     ConcurrentHashSet<ulong> muted;
-                    if (MutedUsers.TryGetValue(usr.Guild.Id, out muted))
+                    if (mutedUsers.TryGetValue(usr.Guild.Id, out muted))
                         muted.Add(usr.Id);
                     
                     await uow.CompleteAsync().ConfigureAwait(false);
@@ -99,18 +96,18 @@ namespace NadekoBot.Modules.Administration
                         UserId = usr.Id
                     });
                     ConcurrentHashSet<ulong> muted;
-                    if (MutedUsers.TryGetValue(usr.Guild.Id, out muted))
+                    if (mutedUsers.TryGetValue(usr.Guild.Id, out muted))
                         muted.TryRemove(usr.Id);
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
                 UserUnmuted(usr, MuteType.All);
             }
 
-            public static async Task<IRole> GetMuteRole(IGuild guild)
+            public static async Task<IRole>GetMuteRole(IGuild guild)
             {
                 const string defaultMuteRoleName = "nadeko-mute";
 
-                var muteRoleName = GuildMuteRoles.GetOrAdd(guild.Id, defaultMuteRoleName);
+                var muteRoleName = guildMuteRoles.GetOrAdd(guild.Id, defaultMuteRoleName);
 
                 var muteRole = guild.Roles.FirstOrDefault(r => r.Name == muteRoleName);
                 if (muteRole == null)
@@ -132,7 +129,10 @@ namespace NadekoBot.Modules.Administration
                             await toOverwrite.AddPermissionOverwriteAsync(muteRole, new OverwritePermissions(sendMessages: PermValue.Deny, attachFiles: PermValue.Deny))
                                     .ConfigureAwait(false);
                         }
-                        catch { }
+                        catch
+                        {
+                            // ignored
+                        }
                         await Task.Delay(200).ConfigureAwait(false);
                     }
                 }
@@ -145,7 +145,6 @@ namespace NadekoBot.Modules.Administration
             [Priority(1)]
             public async Task SetMuteRole([Remainder] string name)
             {
-                //var channel = (ITextChannel)Context.Channel;
                 name = name.Trim();
                 if (string.IsNullOrWhiteSpace(name))
                     return;
@@ -154,7 +153,7 @@ namespace NadekoBot.Modules.Administration
                 {
                     var config = uow.GuildConfigs.For(Context.Guild.Id, set => set);
                     config.MuteRoleName = name;
-                    GuildMuteRoles.AddOrUpdate(Context.Guild.Id, name, (id, old) => name);
+                    guildMuteRoles.AddOrUpdate(Context.Guild.Id, name, (id, old) => name);
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
                 await Context.Channel.SendConfirmAsync("☑️ **New mute role set.**").ConfigureAwait(false);

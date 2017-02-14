@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using NadekoBot.Modules.Permissions;
 using NadekoBot.TypeReaders;
 using System.Collections.Concurrent;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using NadekoBot.Modules.Music;
 using NadekoBot.Services.Database.Models;
@@ -44,7 +45,7 @@ namespace NadekoBot
         public static ConcurrentDictionary<string, string> ModulePrefixes { get; private set; }
         public static bool Ready { get; private set; }
 
-        public static IEnumerable<GuildConfig> AllGuildConfigs { get; }
+        public static ImmutableArray<GuildConfig> AllGuildConfigs { get; }
         public static BotConfig BotConfig { get; }
 
         static NadekoBot()
@@ -54,7 +55,7 @@ namespace NadekoBot
 
             using (var uow = DbHandler.UnitOfWork())
             {
-                AllGuildConfigs = uow.GuildConfigs.GetAllGuildConfigs();
+                AllGuildConfigs = uow.GuildConfigs.GetAllGuildConfigs().ToImmutableArray();
                 BotConfig = uow.BotConfig.GetOrCreate();
                 OkColor = new Color(Convert.ToUInt32(BotConfig.OkColor, 16));
                 ErrorColor = new Color(Convert.ToUInt32(BotConfig.ErrorColor, 16));
