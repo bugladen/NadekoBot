@@ -28,6 +28,6 @@ namespace NadekoBot.Services.Database.Repositories.Impl
 		      			
           	var rngk = new NadekoRandom();
             return _set.Where(q => q.Text.Contains(text) && q.GuildId == guildId && q.Keyword == keyword).OrderBy(q => rngk.Next()).FirstOrDefaultAsync();
-		}
+	}
     }
 }
