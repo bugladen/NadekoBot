@@ -78,6 +78,51 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to DM from.
+        /// </summary>
+        public static string administration_dm_from {
+            get {
+                return ResourceManager.GetString("administration_dm_from", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to I will forward DMs to all owners..
+        /// </summary>
+        public static string administration_fwall_start {
+            get {
+                return ResourceManager.GetString("administration_fwall_start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to I will forward DMs only to the first owner..
+        /// </summary>
+        public static string administration_fwall_stop {
+            get {
+                return ResourceManager.GetString("administration_fwall_stop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to I will forward DMs from now on..
+        /// </summary>
+        public static string administration_fwdm_start {
+            get {
+                return ResourceManager.GetString("administration_fwdm_start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to I will stop forwarding DMs from now on..
+        /// </summary>
+        public static string administration_fwdm_stop {
+            get {
+                return ResourceManager.GetString("administration_fwdm_stop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to I don&apos;t have the permission necessary for that most likely..
         /// </summary>
         public static string administration_mute_error {

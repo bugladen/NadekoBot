@@ -4,10 +4,9 @@ using Discord.WebSocket;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
-using NLog;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Administration
@@ -15,19 +14,21 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class DMForwardCommands : NadekoSubmodule
+        public class DmForwardCommands : NadekoSubmodule
         {
-            private static bool ForwardDMs { get; set; }
-            private static bool ForwardDMsToAllOwners { get; set; }
+            private static volatile bool _forwardDMs;
+            private static volatile bool _forwardDMsToAllOwners;
+
+            private static readonly object _locker = new object();
             
-            static DMForwardCommands()
+            static DmForwardCommands()
             {
 
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     var config = uow.BotConfig.GetOrCreate();
-                    ForwardDMs = config.ForwardMessages;
-                    ForwardDMsToAllOwners = config.ForwardToAllOwners;
+                    _forwardDMs = config.ForwardMessages;
+                    _forwardDMsToAllOwners = config.ForwardToAllOwners;
                 }
             }
 
@@ -38,13 +39,14 @@ namespace NadekoBot.Modules.Administration
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     var config = uow.BotConfig.GetOrCreate();
-                    ForwardDMs = config.ForwardMessages = !config.ForwardMessages;
+                    lock(_locker)
+                        _forwardDMs = config.ForwardMessages = !config.ForwardMessages;
                     uow.Complete();
                 }
-                if (ForwardDMs)
-                    await Context.Channel.SendConfirmAsync("✅ **I will forward DMs from now on.**").ConfigureAwait(false);
+                if (_forwardDMs)
+                    await ReplyConfirmLocalized("fwdm_start").ConfigureAwait(false);
                 else
-                    await Context.Channel.SendConfirmAsync("🆗 **I will stop forwarding DMs from now on.**").ConfigureAwait(false);
+                    await ReplyConfirmLocalized("fwdm_stop").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -54,22 +56,25 @@ namespace NadekoBot.Modules.Administration
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     var config = uow.BotConfig.GetOrCreate();
-                    ForwardDMsToAllOwners = config.ForwardToAllOwners = !config.ForwardToAllOwners;
+                    lock(_locker)
+                        _forwardDMsToAllOwners = config.ForwardToAllOwners = !config.ForwardToAllOwners;
                     uow.Complete();
                 }
-                if (ForwardDMsToAllOwners)
-                    await Context.Channel.SendConfirmAsync("ℹ️ **I will forward DMs to all owners.**").ConfigureAwait(false);
+                if (_forwardDMsToAllOwners)
+                    await ReplyConfirmLocalized("fwall_start").ConfigureAwait(false);
                 else
-                    await Context.Channel.SendConfirmAsync("ℹ️ **I will forward DMs only to the first owner.**").ConfigureAwait(false);
+                    await ReplyConfirmLocalized("fwall_stop").ConfigureAwait(false);
 
             }
 
-            public static async Task HandleDMForwarding(SocketMessage msg, List<IDMChannel> ownerChannels)
+            public static async Task HandleDmForwarding(SocketMessage msg, List<IDMChannel> ownerChannels)
             {
-                if (ForwardDMs && ownerChannels.Any())
+                if (_forwardDMs && ownerChannels.Any())
                 {
-                    var title = $"DM from [{msg.Author}]({msg.Author.Id})";
-                    if (ForwardDMsToAllOwners)
+                    var title =
+                        GetTextStatic("dm_from", NadekoBot.Localization.DefaultCultureInfo,
+                            typeof(Administration).Name.ToLowerInvariant()) + $" [{msg.Author}]({msg.Author.Id})";
+                    if (_forwardDMsToAllOwners)
                     {
                         await Task.WhenAll(ownerChannels.Where(ch => ch.Recipient.Id != msg.Author.Id)
                             .Select(ch => ch.SendConfirmAsync(title, msg.Content))).ConfigureAwait(false);
@@ -78,7 +83,11 @@ namespace NadekoBot.Modules.Administration
                     {
                         var firstOwnerChannel = ownerChannels.First();
                         if (firstOwnerChannel.Recipient.Id != msg.Author.Id)
-                            try { await firstOwnerChannel.SendConfirmAsync(title, msg.Content).ConfigureAwait(false); } catch { }
+                            try { await firstOwnerChannel.SendConfirmAsync(title, msg.Content).ConfigureAwait(false); }
+                            catch
+                            {
+                                // ignored
+                            }
                     }
                 }
             }
