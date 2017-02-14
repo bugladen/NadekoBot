@@ -448,6 +448,78 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Active Protections.
+        /// </summary>
+        public static string administration_prot_active {
+            get {
+                return ResourceManager.GetString("administration_prot_active", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} has been **disabled** on this server..
+        /// </summary>
+        public static string administration_prot_disable {
+            get {
+                return ResourceManager.GetString("administration_prot_disable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} Enabled.
+        /// </summary>
+        public static string administration_prot_enable {
+            get {
+                return ResourceManager.GetString("administration_prot_enable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Error. I need ManageRoles permission.
+        /// </summary>
+        public static string administration_prot_error {
+            get {
+                return ResourceManager.GetString("administration_prot_error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No protections enabled..
+        /// </summary>
+        public static string administration_prot_none {
+            get {
+                return ResourceManager.GetString("administration_prot_none", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to User threshold must be between {0} and {1}..
+        /// </summary>
+        public static string administration_raid_cnt {
+            get {
+                return ResourceManager.GetString("administration_raid_cnt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to If {0} or more users join within {1} seconds, I will {2} them..
+        /// </summary>
+        public static string administration_raid_stats {
+            get {
+                return ResourceManager.GetString("administration_raid_stats", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Time must be between {0} and {1} seconds..
+        /// </summary>
+        public static string administration_raid_time {
+            get {
+                return ResourceManager.GetString("administration_raid_time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Removed the playing message: {0}.
         /// </summary>
         public static string administration_reprm {
@@ -508,6 +580,34 @@ namespace NadekoBot.Resources {
         public static string administration_soft_banned_pl {
             get {
                 return ResourceManager.GetString("administration_soft_banned_pl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} will ignore this channel..
+        /// </summary>
+        public static string administration_spam_ignore {
+            get {
+                return ResourceManager.GetString("administration_spam_ignore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} will no longer ignore this channel..
+        /// </summary>
+        public static string administration_spam_not_ignore {
+            get {
+                return ResourceManager.GetString("administration_spam_not_ignore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to If a user posts {0} same messages in a row, I will {1} them.
+        ///    __IgnoredChannels__: {2}.
+        /// </summary>
+        public static string administration_spam_stats {
+            get {
+                return ResourceManager.GetString("administration_spam_stats", resourceCulture);
             }
         }
         

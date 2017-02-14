@@ -431,6 +431,30 @@
   <data name="administration_old_topic" xml:space="preserve">
     <value>Old Topic</value>
   </data>
+  <data name="administration_prot_active" xml:space="preserve">
+    <value>Active Protections</value>
+  </data>
+  <data name="administration_prot_disable" xml:space="preserve">
+    <value>{0} has been **disabled** on this server.</value>
+  </data>
+  <data name="administration_prot_enable" xml:space="preserve">
+    <value>{0} Enabled</value>
+  </data>
+  <data name="administration_prot_error" xml:space="preserve">
+    <value>Error. I need ManageRoles permission</value>
+  </data>
+  <data name="administration_prot_none" xml:space="preserve">
+    <value>No protections enabled.</value>
+  </data>
+  <data name="administration_raid_cnt" xml:space="preserve">
+    <value>User threshold must be between {0} and {1}.</value>
+  </data>
+  <data name="administration_raid_stats" xml:space="preserve">
+    <value>If {0} or more users join within {1} seconds, I will {2} them.</value>
+  </data>
+  <data name="administration_raid_time" xml:space="preserve">
+    <value>Time must be between {0} and {1} seconds.</value>
+  </data>
   <data name="administration_reprm" xml:space="preserve">
     <value>Removed the playing message: {0}</value>
   </data>
@@ -453,6 +477,16 @@
   <data name="administration_soft_banned_pl" xml:space="preserve">
     <value>soft-banned (kicked)</value>
     <comment>PLURAL</comment>
+  </data>
+  <data name="administration_spam_ignore" xml:space="preserve">
+    <value>{0} will ignore this channel.</value>
+  </data>
+  <data name="administration_spam_not_ignore" xml:space="preserve">
+    <value>{0} will no longer ignore this channel.</value>
+  </data>
+  <data name="administration_spam_stats" xml:space="preserve">
+    <value>If a user posts {0} same messages in a row, I will {1} them.
+    __IgnoredChannels__: {2}</value>
   </data>
   <data name="administration_text_chan_created" xml:space="preserve">
     <value>Text Channel Destroyed </value>
