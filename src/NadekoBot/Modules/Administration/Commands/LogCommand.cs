@@ -21,7 +21,7 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class LogCommands : ModuleBase
+        public class LogCommands : NadekoSubmodule
         {
             private const string clockEmojiUrl = "https://cdn.discordapp.com/attachments/155726317222887425/258309524966866945/clock.png";
 

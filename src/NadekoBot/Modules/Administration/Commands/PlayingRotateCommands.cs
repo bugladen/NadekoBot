@@ -18,7 +18,7 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class PlayingRotateCommands : ModuleBase
+        public class PlayingRotateCommands : NadekoSubmodule
         {
             private static Logger _log { get; }
             public static List<PlayingStatus> RotatingStatusMessages { get; }

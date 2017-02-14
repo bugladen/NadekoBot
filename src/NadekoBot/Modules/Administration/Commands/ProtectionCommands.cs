@@ -76,12 +76,12 @@ namespace NadekoBot.Modules.Administration
         }
 
         [Group]
-        public class ProtectionCommands : ModuleBase
+        public class ProtectionCommands : NadekoSubmodule
         {
-            private static ConcurrentDictionary<ulong, AntiRaidStats> antiRaidGuilds =
+            private static readonly ConcurrentDictionary<ulong, AntiRaidStats> _antiRaidGuilds =
                     new ConcurrentDictionary<ulong, AntiRaidStats>();
             // guildId | (userId|messages)
-            private static ConcurrentDictionary<ulong, AntiSpamStats> antiSpamGuilds =
+            private static readonly ConcurrentDictionary<ulong, AntiSpamStats> _antiSpamGuilds =
                     new ConcurrentDictionary<ulong, AntiSpamStats>();
 
             private static Logger _log { get; }
@@ -98,11 +98,11 @@ namespace NadekoBot.Modules.Administration
                     if (raid != null)
                     {
                         var raidStats = new AntiRaidStats() { AntiRaidSettings = raid };
-                        antiRaidGuilds.TryAdd(gc.GuildId, raidStats);
+                        _antiRaidGuilds.TryAdd(gc.GuildId, raidStats);
                     }
 
                     if (spam != null)
-                        antiSpamGuilds.TryAdd(gc.GuildId, new AntiSpamStats() { AntiSpamSettings = spam });
+                        _antiSpamGuilds.TryAdd(gc.GuildId, new AntiSpamStats() { AntiSpamSettings = spam });
                 }
 
                 NadekoBot.Client.MessageReceived += (imsg) =>
@@ -119,7 +119,7 @@ namespace NadekoBot.Modules.Administration
                         try
                         {
                             AntiSpamStats spamSettings;
-                            if (!antiSpamGuilds.TryGetValue(channel.Guild.Id, out spamSettings) ||
+                            if (!_antiSpamGuilds.TryGetValue(channel.Guild.Id, out spamSettings) ||
                                 spamSettings.AntiSpamSettings.IgnoredChannels.Contains(new AntiSpamIgnore()
                                 {
                                     ChannelId = channel.Id
@@ -151,7 +151,7 @@ namespace NadekoBot.Modules.Administration
                     if (usr.IsBot)
                         return Task.CompletedTask;
                     AntiRaidStats settings;
-                    if (!antiRaidGuilds.TryGetValue(usr.Guild.Id, out settings))
+                    if (!_antiRaidGuilds.TryGetValue(usr.Guild.Id, out settings))
                         return Task.CompletedTask;
                     if (!settings.RaidUsers.Add(usr))
                         return Task.CompletedTask;
@@ -245,7 +245,7 @@ namespace NadekoBot.Modules.Administration
                 }
 
                 AntiRaidStats throwaway;
-                if (antiRaidGuilds.TryRemove(Context.Guild.Id, out throwaway))
+                if (_antiRaidGuilds.TryRemove(Context.Guild.Id, out throwaway))
                 {
                     using (var uow = DbHandler.UnitOfWork())
                     {
@@ -281,7 +281,7 @@ namespace NadekoBot.Modules.Administration
                     }
                 };
 
-                antiRaidGuilds.AddOrUpdate(Context.Guild.Id, stats, (key, old) => stats);
+                _antiRaidGuilds.AddOrUpdate(Context.Guild.Id, stats, (key, old) => stats);
 
                 using (var uow = DbHandler.UnitOfWork())
                 {
@@ -304,7 +304,7 @@ namespace NadekoBot.Modules.Administration
                     return;
 
                 AntiSpamStats throwaway;
-                if (antiSpamGuilds.TryRemove(Context.Guild.Id, out throwaway))
+                if (_antiSpamGuilds.TryRemove(Context.Guild.Id, out throwaway))
                 {
                     using (var uow = DbHandler.UnitOfWork())
                     {
@@ -340,7 +340,7 @@ namespace NadekoBot.Modules.Administration
                     }
                 };
 
-                antiSpamGuilds.AddOrUpdate(Context.Guild.Id, stats, (key, old) => stats);
+                _antiSpamGuilds.AddOrUpdate(Context.Guild.Id, stats, (key, old) => stats);
 
                 using (var uow = DbHandler.UnitOfWork())
                 {
@@ -376,7 +376,7 @@ namespace NadekoBot.Modules.Administration
                     if (spam.IgnoredChannels.Add(obj))
                     {
                         AntiSpamStats temp;
-                        if (antiSpamGuilds.TryGetValue(Context.Guild.Id, out temp))
+                        if (_antiSpamGuilds.TryGetValue(Context.Guild.Id, out temp))
                             temp.AntiSpamSettings.IgnoredChannels.Add(obj);
                         added = true;
                     }
@@ -384,7 +384,7 @@ namespace NadekoBot.Modules.Administration
                     {
                         spam.IgnoredChannels.Remove(obj);
                         AntiSpamStats temp;
-                        if (antiSpamGuilds.TryGetValue(Context.Guild.Id, out temp))
+                        if (_antiSpamGuilds.TryGetValue(Context.Guild.Id, out temp))
                             temp.AntiSpamSettings.IgnoredChannels.Remove(obj);
                         added = false;
                     }
@@ -403,10 +403,10 @@ namespace NadekoBot.Modules.Administration
             public async Task AntiList()
             {
                 AntiSpamStats spam;
-                antiSpamGuilds.TryGetValue(Context.Guild.Id, out spam);
+                _antiSpamGuilds.TryGetValue(Context.Guild.Id, out spam);
 
                 AntiRaidStats raid;
-                antiRaidGuilds.TryGetValue(Context.Guild.Id, out raid);
+                _antiRaidGuilds.TryGetValue(Context.Guild.Id, out raid);
 
                 if (spam == null && raid == null)
                 {

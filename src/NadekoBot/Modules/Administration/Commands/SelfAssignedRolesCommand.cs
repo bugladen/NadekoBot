@@ -16,7 +16,7 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class SelfAssignedRolesCommands : ModuleBase
+        public class SelfAssignedRolesCommands : NadekoSubmodule
         {
             
             [NadekoCommand, Usage, Description, Aliases]

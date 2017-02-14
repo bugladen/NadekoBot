@@ -19,19 +19,20 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class VoicePlusTextCommands : ModuleBase
+        public class VoicePlusTextCommands : NadekoSubmodule
         {
-            private static Regex channelNameRegex = new Regex(@"[^a-zA-Z0-9 -]", RegexOptions.Compiled);
+            private new static readonly Logger _log;
 
-            private static ConcurrentHashSet<ulong> voicePlusTextCache { get; }
+            private static readonly Regex _channelNameRegex = new Regex(@"[^a-zA-Z0-9 -]", RegexOptions.Compiled);
 
-            private static ConcurrentDictionary<ulong, SemaphoreSlim> guildLockObjects = new ConcurrentDictionary<ulong, SemaphoreSlim>();
+            private static readonly ConcurrentHashSet<ulong> _voicePlusTextCache;
+            private static readonly ConcurrentDictionary<ulong, SemaphoreSlim> _guildLockObjects = new ConcurrentDictionary<ulong, SemaphoreSlim>();
             static VoicePlusTextCommands()
             {
-                var _log = LogManager.GetCurrentClassLogger();
+                _log = LogManager.GetCurrentClassLogger();
                 var sw = Stopwatch.StartNew();
 
-                voicePlusTextCache = new ConcurrentHashSet<ulong>(NadekoBot.AllGuildConfigs.Where(g => g.VoicePlusTextEnabled).Select(g => g.GuildId));
+                _voicePlusTextCache = new ConcurrentHashSet<ulong>(NadekoBot.AllGuildConfigs.Where(g => g.VoicePlusTextEnabled).Select(g => g.GuildId));
                 NadekoBot.Client.UserVoiceStateUpdated += UserUpdatedEventHandler;
 
                 sw.Stop();
@@ -51,7 +52,7 @@ namespace NadekoBot.Modules.Administration
                 if (before.VoiceChannel == after.VoiceChannel)
                     return Task.CompletedTask;
 
-                if (!voicePlusTextCache.Contains(guild.Id))
+                if (!_voicePlusTextCache.Contains(guild.Id))
                     return Task.CompletedTask;
 
                 var _ = Task.Run(async () =>
@@ -71,13 +72,13 @@ namespace NadekoBot.Modules.Administration
                             using (var uow = DbHandler.UnitOfWork())
                             {
                                 uow.GuildConfigs.For(guild.Id, set => set).VoicePlusTextEnabled = false;
-                                voicePlusTextCache.TryRemove(guild.Id);
+                                _voicePlusTextCache.TryRemove(guild.Id);
                                 await uow.CompleteAsync().ConfigureAwait(false);
                             }
                             return;
                         }
 
-                        var semaphore = guildLockObjects.GetOrAdd(guild.Id, (key) => new SemaphoreSlim(1, 1));
+                        var semaphore = _guildLockObjects.GetOrAdd(guild.Id, (key) => new SemaphoreSlim(1, 1));
 
                         try
                         {
@@ -109,8 +110,7 @@ namespace NadekoBot.Modules.Administration
                                     roleToAdd = await guild.CreateRoleAsync(roleName, GuildPermissions.None).ConfigureAwait(false);
 
                                 ITextChannel textChannel = guild.TextChannels
-                                                            .Where(t => t.Name == GetChannelName(afterVch.Name).ToLowerInvariant())
-                                                            .FirstOrDefault();
+                                                            .FirstOrDefault(t => t.Name == GetChannelName(afterVch.Name).ToLowerInvariant());
                                 if (textChannel == null)
                                 {
                                     var created = (await guild.CreateTextChannelAsync(GetChannelName(afterVch.Name).ToLowerInvariant()).ConfigureAwait(false));
@@ -146,7 +146,7 @@ namespace NadekoBot.Modules.Administration
             }
 
             private static string GetChannelName(string voiceName) =>
-                channelNameRegex.Replace(voiceName, "").Trim().Replace(" ", "-").TrimTo(90, true) + "-voice";
+                _channelNameRegex.Replace(voiceName, "").Trim().Replace(" ", "-").TrimTo(90, true) + "-voice";
 
             private static string GetRoleName(IVoiceChannel ch) =>
                 "nvoice-" + ch.Id;
@@ -186,7 +186,7 @@ namespace NadekoBot.Modules.Administration
                     }
                     if (!isEnabled)
                     {
-                        voicePlusTextCache.TryRemove(guild.Id);
+                        _voicePlusTextCache.TryRemove(guild.Id);
                         foreach (var textChannel in (await guild.GetTextChannelsAsync().ConfigureAwait(false)).Where(c => c.Name.EndsWith("-voice")))
                         {
                             try { await textChannel.DeleteAsync().ConfigureAwait(false); } catch { }
@@ -201,7 +201,7 @@ namespace NadekoBot.Modules.Administration
                         await Context.Channel.SendConfirmAsync("ℹ️ Successfuly **removed** voice + text feature.").ConfigureAwait(false);
                         return;
                     }
-                    voicePlusTextCache.Add(guild.Id);
+                    _voicePlusTextCache.Add(guild.Id);
                     await Context.Channel.SendConfirmAsync("🆗 Successfuly **enabled** voice + text feature.").ConfigureAwait(false);
 
                 }

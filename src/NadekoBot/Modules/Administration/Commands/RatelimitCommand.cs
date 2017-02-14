@@ -13,7 +13,7 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class RatelimitCommand : ModuleBase
+        public class RatelimitCommand : NadekoSubmodule
         {
             public static ConcurrentDictionary<ulong, Ratelimiter> RatelimitingChannels = new ConcurrentDictionary<ulong, Ratelimiter>();
             private static Logger _log { get; }

@@ -18,7 +18,7 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class MuteCommands : ModuleBase
+        public class MuteCommands : NadekoSubmodule
         {
             private static ConcurrentDictionary<ulong, string> GuildMuteRoles { get; } = new ConcurrentDictionary<ulong, string>();
 
@@ -58,12 +58,11 @@ namespace NadekoBot.Modules.Administration
 
                     if (muted == null || !muted.Contains(usr.Id))
                         return;
-                    else
-                        await MuteUser(usr).ConfigureAwait(false);
+                    await MuteUser(usr).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
-                    _log.Warn(ex);
+                    LogManager.GetCurrentClassLogger().Warn(ex);
                 }
                     
             }

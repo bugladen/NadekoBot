@@ -16,7 +16,7 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class AutoAssignRoleCommands : ModuleBase
+        public class AutoAssignRoleCommands : NadekoSubmodule
         {
             private static Logger _log { get; }
             //guildid/roleid

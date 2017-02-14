@@ -14,7 +14,7 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        class SelfCommands : ModuleBase
+        public class SelfCommands : NadekoSubmodule
         {
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]

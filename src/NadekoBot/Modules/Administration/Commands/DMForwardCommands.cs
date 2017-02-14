@@ -15,16 +15,13 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class DMForwardCommands : ModuleBase
+        public class DMForwardCommands : NadekoSubmodule
         {
             private static bool ForwardDMs { get; set; }
             private static bool ForwardDMsToAllOwners { get; set; }
-
-            private static readonly Logger _log;
             
             static DMForwardCommands()
             {
-                _log = LogManager.GetCurrentClassLogger();
 
                 using (var uow = DbHandler.UnitOfWork())
                 {

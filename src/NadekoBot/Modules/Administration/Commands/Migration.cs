@@ -20,7 +20,7 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class Migration : ModuleBase
+        public class Migration : NadekoSubmodule
         {
             private const int CURRENT_VERSION = 1;
 
