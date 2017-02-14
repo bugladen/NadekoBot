@@ -60,6 +60,24 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to You already have {0} role..
+        /// </summary>
+        public static string administartion_self_assign_already {
+            get {
+                return ResourceManager.GetString("administartion_self_assign_already", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You no longer have {0} role..
+        /// </summary>
+        public static string administartion_self_assign_remove {
+            get {
+                return ResourceManager.GetString("administartion_self_assign_remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to **Auto assign role** on user join is now **disabled**..
         /// </summary>
         public static string administration_aar_disabled {
@@ -538,6 +556,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Role {0} as been added to the list..
+        /// </summary>
+        public static string administration_role_added {
+            get {
+                return ResourceManager.GetString("administration_role_added", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} not found.Cleaned up..
+        /// </summary>
+        public static string administration_role_clean {
+            get {
+                return ResourceManager.GetString("administration_role_clean", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Role {0} is already in the list..
+        /// </summary>
+        public static string administration_role_in_list {
+            get {
+                return ResourceManager.GetString("administration_role_in_list", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Added..
         /// </summary>
         public static string administration_ropl_added {
@@ -580,6 +625,87 @@ namespace NadekoBot.Resources {
         public static string administration_ropl_not_set {
             get {
                 return ResourceManager.GetString("administration_ropl_not_set", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You already have {0} exclusive self-assigned role..
+        /// </summary>
+        public static string administration_self_assign_already_excl {
+            get {
+                return ResourceManager.GetString("administration_self_assign_already_excl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Self assigned roles are now exclusive!.
+        /// </summary>
+        public static string administration_self_assign_excl {
+            get {
+                return ResourceManager.GetString("administration_self_assign_excl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to There are {0} self assignable roles.
+        /// </summary>
+        public static string administration_self_assign_list {
+            get {
+                return ResourceManager.GetString("administration_self_assign_list", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Self assigned roles are now not exclusive!.
+        /// </summary>
+        public static string administration_self_assign_no_excl {
+            get {
+                return ResourceManager.GetString("administration_self_assign_no_excl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to That role is not self-assignable..
+        /// </summary>
+        public static string administration_self_assign_not {
+            get {
+                return ResourceManager.GetString("administration_self_assign_not", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You don&apos;t have {0} role..
+        /// </summary>
+        public static string administration_self_assign_not_have {
+            get {
+                return ResourceManager.GetString("administration_self_assign_not_have", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to I am unable to add that role to you. `I can&apos;t add roles to owners or other roles higher than my role in the role hierarchy.`.
+        /// </summary>
+        public static string administration_self_assign_perms {
+            get {
+                return ResourceManager.GetString("administration_self_assign_perms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} has been removed from the list of self-assignable roles..
+        /// </summary>
+        public static string administration_self_assign_rem {
+            get {
+                return ResourceManager.GetString("administration_self_assign_rem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You now have {0} role..
+        /// </summary>
+        public static string administration_self_assign_sucess {
+            get {
+                return ResourceManager.GetString("administration_self_assign_sucess", resourceCulture);
             }
         }
         

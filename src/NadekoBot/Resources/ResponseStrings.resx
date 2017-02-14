@@ -298,6 +298,12 @@
   <data name="pokemon_you_fainted" xml:space="preserve">
     <value>You fainted, so you are not able to move!</value>
   </data>
+  <data name="administartion_self_assign_already" xml:space="preserve">
+    <value>You already have {0} role.</value>
+  </data>
+  <data name="administartion_self_assign_remove" xml:space="preserve">
+    <value>You no longer have {0} role.</value>
+  </data>
   <data name="administration_aar_disabled" xml:space="preserve">
     <value>**Auto assign role** on user join is now **disabled**.</value>
   </data>
@@ -461,6 +467,15 @@
   <data name="administration_reprm" xml:space="preserve">
     <value>Removed the playing message: {0}</value>
   </data>
+  <data name="administration_role_added" xml:space="preserve">
+    <value>Role {0} is added to the list.</value>
+  </data>
+  <data name="administration_role_clean" xml:space="preserve">
+    <value>{0} not found.Cleaned up.</value>
+  </data>
+  <data name="administration_role_in_list" xml:space="preserve">
+    <value>Role {0} is already in the list.</value>
+  </data>
   <data name="administration_ropl_added" xml:space="preserve">
     <value>Added.</value>
   </data>
@@ -476,6 +491,34 @@
   </data>
   <data name="administration_ropl_not_set" xml:space="preserve">
     <value>No rotating playing statuses set.</value>
+  </data>
+  <data name="administration_self_assign_already_excl" xml:space="preserve">
+    <value>You already have {0} exclusive self-assigned role.</value>
+  </data>
+  <data name="administration_self_assign_excl" xml:space="preserve">
+    <value>Self assigned roles are now exclusive!</value>
+  </data>
+  <data name="administration_self_assign_list" xml:space="preserve">
+    <value>There are {0} self assignable roles:
+{1}</value>
+  </data>
+  <data name="administration_self_assign_not" xml:space="preserve">
+    <value>That role is not self-assignable.</value>
+  </data>
+  <data name="administration_self_assign_not_have" xml:space="preserve">
+    <value>You don't have {0} role.</value>
+  </data>
+  <data name="administration_self_assign_no_excl" xml:space="preserve">
+    <value>Self assigned roles are now not exclusive!</value>
+  </data>
+  <data name="administration_self_assign_perms" xml:space="preserve">
+    <value>I am unable to add that role to you. `I can't add roles to owners or other roles higher than my role in the role hierarchy.`</value>
+  </data>
+  <data name="administration_self_assign_rem" xml:space="preserve">
+    <value>{0} has been removed from the list of self-assignable roles.</value>
+  </data>
+  <data name="administration_self_assign_sucsess" xml:space="preserve">
+    <value>You now have {0} role.</value>
   </data>
   <data name="administration_slowmode_desc" xml:space="preserve">
     <value>Users can't send more than {0} messages every {1} seconds.</value>
