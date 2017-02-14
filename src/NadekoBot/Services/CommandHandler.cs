@@ -273,7 +273,7 @@ namespace NadekoBot.Services
 
                             await msg.Channel.SendMessageAsync(Help.DMHelpString).ConfigureAwait(false);
 
-                            await DmForwardCommands.HandleDmForwarding(msg, ownerChannels).ConfigureAwait(false);
+                            await SelfCommands.HandleDmForwarding(msg, ownerChannels).ConfigureAwait(false);
                         }
                     }
                 }
