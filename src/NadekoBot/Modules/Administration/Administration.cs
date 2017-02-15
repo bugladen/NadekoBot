@@ -489,7 +489,7 @@ namespace NadekoBot.Modules.Administration
             foreach (var role in roles)
             {
                 send += $"\n**{role.Name}**\n";
-                send += string.Join(", ", (await Context.Guild.GetUsersAsync()).Where(u => u.GetRoles().Contains(role)).Distinct().Select(u => u.Mention));
+                send += string.Join(", ", (await Context.Guild.GetUsersAsync()).Where(u => u.GetRoles().Contains(role)).Take(50).Select(u => u.Mention));
             }
 
             while (send.Length > 2000)
