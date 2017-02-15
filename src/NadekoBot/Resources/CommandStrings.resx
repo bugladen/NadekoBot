@@ -3114,9 +3114,6 @@
   <data name="timezone_usage" xml:space="preserve">
     <value>`{0}timezone`</value>
   </data>
-<<<<<<< HEAD
-</root>
-=======
   <data name="languagesetdefault_cmd" xml:space="preserve">
     <value>langsetdefault langsetd</value>
   </data>
@@ -3145,4 +3142,3 @@
     <value>`{0}langli`</value>
   </data>
 </root>
->>>>>>> Kwoth/dev
