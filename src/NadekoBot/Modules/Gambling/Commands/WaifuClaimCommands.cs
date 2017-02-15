@@ -47,7 +47,7 @@ namespace NadekoBot.Modules.Gambling
         }
 
         [Group]
-        public class WaifuClaimCommands : ModuleBase
+        public class WaifuClaimCommands : NadekoSubmodule
         {
             private static ConcurrentDictionary<ulong, DateTime> _divorceCooldowns { get; } = new ConcurrentDictionary<ulong, DateTime>();
             private static ConcurrentDictionary<ulong, DateTime> _affinityCooldowns { get; } = new ConcurrentDictionary<ulong, DateTime>();

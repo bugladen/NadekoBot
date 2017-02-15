@@ -17,7 +17,7 @@ namespace NadekoBot.Modules.Gambling
     public partial class Gambling
     {
         [Group]
-        public class DrawCommands : ModuleBase
+        public class DrawCommands : NadekoSubmodule
         {
             private static readonly ConcurrentDictionary<IGuild, Cards> AllDecks = new ConcurrentDictionary<IGuild, Cards>();
 

@@ -870,6 +870,87 @@ Reason: {1}</value>
   <data name="adminsitration_sb_user" xml:space="preserve">
     <value>User Soft-Banned</value>
   </data>
+  <data name="gambling_awarded" xml:space="preserve">
+    <value>has awarded {0} to {1}</value>
+  </data>
+  <data name="gambling_betflip_gamble" xml:space="preserve">
+    <value>Betflip Gamble</value>
+  </data>
+  <data name="gambling_better_luck" xml:space="preserve">
+    <value>Better luck next time ^_^</value>
+  </data>
+  <data name="gambling_br_win" xml:space="preserve">
+    <value>Congratulations! You won {0} for rolling above {1}</value>
+  </data>
+  <data name="gambling_flipped" xml:space="preserve">
+    <value>flipped {0}.</value>
+    <comment>User flipped tails.</comment>
+  </data>
+  <data name="gambling_flip_guess" xml:space="preserve">
+    <value>You guessed it! You won {0}</value>
+  </data>
+  <data name="gambling_flip_invalid" xml:space="preserve">
+    <value>Invalid number specified. You can flip 1 to {0} coins.</value>
+  </data>
+  <data name="gambling_gifted" xml:space="preserve">
+    <value>has gifted {0} to {1}</value>
+    <comment>X has gifted 15 flowers to Y</comment>
+  </data>
+  <data name="gambling_has" xml:space="preserve">
+    <value>{0} has {1}</value>
+    <comment>X has Y flowers</comment>
+  </data>
+  <data name="gambling_heads" xml:space="preserve">
+    <value>Heads</value>
+  </data>
+  <data name="gambling_leaderboard" xml:space="preserve">
+    <value>Leaderboard</value>
+  </data>
+  <data name="gambling_mass_award" xml:space="preserve">
+    <value>Awarded {0} to {1} users from {2} role.</value>
+  </data>
+  <data name="gambling_max_bet_limit" xml:space="preserve">
+    <value>You can't bet more than {0}</value>
+  </data>
+  <data name="gambling_min_bet_limit" xml:space="preserve">
+    <value>You can't bet less than {0}</value>
+  </data>
+  <data name="gambling_not_enough" xml:space="preserve">
+    <value>You don't have enough {0}</value>
+  </data>
+  <data name="gambling_raffled_user" xml:space="preserve">
+    <value>Raffled User</value>
+  </data>
+  <data name="gambling_roll" xml:space="preserve">
+    <value>You rolled {0}.</value>
+  </data>
+  <data name="gambling_slot_bet" xml:space="preserve">
+    <value>Bet</value>
+  </data>
+  <data name="gambling_slot_jackpot" xml:space="preserve">
+    <value>WOAAHHHHHH!!! Congratulations!!! x{0}</value>
+  </data>
+  <data name="gambling_slot_single" xml:space="preserve">
+    <value>A single {0}, x{1}</value>
+  </data>
+  <data name="gambling_slot_three" xml:space="preserve">
+    <value>Wow! Lucky! Three of a kind! x{0}</value>
+  </data>
+  <data name="gambling_slot_two" xml:space="preserve">
+    <value>Good job! Two {0} - bet x{1}</value>
+  </data>
+  <data name="gambling_slot_won" xml:space="preserve">
+    <value>Won</value>
+  </data>
+  <data name="gambling_tails" xml:space="preserve">
+    <value>Tails</value>
+  </data>
+  <data name="gambling_take" xml:space="preserve">
+    <value>successfully took {0} from {1}</value>
+  </data>
+  <data name="gambling_take_fail" xml:space="preserve">
+    <value>was unable to take {0} from{1} because the user doesn't have that much {2}!</value>
+  </data>
   <data name="help_back_to_toc" xml:space="preserve">
     <value>Back to ToC</value>
   </data>

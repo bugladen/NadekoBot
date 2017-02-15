@@ -1,9 +1,9 @@
-﻿using Discord;
+﻿using System;
+using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
@@ -42,7 +42,7 @@ namespace NadekoBot.Modules.Gambling
             var members = role.Members().Where(u => u.Status != UserStatus.Offline && u.Status != UserStatus.Unknown);
             var membersArray = members as IUser[] ?? members.ToArray();
             var usr = membersArray[new NadekoRandom().Next(0, membersArray.Length)];
-            await Context.Channel.SendConfirmAsync("🎟 Raffled user", $"**{usr.Username}#{usr.Discriminator}**", footer: $"ID: {usr.Id}").ConfigureAwait(false);
+            await Context.Channel.SendConfirmAsync("🎟 "+ GetText("raffled_user"), $"**{usr.Username}#{usr.Discriminator}**", footer: $"ID: {usr.Id}").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -50,15 +50,14 @@ namespace NadekoBot.Modules.Gambling
         public async Task Cash([Remainder] IUser user = null)
         {
             user = user ?? Context.User;
-
-            await Context.Channel.SendConfirmAsync($"{user.Username} has {GetCurrency(user.Id)} {CurrencySign}").ConfigureAwait(false);
+            await ReplyConfirmLocalized("has", Format.Bold(user.ToString()), $"{GetCurrency(user.Id)} {CurrencySign}").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         [Priority(1)]
         public async Task Cash(ulong userId)
         {
-            await Context.Channel.SendConfirmAsync($"`{userId}` has {GetCurrency(userId)} {CurrencySign}").ConfigureAwait(false);
+            await ReplyConfirmLocalized("has", Format.Code(userId.ToString()), $"{GetCurrency(userId)} {CurrencySign}").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -70,11 +69,12 @@ namespace NadekoBot.Modules.Gambling
             var success = await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)Context.User, $"Gift to {receiver.Username} ({receiver.Id}).", amount, false).ConfigureAwait(false);
             if (!success)
             {
-                await Context.Channel.SendErrorAsync($"{Context.User.Mention} You don't have enough {CurrencyPluralName}.").ConfigureAwait(false);
+                await ReplyErrorLocalized("not_enough", CurrencyPluralName).ConfigureAwait(false);
                 return;
             }
             await CurrencyHandler.AddCurrencyAsync(receiver, $"Gift from {Context.User.Username} ({Context.User.Id}).", amount, true).ConfigureAwait(false);
-            await Context.Channel.SendConfirmAsync($"{Context.User.Mention} gifted {amount}{CurrencySign} to {Format.Bold(receiver.ToString())}!").ConfigureAwait(false);
+            await ReplyConfirmLocalized("gifted", amount + CurrencySign, Format.Bold(receiver.ToString()))
+                .ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -93,8 +93,7 @@ namespace NadekoBot.Modules.Gambling
                 return;
 
             await CurrencyHandler.AddCurrencyAsync(usrId, $"Awarded by bot owner. ({Context.User.Username}/{Context.User.Id})", amount).ConfigureAwait(false);
-
-            await Context.Channel.SendConfirmAsync($"{Context.User.Mention} awarded {amount}{CurrencySign} to <@{usrId}>!").ConfigureAwait(false);
+            await ReplyConfirmLocalized("awarded", amount + CurrencySign, $"<@{usrId}>").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -111,9 +110,10 @@ namespace NadekoBot.Modules.Gambling
                                                       amount)))
                          .ConfigureAwait(false);
 
-            await Context.Channel.SendConfirmAsync($"Awarded `{amount}` {CurrencyPluralName} to `{users.Count}` users from `{role.Name}` role.")
-                         .ConfigureAwait(false);
-
+            await ReplyConfirmLocalized("mass_award", 
+                amount + CurrencySign, 
+                Format.Bold(users.Count.ToString()), 
+                Format.Bold(role.Name)).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -125,9 +125,9 @@ namespace NadekoBot.Modules.Gambling
                 return;
 
             if (await CurrencyHandler.RemoveCurrencyAsync(user, $"Taken by bot owner.({Context.User.Username}/{Context.User.Id})", amount, true).ConfigureAwait(false))
-                await Context.Channel.SendConfirmAsync($"{Context.User.Mention} successfully took {amount} {(amount == 1 ? CurrencyName : CurrencyPluralName)} from {user}!").ConfigureAwait(false);
+                await ReplyConfirmLocalized("take", amount+CurrencySign, Format.Bold(user.ToString())).ConfigureAwait(false);
             else
-                await Context.Channel.SendErrorAsync($"{Context.User.Mention} was unable to take {amount} {(amount == 1 ? CurrencyName : CurrencyPluralName)} from {user} because the user doesn't have that much {CurrencyPluralName}!").ConfigureAwait(false);
+                await ReplyErrorLocalized("take_fail", amount + CurrencySign, Format.Bold(user.ToString()), CurrencyPluralName).ConfigureAwait(false);
         }
 
 
@@ -139,9 +139,9 @@ namespace NadekoBot.Modules.Gambling
                 return;
 
             if (await CurrencyHandler.RemoveCurrencyAsync(usrId, $"Taken by bot owner.({Context.User.Username}/{Context.User.Id})", amount).ConfigureAwait(false))
-                await Context.Channel.SendConfirmAsync($"{Context.User.Mention} successfully took {amount} {(amount == 1 ? CurrencyName : CurrencyPluralName)} from <@{usrId}>!").ConfigureAwait(false);
+                await ReplyConfirmLocalized("take", amount + CurrencySign, $"<@{usrId}>").ConfigureAwait(false);
             else
-                await Context.Channel.SendErrorAsync($"{Context.User.Mention} was unable to take {amount} {(amount == 1 ? CurrencyName : CurrencyPluralName)} from `{usrId}` because the user doesn't have that much {CurrencyPluralName}!").ConfigureAwait(false);
+                await ReplyErrorLocalized("take_fail", amount + CurrencySign, Format.Code(usrId.ToString()), CurrencyPluralName).ConfigureAwait(false);
         }
 
         //[NadekoCommand, Usage, Description, Aliases]
@@ -205,49 +205,48 @@ namespace NadekoBot.Modules.Gambling
             if (amount < 1)
                 return;
 
-            long userFlowers;
-            using (var uow = DbHandler.UnitOfWork())
+            if (!await CurrencyHandler.RemoveCurrencyAsync(Context.User, "Betroll Gamble", amount, false).ConfigureAwait(false))
             {
-                userFlowers = uow.Currency.GetOrCreate(Context.User.Id).Amount;
-            }
-
-            if (userFlowers < amount)
-            {
-                await Context.Channel.SendErrorAsync($"{Context.User.Mention} You don't have enough {CurrencyPluralName}. You only have {userFlowers}{CurrencySign}.").ConfigureAwait(false);
+                await ReplyErrorLocalized("not_enough", CurrencyPluralName).ConfigureAwait(false);
                 return;
             }
 
-            await CurrencyHandler.RemoveCurrencyAsync(Context.User, "Betroll Gamble", amount, false).ConfigureAwait(false);
-
-            var rng = new NadekoRandom().Next(0, 101);
-            var str = $"{Context.User.Mention} `You rolled {rng}.` ";
-            if (rng < 67)
+            var rnd = new NadekoRandom().Next(0, 101);
+            var str = Context.User.Mention + Format.Code(GetText("roll", rnd));
+            if (rnd < 67)
             {
-                str += "Better luck next time.";
-            }
-            else if (rng < 91)
-            {
-                str += $"Congratulations! You won {amount * NadekoBot.BotConfig.Betroll67Multiplier}{CurrencySign} for rolling above 66";
-                await CurrencyHandler.AddCurrencyAsync(Context.User, "Betroll Gamble", (int)(amount * NadekoBot.BotConfig.Betroll67Multiplier), false).ConfigureAwait(false);
-            }
-            else if (rng < 100)
-            {
-                str += $"Congratulations! You won {amount * NadekoBot.BotConfig.Betroll91Multiplier}{CurrencySign} for rolling above 90.";
-                await CurrencyHandler.AddCurrencyAsync(Context.User, "Betroll Gamble", (int)(amount * NadekoBot.BotConfig.Betroll91Multiplier), false).ConfigureAwait(false);
+                str += GetText("better_luck");
             }
             else
             {
-                str += $"👑 Congratulations! You won {amount * NadekoBot.BotConfig.Betroll100Multiplier}{CurrencySign} for rolling **100**. 👑";
-                await CurrencyHandler.AddCurrencyAsync(Context.User, "Betroll Gamble", (int)(amount * NadekoBot.BotConfig.Betroll100Multiplier), false).ConfigureAwait(false);
+                if (rnd < 91)
+                {
+                    str += GetText("br_win", (amount * NadekoBot.BotConfig.Betroll67Multiplier) + CurrencySign, 66);
+                    await CurrencyHandler.AddCurrencyAsync(Context.User, "Betroll Gamble",
+                        (int) (amount * NadekoBot.BotConfig.Betroll67Multiplier), false).ConfigureAwait(false);
+                }
+                else if (rnd < 100)
+                {
+                    str += GetText("br_win", (amount * NadekoBot.BotConfig.Betroll91Multiplier) + CurrencySign, 90);
+                    await CurrencyHandler.AddCurrencyAsync(Context.User, "Betroll Gamble",
+                        (int) (amount * NadekoBot.BotConfig.Betroll91Multiplier), false).ConfigureAwait(false);
+                }
+                else
+                {
+                    str += GetText("br_win", (amount * NadekoBot.BotConfig.Betroll100Multiplier) + CurrencySign, 100) + " 👑";
+                    await CurrencyHandler.AddCurrencyAsync(Context.User, "Betroll Gamble",
+                        (int) (amount * NadekoBot.BotConfig.Betroll100Multiplier), false).ConfigureAwait(false);
+                }
             }
-
+            Console.WriteLine("started sending");
             await Context.Channel.SendConfirmAsync(str).ConfigureAwait(false);
+            Console.WriteLine("done sending");
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Leaderboard()
         {
-            var richest = new List<Currency>();
+            List<Currency> richest;
             using (var uow = DbHandler.UnitOfWork())
             {
                 richest = uow.Currency.GetTopRichest(9).ToList();
@@ -255,22 +254,22 @@ namespace NadekoBot.Modules.Gambling
             if (!richest.Any())
                 return;
 
-
             var embed = new EmbedBuilder()
                 .WithOkColor()
-                .WithTitle(NadekoBot.BotConfig.CurrencySign + " Leaderboard");
+                .WithTitle(NadekoBot.BotConfig.CurrencySign + " " + GetText("leaderboard"));
 
             for (var i = 0; i < richest.Count; i++)
             {
                 var x = richest[i];
                 var usr = await Context.Guild.GetUserAsync(x.UserId).ConfigureAwait(false);
-                var usrStr = "";
-                if (usr == null)
-                    usrStr = x.UserId.ToString();
-                else
-                    usrStr = usr.Username?.TrimTo(20, true);
+                var usrStr = usr == null 
+                    ? x.UserId.ToString() 
+                    : usr.Username?.TrimTo(20, true);
 
-                embed.AddField(efb => efb.WithName("#" + (i + 1) + " " + usrStr).WithValue(x.Amount.ToString() + " " + NadekoBot.BotConfig.CurrencySign).WithIsInline(true));
+                var j = i;
+                embed.AddField(efb => efb.WithName("#" + (j + 1) + " " + usrStr)
+                                         .WithValue(x.Amount.ToString() + " " + NadekoBot.BotConfig.CurrencySign)
+                                         .WithIsInline(true));
             }
 
             await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);

@@ -19,7 +19,7 @@ namespace NadekoBot.Modules.Gambling
     public partial class Gambling
     {
         [Group]
-        public class CurrencyEvents : ModuleBase
+        public class CurrencyEvents : NadekoSubmodule
         {
             public enum CurrencyEvent
             {

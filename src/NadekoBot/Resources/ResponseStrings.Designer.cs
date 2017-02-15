@@ -2073,6 +2073,240 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to has awarded {0} to {1}.
+        /// </summary>
+        public static string gambling_awarded {
+            get {
+                return ResourceManager.GetString("gambling_awarded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Betflip Gamble.
+        /// </summary>
+        public static string gambling_betflip_gamble {
+            get {
+                return ResourceManager.GetString("gambling_betflip_gamble", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Better luck next time ^_^.
+        /// </summary>
+        public static string gambling_better_luck {
+            get {
+                return ResourceManager.GetString("gambling_better_luck", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Congratulations! You won {0} for rolling above {1}.
+        /// </summary>
+        public static string gambling_br_win {
+            get {
+                return ResourceManager.GetString("gambling_br_win", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You guessed it! You won {0}.
+        /// </summary>
+        public static string gambling_flip_guess {
+            get {
+                return ResourceManager.GetString("gambling_flip_guess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Invalid number specified. You can flip 1 to {0} coins..
+        /// </summary>
+        public static string gambling_flip_invalid {
+            get {
+                return ResourceManager.GetString("gambling_flip_invalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to flipped {0}..
+        /// </summary>
+        public static string gambling_flipped {
+            get {
+                return ResourceManager.GetString("gambling_flipped", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to has gifted {0} to {1}.
+        /// </summary>
+        public static string gambling_gifted {
+            get {
+                return ResourceManager.GetString("gambling_gifted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} has {1}.
+        /// </summary>
+        public static string gambling_has {
+            get {
+                return ResourceManager.GetString("gambling_has", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Heads.
+        /// </summary>
+        public static string gambling_heads {
+            get {
+                return ResourceManager.GetString("gambling_heads", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Leaderboard.
+        /// </summary>
+        public static string gambling_leaderboard {
+            get {
+                return ResourceManager.GetString("gambling_leaderboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Awarded {0} to {1} users from {2} role..
+        /// </summary>
+        public static string gambling_mass_award {
+            get {
+                return ResourceManager.GetString("gambling_mass_award", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You can&apos;t bet more than {0}.
+        /// </summary>
+        public static string gambling_max_bet_limit {
+            get {
+                return ResourceManager.GetString("gambling_max_bet_limit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You can&apos;t bet less than {0}.
+        /// </summary>
+        public static string gambling_min_bet_limit {
+            get {
+                return ResourceManager.GetString("gambling_min_bet_limit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You don&apos;t have enough {0}.
+        /// </summary>
+        public static string gambling_not_enough {
+            get {
+                return ResourceManager.GetString("gambling_not_enough", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Raffled User.
+        /// </summary>
+        public static string gambling_raffled_user {
+            get {
+                return ResourceManager.GetString("gambling_raffled_user", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You rolled {0}..
+        /// </summary>
+        public static string gambling_roll {
+            get {
+                return ResourceManager.GetString("gambling_roll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Bet.
+        /// </summary>
+        public static string gambling_slot_bet {
+            get {
+                return ResourceManager.GetString("gambling_slot_bet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to WOAAHHHHHH!!! Congratulations!!! x{0}.
+        /// </summary>
+        public static string gambling_slot_jackpot {
+            get {
+                return ResourceManager.GetString("gambling_slot_jackpot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to A single {0}, x{1}.
+        /// </summary>
+        public static string gambling_slot_single {
+            get {
+                return ResourceManager.GetString("gambling_slot_single", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Wow! Lucky! Three of a kind! x{0}.
+        /// </summary>
+        public static string gambling_slot_three {
+            get {
+                return ResourceManager.GetString("gambling_slot_three", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Good job! Two {0} - bet x{1}.
+        /// </summary>
+        public static string gambling_slot_two {
+            get {
+                return ResourceManager.GetString("gambling_slot_two", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Won.
+        /// </summary>
+        public static string gambling_slot_won {
+            get {
+                return ResourceManager.GetString("gambling_slot_won", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Tails.
+        /// </summary>
+        public static string gambling_tails {
+            get {
+                return ResourceManager.GetString("gambling_tails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to successfully took {0} from {1}.
+        /// </summary>
+        public static string gambling_take {
+            get {
+                return ResourceManager.GetString("gambling_take", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to was unable to take {0} from{1} because the user doesn&apos;t have that much {2}!.
+        /// </summary>
+        public static string gambling_take_fail {
+            get {
+                return ResourceManager.GetString("gambling_take_fail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Back to ToC.
         /// </summary>
         public static string help_back_to_toc {

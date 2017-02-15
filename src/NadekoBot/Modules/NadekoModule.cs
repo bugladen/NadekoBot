@@ -67,14 +67,26 @@ namespace NadekoBot.Modules
             if (string.IsNullOrWhiteSpace(text))
             {
                 LogManager.GetCurrentClassLogger().Warn(lowerModuleTypeName + "_" + key + " key is missing from " + cultureInfo + " response strings. PLEASE REPORT THIS.");
-                return NadekoBot.ResponsesResourceManager.GetString(lowerModuleTypeName + "_" + key, _usCultureInfo) ?? $"Error: dkey {lowerModuleTypeName + "_" + key} found!";
+                text = NadekoBot.ResponsesResourceManager.GetString(lowerModuleTypeName + "_" + key, _usCultureInfo) ?? $"Error: dkey {lowerModuleTypeName + "_" + key} not found!";
+                if (string.IsNullOrWhiteSpace(text))
+                    return "I cant tell if you command is executed, because there was an error printing out the response. Key '" +
+                        lowerModuleTypeName + "_" + key + "' " + "is missing from resources. Please report this.";
             }
             return text;
         }
 
-        public static string GetTextStatic(string key, CultureInfo cultureInfo, string lowerModuleTypeName, params object[] replacements)
+        public static string GetTextStatic(string key, CultureInfo cultureInfo, string lowerModuleTypeName,
+            params object[] replacements)
         {
-            return string.Format(GetTextStatic(key, cultureInfo, lowerModuleTypeName), replacements);
+            try
+            {
+                return string.Format(GetTextStatic(key, cultureInfo, lowerModuleTypeName), replacements);
+            }
+            catch (FormatException)
+            {
+                return "I cant tell if you command is executed, because there was an error printing out the response. Key '" +
+                       lowerModuleTypeName + "_" + key + "' " + "is not properly formatted. Please report this.";
+            }
         }
 
         protected string GetText(string key) =>
@@ -85,26 +97,26 @@ namespace NadekoBot.Modules
 
         public Task<IUserMessage> ErrorLocalized(string textKey, params object[] replacements)
         {
-            var text = GetText(textKey);
-            return Context.Channel.SendErrorAsync(string.Format(text, replacements));
+            var text = GetText(textKey, replacements);
+            return Context.Channel.SendErrorAsync(text);
         }
 
         public Task<IUserMessage> ReplyErrorLocalized(string textKey, params object[] replacements)
         {
-            var text = GetText(textKey);
-            return Context.Channel.SendErrorAsync(Context.User.Mention + " " + string.Format(text, replacements));
+            var text = GetText(textKey, replacements);
+            return Context.Channel.SendErrorAsync(Context.User.Mention + " " + text);
         }
 
         public Task<IUserMessage> ConfirmLocalized(string textKey, params object[] replacements)
         {
-            var text = GetText(textKey);
-            return Context.Channel.SendConfirmAsync(string.Format(text, replacements));
+            var text = GetText(textKey, replacements);
+            return Context.Channel.SendConfirmAsync(text);
         }
 
         public Task<IUserMessage> ReplyConfirmLocalized(string textKey, params object[] replacements)
         {
-            var text = GetText(textKey);
-            return Context.Channel.SendConfirmAsync(Context.User.Mention + " " + string.Format(text, replacements));
+            var text = GetText(textKey, replacements);
+            return Context.Channel.SendConfirmAsync(Context.User.Mention + " " + text);
         }
     }
 
