@@ -3114,4 +3114,31 @@
   <data name="timezone_usage" xml:space="preserve">
     <value>`{0}timezone`</value>
   </data>
+  <data name="languagesetdefault_cmd" xml:space="preserve">
+    <value>langsetdefault langsetd</value>
+  </data>
+  <data name="languagesetdefault_desc" xml:space="preserve">
+    <value>Sets the bot's default response language. All servers which use a default locale will use this one. Setting to `default` will use the host's current culture. Provide no arguments to see currently set language.</value>
+  </data>
+  <data name="languagesetdefault_usage" xml:space="preserve">
+    <value>`{0}langsetd en-US` or `{0}langsetd default`</value>
+  </data>
+  <data name="languageset_cmd" xml:space="preserve">
+    <value>languageset langset</value>
+  </data>
+  <data name="languageset_desc" xml:space="preserve">
+    <value>Sets this server's response language If bot's response strings have been translated to that language, bot will use that language in this server. Reset by using `default` as the locale name. Provide no arguments to see currently set language.</value>
+  </data>
+  <data name="languageset_usage" xml:space="preserve">
+    <value>`{0}langset de-DE ` or `{0}langset default`</value>
+  </data>
+  <data name="languageslist_cmd" xml:space="preserve">
+    <value>languageslist langli</value>
+  </data>
+  <data name="languageslist_desc" xml:space="preserve">
+    <value>List of languages for which translation (or part of it) exist atm.</value>
+  </data>
+  <data name="languageslist_usage" xml:space="preserve">
+    <value>`{0}langli`</value>
+  </data>
 </root>
