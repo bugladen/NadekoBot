@@ -132,7 +132,7 @@ namespace NadekoBot.Services.Database
         {
             #region QUOTES
             
-            var quoteEntity = modelBuilder.Entity<Quote>();
+            //var quoteEntity = modelBuilder.Entity<Quote>();
 
             #endregion
             
@@ -166,7 +166,7 @@ namespace NadekoBot.Services.Database
             #endregion
 
             #region BotConfig
-            var botConfigEntity = modelBuilder.Entity<BotConfig>();
+            //var botConfigEntity = modelBuilder.Entity<BotConfig>();
             //botConfigEntity
             //    .HasMany(c => c.ModulePrefixes)
             //    .WithOne(mp => mp.BotConfig)

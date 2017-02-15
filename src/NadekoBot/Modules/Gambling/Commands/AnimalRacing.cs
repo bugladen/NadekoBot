@@ -17,7 +17,7 @@ namespace NadekoBot.Modules.Gambling
     public partial class Gambling
     {
         [Group]
-        public class AnimalRacing : ModuleBase
+        public class AnimalRacing : NadekoSubmodule
         {
             public static ConcurrentDictionary<ulong, AnimalRace> AnimalRaces { get; } = new ConcurrentDictionary<ulong, AnimalRace>();
 
@@ -25,7 +25,7 @@ namespace NadekoBot.Modules.Gambling
             [RequireContext(ContextType.Guild)]
             public async Task Race()
             {
-                var ar = new AnimalRace(Context.Guild.Id, (ITextChannel)Context.Channel);
+                var ar = new AnimalRace(Context.Guild.Id, (ITextChannel)Context.Channel, Prefix);
 
                 if (ar.Fail)
                     await Context.Channel.SendErrorAsync("🏁 `Failed starting a race. Another race is probably running.`").ConfigureAwait(false);
@@ -59,13 +59,16 @@ namespace NadekoBot.Modules.Gambling
                 public List<Participant> participants = new List<Participant>();
                 private ulong serverId;
                 private int messagesSinceGameStarted = 0;
+                private readonly string _prefix;
+
                 private Logger _log { get; }
 
                 public ITextChannel raceChannel { get; set; }
                 public bool Started { get; private set; } = false;
 
-                public AnimalRace(ulong serverId, ITextChannel ch)
+                public AnimalRace(ulong serverId, ITextChannel ch, string prefix)
                 {
+                    this._prefix = prefix;
                     this._log = LogManager.GetCurrentClassLogger();
                     this.serverId = serverId;
                     this.raceChannel = ch;
@@ -74,11 +77,8 @@ namespace NadekoBot.Modules.Gambling
                         Fail = true;
                         return;
                     }
-
-                    using (var uow = DbHandler.UnitOfWork())
-                    {
-                        animals = new ConcurrentQueue<string>(NadekoBot.BotConfig.RaceAnimals.Select(ra => ra.Icon).Shuffle());
-                    }
+                    
+                    animals = new ConcurrentQueue<string>(NadekoBot.BotConfig.RaceAnimals.Select(ra => ra.Icon).Shuffle());
 
 
                     var cancelSource = new CancellationTokenSource();
@@ -91,7 +91,7 @@ namespace NadekoBot.Modules.Gambling
                             try
                             {
                                 await raceChannel.SendConfirmAsync("Animal Race", $"Starting in 20 seconds or when the room is full.",
-                                    footer: $"Type {NadekoBot.ModulePrefixes[typeof(Gambling).Name]}jr to join the race.");
+                                    footer: $"Type {_prefix}jr to join the race.");
                             }
                             catch (Exception ex)
                             {
@@ -280,9 +280,7 @@ namespace NadekoBot.Modules.Gambling
                 public override bool Equals(object obj)
                 {
                     var p = obj as Participant;
-                    return p == null ?
-                        false :
-                        p.User == User;
+                    return p != null && p.User == User;
                 }
 
                 public override string ToString()

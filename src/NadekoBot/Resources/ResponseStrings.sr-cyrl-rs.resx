@@ -1,0 +1,368 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="pokemon_already_fainted" xml:space="preserve">
+    <value>{0} је већ онесвешћен.</value>
+  </data>
+  <data name="pokemon_already_full" xml:space="preserve">
+    <value>{0} је већ потпуно здрав.</value>
+  </data>
+  <data name="pokemon_already_that_type" xml:space="preserve">
+    <value>Твој тип већ јесте {0}</value>
+  </data>
+  <data name="pokemon_attack" xml:space="preserve">
+    <value>је искористио {0}{1} на {2}{3} и нанео {4} штете.</value>
+    <comment>Kwoth used punch:type_icon: on Sanity:type_icon: for 50 damage.</comment>
+  </data>
+  <data name="pokemon_cant_attack_again" xml:space="preserve">
+    <value>Не можеш напасти пре узвратног ударца.</value>
+  </data>
+  <data name="pokemon_cant_attack_yourself" xml:space="preserve">
+    <value>Не можеш напасти себе.</value>
+  </data>
+  <data name="pokemon_fainted" xml:space="preserve">
+    <value>{0} се онесвестио.</value>
+  </data>
+  <data name="pokemon_healed" xml:space="preserve">
+    <value>је излечио {0} са једним {1}</value>
+  </data>
+  <data name="pokemon_hp_remaining" xml:space="preserve">
+    <value>{0} има {1} преосталог здравља.</value>
+  </data>
+  <data name="pokemon_invalid_move" xml:space="preserve">
+    <value>Не можеш искористити {0}. Укуцај `{1}ml` да би видео листу удараца које можеш користити.</value>
+  </data>
+  <data name="pokemon_moves" xml:space="preserve">
+    <value>Листа покрета за {0} тип</value>
+  </data>
+  <data name="pokemon_not_effective" xml:space="preserve">
+    <value>Није ефективно.</value>
+  </data>
+  <data name="pokemon_no_currency" xml:space="preserve">
+    <value>Немаш довољно {0}</value>
+  </data>
+  <data name="pokemon_revive_other" xml:space="preserve">
+    <value>је оживео {0} са једним {1}</value>
+  </data>
+  <data name="pokemon_revive_yourself" xml:space="preserve">
+    <value>Оживео си себе са једним {0}</value>
+  </data>
+  <data name="pokemon_settype_success" xml:space="preserve">
+    <value>Твој тип је промењен на {0} за један {1}</value>
+  </data>
+  <data name="pokemon_somewhat_effective" xml:space="preserve">
+    <value>Има неког ефекта!</value>
+  </data>
+  <data name="pokemon_super_effective" xml:space="preserve">
+    <value>Супер ефективно!</value>
+  </data>
+  <data name="pokemon_too_many_moves" xml:space="preserve">
+    <value>Користио си превише напада узастопно, не можеш да се крећеш!</value>
+  </data>
+  <data name="pokemon_type_of_user" xml:space="preserve">
+    <value>{0}-ов тип је {1}</value>
+  </data>
+  <data name="pokemon_user_not_found" xml:space="preserve">
+    <value>Корисник није нађен.</value>
+  </data>
+  <data name="pokemon_you_fainted" xml:space="preserve">
+    <value>Онесвешћен си, не можеш да се крећеш.</value>
+  </data>
+  <data name="clashofclans_base_already_claimed" xml:space="preserve">
+    <value>Та база је већ под захетвом или је уништена.</value>
+  </data>
+  <data name="clashofclans_base_already_destroyed" xml:space="preserve">
+    <value>Та база је већ под захтевом.</value>
+  </data>
+  <data name="clashofclans_base_already_unclaimed" xml:space="preserve">
+    <value>Та база није под захтевом.</value>
+  </data>
+  <data name="clashofclans_base_unclaimed" xml:space="preserve">
+    <value>{0} је **ПОНИШТИО ЗАХТЕВ** за базу #{1} у рату против {2}</value>
+  </data>
+  <data name="clashofclans_claimed_base" xml:space="preserve">
+    <value>{0} захтева базу #{1} у рату против {2}</value>
+  </data>
+  <data name="clashofclans_claimed_other" xml:space="preserve">
+    <value>@{0} Ти већ захтеваш базу #{1}. Не можеш захтевати још једну.</value>
+  </data>
+  <data name="clashofclans_claim_expired" xml:space="preserve">
+    <value>Захтев од @{0} за рат против {1} је истекао.</value>
+  </data>
+  <data name="clashofclans_enemy" xml:space="preserve">
+    <value>Противник</value>
+  </data>
+  <data name="clashofclans_info_about_war" xml:space="preserve">
+    <value>Подаци о рату против {0}</value>
+  </data>
+  <data name="clashofclans_invalid_base_number" xml:space="preserve">
+    <value>Број базе није валидан.</value>
+  </data>
+  <data name="clashofclans_invalid_size" xml:space="preserve">
+    <value>Величина рата није валидна.</value>
+  </data>
+  <data name="clashofclans_list_active_wars" xml:space="preserve">
+    <value>Листа Ратова У Току</value>
+  </data>
+  <data name="clashofclans_not_claimed" xml:space="preserve">
+    <value>нема захтева</value>
+  </data>
+  <data name="clashofclans_not_partic" xml:space="preserve">
+    <value>Ти не учествујеш у том рату.</value>
+  </data>
+  <data name="clashofclans_not_partic_or_destroyed" xml:space="preserve">
+    <value>@{0} Ти или не учествујеш у рату или је та база већ уништена.</value>
+  </data>
+  <data name="clashofclans_no_active_wars" xml:space="preserve">
+    <value>Нема ратова у току.</value>
+  </data>
+  <data name="clashofclans_size" xml:space="preserve">
+    <value>Величина</value>
+  </data>
+  <data name="clashofclans_war_already_started" xml:space="preserve">
+    <value>Рат против {0} је већ почео.</value>
+  </data>
+  <data name="clashofclans_war_created" xml:space="preserve">
+    <value>Рат против {0} је направљен.</value>
+  </data>
+  <data name="clashofclans_war_ended" xml:space="preserve">
+    <value>Рат против {0} је завршен.</value>
+  </data>
+  <data name="clashofclans_war_not_exist" xml:space="preserve">
+    <value>Тај рат не постоји.</value>
+  </data>
+  <data name="clashofclans_war_started" xml:space="preserve">
+    <value>Рат против {0} је започет!</value>
+  </data>
+  <data name="clasofclans_base_destroyed" xml:space="preserve">
+    <value>је **УНИШТИО** базу #{0} у рату против {1}</value>
+  </data>
+  <data name="customreactions_all_stats_cleared" xml:space="preserve">
+    <value>Сва статистика Реакција по  Избору је обрисана.</value>
+  </data>
+  <data name="customreactions_deleted" xml:space="preserve">
+    <value>Реакција по Избору обрисана</value>
+  </data>
+  <data name="customreactions_insuff_perms" xml:space="preserve">
+    <value>Немате дозволу. Потребно је поседовати бота за глобалне Реакције по Избору, а Администратор за серверске Реакције по Избору.</value>
+  </data>
+  <data name="customreactions_list_all" xml:space="preserve">
+    <value>Листа свих реакција по избору</value>
+  </data>
+  <data name="customreactions_name" xml:space="preserve">
+    <value>Реакције по Избору</value>
+  </data>
+  <data name="customreactions_new_cust_react" xml:space="preserve">
+    <value>Нова Реакција по Избору</value>
+  </data>
+  <data name="customreactions_no_found" xml:space="preserve">
+    <value>Реакција по избору није нађена.</value>
+  </data>
+  <data name="customreactions_no_found_id" xml:space="preserve">
+    <value>Није нађена реакција са тим идентификатором.</value>
+  </data>
+  <data name="customreactions_response" xml:space="preserve">
+    <value>Одговор</value>
+  </data>
+  <data name="customreactions_stats" xml:space="preserve">
+    <value>Статистика Реакција по Избору</value>
+  </data>
+  <data name="customreactions_stats_cleared" xml:space="preserve">
+    <value>Статистика је обрисана за  {0} реакцију по избору.</value>
+  </data>
+  <data name="customreactions_stats_not_found" xml:space="preserve">
+    <value>Није нађена статистика за тај окидач. Нема промене.</value>
+  </data>
+  <data name="customreactions_trigger" xml:space="preserve">
+    <value>Окидач</value>
+  </data>
+  <data name="help_back_to_toc" xml:space="preserve">
+    <value>Назад на Садржај</value>
+  </data>
+  <data name="help_bot_owner_only" xml:space="preserve">
+    <value>Само Власник Бота</value>
+  </data>
+  <data name="help_channel_permission" xml:space="preserve">
+    <value>Захтева {0} дозволу на каналу.</value>
+  </data>
+  <data name="help_cmdlist_donate" xml:space="preserve">
+    <value>Можете подржати пројекат на Пејтриону: &lt;{0}&gt; или Пејпалу: &lt;{1}&gt;</value>
+  </data>
+  <data name="help_cmd_and_alias" xml:space="preserve">
+    <value>Команде и псеудоними</value>
+  </data>
+  <data name="help_commandlist_regen" xml:space="preserve">
+    <value>Листа команди је обновљена.</value>
+  </data>
+  <data name="help_commands_instr" xml:space="preserve">
+    <value>Укуцај `{0}h ИмеКоманде` да видиш помоћ за ту команду. нпр. `{0}h &gt;8ball`</value>
+  </data>
+  <data name="help_command_not_found" xml:space="preserve">
+    <value>Не могу да нађем ту команду. Проверите да ли команда постоји, па покушајте поново.</value>
+  </data>
+  <data name="help_desc" xml:space="preserve">
+    <value>Опис</value>
+  </data>
+  <data name="help_donate" xml:space="preserve">
+    <value>Можете подржати НадекоБот пројекат на 
+Пејтриону &lt;{0}&gt; или
+Пејпалу &lt;{1}&gt;
+Не заборавите да оставите своје корисничко име или ИД.
+
+**Хвала** ♥️</value>
+  </data>
+  <data name="help_guide" xml:space="preserve">
+    <value>**List of Commands**: &lt;{0}&gt;
+**Hosting Guides and docs can be found here**: &lt;{1}&gt;</value>
+  </data>
+  <data name="help_list_of_commands" xml:space="preserve">
+    <value>Листа Команди</value>
+  </data>
+  <data name="help_list_of_modules" xml:space="preserve">
+    <value>Листа Модула</value>
+  </data>
+  <data name="help_modules_footer" xml:space="preserve">
+    <value>Укуцај `{0}cmds ИмеМодула` да видиш листу свих команди у том модулу. нпр `{0}cmds games`</value>
+  </data>
+  <data name="help_module_not_found" xml:space="preserve">
+    <value>Тај модул не постоји.</value>
+  </data>
+  <data name="help_server_permission" xml:space="preserve">
+    <value>Захтева {0} дозволу на серверу.</value>
+  </data>
+  <data name="help_table_of_contents" xml:space="preserve">
+    <value>Садржај</value>
+  </data>
+  <data name="help_usage" xml:space="preserve">
+    <value>Упутство</value>
+  </data>
+  <data name="nsfw_autohentai_started" xml:space="preserve">
+    <value>Аутохентаи започет. Постоваћу сваких {0} сек. користећи један од следећих тагова:
+{1}</value>
+  </data>
+  <data name="nsfw_autohentai_stopped" xml:space="preserve">
+    <value>АутоХентаи заустављен.</value>
+  </data>
+  <data name="nsfw_no_results" xml:space="preserve">
+    <value>Нема резултата.</value>
+  </data>
+  <data name="nsfw_tag" xml:space="preserve">
+    <value>Таг</value>
+  </data>
+</root>

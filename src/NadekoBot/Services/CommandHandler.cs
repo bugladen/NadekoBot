@@ -73,7 +73,7 @@ namespace NadekoBot.Services
             if (!ownerChannels.Any())
                 _log.Warn("No owner channels created! Make sure you've specified correct OwnerId in the credentials.json file.");
             else
-                _log.Info($"Created {ownerChannels.Count} out of {NadekoBot.Credentials.OwnerIds.Length} owner message channels.");
+                _log.Info($"Created {ownerChannels.Count} out of {NadekoBot.Credentials.OwnerIds.Count} owner message channels.");
 
             _client.MessageReceived += MessageReceivedHandler;
         }
@@ -273,7 +273,7 @@ namespace NadekoBot.Services
 
                             await msg.Channel.SendMessageAsync(Help.DMHelpString).ConfigureAwait(false);
 
-                            await DMForwardCommands.HandleDMForwarding(msg, ownerChannels).ConfigureAwait(false);
+                            await SelfCommands.HandleDmForwarding(msg, ownerChannels).ConfigureAwait(false);
                         }
                     }
                 }

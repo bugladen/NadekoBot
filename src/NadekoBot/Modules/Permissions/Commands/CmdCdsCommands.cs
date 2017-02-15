@@ -101,23 +101,23 @@ namespace NadekoBot.Modules.Permissions
                     {
                         return true;
                     }
-                    else
+                    activeCdsForGuild.Add(new ActiveCooldown()
                     {
-                        activeCdsForGuild.Add(new ActiveCooldown()
+                        UserId = user.Id,
+                        Command = cmd.Aliases.First().ToLowerInvariant(),
+                    });
+                    var _ = Task.Run(async () =>
+                    {
+                        try
                         {
-                            UserId = user.Id,
-                            Command = cmd.Aliases.First().ToLowerInvariant(),
-                        });
-                        var t = Task.Run(async () =>
+                            await Task.Delay(cdRule.Seconds * 1000);
+                            activeCdsForGuild.RemoveWhere(ac => ac.Command == cmd.Aliases.First().ToLowerInvariant() && ac.UserId == user.Id);
+                        }
+                        catch
                         {
-                            try
-                            {
-                                await Task.Delay(cdRule.Seconds * 1000);
-                                activeCdsForGuild.RemoveWhere(ac => ac.Command == cmd.Aliases.First().ToLowerInvariant() && ac.UserId == user.Id);
-                            }
-                            catch { }
-                        });
-                    }
+                            // ignored
+                        }
+                    });
                 }
                 return false;
             }

@@ -5,7 +5,6 @@ using NadekoBot.Extensions;
 using NadekoBot.Services;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -16,12 +15,12 @@ namespace NadekoBot.Modules.Gambling
     public partial class Gambling
     {
         [Group]
-        public class Slots : ModuleBase
+        public class Slots : NadekoSubmodule
         {
-            private static int totalBet = 0;
-            private static int totalPaidOut = 0;
+            private static int _totalBet;
+            private static int _totalPaidOut;
 
-            const int alphaCutOut = byte.MaxValue / 3;
+            private const int _alphaCutOut = byte.MaxValue / 3;
 
             //here is a payout chart
             //https://lh6.googleusercontent.com/-i1hjAJy_kN4/UswKxmhrbPI/AAAAAAAAB1U/82wq_4ZZc-Y/DE6B0895-6FC1-48BE-AC4F-14D1B91AB75B.jpg
@@ -31,14 +30,14 @@ namespace NadekoBot.Modules.Gambling
 
             public Slots()
             {
-                this._images = NadekoBot.Images;
+                _images = NadekoBot.Images;
             }
 
             public class SlotMachine
             {
                 public const int MaxValue = 5;
 
-                static readonly List<Func<int[], int>> winningCombos = new List<Func<int[], int>>()
+                static readonly List<Func<int[], int>> _winningCombos = new List<Func<int[], int>>()
                 {
                     //three flowers
                     (arr) => arr.All(a=>a==MaxValue) ? 30 : 0,
@@ -53,14 +52,14 @@ namespace NadekoBot.Modules.Gambling
                 public static SlotResult Pull()
                 {
                     var numbers = new int[3];
-                    for (int i = 0; i < numbers.Length; i++)
+                    for (var i = 0; i < numbers.Length; i++)
                     {
                         numbers[i] = new NadekoRandom().Next(0, MaxValue + 1);
                     }
-                    int multi = 0;
-                    for (int i = 0; i < winningCombos.Count; i++)
+                    var multi = 0;
+                    foreach (var t in _winningCombos)
                     {
-                        multi = winningCombos[i](numbers);
+                        multi = t(numbers);
                         if (multi != 0)
                             break;
                     }
@@ -74,8 +73,8 @@ namespace NadekoBot.Modules.Gambling
                     public int Multiplier { get; }
                     public SlotResult(int[] nums, int multi)
                     {
-                        this.Numbers = nums;
-                        this.Multiplier = multi;
+                        Numbers = nums;
+                        Multiplier = multi;
                     }
                 }
             }
@@ -85,8 +84,8 @@ namespace NadekoBot.Modules.Gambling
             public async Task SlotStats()
             {
                 //i remembered to not be a moron
-                var paid = totalPaidOut;
-                var bet = totalBet;
+                var paid = _totalPaidOut;
+                var bet = _totalBet;
 
                 if (bet <= 0)
                     bet = 1;
@@ -130,33 +129,34 @@ namespace NadekoBot.Modules.Gambling
                     footer: $"Total Bet: {tests * bet} | Payout: {payout * bet} | {payout * 1.0f / tests * 100}%");
             }
 
-            static HashSet<ulong> runningUsers = new HashSet<ulong>();
+            private static readonly HashSet<ulong> _runningUsers = new HashSet<ulong>();
 
             [NadekoCommand, Usage, Description, Aliases]
             public async Task Slot(int amount = 0)
             {
-                if (!runningUsers.Add(Context.User.Id))
+                if (!_runningUsers.Add(Context.User.Id))
                     return;
                 try
                 {
                     if (amount < 1)
                     {
-                        await Context.Channel.SendErrorAsync($"You can't bet less than 1{NadekoBot.BotConfig.CurrencySign}").ConfigureAwait(false);
+                        await ReplyErrorLocalized("min_bet_limit", 1 + CurrencySign).ConfigureAwait(false);
                         return;
                     }
 
                     if (amount > 999)
                     {
-                        await Context.Channel.SendErrorAsync($"You can't bet more than 999{NadekoBot.BotConfig.CurrencySign}").ConfigureAwait(false);
+                        GetText("slot_maxbet", 999 + CurrencySign);
+                        await ReplyErrorLocalized("max_bet_limit", 999 + CurrencySign).ConfigureAwait(false);
                         return;
                     }
 
                     if (!await CurrencyHandler.RemoveCurrencyAsync(Context.User, "Slot Machine", amount, false))
                     {
-                        await Context.Channel.SendErrorAsync($"You don't have enough {NadekoBot.BotConfig.CurrencySign}.").ConfigureAwait(false);
+                        await ReplyErrorLocalized("not_enough", CurrencySign).ConfigureAwait(false);
                         return;
                     }
-                    Interlocked.Add(ref totalBet, amount);
+                    Interlocked.Add(ref _totalBet, amount);
                     using (var bgFileStream = NadekoBot.Images.SlotBackground.ToStream())
                     {
                         var bgImage = new ImageSharp.Image(bgFileStream);
@@ -179,7 +179,7 @@ namespace NadekoBot.Modules.Gambling
                                                 var x = 95 + 142 * i + j;
                                                 int y = 330 + k;
                                                 var toSet = toAdd[j, k];
-                                                if (toSet.A < alphaCutOut)
+                                                if (toSet.A < _alphaCutOut)
                                                     continue;
                                                 bgPixels[x, y] = toAdd[j, k];
                                             }
@@ -203,7 +203,7 @@ namespace NadekoBot.Modules.Gambling
                                         {
                                             for (int j = 0; j < pixels.Height; j++)
                                             {
-                                                if (pixels[i, j].A < alphaCutOut)
+                                                if (pixels[i, j].A < _alphaCutOut)
                                                     continue;
                                                 var x = 230 - n * 16 + i;
                                                 bgPixels[x, 462 + j] = pixels[i, j];
@@ -228,7 +228,7 @@ namespace NadekoBot.Modules.Gambling
                                         {
                                             for (int j = 0; j < pixels.Height; j++)
                                             {
-                                                if (pixels[i, j].A < alphaCutOut)
+                                                if (pixels[i, j].A < _alphaCutOut)
                                                     continue;
                                                 var x = 395 - n * 16 + i;
                                                 bgPixels[x, 462 + j] = pixels[i, j];
@@ -240,30 +240,30 @@ namespace NadekoBot.Modules.Gambling
                             } while ((printAmount /= 10) != 0);
                         }
 
-                        var msg = "Better luck next time ^_^";
+                        var msg = GetText("better_luck");
                         if (result.Multiplier != 0)
                         {
                             await CurrencyHandler.AddCurrencyAsync(Context.User, $"Slot Machine x{result.Multiplier}", amount * result.Multiplier, false);
-                            Interlocked.Add(ref totalPaidOut, amount * result.Multiplier);
+                            Interlocked.Add(ref _totalPaidOut, amount * result.Multiplier);
                             if (result.Multiplier == 1)
-                                msg = $"A single {NadekoBot.BotConfig.CurrencySign}, x1 - Try again!";
+                                msg = GetText("slot_single", CurrencySign, 1);
                             else if (result.Multiplier == 4)
-                                msg = $"Good job! Two {NadekoBot.BotConfig.CurrencySign} - bet x4";
+                                msg = GetText("slot_two", CurrencySign, 4);
                             else if (result.Multiplier == 10)
-                                msg = "Wow! Lucky! Three of a kind! x10";
+                                msg = GetText("slot_three", 10);
                             else if (result.Multiplier == 30)
-                                msg = "WOAAHHHHHH!!! Congratulations!!! x30";
+                                msg = GetText("slot_jackpot", 30);
                         }
 
-                        await Context.Channel.SendFileAsync(bgImage.ToStream(), "result.png", Context.User.Mention + " " + msg + $"\n`Bet:`{amount} `Won:` {amount * result.Multiplier}{NadekoBot.BotConfig.CurrencySign}").ConfigureAwait(false);
+                        await Context.Channel.SendFileAsync(bgImage.ToStream(), "result.png", Context.User.Mention + " " + msg + $"\n`{GetText("slot_bet")}:`{amount} `{GetText("slot_won")}:` {amount * result.Multiplier}{NadekoBot.BotConfig.CurrencySign}").ConfigureAwait(false);
                     }
                 }
                 finally
                 {
-                    var t = Task.Run(async () =>
+                    var _ = Task.Run(async () =>
                     {
                         await Task.Delay(2000);
-                        runningUsers.Remove(Context.User.Id);
+                        _runningUsers.Remove(Context.User.Id);
                     });
                 }
             }

@@ -21,7 +21,7 @@ namespace NadekoBot.Modules.Music
 {
     [NadekoModule("Music", "!!")]
     [DontAutoLoad]
-    public partial class Music : DiscordModule
+    public partial class Music : NadekoModule
     {
         public static ConcurrentDictionary<ulong, MusicPlayer> MusicPlayers { get; } = new ConcurrentDictionary<ulong, MusicPlayer>();
 
@@ -415,27 +415,26 @@ namespace NadekoBot.Modules.Music
             var arg = directory;
             if (string.IsNullOrWhiteSpace(arg))
                 return;
-            try
+            var dir = new DirectoryInfo(arg);
+            var fileEnum = dir.GetFiles("*", SearchOption.AllDirectories)
+                                .Where(x => !x.Attributes.HasFlag(FileAttributes.Hidden | FileAttributes.System));
+            var gusr = (IGuildUser)Context.User;
+            foreach (var file in fileEnum)
             {
-                var dir = new DirectoryInfo(arg);
-                var fileEnum = dir.GetFiles("*", SearchOption.AllDirectories)
-                                    .Where(x => !x.Attributes.HasFlag(FileAttributes.Hidden | FileAttributes.System));
-                var gusr = (IGuildUser)Context.User;
-                foreach (var file in fileEnum)
+                try
                 {
-                    try
-                    {
-                        await QueueSong(((IGuildUser)Context.User), (ITextChannel)Context.Channel, ((IGuildUser)Context.User).VoiceChannel, file.FullName, true, MusicType.Local).ConfigureAwait(false);
-                    }
-                    catch (PlaylistFullException)
-                    {
-                        break;
-                    }
-                    catch { }
+                    await QueueSong(gusr, (ITextChannel)Context.Channel, gusr.VoiceChannel, file.FullName, true, MusicType.Local).ConfigureAwait(false);
                 }
-                await Context.Channel.SendConfirmAsync("🎵 Directory queue complete.").ConfigureAwait(false);
+                catch (PlaylistFullException)
+                {
+                    break;
+                }
+                catch
+                {
+                    // ignored
+                }
             }
-            catch { }
+            await Context.Channel.SendConfirmAsync("🎵 Directory queue complete.").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]

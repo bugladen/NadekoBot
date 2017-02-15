@@ -41,7 +41,6 @@ namespace NadekoBot.Services
                 return minValue;
             var bytes = new byte[sizeof(int)];
             rng.GetBytes(bytes);
-            var num = BitConverter.ToInt32(bytes, 0);
             var sign = Math.Sign(BitConverter.ToInt32(bytes, 0));
             return (sign * BitConverter.ToInt32(bytes, 0)) % (maxValue - minValue) + minValue;
         }

@@ -15,7 +15,7 @@ using NLog;
 namespace NadekoBot.Modules.Permissions
 {
     [NadekoModule("Permissions", ";")]
-    public partial class Permissions : DiscordModule
+    public partial class Permissions : NadekoModule
     {
         public class PermissionCache
         {

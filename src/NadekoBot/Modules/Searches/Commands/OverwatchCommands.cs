@@ -36,7 +36,7 @@ namespace NadekoBot.Modules.Searches
 
                     var rankimg = $"{model.Competitive.rank_img}";
                     var rank = $"{model.Competitive.rank}";
-                    var competitiveplay = $"{model.Games.Competitive.played}";
+                    //var competitiveplay = $"{model.Games.Competitive.played}";
                     if (string.IsNullOrWhiteSpace(rank))
                     {
                         var embed = new EmbedBuilder()

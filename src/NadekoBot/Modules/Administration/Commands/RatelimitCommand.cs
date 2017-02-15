@@ -13,10 +13,10 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class RatelimitCommand : ModuleBase
+        public class RatelimitCommand : NadekoSubmodule
         {
             public static ConcurrentDictionary<ulong, Ratelimiter> RatelimitingChannels = new ConcurrentDictionary<ulong, Ratelimiter>();
-            private static Logger _log { get; }
+            private new static readonly Logger _log;
 
             public class Ratelimiter
             {
@@ -37,26 +37,22 @@ namespace NadekoBot.Modules.Administration
 
                 public bool CheckUserRatelimit(ulong id)
                 {
-                    RatelimitedUser usr = Users.GetOrAdd(id, (key) => new RatelimitedUser() { UserId = id });
+                    var usr = Users.GetOrAdd(id, (key) => new RatelimitedUser() { UserId = id });
                     if (usr.MessageCount == MaxMessages)
                     {
                         return true;
                     }
-                    else
+                    usr.MessageCount++;
+                    var _ = Task.Run(async () =>
                     {
-                        usr.MessageCount++;
-                        var t = Task.Run(async () =>
+                        try
                         {
-                            try
-                            {
-                                await Task.Delay(PerSeconds * 1000, cancelSource.Token);
-                            }
-                            catch (OperationCanceledException) { }
-                            usr.MessageCount--;
-                        });
-                        return false;
-                    }
-
+                            await Task.Delay(PerSeconds * 1000, cancelSource.Token);
+                        }
+                        catch (OperationCanceledException) { }
+                        usr.MessageCount--;
+                    });
+                    return false;
                 }
             }
 
@@ -69,9 +65,7 @@ namespace NadekoBot.Modules.Administration
                      try
                      {
                          var usrMsg = umsg as IUserMessage;
-                         if (usrMsg == null)
-                             return;
-                         var channel = usrMsg.Channel as ITextChannel;
+                         var channel = usrMsg?.Channel as ITextChannel;
 
                          if (channel == null || usrMsg.IsAuthor())
                              return;
@@ -95,8 +89,7 @@ namespace NadekoBot.Modules.Administration
                 if (RatelimitingChannels.TryRemove(Context.Channel.Id, out throwaway))
                 {
                     throwaway.cancelSource.Cancel();
-                    await Context.Channel.SendConfirmAsync("ℹ️ Slow mode disabled.").ConfigureAwait(false);
-                    return;
+                    await ReplyConfirmLocalized("slowmode_disabled").ConfigureAwait(false);
                 }
             }
 
@@ -109,7 +102,7 @@ namespace NadekoBot.Modules.Administration
                 
                 if (msg < 1 || perSec < 1 || msg > 100 || perSec > 3600)
                 {
-                    await Context.Channel.SendErrorAsync("⚠️ Invalid parameters.");
+                    await ReplyErrorLocalized("invalid_params").ConfigureAwait(false);
                     return;
                 }
                 var toAdd = new Ratelimiter()
@@ -120,8 +113,8 @@ namespace NadekoBot.Modules.Administration
                 };
                 if(RatelimitingChannels.TryAdd(Context.Channel.Id, toAdd))
                 {
-                    await Context.Channel.SendConfirmAsync("Slow mode initiated",
-                                                $"Users can't send more than `{toAdd.MaxMessages} message(s)` every `{toAdd.PerSeconds} second(s)`.")
+                    await Context.Channel.SendConfirmAsync(GetText("slowmode_init"),
+                            GetText("slowmode_desc", Format.Bold(toAdd.MaxMessages.ToString()), Format.Bold(toAdd.PerSeconds.ToString())))
                                                 .ConfigureAwait(false);
                 }
             }

@@ -11,7 +11,7 @@ using NadekoBot.Extensions;
 namespace NadekoBot.Modules.Games
 {
     [NadekoModule("Games", ">")]
-    public partial class Games : DiscordModule
+    public partial class Games : NadekoModule
     {
         private static string[] _8BallResponses { get; } = NadekoBot.BotConfig.EightBallResponses.Select(ebr => ebr.Text).ToArray();
 
@@ -32,7 +32,6 @@ namespace NadekoBot.Modules.Games
         {
             if (string.IsNullOrWhiteSpace(question))
                 return;
-                var rng = new NadekoRandom();
 
             await Context.Channel.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
                                .AddField(efb => efb.WithName("❓ Question").WithValue(question).WithIsInline(false))

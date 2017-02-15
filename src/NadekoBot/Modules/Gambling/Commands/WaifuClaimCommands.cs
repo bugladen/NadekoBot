@@ -47,7 +47,7 @@ namespace NadekoBot.Modules.Gambling
         }
 
         [Group]
-        public class WaifuClaimCommands : ModuleBase
+        public class WaifuClaimCommands : NadekoSubmodule
         {
             private static ConcurrentDictionary<ulong, DateTime> _divorceCooldowns { get; } = new ConcurrentDictionary<ulong, DateTime>();
             private static ConcurrentDictionary<ulong, DateTime> _affinityCooldowns { get; } = new ConcurrentDictionary<ulong, DateTime>();
@@ -197,8 +197,6 @@ namespace NadekoBot.Modules.Gambling
             [RequireContext(ContextType.Guild)]
             public async Task Divorce([Remainder]IUser target)
             {
-                var channel = (ITextChannel)Context.Channel;
-
                 if (target.Id == Context.User.Id)
                     return;
 
@@ -423,7 +421,7 @@ namespace NadekoBot.Modules.Gambling
 
                 var embed = new EmbedBuilder()
                     .WithOkColor()
-                    .WithTitle("Waifu " + w.Waifu.ToString() + " - \"the " + claimInfo.Title + "\"")
+                    .WithTitle("Waifu " + w.Waifu + " - \"the " + claimInfo.Title + "\"")
                     .AddField(efb => efb.WithName("Price").WithValue(w.Price.ToString()).WithIsInline(true))
                     .AddField(efb => efb.WithName("Claimed by").WithValue(w.Claimer?.ToString() ?? "No one").WithIsInline(true))
                     .AddField(efb => efb.WithName("Likes").WithValue(w.Affinity?.ToString() ?? "Nobody").WithIsInline(true))

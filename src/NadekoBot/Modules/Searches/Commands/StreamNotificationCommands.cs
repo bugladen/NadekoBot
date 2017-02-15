@@ -103,19 +103,23 @@ namespace NadekoBot.Modules.Searches
                                 oldStatus.IsLive != newStatus.IsLive)
                             {
                                 var server = NadekoBot.Client.GetGuild(fs.GuildId);
-                                if (server == null)
-                                    return;
-                                var channel = server.GetTextChannel(fs.ChannelId);
+                                var channel = server?.GetTextChannel(fs.ChannelId);
                                 if (channel == null)
                                     return;
                                 try
                                 {
                                     var msg = await channel.EmbedAsync(fs.GetEmbed(newStatus)).ConfigureAwait(false);
                                 }
-                                catch { }
+                                catch
+                                {
+                                    // ignored
+                                }
                             }
                         }
-                        catch { }
+                        catch
+                        {
+                            // ignored
+                        }
                     }));
 
                     FirstPass = false;
