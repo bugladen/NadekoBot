@@ -2109,6 +2109,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Deck reshuffled..
+        /// </summary>
+        public static string gambling_deck_reshuffled {
+            get {
+                return ResourceManager.GetString("gambling_deck_reshuffled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to You guessed it! You won {0}.
         /// </summary>
         public static string gambling_flip_guess {
@@ -2195,6 +2204,15 @@ namespace NadekoBot.Resources {
         public static string gambling_min_bet_limit {
             get {
                 return ResourceManager.GetString("gambling_min_bet_limit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No more cards in the deck..
+        /// </summary>
+        public static string gambling_no_more_cards {
+            get {
+                return ResourceManager.GetString("gambling_no_more_cards", resourceCulture);
             }
         }
         

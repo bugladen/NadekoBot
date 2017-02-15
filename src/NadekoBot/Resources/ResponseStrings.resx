@@ -882,6 +882,9 @@ Reason: {1}</value>
   <data name="gambling_br_win" xml:space="preserve">
     <value>Congratulations! You won {0} for rolling above {1}</value>
   </data>
+  <data name="gambling_deck_reshuffled" xml:space="preserve">
+    <value>Deck reshuffled.</value>
+  </data>
   <data name="gambling_flipped" xml:space="preserve">
     <value>flipped {0}.</value>
     <comment>User flipped tails.</comment>
@@ -917,6 +920,9 @@ Reason: {1}</value>
   </data>
   <data name="gambling_not_enough" xml:space="preserve">
     <value>You don't have enough {0}</value>
+  </data>
+  <data name="gambling_no_more_cards" xml:space="preserve">
+    <value>No more cards in the deck.</value>
   </data>
   <data name="gambling_raffled_user" xml:space="preserve">
     <value>Raffled User</value>
