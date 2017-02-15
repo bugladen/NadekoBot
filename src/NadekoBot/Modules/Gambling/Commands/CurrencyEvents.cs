@@ -5,12 +5,9 @@ using NadekoBot.Extensions;
 using NadekoBot.Services;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Discord.WebSocket;
-using NadekoBot.Services.Database;
 using System.Threading;
 using NLog;
 
@@ -27,7 +24,7 @@ namespace NadekoBot.Modules.Gambling
                 SneakyGameStatus
             }
             //flower reaction event
-            public static readonly ConcurrentHashSet<ulong> _sneakyGameAwardedUsers = new ConcurrentHashSet<ulong>();
+            private static readonly ConcurrentHashSet<ulong> _sneakyGameAwardedUsers = new ConcurrentHashSet<ulong>();
 
 
             private static readonly char[] _sneakyGameStatusChars = Enumerable.Range(48, 10)
@@ -36,7 +33,7 @@ namespace NadekoBot.Modules.Gambling
                 .Select(x => (char)x)
                 .ToArray();
 
-            private static string _secretCode = String.Empty;
+            private static string _secretCode = string.Empty;
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
@@ -54,7 +51,7 @@ namespace NadekoBot.Modules.Gambling
                 }
             }
 
-            public static async Task SneakyGameStatusEvent(CommandContext Context, int? arg)
+            public async Task SneakyGameStatusEvent(CommandContext context, int? arg)
             {
                 int num;
                 if (arg == null || arg < 5)
@@ -62,11 +59,11 @@ namespace NadekoBot.Modules.Gambling
                 else
                     num = arg.Value;
 
-                if (_secretCode != String.Empty)
+                if (_secretCode != string.Empty)
                     return;
                 var rng = new NadekoRandom();
 
-                for (int i = 0; i < 5; i++)
+                for (var i = 0; i < 5; i++)
                 {
                     _secretCode += _sneakyGameStatusChars[rng.Next(0, _sneakyGameStatusChars.Length)];
                 }
@@ -75,10 +72,9 @@ namespace NadekoBot.Modules.Gambling
                     .ConfigureAwait(false);
                 try
                 {
-                    await Context.Channel.SendConfirmAsync($"SneakyGameStatus event started",
-                        $"Users must type a secret code to get 100 currency.\n" +
-                        $"Lasts {num} seconds. Don't tell anyone. Shhh.")
-                        .ConfigureAwait(false);
+                    var title = GetText("sneakygamestatus_title");
+                    var desc = GetText("sneakygamestatus_desc", Format.Bold(100.ToString()) + CurrencySign, Format.Bold(num.ToString()));
+                    await context.Channel.SendConfirmAsync(title, desc).ConfigureAwait(false);
                 }
                 catch
                 {
@@ -92,9 +88,9 @@ namespace NadekoBot.Modules.Gambling
 
                 var cnt = _sneakyGameAwardedUsers.Count;
                 _sneakyGameAwardedUsers.Clear();
-                _secretCode = String.Empty;
+                _secretCode = string.Empty;
 
-                await NadekoBot.Client.SetGameAsync($"SneakyGame event ended. {cnt} users received a reward.")
+                await NadekoBot.Client.SetGameAsync(GetText("sneakygamestatus_end", cnt))
                     .ConfigureAwait(false);
             }
 
@@ -119,22 +115,31 @@ namespace NadekoBot.Modules.Gambling
                 return Task.Delay(0);
             }
 
-            public static Task FlowerReactionEvent(CommandContext context) =>
-                new FlowerReactionEvent().Start(context);
+            public async Task FlowerReactionEvent(CommandContext context)
+            {
+                var title = GetText("flowerreaction_title");
+                var desc = GetText("flowerreaction_desc", "🌸", Format.Bold(100.ToString()) + CurrencySign);
+                var footer = GetText("flowerreaction_footer", 24);
+                var msg = await context.Channel.SendConfirmAsync(title,
+                        desc, footer: footer)
+                    .ConfigureAwait(false);
+
+                await new FlowerReactionEvent().Start(msg, context);
+            }
         }
     }
 
     public abstract class CurrencyEvent
     {
-        public abstract Task Start(CommandContext channel);
+        public abstract Task Start(IUserMessage msg, CommandContext channel);
     }
 
     public class FlowerReactionEvent : CurrencyEvent
     {
-        public readonly ConcurrentHashSet<ulong> _flowerReactionAwardedUsers = new ConcurrentHashSet<ulong>();
+        private readonly ConcurrentHashSet<ulong> _flowerReactionAwardedUsers = new ConcurrentHashSet<ulong>();
         private readonly Logger _log;
 
-        private IUserMessage msg { get; set; } = null;
+        private IUserMessage msg { get; set; }
 
         private CancellationTokenSource source { get; }
         private CancellationToken cancelToken { get; }
@@ -167,13 +172,9 @@ namespace NadekoBot.Modules.Gambling
             return Task.CompletedTask;
         }
 
-        public override async Task Start(CommandContext context)
+        public override async Task Start(IUserMessage umsg, CommandContext context)
         {
-            msg = await context.Channel.SendConfirmAsync("Flower reaction event started!",
-                    "Add 🌸 reaction to this message to get 100" + NadekoBot.BotConfig.CurrencySign,
-                    footer: "This event is active for up to 24 hours.")
-                                               .ConfigureAwait(false);
-
+            msg = umsg;
             NadekoBot.Client.MessageDeleted += MessageDeletedEventHandler;
 
             try { await msg.AddReactionAsync("🌸").ConfigureAwait(false); }

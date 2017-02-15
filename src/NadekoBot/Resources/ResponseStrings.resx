@@ -895,6 +895,15 @@ Reason: {1}</value>
   <data name="gambling_flip_invalid" xml:space="preserve">
     <value>Invalid number specified. You can flip 1 to {0} coins.</value>
   </data>
+  <data name="gambling_flowerreaction_desc" xml:space="preserve">
+    <value>Add {0} reaction to this message to get {1} </value>
+  </data>
+  <data name="gambling_flowerreaction_footer" xml:space="preserve">
+    <value>This event is active for up to {0} hours.</value>
+  </data>
+  <data name="gambling_flowerreaction_title" xml:space="preserve">
+    <value>Flower reaction event started!</value>
+  </data>
   <data name="gambling_gifted" xml:space="preserve">
     <value>has gifted {0} to {1}</value>
     <comment>X has gifted 15 flowers to Y</comment>
@@ -947,6 +956,16 @@ Reason: {1}</value>
   </data>
   <data name="gambling_slot_won" xml:space="preserve">
     <value>Won</value>
+  </data>
+  <data name="gambling_sneakygamestatus_desc" xml:space="preserve">
+    <value>Users must type a secret code to get {0}.
+Lasts {1} seconds. Don't tell anyone. Shhh.</value>
+  </data>
+  <data name="gambling_sneakygamestatus_end" xml:space="preserve">
+    <value>SneakyGame event ended. {0} users received the reward.</value>
+  </data>
+  <data name="gambling_sneakygamestatus_title" xml:space="preserve">
+    <value>SneakyGameStatus event started</value>
   </data>
   <data name="gambling_tails" xml:space="preserve">
     <value>Tails</value>

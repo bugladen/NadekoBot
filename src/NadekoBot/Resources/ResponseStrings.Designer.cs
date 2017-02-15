@@ -2145,6 +2145,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Add {0} reaction to this message to get {1} .
+        /// </summary>
+        public static string gambling_flowerreaction_desc {
+            get {
+                return ResourceManager.GetString("gambling_flowerreaction_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to This event is active for up to {0} hours..
+        /// </summary>
+        public static string gambling_flowerreaction_footer {
+            get {
+                return ResourceManager.GetString("gambling_flowerreaction_footer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Flower reaction event started!.
+        /// </summary>
+        public static string gambling_flowerreaction_title {
+            get {
+                return ResourceManager.GetString("gambling_flowerreaction_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to has gifted {0} to {1}.
         /// </summary>
         public static string gambling_gifted {
@@ -2294,6 +2321,34 @@ namespace NadekoBot.Resources {
         public static string gambling_slot_won {
             get {
                 return ResourceManager.GetString("gambling_slot_won", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Users must type a secret code to get {0}.
+        ///Lasts {1} seconds. Don&apos;t tell anyone. Shhh..
+        /// </summary>
+        public static string gambling_sneakygamestatus_desc {
+            get {
+                return ResourceManager.GetString("gambling_sneakygamestatus_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to SneakyGame event ended. {0} users received the reward..
+        /// </summary>
+        public static string gambling_sneakygamestatus_end {
+            get {
+                return ResourceManager.GetString("gambling_sneakygamestatus_end", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to SneakyGameStatus event started.
+        /// </summary>
+        public static string gambling_sneakygamestatus_title {
+            get {
+                return ResourceManager.GetString("gambling_sneakygamestatus_title", resourceCulture);
             }
         }
         
