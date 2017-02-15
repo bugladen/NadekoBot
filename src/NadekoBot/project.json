@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "AngleSharp": "0.9.9",
-    "libvideo": "1.0.0",
+    "libvideo": "1.0.1",
     "CoreCLR-NCalc": "2.1.2",
     "Google.Apis.Urlshortener.v1": "1.19.0.138",
     "Google.Apis.YouTube.v3": "1.20.0.701",
