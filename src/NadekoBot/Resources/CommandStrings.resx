@@ -2689,7 +2689,7 @@
     <value>Translates your normal sentences into Yoda styled sentences!</value>
   </data>
   <data name="yodify_usage" xml:space="preserve">
-    <value>{0}yodify I was once an adventurer like you` or `{0}yoda my feelings hurt`</value>
+    <value>`{0}yoda my feelings hurt`</value>
   </data>
   <data name="attack_cmd" xml:space="preserve">
     <value>attack</value>
