@@ -241,7 +241,7 @@ namespace NadekoBot.Modules.Administration
                 try
                 {
                     await user.SendErrorAsync(GetText("bandm", Format.Bold(Context.Guild.Name), msg));
-                    await Task.Delay(2000).ConfigureAwait(false);
+                    await Task.Delay(1000).ConfigureAwait(false);
 
                 }
                 catch
@@ -276,7 +276,7 @@ namespace NadekoBot.Modules.Administration
                 try
                 {
                     await user.SendErrorAsync(GetText("sbdm", Format.Bold(Context.Guild.Name), msg));
-                    await Task.Delay(2000).ConfigureAwait(false);
+                    await Task.Delay(1000).ConfigureAwait(false);
                 }
                 catch
                 {
@@ -311,7 +311,7 @@ namespace NadekoBot.Modules.Administration
                 try
                 {
                     await user.SendErrorAsync(GetText("kickdm", Format.Bold(Context.Guild.Name), msg));
-                    await Task.Delay(2000).ConfigureAwait(false);
+                    await Task.Delay(1000).ConfigureAwait(false);
                 }
                 catch { }
             }
