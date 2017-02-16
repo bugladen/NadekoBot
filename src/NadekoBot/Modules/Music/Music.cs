@@ -838,14 +838,20 @@ namespace NadekoBot.Modules.Music
                 {
                     try
                     {
-                        if (lastFinishedMessage != null)
-                            lastFinishedMessage.DeleteAfter(0);
+                        lastFinishedMessage?.DeleteAfter(0);
 
-                        lastFinishedMessage = await mp.OutputTextChannel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                                                  .WithAuthor(eab => eab.WithName("Finished Song").WithMusicIcon())
-                                                  .WithDescription(song.PrettyName)
-                                                  .WithFooter(ef => ef.WithText(song.PrettyInfo)))
-                                                    .ConfigureAwait(false);
+                        try
+                        {
+                            lastFinishedMessage = await mp.OutputTextChannel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                                    .WithAuthor(eab => eab.WithName("Finished Song").WithMusicIcon())
+                                    .WithDescription(song.PrettyName)
+                                    .WithFooter(ef => ef.WithText(song.PrettyInfo)))
+                                .ConfigureAwait(false);
+                        }
+                        catch
+                        {
+                            // ignored
+                        }
 
                         if (mp.Autoplay && mp.Playlist.Count == 0 && song.SongInfo.ProviderType == MusicType.Normal)
                         {
@@ -855,7 +861,7 @@ namespace NadekoBot.Modules.Music
                                 textCh, 
                                 voiceCh, 
                                 relatedVideos[new NadekoRandom().Next(0, relatedVideos.Count)],
-                                silent, 
+                                true, 
                                 musicType).ConfigureAwait(false);
                         }
                     }
@@ -870,8 +876,7 @@ namespace NadekoBot.Modules.Music
                         return;
                     try
                     {
-                        if (playingMessage != null)
-                            playingMessage.DeleteAfter(0);
+                        playingMessage?.DeleteAfter(0);
 
                         playingMessage = await mp.OutputTextChannel.EmbedAsync(new EmbedBuilder().WithOkColor()
                                                     .WithAuthor(eab => eab.WithName("Playing Song").WithMusicIcon())
@@ -891,8 +896,7 @@ namespace NadekoBot.Modules.Music
                         else
                             msg = await mp.OutputTextChannel.SendConfirmAsync("🎵 Music playback **resumed**.").ConfigureAwait(false);
 
-                        if (msg != null)
-                            msg.DeleteAfter(10);
+                        msg?.DeleteAfter(10);
                     }
                     catch { }
                 };

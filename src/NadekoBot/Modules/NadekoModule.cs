@@ -32,7 +32,7 @@ namespace NadekoBot.Modules
         {
             _cultureInfo = NadekoBot.Localization.GetCultureInfo(Context.Guild?.Id);
 
-            _log.Warn("Culture info is {0}", _cultureInfo);
+            _log.Info("Culture info is {0}", _cultureInfo);
         }
 
         //public Task<IUserMessage> ReplyConfirmLocalized(string titleKey, string textKey, string url = null, string footer = null)
