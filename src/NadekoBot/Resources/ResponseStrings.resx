@@ -698,7 +698,7 @@ Reason: {1}</value>
   <data name="administration_self_assign_remove" xml:space="preserve">
     <value>You no longer have {0} role.</value>
   </data>
-  <data name="administration_self_assign_sucess" xml:space="preserve">
+  <data name="administration_self_assign_success" xml:space="preserve">
     <value>You now have {0} role.</value>
   </data>
   <data name="administration_setrole" xml:space="preserve">

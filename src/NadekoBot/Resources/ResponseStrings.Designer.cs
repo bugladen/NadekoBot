@@ -729,6 +729,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Migration done!.
+        /// </summary>
+        public static string administration_migration_done {
+            get {
+                return ResourceManager.GetString("administration_migration_done", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to {0} moved from {1} to {2}.
         /// </summary>
         public static string administration_moved {
@@ -896,6 +905,15 @@ namespace NadekoBot.Resources {
         public static string administration_perms_reset {
             get {
                 return ResourceManager.GetString("administration_perms_reset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Presence Updates.
+        /// </summary>
+        public static string administration_presence_updates {
+            get {
+                return ResourceManager.GetString("administration_presence_updates", resourceCulture);
             }
         }
         
@@ -1153,6 +1171,25 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to User Soft-Banned.
+        /// </summary>
+        public static string administration_sb_user {
+            get {
+                return ResourceManager.GetString("administration_sb_user", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You have been soft-banned from {0} server.
+        ///Reason: {1}.
+        /// </summary>
+        public static string administration_sbdm {
+            get {
+                return ResourceManager.GetString("administration_sbdm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to You already have {0} role..
         /// </summary>
         public static string administration_self_assign_already {
@@ -1245,9 +1282,9 @@ namespace NadekoBot.Resources {
         /// <summary>
         ///    Looks up a localized string similar to You now have {0} role..
         /// </summary>
-        public static string administration_self_assign_sucess {
+        public static string administration_self_assign_success {
             get {
-                return ResourceManager.GetString("administration_self_assign_sucess", resourceCulture);
+                return ResourceManager.GetString("administration_self_assign_success", resourceCulture);
             }
         }
         
@@ -1523,6 +1560,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to User Unbanned.
+        /// </summary>
+        public static string administration_user_unbanned {
+            get {
+                return ResourceManager.GetString("administration_user_unbanned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to {0} has been **unmuted** from text and voice chat..
         /// </summary>
         public static string administration_user_unmuted {
@@ -1694,57 +1740,11 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to You have been soft-banned from {0} server.
-        ///Reason: {1}.
-        /// </summary>
-        public static string administraton_sbdm {
-            get {
-                return ResourceManager.GetString("administraton_sbdm", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to User Unbanned.
-        /// </summary>
-        public static string administraton_user_unbanned {
-            get {
-                return ResourceManager.GetString("administraton_user_unbanned", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Migration done!.
-        /// </summary>
-        public static string adminsitration_migration_done {
-            get {
-                return ResourceManager.GetString("adminsitration_migration_done", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///    Looks up a localized string similar to Error while migrating, check bot&apos;s console for more information..
         /// </summary>
         public static string adminsitration_migration_error {
             get {
                 return ResourceManager.GetString("adminsitration_migration_error", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Presence Updates.
-        /// </summary>
-        public static string adminsitration_presence_updates {
-            get {
-                return ResourceManager.GetString("adminsitration_presence_updates", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to User Soft-Banned.
-        /// </summary>
-        public static string adminsitration_sb_user {
-            get {
-                return ResourceManager.GetString("adminsitration_sb_user", resourceCulture);
             }
         }
         
