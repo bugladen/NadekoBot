@@ -67,7 +67,7 @@ namespace NadekoBot.Modules.Music.Classes
         public float Volume { get; private set; }
 
         public event Action<MusicPlayer, Song> OnCompleted = delegate { };
-        public event Action<MusicPlayer, Song> OnStarted = delegate {  };
+        public event Action<MusicPlayer, Song> OnStarted = delegate { };
         public event Action<bool> OnPauseChanged = delegate { };
 
         public IVoiceChannel PlaybackVoiceChannel { get; private set; }
@@ -130,13 +130,9 @@ namespace NadekoBot.Modules.Music.Classes
                 {
                     try
                     {
-                        if (audioClient?.ConnectionState != ConnectionState.Connected)
-                        {
-                            if (audioClient != null)
-                                try { await audioClient.DisconnectAsync().ConfigureAwait(false); } catch { }
-                            audioClient = await PlaybackVoiceChannel.ConnectAsync().ConfigureAwait(false);
-                            continue;
-                        }
+                        if (audioClient != null)
+                            try { await audioClient.DisconnectAsync().ConfigureAwait(false); } catch { }
+                        audioClient = await PlaybackVoiceChannel.ConnectAsync().ConfigureAwait(false);
 
                         CurrentSong = GetNextSong();
 
@@ -313,11 +309,15 @@ namespace NadekoBot.Modules.Music.Classes
         {
             var curSong = CurrentSong;
             var toUpdate = playlist.Where(s => s.SongInfo.ProviderType == MusicType.Normal &&
-                                                            s.TotalTime == TimeSpan.Zero);
+                                                            s.TotalTime == TimeSpan.Zero)
+                                                            .ToArray();
             if (curSong != null)
-                toUpdate = toUpdate.Append(curSong);
+            {
+                Array.Resize(ref toUpdate, toUpdate.Length + 1);
+                toUpdate[toUpdate.Length - 1] = curSong;
+            }
             var ids = toUpdate.Select(s => s.SongInfo.Query.Substring(s.SongInfo.Query.LastIndexOf("?v=") + 3))
-                                .Distinct();
+                              .Distinct();
 
             var durations = await NadekoBot.Google.GetVideoDurationsAsync(ids);
 
