@@ -130,14 +130,14 @@ namespace NadekoBot.Modules.Music.Classes
                 {
                     try
                     {
-                        if (audioClient != null)
-                            try { await audioClient.DisconnectAsync().ConfigureAwait(false); } catch { }
-                        audioClient = await PlaybackVoiceChannel.ConnectAsync().ConfigureAwait(false);
-
                         CurrentSong = GetNextSong();
 
                         if (CurrentSong == null)
                             continue;
+
+                        if (audioClient != null)
+                            try { await audioClient.DisconnectAsync().ConfigureAwait(false); } catch { }
+                        audioClient = await PlaybackVoiceChannel.ConnectAsync().ConfigureAwait(false);
 
                         var index = playlist.IndexOf(CurrentSong);
                         if (index != -1)
