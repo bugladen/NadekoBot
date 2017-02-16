@@ -124,12 +124,13 @@ namespace NadekoBot.Modules.Games
                     var decision = Judge(distance, guess.Length);
                     if (decision && !finishedUserIds.Contains(msg.Author.Id))
                     {
-                        var wpm = CurrentSentence.Length / WORD_VALUE / sw.Elapsed.Seconds * 60;
+                        var elapsed = sw.Elapsed;
+                        var wpm = CurrentSentence.Length / WORD_VALUE / elapsed.TotalSeconds * 60;
                         finishedUserIds.Add(msg.Author.Id);
                         await this.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                             .WithTitle($"{msg.Author} finished the race!")
                             .AddField(efb => efb.WithName("Place").WithValue($"#{finishedUserIds.Count}").WithIsInline(true))
-                            .AddField(efb => efb.WithName("WPM").WithValue($"{wpm:F2} *[{sw.Elapsed.TotalSeconds:F2}sec]*").WithIsInline(true))
+                            .AddField(efb => efb.WithName("WPM").WithValue($"{wpm:F1} *[{elapsed.TotalSeconds:F2}sec]*").WithIsInline(true))
                             .AddField(efb => efb.WithName("Errors").WithValue(distance.ToString()).WithIsInline(true)))
                                 .ConfigureAwait(false);
                         if (finishedUserIds.Count % 4 == 0)
