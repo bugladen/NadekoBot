@@ -851,23 +851,23 @@ Reason: {1}</value>
   <data name="administration_xmuted_voice" xml:space="preserve">
     <value>User {0} from voice chat</value>
   </data>
-  <data name="administraton_sbdm" xml:space="preserve">
+  <data name="administration_sbdm" xml:space="preserve">
     <value>You have been soft-banned from {0} server.
 Reason: {1}</value>
   </data>
-  <data name="administraton_user_unbanned" xml:space="preserve">
+  <data name="administration_user_unbanned" xml:space="preserve">
     <value>User Unbanned</value>
   </data>
-  <data name="adminsitration_migration_done" xml:space="preserve">
+  <data name="administration_migration_done" xml:space="preserve">
     <value>Migration done!</value>
   </data>
   <data name="adminsitration_migration_error" xml:space="preserve">
     <value>Error while migrating, check bot's console for more information.</value>
   </data>
-  <data name="adminsitration_presence_updates" xml:space="preserve">
+  <data name="administration_presence_updates" xml:space="preserve">
     <value>Presence Updates</value>
   </data>
-  <data name="adminsitration_sb_user" xml:space="preserve">
+  <data name="administration_sb_user" xml:space="preserve">
     <value>User Soft-Banned</value>
   </data>
   <data name="gambling_awarded" xml:space="preserve">
