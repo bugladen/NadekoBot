@@ -90,6 +90,27 @@ namespace NadekoBot.Services
             });
 
             _client.MessageReceived += MessageReceivedHandler;
+            _client.MessageUpdated += (oldmsg, newMsg) =>
+            {
+                var ignore = Task.Run(async () =>
+                {
+                    try
+                    {
+                        var usrMsg = newMsg as SocketUserMessage;
+                        var guild = (usrMsg?.Channel as ITextChannel)?.Guild;
+
+                        if (guild != null && !await InviteFiltered(guild, usrMsg).ConfigureAwait(false))
+                            await WordFiltered(guild, usrMsg).ConfigureAwait(false);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        _log.Warn(ex);
+                    }
+                    return Task.CompletedTask;
+                });
+                return Task.CompletedTask;
+            };
             return Task.CompletedTask;
         }
 
