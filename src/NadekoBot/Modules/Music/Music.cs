@@ -14,7 +14,6 @@ using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using NadekoBot.Services.Database.Models;
-using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace NadekoBot.Modules.Music
@@ -78,7 +77,10 @@ namespace NadekoBot.Modules.Music
                 }
 
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
             return Task.CompletedTask;
         }
 
@@ -215,9 +217,8 @@ namespace NadekoBot.Modules.Music
                         .Skip(startAt)
                         .Take(itemsPerPage)
                         .Select(v => $"`{++number}.` {v.PrettyFullName}"));
-
-                if (currentSong != null)
-                    desc = $"`🔊` {currentSong.PrettyFullName}\n\n" + desc;
+                
+                desc = $"`🔊` {currentSong.PrettyFullName}\n\n" + desc;
 
                 if (musicPlayer.RepeatSong)
                     desc = "🔂 Repeating Current Song\n\n" + desc;
@@ -862,8 +863,7 @@ namespace NadekoBot.Modules.Music
                                 textCh, 
                                 voiceCh, 
                                 relatedVideos[new NadekoRandom().Next(0, relatedVideos.Count)],
-                                true, 
-                                musicType).ConfigureAwait(false);
+                                true).ConfigureAwait(false);
                         }
                     }
                     catch { }
@@ -871,7 +871,11 @@ namespace NadekoBot.Modules.Music
 
                 mp.OnStarted += async (player, song) =>
                 {
-                    try { await mp.UpdateSongDurationsAsync().ConfigureAwait(false); } catch { }
+                    try { await mp.UpdateSongDurationsAsync().ConfigureAwait(false); }
+                    catch
+                    {
+                        // ignored
+                    }
                     var sender = player as MusicPlayer;
                     if (sender == null)
                         return;
@@ -915,7 +919,10 @@ namespace NadekoBot.Modules.Music
                         await mp.OutputTextChannel.EmbedAsync(embed).ConfigureAwait(false);
 
                     }
-                    catch { }
+                    catch
+                    {
+                        // ignored
+                    }
                 };
                 return mp;
             });
@@ -946,10 +953,12 @@ namespace NadekoBot.Modules.Music
                                                             .WithThumbnailUrl(resolvedSong.Thumbnail)
                                                             .WithFooter(ef => ef.WithText(resolvedSong.PrettyProvider)))
                                                             .ConfigureAwait(false);
-                    if (queuedMessage != null)
-                        queuedMessage.DeleteAfter(10);
+                    queuedMessage?.DeleteAfter(10);
                 }
-                catch { } // if queued message sending fails, don't attempt to delete it
+                catch
+                {
+                    // ignored
+                } // if queued message sending fails, don't attempt to delete it
             }
         }
     }
