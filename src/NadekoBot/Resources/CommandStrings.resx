@@ -1144,7 +1144,7 @@
     <value>`{0}.. abc`</value>
   </data>
   <data name="searchquote_cmd" xml:space="preserve">
-    <value>qsearch ...</value>
+    <value>qsearch</value>
   </data>
   <data name="searchquote_desc" xml:space="preserve">
     <value>Searches a quote for a given keyword and any string portion of a quote matching that keyword.</value>
