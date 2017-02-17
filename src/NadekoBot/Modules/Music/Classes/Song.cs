@@ -47,7 +47,7 @@ namespace NadekoBot.Modules.Music.Classes
 
         public string PrettyFullTime => PrettyCurrentTime + " / " + PrettyTotalTime;
 
-        public string PrettyName => $"**[{SongInfo.Title.TrimTo(65)}]({songUrl})**";
+        public string PrettyName => $"**[{SongInfo.Title.TrimTo(65)}]({SongUrl})**";
 
         public string PrettyInfo => $"{MusicPlayer.PrettyVolume} | {PrettyTotalTime} | {PrettyProvider} | {QueuerName}";
 
@@ -104,7 +104,7 @@ namespace NadekoBot.Modules.Music.Classes
             }
         }
 
-        private string songUrl {
+        public string SongUrl {
             get {
                 switch (SongInfo.ProviderType)
                 {

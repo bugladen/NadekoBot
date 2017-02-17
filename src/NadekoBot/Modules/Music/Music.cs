@@ -512,12 +512,13 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task MoveSong([Remainder] string fromto)
         {
+            if (string.IsNullOrWhiteSpace(fromto))
+                return;
 
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer))
-            {
                 return;
-            }
+            
             fromto = fromto?.Trim();
             var fromtoArr = fromto.Split('>');
 
@@ -541,7 +542,7 @@ namespace NadekoBot.Modules.Music
 
             var embed = new EmbedBuilder()
                 .WithTitle($"{s.SongInfo.Title.TrimTo(70)}")
-            .WithUrl($"{s.SongInfo.Query}")
+                .WithUrl(s.SongUrl)
             .WithAuthor(eab => eab.WithName("Song Moved").WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/258605269972549642/music1.png"))
             .AddField(fb => fb.WithName("**From Position**").WithValue($"#{n1}").WithIsInline(true))
             .AddField(fb => fb.WithName("**To Position**").WithValue($"#{n2}").WithIsInline(true))
