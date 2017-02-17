@@ -8,13 +8,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NadekoBot.DataStructures;
 
 namespace NadekoBot.Modules.Utility
 {
     public partial class Utility
     {
         [Group]
-        public class QuoteCommands : ModuleBase
+        public class QuoteCommands : NadekoSubmodule
         {
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
@@ -56,6 +57,17 @@ namespace NadekoBot.Modules.Utility
                 if (quote == null)
                     return;
 
+                CREmbed crembed;
+                if (CREmbed.TryParse(quote.Text, out crembed))
+                {
+                    try { await Context.Channel.EmbedAsync(crembed.ToEmbed(), crembed.PlainText ?? "").ConfigureAwait(false); }
+                    catch (Exception ex)
+                    {
+                        _log.Warn("Sending CREmbed failed");
+                        _log.Warn(ex);
+                    }
+                    return;
+                }
                 await Context.Channel.SendMessageAsync("📣 " + quote.Text.SanitizeMentions());
             }
 
