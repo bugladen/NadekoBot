@@ -94,7 +94,7 @@ namespace NadekoBot.Modules.Searches
             using (var http = new HttpClient())
             {
                 var res = JObject.Parse(await http.GetStringAsync("http://www.random.cat/meow").ConfigureAwait(false));
-                await Context.Channel.SendMessageAsync(res["file"].ToString()).ConfigureAwait(false);
+                await Context.Channel.SendMessageAsync(Uri.EscapeUriString(res["file"].ToString())).ConfigureAwait(false);
             }
         }
 
