@@ -72,23 +72,42 @@ namespace NadekoBot.Modules.Administration
             {
                 if (_forwardDMs && ownerChannels.Any())
                 {
-                    var title =
-                        GetTextStatic("dm_from", NadekoBot.Localization.DefaultCultureInfo,
-                            typeof(Administration).Name.ToLowerInvariant()) + $" [{msg.Author}]({msg.Author.Id})";
+                    var title = GetTextStatic("dm_from",
+                                    NadekoBot.Localization.DefaultCultureInfo,
+                                    typeof(Administration).Name.ToLowerInvariant()) +
+                                $" [{msg.Author}]({msg.Author.Id})";
+
+                    var attachamentsTxt = GetTextStatic("attachments",
+                        NadekoBot.Localization.DefaultCultureInfo,
+                        typeof(Administration).Name.ToLowerInvariant());
+
+                    var toSend = msg.Content;
+
+                    if (msg.Attachments.Count > 0)
+                    {
+                        toSend += $"\n\n{Format.Code(attachamentsTxt)}:\n" +
+                                  string.Join("\n", msg.Attachments.Select(a => a.ProxyUrl));
+                    }
+
                     if (_forwardDMsToAllOwners)
                     {
                         await Task.WhenAll(ownerChannels.Where(ch => ch.Recipient.Id != msg.Author.Id)
-                            .Select(ch => ch.SendConfirmAsync(title, msg.Content))).ConfigureAwait(false);
+                            .Select(ch => ch.SendConfirmAsync(title, toSend))).ConfigureAwait(false);
                     }
                     else
                     {
                         var firstOwnerChannel = ownerChannels.First();
                         if (firstOwnerChannel.Recipient.Id != msg.Author.Id)
-                            try { await firstOwnerChannel.SendConfirmAsync(title, msg.Content).ConfigureAwait(false); }
+                        {
+                            try
+                            {
+                                await firstOwnerChannel.SendConfirmAsync(title, toSend).ConfigureAwait(false);
+                            }
                             catch
                             {
                                 // ignored
                             }
+                        }
                     }
                 }
             }
