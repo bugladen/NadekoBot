@@ -94,7 +94,7 @@ namespace NadekoBot.Modules.Searches
             using (var http = new HttpClient())
             {
                 var res = JObject.Parse(await http.GetStringAsync("http://www.random.cat/meow").ConfigureAwait(false));
-                await Context.Channel.SendMessageAsync(res["file"].ToString()).ConfigureAwait(false);
+                await Context.Channel.SendMessageAsync(Uri.EscapeUriString(res["file"].ToString())).ConfigureAwait(false);
             }
         }
 
@@ -273,7 +273,7 @@ namespace NadekoBot.Modules.Searches
 
             var results = elems.Select<IElement, GoogleSearchResult?>(elem =>
             {
-                var aTag = (elem.Children.FirstOrDefault().Children.FirstOrDefault() as IHtmlAnchorElement); // <h3> -> <a>
+                var aTag = (elem.Children.FirstOrDefault()?.Children.FirstOrDefault() as IHtmlAnchorElement); // <h3> -> <a>
                 var href = aTag?.Href;
                 var name = aTag?.TextContent;
                 if (href == null || name == null)
@@ -292,7 +292,7 @@ namespace NadekoBot.Modules.Searches
                 .WithAuthor(eab => eab.WithName("Search For: " + terms.TrimTo(50))
                     .WithUrl(fullQueryLink)
                     .WithIconUrl("http://i.imgur.com/G46fm8J.png"))
-                .WithTitle(Context.User.Mention)
+                .WithTitle(Context.User.ToString())
                 .WithFooter(efb => efb.WithText(totalResults));
 
             var desc = await Task.WhenAll(results.Select(async res =>

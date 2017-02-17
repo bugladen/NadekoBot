@@ -40,7 +40,7 @@ namespace NadekoBot.Services
         private readonly CommandService _commandService;
         private readonly Logger _log;
 
-        private List<IDMChannel> ownerChannels { get; set; }
+        private List<IDMChannel> ownerChannels { get; set; } = new List<IDMChannel>();
 
         public event Func<SocketUserMessage, CommandInfo, Task> CommandExecuted = delegate { return Task.CompletedTask; };
 
@@ -61,21 +61,57 @@ namespace NadekoBot.Services
                 UsersOnShortCooldown.Clear();
             }, null, GlobalCommandsCooldown, GlobalCommandsCooldown);
         }
-        public async Task StartHandling()
+        public Task StartHandling()
         {
-            ownerChannels = (await Task.WhenAll(_client.GetGuilds().SelectMany(g => g.Users)
-                                  .Where(u => NadekoBot.Credentials.OwnerIds.Contains(u.Id))
-                                  .Distinct(new IGuildUserComparer())
-                                  .Select(async u => { try { return await u.CreateDMChannelAsync(); } catch { return null; } })))
-                                      .Where(ch => ch != null)
-                                      .ToList();
+            var _ = Task.Run(async () =>
+            {
+                await Task.Delay(5000).ConfigureAwait(false);
+                ownerChannels = (await Task.WhenAll(_client.GetGuilds().SelectMany(g => g.Users)
+                        .Where(u => NadekoBot.Credentials.OwnerIds.Contains(u.Id))
+                        .Distinct(new IGuildUserComparer())
+                        .Select(async u =>
+                        {
+                            try
+                            {
+                                return await u.CreateDMChannelAsync();
+                            }
+                            catch
+                            {
+                                return null;
+                            }
+                        })))
+                    .Where(ch => ch != null)
+                    .ToList();
 
-            if (!ownerChannels.Any())
-                _log.Warn("No owner channels created! Make sure you've specified correct OwnerId in the credentials.json file.");
-            else
-                _log.Info($"Created {ownerChannels.Count} out of {NadekoBot.Credentials.OwnerIds.Count} owner message channels.");
+                if (!ownerChannels.Any())
+                    _log.Warn("No owner channels created! Make sure you've specified correct OwnerId in the credentials.json file.");
+                else
+                    _log.Info($"Created {ownerChannels.Count} out of {NadekoBot.Credentials.OwnerIds.Count} owner message channels.");
+            });
 
             _client.MessageReceived += MessageReceivedHandler;
+            _client.MessageUpdated += (oldmsg, newMsg) =>
+            {
+                var ignore = Task.Run(async () =>
+                {
+                    try
+                    {
+                        var usrMsg = newMsg as SocketUserMessage;
+                        var guild = (usrMsg?.Channel as ITextChannel)?.Guild;
+
+                        if (guild != null && !await InviteFiltered(guild, usrMsg).ConfigureAwait(false))
+                            await WordFiltered(guild, usrMsg).ConfigureAwait(false);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        _log.Warn(ex);
+                    }
+                    return Task.CompletedTask;
+                });
+                return Task.CompletedTask;
+            };
+            return Task.CompletedTask;
         }
 
         private async Task<bool> TryRunCleverbot(SocketUserMessage usrMsg, IGuild guild)
