@@ -1147,7 +1147,7 @@
     <value>qsearch</value>
   </data>
   <data name="searchquote_desc" xml:space="preserve">
-    <value>Searches a quote for a given keyword and any string portion of a quote matching that keyword.</value>
+    <value>Shows a random quote for a keyword that contains any text specified in the search.</value>
   </data>
   <data name="searchquote_usage" xml:space="preserve">
     <value>`{0}qsearch keyword text`</value>
