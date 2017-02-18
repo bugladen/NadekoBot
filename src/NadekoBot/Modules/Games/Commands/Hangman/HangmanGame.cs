@@ -70,7 +70,7 @@ namespace NadekoBot.Modules.Games.Commands.Hangman
                  return $" {c}";
 
              c = char.ToUpperInvariant(c);
-             return Guesses.Contains(c) ? $" {c}" : " _";
+             return Guesses.Contains(c) ? $" {c}" : " ◯";
          })) + "`";
 
         public bool GuessedAll => Guesses.IsSupersetOf(Term.Word.ToUpperInvariant()
