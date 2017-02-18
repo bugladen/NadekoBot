@@ -22,7 +22,7 @@ namespace NadekoBot.Modules.Gambling
             private Regex dndRegex { get; } = new Regex(@"^(?<n1>\d+)d(?<n2>\d+)(?:\+(?<add>\d+))?(?:\-(?<sub>\d+))?$", RegexOptions.Compiled);
             private Regex fudgeRegex { get; } = new Regex(@"^(?<n1>\d+)d(?:F|f)$", RegexOptions.Compiled);
 
-            private readonly char[] fateRolls = new[] { '-', ' ', '+' };
+            private readonly char[] _fateRolls = { '-', ' ', '+' };
 
             [NadekoCommand, Usage, Description, Aliases]
             public async Task Roll()
@@ -40,7 +40,9 @@ namespace NadekoBot.Modules.Gambling
                     return ms;
                 }).ConfigureAwait(false);
 
-                await Context.Channel.SendFileAsync(imageStream, "dice.png", $"{Context.User.Mention} rolled " + Format.Code(gen.ToString())).ConfigureAwait(false);
+                await Context.Channel.SendFileAsync(imageStream, 
+                    "dice.png", 
+                    Context.User.Mention + " " + GetText("dice_rolled", Format.Code(gen.ToString()))).ConfigureAwait(false);
             }
 
             public enum RollOrderType
@@ -82,7 +84,7 @@ namespace NadekoBot.Modules.Gambling
             {
                 if (num < 1 || num > 30)
                 {
-                    await Context.Channel.SendErrorAsync("Invalid number specified. You can roll up to 1-30 dice at a time.").ConfigureAwait(false);
+                    await ReplyErrorLocalized("dice_invalid_number", 1, 30).ConfigureAwait(false);
                     return;
                 }
 
@@ -120,7 +122,12 @@ namespace NadekoBot.Modules.Gambling
                 var ms = new MemoryStream();
                 bitmap.SaveAsPng(ms);
                 ms.Position = 0;
-                await Context.Channel.SendFileAsync(ms, "dice.png", $"{Context.User.Mention} rolled {values.Count} {(values.Count == 1 ? "die" : "dice")}. Total: **{values.Sum()}** Average: **{(values.Sum() / (1.0f * values.Count)).ToString("N2")}**").ConfigureAwait(false);
+                await Context.Channel.SendFileAsync(ms, "dice.png",
+                    Context.User.Mention + 
+                    GetText("dice_rolled_num", Format.Bold(values.Count.ToString())) +
+                    " " + GetText("Total: {1} Average: {2}",
+                        Format.Bold(values.Sum().ToString()),
+                        Format.Bold((values.Sum() / (1.0f * values.Count)).ToString("N2")))).ConfigureAwait(false);
             }
 
             private async Task InternallDndRoll(string arg, bool ordered)
@@ -138,9 +145,9 @@ namespace NadekoBot.Modules.Gambling
 
                     for (int i = 0; i < n1; i++)
                     {
-                        rolls.Add(fateRolls[rng.Next(0, fateRolls.Length)]);
+                        rolls.Add(_fateRolls[rng.Next(0, _fateRolls.Length)]);
                     }
-                    var embed = new EmbedBuilder().WithOkColor().WithDescription($"{Context.User.Mention} rolled {n1} fate {(n1 == 1 ? "die" : "dice")}.")
+                    var embed = new EmbedBuilder().WithOkColor().WithDescription(Context.User.Mention + " " + GetText("dice_rolled_num", Format.Bold(n1.ToString())))
                         .AddField(efb => efb.WithName(Format.Bold("Result"))
                             .WithValue(string.Join(" ", rolls.Select(c => Format.Code($"[{c}]")))));
                     await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
@@ -164,7 +171,7 @@ namespace NadekoBot.Modules.Gambling
                         }
 
                         var sum = arr.Sum();
-                        var embed = new EmbedBuilder().WithOkColor().WithDescription($"{Context.User.Mention} rolled {n1} {(n1 == 1 ? "die" : "dice")} `1 to {n2}`")
+                        var embed = new EmbedBuilder().WithOkColor().WithDescription(Context.User.Mention + " " +GetText("dice_rolled_num", n1) + $"`1 - {n2}`")
                         .AddField(efb => efb.WithName(Format.Bold("Rolls"))
                             .WithValue(string.Join(" ", (ordered ? arr.OrderBy(x => x).AsEnumerable() : arr).Select(x => Format.Code(x.ToString())))))
                         .AddField(efb => efb.WithName(Format.Bold("Sum"))
@@ -177,30 +184,26 @@ namespace NadekoBot.Modules.Gambling
             [NadekoCommand, Usage, Description, Aliases]
             public async Task NRoll([Remainder] string range)
             {
-                try
+                int rolled;
+                if (range.Contains("-"))
                 {
-                    int rolled;
-                    if (range.Contains("-"))
+                    var arr = range.Split('-')
+                        .Take(2)
+                        .Select(int.Parse)
+                        .ToArray();
+                    if (arr[0] > arr[1])
                     {
-                        var arr = range.Split('-')
-                                        .Take(2)
-                                        .Select(int.Parse)
-                                        .ToArray();
-                        if (arr[0] > arr[1])
-                            throw new ArgumentException("Second argument must be larger than the first one.");
-                        rolled = new NadekoRandom().Next(arr[0], arr[1] + 1);
+                        await ReplyErrorLocalized("second_larger_than_first").ConfigureAwait(false);
+                        return;
                     }
-                    else
-                    {
-                        rolled = new NadekoRandom().Next(0, int.Parse(range) + 1);
-                    }
+                    rolled = new NadekoRandom().Next(arr[0], arr[1] + 1);
+                }
+                else
+                {
+                    rolled = new NadekoRandom().Next(0, int.Parse(range) + 1);
+                }
 
-                    await Context.Channel.SendConfirmAsync($"{Context.User.Mention} rolled **{rolled}**.").ConfigureAwait(false);
-                }
-                catch (Exception ex)
-                {
-                    await Context.Channel.SendErrorAsync($":anger: {ex.Message}").ConfigureAwait(false);
-                }
+                await ReplyConfirmLocalized("dice_rolled", Format.Bold(rolled.ToString())).ConfigureAwait(false);
             }
 
             private Image GetDice(int num)

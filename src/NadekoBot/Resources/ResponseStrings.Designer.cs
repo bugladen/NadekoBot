@@ -2208,6 +2208,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Invalid number specified. You can roll up to {0}-{1} dice at a time..
+        /// </summary>
+        public static string gambling_dice_invalid_number {
+            get {
+                return ResourceManager.GetString("gambling_dice_invalid_number", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to rolled {0}.
+        /// </summary>
+        public static string gambling_dice_rolled {
+            get {
+                return ResourceManager.GetString("gambling_dice_rolled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Dice rolled: {1}.
+        /// </summary>
+        public static string gambling_dice_rolled_num {
+            get {
+                return ResourceManager.GetString("gambling_dice_rolled_num", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to You guessed it! You won {0}.
         /// </summary>
         public static string gambling_flip_guess {
@@ -2375,6 +2402,15 @@ namespace NadekoBot.Resources {
         public static string gambling_roll {
             get {
                 return ResourceManager.GetString("gambling_roll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to second_larger_than_first.
+        /// </summary>
+        public static string gambling_second_larger_than_first {
+            get {
+                return ResourceManager.GetString("gambling_second_larger_than_first", resourceCulture);
             }
         }
         
