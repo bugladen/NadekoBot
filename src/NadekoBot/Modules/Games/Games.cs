@@ -45,10 +45,9 @@ namespace NadekoBot.Modules.Games
             {
                 if (p == 0)
                     return "🚀";
-                else if (p == 1)
+                if (p == 1)
                     return "📎";
-                else
-                    return "✂️";
+                return "✂️";
             };
 
             int pick;
