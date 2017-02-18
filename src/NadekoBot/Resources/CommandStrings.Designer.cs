@@ -2391,7 +2391,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Searches a quote for a given keyword and any string portion of a quote matching that keyword..
+        ///    Looks up a localized string similar to Shows a random quote for a keyword that contains any text specified in the search..
         /// </summary>
         public static string searchquote_desc {
             get {
