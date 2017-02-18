@@ -394,7 +394,7 @@ Command and aliases | Description | Usage
 s` `.liqu` | `.liqu` or `.liqu 3`  | Lists all quotes on the server ordered alphabetically. 15 Per page.
 `...` | Shows a random quote with a specified name.  | `... abc`
 `..` | Adds a new quote with the specified name and message.  | `.. sayhi Hi`
-`.qsearch` | Shows a random quote for a keyword that contains any text specified in the search.   | `.qsearch keyword text`
+`.qsearch` | Shows a random quote for a keyword that contains any text specified in the search   | `.qsearch keyword text`
 `.deletequote` `.delq` | Deletes a random quote with the specified keyword. You have to either be server Administrator or the creator of the quote to delete it.  | `.delq abc`
 `.delallq` `.daq` | Deletes all quotes on a specified keyword. **Requires Administrator server permission.** | `.delallq kek`
 `.remind` | Sends a message to you or a channel after certain amount of time. First argument is me/here/'channelname'. Second argument is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third argument is a (multiword)message.  | `.remind me 1d5h Do something` or `.remind #general 1m Start now!`
