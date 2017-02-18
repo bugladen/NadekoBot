@@ -250,9 +250,6 @@
   <data name="clashofclans_war_started" xml:space="preserve">
     <value>Рат против {0} је започет!</value>
   </data>
-  <data name="clasofclans_base_destroyed" xml:space="preserve">
-    <value>је **УНИШТИО** базу #{0} у рату против {1}</value>
-  </data>
   <data name="customreactions_all_stats_cleared" xml:space="preserve">
     <value>Сва статистика Реакција по  Избору је обрисана.</value>
   </data>
@@ -359,10 +356,691 @@
   <data name="nsfw_autohentai_stopped" xml:space="preserve">
     <value>АутоХентаи заустављен.</value>
   </data>
-  <data name="nsfw_no_results" xml:space="preserve">
-    <value>Нема резултата.</value>
-  </data>
   <data name="nsfw_tag" xml:space="preserve">
     <value>Таг</value>
+  </data>
+  <data name="clashofclans_base_destroyed" xml:space="preserve">
+    <value>**DESTROYED** base #{0} in a war against {1}</value>
+  </data>
+  <data name="nsfw_not_found" xml:space="preserve">
+    <value>No results found.</value>
+  </data>
+  <data name="administration_aar_disabled" xml:space="preserve">
+    <value>**Auto assign role** on user join is now **disabled**.</value>
+  </data>
+  <data name="administration_aar_enabled" xml:space="preserve">
+    <value>**Auto assign role** on user join is now **enabled**.</value>
+  </data>
+  <data name="administration_attachments" xml:space="preserve">
+    <value>Attachments</value>
+  </data>
+  <data name="administration_avatar_changed" xml:space="preserve">
+    <value>Avatar Changed</value>
+  </data>
+  <data name="administration_bandm" xml:space="preserve">
+    <value>You have been banned from {0} server.
+Reason: {1}</value>
+  </data>
+  <data name="administration_banned_pl" xml:space="preserve">
+    <value>banned</value>
+    <comment>PLURAL</comment>
+  </data>
+  <data name="administration_banned_user" xml:space="preserve">
+    <value>User Banned</value>
+  </data>
+  <data name="administration_bot_name" xml:space="preserve">
+    <value>Bot name changed to {0}</value>
+  </data>
+  <data name="administration_bot_status" xml:space="preserve">
+    <value>Bot status changed to {0}</value>
+  </data>
+  <data name="administration_byedel_off" xml:space="preserve">
+    <value>Automatic deletion of bye messages has been disabled.</value>
+  </data>
+  <data name="administration_byedel_on" xml:space="preserve">
+    <value>Bye messages will be deleted after {0} seconds.</value>
+  </data>
+  <data name="administration_byemsg_cur" xml:space="preserve">
+    <value>Current bye message: {0}</value>
+  </data>
+  <data name="administration_byemsg_enable" xml:space="preserve">
+    <value>Enable bye messages by typing {0}</value>
+  </data>
+  <data name="administration_byemsg_new" xml:space="preserve">
+    <value>New bye message set.</value>
+  </data>
+  <data name="administration_bye_off" xml:space="preserve">
+    <value>Bye announcements disabled.</value>
+  </data>
+  <data name="administration_bye_on" xml:space="preserve">
+    <value>Bye announcements enabled on this channel.</value>
+  </data>
+  <data name="administration_ch_name_change" xml:space="preserve">
+    <value>Channel Name Changed</value>
+  </data>
+  <data name="administration_ch_old_name" xml:space="preserve">
+    <value>Old Name</value>
+  </data>
+  <data name="administration_ch_topic_change" xml:space="preserve">
+    <value>Channel Topic Changed</value>
+  </data>
+  <data name="administration_cleaned_up" xml:space="preserve">
+    <value>Cleaned up.</value>
+  </data>
+  <data name="administration_content" xml:space="preserve">
+    <value>Content</value>
+  </data>
+  <data name="administration_cr" xml:space="preserve">
+    <value>Sucessfully created role {0}</value>
+  </data>
+  <data name="administration_createtextchan" xml:space="preserve">
+    <value>Text channel {0} created.</value>
+  </data>
+  <data name="administration_createvoich" xml:space="preserve">
+    <value>Voice channel {0} created.</value>
+  </data>
+  <data name="administration_deafen" xml:space="preserve">
+    <value>Deafen successful.</value>
+  </data>
+  <data name="administration_deleted_server" xml:space="preserve">
+    <value>Deleted server {0}</value>
+  </data>
+  <data name="administration_delmsg_off" xml:space="preserve">
+    <value>Stopped automatic deletion of successful command invokations.</value>
+  </data>
+  <data name="administration_delmsg_on" xml:space="preserve">
+    <value>Now automatically deleting sucessful command invokations.</value>
+  </data>
+  <data name="administration_deltextchan" xml:space="preserve">
+    <value>Text channel {0} deleted.</value>
+  </data>
+  <data name="administration_delvoich" xml:space="preserve">
+    <value>Voice channel {0} deleted.</value>
+  </data>
+  <data name="administration_dm_from" xml:space="preserve">
+    <value>DM from</value>
+  </data>
+  <data name="administration_donadd" xml:space="preserve">
+    <value>Sucessfully added a new donator.Total donated amount from this user: {0} 👑</value>
+  </data>
+  <data name="administration_donators" xml:space="preserve">
+    <value>Thanks to the people listed below for making this project hjappen!</value>
+  </data>
+  <data name="administration_fwall_start" xml:space="preserve">
+    <value>I will forward DMs to all owners.</value>
+  </data>
+  <data name="administration_fwall_stop" xml:space="preserve">
+    <value>I will forward DMs only to the first owner.</value>
+  </data>
+  <data name="administration_fwdm_start" xml:space="preserve">
+    <value>I will forward DMs from now on.</value>
+  </data>
+  <data name="administration_fwdm_stop" xml:space="preserve">
+    <value>I will stop forwarding DMs from now on.</value>
+  </data>
+  <data name="administration_greetdel_off" xml:space="preserve">
+    <value>Automatic deletion of greet messages has been disabled.</value>
+  </data>
+  <data name="administration_greetdel_on" xml:space="preserve">
+    <value>Greet messages will be deleted after {0} seconds.</value>
+  </data>
+  <data name="administration_greetdmmsg_cur" xml:space="preserve">
+    <value>Current DM greet message: {0}</value>
+  </data>
+  <data name="administration_greetdmmsg_enable" xml:space="preserve">
+    <value>Enable DM greet messages by typing {0}</value>
+  </data>
+  <data name="administration_greetdmmsg_new" xml:space="preserve">
+    <value>New DM greet message set.</value>
+  </data>
+  <data name="administration_greetdm_off" xml:space="preserve">
+    <value>DM greet announcements disabled.</value>
+  </data>
+  <data name="administration_greetdm_on" xml:space="preserve">
+    <value>DM greet announcements enabled.</value>
+  </data>
+  <data name="administration_greetmsg_cur" xml:space="preserve">
+    <value>Current greet message: {0}</value>
+  </data>
+  <data name="administration_greetmsg_enable" xml:space="preserve">
+    <value>Enable greet messages by typing {0}</value>
+  </data>
+  <data name="administration_greetmsg_new" xml:space="preserve">
+    <value>New greet message set.</value>
+  </data>
+  <data name="administration_greet_off" xml:space="preserve">
+    <value>Greet announcements disabled.</value>
+  </data>
+  <data name="administration_greet_on" xml:space="preserve">
+    <value>Greet announcements enabled on this channel.</value>
+  </data>
+  <data name="administration_hierarchy" xml:space="preserve">
+    <value>You can't use this command on users with a role higher or equal to yours in the role hierarchy.</value>
+  </data>
+  <data name="administration_images_loaded" xml:space="preserve">
+    <value>Images loaded after {0} seconds!</value>
+  </data>
+  <data name="administration_invalid_format" xml:space="preserve">
+    <value>Invalid input format.</value>
+  </data>
+  <data name="administration_invalid_params" xml:space="preserve">
+    <value>Invalid parameters.</value>
+  </data>
+  <data name="administration_joined" xml:space="preserve">
+    <value>{0} has joined {1}</value>
+  </data>
+  <data name="administration_kickdm" xml:space="preserve">
+    <value>You have been kicked from {0} server.
+Reason: {1}</value>
+  </data>
+  <data name="administration_kicked_user" xml:space="preserve">
+    <value>User Kicked</value>
+  </data>
+  <data name="administration_lang_list" xml:space="preserve">
+    <value>List Of Languages
+{0}</value>
+  </data>
+  <data name="administration_lang_set" xml:space="preserve">
+    <value>Your server's locale is now {0} - {1}</value>
+  </data>
+  <data name="administration_lang_set_bot" xml:space="preserve">
+    <value>Bot's default locale is now {0} - {1}</value>
+  </data>
+  <data name="administration_lang_set_bot_show" xml:space="preserve">
+    <value>Bot's language is set to {0} - {0}</value>
+  </data>
+  <data name="administration_lang_set_fail" xml:space="preserve">
+    <value>Failed setting locale. Revisit this command's help.</value>
+  </data>
+  <data name="administration_lang_set_show" xml:space="preserve">
+    <value>This server's language is set to {0} - {0}</value>
+  </data>
+  <data name="administration_left" xml:space="preserve">
+    <value>{0} has left {1}</value>
+  </data>
+  <data name="administration_left_server" xml:space="preserve">
+    <value>Left server {0}</value>
+  </data>
+  <data name="administration_log" xml:space="preserve">
+    <value>Logging {0} event in this channel.</value>
+  </data>
+  <data name="administration_log_all" xml:space="preserve">
+    <value>Logging all events in this channel.</value>
+  </data>
+  <data name="administration_log_disabled" xml:space="preserve">
+    <value>Logging disabled.</value>
+  </data>
+  <data name="administration_log_events" xml:space="preserve">
+    <value>Log events you can subscribe to:</value>
+  </data>
+  <data name="administration_log_ignore" xml:space="preserve">
+    <value>Logging will ignore {0}</value>
+  </data>
+  <data name="administration_log_not_ignore" xml:space="preserve">
+    <value>Logging will not ignore {0}</value>
+  </data>
+  <data name="administration_log_stop" xml:space="preserve">
+    <value>Stopped logging {0} event.</value>
+  </data>
+  <data name="administration_menrole" xml:space="preserve">
+    <value>{0} has invoked a mention on the following roles</value>
+  </data>
+  <data name="administration_message_from_bo" xml:space="preserve">
+    <value>Message from {0} `[Bot Owner]`:</value>
+  </data>
+  <data name="administration_message_sent" xml:space="preserve">
+    <value>Message sent.</value>
+  </data>
+  <data name="administration_moved" xml:space="preserve">
+    <value>{0} moved from {1} to {2}</value>
+  </data>
+  <data name="administration_msg_del" xml:space="preserve">
+    <value>Message Deleted in #{0}</value>
+  </data>
+  <data name="administration_msg_update" xml:space="preserve">
+    <value>Message Updated in #{0}</value>
+  </data>
+  <data name="administration_muted_pl" xml:space="preserve">
+    <value>Muted</value>
+    <comment>PLURAL (users have been muted)</comment>
+  </data>
+  <data name="administration_muted_sn" xml:space="preserve">
+    <value>Muted</value>
+    <comment>singular "User muted."</comment>
+  </data>
+  <data name="administration_mute_error" xml:space="preserve">
+    <value>I don't have the permission necessary for that most likely.</value>
+  </data>
+  <data name="administration_mute_role_set" xml:space="preserve">
+    <value>New mute role set.</value>
+  </data>
+  <data name="administration_need_admin" xml:space="preserve">
+    <value>I need **Administration** permission to do that.</value>
+  </data>
+  <data name="administration_new_msg" xml:space="preserve">
+    <value>New Message</value>
+  </data>
+  <data name="administration_new_nick" xml:space="preserve">
+    <value>New Nickname</value>
+  </data>
+  <data name="administration_new_topic" xml:space="preserve">
+    <value>New Topic</value>
+  </data>
+  <data name="administration_nick_change" xml:space="preserve">
+    <value>Nickname Changed</value>
+  </data>
+  <data name="administration_no_server" xml:space="preserve">
+    <value>Can't find that server</value>
+  </data>
+  <data name="administration_no_shard_id" xml:space="preserve">
+    <value>No shard with that ID found.</value>
+  </data>
+  <data name="administration_old_msg" xml:space="preserve">
+    <value>Old Message</value>
+  </data>
+  <data name="administration_old_nick" xml:space="preserve">
+    <value>Old Nickname</value>
+  </data>
+  <data name="administration_old_topic" xml:space="preserve">
+    <value>Old Topic</value>
+  </data>
+  <data name="administration_perms" xml:space="preserve">
+    <value>Error. Most likely I don't have sufficient permissions.</value>
+  </data>
+  <data name="administration_perms_reset" xml:space="preserve">
+    <value>Permissions for this server are reset.</value>
+  </data>
+  <data name="administration_prot_active" xml:space="preserve">
+    <value>Active Protections</value>
+  </data>
+  <data name="administration_prot_disable" xml:space="preserve">
+    <value>{0} has been **disabled** on this server.</value>
+  </data>
+  <data name="administration_prot_enable" xml:space="preserve">
+    <value>{0} Enabled</value>
+  </data>
+  <data name="administration_prot_error" xml:space="preserve">
+    <value>Error. I need ManageRoles permission</value>
+  </data>
+  <data name="administration_prot_none" xml:space="preserve">
+    <value>No protections enabled.</value>
+  </data>
+  <data name="administration_raid_cnt" xml:space="preserve">
+    <value>User threshold must be between {0} and {1}.</value>
+  </data>
+  <data name="administration_raid_stats" xml:space="preserve">
+    <value>If {0} or more users join within {1} seconds, I will {2} them.</value>
+  </data>
+  <data name="administration_raid_time" xml:space="preserve">
+    <value>Time must be between {0} and {1} seconds.</value>
+  </data>
+  <data name="administration_rar" xml:space="preserve">
+    <value>Successfully removed all roles from user {0}</value>
+  </data>
+  <data name="administration_rar_err" xml:space="preserve">
+    <value>Failed to remove roles. I have insufficient permissions.</value>
+  </data>
+  <data name="administration_rc" xml:space="preserve">
+    <value>Color of {0} role has been changed.</value>
+  </data>
+  <data name="administration_rc_not_exist" xml:space="preserve">
+    <value>That role does not exist.</value>
+  </data>
+  <data name="administration_rc_params" xml:space="preserve">
+    <value>The parameters specified are invalid.</value>
+  </data>
+  <data name="administration_rc_perms" xml:space="preserve">
+    <value>Error occured due to invalid color or insufficient permissions.</value>
+  </data>
+  <data name="administration_remrole" xml:space="preserve">
+    <value>Successfully removed role {0} from user {1}</value>
+  </data>
+  <data name="administration_remrole_err" xml:space="preserve">
+    <value>Failed to remove role. I have insufficient permissions.</value>
+  </data>
+  <data name="administration_renrole" xml:space="preserve">
+    <value>Role renamed.</value>
+  </data>
+  <data name="administration_renrole_err" xml:space="preserve">
+    <value>Failed to rename role. I have insufficient permissions.</value>
+  </data>
+  <data name="administration_renrole_perms" xml:space="preserve">
+    <value>You can't edit roles higher than your highest role.</value>
+  </data>
+  <data name="administration_reprm" xml:space="preserve">
+    <value>Removed the playing message: {0}</value>
+  </data>
+  <data name="administration_role_added" xml:space="preserve">
+    <value>Role {0} as been added to the list.</value>
+  </data>
+  <data name="administration_role_clean" xml:space="preserve">
+    <value>{0} not found.Cleaned up.</value>
+  </data>
+  <data name="administration_role_in_list" xml:space="preserve">
+    <value>Role {0} is already in the list.</value>
+  </data>
+  <data name="administration_ropl_added" xml:space="preserve">
+    <value>Added.</value>
+  </data>
+  <data name="administration_ropl_disabled" xml:space="preserve">
+    <value>Rotating playing status disabled.</value>
+  </data>
+  <data name="administration_ropl_enabled" xml:space="preserve">
+    <value>Rotating playing status enabled.</value>
+  </data>
+  <data name="administration_ropl_list" xml:space="preserve">
+    <value>Here is a list of rotating statuses:
+{0}</value>
+  </data>
+  <data name="administration_ropl_not_set" xml:space="preserve">
+    <value>No rotating playing statuses set.</value>
+  </data>
+  <data name="administration_self_assign_already" xml:space="preserve">
+    <value>You already have {0} role.</value>
+  </data>
+  <data name="administration_self_assign_already_excl" xml:space="preserve">
+    <value>You already have {0} exclusive self-assigned role.</value>
+  </data>
+  <data name="administration_self_assign_excl" xml:space="preserve">
+    <value>Self assigned roles are now exclusive!</value>
+  </data>
+  <data name="administration_self_assign_list" xml:space="preserve">
+    <value>There are {0} self assignable roles</value>
+  </data>
+  <data name="administration_self_assign_not" xml:space="preserve">
+    <value>That role is not self-assignable.</value>
+  </data>
+  <data name="administration_self_assign_not_have" xml:space="preserve">
+    <value>You don't have {0} role.</value>
+  </data>
+  <data name="administration_self_assign_no_excl" xml:space="preserve">
+    <value>Self assigned roles are now not exclusive!</value>
+  </data>
+  <data name="administration_self_assign_perms" xml:space="preserve">
+    <value>I am unable to add that role to you. `I can't add roles to owners or other roles higher than my role in the role hierarchy.`</value>
+  </data>
+  <data name="administration_self_assign_rem" xml:space="preserve">
+    <value>{0} has been removed from the list of self-assignable roles.</value>
+  </data>
+  <data name="administration_self_assign_remove" xml:space="preserve">
+    <value>You no longer have {0} role.</value>
+  </data>
+  <data name="administration_self_assign_success" xml:space="preserve">
+    <value>You now have {0} role.</value>
+  </data>
+  <data name="administration_setrole" xml:space="preserve">
+    <value>Sucessfully added role {0} to user {1}</value>
+  </data>
+  <data name="administration_setrole_err" xml:space="preserve">
+    <value>Failed to add role. I have insufficient permissions.</value>
+  </data>
+  <data name="administration_set_avatar" xml:space="preserve">
+    <value>New avatar set!</value>
+  </data>
+  <data name="administration_set_channel_name" xml:space="preserve">
+    <value>New channel name set.</value>
+  </data>
+  <data name="administration_set_game" xml:space="preserve">
+    <value>New game set!</value>
+  </data>
+  <data name="administration_set_stream" xml:space="preserve">
+    <value>New stream set!</value>
+  </data>
+  <data name="administration_set_topic" xml:space="preserve">
+    <value>New channel topic set.</value>
+  </data>
+  <data name="administration_shard_reconnected" xml:space="preserve">
+    <value>Shard {0} reconnected.</value>
+  </data>
+  <data name="administration_shard_reconnecting" xml:space="preserve">
+    <value>Shard {0} reconnecting.</value>
+  </data>
+  <data name="administration_shutting_down" xml:space="preserve">
+    <value>Shutting down</value>
+  </data>
+  <data name="administration_slowmode_desc" xml:space="preserve">
+    <value>Users can't send more than {0} messages every {1} seconds.</value>
+  </data>
+  <data name="administration_slowmode_disabled" xml:space="preserve">
+    <value>Slow mode disabled.</value>
+  </data>
+  <data name="administration_slowmode_init" xml:space="preserve">
+    <value>Slow mode initiated</value>
+  </data>
+  <data name="administration_soft_banned_pl" xml:space="preserve">
+    <value>soft-banned (kicked)</value>
+    <comment>PLURAL</comment>
+  </data>
+  <data name="administration_spam_ignore" xml:space="preserve">
+    <value>{0} will ignore this channel.</value>
+  </data>
+  <data name="administration_spam_not_ignore" xml:space="preserve">
+    <value>{0} will no longer ignore this channel.</value>
+  </data>
+  <data name="administration_spam_stats" xml:space="preserve">
+    <value>If a user posts {0} same messages in a row, I will {1} them.
+    __IgnoredChannels__: {2}</value>
+  </data>
+  <data name="administration_text_chan_created" xml:space="preserve">
+    <value>Text Channel Destroyed </value>
+  </data>
+  <data name="administration_text_chan_destroyed" xml:space="preserve">
+    <value>Text Channel Destroyed </value>
+  </data>
+  <data name="administration_undeafen" xml:space="preserve">
+    <value>Undeafen successful.</value>
+  </data>
+  <data name="administration_unmuted_sn" xml:space="preserve">
+    <value>Unmuted</value>
+    <comment>singular</comment>
+  </data>
+  <data name="administration_username" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="administration_username_changed" xml:space="preserve">
+    <value>Username Changed</value>
+  </data>
+  <data name="administration_users" xml:space="preserve">
+    <value>Users</value>
+  </data>
+  <data name="administration_user_banned" xml:space="preserve">
+    <value>User Banned</value>
+  </data>
+  <data name="administration_user_chat_mute" xml:space="preserve">
+    <value>{0} has been **muted** from chatting.</value>
+  </data>
+  <data name="administration_user_chat_unmute" xml:space="preserve">
+    <value>{0} has been **unmuted** from chatting.</value>
+  </data>
+  <data name="administration_user_joined" xml:space="preserve">
+    <value>User Joined</value>
+  </data>
+  <data name="administration_user_left" xml:space="preserve">
+    <value>User Left</value>
+  </data>
+  <data name="administration_user_muted" xml:space="preserve">
+    <value>{0} has been **muted** from text and voice chat.</value>
+  </data>
+  <data name="administration_user_role_add" xml:space="preserve">
+    <value>User's Role Added</value>
+  </data>
+  <data name="administration_user_role_rem" xml:space="preserve">
+    <value>User's  Role Removed</value>
+  </data>
+  <data name="administration_user_status_change" xml:space="preserve">
+    <value>{0} is now {1}</value>
+  </data>
+  <data name="administration_user_unmuted" xml:space="preserve">
+    <value>{0} has been **unmuted** from text and voice chat.</value>
+  </data>
+  <data name="administration_user_vjoined" xml:space="preserve">
+    <value>{0} has joined {1} voice channel.</value>
+  </data>
+  <data name="administration_user_vleft" xml:space="preserve">
+    <value>{0} has left {1} voice channel.</value>
+  </data>
+  <data name="administration_user_vmoved" xml:space="preserve">
+    <value>{0} moved from {1} to {2} voice channel.</value>
+  </data>
+  <data name="administration_user_voice_mute" xml:space="preserve">
+    <value>{0} has been **voice muted**.</value>
+  </data>
+  <data name="administration_user_voice_unmute" xml:space="preserve">
+    <value>{0} has been **voice unmuted**.</value>
+  </data>
+  <data name="administration_voice_chan_created" xml:space="preserve">
+    <value>Voice Channel Destroyed</value>
+  </data>
+  <data name="administration_voice_chan_destroyed" xml:space="preserve">
+    <value>Voice Channel Destroyed</value>
+  </data>
+  <data name="administration_vt_disabled" xml:space="preserve">
+    <value>Disabled voice + text feature.</value>
+  </data>
+  <data name="administration_vt_enabled" xml:space="preserve">
+    <value>Enabled voice + text feature.</value>
+  </data>
+  <data name="administration_vt_exit" xml:space="preserve">
+    <value>I don't have **manage roles** and/or **manage channels** permission, so I cannot run `voice+text` on {0} server.</value>
+  </data>
+  <data name="administration_vt_no_admin" xml:space="preserve">
+    <value>You are enabling/disabling this feature and **I do not have ADMINISTRATOR permissions**. This may cause some issues, and you will have to clean up text channels yourself afterwards.</value>
+  </data>
+  <data name="administration_vt_perms" xml:space="preserve">
+    <value>I require atleast **manage roles** and **manage channels** permissions to enable this feature. (preffered Administration permission)</value>
+  </data>
+  <data name="administration_xmuted_text" xml:space="preserve">
+    <value>User {0} from text chat</value>
+  </data>
+  <data name="administration_xmuted_text_and_voice" xml:space="preserve">
+    <value>User {0} from text and voice chat</value>
+  </data>
+  <data name="administration_xmuted_voice" xml:space="preserve">
+    <value>User {0} from voice chat</value>
+  </data>
+  <data name="administration_sbdm" xml:space="preserve">
+    <value>You have been soft-banned from {0} server.
+Reason: {1}</value>
+  </data>
+  <data name="administration_user_unbanned" xml:space="preserve">
+    <value>User Unbanned</value>
+  </data>
+  <data name="administration_migration_done" xml:space="preserve">
+    <value>Migration done!</value>
+  </data>
+  <data name="adminsitration_migration_error" xml:space="preserve">
+    <value>Error while migrating, check bot's console for more information.</value>
+  </data>
+  <data name="administration_presence_updates" xml:space="preserve">
+    <value>Presence Updates</value>
+  </data>
+  <data name="administration_sb_user" xml:space="preserve">
+    <value>User Soft-Banned</value>
+  </data>
+  <data name="gambling_awarded" xml:space="preserve">
+    <value>has awarded {0} to {1}</value>
+  </data>
+  <data name="gambling_betflip_gamble" xml:space="preserve">
+    <value>Betflip Gamble</value>
+  </data>
+  <data name="gambling_better_luck" xml:space="preserve">
+    <value>Better luck next time ^_^</value>
+  </data>
+  <data name="gambling_br_win" xml:space="preserve">
+    <value>Congratulations! You won {0} for rolling above {1}</value>
+  </data>
+  <data name="gambling_deck_reshuffled" xml:space="preserve">
+    <value>Deck reshuffled.</value>
+  </data>
+  <data name="gambling_flipped" xml:space="preserve">
+    <value>flipped {0}.</value>
+    <comment>User flipped tails.</comment>
+  </data>
+  <data name="gambling_flip_guess" xml:space="preserve">
+    <value>You guessed it! You won {0}</value>
+  </data>
+  <data name="gambling_flip_invalid" xml:space="preserve">
+    <value>Invalid number specified. You can flip 1 to {0} coins.</value>
+  </data>
+  <data name="gambling_flowerreaction_desc" xml:space="preserve">
+    <value>Add {0} reaction to this message to get {1} </value>
+  </data>
+  <data name="gambling_flowerreaction_footer" xml:space="preserve">
+    <value>This event is active for up to {0} hours.</value>
+  </data>
+  <data name="gambling_flowerreaction_title" xml:space="preserve">
+    <value>Flower reaction event started!</value>
+  </data>
+  <data name="gambling_gifted" xml:space="preserve">
+    <value>has gifted {0} to {1}</value>
+    <comment>X has gifted 15 flowers to Y</comment>
+  </data>
+  <data name="gambling_has" xml:space="preserve">
+    <value>{0} has {1}</value>
+    <comment>X has Y flowers</comment>
+  </data>
+  <data name="gambling_heads" xml:space="preserve">
+    <value>Heads</value>
+  </data>
+  <data name="gambling_leaderboard" xml:space="preserve">
+    <value>Leaderboard</value>
+  </data>
+  <data name="gambling_mass_award" xml:space="preserve">
+    <value>Awarded {0} to {1} users from {2} role.</value>
+  </data>
+  <data name="gambling_max_bet_limit" xml:space="preserve">
+    <value>You can't bet more than {0}</value>
+  </data>
+  <data name="gambling_min_bet_limit" xml:space="preserve">
+    <value>You can't bet less than {0}</value>
+  </data>
+  <data name="gambling_not_enough" xml:space="preserve">
+    <value>You don't have enough {0}</value>
+  </data>
+  <data name="gambling_no_more_cards" xml:space="preserve">
+    <value>No more cards in the deck.</value>
+  </data>
+  <data name="gambling_raffled_user" xml:space="preserve">
+    <value>Raffled User</value>
+  </data>
+  <data name="gambling_roll" xml:space="preserve">
+    <value>You rolled {0}.</value>
+  </data>
+  <data name="gambling_slot_bet" xml:space="preserve">
+    <value>Bet</value>
+  </data>
+  <data name="gambling_slot_jackpot" xml:space="preserve">
+    <value>WOAAHHHHHH!!! Congratulations!!! x{0}</value>
+  </data>
+  <data name="gambling_slot_single" xml:space="preserve">
+    <value>A single {0}, x{1}</value>
+  </data>
+  <data name="gambling_slot_three" xml:space="preserve">
+    <value>Wow! Lucky! Three of a kind! x{0}</value>
+  </data>
+  <data name="gambling_slot_two" xml:space="preserve">
+    <value>Good job! Two {0} - bet x{1}</value>
+  </data>
+  <data name="gambling_slot_won" xml:space="preserve">
+    <value>Won</value>
+  </data>
+  <data name="gambling_sneakygamestatus_desc" xml:space="preserve">
+    <value>Users must type a secret code to get {0}.
+Lasts {1} seconds. Don't tell anyone. Shhh.</value>
+  </data>
+  <data name="gambling_sneakygamestatus_end" xml:space="preserve">
+    <value>SneakyGame event ended. {0} users received the reward.</value>
+  </data>
+  <data name="gambling_sneakygamestatus_title" xml:space="preserve">
+    <value>SneakyGameStatus event started</value>
+  </data>
+  <data name="gambling_tails" xml:space="preserve">
+    <value>Tails</value>
+  </data>
+  <data name="gambling_take" xml:space="preserve">
+    <value>successfully took {0} from {1}</value>
+  </data>
+  <data name="gambling_take_fail" xml:space="preserve">
+    <value>was unable to take {0} from{1} because the user doesn't have that much {2}!</value>
   </data>
 </root>

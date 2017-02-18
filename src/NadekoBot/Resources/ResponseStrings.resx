@@ -1043,4 +1043,40 @@ Don't forget to leave your discord name or id in the message.
   <data name="nsfw_tag" xml:space="preserve">
     <value>Tag</value>
   </data>
+  <data name="gambling_animal_race" xml:space="preserve">
+    <value>Animal Race</value>
+  </data>
+  <data name="gambling_animal_race_failed" xml:space="preserve">
+    <value>Failed to start since there was not enough participants.</value>
+  </data>
+  <data name="gambling_animal_race_full" xml:space="preserve">
+    <value>Race is full! Starting immediately.</value>
+  </data>
+  <data name="gambling_animal_race_join" xml:space="preserve">
+    <value>{0} joined as a {1}</value>
+  </data>
+  <data name="gambling_animal_race_join_bet" xml:space="preserve">
+    <value>{0} joined as a {1} and bet {2}!</value>
+  </data>
+  <data name="gambling_animal_race_join_instr" xml:space="preserve">
+    <value>Type {0}jr to join the race.</value>
+  </data>
+  <data name="gambling_animal_race_starting" xml:space="preserve">
+    <value>Starting in 20 seconds or when the room is full.</value>
+  </data>
+  <data name="gambling_animal_race_starting_with_x" xml:space="preserve">
+    <value>Starting with {0} participants.</value>
+  </data>
+  <data name="gambling_animal_race_won" xml:space="preserve">
+    <value>{0} as {1} Won the race!</value>
+  </data>
+  <data name="gambling_animal_race_won_money" xml:space="preserve">
+    <value>{0} as {1} Won the race and {2}!</value>
+  </data>
+  <data name="gambling_race_failed_starting" xml:space="preserve">
+    <value>Failed starting the race. Another race is probably running.</value>
+  </data>
+  <data name="gambling_race_not_exist" xml:space="preserve">
+    <value>No race exists on this server</value>
+  </data>
 </root>

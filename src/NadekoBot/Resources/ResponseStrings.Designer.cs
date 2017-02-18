@@ -2073,6 +2073,96 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Animal Race.
+        /// </summary>
+        public static string gambling_animal_race {
+            get {
+                return ResourceManager.GetString("gambling_animal_race", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Failed to start since there was not enough participants..
+        /// </summary>
+        public static string gambling_animal_race_failed {
+            get {
+                return ResourceManager.GetString("gambling_animal_race_failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Race is full! Starting immediately..
+        /// </summary>
+        public static string gambling_animal_race_full {
+            get {
+                return ResourceManager.GetString("gambling_animal_race_full", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} joined as a {1}.
+        /// </summary>
+        public static string gambling_animal_race_join {
+            get {
+                return ResourceManager.GetString("gambling_animal_race_join", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} joined as a {1} and bet {2}!.
+        /// </summary>
+        public static string gambling_animal_race_join_bet {
+            get {
+                return ResourceManager.GetString("gambling_animal_race_join_bet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Type {0}jr to join the race..
+        /// </summary>
+        public static string gambling_animal_race_join_instr {
+            get {
+                return ResourceManager.GetString("gambling_animal_race_join_instr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Starting in 20 seconds or when the room is full..
+        /// </summary>
+        public static string gambling_animal_race_starting {
+            get {
+                return ResourceManager.GetString("gambling_animal_race_starting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Starting with {0} participants..
+        /// </summary>
+        public static string gambling_animal_race_starting_with_x {
+            get {
+                return ResourceManager.GetString("gambling_animal_race_starting_with_x", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} as {1} Won the race!.
+        /// </summary>
+        public static string gambling_animal_race_won {
+            get {
+                return ResourceManager.GetString("gambling_animal_race_won", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} as {1} Won the race and {2}!.
+        /// </summary>
+        public static string gambling_animal_race_won_money {
+            get {
+                return ResourceManager.GetString("gambling_animal_race_won_money", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to has awarded {0} to {1}.
         /// </summary>
         public static string gambling_awarded {
@@ -2249,6 +2339,24 @@ namespace NadekoBot.Resources {
         public static string gambling_not_enough {
             get {
                 return ResourceManager.GetString("gambling_not_enough", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Failed starting the race. Another race is probably running..
+        /// </summary>
+        public static string gambling_race_failed_starting {
+            get {
+                return ResourceManager.GetString("gambling_race_failed_starting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No race exists on this server.
+        /// </summary>
+        public static string gambling_race_not_exist {
+            get {
+                return ResourceManager.GetString("gambling_race_not_exist", resourceCulture);
             }
         }
         
