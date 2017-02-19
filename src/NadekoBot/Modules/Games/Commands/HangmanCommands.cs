@@ -13,7 +13,7 @@ namespace NadekoBot.Modules.Games
     public partial class Games
     {
         [Group]
-        public class HangmanCommands : ModuleBase
+        public class HangmanCommands : NadekoSubmodule
         {
             private static Logger _log { get; }
 

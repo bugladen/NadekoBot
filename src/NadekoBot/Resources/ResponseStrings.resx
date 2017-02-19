@@ -1105,6 +1105,9 @@ Don't forget to leave your discord name or id in the message.
   <data name="gambling_likes" xml:space="preserve">
     <value>Likes</value>
   </data>
+  <data name="gambling_nobody" xml:space="preserve">
+    <value>Nobody</value>
+  </data>
   <data name="gambling_price" xml:space="preserve">
     <value>Price</value>
   </data>
@@ -1163,5 +1166,20 @@ Don't forget to leave your discord name or id in the message.
   </data>
   <data name="gambling_waifu_recent_divorce" xml:space="preserve">
     <value>You divorced recently. You must wait {0} hours and {1} minutes to divorce again.</value>
+  </data>
+  <data name="games_8ball" xml:space="preserve">
+    <value>8ball</value>
+  </data>
+  <data name="games_acro_running" xml:space="preserve">
+    <value>Acrophobia game is already running in this channel.</value>
+  </data>
+  <data name="games_question" xml:space="preserve">
+    <value>Question</value>
+  </data>
+  <data name="games_rps_draw" xml:space="preserve">
+    <value>It's a draw! Both picked {0}</value>
+  </data>
+  <data name="games_rps_win" xml:space="preserve">
+    <value>{0} won! {1} beats {2}</value>
   </data>
 </root>

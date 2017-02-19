@@ -6,6 +6,7 @@ using NadekoBot.Attributes;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using NadekoBot.Extensions;
 
 namespace NadekoBot.Modules.Games
@@ -13,7 +14,7 @@ namespace NadekoBot.Modules.Games
     [NadekoModule("Games", ">")]
     public partial class Games : NadekoModule
     {
-        private static string[] _8BallResponses { get; } = NadekoBot.BotConfig.EightBallResponses.Select(ebr => ebr.Text).ToArray();
+        private static readonly ImmutableArray<string> _8BallResponses = NadekoBot.BotConfig.EightBallResponses.Select(ebr => ebr.Text).ToImmutableArray();
 
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Choose([Remainder] string list = null)
@@ -34,8 +35,8 @@ namespace NadekoBot.Modules.Games
                 return;
 
             await Context.Channel.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
-                               .AddField(efb => efb.WithName("❓ Question").WithValue(question).WithIsInline(false))
-                               .AddField(efb => efb.WithName("🎱 8Ball").WithValue(_8BallResponses[new NadekoRandom().Next(0, _8BallResponses.Length)]).WithIsInline(false)));
+                               .AddField(efb => efb.WithName("❓ " + GetText("question") ).WithValue(question).WithIsInline(false))
+                               .AddField(efb => efb.WithName("🎱 " + GetText("8ball")).WithValue(_8BallResponses[new NadekoRandom().Next(0, _8BallResponses.Length)]).WithIsInline(false)));
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -43,11 +44,15 @@ namespace NadekoBot.Modules.Games
         {
             Func<int,string> GetRPSPick = (p) =>
             {
-                if (p == 0)
-                    return "🚀";
-                if (p == 1)
-                    return "📎";
-                return "✂️";
+                switch (p)
+                {
+                    case 0:
+                        return "🚀";
+                    case 1:
+                        return "📎";
+                    default:
+                        return "✂️";
+                }
             };
 
             int pick;
@@ -71,15 +76,17 @@ namespace NadekoBot.Modules.Games
                     return;
             }
             var nadekoPick = new NadekoRandom().Next(0, 3);
-            var msg = "";
+            string msg;
             if (pick == nadekoPick)
-                msg = $"It's a draw! Both picked {GetRPSPick(pick)}";
+                msg = GetText("rps_draw", GetRPSPick(pick));
             else if ((pick == 0 && nadekoPick == 1) ||
                      (pick == 1 && nadekoPick == 2) ||
                      (pick == 2 && nadekoPick == 0))
-                msg = $"{NadekoBot.Client.CurrentUser.Mention} won! {GetRPSPick(nadekoPick)} beats {GetRPSPick(pick)}";
+                msg = GetText("rps_win", NadekoBot.Client.CurrentUser.Mention,
+                    GetRPSPick(nadekoPick), GetRPSPick(pick));
             else
-                msg = $"{Context.User.Mention} won! {GetRPSPick(pick)} beats {GetRPSPick(nadekoPick)}";
+                msg = GetText("rps_win", Context.User.Mention, GetRPSPick(pick),
+                    GetRPSPick(nadekoPick));
 
             await Context.Channel.SendConfirmAsync(msg).ConfigureAwait(false);
         }

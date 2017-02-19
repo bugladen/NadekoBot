@@ -2735,6 +2735,159 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to 8ball.
+        /// </summary>
+        public static string games_8ball {
+            get {
+                return ResourceManager.GetString("games_8ball", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Game ended with no submissions..
+        /// </summary>
+        public static string games_acro_ended_no_sub {
+            get {
+                return ResourceManager.GetString("games_acro_ended_no_sub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No votes cast. Game ended with no winner..
+        /// </summary>
+        public static string games_acro_no_votes_cast {
+            get {
+                return ResourceManager.GetString("games_acro_no_votes_cast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Acronym was {0}..
+        /// </summary>
+        public static string games_acro_nym_was {
+            get {
+                return ResourceManager.GetString("games_acro_nym_was", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Acrophobia game is already running in this channel..
+        /// </summary>
+        public static string games_acro_running {
+            get {
+                return ResourceManager.GetString("games_acro_running", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Game started. Create a sentence with the following acronym: {0}..
+        /// </summary>
+        public static string games_acro_started {
+            get {
+                return ResourceManager.GetString("games_acro_started", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You have {0} seconds to make a submission..
+        /// </summary>
+        public static string games_acro_started_footer {
+            get {
+                return ResourceManager.GetString("games_acro_started_footer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} submitted their sentence. ({1} total).
+        /// </summary>
+        public static string games_acro_submit {
+            get {
+                return ResourceManager.GetString("games_acro_submit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Vote by typing a number of the submission.
+        /// </summary>
+        public static string games_acro_vote {
+            get {
+                return ResourceManager.GetString("games_acro_vote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} cast their vote!.
+        /// </summary>
+        public static string games_acro_vote_cast {
+            get {
+                return ResourceManager.GetString("games_acro_vote_cast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Winner is {0} with {1} points..
+        /// </summary>
+        public static string games_acro_winner {
+            get {
+                return ResourceManager.GetString("games_acro_winner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} is the winner for being the only user who made a submission!.
+        /// </summary>
+        public static string games_acro_winner_only {
+            get {
+                return ResourceManager.GetString("games_acro_winner_only", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Acrophobia.
+        /// </summary>
+        public static string games_acrophobia {
+            get {
+                return ResourceManager.GetString("games_acrophobia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Question.
+        /// </summary>
+        public static string games_question {
+            get {
+                return ResourceManager.GetString("games_question", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to It&apos;s a draw! Both picked {0}.
+        /// </summary>
+        public static string games_rps_draw {
+            get {
+                return ResourceManager.GetString("games_rps_draw", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} won! {1} beats {2}.
+        /// </summary>
+        public static string games_rps_win {
+            get {
+                return ResourceManager.GetString("games_rps_win", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Submissions Closed.
+        /// </summary>
+        public static string games_submissions_closed {
+            get {
+                return ResourceManager.GetString("games_submissions_closed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Back to ToC.
         /// </summary>
         public static string help_back_to_toc {

@@ -17,7 +17,7 @@ namespace NadekoBot.Modules.Games
     public partial class Games
     {
         [Group]
-        public class CleverBotCommands : ModuleBase
+        public class CleverBotCommands : NadekoSubmodule
         {
             private static Logger _log { get; }
 

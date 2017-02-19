@@ -17,7 +17,7 @@ namespace NadekoBot.Modules.Games
     {
         //todo timeout
         [Group]
-        public class TicTacToeCommands : ModuleBase
+        public class TicTacToeCommands : NadekoSubmodule
         {
             //channelId/game
             private static readonly Dictionary<ulong, TicTacToe> _games = new Dictionary<ulong, TicTacToe>();

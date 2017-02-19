@@ -16,7 +16,7 @@ namespace NadekoBot.Modules.Games
     public partial class Games
     {
         [Group]
-        public class PollCommands : ModuleBase
+        public class PollCommands : NadekoSubmodule
         {
             public static ConcurrentDictionary<ulong, Poll> ActivePolls = new ConcurrentDictionary<ulong, Poll>();
 

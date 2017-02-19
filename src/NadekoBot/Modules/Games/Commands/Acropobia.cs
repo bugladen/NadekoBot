@@ -19,7 +19,7 @@ namespace NadekoBot.Modules.Games
     public partial class Games
     {
         [Group]
-        public class Acropobia : ModuleBase
+        public class Acropobia : NadekoSubmodule
         {
             //channelId, game
             public static ConcurrentDictionary<ulong, AcrophobiaGame> AcrophobiaGames { get; } = new ConcurrentDictionary<ulong, AcrophobiaGame>();
@@ -47,7 +47,7 @@ namespace NadekoBot.Modules.Games
                 }
                 else
                 {
-                    await channel.SendErrorAsync("Acrophobia game is already running in this channel.").ConfigureAwait(false);
+                    await ReplyErrorLocalized("acro_running").ConfigureAwait(false);
                 }
             }
         }
@@ -61,44 +61,44 @@ namespace NadekoBot.Modules.Games
 
         public class AcrophobiaGame
         {
-            private readonly ITextChannel channel;
-            private readonly int time;
-            private readonly NadekoRandom rng;
-            private readonly ImmutableArray<char> startingLetters;
-            private readonly CancellationTokenSource source;
+            private readonly ITextChannel _channel;
+            private readonly int _time;
+            private readonly NadekoRandom _rng;
+            private readonly ImmutableArray<char> _startingLetters;
+            private readonly CancellationTokenSource _source;
             private AcroPhase phase { get; set; } = AcroPhase.Submitting;
 
-            private readonly ConcurrentDictionary<string, IGuildUser> submissions = new ConcurrentDictionary<string, IGuildUser>();
-            public IReadOnlyDictionary<string, IGuildUser> Submissions => submissions;
+            private readonly ConcurrentDictionary<string, IGuildUser> _submissions = new ConcurrentDictionary<string, IGuildUser>();
+            public IReadOnlyDictionary<string, IGuildUser> Submissions => _submissions;
 
-            private readonly ConcurrentHashSet<ulong> usersWhoSubmitted = new ConcurrentHashSet<ulong>();
-            private readonly ConcurrentHashSet<ulong> usersWhoVoted = new ConcurrentHashSet<ulong>();
+            private readonly ConcurrentHashSet<ulong> _usersWhoSubmitted = new ConcurrentHashSet<ulong>();
+            private readonly ConcurrentHashSet<ulong> _usersWhoVoted = new ConcurrentHashSet<ulong>();
 
-            private int spamCount = 0;
+            private int _spamCount;
 
             //text, votes
-            private readonly ConcurrentDictionary<string, int> votes = new ConcurrentDictionary<string, int>();
+            private readonly ConcurrentDictionary<string, int> _votes = new ConcurrentDictionary<string, int>();
             private readonly Logger _log;
 
             public AcrophobiaGame(ITextChannel channel, int time)
             {
-                this._log = LogManager.GetCurrentClassLogger();
+                _log = LogManager.GetCurrentClassLogger();
 
-                this.channel = channel;
-                this.time = time;
-                this.source = new CancellationTokenSource();
+                _channel = channel;
+                _time = time;
+                _source = new CancellationTokenSource();
 
-                this.rng = new NadekoRandom();
-                var wordCount = rng.Next(3, 6);
+                _rng = new NadekoRandom();
+                var wordCount = _rng.Next(3, 6);
 
                 var lettersArr = new char[wordCount];
 
                 for (int i = 0; i < wordCount; i++)
                 {
-                    var randChar = (char)rng.Next(65, 91);
-                    lettersArr[i] = randChar == 'X' ? (char)rng.Next(65, 88) : randChar;
+                    var randChar = (char)_rng.Next(65, 91);
+                    lettersArr[i] = randChar == 'X' ? (char)_rng.Next(65, 88) : randChar;
                 }
-                startingLetters = lettersArr.ToImmutableArray();
+                _startingLetters = lettersArr.ToImmutableArray();
             }
 
             private EmbedBuilder GetEmbed()
@@ -106,19 +106,19 @@ namespace NadekoBot.Modules.Games
                 var i = 0;
                 return phase == AcroPhase.Submitting
 
-                ? new EmbedBuilder().WithOkColor()
-                    .WithTitle("Acrophobia")
-                    .WithDescription($"Game started. Create a sentence with the following acronym: **{string.Join(".", startingLetters)}.**\n")
-                    .WithFooter(efb => efb.WithText("You have " + this.time + " seconds to make a submission."))
+                    ? new EmbedBuilder().WithOkColor()
+                        .WithTitle(GetText("acrophobia"))
+                        .WithDescription(GetText("acro_started", Format.Bold(string.Join(".", _startingLetters))))
+                        .WithFooter(efb => efb.WithText(GetText("acro_started_footer", _time)))
 
-                : new EmbedBuilder()
-                    .WithOkColor()
-                    .WithTitle("Acrophobia - Submissions Closed")
-                    .WithDescription($@"Acronym was **{string.Join(".", startingLetters)}.**
---
-{this.submissions.Aggregate("", (agg, cur) => agg + $"`{++i}.` **{cur.Key.ToLowerInvariant().ToTitleCase()}**\n")}
---")
-                    .WithFooter(efb => efb.WithText("Vote by typing a number of the submission"));
+                    : new EmbedBuilder()
+                        .WithOkColor()
+                        .WithTitle(GetText("acrophobia") + " - " + GetText("submissions_closed"))
+                        .WithDescription(GetText("acro_nym_was", Format.Bold(string.Join(".", _startingLetters)) + "\n" +
+$@"--
+{_submissions.Aggregate("",(agg, cur) => agg + $"`{++i}.` **{cur.Key.ToLowerInvariant().ToTitleCase()}**\n")}
+--"))
+                        .WithFooter(efb => efb.WithText(GetText("acro_vote")));
             }
 
             public async Task Run()
@@ -127,10 +127,10 @@ namespace NadekoBot.Modules.Games
                 var embed = GetEmbed();
 
                 //SUBMISSIONS PHASE
-                await channel.EmbedAsync(embed).ConfigureAwait(false);
+                await _channel.EmbedAsync(embed).ConfigureAwait(false);
                 try
                 {
-                    await Task.Delay(time * 1000, source.Token).ConfigureAwait(false);
+                    await Task.Delay(_time * 1000, _source.Token).ConfigureAwait(false);
                     phase = AcroPhase.Idle;
                 }
                 catch (OperationCanceledException)
@@ -139,30 +139,32 @@ namespace NadekoBot.Modules.Games
                 }
 
                 //var i = 0;
-                if (submissions.Count == 0)
+                if (_submissions.Count == 0)
                 {
-                    await channel.SendErrorAsync("Acrophobia", "Game ended with no submissions.");
+                    await _channel.SendErrorAsync(GetText("acrophobia"), GetText("acro_ended_no_sub"));
                     return;
                 }
-                else if (submissions.Count == 1)
+                if (_submissions.Count == 1)
                 {
-                    await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                        .WithDescription($"{submissions.First().Value.Mention} is the winner for being the only user who made a submission!")
-                        .WithFooter(efb => efb.WithText(submissions.First().Key.ToLowerInvariant().ToTitleCase())))
-                            .ConfigureAwait(false);
+                    await _channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                            .WithDescription(
+                                GetText("acro_winner_only",
+                                    Format.Bold(_submissions.First().Value.ToString())))
+                            .WithFooter(efb => efb.WithText(_submissions.First().Key.ToLowerInvariant().ToTitleCase())))
+                        .ConfigureAwait(false);
                     return;
                 }
                 var submissionClosedEmbed = GetEmbed();
 
-                await channel.EmbedAsync(submissionClosedEmbed).ConfigureAwait(false);
+                await _channel.EmbedAsync(submissionClosedEmbed).ConfigureAwait(false);
 
                 //VOTING PHASE
-                this.phase = AcroPhase.Voting;
+                phase = AcroPhase.Voting;
                 try
                 {
                     //30 secondds for voting
-                    await Task.Delay(30000, source.Token).ConfigureAwait(false);
-                    this.phase = AcroPhase.Idle;
+                    await Task.Delay(30000, _source.Token).ConfigureAwait(false);
+                    phase = AcroPhase.Idle;
                 }
                 catch (OperationCanceledException)
                 {
@@ -176,10 +178,10 @@ namespace NadekoBot.Modules.Games
                 try
                 {
                     var msg = arg as SocketUserMessage;
-                    if (msg == null || msg.Author.IsBot || msg.Channel.Id != channel.Id)
+                    if (msg == null || msg.Author.IsBot || msg.Channel.Id != _channel.Id)
                         return;
 
-                    ++spamCount;
+                    ++_spamCount;
 
                     var guildUser = (IGuildUser)msg.Author;
 
@@ -187,37 +189,39 @@ namespace NadekoBot.Modules.Games
 
                     if (phase == AcroPhase.Submitting)
                     {
-                        if (spamCount > 10)
+                        if (_spamCount > 10)
                         {
-                            spamCount = 0;
-                            try { await channel.EmbedAsync(GetEmbed()).ConfigureAwait(false); }
+                            _spamCount = 0;
+                            try { await _channel.EmbedAsync(GetEmbed()).ConfigureAwait(false); }
                             catch { }
                         }
                         var inputWords = input.Split(' '); //get all words
 
-                        if (inputWords.Length != startingLetters.Length) // number of words must be the same as the number of the starting letters
+                        if (inputWords.Length != _startingLetters.Length) // number of words must be the same as the number of the starting letters
                             return;
 
-                        for (int i = 0; i < startingLetters.Length; i++)
+                        for (int i = 0; i < _startingLetters.Length; i++)
                         {
-                            var letter = startingLetters[i];
+                            var letter = _startingLetters[i];
 
                             if (!inputWords[i].StartsWith(letter.ToString())) // all first letters must match
                                 return;
                         }
 
 
-                        if (!usersWhoSubmitted.Add(guildUser.Id))
+                        if (!_usersWhoSubmitted.Add(guildUser.Id))
                             return;
                         //try adding it to the list of answers
-                        if (!submissions.TryAdd(input, guildUser))
+                        if (!_submissions.TryAdd(input, guildUser))
                         {
-                            usersWhoSubmitted.TryRemove(guildUser.Id);
+                            _usersWhoSubmitted.TryRemove(guildUser.Id);
                             return;
                         }
 
                         // all good. valid input. answer recorded
-                        await channel.SendConfirmAsync("Acrophobia", $"{guildUser.Mention} submitted their sentence. ({submissions.Count} total)");
+                        await _channel.SendConfirmAsync(GetText("acrophobia"),
+                            GetText("acro_submit", guildUser.Mention,
+                                _submissions.Count));
                         try
                         {
                             await msg.DeleteAsync();
@@ -229,10 +233,10 @@ namespace NadekoBot.Modules.Games
                     }
                     else if (phase == AcroPhase.Voting)
                     {
-                        if (spamCount > 10)
+                        if (_spamCount > 10)
                         {
-                            spamCount = 0;
-                            try { await channel.EmbedAsync(GetEmbed()).ConfigureAwait(false); }
+                            _spamCount = 0;
+                            try { await _channel.EmbedAsync(GetEmbed()).ConfigureAwait(false); }
                             catch { }
                         }
 
@@ -248,17 +252,17 @@ namespace NadekoBot.Modules.Games
                         //}
 
                         int num;
-                        if (int.TryParse(input, out num) && num > 0 && num <= submissions.Count)
+                        if (int.TryParse(input, out num) && num > 0 && num <= _submissions.Count)
                         {
-                            var kvp = submissions.Skip(num - 1).First();
+                            var kvp = _submissions.Skip(num - 1).First();
                             usr = kvp.Value;
                             //can't vote for yourself, can't vote multiple times
-                            if (usr.Id == guildUser.Id || !usersWhoVoted.Add(guildUser.Id))
+                            if (usr.Id == guildUser.Id || !_usersWhoVoted.Add(guildUser.Id))
                                 return;
-                            votes.AddOrUpdate(kvp.Key, 1, (key, old) => ++old);
-                            await channel.SendConfirmAsync("Acrophobia", $"{guildUser.Mention} cast their vote!").ConfigureAwait(false);
+                            _votes.AddOrUpdate(kvp.Key, 1, (key, old) => ++old);
+                            await _channel.SendConfirmAsync(GetText("acrophobia"),
+                                GetText("vote_cast", Format.Bold(guildUser.ToString()))).ConfigureAwait(false);
                             await msg.DeleteAsync().ConfigureAwait(false);
-                            return;
                         }
 
                     }
@@ -271,27 +275,33 @@ namespace NadekoBot.Modules.Games
 
             public async Task End()
             {
-                if (!votes.Any())
+                if (!_votes.Any())
                 {
-                    await channel.SendErrorAsync("Acrophobia", "No votes cast. Game ended with no winner.").ConfigureAwait(false);
+                    await _channel.SendErrorAsync(GetText("acrophobia"), GetText("no_votes_cast")).ConfigureAwait(false);
                     return;
                 }
-                var table = votes.OrderByDescending(v => v.Value);
+                var table = _votes.OrderByDescending(v => v.Value);
                 var winner = table.First();
                 var embed = new EmbedBuilder().WithOkColor()
-                    .WithTitle("Acrophobia")
-                    .WithDescription($"Winner is {submissions[winner.Key].Mention} with {winner.Value} points.\n")
+                    .WithTitle(GetText("acrophobia"))
+                    .WithDescription(GetText("winner", Format.Bold(_submissions[winner.Key].ToString()),
+                        Format.Bold(winner.Value.ToString())))
                     .WithFooter(efb => efb.WithText(winner.Key.ToLowerInvariant().ToTitleCase()));
 
-                await channel.EmbedAsync(embed).ConfigureAwait(false);
+                await _channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
             public void EnsureStopped()
             {
                 NadekoBot.Client.MessageReceived -= PotentialAcro;
-                if (!source.IsCancellationRequested)
-                    source.Cancel();
+                if (!_source.IsCancellationRequested)
+                    _source.Cancel();
             }
+
+            private string GetText(string key, params object[] replacements)
+                => NadekoModule.GetTextStatic(key,
+                    NadekoBot.Localization.GetCultureInfo(_channel.Guild),
+                    typeof(Games).Name.ToLowerInvariant());
         }
     }
 }
