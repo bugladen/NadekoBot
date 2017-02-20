@@ -2382,33 +2382,6 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to qsearch.
-        /// </summary>
-        public static string searchquote_cmd {
-            get {
-                return ResourceManager.GetString("searchquote_cmd", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Shows a random quote for a keyword that contains any text specified in the search..
-        /// </summary>
-        public static string searchquote_desc {
-            get {
-                return ResourceManager.GetString("searchquote_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to `{0}qsearch keyword text`.
-        /// </summary>
-        public static string searchquote_usage {
-            get {
-                return ResourceManager.GetString("searchquote_usage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///    Looks up a localized string similar to delmsgoncmd.
         /// </summary>
         public static string delmsgoncmd_cmd {
@@ -5757,6 +5730,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to rategirl.
+        /// </summary>
+        public static string rategirl_cmd {
+            get {
+                return ResourceManager.GetString("rategirl_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Use the universal hot-crazy wife zone matrix to determine the girl&apos;s worth. It is everything young men need to know about women. At any moment in time, any woman you have previously located on this chart can vanish from that location and appear anywhere else on the chart..
+        /// </summary>
+        public static string rategirl_desc {
+            get {
+                return ResourceManager.GetString("rategirl_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}rategirl @SomeGurl`.
+        /// </summary>
+        public static string rategirl_usage {
+            get {
+                return ResourceManager.GetString("rategirl_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to reloadimages.
         /// </summary>
         public static string reloadimages_cmd {
@@ -6698,6 +6698,33 @@ namespace NadekoBot.Resources {
         public static string scsc_usage {
             get {
                 return ResourceManager.GetString("scsc_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to qsearch.
+        /// </summary>
+        public static string searchquote_cmd {
+            get {
+                return ResourceManager.GetString("searchquote_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows a random quote for a keyword that contains any text specified in the search..
+        /// </summary>
+        public static string searchquote_desc {
+            get {
+                return ResourceManager.GetString("searchquote_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}qsearch keyword text`.
+        /// </summary>
+        public static string searchquote_usage {
+            get {
+                return ResourceManager.GetString("searchquote_usage", resourceCulture);
             }
         }
         

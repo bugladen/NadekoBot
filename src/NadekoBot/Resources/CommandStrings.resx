@@ -1151,7 +1151,7 @@
   </data>
   <data name="searchquote_usage" xml:space="preserve">
     <value>`{0}qsearch keyword text`</value>
- </data>
+  </data>
   <data name="deletequote_cmd" xml:space="preserve">
     <value>deletequote delq</value>
   </data>
@@ -3140,5 +3140,14 @@
   </data>
   <data name="languageslist_usage" xml:space="preserve">
     <value>`{0}langli`</value>
+  </data>
+  <data name="rategirl_cmd" xml:space="preserve">
+    <value>rategirl</value>
+  </data>
+  <data name="rategirl_desc" xml:space="preserve">
+    <value>Use the universal hot-crazy wife zone matrix to determine the girl's worth. It is everything young men need to know about women. At any moment in time, any woman you have previously located on this chart can vanish from that location and appear anywhere else on the chart.</value>
+  </data>
+  <data name="rategirl_usage" xml:space="preserve">
+    <value>`{0}rategirl @SomeGurl`</value>
   </data>
 </root>

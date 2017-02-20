@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Text;
 using NadekoBot.Extensions;
-using System.Text.RegularExpressions;
 using System.Reflection;
 using NadekoBot.Services.Impl;
 using System.Net.Http;
@@ -21,7 +20,7 @@ using NadekoBot.Services;
 namespace NadekoBot.Modules.Utility
 {
     [NadekoModule("Utility", ".")]
-    public partial class Utility : NadekoModule
+    public partial class Utility : NadekoTopLevelModule
     {
         private static ConcurrentDictionary<ulong, Timer> rotatingRoleColors = new ConcurrentDictionary<ulong, Timer>();
 
@@ -122,10 +121,10 @@ namespace NadekoBot.Modules.Utility
                 }
                 return;
             }
-
+            
             var hexColors = hexes.Select(hex =>
             {
-                try { return (ImageSharp.Color?)new ImageSharp.Color(hex.Replace("#", "")); } catch { return null; }
+                try { return (ImageSharp.Color?)ImageSharp.Color.FromHex(hex.Replace("#", "")); } catch { return null; }
             })
             .Where(c => c != null)
             .Select(c => c.Value)

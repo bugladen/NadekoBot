@@ -16,7 +16,7 @@ using NLog;
 namespace NadekoBot.Modules.Administration
 {
     [NadekoModule("Administration", ".")]
-    public partial class Administration : NadekoModule
+    public partial class Administration : NadekoTopLevelModule
     {
         private static ConcurrentHashSet<ulong> deleteMessagesOnCommand { get; }
 

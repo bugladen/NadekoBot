@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using ImageSharp.Formats;
 using Image = ImageSharp.Image;
 
 namespace NadekoBot.Modules.Gambling
@@ -35,7 +36,7 @@ namespace NadekoBot.Modules.Gambling
                 var imageStream = await Task.Run(() =>
                 {
                     var ms = new MemoryStream();
-                    new[] { GetDice(num1), GetDice(num2) }.Merge().SaveAsPng(ms);
+                    new[] { GetDice(num1), GetDice(num2) }.Merge().Save(ms);
                     ms.Position = 0;
                     return ms;
                 }).ConfigureAwait(false);
@@ -120,7 +121,7 @@ namespace NadekoBot.Modules.Gambling
 
                 var bitmap = dice.Merge();
                 var ms = new MemoryStream();
-                bitmap.SaveAsPng(ms);
+                bitmap.Save(ms);
                 ms.Position = 0;
                 await Context.Channel.SendFileAsync(ms, "dice.png",
                     Context.User.Mention + 

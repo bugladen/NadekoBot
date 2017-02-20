@@ -17,7 +17,7 @@ using System.Collections.Concurrent;
 namespace NadekoBot.Modules.NSFW
 {
     [NadekoModule("NSFW", "~")]
-    public class NSFW : NadekoModule
+    public class NSFW : NadekoTopLevelModule
     {
 
         private static readonly ConcurrentDictionary<ulong, Timer> AutoHentaiTimers = new ConcurrentDictionary<ulong, Timer>();

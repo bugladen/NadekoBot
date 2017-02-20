@@ -28,6 +28,8 @@ namespace NadekoBot.Services.Impl
         private const string slotNumbersPath = basePath + "slots/numbers/";
         private const string slotEmojisPath = basePath + "slots/emojis/";
 
+        private const string _wifeMatrixPath = basePath + "wifematrix.png";
+
 
         public ImmutableArray<byte> Heads { get; private set; }
         public ImmutableArray<byte> Tails { get; private set; }
@@ -40,6 +42,8 @@ namespace NadekoBot.Services.Impl
         public ImmutableArray<byte> SlotBackground { get; private set; }
         public ImmutableArray<ImmutableArray<byte>> SlotNumbers { get; private set; }
         public ImmutableArray<ImmutableArray<byte>> SlotEmojis { get; private set; }
+
+        public ImmutableArray<byte> WifeMatrix { get; private set; }
 
         private ImagesService()
         {
@@ -85,6 +89,8 @@ namespace NadekoBot.Services.Impl
                     .OrderBy(f => int.Parse(Path.GetFileNameWithoutExtension(f)))
                     .Select(x => File.ReadAllBytes(x).ToImmutableArray())
                     .ToImmutableArray();
+
+                WifeMatrix = File.ReadAllBytes(_wifeMatrixPath).ToImmutableArray();
 
                 sw.Stop();
                 _log.Info($"Images loaded after {sw.Elapsed.TotalSeconds:F2}s!");

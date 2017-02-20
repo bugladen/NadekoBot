@@ -15,7 +15,7 @@ using NLog;
 namespace NadekoBot.Modules.Permissions
 {
     [NadekoModule("Permissions", ";")]
-    public partial class Permissions : NadekoModule
+    public partial class Permissions : NadekoTopLevelModule
     {
         public class PermissionCache
         {

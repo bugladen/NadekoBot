@@ -1068,7 +1068,7 @@ namespace NadekoBot.Modules.Administration
     public static class GuildExtensions
     {
         public static string GetLogText(this IGuild guild, string key, params object[] replacements)
-            => NadekoModule.GetTextStatic(key,
+            => NadekoTopLevelModule.GetTextStatic(key,
                 NadekoBot.Localization.GetCultureInfo(guild),
                 typeof(Administration).Name.ToLowerInvariant(),
                 replacements);

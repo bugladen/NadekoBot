@@ -1,5 +1,4 @@
 ﻿using Discord;
-using Discord.Commands;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -8,27 +7,25 @@ using System.Text;
 using System.Net.Http;
 using NadekoBot.Services;
 using System.Threading.Tasks;
-using NadekoBot.Attributes;
-using System.Text.RegularExpressions;
 using System.Net;
 using NadekoBot.Modules.Searches.Models;
 using System.Collections.Generic;
-using ImageSharp;
 using NadekoBot.Extensions;
 using System.IO;
 using NadekoBot.Modules.Searches.Commands.OMDB;
 using NadekoBot.Modules.Searches.Commands.Models;
-using AngleSharp.Parser.Html;
 using AngleSharp;
 using AngleSharp.Dom.Html;
 using AngleSharp.Dom;
 using System.Xml;
-using System.Xml.Linq;
+using Configuration = AngleSharp.Configuration;
+using NadekoBot.Attributes;
+using Discord.Commands;
 
 namespace NadekoBot.Modules.Searches
 {
     [NadekoModule("Searches", "~")]
-    public partial class Searches : NadekoModule
+    public partial class Searches : NadekoTopLevelModule
     {
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Weather([Remainder] string query)
@@ -396,7 +393,7 @@ namespace NadekoBot.Modules.Searches
                         msg = "⚠ Found over 4 images. Showing random 4.";
                     }
                     var ms = new MemoryStream();
-                    await Task.Run(() => images.AsEnumerable().Merge().SaveAsPng(ms));
+                    await Task.Run(() => images.AsEnumerable().Merge().Save(ms));
                     ms.Position = 0;
                     await Context.Channel.SendFileAsync(ms, arg + ".png", msg).ConfigureAwait(false);
                 }
@@ -625,7 +622,7 @@ namespace NadekoBot.Modules.Searches
                 return;
             var img = new ImageSharp.Image(50, 50);
 
-            img.BackgroundColor(new ImageSharp.Color(color));
+            //img.FillPolygon(new ImageSharp, new ImageSharp.Color(color));
 
             await Context.Channel.SendFileAsync(img.ToStream(), $"{color}.png").ConfigureAwait(false); ;
         }

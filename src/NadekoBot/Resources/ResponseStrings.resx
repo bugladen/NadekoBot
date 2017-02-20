@@ -1170,8 +1170,41 @@ Don't forget to leave your discord name or id in the message.
   <data name="games_8ball" xml:space="preserve">
     <value>8ball</value>
   </data>
+  <data name="games_acrophobia" xml:space="preserve">
+    <value>Acrophobia</value>
+  </data>
+  <data name="games_acro_ended_no_sub" xml:space="preserve">
+    <value>Game ended with no submissions.</value>
+  </data>
+  <data name="games_acro_no_votes_cast" xml:space="preserve">
+    <value>No votes cast. Game ended with no winner.</value>
+  </data>
+  <data name="games_acro_nym_was" xml:space="preserve">
+    <value>Acronym was {0}.</value>
+  </data>
   <data name="games_acro_running" xml:space="preserve">
     <value>Acrophobia game is already running in this channel.</value>
+  </data>
+  <data name="games_acro_started" xml:space="preserve">
+    <value>Game started. Create a sentence with the following acronym: {0}.</value>
+  </data>
+  <data name="games_acro_started_footer" xml:space="preserve">
+    <value>You have {0} seconds to make a submission.</value>
+  </data>
+  <data name="games_acro_submit" xml:space="preserve">
+    <value>{0} submitted their sentence. ({1} total)</value>
+  </data>
+  <data name="games_acro_vote" xml:space="preserve">
+    <value>Vote by typing a number of the submission</value>
+  </data>
+  <data name="games_acro_vote_cast" xml:space="preserve">
+    <value>{0} cast their vote!</value>
+  </data>
+  <data name="games_acro_winner" xml:space="preserve">
+    <value>Winner is {0} with {1} points.</value>
+  </data>
+  <data name="games_acro_winner_only" xml:space="preserve">
+    <value>{0} is the winner for being the only user who made a submission!</value>
   </data>
   <data name="games_question" xml:space="preserve">
     <value>Question</value>
@@ -1181,5 +1214,8 @@ Don't forget to leave your discord name or id in the message.
   </data>
   <data name="games_rps_win" xml:space="preserve">
     <value>{0} won! {1} beats {2}</value>
+  </data>
+  <data name="games_submissions_closed" xml:space="preserve">
+    <value>Submissions Closed</value>
   </data>
 </root>

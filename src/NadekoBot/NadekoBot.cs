@@ -60,6 +60,9 @@ namespace NadekoBot
                 OkColor = new Color(Convert.ToUInt32(BotConfig.OkColor, 16));
                 ErrorColor = new Color(Convert.ToUInt32(BotConfig.ErrorColor, 16));
             }
+
+            //ImageSharp.Configuration.Default.AddImageFormat(new ImageSharp.Formats.PngFormat());
+            //ImageSharp.Configuration.Default.AddImageFormat(new ImageSharp.Formats.JpegFormat());
         }
 
         public async Task RunAsync(params string[] args)

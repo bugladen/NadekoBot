@@ -272,12 +272,12 @@ namespace NadekoBot.Modules.Gambling
                 }
 
                 private string GetText(string text)
-                    => NadekoModule.GetTextStatic(text,
+                    => NadekoTopLevelModule.GetTextStatic(text,
                         NadekoBot.Localization.GetCultureInfo(_raceChannel.Guild),
                         typeof(Gambling).Name.ToLowerInvariant());
 
                 private string GetText(string text, params object[] replacements)
-                    => NadekoModule.GetTextStatic(text,
+                    => NadekoTopLevelModule.GetTextStatic(text,
                         NadekoBot.Localization.GetCultureInfo(_raceChannel.Guild),
                         typeof(Gambling).Name.ToLowerInvariant(),
                         replacements);

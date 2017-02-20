@@ -299,7 +299,7 @@ $@"--
             }
 
             private string GetText(string key, params object[] replacements)
-                => NadekoModule.GetTextStatic(key,
+                => NadekoTopLevelModule.GetTextStatic(key,
                     NadekoBot.Localization.GetCultureInfo(_channel.Guild),
                     typeof(Games).Name.ToLowerInvariant());
         }

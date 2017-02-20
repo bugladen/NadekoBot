@@ -13,7 +13,7 @@ using System.Collections.Generic;
 namespace NadekoBot.Modules.Help
 {
     [NadekoModule("Help", "-")]
-    public class Help : NadekoModule
+    public class Help : NadekoTopLevelModule
     {
         private static string helpString { get; } = NadekoBot.BotConfig.HelpString;
         public static string HelpString => String.Format(helpString, NadekoBot.Credentials.ClientId, NadekoBot.ModulePrefixes[typeof(Help).Name]);
