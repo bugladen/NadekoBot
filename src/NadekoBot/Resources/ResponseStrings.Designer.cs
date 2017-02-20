@@ -2073,6 +2073,96 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Animal Race.
+        /// </summary>
+        public static string gambling_animal_race {
+            get {
+                return ResourceManager.GetString("gambling_animal_race", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Failed to start since there was not enough participants..
+        /// </summary>
+        public static string gambling_animal_race_failed {
+            get {
+                return ResourceManager.GetString("gambling_animal_race_failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Race is full! Starting immediately..
+        /// </summary>
+        public static string gambling_animal_race_full {
+            get {
+                return ResourceManager.GetString("gambling_animal_race_full", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} joined as a {1}.
+        /// </summary>
+        public static string gambling_animal_race_join {
+            get {
+                return ResourceManager.GetString("gambling_animal_race_join", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} joined as a {1} and bet {2}!.
+        /// </summary>
+        public static string gambling_animal_race_join_bet {
+            get {
+                return ResourceManager.GetString("gambling_animal_race_join_bet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Type {0}jr to join the race..
+        /// </summary>
+        public static string gambling_animal_race_join_instr {
+            get {
+                return ResourceManager.GetString("gambling_animal_race_join_instr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Starting in 20 seconds or when the room is full..
+        /// </summary>
+        public static string gambling_animal_race_starting {
+            get {
+                return ResourceManager.GetString("gambling_animal_race_starting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Starting with {0} participants..
+        /// </summary>
+        public static string gambling_animal_race_starting_with_x {
+            get {
+                return ResourceManager.GetString("gambling_animal_race_starting_with_x", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} as {1} Won the race!.
+        /// </summary>
+        public static string gambling_animal_race_won {
+            get {
+                return ResourceManager.GetString("gambling_animal_race_won", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} as {1} Won the race and {2}!.
+        /// </summary>
+        public static string gambling_animal_race_won_money {
+            get {
+                return ResourceManager.GetString("gambling_animal_race_won_money", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to has awarded {0} to {1}.
         /// </summary>
         public static string gambling_awarded {
@@ -2109,11 +2199,65 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Changes Of Heart.
+        /// </summary>
+        public static string gambling_changes_of_heart {
+            get {
+                return ResourceManager.GetString("gambling_changes_of_heart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Claimed By.
+        /// </summary>
+        public static string gambling_claimed_by {
+            get {
+                return ResourceManager.GetString("gambling_claimed_by", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Deck reshuffled..
         /// </summary>
         public static string gambling_deck_reshuffled {
             get {
                 return ResourceManager.GetString("gambling_deck_reshuffled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Invalid number specified. You can roll up to {0}-{1} dice at a time..
+        /// </summary>
+        public static string gambling_dice_invalid_number {
+            get {
+                return ResourceManager.GetString("gambling_dice_invalid_number", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to rolled {0}.
+        /// </summary>
+        public static string gambling_dice_rolled {
+            get {
+                return ResourceManager.GetString("gambling_dice_rolled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Dice rolled: {1}.
+        /// </summary>
+        public static string gambling_dice_rolled_num {
+            get {
+                return ResourceManager.GetString("gambling_dice_rolled_num", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Divorces.
+        /// </summary>
+        public static string gambling_divorces {
+            get {
+                return ResourceManager.GetString("gambling_divorces", resourceCulture);
             }
         }
         
@@ -2208,6 +2352,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Likes.
+        /// </summary>
+        public static string gambling_likes {
+            get {
+                return ResourceManager.GetString("gambling_likes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Awarded {0} to {1} users from {2} role..
         /// </summary>
         public static string gambling_mass_award {
@@ -2244,11 +2397,47 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Nobody.
+        /// </summary>
+        public static string gambling_nobody {
+            get {
+                return ResourceManager.GetString("gambling_nobody", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to You don&apos;t have enough {0}.
         /// </summary>
         public static string gambling_not_enough {
             get {
                 return ResourceManager.GetString("gambling_not_enough", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Price.
+        /// </summary>
+        public static string gambling_price {
+            get {
+                return ResourceManager.GetString("gambling_price", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Failed starting the race. Another race is probably running..
+        /// </summary>
+        public static string gambling_race_failed_starting {
+            get {
+                return ResourceManager.GetString("gambling_race_failed_starting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No race exists on this server.
+        /// </summary>
+        public static string gambling_race_not_exist {
+            get {
+                return ResourceManager.GetString("gambling_race_not_exist", resourceCulture);
             }
         }
         
@@ -2267,6 +2456,15 @@ namespace NadekoBot.Resources {
         public static string gambling_roll {
             get {
                 return ResourceManager.GetString("gambling_roll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Second number must be larger than the first one..
+        /// </summary>
+        public static string gambling_second_larger_than_first {
+            get {
+                return ResourceManager.GetString("gambling_second_larger_than_first", resourceCulture);
             }
         }
         
@@ -2376,6 +2574,163 @@ namespace NadekoBot.Resources {
         public static string gambling_take_fail {
             get {
                 return ResourceManager.GetString("gambling_take_fail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to your affinity is already set to that waifu or you&apos;re trying to remove your affinity while not having one..
+        /// </summary>
+        public static string gambling_waifu_affinity_already {
+            get {
+                return ResourceManager.GetString("gambling_waifu_affinity_already", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to changed their affinity from {0} to {1}.
+        ///
+        ///*This is morally questionable.*🤔.
+        /// </summary>
+        public static string gambling_waifu_affinity_changed {
+            get {
+                return ResourceManager.GetString("gambling_waifu_affinity_changed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You must wait {0} hours and {1} minutes in order to change your affinity again..
+        /// </summary>
+        public static string gambling_waifu_affinity_cooldown {
+            get {
+                return ResourceManager.GetString("gambling_waifu_affinity_cooldown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Your affinity is reset. You no longer have a person you like..
+        /// </summary>
+        public static string gambling_waifu_affinity_reset {
+            get {
+                return ResourceManager.GetString("gambling_waifu_affinity_reset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to wants to be {0}&apos;s waifu. Aww &lt;3.
+        /// </summary>
+        public static string gambling_waifu_affinity_set {
+            get {
+                return ResourceManager.GetString("gambling_waifu_affinity_set", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to claimed {0} as their waifu for {1}!.
+        /// </summary>
+        public static string gambling_waifu_claimed {
+            get {
+                return ResourceManager.GetString("gambling_waifu_claimed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You have divorced a waifu who likes you. You heartless monster.
+        ///{0} received {1} as a compensation..
+        /// </summary>
+        public static string gambling_waifu_divorced_like {
+            get {
+                return ResourceManager.GetString("gambling_waifu_divorced_like", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You have divorced a waifu who doesn&apos;t like you. You received {0} back..
+        /// </summary>
+        public static string gambling_waifu_divorced_not_like {
+            get {
+                return ResourceManager.GetString("gambling_waifu_divorced_not_like", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to you can&apos;t set affinity to yourself, you egomaniac..
+        /// </summary>
+        public static string gambling_waifu_egomaniac {
+            get {
+                return ResourceManager.GetString("gambling_waifu_egomaniac", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to 🎉 Their love is fulfilled! 🎉
+        ///{0}&apos;s new value is {1}!.
+        /// </summary>
+        public static string gambling_waifu_fulfilled {
+            get {
+                return ResourceManager.GetString("gambling_waifu_fulfilled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No waifu is that cheap. You must pay at least {0} to get a waifu, even if their actual value is lower..
+        /// </summary>
+        public static string gambling_waifu_isnt_cheap {
+            get {
+                return ResourceManager.GetString("gambling_waifu_isnt_cheap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You must pay {0} or more to claim that waifu!.
+        /// </summary>
+        public static string gambling_waifu_not_enough {
+            get {
+                return ResourceManager.GetString("gambling_waifu_not_enough", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to That waifu is not yours..
+        /// </summary>
+        public static string gambling_waifu_not_yours {
+            get {
+                return ResourceManager.GetString("gambling_waifu_not_yours", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You can&apos;t claim yourself..
+        /// </summary>
+        public static string gambling_waifu_not_yourself {
+            get {
+                return ResourceManager.GetString("gambling_waifu_not_yourself", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You divorced recently. You must wait {0} hours and {1} minutes to divorce again..
+        /// </summary>
+        public static string gambling_waifu_recent_divorce {
+            get {
+                return ResourceManager.GetString("gambling_waifu_recent_divorce", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No waifus have been claimed yet..
+        /// </summary>
+        public static string gambling_waifus_none {
+            get {
+                return ResourceManager.GetString("gambling_waifus_none", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Top Waifus.
+        /// </summary>
+        public static string gambling_waifus_top_waifus {
+            get {
+                return ResourceManager.GetString("gambling_waifus_top_waifus", resourceCulture);
             }
         }
         

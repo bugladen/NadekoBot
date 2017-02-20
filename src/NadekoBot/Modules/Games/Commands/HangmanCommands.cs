@@ -6,6 +6,7 @@ using NLog;
 using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
+using NadekoBot.Modules.Games.Hangman;
 
 namespace NadekoBot.Modules.Games
 {

@@ -28,6 +28,8 @@ namespace NadekoBot.Modules.Games
             [RequireContext(ContextType.Guild)]
             public async Task Acro(int time = 60)
             {
+                if (time < 10 || time > 120)
+                    return;
                 var channel = (ITextChannel)Context.Channel;
 
                 var game = new AcrophobiaGame(channel, time);

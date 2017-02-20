@@ -127,7 +127,7 @@ namespace NadekoBot.Modules.Searches
                         .WithIconUrl("http://i.imgur.com/G46fm8J.png"))
                     .WithDescription(res.Link)
                     .WithImageUrl(res.Link)
-                    .WithTitle(Context.User.Mention);
+                    .WithTitle(Context.User.ToString());
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
             catch
@@ -157,7 +157,7 @@ namespace NadekoBot.Modules.Searches
                         .WithIconUrl("http://s.imgur.com/images/logo-1200-630.jpg?"))
                     .WithDescription(source)
                     .WithImageUrl(source)
-                    .WithTitle(Context.User.Mention);
+                    .WithTitle(Context.User.ToString());
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
         }
@@ -179,7 +179,7 @@ namespace NadekoBot.Modules.Searches
                         .WithIconUrl("http://i.imgur.com/G46fm8J.png"))
                     .WithDescription(res.Link)
                     .WithImageUrl(res.Link)
-                    .WithTitle(Context.User.Mention);
+                    .WithTitle(Context.User.ToString());
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
             catch
@@ -210,7 +210,7 @@ namespace NadekoBot.Modules.Searches
                         .WithIconUrl("http://s.imgur.com/images/logo-1200-630.jpg?"))
                     .WithDescription(source)
                     .WithImageUrl(source)
-                    .WithTitle(Context.User.Mention);
+                    .WithTitle(Context.User.ToString());
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
         }

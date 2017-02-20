@@ -240,9 +240,7 @@ namespace NadekoBot.Modules.Gambling
                         (int) (amount * NadekoBot.BotConfig.Betroll100Multiplier), false).ConfigureAwait(false);
                 }
             }
-            Console.WriteLine("started sending");
             await Context.Channel.SendConfirmAsync(str).ConfigureAwait(false);
-            Console.WriteLine("done sending");
         }
 
         [NadekoCommand, Usage, Description, Aliases]
