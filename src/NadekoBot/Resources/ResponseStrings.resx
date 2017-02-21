@@ -1142,7 +1142,7 @@ Don't forget to leave your discord name or id in the message.
     <value>You have divorced a waifu who likes you. You heartless monster.
 {0} received {1} as a compensation.</value>
   </data>
-  <data name="gambling_waifu_divorced_not_like" xml:space="preserve">
+  <data name="gambling_waifu_divorced_notlike" xml:space="preserve">
     <value>You have divorced a waifu who doesn't like you. You received {0} back.</value>
   </data>
   <data name="gambling_waifu_egomaniac" xml:space="preserve">

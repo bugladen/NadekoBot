@@ -2655,9 +2655,9 @@ namespace NadekoBot.Resources {
         /// <summary>
         ///    Looks up a localized string similar to You have divorced a waifu who doesn&apos;t like you. You received {0} back..
         /// </summary>
-        public static string gambling_waifu_divorced_not_like {
+        public static string gambling_waifu_divorced_notlike {
             get {
-                return ResourceManager.GetString("gambling_waifu_divorced_not_like", resourceCulture);
+                return ResourceManager.GetString("gambling_waifu_divorced_notlike", resourceCulture);
             }
         }
         
