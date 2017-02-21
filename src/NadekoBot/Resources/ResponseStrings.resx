@@ -397,7 +397,7 @@ Reason: {1}</value>
     <value>Sucessfully added a new donator.Total donated amount from this user: {0} 👑</value>
   </data>
   <data name="administration_donators" xml:space="preserve">
-    <value>Thanks to the people listed below for making this project hjappen!</value>
+    <value>Thanks to the people listed below for making this project happen!</value>
   </data>
   <data name="administration_fwall_start" xml:space="preserve">
     <value>I will forward DMs to all owners.</value>
