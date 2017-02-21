@@ -2861,6 +2861,60 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Currency generation has been disabled on this channel..
+        /// </summary>
+        public static string games_curgen_disabled {
+            get {
+                return ResourceManager.GetString("games_curgen_disabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Currency generation has been enabled on this channel..
+        /// </summary>
+        public static string games_curgen_enabled {
+            get {
+                return ResourceManager.GetString("games_curgen_enabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Hangman game started.
+        /// </summary>
+        public static string games_hangman_game_started {
+            get {
+                return ResourceManager.GetString("games_hangman_game_started", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Hangman game already running on this channel..
+        /// </summary>
+        public static string games_hangman_running {
+            get {
+                return ResourceManager.GetString("games_hangman_running", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Starting hangman errored..
+        /// </summary>
+        public static string games_hangman_start_errored {
+            get {
+                return ResourceManager.GetString("games_hangman_start_errored", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to List of &quot;{0}hangman&quot; term types:.
+        /// </summary>
+        public static string games_hangman_types {
+            get {
+                return ResourceManager.GetString("games_hangman_types", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Question.
         /// </summary>
         public static string games_question {

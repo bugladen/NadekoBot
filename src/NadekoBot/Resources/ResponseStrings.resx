@@ -1221,4 +1221,22 @@ Don't forget to leave your discord name or id in the message.
   <data name="gambling_total_average" xml:space="preserve">
     <value>Total: {0} Average: {1}</value>
   </data>
+  <data name="games_curgen_disabled" xml:space="preserve">
+    <value>Currency generation has been disabled on this channel.</value>
+  </data>
+  <data name="games_curgen_enabled" xml:space="preserve">
+    <value>Currency generation has been enabled on this channel.</value>
+  </data>
+  <data name="games_hangman_game_started" xml:space="preserve">
+    <value>Hangman game started</value>
+  </data>
+  <data name="games_hangman_running" xml:space="preserve">
+    <value>Hangman game already running on this channel.</value>
+  </data>
+  <data name="games_hangman_start_errored" xml:space="preserve">
+    <value>Starting hangman errored.</value>
+  </data>
+  <data name="games_hangman_types" xml:space="preserve">
+    <value>List of "{0}hangman" term types:</value>
+  </data>
 </root>
