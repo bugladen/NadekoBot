@@ -52,7 +52,7 @@ namespace NadekoBot.Modules.Utility
                     .WithColor(NadekoBot.OkColor);
                 if (guild.Emojis.Any())
                 {
-                    embed.AddField(fb => fb.WithName($"**Custom Emojis ({guild.Emojis.Count})**").WithValue(string.Join(" ", guild.Emojis.Shuffle().Take(25).Select(e => $"{e.Name} <:{e.Name}:{e.Id}>"))));
+                    embed.AddField(fb => fb.WithName($"**Custom Emojis ({guild.Emojis.Count})**").WithValue(string.Join(" ", guild.Emojis.Shuffle().Take(20).Select(e => $"{e.Name} <:{e.Name}:{e.Id}>"))));
                 }
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
