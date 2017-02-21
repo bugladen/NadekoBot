@@ -301,7 +301,8 @@ $@"--
             private string GetText(string key, params object[] replacements)
                 => NadekoTopLevelModule.GetTextStatic(key,
                     NadekoBot.Localization.GetCultureInfo(_channel.Guild),
-                    typeof(Games).Name.ToLowerInvariant());
+                    typeof(Games).Name.ToLowerInvariant(),
+                    replacements);
         }
     }
 }
