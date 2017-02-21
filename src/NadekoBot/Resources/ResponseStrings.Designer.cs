@@ -2244,7 +2244,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Dice rolled: {1}.
+        ///    Looks up a localized string similar to Dice rolled: {0}.
         /// </summary>
         public static string gambling_dice_rolled_num {
             get {
@@ -2574,6 +2574,15 @@ namespace NadekoBot.Resources {
         public static string gambling_take_fail {
             get {
                 return ResourceManager.GetString("gambling_take_fail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Total: {0} Average: {1}.
+        /// </summary>
+        public static string gambling_total_average {
+            get {
+                return ResourceManager.GetString("gambling_total_average", resourceCulture);
             }
         }
         

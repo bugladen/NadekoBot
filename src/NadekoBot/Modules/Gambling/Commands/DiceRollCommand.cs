@@ -124,9 +124,9 @@ namespace NadekoBot.Modules.Gambling
                 bitmap.Save(ms);
                 ms.Position = 0;
                 await Context.Channel.SendFileAsync(ms, "dice.png",
-                    Context.User.Mention + 
+                    Context.User.Mention +  " " +
                     GetText("dice_rolled_num", Format.Bold(values.Count.ToString())) +
-                    " " + GetText("Total: {1} Average: {2}",
+                    " " + GetText("total_average",
                         Format.Bold(values.Sum().ToString()),
                         Format.Bold((values.Sum() / (1.0f * values.Count)).ToString("N2")))).ConfigureAwait(false);
             }

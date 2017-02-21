@@ -1081,7 +1081,7 @@ Don't forget to leave your discord name or id in the message.
     <comment>Someone rolled 35</comment>
   </data>
   <data name="gambling_dice_rolled_num" xml:space="preserve">
-    <value>Dice rolled: {1}</value>
+    <value>Dice rolled: {0}</value>
     <comment>Dice Rolled: 5</comment>
   </data>
   <data name="gambling_race_failed_starting" xml:space="preserve">
@@ -1217,5 +1217,8 @@ Don't forget to leave your discord name or id in the message.
   </data>
   <data name="games_submissions_closed" xml:space="preserve">
     <value>Submissions Closed</value>
+  </data>
+  <data name="gambling_total_average" xml:space="preserve">
+    <value>Total: {0} Average: {1}</value>
   </data>
 </root>

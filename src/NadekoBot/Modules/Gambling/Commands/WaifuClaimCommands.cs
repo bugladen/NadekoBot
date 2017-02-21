@@ -423,6 +423,8 @@ namespace NadekoBot.Modules.Gambling
                 var claimInfo = GetClaimTitle(target.Id);
                 var affInfo = GetAffinityTitle(target.Id);
 
+                var rng = new NadekoRandom();
+
                 var nobody = GetText("nobody");
                 var embed = new EmbedBuilder()
                     .WithOkColor()
@@ -432,7 +434,7 @@ namespace NadekoBot.Modules.Gambling
                     .AddField(efb => efb.WithName(GetText("likes")).WithValue(w.Affinity?.ToString() ?? nobody).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("changes_of_heart")).WithValue($"{affInfo.Count} - \"the {affInfo.Title}\"").WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("divorces")).WithValue(divorces.ToString()).WithIsInline(true))
-                    .AddField(efb => efb.WithName($"Waifus ({claims.Count})").WithValue(claims.Count == 0 ? nobody : string.Join("\n", claims.Select(x => x.Waifu))).WithIsInline(true));
+                    .AddField(efb => efb.WithName($"Waifus ({claims.Count})").WithValue(claims.Count == 0 ? nobody : string.Join("\n", claims.OrderBy(x => rng.Next()).Take(40).Select(x => x.Waifu))).WithIsInline(true));
 
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
