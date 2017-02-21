@@ -710,7 +710,7 @@ namespace NadekoBot.Modules.Administration
                         .AddField(efb => efb.WithName("Id").WithValue(msg.Id.ToString()).WithIsInline(false))
                         .WithFooter(efb => efb.WithText(currentTime));
                     if (msg.Attachments.Any())
-                        embed.AddField(efb => efb.WithName(logChannel.Guild.GetLogText("attachments")).WithValue(string.Join(", ", msg.Attachments.Select(a => a.ProxyUrl))).WithIsInline(false));
+                        embed.AddField(efb => efb.WithName(logChannel.Guild.GetLogText("attachments")).WithValue(string.Join(", ", msg.Attachments.Select(a => a.Url))).WithIsInline(false));
 
                     await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                 }
