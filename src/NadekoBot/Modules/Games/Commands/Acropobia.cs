@@ -261,7 +261,7 @@ $@"--
                                 return;
                             _votes.AddOrUpdate(kvp.Key, 1, (key, old) => ++old);
                             await _channel.SendConfirmAsync(GetText("acrophobia"),
-                                GetText("vote_cast", Format.Bold(guildUser.ToString()))).ConfigureAwait(false);
+                                GetText("acro_vote_cast", Format.Bold(guildUser.ToString()))).ConfigureAwait(false);
                             await msg.DeleteAsync().ConfigureAwait(false);
                         }
 
