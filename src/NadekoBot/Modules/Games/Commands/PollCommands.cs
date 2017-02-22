@@ -48,8 +48,6 @@ namespace NadekoBot.Modules.Games
             {
                 var channel = (ITextChannel)Context.Channel;
 
-                if (!(Context.User as IGuildUser).GuildPermissions.ManageChannels)
-                    return;
                 if (string.IsNullOrWhiteSpace(arg) || !arg.Contains(";"))
                     return;
                 var data = arg.Split(';');
