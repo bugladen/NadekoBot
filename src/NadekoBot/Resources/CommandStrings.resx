@@ -841,10 +841,10 @@
     <value>inrole</value>
   </data>
   <data name="inrole_desc" xml:space="preserve">
-    <value>Lists every person from the provided role or roles (separated by a ',') on this server. If the list is too long for 1 message, you must have Manage Messages permission.</value>
+    <value>Lists every person from the provided role or roles, separated with space, on this server. You can use role IDs, role names (in quotes if it has multiple words), or role mention If the list is too long for 1 message, you must have Manage Messages permission.</value>
   </data>
   <data name="inrole_usage" xml:space="preserve">
-    <value>`{0}inrole Role`</value>
+    <value>`{0}inrole Role` or `{0}inrole Role1 "Role 2" @role3`</value>
   </data>
   <data name="checkmyperms_cmd" xml:space="preserve">
     <value>checkmyperms</value>

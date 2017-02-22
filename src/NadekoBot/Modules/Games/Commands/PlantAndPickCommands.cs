@@ -203,11 +203,11 @@ namespace NadekoBot.Modules.Games
                 }
                 if (enabled)
                 {
-                    await channel.SendConfirmAsync("Currency generation enabled on this channel.").ConfigureAwait(false);
+                    await ReplyConfirmLocalized("curgen_enabled").ConfigureAwait(false);
                 }
                 else
                 {
-                    await channel.SendConfirmAsync("Currency generation disabled on this channel.").ConfigureAwait(false);
+                    await ReplyConfirmLocalized("curgen_disabled").ConfigureAwait(false);
                 }
             }
 

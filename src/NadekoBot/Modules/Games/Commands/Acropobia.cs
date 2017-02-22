@@ -240,7 +240,6 @@ $@"--
                             catch { }
                         }
 
-                        IGuildUser usr;
                         //if (submissions.TryGetValue(input, out usr) && usr.Id != guildUser.Id)
                         //{
                         //    if (!usersWhoVoted.Add(guildUser.Id))
@@ -255,7 +254,7 @@ $@"--
                         if (int.TryParse(input, out num) && num > 0 && num <= _submissions.Count)
                         {
                             var kvp = _submissions.Skip(num - 1).First();
-                            usr = kvp.Value;
+                            var usr = kvp.Value;
                             //can't vote for yourself, can't vote multiple times
                             if (usr.Id == guildUser.Id || !_usersWhoVoted.Add(guildUser.Id))
                                 return;
@@ -299,7 +298,7 @@ $@"--
             }
 
             private string GetText(string key, params object[] replacements)
-                => NadekoTopLevelModule.GetTextStatic(key,
+                => GetTextStatic(key,
                     NadekoBot.Localization.GetCultureInfo(_channel.Guild),
                     typeof(Games).Name.ToLowerInvariant(),
                     replacements);

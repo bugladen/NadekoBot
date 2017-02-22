@@ -19,7 +19,7 @@ namespace NadekoBot.Modules.Games
         [Group]
         public class CleverBotCommands : NadekoSubmodule
         {
-            private static Logger _log { get; }
+            private static new Logger _log { get; }
 
             public static ConcurrentDictionary<ulong, Lazy<ChatterBotSession>> CleverbotGuilds { get; } = new ConcurrentDictionary<ulong, Lazy<ChatterBotSession>>();
 

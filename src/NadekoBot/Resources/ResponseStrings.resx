@@ -1239,4 +1239,108 @@ Don't forget to leave your discord name or id in the message.
   <data name="games_hangman_types" xml:space="preserve">
     <value>List of "{0}hangman" term types:</value>
   </data>
+  <data name="utility_author" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="utility_botid" xml:space="preserve">
+    <value>Bot ID</value>
+  </data>
+  <data name="utility_channelid" xml:space="preserve">
+    <value>{0} of this channel is {1}</value>
+  </data>
+  <data name="utility_channel_topic" xml:space="preserve">
+    <value>Channel Topic</value>
+  </data>
+  <data name="utility_commands_ran" xml:space="preserve">
+    <value>Commands Ran</value>
+  </data>
+  <data name="utility_inrole_list" xml:space="preserve">
+    <value>Here is a list of users in those roles:</value>
+  </data>
+  <data name="utility_inrole_not_allowed" xml:space="preserve">
+    <value>you are not allowed to use this command on roles with a lot of users in them to prevent abuse.</value>
+  </data>
+  <data name="utility_listservers" xml:space="preserve">
+    <value>ID: {0}
+Members: {1}
+OwnerID: {2}</value>
+  </data>
+  <data name="utility_listservers_none" xml:space="preserve">
+    <value>No servers found on that page.</value>
+  </data>
+  <data name="utility_memory" xml:space="preserve">
+    <value>Memory</value>
+  </data>
+  <data name="utility_messages" xml:space="preserve">
+    <value>Messages</value>
+  </data>
+  <data name="utility_nobody_playing_game" xml:space="preserve">
+    <value>Nobody is playing that game.</value>
+  </data>
+  <data name="utility_no_roles_on_page" xml:space="preserve">
+    <value>No roles on this page.</value>
+  </data>
+  <data name="utility_no_shards_on_page" xml:space="preserve">
+    <value>No shards on this page.</value>
+  </data>
+  <data name="utility_no_topic_set" xml:space="preserve">
+    <value>No topic set.</value>
+  </data>
+  <data name="utility_owner_ids" xml:space="preserve">
+    <value>Owner IDs</value>
+  </data>
+  <data name="utility_presence" xml:space="preserve">
+    <value>Presence</value>
+  </data>
+  <data name="utility_presence_txt" xml:space="preserve">
+    <value>{0} Servers
+{1} Text Channels
+{2} Voice Channels</value>
+  </data>
+  <data name="utility_roles_all_page" xml:space="preserve">
+    <value>Page #{0} of all roles on this server:</value>
+  </data>
+  <data name="utility_roles_page" xml:space="preserve">
+    <value>Page #{0} of roels for {1}</value>
+  </data>
+  <data name="utility_rrc_no_colors" xml:space="preserve">
+    <value>No colors are in the correct format. Use `#00ff00` for example.</value>
+  </data>
+  <data name="utility_rrc_start" xml:space="preserve">
+    <value>Started rotating {0} role's color.</value>
+  </data>
+  <data name="utility_rrc_stop" xml:space="preserve">
+    <value>Stopped rotating colors for the {0} role</value>
+  </data>
+  <data name="utility_serverid" xml:space="preserve">
+    <value>{0} of this server is {1}</value>
+  </data>
+  <data name="utility_shard" xml:space="preserve">
+    <value>Shard</value>
+  </data>
+  <data name="utility_shard_stats" xml:space="preserve">
+    <value>Shard Stats</value>
+  </data>
+  <data name="utility_shard_stats_txt" xml:space="preserve">
+    <value>Shard **#{0}** is in {1} state with {2} servers</value>
+  </data>
+  <data name="utility_showemojis" xml:space="preserve">
+    <value>**Name:** {0} **Link:** {1}</value>
+  </data>
+  <data name="utility_showemojis_none" xml:space="preserve">
+    <value>No special emojis found.</value>
+  </data>
+  <data name="utility_stats_songs" xml:space="preserve">
+    <value>Playing {0} songs, {1} queued.</value>
+  </data>
+  <data name="utility_togtub_room_link" xml:space="preserve">
+    <value>Here is your room link:</value>
+  </data>
+  <data name="utility_uptime" xml:space="preserve">
+    <value>Uptime</value>
+  </data>
+  <data name="utility_userid" xml:space="preserve">
+    <value>{0} of the user {1} is {2}</value>
+    <comment>Id of the user kwoth#1234 is 123123123123</comment>
+  </data>
 </root>
