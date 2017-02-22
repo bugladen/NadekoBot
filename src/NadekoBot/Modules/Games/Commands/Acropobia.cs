@@ -284,7 +284,7 @@ $@"--
                 var winner = table.First();
                 var embed = new EmbedBuilder().WithOkColor()
                     .WithTitle(GetText("acrophobia"))
-                    .WithDescription(GetText("winner", Format.Bold(_submissions[winner.Key].ToString()),
+                    .WithDescription(GetText("acro_winner", Format.Bold(_submissions[winner.Key].ToString()),
                         Format.Bold(winner.Value.ToString())))
                     .WithFooter(efb => efb.WithText(winner.Key.ToLowerInvariant().ToTitleCase()));
 
