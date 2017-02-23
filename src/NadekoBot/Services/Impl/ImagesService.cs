@@ -28,7 +28,8 @@ namespace NadekoBot.Services.Impl
         private const string slotNumbersPath = basePath + "slots/numbers/";
         private const string slotEmojisPath = basePath + "slots/emojis/";
 
-        private const string _wifeMatrixPath = basePath + "wifematrix.png";
+        private const string _wifeMatrixPath = basePath + "rategirl/wifematrix.png";
+        private const string _rategirlDot = basePath + "rategirl/dot.png";
 
 
         public ImmutableArray<byte> Heads { get; private set; }
@@ -44,6 +45,7 @@ namespace NadekoBot.Services.Impl
         public ImmutableArray<ImmutableArray<byte>> SlotEmojis { get; private set; }
 
         public ImmutableArray<byte> WifeMatrix { get; private set; }
+        public ImmutableArray<byte> RategirlDot { get; private set; }
 
         private ImagesService()
         {
@@ -91,6 +93,7 @@ namespace NadekoBot.Services.Impl
                     .ToImmutableArray();
 
                 WifeMatrix = File.ReadAllBytes(_wifeMatrixPath).ToImmutableArray();
+                RategirlDot = File.ReadAllBytes(_rategirlDot).ToImmutableArray();
 
                 sw.Stop();
                 _log.Info($"Images loaded after {sw.Elapsed.TotalSeconds:F2}s!");

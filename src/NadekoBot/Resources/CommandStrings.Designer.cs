@@ -717,7 +717,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}atl en&gt;fr`.
+        ///    Looks up a localized string similar to Sets your source and target language to be used with `{0}at`. Specify no arguments to remove previously set value..
         /// </summary>
         public static string autotranslang_desc {
             get {
@@ -726,7 +726,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sets your source and target language to be used with `{0}at`. Specify no arguments to remove previously set value..
+        ///    Looks up a localized string similar to `{0}atl en&gt;fr`.
         /// </summary>
         public static string autotranslang_usage {
             get {

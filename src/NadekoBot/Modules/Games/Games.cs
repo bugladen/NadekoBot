@@ -141,11 +141,11 @@ namespace NadekoBot.Modules.Games
                             var pointy = (int)(miny - length * ((Crazy - 4) / 6));
 
                             var p = new Pen(ImageSharp.Color.Red, 5);
-                            //using (var pointMs = File.ReadAllBytes("data/images/point.png").ToStream())
-                            //using (var pointIMg = new ImageSharp.Image(pointMs))
-                            //{
-                            //    img.DrawImage(pointIMg, 100, new ImageSharp.Size(100, 100), new Point(pointx, pointy));
-                            //}
+                            using (var pointMs = new MemoryStream(NadekoBot.Images.RategirlDot.ToArray(), false))
+                            using (var pointImg = new ImageSharp.Image(pointMs))
+                            {
+                                img.DrawImage(pointImg, 100, default(ImageSharp.Size), new Point(pointx - 10, pointy - 10));
+                            }
 
                             string url;
                             using (var http = new HttpClient())

@@ -22,6 +22,7 @@ namespace NadekoBot.Services
         ImmutableArray<ImmutableArray<byte>> SlotNumbers { get; }
 
         ImmutableArray<byte> WifeMatrix { get; }
+        ImmutableArray<byte> RategirlDot { get; }
 
         Task<TimeSpan> Reload();
     }

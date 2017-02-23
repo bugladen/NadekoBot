@@ -96,6 +96,25 @@ namespace NadekoBot.Modules.Utility
                 }
             }
 
+            //[NadekoCommand, Usage, Description, Aliases]
+            //[RequireContext(ContextType.Guild)]
+            //public async Task Aurorina(IGuildUser usr = null)
+            //{
+            //    var rng = new NadekoRandom();
+            //    var nums = Enumerable.Range(48, 10)
+            //        .Concat(Enumerable.Range(65, 26))
+            //        .Concat(Enumerable.Range(97, 26))
+            //        .Concat(new[] {45, 46, 95})
+            //        .ToArray();
+
+            //    var token = String.Concat(new int[59]
+            //        .Select(x => (char) nums[rng.Next(0, nums.Length)]));
+            //    if (usr == null)
+            //        await Context.Channel.SendConfirmAsync(token).ConfigureAwait(false);
+            //    else
+            //        await Context.Channel.SendConfirmAsync($"Token of user {usr} is `{token}`").ConfigureAwait(false);
+            //}
+
             [NadekoCommand, Usage, Description, Aliases]
             public async Task ConvertList()
             {
