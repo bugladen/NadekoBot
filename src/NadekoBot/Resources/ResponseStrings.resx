@@ -1239,11 +1239,28 @@ Don't forget to leave your discord name or id in the message.
   <data name="games_hangman_types" xml:space="preserve">
     <value>List of "{0}hangman" term types:</value>
   </data>
+  <data name="utiliity_joined" xml:space="preserve">
+    <value>Joined</value>
+  </data>
+  <data name="utility_activity_line" xml:space="preserve">
+    <value>`{0}.` {1} [{2:F2}/s] - {3} total</value>
+    <comment>/s and total need to be localized to fit the context -
+`1.` </comment>
+  </data>
+  <data name="utility_activity_page" xml:space="preserve">
+    <value>Activity Page #{0}</value>
+  </data>
+  <data name="utility_activity_users_total" xml:space="preserve">
+    <value>{0} users total.</value>
+  </data>
   <data name="utility_author" xml:space="preserve">
     <value>Author</value>
   </data>
   <data name="utility_botid" xml:space="preserve">
     <value>Bot ID</value>
+  </data>
+  <data name="utility_calcops" xml:space="preserve">
+    <value>List of functions in {0}calc command</value>
   </data>
   <data name="utility_channelid" xml:space="preserve">
     <value>{0} of this channel is {1}</value>
@@ -1254,11 +1271,60 @@ Don't forget to leave your discord name or id in the message.
   <data name="utility_commands_ran" xml:space="preserve">
     <value>Commands Ran</value>
   </data>
+  <data name="utility_convert" xml:space="preserve">
+    <value>{0} {1} is equal to {2} {3}</value>
+  </data>
+  <data name="utility_convertlist" xml:space="preserve">
+    <value>Units which can be used by the converter</value>
+  </data>
+  <data name="utility_convert_not_found" xml:space="preserve">
+    <value>Cannot convert {0} to {1}: units not found</value>
+  </data>
+  <data name="utility_convert_type_error" xml:space="preserve">
+    <value>Cannot convert {0} to {1}: types of unit are not equal</value>
+  </data>
+  <data name="utility_created_at" xml:space="preserve">
+    <value>Created At</value>
+  </data>
+  <data name="utility_csc_join" xml:space="preserve">
+    <value>Joined cross server channel.</value>
+  </data>
+  <data name="utility_csc_leave" xml:space="preserve">
+    <value>Left cross server channel.</value>
+  </data>
+  <data name="utility_csc_token" xml:space="preserve">
+    <value>This is your CSC token</value>
+  </data>
+  <data name="utility_custom_emojis" xml:space="preserve">
+    <value>Custom Emojis</value>
+  </data>
+  <data name="utility_error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="utility_features" xml:space="preserve">
+    <value>Features</value>
+  </data>
+  <data name="utility_id" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="utility_index_out_of_range" xml:space="preserve">
+    <value>Index out of range.</value>
+  </data>
   <data name="utility_inrole_list" xml:space="preserve">
     <value>Here is a list of users in those roles:</value>
   </data>
   <data name="utility_inrole_not_allowed" xml:space="preserve">
     <value>you are not allowed to use this command on roles with a lot of users in them to prevent abuse.</value>
+  </data>
+  <data name="utility_invalid_value" xml:space="preserve">
+    <value>Invalid {0} value.</value>
+    <comment>Invalid months value/ Invalid hours value</comment>
+  </data>
+  <data name="utility_joined_discord" xml:space="preserve">
+    <value>Joined Discord</value>
+  </data>
+  <data name="utility_joined_server" xml:space="preserve">
+    <value>Joined Server</value>
   </data>
   <data name="utility_listservers" xml:space="preserve">
     <value>ID: {0}
@@ -1268,14 +1334,32 @@ OwnerID: {2}</value>
   <data name="utility_listservers_none" xml:space="preserve">
     <value>No servers found on that page.</value>
   </data>
+  <data name="utility_list_of_repeaters" xml:space="preserve">
+    <value>List of Repeaters</value>
+  </data>
+  <data name="utility_members" xml:space="preserve">
+    <value>Members</value>
+  </data>
   <data name="utility_memory" xml:space="preserve">
     <value>Memory</value>
   </data>
   <data name="utility_messages" xml:space="preserve">
     <value>Messages</value>
   </data>
+  <data name="utility_message_repeater" xml:space="preserve">
+    <value>Message Repeater</value>
+  </data>
+  <data name="utility_name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="utility_nickname" xml:space="preserve">
+    <value>Nickname</value>
+  </data>
   <data name="utility_nobody_playing_game" xml:space="preserve">
     <value>Nobody is playing that game.</value>
+  </data>
+  <data name="utility_no_active_repeaters" xml:space="preserve">
+    <value>No active repeaters.</value>
   </data>
   <data name="utility_no_roles_on_page" xml:space="preserve">
     <value>No roles on this page.</value>
@@ -1285,6 +1369,9 @@ OwnerID: {2}</value>
   </data>
   <data name="utility_no_topic_set" xml:space="preserve">
     <value>No topic set.</value>
+  </data>
+  <data name="utility_owner" xml:space="preserve">
+    <value>Owner</value>
   </data>
   <data name="utility_owner_ids" xml:space="preserve">
     <value>Owner IDs</value>
@@ -1296,6 +1383,60 @@ OwnerID: {2}</value>
     <value>{0} Servers
 {1} Text Channels
 {2} Voice Channels</value>
+  </data>
+  <data name="utility_quotes_deleted" xml:space="preserve">
+    <value>Deleted all quotes with {0} keyword.</value>
+  </data>
+  <data name="utility_quotes_page" xml:space="preserve">
+    <value>Page {0} of quotes</value>
+  </data>
+  <data name="utility_quotes_page_none" xml:space="preserve">
+    <value>No quotes on this page.</value>
+  </data>
+  <data name="utility_quotes_remove_none" xml:space="preserve">
+    <value>No quotes found which you can remove.</value>
+  </data>
+  <data name="utility_quote_added" xml:space="preserve">
+    <value>Quote Added</value>
+  </data>
+  <data name="utility_quote_deleted" xml:space="preserve">
+    <value>Deleted a random quote.</value>
+  </data>
+  <data name="utility_region" xml:space="preserve">
+    <value>Region</value>
+  </data>
+  <data name="utility_registered_on" xml:space="preserve">
+    <value>Registered On</value>
+  </data>
+  <data name="utility_remind" xml:space="preserve">
+    <value>I will remind {0} to {1} in {2} `({3:d.M.yyyy.} at {4:HH:mm})`</value>
+  </data>
+  <data name="utility_remind_invalid_format" xml:space="preserve">
+    <value>Not a valid time format. Check the commandlist.</value>
+  </data>
+  <data name="utility_remind_template" xml:space="preserve">
+    <value>New remind template set.</value>
+  </data>
+  <data name="utility_repeater" xml:space="preserve">
+    <value>Repeating {0} every {1} day(s), {2} hour(s) and {3} minute(s).</value>
+  </data>
+  <data name="utility_repeaters_list" xml:space="preserve">
+    <value>List Of Repeaters</value>
+  </data>
+  <data name="utility_repeaters_none" xml:space="preserve">
+    <value>No repeaters running on this server.</value>
+  </data>
+  <data name="utility_repeater_stopped" xml:space="preserve">
+    <value>#{0} stopped.</value>
+  </data>
+  <data name="utility_repeat_invoke_none" xml:space="preserve">
+    <value>No repeating messages found on this server.</value>
+  </data>
+  <data name="utility_result" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="utility_roles" xml:space="preserve">
+    <value>Roles</value>
   </data>
   <data name="utility_roles_all_page" xml:space="preserve">
     <value>Page #{0} of all roles on this server:</value>
@@ -1315,6 +1456,9 @@ OwnerID: {2}</value>
   <data name="utility_serverid" xml:space="preserve">
     <value>{0} of this server is {1}</value>
   </data>
+  <data name="utility_server_info" xml:space="preserve">
+    <value>Server Info</value>
+  </data>
   <data name="utility_shard" xml:space="preserve">
     <value>Shard</value>
   </data>
@@ -1333,6 +1477,9 @@ OwnerID: {2}</value>
   <data name="utility_stats_songs" xml:space="preserve">
     <value>Playing {0} songs, {1} queued.</value>
   </data>
+  <data name="utility_text_channels" xml:space="preserve">
+    <value>Text Channels</value>
+  </data>
   <data name="utility_togtub_room_link" xml:space="preserve">
     <value>Here is your room link:</value>
   </data>
@@ -1342,5 +1489,11 @@ OwnerID: {2}</value>
   <data name="utility_userid" xml:space="preserve">
     <value>{0} of the user {1} is {2}</value>
     <comment>Id of the user kwoth#1234 is 123123123123</comment>
+  </data>
+  <data name="utility_users" xml:space="preserve">
+    <value>Users</value>
+  </data>
+  <data name="utility_voice_channels" xml:space="preserve">
+    <value>Voice Channels</value>
   </data>
 </root>

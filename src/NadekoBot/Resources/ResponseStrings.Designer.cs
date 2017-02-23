@@ -3354,6 +3354,42 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Joined.
+        /// </summary>
+        public static string utiliity_joined {
+            get {
+                return ResourceManager.GetString("utiliity_joined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}.` {1} [{2:F2}/s] - {3} total.
+        /// </summary>
+        public static string utility_activity_line {
+            get {
+                return ResourceManager.GetString("utility_activity_line", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Activity Page #{0}.
+        /// </summary>
+        public static string utility_activity_page {
+            get {
+                return ResourceManager.GetString("utility_activity_page", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} users total..
+        /// </summary>
+        public static string utility_activity_users_total {
+            get {
+                return ResourceManager.GetString("utility_activity_users_total", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Author.
         /// </summary>
         public static string utility_author {
@@ -3368,6 +3404,15 @@ namespace NadekoBot.Resources {
         public static string utility_botid {
             get {
                 return ResourceManager.GetString("utility_botid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to List of functions in {0}calc command.
+        /// </summary>
+        public static string utility_calcops {
+            get {
+                return ResourceManager.GetString("utility_calcops", resourceCulture);
             }
         }
         
@@ -3399,6 +3444,123 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to {0} {1} is equal to {2} {3}.
+        /// </summary>
+        public static string utility_convert {
+            get {
+                return ResourceManager.GetString("utility_convert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Cannot convert {0} to {1}: units not found.
+        /// </summary>
+        public static string utility_convert_not_found {
+            get {
+                return ResourceManager.GetString("utility_convert_not_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Cannot convert {0} to {1}: types of unit are not equal.
+        /// </summary>
+        public static string utility_convert_type_error {
+            get {
+                return ResourceManager.GetString("utility_convert_type_error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Units which can be used by the converter.
+        /// </summary>
+        public static string utility_convertlist {
+            get {
+                return ResourceManager.GetString("utility_convertlist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Created At.
+        /// </summary>
+        public static string utility_created_at {
+            get {
+                return ResourceManager.GetString("utility_created_at", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Joined cross server channel..
+        /// </summary>
+        public static string utility_csc_join {
+            get {
+                return ResourceManager.GetString("utility_csc_join", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Left cross server channel..
+        /// </summary>
+        public static string utility_csc_leave {
+            get {
+                return ResourceManager.GetString("utility_csc_leave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to This is your CSC token.
+        /// </summary>
+        public static string utility_csc_token {
+            get {
+                return ResourceManager.GetString("utility_csc_token", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Custom Emojis.
+        /// </summary>
+        public static string utility_custom_emojis {
+            get {
+                return ResourceManager.GetString("utility_custom_emojis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Error.
+        /// </summary>
+        public static string utility_error {
+            get {
+                return ResourceManager.GetString("utility_error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Features.
+        /// </summary>
+        public static string utility_features {
+            get {
+                return ResourceManager.GetString("utility_features", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to ID.
+        /// </summary>
+        public static string utility_id {
+            get {
+                return ResourceManager.GetString("utility_id", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Index out of range..
+        /// </summary>
+        public static string utility_index_out_of_range {
+            get {
+                return ResourceManager.GetString("utility_index_out_of_range", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Here is a list of users in those roles:.
         /// </summary>
         public static string utility_inrole_list {
@@ -3413,6 +3575,42 @@ namespace NadekoBot.Resources {
         public static string utility_inrole_not_allowed {
             get {
                 return ResourceManager.GetString("utility_inrole_not_allowed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Invalid {0} value..
+        /// </summary>
+        public static string utility_invalid_value {
+            get {
+                return ResourceManager.GetString("utility_invalid_value", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Joined Discord.
+        /// </summary>
+        public static string utility_joined_discord {
+            get {
+                return ResourceManager.GetString("utility_joined_discord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Joined Server.
+        /// </summary>
+        public static string utility_joined_server {
+            get {
+                return ResourceManager.GetString("utility_joined_server", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to List of Repeaters.
+        /// </summary>
+        public static string utility_list_of_repeaters {
+            get {
+                return ResourceManager.GetString("utility_list_of_repeaters", resourceCulture);
             }
         }
         
@@ -3437,6 +3635,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Members.
+        /// </summary>
+        public static string utility_members {
+            get {
+                return ResourceManager.GetString("utility_members", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Memory.
         /// </summary>
         public static string utility_memory {
@@ -3446,11 +3653,47 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Message Repeater.
+        /// </summary>
+        public static string utility_message_repeater {
+            get {
+                return ResourceManager.GetString("utility_message_repeater", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Messages.
         /// </summary>
         public static string utility_messages {
             get {
                 return ResourceManager.GetString("utility_messages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Name.
+        /// </summary>
+        public static string utility_name {
+            get {
+                return ResourceManager.GetString("utility_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Nickname.
+        /// </summary>
+        public static string utility_nickname {
+            get {
+                return ResourceManager.GetString("utility_nickname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No active repeaters..
+        /// </summary>
+        public static string utility_no_active_repeaters {
+            get {
+                return ResourceManager.GetString("utility_no_active_repeaters", resourceCulture);
             }
         }
         
@@ -3491,6 +3734,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Owner.
+        /// </summary>
+        public static string utility_owner {
+            get {
+                return ResourceManager.GetString("utility_owner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Owner IDs.
         /// </summary>
         public static string utility_owner_ids {
@@ -3516,6 +3768,168 @@ namespace NadekoBot.Resources {
         public static string utility_presence_txt {
             get {
                 return ResourceManager.GetString("utility_presence_txt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Quote Added.
+        /// </summary>
+        public static string utility_quote_added {
+            get {
+                return ResourceManager.GetString("utility_quote_added", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Deleted a random quote..
+        /// </summary>
+        public static string utility_quote_deleted {
+            get {
+                return ResourceManager.GetString("utility_quote_deleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Deleted all quotes with {0} keyword..
+        /// </summary>
+        public static string utility_quotes_deleted {
+            get {
+                return ResourceManager.GetString("utility_quotes_deleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Page {0} of quotes.
+        /// </summary>
+        public static string utility_quotes_page {
+            get {
+                return ResourceManager.GetString("utility_quotes_page", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No quotes on this page..
+        /// </summary>
+        public static string utility_quotes_page_none {
+            get {
+                return ResourceManager.GetString("utility_quotes_page_none", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No quotes found which you can remove..
+        /// </summary>
+        public static string utility_quotes_remove_none {
+            get {
+                return ResourceManager.GetString("utility_quotes_remove_none", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Region.
+        /// </summary>
+        public static string utility_region {
+            get {
+                return ResourceManager.GetString("utility_region", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Registered On.
+        /// </summary>
+        public static string utility_registered_on {
+            get {
+                return ResourceManager.GetString("utility_registered_on", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to I will remind {0} to {1} in {2} `({3:d.M.yyyy.} at {4:HH:mm})`.
+        /// </summary>
+        public static string utility_remind {
+            get {
+                return ResourceManager.GetString("utility_remind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Not a valid time format. Check the commandlist..
+        /// </summary>
+        public static string utility_remind_invalid_format {
+            get {
+                return ResourceManager.GetString("utility_remind_invalid_format", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to New remind template set..
+        /// </summary>
+        public static string utility_remind_template {
+            get {
+                return ResourceManager.GetString("utility_remind_template", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No repeating messages found on this server..
+        /// </summary>
+        public static string utility_repeat_invoke_none {
+            get {
+                return ResourceManager.GetString("utility_repeat_invoke_none", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Repeating {0} every {1} day(s), {2} hour(s) and {3} minute(s)..
+        /// </summary>
+        public static string utility_repeater {
+            get {
+                return ResourceManager.GetString("utility_repeater", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to #{0} stopped..
+        /// </summary>
+        public static string utility_repeater_stopped {
+            get {
+                return ResourceManager.GetString("utility_repeater_stopped", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to List Of Repeaters.
+        /// </summary>
+        public static string utility_repeaters_list {
+            get {
+                return ResourceManager.GetString("utility_repeaters_list", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No repeaters running on this server..
+        /// </summary>
+        public static string utility_repeaters_none {
+            get {
+                return ResourceManager.GetString("utility_repeaters_none", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Result.
+        /// </summary>
+        public static string utility_result {
+            get {
+                return ResourceManager.GetString("utility_result", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Roles.
+        /// </summary>
+        public static string utility_roles {
+            get {
+                return ResourceManager.GetString("utility_roles", resourceCulture);
             }
         }
         
@@ -3561,6 +3975,15 @@ namespace NadekoBot.Resources {
         public static string utility_rrc_stop {
             get {
                 return ResourceManager.GetString("utility_rrc_stop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Server Info.
+        /// </summary>
+        public static string utility_server_info {
+            get {
+                return ResourceManager.GetString("utility_server_info", resourceCulture);
             }
         }
         
@@ -3628,6 +4051,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Text Channels.
+        /// </summary>
+        public static string utility_text_channels {
+            get {
+                return ResourceManager.GetString("utility_text_channels", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Here is your room link:.
         /// </summary>
         public static string utility_togtub_room_link {
@@ -3651,6 +4083,24 @@ namespace NadekoBot.Resources {
         public static string utility_userid {
             get {
                 return ResourceManager.GetString("utility_userid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Users.
+        /// </summary>
+        public static string utility_users {
+            get {
+                return ResourceManager.GetString("utility_users", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Voice Channels.
+        /// </summary>
+        public static string utility_voice_channels {
+            get {
+                return ResourceManager.GetString("utility_voice_channels", resourceCulture);
             }
         }
     }
