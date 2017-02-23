@@ -1221,11 +1221,33 @@ Don't forget to leave your discord name or id in the message.
   <data name="gambling_total_average" xml:space="preserve">
     <value>Total: {0} Average: {1}</value>
   </data>
+  <data name="games_category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="games_cleverbot_disabled" xml:space="preserve">
+    <value>Disabled cleverbot on this server.</value>
+  </data>
+  <data name="games_cleverbot_enabled" xml:space="preserve">
+    <value>Enabled cleverbot on this server.</value>
+  </data>
   <data name="games_curgen_disabled" xml:space="preserve">
     <value>Currency generation has been disabled on this channel.</value>
   </data>
   <data name="games_curgen_enabled" xml:space="preserve">
     <value>Currency generation has been enabled on this channel.</value>
+  </data>
+  <data name="games_curgen_pl" xml:space="preserve">
+    <value>{0} random {1} appeared! Pick them up by typing `{2}pick`</value>
+    <comment>plural</comment>
+  </data>
+  <data name="games_curgen_sn" xml:space="preserve">
+    <value>A random {0} appeared! Pick it up by typing `{1}pick`</value>
+  </data>
+  <data name="games_failed_loading_question" xml:space="preserve">
+    <value>Failed loading a question.</value>
+  </data>
+  <data name="games_game_started" xml:space="preserve">
+    <value>Game Started</value>
   </data>
   <data name="games_hangman_game_started" xml:space="preserve">
     <value>Hangman game started</value>
@@ -1238,6 +1260,77 @@ Don't forget to leave your discord name or id in the message.
   </data>
   <data name="games_hangman_types" xml:space="preserve">
     <value>List of "{0}hangman" term types:</value>
+  </data>
+  <data name="games_leaderboard" xml:space="preserve">
+    <value>Leaderboard</value>
+  </data>
+  <data name="games_not_enough" xml:space="preserve">
+    <value>You don't have enough {0}</value>
+  </data>
+  <data name="games_no_results" xml:space="preserve">
+    <value>No results</value>
+  </data>
+  <data name="games_picked" xml:space="preserve">
+    <value>picked {0}</value>
+    <comment>Kwoth picked 5*</comment>
+  </data>
+  <data name="games_planted" xml:space="preserve">
+    <value>{0} planted {1}</value>
+    <comment>Kwoth planted 5*</comment>
+  </data>
+  <data name="games_trivia_already_running" xml:space="preserve">
+    <value>Trivia game is already running on this server.</value>
+  </data>
+  <data name="games_trivia_game" xml:space="preserve">
+    <value>Trivia Game</value>
+  </data>
+  <data name="games_trivia_guess" xml:space="preserve">
+    <value>{0} guessed it! The answer was: {1}</value>
+  </data>
+  <data name="games_trivia_none" xml:space="preserve">
+    <value>No trivia is running on this server.</value>
+  </data>
+  <data name="games_trivia_points" xml:space="preserve">
+    <value>{0} has {1} points</value>
+  </data>
+  <data name="games_trivia_stopping" xml:space="preserve">
+    <value>Stopping after this question.</value>
+  </data>
+  <data name="games_trivia_times_up" xml:space="preserve">
+    <value>Time's up! The correct answer was {0}</value>
+  </data>
+  <data name="games_trivia_win" xml:space="preserve">
+    <value>{0} guessed it and WON the game! The answer was: {1}</value>
+  </data>
+  <data name="games_ttt_against_yourself" xml:space="preserve">
+    <value>You can't play against yourself.</value>
+  </data>
+  <data name="games_ttt_already_running" xml:space="preserve">
+    <value>TicTacToe Game is already running in this channel.</value>
+  </data>
+  <data name="games_ttt_a_draw" xml:space="preserve">
+    <value>A draw!</value>
+  </data>
+  <data name="games_ttt_created" xml:space="preserve">
+    <value>has created a game of TicTacToe.</value>
+  </data>
+  <data name="games_ttt_has_won" xml:space="preserve">
+    <value>{0} has Won!</value>
+  </data>
+  <data name="games_ttt_matched_three" xml:space="preserve">
+    <value>Matched Three</value>
+  </data>
+  <data name="games_ttt_no_moves" xml:space="preserve">
+    <value>No moves left!</value>
+  </data>
+  <data name="games_ttt_time_expired" xml:space="preserve">
+    <value>Time Expired!</value>
+  </data>
+  <data name="games_ttt_users_move" xml:space="preserve">
+    <value>{0}'s move</value>
+  </data>
+  <data name="games_vs" xml:space="preserve">
+    <value>{0} vs {1}</value>
   </data>
   <data name="utiliity_joined" xml:space="preserve">
     <value>Joined</value>

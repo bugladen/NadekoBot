@@ -19,9 +19,9 @@ namespace NadekoBot.Modules.Games
         [Group]
         public class CleverBotCommands : NadekoSubmodule
         {
-            private static new Logger _log { get; }
+            private new static Logger _log { get; }
 
-            public static ConcurrentDictionary<ulong, Lazy<ChatterBotSession>> CleverbotGuilds { get; } = new ConcurrentDictionary<ulong, Lazy<ChatterBotSession>>();
+            public static ConcurrentDictionary<ulong, Lazy<ChatterBotSession>> CleverbotGuilds { get; }
 
             static CleverBotCommands()
             {
@@ -96,7 +96,7 @@ namespace NadekoBot.Modules.Games
                         uow.GuildConfigs.SetCleverbotEnabled(Context.Guild.Id, false);
                         await uow.CompleteAsync().ConfigureAwait(false);
                     }
-                    await Context.Channel.SendConfirmAsync($"{Context.User.Mention} Disabled cleverbot on this server.").ConfigureAwait(false);
+                    await ReplyConfirmLocalized("cleverbot_disabled").ConfigureAwait(false);
                     return;
                 }
 
@@ -110,7 +110,7 @@ namespace NadekoBot.Modules.Games
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
 
-                await Context.Channel.SendConfirmAsync($"{Context.User.Mention} Enabled cleverbot on this server.").ConfigureAwait(false);
+                await ReplyConfirmLocalized("cleverbot_enabled").ConfigureAwait(false);
             }
         }
     }

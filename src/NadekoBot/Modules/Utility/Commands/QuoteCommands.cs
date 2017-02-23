@@ -145,7 +145,7 @@ namespace NadekoBot.Modules.Utility
                         uow.Quotes.Remove(q);
                         await uow.CompleteAsync().ConfigureAwait(false);
                         sucess = true;
-                        response = GetText("deleted_quote");
+                        response = GetText("quote_deleted");
                     }
                 }
                 if(sucess)

@@ -2861,6 +2861,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Category.
+        /// </summary>
+        public static string games_category {
+            get {
+                return ResourceManager.GetString("games_category", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Disabled cleverbot on this server..
+        /// </summary>
+        public static string games_cleverbot_disabled {
+            get {
+                return ResourceManager.GetString("games_cleverbot_disabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Enabled cleverbot on this server..
+        /// </summary>
+        public static string games_cleverbot_enabled {
+            get {
+                return ResourceManager.GetString("games_cleverbot_enabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Currency generation has been disabled on this channel..
         /// </summary>
         public static string games_curgen_disabled {
@@ -2875,6 +2902,42 @@ namespace NadekoBot.Resources {
         public static string games_curgen_enabled {
             get {
                 return ResourceManager.GetString("games_curgen_enabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} random {1} appeared! Pick them up by typing `{2}pick`.
+        /// </summary>
+        public static string games_curgen_pl {
+            get {
+                return ResourceManager.GetString("games_curgen_pl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to A random {0} appeared! Pick it up by typing `{1}pick`.
+        /// </summary>
+        public static string games_curgen_sn {
+            get {
+                return ResourceManager.GetString("games_curgen_sn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Failed loading a question..
+        /// </summary>
+        public static string games_failed_loading_question {
+            get {
+                return ResourceManager.GetString("games_failed_loading_question", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Game Started.
+        /// </summary>
+        public static string games_game_started {
+            get {
+                return ResourceManager.GetString("games_game_started", resourceCulture);
             }
         }
         
@@ -2915,6 +2978,51 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Leaderboard.
+        /// </summary>
+        public static string games_leaderboard {
+            get {
+                return ResourceManager.GetString("games_leaderboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No results.
+        /// </summary>
+        public static string games_no_results {
+            get {
+                return ResourceManager.GetString("games_no_results", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You don&apos;t have enough {0}.
+        /// </summary>
+        public static string games_not_enough {
+            get {
+                return ResourceManager.GetString("games_not_enough", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to picked {0}.
+        /// </summary>
+        public static string games_picked {
+            get {
+                return ResourceManager.GetString("games_picked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} planted {1}.
+        /// </summary>
+        public static string games_planted {
+            get {
+                return ResourceManager.GetString("games_planted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Question.
         /// </summary>
         public static string games_question {
@@ -2947,6 +3055,168 @@ namespace NadekoBot.Resources {
         public static string games_submissions_closed {
             get {
                 return ResourceManager.GetString("games_submissions_closed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Trivia game is already running on this server..
+        /// </summary>
+        public static string games_trivia_already_running {
+            get {
+                return ResourceManager.GetString("games_trivia_already_running", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Trivia Game.
+        /// </summary>
+        public static string games_trivia_game {
+            get {
+                return ResourceManager.GetString("games_trivia_game", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} guessed it! The answer was: {1}.
+        /// </summary>
+        public static string games_trivia_guess {
+            get {
+                return ResourceManager.GetString("games_trivia_guess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No trivia is running on this server..
+        /// </summary>
+        public static string games_trivia_none {
+            get {
+                return ResourceManager.GetString("games_trivia_none", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} has {1} points.
+        /// </summary>
+        public static string games_trivia_points {
+            get {
+                return ResourceManager.GetString("games_trivia_points", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Stopping after this question..
+        /// </summary>
+        public static string games_trivia_stopping {
+            get {
+                return ResourceManager.GetString("games_trivia_stopping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Time&apos;s up! The correct answer was {0}.
+        /// </summary>
+        public static string games_trivia_times_up {
+            get {
+                return ResourceManager.GetString("games_trivia_times_up", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} guessed it and WON the game! The answer was: {1}.
+        /// </summary>
+        public static string games_trivia_win {
+            get {
+                return ResourceManager.GetString("games_trivia_win", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to A draw!.
+        /// </summary>
+        public static string games_ttt_a_draw {
+            get {
+                return ResourceManager.GetString("games_ttt_a_draw", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You can&apos;t play against yourself..
+        /// </summary>
+        public static string games_ttt_against_yourself {
+            get {
+                return ResourceManager.GetString("games_ttt_against_yourself", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to TicTacToe Game is already running in this channel..
+        /// </summary>
+        public static string games_ttt_already_running {
+            get {
+                return ResourceManager.GetString("games_ttt_already_running", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to has created a game of TicTacToe..
+        /// </summary>
+        public static string games_ttt_created {
+            get {
+                return ResourceManager.GetString("games_ttt_created", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} has Won!.
+        /// </summary>
+        public static string games_ttt_has_won {
+            get {
+                return ResourceManager.GetString("games_ttt_has_won", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Matched Three.
+        /// </summary>
+        public static string games_ttt_matched_three {
+            get {
+                return ResourceManager.GetString("games_ttt_matched_three", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No moves left!.
+        /// </summary>
+        public static string games_ttt_no_moves {
+            get {
+                return ResourceManager.GetString("games_ttt_no_moves", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Time Expired!.
+        /// </summary>
+        public static string games_ttt_time_expired {
+            get {
+                return ResourceManager.GetString("games_ttt_time_expired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0}&apos;s move.
+        /// </summary>
+        public static string games_ttt_users_move {
+            get {
+                return ResourceManager.GetString("games_ttt_users_move", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} vs {1}.
+        /// </summary>
+        public static string games_vs {
+            get {
+                return ResourceManager.GetString("games_vs", resourceCulture);
             }
         }
         
