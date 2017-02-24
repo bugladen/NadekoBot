@@ -13,7 +13,7 @@ namespace NadekoBot.Modules.Searches
         public static GoogleTranslator Instance = _instance ?? (_instance = new GoogleTranslator());
 
         public IEnumerable<string> Languages => _languageDictionary.Keys.OrderBy(x => x);
-        private Dictionary<string, string> _languageDictionary;
+        private readonly Dictionary<string, string> _languageDictionary;
 
         static GoogleTranslator() { }
         private GoogleTranslator() {
@@ -153,13 +153,13 @@ namespace NadekoBot.Modules.Searches
 
         public async Task<string> Translate(string sourceText, string sourceLanguage, string targetLanguage)
         {
-            string text = string.Empty;
+            string text;
 
-            string url = string.Format("https://translate.googleapis.com/translate_a/single?client=gtx&sl={0}&tl={1}&dt=t&q={2}",
+            var url = string.Format("https://translate.googleapis.com/translate_a/single?client=gtx&sl={0}&tl={1}&dt=t&q={2}",
                                         ConvertToLanguageCode(sourceLanguage),
                                         ConvertToLanguageCode(targetLanguage),
                                        WebUtility.UrlEncode(sourceText));
-            using (HttpClient http = new HttpClient())
+            using (var http = new HttpClient())
             {
                 http.DefaultRequestHeaders.Add("user-agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
                 text = await http.GetStringAsync(url).ConfigureAwait(false);
@@ -170,7 +170,7 @@ namespace NadekoBot.Modules.Searches
 
         private string ConvertToLanguageCode(string language)
         {
-            string mode = string.Empty;
+            string mode;
             _languageDictionary.TryGetValue(language, out mode);
             return mode;
         }

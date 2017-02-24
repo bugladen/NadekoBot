@@ -7,8 +7,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using NadekoBot.Services;
 using System.Net.Http;
-using System.Text.RegularExpressions;
-using System.Xml.Linq;
 using NadekoBot.Extensions;
 using System.Xml;
 using System.Threading;
@@ -20,8 +18,8 @@ namespace NadekoBot.Modules.NSFW
     public class NSFW : NadekoTopLevelModule
     {
 
-        private static readonly ConcurrentDictionary<ulong, Timer> AutoHentaiTimers = new ConcurrentDictionary<ulong, Timer>();
-        private static readonly ConcurrentHashSet<ulong> HentaiBombBlacklist = new ConcurrentHashSet<ulong>();
+        private static readonly ConcurrentDictionary<ulong, Timer> _autoHentaiTimers = new ConcurrentDictionary<ulong, Timer>();
+        private static readonly ConcurrentHashSet<ulong> _hentaiBombBlacklist = new ConcurrentHashSet<ulong>();
 
         private async Task InternalHentai(IMessageChannel channel, string tag, bool noError)
         {
@@ -72,7 +70,7 @@ namespace NadekoBot.Modules.NSFW
 
             if (interval == 0)
             {
-                if (!AutoHentaiTimers.TryRemove(Context.Channel.Id, out t)) return;
+                if (!_autoHentaiTimers.TryRemove(Context.Channel.Id, out t)) return;
 
                 t.Change(Timeout.Infinite, Timeout.Infinite); //proper way to disable the timer
                 await ReplyConfirmLocalized("autohentai_stopped").ConfigureAwait(false);
@@ -99,7 +97,7 @@ namespace NadekoBot.Modules.NSFW
                 }
             }, null, interval * 1000, interval * 1000);
 
-            AutoHentaiTimers.AddOrUpdate(Context.Channel.Id, t, (key, old) =>
+            _autoHentaiTimers.AddOrUpdate(Context.Channel.Id, t, (key, old) =>
             {
                 old.Change(Timeout.Infinite, Timeout.Infinite);
                 return t;
@@ -114,7 +112,7 @@ namespace NadekoBot.Modules.NSFW
         [NadekoCommand, Usage, Description, Aliases]
         public async Task HentaiBomb([Remainder] string tag = null)
         {
-            if (!HentaiBombBlacklist.Add(Context.User.Id))
+            if (!_hentaiBombBlacklist.Add(Context.User.Id))
                 return;
             try
             {
@@ -138,17 +136,17 @@ namespace NadekoBot.Modules.NSFW
             finally
             {
                 await Task.Delay(5000).ConfigureAwait(false);
-                HentaiBombBlacklist.TryRemove(Context.User.Id);
+                _hentaiBombBlacklist.TryRemove(Context.User.Id);
             }
         }
 #endif
         [NadekoCommand, Usage, Description, Aliases]
         public Task Yandere([Remainder] string tag = null)
-            => Searches.Searches.InternalDapiCommand(Context.Message, tag, Searches.Searches.DapiSearchType.Yandere);
+            => InternalDapiCommand(Context.Message, tag, Searches.Searches.DapiSearchType.Yandere);
 
         [NadekoCommand, Usage, Description, Aliases]
         public Task Konachan([Remainder] string tag = null)
-            => Searches.Searches.InternalDapiCommand(Context.Message, tag, Searches.Searches.DapiSearchType.Konachan);
+            => InternalDapiCommand(Context.Message, tag, Searches.Searches.DapiSearchType.Konachan);
 
         [NadekoCommand, Usage, Description, Aliases]
         public async Task E621([Remainder] string tag = null)
@@ -169,7 +167,7 @@ namespace NadekoBot.Modules.NSFW
 
         [NadekoCommand, Usage, Description, Aliases]
         public Task Rule34([Remainder] string tag = null)
-            => Searches.Searches.InternalDapiCommand(Context.Message, tag, Searches.Searches.DapiSearchType.Rule34);
+            => InternalDapiCommand(Context.Message, tag, Searches.Searches.DapiSearchType.Rule34);
 
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Danbooru([Remainder] string tag = null)
@@ -212,7 +210,7 @@ namespace NadekoBot.Modules.NSFW
 
         [NadekoCommand, Usage, Description, Aliases]
         public Task Gelbooru([Remainder] string tag = null)
-            => Searches.Searches.InternalDapiCommand(Context.Message, tag, Searches.Searches.DapiSearchType.Gelbooru);
+            => InternalDapiCommand(Context.Message, tag, Searches.Searches.DapiSearchType.Gelbooru);
 
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Cp()
@@ -289,5 +287,22 @@ namespace NadekoBot.Modules.NSFW
 
         public static Task<string> GetGelbooruImageLink(string tag) =>
             Searches.Searches.InternalDapiSearch(tag, Searches.Searches.DapiSearchType.Gelbooru);
+
+        public async Task InternalDapiCommand(IUserMessage umsg, string tag, Searches.Searches.DapiSearchType type)
+        {
+            var channel = umsg.Channel;
+
+            tag = tag?.Trim() ?? "";
+
+            var url = await Searches.Searches.InternalDapiSearch(tag, type).ConfigureAwait(false);
+
+            if (url == null)
+                await channel.SendErrorAsync(umsg.Author.Mention + " " + GetText("no_results"));
+            else
+                await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                    .WithDescription(umsg.Author.Mention + " " + tag)
+                    .WithImageUrl(url)
+                    .WithFooter(efb => efb.WithText(type.ToString()))).ConfigureAwait(false);
+        }
     }
 }
