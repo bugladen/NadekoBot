@@ -135,7 +135,7 @@ namespace NadekoBot.Modules.Games
                     if (_phase == Phase.Ended)
                         embed.WithFooter(efb => efb.WithText(GetText("ttt_no_moves")));
                     else
-                        embed.WithFooter(efb => efb.WithText(GetText("users_move", _users[_curUserIndex])));
+                        embed.WithFooter(efb => efb.WithText(GetText("ttt_users_move", _users[_curUserIndex])));
                 }
                 else
                     embed.WithFooter(efb => efb.WithText(GetText("ttt_has_won", _winner)));
