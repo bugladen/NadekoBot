@@ -1332,6 +1332,159 @@ Don't forget to leave your discord name or id in the message.
   <data name="games_vs" xml:space="preserve">
     <value>{0} vs {1}</value>
   </data>
+  <data name="permissions_acm_disable" xml:space="preserve">
+    <value>Disabled usage of ALL MODULES on {0} channel.</value>
+  </data>
+  <data name="permissions_acm_enable" xml:space="preserve">
+    <value>Enabled usage of ALL MODULES on {0} channel.</value>
+  </data>
+  <data name="permissions_allowed" xml:space="preserve">
+    <value>Allowed</value>
+  </data>
+  <data name="permissions_arm_disable" xml:space="preserve">
+    <value>Disabled usage of ALL MODULES for {0} role.</value>
+  </data>
+  <data name="permissions_arm_enable" xml:space="preserve">
+    <value>Enabled usage of ALL MODULES for {0} role.</value>
+  </data>
+  <data name="permissions_asm_disable" xml:space="preserve">
+    <value>Disabled usage of ALL MODULES on this server.</value>
+  </data>
+  <data name="permissions_asm_enable" xml:space="preserve">
+    <value>Enabled usage of ALL MODULES on this server.</value>
+  </data>
+  <data name="permissions_aum_disable" xml:space="preserve">
+    <value>Disabled usage of ALL MODULES for {0} user.</value>
+  </data>
+  <data name="permissions_aum_enable" xml:space="preserve">
+    <value>Enabled usage of ALL MODULES for {0} user.</value>
+  </data>
+  <data name="permissions_blacklisted" xml:space="preserve">
+    <value>Blacklisted {0} with ID {1}</value>
+  </data>
+  <data name="permissions_cmdcd_add" xml:space="preserve">
+    <value>Command {0} now has a {1}s cooldown.</value>
+  </data>
+  <data name="permissions_cmdcd_cleared" xml:space="preserve">
+    <value>Command {0} has no coooldown now and all existing cooldowns have been cleared.</value>
+  </data>
+  <data name="permissions_cmdcd_none" xml:space="preserve">
+    <value>No command cooldowns set.</value>
+  </data>
+  <data name="permissions_command_costs" xml:space="preserve">
+    <value>Command Costs</value>
+  </data>
+  <data name="permissions_cx_disable" xml:space="preserve">
+    <value>Disabled usage of {0} {1} on {2} channel.</value>
+  </data>
+  <data name="permissions_cx_enable" xml:space="preserve">
+    <value>Enabled usage of {0} {1} on {2} channel.</value>
+  </data>
+  <data name="permissions_denied" xml:space="preserve">
+    <value>Denied</value>
+  </data>
+  <data name="permissions_filter_word_add" xml:space="preserve">
+    <value>Added word {0} to the list of filtered words.</value>
+  </data>
+  <data name="permissions_filter_word_list" xml:space="preserve">
+    <value>List Of Filtered Words</value>
+  </data>
+  <data name="permissions_filter_word_remove" xml:space="preserve">
+    <value>Removed word {0} from the list of filtered words.</value>
+  </data>
+  <data name="permissions_invalid_second_param_between" xml:space="preserve">
+    <value>Invalid second parameter.(Must be a number between {0} and {1})</value>
+  </data>
+  <data name="permissions_invite_filter_channel_off" xml:space="preserve">
+    <value>Invite filtering disabled on this channel.</value>
+  </data>
+  <data name="permissions_invite_filter_channel_on" xml:space="preserve">
+    <value>Invite filtering enabled on this channel.</value>
+  </data>
+  <data name="permissions_invite_filter_server_off" xml:space="preserve">
+    <value>Invite filtering disabled on this server.</value>
+  </data>
+  <data name="permissions_invite_filter_server_on" xml:space="preserve">
+    <value>Invite filtering enabled on this server.</value>
+  </data>
+  <data name="permissions_moved_permission" xml:space="preserve">
+    <value>Moved permission {0} from #{1} to #{2}</value>
+  </data>
+  <data name="permissions_not_found" xml:space="preserve">
+    <value>Can't find permission at index #{0}</value>
+  </data>
+  <data name="permissions_no_costs" xml:space="preserve">
+    <value>No costs set.</value>
+  </data>
+  <data name="permissions_of_command" xml:space="preserve">
+    <value>command</value>
+    <comment>Gen (of command)</comment>
+  </data>
+  <data name="permissions_of_module" xml:space="preserve">
+    <value>module</value>
+    <comment>Gen. (of module)</comment>
+  </data>
+  <data name="permissions_page" xml:space="preserve">
+    <value>Permissions page {0}</value>
+  </data>
+  <data name="permissions_permrole" xml:space="preserve">
+    <value>Current permissions role is {0}.</value>
+  </data>
+  <data name="permissions_permrole_changed" xml:space="preserve">
+    <value>Users now require {0} role in order to edit permissions.</value>
+  </data>
+  <data name="permissions_perm_out_of_range" xml:space="preserve">
+    <value>No permission found on that index.</value>
+  </data>
+  <data name="permissions_removed" xml:space="preserve">
+    <value>removed permission #{0} - {1}</value>
+  </data>
+  <data name="permissions_rx_disable" xml:space="preserve">
+    <value>Disabled usage of {0} {1} for {2} role.</value>
+  </data>
+  <data name="permissions_rx_enable" xml:space="preserve">
+    <value>Enabled usage of {0} {1} for {2} role.</value>
+  </data>
+  <data name="permissions_sec" xml:space="preserve">
+    <value>sec.</value>
+    <comment>Short of seconds.</comment>
+  </data>
+  <data name="permissions_sx_disable" xml:space="preserve">
+    <value>Disabled usage of {0} {1} on this server.</value>
+  </data>
+  <data name="permissions_sx_enable" xml:space="preserve">
+    <value>Enabled usage of {0} {1} on this server.</value>
+  </data>
+  <data name="permissions_unblacklisted" xml:space="preserve">
+    <value>Unblacklisted {0} with ID {1}</value>
+  </data>
+  <data name="permissions_uneditable" xml:space="preserve">
+    <value>uneditable</value>
+  </data>
+  <data name="permissions_ux_disable" xml:space="preserve">
+    <value>Disabled usage of {0} {1} for {2} user.</value>
+  </data>
+  <data name="permissions_ux_enable" xml:space="preserve">
+    <value>Enabled usage of {0} {1} for {2} user.</value>
+  </data>
+  <data name="permissions_verbose_false" xml:space="preserve">
+    <value>I will no longer show permission warnings.</value>
+  </data>
+  <data name="permissions_verbose_true" xml:space="preserve">
+    <value>I will now show permission warnings.</value>
+  </data>
+  <data name="permissions_word_filter_channel_off" xml:space="preserve">
+    <value>Word filtering disabled on this channel.</value>
+  </data>
+  <data name="permissions_word_filter_channel_on" xml:space="preserve">
+    <value>Word filtering enabled on this channel.</value>
+  </data>
+  <data name="permissions_word_filter_server_off" xml:space="preserve">
+    <value>Word filtering disabled on this server.</value>
+  </data>
+  <data name="permissions_word_filter_server_on" xml:space="preserve">
+    <value>Word filtering enabled on this server.</value>
+  </data>
   <data name="utiliity_joined" xml:space="preserve">
     <value>Joined</value>
   </data>

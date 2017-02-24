@@ -3426,6 +3426,456 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Disabled usage of ALL MODULES on {0} channel..
+        /// </summary>
+        public static string permissions_acm_disable {
+            get {
+                return ResourceManager.GetString("permissions_acm_disable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Enabled usage of ALL MODULES on {0} channel..
+        /// </summary>
+        public static string permissions_acm_enable {
+            get {
+                return ResourceManager.GetString("permissions_acm_enable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Allowed.
+        /// </summary>
+        public static string permissions_allowed {
+            get {
+                return ResourceManager.GetString("permissions_allowed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Disabled usage of ALL MODULES for {0} role..
+        /// </summary>
+        public static string permissions_arm_disable {
+            get {
+                return ResourceManager.GetString("permissions_arm_disable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Enabled usage of ALL MODULES for {0} role..
+        /// </summary>
+        public static string permissions_arm_enable {
+            get {
+                return ResourceManager.GetString("permissions_arm_enable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Disabled usage of ALL MODULES on this server..
+        /// </summary>
+        public static string permissions_asm_disable {
+            get {
+                return ResourceManager.GetString("permissions_asm_disable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Enabled usage of ALL MODULES on this server..
+        /// </summary>
+        public static string permissions_asm_enable {
+            get {
+                return ResourceManager.GetString("permissions_asm_enable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Disabled usage of ALL MODULES for {0} user..
+        /// </summary>
+        public static string permissions_aum_disable {
+            get {
+                return ResourceManager.GetString("permissions_aum_disable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Enabled usage of ALL MODULES for {0} user..
+        /// </summary>
+        public static string permissions_aum_enable {
+            get {
+                return ResourceManager.GetString("permissions_aum_enable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Blacklisted {0} with ID {1}.
+        /// </summary>
+        public static string permissions_blacklisted {
+            get {
+                return ResourceManager.GetString("permissions_blacklisted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Command {0} now has a {1}s cooldown..
+        /// </summary>
+        public static string permissions_cmdcd_add {
+            get {
+                return ResourceManager.GetString("permissions_cmdcd_add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Command {0} has no coooldown now and all existing cooldowns have been cleared..
+        /// </summary>
+        public static string permissions_cmdcd_cleared {
+            get {
+                return ResourceManager.GetString("permissions_cmdcd_cleared", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No command cooldowns set..
+        /// </summary>
+        public static string permissions_cmdcd_none {
+            get {
+                return ResourceManager.GetString("permissions_cmdcd_none", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Command Costs.
+        /// </summary>
+        public static string permissions_command_costs {
+            get {
+                return ResourceManager.GetString("permissions_command_costs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Disabled usage of {0} {1} on {2} channel..
+        /// </summary>
+        public static string permissions_cx_disable {
+            get {
+                return ResourceManager.GetString("permissions_cx_disable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Enabled usage of {0} {1} on {2} channel..
+        /// </summary>
+        public static string permissions_cx_enable {
+            get {
+                return ResourceManager.GetString("permissions_cx_enable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Denied.
+        /// </summary>
+        public static string permissions_denied {
+            get {
+                return ResourceManager.GetString("permissions_denied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Added word {0} to the list of filtered words..
+        /// </summary>
+        public static string permissions_filter_word_add {
+            get {
+                return ResourceManager.GetString("permissions_filter_word_add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to List Of Filtered Words.
+        /// </summary>
+        public static string permissions_filter_word_list {
+            get {
+                return ResourceManager.GetString("permissions_filter_word_list", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Removed word {0} from the list of filtered words..
+        /// </summary>
+        public static string permissions_filter_word_remove {
+            get {
+                return ResourceManager.GetString("permissions_filter_word_remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Invalid second parameter.(Must be a number between {0} and {1}).
+        /// </summary>
+        public static string permissions_invalid_second_param_between {
+            get {
+                return ResourceManager.GetString("permissions_invalid_second_param_between", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Invite filtering disabled on this channel..
+        /// </summary>
+        public static string permissions_invite_filter_channel_off {
+            get {
+                return ResourceManager.GetString("permissions_invite_filter_channel_off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Invite filtering enabled on this channel..
+        /// </summary>
+        public static string permissions_invite_filter_channel_on {
+            get {
+                return ResourceManager.GetString("permissions_invite_filter_channel_on", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Invite filtering disabled on this server..
+        /// </summary>
+        public static string permissions_invite_filter_server_off {
+            get {
+                return ResourceManager.GetString("permissions_invite_filter_server_off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Invite filtering enabled on this server..
+        /// </summary>
+        public static string permissions_invite_filter_server_on {
+            get {
+                return ResourceManager.GetString("permissions_invite_filter_server_on", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Moved permission {0} from #{1} to #{2}.
+        /// </summary>
+        public static string permissions_moved_permission {
+            get {
+                return ResourceManager.GetString("permissions_moved_permission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No costs set..
+        /// </summary>
+        public static string permissions_no_costs {
+            get {
+                return ResourceManager.GetString("permissions_no_costs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Can&apos;t find permission at index #{0}.
+        /// </summary>
+        public static string permissions_not_found {
+            get {
+                return ResourceManager.GetString("permissions_not_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to command.
+        /// </summary>
+        public static string permissions_of_command {
+            get {
+                return ResourceManager.GetString("permissions_of_command", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to module.
+        /// </summary>
+        public static string permissions_of_module {
+            get {
+                return ResourceManager.GetString("permissions_of_module", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Permissions page {0}.
+        /// </summary>
+        public static string permissions_page {
+            get {
+                return ResourceManager.GetString("permissions_page", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No permission found on that index..
+        /// </summary>
+        public static string permissions_perm_out_of_range {
+            get {
+                return ResourceManager.GetString("permissions_perm_out_of_range", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Current permissions role is {0}..
+        /// </summary>
+        public static string permissions_permrole {
+            get {
+                return ResourceManager.GetString("permissions_permrole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Users now require {0} role in order to edit permissions..
+        /// </summary>
+        public static string permissions_permrole_changed {
+            get {
+                return ResourceManager.GetString("permissions_permrole_changed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to removed permission #{0} - {1}.
+        /// </summary>
+        public static string permissions_removed {
+            get {
+                return ResourceManager.GetString("permissions_removed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Disabled usage of {0} {1} for {2} role..
+        /// </summary>
+        public static string permissions_rx_disable {
+            get {
+                return ResourceManager.GetString("permissions_rx_disable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Enabled usage of {0} {1} for {2} role..
+        /// </summary>
+        public static string permissions_rx_enable {
+            get {
+                return ResourceManager.GetString("permissions_rx_enable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to sec..
+        /// </summary>
+        public static string permissions_sec {
+            get {
+                return ResourceManager.GetString("permissions_sec", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Disabled usage of {0} {1} on this server..
+        /// </summary>
+        public static string permissions_sx_disable {
+            get {
+                return ResourceManager.GetString("permissions_sx_disable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Enabled usage of {0} {1} on this server..
+        /// </summary>
+        public static string permissions_sx_enable {
+            get {
+                return ResourceManager.GetString("permissions_sx_enable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Unblacklisted {0} with ID {1}.
+        /// </summary>
+        public static string permissions_unblacklisted {
+            get {
+                return ResourceManager.GetString("permissions_unblacklisted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to uneditable.
+        /// </summary>
+        public static string permissions_uneditable {
+            get {
+                return ResourceManager.GetString("permissions_uneditable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Disabled usage of {0} {1} for {2} user..
+        /// </summary>
+        public static string permissions_ux_disable {
+            get {
+                return ResourceManager.GetString("permissions_ux_disable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Enabled usage of {0} {1} for {2} user..
+        /// </summary>
+        public static string permissions_ux_enable {
+            get {
+                return ResourceManager.GetString("permissions_ux_enable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to I will no longer show permission warnings..
+        /// </summary>
+        public static string permissions_verbose_false {
+            get {
+                return ResourceManager.GetString("permissions_verbose_false", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to I will now show permission warnings..
+        /// </summary>
+        public static string permissions_verbose_true {
+            get {
+                return ResourceManager.GetString("permissions_verbose_true", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Word filtering disabled on this channel..
+        /// </summary>
+        public static string permissions_word_filter_channel_off {
+            get {
+                return ResourceManager.GetString("permissions_word_filter_channel_off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Word filtering enabled on this channel..
+        /// </summary>
+        public static string permissions_word_filter_channel_on {
+            get {
+                return ResourceManager.GetString("permissions_word_filter_channel_on", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Word filtering disabled on this server..
+        /// </summary>
+        public static string permissions_word_filter_server_off {
+            get {
+                return ResourceManager.GetString("permissions_word_filter_server_off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Word filtering enabled on this server..
+        /// </summary>
+        public static string permissions_word_filter_server_on {
+            get {
+                return ResourceManager.GetString("permissions_word_filter_server_on", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to {0} has already fainted..
         /// </summary>
         public static string pokemon_already_fainted {
