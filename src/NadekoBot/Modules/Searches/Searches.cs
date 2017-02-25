@@ -611,7 +611,7 @@ namespace NadekoBot.Modules.Searches
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task Videocall([Remainder] params IUser[] users)
+        public async Task Videocall(params IUser[] users)
         {
             var allUsrs = users.Append(Context.User);
             var allUsrsArray = allUsrs.ToArray();
