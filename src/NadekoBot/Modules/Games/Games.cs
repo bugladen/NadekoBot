@@ -200,6 +200,9 @@ namespace NadekoBot.Modules.Games
                 uid == 265642040950390784)
                 roll += 100;
 
+            if (uid == 68946899150839808)
+                roll = 990;
+
             double hot;
             double crazy;
             string advice;
