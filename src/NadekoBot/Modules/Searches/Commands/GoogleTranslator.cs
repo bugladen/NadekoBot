@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -154,6 +155,11 @@ namespace NadekoBot.Modules.Searches
         public async Task<string> Translate(string sourceText, string sourceLanguage, string targetLanguage)
         {
             string text;
+
+            if(!_languageDictionary.ContainsKey(sourceLanguage) || 
+               !_languageDictionary.ContainsKey(targetLanguage))
+                throw new ArgumentException();
+            
 
             var url = string.Format("https://translate.googleapis.com/translate_a/single?client=gtx&sl={0}&tl={1}&dt=t&q={2}",
                                         ConvertToLanguageCode(sourceLanguage),
