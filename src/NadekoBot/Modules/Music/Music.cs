@@ -196,7 +196,7 @@ namespace NadekoBot.Modules.Music
             if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer) ||
                 (currentSong = musicPlayer?.CurrentSong) == null)
             {
-                await ReplyErrorLocalized("no_music_player").ConfigureAwait(false);
+                await ReplyErrorLocalized("no_player").ConfigureAwait(false);
                 return;
             }
             if (page <= 0)
