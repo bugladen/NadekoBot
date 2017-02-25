@@ -6,7 +6,6 @@ using NadekoBot.Attributes;
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Threading;
@@ -15,8 +14,6 @@ using System.Net.Http;
 using ImageSharp;
 using NadekoBot.DataStructures;
 using NLog;
-using ImageSharp.Drawing.Pens;
-using SixLabors.Shapes;
 
 namespace NadekoBot.Modules.Games
 {
@@ -37,7 +34,7 @@ namespace NadekoBot.Modules.Games
             if (string.IsNullOrWhiteSpace(list))
                 return;
             var listArr = list.Split(';');
-            if (listArr.Count() < 2)
+            if (listArr.Length < 2)
                 return;
             var rng = new NadekoRandom();
             await Context.Channel.SendConfirmAsync("🤔", listArr[rng.Next(0, listArr.Length)]).ConfigureAwait(false);
@@ -57,7 +54,7 @@ namespace NadekoBot.Modules.Games
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Rps(string input)
         {
-            Func<int,string> GetRPSPick = (p) =>
+            Func<int,string> getRpsPick = (p) =>
             {
                 switch (p)
                 {
@@ -93,15 +90,15 @@ namespace NadekoBot.Modules.Games
             var nadekoPick = new NadekoRandom().Next(0, 3);
             string msg;
             if (pick == nadekoPick)
-                msg = GetText("rps_draw", GetRPSPick(pick));
+                msg = GetText("rps_draw", getRpsPick(pick));
             else if ((pick == 0 && nadekoPick == 1) ||
                      (pick == 1 && nadekoPick == 2) ||
                      (pick == 2 && nadekoPick == 0))
                 msg = GetText("rps_win", NadekoBot.Client.CurrentUser.Mention,
-                    GetRPSPick(nadekoPick), GetRPSPick(pick));
+                    getRpsPick(nadekoPick), getRpsPick(pick));
             else
-                msg = GetText("rps_win", Context.User.Mention, GetRPSPick(pick),
-                    GetRPSPick(nadekoPick));
+                msg = GetText("rps_win", Context.User.Mention, getRpsPick(pick),
+                    getRpsPick(nadekoPick));
 
             await Context.Channel.SendConfirmAsync(msg).ConfigureAwait(false);
         }
@@ -110,7 +107,7 @@ namespace NadekoBot.Modules.Games
 
         public class GirlRating
         {
-            private static Logger _log = LogManager.GetCurrentClassLogger();
+            private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
             public double Crazy { get; }
             public double Hot { get; }
@@ -132,19 +129,17 @@ namespace NadekoBot.Modules.Games
                         using (var ms = new MemoryStream(NadekoBot.Images.WifeMatrix.ToArray(), false))
                         using (var img = new ImageSharp.Image(ms))
                         {
-                            var clr = new ImageSharp.Color(0x0000ff);
                             const int minx = 35;
                             const int miny = 385;
                             const int length = 345;
 
                             var pointx = (int)(minx + length * (Hot / 10));
                             var pointy = (int)(miny - length * ((Crazy - 4) / 6));
-
-                            var p = new Pen(ImageSharp.Color.Red, 5);
+                            
                             using (var pointMs = new MemoryStream(NadekoBot.Images.RategirlDot.ToArray(), false))
                             using (var pointImg = new ImageSharp.Image(pointMs))
                             {
-                                img.DrawImage(pointImg, 100, default(ImageSharp.Size), new Point(pointx - 10, pointy - 10));
+                                img.DrawImage(pointImg, 100, default(Size), new Point(pointx - 10, pointy - 10));
                             }
 
                             string url;
@@ -196,12 +191,10 @@ namespace NadekoBot.Modules.Games
 
             var roll = rng.Next(1, 1001);
 
-            if (uid == 185968432783687681 ||
-                uid == 265642040950390784)
-                roll += 100;
+            if ((uid == 185968432783687681 ||
+                 uid == 265642040950390784) && roll >= 900)
+                roll = 1000;
 
-            if (uid == 68946899150839808)
-                roll = 990;
 
             double hot;
             double crazy;
@@ -234,7 +227,7 @@ namespace NadekoBot.Modules.Games
             else if (roll < 951)
             {
                 hot = NextDouble(8, 10);
-                crazy = NextDouble(4, 10);
+                crazy = NextDouble(7, .6 * hot + 4);
                 advice = "Below the crazy line, above an 8 hot, but still about 7 crazy. This is your DATE ZONE. " +
                        "You can stay in the date zone indefinitely. These are the girls you introduce to your friends and your family. " +
                        "They're good looking, and they're reasonably not crazy most of the time. You can stay here indefinitely.";

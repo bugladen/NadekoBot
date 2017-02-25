@@ -2443,7 +2443,7 @@
     <value>antispam</value>
   </data>
   <data name="antispam_desc" xml:space="preserve">
-    <value>Stops people from repeating same message X times in a row. You can specify to either mute, kick or ban  the offenders.</value>
+    <value>Stops people from repeating same message X times in a row. You can specify to either mute, kick or ban  the offenders. Max message count is 10.</value>
   </data>
   <data name="antispam_usage" xml:space="preserve">
     <value>`{0}antispam 3 Mute` or `{0}antispam 4 Kick` or `{0}antispam 6 Ban`</value>
