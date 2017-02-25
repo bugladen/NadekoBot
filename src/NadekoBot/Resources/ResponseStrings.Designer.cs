@@ -3443,6 +3443,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to fairplay.
+        /// </summary>
+        public static string music_fairplay {
+            get {
+                return ResourceManager.GetString("music_fairplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Finished Song.
         /// </summary>
         public static string music_finished_song {

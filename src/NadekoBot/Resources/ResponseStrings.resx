@@ -1350,6 +1350,9 @@ Don't forget to leave your discord name or id in the message.
   <data name="music_dir_queue_complete" xml:space="preserve">
     <value>Directory queue complete.</value>
   </data>
+  <data name="music_fairplay" xml:space="preserve">
+    <value>fairplay</value>
+  </data>
   <data name="music_finished_song" xml:space="preserve">
     <value>Finished Song</value>
   </data>
