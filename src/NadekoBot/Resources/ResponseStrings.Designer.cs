@@ -3389,6 +3389,483 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Attempting to queue {0} songs....
+        /// </summary>
+        public static string music_attempting_to_queue {
+            get {
+                return ResourceManager.GetString("music_attempting_to_queue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Autoplay disabled..
+        /// </summary>
+        public static string music_autoplay_disabled {
+            get {
+                return ResourceManager.GetString("music_autoplay_disabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Autoplay enabled..
+        /// </summary>
+        public static string music_autoplay_enabled {
+            get {
+                return ResourceManager.GetString("music_autoplay_enabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Default volume set to {0}%.
+        /// </summary>
+        public static string music_defvol_set {
+            get {
+                return ResourceManager.GetString("music_defvol_set", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Directory queue complete..
+        /// </summary>
+        public static string music_dir_queue_complete {
+            get {
+                return ResourceManager.GetString("music_dir_queue_complete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Finished Song.
+        /// </summary>
+        public static string music_finished_song {
+            get {
+                return ResourceManager.GetString("music_finished_song", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Fair play disabled..
+        /// </summary>
+        public static string music_fp_disabled {
+            get {
+                return ResourceManager.GetString("music_fp_disabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Fair play enabled..
+        /// </summary>
+        public static string music_fp_enabled {
+            get {
+                return ResourceManager.GetString("music_fp_enabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to From position.
+        /// </summary>
+        public static string music_from_position {
+            get {
+                return ResourceManager.GetString("music_from_position", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Id.
+        /// </summary>
+        public static string music_id {
+            get {
+                return ResourceManager.GetString("music_id", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Invalid input..
+        /// </summary>
+        public static string music_invalid_input {
+            get {
+                return ResourceManager.GetString("music_invalid_input", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Max playtime has no limit now..
+        /// </summary>
+        public static string music_max_playtime_none {
+            get {
+                return ResourceManager.GetString("music_max_playtime_none", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Max playtime set to {0} second(s)..
+        /// </summary>
+        public static string music_max_playtime_set {
+            get {
+                return ResourceManager.GetString("music_max_playtime_set", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Max music queue size set to unlimited..
+        /// </summary>
+        public static string music_max_queue_unlimited {
+            get {
+                return ResourceManager.GetString("music_max_queue_unlimited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Max music queue size set to {0} track(s)..
+        /// </summary>
+        public static string music_max_queue_x {
+            get {
+                return ResourceManager.GetString("music_max_queue_x", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You need to be in the voice channel on this server..
+        /// </summary>
+        public static string music_must_be_in_voice {
+            get {
+                return ResourceManager.GetString("music_must_be_in_voice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Name.
+        /// </summary>
+        public static string music_name {
+            get {
+                return ResourceManager.GetString("music_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No active music player..
+        /// </summary>
+        public static string music_no_player {
+            get {
+                return ResourceManager.GetString("music_no_player", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No search results..
+        /// </summary>
+        public static string music_no_search_results {
+            get {
+                return ResourceManager.GetString("music_no_search_results", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Now Playing.
+        /// </summary>
+        public static string music_now_playing {
+            get {
+                return ResourceManager.GetString("music_now_playing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Music playback paused..
+        /// </summary>
+        public static string music_paused {
+            get {
+                return ResourceManager.GetString("music_paused", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0}s limit.
+        /// </summary>
+        public static string music_play_limit {
+            get {
+                return ResourceManager.GetString("music_play_limit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No music player active..
+        /// </summary>
+        public static string music_player_none {
+            get {
+                return ResourceManager.GetString("music_player_none", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Player Queue - Page {0}/{1}.
+        /// </summary>
+        public static string music_player_queue {
+            get {
+                return ResourceManager.GetString("music_player_queue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Playing Song.
+        /// </summary>
+        public static string music_playing_song {
+            get {
+                return ResourceManager.GetString("music_playing_song", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Failed to delete that playlist. It either doesn&apos;t exist, or you are not its author..
+        /// </summary>
+        public static string music_playlist_delete_fail {
+            get {
+                return ResourceManager.GetString("music_playlist_delete_fail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Playlist deleted..
+        /// </summary>
+        public static string music_playlist_deleted {
+            get {
+                return ResourceManager.GetString("music_playlist_deleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Playlist with that ID doesn&apos;t exist..
+        /// </summary>
+        public static string music_playlist_id_not_found {
+            get {
+                return ResourceManager.GetString("music_playlist_id_not_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Playlist queue complete..
+        /// </summary>
+        public static string music_playlist_queue_complete {
+            get {
+                return ResourceManager.GetString("music_playlist_queue_complete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Playlist Saved.
+        /// </summary>
+        public static string music_playlist_saved {
+            get {
+                return ResourceManager.GetString("music_playlist_saved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `#{0}` - **{1}** by *{2}* ({3} songs).
+        /// </summary>
+        public static string music_playlists {
+            get {
+                return ResourceManager.GetString("music_playlists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Page {0} of Saved Playlists.
+        /// </summary>
+        public static string music_playlists_page {
+            get {
+                return ResourceManager.GetString("music_playlists_page", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Queue.
+        /// </summary>
+        public static string music_queue {
+            get {
+                return ResourceManager.GetString("music_queue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Music queue cleared..
+        /// </summary>
+        public static string music_queue_cleared {
+            get {
+                return ResourceManager.GetString("music_queue_cleared", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Queue is full at {0}/{0}..
+        /// </summary>
+        public static string music_queue_full {
+            get {
+                return ResourceManager.GetString("music_queue_full", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Queued Song.
+        /// </summary>
+        public static string music_queued_song {
+            get {
+                return ResourceManager.GetString("music_queued_song", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Removed song.
+        /// </summary>
+        public static string music_removed_song {
+            get {
+                return ResourceManager.GetString("music_removed_song", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Repeating Current Song.
+        /// </summary>
+        public static string music_repeating_cur_song {
+            get {
+                return ResourceManager.GetString("music_repeating_cur_song", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Repeating Playlist.
+        /// </summary>
+        public static string music_repeating_playlist {
+            get {
+                return ResourceManager.GetString("music_repeating_playlist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Repeating Track.
+        /// </summary>
+        public static string music_repeating_track {
+            get {
+                return ResourceManager.GetString("music_repeating_track", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Current track repeat stopped..
+        /// </summary>
+        public static string music_repeating_track_stopped {
+            get {
+                return ResourceManager.GetString("music_repeating_track_stopped", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Music playback resumed..
+        /// </summary>
+        public static string music_resumed {
+            get {
+                return ResourceManager.GetString("music_resumed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Repeat playlist disabled..
+        /// </summary>
+        public static string music_rpl_disabled {
+            get {
+                return ResourceManager.GetString("music_rpl_disabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Repeat playlist enabled..
+        /// </summary>
+        public static string music_rpl_enabled {
+            get {
+                return ResourceManager.GetString("music_rpl_enabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to I will now output playing, finished, paused and removed songs in this channel..
+        /// </summary>
+        public static string music_set_music_channel {
+            get {
+                return ResourceManager.GetString("music_set_music_channel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Skipped to `{0}:{1}`.
+        /// </summary>
+        public static string music_skipped_to {
+            get {
+                return ResourceManager.GetString("music_skipped_to", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Song Moved.
+        /// </summary>
+        public static string music_song_moved {
+            get {
+                return ResourceManager.GetString("music_song_moved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Songs shuffled..
+        /// </summary>
+        public static string music_songs_shuffled {
+            get {
+                return ResourceManager.GetString("music_songs_shuffled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0}h {1}m {2}s.
+        /// </summary>
+        public static string music_time_format {
+            get {
+                return ResourceManager.GetString("music_time_format", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to To position.
+        /// </summary>
+        public static string music_to_position {
+            get {
+                return ResourceManager.GetString("music_to_position", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to unlimited.
+        /// </summary>
+        public static string music_unlimited {
+            get {
+                return ResourceManager.GetString("music_unlimited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Volume must be between 0 and 100.
+        /// </summary>
+        public static string music_volume_input_invalid {
+            get {
+                return ResourceManager.GetString("music_volume_input_invalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Volume set to {0}%.
+        /// </summary>
+        public static string music_volume_set {
+            get {
+                return ResourceManager.GetString("music_volume_set", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Autohentai started. Reposting every {0}s with one of the following tags:
         ///{1}.
         /// </summary>

@@ -65,7 +65,6 @@ namespace NadekoBot.Modules.Games
             }
 
             private readonly ITextChannel _channel;
-            private readonly Logger _log;
             private readonly IGuildUser[] _users;
             private readonly int?[,] _state;
             private Phase _phase;
@@ -90,8 +89,7 @@ namespace NadekoBot.Modules.Games
                     { null, null, null },
                     { null, null, null },
                 };
-
-                _log = LogManager.GetCurrentClassLogger();
+                
                 _phase = Phase.Starting;
                 _moveLock = new SemaphoreSlim(1, 1);
             }

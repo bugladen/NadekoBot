@@ -1332,6 +1332,166 @@ Don't forget to leave your discord name or id in the message.
   <data name="games_vs" xml:space="preserve">
     <value>{0} vs {1}</value>
   </data>
+  <data name="music_attempting_to_queue" xml:space="preserve">
+    <value>Attempting to queue {0} songs...</value>
+  </data>
+  <data name="music_autoplay_disabled" xml:space="preserve">
+    <value>Autoplay disabled.</value>
+  </data>
+  <data name="music_autoplay_enabled" xml:space="preserve">
+    <value>Autoplay enabled.</value>
+  </data>
+  <data name="music_defvol_set" xml:space="preserve">
+    <value>Default volume set to {0}%</value>
+  </data>
+  <data name="music_dir_queue_complete" xml:space="preserve">
+    <value>Directory queue complete.</value>
+  </data>
+  <data name="music_finished_song" xml:space="preserve">
+    <value>Finished Song</value>
+  </data>
+  <data name="music_fp_disabled" xml:space="preserve">
+    <value>Fair play disabled.</value>
+  </data>
+  <data name="music_fp_enabled" xml:space="preserve">
+    <value>Fair play enabled.</value>
+  </data>
+  <data name="music_from_position" xml:space="preserve">
+    <value>From position</value>
+  </data>
+  <data name="music_id" xml:space="preserve">
+    <value>Id</value>
+  </data>
+  <data name="music_invalid_input" xml:space="preserve">
+    <value>Invalid input.</value>
+  </data>
+  <data name="music_max_playtime_none" xml:space="preserve">
+    <value>Max playtime has no limit now.</value>
+  </data>
+  <data name="music_max_playtime_set" xml:space="preserve">
+    <value>Max playtime set to {0} second(s).</value>
+  </data>
+  <data name="music_max_queue_unlimited" xml:space="preserve">
+    <value>Max music queue size set to unlimited.</value>
+  </data>
+  <data name="music_max_queue_x" xml:space="preserve">
+    <value>Max music queue size set to {0} track(s).</value>
+  </data>
+  <data name="music_must_be_in_voice" xml:space="preserve">
+    <value>You need to be in the voice channel on this server.</value>
+  </data>
+  <data name="music_name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="music_now_playing" xml:space="preserve">
+    <value>Now Playing</value>
+  </data>
+  <data name="music_no_player" xml:space="preserve">
+    <value>No active music player.</value>
+  </data>
+  <data name="music_no_search_results" xml:space="preserve">
+    <value>No search results.</value>
+  </data>
+  <data name="music_paused" xml:space="preserve">
+    <value>Music playback paused.</value>
+  </data>
+  <data name="music_player_none" xml:space="preserve">
+    <value>No music player active.</value>
+  </data>
+  <data name="music_player_queue" xml:space="preserve">
+    <value>Player Queue - Page {0}/{1}</value>
+  </data>
+  <data name="music_playing_song" xml:space="preserve">
+    <value>Playing Song</value>
+  </data>
+  <data name="music_playlists" xml:space="preserve">
+    <value>`#{0}` - **{1}** by *{2}* ({3} songs)</value>
+  </data>
+  <data name="music_playlists_page" xml:space="preserve">
+    <value>Page {0} of Saved Playlists</value>
+  </data>
+  <data name="music_playlist_deleted" xml:space="preserve">
+    <value>Playlist deleted.</value>
+  </data>
+  <data name="music_playlist_delete_fail" xml:space="preserve">
+    <value>Failed to delete that playlist. It either doesn't exist, or you are not its author.</value>
+  </data>
+  <data name="music_playlist_id_not_found" xml:space="preserve">
+    <value>Playlist with that ID doesn't exist.</value>
+  </data>
+  <data name="music_playlist_queue_complete" xml:space="preserve">
+    <value>Playlist queue complete.</value>
+  </data>
+  <data name="music_playlist_saved" xml:space="preserve">
+    <value>Playlist Saved</value>
+  </data>
+  <data name="music_play_limit" xml:space="preserve">
+    <value>{0}s limit</value>
+  </data>
+  <data name="music_queue" xml:space="preserve">
+    <value>Queue</value>
+  </data>
+  <data name="music_queued_song" xml:space="preserve">
+    <value>Queued Song</value>
+  </data>
+  <data name="music_queue_cleared" xml:space="preserve">
+    <value>Music queue cleared.</value>
+  </data>
+  <data name="music_queue_full" xml:space="preserve">
+    <value>Queue is full at {0}/{0}.</value>
+  </data>
+  <data name="music_removed_song" xml:space="preserve">
+    <value>Removed song</value>
+    <comment>context: "removed song #5"</comment>
+  </data>
+  <data name="music_repeating_cur_song" xml:space="preserve">
+    <value>Repeating Current Song</value>
+  </data>
+  <data name="music_repeating_playlist" xml:space="preserve">
+    <value>Repeating Playlist</value>
+  </data>
+  <data name="music_repeating_track" xml:space="preserve">
+    <value>Repeating Track</value>
+  </data>
+  <data name="music_repeating_track_stopped" xml:space="preserve">
+    <value>Current track repeat stopped.</value>
+  </data>
+  <data name="music_resumed" xml:space="preserve">
+    <value>Music playback resumed.</value>
+  </data>
+  <data name="music_rpl_disabled" xml:space="preserve">
+    <value>Repeat playlist disabled.</value>
+  </data>
+  <data name="music_rpl_enabled" xml:space="preserve">
+    <value>Repeat playlist enabled.</value>
+  </data>
+  <data name="music_set_music_channel" xml:space="preserve">
+    <value>I will now output playing, finished, paused and removed songs in this channel.</value>
+  </data>
+  <data name="music_skipped_to" xml:space="preserve">
+    <value>Skipped to `{0}:{1}`</value>
+  </data>
+  <data name="music_songs_shuffled" xml:space="preserve">
+    <value>Songs shuffled.</value>
+  </data>
+  <data name="music_song_moved" xml:space="preserve">
+    <value>Song Moved</value>
+  </data>
+  <data name="music_time_format" xml:space="preserve">
+    <value>{0}h {1}m {2}s</value>
+  </data>
+  <data name="music_to_position" xml:space="preserve">
+    <value>To position</value>
+  </data>
+  <data name="music_unlimited" xml:space="preserve">
+    <value>unlimited</value>
+  </data>
+  <data name="music_volume_input_invalid" xml:space="preserve">
+    <value>Volume must be between 0 and 100</value>
+  </data>
+  <data name="music_volume_set" xml:space="preserve">
+    <value>Volume set to {0}%</value>
+  </data>
   <data name="permissions_acm_disable" xml:space="preserve">
     <value>Disabled usage of ALL MODULES on {0} channel.</value>
   </data>
