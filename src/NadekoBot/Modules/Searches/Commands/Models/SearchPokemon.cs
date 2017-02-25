@@ -33,22 +33,23 @@ namespace NadekoBot.Modules.Searches.Models
         public string[] Evos { get; set; }
         public string[] EggGroups { get; set; }
 
-        public override string ToString() => $@"`Name:` {Species}
-`Types:` {string.Join(", ", Types)}
-`Stats:` {BaseStats}
-`Height:` {HeightM,4}m `Weight:` {WeightKg}kg
-`Abilities:` {string.Join(", ", Abilities.Values)}";
+//        public override string ToString() => $@"`Name:` {Species}
+//`Types:` {string.Join(", ", Types)}
+//`Stats:` {BaseStats}
+//`Height:` {HeightM,4}m `Weight:` {WeightKg}kg
+//`Abilities:` {string.Join(", ", Abilities.Values)}";
 
     }
 
     public class SearchPokemonAbility
     {
         public string Desc { get; set; }
+        public string ShortDesc { get; set; }
         public string Name { get; set; }
         public float Rating { get; set; }
 
-        public override string ToString() => $@"`Name:` : {Name}
-`Rating:` {Rating}
-`Description:` {Desc}";
+//        public override string ToString() => $@"`Name:` : {Name}
+//`Rating:` {Rating}
+//`Description:` {Desc}";
     }
 }

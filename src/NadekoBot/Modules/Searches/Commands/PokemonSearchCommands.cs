@@ -77,8 +77,11 @@ namespace NadekoBot.Modules.Searches
                     {
                         await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                             .WithTitle(kvp.Value.Name)
-                            .WithDescription(kvp.Value.Desc)
-                            .AddField(efb => efb.WithName(GetText("rating")).WithValue(kvp.Value.Rating.ToString(_cultureInfo)).WithIsInline(true))
+                            .WithDescription(string.IsNullOrWhiteSpace(kvp.Value.Desc) 
+                                ? kvp.Value.ShortDesc
+                                : kvp.Value.Desc)
+                            .AddField(efb => efb.WithName(GetText("rating"))
+                                                .WithValue(kvp.Value.Rating.ToString(_cultureInfo)).WithIsInline(true))
                             ).ConfigureAwait(false);
                         return;
                     }

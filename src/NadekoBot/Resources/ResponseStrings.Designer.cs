@@ -2082,6 +2082,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Animal Race is already running..
+        /// </summary>
+        public static string gambling_animal_race_already_started {
+            get {
+                return ResourceManager.GetString("gambling_animal_race_already_started", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Failed to start since there was not enough participants..
         /// </summary>
         public static string gambling_animal_race_failed {

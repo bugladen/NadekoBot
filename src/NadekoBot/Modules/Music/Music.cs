@@ -915,9 +915,9 @@ namespace NadekoBot.Modules.Music
                     {
                         IUserMessage msg;
                         if (paused)
-                            msg = await mp.OutputTextChannel.SendConfirmAsync(GetText("music_paused")).ConfigureAwait(false);
+                            msg = await mp.OutputTextChannel.SendConfirmAsync(GetText("paused")).ConfigureAwait(false);
                         else
-                            msg = await mp.OutputTextChannel.SendConfirmAsync(GetText("music_resumed")).ConfigureAwait(false);
+                            msg = await mp.OutputTextChannel.SendConfirmAsync(GetText("resumed")).ConfigureAwait(false);
 
                         msg?.DeleteAfter(10);
                     }
