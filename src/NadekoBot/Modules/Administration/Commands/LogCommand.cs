@@ -126,7 +126,6 @@ namespace NadekoBot.Modules.Administration
                     {
                         embed.WithTitle("👥" + g.GetLogText("avatar_changed"))
                             .WithDescription($"{before.Username}#{before.Discriminator} | {before.Id}")
-                            .WithTitle($"{before.Username}#{before.Discriminator} | {before.Id}")
                             .WithThumbnailUrl(before.AvatarUrl)
                             .WithImageUrl(after.AvatarUrl)
                             .WithFooter(fb => fb.WithText(currentTime))
