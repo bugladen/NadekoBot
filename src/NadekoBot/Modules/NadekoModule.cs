@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Modules
 {
-    public abstract class NadekoModule : ModuleBase
+    public abstract class NadekoTopLevelModule : ModuleBase
     {
         protected readonly Logger _log;
         protected CultureInfo _cultureInfo;
@@ -17,7 +17,7 @@ namespace NadekoBot.Modules
         public readonly string ModuleTypeName;
         public readonly string LowerModuleTypeName;
 
-        protected NadekoModule(bool isTopLevelModule = true)
+        protected NadekoTopLevelModule(bool isTopLevelModule = true)
         {
             //if it's top level module
             ModuleTypeName = isTopLevelModule ? this.GetType().Name : this.GetType().DeclaringType.Name;
@@ -120,7 +120,7 @@ namespace NadekoBot.Modules
         }
     }
 
-    public abstract class NadekoSubmodule : NadekoModule
+    public abstract class NadekoSubmodule : NadekoTopLevelModule
     {
         protected NadekoSubmodule() : base(false)
         {

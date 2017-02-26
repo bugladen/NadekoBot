@@ -52,17 +52,22 @@ namespace NadekoBot.Modules.Gambling
                     return;
                 }
                 var imgs = new Image[count];
-                using (var heads = _images.Heads.ToStream())
-                using(var tails = _images.Tails.ToStream())
+                for (var i = 0; i < count; i++)
                 {
-                    for (var i = 0; i < count; i++)
+                    using (var heads = _images.Heads.ToStream())
+                    using (var tails = _images.Tails.ToStream())
                     {
-                        imgs[i] = rng.Next(0, 10) < 5 ?
-                                    new Image(heads) :
-                                    new Image(tails);
+                        if (rng.Next(0, 10) < 5)
+                        {
+                            imgs[i] = new Image(heads);
+                        }
+                        else
+                        {
+                            imgs[i] = new Image(tails);
+                        }
                     }
-                    await Context.Channel.SendFileAsync(imgs.Merge().ToStream(), $"{count} coins.png").ConfigureAwait(false);
                 }
+                await Context.Channel.SendFileAsync(imgs.Merge().ToStream(), $"{count} coins.png").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]

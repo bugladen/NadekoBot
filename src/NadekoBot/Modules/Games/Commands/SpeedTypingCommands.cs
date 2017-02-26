@@ -147,7 +147,7 @@ namespace NadekoBot.Modules.Games
         }
 
         [Group]
-        public class SpeedTypingCommands : ModuleBase
+        public class SpeedTypingCommands : NadekoSubmodule
         {
             public static List<TypingArticle> TypingArticles { get; } = new List<TypingArticle>();
 

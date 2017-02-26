@@ -17,35 +17,41 @@ namespace NadekoBot.Modules.Games.Trivia
     public class TriviaGame
     {
         private readonly SemaphoreSlim _guessLock = new SemaphoreSlim(1, 1);
-        private Logger _log { get; }
+        private readonly Logger _log;
 
-        public IGuild guild { get; }
-        public ITextChannel channel { get; }
+        public IGuild Guild { get; }
+        public ITextChannel Channel { get; }
 
-        private int QuestionDurationMiliseconds { get; } = 30000;
-        private int HintTimeoutMiliseconds { get; } = 6000;
-        public bool ShowHints { get; } = true;
+        private int questionDurationMiliseconds { get; } = 30000;
+        private int hintTimeoutMiliseconds { get; } = 6000;
+        public bool ShowHints { get; }
         private CancellationTokenSource triviaCancelSource { get; set; }
 
         public TriviaQuestion CurrentQuestion { get; private set; }
-        public HashSet<TriviaQuestion> oldQuestions { get; } = new HashSet<TriviaQuestion>();
+        public HashSet<TriviaQuestion> OldQuestions { get; } = new HashSet<TriviaQuestion>();
 
         public ConcurrentDictionary<IGuildUser, int> Users { get; } = new ConcurrentDictionary<IGuildUser, int>();
 
-        public bool GameActive { get; private set; } = false;
+        public bool GameActive { get; private set; }
         public bool ShouldStopGame { get; private set; }
 
-        public int WinRequirement { get; } = 10;
+        public int WinRequirement { get; }
 
         public TriviaGame(IGuild guild, ITextChannel channel, bool showHints, int winReq)
         {
-            this._log = LogManager.GetCurrentClassLogger();
+            _log = LogManager.GetCurrentClassLogger();
 
-            this.ShowHints = showHints;
-            this.guild = guild;
-            this.channel = channel;
-            this.WinRequirement = winReq;
+            ShowHints = showHints;
+            Guild = guild;
+            Channel = channel;
+            WinRequirement = winReq;
         }
+
+        private string GetText(string key, params object[] replacements) =>
+            NadekoTopLevelModule.GetTextStatic(key,
+                NadekoBot.Localization.GetCultureInfo(Channel.GuildId),
+                typeof(Games).Name.ToLowerInvariant(),
+                replacements);
 
         public async Task StartGame()
         {
@@ -55,26 +61,24 @@ namespace NadekoBot.Modules.Games.Trivia
                 triviaCancelSource = new CancellationTokenSource();
 
                 // load question
-                CurrentQuestion = TriviaQuestionPool.Instance.GetRandomQuestion(oldQuestions);
-                if (CurrentQuestion == null || 
-                    string.IsNullOrWhiteSpace(CurrentQuestion.Answer) || 
-                    string.IsNullOrWhiteSpace(CurrentQuestion.Question))
+                CurrentQuestion = TriviaQuestionPool.Instance.GetRandomQuestion(OldQuestions);
+                if (string.IsNullOrWhiteSpace(CurrentQuestion?.Answer) || string.IsNullOrWhiteSpace(CurrentQuestion.Question))
                 {
-                    await channel.SendErrorAsync("Trivia Game", "Failed loading a question.").ConfigureAwait(false);
+                    await Channel.SendErrorAsync(GetText("trivia_game"), GetText("failed_loading_question")).ConfigureAwait(false);
                     return;
                 }
-                oldQuestions.Add(CurrentQuestion); //add it to exclusion list so it doesn't show up again
+                OldQuestions.Add(CurrentQuestion); //add it to exclusion list so it doesn't show up again
 
                 EmbedBuilder questionEmbed;
                 IUserMessage questionMessage;
                 try
                 {
                     questionEmbed = new EmbedBuilder().WithOkColor()
-                        .WithTitle("Trivia Game")
-                        .AddField(eab => eab.WithName("Category").WithValue(CurrentQuestion.Category))
-                        .AddField(eab => eab.WithName("Question").WithValue(CurrentQuestion.Question));
+                        .WithTitle(GetText("trivia_game"))
+                        .AddField(eab => eab.WithName(GetText("category")).WithValue(CurrentQuestion.Category))
+                        .AddField(eab => eab.WithName(GetText("question")).WithValue(CurrentQuestion.Question));
 
-                    questionMessage = await channel.EmbedAsync(questionEmbed).ConfigureAwait(false);
+                    questionMessage = await Channel.EmbedAsync(questionEmbed).ConfigureAwait(false);
                 }
                 catch (HttpException ex) when (ex.HttpCode == System.Net.HttpStatusCode.NotFound || 
                                                ex.HttpCode == System.Net.HttpStatusCode.Forbidden ||
@@ -99,7 +103,7 @@ namespace NadekoBot.Modules.Games.Trivia
                     try
                     {
                         //hint
-                        await Task.Delay(HintTimeoutMiliseconds, triviaCancelSource.Token).ConfigureAwait(false);
+                        await Task.Delay(hintTimeoutMiliseconds, triviaCancelSource.Token).ConfigureAwait(false);
                         if (ShowHints)
                             try
                             {
@@ -113,7 +117,7 @@ namespace NadekoBot.Modules.Games.Trivia
                             catch (Exception ex) { _log.Warn(ex); }
 
                         //timeout
-                        await Task.Delay(QuestionDurationMiliseconds - HintTimeoutMiliseconds, triviaCancelSource.Token).ConfigureAwait(false);
+                        await Task.Delay(questionDurationMiliseconds - hintTimeoutMiliseconds, triviaCancelSource.Token).ConfigureAwait(false);
 
                     }
                     catch (TaskCanceledException) { } //means someone guessed the answer
@@ -124,7 +128,7 @@ namespace NadekoBot.Modules.Games.Trivia
                     NadekoBot.Client.MessageReceived -= PotentialGuess;
                 }
                 if (!triviaCancelSource.IsCancellationRequested)
-                    try { await channel.SendErrorAsync("Trivia Game", $"**Time's up!** The correct answer was **{CurrentQuestion.Answer}**").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+                    try { await Channel.SendErrorAsync(GetText("trivia_game"), GetText("trivia_times_up", Format.Bold(CurrentQuestion.Answer))).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
                 await Task.Delay(2000).ConfigureAwait(false);
             }
         }
@@ -133,7 +137,7 @@ namespace NadekoBot.Modules.Games.Trivia
         {
             ShouldStopGame = true;
 
-            await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+            await Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                     .WithAuthor(eab => eab.WithName("Trivia Game Ended"))
                     .WithTitle("Final Results")
                     .WithDescription(GetLeaderboard())).ConfigureAwait(false);
@@ -144,7 +148,7 @@ namespace NadekoBot.Modules.Games.Trivia
             var old = ShouldStopGame;
             ShouldStopGame = true;
             if (!old)
-                try { await channel.SendConfirmAsync("Trivia Game", "Stopping after this question.").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+                try { await Channel.SendConfirmAsync(GetText("trivia_game"), GetText("trivia_stopping")).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
         }
 
         private async Task PotentialGuess(SocketMessage imsg)
@@ -155,11 +159,9 @@ namespace NadekoBot.Modules.Games.Trivia
                     return;
 
                 var umsg = imsg as SocketUserMessage;
-                if (umsg == null)
-                    return;
 
-                var textChannel = umsg.Channel as ITextChannel;
-                if (textChannel == null || textChannel.Guild != guild)
+                var textChannel = umsg?.Channel as ITextChannel;
+                if (textChannel == null || textChannel.Guild != Guild)
                     return;
 
                 var guildUser = (IGuildUser)umsg.Author;
@@ -182,13 +184,24 @@ namespace NadekoBot.Modules.Games.Trivia
                 if (Users[guildUser] == WinRequirement)
                 {
                     ShouldStopGame = true;
-                    try { await channel.SendConfirmAsync("Trivia Game", $"{guildUser.Mention} guessed it and WON the game! The answer was: **{CurrentQuestion.Answer}**").ConfigureAwait(false); } catch { }
+                    try
+                    {
+                        await Channel.SendConfirmAsync(GetText("trivia_game"),
+                            GetText("trivia_win",
+                                guildUser.Mention,
+                                Format.Bold(CurrentQuestion.Answer))).ConfigureAwait(false);
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
                     var reward = NadekoBot.BotConfig.TriviaCurrencyReward;
                     if (reward > 0)
                         await CurrencyHandler.AddCurrencyAsync(guildUser, "Won trivia", reward, true).ConfigureAwait(false);
                     return;
                 }
-                await channel.SendConfirmAsync("Trivia Game", $"{guildUser.Mention} guessed it! The answer was: **{CurrentQuestion.Answer}**").ConfigureAwait(false);
+                await Channel.SendConfirmAsync(GetText("trivia_game"),
+                    GetText("guess", guildUser.Mention, Format.Bold(CurrentQuestion.Answer))).ConfigureAwait(false);
 
             }
             catch (Exception ex) { _log.Warn(ex); }
@@ -197,13 +210,13 @@ namespace NadekoBot.Modules.Games.Trivia
         public string GetLeaderboard()
         {
             if (Users.Count == 0)
-                return "No results.";
+                return GetText("no_results");
 
             var sb = new StringBuilder();
 
             foreach (var kvp in Users.OrderByDescending(kvp => kvp.Value))
             {
-                sb.AppendLine($"**{kvp.Key.Username}** has {kvp.Value} points".ToString().SnPl(kvp.Value));
+                sb.AppendLine(GetText("trivia_points", Format.Bold(kvp.Key.ToString()), kvp.Value).SnPl(kvp.Value));
             }
 
             return sb.ToString();

@@ -126,7 +126,6 @@ namespace NadekoBot.Modules.Administration
                     {
                         embed.WithTitle("👥" + g.GetLogText("avatar_changed"))
                             .WithDescription($"{before.Username}#{before.Discriminator} | {before.Id}")
-                            .WithTitle($"{before.Username}#{before.Discriminator} | {before.Id}")
                             .WithThumbnailUrl(before.AvatarUrl)
                             .WithImageUrl(after.AvatarUrl)
                             .WithFooter(fb => fb.WithText(currentTime))
@@ -705,17 +704,18 @@ namespace NadekoBot.Modules.Administration
                     var embed = new EmbedBuilder()
                         .WithOkColor()
                         .WithTitle("🗑 " + logChannel.Guild.GetLogText("msg_del", ((ITextChannel)msg.Channel).Name))
-                        .WithDescription($"{msg.Author}")
-                        .AddField(efb => efb.WithName(logChannel.Guild.GetLogText("content")).WithValue(msg.Resolve(userHandling: TagHandling.FullName)).WithIsInline(false))
+                        .WithDescription(msg.Author.ToString())
+                        .AddField(efb => efb.WithName(logChannel.Guild.GetLogText("content")).WithValue(string.IsNullOrWhiteSpace(msg.Content) ? "-" : msg.Resolve(userHandling: TagHandling.FullName)).WithIsInline(false))
                         .AddField(efb => efb.WithName("Id").WithValue(msg.Id.ToString()).WithIsInline(false))
                         .WithFooter(efb => efb.WithText(currentTime));
                     if (msg.Attachments.Any())
-                        embed.AddField(efb => efb.WithName(logChannel.Guild.GetLogText("attachments")).WithValue(string.Join(", ", msg.Attachments.Select(a => a.ProxyUrl))).WithIsInline(false));
+                        embed.AddField(efb => efb.WithName(logChannel.Guild.GetLogText("attachments")).WithValue(string.Join(", ", msg.Attachments.Select(a => a.Url))).WithIsInline(false));
 
                     await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                 }
-                catch
+                catch (Exception ex)
                 {
+                    _log.Warn(ex);
                     // ignored
                 }
             }
@@ -753,8 +753,8 @@ namespace NadekoBot.Modules.Administration
                         .WithOkColor()
                         .WithTitle("📝 " + logChannel.Guild.GetLogText("msg_update", ((ITextChannel)after.Channel).Name))
                         .WithDescription(after.Author.ToString())
-                        .AddField(efb => efb.WithName(logChannel.Guild.GetLogText("old_msg")).WithValue(before.Resolve(userHandling: TagHandling.FullName)).WithIsInline(false))
-                        .AddField(efb => efb.WithName(logChannel.Guild.GetLogText("new_msg")).WithValue(after.Resolve(userHandling: TagHandling.FullName)).WithIsInline(false))
+                        .AddField(efb => efb.WithName(logChannel.Guild.GetLogText("old_msg")).WithValue(string.IsNullOrWhiteSpace(before.Content) ? "-" : before.Resolve(userHandling: TagHandling.FullName)).WithIsInline(false))
+                        .AddField(efb => efb.WithName(logChannel.Guild.GetLogText("new_msg")).WithValue(string.IsNullOrWhiteSpace(after.Content) ? "-" : after.Resolve(userHandling: TagHandling.FullName)).WithIsInline(false))
                         .AddField(efb => efb.WithName("Id").WithValue(after.Id.ToString()).WithIsInline(false))
                         .WithFooter(efb => efb.WithText(currentTime));
 
@@ -1068,7 +1068,7 @@ namespace NadekoBot.Modules.Administration
     public static class GuildExtensions
     {
         public static string GetLogText(this IGuild guild, string key, params object[] replacements)
-            => NadekoModule.GetTextStatic(key,
+            => NadekoTopLevelModule.GetTextStatic(key,
                 NadekoBot.Localization.GetCultureInfo(guild),
                 typeof(Administration).Name.ToLowerInvariant(),
                 replacements);

@@ -17,7 +17,7 @@ using NLog;
 namespace NadekoBot.Modules.ClashOfClans
 {
     [NadekoModule("ClashOfClans", ",")]
-    public class ClashOfClans : NadekoModule
+    public class ClashOfClans : NadekoTopLevelModule
     {
         public static ConcurrentDictionary<ulong, List<ClashWar>> ClashWars { get; set; } = new ConcurrentDictionary<ulong, List<ClashWar>>();
 

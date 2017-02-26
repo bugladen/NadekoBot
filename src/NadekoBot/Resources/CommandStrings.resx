@@ -841,10 +841,10 @@
     <value>inrole</value>
   </data>
   <data name="inrole_desc" xml:space="preserve">
-    <value>Lists every person from the provided role or roles (separated by a ',') on this server. If the list is too long for 1 message, you must have Manage Messages permission.</value>
+    <value>Lists every person from the provided role or roles, separated with space, on this server. You can use role IDs, role names (in quotes if it has multiple words), or role mention If the list is too long for 1 message, you must have Manage Messages permission.</value>
   </data>
   <data name="inrole_usage" xml:space="preserve">
-    <value>`{0}inrole Role`</value>
+    <value>`{0}inrole Role` or `{0}inrole Role1 "Role 2" @role3`</value>
   </data>
   <data name="checkmyperms_cmd" xml:space="preserve">
     <value>checkmyperms</value>
@@ -1151,7 +1151,7 @@
   </data>
   <data name="searchquote_usage" xml:space="preserve">
     <value>`{0}qsearch keyword text`</value>
- </data>
+  </data>
   <data name="deletequote_cmd" xml:space="preserve">
     <value>deletequote delq</value>
   </data>
@@ -2443,7 +2443,7 @@
     <value>antispam</value>
   </data>
   <data name="antispam_desc" xml:space="preserve">
-    <value>Stops people from repeating same message X times in a row. You can specify to either mute, kick or ban  the offenders.</value>
+    <value>Stops people from repeating same message X times in a row. You can specify to either mute, kick or ban  the offenders. Max message count is 10.</value>
   </data>
   <data name="antispam_usage" xml:space="preserve">
     <value>`{0}antispam 3 Mute` or `{0}antispam 4 Kick` or `{0}antispam 6 Ban`</value>
@@ -2569,10 +2569,10 @@
     <value>autotranslang atl</value>
   </data>
   <data name="autotranslang_desc" xml:space="preserve">
-    <value>`{0}atl en&gt;fr`</value>
+    <value>Sets your source and target language to be used with `{0}at`. Specify no arguments to remove previously set value.</value>
   </data>
   <data name="autotranslang_usage" xml:space="preserve">
-    <value>Sets your source and target language to be used with `{0}at`. Specify no arguments to remove previously set value.</value>
+    <value>`{0}atl en&gt;fr`</value>
   </data>
   <data name="autotranslate_cmd" xml:space="preserve">
     <value>autotrans at</value>
@@ -3140,5 +3140,14 @@
   </data>
   <data name="languageslist_usage" xml:space="preserve">
     <value>`{0}langli`</value>
+  </data>
+  <data name="rategirl_cmd" xml:space="preserve">
+    <value>rategirl</value>
+  </data>
+  <data name="rategirl_desc" xml:space="preserve">
+    <value>Use the universal hot-crazy wife zone matrix to determine the girl's worth. It is everything young men need to know about women. At any moment in time, any woman you have previously located on this chart can vanish from that location and appear anywhere else on the chart.</value>
+  </data>
+  <data name="rategirl_usage" xml:space="preserve">
+    <value>`{0}rategirl @SomeGurl`</value>
   </data>
 </root>
