@@ -82,11 +82,9 @@ namespace NadekoBot.Modules.ClashOfClans
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        [RequireUserPermission(GuildPermission.ManageMessages)]
         public async Task CreateWar(int size, [Remainder] string enemyClan = null)
         {
-            if (!(Context.User as IGuildUser).GuildPermissions.ManageChannels)
-                return;
-
             if (string.IsNullOrWhiteSpace(enemyClan))
                 return;
 
