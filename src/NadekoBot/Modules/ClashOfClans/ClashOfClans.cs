@@ -11,15 +11,13 @@ using NadekoBot.Services.Database.Models;
 using System.Linq;
 using NadekoBot.Extensions;
 using System.Threading;
-using System.Diagnostics;
-using NLog;
 
 namespace NadekoBot.Modules.ClashOfClans
 {
     [NadekoModule("ClashOfClans", ",")]
     public class ClashOfClans : NadekoTopLevelModule
     {
-        public static ConcurrentDictionary<ulong, List<ClashWar>> ClashWars { get; set; } = new ConcurrentDictionary<ulong, List<ClashWar>>();
+        public static ConcurrentDictionary<ulong, List<ClashWar>> ClashWars { get; set; }
 
         private static Timer checkWarTimer { get; }
 

@@ -201,7 +201,7 @@ namespace NadekoBot.Modules.Games.Trivia
                     return;
                 }
                 await Channel.SendConfirmAsync(GetText("trivia_game"),
-                    GetText("guess", guildUser.Mention, Format.Bold(CurrentQuestion.Answer))).ConfigureAwait(false);
+                    GetText("trivia_guess", guildUser.Mention, Format.Bold(CurrentQuestion.Answer))).ConfigureAwait(false);
 
             }
             catch (Exception ex) { _log.Warn(ex); }
