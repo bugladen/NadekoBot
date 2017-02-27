@@ -690,7 +690,7 @@ namespace NadekoBot.Modules.Music
                 return;
             }
             IUserMessage msg = null;
-            try { msg = await ReplyConfirmLocalized("attempting_to_queue", Format.Bold(mpl.Songs.Count.ToString())).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+            try { msg = await Context.Channel.SendMessageAsync(GetText("attempting_to_queue", Format.Bold(mpl.Songs.Count.ToString()))).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
             foreach (var item in mpl.Songs)
             {
                 var usr = (IGuildUser)Context.User;

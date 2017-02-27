@@ -44,7 +44,8 @@ namespace NadekoBot.Modules.Utility
                     Channel = channel;
 
                     Guild = NadekoBot.Client.GetGuild(repeater.GuildId);
-                    Task.Run(Run);
+                    if(Guild!=null)
+                        Task.Run(Run);
                 }
 
 
@@ -127,7 +128,9 @@ namespace NadekoBot.Modules.Utility
                     await Task.Delay(5000).ConfigureAwait(false);
                     Repeaters = new ConcurrentDictionary<ulong, ConcurrentQueue<RepeatRunner>>(NadekoBot.AllGuildConfigs
                         .ToDictionary(gc => gc.GuildId,
-                            gc => new ConcurrentQueue<RepeatRunner>(gc.GuildRepeaters.Select(gr => new RepeatRunner(gr)))));
+                            gc => new ConcurrentQueue<RepeatRunner>(gc.GuildRepeaters
+                                .Select(gr => new RepeatRunner(gr))
+                                .Where(x => x.Guild != null))));
                     _ready = true;
                 });
             }
