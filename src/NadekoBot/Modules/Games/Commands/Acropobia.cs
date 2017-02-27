@@ -276,7 +276,7 @@ $@"--
             {
                 if (!_votes.Any())
                 {
-                    await _channel.SendErrorAsync(GetText("acrophobia"), GetText("no_votes_cast")).ConfigureAwait(false);
+                    await _channel.SendErrorAsync(GetText("acrophobia"), GetText("acro_no_votes_cast")).ConfigureAwait(false);
                     return;
                 }
                 var table = _votes.OrderByDescending(v => v.Value);

@@ -9,11 +9,11 @@ using NadekoBot.Services.Database.Models;
 using NLog;
 using System;
 using System.Collections.Concurrent;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Discord.WebSocket;
 
 namespace NadekoBot.Modules.Utility
 {
@@ -34,23 +34,16 @@ namespace NadekoBot.Modules.Utility
                 private CancellationTokenSource source { get; set; }
                 private CancellationToken token { get; set; }
                 public Repeater Repeater { get; }
-                public ITextChannel Channel { get; }
+                public SocketGuild Guild { get; }
+                public ITextChannel Channel { get; private set; }
 
                 public RepeatRunner(Repeater repeater, ITextChannel channel = null)
                 {
                     _log = LogManager.GetCurrentClassLogger();
                     Repeater = repeater;
-                    //if (channel == null)
-                    //{
-                    //    var guild = NadekoBot.Client.GetGuild(repeater.GuildId);
-                    //    Channel = guild.GetTextChannel(repeater.ChannelId);
-                    //}
-                    //else
-                    //    Channel = channel;
+                    Channel = channel;
 
-                    Channel = channel ?? NadekoBot.Client.GetGuild(repeater.GuildId)?.GetTextChannel(repeater.ChannelId);
-                    if (Channel == null)
-                        return;
+                    Guild = NadekoBot.Client.GetGuild(repeater.GuildId);
                     Task.Run(Run);
                 }
 
@@ -72,10 +65,21 @@ namespace NadekoBot.Modules.Utility
                             //     continue;
 
                             if (oldMsg != null)
-                                try { await oldMsg.DeleteAsync(); } catch { }
+                                try
+                                {
+                                    await oldMsg.DeleteAsync();
+                                }
+                                catch
+                                {
+                                    // ignored
+                                }
                             try
                             {
-                                oldMsg = await Channel.SendMessageAsync(toSend).ConfigureAwait(false);
+                                if (Channel == null)
+                                    Channel = Guild.GetTextChannel(Repeater.ChannelId);
+
+                                if (Channel != null)
+                                    oldMsg = await Channel.SendMessageAsync(toSend).ConfigureAwait(false);
                             }
                             catch (HttpException ex) when (ex.HttpCode == System.Net.HttpStatusCode.Forbidden)
                             {
@@ -93,7 +97,9 @@ namespace NadekoBot.Modules.Utility
                             }
                         }
                     }
-                    catch (OperationCanceledException) { }
+                    catch (OperationCanceledException)
+                    {
+                    }
                 }
 
                 public void Reset()
@@ -109,7 +115,8 @@ namespace NadekoBot.Modules.Utility
 
                 public override string ToString()
                 {
-                    return $"{Channel.Mention} | {(int)Repeater.Interval.TotalHours}:{Repeater.Interval:mm} | {Repeater.Message.TrimTo(33)}";
+                    return
+                        $"{Channel.Mention} | {(int) Repeater.Interval.TotalHours}:{Repeater.Interval:mm} | {Repeater.Message.TrimTo(33)}";
                 }
             }
 
@@ -120,8 +127,7 @@ namespace NadekoBot.Modules.Utility
                     await Task.Delay(5000).ConfigureAwait(false);
                     Repeaters = new ConcurrentDictionary<ulong, ConcurrentQueue<RepeatRunner>>(NadekoBot.AllGuildConfigs
                         .ToDictionary(gc => gc.GuildId,
-                            gc => new ConcurrentQueue<RepeatRunner>(gc.GuildRepeaters.Select(gr => new RepeatRunner(gr))
-                                .Where(gr => gr.Channel != null))));
+                            gc => new ConcurrentQueue<RepeatRunner>(gc.GuildRepeaters.Select(gr => new RepeatRunner(gr)))));
                     _ready = true;
                 });
             }
@@ -192,7 +198,7 @@ namespace NadekoBot.Modules.Utility
 
                 if (Repeaters.TryUpdate(Context.Guild.Id, new ConcurrentQueue<RepeatRunner>(repeaterList), rep))
                     await Context.Channel.SendConfirmAsync(GetText("message_repeater"),
-                        GetText("repeater_stopped" , index + 1) + $"\n\n{repeater}").ConfigureAwait(false);
+                        GetText("repeater_stopped", index + 1) + $"\n\n{repeater}").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -228,9 +234,9 @@ namespace NadekoBot.Modules.Utility
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
 
-                var rep = new RepeatRunner(toAdd, (ITextChannel)Context.Channel);
+                var rep = new RepeatRunner(toAdd, (ITextChannel) Context.Channel);
 
-                Repeaters.AddOrUpdate(Context.Guild.Id, new ConcurrentQueue<RepeatRunner>(new[] { rep }), (key, old) =>
+                Repeaters.AddOrUpdate(Context.Guild.Id, new ConcurrentQueue<RepeatRunner>(new[] {rep}), (key, old) =>
                 {
                     old.Enqueue(rep);
                     return old;
