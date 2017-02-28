@@ -2014,17 +2014,18 @@ Paypal &lt;{1}&gt;
     <value>Вам запрещено использовать эту комманду в отношении ролей с большим числом пользователей для предотвращения</value>
   </data>
   <data name="utility_invalid_value" xml:space="preserve">
-    <value></value>
+    <value>Неправильное значение {0}.</value>
     <comment>Invalid months value/ Invalid hours value</comment>
   </data>
   <data name="utility_joined_discord" xml:space="preserve">
-    <value></value>
+    <value>Присоединился к Discord</value>
   </data>
   <data name="utility_joined_server" xml:space="preserve">
-    <value></value>
+    <value>Присоединился к серверу</value>
   </data>
   <data name="utility_listservers" xml:space="preserve">
-    <value></value>
+    <value>Имя: {0}
+</value>
   </data>
   <data name="utility_listservers_none" xml:space="preserve">
     <value></value>
