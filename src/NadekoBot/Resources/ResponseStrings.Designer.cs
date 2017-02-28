@@ -594,7 +594,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Bot&apos;s language is set to {0} - {0}.
+        ///    Looks up a localized string similar to Bot&apos;s language is set to {0} - {1}.
         /// </summary>
         public static string administration_lang_set_bot_show {
             get {
@@ -612,7 +612,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to This server&apos;s language is set to {0} - {0}.
+        ///    Looks up a localized string similar to This server&apos;s language is set to {0} - {1}.
         /// </summary>
         public static string administration_lang_set_show {
             get {
@@ -1650,7 +1650,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Voice Channel Destroyed.
+        ///    Looks up a localized string similar to Voice Channel Created.
         /// </summary>
         public static string administration_voice_chan_created {
             get {
@@ -2235,7 +2235,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Invalid number specified. You can roll up to {0}-{1} dice at a time..
+        ///    Looks up a localized string similar to Invalid number specified. You can roll {0}-{1} dice at once..
         /// </summary>
         public static string gambling_dice_invalid_number {
             get {
@@ -4902,7 +4902,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Lsit of {0}place tags.
+        ///    Looks up a localized string similar to List of {0}place tags.
         /// </summary>
         public static string searches_list_of_place_tags {
             get {
@@ -5001,7 +5001,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Failed retreiving osu signature..
+        ///    Looks up a localized string similar to Failed retrieving osu! signature..
         /// </summary>
         public static string searches_osu_failed {
             get {
@@ -5995,7 +5995,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Page #{0} of roels for {1}.
+        ///    Looks up a localized string similar to Page #{0} of roles for {1}.
         /// </summary>
         public static string utility_roles_page {
             get {

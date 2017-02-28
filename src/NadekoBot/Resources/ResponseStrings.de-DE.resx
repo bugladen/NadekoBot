@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -118,1928 +118,1926 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="clashofclans_base_already_claimed" xml:space="preserve">
-    <value>That base is already claimed or destroyed.</value>
+    <value>Diese Basis wurde bereits beansprucht oder zerstört.</value>
   </data>
   <data name="clashofclans_base_already_destroyed" xml:space="preserve">
-    <value>That base is already destroyed.</value>
+    <value>Diese Basis ist bereits zertört.</value>
   </data>
   <data name="clashofclans_base_already_unclaimed" xml:space="preserve">
-    <value>That base is not claimed.</value>
+    <value>Diese Basis ist nicht beansprucht.</value>
   </data>
   <data name="clashofclans_base_destroyed" xml:space="preserve">
-    <value>**DESTROYED** base #{0} in a war against {1}</value>
+    <value>Basis #{0} im Krieg gegen {1} **ZERSTÖRT** </value>
   </data>
   <data name="clashofclans_base_unclaimed" xml:space="preserve">
-    <value>{0} has **UNCLAIMED** base #{1} in a war against {2}</value>
+    <value>{0} hat die Basis #{1} **UNBEANSPRUCHT** im Krieg gegen {2}</value>
   </data>
   <data name="clashofclans_claimed_base" xml:space="preserve">
-    <value>{0} claimed a base #{1} in a war against {2}</value>
+    <value>{0} hat die Basis #{1} beansprucht im Krieg gegen {2}</value>
   </data>
   <data name="clashofclans_claimed_other" xml:space="preserve">
-    <value>@{0} You already claimed base #{1}. You can't claim a new one.</value>
+    <value>@{0} sie haben die Basis #{1} bereits beansprucht. Sie können keine weitere beanspruchen.</value>
   </data>
   <data name="clashofclans_claim_expired" xml:space="preserve">
-    <value>Claim from @{0} for a war against {1} has expired.</value>
+    <value>Einnahme von @{0} für den Krieg gegen {1} ist abgelaufen.</value>
   </data>
   <data name="clashofclans_enemy" xml:space="preserve">
-    <value>Enemy</value>
+    <value>Gegner</value>
   </data>
   <data name="clashofclans_info_about_war" xml:space="preserve">
-    <value>Info about war against {0}</value>
+    <value>informationen über den Krieg mit {0}</value>
   </data>
   <data name="clashofclans_invalid_base_number" xml:space="preserve">
-    <value>Invalid base number.</value>
+    <value>Ungültige Basisnummer.</value>
   </data>
   <data name="clashofclans_invalid_size" xml:space="preserve">
-    <value>Not a Valid war size.</value>
+    <value>Keine gültige Kriegsgröße.</value>
   </data>
   <data name="clashofclans_list_active_wars" xml:space="preserve">
-    <value>List Of Active Wars</value>
+    <value>Liste der aktiven Kriege</value>
   </data>
   <data name="clashofclans_not_claimed" xml:space="preserve">
-    <value>not claimed</value>
+    <value>nicht beansprucht</value>
   </data>
   <data name="clashofclans_not_partic" xml:space="preserve">
-    <value>You are not participating in that war.</value>
+    <value>Sie nehmen nicht an diesem Krieg teil.</value>
   </data>
   <data name="clashofclans_not_partic_or_destroyed" xml:space="preserve">
-    <value>@{0} You are either not participating in that war, or that base is already destroyed.</value>
+    <value>@{0} Sie nehmen nicht an diesem Krieg teil, oder diese Basis ist bereits zerstört.</value>
   </data>
   <data name="clashofclans_no_active_wars" xml:space="preserve">
-    <value>No active wars.</value>
+    <value>Keine aktiven Kriege.</value>
   </data>
   <data name="clashofclans_size" xml:space="preserve">
-    <value>Size</value>
+    <value>Größe</value>
   </data>
   <data name="clashofclans_war_already_started" xml:space="preserve">
-    <value>War against {0} has already started.</value>
+    <value>Krieg gegen {0} wurde schon gestartet.</value>
   </data>
   <data name="clashofclans_war_created" xml:space="preserve">
-    <value>War against {0} created.</value>
+    <value>Krieg gegen {0} erstellt.</value>
   </data>
   <data name="clashofclans_war_ended" xml:space="preserve">
-    <value>War against {0} ended.</value>
+    <value>Krieg gegen {0} ist beendet.</value>
   </data>
   <data name="clashofclans_war_not_exist" xml:space="preserve">
-    <value>That war does not exist.</value>
+    <value>Dieser Krieg existiert nicht.</value>
   </data>
   <data name="clashofclans_war_started" xml:space="preserve">
-    <value>War against {0} started!</value>
+    <value>Krieg gegen {0} gestartet!</value>
   </data>
   <data name="customreactions_all_stats_cleared" xml:space="preserve">
-    <value>All custom reaction stats cleared.</value>
+    <value>Reaktionsstatistiken gelöscht.</value>
   </data>
   <data name="customreactions_deleted" xml:space="preserve">
-    <value>Custom Reaction deleted</value>
+    <value>Benutzerdefinierte Reaktion gelöscht.</value>
   </data>
   <data name="customreactions_insuff_perms" xml:space="preserve">
-    <value>Insufficient permissions. Requires Bot ownership for global custom reactions, and Administrator for server custom reactions.</value>
+    <value>Unzureichende Rechte. Dies erfordert das sie den Bot besitzen für globale Reaktionen, und Administratorrechte für serverseitige Reaktionen.</value>
   </data>
   <data name="customreactions_list_all" xml:space="preserve">
-    <value>List of all custom reactions</value>
+    <value>Liste aller benutzerdefinierten Reaktionen.</value>
   </data>
   <data name="customreactions_name" xml:space="preserve">
-    <value>Custom Reactions</value>
+    <value>Benutzerdefinierte Reaktionen</value>
   </data>
   <data name="customreactions_new_cust_react" xml:space="preserve">
-    <value>New Custom Reaction</value>
+    <value>Neue benutzerdefinierte Reaktion</value>
   </data>
   <data name="customreactions_no_found" xml:space="preserve">
-    <value>No custom reactions found.</value>
+    <value>Keine benutzerdefinierten Reaktionen gefunden.</value>
   </data>
   <data name="customreactions_no_found_id" xml:space="preserve">
-    <value>No custom reaction found with that id.</value>
+    <value>Keine benutzerdefinierte Reaktion mit dieser ID gefunden.</value>
   </data>
   <data name="customreactions_response" xml:space="preserve">
-    <value>Response</value>
+    <value>Antwort</value>
   </data>
   <data name="customreactions_stats" xml:space="preserve">
-    <value>Custom Reaction Stats</value>
+    <value>Reaktionsstatistiken</value>
   </data>
   <data name="customreactions_stats_cleared" xml:space="preserve">
-    <value>Stats cleared for {0} custom reaction.</value>
+    <value>Statistiken für die Reaktion {0} gelöscht.</value>
   </data>
   <data name="customreactions_stats_not_found" xml:space="preserve">
-    <value>No stats for that trigger found, no action taken.</value>
+    <value>Keine Statistiken für diesen Auslöser gefunden, keine Aktion unternommen.</value>
   </data>
   <data name="customreactions_trigger" xml:space="preserve">
-    <value>Trigger</value>
+    <value>Auslöser</value>
   </data>
   <data name="nsfw_autohentai_stopped" xml:space="preserve">
-    <value>Autohentai stopped.</value>
+    <value>Autohentai angehalten.</value>
   </data>
   <data name="nsfw_not_found" xml:space="preserve">
-    <value>No results found.</value>
+    <value>Keine Ergebnisse gefunden.</value>
   </data>
   <data name="pokemon_already_fainted" xml:space="preserve">
-    <value>{0} has already fainted.</value>
+    <value>{0} ist bereits ohnmächtig.</value>
   </data>
   <data name="pokemon_already_full" xml:space="preserve">
-    <value>{0} already has full HP.</value>
+    <value>{0} hat bereits volle LP.</value>
   </data>
   <data name="pokemon_already_that_type" xml:space="preserve">
-    <value>Your type is already {0}</value>
+    <value>Dein Typ ist bereits {0}</value>
   </data>
   <data name="pokemon_attack" xml:space="preserve">
-    <value>used {0}{1} on {2}{3} for {4} damage.</value>
+    <value>benutzt {0}{1} auf {2}{3} für {4} Schaden.</value>
     <comment>Kwoth used punch:type_icon: on Sanity:type_icon: for 50 damage.</comment>
   </data>
   <data name="pokemon_cant_attack_again" xml:space="preserve">
-    <value>You can't attack again without retaliation!</value>
+    <value>Sie können ohne Gegenangriff nicht erneut angreifen!</value>
   </data>
   <data name="pokemon_cant_attack_yourself" xml:space="preserve">
-    <value>You can't attack yourself.</value>
+    <value>Sie können sich nicht selber angreifen.</value>
   </data>
   <data name="pokemon_fainted" xml:space="preserve">
-    <value>{0} has fainted!</value>
+    <value>{0} wurde ohnmächtig!</value>
   </data>
   <data name="pokemon_healed" xml:space="preserve">
-    <value>healed {0} with one {1}</value>
+    <value>heilte {0} mit einem {0}</value>
   </data>
   <data name="pokemon_hp_remaining" xml:space="preserve">
-    <value>{0} has {1} HP remaining.</value>
+    <value>{0} hat {1} LP übrig.</value>
   </data>
   <data name="pokemon_invalid_move" xml:space="preserve">
-    <value>You can't use {0}. Type `{1}ml` to see a list of moves you can use.</value>
+    <value>Sie können {0} nicht benutzen. Schreibe `{1}ml` um eine Liste deiner verfügbaren Angriffe zu sehen.</value>
   </data>
   <data name="pokemon_moves" xml:space="preserve">
-    <value>Movelist for {0} type</value>
+    <value>Angriffsliste für den Typ {0}</value>
   </data>
   <data name="pokemon_not_effective" xml:space="preserve">
-    <value>It's not effective.</value>
+    <value>Das ist nicht sehr effektiv.</value>
   </data>
   <data name="pokemon_no_currency" xml:space="preserve">
-    <value>You don't have enough {0}</value>
+    <value>Sie haben nicht genug {0}</value>
   </data>
   <data name="pokemon_revive_other" xml:space="preserve">
-    <value>revived {0} with one {1}</value>
+    <value>belebte {0} wieder mit einem {1}</value>
   </data>
   <data name="pokemon_revive_yourself" xml:space="preserve">
-    <value>You revived yourself with one {0}</value>
+    <value>Sie haben sich selbst wiederbelebt mit einem {0}</value>
   </data>
   <data name="pokemon_settype_success" xml:space="preserve">
-    <value>Your type has been changed to {0} for a {1}</value>
+    <value>Dein Typ wurde verändert von {0} mit einem {1}</value>
   </data>
   <data name="pokemon_somewhat_effective" xml:space="preserve">
-    <value>It's somewhat effective.</value>
+    <value>Das ist effektiv.</value>
   </data>
   <data name="pokemon_super_effective" xml:space="preserve">
-    <value>It's super effective!</value>
+    <value>Das ist sehr effektiv!</value>
   </data>
   <data name="pokemon_too_many_moves" xml:space="preserve">
-    <value>You used too many moves in a row, so you can't move!</value>
+    <value>Sie haben zu viele Angriffe hintereinander eingesetzt, sodass sie sich nicht bewegen können!</value>
   </data>
   <data name="pokemon_type_of_user" xml:space="preserve">
-    <value>Type of {0} is {1}</value>
+    <value>Typ von {0} ist {1}</value>
   </data>
   <data name="pokemon_user_not_found" xml:space="preserve">
-    <value>User not found.</value>
+    <value>Benutzer nicht gefunden.</value>
   </data>
   <data name="pokemon_you_fainted" xml:space="preserve">
-    <value>You fainted, so you are not able to move!</value>
+    <value>Sie sind ohnmächtig, daher können sie sich nicht bewegen!</value>
   </data>
   <data name="administration_aar_disabled" xml:space="preserve">
-    <value>**Auto assign role** on user join is now **disabled**.</value>
+    <value>**Automatische Rollenzuteilung** wenn ein Benutzer beitritt ist nun **deaktiviert**.</value>
   </data>
   <data name="administration_aar_enabled" xml:space="preserve">
-    <value>**Auto assign role** on user join is now **enabled**.</value>
+    <value>**Automatische Rollenzuteilung** wenn ein Benutzer beitritt ist nun **aktiviert**.</value>
   </data>
   <data name="administration_attachments" xml:space="preserve">
-    <value>Attachments</value>
+    <value>Anhänge</value>
   </data>
   <data name="administration_avatar_changed" xml:space="preserve">
-    <value>Avatar Changed</value>
+    <value>Avatar varändert</value>
   </data>
   <data name="administration_bandm" xml:space="preserve">
-    <value>You have been banned from {0} server.
-Reason: {1}</value>
+    <value>Sie wurden vom Server {0} gebannt.
+Grund: {1}</value>
   </data>
   <data name="administration_banned_pl" xml:space="preserve">
-    <value>banned</value>
+    <value>gebannt</value>
     <comment>PLURAL</comment>
   </data>
   <data name="administration_banned_user" xml:space="preserve">
-    <value>User Banned</value>
+    <value>Benutzer gebannt</value>
   </data>
   <data name="administration_bot_name" xml:space="preserve">
-    <value>Bot name changed to {0}</value>
+    <value>Name des Bots geändert zu {0}</value>
   </data>
   <data name="administration_bot_status" xml:space="preserve">
-    <value>Bot status changed to {0}</value>
+    <value>Status des Bots geändert zu {0}</value>
   </data>
   <data name="administration_byedel_off" xml:space="preserve">
-    <value>Automatic deletion of bye messages has been disabled.</value>
+    <value>Automatisches Löschen von Abschiedsnachrichten ist nun deaktiviert.</value>
   </data>
   <data name="administration_byedel_on" xml:space="preserve">
-    <value>Bye messages will be deleted after {0} seconds.</value>
+    <value>Abschiedsnachrichten werden nun nach {0} Sekunden gelöscht.</value>
   </data>
   <data name="administration_byemsg_cur" xml:space="preserve">
-    <value>Current bye message: {0}</value>
+    <value>Aktuelle Abschiedsnachricht: {0}</value>
   </data>
   <data name="administration_byemsg_enable" xml:space="preserve">
-    <value>Enable bye messages by typing {0}</value>
+    <value>Schalte Abschiedsnachrichten ein durch schreiben von {0}</value>
   </data>
   <data name="administration_byemsg_new" xml:space="preserve">
-    <value>New bye message set.</value>
+    <value>Neues Abschiedsnachrichtenset.</value>
   </data>
   <data name="administration_bye_off" xml:space="preserve">
-    <value>Bye announcements disabled.</value>
+    <value>Abschiedsnachrichten deaktiviert.</value>
   </data>
   <data name="administration_bye_on" xml:space="preserve">
-    <value>Bye announcements enabled on this channel.</value>
+    <value>Abschiedsnachrichten eingeschaltet in diesem Kanal.</value>
   </data>
   <data name="administration_ch_name_change" xml:space="preserve">
-    <value>Channel Name Changed</value>
+    <value>Kanalname geändert</value>
   </data>
   <data name="administration_ch_old_name" xml:space="preserve">
-    <value>Old Name</value>
+    <value>Alter Name</value>
   </data>
   <data name="administration_ch_topic_change" xml:space="preserve">
-    <value>Channel Topic Changed</value>
+    <value>Kanalthema geändert</value>
   </data>
   <data name="administration_cleaned_up" xml:space="preserve">
-    <value>Cleaned up.</value>
+    <value>Aufgeräumt.</value>
   </data>
   <data name="administration_content" xml:space="preserve">
-    <value>Content</value>
+    <value>Inhalt</value>
   </data>
   <data name="administration_cr" xml:space="preserve">
-    <value>Sucessfully created role {0}</value>
+    <value>Rolle {0} erfolgreich erstellt</value>
   </data>
   <data name="administration_createtextchan" xml:space="preserve">
-    <value>Text channel {0} created.</value>
+    <value>Textkanal {0} erstellt.</value>
   </data>
   <data name="administration_createvoich" xml:space="preserve">
-    <value>Voice channel {0} created.</value>
+    <value>Sprachkanal {0} erstellt.</value>
   </data>
   <data name="administration_deafen" xml:space="preserve">
-    <value>Deafen successful.</value>
+    <value>Taubschaltung erfolgreich.</value>
   </data>
   <data name="administration_deleted_server" xml:space="preserve">
-    <value>Deleted server {0}</value>
+    <value>Server {0} gelöscht</value>
   </data>
   <data name="administration_delmsg_off" xml:space="preserve">
-    <value>Stopped automatic deletion of successful command invokations.</value>
+    <value>Automatisches Löschen von erfolgreichen Befehlsausführungen gestoppt.</value>
   </data>
   <data name="administration_delmsg_on" xml:space="preserve">
-    <value>Now automatically deleting sucessful command invokations.</value>
+    <value>Automatisches Löschen von erfolgreichen Befehlsausführungen gestartet.</value>
   </data>
   <data name="administration_deltextchan" xml:space="preserve">
-    <value>Text channel {0} deleted.</value>
+    <value>Textkanal {0} gelöscht.</value>
   </data>
   <data name="administration_delvoich" xml:space="preserve">
-    <value>Voice channel {0} deleted.</value>
+    <value>Sprachkanal {0} gelöscht.</value>
   </data>
   <data name="administration_dm_from" xml:space="preserve">
-    <value>DM from</value>
+    <value>DN von</value>
   </data>
   <data name="administration_donadd" xml:space="preserve">
-    <value>Sucessfully added a new donator.Total donated amount from this user: {0} 👑</value>
+    <value>Erfolgreich einen neuen Spender hinzugefügt. Gesamte Spendenmenge von diesem Benutzer: {0} 👑</value>
   </data>
   <data name="administration_donators" xml:space="preserve">
-    <value>Thanks to the people listed below for making this project happen!</value>
+    <value>Danke für die untenstehenden Leute die dieses Projekt möglich gemacht haben!</value>
   </data>
   <data name="administration_fwall_start" xml:space="preserve">
-    <value>I will forward DMs to all owners.</value>
+    <value>Ich werde DNs zu allen Besitzern weiterleiten.</value>
   </data>
   <data name="administration_fwall_stop" xml:space="preserve">
-    <value>I will forward DMs only to the first owner.</value>
+    <value>Ich werde DNs zum ersten Besitzer weiterleiten.</value>
   </data>
   <data name="administration_fwdm_start" xml:space="preserve">
-    <value>I will forward DMs from now on.</value>
+    <value>Ich werde nun DNs weiterleiten.</value>
   </data>
   <data name="administration_fwdm_stop" xml:space="preserve">
-    <value>I will stop forwarding DMs from now on.</value>
+    <value>Ich werde aufhören DNs weiterzuleiten.</value>
   </data>
   <data name="administration_greetdel_off" xml:space="preserve">
-    <value>Automatic deletion of greet messages has been disabled.</value>
+    <value>Automatisches löschen der Begrüßungsnachrichten wurde deaktiviert.</value>
   </data>
   <data name="administration_greetdel_on" xml:space="preserve">
-    <value>Greet messages will be deleted after {0} seconds.</value>
+    <value>Begrüßungsnachrichten werden gelöscht nach {0} sekunden.</value>
   </data>
   <data name="administration_greetdmmsg_cur" xml:space="preserve">
-    <value>Current DM greet message: {0}</value>
+    <value>Aktuelle DN Begrüßungsnachricht: {0}</value>
   </data>
   <data name="administration_greetdmmsg_enable" xml:space="preserve">
-    <value>Enable DM greet messages by typing {0}</value>
+    <value>Aktiviere DN Begrüßungsnachrichten durch schreiben von: {0}</value>
   </data>
   <data name="administration_greetdmmsg_new" xml:space="preserve">
-    <value>New DM greet message set.</value>
+    <value>Neue DN Begrüßungsnachricht wurde gesetzt.</value>
   </data>
   <data name="administration_greetdm_off" xml:space="preserve">
-    <value>DM greet announcements disabled.</value>
+    <value>Begrüßungsankündigungen wurden deaktiviert.</value>
   </data>
   <data name="administration_greetdm_on" xml:space="preserve">
-    <value>DM greet announcements enabled.</value>
+    <value>DN Begrüßungsankündigungen wurden aktiviert.</value>
   </data>
   <data name="administration_greetmsg_cur" xml:space="preserve">
-    <value>Current greet message: {0}</value>
+    <value>Aktuelle Begrüßungsnachricht: {0}</value>
   </data>
   <data name="administration_greetmsg_enable" xml:space="preserve">
-    <value>Enable greet messages by typing {0}</value>
+    <value>Aktiviere Begrüßungsnachrichten durch schreiben von: {0}</value>
   </data>
   <data name="administration_greetmsg_new" xml:space="preserve">
-    <value>New greet message set.</value>
+    <value>Neue Begrüßungsnachricht wurde gesetzt.</value>
   </data>
   <data name="administration_greet_off" xml:space="preserve">
-    <value>Greet announcements disabled.</value>
+    <value>Begrüßungsankündigungen wurden deaktiviert.</value>
   </data>
   <data name="administration_greet_on" xml:space="preserve">
-    <value>Greet announcements enabled on this channel.</value>
+    <value>Begrüßungsankündigungen wurden für diesen Kanal aktiviert.</value>
   </data>
   <data name="administration_hierarchy" xml:space="preserve">
-    <value>You can't use this command on users with a role higher or equal to yours in the role hierarchy.</value>
+    <value>Sie können diesen befehl nicht an Benutzern mit einer Rolle über oder gleich zu ihrer in der Rangordnung benutzen.</value>
   </data>
   <data name="administration_images_loaded" xml:space="preserve">
-    <value>Images loaded after {0} seconds!</value>
+    <value>Bilder wurden geladen nach {0} sekunden!</value>
   </data>
   <data name="administration_invalid_format" xml:space="preserve">
-    <value>Invalid input format.</value>
+    <value>Ungültiges Eingabeformat.</value>
   </data>
   <data name="administration_invalid_params" xml:space="preserve">
-    <value>Invalid parameters.</value>
+    <value>Ungültige Übergabevariable.</value>
   </data>
   <data name="administration_joined" xml:space="preserve">
-    <value>{0} has joined {1}</value>
+    <value>{0} ist {1} beigetreten</value>
   </data>
   <data name="administration_kickdm" xml:space="preserve">
-    <value>You have been kicked from {0} server.
-Reason: {1}</value>
+    <value>Sie haben {0} von dem Server gekickt.
+Grund: {1}</value>
   </data>
   <data name="administration_kicked_user" xml:space="preserve">
-    <value>User Kicked</value>
+    <value>Benutzer wurde gekickt</value>
   </data>
   <data name="administration_lang_list" xml:space="preserve">
-    <value>List Of Languages
+    <value>Liste der Sprachen
 {0}</value>
   </data>
   <data name="administration_lang_set" xml:space="preserve">
-    <value>Your server's locale is now {0} - {1}</value>
+    <value>Ihr Servers Sprachumgebung ist jetzt {1} - {1}</value>
   </data>
   <data name="administration_lang_set_bot" xml:space="preserve">
-    <value>Bot's default locale is now {0} - {1}</value>
+    <value>Der Bots standard Sprachumgebung ist jetzt {0} - {1}</value>
   </data>
   <data name="administration_lang_set_bot_show" xml:space="preserve">
-    <value>Bot's language is set to {0} - {1}</value>
+    <value>Die Sprache des Bots ist {0} - {1}</value>
   </data>
   <data name="administration_lang_set_fail" xml:space="preserve">
-    <value>Failed setting locale. Revisit this command's help.</value>
+    <value>Setzen der Sprachumgebung fehlgeschlagen. Greifen sie auf diesen Befehls hilfe erneut auf.</value>
   </data>
   <data name="administration_lang_set_show" xml:space="preserve">
-    <value>This server's language is set to {0} - {1}</value>
+    <value>Dieser Servers Sprache wurde zu {0} - {1} gesetzt</value>
   </data>
   <data name="administration_left" xml:space="preserve">
-    <value>{0} has left {1}</value>
+    <value>{0} verließ {1}</value>
   </data>
   <data name="administration_left_server" xml:space="preserve">
-    <value>Left server {0}</value>
+    <value>Server {0} wurde verlassen</value>
   </data>
   <data name="administration_log" xml:space="preserve">
-    <value>Logging {0} event in this channel.</value>
+    <value>Ereignis {0} wird in diesem Kanal aufgezeichnet.</value>
   </data>
   <data name="administration_log_all" xml:space="preserve">
-    <value>Logging all events in this channel.</value>
+    <value>Alle Ereignise wird in diesem Kanal aufgezeichnet.</value>
   </data>
   <data name="administration_log_disabled" xml:space="preserve">
-    <value>Logging disabled.</value>
+    <value>Aufzeichnungen wurden deaktiviert.</value>
   </data>
   <data name="administration_log_events" xml:space="preserve">
-    <value>Log events you can subscribe to:</value>
+    <value>Aufzeichnungs Ereignise die sie abonnieren können:</value>
   </data>
   <data name="administration_log_ignore" xml:space="preserve">
-    <value>Logging will ignore {0}</value>
+    <value>Aufzeichnungen werden {0} ignorieren</value>
   </data>
   <data name="administration_log_not_ignore" xml:space="preserve">
-    <value>Logging will not ignore {0}</value>
+    <value>Aufzeichnungen werden {0} nicht ignorieren</value>
   </data>
   <data name="administration_log_stop" xml:space="preserve">
-    <value>Stopped logging {0} event.</value>
+    <value>Aufzeichnung von Ereignis {0} gestoppt.</value>
   </data>
   <data name="administration_menrole" xml:space="preserve">
-    <value>{0} has invoked a mention on the following roles</value>
+    <value>{0} hat eine Erwähnung von den folgended Rollen aufgerufen</value>
   </data>
   <data name="administration_message_from_bo" xml:space="preserve">
-    <value>Message from {0} `[Bot Owner]`:</value>
+    <value>nachricht von {0}  `[Besitzer des Bots]`:</value>
   </data>
   <data name="administration_message_sent" xml:space="preserve">
-    <value>Message sent.</value>
+    <value>Nachricht gesendet.</value>
   </data>
   <data name="administration_moved" xml:space="preserve">
-    <value>{0} moved from {1} to {2}</value>
+    <value>{0} wurde von {1} zu {2} verschoben</value>
   </data>
   <data name="administration_msg_del" xml:space="preserve">
-    <value>Message Deleted in #{0}</value>
+    <value>Nachricht in #{0} gelöscht</value>
   </data>
   <data name="administration_msg_update" xml:space="preserve">
-    <value>Message Updated in #{0}</value>
+    <value>Nachricht in #{0} aktualisiert</value>
   </data>
   <data name="administration_muted_pl" xml:space="preserve">
-    <value>Muted</value>
+    <value>wurden Stumm geschalten</value>
     <comment>PLURAL (users have been muted)</comment>
   </data>
   <data name="administration_muted_sn" xml:space="preserve">
-    <value>Muted</value>
-    <comment>singular "User muted."</comment>
+    <value>wurde Stumm geschalten</value>
+    <comment>singular &quot;User muted.&quot;</comment>
   </data>
   <data name="administration_mute_error" xml:space="preserve">
-    <value>I don't have the permission necessary for that most likely.</value>
+    <value>Ich habe wahrscheinlich die benötigten Rechte für dies nicht.</value>
   </data>
   <data name="administration_mute_role_set" xml:space="preserve">
-    <value>New mute role set.</value>
+    <value>Neue Stumme Rolle gesetzt.</value>
   </data>
   <data name="administration_need_admin" xml:space="preserve">
-    <value>I need **Administration** permission to do that.</value>
+    <value>Ich brauche **Administrations** rechte um dies tun zu können.</value>
   </data>
   <data name="administration_new_msg" xml:space="preserve">
-    <value>New Message</value>
+    <value>Neue Nachricht</value>
   </data>
   <data name="administration_new_nick" xml:space="preserve">
-    <value>New Nickname</value>
+    <value>Neuer Nickname</value>
   </data>
   <data name="administration_new_topic" xml:space="preserve">
-    <value>New Topic</value>
+    <value>Neues Thema</value>
   </data>
   <data name="administration_nick_change" xml:space="preserve">
-    <value>Nickname Changed</value>
+    <value>Nickname wurde geändert</value>
   </data>
   <data name="administration_no_server" xml:space="preserve">
-    <value>Can't find that server</value>
+    <value>Konnte den Server nicht finden</value>
   </data>
   <data name="administration_no_shard_id" xml:space="preserve">
-    <value>No shard with that ID found.</value>
+    <value>Kein Shard mit dieser ID gefunden.</value>
   </data>
   <data name="administration_old_msg" xml:space="preserve">
-    <value>Old Message</value>
+    <value>Alte Nachricht</value>
   </data>
   <data name="administration_old_nick" xml:space="preserve">
-    <value>Old Nickname</value>
+    <value>Alter Nickname</value>
   </data>
   <data name="administration_old_topic" xml:space="preserve">
-    <value>Old Topic</value>
+    <value>Altes Thema</value>
   </data>
   <data name="administration_perms" xml:space="preserve">
-    <value>Error. Most likely I don't have sufficient permissions.</value>
+    <value>Fehler. Ich habe wahrscheinlich nicht ausreichend Rechte.</value>
   </data>
   <data name="administration_perms_reset" xml:space="preserve">
-    <value>Permissions for this server are reset.</value>
+    <value>Rechte für diesen Server zurückgesetzt.</value>
   </data>
   <data name="administration_prot_active" xml:space="preserve">
-    <value>Active Protections</value>
+    <value>Aktive Schutzmechanismen</value>
   </data>
   <data name="administration_prot_disable" xml:space="preserve">
-    <value>{0} has been **disabled** on this server.</value>
+    <value>{0} wurde auf diesem Server **deaktiviert**.</value>
   </data>
   <data name="administration_prot_enable" xml:space="preserve">
-    <value>{0} Enabled</value>
+    <value>{0} aktiviert</value>
   </data>
   <data name="administration_prot_error" xml:space="preserve">
-    <value>Error. I need ManageRoles permission</value>
+    <value>Fehler. Ich benötige die Berechtigung RollenVerwalten</value>
   </data>
   <data name="administration_prot_none" xml:space="preserve">
-    <value>No protections enabled.</value>
+    <value>Keine Schutzmechanismen aktiviert.</value>
   </data>
   <data name="administration_raid_cnt" xml:space="preserve">
-    <value>User threshold must be between {0} and {1}.</value>
+    <value>Benutzerschwelle muss zwischen {0} und {1} sein.</value>
   </data>
   <data name="administration_raid_stats" xml:space="preserve">
-    <value>If {0} or more users join within {1} seconds, I will {2} them.</value>
+    <value>Wenn {0} oder mehr Benutzer innerhalb von {1} Sekunden beitreten werde ich sie {2}.</value>
   </data>
   <data name="administration_raid_time" xml:space="preserve">
-    <value>Time must be between {0} and {1} seconds.</value>
+    <value>Zeit muss zwischen {0} und {1} sekunden sein.</value>
   </data>
   <data name="administration_rar" xml:space="preserve">
-    <value>Successfully removed all roles from user {0}</value>
+    <value>Erfolgreich alle Rollen vom Benutzer {0} entfernt</value>
   </data>
   <data name="administration_rar_err" xml:space="preserve">
-    <value>Failed to remove roles. I have insufficient permissions.</value>
+    <value>Rollen konnten nicht entfernt werden. Ich habe nicht die erforderlichen Rechte.</value>
   </data>
   <data name="administration_rc" xml:space="preserve">
-    <value>Color of {0} role has been changed.</value>
+    <value>Farbe der Rolle {0} wurde geändert.</value>
   </data>
   <data name="administration_rc_not_exist" xml:space="preserve">
-    <value>That role does not exist.</value>
+    <value>Diese Rolle existiert nicht.</value>
   </data>
   <data name="administration_rc_params" xml:space="preserve">
-    <value>The parameters specified are invalid.</value>
+    <value>Die angegebenen Parameter sind ungültig.</value>
   </data>
   <data name="administration_rc_perms" xml:space="preserve">
-    <value>Error occured due to invalid color or insufficient permissions.</value>
+    <value>Fehler ist aufgetreten aufgrund von einer ungültigen Farbe oder fehlenden Rechten.</value>
   </data>
   <data name="administration_remrole" xml:space="preserve">
-    <value>Successfully removed role {0} from user {1}</value>
+    <value>Erfolgreich die Rolle {0} vom Benutzer {1} entfernt</value>
   </data>
   <data name="administration_remrole_err" xml:space="preserve">
-    <value>Failed to remove role. I have insufficient permissions.</value>
+    <value>Entfernen der Rolle fehlgeschlagen. Ich habe nicht die erforderlichen Rechte.</value>
   </data>
   <data name="administration_renrole" xml:space="preserve">
-    <value>Role renamed.</value>
+    <value>Rolle umbenannt.</value>
   </data>
   <data name="administration_renrole_err" xml:space="preserve">
-    <value>Failed to rename role. I have insufficient permissions.</value>
+    <value>Umbenennen der Rolle fehlgeschlagen. Ich habe nicht die erforderlichen Rechte.</value>
   </data>
   <data name="administration_renrole_perms" xml:space="preserve">
-    <value>You can't edit roles higher than your highest role.</value>
+    <value>Sie kännen keine Rollen bearbeiten die höher als ihre eigenen sind.</value>
   </data>
   <data name="administration_reprm" xml:space="preserve">
-    <value>Removed the playing message: {0}</value>
+    <value>Die Abspielnachricht wurde entfernt: {0}</value>
   </data>
   <data name="administration_role_added" xml:space="preserve">
-    <value>Role {0} as been added to the list.</value>
+    <value>Die Rolle {0} wurde zur Liste hinzugefügt.</value>
   </data>
   <data name="administration_role_clean" xml:space="preserve">
-    <value>{0} not found.Cleaned up.</value>
+    <value>{0} nicht gefunden. Aufgeräumt.</value>
   </data>
   <data name="administration_role_in_list" xml:space="preserve">
-    <value>Role {0} is already in the list.</value>
+    <value>Die Rolle {0} ist bereits in der Liste.</value>
   </data>
   <data name="administration_ropl_added" xml:space="preserve">
-    <value>Added.</value>
+    <value>Hinzugefügt.</value>
   </data>
   <data name="administration_ropl_disabled" xml:space="preserve">
-    <value>Rotating playing status disabled.</value>
+    <value>Rotation des Spielstatus deaktiviert.</value>
   </data>
   <data name="administration_ropl_enabled" xml:space="preserve">
-    <value>Rotating playing status enabled.</value>
+    <value>Rotation des Spielstatus aktiviert.</value>
   </data>
   <data name="administration_ropl_list" xml:space="preserve">
-    <value>Here is a list of rotating statuses:
+    <value>Hier ist die Liste der rotierenden Status:
 {0}</value>
   </data>
   <data name="administration_ropl_not_set" xml:space="preserve">
-    <value>No rotating playing statuses set.</value>
+    <value>Keine rotierenden Status gesetzt.</value>
   </data>
   <data name="administration_self_assign_already" xml:space="preserve">
-    <value>You already have {0} role.</value>
+    <value>Sie haben bereits die Rolle {0}.</value>
   </data>
   <data name="administration_self_assign_already_excl" xml:space="preserve">
-    <value>You already have {0} exclusive self-assigned role.</value>
+    <value>Sie haben bereits die exklusive, selbstzugewiesene Rolle {0}.</value>
   </data>
   <data name="administration_self_assign_excl" xml:space="preserve">
-    <value>Self assigned roles are now exclusive!</value>
+    <value>Selbstzuweisbare Rollen sind nun exklusiv!</value>
   </data>
   <data name="administration_self_assign_list" xml:space="preserve">
-    <value>There are {0} self assignable roles</value>
+    <value>Es gibt {0} selbstzuweisbare Rollen</value>
   </data>
   <data name="administration_self_assign_not" xml:space="preserve">
-    <value>That role is not self-assignable.</value>
+    <value>Diese Rolle ist nicht selbstzuweisbar.</value>
   </data>
   <data name="administration_self_assign_not_have" xml:space="preserve">
-    <value>You don't have {0} role.</value>
+    <value>Sie haben die Rolle {0} nicht.</value>
   </data>
   <data name="administration_self_assign_no_excl" xml:space="preserve">
-    <value>Self assigned roles are now not exclusive!</value>
+    <value>Selbstzuweisbare Rollen sind nicht länger exklusiv!</value>
   </data>
   <data name="administration_self_assign_perms" xml:space="preserve">
-    <value>I am unable to add that role to you. `I can't add roles to owners or other roles higher than my role in the role hierarchy.`</value>
+    <value>Ich kann dir diese Rolle nicht zuweisen. `Ich kann keine Rollen zu Besitzern oder andere Rollen die höher als meine in der Rangordnung sind hinzufügen.`</value>
   </data>
   <data name="administration_self_assign_rem" xml:space="preserve">
-    <value>{0} has been removed from the list of self-assignable roles.</value>
+    <value>{0} wurde von der Liste der selbstzuweisbaren Rollen entfernt.</value>
   </data>
   <data name="administration_self_assign_remove" xml:space="preserve">
-    <value>You no longer have {0} role.</value>
+    <value>Sie haben nicht länger die Rolle {0}.</value>
   </data>
   <data name="administration_self_assign_success" xml:space="preserve">
-    <value>You now have {0} role.</value>
+    <value>Sie haben nun die Rolle {0}.</value>
   </data>
   <data name="administration_setrole" xml:space="preserve">
-    <value>Sucessfully added role {0} to user {1}</value>
+    <value>Erfolgreich die Rolle {0} zum Benutzer {1} hinzugefügt</value>
   </data>
   <data name="administration_setrole_err" xml:space="preserve">
-    <value>Failed to add role. I have insufficient permissions.</value>
+    <value>Fehlgeschlagen die Rolle hinzuzufügen. Ich habe nicht die erforderlichen Rechte.</value>
   </data>
   <data name="administration_set_avatar" xml:space="preserve">
-    <value>New avatar set!</value>
+    <value>Neuer Avatar gesetzt!</value>
   </data>
   <data name="administration_set_channel_name" xml:space="preserve">
-    <value>New channel name set.</value>
+    <value>Neuer Kanalname gesetzt.</value>
   </data>
   <data name="administration_set_game" xml:space="preserve">
-    <value>New game set!</value>
+    <value>Neues Spiel gesetzt!</value>
   </data>
   <data name="administration_set_stream" xml:space="preserve">
-    <value>New stream set!</value>
+    <value>Neuer Stream gesetzt!</value>
   </data>
   <data name="administration_set_topic" xml:space="preserve">
-    <value>New channel topic set.</value>
+    <value>Neues Kanalthema gesetzt.</value>
   </data>
   <data name="administration_shard_reconnected" xml:space="preserve">
-    <value>Shard {0} reconnected.</value>
+    <value>Verbindung zu Shard {0} wiederhergestellt.</value>
   </data>
   <data name="administration_shard_reconnecting" xml:space="preserve">
-    <value>Shard {0} reconnecting.</value>
+    <value>Verbindung zu Shard {0} wird wiederhergestellt.</value>
   </data>
   <data name="administration_shutting_down" xml:space="preserve">
-    <value>Shutting down</value>
+    <value>Fahre herunter</value>
   </data>
   <data name="administration_slowmode_desc" xml:space="preserve">
-    <value>Users can't send more than {0} messages every {1} seconds.</value>
+    <value>Benutzer können nicht mehr als {0} Nachrichten alle {1} Sekunden senden.</value>
   </data>
   <data name="administration_slowmode_disabled" xml:space="preserve">
-    <value>Slow mode disabled.</value>
+    <value>Slow mode deaktiviert.</value>
   </data>
   <data name="administration_slowmode_init" xml:space="preserve">
-    <value>Slow mode initiated</value>
+    <value>Slow mode eingeleitet</value>
   </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
-    <value>soft-banned (kicked)</value>
+    <value>soft-banned (gekickt)</value>
     <comment>PLURAL</comment>
   </data>
   <data name="administration_spam_ignore" xml:space="preserve">
-    <value>{0} will ignore this channel.</value>
+    <value>{0} wird diesen Kanal ignorieren.</value>
   </data>
   <data name="administration_spam_not_ignore" xml:space="preserve">
-    <value>{0} will no longer ignore this channel.</value>
+    <value>{0} wird diesen Kanal nicht mehr ignorieren.</value>
   </data>
   <data name="administration_spam_stats" xml:space="preserve">
-    <value>If a user posts {0} same messages in a row, I will {1} them.
-    __IgnoredChannels__: {2}</value>
+    <value>Wenn ein Benutzer {0} gleiche Nachrichten sendet werde ich ihn {1}.
+__ignoredChannels__: {2}</value>
   </data>
   <data name="administration_text_chan_created" xml:space="preserve">
-    <value>Text Channel Created</value>
+    <value>Textkanal erstellt</value>
   </data>
   <data name="administration_text_chan_destroyed" xml:space="preserve">
-    <value>Text Channel Destroyed </value>
+    <value>Textkanal zerstört</value>
   </data>
   <data name="administration_undeafen" xml:space="preserve">
-    <value>Undeafen successful.</value>
+    <value>Taubschaltung aufgehoben.</value>
   </data>
   <data name="administration_unmuted_sn" xml:space="preserve">
-    <value>Unmuted</value>
+    <value>Stummschaltung aufgehoben</value>
     <comment>singular</comment>
   </data>
   <data name="administration_username" xml:space="preserve">
-    <value>Username</value>
+    <value>Benutzername</value>
   </data>
   <data name="administration_username_changed" xml:space="preserve">
-    <value>Username Changed</value>
+    <value>Benutzername geändert</value>
   </data>
   <data name="administration_users" xml:space="preserve">
-    <value>Users</value>
+    <value>Benutzer</value>
   </data>
   <data name="administration_user_banned" xml:space="preserve">
-    <value>User Banned</value>
+    <value>Benutzer gebannt</value>
   </data>
   <data name="administration_user_chat_mute" xml:space="preserve">
-    <value>{0} has been **muted** from chatting.</value>
+    <value>{0} wurde **stummgeschaltet** im Chat.</value>
   </data>
   <data name="administration_user_chat_unmute" xml:space="preserve">
-    <value>{0} has been **unmuted** from chatting.</value>
+    <value>{0} ist nicht länger **stummgeschaltet** im Chat.</value>
   </data>
   <data name="administration_user_joined" xml:space="preserve">
-    <value>User Joined</value>
+    <value>Benutzer ist beigetreten</value>
   </data>
   <data name="administration_user_left" xml:space="preserve">
-    <value>User Left</value>
+    <value>Benutzer ist gegangen</value>
   </data>
   <data name="administration_user_muted" xml:space="preserve">
-    <value>{0} has been **muted** from text and voice chat.</value>
+    <value>{0} wurde **stummgeschaltet** im Text- und Sprachchat.</value>
   </data>
   <data name="administration_user_role_add" xml:space="preserve">
-    <value>User's Role Added</value>
+    <value>Benutzerrolle hinzugefügt</value>
   </data>
   <data name="administration_user_role_rem" xml:space="preserve">
-    <value>User's  Role Removed</value>
+    <value>Benutzerrolle entfernt</value>
   </data>
   <data name="administration_user_status_change" xml:space="preserve">
-    <value>{0} is now {1}</value>
+    <value>{0} ist nun {1}</value>
   </data>
   <data name="administration_user_unmuted" xml:space="preserve">
-    <value>{0} has been **unmuted** from text and voice chat.</value>
+    <value>{0} ist nicht länger **stummgeschaltet** im Text- und Sprachchat.</value>
   </data>
   <data name="administration_user_vjoined" xml:space="preserve">
-    <value>{0} has joined {1} voice channel.</value>
+    <value>{0} ist dem Sprachkanal {1} beigetreten.</value>
   </data>
   <data name="administration_user_vleft" xml:space="preserve">
-    <value>{0} has left {1} voice channel.</value>
+    <value>{0} hat den Sprachkanal {1} verlassen.</value>
   </data>
   <data name="administration_user_vmoved" xml:space="preserve">
-    <value>{0} moved from {1} to {2} voice channel.</value>
+    <value>{0} ging vom Sprachkanal {1} zu {2}.</value>
   </data>
   <data name="administration_user_voice_mute" xml:space="preserve">
-    <value>{0} has been **voice muted**.</value>
+    <value>{0} wurde **stummgeschaltet** im Sprachchat.</value>
   </data>
   <data name="administration_user_voice_unmute" xml:space="preserve">
-    <value>{0} has been **voice unmuted**.</value>
+    <value>{0} ist nicht länger **stummgeschaltet** im Sprachchat.</value>
   </data>
   <data name="administration_voice_chan_created" xml:space="preserve">
-    <value>Voice Channel Created</value>
+    <value>Sprachkanal erstellt</value>
+    <comment>Should say &quot;Voice Channel Created&quot;</comment>
   </data>
   <data name="administration_voice_chan_destroyed" xml:space="preserve">
-    <value>Voice Channel Destroyed</value>
+    <value>Sprachkanal zerstört</value>
   </data>
   <data name="administration_vt_disabled" xml:space="preserve">
-    <value>Disabled voice + text feature.</value>
+    <value>Text- und Sprachfunktion deaktiviert.</value>
   </data>
   <data name="administration_vt_enabled" xml:space="preserve">
-    <value>Enabled voice + text feature.</value>
+    <value>Text- und Sprachfunktion aktiviert.</value>
   </data>
   <data name="administration_vt_exit" xml:space="preserve">
-    <value>I don't have **manage roles** and/or **manage channels** permission, so I cannot run `voice+text` on {0} server.</value>
+    <value>Ich habe keine **Rollenmanagement**- und/oder **Kanalmanagement**-Rechte, sodass ich `voice+text` auf dem Server {0} nicht ausführen kann.</value>
   </data>
   <data name="administration_vt_no_admin" xml:space="preserve">
-    <value>You are enabling/disabling this feature and **I do not have ADMINISTRATOR permissions**. This may cause some issues, and you will have to clean up text channels yourself afterwards.</value>
+    <value>Sie schalten diese Funktion ein bzw. aus und **ich habe keine ADMINISTRATORRECHTE**. Dies könnte einige Probleme hervorrufen, sodass sie ihre Textkanäle eventuell selber aufräumen musst.</value>
   </data>
   <data name="administration_vt_perms" xml:space="preserve">
-    <value>I require atleast **manage roles** and **manage channels** permissions to enable this feature. (preffered Administration permission)</value>
+    <value>Ich benötige zumindest **Rollenmanagement**- und **Kanalmanagement**-Rechte um diese Funktion einzuschalten. (Bevorzugt Administratorrechte)</value>
   </data>
   <data name="administration_xmuted_text" xml:space="preserve">
-    <value>User {0} from text chat</value>
+    <value>Benutzer {0} vom Textchat</value>
   </data>
   <data name="administration_xmuted_text_and_voice" xml:space="preserve">
-    <value>User {0} from text and voice chat</value>
+    <value>Benutzer {0} vom Text- und Sprachchat</value>
   </data>
   <data name="administration_xmuted_voice" xml:space="preserve">
-    <value>User {0} from voice chat</value>
+    <value>Benutzer {0} vom Sprachchat</value>
   </data>
   <data name="administration_sbdm" xml:space="preserve">
-    <value>You have been soft-banned from {0} server.
-Reason: {1}</value>
+    <value>Sie wurden vom Server {0} gekickt.
+Grund: {1}</value>
   </data>
   <data name="administration_user_unbanned" xml:space="preserve">
-    <value>User Unbanned</value>
+    <value>Benutzer entbannt</value>
   </data>
   <data name="administration_migration_done" xml:space="preserve">
-    <value>Migration done!</value>
+    <value>Migration fertig!</value>
   </data>
   <data name="adminsitration_migration_error" xml:space="preserve">
-    <value>Error while migrating, check bot's console for more information.</value>
+    <value>Fehler beim migrieren von Daten. Prüfe die Konsole des Bots für mehr Informationen.</value>
   </data>
   <data name="administration_presence_updates" xml:space="preserve">
-    <value>Presence Updates</value>
+    <value>Anwesenheits Änderungen</value>
   </data>
   <data name="administration_sb_user" xml:space="preserve">
-    <value>User Soft-Banned</value>
+    <value>Nutzer wurde gekickt</value>
   </data>
   <data name="gambling_awarded" xml:space="preserve">
-    <value>has awarded {0} to {1}</value>
+    <value>verleiht {1} {0}</value>
   </data>
   <data name="gambling_betflip_gamble" xml:space="preserve">
-    <value>Betflip Gamble</value>
+    <value>Münzwurf-Glücksspiel</value>
   </data>
   <data name="gambling_better_luck" xml:space="preserve">
-    <value>Better luck next time ^_^</value>
+    <value>Hoffentlich haben sie beim nächsten Mal mehr Glück ^_^</value>
   </data>
   <data name="gambling_br_win" xml:space="preserve">
-    <value>Congratulations! You won {0} for rolling above {1}</value>
+    <value>Glückwunsch! Sie haben {0} gewonnen, weil sie über {1} gewürfelt haben</value>
   </data>
   <data name="gambling_deck_reshuffled" xml:space="preserve">
-    <value>Deck reshuffled.</value>
+    <value>Deck neu gemischt.</value>
   </data>
   <data name="gambling_flipped" xml:space="preserve">
-    <value>flipped {0}.</value>
+    <value>Münzwurfergebnis: {0}.</value>
     <comment>User flipped tails.</comment>
   </data>
   <data name="gambling_flip_guess" xml:space="preserve">
-    <value>You guessed it! You won {0}</value>
+    <value>Sie haben es erraten! Sie haben {0} gewonnen</value>
   </data>
   <data name="gambling_flip_invalid" xml:space="preserve">
-    <value>Invalid number specified. You can flip 1 to {0} coins.</value>
+    <value>Ungültige Anzahl angegeben. Sie können 1 bis {0} Münzen werfen.</value>
   </data>
   <data name="gambling_flowerreaction_desc" xml:space="preserve">
-    <value>Add {0} reaction to this message to get {1} </value>
+    <value>Füge die {0} Reaktion zu dieser Nachricht hinzu um {1} zu erhalten</value>
   </data>
   <data name="gambling_flowerreaction_footer" xml:space="preserve">
-    <value>This event is active for up to {0} hours.</value>
+    <value>Dieses Ereignis ist aktiv für bis zu {0} Stunden.</value>
   </data>
   <data name="gambling_flowerreaction_title" xml:space="preserve">
-    <value>Flower reaction event started!</value>
+    <value>Blumen-Reaktions-Ereignis gestartet</value>
   </data>
   <data name="gambling_gifted" xml:space="preserve">
-    <value>has gifted {0} to {1}</value>
+    <value>hat {0} an {1} verschenkt</value>
     <comment>X has gifted 15 flowers to Y</comment>
   </data>
   <data name="gambling_has" xml:space="preserve">
-    <value>{0} has {1}</value>
+    <value>{0} hat eine {1}</value>
     <comment>X has Y flowers</comment>
   </data>
   <data name="gambling_heads" xml:space="preserve">
-    <value>Heads</value>
+    <value>Kopf</value>
   </data>
   <data name="gambling_leaderboard" xml:space="preserve">
-    <value>Leaderboard</value>
+    <value>Bestenliste</value>
   </data>
   <data name="gambling_mass_award" xml:space="preserve">
-    <value>Awarded {0} to {1} users from {2} role.</value>
+    <value>{0} zu {1} Benutzern der Rolle {2} verliehen.</value>
   </data>
   <data name="gambling_max_bet_limit" xml:space="preserve">
-    <value>You can't bet more than {0}</value>
+    <value>Sie können nicht mehr als {0} wetten</value>
   </data>
   <data name="gambling_min_bet_limit" xml:space="preserve">
-    <value>You can't bet less than {0}</value>
+    <value>Sie können nicht weniger als {0} wetten</value>
   </data>
   <data name="gambling_not_enough" xml:space="preserve">
-    <value>You don't have enough {0}</value>
+    <value>Sie haben nicht genug {0}</value>
   </data>
   <data name="gambling_no_more_cards" xml:space="preserve">
-    <value>No more cards in the deck.</value>
+    <value>Keine Karten mehr im Deck.</value>
   </data>
   <data name="gambling_raffled_user" xml:space="preserve">
-    <value>Raffled User</value>
+    <value>Ausgewählter Benutzer</value>
   </data>
   <data name="gambling_roll" xml:space="preserve">
-    <value>You rolled {0}.</value>
+    <value>Sie haben eine {0} gewürfelt.</value>
   </data>
   <data name="gambling_slot_bet" xml:space="preserve">
-    <value>Bet</value>
+    <value>Wette</value>
   </data>
   <data name="gambling_slot_jackpot" xml:space="preserve">
-    <value>WOAAHHHHHH!!! Congratulations!!! x{0}</value>
+    <value>WOAAHHHHHH!!! Glückwunsch!!! x{0}</value>
   </data>
   <data name="gambling_slot_single" xml:space="preserve">
-    <value>A single {0}, x{1}</value>
+    <value>Eine einzelne {0}, x{1}</value>
   </data>
   <data name="gambling_slot_three" xml:space="preserve">
-    <value>Wow! Lucky! Three of a kind! x{0}</value>
+    <value>Wow! Glückspilz! Ein Drilling! x{0}</value>
   </data>
   <data name="gambling_slot_two" xml:space="preserve">
-    <value>Good job! Two {0} - bet x{1}</value>
+    <value>Gut gemacht! Zwei {0} - Einsatz x{1}</value>
   </data>
   <data name="gambling_slot_won" xml:space="preserve">
-    <value>Won</value>
+    <value>Gewonnen</value>
   </data>
   <data name="gambling_sneakygamestatus_desc" xml:space="preserve">
-    <value>Users must type a secret code to get {0}.
-Lasts {1} seconds. Don't tell anyone. Shhh.</value>
+    <value>Benutzer müssen einen geheimen Code schreiben um {0} zu erhalten. Gültig für {1} Sekunden. Erzähls niemanden. Pshhh.</value>
   </data>
   <data name="gambling_sneakygamestatus_end" xml:space="preserve">
-    <value>SneakyGame event ended. {0} users received the reward.</value>
+    <value>Das SneakyGame-Event ist beendet. {0} Nutzer haben die Belohnung erhalten</value>
   </data>
   <data name="gambling_sneakygamestatus_title" xml:space="preserve">
-    <value>SneakyGameStatus event started</value>
+    <value>SneakyGameStatus-Event wurde gestartet</value>
   </data>
   <data name="gambling_tails" xml:space="preserve">
-    <value>Tails</value>
+    <value>Zahl</value>
   </data>
   <data name="gambling_take" xml:space="preserve">
-    <value>successfully took {0} from {1}</value>
+    <value>hat erfolgreich {0} von {1} genommen</value>
   </data>
   <data name="gambling_take_fail" xml:space="preserve">
-    <value>was unable to take {0} from{1} because the user doesn't have that much {2}!</value>
+    <value>war es nicht möglich {0} von {1} zu nehmen, da der Benutzer nicht so viele {2} besitzt!</value>
   </data>
   <data name="help_back_to_toc" xml:space="preserve">
-    <value>Back to ToC</value>
+    <value>Zurück zu ToC</value>
   </data>
   <data name="help_bot_owner_only" xml:space="preserve">
-    <value>Bot Owner Only</value>
+    <value>Nur Bot-Besitzer</value>
   </data>
   <data name="help_channel_permission" xml:space="preserve">
-    <value>Requires {0} channel permission.</value>
+    <value>Benötigt Kanalrecht {0}.</value>
   </data>
   <data name="help_cmdlist_donate" xml:space="preserve">
-    <value>You can support the project on patreon: &lt;{0}&gt; or paypal: &lt;{1}&gt;</value>
+    <value>Sie können das Projekt auf Patreon: &lt;{0}&gt; oder Paypal: &lt;{1}&gt; unterstützen.</value>
   </data>
   <data name="help_cmd_and_alias" xml:space="preserve">
-    <value>Command and aliases</value>
+    <value>Befehle und Alias</value>
   </data>
   <data name="help_commandlist_regen" xml:space="preserve">
-    <value>Commandlist Regenerated.</value>
+    <value>Befehlsliste neu generiert.</value>
   </data>
   <data name="help_commands_instr" xml:space="preserve">
-    <value>Type `{0}h CommandName` to see the help for that specified command. e.g. `{0}h &gt;8ball`</value>
+    <value>Gebe `{0}h NameDesBefehls` ein, um die Hilfestellung für diesen Befehl zu sehen. Z.B. `{0}h &gt;8ball`</value>
   </data>
   <data name="help_command_not_found" xml:space="preserve">
-    <value>I can't find that command. Please verify that the command exists before trying again.</value>
+    <value>Ich konnte diesen Befehl nicht finden. Bitte stelle sicher das dieser Befehl existiert bevor sie es erneut versuchen.</value>
   </data>
   <data name="help_desc" xml:space="preserve">
-    <value>Description</value>
+    <value>Beschreibung</value>
   </data>
   <data name="help_donate" xml:space="preserve">
-    <value>You can support the NadekoBot project on 
-Patreon &lt;{0}&gt; or
-Paypal &lt;{1}&gt;
-Don't forget to leave your discord name or id in the message.
+    <value>Sie können das NadekoBot-Projekt über 
+Patreon &lt;{0}&gt; oder 
+PayPal &lt;{1}&gt; unterstützen.
+Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu hinterlassen.
 
-**Thank you** ♥️</value>
+**Vielen Dank**♥️</value>
   </data>
   <data name="help_guide" xml:space="preserve">
-    <value>**List of Commands**: &lt;{0}&gt;
-**Hosting Guides and docs can be found here**: &lt;{1}&gt;</value>
+    <value>**Liste der Befehle**: &lt;{0}&gt;
+**Hosting Anleitungen und Dokumentationen können hier gefunden werden**: &lt;{1}&gt;</value>
   </data>
   <data name="help_list_of_commands" xml:space="preserve">
-    <value>List Of Commands</value>
+    <value>Lister der Befehle</value>
   </data>
   <data name="help_list_of_modules" xml:space="preserve">
-    <value>List Of Modules</value>
+    <value>Liste der Module</value>
   </data>
   <data name="help_modules_footer" xml:space="preserve">
-    <value>Type `{0}cmds ModuleName` to get a list of commands in that module. eg `{0}cmds games`</value>
+    <value>Schreibe `{0}cmds ModuleName` um eine Liste aller Befehle dieses Moduls zu erhalten. z.B. `{0}cmds games`</value>
   </data>
   <data name="help_module_not_found" xml:space="preserve">
-    <value>That module does not exist.</value>
+    <value>Dieses Modul existiert nicht.</value>
   </data>
   <data name="help_server_permission" xml:space="preserve">
-    <value>Requires {0} server permission.</value>
+    <value>Benötigt Serverrecht {0}.</value>
   </data>
   <data name="help_table_of_contents" xml:space="preserve">
-    <value>Table Of Contents</value>
+    <value>Inhaltsverzeichnis</value>
   </data>
   <data name="help_usage" xml:space="preserve">
-    <value>Usage</value>
+    <value>Nutzung</value>
   </data>
   <data name="nsfw_autohentai_started" xml:space="preserve">
-    <value>Autohentai started. Reposting every {0}s with one of the following tags:
-{1}</value>
+    <value>Autohentai wurde gestartet. Es wird alle {0} Sekunden etwas mit einem der folgenden Stichwörtern gepostet: {1}</value>
   </data>
   <data name="nsfw_tag" xml:space="preserve">
-    <value>Tag</value>
+    <value>Stichwort</value>
   </data>
   <data name="gambling_animal_race" xml:space="preserve">
-    <value>Animal Race</value>
+    <value>Tierrennen</value>
   </data>
   <data name="gambling_animal_race_failed" xml:space="preserve">
-    <value>Failed to start since there was not enough participants.</value>
+    <value>Das Rennen konnte nicht gestartet werden, da es nicht genügend Teilnehmer gibt.</value>
   </data>
   <data name="gambling_animal_race_full" xml:space="preserve">
-    <value>Race is full! Starting immediately.</value>
+    <value>Rennen ist voll! Startet sofort.</value>
   </data>
   <data name="gambling_animal_race_join" xml:space="preserve">
-    <value>{0} joined as a {1}</value>
+    <value>{0} tritt als {1} bei</value>
   </data>
   <data name="gambling_animal_race_join_bet" xml:space="preserve">
-    <value>{0} joined as a {1} and bet {2}!</value>
+    <value>{0} tritt als {1} bei und wettete {2}!</value>
   </data>
   <data name="gambling_animal_race_join_instr" xml:space="preserve">
-    <value>Type {0}jr to join the race.</value>
+    <value>Schreibe {0}jr um dem Rennen beizutreten.</value>
   </data>
   <data name="gambling_animal_race_starting" xml:space="preserve">
-    <value>Starting in 20 seconds or when the room is full.</value>
+    <value>Starte in 20 Sekunden oder wenn der Raum voll ist.</value>
   </data>
   <data name="gambling_animal_race_starting_with_x" xml:space="preserve">
-    <value>Starting with {0} participants.</value>
+    <value>Starte mit {0} Teilnehmern.</value>
   </data>
   <data name="gambling_animal_race_won" xml:space="preserve">
-    <value>{0} as {1} Won the race!</value>
+    <value>{0} hat als {1} das Rennen gewonnen!</value>
   </data>
   <data name="gambling_animal_race_won_money" xml:space="preserve">
-    <value>{0} as {1} Won the race and {2}!</value>
+    <value>{0} hat als {1} das Rennen und {2} gewonnen!</value>
   </data>
   <data name="gambling_dice_invalid_number" xml:space="preserve">
-    <value>Invalid number specified. You can roll {0}-{1} dice at once.</value>
+    <value>Ungültige Anzahl angegeben. Sie können {0}-{1} Würfel gleichzeitig Rollen.</value>
   </data>
   <data name="gambling_dice_rolled" xml:space="preserve">
-    <value>rolled {0}</value>
+    <value>würfelte {0}</value>
     <comment>Someone rolled 35</comment>
   </data>
   <data name="gambling_dice_rolled_num" xml:space="preserve">
-    <value>Dice rolled: {0}</value>
+    <value>Würfel gerollt: {0}</value>
     <comment>Dice Rolled: 5</comment>
   </data>
   <data name="gambling_race_failed_starting" xml:space="preserve">
-    <value>Failed starting the race. Another race is probably running.</value>
+    <value>Das Rennen konnte nicht gestartet werden. Ein anderes Rennen läuft wahrscheinlich.</value>
   </data>
   <data name="gambling_race_not_exist" xml:space="preserve">
-    <value>No race exists on this server</value>
+    <value>Es gibt kein Rennen auf diesem Server</value>
   </data>
   <data name="gambling_second_larger_than_first" xml:space="preserve">
-    <value>Second number must be larger than the first one.</value>
+    <value>Die zweite Zahl muss größer als die erste sein.</value>
   </data>
   <data name="gambling_changes_of_heart" xml:space="preserve">
-    <value>Changes Of Heart</value>
+    <value>Sinneswandel</value>
   </data>
   <data name="gambling_claimed_by" xml:space="preserve">
-    <value>Claimed By</value>
+    <value>Beansprucht von</value>
   </data>
   <data name="gambling_divorces" xml:space="preserve">
-    <value>Divorces</value>
+    <value>Scheidungen</value>
   </data>
   <data name="gambling_likes" xml:space="preserve">
-    <value>Likes</value>
-  </data>
-  <data name="gambling_nobody" xml:space="preserve">
-    <value>Nobody</value>
+    <value>Positive Bewertungen</value>
   </data>
   <data name="gambling_price" xml:space="preserve">
-    <value>Price</value>
+    <value>Preis</value>
   </data>
   <data name="gambling_waifus_none" xml:space="preserve">
-    <value>No waifus have been claimed yet.</value>
+    <value>Keine Waifus wurden bisher beansprucht.</value>
   </data>
   <data name="gambling_waifus_top_waifus" xml:space="preserve">
     <value>Top Waifus</value>
   </data>
   <data name="gambling_waifu_affinity_already" xml:space="preserve">
-    <value>your affinity is already set to that waifu or you're trying to remove your affinity while not having one.</value>
+    <value>Ihre Neigung ist bereits zu dieser Waifu gesetzt oder sie versuchsen ihre Neigung zu entfernen während sie keine gesetzt haben.</value>
   </data>
   <data name="gambling_waifu_affinity_changed" xml:space="preserve">
-    <value>changed their affinity from {0} to {1}.
+    <value>hat seine Neigung von {0} zu {1} geändert.
 
-*This is morally questionable.*🤔</value>
+*Das ist moralisch nicht vertretbar.*🤔</value>
     <comment>Make sure to get the formatting right, and leave the thinking emoji</comment>
   </data>
   <data name="gambling_waifu_affinity_cooldown" xml:space="preserve">
-    <value>You must wait {0} hours and {1} minutes in order to change your affinity again.</value>
+    <value>Sie müssen {0} Stunden und {1} Minuten warten bevor sie ihre Neigung ändern können.</value>
   </data>
   <data name="gambling_waifu_affinity_reset" xml:space="preserve">
-    <value>Your affinity is reset. You no longer have a person you like.</value>
+    <value>Ihre Neigung wurde zurückgesetzt. Sie haben keine Person mehr die sie mögen.</value>
   </data>
   <data name="gambling_waifu_affinity_set" xml:space="preserve">
-    <value>wants to be {0}'s waifu. Aww &lt;3</value>
+    <value>will {0}s Waifu sein. Aww &lt;3</value>
   </data>
   <data name="gambling_waifu_claimed" xml:space="preserve">
-    <value>claimed {0} as their waifu for {1}!</value>
+    <value>hat {0} als seine/ihre Waifu für {1} beansprucht!</value>
   </data>
   <data name="gambling_waifu_divorced_like" xml:space="preserve">
-    <value>You have divorced a waifu who likes you. You heartless monster.
-{0} received {1} as a compensation.</value>
-  </data>
-  <data name="gambling_waifu_divorced_notlike" xml:space="preserve">
-    <value>You have divorced a waifu who doesn't like you. You received {0} back.</value>
+    <value>Sie haben sich von ihrer Waifu die sie mochte scheiden lassen. Du herzloses Monster. {0} hat {1} als Kompensation erhalten.</value>
   </data>
   <data name="gambling_waifu_egomaniac" xml:space="preserve">
-    <value>you can't set affinity to yourself, you egomaniac.</value>
+    <value>Sie können deine Neigung nicht zu ihnen selbst setzen, sie egomanische Person.</value>
   </data>
   <data name="gambling_waifu_fulfilled" xml:space="preserve">
-    <value>🎉 Their love is fulfilled! 🎉
-{0}'s new value is {1}!</value>
+    <value>🎉 Ihre Liebe ist besiegelt! 🎉
+{0}&apos;s neuer Wert ist {1}!</value>
   </data>
   <data name="gambling_waifu_isnt_cheap" xml:space="preserve">
-    <value>No waifu is that cheap. You must pay at least {0} to get a waifu, even if their actual value is lower.</value>
+    <value>Keine Waifu ist so billig. Sie müssen wenigstens {0} bezahlen um diese Waifu zu beanspruchen, selbst wenn ihr tatsächlicher Wert geringer ist.</value>
   </data>
   <data name="gambling_waifu_not_enough" xml:space="preserve">
-    <value>You must pay {0} or more to claim that waifu!</value>
+    <value>Sie müssen {0} oder mehr bezahlen um diese Waifu zu beanspruchen!</value>
   </data>
   <data name="gambling_waifu_not_yours" xml:space="preserve">
-    <value>That waifu is not yours.</value>
+    <value>Diese Waifu gehört nicht dir.</value>
   </data>
   <data name="gambling_waifu_not_yourself" xml:space="preserve">
-    <value>You can't claim yourself.</value>
+    <value>Sie können sich nicht selbst beanspruchen.</value>
   </data>
   <data name="gambling_waifu_recent_divorce" xml:space="preserve">
-    <value>You divorced recently. You must wait {0} hours and {1} minutes to divorce again.</value>
+    <value>Sie haben sich vor kurzem scheiden lassen. Sie müssen {0} Stunden und {1} Minuten warten bevor sie sich erneut scheiden lassen können.</value>
+  </data>
+  <data name="gambling_nobody" xml:space="preserve">
+    <value>Niemand</value>
+  </data>
+  <data name="gambling_waifu_divorced_notlike" xml:space="preserve">
+    <value>Sie haben sich von einer Waifu scheiden lassen die sie nicht mochte, Du erhältst {0} zurück.</value>
   </data>
   <data name="games_8ball" xml:space="preserve">
     <value>8ball</value>
   </data>
   <data name="games_acrophobia" xml:space="preserve">
-    <value>Acrophobia</value>
+    <value>Acrophobie</value>
   </data>
   <data name="games_acro_ended_no_sub" xml:space="preserve">
-    <value>Game ended with no submissions.</value>
+    <value>Spiel wurde beendet ohne Einsendungen.</value>
   </data>
   <data name="games_acro_no_votes_cast" xml:space="preserve">
-    <value>No votes cast. Game ended with no winner.</value>
+    <value>Keine Stimmen abgegeben. Spiel endete ohne Gewinner.</value>
   </data>
   <data name="games_acro_nym_was" xml:space="preserve">
-    <value>Acronym was {0}.</value>
+    <value>Das Acronym war {0}.</value>
   </data>
   <data name="games_acro_running" xml:space="preserve">
-    <value>Acrophobia game is already running in this channel.</value>
+    <value>Akrophobia läuft bereits in diesem Kanal.</value>
   </data>
   <data name="games_acro_started" xml:space="preserve">
-    <value>Game started. Create a sentence with the following acronym: {0}.</value>
+    <value>Spiel gestartet. Erstelle einen Satz aus dem folgenden Akronym.</value>
   </data>
   <data name="games_acro_started_footer" xml:space="preserve">
-    <value>You have {0} seconds to make a submission.</value>
+    <value>Sie haben {0} Sekunden für ihre Einsendung.</value>
   </data>
   <data name="games_acro_submit" xml:space="preserve">
-    <value>{0} submitted their sentence. ({1} total)</value>
+    <value>{0} hat seinen Satz eingereicht. ({1} insgesamt)</value>
   </data>
   <data name="games_acro_vote" xml:space="preserve">
-    <value>Vote by typing a number of the submission</value>
+    <value>Stimme ab indem du die Nummer der Einsendung eingibst</value>
   </data>
   <data name="games_acro_vote_cast" xml:space="preserve">
-    <value>{0} cast their vote!</value>
+    <value>{0} hat seine/ihre Stimme abgegeben!</value>
   </data>
   <data name="games_acro_winner" xml:space="preserve">
-    <value>Winner is {0} with {1} points.</value>
+    <value>Der Gewinner ist {0} mit {1} Punkten.</value>
   </data>
   <data name="games_acro_winner_only" xml:space="preserve">
-    <value>{0} is the winner for being the only user who made a submission!</value>
+    <value>{0} gewinnt, weil dieser Benutzer die einzigste Einsendung hat!</value>
   </data>
   <data name="games_question" xml:space="preserve">
-    <value>Question</value>
+    <value>Frage</value>
   </data>
   <data name="games_rps_draw" xml:space="preserve">
-    <value>It's a draw! Both picked {0}</value>
+    <value>Unentschieden! Beide haben {0} gewählt</value>
   </data>
   <data name="games_rps_win" xml:space="preserve">
-    <value>{0} won! {1} beats {2}</value>
+    <value>{0} hat gewonnen! {1} schlägt {2}</value>
   </data>
   <data name="games_submissions_closed" xml:space="preserve">
-    <value>Submissions Closed</value>
+    <value>Einsendungen geschlossen</value>
   </data>
   <data name="gambling_animal_race_already_started" xml:space="preserve">
-    <value>Animal Race is already running.</value>
+    <value>Tierrennen läuft bereits.</value>
   </data>
   <data name="gambling_total_average" xml:space="preserve">
-    <value>Total: {0} Average: {1}</value>
+    <value>Insgesamt: {0} Durchschnitt: {1}</value>
   </data>
   <data name="games_category" xml:space="preserve">
-    <value>Category</value>
+    <value>Kategorie</value>
   </data>
   <data name="games_cleverbot_disabled" xml:space="preserve">
-    <value>Disabled cleverbot on this server.</value>
+    <value>Cleverbot auf diesem Server deaktiviert.</value>
   </data>
   <data name="games_cleverbot_enabled" xml:space="preserve">
-    <value>Enabled cleverbot on this server.</value>
+    <value>Cleverbot auf diesem Server aktiviert.</value>
   </data>
   <data name="games_curgen_disabled" xml:space="preserve">
-    <value>Currency generation has been disabled on this channel.</value>
+    <value>Währungsgeneration in diesem Kanal deaktiviert.</value>
   </data>
   <data name="games_curgen_enabled" xml:space="preserve">
-    <value>Currency generation has been enabled on this channel.</value>
+    <value>Währungsgeneration in diesem Kanal aktiviert.</value>
   </data>
   <data name="games_curgen_pl" xml:space="preserve">
-    <value>{0} random {1} appeared! Pick them up by typing `{2}pick`</value>
+    <value>{0} zufällige {1} sind erschienen! Sammle sie indem sie `{2}pick` schreiben.</value>
     <comment>plural</comment>
   </data>
   <data name="games_curgen_sn" xml:space="preserve">
-    <value>A random {0} appeared! Pick it up by typing `{1}pick`</value>
+    <value>Eine zufällige {0} ist erschienen! Sammle sie indem sie `{1}pick` schreiben.</value>
   </data>
   <data name="games_failed_loading_question" xml:space="preserve">
-    <value>Failed loading a question.</value>
+    <value>Laden einer Frage fehlgeschlagen.</value>
   </data>
   <data name="games_game_started" xml:space="preserve">
-    <value>Game Started</value>
+    <value>Spiel gestartet</value>
   </data>
   <data name="games_hangman_game_started" xml:space="preserve">
-    <value>Hangman game started</value>
+    <value>Hangman-Spiel gestartet</value>
   </data>
   <data name="games_hangman_running" xml:space="preserve">
-    <value>Hangman game already running on this channel.</value>
+    <value>Hangman-Spiel läuft bereits in diesem Kanal.</value>
   </data>
   <data name="games_hangman_start_errored" xml:space="preserve">
-    <value>Starting hangman errored.</value>
+    <value>Starten von Hangman hat einen Fehler ausgelöst.</value>
   </data>
   <data name="games_hangman_types" xml:space="preserve">
-    <value>List of "{0}hangman" term types:</value>
+    <value>Liste der &quot;{0}hangman&quot; Worttypen:</value>
   </data>
   <data name="games_leaderboard" xml:space="preserve">
-    <value>Leaderboard</value>
+    <value>Bestenliste</value>
   </data>
   <data name="games_not_enough" xml:space="preserve">
-    <value>You don't have enough {0}</value>
+    <value>Sie haben nicht genug {0}</value>
   </data>
   <data name="games_no_results" xml:space="preserve">
-    <value>No results</value>
+    <value>Keine Ergebnisse</value>
   </data>
   <data name="games_picked" xml:space="preserve">
-    <value>picked {0}</value>
+    <value>{0} aufgehoben</value>
     <comment>Kwoth picked 5*</comment>
   </data>
   <data name="games_planted" xml:space="preserve">
-    <value>{0} planted {1}</value>
+    <value>{0} pflanzte {1}</value>
     <comment>Kwoth planted 5*</comment>
   </data>
   <data name="games_trivia_already_running" xml:space="preserve">
-    <value>Trivia game is already running on this server.</value>
+    <value>Ein Trivia Spiel läuft schon auf diesem Server</value>
   </data>
   <data name="games_trivia_game" xml:space="preserve">
-    <value>Trivia Game</value>
+    <value>Trivia Spiel</value>
   </data>
   <data name="games_trivia_guess" xml:space="preserve">
-    <value>{0} guessed it! The answer was: {1}</value>
+    <value>{0} erriet es! Die Antwort war: {1}</value>
   </data>
   <data name="games_trivia_none" xml:space="preserve">
-    <value>No trivia is running on this server.</value>
+    <value>Kein aktives Trivia Spiel auf diesem Server.</value>
   </data>
   <data name="games_trivia_points" xml:space="preserve">
-    <value>{0} has {1} points</value>
+    <value>{0} hat {1} punkte</value>
   </data>
   <data name="games_trivia_stopping" xml:space="preserve">
-    <value>Stopping after this question.</value>
+    <value>Wird beendet after dieser Frage.</value>
   </data>
   <data name="games_trivia_times_up" xml:space="preserve">
-    <value>Time's up! The correct answer was {0}</value>
+    <value>Die Zeit is um! Die richtige Antwort war {0}</value>
   </data>
   <data name="games_trivia_win" xml:space="preserve">
-    <value>{0} guessed it and WON the game! The answer was: {1}</value>
+    <value>{0} erriet es und hat das spiel GEWONNEN! Die Antwort war: {1}</value>
   </data>
   <data name="games_ttt_against_yourself" xml:space="preserve">
-    <value>You can't play against yourself.</value>
+    <value>Sie können nicht gegen sich selber spielen.</value>
   </data>
   <data name="games_ttt_already_running" xml:space="preserve">
-    <value>TicTacToe Game is already running in this channel.</value>
+    <value>Ein TicTacToe Spiel läuft schon in diesem Kanal.</value>
   </data>
   <data name="games_ttt_a_draw" xml:space="preserve">
-    <value>A draw!</value>
+    <value>Unentschieden!</value>
   </data>
   <data name="games_ttt_created" xml:space="preserve">
-    <value>has created a game of TicTacToe.</value>
+    <value>hat ein TicTacToe Spiel erstellt.</value>
   </data>
   <data name="games_ttt_has_won" xml:space="preserve">
-    <value>{0} has Won!</value>
+    <value>{0} hat gewonnen!</value>
   </data>
   <data name="games_ttt_matched_three" xml:space="preserve">
-    <value>Matched Three</value>
+    <value>Drei in einer Reihe</value>
   </data>
   <data name="games_ttt_no_moves" xml:space="preserve">
-    <value>No moves left!</value>
+    <value>Keine Züge übrig</value>
   </data>
   <data name="games_ttt_time_expired" xml:space="preserve">
-    <value>Time Expired!</value>
+    <value>Zeit abgelaufen</value>
   </data>
   <data name="games_ttt_users_move" xml:space="preserve">
-    <value>{0}'s move</value>
+    <value>{0}&apos;s Zug</value>
   </data>
   <data name="games_vs" xml:space="preserve">
-    <value>{0} vs {1}</value>
+    <value>{0} gegen {1}</value>
   </data>
   <data name="music_attempting_to_queue" xml:space="preserve">
-    <value>Attempting to queue {0} songs...</value>
+    <value>Versuche {0} Songs einzureihen...</value>
   </data>
   <data name="music_autoplay_disabled" xml:space="preserve">
-    <value>Autoplay disabled.</value>
+    <value>Autoplay deaktiviert.</value>
   </data>
   <data name="music_autoplay_enabled" xml:space="preserve">
-    <value>Autoplay enabled.</value>
+    <value>Autoplay aktiviert.</value>
   </data>
   <data name="music_defvol_set" xml:space="preserve">
-    <value>Default volume set to {0}%</value>
+    <value>Standard-Lautstärke auf {0}% gesetzt</value>
   </data>
   <data name="music_dir_queue_complete" xml:space="preserve">
-    <value>Directory queue complete.</value>
+    <value>Ordner-Einreihung fertig.</value>
   </data>
   <data name="music_fairplay" xml:space="preserve">
-    <value>fairplay</value>
+    <value>fairer Modus</value>
   </data>
   <data name="music_finished_song" xml:space="preserve">
-    <value>Finished Song</value>
+    <value>Song beendet</value>
   </data>
   <data name="music_fp_disabled" xml:space="preserve">
-    <value>Fair play disabled.</value>
+    <value>Fairer Modus deaktiviert.</value>
   </data>
   <data name="music_fp_enabled" xml:space="preserve">
-    <value>Fair play enabled.</value>
+    <value>Fairer Modus aktiviert.</value>
   </data>
   <data name="music_from_position" xml:space="preserve">
-    <value>From position</value>
+    <value>Von Position</value>
   </data>
   <data name="music_id" xml:space="preserve">
-    <value>Id</value>
+    <value>ID</value>
   </data>
   <data name="music_invalid_input" xml:space="preserve">
-    <value>Invalid input.</value>
+    <value>Ungültige Eingabe.</value>
   </data>
   <data name="music_max_playtime_none" xml:space="preserve">
-    <value>Max playtime has no limit now.</value>
+    <value>Maximale Spielzeit hat kein Limit mehr</value>
   </data>
   <data name="music_max_playtime_set" xml:space="preserve">
-    <value>Max playtime set to {0} second(s).</value>
+    <value>Maximale Spielzeit ist nun {0} Sekunden</value>
   </data>
   <data name="music_max_queue_unlimited" xml:space="preserve">
-    <value>Max music queue size set to unlimited.</value>
+    <value>Maximale Musik-Warteschlangengröße ist nun unbegrenzt.</value>
   </data>
   <data name="music_max_queue_x" xml:space="preserve">
-    <value>Max music queue size set to {0} track(s).</value>
+    <value>Maximale Musik-Warteschlangengröße ist nun {0} Songs.</value>
   </data>
   <data name="music_must_be_in_voice" xml:space="preserve">
-    <value>You need to be in the voice channel on this server.</value>
+    <value>Sie müssen sich in einem Sprachkanal auf diesem Server befinden.</value>
   </data>
   <data name="music_name" xml:space="preserve">
     <value>Name</value>
   </data>
   <data name="music_now_playing" xml:space="preserve">
-    <value>Now Playing</value>
+    <value>Aktueller Song:</value>
   </data>
   <data name="music_no_player" xml:space="preserve">
-    <value>No active music player.</value>
+    <value>Kein aktiver Musikspieler.</value>
   </data>
   <data name="music_no_search_results" xml:space="preserve">
-    <value>No search results.</value>
+    <value>Keine Suchergebnisse.</value>
   </data>
   <data name="music_paused" xml:space="preserve">
-    <value>Music playback paused.</value>
+    <value>Musikwiedergabe pausiert.</value>
   </data>
   <data name="music_player_queue" xml:space="preserve">
-    <value>Player Queue - Page {0}/{1}</value>
+    <value>Musik-Warteschlange - Seite {0}/{1}</value>
   </data>
   <data name="music_playing_song" xml:space="preserve">
-    <value>Playing Song</value>
+    <value>Spiele Song</value>
   </data>
   <data name="music_playlists" xml:space="preserve">
-    <value>`#{0}` - **{1}** by *{2}* ({3} songs)</value>
+    <value>`#{0}` - **{1}** by *{2}* ({3} Songs)</value>
   </data>
   <data name="music_playlists_page" xml:space="preserve">
-    <value>Page {0} of Saved Playlists</value>
+    <value>Seite {0} der gespeicherten Playlists</value>
   </data>
   <data name="music_playlist_deleted" xml:space="preserve">
-    <value>Playlist deleted.</value>
+    <value>Playlist gelöscht.</value>
   </data>
   <data name="music_playlist_delete_fail" xml:space="preserve">
-    <value>Failed to delete that playlist. It either doesn't exist, or you are not its author.</value>
+    <value>Playlist konnte nicht gelöscht werden. Entweder sie existiert nicht oder sie gehört nicht dir.</value>
   </data>
   <data name="music_playlist_id_not_found" xml:space="preserve">
-    <value>Playlist with that ID doesn't exist.</value>
+    <value>Es gibt keine Playlist mit dieser ID.</value>
   </data>
   <data name="music_playlist_queue_complete" xml:space="preserve">
-    <value>Playlist queue complete.</value>
+    <value>Playlist wurde an die Warteschlange angehängt.</value>
   </data>
   <data name="music_playlist_saved" xml:space="preserve">
-    <value>Playlist Saved</value>
+    <value>Playlist gespeichert</value>
   </data>
   <data name="music_play_limit" xml:space="preserve">
-    <value>{0}s limit</value>
+    <value>{0}&apos;s Limit</value>
   </data>
   <data name="music_queue" xml:space="preserve">
-    <value>Queue</value>
+    <value>Warteschlange</value>
   </data>
   <data name="music_queued_song" xml:space="preserve">
-    <value>Queued Song</value>
+    <value>Eingereihter Song</value>
   </data>
   <data name="music_queue_cleared" xml:space="preserve">
-    <value>Music queue cleared.</value>
+    <value>Musik-Warteschlange geleert</value>
   </data>
   <data name="music_queue_full" xml:space="preserve">
-    <value>Queue is full at {0}/{0}.</value>
+    <value>Warteschlange ist voll bei {0}/{1}</value>
   </data>
   <data name="music_removed_song" xml:space="preserve">
-    <value>Removed song</value>
-    <comment>context: "removed song #5"</comment>
+    <value>Song entfernt</value>
+    <comment>context: &quot;removed song #5&quot;</comment>
   </data>
   <data name="music_repeating_cur_song" xml:space="preserve">
-    <value>Repeating Current Song</value>
+    <value>Aktueller Song wird wiederholt</value>
   </data>
   <data name="music_repeating_playlist" xml:space="preserve">
-    <value>Repeating Playlist</value>
+    <value>Playlist wird wiederholt</value>
   </data>
   <data name="music_repeating_track" xml:space="preserve">
-    <value>Repeating Track</value>
+    <value>Song wird wiederholt</value>
   </data>
   <data name="music_repeating_track_stopped" xml:space="preserve">
-    <value>Current track repeat stopped.</value>
+    <value>Aktueller Song wird nicht mehr wiederholt.</value>
   </data>
   <data name="music_resumed" xml:space="preserve">
-    <value>Music playback resumed.</value>
+    <value>Musikwiedergabe wiederaufgenommen</value>
   </data>
   <data name="music_rpl_disabled" xml:space="preserve">
-    <value>Repeat playlist disabled.</value>
+    <value>Playlist-Wiederholung deaktiviert.</value>
   </data>
   <data name="music_rpl_enabled" xml:space="preserve">
-    <value>Repeat playlist enabled.</value>
+    <value>Playlist-Wiederholung aktiviert.</value>
   </data>
   <data name="music_set_music_channel" xml:space="preserve">
-    <value>I will now output playing, finished, paused and removed songs in this channel.</value>
+    <value>Ich werde nun spielende, beendete, pausierte und entfernte Songs in diesen Channel ausgeben.</value>
   </data>
   <data name="music_skipped_to" xml:space="preserve">
-    <value>Skipped to `{0}:{1}`</value>
+    <value>Gesprungen zu `{0}:{1}`</value>
   </data>
   <data name="music_songs_shuffled" xml:space="preserve">
-    <value>Songs shuffled.</value>
+    <value>Song gemischt</value>
   </data>
   <data name="music_song_moved" xml:space="preserve">
-    <value>Song Moved</value>
+    <value>Song bewegt</value>
   </data>
   <data name="music_time_format" xml:space="preserve">
     <value>{0}h {1}m {2}s</value>
   </data>
   <data name="music_to_position" xml:space="preserve">
-    <value>To position</value>
+    <value>Zu Position</value>
   </data>
   <data name="music_unlimited" xml:space="preserve">
-    <value>unlimited</value>
+    <value>unbegrenzt</value>
   </data>
   <data name="music_volume_input_invalid" xml:space="preserve">
-    <value>Volume must be between 0 and 100</value>
+    <value>Lautstärke muss zwischen 0 und 100 sein</value>
   </data>
   <data name="music_volume_set" xml:space="preserve">
-    <value>Volume set to {0}%</value>
+    <value>Lautstärke auf {0}% gesetzt</value>
   </data>
   <data name="permissions_acm_disable" xml:space="preserve">
-    <value>Disabled usage of ALL MODULES on {0} channel.</value>
+    <value>Benutzung ALLER MODULE für Kanal {0} verboten.</value>
   </data>
   <data name="permissions_acm_enable" xml:space="preserve">
-    <value>Enabled usage of ALL MODULES on {0} channel.</value>
+    <value>Benutzung ALLER MODULE für Kanal {0} erlaubt.</value>
   </data>
   <data name="permissions_allowed" xml:space="preserve">
-    <value>Allowed</value>
+    <value>Erlaubt</value>
   </data>
   <data name="permissions_arm_disable" xml:space="preserve">
-    <value>Disabled usage of ALL MODULES for {0} role.</value>
+    <value>Benutzung ALLER MODULE für die Rolle {0} verboten.</value>
   </data>
   <data name="permissions_arm_enable" xml:space="preserve">
-    <value>Enabled usage of ALL MODULES for {0} role.</value>
+    <value>Benutzung ALLER MODULE für die Rolle {0} erlaubt.</value>
   </data>
   <data name="permissions_asm_disable" xml:space="preserve">
-    <value>Disabled usage of ALL MODULES on this server.</value>
+    <value>Benutzung ALLER MODULE für diesen Server verboten.</value>
   </data>
   <data name="permissions_asm_enable" xml:space="preserve">
-    <value>Enabled usage of ALL MODULES on this server.</value>
+    <value>Benutzung ALLER MODULE für diesen Server erlaubt.</value>
   </data>
   <data name="permissions_aum_disable" xml:space="preserve">
-    <value>Disabled usage of ALL MODULES for {0} user.</value>
+    <value>Benutzung ALLER MODULE für den Benutzer {0} verboten.</value>
   </data>
   <data name="permissions_aum_enable" xml:space="preserve">
-    <value>Enabled usage of ALL MODULES for {0} user.</value>
+    <value>Benutzung ALLER MODULE für den Benutzer {0} erlaubt.</value>
   </data>
   <data name="permissions_blacklisted" xml:space="preserve">
-    <value>Blacklisted {0} with ID {1}</value>
+    <value>{0} mit ID {1} wurde zur Sperrliste hinzugefügt</value>
   </data>
   <data name="permissions_cmdcd_add" xml:space="preserve">
-    <value>Command {0} now has a {1}s cooldown.</value>
+    <value>Befehl {0} hat nun {1}s Abklingzeit</value>
   </data>
   <data name="permissions_cmdcd_cleared" xml:space="preserve">
-    <value>Command {0} has no coooldown now and all existing cooldowns have been cleared.</value>
+    <value>Befehl {0} hat keine Abklingzeit mehr und alle laufenden Abklingzeiten wurden entfernt.</value>
   </data>
   <data name="permissions_cmdcd_none" xml:space="preserve">
-    <value>No command cooldowns set.</value>
+    <value>Keine Befehls Abklingzeiten gesetzt.</value>
   </data>
   <data name="permissions_command_costs" xml:space="preserve">
-    <value>Command Costs</value>
+    <value>Preis für Befehle</value>
   </data>
   <data name="permissions_cx_disable" xml:space="preserve">
-    <value>Disabled usage of {0} {1} on {2} channel.</value>
+    <value>Benutzung von {0} {1} wurde für Kanal {2} verboten.</value>
   </data>
   <data name="permissions_cx_enable" xml:space="preserve">
-    <value>Enabled usage of {0} {1} on {2} channel.</value>
+    <value>Benutzung von {0} {1} wurde für Kanal {2} erlaubt.</value>
   </data>
   <data name="permissions_denied" xml:space="preserve">
-    <value>Denied</value>
+    <value>Verweigert</value>
   </data>
   <data name="permissions_filter_word_add" xml:space="preserve">
-    <value>Added word {0} to the list of filtered words.</value>
+    <value>Wort {0} zu der Liste der gefilterten Wörter hinzugefügt.</value>
   </data>
   <data name="permissions_filter_word_list" xml:space="preserve">
-    <value>List Of Filtered Words</value>
+    <value>Liste der gefilterten Wörter</value>
   </data>
   <data name="permissions_filter_word_remove" xml:space="preserve">
-    <value>Removed word {0} from the list of filtered words.</value>
+    <value>Wort {0} von der Liste der gefilterten Wörter entfernt.</value>
   </data>
   <data name="permissions_invalid_second_param_between" xml:space="preserve">
-    <value>Invalid second parameter.(Must be a number between {0} and {1})</value>
+    <value>Ungültiger zweiter Parameter. (Muss eine Nummer zwischen {0} und {1} sein)</value>
   </data>
   <data name="permissions_invite_filter_channel_off" xml:space="preserve">
-    <value>Invite filtering disabled on this channel.</value>
+    <value>Filterung von Einladungen auf diesem Kanal deaktiviert.</value>
   </data>
   <data name="permissions_invite_filter_channel_on" xml:space="preserve">
-    <value>Invite filtering enabled on this channel.</value>
+    <value>Filterung von Einladungen auf diesem Kanal aktiviert.</value>
   </data>
   <data name="permissions_invite_filter_server_off" xml:space="preserve">
-    <value>Invite filtering disabled on this server.</value>
+    <value>Filterung von Einladungen auf diesem Server deaktiviert.</value>
   </data>
   <data name="permissions_invite_filter_server_on" xml:space="preserve">
-    <value>Invite filtering enabled on this server.</value>
+    <value>Filterung von Einladungen auf diesem Server aktiviert.</value>
   </data>
   <data name="permissions_moved_permission" xml:space="preserve">
-    <value>Moved permission {0} from #{1} to #{2}</value>
+    <value>Berechtigung {0} von #{1} zu #{2} gesetzt</value>
   </data>
   <data name="permissions_not_found" xml:space="preserve">
-    <value>Can't find permission at index #{0}</value>
+    <value>Konnte Berechting an Index #{0} nicht finden</value>
   </data>
   <data name="permissions_no_costs" xml:space="preserve">
-    <value>No costs set.</value>
+    <value>Kein Preis gesetzt.</value>
   </data>
   <data name="permissions_of_command" xml:space="preserve">
-    <value>command</value>
+    <value>Befehl</value>
     <comment>Gen (of command)</comment>
   </data>
   <data name="permissions_of_module" xml:space="preserve">
-    <value>module</value>
+    <value>Modul</value>
     <comment>Gen. (of module)</comment>
   </data>
   <data name="permissions_page" xml:space="preserve">
-    <value>Permissions page {0}</value>
+    <value>Berechtigungen Seite {0}</value>
   </data>
   <data name="permissions_permrole" xml:space="preserve">
-    <value>Current permissions role is {0}.</value>
+    <value>Aktuelle Berechtigungsrolle ist {0}.</value>
   </data>
   <data name="permissions_permrole_changed" xml:space="preserve">
-    <value>Users now require {0} role in order to edit permissions.</value>
+    <value>Benutzer brauchen nun Rolle {0} um die Berechtigungen zu editieren.</value>
   </data>
   <data name="permissions_perm_out_of_range" xml:space="preserve">
-    <value>No permission found on that index.</value>
+    <value>Keine Berechtigung für diesen Index gefunden</value>
   </data>
   <data name="permissions_removed" xml:space="preserve">
-    <value>removed permission #{0} - {1}</value>
+    <value>Berechtigung #{0} - {1} entfernt</value>
   </data>
   <data name="permissions_rx_disable" xml:space="preserve">
-    <value>Disabled usage of {0} {1} for {2} role.</value>
+    <value>Benutzung von {0} {1} wurde für Rolle {2} verboten.</value>
   </data>
   <data name="permissions_rx_enable" xml:space="preserve">
-    <value>Enabled usage of {0} {1} for {2} role.</value>
+    <value>Benutzung von {0} {1} wurde für Rolle {2} erlaubt.</value>
   </data>
   <data name="permissions_sec" xml:space="preserve">
-    <value>sec.</value>
+    <value>sek.</value>
     <comment>Short of seconds.</comment>
   </data>
   <data name="permissions_sx_disable" xml:space="preserve">
-    <value>Disabled usage of {0} {1} on this server.</value>
+    <value>Benutzung von {0} {1} wurde für diesen Server verboten</value>
   </data>
   <data name="permissions_sx_enable" xml:space="preserve">
-    <value>Enabled usage of {0} {1} on this server.</value>
+    <value>Benutzung von {0} {1} wurde für diesen Server erlaubt.</value>
   </data>
   <data name="permissions_unblacklisted" xml:space="preserve">
-    <value>Unblacklisted {0} with ID {1}</value>
+    <value>{0} mit ID {1} von Sperrliste entfernt</value>
   </data>
   <data name="permissions_uneditable" xml:space="preserve">
-    <value>uneditable</value>
+    <value>Nicht Bearbeitbar</value>
   </data>
   <data name="permissions_ux_disable" xml:space="preserve">
-    <value>Disabled usage of {0} {1} for {2} user.</value>
+    <value>Benutzung von {0} {1} wurde für Benutzer {2} verboten.</value>
   </data>
   <data name="permissions_ux_enable" xml:space="preserve">
-    <value>Enabled usage of {0} {1} for {2} user.</value>
+    <value>Benutzung von {0} {1} wurde für Benutzer {2} erlaubt.</value>
   </data>
   <data name="permissions_verbose_false" xml:space="preserve">
-    <value>I will no longer show permission warnings.</value>
+    <value>Ich werde nicht mehr Warnungen für Rechte anzeigen.</value>
   </data>
   <data name="permissions_verbose_true" xml:space="preserve">
-    <value>I will now show permission warnings.</value>
+    <value>Ich werde jetzt Warnungen für Rechte anzeigen.</value>
   </data>
   <data name="permissions_word_filter_channel_off" xml:space="preserve">
-    <value>Word filtering disabled on this channel.</value>
+    <value>Filterung für Wörter in diesem Kanal deaktiviert.</value>
   </data>
   <data name="permissions_word_filter_channel_on" xml:space="preserve">
-    <value>Word filtering enabled on this channel.</value>
+    <value>Filterung für Wörter in diesem Kanal aktiviert.</value>
   </data>
   <data name="permissions_word_filter_server_off" xml:space="preserve">
-    <value>Word filtering disabled on this server.</value>
+    <value>Filterung für Wörter auf diesem Server deaktiviert.</value>
   </data>
   <data name="permissions_word_filter_server_on" xml:space="preserve">
-    <value>Word filtering enabled on this server.</value>
+    <value>Filterung für Wörter auf diesem Server aktiviert.</value>
   </data>
   <data name="searches_abilities" xml:space="preserve">
-    <value>Abilities</value>
+    <value>Fähigkeiten</value>
   </data>
   <data name="searches_anime_no_fav" xml:space="preserve">
-    <value>No favorite anime yet</value>
+    <value>Keine favoritisierten anime </value>
   </data>
   <data name="searches_atl_ad_started" xml:space="preserve">
-    <value>Started automatic translation of messages on this channel. User messages will be auto-deleted.</value>
+    <value>Startete die Automatische Übersetzung der Nachrichten auf diesem kanal. Nachrichten von Benutzern werden automatisch gelöscht.</value>
   </data>
   <data name="searches_atl_removed" xml:space="preserve">
-    <value>your auto-translate language has been removed.</value>
+    <value>Ihre Automatische-Übersetzungs Sprache wurde entfernt.</value>
   </data>
   <data name="searches_atl_set" xml:space="preserve">
-    <value>Your auto-translate language has been set to {from}&gt;{to}</value>
+    <value>Ihre Automatische-Übersetzungs Sprache wurde zu {from}&gt;{to} gesetzt.</value>
   </data>
   <data name="searches_atl_started" xml:space="preserve">
-    <value>Started automatic translation of messages on this channel.</value>
+    <value>Automatische Übersetzung der Nachrichten wurde auf diesem kanal gestartet.</value>
   </data>
   <data name="searches_atl_stopped" xml:space="preserve">
-    <value>Stopped automatic translation of messages on this channel.</value>
+    <value>Automatische Übersetzung der Nachrichten wurde auf diesem kanal gestoppt.</value>
   </data>
   <data name="searches_bad_input_format" xml:space="preserve">
-    <value>Bad input format, or something went wrong.</value>
+    <value>Schlechter Eingabeformat, oder etwas lief schief.</value>
   </data>
   <data name="searches_card_not_found" xml:space="preserve">
-    <value>Couldn't find that card.</value>
+    <value>Konnte diese Karte nicht finden</value>
   </data>
   <data name="searches_catfact" xml:space="preserve">
-    <value>fact</value>
+    <value>fakt</value>
   </data>
   <data name="searches_chapters" xml:space="preserve">
-    <value>Chapters</value>
+    <value>Kapitel</value>
   </data>
   <data name="searches_comic_number" xml:space="preserve">
     <value>Comic #</value>
   </data>
   <data name="searches_compet_loses" xml:space="preserve">
-    <value>Competitive Loses</value>
+    <value>Verlorene Competitives</value>
   </data>
   <data name="searches_compet_played" xml:space="preserve">
-    <value>Competitive Played</value>
+    <value>Gespielte Competitives</value>
   </data>
   <data name="searches_compet_rank" xml:space="preserve">
-    <value>Competitive Rank</value>
+    <value>Competitive Rang</value>
   </data>
   <data name="searches_compet_wins" xml:space="preserve">
-    <value>Competitive Wins</value>
+    <value>Gewonnene Competitives</value>
   </data>
   <data name="searches_completed" xml:space="preserve">
-    <value>Completed</value>
+    <value>Beendet</value>
   </data>
   <data name="searches_condition" xml:space="preserve">
-    <value>Condition</value>
+    <value>Kondition</value>
   </data>
   <data name="searches_cost" xml:space="preserve">
-    <value>Cost</value>
+    <value>Kosten</value>
   </data>
   <data name="searches_date" xml:space="preserve">
-    <value>Date</value>
+    <value>Datum</value>
   </data>
   <data name="searches_define" xml:space="preserve">
-    <value>Define:</value>
+    <value>Definiere:</value>
   </data>
   <data name="searches_dropped" xml:space="preserve">
-    <value>Dropped</value>
+    <value>Abgebrochen</value>
   </data>
   <data name="searches_episodes" xml:space="preserve">
-    <value>Episodes</value>
+    <value>Episoden</value>
   </data>
   <data name="searches_error_occured" xml:space="preserve">
-    <value>Error occured.</value>
+    <value>Ein fehler ist aufgetreten.</value>
   </data>
   <data name="searches_example" xml:space="preserve">
-    <value>Example</value>
+    <value>Beispiel</value>
   </data>
   <data name="searches_failed_finding_anime" xml:space="preserve">
-    <value>Failed finding that animu.</value>
+    <value>Konnte diesen animu nicht finden.</value>
   </data>
   <data name="searches_failed_finding_manga" xml:space="preserve">
-    <value>Failed finding that mango.</value>
+    <value>Konnte diesen mango nicht finden.</value>
   </data>
   <data name="searches_genres" xml:space="preserve">
     <value>Genres</value>
   </data>
   <data name="searches_hashtag_error" xml:space="preserve">
-    <value>Failed finding a definition for that tag.</value>
+    <value>Konnte keine definition für dieses Stichwort finden.</value>
   </data>
   <data name="searches_height_weight" xml:space="preserve">
-    <value>Height/Weight</value>
+    <value>Höhe/Gewicht</value>
   </data>
   <data name="searches_height_weight_val" xml:space="preserve">
-    <value>{0}m/{1}kg</value>
+    <value>{0}m/{1]kg</value>
   </data>
   <data name="searches_humidity" xml:space="preserve">
-    <value>Humidity</value>
+    <value>Feuchtigkeit</value>
   </data>
   <data name="searches_image_search_for" xml:space="preserve">
-    <value>Image Search For:</value>
+    <value>Bildersuche für:</value>
   </data>
   <data name="searches_imdb_fail" xml:space="preserve">
-    <value>Failed to find that movie.</value>
+    <value>Konnte diesen Film nicht finden.</value>
   </data>
   <data name="searches_invalid_lang" xml:space="preserve">
-    <value>Invalid source or target language.</value>
+    <value>Ungültige Quell- oder Zielsprache,</value>
   </data>
   <data name="searches_jokes_not_loaded" xml:space="preserve">
-    <value>Jokes not loaded.</value>
+    <value>Witze nicht geladen.</value>
   </data>
   <data name="searches_latlong" xml:space="preserve">
-    <value>Lat/Long</value>
+    <value>Lat/long</value>
   </data>
   <data name="searches_level" xml:space="preserve">
     <value>Level</value>
   </data>
   <data name="searches_list_of_place_tags" xml:space="preserve">
-    <value>List of {0}place tags</value>
-    <comment>Don't translate {0}place</comment>
+    <value>Liste der &quot;{0}place&quot; Stichwörtern</value>
+    <comment>Don&apos;t translate {0}place</comment>
   </data>
   <data name="searches_location" xml:space="preserve">
-    <value>Location</value>
+    <value>Standort</value>
   </data>
   <data name="searches_magicitems_not_loaded" xml:space="preserve">
-    <value>Magic Items not loaded.</value>
+    <value>Magic Items nicht geladen.</value>
   </data>
   <data name="searches_mal_profile" xml:space="preserve">
-    <value>{0}'s MAL profile</value>
+    <value>{0}s MAL Profil</value>
   </data>
   <data name="searches_mashape_api_missing" xml:space="preserve">
-    <value>Bot owner didn't specify MashapeApiKey. You can't use this functionality.</value>
+    <value>Der Besitzer des Bots hat keinen MashapeApi-Schlüssel angegeben. Sie können diese Funktion nicht benutzen.</value>
   </data>
   <data name="searches_min_max" xml:space="preserve">
     <value>Min/Max</value>
   </data>
   <data name="searches_no_channel_found" xml:space="preserve">
-    <value>No channel found.</value>
+    <value>Keine Kanäle gefunden.</value>
   </data>
   <data name="searches_no_results" xml:space="preserve">
-    <value>No results found.</value>
+    <value>Keine Ergebnisse gefunden.</value>
   </data>
   <data name="searches_on_hold" xml:space="preserve">
-    <value>On-Hold</value>
+    <value>Pausierte</value>
   </data>
   <data name="searches_original_url" xml:space="preserve">
-    <value>Original Url</value>
+    <value>Ursprüngliche Url</value>
   </data>
   <data name="searches_osu_api_key" xml:space="preserve">
-    <value>An osu! API key is required.</value>
+    <value>Ein osu! API-Schlüssel wird benötigt.</value>
   </data>
   <data name="searches_osu_failed" xml:space="preserve">
-    <value>Failed retrieving osu! signature.</value>
+    <value>osu! Signatur konnte nicht geholt werden.</value>
   </data>
   <data name="searches_over_x" xml:space="preserve">
-    <value>Found over {0} images. Showing random {0}.</value>
+    <value>Über {0} Bilder gefunden. Zeige zufälliges {0}.</value>
   </data>
   <data name="searches_ow_user_not_found" xml:space="preserve">
-    <value>User not found! Please check the Region and BattleTag before trying again.</value>
+    <value>Benutzer nicht gefunden! Bitte überprüfe die Region und den BattleTag before erneuten versuchen.</value>
   </data>
   <data name="searches_plan_to_watch" xml:space="preserve">
-    <value>Plan to watch</value>
+    <value>Vermerkte</value>
   </data>
   <data name="searches_platform" xml:space="preserve">
     <value>Platform</value>
   </data>
   <data name="searches_pokemon_ability_none" xml:space="preserve">
-    <value>No ability found.</value>
+    <value>Keine Fähigkeit gefunden.</value>
   </data>
   <data name="searches_pokemon_none" xml:space="preserve">
-    <value>No pokemon found.</value>
+    <value>Kein pokemon gefunden.</value>
   </data>
   <data name="searches_profile_link" xml:space="preserve">
-    <value>Profile Link:</value>
+    <value>Profil Link:</value>
   </data>
   <data name="searches_quality" xml:space="preserve">
-    <value>Quality:</value>
+    <value>Qualität</value>
   </data>
   <data name="searches_quick_playtime" xml:space="preserve">
-    <value>Quick Playtime</value>
+    <value>Quick Spielzeit</value>
   </data>
   <data name="searches_quick_wins" xml:space="preserve">
-    <value>Quick Wins</value>
+    <value>Gewonnene Quicks</value>
   </data>
   <data name="searches_rating" xml:space="preserve">
-    <value>Rating</value>
+    <value>Bewertung</value>
   </data>
   <data name="searches_score" xml:space="preserve">
-    <value>Score:</value>
+    <value>Punktzahl:</value>
   </data>
   <data name="searches_search_for" xml:space="preserve">
-    <value>Search For:</value>
+    <value>Suche nach:</value>
   </data>
   <data name="searches_shorten_fail" xml:space="preserve">
-    <value>Failed to shorten that url.</value>
+    <value>Url konnte nicht gekürzt werden</value>
   </data>
   <data name="searches_short_url" xml:space="preserve">
-    <value>Short Url</value>
+    <value>Kurze Url</value>
   </data>
   <data name="searches_something_went_wrong" xml:space="preserve">
-    <value>Something went wrong.</value>
+    <value>Etwas lief schief.</value>
   </data>
   <data name="searches_specify_search_params" xml:space="preserve">
-    <value>Please specify search parameters.</value>
+    <value>Bitte spezifizieren sie die Such Parameter.</value>
   </data>
   <data name="searches_status" xml:space="preserve">
     <value>Status</value>
   </data>
   <data name="searches_store_url" xml:space="preserve">
-    <value>Store Url</value>
+    <value>Geschäfts Url</value>
   </data>
   <data name="searches_streamer_offline" xml:space="preserve">
-    <value>Streamer {0} is offline.</value>
+    <value>Streamer {0} ist jetzt offline.</value>
   </data>
   <data name="searches_streamer_online" xml:space="preserve">
-    <value>Streamer {0} is online with {1} viewers.</value>
+    <value>Streamer {0} ist online mit {1} Zuschauern.</value>
   </data>
   <data name="searches_streams_following" xml:space="preserve">
-    <value>You are following {0} streams on this server.</value>
+    <value>Sie folgen {0} Streamer auf diesem Server.</value>
   </data>
   <data name="searches_streams_none" xml:space="preserve">
-    <value>You are not following any streams on this server.</value>
+    <value>Sie folgen keinem Streamer auf diesem Server.</value>
   </data>
   <data name="searches_stream_no" xml:space="preserve">
-    <value>No such stream.</value>
+    <value>Diesen Stream gibt es nicht.</value>
   </data>
   <data name="searches_stream_not_exist" xml:space="preserve">
-    <value>Stream probably doesn't exist.</value>
+    <value>Stream existiert wahrscheinlich nicht.</value>
   </data>
   <data name="searches_stream_removed" xml:space="preserve">
-    <value>Removed {0}'s stream ({1}) from notifications.</value>
+    <value>{0}s Stream ({1}) von den Benachrichtigungen entfernt.</value>
   </data>
   <data name="searches_stream_tracked" xml:space="preserve">
-    <value>I will notify this channel when status changes.</value>
+    <value>Ich werde diesen Kanal benachrichtigen wenn der Status sich verändert.</value>
   </data>
   <data name="searches_sunrise" xml:space="preserve">
-    <value>Sunrise</value>
+    <value>Sonnenaufgang</value>
   </data>
   <data name="searches_sunset" xml:space="preserve">
-    <value>Sunset</value>
+    <value>Sonnenuntergang</value>
   </data>
   <data name="searches_temperature" xml:space="preserve">
     <value>Temperature</value>
   </data>
   <data name="searches_title" xml:space="preserve">
-    <value>Title:</value>
+    <value>Titel:</value>
   </data>
   <data name="searches_top_3_fav_anime" xml:space="preserve">
-    <value>Top 3 favorite anime:</value>
+    <value>Top 3 Lieblingsanime:</value>
   </data>
   <data name="searches_translation" xml:space="preserve">
-    <value>Translation:</value>
+    <value>Übersetzung:</value>
   </data>
   <data name="searches_types" xml:space="preserve">
-    <value>Types</value>
+    <value>Typen</value>
   </data>
   <data name="searches_ud_error" xml:space="preserve">
-    <value>Failed finding definition for that term.</value>
+    <value>Die definition für den Begriff konnte nicht gefunden werden.</value>
   </data>
   <data name="searches_url" xml:space="preserve">
     <value>Url</value>
   </data>
   <data name="searches_viewers" xml:space="preserve">
-    <value>Viewers</value>
+    <value>Zuschauer</value>
   </data>
   <data name="searches_watching" xml:space="preserve">
-    <value>Watching</value>
+    <value>Am schauen</value>
   </data>
   <data name="searches_wikia_error" xml:space="preserve">
-    <value>Failed finding that term on the specified wikia.</value>
+    <value>Der Begriff konnte auf dem spezifizierten wikia nicht gefunden werden.</value>
   </data>
   <data name="searches_wikia_input_error" xml:space="preserve">
-    <value>Please enter a target wikia, followed by search query.</value>
+    <value>Bitte geben sie ein Ziel wikia ein, gefolgt bei der Suchanfrage.</value>
   </data>
   <data name="searches_wiki_page_not_found" xml:space="preserve">
-    <value>Page not found.</value>
+    <value>Seite konnte nicht gefunden werden.</value>
   </data>
   <data name="searches_wind_speed" xml:space="preserve">
-    <value>Wind Speed</value>
+    <value>Wind Geschwindigkeit</value>
   </data>
   <data name="searches_x_most_banned_champs" xml:space="preserve">
-    <value>The {0} most banned champions</value>
+    <value>Die {0} meist gebannten Champions</value>
   </data>
   <data name="searches_yodify_error" xml:space="preserve">
-    <value>Failed to yodify your sentence.</value>
+    <value>Ihre Nachricht konnte nicht yodifiziert werden.</value>
   </data>
   <data name="utiliity_joined" xml:space="preserve">
-    <value>Joined</value>
+    <value>Beigetreten</value>
   </data>
   <data name="utility_activity_line" xml:space="preserve">
     <value>`{0}.` {1} [{2:F2}/s] - {3} total</value>
     <comment>/s and total need to be localized to fit the context -
-`1.` </comment>
+`1.`</comment>
   </data>
   <data name="utility_activity_page" xml:space="preserve">
-    <value>Activity Page #{0}</value>
+    <value>Aktivitäten Liste #{0}</value>
   </data>
   <data name="utility_activity_users_total" xml:space="preserve">
-    <value>{0} users total.</value>
+    <value>{0} totale Benutzer.</value>
   </data>
   <data name="utility_author" xml:space="preserve">
-    <value>Author</value>
+    <value>Autor(in)</value>
   </data>
   <data name="utility_botid" xml:space="preserve">
-    <value>Bot ID</value>
+    <value>ID des Bots</value>
   </data>
   <data name="utility_calcops" xml:space="preserve">
-    <value>List of functions in {0}calc command</value>
+    <value>Liste der Funktionen im {0}calc Befehl</value>
   </data>
   <data name="utility_channelid" xml:space="preserve">
-    <value>{0} of this channel is {1}</value>
+    <value>{0} dieses Kanals ist {1}</value>
   </data>
   <data name="utility_channel_topic" xml:space="preserve">
-    <value>Channel Topic</value>
+    <value>Thema des Kanals</value>
   </data>
   <data name="utility_commands_ran" xml:space="preserve">
-    <value>Commands Ran</value>
+    <value>Befehl ausgeführt</value>
   </data>
   <data name="utility_convert" xml:space="preserve">
-    <value>{0} {1} is equal to {2} {3}</value>
+    <value>{0} {1} ist gleich zu {2} {3}</value>
   </data>
   <data name="utility_convertlist" xml:space="preserve">
-    <value>Units which can be used by the converter</value>
+    <value>Einhetein die von dem Konvertierer benutzt werden können</value>
   </data>
   <data name="utility_convert_not_found" xml:space="preserve">
-    <value>Cannot convert {0} to {1}: units not found</value>
+    <value>Kann {0} nicht zu {1} konvertieren: Einheiten nicht gefunden</value>
   </data>
   <data name="utility_convert_type_error" xml:space="preserve">
-    <value>Cannot convert {0} to {1}: types of unit are not equal</value>
+    <value>Kann {0} nicht zu {1} konvertieren: Einheiten sind nicht gleich</value>
   </data>
   <data name="utility_created_at" xml:space="preserve">
-    <value>Created At</value>
+    <value>Erstellt am</value>
   </data>
   <data name="utility_csc_join" xml:space="preserve">
-    <value>Joined cross server channel.</value>
+    <value>Betritt Multi-Server-Kanal.</value>
   </data>
   <data name="utility_csc_leave" xml:space="preserve">
-    <value>Left cross server channel.</value>
+    <value>Verließ Multi-Server-Kanal.</value>
   </data>
   <data name="utility_csc_token" xml:space="preserve">
-    <value>This is your CSC token</value>
+    <value>Dies ist ihr MSK token</value>
   </data>
   <data name="utility_custom_emojis" xml:space="preserve">
-    <value>Custom Emojis</value>
+    <value>Benutzerdefinierte Emojis</value>
   </data>
   <data name="utility_error" xml:space="preserve">
-    <value>Error</value>
+    <value>Fehler</value>
   </data>
   <data name="utility_features" xml:space="preserve">
-    <value>Features</value>
+    <value>Funktionalitäten</value>
   </data>
   <data name="utility_id" xml:space="preserve">
     <value>ID</value>
   </data>
   <data name="utility_index_out_of_range" xml:space="preserve">
-    <value>Index out of range.</value>
+    <value>Index außer Reichweite.</value>
   </data>
   <data name="utility_inrole_list" xml:space="preserve">
-    <value>Here is a list of users in those roles:</value>
+    <value>Hier ist eine Liste mit Nutzern in diesen Rollen:</value>
   </data>
   <data name="utility_inrole_not_allowed" xml:space="preserve">
-    <value>you are not allowed to use this command on roles with a lot of users in them to prevent abuse.</value>
+    <value>Sie haben keine Berechtigung diesen Befehl auf Rollen mit vielen Nutzern zu benutzen um Missbrauch zu verhindern.</value>
   </data>
   <data name="utility_invalid_value" xml:space="preserve">
-    <value>Invalid {0} value.</value>
+    <value>Ungültiger {0} Wert.</value>
     <comment>Invalid months value/ Invalid hours value</comment>
   </data>
   <data name="utility_joined_discord" xml:space="preserve">
-    <value>Joined Discord</value>
+    <value>Discord beigetreten</value>
   </data>
   <data name="utility_joined_server" xml:space="preserve">
-    <value>Joined Server</value>
+    <value>Server beigetreten</value>
   </data>
   <data name="utility_listservers" xml:space="preserve">
     <value>ID: {0}
-Members: {1}
-OwnerID: {2}</value>
+Mitglieder: {1}
+ID des Besitzers: {2}</value>
   </data>
   <data name="utility_listservers_none" xml:space="preserve">
-    <value>No servers found on that page.</value>
+    <value>Keine Server auf dieser Seite gefunden.</value>
   </data>
   <data name="utility_list_of_repeaters" xml:space="preserve">
-    <value>List of Repeaters</value>
+    <value>Liste der Wiederholer</value>
   </data>
   <data name="utility_members" xml:space="preserve">
-    <value>Members</value>
+    <value>Mitglieder</value>
   </data>
   <data name="utility_memory" xml:space="preserve">
-    <value>Memory</value>
+    <value>Speicher</value>
   </data>
   <data name="utility_messages" xml:space="preserve">
-    <value>Messages</value>
+    <value>Nachrichten</value>
   </data>
   <data name="utility_message_repeater" xml:space="preserve">
-    <value>Message Repeater</value>
+    <value>Nachrichten Wiederholer</value>
   </data>
   <data name="utility_name" xml:space="preserve">
     <value>Name</value>
@@ -2048,105 +2046,105 @@ OwnerID: {2}</value>
     <value>Nickname</value>
   </data>
   <data name="utility_nobody_playing_game" xml:space="preserve">
-    <value>Nobody is playing that game.</value>
+    <value>Niemand spielt dieses Spiel.</value>
   </data>
   <data name="utility_no_active_repeaters" xml:space="preserve">
-    <value>No active repeaters.</value>
+    <value>Keine aktiven Wiederholer</value>
   </data>
   <data name="utility_no_roles_on_page" xml:space="preserve">
-    <value>No roles on this page.</value>
+    <value>Keine Rollen auf dieser Seite.</value>
   </data>
   <data name="utility_no_shards_on_page" xml:space="preserve">
-    <value>No shards on this page.</value>
+    <value>Keine Shards auf dieser Seite.</value>
   </data>
   <data name="utility_no_topic_set" xml:space="preserve">
-    <value>No topic set.</value>
+    <value>Kein Thema gesetzt.</value>
   </data>
   <data name="utility_owner" xml:space="preserve">
-    <value>Owner</value>
+    <value>Besitzer</value>
   </data>
   <data name="utility_owner_ids" xml:space="preserve">
-    <value>Owner IDs</value>
+    <value>IDs der Besitzer</value>
   </data>
   <data name="utility_presence" xml:space="preserve">
-    <value>Presence</value>
+    <value>Anwesenheit</value>
   </data>
   <data name="utility_presence_txt" xml:space="preserve">
-    <value>{0} Servers
-{1} Text Channels
-{2} Voice Channels</value>
+    <value>{0} Server
+{1} Text Kanäle
+{2} Sprach Kanäle</value>
   </data>
   <data name="utility_quotes_deleted" xml:space="preserve">
-    <value>Deleted all quotes with {0} keyword.</value>
+    <value>Alle Zitate mit dem Stichwort {0} wurden gelöscht.</value>
   </data>
   <data name="utility_quotes_page" xml:space="preserve">
-    <value>Page {0} of quotes</value>
+    <value>Seite {0} der Zitate</value>
   </data>
   <data name="utility_quotes_page_none" xml:space="preserve">
-    <value>No quotes on this page.</value>
+    <value>Keine Zitate auf dieser Seite.</value>
   </data>
   <data name="utility_quotes_remove_none" xml:space="preserve">
-    <value>No quotes found which you can remove.</value>
+    <value>Kein Zitat das sie entfernen können gefunden.</value>
   </data>
   <data name="utility_quote_added" xml:space="preserve">
-    <value>Quote Added</value>
+    <value>Zitat hinzugefügt</value>
   </data>
   <data name="utility_quote_deleted" xml:space="preserve">
-    <value>Deleted a random quote.</value>
+    <value>Zufälliger Zitat wurde gelöscht.</value>
   </data>
   <data name="utility_region" xml:space="preserve">
     <value>Region</value>
   </data>
   <data name="utility_registered_on" xml:space="preserve">
-    <value>Registered On</value>
+    <value>Registriert an</value>
   </data>
   <data name="utility_remind" xml:space="preserve">
-    <value>I will remind {0} to {1} in {2} `({3:d.M.yyyy.} at {4:HH:mm})`</value>
+    <value>Ich werde {0} erinnern {1} in {2} `({3:d.M.yyyy.} um {4:HH:mm})` zu tun.</value>
   </data>
   <data name="utility_remind_invalid_format" xml:space="preserve">
-    <value>Not a valid time format. Check the commandlist.</value>
+    <value>Kein gültiges Zeitformat. Überprüfe die Befehlsliste.</value>
   </data>
   <data name="utility_remind_template" xml:space="preserve">
-    <value>New remind template set.</value>
+    <value>Neue Erinnerungs Vorlage wurde gesetzt.</value>
   </data>
   <data name="utility_repeater" xml:space="preserve">
-    <value>Repeating {0} every {1} day(s), {2} hour(s) and {3} minute(s).</value>
+    <value>{0} wird jede {1} Tag(e), {2}stunde(n) und {3} minute(n) wiederholt.</value>
   </data>
   <data name="utility_repeaters_list" xml:space="preserve">
-    <value>List Of Repeaters</value>
+    <value>Liste der Wiederholungen</value>
   </data>
   <data name="utility_repeaters_none" xml:space="preserve">
-    <value>No repeaters running on this server.</value>
+    <value>Auf diesem Server laufen keine Wiederholer.</value>
   </data>
   <data name="utility_repeater_stopped" xml:space="preserve">
-    <value>#{0} stopped.</value>
+    <value>#{0} wurde gestoppt.</value>
   </data>
   <data name="utility_repeat_invoke_none" xml:space="preserve">
-    <value>No repeating messages found on this server.</value>
+    <value>Auf diesem Server wurden keine wiederholende Nachrichten gefunden.</value>
   </data>
   <data name="utility_result" xml:space="preserve">
-    <value>Result</value>
+    <value>Resultat</value>
   </data>
   <data name="utility_roles" xml:space="preserve">
-    <value>Roles</value>
+    <value>Rollen</value>
   </data>
   <data name="utility_roles_all_page" xml:space="preserve">
-    <value>Page #{0} of all roles on this server:</value>
+    <value>Seite #{0} aller Rollen für diesen Server:</value>
   </data>
   <data name="utility_roles_page" xml:space="preserve">
-    <value>Page #{0} of roles for {1}</value>
+    <value>Seite #{0} der Rollen für {1}</value>
   </data>
   <data name="utility_rrc_no_colors" xml:space="preserve">
-    <value>No colors are in the correct format. Use `#00ff00` for example.</value>
+    <value>Keine Farben sind in dem Richtigen Format. Benutze zum Beispiel `#00ff00`.</value>
   </data>
   <data name="utility_rrc_start" xml:space="preserve">
-    <value>Started rotating {0} role's color.</value>
+    <value>Startete die Farbrotation für Rolle {0}</value>
   </data>
   <data name="utility_rrc_stop" xml:space="preserve">
-    <value>Stopped rotating colors for the {0} role</value>
+    <value>Stoppte die Farbrotation für Rolle {0}</value>
   </data>
   <data name="utility_serverid" xml:space="preserve">
-    <value>{0} of this server is {1}</value>
+    <value>{0} dieses Servers ist {1}</value>
   </data>
   <data name="utility_server_info" xml:space="preserve">
     <value>Server Info</value>
@@ -2155,37 +2153,38 @@ OwnerID: {2}</value>
     <value>Shard</value>
   </data>
   <data name="utility_shard_stats" xml:space="preserve">
-    <value>Shard Stats</value>
+    <value>Shard Statistiken</value>
   </data>
   <data name="utility_shard_stats_txt" xml:space="preserve">
-    <value>Shard **#{0}** is in {1} state with {2} servers</value>
+    <value>Shard **#{0}** ist im {1} status mit {2} Servern</value>
   </data>
   <data name="utility_showemojis" xml:space="preserve">
     <value>**Name:** {0} **Link:** {1}</value>
   </data>
   <data name="utility_showemojis_none" xml:space="preserve">
-    <value>No special emojis found.</value>
+    <value>Keine speziellen emoji gefunden.</value>
   </data>
   <data name="utility_stats_songs" xml:space="preserve">
-    <value>Playing {0} songs, {1} queued.</value>
+    <value>Wiedergabe von {0} Liedern, {1} in der Musikliste.</value>
   </data>
   <data name="utility_text_channels" xml:space="preserve">
-    <value>Text Channels</value>
+    <value>Text Kanäle</value>
   </data>
   <data name="utility_togtub_room_link" xml:space="preserve">
-    <value>Here is your room link:</value>
+    <value>Hier ist ihr Raum link</value>
   </data>
   <data name="utility_uptime" xml:space="preserve">
-    <value>Uptime</value>
+    <value>Betriebszeit</value>
   </data>
   <data name="utility_userid" xml:space="preserve">
-    <value>{0} of the user {1} is {2}</value>
+    <value>{0} von Benutzer {1} ist {2}</value>
     <comment>Id of the user kwoth#1234 is 123123123123</comment>
   </data>
   <data name="utility_users" xml:space="preserve">
-    <value>Users</value>
+    <value>Benutzer</value>
   </data>
   <data name="utility_voice_channels" xml:space="preserve">
-    <value>Voice Channels</value>
+    <value>Sprach Kanäle</value>
   </data>
+
 </root>
