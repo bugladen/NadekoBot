@@ -1443,7 +1443,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Text Channel Destroyed .
+        ///    Looks up a localized string similar to Text Channel Created.
         /// </summary>
         public static string administration_text_chan_created {
             get {
@@ -3605,15 +3605,6 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to No music player active..
-        /// </summary>
-        public static string music_player_none {
-            get {
-                return ResourceManager.GetString("music_player_none", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///    Looks up a localized string similar to Player Queue - Page {0}/{1}.
         /// </summary>
         public static string music_player_queue {
@@ -4884,7 +4875,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Joes not loaded..
+        ///    Looks up a localized string similar to Jokes not loaded..
         /// </summary>
         public static string searches_jokes_not_loaded {
             get {
