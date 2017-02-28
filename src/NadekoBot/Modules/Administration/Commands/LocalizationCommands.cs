@@ -18,8 +18,10 @@ namespace NadekoBot.Modules.Administration
         {
             private ImmutableDictionary<string, string> supportedLocales { get; } = new Dictionary<string, string>()
             {
-                {"en-US", "English, United States" },
-                {"fr-FR", "French, France" }
+                {"en-US", "English, United States"},
+                {"fr-FR", "French, France"},
+                {"ru-RU", "Russian, Russia"},
+                {"de-DE", "German, Germany"}
                 //{"sr-cyrl-rs", "Serbian, Cyrillic" }
             }.ToImmutableDictionary();
 
