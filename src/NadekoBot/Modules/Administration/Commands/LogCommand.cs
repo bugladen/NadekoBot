@@ -529,7 +529,7 @@ namespace NadekoBot.Modules.Administration
                     else if (afterVch == null)
                     {
                         str = "🎙" + Format.Code(prettyCurrentTime) + logChannel.Guild.GetLogText("user_vleft",
-                                "👤" + Format.Code(prettyCurrentTime), "👤" + Format.Bold(usr.Username + "#" + usr.Discriminator),
+                                "👤" + Format.Bold(usr.Username + "#" + usr.Discriminator),
                                 Format.Bold(beforeVch.Name ?? ""));
                     }
                     if (str != null)
