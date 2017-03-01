@@ -22,10 +22,10 @@ namespace NadekoBot.Modules.Administration
                 {"fr-FR", "French, France"},
                 {"ru-RU", "Russian, Russia"},
                 {"de-DE", "German, Germany"},
-                {"nl-NL", "Dutch, Netherlands"},
-                {"ja-JP", "Japanese, Japan"},
+                //{"nl-NL", "Dutch, Netherlands"},
+                //{"ja-JP", "Japanese, Japan"},
                 {"pt-BR", "Portuguese, Brazil"},
-                {"sr-Cyrl-RS", "Serbian, Serbia - Cyrillic"}
+                //{"sr-Cyrl-RS", "Serbian, Serbia - Cyrillic"}
             }.ToImmutableDictionary();
 
             [NadekoCommand, Usage, Description, Aliases]
