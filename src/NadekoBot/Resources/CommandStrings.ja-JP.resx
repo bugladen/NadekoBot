@@ -118,16 +118,19 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="clashofclans_base_already_claimed" xml:space="preserve">
-    <value></value>
+    <value>その基盤はすでに主張されている。または破壊されました。
+</value>
   </data>
   <data name="clashofclans_base_already_destroyed" xml:space="preserve">
-    <value></value>
+    <value>ベースが破壊されました
+</value>
   </data>
   <data name="clashofclans_base_already_unclaimed" xml:space="preserve">
-    <value></value>
+    <value>その基地は主張されていない。
+</value>
   </data>
   <data name="clashofclans_base_destroyed" xml:space="preserve">
-    <value></value>
+    <value>{1}との戦争中の整数{0}を破壊しました</value>
   </data>
   <data name="clashofclans_base_unclaimed" xml:space="preserve">
     <value></value>
@@ -169,7 +172,7 @@
     <value></value>
   </data>
   <data name="clashofclans_size" xml:space="preserve">
-    <value></value>
+    <value>サイズ</value>
   </data>
   <data name="clashofclans_war_already_started" xml:space="preserve">
     <value></value>
@@ -211,7 +214,7 @@
     <value></value>
   </data>
   <data name="customreactions_response" xml:space="preserve">
-    <value></value>
+    <value>反応</value>
   </data>
   <data name="customreactions_stats" xml:space="preserve">
     <value></value>
@@ -223,7 +226,7 @@
     <value></value>
   </data>
   <data name="customreactions_trigger" xml:space="preserve">
-    <value></value>
+    <value>トリガー</value>
   </data>
   <data name="nsfw_autohentai_stopped" xml:space="preserve">
     <value></value>
@@ -305,7 +308,7 @@
     <value></value>
   </data>
   <data name="administration_attachments" xml:space="preserve">
-    <value></value>
+    <value>接続</value>
   </data>
   <data name="administration_avatar_changed" xml:space="preserve">
     <value></value>
@@ -314,11 +317,11 @@
     <value></value>
   </data>
   <data name="administration_banned_pl" xml:space="preserve">
-    <value></value>
+    <value>ＢＡＮＮＥＤ</value>
     <comment>PLURAL</comment>
   </data>
   <data name="administration_banned_user" xml:space="preserve">
-    <value></value>
+    <value>ユーザーはＢＡＮＮＥＤ</value>
   </data>
   <data name="administration_bot_name" xml:space="preserve">
     <value></value>
@@ -351,7 +354,7 @@
     <value></value>
   </data>
   <data name="administration_ch_old_name" xml:space="preserve">
-    <value></value>
+    <value>古称</value>
   </data>
   <data name="administration_ch_topic_change" xml:space="preserve">
     <value></value>
@@ -360,7 +363,7 @@
     <value></value>
   </data>
   <data name="administration_content" xml:space="preserve">
-    <value></value>
+    <value>コンテント</value>
   </data>
   <data name="administration_cr" xml:space="preserve">
     <value></value>
@@ -390,7 +393,7 @@
     <value></value>
   </data>
   <data name="administration_dm_from" xml:space="preserve">
-    <value></value>
+    <value>タイレクトメッセージガ</value>
   </data>
   <data name="administration_donadd" xml:space="preserve">
     <value></value>
@@ -531,11 +534,12 @@
     <value></value>
   </data>
   <data name="administration_muted_pl" xml:space="preserve">
-    <value></value>
-    <comment>PLURAL (users have been muted)</comment>
+    <value>ミュート</value>
+    <comment>PLURAL (users have been muted)
+Fuzzy</comment>
   </data>
   <data name="administration_muted_sn" xml:space="preserve">
-    <value></value>
+    <value>ミュート</value>
     <comment>singular &quot;User muted.&quot;</comment>
   </data>
   <data name="administration_mute_error" xml:space="preserve">
