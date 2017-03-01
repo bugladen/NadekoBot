@@ -592,7 +592,7 @@ namespace NadekoBot.Modules.Music
             if (seconds == 0)
                 await ReplyConfirmLocalized("max_playtime_none").ConfigureAwait(false);
             else
-                await ReplyConfirmLocalized("max_playtime_set").ConfigureAwait(false);
+                await ReplyConfirmLocalized("max_playtime_set", seconds).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
