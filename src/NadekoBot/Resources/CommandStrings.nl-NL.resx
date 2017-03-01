@@ -117,3037 +117,2053 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="h_cmd" xml:space="preserve">
-    <value>help h</value>
+  <data name="clashofclans_base_already_claimed" xml:space="preserve">
+    <value>Die basis is al veroverd of vernietigd.</value>
   </data>
-  <data name="h_desc" xml:space="preserve">
-    <value>Either shows a help for a single command, or DMs you help link if no arguments are specified.</value>
+  <data name="clashofclans_base_already_destroyed" xml:space="preserve">
+    <value>Die basis is al vernietigd.</value>
   </data>
-  <data name="h_usage" xml:space="preserve">
-    <value>`{0}h !!q` or `{0}h`</value>
+  <data name="clashofclans_base_already_unclaimed" xml:space="preserve">
+    <value>Die basis is nog niet veroverd.</value>
   </data>
-  <data name="hgit_cmd" xml:space="preserve">
-    <value>hgit</value>
+  <data name="clashofclans_base_destroyed" xml:space="preserve">
+    <value>**VERNIETIGD**basis #{0} in een oorlog tegen {1}</value>
   </data>
-  <data name="hgit_desc" xml:space="preserve">
-    <value>Generates the commandlist.md file.</value>
+  <data name="clashofclans_base_unclaimed" xml:space="preserve">
+    <value>{0} heeft **ONOVERWONNEN** basis #{1} in een oorlog tegen {2}</value>
   </data>
-  <data name="hgit_usage" xml:space="preserve">
-    <value>`{0}hgit`</value>
+  <data name="clashofclans_claimed_base" xml:space="preserve">
+    <value>{0} heeft basis #{1} overwonnen in een oorlog tegen {2}</value>
   </data>
-  <data name="donate_cmd" xml:space="preserve">
-    <value>donate</value>
+  <data name="clashofclans_claimed_other" xml:space="preserve">
+    <value>@{0} Jij hebt al een basis overwonnen #{1}. Je kunt niet nog een nemen.</value>
   </data>
-  <data name="donate_desc" xml:space="preserve">
-    <value>Instructions for helping the project financially.</value>
+  <data name="clashofclans_claim_expired" xml:space="preserve">
+    <value>De aanvraag van @{0} voor een oorlog tegen {1} is niet meer geldig.</value>
   </data>
-  <data name="donate_usage" xml:space="preserve">
-    <value>`{0}donate`</value>
+  <data name="clashofclans_enemy" xml:space="preserve">
+    <value>Vijand</value>
   </data>
-  <data name="modules_cmd" xml:space="preserve">
-    <value>modules mdls</value>
+  <data name="clashofclans_info_about_war" xml:space="preserve">
+    <value>Informatie over oorlog tegen {0}</value>
   </data>
-  <data name="modules_desc" xml:space="preserve">
-    <value>Lists all bot modules.</value>
+  <data name="clashofclans_invalid_base_number" xml:space="preserve">
+    <value>Ongeldige basis nummer</value>
   </data>
-  <data name="modules_usage" xml:space="preserve">
-    <value>`{0}modules`</value>
+  <data name="clashofclans_invalid_size" xml:space="preserve">
+    <value>Ongeldige oorlogs formaat.</value>
   </data>
-  <data name="commands_cmd" xml:space="preserve">
-    <value>commands cmds</value>
+  <data name="clashofclans_list_active_wars" xml:space="preserve">
+    <value>Lijst van voorlopende oorlogen.</value>
   </data>
-  <data name="commands_desc" xml:space="preserve">
-    <value>List all of the bot's commands from a certain module. You can either specify full, or only first few letters of the module name.</value>
+  <data name="clashofclans_not_claimed" xml:space="preserve">
+    <value>Niet veroverd.</value>
   </data>
-  <data name="commands_usage" xml:space="preserve">
-    <value>`{0}commands Administration` or `{0}cmds Admin`</value>
+  <data name="clashofclans_not_partic" xml:space="preserve">
+    <value>Jij doet niet mee aan die oorlog.</value>
   </data>
-  <data name="greetdel_cmd" xml:space="preserve">
-    <value>greetdel grdel</value>
+  <data name="clashofclans_not_partic_or_destroyed" xml:space="preserve">
+    <value>@{0} Jij doet niet mee aan die oorlog, or die basis is al vernietigd.</value>
   </data>
-  <data name="greetdel_desc" xml:space="preserve">
-    <value>Sets the time it takes (in seconds) for greet messages to be auto-deleted. Set 0 to disable automatic deletion.</value>
+  <data name="clashofclans_no_active_wars" xml:space="preserve">
+    <value>Geen voorlopende oorlogen.</value>
   </data>
-  <data name="greetdel_usage" xml:space="preserve">
-    <value>`{0}greetdel 0` or `{0}greetdel 30`</value>
+  <data name="clashofclans_size" xml:space="preserve">
+    <value>Grootte.</value>
   </data>
-  <data name="greet_cmd" xml:space="preserve">
-    <value>greet</value>
+  <data name="clashofclans_war_already_started" xml:space="preserve">
+    <value>Oorlog tegen {0} is al begonnen.</value>
   </data>
-  <data name="greet_desc" xml:space="preserve">
-    <value>Toggles anouncements on the current channel when someone joins the server.</value>
+  <data name="clashofclans_war_created" xml:space="preserve">
+    <value>Oorlog tegen {0} gecreëerd</value>
   </data>
-  <data name="greet_usage" xml:space="preserve">
-    <value>`{0}greet`</value>
+  <data name="clashofclans_war_ended" xml:space="preserve">
+    <value>De oorlog tegen {0} is beëindigd.</value>
   </data>
-  <data name="greetmsg_cmd" xml:space="preserve">
-    <value>greetmsg</value>
+  <data name="clashofclans_war_not_exist" xml:space="preserve">
+    <value>Die oorlog bestaat niet.</value>
   </data>
-  <data name="greetmsg_desc" xml:space="preserve">
-    <value>Sets a new join announcement message which will be shown in the server's channel. Type %user% if you want to mention the new member. Using it with no message will show the current greet message. You can use embed json from &lt;http://nadekobot.xyz/embedbuilder/&gt; instead of a regular text, if you want the message to be embedded.</value>
+  <data name="clashofclans_war_started" xml:space="preserve">
+    <value>De oorlog tegen {0} is begonnen!</value>
   </data>
-  <data name="greetmsg_usage" xml:space="preserve">
-    <value>`{0}greetmsg Welcome, %user%.`</value>
+  <data name="customreactions_all_stats_cleared" xml:space="preserve">
+    <value>Alle speciale reactie statistieken zijn verwijderd.</value>
   </data>
-  <data name="bye_cmd" xml:space="preserve">
-    <value>bye</value>
+  <data name="customreactions_deleted" xml:space="preserve">
+    <value>Speciale Reactie verwijderdt.</value>
   </data>
-  <data name="bye_desc" xml:space="preserve">
-    <value>Toggles anouncements on the current channel when someone leaves the server.</value>
+  <data name="customreactions_insuff_perms" xml:space="preserve">
+    <value>Onvoldoende rechten. Bot Eigendom is nodig voor globale speciale reacties, en Administrator voor speciale server-reacties.</value>
   </data>
-  <data name="bye_usage" xml:space="preserve">
-    <value>`{0}bye`</value>
+  <data name="customreactions_list_all" xml:space="preserve">
+    <value>Lijst van alle zelf gemaakte reacties</value>
   </data>
-  <data name="byemsg_cmd" xml:space="preserve">
-    <value>byemsg</value>
+  <data name="customreactions_name" xml:space="preserve">
+    <value>Speciale Reacties</value>
   </data>
-  <data name="byemsg_desc" xml:space="preserve">
-    <value>Sets a new leave announcement message. Type %user% if you want to show the name the user who left. Type %id% to show id. Using this command with no message will show the current bye message. You can use embed json from &lt;http://nadekobot.xyz/embedbuilder/&gt; instead of a regular text, if you want the message to be embedded.</value>
+  <data name="customreactions_new_cust_react" xml:space="preserve">
+    <value>Nieuwe Speciale Reacties</value>
   </data>
-  <data name="byemsg_usage" xml:space="preserve">
-    <value>`{0}byemsg %user% has left.`</value>
+  <data name="customreactions_no_found" xml:space="preserve">
+    <value>Geen speciale reacties gevonden.</value>
   </data>
-  <data name="byedel_cmd" xml:space="preserve">
-    <value>byedel</value>
+  <data name="customreactions_no_found_id" xml:space="preserve">
+    <value>Geen speciale reacties gevonden met die ID.</value>
   </data>
-  <data name="byedel_desc" xml:space="preserve">
-    <value>Sets the time it takes (in seconds) for bye messages to be auto-deleted. Set 0 to disable automatic deletion.</value>
+  <data name="customreactions_response" xml:space="preserve">
+    <value>Antwoord</value>
   </data>
-  <data name="byedel_usage" xml:space="preserve">
-    <value>`{0}byedel 0` or `{0}byedel 30`</value>
+  <data name="customreactions_stats" xml:space="preserve">
+    <value>Speciale Reactie Statistieken</value>
   </data>
-  <data name="greetdm_cmd" xml:space="preserve">
-    <value>greetdm</value>
+  <data name="customreactions_stats_cleared" xml:space="preserve">
+    <value>Statistieke verwijderd voor {0} speciale reactie.</value>
   </data>
-  <data name="greetdm_desc" xml:space="preserve">
-    <value>Toggles whether the greet messages will be sent in a DM (This is separate from greet - you can have both, any or neither enabled).</value>
+  <data name="customreactions_stats_not_found" xml:space="preserve">
+    <value>Geen statistieken voor die trekker gevonden, geen actie genomen.</value>
   </data>
-  <data name="greetdm_usage" xml:space="preserve">
-    <value>`{0}greetdm`</value>
+  <data name="customreactions_trigger" xml:space="preserve">
+    <value>Trekker</value>
   </data>
-  <data name="logserver_cmd" xml:space="preserve">
-    <value>logserver</value>
+  <data name="nsfw_autohentai_stopped" xml:space="preserve">
+    <value>Autohentai gestopt.</value>
   </data>
-  <data name="logserver_desc" xml:space="preserve">
-    <value>Enables or Disables ALL log events. If enabled, all log events will log to this channel.</value>
+  <data name="nsfw_not_found" xml:space="preserve">
+    <value>Geen resultaten gevonden</value>
   </data>
-  <data name="logserver_usage" xml:space="preserve">
-    <value>`{0}logserver enable` or `{0}logserver disable`</value>
+  <data name="pokemon_already_fainted" xml:space="preserve">
+    <value>{0} is al flauw gevallen.</value>
   </data>
-  <data name="logignore_cmd" xml:space="preserve">
-    <value>logignore</value>
+  <data name="pokemon_already_full" xml:space="preserve">
+    <value>{0} heeft al vol HP.</value>
   </data>
-  <data name="logignore_desc" xml:space="preserve">
-    <value>Toggles whether the .logserver command ignores this channel. Useful if you have hidden admin channel and public log channel.</value>
+  <data name="pokemon_already_that_type" xml:space="preserve">
+    <value>Jouw element is al {0}</value>
   </data>
-  <data name="logignore_usage" xml:space="preserve">
-    <value>`{0}logignore`</value>
+  <data name="pokemon_attack" xml:space="preserve">
+    <value>heeft {0}{1} op {2}{3} gebruikt voor {4} schade.</value>
+    <comment>Kwoth used punch:type_icon: on Sanity:type_icon: for 50 damage.</comment>
   </data>
-  <data name="userpresence_cmd" xml:space="preserve">
-    <value>userpresence</value>
+  <data name="pokemon_cant_attack_again" xml:space="preserve">
+    <value>Jij zal niet winnen zonder tegenstand!</value>
   </data>
-  <data name="userpresence_desc" xml:space="preserve">
-    <value>Starts logging to this channel when someone from the server goes online/offline/idle.</value>
+  <data name="pokemon_cant_attack_yourself" xml:space="preserve">
+    <value>Je kunt je zelf niet aanvallen</value>
   </data>
-  <data name="userpresence_usage" xml:space="preserve">
-    <value>`{0}userpresence`</value>
+  <data name="pokemon_fainted" xml:space="preserve">
+    <value>{0} is verslagen!</value>
   </data>
-  <data name="voicepresence_cmd" xml:space="preserve">
-    <value>voicepresence</value>
+  <data name="pokemon_healed" xml:space="preserve">
+    <value>heeft {0} genezen met een {1}</value>
   </data>
-  <data name="voicepresence_desc" xml:space="preserve">
-    <value>Toggles logging to this channel whenever someone joins or leaves a voice channel you are currently in.</value>
+  <data name="pokemon_hp_remaining" xml:space="preserve">
+    <value>{0} heeft nog {1} HP over</value>
   </data>
-  <data name="voicepresence_usage" xml:space="preserve">
-    <value>`{0}voicepresence`</value>
+  <data name="pokemon_invalid_move" xml:space="preserve">
+    <value>Je kan {0} niet gebruiken. Typ `{1}ml` om een lijst te bekijken van de aanvallen die jij kunt gebruiken</value>
   </data>
-  <data name="repeatinvoke_cmd" xml:space="preserve">
-    <value>repeatinvoke repinv</value>
+  <data name="pokemon_moves" xml:space="preserve">
+    <value>Aanvallijst voor {0} element</value>
   </data>
-  <data name="repeatinvoke_desc" xml:space="preserve">
-    <value>Immediately shows the repeat message on a certain index and restarts its timer.</value>
+  <data name="pokemon_not_effective" xml:space="preserve">
+    <value>Het heeft weinig effect.</value>
   </data>
-  <data name="repeatinvoke_usage" xml:space="preserve">
-    <value>`{0}repinv 1`</value>
+  <data name="pokemon_no_currency" xml:space="preserve">
+    <value>Je hebt niet genoeg {0}</value>
   </data>
-  <data name="repeat_cmd" xml:space="preserve">
-    <value>repeat</value>
+  <data name="pokemon_revive_other" xml:space="preserve">
+    <value>heeft {0} herstelt met een {1}</value>
   </data>
-  <data name="repeat_desc" xml:space="preserve">
-    <value>Repeat a message every X minutes in the current channel. You can have up to 5 repeating messages on the server in total.</value>
+  <data name="pokemon_revive_yourself" xml:space="preserve">
+    <value>Je kunt jezelf herstellen met een {0}</value>
   </data>
-  <data name="repeat_usage" xml:space="preserve">
-    <value>`{0}repeat 5 Hello there`</value>
+  <data name="pokemon_settype_success" xml:space="preserve">
+    <value>Je element is veranderd van {0} naar {1}</value>
   </data>
-  <data name="rotateplaying_cmd" xml:space="preserve">
-    <value>rotateplaying ropl</value>
+  <data name="pokemon_somewhat_effective" xml:space="preserve">
+    <value>Het is een beetje effectief.</value>
   </data>
-  <data name="rotateplaying_desc" xml:space="preserve">
-    <value>Toggles rotation of playing status of the dynamic strings you previously specified.</value>
+  <data name="pokemon_super_effective" xml:space="preserve">
+    <value>Het is super effectief!</value>
   </data>
-  <data name="rotateplaying_usage" xml:space="preserve">
-    <value>`{0}ropl`</value>
+  <data name="pokemon_too_many_moves" xml:space="preserve">
+    <value>Je hebt te veel aanvallen achter elkaar gemaakt, je kan dus niet bewegen!</value>
   </data>
-  <data name="addplaying_cmd" xml:space="preserve">
-    <value>addplaying adpl</value>
+  <data name="pokemon_type_of_user" xml:space="preserve">
+    <value>Element van {0} is {1}</value>
   </data>
-  <data name="addplaying_desc" xml:space="preserve">
-    <value>Adds a specified string to the list of playing strings to rotate. Supported placeholders: %servers%, %users%, %playing%, %queued%, %time%,%shardid%,%shardcount%, %shardguilds%</value>
+  <data name="pokemon_user_not_found" xml:space="preserve">
+    <value>Gebruiker niet gevonden.</value>
   </data>
-  <data name="addplaying_usage" xml:space="preserve">
-    <value>`{0}adpl`</value>
+  <data name="pokemon_you_fainted" xml:space="preserve">
+    <value>Je bent flauw gevallen, dus je kunt niet bewegen!</value>
   </data>
-  <data name="listplaying_cmd" xml:space="preserve">
-    <value>listplaying lipl</value>
+  <data name="administration_aar_disabled" xml:space="preserve">
+    <value>**Auto aanwijzing van rollen** op gebruiker is nu **uitgeschakeld**.</value>
   </data>
-  <data name="listplaying_desc" xml:space="preserve">
-    <value>Lists all playing statuses with their corresponding number.</value>
+  <data name="administration_aar_enabled" xml:space="preserve">
+    <value>**Auto aanwijzing van rollen** op gebruiker is nu **ingeschakeld**.</value>
   </data>
-  <data name="listplaying_usage" xml:space="preserve">
-    <value>`{0}lipl`</value>
+  <data name="administration_attachments" xml:space="preserve">
+    <value>Bestanden</value>
   </data>
-  <data name="removeplaying_cmd" xml:space="preserve">
-    <value>removeplaying rmpl repl</value>
+  <data name="administration_avatar_changed" xml:space="preserve">
+    <value>Avatar veranderd</value>
   </data>
-  <data name="removeplaying_desc" xml:space="preserve">
-    <value>Removes a playing string on a given number.</value>
+  <data name="administration_bandm" xml:space="preserve">
+    <value>Je bent verbannen van {0} server. Reden: {1}</value>
   </data>
-  <data name="removeplaying_usage" xml:space="preserve">
-    <value>`{0}rmpl`</value>
+  <data name="administration_banned_pl" xml:space="preserve">
+    <value>Verbannen</value>
+    <comment>PLURAL</comment>
   </data>
-  <data name="slowmode_cmd" xml:space="preserve">
-    <value>slowmode</value>
+  <data name="administration_banned_user" xml:space="preserve">
+    <value>Gebruiker verbannen</value>
   </data>
-  <data name="slowmode_desc" xml:space="preserve">
-    <value>Toggles slowmode. Disable by specifying no parameters. To enable, specify a number of messages each user can send, and an interval in seconds. For example 1 message every 5 seconds.</value>
+  <data name="administration_bot_name" xml:space="preserve">
+    <value>Bot naam is veranderd naar {0}</value>
   </data>
-  <data name="slowmode_usage" xml:space="preserve">
-    <value>`{0}slowmode 1 5` or `{0}slowmode`</value>
+  <data name="administration_bot_status" xml:space="preserve">
+    <value>Bot status is veranderd naar {0}</value>
   </data>
-  <data name="cleanvplust_cmd" xml:space="preserve">
-    <value>cleanvplust cv+t</value>
+  <data name="administration_byedel_off" xml:space="preserve">
+    <value>Automatische verwijdering van de bye berichten is uitgeschakeld.</value>
   </data>
-  <data name="cleanvplust_desc" xml:space="preserve">
-    <value>Deletes all text channels ending in `-voice` for which voicechannels are not found. Use at your own risk.</value>
+  <data name="administration_byedel_on" xml:space="preserve">
+    <value>Bye berichten zullen worden verwijderd na {0} seconden.</value>
   </data>
-  <data name="cleanvplust_usage" xml:space="preserve">
-    <value>`{0}cleanv+t`</value>
+  <data name="administration_byemsg_cur" xml:space="preserve">
+    <value>Momenteel is de bye message: {0}</value>
   </data>
-  <data name="voiceplustext_cmd" xml:space="preserve">
-    <value>voice+text v+t</value>
+  <data name="administration_byemsg_enable" xml:space="preserve">
+    <value>Schakel de bye berichten in door {0} te typen.</value>
   </data>
-  <data name="voiceplustext_desc" xml:space="preserve">
-    <value>Creates a text channel for each voice channel only users in that voice channel can see.If you are server owner, keep in mind you will see them all the time regardless.</value>
+  <data name="administration_byemsg_new" xml:space="preserve">
+    <value>Nieuw bye bericht is geplaatst.</value>
   </data>
-  <data name="voiceplustext_usage" xml:space="preserve">
-    <value>`{0}v+t`</value>
+  <data name="administration_bye_off" xml:space="preserve">
+    <value>Dag aankondigingen uitgeschakeld.</value>
   </data>
-  <data name="scsc_cmd" xml:space="preserve">
-    <value>scsc</value>
+  <data name="administration_bye_on" xml:space="preserve">
+    <value>Dag aankondigingen ingeschakeld op dit kanaal.</value>
   </data>
-  <data name="scsc_desc" xml:space="preserve">
-    <value>Starts an instance of cross server channel. You will get a token as a DM that other people will use to tune in to the same instance.</value>
+  <data name="administration_ch_name_change" xml:space="preserve">
+    <value>Kanaal naam is veranderd.</value>
   </data>
-  <data name="scsc_usage" xml:space="preserve">
-    <value>`{0}scsc`</value>
+  <data name="administration_ch_old_name" xml:space="preserve">
+    <value>Oude naam</value>
   </data>
-  <data name="jcsc_cmd" xml:space="preserve">
-    <value>jcsc</value>
+  <data name="administration_ch_topic_change" xml:space="preserve">
+    <value>Kanaal onderwerp is veranderd</value>
   </data>
-  <data name="jcsc_desc" xml:space="preserve">
-    <value>Joins current channel to an instance of cross server channel using the token.</value>
+  <data name="administration_cleaned_up" xml:space="preserve">
+    <value>Opgeruimd</value>
   </data>
-  <data name="jcsc_usage" xml:space="preserve">
-    <value>`{0}jcsc TokenHere`</value>
+  <data name="administration_content" xml:space="preserve">
+    <value>Inhoud</value>
   </data>
-  <data name="lcsc_cmd" xml:space="preserve">
-    <value>lcsc</value>
+  <data name="administration_cr" xml:space="preserve">
+    <value>Met success een nieuwe rol gecreëerd.</value>
   </data>
-  <data name="lcsc_desc" xml:space="preserve">
-    <value>Leaves Cross server channel instance from this channel.</value>
+  <data name="administration_createtextchan" xml:space="preserve">
+    <value>Tekst kanaal {0} gecreëerd.</value>
   </data>
-  <data name="lcsc_usage" xml:space="preserve">
-    <value>`{0}lcsc`</value>
+  <data name="administration_createvoich" xml:space="preserve">
+    <value>Stem kanaal {0} gecreëerd.</value>
   </data>
-  <data name="asar_cmd" xml:space="preserve">
-    <value>asar</value>
+  <data name="administration_deafen" xml:space="preserve">
+    <value>Dempen succesvol.</value>
   </data>
-  <data name="asar_desc" xml:space="preserve">
-    <value>Adds a role to the list of self-assignable roles.</value>
+  <data name="administration_deleted_server" xml:space="preserve">
+    <value>Server verwijderd {0}</value>
   </data>
-  <data name="asar_usage" xml:space="preserve">
-    <value>`{0}asar Gamer`</value>
+  <data name="administration_delmsg_off" xml:space="preserve">
+    <value>Stopt van automatische verwijdering van succesvolle reacties aanroepingen commando.</value>
   </data>
-  <data name="rsar_cmd" xml:space="preserve">
-    <value>rsar</value>
+  <data name="administration_delmsg_on" xml:space="preserve">
+    <value>Verwijdert nu automatisch succesvolle commando aanroepingen</value>
   </data>
-  <data name="rsar_desc" xml:space="preserve">
-    <value>Removes a specified role from the list of self-assignable roles.</value>
+  <data name="administration_deltextchan" xml:space="preserve">
+    <value>Tekst kanaal {0} verwijdert.</value>
   </data>
-  <data name="rsar_usage" xml:space="preserve">
-    <value>`{0}rsar`</value>
+  <data name="administration_delvoich" xml:space="preserve">
+    <value>Stem kanaal {0} verwijdert.</value>
   </data>
-  <data name="lsar_cmd" xml:space="preserve">
-    <value>lsar</value>
+  <data name="administration_dm_from" xml:space="preserve">
+    <value>Privé bericht van</value>
   </data>
-  <data name="lsar_desc" xml:space="preserve">
-    <value>Lists all self-assignable roles.</value>
+  <data name="administration_donadd" xml:space="preserve">
+    <value>Met succes een nieuwe donateur toegevoegt. Totaal gedoneerde bedrag van deze gebruiker {0}</value>
   </data>
-  <data name="lsar_usage" xml:space="preserve">
-    <value>`{0}lsar`</value>
+  <data name="administration_donators" xml:space="preserve">
+    <value>Dank aan de mensen hieronder vernoemt voor het waarmaken van dit project!</value>
   </data>
-  <data name="tesar_cmd" xml:space="preserve">
-    <value>togglexclsar tesar</value>
+  <data name="administration_fwall_start" xml:space="preserve">
+    <value>Ik zal alle eigenaren een privé bericht sturen.</value>
   </data>
-  <data name="tesar_desc" xml:space="preserve">
-    <value>Toggles whether the self-assigned roles are exclusive. (So that any person can have only one of the self assignable roles)</value>
+  <data name="administration_fwall_stop" xml:space="preserve">
+    <value>Ik zal een privé bericht sturen naar de eerste eigenaar</value>
   </data>
-  <data name="tesar_usage" xml:space="preserve">
-    <value>`{0}tesar`</value>
+  <data name="administration_fwdm_start" xml:space="preserve">
+    <value>Ik zal privé berichten sturen vanaf nu.</value>
   </data>
-  <data name="iam_cmd" xml:space="preserve">
-    <value>iam</value>
+  <data name="administration_fwdm_stop" xml:space="preserve">
+    <value>Ik stop vanaf nu met het sturen van privé berichten.</value>
   </data>
-  <data name="iam_desc" xml:space="preserve">
-    <value>Adds a role to you that you choose. Role must be on a list of self-assignable roles.</value>
+  <data name="administration_greetdel_off" xml:space="preserve">
+    <value>Automatisch verwijderen van groet berichten is uitgeschakeld.</value>
   </data>
-  <data name="iam_usage" xml:space="preserve">
-    <value>`{0}iam Gamer`</value>
+  <data name="administration_greetdel_on" xml:space="preserve">
+    <value>Groet berichten zullen worden verwijderd na {0} seconden.</value>
   </data>
-  <data name="iamnot_cmd" xml:space="preserve">
-    <value>iamnot iamn</value>
+  <data name="administration_greetdmmsg_cur" xml:space="preserve">
+    <value>Momenteen is het privé groet bericht: {0}</value>
   </data>
-  <data name="iamnot_desc" xml:space="preserve">
-    <value>Removes a role to you that you choose. Role must be on a list of self-assignable roles.</value>
+  <data name="administration_greetdmmsg_enable" xml:space="preserve">
+    <value>Schakel DM begroetings bericht in door {0} in te typen.</value>
   </data>
-  <data name="iamnot_usage" xml:space="preserve">
-    <value>`{0}iamn Gamer`</value>
+  <data name="administration_greetdmmsg_new" xml:space="preserve">
+    <value>Nieuwe DM begroetings bericht vastgesteld.</value>
   </data>
-  <data name="addcustreact_cmd" xml:space="preserve">
-    <value>addcustreact acr</value>
+  <data name="administration_greetdm_off" xml:space="preserve">
+    <value>DM begroetings aankondiging uitgeschakeld.</value>
   </data>
-  <data name="addcustreact_desc" xml:space="preserve">
-    <value>Add a custom reaction with a trigger and a response. Running this command in server requires Administration permission. Running this command in DM is Bot Owner only and adds a new global custom reaction. Guide here: &lt;http://nadekobot.readthedocs.io/en/latest/Custom%20Reactions/&gt;</value>
+  <data name="administration_greetdm_on" xml:space="preserve">
+    <value>DM begroetings aankondiging ingeschakeld.</value>
   </data>
-  <data name="addcustreact_usage" xml:space="preserve">
-    <value>`{0}acr "hello" Hi there %user%`</value>
+  <data name="administration_greetmsg_cur" xml:space="preserve">
+    <value>Momentele begroetings bericht: {0}</value>
   </data>
-  <data name="listcustreact_cmd" xml:space="preserve">
-    <value>listcustreact lcr</value>
+  <data name="administration_greetmsg_enable" xml:space="preserve">
+    <value>Schakel begroetings bericht in door {0} in te typen</value>
   </data>
-  <data name="listcustreact_desc" xml:space="preserve">
-    <value>Lists global or server custom reactions (20 commands per page). Running the command in DM will list global custom reactions, while running it in server will list that server's custom reactions. Specifying `all` argument instead of the number will DM you a text file with a list of all custom reactions.</value>
+  <data name="administration_greetmsg_new" xml:space="preserve">
+    <value>Nieuwe begroetings message vastgesteld.</value>
   </data>
-  <data name="listcustreact_usage" xml:space="preserve">
-    <value>`{0}lcr 1` or `{0}lcr all`</value>
+  <data name="administration_greet_off" xml:space="preserve">
+    <value>Begroetings aankondiging uitgeschakeld.</value>
   </data>
-  <data name="listcustreactg_cmd" xml:space="preserve">
-    <value>listcustreactg lcrg</value>
+  <data name="administration_greet_on" xml:space="preserve">
+    <value>Begroetings aankondiging uitschakeld op dit kanaal.</value>
   </data>
-  <data name="listcustreactg_desc" xml:space="preserve">
-    <value>Lists global or server custom reactions (20 commands per page) grouped by trigger, and show a number of responses for each. Running the command in DM will list global custom reactions, while running it in server will list that server's custom reactions.</value>
+  <data name="administration_hierarchy" xml:space="preserve">
+    <value>Jij kunt geen commando gebruiken op gebruikers met hogere of dezelfde rol als die van jouw in de rollen hiërarchie.</value>
   </data>
-  <data name="listcustreactg_usage" xml:space="preserve">
-    <value>`{0}lcrg 1`</value>
+  <data name="administration_images_loaded" xml:space="preserve">
+    <value>Afbeeldingen geplaatst na {0} seconden!</value>
   </data>
-  <data name="showcustreact_cmd" xml:space="preserve">
-    <value>showcustreact scr</value>
+  <data name="administration_invalid_format" xml:space="preserve">
+    <value>Ongelde invoer formaat.</value>
   </data>
-  <data name="showcustreact_desc" xml:space="preserve">
-    <value>Shows a custom reaction's response on a given ID.</value>
+  <data name="administration_invalid_params" xml:space="preserve">
+    <value>Ongeldige parameters.</value>
   </data>
-  <data name="showcustreact_usage" xml:space="preserve">
-    <value>`{0}scr 1`</value>
+  <data name="administration_joined" xml:space="preserve">
+    <value>{0} heeft {1} toegetreden.</value>
   </data>
-  <data name="delcustreact_cmd" xml:space="preserve">
-    <value>delcustreact dcr</value>
+  <data name="administration_kickdm" xml:space="preserve">
+    <value>Je bent weggeschopt van de {0} server.
+Reden: {1}</value>
   </data>
-  <data name="delcustreact_desc" xml:space="preserve">
-    <value>Deletes a custom reaction on a specific index. If ran in DM, it is bot owner only and deletes a global custom reaction. If ran in a server, it requires Administration priviledges and removes server custom reaction.</value>
+  <data name="administration_kicked_user" xml:space="preserve">
+    <value>Gebruiker weggeschopt.</value>
   </data>
-  <data name="delcustreact_usage" xml:space="preserve">
-    <value>`{0}dcr 5`</value>
+  <data name="administration_lang_list" xml:space="preserve">
+    <value>Lijst van talen
+{0}</value>
   </data>
-  <data name="autoassignrole_cmd" xml:space="preserve">
-    <value>autoassignrole aar</value>
+  <data name="administration_lang_set" xml:space="preserve">
+    <value>Jouw server&apos;s plaats van handeling is nu {0} - {1}</value>
   </data>
-  <data name="autoassignrole_desc" xml:space="preserve">
-    <value>Automaticaly assigns a specified role to every user who joins the server.</value>
+  <data name="administration_lang_set_bot" xml:space="preserve">
+    <value>Bot&apos;s standaard plaats van handeling is nu {0} - {1}</value>
   </data>
-  <data name="autoassignrole_usage" xml:space="preserve">
-    <value>`{0}aar` to disable, `{0}aar Role Name` to enable</value>
+  <data name="administration_lang_set_bot_show" xml:space="preserve">
+    <value>Bot&apos;s taal is vastgesteld van {0} - {1}</value>
   </data>
-  <data name="leave_cmd" xml:space="preserve">
-    <value>leave</value>
+  <data name="administration_lang_set_fail" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="leave_desc" xml:space="preserve">
-    <value>Makes Nadeko leave the server. Either name or id required.</value>
+  <data name="administration_lang_set_show" xml:space="preserve">
+    <value>deze server taal is gezet naar:</value>
   </data>
-  <data name="leave_usage" xml:space="preserve">
-    <value>`{0}leave 123123123331`</value>
+  <data name="administration_left" xml:space="preserve">
+    <value>heeft verlaten</value>
   </data>
-  <data name="delmsgoncmd_cmd" xml:space="preserve">
-    <value>delmsgoncmd</value>
+  <data name="administration_left_server" xml:space="preserve">
+    <value>Heeft de server verlaten</value>
   </data>
-  <data name="delmsgoncmd_desc" xml:space="preserve">
-    <value>Toggles the automatic deletion of user's successful command message to prevent chat flood.</value>
+  <data name="administration_log" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="delmsgoncmd_usage" xml:space="preserve">
-    <value>`{0}delmsgoncmd`</value>
+  <data name="administration_log_all" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="restart_cmd" xml:space="preserve">
-    <value>restart</value>
+  <data name="administration_log_disabled" xml:space="preserve">
+    <value>Logging uitgeschakeld</value>
   </data>
-  <data name="restart_desc" xml:space="preserve">
-    <value>Restarts the bot. Might not work.</value>
+  <data name="administration_log_events" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="restart_usage" xml:space="preserve">
-    <value>`{0}restart`</value>
+  <data name="administration_log_ignore" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="setrole_cmd" xml:space="preserve">
-    <value>setrole sr</value>
+  <data name="administration_log_not_ignore" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="setrole_desc" xml:space="preserve">
-    <value>Sets a role for a given user.</value>
+  <data name="administration_log_stop" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="setrole_usage" xml:space="preserve">
-    <value>`{0}sr @User Guest`</value>
+  <data name="administration_menrole" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="removerole_cmd" xml:space="preserve">
-    <value>removerole rr</value>
+  <data name="administration_message_from_bo" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="removerole_desc" xml:space="preserve">
-    <value>Removes a role from a given user.</value>
+  <data name="administration_message_sent" xml:space="preserve">
+    <value>Bericht verstuurd</value>
   </data>
-  <data name="removerole_usage" xml:space="preserve">
-    <value>`{0}rr @User Admin`</value>
+  <data name="administration_moved" xml:space="preserve">
+    <value>verplaats van ... naar ...</value>
   </data>
-  <data name="renamerole_cmd" xml:space="preserve">
-    <value>renamerole renr</value>
+  <data name="administration_msg_del" xml:space="preserve">
+    <value>bericht verwijdert in</value>
   </data>
-  <data name="renamerole_desc" xml:space="preserve">
-    <value>Renames a role. Roles you are renaming must be lower than bot's highest role.</value>
+  <data name="administration_msg_update" xml:space="preserve">
+    <value>bericht bijgewerkt in</value>
   </data>
-  <data name="renamerole_usage" xml:space="preserve">
-    <value>`{0}renr "First role" SecondRole`</value>
+  <data name="administration_muted_pl" xml:space="preserve">
+    <value>gemute</value>
+    <comment>PLURAL (users have been muted)</comment>
   </data>
-  <data name="removeallroles_cmd" xml:space="preserve">
-    <value>removeallroles rar</value>
+  <data name="administration_muted_sn" xml:space="preserve">
+    <value>gemute</value>
+    <comment>singular &quot;User muted.&quot;</comment>
   </data>
-  <data name="removeallroles_desc" xml:space="preserve">
-    <value>Removes all roles from a mentioned user.</value>
+  <data name="administration_mute_error" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="removeallroles_usage" xml:space="preserve">
-    <value>`{0}rar @User`</value>
+  <data name="administration_mute_role_set" xml:space="preserve">
+    <value>nieuwe demp group gezet</value>
   </data>
-  <data name="createrole_cmd" xml:space="preserve">
-    <value>createrole cr</value>
+  <data name="administration_need_admin" xml:space="preserve">
+    <value>Ik heb **administrator** rechten nodig voor dat</value>
   </data>
-  <data name="createrole_desc" xml:space="preserve">
-    <value>Creates a role with a given name.</value>
+  <data name="administration_new_msg" xml:space="preserve">
+    <value>nieuw bericht</value>
   </data>
-  <data name="createrole_usage" xml:space="preserve">
-    <value>`{0}cr Awesome Role`</value>
+  <data name="administration_new_nick" xml:space="preserve">
+    <value>nieuwe bijnaam</value>
   </data>
-  <data name="rolecolor_cmd" xml:space="preserve">
-    <value>rolecolor rc</value>
+  <data name="administration_new_topic" xml:space="preserve">
+    <value>Nieuw onderwerp</value>
   </data>
-  <data name="rolecolor_desc" xml:space="preserve">
-    <value>Set a role's color to the hex or 0-255 rgb color value provided.</value>
+  <data name="administration_nick_change" xml:space="preserve">
+    <value>Bijnaam veranderd</value>
   </data>
-  <data name="rolecolor_usage" xml:space="preserve">
-    <value>`{0}rc Admin 255 200 100` or `{0}rc Admin ffba55`</value>
+  <data name="administration_no_server" xml:space="preserve">
+    <value>Kan de server niet vinden</value>
   </data>
-  <data name="ban_cmd" xml:space="preserve">
-    <value>ban b</value>
+  <data name="administration_no_shard_id" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="ban_desc" xml:space="preserve">
-    <value>Bans a user by ID or name with an optional message.</value>
+  <data name="administration_old_msg" xml:space="preserve">
+    <value>Oud bericht</value>
   </data>
-  <data name="ban_usage" xml:space="preserve">
-    <value>`{0}b "@some Guy" Your behaviour is toxic.`</value>
+  <data name="administration_old_nick" xml:space="preserve">
+    <value>Oude bijnaam</value>
   </data>
-  <data name="softban_cmd" xml:space="preserve">
-    <value>softban sb</value>
+  <data name="administration_old_topic" xml:space="preserve">
+    <value>Oude onderwerp</value>
   </data>
-  <data name="softban_desc" xml:space="preserve">
-    <value>Bans and then unbans a user by ID or name with an optional message.</value>
+  <data name="administration_perms" xml:space="preserve">
+    <value>error hoogst waarschijnlijk niet voldoende permissie</value>
   </data>
-  <data name="softban_usage" xml:space="preserve">
-    <value>`{0}sb "@some Guy" Your behaviour is toxic.`</value>
+  <data name="administration_perms_reset" xml:space="preserve">
+    <value>de rechten op deze server zijn gereset</value>
   </data>
-  <data name="kick_cmd" xml:space="preserve">
-    <value>kick k</value>
+  <data name="administration_prot_active" xml:space="preserve">
+    <value>actieve bescherming</value>
   </data>
-  <data name="kick_desc" xml:space="preserve">
-    <value>Kicks a mentioned user.</value>
+  <data name="administration_prot_disable" xml:space="preserve">
+    <value>is ** uitgeschakeld** op deze server</value>
   </data>
-  <data name="kick_usage" xml:space="preserve">
-    <value>`{0}k "@some Guy" Your behaviour is toxic.`</value>
+  <data name="administration_prot_enable" xml:space="preserve">
+    <value>aangezet</value>
   </data>
-  <data name="mute_cmd" xml:space="preserve">
-    <value>mute</value>
+  <data name="administration_prot_error" xml:space="preserve">
+    <value>fout. ik heb managergroup rechten nodig</value>
   </data>
-  <data name="mute_desc" xml:space="preserve">
-    <value>Mutes a mentioned user both from speaking and chatting.</value>
+  <data name="administration_prot_none" xml:space="preserve">
+    <value>geen bescherming aangezet</value>
   </data>
-  <data name="mute_usage" xml:space="preserve">
-    <value>`{0}mute @Someone`</value>
+  <data name="administration_raid_cnt" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="voiceunmute_cmd" xml:space="preserve">
-    <value>voiceunmute</value>
+  <data name="administration_raid_stats" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="voiceunmute_desc" xml:space="preserve">
-    <value>Gives a previously voice-muted user a permission to speak.</value>
+  <data name="administration_raid_time" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="voiceunmute_usage" xml:space="preserve">
-    <value>`{0}voiceunmute @Someguy`</value>
+  <data name="administration_rar" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="deafen_cmd" xml:space="preserve">
-    <value>deafen deaf</value>
+  <data name="administration_rar_err" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="deafen_desc" xml:space="preserve">
-    <value>Deafens mentioned user or users.</value>
+  <data name="administration_rc" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="deafen_usage" xml:space="preserve">
-    <value>`{0}deaf "@Someguy"` or `{0}deaf "@Someguy" "@Someguy"`</value>
+  <data name="administration_rc_not_exist" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="undeafen_cmd" xml:space="preserve">
-    <value>undeafen undef</value>
+  <data name="administration_rc_params" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="undeafen_desc" xml:space="preserve">
-    <value>Undeafens mentioned user or users.</value>
+  <data name="administration_rc_perms" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="undeafen_usage" xml:space="preserve">
-    <value>`{0}undef "@Someguy"` or `{0}undef "@Someguy" "@Someguy"`</value>
+  <data name="administration_remrole" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="delvoichanl_cmd" xml:space="preserve">
-    <value>delvoichanl dvch</value>
+  <data name="administration_remrole_err" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="delvoichanl_desc" xml:space="preserve">
-    <value>Deletes a voice channel with a given name.</value>
+  <data name="administration_renrole" xml:space="preserve">
+    <value>group naam veranderd</value>
   </data>
-  <data name="delvoichanl_usage" xml:space="preserve">
-    <value>`{0}dvch VoiceChannelName`</value>
+  <data name="administration_renrole_err" xml:space="preserve">
+    <value>group naam veranderen mislukt. ik heb niet genoeg rechten</value>
   </data>
-  <data name="creatvoichanl_cmd" xml:space="preserve">
-    <value>creatvoichanl cvch</value>
+  <data name="administration_renrole_perms" xml:space="preserve">
+    <value>je kan geen groupen bijwerken die hoger zijn dan jou eigen group</value>
   </data>
-  <data name="creatvoichanl_desc" xml:space="preserve">
-    <value>Creates a new voice channel with a given name.</value>
+  <data name="administration_reprm" xml:space="preserve">
+    <value>Verwijderd van speel bericht</value>
   </data>
-  <data name="creatvoichanl_usage" xml:space="preserve">
-    <value>`{0}cvch VoiceChannelName`</value>
+  <data name="administration_role_added" xml:space="preserve">
+    <value>group... is toegevoegd aan de lijst</value>
   </data>
-  <data name="deltxtchanl_cmd" xml:space="preserve">
-    <value>deltxtchanl dtch</value>
+  <data name="administration_role_clean" xml:space="preserve">
+    <value>niet gevonden. aan het opruimen</value>
   </data>
-  <data name="deltxtchanl_desc" xml:space="preserve">
-    <value>Deletes a text channel with a given name.</value>
+  <data name="administration_role_in_list" xml:space="preserve">
+    <value>group is al in de lijst</value>
   </data>
-  <data name="deltxtchanl_usage" xml:space="preserve">
-    <value>`{0}dtch TextChannelName`</value>
+  <data name="administration_ropl_added" xml:space="preserve">
+    <value>toegevoegd</value>
   </data>
-  <data name="creatxtchanl_cmd" xml:space="preserve">
-    <value>creatxtchanl ctch</value>
+  <data name="administration_ropl_disabled" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="creatxtchanl_desc" xml:space="preserve">
-    <value>Creates a new text channel with a given name.</value>
+  <data name="administration_ropl_enabled" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="creatxtchanl_usage" xml:space="preserve">
-    <value>`{0}ctch TextChannelName`</value>
+  <data name="administration_ropl_list" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="settopic_cmd" xml:space="preserve">
-    <value>settopic st</value>
+  <data name="administration_ropl_not_set" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="settopic_desc" xml:space="preserve">
-    <value>Sets a topic on the current channel.</value>
+  <data name="administration_self_assign_already" xml:space="preserve">
+    <value>je hebt al .. group</value>
   </data>
-  <data name="settopic_usage" xml:space="preserve">
-    <value>`{0}st My new topic`</value>
+  <data name="administration_self_assign_already_excl" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="setchanlname_cmd" xml:space="preserve">
-    <value>setchanlname schn</value>
+  <data name="administration_self_assign_excl" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="setchanlname_desc" xml:space="preserve">
-    <value>Changes the name of the current channel.</value>
+  <data name="administration_self_assign_list" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="setchanlname_usage" xml:space="preserve">
-    <value>`{0}schn NewName`</value>
+  <data name="administration_self_assign_not" xml:space="preserve">
+    <value>deze group is niet zelf</value>
   </data>
-  <data name="prune_cmd" xml:space="preserve">
-    <value>prune clr</value>
+  <data name="administration_self_assign_not_have" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="prune_desc" xml:space="preserve">
-    <value>`{0}prune` removes all nadeko's messages in the last 100 messages.`{0}prune X` removes last X messages from the channel (up to 100)`{0}prune @Someone` removes all Someone's messages in the last 100 messages.`{0}prune @Someone X` removes last X 'Someone's' messages in the channel.</value>
+  <data name="administration_self_assign_no_excl" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="prune_usage" xml:space="preserve">
-    <value>`{0}prune` or `{0}prune 5` or `{0}prune @Someone` or `{0}prune @Someone X`</value>
+  <data name="administration_self_assign_perms" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="die_cmd" xml:space="preserve">
-    <value>die</value>
+  <data name="administration_self_assign_rem" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="die_desc" xml:space="preserve">
-    <value>Shuts the bot down.</value>
+  <data name="administration_self_assign_remove" xml:space="preserve">
+    <value>je heb niet lang meer de {0} group</value>
   </data>
-  <data name="die_usage" xml:space="preserve">
-    <value>`{0}die`</value>
+  <data name="administration_self_assign_success" xml:space="preserve">
+    <value>je hebt nu {0} group</value>
   </data>
-  <data name="setname_cmd" xml:space="preserve">
-    <value>setname newnm</value>
+  <data name="administration_setrole" xml:space="preserve">
+    <value>met sucess een group {0) toegevoegd aan gebruiker {1}</value>
   </data>
-  <data name="setname_desc" xml:space="preserve">
-    <value>Gives the bot a new name.</value>
+  <data name="administration_setrole_err" xml:space="preserve">
+    <value>fout bij het toevoegen van een group. je heb onvoldoende rechten</value>
   </data>
-  <data name="setname_usage" xml:space="preserve">
-    <value>`{0}newnm BotName`</value>
+  <data name="administration_set_avatar" xml:space="preserve">
+    <value>Nieuwe avatar gezet!</value>
   </data>
-  <data name="setavatar_cmd" xml:space="preserve">
-    <value>setavatar setav</value>
+  <data name="administration_set_channel_name" xml:space="preserve">
+    <value>Nieuwe kanaal naam gezet.</value>
   </data>
-  <data name="setavatar_desc" xml:space="preserve">
-    <value>Sets a new avatar image for the NadekoBot. Argument is a direct link to an image.</value>
+  <data name="administration_set_game" xml:space="preserve">
+    <value>Nieuwe game gezet!</value>
   </data>
-  <data name="setavatar_usage" xml:space="preserve">
-    <value>`{0}setav http://i.imgur.com/xTG3a1I.jpg`</value>
+  <data name="administration_set_stream" xml:space="preserve">
+    <value>Nieuwe stream gezet!</value>
   </data>
-  <data name="setgame_cmd" xml:space="preserve">
-    <value>setgame</value>
+  <data name="administration_set_topic" xml:space="preserve">
+    <value>Nieuwe kanaal onderwerp gezet</value>
   </data>
-  <data name="setgame_desc" xml:space="preserve">
-    <value>Sets the bots game.</value>
+  <data name="administration_shard_reconnected" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="setgame_usage" xml:space="preserve">
-    <value>`{0}setgame with snakes`</value>
+  <data name="administration_shard_reconnecting" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="send_cmd" xml:space="preserve">
-    <value>send</value>
+  <data name="administration_shutting_down" xml:space="preserve">
+    <value>afsluiten</value>
   </data>
-  <data name="send_desc" xml:space="preserve">
-    <value>Sends a message to someone on a different server through the bot.  Separate server and channel/user ids with `|` and prepend channel id with `c:` and user id with `u:`.</value>
+  <data name="administration_slowmode_desc" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="send_usage" xml:space="preserve">
-    <value>`{0}send serverid|c:channelid message` or `{0}send serverid|u:userid message`</value>
+  <data name="administration_slowmode_disabled" xml:space="preserve">
+    <value>langzame mode uitgezet</value>
   </data>
-  <data name="mentionrole_cmd" xml:space="preserve">
-    <value>mentionrole menro</value>
+  <data name="administration_slowmode_init" xml:space="preserve">
+    <value>langzame mode gestart</value>
   </data>
-  <data name="mentionrole_desc" xml:space="preserve">
-    <value>Mentions every person from the provided role or roles (separated by a ',') on this server. Requires you to have mention everyone permission.</value>
+  <data name="administration_soft_banned_pl" xml:space="preserve">
+    <value>zacht-verbannen(kicked)</value>
+    <comment>PLURAL</comment>
   </data>
-  <data name="mentionrole_usage" xml:space="preserve">
-    <value>`{0}menro RoleName`</value>
+  <data name="administration_spam_ignore" xml:space="preserve">
+    <value>{0} wil deze kanaal dempen</value>
   </data>
-  <data name="unstuck_cmd" xml:space="preserve">
-    <value>unstuck</value>
+  <data name="administration_spam_not_ignore" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="unstuck_desc" xml:space="preserve">
-    <value>Clears the message queue.</value>
+  <data name="administration_spam_stats" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="unstuck_usage" xml:space="preserve">
-    <value>`{0}unstuck`</value>
+  <data name="administration_text_chan_created" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="donators_cmd" xml:space="preserve">
-    <value>donators</value>
+  <data name="administration_text_chan_destroyed" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="donators_desc" xml:space="preserve">
-    <value>List of lovely people who donated to keep this project alive.</value>
+  <data name="administration_undeafen" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="donators_usage" xml:space="preserve">
-    <value>`{0}donators`</value>
+  <data name="administration_unmuted_sn" xml:space="preserve">
+    <value></value>
+    <comment>singular</comment>
   </data>
-  <data name="donadd_cmd" xml:space="preserve">
-    <value>donadd</value>
+  <data name="administration_username" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="donadd_desc" xml:space="preserve">
-    <value>Add a donator to the database.</value>
+  <data name="administration_username_changed" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="donadd_usage" xml:space="preserve">
-    <value>`{0}donadd Donate Amount`</value>
+  <data name="administration_users" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="announce_cmd" xml:space="preserve">
-    <value>announce</value>
+  <data name="administration_user_banned" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="announce_desc" xml:space="preserve">
-    <value>Sends a message to all servers' general channel bot is connected to.</value>
+  <data name="administration_user_chat_mute" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="announce_usage" xml:space="preserve">
-    <value>`{0}announce Useless spam`</value>
+  <data name="administration_user_chat_unmute" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="savechat_cmd" xml:space="preserve">
-    <value>savechat</value>
+  <data name="administration_user_joined" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="savechat_desc" xml:space="preserve">
-    <value>Saves a number of messages to a text file and sends it to you.</value>
+  <data name="administration_user_left" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="savechat_usage" xml:space="preserve">
-    <value>`{0}savechat 150`</value>
+  <data name="administration_user_muted" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="remind_cmd" xml:space="preserve">
-    <value>remind</value>
+  <data name="administration_user_role_add" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="remind_desc" xml:space="preserve">
-    <value>Sends a message to you or a channel after certain amount of time. First argument is me/here/'channelname'. Second argument is time in a descending order (mo&gt;w&gt;d&gt;h&gt;m) example: 1w5d3h10m. Third argument is a (multiword)message.</value>
+  <data name="administration_user_role_rem" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="remind_usage" xml:space="preserve">
-    <value>`{0}remind me 1d5h Do something` or `{0}remind #general 1m Start now!`</value>
+  <data name="administration_user_status_change" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="remindtemplate_cmd" xml:space="preserve">
-    <value>remindtemplate</value>
+  <data name="administration_user_unmuted" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="remindtemplate_desc" xml:space="preserve">
-    <value>Sets message for when the remind is triggered.  Available placeholders are %user% - user who ran the command, %message% - Message specified in the remind, %target% - target channel of the remind.</value>
+  <data name="administration_user_vjoined" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="remindtemplate_usage" xml:space="preserve">
-    <value>`{0}remindtemplate %user%, do %message%!`</value>
+  <data name="administration_user_vleft" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="serverinfo_cmd" xml:space="preserve">
-    <value>serverinfo sinfo</value>
+  <data name="administration_user_vmoved" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="serverinfo_desc" xml:space="preserve">
-    <value>Shows info about the server the bot is on. If no channel is supplied, it defaults to current one.</value>
+  <data name="administration_user_voice_mute" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="serverinfo_usage" xml:space="preserve">
-    <value>`{0}sinfo Some Server`</value>
+  <data name="administration_user_voice_unmute" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="channelinfo_cmd" xml:space="preserve">
-    <value>channelinfo cinfo</value>
+  <data name="administration_voice_chan_created" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="channelinfo_desc" xml:space="preserve">
-    <value>Shows info about the channel. If no channel is supplied, it defaults to current one.</value>
+  <data name="administration_voice_chan_destroyed" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="channelinfo_usage" xml:space="preserve">
-    <value>`{0}cinfo #some-channel`</value>
+  <data name="administration_vt_disabled" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="userinfo_cmd" xml:space="preserve">
-    <value>userinfo uinfo</value>
+  <data name="administration_vt_enabled" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="userinfo_desc" xml:space="preserve">
-    <value>Shows info about the user. If no user is supplied, it defaults a user running the command.</value>
+  <data name="administration_vt_exit" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="userinfo_usage" xml:space="preserve">
-    <value>`{0}uinfo @SomeUser`</value>
+  <data name="administration_vt_no_admin" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="whosplaying_cmd" xml:space="preserve">
-    <value>whosplaying whpl</value>
+  <data name="administration_vt_perms" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="whosplaying_desc" xml:space="preserve">
-    <value>Shows a list of users who are playing the specified game.</value>
+  <data name="administration_xmuted_text" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="whosplaying_usage" xml:space="preserve">
-    <value>`{0}whpl Overwatch`</value>
+  <data name="administration_xmuted_text_and_voice" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="inrole_cmd" xml:space="preserve">
-    <value>inrole</value>
+  <data name="administration_xmuted_voice" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="inrole_desc" xml:space="preserve">
-    <value>Lists every person from the provided role or roles, separated with space, on this server. You can use role IDs, role names (in quotes if it has multiple words), or role mention If the list is too long for 1 message, you must have Manage Messages permission.</value>
+  <data name="administration_sbdm" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="inrole_usage" xml:space="preserve">
-    <value>`{0}inrole Role` or `{0}inrole Role1 "Role 2" @role3`</value>
+  <data name="administration_user_unbanned" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="checkmyperms_cmd" xml:space="preserve">
-    <value>checkmyperms</value>
+  <data name="administration_migration_done" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="checkmyperms_desc" xml:space="preserve">
-    <value>Checks your user-specific permissions on this channel.</value>
+  <data name="adminsitration_migration_error" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="checkmyperms_usage" xml:space="preserve">
-    <value>`{0}checkmyperms`</value>
+  <data name="administration_presence_updates" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="stats_cmd" xml:space="preserve">
-    <value>stats</value>
+  <data name="administration_sb_user" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="stats_desc" xml:space="preserve">
-    <value>Shows some basic stats for Nadeko.</value>
+  <data name="gambling_awarded" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="stats_usage" xml:space="preserve">
-    <value>`{0}stats`</value>
+  <data name="gambling_better_luck" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="userid_cmd" xml:space="preserve">
-    <value>userid uid</value>
+  <data name="gambling_br_win" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="userid_desc" xml:space="preserve">
-    <value>Shows user ID.</value>
+  <data name="gambling_deck_reshuffled" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="userid_usage" xml:space="preserve">
-    <value>`{0}uid` or `{0}uid "@SomeGuy"`</value>
+  <data name="gambling_flipped" xml:space="preserve">
+    <value></value>
+    <comment>User flipped tails.</comment>
   </data>
-  <data name="channelid_cmd" xml:space="preserve">
-    <value>channelid cid</value>
+  <data name="gambling_flip_guess" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="channelid_desc" xml:space="preserve">
-    <value>Shows current channel ID.</value>
+  <data name="gambling_flip_invalid" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="channelid_usage" xml:space="preserve">
-    <value>`{0}cid`</value>
+  <data name="gambling_flowerreaction_desc" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="serverid_cmd" xml:space="preserve">
-    <value>serverid sid</value>
+  <data name="gambling_flowerreaction_footer" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="serverid_desc" xml:space="preserve">
-    <value>Shows current server ID.</value>
+  <data name="gambling_flowerreaction_title" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="serverid_usage" xml:space="preserve">
-    <value>`{0}sid`</value>
+  <data name="gambling_gifted" xml:space="preserve">
+    <value></value>
+    <comment>X has gifted 15 flowers to Y</comment>
   </data>
-  <data name="roles_cmd" xml:space="preserve">
-    <value>roles</value>
+  <data name="gambling_has" xml:space="preserve">
+    <value></value>
+    <comment>X has Y flowers</comment>
   </data>
-  <data name="roles_desc" xml:space="preserve">
-    <value>List roles on this server or a roles of a specific user if specified. Paginated. 20 roles per page.</value>
+  <data name="gambling_heads" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="roles_usage" xml:space="preserve">
-    <value>`{0}roles 2` or `{0}roles @Someone`</value>
+  <data name="gambling_leaderboard" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="channeltopic_cmd" xml:space="preserve">
-    <value>channeltopic ct</value>
+  <data name="gambling_mass_award" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="channeltopic_desc" xml:space="preserve">
-    <value>Sends current channel's topic as a message.</value>
+  <data name="gambling_max_bet_limit" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="channeltopic_usage" xml:space="preserve">
-    <value>`{0}ct`</value>
+  <data name="gambling_min_bet_limit" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="chnlfilterinv_cmd" xml:space="preserve">
-    <value>chnlfilterinv cfi</value>
+  <data name="gambling_not_enough" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="chnlfilterinv_desc" xml:space="preserve">
-    <value>Toggles automatic deleting of invites posted in the channel. Does not negate the {0}srvrfilterinv enabled setting. Does not affect Bot Owner.</value>
+  <data name="gambling_no_more_cards" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="chnlfilterinv_usage" xml:space="preserve">
-    <value>`{0}cfi`</value>
+  <data name="gambling_raffled_user" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="srvrfilterinv_cmd" xml:space="preserve">
-    <value>srvrfilterinv sfi</value>
+  <data name="gambling_roll" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="srvrfilterinv_desc" xml:space="preserve">
-    <value>Toggles automatic deleting of invites posted in the server. Does not affect Bot Owner.</value>
+  <data name="gambling_slot_bet" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="srvrfilterinv_usage" xml:space="preserve">
-    <value>`{0}sfi`</value>
+  <data name="gambling_slot_jackpot" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="chnlfilterwords_cmd" xml:space="preserve">
-    <value>chnlfilterwords cfw</value>
+  <data name="gambling_slot_single" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="chnlfilterwords_desc" xml:space="preserve">
-    <value>Toggles automatic deleting of messages containing banned words on the channel. Does not negate the {0}srvrfilterwords enabled setting. Does not affect bot owner.</value>
+  <data name="gambling_slot_three" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="chnlfilterwords_usage" xml:space="preserve">
-    <value>`{0}cfw`</value>
+  <data name="gambling_slot_two" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="filterword_cmd" xml:space="preserve">
-    <value>fw</value>
+  <data name="gambling_slot_won" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="filterword_desc" xml:space="preserve">
-    <value>Adds or removes (if it exists) a word from the list of filtered words. Use`{0}sfw` or `{0}cfw` to toggle filtering.</value>
+  <data name="gambling_sneakygamestatus_desc" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="filterword_usage" xml:space="preserve">
-    <value>`{0}fw poop`</value>
+  <data name="gambling_sneakygamestatus_end" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="lstfilterwords_cmd" xml:space="preserve">
-    <value>lstfilterwords lfw</value>
+  <data name="gambling_sneakygamestatus_title" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="lstfilterwords_desc" xml:space="preserve">
-    <value>Shows a list of filtered words.</value>
+  <data name="gambling_tails" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="lstfilterwords_usage" xml:space="preserve">
-    <value>`{0}lfw`</value>
+  <data name="gambling_take" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="srvrfilterwords_cmd" xml:space="preserve">
-    <value>srvrfilterwords sfw</value>
+  <data name="gambling_take_fail" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="srvrfilterwords_desc" xml:space="preserve">
-    <value>Toggles automatic deleting of messages containing forbidden words on the server. Does not affect Bot Owner.</value>
+  <data name="help_back_to_toc" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="srvrfilterwords_usage" xml:space="preserve">
-    <value>`{0}sfw`</value>
+  <data name="help_bot_owner_only" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="permrole_cmd" xml:space="preserve">
-    <value>permrole pr</value>
+  <data name="help_channel_permission" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="permrole_desc" xml:space="preserve">
-    <value>Sets a role which can change permissions. Or supply no parameters to find out the current one. Default one is 'Nadeko'.</value>
+  <data name="help_cmdlist_donate" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="permrole_usage" xml:space="preserve">
-    <value>`{0}pr role`</value>
+  <data name="help_cmd_and_alias" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="verbose_cmd" xml:space="preserve">
-    <value>verbose v</value>
+  <data name="help_commandlist_regen" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="verbose_desc" xml:space="preserve">
-    <value>Sets whether to show when a command/module is blocked.</value>
+  <data name="help_commands_instr" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="verbose_usage" xml:space="preserve">
-    <value>`{0}verbose true`</value>
+  <data name="help_command_not_found" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="srvrmdl_cmd" xml:space="preserve">
-    <value>srvrmdl sm</value>
+  <data name="help_desc" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="srvrmdl_desc" xml:space="preserve">
-    <value>Sets a module's permission at the server level.</value>
+  <data name="help_donate" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="srvrmdl_usage" xml:space="preserve">
-    <value>`{0}sm ModuleName enable`</value>
+  <data name="help_guide" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="srvrcmd_cmd" xml:space="preserve">
-    <value>srvrcmd sc</value>
+  <data name="help_list_of_commands" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="srvrcmd_desc" xml:space="preserve">
-    <value>Sets a command's permission at the server level.</value>
+  <data name="help_list_of_modules" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="srvrcmd_usage" xml:space="preserve">
-    <value>`{0}sc "command name" disable`</value>
+  <data name="help_modules_footer" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="rolemdl_cmd" xml:space="preserve">
-    <value>rolemdl rm</value>
+  <data name="help_module_not_found" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="rolemdl_desc" xml:space="preserve">
-    <value>Sets a module's permission at the role level.</value>
+  <data name="help_server_permission" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="rolemdl_usage" xml:space="preserve">
-    <value>`{0}rm ModuleName enable MyRole`</value>
+  <data name="help_table_of_contents" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="rolecmd_cmd" xml:space="preserve">
-    <value>rolecmd rc</value>
+  <data name="help_usage" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="rolecmd_desc" xml:space="preserve">
-    <value>Sets a command's permission at the role level.</value>
+  <data name="nsfw_autohentai_started" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="rolecmd_usage" xml:space="preserve">
-    <value>`{0}rc "command name" disable MyRole`</value>
+  <data name="nsfw_tag" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="chnlmdl_cmd" xml:space="preserve">
-    <value>chnlmdl cm</value>
+  <data name="gambling_animal_race" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="chnlmdl_desc" xml:space="preserve">
-    <value>Sets a module's permission at the channel level.</value>
+  <data name="gambling_animal_race_failed" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="chnlmdl_usage" xml:space="preserve">
-    <value>`{0}cm ModuleName enable SomeChannel`</value>
+  <data name="gambling_animal_race_full" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="chnlcmd_cmd" xml:space="preserve">
-    <value>chnlcmd cc</value>
+  <data name="gambling_animal_race_join" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="chnlcmd_desc" xml:space="preserve">
-    <value>Sets a command's permission at the channel level.</value>
+  <data name="gambling_animal_race_join_bet" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="chnlcmd_usage" xml:space="preserve">
-    <value>`{0}cc "command name" enable SomeChannel`</value>
+  <data name="gambling_animal_race_join_instr" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="usrmdl_cmd" xml:space="preserve">
-    <value>usrmdl um</value>
+  <data name="gambling_animal_race_starting" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="usrmdl_desc" xml:space="preserve">
-    <value>Sets a module's permission at the user level.</value>
+  <data name="gambling_animal_race_starting_with_x" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="usrmdl_usage" xml:space="preserve">
-    <value>`{0}um ModuleName enable SomeUsername`</value>
+  <data name="gambling_animal_race_won" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="usrcmd_cmd" xml:space="preserve">
-    <value>usrcmd uc</value>
+  <data name="gambling_animal_race_won_money" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="usrcmd_desc" xml:space="preserve">
-    <value>Sets a command's permission at the user level.</value>
+  <data name="gambling_dice_invalid_number" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="usrcmd_usage" xml:space="preserve">
-    <value>`{0}uc "command name" enable SomeUsername`</value>
+  <data name="gambling_dice_rolled" xml:space="preserve">
+    <value></value>
+    <comment>Someone rolled 35</comment>
   </data>
-  <data name="allsrvrmdls_cmd" xml:space="preserve">
-    <value>allsrvrmdls asm</value>
+  <data name="gambling_dice_rolled_num" xml:space="preserve">
+    <value></value>
+    <comment>Dice Rolled: 5</comment>
   </data>
-  <data name="allsrvrmdls_desc" xml:space="preserve">
-    <value>Enable or disable all modules for your server.</value>
+  <data name="gambling_race_failed_starting" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="allsrvrmdls_usage" xml:space="preserve">
-    <value>`{0}asm [enable/disable]`</value>
+  <data name="gambling_race_not_exist" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="allchnlmdls_cmd" xml:space="preserve">
-    <value>allchnlmdls acm</value>
+  <data name="gambling_second_larger_than_first" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="allchnlmdls_desc" xml:space="preserve">
-    <value>Enable or disable all modules in a specified channel.</value>
+  <data name="gambling_changes_of_heart" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="allchnlmdls_usage" xml:space="preserve">
-    <value>`{0}acm enable #SomeChannel`</value>
+  <data name="gambling_claimed_by" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="allrolemdls_cmd" xml:space="preserve">
-    <value>allrolemdls arm</value>
+  <data name="gambling_divorces" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="allrolemdls_desc" xml:space="preserve">
-    <value>Enable or disable all modules for a specific role.</value>
+  <data name="gambling_likes" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="allrolemdls_usage" xml:space="preserve">
-    <value>`{0}arm [enable/disable] MyRole`</value>
+  <data name="gambling_price" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="userblacklist_cmd" xml:space="preserve">
-    <value>ubl</value>
+  <data name="gambling_waifus_none" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="userblacklist_desc" xml:space="preserve">
-    <value>Either [add]s or [rem]oves a user specified by a mention or ID from a blacklist.</value>
+  <data name="gambling_waifus_top_waifus" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="userblacklist_usage" xml:space="preserve">
-    <value>`{0}ubl add @SomeUser` or `{0}ubl rem 12312312313`</value>
+  <data name="gambling_waifu_affinity_already" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="channelblacklist_cmd" xml:space="preserve">
-    <value>cbl</value>
+  <data name="gambling_waifu_affinity_changed" xml:space="preserve">
+    <value></value>
+    <comment>Make sure to get the formatting right, and leave the thinking emoji</comment>
   </data>
-  <data name="channelblacklist_desc" xml:space="preserve">
-    <value>Either [add]s or [rem]oves a channel specified by an ID from a blacklist.</value>
+  <data name="gambling_waifu_affinity_cooldown" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="channelblacklist_usage" xml:space="preserve">
-    <value>`{0}cbl rem 12312312312`</value>
+  <data name="gambling_waifu_affinity_reset" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="serverblacklist_cmd" xml:space="preserve">
-    <value>sbl</value>
+  <data name="gambling_waifu_affinity_set" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="serverblacklist_desc" xml:space="preserve">
-    <value>Either [add]s or [rem]oves a server specified by a Name or ID from a blacklist.</value>
+  <data name="gambling_waifu_claimed" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="serverblacklist_usage" xml:space="preserve">
-    <value>`{0}sbl add 12312321312` or `{0}sbl rem SomeTrashServer`</value>
+  <data name="gambling_waifu_divorced_like" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="cmdcooldown_cmd" xml:space="preserve">
-    <value>cmdcooldown cmdcd</value>
+  <data name="gambling_waifu_egomaniac" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="cmdcooldown_desc" xml:space="preserve">
-    <value>Sets a cooldown per user for a command. Set to 0 to remove the cooldown.</value>
+  <data name="gambling_waifu_fulfilled" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="cmdcooldown_usage" xml:space="preserve">
-    <value>`{0}cmdcd "some cmd" 5`</value>
+  <data name="gambling_waifu_isnt_cheap" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="allcmdcooldowns_cmd" xml:space="preserve">
-    <value>allcmdcooldowns acmdcds</value>
+  <data name="gambling_waifu_not_enough" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="allcmdcooldowns_desc" xml:space="preserve">
-    <value>Shows a list of all commands and their respective cooldowns.</value>
+  <data name="gambling_waifu_not_yours" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="allcmdcooldowns_usage" xml:space="preserve">
-    <value>`{0}acmdcds`</value>
+  <data name="gambling_waifu_not_yourself" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="addquote_cmd" xml:space="preserve">
-    <value>.</value>
+  <data name="gambling_waifu_recent_divorce" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="addquote_desc" xml:space="preserve">
-    <value>Adds a new quote with the specified name and message.</value>
+  <data name="gambling_nobody" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="addquote_usage" xml:space="preserve">
-    <value>`{0}. sayhi Hi`</value>
+  <data name="gambling_waifu_divorced_notlike" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="showquote_cmd" xml:space="preserve">
-    <value>..</value>
+  <data name="games_8ball" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="showquote_desc" xml:space="preserve">
-    <value>Shows a random quote with a specified name.</value>
+  <data name="games_acrophobia" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="showquote_usage" xml:space="preserve">
-    <value>`{0}.. abc`</value>
+  <data name="games_acro_ended_no_sub" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="searchquote_cmd" xml:space="preserve">
-    <value>qsearch</value>
+  <data name="games_acro_no_votes_cast" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="searchquote_desc" xml:space="preserve">
-    <value>Shows a random quote for a keyword that contains any text specified in the search.</value>
+  <data name="games_acro_nym_was" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="searchquote_usage" xml:space="preserve">
-    <value>`{0}qsearch keyword text`</value>
+  <data name="games_acro_running" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="deletequote_cmd" xml:space="preserve">
-    <value>deletequote delq</value>
+  <data name="games_acro_started" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="deletequote_desc" xml:space="preserve">
-    <value>Deletes a random quote with the specified keyword. You have to either be server Administrator or the creator of the quote to delete it.</value>
+  <data name="games_acro_started_footer" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="deletequote_usage" xml:space="preserve">
-    <value>`{0}delq abc`</value>
+  <data name="games_acro_submit" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="draw_cmd" xml:space="preserve">
-    <value>draw</value>
+  <data name="games_acro_vote" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="draw_desc" xml:space="preserve">
-    <value>Draws a card from the deck.If you supply number X, she draws up to 5 cards from the deck.</value>
+  <data name="games_acro_vote_cast" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="draw_usage" xml:space="preserve">
-    <value>`{0}draw` or `{0}draw 5`</value>
+  <data name="games_acro_winner" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="shuffleplaylist_cmd" xml:space="preserve">
-    <value>shuffle sh</value>
+  <data name="games_acro_winner_only" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="shuffleplaylist_desc" xml:space="preserve">
-    <value>Shuffles the current playlist.</value>
+  <data name="games_question" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="shuffleplaylist_usage" xml:space="preserve">
-    <value>`{0}sh`</value>
+  <data name="games_rps_draw" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="flip_cmd" xml:space="preserve">
-    <value>flip</value>
+  <data name="games_rps_win" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="flip_desc" xml:space="preserve">
-    <value>Flips coin(s) - heads or tails, and shows an image.</value>
+  <data name="games_submissions_closed" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="flip_usage" xml:space="preserve">
-    <value>`{0}flip` or `{0}flip 3`</value>
+  <data name="gambling_animal_race_already_started" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="betflip_cmd" xml:space="preserve">
-    <value>betflip bf</value>
+  <data name="gambling_total_average" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="betflip_desc" xml:space="preserve">
-    <value>Bet to guess will the result be heads or tails. Guessing awards you 1.95x the currency you've bet (rounded up). Multiplier can be changed by the bot owner.</value>
+  <data name="games_category" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="betflip_usage" xml:space="preserve">
-    <value>`{0}bf 5 heads` or `{0}bf 3 t`</value>
+  <data name="games_cleverbot_disabled" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="roll_cmd" xml:space="preserve">
-    <value>roll</value>
+  <data name="games_cleverbot_enabled" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="roll_desc" xml:space="preserve">
-    <value>Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. Y can be a letter 'F' if you want to roll fate dice instead of dnd.</value>
+  <data name="games_curgen_disabled" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="roll_usage" xml:space="preserve">
-    <value>`{0}roll` or `{0}roll 7` or `{0}roll 3d5` or `{0}roll 5dF`</value>
+  <data name="games_curgen_enabled" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="rolluo_cmd" xml:space="preserve">
-    <value>rolluo</value>
+  <data name="games_curgen_pl" xml:space="preserve">
+    <value></value>
+    <comment>plural</comment>
   </data>
-  <data name="rolluo_desc" xml:space="preserve">
-    <value>Rolls X normal dice (up to 30) unordered. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y.</value>
+  <data name="games_curgen_sn" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="rolluo_usage" xml:space="preserve">
-    <value>`{0}rolluo` or `{0}rolluo 7` or `{0}rolluo 3d5`</value>
+  <data name="games_failed_loading_question" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="nroll_cmd" xml:space="preserve">
-    <value>nroll</value>
+  <data name="games_game_started" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="nroll_desc" xml:space="preserve">
-    <value>Rolls in a given range.</value>
+  <data name="games_hangman_game_started" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="nroll_usage" xml:space="preserve">
-    <value>`{0}nroll 5` (rolls 0-5) or `{0}nroll 5-15`</value>
+  <data name="games_hangman_running" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="race_cmd" xml:space="preserve">
-    <value>race</value>
+  <data name="games_hangman_start_errored" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="race_desc" xml:space="preserve">
-    <value>Starts a new animal race.</value>
+  <data name="games_hangman_types" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="race_usage" xml:space="preserve">
-    <value>`{0}race`</value>
+  <data name="games_leaderboard" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="joinrace_cmd" xml:space="preserve">
-    <value>joinrace jr</value>
+  <data name="games_not_enough" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="joinrace_desc" xml:space="preserve">
-    <value>Joins a new race. You can specify an amount of currency for betting (optional). You will get YourBet*(participants-1) back if you win.</value>
+  <data name="games_no_results" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="joinrace_usage" xml:space="preserve">
-    <value>`{0}jr` or `{0}jr 5`</value>
+  <data name="games_picked" xml:space="preserve">
+    <value></value>
+    <comment>Kwoth picked 5*</comment>
   </data>
-  <data name="raffle_cmd" xml:space="preserve">
-    <value>raffle</value>
+  <data name="games_planted" xml:space="preserve">
+    <value></value>
+    <comment>Kwoth planted 5*</comment>
   </data>
-  <data name="raffle_desc" xml:space="preserve">
-    <value>Prints a name and ID of a random user from the online list from the (optional) role.</value>
+  <data name="games_trivia_already_running" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="raffle_usage" xml:space="preserve">
-    <value>`{0}raffle` or `{0}raffle RoleName`</value>
+  <data name="games_trivia_game" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="give_cmd" xml:space="preserve">
-    <value>give</value>
+  <data name="games_trivia_guess" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="give_desc" xml:space="preserve">
-    <value>Give someone a certain amount of currency.</value>
+  <data name="games_trivia_none" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="give_usage" xml:space="preserve">
-    <value>`{0}give 1 "@SomeGuy"`</value>
+  <data name="games_trivia_points" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="award_cmd" xml:space="preserve">
-    <value>award</value>
+  <data name="games_trivia_stopping" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="award_desc" xml:space="preserve">
-    <value>Awards someone a certain amount of currency.  You can also specify a role name to award currency to all users in a role.</value>
+  <data name="games_trivia_times_up" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="award_usage" xml:space="preserve">
-    <value>`{0}award 100 @person` or `{0}award 5 Role Of Gamblers`</value>
+  <data name="games_trivia_win" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="take_cmd" xml:space="preserve">
-    <value>take</value>
+  <data name="games_ttt_against_yourself" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="take_desc" xml:space="preserve">
-    <value>Takes a certain amount of currency from someone.</value>
+  <data name="games_ttt_already_running" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="take_usage" xml:space="preserve">
-    <value>`{0}take 1 "@someguy"`</value>
+  <data name="games_ttt_a_draw" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="betroll_cmd" xml:space="preserve">
-    <value>betroll br</value>
+  <data name="games_ttt_created" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="betroll_desc" xml:space="preserve">
-    <value>Bets a certain amount of currency and rolls a dice. Rolling over 66 yields x2 of your currency, over 90 - x4 and 100 x10.</value>
+  <data name="games_ttt_has_won" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="betroll_usage" xml:space="preserve">
-    <value>`{0}br 5`</value>
+  <data name="games_ttt_matched_three" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="leaderboard_cmd" xml:space="preserve">
-    <value>leaderboard lb</value>
+  <data name="games_ttt_no_moves" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="leaderboard_desc" xml:space="preserve">
-    <value>Displays bot currency leaderboard.</value>
+  <data name="games_ttt_time_expired" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="leaderboard_usage" xml:space="preserve">
-    <value>`{0}lb`</value>
+  <data name="games_ttt_users_move" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="trivia_cmd" xml:space="preserve">
-    <value>trivia t</value>
+  <data name="games_vs" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="trivia_desc" xml:space="preserve">
-    <value>Starts a game of trivia. You can add nohint to prevent hints.First player to get to 10 points wins by default. You can specify a different number. 30 seconds per question.</value>
+  <data name="music_attempting_to_queue" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="trivia_usage" xml:space="preserve">
-    <value>`{0}t` or `{0}t 5 nohint`</value>
+  <data name="music_autoplay_disabled" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="tl_cmd" xml:space="preserve">
-    <value>tl</value>
+  <data name="music_autoplay_enabled" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="tl_desc" xml:space="preserve">
-    <value>Shows a current trivia leaderboard.</value>
+  <data name="music_defvol_set" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="tl_usage" xml:space="preserve">
-    <value>`{0}tl`</value>
+  <data name="music_dir_queue_complete" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="tq_cmd" xml:space="preserve">
-    <value>tq</value>
+  <data name="music_fairplay" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="tq_desc" xml:space="preserve">
-    <value>Quits current trivia after current question.</value>
+  <data name="music_finished_song" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="tq_usage" xml:space="preserve">
-    <value>`{0}tq`</value>
+  <data name="music_fp_disabled" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="typestart_cmd" xml:space="preserve">
-    <value>typestart</value>
+  <data name="music_fp_enabled" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="typestart_desc" xml:space="preserve">
-    <value>Starts a typing contest.</value>
+  <data name="music_from_position" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="typestart_usage" xml:space="preserve">
-    <value>`{0}typestart`</value>
+  <data name="music_id" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="typestop_cmd" xml:space="preserve">
-    <value>typestop</value>
+  <data name="music_invalid_input" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="typestop_desc" xml:space="preserve">
-    <value>Stops a typing contest on the current channel.</value>
+  <data name="music_max_playtime_none" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="typestop_usage" xml:space="preserve">
-    <value>`{0}typestop`</value>
+  <data name="music_max_playtime_set" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="typeadd_cmd" xml:space="preserve">
-    <value>typeadd</value>
+  <data name="music_max_queue_unlimited" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="typeadd_desc" xml:space="preserve">
-    <value>Adds a new article to the typing contest.</value>
+  <data name="music_max_queue_x" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="typeadd_usage" xml:space="preserve">
-    <value>`{0}typeadd wordswords`</value>
+  <data name="music_must_be_in_voice" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="poll_cmd" xml:space="preserve">
-    <value>poll</value>
+  <data name="music_name" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="poll_desc" xml:space="preserve">
-    <value>Creates a poll which requires users to send the number of the voting option to the bot.</value>
+  <data name="music_now_playing" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="poll_usage" xml:space="preserve">
-    <value>`{0}poll Question?;Answer1;Answ 2;A_3`</value>
+  <data name="music_no_player" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="pollend_cmd" xml:space="preserve">
-    <value>pollend</value>
+  <data name="music_no_search_results" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="pollend_desc" xml:space="preserve">
-    <value>Stops active poll on this server and prints the results in this channel.</value>
+  <data name="music_paused" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="pollend_usage" xml:space="preserve">
-    <value>`{0}pollend`</value>
+  <data name="music_player_queue" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="pick_cmd" xml:space="preserve">
-    <value>pick</value>
+  <data name="music_playing_song" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="pick_desc" xml:space="preserve">
-    <value>Picks the currency planted in this channel. 60 seconds cooldown.</value>
+  <data name="music_playlists" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="pick_usage" xml:space="preserve">
-    <value>`{0}pick`</value>
+  <data name="music_playlists_page" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="plant_cmd" xml:space="preserve">
-    <value>plant</value>
+  <data name="music_playlist_deleted" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="plant_desc" xml:space="preserve">
-    <value>Spend an amount of currency to plant it in this channel. Default is 1. (If bot is restarted or crashes, the currency will be lost)</value>
+  <data name="music_playlist_delete_fail" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="plant_usage" xml:space="preserve">
-    <value>`{0}plant` or `{0}plant 5`</value>
+  <data name="music_playlist_id_not_found" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="gencurrency_cmd" xml:space="preserve">
-    <value>gencurrency gc</value>
+  <data name="music_playlist_queue_complete" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="gencurrency_desc" xml:space="preserve">
-    <value>Toggles currency generation on this channel. Every posted message will have chance to spawn currency. Chance is specified by the Bot Owner. (default is 2%)</value>
+  <data name="music_playlist_saved" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="gencurrency_usage" xml:space="preserve">
-    <value>`{0}gc`</value>
+  <data name="music_play_limit" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="leet_cmd" xml:space="preserve">
-    <value>leet</value>
+  <data name="music_queue" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="leet_desc" xml:space="preserve">
-    <value>Converts a text to leetspeak with 6 (1-6) severity levels</value>
+  <data name="music_queued_song" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="leet_usage" xml:space="preserve">
-    <value>`{0}leet 3 Hello`</value>
+  <data name="music_queue_cleared" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="choose_cmd" xml:space="preserve">
-    <value>choose</value>
+  <data name="music_queue_full" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="choose_desc" xml:space="preserve">
-    <value>Chooses a thing from a list of things</value>
+  <data name="music_removed_song" xml:space="preserve">
+    <value></value>
+    <comment>context: &quot;removed song #5&quot;</comment>
   </data>
-  <data name="choose_usage" xml:space="preserve">
-    <value>`{0}choose Get up;Sleep;Sleep more`</value>
+  <data name="music_repeating_cur_song" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="_8ball_cmd" xml:space="preserve">
-    <value>8ball</value>
+  <data name="music_repeating_playlist" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="_8ball_desc" xml:space="preserve">
-    <value>Ask the 8ball a yes/no question.</value>
+  <data name="music_repeating_track" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="_8ball_usage" xml:space="preserve">
-    <value>`{0}8ball should I do something`</value>
+  <data name="music_repeating_track_stopped" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="rps_cmd" xml:space="preserve">
-    <value>rps</value>
+  <data name="music_resumed" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="rps_desc" xml:space="preserve">
-    <value>Play a game of rocket paperclip scissors with Nadeko.</value>
+  <data name="music_rpl_disabled" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="rps_usage" xml:space="preserve">
-    <value>`{0}rps scissors`</value>
+  <data name="music_rpl_enabled" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="linux_cmd" xml:space="preserve">
-    <value>linux</value>
+  <data name="music_set_music_channel" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="linux_desc" xml:space="preserve">
-    <value>Prints a customizable Linux interjection</value>
+  <data name="music_skipped_to" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="linux_usage" xml:space="preserve">
-    <value>`{0}linux Spyware Windows`</value>
+  <data name="music_songs_shuffled" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="next_cmd" xml:space="preserve">
-    <value>next n</value>
+  <data name="music_song_moved" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="next_desc" xml:space="preserve">
-    <value>Goes to the next song in the queue. You have to be in the same voice channel as the bot. You can skip multiple songs, but in that case songs will not be requeued if {0}rcs or {0}rpl is enabled.</value>
+  <data name="music_time_format" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="next_usage" xml:space="preserve">
-    <value>`{0}n` or `{0}n 5`</value>
+  <data name="music_to_position" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="stop_cmd" xml:space="preserve">
-    <value>stop s</value>
+  <data name="music_unlimited" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="stop_desc" xml:space="preserve">
-    <value>Stops the music and clears the playlist. Stays in the channel.</value>
+  <data name="music_volume_input_invalid" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="stop_usage" xml:space="preserve">
-    <value>`{0}s`</value>
+  <data name="music_volume_set" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="destroy_cmd" xml:space="preserve">
-    <value>destroy d</value>
+  <data name="permissions_acm_disable" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="destroy_desc" xml:space="preserve">
-    <value>Completely stops the music and unbinds the bot from the channel. (may cause weird behaviour)</value>
+  <data name="permissions_acm_enable" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="destroy_usage" xml:space="preserve">
-    <value>`{0}d`</value>
+  <data name="permissions_allowed" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="pause_cmd" xml:space="preserve">
-    <value>pause p</value>
+  <data name="permissions_arm_disable" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="pause_desc" xml:space="preserve">
-    <value>Pauses or Unpauses the song.</value>
+  <data name="permissions_arm_enable" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="pause_usage" xml:space="preserve">
-    <value>`{0}p`</value>
+  <data name="permissions_asm_disable" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="queue_cmd" xml:space="preserve">
-    <value>queue q yq</value>
+  <data name="permissions_asm_enable" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="queue_desc" xml:space="preserve">
-    <value>Queue a song using keywords or a link. Bot will join your voice channel.**You must be in a voice channel**.</value>
+  <data name="permissions_aum_disable" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="queue_usage" xml:space="preserve">
-    <value>`{0}q Dream Of Venice`</value>
+  <data name="permissions_aum_enable" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="soundcloudqueue_cmd" xml:space="preserve">
-    <value>soundcloudqueue sq</value>
+  <data name="permissions_blacklisted" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="soundcloudqueue_desc" xml:space="preserve">
-    <value>Queue a soundcloud song using keywords. Bot will join your voice channel.**You must be in a voice channel**.</value>
+  <data name="permissions_cmdcd_add" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="soundcloudqueue_usage" xml:space="preserve">
-    <value>`{0}sq Dream Of Venice`</value>
+  <data name="permissions_cmdcd_cleared" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="listqueue_cmd" xml:space="preserve">
-    <value>listqueue lq</value>
+  <data name="permissions_cmdcd_none" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="listqueue_desc" xml:space="preserve">
-    <value>Lists 15 currently queued songs per page. Default page is 1.</value>
+  <data name="permissions_command_costs" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="listqueue_usage" xml:space="preserve">
-    <value>`{0}lq` or `{0}lq 2`</value>
+  <data name="permissions_cx_disable" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="nowplaying_cmd" xml:space="preserve">
-    <value>nowplaying np</value>
+  <data name="permissions_cx_enable" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="nowplaying_desc" xml:space="preserve">
-    <value>Shows the song currently playing.</value>
+  <data name="permissions_denied" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="nowplaying_usage" xml:space="preserve">
-    <value>`{0}np`</value>
+  <data name="permissions_filter_word_add" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="volume_cmd" xml:space="preserve">
-    <value>volume vol</value>
+  <data name="permissions_filter_word_list" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="volume_desc" xml:space="preserve">
-    <value>Sets the music volume 0-100%</value>
+  <data name="permissions_filter_word_remove" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="volume_usage" xml:space="preserve">
-    <value>`{0}vol 50`</value>
+  <data name="permissions_invalid_second_param_between" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="defvol_cmd" xml:space="preserve">
-    <value>defvol dv</value>
+  <data name="permissions_invite_filter_channel_off" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="defvol_desc" xml:space="preserve">
-    <value>Sets the default music volume when music playback is started (0-100). Persists through restarts.</value>
+  <data name="permissions_invite_filter_channel_on" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="defvol_usage" xml:space="preserve">
-    <value>`{0}dv 80`</value>
+  <data name="permissions_invite_filter_server_off" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="max_cmd" xml:space="preserve">
-    <value>max</value>
+  <data name="permissions_invite_filter_server_on" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="max_desc" xml:space="preserve">
-    <value>Sets the music volume to 100%.</value>
+  <data name="permissions_moved_permission" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="max_usage" xml:space="preserve">
-    <value>`{0}max`</value>
+  <data name="permissions_not_found" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="half_cmd" xml:space="preserve">
-    <value>half</value>
+  <data name="permissions_no_costs" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="half_desc" xml:space="preserve">
-    <value>Sets the music volume to 50%.</value>
+  <data name="permissions_of_command" xml:space="preserve">
+    <value></value>
+    <comment>Gen (of command)</comment>
   </data>
-  <data name="half_usage" xml:space="preserve">
-    <value>`{0}half`</value>
+  <data name="permissions_of_module" xml:space="preserve">
+    <value></value>
+    <comment>Gen. (of module)</comment>
   </data>
-  <data name="playlist_cmd" xml:space="preserve">
-    <value>playlist pl</value>
+  <data name="permissions_page" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="playlist_desc" xml:space="preserve">
-    <value>Queues up to 500 songs from a youtube playlist specified by a link, or keywords.</value>
+  <data name="permissions_permrole" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="playlist_usage" xml:space="preserve">
-    <value>`{0}pl playlist link or name`</value>
+  <data name="permissions_permrole_changed" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="soundcloudpl_cmd" xml:space="preserve">
-    <value>soundcloudpl scpl</value>
+  <data name="permissions_perm_out_of_range" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="soundcloudpl_desc" xml:space="preserve">
-    <value>Queue a soundcloud playlist using a link.</value>
+  <data name="permissions_removed" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="soundcloudpl_usage" xml:space="preserve">
-    <value>`{0}scpl soundcloudseturl`</value>
+  <data name="permissions_rx_disable" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="localpl_cmd" xml:space="preserve">
-    <value>localplaylst lopl</value>
+  <data name="permissions_rx_enable" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="localpl_desc" xml:space="preserve">
-    <value>Queues all songs from a directory.</value>
+  <data name="permissions_sec" xml:space="preserve">
+    <value></value>
+    <comment>Short of seconds.</comment>
   </data>
-  <data name="localpl_usage" xml:space="preserve">
-    <value>`{0}lopl C:/music/classical`</value>
+  <data name="permissions_sx_disable" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="radio_cmd" xml:space="preserve">
-    <value>radio ra</value>
+  <data name="permissions_sx_enable" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="radio_desc" xml:space="preserve">
-    <value>Queues a radio stream from a link. It can be a direct mp3 radio stream, .m3u, .pls .asx or .xspf (Usage Video: &lt;https://streamable.com/al54&gt;)</value>
+  <data name="permissions_unblacklisted" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="radio_usage" xml:space="preserve">
-    <value>`{0}ra radio link here`</value>
+  <data name="permissions_uneditable" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="local_cmd" xml:space="preserve">
-    <value>local lo</value>
+  <data name="permissions_ux_disable" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="local_desc" xml:space="preserve">
-    <value>Queues a local file by specifying a full path.</value>
+  <data name="permissions_ux_enable" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="local_usage" xml:space="preserve">
-    <value>`{0}lo C:/music/mysong.mp3`</value>
+  <data name="permissions_verbose_false" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="move_cmd" xml:space="preserve">
-    <value>move mv</value>
+  <data name="permissions_verbose_true" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="move_desc" xml:space="preserve">
-    <value>Moves the bot to your voice channel. (works only if music is already playing)</value>
+  <data name="permissions_word_filter_channel_off" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="move_usage" xml:space="preserve">
-    <value>`{0}mv`</value>
+  <data name="permissions_word_filter_channel_on" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="remove_cmd" xml:space="preserve">
-    <value>remove rm</value>
+  <data name="permissions_word_filter_server_off" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="remove_desc" xml:space="preserve">
-    <value>Remove a song by its # in the queue, or 'all' to remove whole queue.</value>
+  <data name="permissions_word_filter_server_on" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="remove_usage" xml:space="preserve">
-    <value>`{0}rm 5`</value>
+  <data name="searches_abilities" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="movesong_cmd" xml:space="preserve">
-    <value>movesong ms</value>
+  <data name="searches_anime_no_fav" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="movesong_desc" xml:space="preserve">
-    <value>Moves a song from one position to another.</value>
+  <data name="searches_atl_ad_started" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="movesong_usage" xml:space="preserve">
-    <value>`{0}ms 5&gt;3`</value>
+  <data name="searches_atl_removed" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="setmaxqueue_cmd" xml:space="preserve">
-    <value>setmaxqueue smq</value>
+  <data name="searches_atl_set" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="setmaxqueue_desc" xml:space="preserve">
-    <value>Sets a maximum queue size. Supply 0 or no argument to have no limit.</value>
+  <data name="searches_atl_started" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="setmaxqueue_usage" xml:space="preserve">
-    <value>`{0}smq 50` or `{0}smq`</value>
+  <data name="searches_atl_stopped" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="cleanup_cmd" xml:space="preserve">
-    <value>cleanup</value>
+  <data name="searches_bad_input_format" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="cleanup_desc" xml:space="preserve">
-    <value>Cleans up hanging voice connections.</value>
+  <data name="searches_card_not_found" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="cleanup_usage" xml:space="preserve">
-    <value>`{0}cleanup`</value>
+  <data name="searches_catfact" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="reptcursong_cmd" xml:space="preserve">
-    <value>reptcursong rcs</value>
+  <data name="searches_chapters" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="reptcursong_desc" xml:space="preserve">
-    <value>Toggles repeat of current song.</value>
+  <data name="searches_comic_number" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="reptcursong_usage" xml:space="preserve">
-    <value>`{0}rcs`</value>
+  <data name="searches_compet_loses" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="repeatpl_cmd" xml:space="preserve">
-    <value>rpeatplaylst rpl</value>
+  <data name="searches_compet_played" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="repeatpl_desc" xml:space="preserve">
-    <value>Toggles repeat of all songs in the queue (every song that finishes is added to the end of the queue).</value>
+  <data name="searches_compet_rank" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="repeatpl_usage" xml:space="preserve">
-    <value>`{0}rpl`</value>
+  <data name="searches_compet_wins" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="save_cmd" xml:space="preserve">
-    <value>save</value>
+  <data name="searches_completed" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="save_desc" xml:space="preserve">
-    <value>Saves a playlist under a certain name. Name must be no longer than 20 characters and mustn't contain dashes.</value>
+  <data name="searches_condition" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="save_usage" xml:space="preserve">
-    <value>`{0}save classical1`</value>
+  <data name="searches_cost" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="load_cmd" xml:space="preserve">
-    <value>load</value>
+  <data name="searches_date" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="load_desc" xml:space="preserve">
-    <value>Loads a saved playlist using it's ID. Use `{0}pls` to list all saved playlists and {0}save to save new ones.</value>
+  <data name="searches_define" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="load_usage" xml:space="preserve">
-    <value>`{0}load 5`</value>
+  <data name="searches_dropped" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="playlists_cmd" xml:space="preserve">
-    <value>playlists pls</value>
+  <data name="searches_episodes" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="playlists_desc" xml:space="preserve">
-    <value>Lists all playlists. Paginated. 20 per page. Default page is 0.</value>
+  <data name="searches_error_occured" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="playlists_usage" xml:space="preserve">
-    <value>`{0}pls 1`</value>
+  <data name="searches_example" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="deleteplaylist_cmd" xml:space="preserve">
-    <value>deleteplaylist delpls</value>
+  <data name="searches_failed_finding_anime" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="deleteplaylist_desc" xml:space="preserve">
-    <value>Deletes a saved playlist. Only if you made it or if you are the bot owner.</value>
+  <data name="searches_failed_finding_manga" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="deleteplaylist_usage" xml:space="preserve">
-    <value>`{0}delpls animu-5`</value>
+  <data name="searches_genres" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="goto_cmd" xml:space="preserve">
-    <value>goto</value>
+  <data name="searches_hashtag_error" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="goto_desc" xml:space="preserve">
-    <value>Goes to a specific time in seconds in a song.</value>
+  <data name="searches_height_weight" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="goto_usage" xml:space="preserve">
-    <value>`{0}goto 30`</value>
+  <data name="searches_height_weight_val" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="autoplay_cmd" xml:space="preserve">
-    <value>autoplay ap</value>
+  <data name="searches_humidity" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="autoplay_desc" xml:space="preserve">
-    <value>Toggles autoplay - When the song is finished, automatically queue a related youtube song. (Works only for youtube songs and when queue is empty)</value>
+  <data name="searches_image_search_for" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="autoplay_usage" xml:space="preserve">
-    <value>`{0}ap`</value>
+  <data name="searches_imdb_fail" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="lolchamp_cmd" xml:space="preserve">
-    <value>lolchamp</value>
+  <data name="searches_invalid_lang" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="lolchamp_desc" xml:space="preserve">
-    <value>Shows League Of Legends champion statistics. If there are spaces/apostrophes or in the name - omit them. Optional second parameter is a role.</value>
+  <data name="searches_jokes_not_loaded" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="lolchamp_usage" xml:space="preserve">
-    <value>`{0}lolchamp Riven` or `{0}lolchamp Annie sup`</value>
+  <data name="searches_latlong" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="lolban_cmd" xml:space="preserve">
-    <value>lolban</value>
+  <data name="searches_level" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="lolban_desc" xml:space="preserve">
-    <value>Shows top banned champions ordered by ban rate.</value>
+  <data name="searches_list_of_place_tags" xml:space="preserve">
+    <value></value>
+    <comment>Don&apos;t translate {0}place</comment>
   </data>
-  <data name="lolban_usage" xml:space="preserve">
-    <value>`{0}lolban`</value>
+  <data name="searches_location" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="hitbox_cmd" xml:space="preserve">
-    <value>hitbox hb</value>
+  <data name="searches_magicitems_not_loaded" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="hitbox_desc" xml:space="preserve">
-    <value>Notifies this channel when a certain user starts streaming.</value>
+  <data name="searches_mal_profile" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="hitbox_usage" xml:space="preserve">
-    <value>`{0}hitbox SomeStreamer`</value>
+  <data name="searches_mashape_api_missing" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="twitch_cmd" xml:space="preserve">
-    <value>twitch tw</value>
+  <data name="searches_min_max" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="twitch_desc" xml:space="preserve">
-    <value>Notifies this channel when a certain user starts streaming.</value>
+  <data name="searches_no_channel_found" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="twitch_usage" xml:space="preserve">
-    <value>`{0}twitch SomeStreamer`</value>
+  <data name="searches_no_results" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="beam_cmd" xml:space="preserve">
-    <value>beam bm</value>
+  <data name="searches_on_hold" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="beam_desc" xml:space="preserve">
-    <value>Notifies this channel when a certain user starts streaming.</value>
+  <data name="searches_original_url" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="beam_usage" xml:space="preserve">
-    <value>`{0}beam SomeStreamer`</value>
+  <data name="searches_osu_api_key" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="removestream_cmd" xml:space="preserve">
-    <value>removestream rms</value>
+  <data name="searches_osu_failed" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="removestream_desc" xml:space="preserve">
-    <value>Removes notifications of a certain streamer from a certain platform on this channel.</value>
+  <data name="searches_over_x" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="removestream_usage" xml:space="preserve">
-    <value>`{0}rms Twitch SomeGuy` or `{0}rms Beam SomeOtherGuy`</value>
+  <data name="searches_ow_user_not_found" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="liststreams_cmd" xml:space="preserve">
-    <value>liststreams ls</value>
+  <data name="searches_plan_to_watch" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="liststreams_desc" xml:space="preserve">
-    <value>Lists all streams you are following on this server.</value>
+  <data name="searches_platform" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="liststreams_usage" xml:space="preserve">
-    <value>`{0}ls`</value>
+  <data name="searches_pokemon_ability_none" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="convert_cmd" xml:space="preserve">
-    <value>convert</value>
+  <data name="searches_pokemon_none" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="convert_desc" xml:space="preserve">
-    <value>Convert quantities. Use `{0}convertlist` to see supported dimensions and currencies.</value>
+  <data name="searches_profile_link" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="convert_usage" xml:space="preserve">
-    <value>`{0}convert m km 1000`</value>
+  <data name="searches_quality" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="convertlist_cmd" xml:space="preserve">
-    <value>convertlist</value>
+  <data name="searches_quick_playtime" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="convertlist_desc" xml:space="preserve">
-    <value>List of the convertible dimensions and currencies.</value>
+  <data name="searches_quick_wins" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="convertlist_usage" xml:space="preserve">
-    <value>`{0}convertlist`</value>
+  <data name="searches_rating" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="wowjoke_cmd" xml:space="preserve">
-    <value>wowjoke</value>
+  <data name="searches_score" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="wowjoke_desc" xml:space="preserve">
-    <value>Get one of Kwoth's penultimate WoW jokes.</value>
+  <data name="searches_search_for" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="wowjoke_usage" xml:space="preserve">
-    <value>`{0}wowjoke`</value>
+  <data name="searches_shorten_fail" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="calculate_cmd" xml:space="preserve">
-    <value>calculate calc</value>
+  <data name="searches_short_url" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="calculate_desc" xml:space="preserve">
-    <value>Evaluate a mathematical expression.</value>
+  <data name="searches_something_went_wrong" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="calculate_usage" xml:space="preserve">
-    <value>`{0}calc 1+1`</value>
+  <data name="searches_specify_search_params" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="osu_cmd" xml:space="preserve">
-    <value>osu</value>
+  <data name="searches_status" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="osu_desc" xml:space="preserve">
-    <value>Shows osu stats for a player.</value>
+  <data name="searches_store_url" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="osu_usage" xml:space="preserve">
-    <value>`{0}osu Name` or `{0}osu Name taiko`</value>
+  <data name="searches_streamer_offline" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="osub_cmd" xml:space="preserve">
-    <value>osub</value>
+  <data name="searches_streamer_online" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="osub_desc" xml:space="preserve">
-    <value>Shows information about an osu beatmap.</value>
+  <data name="searches_streams_following" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="osub_usage" xml:space="preserve">
-    <value>`{0}osub https://osu.ppy.sh/s/127712`</value>
+  <data name="searches_streams_none" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="osu5_cmd" xml:space="preserve">
-    <value>osu5</value>
+  <data name="searches_stream_no" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="osu5_desc" xml:space="preserve">
-    <value>Displays a user's top 5 plays.</value>
+  <data name="searches_stream_not_exist" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="osu5_usage" xml:space="preserve">
-    <value>`{0}osu5 Name`</value>
+  <data name="searches_stream_removed" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="pokemon_cmd" xml:space="preserve">
-    <value>pokemon poke</value>
+  <data name="searches_stream_tracked" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="pokemon_desc" xml:space="preserve">
-    <value>Searches for a pokemon.</value>
+  <data name="searches_sunrise" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="pokemon_usage" xml:space="preserve">
-    <value>`{0}poke Sylveon`</value>
+  <data name="searches_sunset" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="pokemonability_cmd" xml:space="preserve">
-    <value>pokemonability pokeab</value>
+  <data name="searches_temperature" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="pokemonability_desc" xml:space="preserve">
-    <value>Searches for a pokemon ability.</value>
+  <data name="searches_title" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="pokemonability_usage" xml:space="preserve">
-    <value>`{0}pokeab overgrow`</value>
+  <data name="searches_top_3_fav_anime" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="memelist_cmd" xml:space="preserve">
-    <value>memelist</value>
+  <data name="searches_translation" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="memelist_desc" xml:space="preserve">
-    <value>Pulls a list of memes you can use with `{0}memegen` from http://memegen.link/templates/</value>
+  <data name="searches_types" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="memelist_usage" xml:space="preserve">
-    <value>`{0}memelist`</value>
+  <data name="searches_ud_error" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="memegen_cmd" xml:space="preserve">
-    <value>memegen</value>
+  <data name="searches_url" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="memegen_desc" xml:space="preserve">
-    <value>Generates a meme from memelist with top and bottom text.</value>
+  <data name="searches_viewers" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="memegen_usage" xml:space="preserve">
-    <value>`{0}memegen biw "gets iced coffee" "in the winter"`</value>
+  <data name="searches_watching" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="weather_cmd" xml:space="preserve">
-    <value>weather we</value>
+  <data name="searches_wikia_error" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="weather_desc" xml:space="preserve">
-    <value>Shows weather data for a specified city. You can also specify a country after a comma.</value>
+  <data name="searches_wikia_input_error" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="weather_usage" xml:space="preserve">
-    <value>`{0}we Moscow, RU`</value>
+  <data name="searches_wiki_page_not_found" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="youtube_cmd" xml:space="preserve">
-    <value>youtube yt</value>
+  <data name="searches_wind_speed" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="youtube_desc" xml:space="preserve">
-    <value>Searches youtubes and shows the first result</value>
+  <data name="searches_x_most_banned_champs" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="youtube_usage" xml:space="preserve">
-    <value>`{0}yt query`</value>
+  <data name="searches_yodify_error" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="anime_cmd" xml:space="preserve">
-    <value>anime ani aq</value>
+  <data name="utiliity_joined" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="anime_desc" xml:space="preserve">
-    <value>Queries anilist for an anime and shows the first result.</value>
+  <data name="utility_activity_line" xml:space="preserve">
+    <value></value>
+    <comment>/s and total need to be localized to fit the context -
+`1.`</comment>
   </data>
-  <data name="anime_usage" xml:space="preserve">
-    <value>`{0}ani aquarion evol`</value>
+  <data name="utility_activity_page" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="imdb_cmd" xml:space="preserve">
-    <value>imdb omdb</value>
+  <data name="utility_activity_users_total" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="imdb_desc" xml:space="preserve">
-    <value>Queries omdb for movies or series, show first result.</value>
+  <data name="utility_author" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="imdb_usage" xml:space="preserve">
-    <value>`{0}imdb Batman vs Superman`</value>
+  <data name="utility_botid" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="manga_cmd" xml:space="preserve">
-    <value>manga mang mq</value>
+  <data name="utility_calcops" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="manga_desc" xml:space="preserve">
-    <value>Queries anilist for a manga and shows the first result.</value>
+  <data name="utility_channelid" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="manga_usage" xml:space="preserve">
-    <value>`{0}mq Shingeki no kyojin`</value>
+  <data name="utility_channel_topic" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="randomcat_cmd" xml:space="preserve">
-    <value>randomcat meow</value>
+  <data name="utility_commands_ran" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="randomcat_desc" xml:space="preserve">
-    <value>Shows a random cat image.</value>
+  <data name="utility_convert" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="randomcat_usage" xml:space="preserve">
-    <value>`{0}meow`</value>
+  <data name="utility_convertlist" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="randomdog_cmd" xml:space="preserve">
-    <value>randomdog woof</value>
+  <data name="utility_convert_not_found" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="randomdog_desc" xml:space="preserve">
-    <value>Shows a random dog image.</value>
+  <data name="utility_convert_type_error" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="randomdog_usage" xml:space="preserve">
-    <value>`{0}woof`</value>
+  <data name="utility_created_at" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="image_cmd" xml:space="preserve">
-    <value>image img</value>
+  <data name="utility_csc_join" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="image_desc" xml:space="preserve">
-    <value>Pulls the first image found using a search parameter. Use {0}rimg for different results.</value>
+  <data name="utility_csc_leave" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="image_usage" xml:space="preserve">
-    <value>`{0}img cute kitten`</value>
+  <data name="utility_csc_token" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="randomimage_cmd" xml:space="preserve">
-    <value>randomimage rimg</value>
+  <data name="utility_custom_emojis" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="randomimage_desc" xml:space="preserve">
-    <value>Pulls a random image using a search parameter.</value>
+  <data name="utility_error" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="randomimage_usage" xml:space="preserve">
-    <value>`{0}rimg cute kitten`</value>
+  <data name="utility_features" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="lmgtfy_cmd" xml:space="preserve">
-    <value>lmgtfy</value>
+  <data name="utility_id" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="lmgtfy_desc" xml:space="preserve">
-    <value>Google something for an idiot.</value>
+  <data name="utility_index_out_of_range" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="lmgtfy_usage" xml:space="preserve">
-    <value>`{0}lmgtfy query`</value>
+  <data name="utility_inrole_list" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="google_cmd" xml:space="preserve">
-    <value>google g</value>
+  <data name="utility_inrole_not_allowed" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="google_desc" xml:space="preserve">
-    <value>Get a google search link for some terms.</value>
+  <data name="utility_invalid_value" xml:space="preserve">
+    <value></value>
+    <comment>Invalid months value/ Invalid hours value</comment>
   </data>
-  <data name="google_usage" xml:space="preserve">
-    <value>`{0}google query`</value>
+  <data name="utility_joined_discord" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="hearthstone_cmd" xml:space="preserve">
-    <value>hearthstone hs</value>
+  <data name="utility_joined_server" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="hearthstone_desc" xml:space="preserve">
-    <value>Searches for a Hearthstone card and shows its image. Takes a while to complete.</value>
+  <data name="utility_listservers" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="hearthstone_usage" xml:space="preserve">
-    <value>`{0}hs Ysera`</value>
+  <data name="utility_listservers_none" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="urbandict_cmd" xml:space="preserve">
-    <value>urbandict ud</value>
+  <data name="utility_list_of_repeaters" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="urbandict_desc" xml:space="preserve">
-    <value>Searches Urban Dictionary for a word.</value>
+  <data name="utility_members" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="urbandict_usage" xml:space="preserve">
-    <value>`{0}ud Pineapple`</value>
+  <data name="utility_memory" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="hashtag_cmd" xml:space="preserve">
-    <value>#</value>
+  <data name="utility_messages" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="hashtag_desc" xml:space="preserve">
-    <value>Searches Tagdef.com for a hashtag.</value>
+  <data name="utility_message_repeater" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="hashtag_usage" xml:space="preserve">
-    <value>`{0}# ff`</value>
+  <data name="utility_name" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="catfact_cmd" xml:space="preserve">
-    <value>catfact</value>
+  <data name="utility_nickname" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="catfact_desc" xml:space="preserve">
-    <value>Shows a random catfact from &lt;http://catfacts-api.appspot.com/api/facts&gt;</value>
+  <data name="utility_nobody_playing_game" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="catfact_usage" xml:space="preserve">
-    <value>`{0}catfact`</value>
+  <data name="utility_no_active_repeaters" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="yomama_cmd" xml:space="preserve">
-    <value>yomama ym</value>
+  <data name="utility_no_roles_on_page" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="yomama_desc" xml:space="preserve">
-    <value>Shows a random joke from &lt;http://api.yomomma.info/&gt;</value>
+  <data name="utility_no_shards_on_page" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="yomama_usage" xml:space="preserve">
-    <value>`{0}ym`</value>
+  <data name="utility_no_topic_set" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="randjoke_cmd" xml:space="preserve">
-    <value>randjoke rj</value>
+  <data name="utility_owner" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="randjoke_desc" xml:space="preserve">
-    <value>Shows a random joke from &lt;http://tambal.azurewebsites.net/joke/random&gt;</value>
+  <data name="utility_owner_ids" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="randjoke_usage" xml:space="preserve">
-    <value>`{0}rj`</value>
+  <data name="utility_presence" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="chucknorris_cmd" xml:space="preserve">
-    <value>chucknorris cn</value>
+  <data name="utility_presence_txt" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="chucknorris_desc" xml:space="preserve">
-    <value>Shows a random chucknorris joke from &lt;http://tambal.azurewebsites.net/joke/random&gt;</value>
+  <data name="utility_quotes_deleted" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="chucknorris_usage" xml:space="preserve">
-    <value>`{0}cn`</value>
+  <data name="utility_quotes_page" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="magicitem_cmd" xml:space="preserve">
-    <value>magicitem mi</value>
+  <data name="utility_quotes_page_none" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="magicitem_desc" xml:space="preserve">
-    <value>Shows a random magicitem from &lt;https://1d4chan.org/wiki/List_of_/tg/%27s_magic_items&gt;</value>
+  <data name="utility_quotes_remove_none" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="magicitem_usage" xml:space="preserve">
-    <value>`{0}mi`</value>
+  <data name="utility_quote_added" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="revav_cmd" xml:space="preserve">
-    <value>revav</value>
+  <data name="utility_quote_deleted" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="revav_desc" xml:space="preserve">
-    <value>Returns a google reverse image search for someone's avatar.</value>
+  <data name="utility_region" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="revav_usage" xml:space="preserve">
-    <value>`{0}revav "@SomeGuy"`</value>
+  <data name="utility_registered_on" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="revimg_cmd" xml:space="preserve">
-    <value>revimg</value>
+  <data name="utility_remind" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="revimg_desc" xml:space="preserve">
-    <value>Returns a google reverse image search for an image from a link.</value>
+  <data name="utility_remind_invalid_format" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="revimg_usage" xml:space="preserve">
-    <value>`{0}revimg Image link`</value>
+  <data name="utility_remind_template" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="safebooru_cmd" xml:space="preserve">
-    <value>safebooru</value>
+  <data name="utility_repeater" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="safebooru_desc" xml:space="preserve">
-    <value>Shows a random image from safebooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +)</value>
+  <data name="utility_repeaters_list" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="safebooru_usage" xml:space="preserve">
-    <value>`{0}safebooru yuri+kissing`</value>
+  <data name="utility_repeaters_none" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="wiki_cmd" xml:space="preserve">
-    <value>wikipedia wiki</value>
+  <data name="utility_repeater_stopped" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="wiki_desc" xml:space="preserve">
-    <value>Gives you back a wikipedia link</value>
+  <data name="utility_repeat_invoke_none" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="wiki_usage" xml:space="preserve">
-    <value>`{0}wiki query`</value>
+  <data name="utility_result" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="color_cmd" xml:space="preserve">
-    <value>color clr</value>
+  <data name="utility_roles" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="color_desc" xml:space="preserve">
-    <value>Shows you what color corresponds to that hex.</value>
+  <data name="utility_roles_all_page" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="color_usage" xml:space="preserve">
-    <value>`{0}clr 00ff00`</value>
+  <data name="utility_roles_page" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="videocall_cmd" xml:space="preserve">
-    <value>videocall</value>
+  <data name="utility_rrc_no_colors" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="videocall_desc" xml:space="preserve">
-    <value>Creates a private &lt;http://www.appear.in&gt; video call link for you and other mentioned people. The link is sent to mentioned people via a private message.</value>
+  <data name="utility_rrc_start" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="videocall_usage" xml:space="preserve">
-    <value>`{0}videocall "@SomeGuy"`</value>
+  <data name="utility_rrc_stop" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="avatar_cmd" xml:space="preserve">
-    <value>avatar av</value>
+  <data name="utility_serverid" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="avatar_desc" xml:space="preserve">
-    <value>Shows a mentioned person's avatar.</value>
+  <data name="utility_server_info" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="avatar_usage" xml:space="preserve">
-    <value>`{0}av "@SomeGuy"`</value>
+  <data name="utility_shard" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="hentai_cmd" xml:space="preserve">
-    <value>hentai</value>
+  <data name="utility_shard_stats" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="hentai_desc" xml:space="preserve">
-    <value>Shows a hentai image from a random website (gelbooru or danbooru or konachan or atfbooru or yandere) with a given tag. Tag is optional but preferred. Only 1 tag allowed.</value>
+  <data name="utility_shard_stats_txt" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="hentai_usage" xml:space="preserve">
-    <value>`{0}hentai yuri`</value>
+  <data name="utility_showemojis" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="danbooru_cmd" xml:space="preserve">
-    <value>danbooru</value>
+  <data name="utility_showemojis_none" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="danbooru_desc" xml:space="preserve">
-    <value>Shows a random hentai image from danbooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +)</value>
+  <data name="utility_stats_songs" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="danbooru_usage" xml:space="preserve">
-    <value>`{0}danbooru yuri+kissing`</value>
+  <data name="utility_text_channels" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="atfbooru_cmd" xml:space="preserve">
-    <value>atfbooru atf</value>
+  <data name="utility_togtub_room_link" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="atfbooru_desc" xml:space="preserve">
-    <value>Shows a random hentai image from atfbooru with a given tag. Tag is optional but preferred.</value>
+  <data name="utility_uptime" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="atfbooru_usage" xml:space="preserve">
-    <value>`{0}atfbooru yuri+kissing`</value>
+  <data name="utility_userid" xml:space="preserve">
+    <value></value>
+    <comment>Id of the user kwoth#1234 is 123123123123</comment>
   </data>
-  <data name="gelbooru_cmd" xml:space="preserve">
-    <value>gelbooru</value>
+  <data name="utility_users" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="gelbooru_desc" xml:space="preserve">
-    <value>Shows a random hentai image from gelbooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +)</value>
+  <data name="utility_voice_channels" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="gelbooru_usage" xml:space="preserve">
-    <value>`{0}gelbooru yuri+kissing`</value>
-  </data>
-  <data name="rule34_cmd" xml:space="preserve">
-    <value>rule34</value>
-  </data>
-  <data name="rule34_desc" xml:space="preserve">
-    <value>Shows a random image from rule34.xx with a given tag. Tag is optional but preferred. (multiple tags are appended with +)</value>
-  </data>
-  <data name="rule34_usage" xml:space="preserve">
-    <value>`{0}rule34 yuri+kissing`</value>
-  </data>
-  <data name="e621_cmd" xml:space="preserve">
-    <value>e621</value>
-  </data>
-  <data name="e621_desc" xml:space="preserve">
-    <value>Shows a random hentai image from e621.net with a given tag. Tag is optional but preferred. Use spaces for multiple tags.</value>
-  </data>
-  <data name="e621_usage" xml:space="preserve">
-    <value>`{0}e621 yuri kissing`</value>
-  </data>
-  <data name="cp_cmd" xml:space="preserve">
-    <value>cp</value>
-  </data>
-  <data name="cp_desc" xml:space="preserve">
-    <value>We all know where this will lead you to.</value>
-  </data>
-  <data name="cp_usage" xml:space="preserve">
-    <value>`{0}cp`</value>
-  </data>
-  <data name="boobs_cmd" xml:space="preserve">
-    <value>boobs</value>
-  </data>
-  <data name="boobs_desc" xml:space="preserve">
-    <value>Real adult content.</value>
-  </data>
-  <data name="boobs_usage" xml:space="preserve">
-    <value>`{0}boobs`</value>
-  </data>
-  <data name="butts_cmd" xml:space="preserve">
-    <value>butts ass butt</value>
-  </data>
-  <data name="butts_desc" xml:space="preserve">
-    <value>Real adult content.</value>
-  </data>
-  <data name="butts_usage" xml:space="preserve">
-    <value>`{0}butts` or `{0}ass`</value>
-  </data>
-  <data name="createwar_cmd" xml:space="preserve">
-    <value>createwar cw</value>
-  </data>
-  <data name="createwar_desc" xml:space="preserve">
-    <value>Creates a new war by specifying a size (&gt;10 and multiple of 5) and enemy clan name.</value>
-  </data>
-  <data name="createwar_usage" xml:space="preserve">
-    <value>`{0}cw 15 The Enemy Clan`</value>
-  </data>
-  <data name="startwar_cmd" xml:space="preserve">
-    <value>startwar sw</value>
-  </data>
-  <data name="startwar_desc" xml:space="preserve">
-    <value>Starts a war with a given number.</value>
-  </data>
-  <data name="startwar_usage" xml:space="preserve">
-    <value>`{0}sw 15`</value>
-  </data>
-  <data name="listwar_cmd" xml:space="preserve">
-    <value>listwar lw</value>
-  </data>
-  <data name="listwar_desc" xml:space="preserve">
-    <value>Shows the active war claims by a number. Shows all wars in a short way if no number is specified.</value>
-  </data>
-  <data name="listwar_usage" xml:space="preserve">
-    <value>`{0}lw [war_number] or {0}lw`</value>
-  </data>
-  <data name="claim_cmd" xml:space="preserve">
-    <value>claim call c</value>
-  </data>
-  <data name="claim_desc" xml:space="preserve">
-    <value>Claims a certain base from a certain war. You can supply a name in the third optional argument to claim in someone else's place.</value>
-  </data>
-  <data name="claim_usage" xml:space="preserve">
-    <value>`{0}call [war_number] [base_number] [optional_other_name]`</value>
-  </data>
-  <data name="claimfinish_cmd" xml:space="preserve">
-    <value>claimfinish cf</value>
-  </data>
-  <data name="claimfinish_desc" xml:space="preserve">
-    <value>Finish your claim with 3 stars if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else.</value>
-  </data>
-  <data name="claimfinish_usage" xml:space="preserve">
-    <value>`{0}cf 1` or `{0}cf 1 5`</value>
-  </data>
-  <data name="claimfinish2_cmd" xml:space="preserve">
-    <value>claimfinish2 cf2</value>
-  </data>
-  <data name="claimfinish2_desc" xml:space="preserve">
-    <value>Finish your claim with 2 stars if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else.</value>
-  </data>
-  <data name="claimfinish2_usage" xml:space="preserve">
-    <value>`{0}cf2 1` or `{0}cf2 1 5`</value>
-  </data>
-  <data name="claimfinish1_cmd" xml:space="preserve">
-    <value>claimfinish1 cf1</value>
-  </data>
-  <data name="claimfinish1_desc" xml:space="preserve">
-    <value>Finish your claim with 1 star if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else.</value>
-  </data>
-  <data name="claimfinish1_usage" xml:space="preserve">
-    <value>`{0}cf1 1` or `{0}cf1 1 5`</value>
-  </data>
-  <data name="unclaim_cmd" xml:space="preserve">
-    <value>unclaim ucall uc</value>
-  </data>
-  <data name="unclaim_desc" xml:space="preserve">
-    <value>Removes your claim from a certain war. Optional second argument denotes a person in whose place to unclaim</value>
-  </data>
-  <data name="unclaim_usage" xml:space="preserve">
-    <value>`{0}uc [war_number] [optional_other_name]`</value>
-  </data>
-  <data name="endwar_cmd" xml:space="preserve">
-    <value>endwar ew</value>
-  </data>
-  <data name="endwar_desc" xml:space="preserve">
-    <value>Ends the war with a given index.</value>
-  </data>
-  <data name="endwar_usage" xml:space="preserve">
-    <value>`{0}ew [war_number]`</value>
-  </data>
-  <data name="translate_cmd" xml:space="preserve">
-    <value>translate trans</value>
-  </data>
-  <data name="translate_desc" xml:space="preserve">
-    <value>Translates from&gt;to text. From the given language to the destination language.</value>
-  </data>
-  <data name="translate_usage" xml:space="preserve">
-    <value>`{0}trans en&gt;fr Hello`</value>
-  </data>
-  <data name="translangs_cmd" xml:space="preserve">
-    <value>translangs</value>
-  </data>
-  <data name="translangs_desc" xml:space="preserve">
-    <value>Lists the valid languages for translation.</value>
-  </data>
-  <data name="translangs_usage" xml:space="preserve">
-    <value>`{0}translangs`</value>
-  </data>
-  <data name="guide_desc" xml:space="preserve">
-    <value>Sends a readme and a guide links to the channel.</value>
-  </data>
-  <data name="guide_usage" xml:space="preserve">
-    <value>`{0}readme` or `{0}guide`</value>
-  </data>
-  <data name="guide_cmd" xml:space="preserve">
-    <value>readme guide</value>
-  </data>
-  <data name="calcops_desc" xml:space="preserve">
-    <value>Shows all available operations in {0}calc command</value>
-  </data>
-  <data name="calcops_usage" xml:space="preserve">
-    <value>`{0}calcops`</value>
-  </data>
-  <data name="calcops_cmd" xml:space="preserve">
-    <value>calcops</value>
-  </data>
-  <data name="delallquotes_desc" xml:space="preserve">
-    <value>Deletes all quotes on a specified keyword.</value>
-  </data>
-  <data name="delallquotes_usage" xml:space="preserve">
-    <value>`{0}delallq kek`</value>
-  </data>
-  <data name="delallquotes_cmd" xml:space="preserve">
-    <value>delallq daq</value>
-  </data>
-  <data name="greetdmmsg_cmd" xml:space="preserve">
-    <value>greetdmmsg</value>
-  </data>
-  <data name="greetdmmsg_usage" xml:space="preserve">
-    <value>`{0}greetdmmsg Welcome to the server, %user%`.</value>
-  </data>
-  <data name="greetdmmsg_desc" xml:space="preserve">
-    <value>Sets a new join announcement message which will be sent to the user who joined. Type %user% if you want to mention the new member. Using it with no message will show the current DM greet message. You can use embed json from &lt;http://nadekobot.xyz/embedbuilder/&gt; instead of a regular text, if you want the message to be embedded.</value>
-  </data>
-  <data name="cash_desc" xml:space="preserve">
-    <value>Check how much currency a person has. (Defaults to yourself)</value>
-  </data>
-  <data name="cash_usage" xml:space="preserve">
-    <value>`{0}$$` or `{0}$$ @SomeGuy`</value>
-  </data>
-  <data name="cash_cmd" xml:space="preserve">
-    <value>cash $$</value>
-  </data>
-  <data name="listperms_desc" xml:space="preserve">
-    <value>Lists whole permission chain with their indexes. You can specify an optional page number if there are a lot of permissions.</value>
-  </data>
-  <data name="listperms_usage" xml:space="preserve">
-    <value>`{0}lp` or `{0}lp 3`</value>
-  </data>
-  <data name="listperms_cmd" xml:space="preserve">
-    <value>listperms lp</value>
-  </data>
-  <data name="allusrmdls_desc" xml:space="preserve">
-    <value>Enable or disable all modules for a specific user.</value>
-  </data>
-  <data name="allusrmdls_usage" xml:space="preserve">
-    <value>`{0}aum enable @someone`</value>
-  </data>
-  <data name="allusrmdls_cmd" xml:space="preserve">
-    <value>allusrmdls aum</value>
-  </data>
-  <data name="moveperm_desc" xml:space="preserve">
-    <value>Moves permission from one position to another in Permissions list.</value>
-  </data>
-  <data name="moveperm_usage" xml:space="preserve">
-    <value>`{0}mp 2 4`</value>
-  </data>
-  <data name="moveperm_cmd" xml:space="preserve">
-    <value>moveperm mp</value>
-  </data>
-  <data name="removeperm_desc" xml:space="preserve">
-    <value>Removes a permission from a given position in Permissions list.</value>
-  </data>
-  <data name="removeperm_usage" xml:space="preserve">
-    <value>`{0}rp 1`</value>
-  </data>
-  <data name="removeperm_cmd" xml:space="preserve">
-    <value>removeperm rp</value>
-  </data>
-  <data name="migratedata_desc" xml:space="preserve">
-    <value>Migrate data from old bot configuration</value>
-  </data>
-  <data name="migratedata_usage" xml:space="preserve">
-    <value>`{0}migratedata`</value>
-  </data>
-  <data name="migratedata_cmd" xml:space="preserve">
-    <value>migratedata</value>
-  </data>
-  <data name="checkstream_desc" xml:space="preserve">
-    <value>Checks if a user is online on a certain streaming platform.</value>
-  </data>
-  <data name="checkstream_usage" xml:space="preserve">
-    <value>`{0}cs twitch MyFavStreamer`</value>
-  </data>
-  <data name="checkstream_cmd" xml:space="preserve">
-    <value>checkstream cs</value>
-  </data>
-  <data name="showemojis_cmd" xml:space="preserve">
-    <value>showemojis se</value>
-  </data>
-  <data name="showemojis_desc" xml:space="preserve">
-    <value>Shows a name and a link to every SPECIAL emoji in the message.</value>
-  </data>
-  <data name="showemojis_usage" xml:space="preserve">
-    <value>`{0}se A message full of SPECIAL emojis`</value>
-  </data>
-  <data name="shuffledeck_cmd" xml:space="preserve">
-    <value>shuffle sh</value>
-  </data>
-  <data name="shuffledeck_desc" xml:space="preserve">
-    <value>Reshuffles all cards back into the deck.</value>
-  </data>
-  <data name="shuffledeck_usage" xml:space="preserve">
-    <value>`{0}sh`</value>
-  </data>
-  <data name="forwardmessages_cmd" xml:space="preserve">
-    <value>fwmsgs</value>
-  </data>
-  <data name="forwardmessages_desc" xml:space="preserve">
-    <value>Toggles forwarding of non-command messages sent to bot's DM to the bot owners</value>
-  </data>
-  <data name="forwardmessages_usage" xml:space="preserve">
-    <value>`{0}fwmsgs`</value>
-  </data>
-  <data name="forwardtoall_cmd" xml:space="preserve">
-    <value>fwtoall</value>
-  </data>
-  <data name="forwardtoall_desc" xml:space="preserve">
-    <value>Toggles whether messages will be forwarded to all bot owners or only to the first one specified in the credentials.json</value>
-  </data>
-  <data name="forwardtoall_usage" xml:space="preserve">
-    <value>`{0}fwtoall`</value>
-  </data>
-  <data name="resetpermissions_cmd" xml:space="preserve">
-    <value>resetperms</value>
-  </data>
-  <data name="resetpermissions_desc" xml:space="preserve">
-    <value>Resets BOT's permissions module on this server to the default value.</value>
-  </data>
-  <data name="resetpermissions_usage" xml:space="preserve">
-    <value>`{0}resetperms`</value>
-  </data>
-  <data name="antiraid_cmd" xml:space="preserve">
-    <value>antiraid</value>
-  </data>
-  <data name="antiraid_desc" xml:space="preserve">
-    <value>Sets an anti-raid protection on the server. First argument is number of people which will trigger the protection. Second one is a time interval in which that number of people needs to join in order to trigger the protection, and third argument is punishment for those people (Kick, Ban, Mute)</value>
-  </data>
-  <data name="antiraid_usage" xml:space="preserve">
-    <value>`{0}antiraid 5 20 Kick`</value>
-  </data>
-  <data name="antispam_cmd" xml:space="preserve">
-    <value>antispam</value>
-  </data>
-  <data name="antispam_desc" xml:space="preserve">
-    <value>Stops people from repeating same message X times in a row. You can specify to either mute, kick or ban  the offenders. Max message count is 10.</value>
-  </data>
-  <data name="antispam_usage" xml:space="preserve">
-    <value>`{0}antispam 3 Mute` or `{0}antispam 4 Kick` or `{0}antispam 6 Ban`</value>
-  </data>
-  <data name="chatmute_cmd" xml:space="preserve">
-    <value>chatmute</value>
-  </data>
-  <data name="chatmute_desc" xml:space="preserve">
-    <value>Prevents a mentioned user from chatting in text channels.</value>
-  </data>
-  <data name="chatmute_usage" xml:space="preserve">
-    <value>`{0}chatmute @Someone`</value>
-  </data>
-  <data name="voicemute_cmd" xml:space="preserve">
-    <value>voicemute</value>
-  </data>
-  <data name="voicemute_desc" xml:space="preserve">
-    <value>Prevents a mentioned user from speaking in voice channels.</value>
-  </data>
-  <data name="voicemute_usage" xml:space="preserve">
-    <value>`{0}voicemute @Someone`</value>
-  </data>
-  <data name="konachan_cmd" xml:space="preserve">
-    <value>konachan</value>
-  </data>
-  <data name="konachan_desc" xml:space="preserve">
-    <value>Shows a random hentai image from konachan with a given tag. Tag is optional but preferred.</value>
-  </data>
-  <data name="konachan_usage" xml:space="preserve">
-    <value>`{0}konachan yuri`</value>
-  </data>
-  <data name="setmuterole_cmd" xml:space="preserve">
-    <value>setmuterole</value>
-  </data>
-  <data name="setmuterole_desc" xml:space="preserve">
-    <value>Sets a name of the role which will be assigned to people who should be muted. Default is nadeko-mute.</value>
-  </data>
-  <data name="setmuterole_usage" xml:space="preserve">
-    <value>`{0}setmuterole Silenced`</value>
-  </data>
-  <data name="adsarm_cmd" xml:space="preserve">
-    <value>adsarm</value>
-  </data>
-  <data name="adsarm_desc" xml:space="preserve">
-    <value>Toggles the automatic deletion of confirmations for {0}iam and {0}iamn commands.</value>
-  </data>
-  <data name="adsarm_usage" xml:space="preserve">
-    <value>`{0}adsarm`</value>
-  </data>
-  <data name="setstream_cmd" xml:space="preserve">
-    <value>setstream</value>
-  </data>
-  <data name="setstream_desc" xml:space="preserve">
-    <value>Sets the bots stream. First argument is the twitch link, second argument is stream name.</value>
-  </data>
-  <data name="setstream_usage" xml:space="preserve">
-    <value>`{0}setstream TWITCHLINK Hello`</value>
-  </data>
-  <data name="chatunmute_cmd" xml:space="preserve">
-    <value>chatunmute</value>
-  </data>
-  <data name="chatunmute_desc" xml:space="preserve">
-    <value>Removes a mute role previously set on a mentioned user with `{0}chatmute` which prevented him from chatting in text channels.</value>
-  </data>
-  <data name="chatunmute_usage" xml:space="preserve">
-    <value>`{0}chatunmute @Someone`</value>
-  </data>
-  <data name="unmute_cmd" xml:space="preserve">
-    <value>unmute</value>
-  </data>
-  <data name="unmute_desc" xml:space="preserve">
-    <value>Unmutes a mentioned user previously muted with `{0}mute` command.</value>
-  </data>
-  <data name="unmute_usage" xml:space="preserve">
-    <value>`{0}unmute @Someone`</value>
-  </data>
-  <data name="xkcd_cmd" xml:space="preserve">
-    <value>xkcd</value>
-  </data>
-  <data name="xkcd_desc" xml:space="preserve">
-    <value>Shows a XKCD comic. No arguments will retrieve random one. Number argument will retrieve a specific comic, and "latest" will get the latest one.</value>
-  </data>
-  <data name="xkcd_usage" xml:space="preserve">
-    <value>`{0}xkcd` or `{0}xkcd 1400` or `{0}xkcd latest`</value>
-  </data>
-  <data name="placelist_cmd" xml:space="preserve">
-    <value>placelist</value>
-  </data>
-  <data name="placelist_desc" xml:space="preserve">
-    <value>Shows the list of available tags for the `{0}place` command.</value>
-  </data>
-  <data name="placelist_usage" xml:space="preserve">
-    <value>`{0}placelist`</value>
-  </data>
-  <data name="place_cmd" xml:space="preserve">
-    <value>place</value>
-  </data>
-  <data name="place_desc" xml:space="preserve">
-    <value>Shows a placeholder image of a given tag. Use `{0}placelist` to see all available tags. You can specify the width and height of the image as the last two optional arguments.</value>
-  </data>
-  <data name="place_usage" xml:space="preserve">
-    <value>`{0}place Cage` or `{0}place steven 500 400`</value>
-  </data>
-  <data name="togethertube_cmd" xml:space="preserve">
-    <value>togethertube totube</value>
-  </data>
-  <data name="togethertube_desc" xml:space="preserve">
-    <value>Creates a new room on &lt;https://togethertube.com&gt; and shows the link in the chat.</value>
-  </data>
-  <data name="togethertube_usage" xml:space="preserve">
-    <value>`{0}totube`</value>
-  </data>
-  <data name="publicpoll_cmd" xml:space="preserve">
-    <value>publicpoll ppoll</value>
-  </data>
-  <data name="publicpoll_desc" xml:space="preserve">
-    <value>Creates a public poll which requires users to type a number of the voting option in the channel command is ran in.</value>
-  </data>
-  <data name="publicpoll_usage" xml:space="preserve">
-    <value>`{0}ppoll Question?;Answer1;Answ 2;A_3`</value>
-  </data>
-  <data name="autotranslang_cmd" xml:space="preserve">
-    <value>autotranslang atl</value>
-  </data>
-  <data name="autotranslang_desc" xml:space="preserve">
-    <value>Sets your source and target language to be used with `{0}at`. Specify no arguments to remove previously set value.</value>
-  </data>
-  <data name="autotranslang_usage" xml:space="preserve">
-    <value>`{0}atl en&gt;fr`</value>
-  </data>
-  <data name="autotranslate_cmd" xml:space="preserve">
-    <value>autotrans at</value>
-  </data>
-  <data name="autotranslate_desc" xml:space="preserve">
-    <value>Starts automatic translation of all messages by users who set their `{0}atl` in this channel. You can set "del" argument to automatically delete all translated user messages.</value>
-  </data>
-  <data name="autotranslate_usage" xml:space="preserve">
-    <value>`{0}at` or `{0}at del`</value>
-  </data>
-  <data name="listquotes_cmd" xml:space="preserve">
-    <value>listquotes liqu</value>
-  </data>
-  <data name="listquotes_desc" xml:space="preserve">
-    <value>`{0}liqu` or `{0}liqu 3`</value>
-  </data>
-  <data name="listquotes_usage" xml:space="preserve">
-    <value>Lists all quotes on the server ordered alphabetically. 15 Per page.</value>
-  </data>
-  <data name="typedel_cmd" xml:space="preserve">
-    <value>typedel</value>
-  </data>
-  <data name="typedel_desc" xml:space="preserve">
-    <value>Deletes a typing article given the ID.</value>
-  </data>
-  <data name="typedel_usage" xml:space="preserve">
-    <value>`{0}typedel 3`</value>
-  </data>
-  <data name="typelist_cmd" xml:space="preserve">
-    <value>typelist</value>
-  </data>
-  <data name="typelist_desc" xml:space="preserve">
-    <value>Lists added typing articles with their IDs. 15 per page.</value>
-  </data>
-  <data name="typelist_usage" xml:space="preserve">
-    <value>`{0}typelist` or `{0}typelist 3`</value>
-  </data>
-  <data name="listservers_cmd" xml:space="preserve">
-    <value>listservers</value>
-  </data>
-  <data name="listservers_desc" xml:space="preserve">
-    <value>Lists servers the bot is on with some basic info. 15 per page.</value>
-  </data>
-  <data name="listservers_usage" xml:space="preserve">
-    <value>`{0}listservers 3`</value>
-  </data>
-  <data name="hentaibomb_cmd" xml:space="preserve">
-    <value>hentaibomb</value>
-  </data>
-  <data name="hentaibomb_desc" xml:space="preserve">
-    <value>Shows a total 5 images (from gelbooru, danbooru, konachan, yandere and atfbooru). Tag is optional but preferred.</value>
-  </data>
-  <data name="hentaibomb_usage" xml:space="preserve">
-    <value>`{0}hentaibomb yuri`</value>
-  </data>
-  <data name="cleverbot_cmd" xml:space="preserve">
-    <value>cleverbot</value>
-  </data>
-  <data name="cleverbot_desc" xml:space="preserve">
-    <value>Toggles cleverbot session. When enabled, the bot will reply to messages starting with bot mention in the server. Custom reactions starting with %mention% won't work if cleverbot is enabled.</value>
-  </data>
-  <data name="cleverbot_usage" xml:space="preserve">
-    <value>`{0}cleverbot`</value>
-  </data>
-  <data name="shorten_cmd" xml:space="preserve">
-    <value>shorten</value>
-  </data>
-  <data name="shorten_desc" xml:space="preserve">
-    <value>Attempts to shorten an URL, if it fails, returns the input URL.</value>
-  </data>
-  <data name="shorten_usage" xml:space="preserve">
-    <value>`{0}shorten https://google.com`</value>
-  </data>
-  <data name="mcping_cmd" xml:space="preserve">
-    <value>minecraftping mcping</value>
-  </data>
-  <data name="mcping_desc" xml:space="preserve">
-    <value>Pings a minecraft server.</value>
-  </data>
-  <data name="mcping_usage" xml:space="preserve">
-    <value>`{0}mcping 127.0.0.1:25565`</value>
-  </data>
-  <data name="mcq_cmd" xml:space="preserve">
-    <value>minecraftquery mcq</value>
-  </data>
-  <data name="mcq_desc" xml:space="preserve">
-    <value>Finds information about a minecraft server.</value>
-  </data>
-  <data name="mcq_usage" xml:space="preserve">
-    <value>`{0}mcq server:ip`</value>
-  </data>
-  <data name="wikia_cmd" xml:space="preserve">
-    <value>wikia</value>
-  </data>
-  <data name="wikia_desc" xml:space="preserve">
-    <value>Gives you back a wikia link</value>
-  </data>
-  <data name="wikia_usage" xml:space="preserve">
-    <value>`{0}wikia mtg Vigilance` or `{0}wikia mlp Dashy`</value>
-  </data>
-  <data name="yandere_cmd" xml:space="preserve">
-    <value>yandere</value>
-  </data>
-  <data name="yandere_desc" xml:space="preserve">
-    <value>Shows a random image from yandere with a given tag. Tag is optional but preferred. (multiple tags are appended with +)</value>
-  </data>
-  <data name="yandere_usage" xml:space="preserve">
-    <value>`{0}yandere tag1+tag2`</value>
-  </data>
-  <data name="magicthegathering_cmd" xml:space="preserve">
-    <value>magicthegathering mtg</value>
-  </data>
-  <data name="magicthegathering_desc" xml:space="preserve">
-    <value>Searches for a Magic The Gathering card.</value>
-  </data>
-  <data name="magicthegathering_usage" xml:space="preserve">
-    <value>`{0}magicthegathering about face` or `{0}mtg about face`</value>
-  </data>
-  <data name="yodify_cmd" xml:space="preserve">
-    <value>yodify yoda</value>
-  </data>
-  <data name="yodify_desc" xml:space="preserve">
-    <value>Translates your normal sentences into Yoda styled sentences!</value>
-  </data>
-  <data name="yodify_usage" xml:space="preserve">
-    <value>`{0}yoda my feelings hurt`</value>
-  </data>
-  <data name="attack_cmd" xml:space="preserve">
-    <value>attack</value>
-  </data>
-  <data name="attack_desc" xml:space="preserve">
-    <value>Attacks a target with the given move. Use `{0}movelist` to see a list of moves your type can use.</value>
-  </data>
-  <data name="attack_usage" xml:space="preserve">
-    <value>`{0}attack "vine whip" @someguy`</value>
-  </data>
-  <data name="heal_cmd" xml:space="preserve">
-    <value>heal</value>
-  </data>
-  <data name="heal_desc" xml:space="preserve">
-    <value>Heals someone. Revives those who fainted. Costs a NadekoFlower</value>
-  </data>
-  <data name="heal_usage" xml:space="preserve">
-    <value>`{0}heal @someone`</value>
-  </data>
-  <data name="movelist_cmd" xml:space="preserve">
-    <value>movelist ml</value>
-  </data>
-  <data name="movelist_desc" xml:space="preserve">
-    <value>Lists the moves you are able to use</value>
-  </data>
-  <data name="movelist_usage" xml:space="preserve">
-    <value>`{0}ml`</value>
-  </data>
-  <data name="settype_cmd" xml:space="preserve">
-    <value>settype</value>
-  </data>
-  <data name="settype_desc" xml:space="preserve">
-    <value>Set your poketype. Costs a NadekoFlower. Provide no arguments to see a list of available types.</value>
-  </data>
-  <data name="settype_usage" xml:space="preserve">
-    <value>`{0}settype fire` or `{0}settype`</value>
-  </data>
-  <data name="type_cmd" xml:space="preserve">
-    <value>type</value>
-  </data>
-  <data name="type_desc" xml:space="preserve">
-    <value>Get the poketype of the target.</value>
-  </data>
-  <data name="type_usage" xml:space="preserve">
-    <value>`{0}type @someone`</value>
-  </data>
-  <data name="hangmanlist_cmd" xml:space="preserve">
-    <value>hangmanlist</value>
-  </data>
-  <data name="hangmanlist_desc" xml:space="preserve">
-    <value>Shows a list of hangman term types.</value>
-  </data>
-  <data name="hangmanlist_usage" xml:space="preserve">
-    <value>`{0} hangmanlist`</value>
-  </data>
-  <data name="hangman_cmd" xml:space="preserve">
-    <value>hangman</value>
-  </data>
-  <data name="hangman_desc" xml:space="preserve">
-    <value>Starts a game of hangman in the channel. Use `{0}hangmanlist` to see a list of available term types. Defaults to 'all'.</value>
-  </data>
-  <data name="hangman_usage" xml:space="preserve">
-    <value>`{0}hangman` or `{0}hangman movies`</value>
-  </data>
-  <data name="crstatsclear_cmd" xml:space="preserve">
-    <value>crstatsclear</value>
-  </data>
-  <data name="crstatsclear_desc" xml:space="preserve">
-    <value>Resets the counters on `{0}crstats`. You can specify a trigger to clear stats only for that trigger.</value>
-  </data>
-  <data name="crstatsclear_usage" xml:space="preserve">
-    <value>`{0}crstatsclear` or `{0}crstatsclear rng`</value>
-  </data>
-  <data name="crstats_cmd" xml:space="preserve">
-    <value>crstats</value>
-  </data>
-  <data name="crstats_desc" xml:space="preserve">
-    <value>Shows a list of custom reactions and the number of times they have been executed. Paginated with 10 per page. Use `{0}crstatsclear` to reset the counters.</value>
-  </data>
-  <data name="crstats_usage" xml:space="preserve">
-    <value>`{0}crstats` or `{0}crstats 3`</value>
-  </data>
-  <data name="overwatch_cmd" xml:space="preserve">
-    <value>overwatch ow</value>
-  </data>
-  <data name="overwatch_desc" xml:space="preserve">
-    <value>Show's basic stats on a player (competitive rank, playtime, level etc) Region codes are: `eu` `us` `cn` `kr`</value>
-  </data>
-  <data name="overwatch_usage" xml:space="preserve">
-    <value>`{0}ow us Battletag#1337` or  `{0}overwatch eu Battletag#2016`</value>
-  </data>
-  <data name="acro_cmd" xml:space="preserve">
-    <value>acrophobia acro</value>
-  </data>
-  <data name="acro_desc" xml:space="preserve">
-    <value>Starts an Acrophobia game. Second argment is optional round length in seconds. (default is 60)</value>
-  </data>
-  <data name="acro_usage" xml:space="preserve">
-    <value>`{0}acro` or `{0}acro 30`</value>
-  </data>
-  <data name="logevents_cmd" xml:space="preserve">
-    <value>logevents</value>
-  </data>
-  <data name="logevents_desc" xml:space="preserve">
-    <value>Shows a list of all events you can subscribe to with `{0}log`</value>
-  </data>
-  <data name="logevents_usage" xml:space="preserve">
-    <value>`{0}logevents`</value>
-  </data>
-  <data name="log_cmd" xml:space="preserve">
-    <value>log</value>
-  </data>
-  <data name="log_desc" xml:space="preserve">
-    <value>Toggles logging event. Disables it if it's active anywhere on the server. Enables if it's not active. Use `{0}logevents` to see a list of all events you can subscribe to.</value>
-  </data>
-  <data name="log_usage" xml:space="preserve">
-    <value>`{0}log userpresence` or `{0}log userbanned`</value>
-  </data>
-  <data name="fairplay_cmd" xml:space="preserve">
-    <value>fairplay fp</value>
-  </data>
-  <data name="fairplay_desc" xml:space="preserve">
-    <value>Toggles fairplay. While enabled, music player will prioritize songs from users who didn't have their song recently played instead of the song's position in the queue.</value>
-  </data>
-  <data name="fairplay_usage" xml:space="preserve">
-    <value>`{0}fp`</value>
-  </data>
-  <data name="define_cmd" xml:space="preserve">
-    <value>define def</value>
-  </data>
-  <data name="define_desc" xml:space="preserve">
-    <value>Finds a definition of a word.</value>
-  </data>
-  <data name="define_usage" xml:space="preserve">
-    <value>`{0}def heresy`</value>
-  </data>
-  <data name="setmaxplaytime_cmd" xml:space="preserve">
-    <value>setmaxplaytime smp</value>
-  </data>
-  <data name="setmaxplaytime_desc" xml:space="preserve">
-    <value>Sets a maximum number of seconds (&gt;14) a song can run before being skipped automatically. Set 0 to have no limit.</value>
-  </data>
-  <data name="setmaxplaytime_usage" xml:space="preserve">
-    <value>`{0}smp 0` or `{0}smp 270`</value>
-  </data>
-  <data name="activity_cmd" xml:space="preserve">
-    <value>activity</value>
-  </data>
-  <data name="activity_desc" xml:space="preserve">
-    <value>Checks for spammers.</value>
-  </data>
-  <data name="activity_usage" xml:space="preserve">
-    <value>`{0}activity`</value>
-  </data>
-  <data name="autohentai_cmd" xml:space="preserve">
-    <value>autohentai</value>
-  </data>
-  <data name="autohentai_desc" xml:space="preserve">
-    <value>Posts a hentai every X seconds with a random tag from the provided tags. Use `|` to separate tags. 20 seconds minimum. Provide no arguments to disable.</value>
-  </data>
-  <data name="autohentai_usage" xml:space="preserve">
-    <value>`{0}autohentai 30 yuri|tail|long_hair` or `{0}autohentai`</value>
-  </data>
-  <data name="setstatus_cmd" xml:space="preserve">
-    <value>setstatus</value>
-  </data>
-  <data name="setstatus_desc" xml:space="preserve">
-    <value>Sets the bot's status. (Online/Idle/Dnd/Invisible)</value>
-  </data>
-  <data name="setstatus_usage" xml:space="preserve">
-    <value>`{0}setstatus Idle`</value>
-  </data>
-  <data name="rotaterolecolor_cmd" xml:space="preserve">
-    <value>rotaterolecolor rrc</value>
-  </data>
-  <data name="rotaterolecolor_desc" xml:space="preserve">
-    <value>Rotates a roles color on an interval with a list of supplied colors. First argument is interval in seconds (Minimum 60). Second argument is a role, followed by a space-separated list of colors in hex. Provide a rolename with a 0 interval to disable.</value>
-  </data>
-  <data name="rotaterolecolor_usage" xml:space="preserve">
-    <value>`{0}rrc 60 MyLsdRole #ff0000 #00ff00 #0000ff` or `{0}rrc 0 MyLsdRole`</value>
-  </data>
-  <data name="createinvite_cmd" xml:space="preserve">
-    <value>createinvite crinv</value>
-  </data>
-  <data name="createinvite_desc" xml:space="preserve">
-    <value>Creates a new invite which has infinite max uses and never expires.</value>
-  </data>
-  <data name="createinvite_usage" xml:space="preserve">
-    <value>`{0}crinv`</value>
-  </data>
-  <data name="pollstats_cmd" xml:space="preserve">
-    <value>pollstats</value>
-  </data>
-  <data name="pollstats_desc" xml:space="preserve">
-    <value>Shows the poll results without stopping the poll on this server.</value>
-  </data>
-  <data name="pollstats_usage" xml:space="preserve">
-    <value>`{0}pollstats`</value>
-  </data>
-  <data name="repeatlist_cmd" xml:space="preserve">
-    <value>repeatlist replst</value>
-  </data>
-  <data name="repeatlist_desc" xml:space="preserve">
-    <value>Shows currently repeating messages and their indexes.</value>
-  </data>
-  <data name="repeatlist_usage" xml:space="preserve">
-    <value>`{0}repeatlist`</value>
-  </data>
-  <data name="repeatremove_cmd" xml:space="preserve">
-    <value>repeatremove reprm</value>
-  </data>
-  <data name="repeatremove_desc" xml:space="preserve">
-    <value>Removes a repeating message on a specified index. Use `{0}repeatlist` to see indexes.</value>
-  </data>
-  <data name="repeatremove_usage" xml:space="preserve">
-    <value>`{0}reprm 2`</value>
-  </data>
-  <data name="antilist_cmd" xml:space="preserve">
-    <value>antilist antilst</value>
-  </data>
-  <data name="antilist_desc" xml:space="preserve">
-    <value>Shows currently enabled protection features.</value>
-  </data>
-  <data name="antilist_usage" xml:space="preserve">
-    <value>`{0}antilist`</value>
-  </data>
-  <data name="antispamignore_cmd" xml:space="preserve">
-    <value>antispamignore</value>
-  </data>
-  <data name="antispamignore_desc" xml:space="preserve">
-    <value>Toggles whether antispam ignores current channel. Antispam must be enabled.</value>
-  </data>
-  <data name="antispamignore_usage" xml:space="preserve">
-    <value>`{0}antispamignore`</value>
-  </data>
-  <data name="cmdcosts_cmd" xml:space="preserve">
-    <value>cmdcosts</value>
-  </data>
-  <data name="cmdcosts_desc" xml:space="preserve">
-    <value>Shows a list of command costs. Paginated with 9 command per page.</value>
-  </data>
-  <data name="cmdcosts_usage" xml:space="preserve">
-    <value>`{0}cmdcosts` or `{0}cmdcosts 2`</value>
-  </data>
-  <data name="commandcost_cmd" xml:space="preserve">
-    <value>commandcost cmdcost</value>
-  </data>
-  <data name="commandcost_desc" xml:space="preserve">
-    <value>Sets a price for a command. Running that command will take currency from users. Set 0 to remove the price.</value>
-  </data>
-  <data name="commandcost_usage" xml:space="preserve">
-    <value>`{0}cmdcost 0 !!q` or `{0}cmdcost 1 &gt;8ball`</value>
-  </data>
-  <data name="startevent_cmd" xml:space="preserve">
-    <value>startevent</value>
-  </data>
-  <data name="startevent_desc" xml:space="preserve">
-    <value>Starts one of the events seen on public nadeko.</value>
-  </data>
-  <data name="startevent_usage" xml:space="preserve">
-    <value>`{0}startevent flowerreaction`</value>
-  </data>
-  <data name="slotstats_cmd" xml:space="preserve">
-    <value>slotstats</value>
-  </data>
-  <data name="slotstats_desc" xml:space="preserve">
-    <value>Shows the total stats of the slot command for this bot's session.</value>
-  </data>
-  <data name="slotstats_usage" xml:space="preserve">
-    <value>`{0}slotstats`</value>
-  </data>
-  <data name="slottest_cmd" xml:space="preserve">
-    <value>slottest</value>
-  </data>
-  <data name="slottest_desc" xml:space="preserve">
-    <value>Tests to see how much slots payout for X number of plays.</value>
-  </data>
-  <data name="slottest_usage" xml:space="preserve">
-    <value>`{0}slottest 1000`</value>
-  </data>
-  <data name="slot_cmd" xml:space="preserve">
-    <value>slot</value>
-  </data>
-  <data name="slot_desc" xml:space="preserve">
-    <value>Play Nadeko slots. Max bet is 999. 3 seconds cooldown per user.</value>
-  </data>
-  <data name="slot_usage" xml:space="preserve">
-    <value>`{0}slot 5`</value>
-  </data>
-  <data name="waifuclaimeraffinity_cmd" xml:space="preserve">
-    <value>affinity</value>
-  </data>
-  <data name="waifuclaimeraffinity_desc" xml:space="preserve">
-    <value>Sets your affinity towards someone you want to be claimed by. Setting affinity will reduce their `{0}claim` on you by 20%. You can leave second argument empty to clear your affinity. 30 minutes cooldown.</value>
-  </data>
-  <data name="waifuclaimeraffinity_usage" xml:space="preserve">
-    <value>`{0}affinity @MyHusband` or `{0}affinity`</value>
-  </data>
-  <data name="waifuclaim_cmd" xml:space="preserve">
-    <value>claimwaifu claim</value>
-  </data>
-  <data name="waifuclaim_desc" xml:space="preserve">
-    <value>Claim a waifu for yourself by spending currency.  You must spend atleast 10% more than her current value unless she set `{0}affinity` towards you.</value>
-  </data>
-  <data name="waifuclaim_usage" xml:space="preserve">
-    <value>`{0}claim 50 @Himesama`</value>
-  </data>
-  <data name="waifuleaderboard_cmd" xml:space="preserve">
-    <value>waifus waifulb</value>
-  </data>
-  <data name="waifuleaderboard_desc" xml:space="preserve">
-    <value>Shows top 9 waifus.</value>
-  </data>
-  <data name="waifuleaderboard_usage" xml:space="preserve">
-    <value>`{0}waifus`</value>
-  </data>
-  <data name="divorce_cmd" xml:space="preserve">
-    <value>divorce</value>
-  </data>
-  <data name="divorce_desc" xml:space="preserve">
-    <value>Releases your claim on a specific waifu. You will get some of the money you've spent back unless that waifu has an affinity towards you. 6 hours cooldown.</value>
-  </data>
-  <data name="divorce_usage" xml:space="preserve">
-    <value>`{0}divorce @CheatingSloot`</value>
-  </data>
-  <data name="waifuinfo_cmd" xml:space="preserve">
-    <value>waifuinfo waifustats</value>
-  </data>
-  <data name="waifuinfo_desc" xml:space="preserve">
-    <value>Shows waifu stats for a target person. Defaults to you if no user is provided.</value>
-  </data>
-  <data name="waifuinfo_usage" xml:space="preserve">
-    <value>`{0}waifuinfo @MyCrush` or `{0}waifuinfo`</value>
-  </data>
-  <data name="mal_cmd" xml:space="preserve">
-    <value>mal</value>
-  </data>
-  <data name="mal_desc" xml:space="preserve">
-    <value>Shows basic info from myanimelist profile.</value>
-  </data>
-  <data name="mal_usage" xml:space="preserve">
-    <value>`{0}mal straysocks`</value>
-  </data>
-  <data name="setmusicchannel_cmd" xml:space="preserve">
-    <value>setmusicchannel smch</value>
-  </data>
-  <data name="setmusicchannel_desc" xml:space="preserve">
-    <value>Sets the current channel as the default music output channel. This will output playing, finished, paused and removed songs to that channel instead of the channel where the first song was queued in.</value>
-  </data>
-  <data name="setmusicchannel_usage" xml:space="preserve">
-    <value>`{0}smch`</value>
-  </data>
-  <data name="reloadimages_cmd" xml:space="preserve">
-    <value>reloadimages</value>
-  </data>
-  <data name="reloadimages_desc" xml:space="preserve">
-    <value>Reloads images bot is using. Safe to use even when bot is being used heavily.</value>
-  </data>
-  <data name="reloadimages_usage" xml:space="preserve">
-    <value>`{0}reloadimages`</value>
-  </data>
-  <data name="shardstats_cmd" xml:space="preserve">
-    <value>shardstats</value>
-  </data>
-  <data name="shardstats_desc" xml:space="preserve">
-    <value>Stats for shards. Paginated with 25 shards per page.</value>
-  </data>
-  <data name="shardstats_usage" xml:space="preserve">
-    <value>`{0}shardstats` or `{0}shardstats 2`</value>
-  </data>
-  <data name="connectshard_cmd" xml:space="preserve">
-    <value>connectshard</value>
-  </data>
-  <data name="connectshard_desc" xml:space="preserve">
-    <value>Try (re)connecting a shard with a certain shardid when it dies. No one knows will it work. Keep an eye on the console for errors.</value>
-  </data>
-  <data name="connectshard_usage" xml:space="preserve">
-    <value>`{0}connectshard 2`</value>
-  </data>
-  <data name="shardid_cmd" xml:space="preserve">
-    <value>shardid</value>
-  </data>
-  <data name="shardid_desc" xml:space="preserve">
-    <value>Shows which shard is a certain guild on, by guildid.</value>
-  </data>
-  <data name="shardid_usage" xml:space="preserve">
-    <value>`{0}shardid 117523346618318850`</value>
-  </data>
-  <data name="tictactoe_cmd" xml:space="preserve">
-    <value>tictactoe ttt</value>
-  </data>
-  <data name="tictactoe_desc" xml:space="preserve">
-    <value>Starts a game of tic tac toe. Another user must run the command in the same channel in order to accept the challenge. Use numbers 1-9 to play. 15 seconds per move.</value>
-  </data>
-  <data name="tictactoe_usage" xml:space="preserve">
-    <value>&gt;ttt</value>
-  </data>
-  <data name="timezones_cmd" xml:space="preserve">
-    <value>timezones</value>
-  </data>
-  <data name="timezones_desc" xml:space="preserve">
-    <value>List of all timezones available on the system to be used with `{0}timezone`.</value>
-  </data>
-  <data name="timezones_usage" xml:space="preserve">
-    <value>`{0}timezones`</value>
-  </data>
-  <data name="timezone_cmd" xml:space="preserve">
-    <value>timezone</value>
-  </data>
-  <data name="timezone_desc" xml:space="preserve">
-    <value>Sets this guilds timezone. This affects bot's time output in this server (logs, etc..)</value>
-  </data>
-  <data name="timezone_usage" xml:space="preserve">
-    <value>`{0}timezone`</value>
-  </data>
-  <data name="languagesetdefault_cmd" xml:space="preserve">
-    <value>langsetdefault langsetd</value>
-  </data>
-  <data name="languagesetdefault_desc" xml:space="preserve">
-    <value>Sets the bot's default response language. All servers which use a default locale will use this one. Setting to `default` will use the host's current culture. Provide no arguments to see currently set language.</value>
-  </data>
-  <data name="languagesetdefault_usage" xml:space="preserve">
-    <value>`{0}langsetd en-US` or `{0}langsetd default`</value>
-  </data>
-  <data name="languageset_cmd" xml:space="preserve">
-    <value>languageset langset</value>
-  </data>
-  <data name="languageset_desc" xml:space="preserve">
-    <value>Sets this server's response language If bot's response strings have been translated to that language, bot will use that language in this server. Reset by using `default` as the locale name. Provide no arguments to see currently set language.</value>
-  </data>
-  <data name="languageset_usage" xml:space="preserve">
-    <value>`{0}langset de-DE ` or `{0}langset default`</value>
-  </data>
-  <data name="languageslist_cmd" xml:space="preserve">
-    <value>languageslist langli</value>
-  </data>
-  <data name="languageslist_desc" xml:space="preserve">
-    <value>List of languages for which translation (or part of it) exist atm.</value>
-  </data>
-  <data name="languageslist_usage" xml:space="preserve">
-    <value>`{0}langli`</value>
-  </data>
-  <data name="rategirl_cmd" xml:space="preserve">
-    <value>rategirl</value>
-  </data>
-  <data name="rategirl_desc" xml:space="preserve">
-    <value>Use the universal hot-crazy wife zone matrix to determine the girl's worth. It is everything young men need to know about women. At any moment in time, any woman you have previously located on this chart can vanish from that location and appear anywhere else on the chart.</value>
-  </data>
-  <data name="rategirl_usage" xml:space="preserve">
-    <value>`{0}rategirl @SomeGurl`</value>
-  </data>
+
 </root>
