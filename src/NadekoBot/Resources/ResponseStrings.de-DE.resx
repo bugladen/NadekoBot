@@ -241,7 +241,7 @@
     <value>Dein Typ ist bereits {0}</value>
   </data>
   <data name="pokemon_attack" xml:space="preserve">
-    <value>benutzt {0}{1} auf {2}{3} für {4} Schaden.</value>
+    <value>benutzte {0}{1} an {2}{3} für {4} Schaden.</value>
     <comment>Kwoth used punch:type_icon: on Sanity:type_icon: for 50 damage.</comment>
   </data>
   <data name="pokemon_cant_attack_again" xml:space="preserve">
@@ -281,7 +281,7 @@
     <value>Dein Typ wurde verändert von {0} mit einem {1}</value>
   </data>
   <data name="pokemon_somewhat_effective" xml:space="preserve">
-    <value>Das ist effektiv.</value>
+    <value>Das ist etwas effektiv.</value>
   </data>
   <data name="pokemon_super_effective" xml:space="preserve">
     <value>Das ist sehr effektiv!</value>
@@ -838,7 +838,7 @@ __ignoredChannels__: {2}</value>
     <value>Ich habe keine **Rollenmanagement**- und/oder **Kanalmanagement**-Rechte, sodass ich `voice+text` auf dem Server {0} nicht ausführen kann.</value>
   </data>
   <data name="administration_vt_no_admin" xml:space="preserve">
-    <value>Sie schalten diese Funktion ein bzw. aus und **ich habe keine ADMINISTRATORRECHTE**. Dies könnte einige Probleme hervorrufen, sodass sie ihre Textkanäle eventuell selber aufräumen musst.</value>
+    <value>Sie schalten diese Funktion ein bzw. aus und **ich habe keine ADMINISTRATORRECHTE**. Dies könnte einige Probleme hervorrufen, sodass sie ihre Textkanäle eventuell selber aufräumen müssen.</value>
   </data>
   <data name="administration_vt_perms" xml:space="preserve">
     <value>Ich benötige zumindest **Rollenmanagement**- und **Kanalmanagement**-Rechte um diese Funktion einzuschalten. (Bevorzugt Administratorrechte)</value>
@@ -1181,7 +1181,7 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Akrophobia läuft bereits in diesem Kanal.</value>
   </data>
   <data name="games_acro_started" xml:space="preserve">
-    <value>Spiel gestartet. Erstelle einen Satz aus dem folgenden Akronym.</value>
+    <value>Spiel gestartet. Erstelle einen Satz aus dem folgenden Akronym: {0}.</value>
   </data>
   <data name="games_acro_started_footer" xml:space="preserve">
     <value>Sie haben {0} Sekunden für ihre Einsendung.</value>
@@ -1942,7 +1942,7 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>{0} totale Benutzer.</value>
   </data>
   <data name="utility_author" xml:space="preserve">
-    <value>Autor(in)</value>
+    <value>Autor</value>
   </data>
   <data name="utility_botid" xml:space="preserve">
     <value>ID des Bots</value>
@@ -2091,7 +2091,7 @@ ID des Besitzers: {2}</value>
     <value>Zitat hinzugefügt</value>
   </data>
   <data name="utility_quote_deleted" xml:space="preserve">
-    <value>Zufälliger Zitat wurde gelöscht.</value>
+    <value>Zufälliges Zitat wurde gelöscht.</value>
   </data>
   <data name="utility_region" xml:space="preserve">
     <value>Region</value>
