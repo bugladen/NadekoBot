@@ -4587,7 +4587,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Your auto-translate language has been set to {from}&gt;{to}.
+        ///    Looks up a localized string similar to Your auto-translate language has been set to {0}&gt;{1}.
         /// </summary>
         public static string searches_atl_set {
             get {

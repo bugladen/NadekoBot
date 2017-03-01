@@ -1658,7 +1658,7 @@ Don't forget to leave your discord name or id in the message.
     <value>your auto-translate language has been removed.</value>
   </data>
   <data name="searches_atl_set" xml:space="preserve">
-    <value>Your auto-translate language has been set to {from}&gt;{to}</value>
+    <value>Your auto-translate language has been set to {0}&gt;{1}</value>
   </data>
   <data name="searches_atl_started" xml:space="preserve">
     <value>Started automatic translation of messages on this channel.</value>
