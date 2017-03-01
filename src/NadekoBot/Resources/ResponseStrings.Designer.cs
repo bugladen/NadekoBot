@@ -2181,15 +2181,6 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Betflip Gamble.
-        /// </summary>
-        public static string gambling_betflip_gamble {
-            get {
-                return ResourceManager.GetString("gambling_betflip_gamble", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///    Looks up a localized string similar to Better luck next time ^_^.
         /// </summary>
         public static string gambling_better_luck {
