@@ -1410,7 +1410,7 @@ La nouvelle valeur de {0} est {1} !</value>
     <value>Lecture en cours:</value>
   </data>
   <data name="music_playlists" xml:space="preserve">
-    <value>#{0}` - **{1}** par *{2}* ({3} morceaux)</value>
+    <value>`#{0}` - **{1}** par *{2}* ({3} morceaux)</value>
   </data>
   <data name="music_playlists_page" xml:space="preserve">
     <value>Page {0} des listes de lecture sauvegardées</value>
@@ -1525,7 +1525,7 @@ La nouvelle valeur de {0} est {1} !</value>
     <value>Activation de l&apos;usage de TOUS LES MODULES pour l&apos;utilisateur {0}.</value>
   </data>
   <data name="permissions_blacklisted" xml:space="preserve">
-    <value>Banni {0} avec l&apos;ID {1}</value>
+    <value>{0} sur liste noire avec l&apos;ID {1}</value>
     <comment>Il ne s&apos;agit pas d&apos;un ban mais d&apos;une blacklist interdisant l&apos;utilisateur d&apos;utiliser le bot.</comment>
   </data>
   <data name="permissions_cmdcd_add" xml:space="preserve">
@@ -1767,7 +1767,7 @@ La nouvelle valeur de {0} est {1} !</value>
     <value>Niveau</value>
   </data>
   <data name="searches_list_of_place_tags" xml:space="preserve">
-    <value>Liste de {0} tags placés.</value>
+    <value>Liste de tags pour {0}place.</value>
     <comment>Don&apos;t translate {0}place</comment>
   </data>
   <data name="searches_location" xml:space="preserve">
@@ -1810,7 +1810,7 @@ La nouvelle valeur de {0} est {1} !</value>
     <value>Utilisateur non trouvé! Veuillez vérifier la région ainsi que le BattleTag avant de réessayer.</value>
   </data>
   <data name="searches_plan_to_watch" xml:space="preserve">
-    <value>Prévision de lecture</value>
+    <value>Prévus de regarder</value>
     <comment>Je ne pense pas que le sens de la traduction soit le bon.</comment>
   </data>
   <data name="searches_platform" xml:space="preserve">
@@ -1946,7 +1946,7 @@ La nouvelle valeur de {0} est {1} !</value>
 `1.`</comment>
   </data>
   <data name="utility_activity_page" xml:space="preserve">
-    <value>Page d&apos;Activité #{0}</value>
+    <value>Page d&apos;activité #{0}</value>
   </data>
   <data name="utility_activity_users_total" xml:space="preserve">
     <value>{0} utilisateurs en total.</value>
