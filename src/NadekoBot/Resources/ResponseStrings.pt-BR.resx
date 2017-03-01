@@ -1659,7 +1659,8 @@ O novo valor de {0} é {1}!</value>
     <value>A linguagem de tradução automática foi removida.</value>
   </data>
   <data name="searches_atl_set" xml:space="preserve">
-    <value>A linguagem de tradução automática foi definida de {from}&gt;{to}</value>
+    <value>A linguagem de tradução automática foi definida de {0}&gt;{1}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_atl_started" xml:space="preserve">
     <value>A tradução automática de mensagens foi ativada neste canal.</value>

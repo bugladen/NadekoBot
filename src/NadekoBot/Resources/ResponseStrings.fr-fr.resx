@@ -483,7 +483,7 @@ Raison : {1}</value>
     <value>La langue du bot a été changée pour {0} - {1}</value>
   </data>
   <data name="administration_lang_set_fail" xml:space="preserve">
-    <value>Échec dans la tentative de changement de langue. Réessayer avec l&apos;aide pour cette commande.</value>
+    <value>Échec dans la tentative de changement de langue. Veuillez consulter l&apos;aide pour cette commande.</value>
   </data>
   <data name="administration_lang_set_show" xml:space="preserve">
     <value>La langue de ce serveur est {0} - {1}</value>
@@ -1664,7 +1664,8 @@ La nouvelle valeur de {0} est {1} !</value>
     <value>Votre langue de traduction à été supprimée.</value>
   </data>
   <data name="searches_atl_set" xml:space="preserve">
-    <value>Votre langue de traduction a été changée de {from} à {to}</value>
+    <value>Votre langue de traduction a été changée de {0} à {1}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_atl_started" xml:space="preserve">
     <value>Traduction automatique des messages commencée sur ce salon.</value>
@@ -2111,7 +2112,7 @@ OwnerID: {2}</value>
     <value>Je vais vous rappeler {0} pour {1} dans {2} `({3:d.M.yyyy} à {4:HH:mm})` </value>
   </data>
   <data name="utility_remind_invalid_format" xml:space="preserve">
-    <value>Format de date non valide. Regardez la liste des commandes.</value>
+    <value>Format de date non valide. Vérifiez la liste des commandes.</value>
   </data>
   <data name="utility_remind_template" xml:space="preserve">
     <value>Nouveau modèle de rappel défini.</value>

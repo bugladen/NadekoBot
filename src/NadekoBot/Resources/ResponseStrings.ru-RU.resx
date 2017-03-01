@@ -119,14 +119,12 @@
   </resheader>
   <data name="clashofclans_base_already_claimed" xml:space="preserve">
     <value>Эта база уже захвачена или разрушена.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_base_already_destroyed" xml:space="preserve">
     <value>Эта база уже разрушена</value>
   </data>
   <data name="clashofclans_base_already_unclaimed" xml:space="preserve">
     <value>Эта база не захвачена.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_base_destroyed" xml:space="preserve">
     <value>**РАЗРУШЕННАЯ** база #{0} ведёт войну против {1}.</value>
@@ -136,7 +134,7 @@
     <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_claimed_base" xml:space="preserve">
-    <value>{0} захватил базу #{1} после войны с {2}</value>
+    <value>{0} захватил базу #{1} ведя войну против {2}</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_claimed_other" xml:space="preserve">
@@ -163,7 +161,7 @@
     <value>Список активных войн</value>
   </data>
   <data name="clashofclans_not_claimed" xml:space="preserve">
-    <value>не захваченная</value>
+    <value>не захваченна</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_not_partic" xml:space="preserve">
@@ -211,11 +209,11 @@
     <comment>Fuzzy</comment>
   </data>
   <data name="customreactions_name" xml:space="preserve">
-    <value>Настроить реакции.</value>
+    <value>Настроить ответы.</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="customreactions_new_cust_react" xml:space="preserve">
-    <value>Создана новая реакция.</value>
+    <value>Новый ответ.</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="customreactions_no_found" xml:space="preserve">
@@ -223,7 +221,7 @@
     <comment>Fuzzy</comment>
   </data>
   <data name="customreactions_no_found_id" xml:space="preserve">
-    <value>Не найдено настраеваемых реакций с таким номером.</value>
+    <value>Не найдено настраиваемых реакций с таким номером.</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="customreactions_response" xml:space="preserve">
@@ -1010,7 +1008,7 @@ Fuzzy</comment>
     <value>не смог забрать {0} у {1}, поскольку у пользователя нет столько {2}!</value>
   </data>
   <data name="help_back_to_toc" xml:space="preserve">
-    <value>Вернуться к содержанию</value>
+    <value>Вернуться к оглавлению</value>
   </data>
   <data name="help_bot_owner_only" xml:space="preserve">
     <value>Только для владельца бота</value>
@@ -1064,7 +1062,7 @@ Paypal &lt;{1}&gt;
     <value>Требуются серверное право {0}</value>
   </data>
   <data name="help_table_of_contents" xml:space="preserve">
-    <value>Содержание</value>
+    <value>Оглавление</value>
   </data>
   <data name="help_usage" xml:space="preserve">
     <value>Использование</value>
@@ -1384,7 +1382,7 @@ Paypal &lt;{1}&gt;
     <value>Папка успешно добавлена в очередь воспроизведения.</value>
   </data>
   <data name="music_fairplay" xml:space="preserve">
-    <value>fairplay</value>
+    <value>справедливое воспроизведение</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="music_finished_song" xml:space="preserve">
@@ -1697,7 +1695,7 @@ Paypal &lt;{1}&gt;
     <value>Ваш язык автоперевода был удалён.</value>
   </data>
   <data name="searches_atl_set" xml:space="preserve">
-    <value>Ваш язык автоперевода изменён с {from} на {to}</value>
+    <value>Ваш язык автоперевода изменён с {0} на {1}</value>
   </data>
   <data name="searches_atl_started" xml:space="preserve">
     <value>Начинается автоматический перевод сообщений в этом канале.</value>
