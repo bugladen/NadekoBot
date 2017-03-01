@@ -25,7 +25,7 @@ namespace NadekoBot.Modules.Administration
                 {"nl-NL", "Dutch, Netherlands"},
                 {"ja-JP", "Japanese, Japan"},
                 {"pt-BR", "Portuguese, Brazil"},
-                {"sr-cyrl-rs", "Serbian, Serbia - Cyrillic"}
+                {"sr-Cyrl-RS", "Serbian, Serbia - Cyrillic"}
             }.ToImmutableDictionary();
 
             [NadekoCommand, Usage, Description, Aliases]
