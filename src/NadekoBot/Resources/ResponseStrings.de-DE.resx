@@ -872,7 +872,7 @@ Grund: {1}</value>
     <value>Nutzer wurde gekickt</value>
   </data>
   <data name="gambling_awarded" xml:space="preserve">
-    <value>verleiht {1} {0}</value>
+    <value>vegab {0} zu {1}</value>
   </data>
   <data name="gambling_better_luck" xml:space="preserve">
     <value>Hoffentlich haben sie beim nächsten Mal mehr Glück ^_^</value>
@@ -907,7 +907,7 @@ Grund: {1}</value>
     <comment>X has gifted 15 flowers to Y</comment>
   </data>
   <data name="gambling_has" xml:space="preserve">
-    <value>{0} hat eine {1}</value>
+    <value>{0} hat {1}</value>
     <comment>X has Y flowers</comment>
   </data>
   <data name="gambling_heads" xml:space="preserve">
@@ -1031,7 +1031,7 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Inhaltsverzeichnis</value>
   </data>
   <data name="help_usage" xml:space="preserve">
-    <value>Nutzung</value>
+    <value>Benutzweise</value>
   </data>
   <data name="nsfw_autohentai_started" xml:space="preserve">
     <value>Autohentai wurde gestartet. Es wird alle {0} Sekunden etwas mit einem der folgenden Stichwörtern gepostet: {1}</value>
@@ -1099,7 +1099,7 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Scheidungen</value>
   </data>
   <data name="gambling_likes" xml:space="preserve">
-    <value>Positive Bewertungen</value>
+    <value>Mag</value>
   </data>
   <data name="gambling_price" xml:space="preserve">
     <value>Preis</value>
@@ -1202,7 +1202,7 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>{0} gewinnt, weil dieser Benutzer die einzigste Einsendung hat!</value>
   </data>
   <data name="games_question" xml:space="preserve">
-    <value>Frage</value>
+    <value>Gestellte Frage</value>
   </data>
   <data name="games_rps_draw" xml:space="preserve">
     <value>Unentschieden! Beide haben {0} gewählt</value>
@@ -1292,7 +1292,7 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>{0} hat {1} punkte</value>
   </data>
   <data name="games_trivia_stopping" xml:space="preserve">
-    <value>Wird beendet after dieser Frage.</value>
+    <value>Wird beendet nach dieser Frage.</value>
   </data>
   <data name="games_trivia_times_up" xml:space="preserve">
     <value>Die Zeit is um! Die richtige Antwort war {0}</value>
@@ -1331,7 +1331,7 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>{0} gegen {1}</value>
   </data>
   <data name="music_attempting_to_queue" xml:space="preserve">
-    <value>Versuche {0} Songs einzureihen...</value>
+    <value>Versuche {0} Lieder einzureihen...</value>
   </data>
   <data name="music_autoplay_disabled" xml:space="preserve">
     <value>Autoplay deaktiviert.</value>
@@ -1349,7 +1349,7 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>fairer Modus</value>
   </data>
   <data name="music_finished_song" xml:space="preserve">
-    <value>Song beendet</value>
+    <value>Lied beendet</value>
   </data>
   <data name="music_fp_disabled" xml:space="preserve">
     <value>Fairer Modus deaktiviert.</value>
@@ -1376,7 +1376,7 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Maximale Musik-Warteschlangengröße ist nun unbegrenzt.</value>
   </data>
   <data name="music_max_queue_x" xml:space="preserve">
-    <value>Maximale Musik-Warteschlangengröße ist nun {0} Songs.</value>
+    <value>Maximale Musik-Warteschlangengröße ist nun {0} Lieder.</value>
   </data>
   <data name="music_must_be_in_voice" xml:space="preserve">
     <value>Sie müssen sich in einem Sprachkanal auf diesem Server befinden.</value>
@@ -1385,7 +1385,7 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Name</value>
   </data>
   <data name="music_now_playing" xml:space="preserve">
-    <value>Aktueller Song:</value>
+    <value>Aktuelles Lied:</value>
   </data>
   <data name="music_no_player" xml:space="preserve">
     <value>Kein aktiver Musikspieler.</value>
@@ -1400,10 +1400,10 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Musik-Warteschlange - Seite {0}/{1}</value>
   </data>
   <data name="music_playing_song" xml:space="preserve">
-    <value>Spiele Song</value>
+    <value>Spiele Lied</value>
   </data>
   <data name="music_playlists" xml:space="preserve">
-    <value>`#{0}` - **{1}** by *{2}* ({3} Songs)</value>
+    <value>`#{0}` - **{1}** by *{2}* ({3} Lieder)</value>
   </data>
   <data name="music_playlists_page" xml:space="preserve">
     <value>Seite {0} der gespeicherten Playlists</value>
@@ -1430,7 +1430,7 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Warteschlange</value>
   </data>
   <data name="music_queued_song" xml:space="preserve">
-    <value>Eingereihter Song</value>
+    <value>Eingereihtes Lied</value>
   </data>
   <data name="music_queue_cleared" xml:space="preserve">
     <value>Musik-Warteschlange geleert.</value>
@@ -1439,20 +1439,20 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Warteschlange ist voll bei {0}/{1}.</value>
   </data>
   <data name="music_removed_song" xml:space="preserve">
-    <value>Song entfernt</value>
+    <value>Lied entfernt</value>
     <comment>context: &quot;removed song #5&quot;</comment>
   </data>
   <data name="music_repeating_cur_song" xml:space="preserve">
-    <value>Aktueller Song wird wiederholt</value>
+    <value>Aktuelle Lied wird wiederholt</value>
   </data>
   <data name="music_repeating_playlist" xml:space="preserve">
     <value>Playlist wird wiederholt</value>
   </data>
   <data name="music_repeating_track" xml:space="preserve">
-    <value>Song wird wiederholt</value>
+    <value>Lied wird wiederholt</value>
   </data>
   <data name="music_repeating_track_stopped" xml:space="preserve">
-    <value>Aktueller Song wird nicht mehr wiederholt.</value>
+    <value>Aktuelles Lied wird nicht mehr wiederholt.</value>
   </data>
   <data name="music_resumed" xml:space="preserve">
     <value>Musikwiedergabe wiederaufgenommen.</value>
@@ -1464,16 +1464,16 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Playlist-Wiederholung aktiviert.</value>
   </data>
   <data name="music_set_music_channel" xml:space="preserve">
-    <value>Ich werde nun spielende, beendete, pausierte und entfernte Songs in diesen Channel ausgeben.</value>
+    <value>Ich werde nun spielende, beendete, pausierte und entfernte Lieder in diesem Channel ausgeben.</value>
   </data>
   <data name="music_skipped_to" xml:space="preserve">
     <value>Gesprungen zu `{0}:{1}`</value>
   </data>
   <data name="music_songs_shuffled" xml:space="preserve">
-    <value>Song gemischt.</value>
+    <value>Lieder gemischt.</value>
   </data>
   <data name="music_song_moved" xml:space="preserve">
-    <value>Song bewegt</value>
+    <value>Lieder bewegt</value>
   </data>
   <data name="music_time_format" xml:space="preserve">
     <value>{0}h {1}m {2}s</value>
@@ -1656,7 +1656,8 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Ihre Automatische-Übersetzungs Sprache wurde entfernt.</value>
   </data>
   <data name="searches_atl_set" xml:space="preserve">
-    <value>Ihre Automatische-Übersetzungs Sprache wurde zu {from}&gt;{to} gesetzt</value>
+    <value>Ihre Automatische-Übersetzungs Sprache wurde zu {0}&gt;{1} gesetzt</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_atl_started" xml:space="preserve">
     <value>Automatische Übersetzung der Nachrichten wurde auf diesem kanal gestartet.</value>
