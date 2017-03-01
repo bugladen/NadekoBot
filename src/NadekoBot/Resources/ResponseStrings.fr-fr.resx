@@ -628,7 +628,7 @@ Raison : {1}</value>
     <value>Erreur due à un manque de permissions ou à une couleur invalide.</value>
   </data>
   <data name="administration_remrole" xml:space="preserve">
-    <value>L&apos;utilisateur {1} n&apos;a plus le rôle {0}.</value>
+    <value>L&apos;utilisateur {1} n&apos;appartient plus au rôle {0}.</value>
   </data>
   <data name="administration_remrole_err" xml:space="preserve">
     <value>Impossible de supprimer ce rôle. Je ne possède pas les permissions suffisantes.</value>
@@ -705,7 +705,7 @@ Raison : {1}</value>
     <value>Vous avez désormais le rôle {0}.</value>
   </data>
   <data name="administration_setrole" xml:space="preserve">
-    <value>L&apos;utilisateur {1} a désormais le rôle {0}.</value>
+    <value>L&apos;ajout du rôle {0} pour l&apos;utilisateur {1} a été réalisé avec succès.</value>
   </data>
   <data name="administration_setrole_err" xml:space="preserve">
     <value>Impossible d&apos;ajouter un rôle. Je ne possède pas les permissions suffisantes.</value>
@@ -727,7 +727,7 @@ Raison : {1}</value>
     <value>Nouveau sujet du salon défini.</value>
   </data>
   <data name="administration_shard_reconnected" xml:space="preserve">
-    <value>Shard {0} reconnecté.</value>
+    <value>Shard {0} reconnectée.</value>
     <comment>Ne pas confondre Shard et Shared ;) Dans discord, le mot shard n&apos;a pas d&apos;équivalent francophone.</comment>
   </data>
   <data name="administration_shard_reconnecting" xml:space="preserve">
@@ -758,13 +758,13 @@ Raison : {1}</value>
   </data>
   <data name="administration_spam_stats" xml:space="preserve">
     <value>Si un utilisateur poste {0} le même message à la suite, je le {1}. 
-    __SalonsIgnorés__: {2}</value>
+    __SalonsIgnorés__: {2} </value>
   </data>
   <data name="administration_text_chan_created" xml:space="preserve">
     <value>Salon textuel crée.</value>
   </data>
   <data name="administration_text_chan_destroyed" xml:space="preserve">
-    <value>Salon textuel supprimé.</value>
+    <value>Salon textuel détruit.</value>
   </data>
   <data name="administration_undeafen" xml:space="preserve">
     <value>Son activé avec succès.</value>
@@ -774,7 +774,7 @@ Raison : {1}</value>
     <comment>singular</comment>
   </data>
   <data name="administration_username" xml:space="preserve">
-    <value>Nom d&apos;utilisateur</value>
+    <value>Nom d&apos;utilisateur.</value>
   </data>
   <data name="administration_username_changed" xml:space="preserve">
     <value>Nom d&apos;utilisateur modifié.</value>
@@ -798,7 +798,7 @@ Raison : {1}</value>
     <value>L&apos;utilisateur a quitté</value>
   </data>
   <data name="administration_user_muted" xml:space="preserve">
-    <value>{0} est maintenant **muet** à la fois sur les salons textuels et vocaux.</value>
+    <value>{0} est maintenant **muet** à la fois sur le salon textuel et vocal.</value>
   </data>
   <data name="administration_user_role_add" xml:space="preserve">
     <value>Rôle ajouté à l&apos;utilisateur</value>
@@ -819,7 +819,7 @@ Raison : {1}</value>
     <value>{0} a quitté le salon vocal {1}.</value>
   </data>
   <data name="administration_user_vmoved" xml:space="preserve">
-    <value>{0} est allé du salon vocal {1} à {2}.</value>
+    <value>{0} est allé du salon vocal {1} au {2}.</value>
   </data>
   <data name="administration_user_voice_mute" xml:space="preserve">
     <value>{0} est maintenant **muet**.</value>
@@ -831,7 +831,7 @@ Raison : {1}</value>
     <value>Salon vocal crée.</value>
   </data>
   <data name="administration_voice_chan_destroyed" xml:space="preserve">
-    <value>Salon vocal supprimé.</value>
+    <value>Salon vocal détruit.</value>
   </data>
   <data name="administration_vt_disabled" xml:space="preserve">
     <value>Fonctionnalités vocales et textuelles désactivées.</value>
@@ -843,10 +843,10 @@ Raison : {1}</value>
     <value>Je n&apos;ai pas la permission **Gérer les rôles** et/ou **Gérer les salons**, je ne peux donc pas utiliser `voice+text` sur le serveur {0}.</value>
   </data>
   <data name="administration_vt_no_admin" xml:space="preserve">
-    <value>Vous activez/désactivez cette fonctionnalité et **je n&apos;ai pas la permission ADMINISTRATEUR**. Cela pourrait causer des dysfonctionnements, et vous devrez nettoyer les salons textuels vous-même après ça.</value>
+    <value>Vous activez/désactivez cette fonctionnalité et **je n&apos;ai pas les permissions ADMINISTRATEURS**. Cela pourrait causer des dysfonctionnements, et vous devrez nettoyer les salons textuels vous-même après ça.</value>
   </data>
   <data name="administration_vt_perms" xml:space="preserve">
-    <value>Je nécessite au moins les permissions  **Gérer les rôles** et **Gérer les salons** pour activer cette fonctionnalité. (Permission Administrateur de préférence)</value>
+    <value>Je nécessite au moins les permissions  **Gérer les rôles** et **Gérer les salons** pour activer cette fonctionnalité. (permissions administateurs préférées)</value>
   </data>
   <data name="administration_xmuted_text" xml:space="preserve">
     <value>Utilisateur {0} depuis un salon textuel.</value>
@@ -880,11 +880,10 @@ Raison: {1}</value>
     <value>a récompensé {0} à {1}</value>
   </data>
   <data name="gambling_better_luck" xml:space="preserve">
-    <value>Plus de chance la prochaine fois ^_^</value>
-    <comment>C&apos;est vraiment québecois ca.. On ne le dit pas comme ca ici xD</comment>
+    <value>Meilleure chance la prochaine fois ^_^</value>
   </data>
   <data name="gambling_br_win" xml:space="preserve">
-    <value>Félicitations! Vous avez gagné {0} pour avoir lancé au dessus de {1}.</value>
+    <value>Félicitations! Vous avez gagné {0} pour avoir lancé au dessus de {1}</value>
   </data>
   <data name="gambling_deck_reshuffled" xml:space="preserve">
     <value>Deck remélangé.</value>
@@ -894,7 +893,7 @@ Raison: {1}</value>
     <comment>User flipped tails.</comment>
   </data>
   <data name="gambling_flip_guess" xml:space="preserve">
-    <value>Vous avez deviné! Vous avez gagné {0}</value>
+    <value>Vous l&apos;avez deviné! Vous avez gagné {0}</value>
   </data>
   <data name="gambling_flip_invalid" xml:space="preserve">
     <value>Nombre spécifié invalide. Vous pouvez lancer 1 à {0} pièces.</value>
@@ -1339,7 +1338,7 @@ La nouvelle valeur de {0} est {1} !</value>
     <value>{0} contre {1}</value>
   </data>
   <data name="music_attempting_to_queue" xml:space="preserve">
-    <value>Tentative d&apos;ajouter {0} musiques à la file d&apos;attente...</value>
+    <value>Tentative d&apos;ajouter {0} à la file d&apos;attente...</value>
   </data>
   <data name="music_autoplay_disabled" xml:space="preserve">
     <value>Lecture automatique désactivée.</value>
@@ -1348,7 +1347,7 @@ La nouvelle valeur de {0} est {1} !</value>
     <value>Lecture automatique activée.</value>
   </data>
   <data name="music_defvol_set" xml:space="preserve">
-    <value>Volume par défaut défini à {0}%</value>
+    <value>Volume de base défini à {0}%</value>
   </data>
   <data name="music_dir_queue_complete" xml:space="preserve">
     <value>File d&apos;attente complète.</value>
@@ -1375,10 +1374,10 @@ La nouvelle valeur de {0} est {1} !</value>
     <value>Entrée invalide.</value>
   </data>
   <data name="music_max_playtime_none" xml:space="preserve">
-    <value>Le temps maximum de lecture est désormais illimité.</value>
+    <value>Le temps maximum de lecture n&apos;a désormais plus de limite.</value>
   </data>
   <data name="music_max_playtime_set" xml:space="preserve">
-    <value>Temps maximum de lecture défini à {0} seconde(s).</value>
+    <value>Le temps de lecture maximum a été mis à {0} seconde(s).</value>
   </data>
   <data name="music_max_queue_unlimited" xml:space="preserve">
     <value>La taille de la file d&apos;attente est désormais illmitée.</value>
@@ -1438,7 +1437,7 @@ La nouvelle valeur de {0} est {1} !</value>
     <value>Liste d&apos;attente</value>
   </data>
   <data name="music_queued_song" xml:space="preserve">
-    <value>Musique ajoutée à la file d&apos;attente</value>
+    <value>Son ajouté à la file d&apos;attente</value>
   </data>
   <data name="music_queue_cleared" xml:space="preserve">
     <value>Liste d&apos;attente effacée.</value>
@@ -1447,7 +1446,7 @@ La nouvelle valeur de {0} est {1} !</value>
     <value>Liste d&apos;attente complète ({0}/{0}).</value>
   </data>
   <data name="music_removed_song" xml:space="preserve">
-    <value>Musique retirée</value>
+    <value>Son retiré</value>
     <comment>context: &quot;removed song #5&quot;</comment>
   </data>
   <data name="music_repeating_cur_song" xml:space="preserve">
@@ -1666,6 +1665,7 @@ La nouvelle valeur de {0} est {1} !</value>
   </data>
   <data name="searches_atl_set" xml:space="preserve">
     <value>Votre langue de traduction a été changée de {0} à {1}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_atl_started" xml:space="preserve">
     <value>Traduction automatique des messages commencée sur ce salon.</value>
@@ -2145,7 +2145,7 @@ OwnerID: {2}</value>
     <value>Page #{0} des rôles pour {1}</value>
   </data>
   <data name="utility_rrc_no_colors" xml:space="preserve">
-    <value>Aucune couleur n&apos;est dans le bon format. Utilisez `#00ff00` par exemple.</value>
+    <value>Aucunes couleurs ne sont dans le format correct. Utilisez `#00ff00` par exemple.</value>
   </data>
   <data name="utility_rrc_start" xml:space="preserve">
     <value>Couleurs alternées pour le rôle {0} activées.</value>
