@@ -118,28 +118,34 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="clashofclans_base_already_claimed" xml:space="preserve">
-    <value></value>
+    <value>Эта база уже захвачена или разрушена.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_base_already_destroyed" xml:space="preserve">
-    <value></value>
+    <value>Эта база уже разрушена</value>
   </data>
   <data name="clashofclans_base_already_unclaimed" xml:space="preserve">
-    <value></value>
+    <value>Эта база не захвачена.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_base_destroyed" xml:space="preserve">
-    <value></value>
+    <value>**РАЗРУШЕННАЯ** база #{0} ведёт войну против {1}.</value>
   </data>
   <data name="clashofclans_base_unclaimed" xml:space="preserve">
-    <value></value>
+    <value>У {0} есть **НЕ ЗАХВАЧЕННАЯ** база #{1}, ведущая войну против {2}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_claimed_base" xml:space="preserve">
-    <value></value>
+    <value>{0} захватил базу #{1} после войны с {2}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_claimed_other" xml:space="preserve">
-    <value></value>
+    <value>@{0} Вы уже захватили базу #{1}. Вы не можете захватить новую базу.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_claim_expired" xml:space="preserve">
-    <value></value>
+    <value>Время действия запроса от @{0} на войну против {1} истёкло.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_enemy" xml:space="preserve">
     <value>Враг</value>
@@ -148,31 +154,32 @@
     <value>Информация о войне против {0}</value>
   </data>
   <data name="clashofclans_invalid_base_number" xml:space="preserve">
-    <value></value>
+    <value>Неправильный номер базы.</value>
   </data>
   <data name="clashofclans_invalid_size" xml:space="preserve">
-    <value></value>
+    <value>Неправильный размер войны.</value>
   </data>
   <data name="clashofclans_list_active_wars" xml:space="preserve">
     <value>Список активных войн</value>
   </data>
   <data name="clashofclans_not_claimed" xml:space="preserve">
-    <value></value>
+    <value>не захваченная</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_not_partic" xml:space="preserve">
-    <value></value>
+    <value>Вы не участвуете в этой войне.</value>
   </data>
   <data name="clashofclans_not_partic_or_destroyed" xml:space="preserve">
-    <value></value>
+    <value>@{0} Вы либо не участвуете в этой войне, либо эта база разрушена.</value>
   </data>
   <data name="clashofclans_no_active_wars" xml:space="preserve">
-    <value></value>
+    <value>Нет активных войн.</value>
   </data>
   <data name="clashofclans_size" xml:space="preserve">
     <value>Размер</value>
   </data>
   <data name="clashofclans_war_already_started" xml:space="preserve">
-    <value></value>
+    <value>Война против {0} уже началась.</value>
   </data>
   <data name="clashofclans_war_created" xml:space="preserve">
     <value>Война против {0} была создана.</value>
@@ -185,10 +192,11 @@
     <value>Эта война не существует.</value>
   </data>
   <data name="clashofclans_war_started" xml:space="preserve">
-    <value></value>
+    <value>Война против {0} началась!</value>
   </data>
   <data name="customreactions_all_stats_cleared" xml:space="preserve">
     <value>Вся статистика настраиваемых реакций стёрта.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="customreactions_deleted" xml:space="preserve">
     <value>Настраиваемая реакция удалена.</value>
@@ -211,22 +219,27 @@
     <comment>Fuzzy</comment>
   </data>
   <data name="customreactions_no_found" xml:space="preserve">
-    <value></value>
+    <value>Не найдено настраиваемых реакций.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="customreactions_no_found_id" xml:space="preserve">
-    <value></value>
+    <value>Не найдено настраеваемых реакций с таким номером.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="customreactions_response" xml:space="preserve">
     <value>Ответ</value>
   </data>
   <data name="customreactions_stats" xml:space="preserve">
-    <value></value>
+    <value>Статистика настраеваемых реакций.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="customreactions_stats_cleared" xml:space="preserve">
-    <value></value>
+    <value>Статистика удалена для настраеваемой реакции {0}.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="customreactions_stats_not_found" xml:space="preserve">
-    <value></value>
+    <value>Не найдено статистики для этого запроса, никаких действий не применено.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="customreactions_trigger" xml:space="preserve">
     <value>Активатор</value>
@@ -267,33 +280,41 @@
   </data>
   <data name="pokemon_invalid_move" xml:space="preserve">
     <value>Вы не можете использовать {0}. Напишите &apos;{1}ml&apos;, чтобы увидеть список доступных Вам приёмов.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="pokemon_moves" xml:space="preserve">
     <value>Список приёмов {0} типа</value>
   </data>
   <data name="pokemon_not_effective" xml:space="preserve">
     <value>Эта атака не эффективна.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="pokemon_no_currency" xml:space="preserve">
     <value>У вас не достаточно {0}</value>
   </data>
   <data name="pokemon_revive_other" xml:space="preserve">
     <value>воскресил {0}, использовав один {1}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="pokemon_revive_yourself" xml:space="preserve">
     <value>Вы воскресили себя, использовав один {0}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="pokemon_settype_success" xml:space="preserve">
     <value>Ваш тип изменён с {0} на {1}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="pokemon_somewhat_effective" xml:space="preserve">
     <value>Эта атака немного эффективна.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="pokemon_super_effective" xml:space="preserve">
     <value>Эта атака очень эффективна!</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="pokemon_too_many_moves" xml:space="preserve">
     <value>Вы использовали слишком много приёмов подряд и не можете двигаться!</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="pokemon_type_of_user" xml:space="preserve">
     <value>Тип {0} — {1}</value>
@@ -363,10 +384,10 @@
     <value>Тема канала сменена.</value>
   </data>
   <data name="administration_cleaned_up" xml:space="preserve">
-    <value></value>
+    <value>Чат очищен.</value>
   </data>
   <data name="administration_content" xml:space="preserve">
-    <value></value>
+    <value>Содержание</value>
   </data>
   <data name="administration_cr" xml:space="preserve">
     <value>Успешно создана роль {0}.</value>
@@ -542,11 +563,13 @@
   </data>
   <data name="administration_muted_pl" xml:space="preserve">
     <value>Заглушёны</value>
-    <comment>PLURAL (users have been muted)</comment>
+    <comment>PLURAL (users have been muted)
+Fuzzy</comment>
   </data>
   <data name="administration_muted_sn" xml:space="preserve">
     <value>Заглушён</value>
-    <comment>singular &quot;User muted.&quot;</comment>
+    <comment>singular &quot;User muted.&quot;
+Fuzzy</comment>
   </data>
   <data name="administration_mute_error" xml:space="preserve">
     <value>Скорее всего, у меня нет необходимых прав.</value>
@@ -593,7 +616,7 @@
     <value>Права для этого сервера </value>
   </data>
   <data name="administration_prot_active" xml:space="preserve">
-    <value></value>
+    <value>Активные защиты от рейдов</value>
   </data>
   <data name="administration_prot_disable" xml:space="preserve">
     <value>{0} был **отключён** на этом сервере.</value>
@@ -605,7 +628,7 @@
     <value>Ошибка. Требуется право на управление ролями.</value>
   </data>
   <data name="administration_prot_none" xml:space="preserve">
-    <value></value>
+    <value>Нет защит от рейдов</value>
   </data>
   <data name="administration_raid_cnt" xml:space="preserve">
     <value>Порог пользователей должен лежать между {0} и {1}.</value>
@@ -650,13 +673,13 @@
     <value>Вы не можете редактировать роли, находящиеся выше чем ваша роль.</value>
   </data>
   <data name="administration_reprm" xml:space="preserve">
-    <value></value>
+    <value>Удалено повторяющееся сообщение: {0}</value>
   </data>
   <data name="administration_role_added" xml:space="preserve">
     <value>Роль {0} добавлена в лист.</value>
   </data>
   <data name="administration_role_clean" xml:space="preserve">
-    <value></value>
+    <value>{0} не найдена. Чат очищен.</value>
   </data>
   <data name="administration_role_in_list" xml:space="preserve">
     <value>Роль {0} уже есть в списке.</value>
@@ -665,16 +688,17 @@
     <value>Добавлено.</value>
   </data>
   <data name="administration_ropl_disabled" xml:space="preserve">
-    <value></value>
+    <value>Отключены чередующиеся статусы.</value>
   </data>
   <data name="administration_ropl_enabled" xml:space="preserve">
-    <value></value>
+    <value>Чередующиеся статусы отключены.</value>
   </data>
   <data name="administration_ropl_list" xml:space="preserve">
-    <value></value>
+    <value>Список чередующихся статусов:
+{0}</value>
   </data>
   <data name="administration_ropl_not_set" xml:space="preserve">
-    <value></value>
+    <value>Чередующиеся статусы не установлены.</value>
   </data>
   <data name="administration_self_assign_already" xml:space="preserve">
     <value>У вас уже есть роль {0}</value>
@@ -749,7 +773,7 @@
     <value>Медленный режим включен.</value>
   </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
-    <value></value>
+    <value>выгнаны</value>
     <comment>PLURAL</comment>
   </data>
   <data name="administration_spam_ignore" xml:space="preserve">
@@ -771,8 +795,9 @@
     <value>Отключено заглушение.</value>
   </data>
   <data name="administration_unmuted_sn" xml:space="preserve">
-    <value></value>
-    <comment>singular</comment>
+    <value>Вкл. звук</value>
+    <comment>singular
+Fuzzy</comment>
   </data>
   <data name="administration_username" xml:space="preserve">
     <value>Имя</value>
@@ -787,10 +812,12 @@
     <value>Пользователь заблокирован</value>
   </data>
   <data name="administration_user_chat_mute" xml:space="preserve">
-    <value></value>
+    <value>{0} получил **запрет** на разговор в чате.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_chat_unmute" xml:space="preserve">
-    <value></value>
+    <value>{0} потерял **запрет** на разговор в чате.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_joined" xml:space="preserve">
     <value>Пользователь присоединился</value>
@@ -799,7 +826,8 @@
     <value>Пользователь вышел</value>
   </data>
   <data name="administration_user_muted" xml:space="preserve">
-    <value></value>
+    <value>{0} получил **запрет** на разговор в текстовом и голосовом чатах.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_role_add" xml:space="preserve">
     <value>Добавлена роль пользователя</value>
@@ -811,7 +839,8 @@
     <value>{0} теперь {1}</value>
   </data>
   <data name="administration_user_unmuted" xml:space="preserve">
-    <value></value>
+    <value>{0} потерял **запрет** на разговор в текстовом и голосовом чатах.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_vjoined" xml:space="preserve">
     <value>{0} присоединился к голосовому каналу {1}.</value>
@@ -820,26 +849,27 @@
     <value>{0} покинул голосовой канал {1}.</value>
   </data>
   <data name="administration_user_vmoved" xml:space="preserve">
-    <value>{0} переместил {1} в голосовой канал {2}.</value>
+    <value>{0} переместил из голосового канала {1} в {2}.</value>
   </data>
   <data name="administration_user_voice_mute" xml:space="preserve">
-    <value></value>
+    <value>**Выключен микрофон** у {0}.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_voice_unmute" xml:space="preserve">
-    <value></value>
+    <value>**Включён микрофон** у {0}.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_voice_chan_created" xml:space="preserve">
-    <value>Голосовой канал удалён</value>
-    <comment>Fuzzy</comment>
+    <value>Голосовой канал создан</value>
   </data>
   <data name="administration_voice_chan_destroyed" xml:space="preserve">
     <value>Голосовой канал удалён</value>
   </data>
   <data name="administration_vt_disabled" xml:space="preserve">
-    <value></value>
+    <value>Отключены голосовые + текстовые функции.</value>
   </data>
   <data name="administration_vt_enabled" xml:space="preserve">
-    <value></value>
+    <value>Включены голосовые + текстовые функции.</value>
   </data>
   <data name="administration_vt_exit" xml:space="preserve">
     <value>Нет разрешений **Управление ролями** и/или **Управление каналами**, поэтому нельзя использовать команду &apos;voice+text&apos; на сервере {0}.</value>
@@ -872,16 +902,13 @@
     <value>Ошибка при переносе файлов, проверьте консоль бота для получения дальнейшей информации.</value>
   </data>
   <data name="administration_presence_updates" xml:space="preserve">
-    <value></value>
+    <value>История присутвия пользователей</value>
   </data>
   <data name="administration_sb_user" xml:space="preserve">
-    <value></value>
+    <value>Пользователя выгнали</value>
   </data>
   <data name="gambling_awarded" xml:space="preserve">
     <value>наградил {0} пользователю {1}</value>
-  </data>
-  <data name="gambling_betflip_gamble" xml:space="preserve">
-    <value></value>
   </data>
   <data name="gambling_better_luck" xml:space="preserve">
     <value>В следующий раз повезёт ^_^</value>
@@ -941,13 +968,13 @@
     <value>В колоде закончились карты.</value>
   </data>
   <data name="gambling_raffled_user" xml:space="preserve">
-    <value></value>
+    <value>Победитель лотереи</value>
   </data>
   <data name="gambling_roll" xml:space="preserve">
-    <value></value>
+    <value>Вам выпало {0}.</value>
   </data>
   <data name="gambling_slot_bet" xml:space="preserve">
-    <value></value>
+    <value>Ставка</value>
   </data>
   <data name="gambling_slot_jackpot" xml:space="preserve">
     <value>НИЧЕГО СЕБЕ!!! Поздраляем!!! x{0}</value>
@@ -1043,7 +1070,8 @@ Paypal &lt;{1}&gt;
     <value>Использование</value>
   </data>
   <data name="nsfw_autohentai_started" xml:space="preserve">
-    <value></value>
+    <value>Авто-хентай запущен. Каждые {0}с будут отправляться изображения с одним из следующих тэгов:
+{1}</value>
   </data>
   <data name="nsfw_tag" xml:space="preserve">
     <value>Тэг</value>
@@ -1082,7 +1110,7 @@ Paypal &lt;{1}&gt;
     <value>Задано неправильное число. Можно бросить {0}-{1} костей одновременно.</value>
   </data>
   <data name="gambling_dice_rolled" xml:space="preserve">
-    <value></value>
+    <value>выпало {0}</value>
     <comment>Someone rolled 35</comment>
   </data>
   <data name="gambling_dice_rolled_num" xml:space="preserve">
@@ -1099,10 +1127,11 @@ Paypal &lt;{1}&gt;
     <value>Второе число должно быть больше первого.</value>
   </data>
   <data name="gambling_changes_of_heart" xml:space="preserve">
-    <value></value>
+    <value>Смены чувств</value>
   </data>
   <data name="gambling_claimed_by" xml:space="preserve">
-    <value></value>
+    <value>В браке</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_divorces" xml:space="preserve">
     <value>Разводы</value>
@@ -1172,7 +1201,7 @@ Paypal &lt;{1}&gt;
     <value>Вы развелись с вайфу, которой Вы не нравились. Вам вернули {0}.</value>
   </data>
   <data name="games_8ball" xml:space="preserve">
-    <value></value>
+    <value>8ball</value>
   </data>
   <data name="games_acrophobia" xml:space="preserve">
     <value>Акрофобия.</value>
@@ -1355,16 +1384,19 @@ Paypal &lt;{1}&gt;
     <value>Папка успешно добавлена в очередь воспроизведения.</value>
   </data>
   <data name="music_fairplay" xml:space="preserve">
-    <value></value>
+    <value>fairplay</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_finished_song" xml:space="preserve">
     <value>Песня завершилась.</value>
   </data>
   <data name="music_fp_disabled" xml:space="preserve">
-    <value></value>
+    <value>Отключено справедливое воспроизведение.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_fp_enabled" xml:space="preserve">
-    <value></value>
+    <value>Включено справедливое воспроизведение.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_from_position" xml:space="preserve">
     <value>С момента</value>
@@ -1716,7 +1748,7 @@ Paypal &lt;{1}&gt;
     <value>Определить:</value>
   </data>
   <data name="searches_dropped" xml:space="preserve">
-    <value></value>
+    <value>Брошено</value>
   </data>
   <data name="searches_episodes" xml:space="preserve">
     <value>Эпизоды</value>
@@ -1828,11 +1860,11 @@ Paypal &lt;{1}&gt;
     <value>Качество:</value>
   </data>
   <data name="searches_quick_playtime" xml:space="preserve">
-    <value></value>
+    <value>Время игры в Быстрой Игре</value>
     <comment>Is this supposed to be Overwatch Quick Play stats?</comment>
   </data>
   <data name="searches_quick_wins" xml:space="preserve">
-    <value></value>
+    <value>Побед в Быстрой Игре</value>
   </data>
   <data name="searches_rating" xml:space="preserve">
     <value>Рейтинг:</value>
@@ -1859,7 +1891,7 @@ Paypal &lt;{1}&gt;
     <value>Состояние</value>
   </data>
   <data name="searches_store_url" xml:space="preserve">
-    <value></value>
+    <value>Url Магазина</value>
   </data>
   <data name="searches_streamer_offline" xml:space="preserve">
     <value>Стример {0} в оффлане.</value>
@@ -1883,7 +1915,7 @@ Paypal &lt;{1}&gt;
     <value>Стрим {0} ({1}) убран из оповещений.</value>
   </data>
   <data name="searches_stream_tracked" xml:space="preserve">
-    <value></value>
+    <value>Этот канал будет оповещён, когда статус стрима изменится.</value>
   </data>
   <data name="searches_sunrise" xml:space="preserve">
     <value>Рассвет</value>
@@ -1945,7 +1977,7 @@ Paypal &lt;{1}&gt;
 `1.`</comment>
   </data>
   <data name="utility_activity_page" xml:space="preserve">
-    <value></value>
+    <value>Страница списка активности #{0}</value>
   </data>
   <data name="utility_activity_users_total" xml:space="preserve">
     <value>Всего {0} пользователей.</value>
@@ -2025,55 +2057,56 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="utility_listservers" xml:space="preserve">
     <value>Имя: {0}
-</value>
+Участники: {1}
+IDВладельца: {2}</value>
   </data>
   <data name="utility_listservers_none" xml:space="preserve">
-    <value></value>
+    <value>На этой странице не найдено серверов.</value>
   </data>
   <data name="utility_list_of_repeaters" xml:space="preserve">
-    <value></value>
+    <value>Список повторяемых сообщений</value>
   </data>
   <data name="utility_members" xml:space="preserve">
-    <value></value>
+    <value>Участники</value>
   </data>
   <data name="utility_memory" xml:space="preserve">
-    <value></value>
+    <value>Память</value>
   </data>
   <data name="utility_messages" xml:space="preserve">
-    <value></value>
+    <value>Сообщения</value>
   </data>
   <data name="utility_message_repeater" xml:space="preserve">
-    <value></value>
+    <value>Повторяемое сообщения</value>
   </data>
   <data name="utility_name" xml:space="preserve">
-    <value></value>
+    <value>Имя</value>
   </data>
   <data name="utility_nickname" xml:space="preserve">
-    <value></value>
+    <value>Кличка</value>
   </data>
   <data name="utility_nobody_playing_game" xml:space="preserve">
-    <value></value>
+    <value>Никто не играет в эту игру</value>
   </data>
   <data name="utility_no_active_repeaters" xml:space="preserve">
-    <value></value>
+    <value>Нет активных повторяемых сообщений</value>
   </data>
   <data name="utility_no_roles_on_page" xml:space="preserve">
-    <value></value>
+    <value>На этой странице нет ролей.</value>
   </data>
   <data name="utility_no_shards_on_page" xml:space="preserve">
-    <value></value>
+    <value>На этой странице нет Shard-ов.</value>
   </data>
   <data name="utility_no_topic_set" xml:space="preserve">
-    <value></value>
+    <value>Тема не задана</value>
   </data>
   <data name="utility_owner" xml:space="preserve">
-    <value></value>
+    <value>Владелец</value>
   </data>
   <data name="utility_owner_ids" xml:space="preserve">
-    <value></value>
+    <value>ID владельца</value>
   </data>
   <data name="utility_presence" xml:space="preserve">
-    <value></value>
+    <value>Присутствие</value>
   </data>
   <data name="utility_presence_txt" xml:space="preserve">
     <value>{0} Серверов
@@ -2081,116 +2114,116 @@ Paypal &lt;{1}&gt;
 {2} Голосовых каналов</value>
   </data>
   <data name="utility_quotes_deleted" xml:space="preserve">
-    <value></value>
+    <value>Удалены все цитаты с ключевым словом {0}.</value>
   </data>
   <data name="utility_quotes_page" xml:space="preserve">
-    <value></value>
+    <value>Страница {0} цитат</value>
   </data>
   <data name="utility_quotes_page_none" xml:space="preserve">
-    <value></value>
+    <value>На этой странице нет цитат.</value>
   </data>
   <data name="utility_quotes_remove_none" xml:space="preserve">
-    <value></value>
+    <value>Не найдено цитат, пригодных для удаления.</value>
   </data>
   <data name="utility_quote_added" xml:space="preserve">
-    <value></value>
+    <value>Цитата добавлена</value>
   </data>
   <data name="utility_quote_deleted" xml:space="preserve">
-    <value></value>
+    <value>Случайно выбранная цитата удалена.</value>
   </data>
   <data name="utility_region" xml:space="preserve">
-    <value></value>
+    <value>Регион</value>
   </data>
   <data name="utility_registered_on" xml:space="preserve">
-    <value></value>
+    <value>Зарегистрирован</value>
   </data>
   <data name="utility_remind" xml:space="preserve">
-    <value></value>
+    <value>Я напомню, чтобы {0} сделал {2} &apos;{3:d.M.yyyy.} в {4:HH:mm}&apos;</value>
   </data>
   <data name="utility_remind_invalid_format" xml:space="preserve">
-    <value></value>
+    <value>Неправильный формат времени. Проверьте список команд.</value>
   </data>
   <data name="utility_remind_template" xml:space="preserve">
-    <value></value>
+    <value>Новый образец для напоминаний задан.</value>
   </data>
   <data name="utility_repeater" xml:space="preserve">
-    <value></value>
+    <value>Повторяю {0} каждые {} дня(ей), {2} час(а) и {3} минут(у).</value>
   </data>
   <data name="utility_repeaters_list" xml:space="preserve">
-    <value></value>
+    <value>Список повторяемых сообщений</value>
   </data>
   <data name="utility_repeaters_none" xml:space="preserve">
-    <value></value>
+    <value>На этом сервере нет повторяемых сообщений.</value>
   </data>
   <data name="utility_repeater_stopped" xml:space="preserve">
-    <value></value>
+    <value>#{0} остановлен.</value>
   </data>
   <data name="utility_repeat_invoke_none" xml:space="preserve">
-    <value></value>
+    <value>На этом сервере не найдено повторяемых сообщений</value>
   </data>
   <data name="utility_result" xml:space="preserve">
-    <value></value>
+    <value>Результат</value>
   </data>
   <data name="utility_roles" xml:space="preserve">
-    <value></value>
+    <value>Роли</value>
   </data>
   <data name="utility_roles_all_page" xml:space="preserve">
-    <value></value>
+    <value>Страница #{0} всех ролей на этом сервере:</value>
   </data>
   <data name="utility_roles_page" xml:space="preserve">
-    <value></value>
+    <value>Страница #{0} ролей для {1}</value>
   </data>
   <data name="utility_rrc_no_colors" xml:space="preserve">
-    <value></value>
+    <value>Цвета заданы в неправильном формате. Используйте, например &apos;#00ff00&apos;.</value>
   </data>
   <data name="utility_rrc_start" xml:space="preserve">
-    <value></value>
+    <value>Начато чередование цветов роли {0}.</value>
   </data>
   <data name="utility_rrc_stop" xml:space="preserve">
-    <value></value>
+    <value>Остановлено чередование цветов роли {0}.</value>
   </data>
   <data name="utility_serverid" xml:space="preserve">
-    <value></value>
+    <value>{0} этого сервера — {1}</value>
   </data>
   <data name="utility_server_info" xml:space="preserve">
-    <value></value>
+    <value>Информация о сервере</value>
   </data>
   <data name="utility_shard" xml:space="preserve">
-    <value></value>
+    <value>Shard</value>
   </data>
   <data name="utility_shard_stats" xml:space="preserve">
-    <value></value>
+    <value>Статискика Shard-а</value>
   </data>
   <data name="utility_shard_stats_txt" xml:space="preserve">
-    <value></value>
+    <value>Shard **#{0}** находится в состоянии {1} с {2} серверами.</value>
   </data>
   <data name="utility_showemojis" xml:space="preserve">
-    <value></value>
+    <value>**Имя:** {0} **Link:** {1}</value>
   </data>
   <data name="utility_showemojis_none" xml:space="preserve">
-    <value></value>
+    <value>Серверные emoji не найдены.</value>
   </data>
   <data name="utility_stats_songs" xml:space="preserve">
-    <value></value>
+    <value>Проигрывается {0} песен, {1} в очереди</value>
   </data>
   <data name="utility_text_channels" xml:space="preserve">
-    <value></value>
+    <value>Текстовые каналы</value>
   </data>
   <data name="utility_togtub_room_link" xml:space="preserve">
-    <value></value>
+    <value>Ссылка на Вашу комнату:</value>
   </data>
   <data name="utility_uptime" xml:space="preserve">
-    <value></value>
+    <value>Время работы</value>
   </data>
   <data name="utility_userid" xml:space="preserve">
-    <value></value>
+    <value>{} пользователя {1} — {2}</value>
     <comment>Id of the user kwoth#1234 is 123123123123</comment>
   </data>
   <data name="utility_users" xml:space="preserve">
-    <value></value>
+    <value>Пользователи</value>
   </data>
   <data name="utility_voice_channels" xml:space="preserve">
-    <value></value>
+    <value>Голосовые каналы</value>
   </data>
 
 </root>
