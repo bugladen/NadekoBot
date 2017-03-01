@@ -131,19 +131,15 @@
   </data>
   <data name="clashofclans_base_unclaimed" xml:space="preserve">
     <value>У {0} есть **НЕ ЗАХВАЧЕННАЯ** база #{1}, ведущая войну против {2}</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_claimed_base" xml:space="preserve">
-    <value>{0} захватил базу #{1} ведя войну против {2}</value>
-    <comment>Fuzzy</comment>
+    <value>{0} захватил базу #{1}, ведя войну против {2}</value>
   </data>
   <data name="clashofclans_claimed_other" xml:space="preserve">
     <value>@{0} Вы уже захватили базу #{1}. Вы не можете захватить новую базу.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_claim_expired" xml:space="preserve">
     <value>Время действия запроса от @{0} на войну против {1} истёкло.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_enemy" xml:space="preserve">
     <value>Враг</value>
@@ -161,8 +157,7 @@
     <value>Список активных войн</value>
   </data>
   <data name="clashofclans_not_claimed" xml:space="preserve">
-    <value>не захваченна</value>
-    <comment>Fuzzy</comment>
+    <value>не захвачена</value>
   </data>
   <data name="clashofclans_not_partic" xml:space="preserve">
     <value>Вы не участвуете в этой войне.</value>
@@ -180,8 +175,7 @@
     <value>Война против {0} уже началась.</value>
   </data>
   <data name="clashofclans_war_created" xml:space="preserve">
-    <value>Война против {0} была создана.</value>
-    <comment>Fuzzy</comment>
+    <value>Война против {0} была начата.</value>
   </data>
   <data name="clashofclans_war_ended" xml:space="preserve">
     <value>Закончилась война против {0}.</value>
@@ -194,50 +188,39 @@
   </data>
   <data name="customreactions_all_stats_cleared" xml:space="preserve">
     <value>Вся статистика настраиваемых реакций стёрта.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="customreactions_deleted" xml:space="preserve">
-    <value>Настраиваемая реакция удалена.</value>
-    <comment>Fuzzy</comment>
+    <value>Настраиваемая реакция удалена</value>
   </data>
   <data name="customreactions_insuff_perms" xml:space="preserve">
     <value>Недостаточно прав. Необходимо владеть Бот-ом для глобальных настраиваемых реакций или быть Администратором для реакций по серверу.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="customreactions_list_all" xml:space="preserve">
-    <value>Список всех настраиваемых реакций.</value>
-    <comment>Fuzzy</comment>
+    <value>Список всех настраиваемых реакций</value>
   </data>
   <data name="customreactions_name" xml:space="preserve">
-    <value>Настроить ответы.</value>
-    <comment>Fuzzy</comment>
+    <value>Настраиваемые реакции</value>
   </data>
   <data name="customreactions_new_cust_react" xml:space="preserve">
-    <value>Новый ответ.</value>
-    <comment>Fuzzy</comment>
+    <value>Новая настраиваемая реакция</value>
   </data>
   <data name="customreactions_no_found" xml:space="preserve">
     <value>Не найдено настраиваемых реакций.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="customreactions_no_found_id" xml:space="preserve">
     <value>Не найдено настраиваемых реакций с таким номером.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="customreactions_response" xml:space="preserve">
     <value>Ответ</value>
   </data>
   <data name="customreactions_stats" xml:space="preserve">
-    <value>Статистика настраеваемых реакций.</value>
-    <comment>Fuzzy</comment>
+    <value>Статистика настраеваемых реакций</value>
   </data>
   <data name="customreactions_stats_cleared" xml:space="preserve">
     <value>Статистика удалена для настраеваемой реакции {0}.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="customreactions_stats_not_found" xml:space="preserve">
-    <value>Не найдено статистики для этого запроса, никаких действий не применено.</value>
-    <comment>Fuzzy</comment>
+    <value>Не найдено статистики для этого активатора, никаких действий не применено.</value>
   </data>
   <data name="customreactions_trigger" xml:space="preserve">
     <value>Активатор</value>
@@ -278,41 +261,33 @@
   </data>
   <data name="pokemon_invalid_move" xml:space="preserve">
     <value>Вы не можете использовать {0}. Напишите &apos;{1}ml&apos;, чтобы увидеть список доступных Вам приёмов.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="pokemon_moves" xml:space="preserve">
     <value>Список приёмов {0} типа</value>
   </data>
   <data name="pokemon_not_effective" xml:space="preserve">
     <value>Эта атака не эффективна.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="pokemon_no_currency" xml:space="preserve">
     <value>У вас не достаточно {0}</value>
   </data>
   <data name="pokemon_revive_other" xml:space="preserve">
     <value>воскресил {0}, использовав один {1}</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="pokemon_revive_yourself" xml:space="preserve">
     <value>Вы воскресили себя, использовав один {0}</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="pokemon_settype_success" xml:space="preserve">
     <value>Ваш тип изменён с {0} на {1}</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="pokemon_somewhat_effective" xml:space="preserve">
     <value>Эта атака немного эффективна.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="pokemon_super_effective" xml:space="preserve">
     <value>Эта атака очень эффективна!</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="pokemon_too_many_moves" xml:space="preserve">
     <value>Вы использовали слишком много приёмов подряд и не можете двигаться!</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="pokemon_type_of_user" xml:space="preserve">
     <value>Тип {0} — {1}</value>
@@ -398,7 +373,6 @@
   </data>
   <data name="administration_deafen" xml:space="preserve">
     <value>Успешное оглушение.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_deleted_server" xml:space="preserve">
     <value>Сервер {0} удален.</value>
@@ -420,7 +394,6 @@
   </data>
   <data name="administration_donadd" xml:space="preserve">
     <value>Успешно добавлен новый донатор. Общее количество пожертвований от этого пользователя: {0} 👑</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_donators" xml:space="preserve">
     <value>Спасибо всем, указанным ниже, что помогли этому проекту!</value>
@@ -444,19 +417,19 @@
     <value>Приветственные сообщения будут удаляться через {0} секунд.</value>
   </data>
   <data name="administration_greetdmmsg_cur" xml:space="preserve">
-    <value>Приветствие, используемое в настоящий момент: {0}</value>
+    <value>Приветственное ЛС, используемое в настоящий момент: {0}</value>
   </data>
   <data name="administration_greetdmmsg_enable" xml:space="preserve">
-    <value>Чтобы включить приветствия, напишите {0}</value>
+    <value>Чтобы включить приветственное ЛС, напишите {0}</value>
   </data>
   <data name="administration_greetdmmsg_new" xml:space="preserve">
-    <value>Новое приветствие установлено.</value>
+    <value>Новое приветственное ЛС установлено.</value>
   </data>
   <data name="administration_greetdm_off" xml:space="preserve">
-    <value>Приветствия в личных сообщениях отключены.</value>
+    <value>Приветственые ЛС отключены.</value>
   </data>
   <data name="administration_greetdm_on" xml:space="preserve">
-    <value>Приветствия в личных сообщениях включены.</value>
+    <value>Приветственные ЛС включены.</value>
   </data>
   <data name="administration_greetmsg_cur" xml:space="preserve">
     <value>Текущее привественное сообщение: {0}</value>
@@ -560,25 +533,21 @@
     <value>Сообщение изменено в #{0}</value>
   </data>
   <data name="administration_muted_pl" xml:space="preserve">
-    <value>Заглушёны</value>
-    <comment>PLURAL (users have been muted)
-Fuzzy</comment>
+    <value>Заглушены</value>
+    <comment>PLURAL (users have been muted)</comment>
   </data>
   <data name="administration_muted_sn" xml:space="preserve">
     <value>Заглушён</value>
-    <comment>singular &quot;User muted.&quot;
-Fuzzy</comment>
+    <comment>singular &quot;User muted.&quot;</comment>
   </data>
   <data name="administration_mute_error" xml:space="preserve">
     <value>Скорее всего, у меня нет необходимых прав.</value>
   </data>
   <data name="administration_mute_role_set" xml:space="preserve">
-    <value>Новая немая роль установлена.</value>
-    <comment>Fuzzy</comment>
+    <value>Новая роль заглушения установлена.</value>
   </data>
   <data name="administration_need_admin" xml:space="preserve">
     <value>Мне нужно право **Администратор**, чтобы это сделать.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_new_msg" xml:space="preserve">
     <value>Новое сообщение</value>
@@ -793,7 +762,7 @@ Fuzzy</comment>
     <value>Отключено заглушение.</value>
   </data>
   <data name="administration_unmuted_sn" xml:space="preserve">
-    <value>Вкл. звук</value>
+    <value>Вернут звук</value>
     <comment>singular
 Fuzzy</comment>
   </data>
@@ -810,12 +779,10 @@ Fuzzy</comment>
     <value>Пользователь заблокирован</value>
   </data>
   <data name="administration_user_chat_mute" xml:space="preserve">
-    <value>{0} получил **запрет** на разговор в чате.</value>
-    <comment>Fuzzy</comment>
+    <value>{0} получил **запрет** на разговор в текстовых каналах.</value>
   </data>
   <data name="administration_user_chat_unmute" xml:space="preserve">
-    <value>{0} потерял **запрет** на разговор в чате.</value>
-    <comment>Fuzzy</comment>
+    <value>{0} получил **разрешение** на разговор в текстовых каналах.</value>
   </data>
   <data name="administration_user_joined" xml:space="preserve">
     <value>Пользователь присоединился</value>
@@ -824,8 +791,7 @@ Fuzzy</comment>
     <value>Пользователь вышел</value>
   </data>
   <data name="administration_user_muted" xml:space="preserve">
-    <value>{0} получил **запрет** на разговор в текстовом и голосовом чатах.</value>
-    <comment>Fuzzy</comment>
+    <value>{0} получил **запрет** на разговор в текстовых и голосовых каналах</value>
   </data>
   <data name="administration_user_role_add" xml:space="preserve">
     <value>Добавлена роль пользователя</value>
@@ -837,8 +803,7 @@ Fuzzy</comment>
     <value>{0} теперь {1}</value>
   </data>
   <data name="administration_user_unmuted" xml:space="preserve">
-    <value>{0} потерял **запрет** на разговор в текстовом и голосовом чатах.</value>
-    <comment>Fuzzy</comment>
+    <value>{0} получил **разрешение** на разговор в текстовых и голосовых каналах.</value>
   </data>
   <data name="administration_user_vjoined" xml:space="preserve">
     <value>{0} присоединился к голосовому каналу {1}.</value>
@@ -851,11 +816,9 @@ Fuzzy</comment>
   </data>
   <data name="administration_user_voice_mute" xml:space="preserve">
     <value>**Выключен микрофон** у {0}.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_voice_unmute" xml:space="preserve">
     <value>**Включён микрофон** у {0}.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_voice_chan_created" xml:space="preserve">
     <value>Голосовой канал создан</value>
@@ -1128,7 +1091,7 @@ Paypal &lt;{1}&gt;
     <value>Смены чувств</value>
   </data>
   <data name="gambling_claimed_by" xml:space="preserve">
-    <value>В браке</value>
+    <value>Является мужем</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="gambling_divorces" xml:space="preserve">
@@ -1383,7 +1346,6 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="music_fairplay" xml:space="preserve">
     <value>справедливое воспроизведение</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="music_finished_song" xml:space="preserve">
     <value>Песня завершилась.</value>
