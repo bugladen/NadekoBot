@@ -273,7 +273,7 @@ namespace NadekoBot.Modules.Utility
         [NadekoCommand, Usage, Description, Aliases]
         public async Task ChannelId()
         {
-            await ReplyConfirmLocalized("channelidd", "🆔", Format.Code(Context.Channel.Id.ToString()))
+            await ReplyConfirmLocalized("channelid", "🆔", Format.Code(Context.Channel.Id.ToString()))
                 .ConfigureAwait(false);
         }
 
@@ -439,7 +439,7 @@ namespace NadekoBot.Modules.Utility
             var result = string.Join("\n", tags.Select(m => GetText("showemojis", m, m.Url)));
 
             if (string.IsNullOrWhiteSpace(result))
-                await ReplyErrorLocalized("emojis_none").ConfigureAwait(false);
+                await ReplyErrorLocalized("showemojis_none").ConfigureAwait(false);
             else
                 await Context.Channel.SendMessageAsync(result).ConfigureAwait(false);
         }
