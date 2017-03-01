@@ -1956,7 +1956,10 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Thema des Kanals</value>
   </data>
   <data name="utility_commands_ran" xml:space="preserve">
-    <value>Befehl ausgeführt</value>
+    <value>Befehle ausgeführt</value>
+    <comment>Commands ran
+9
+^used like that in .stats</comment>
   </data>
   <data name="utility_convert" xml:space="preserve">
     <value>{0} {1} ist gleich zu {2} {3}</value>
