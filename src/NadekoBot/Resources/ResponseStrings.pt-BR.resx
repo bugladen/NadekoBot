@@ -1207,7 +1207,7 @@ Não esqueça de deixar seu nome ou id do discord na mensagem.
     <value>É um empate! ambos escolheram {0}</value>
   </data>
   <data name="games_rps_win" xml:space="preserve">
-    <value></value>
+    <value>{0} ganhou! {1} vence {2}</value>
   </data>
   <data name="games_submissions_closed" xml:space="preserve">
     <value></value>
@@ -1222,10 +1222,10 @@ Não esqueça de deixar seu nome ou id do discord na mensagem.
     <value>Categoria</value>
   </data>
   <data name="games_cleverbot_disabled" xml:space="preserve">
-    <value></value>
+    <value>Cleverbot desabilitado neste servidor</value>
   </data>
   <data name="games_cleverbot_enabled" xml:space="preserve">
-    <value>Cleverbot ativado neste servidor.</value>
+    <value>Cleverbot habilitado neste servidor.</value>
   </data>
   <data name="games_curgen_disabled" xml:space="preserve">
     <value></value>
@@ -1241,7 +1241,7 @@ Não esqueça de deixar seu nome ou id do discord na mensagem.
     <value></value>
   </data>
   <data name="games_failed_loading_question" xml:space="preserve">
-    <value>Falha ao carregar a questão </value>
+    <value>Falha ao carregar a questão.</value>
   </data>
   <data name="games_game_started" xml:space="preserve">
     <value>Jogo Iniciado</value>
@@ -1487,7 +1487,7 @@ Não esqueça de deixar seu nome ou id do discord na mensagem.
     <value>Volume deve estar entre 0 e 100</value>
   </data>
   <data name="music_volume_set" xml:space="preserve">
-    <value></value>
+    <value>Volume ajustado para {0}%</value>
   </data>
   <data name="permissions_acm_disable" xml:space="preserve">
     <value></value>
@@ -1582,10 +1582,10 @@ Não esqueça de deixar seu nome ou id do discord na mensagem.
     <comment>Gen. (of module)</comment>
   </data>
   <data name="permissions_page" xml:space="preserve">
-    <value></value>
+    <value>Pagina {0} de permissões </value>
   </data>
   <data name="permissions_permrole" xml:space="preserve">
-    <value></value>
+    <value>Atual cargo de permissões é {0}</value>
   </data>
   <data name="permissions_permrole_changed" xml:space="preserve">
     <value></value>
@@ -1594,29 +1594,29 @@ Não esqueça de deixar seu nome ou id do discord na mensagem.
     <value></value>
   </data>
   <data name="permissions_removed" xml:space="preserve">
-    <value></value>
+    <value>Permissões removidas #{0} - {1}</value>
   </data>
   <data name="permissions_rx_disable" xml:space="preserve">
-    <value></value>
+    <value>Desabilitado o uso de {0} {1} para o cargo {2}.</value>
   </data>
   <data name="permissions_rx_enable" xml:space="preserve">
-    <value></value>
+    <value>Habilitado o uso de {0} {1} para o cargo {2}.</value>
   </data>
   <data name="permissions_sec" xml:space="preserve">
     <value></value>
     <comment>Short of seconds.</comment>
   </data>
   <data name="permissions_sx_disable" xml:space="preserve">
-    <value></value>
+    <value>Desabilitado o uso de {0} {1} nesse servidor.</value>
   </data>
   <data name="permissions_sx_enable" xml:space="preserve">
-    <value></value>
+    <value>Habilitado o uso de {0} {1} nesse servidor.</value>
   </data>
   <data name="permissions_unblacklisted" xml:space="preserve">
     <value></value>
   </data>
   <data name="permissions_uneditable" xml:space="preserve">
-    <value></value>
+    <value>Não editavel</value>
   </data>
   <data name="permissions_ux_disable" xml:space="preserve">
     <value></value>
@@ -1625,22 +1625,22 @@ Não esqueça de deixar seu nome ou id do discord na mensagem.
     <value></value>
   </data>
   <data name="permissions_verbose_false" xml:space="preserve">
-    <value></value>
+    <value>Não vou mas mostrar avisos de permissões.</value>
   </data>
   <data name="permissions_verbose_true" xml:space="preserve">
-    <value></value>
+    <value>Vou passar a mostrar avisos de permissões.</value>
   </data>
   <data name="permissions_word_filter_channel_off" xml:space="preserve">
-    <value></value>
+    <value>Filtragem de palavras desabilitada nesse canal.</value>
   </data>
   <data name="permissions_word_filter_channel_on" xml:space="preserve">
-    <value></value>
+    <value>Filtragem de palavras habilitada nesse canal.</value>
   </data>
   <data name="permissions_word_filter_server_off" xml:space="preserve">
-    <value></value>
+    <value>Filtragem de palavras desabilitada nesse servidor.</value>
   </data>
   <data name="permissions_word_filter_server_on" xml:space="preserve">
-    <value></value>
+    <value>Filtragem de palavras habilitada nesse servidor.</value>
   </data>
   <data name="searches_abilities" xml:space="preserve">
     <value>Habilidades</value>
@@ -1679,16 +1679,16 @@ Não esqueça de deixar seu nome ou id do discord na mensagem.
     <value></value>
   </data>
   <data name="searches_compet_loses" xml:space="preserve">
-    <value></value>
+    <value>Derrotas Competitivas</value>
   </data>
   <data name="searches_compet_played" xml:space="preserve">
-    <value></value>
+    <value>Partidas Competitivas jogadas</value>
   </data>
   <data name="searches_compet_rank" xml:space="preserve">
-    <value></value>
+    <value>Rank Competitivo</value>
   </data>
   <data name="searches_compet_wins" xml:space="preserve">
-    <value></value>
+    <value>Vitorias Competitivas</value>
   </data>
   <data name="searches_completed" xml:space="preserve">
     <value>Completado</value>
