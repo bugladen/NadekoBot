@@ -874,9 +874,6 @@ Grund: {1}</value>
   <data name="gambling_awarded" xml:space="preserve">
     <value>verleiht {1} {0}</value>
   </data>
-  <data name="gambling_betflip_gamble" xml:space="preserve">
-    <value>Münzwurf-Glücksspiel</value>
-  </data>
   <data name="gambling_better_luck" xml:space="preserve">
     <value>Hoffentlich haben sie beim nächsten Mal mehr Glück ^_^</value>
   </data>
@@ -1238,11 +1235,11 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Währungsgeneration in diesem Kanal aktiviert.</value>
   </data>
   <data name="games_curgen_pl" xml:space="preserve">
-    <value>{0} zufällige {1} sind erschienen! Sammle sie indem sie `{2}pick` schreiben.</value>
+    <value>{0} zufällige {1} sind erschienen! Sammle sie indem sie `{2}pick` schreiben</value>
     <comment>plural</comment>
   </data>
   <data name="games_curgen_sn" xml:space="preserve">
-    <value>Eine zufällige {0} ist erschienen! Sammle sie indem sie `{1}pick` schreiben.</value>
+    <value>Eine zufällige {0} ist erschienen! Sammle sie indem sie `{1}pick` schreiben</value>
   </data>
   <data name="games_failed_loading_question" xml:space="preserve">
     <value>Laden einer Frage fehlgeschlagen.</value>
@@ -1370,10 +1367,10 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Ungültige Eingabe.</value>
   </data>
   <data name="music_max_playtime_none" xml:space="preserve">
-    <value>Maximale Spielzeit hat kein Limit mehr</value>
+    <value>Maximale Spielzeit hat kein Limit mehr.</value>
   </data>
   <data name="music_max_playtime_set" xml:space="preserve">
-    <value>Maximale Spielzeit ist nun {0} Sekunden</value>
+    <value>Maximale Spielzeit ist nun {0} Sekunden.</value>
   </data>
   <data name="music_max_queue_unlimited" xml:space="preserve">
     <value>Maximale Musik-Warteschlangengröße ist nun unbegrenzt.</value>
@@ -1436,10 +1433,10 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Eingereihter Song</value>
   </data>
   <data name="music_queue_cleared" xml:space="preserve">
-    <value>Musik-Warteschlange geleert</value>
+    <value>Musik-Warteschlange geleert.</value>
   </data>
   <data name="music_queue_full" xml:space="preserve">
-    <value>Warteschlange ist voll bei {0}/{1}</value>
+    <value>Warteschlange ist voll bei {0}/{1}.</value>
   </data>
   <data name="music_removed_song" xml:space="preserve">
     <value>Song entfernt</value>
@@ -1458,7 +1455,7 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Aktueller Song wird nicht mehr wiederholt.</value>
   </data>
   <data name="music_resumed" xml:space="preserve">
-    <value>Musikwiedergabe wiederaufgenommen</value>
+    <value>Musikwiedergabe wiederaufgenommen.</value>
   </data>
   <data name="music_rpl_disabled" xml:space="preserve">
     <value>Playlist-Wiederholung deaktiviert.</value>
@@ -1473,7 +1470,7 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Gesprungen zu `{0}:{1}`</value>
   </data>
   <data name="music_songs_shuffled" xml:space="preserve">
-    <value>Song gemischt</value>
+    <value>Song gemischt.</value>
   </data>
   <data name="music_song_moved" xml:space="preserve">
     <value>Song bewegt</value>
@@ -1524,7 +1521,7 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>{0} mit ID {1} wurde zur Sperrliste hinzugefügt</value>
   </data>
   <data name="permissions_cmdcd_add" xml:space="preserve">
-    <value>Befehl {0} hat nun {1}s Abklingzeit</value>
+    <value>Befehl {0} hat nun {1}s Abklingzeit.</value>
   </data>
   <data name="permissions_cmdcd_cleared" xml:space="preserve">
     <value>Befehl {0} hat keine Abklingzeit mehr und alle laufenden Abklingzeiten wurden entfernt.</value>
@@ -1595,7 +1592,7 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Benutzer brauchen nun Rolle {0} um die Berechtigungen zu editieren.</value>
   </data>
   <data name="permissions_perm_out_of_range" xml:space="preserve">
-    <value>Keine Berechtigung für diesen Index gefunden</value>
+    <value>Keine Berechtigung für diesen Index gefunden.</value>
   </data>
   <data name="permissions_removed" xml:space="preserve">
     <value>Berechtigung #{0} - {1} entfernt</value>
@@ -1611,7 +1608,7 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <comment>Short of seconds.</comment>
   </data>
   <data name="permissions_sx_disable" xml:space="preserve">
-    <value>Benutzung von {0} {1} wurde für diesen Server verboten</value>
+    <value>Benutzung von {0} {1} wurde für diesen Server verboten.</value>
   </data>
   <data name="permissions_sx_enable" xml:space="preserve">
     <value>Benutzung von {0} {1} wurde für diesen Server erlaubt.</value>
@@ -1659,7 +1656,7 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Ihre Automatische-Übersetzungs Sprache wurde entfernt.</value>
   </data>
   <data name="searches_atl_set" xml:space="preserve">
-    <value>Ihre Automatische-Übersetzungs Sprache wurde zu {from}&gt;{to} gesetzt.</value>
+    <value>Ihre Automatische-Übersetzungs Sprache wurde zu {from}&gt;{to} gesetzt</value>
   </data>
   <data name="searches_atl_started" xml:space="preserve">
     <value>Automatische Übersetzung der Nachrichten wurde auf diesem kanal gestartet.</value>
@@ -1671,7 +1668,7 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Schlechter Eingabeformat, oder etwas lief schief.</value>
   </data>
   <data name="searches_card_not_found" xml:space="preserve">
-    <value>Konnte diese Karte nicht finden</value>
+    <value>Konnte diese Karte nicht finden.</value>
   </data>
   <data name="searches_catfact" xml:space="preserve">
     <value>fakt</value>
@@ -1749,7 +1746,7 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Konnte diesen Film nicht finden.</value>
   </data>
   <data name="searches_invalid_lang" xml:space="preserve">
-    <value>Ungültige Quell- oder Zielsprache,</value>
+    <value>Ungültige Quell- oder Zielsprache.</value>
   </data>
   <data name="searches_jokes_not_loaded" xml:space="preserve">
     <value>Witze nicht geladen.</value>
@@ -2049,7 +2046,7 @@ ID des Besitzers: {2}</value>
     <value>Niemand spielt dieses Spiel.</value>
   </data>
   <data name="utility_no_active_repeaters" xml:space="preserve">
-    <value>Keine aktiven Wiederholer</value>
+    <value>Keine aktiven Wiederholer.</value>
   </data>
   <data name="utility_no_roles_on_page" xml:space="preserve">
     <value>Keine Rollen auf dieser Seite.</value>
@@ -2138,7 +2135,7 @@ ID des Besitzers: {2}</value>
     <value>Keine Farben sind in dem Richtigen Format. Benutze zum Beispiel `#00ff00`.</value>
   </data>
   <data name="utility_rrc_start" xml:space="preserve">
-    <value>Startete die Farbrotation für Rolle {0}</value>
+    <value>Startete die Farbrotation für Rolle {0}.</value>
   </data>
   <data name="utility_rrc_stop" xml:space="preserve">
     <value>Stoppte die Farbrotation für Rolle {0}</value>
