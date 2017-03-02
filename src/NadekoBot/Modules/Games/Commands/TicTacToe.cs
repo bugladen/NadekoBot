@@ -4,9 +4,7 @@ using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NLog;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,21 +13,13 @@ namespace NadekoBot.Modules.Games
 {
     public partial class Games
     {
-        //todo timeout
         [Group]
-        public class TicTacToeCommands : ModuleBase
+        public class TicTacToeCommands : NadekoSubmodule
         {
             //channelId/game
             private static readonly Dictionary<ulong, TicTacToe> _games = new Dictionary<ulong, TicTacToe>();
-            private readonly Logger _log;
 
-            public TicTacToeCommands()
-            {
-                _log = LogManager.GetCurrentClassLogger();
-            }
-
-            private readonly SemaphoreSlim sem = new SemaphoreSlim(1, 1);
-            private readonly object tttLockObj = new object();
+            private readonly SemaphoreSlim _sem = new SemaphoreSlim(1, 1);
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
@@ -37,7 +27,7 @@ namespace NadekoBot.Modules.Games
             {
                 var channel = (ITextChannel)Context.Channel;
 
-                await sem.WaitAsync(1000);
+                await _sem.WaitAsync(1000);
                 try
                 {
                     TicTacToe game;
@@ -51,7 +41,7 @@ namespace NadekoBot.Modules.Games
                     }
                     game = new TicTacToe(channel, (IGuildUser)Context.User);
                     _games.Add(channel.Id, game);
-                    await Context.Channel.SendConfirmAsync($"{Context.User.Mention} Created a TicTacToe game.").ConfigureAwait(false);
+                    await ReplyConfirmLocalized("ttt_created").ConfigureAwait(false);
 
                     game.OnEnded += (g) =>
                     {
@@ -60,7 +50,7 @@ namespace NadekoBot.Modules.Games
                 }
                 finally
                 {
-                    sem.Release();
+                    _sem.Release();
                 }
             }
         }
@@ -75,46 +65,49 @@ namespace NadekoBot.Modules.Games
             }
 
             private readonly ITextChannel _channel;
-            private readonly Logger _log;
             private readonly IGuildUser[] _users;
             private readonly int?[,] _state;
             private Phase _phase;
-            int curUserIndex = 0;
-            private readonly SemaphoreSlim moveLock;
+            private int _curUserIndex;
+            private readonly SemaphoreSlim _moveLock;
 
-            private IGuildUser _winner = null;
+            private IGuildUser _winner;
 
-            private readonly string[] numbers = { ":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:", ":nine:" };
+            private readonly string[] _numbers = { ":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:", ":nine:" };
 
             public Action<TicTacToe> OnEnded;
 
-            private IUserMessage previousMessage = null;
-            private Timer timeoutTimer;
+            private IUserMessage _previousMessage;
+            private Timer _timeoutTimer;
 
             public TicTacToe(ITextChannel channel, IGuildUser firstUser)
             {
                 _channel = channel;
-                _users = new IGuildUser[2] { firstUser, null };
-                _state = new int?[3, 3] {
+                _users = new[] { firstUser, null };
+                _state = new int?[,] {
                     { null, null, null },
                     { null, null, null },
                     { null, null, null },
                 };
-
-                _log = LogManager.GetCurrentClassLogger();
-                _log.Warn($"User {firstUser} created a TicTacToe game.");
+                
                 _phase = Phase.Starting;
-                moveLock = new SemaphoreSlim(1, 1);
+                _moveLock = new SemaphoreSlim(1, 1);
             }
+
+            private string GetText(string key, params object[] replacements) =>
+                NadekoTopLevelModule.GetTextStatic(key,
+                    NadekoBot.Localization.GetCultureInfo(_channel.GuildId),
+                    typeof(Games).Name.ToLowerInvariant(),
+                    replacements);
 
             public string GetState()
             {
                 var sb = new StringBuilder();
-                for (int i = 0; i < _state.GetLength(0); i++)
+                for (var i = 0; i < _state.GetLength(0); i++)
                 {
-                    for (int j = 0; j < _state.GetLength(1); j++)
+                    for (var j = 0; j < _state.GetLength(1); j++)
                     {
-                        sb.Append(_state[i, j] == null ? numbers[i * 3 + j] : GetIcon(_state[i, j]));
+                        sb.Append(_state[i, j] == null ? _numbers[i * 3 + j] : GetIcon(_state[i, j]));
                         if (j < _state.GetLength(1) - 1)
                             sb.Append("┃");
                     }
@@ -130,7 +123,7 @@ namespace NadekoBot.Modules.Games
                 var embed = new EmbedBuilder()
                     .WithOkColor()
                     .WithDescription(Environment.NewLine + GetState())
-                    .WithAuthor(eab => eab.WithName($"{_users[0]} vs {_users[1]}"));
+                    .WithAuthor(eab => eab.WithName(GetText("vs", _users[0], _users[1])));
 
                 if (!string.IsNullOrWhiteSpace(title))
                     embed.WithTitle(title);
@@ -138,12 +131,12 @@ namespace NadekoBot.Modules.Games
                 if (_winner == null)
                 {
                     if (_phase == Phase.Ended)
-                        embed.WithFooter(efb => efb.WithText($"No moves left!"));
+                        embed.WithFooter(efb => efb.WithText(GetText("ttt_no_moves")));
                     else
-                        embed.WithFooter(efb => efb.WithText($"{_users[curUserIndex]}'s move"));
+                        embed.WithFooter(efb => efb.WithText(GetText("ttt_users_move", _users[_curUserIndex])));
                 }
                 else
-                    embed.WithFooter(efb => efb.WithText($"{_winner} Won!"));
+                    embed.WithFooter(efb => efb.WithText(GetText("ttt_has_won", _winner)));
 
                 return embed;
             }
@@ -169,23 +162,22 @@ namespace NadekoBot.Modules.Games
             {
                 if (_phase == Phase.Started || _phase == Phase.Ended)
                 {
-                    await _channel.SendErrorAsync(user.Mention + " TicTacToe Game is already running in this channel.").ConfigureAwait(false);
+                    await _channel.SendErrorAsync(user.Mention + GetText("ttt_already_running")).ConfigureAwait(false);
                     return;
                 }
                 else if (_users[0] == user)
                 {
-                    await _channel.SendErrorAsync(user.Mention + " You can't play against yourself.").ConfigureAwait(false);
+                    await _channel.SendErrorAsync(user.Mention + GetText("ttt_against_yourself")).ConfigureAwait(false);
                     return;
                 }
 
                 _users[1] = user;
-                _log.Warn($"User {user} joined a TicTacToe game.");
 
                 _phase = Phase.Started;
 
-                timeoutTimer = new Timer(async (_) =>
+                _timeoutTimer = new Timer(async (_) =>
                 {
-                    await moveLock.WaitAsync();
+                    await _moveLock.WaitAsync();
                     try
                     {
                         if (_phase == Phase.Ended)
@@ -194,12 +186,13 @@ namespace NadekoBot.Modules.Games
                         _phase = Phase.Ended;
                         if (_users[1] != null)
                         {
-                            _winner = _users[curUserIndex ^= 1];
-                            var del = previousMessage?.DeleteAsync();
+                            _winner = _users[_curUserIndex ^= 1];
+                            var del = _previousMessage?.DeleteAsync();
                             try
                             {
-                                await _channel.EmbedAsync(GetEmbed("Time Expired!")).ConfigureAwait(false);
-                                await del.ConfigureAwait(false);
+                                await _channel.EmbedAsync(GetEmbed(GetText("ttt_time_expired"))).ConfigureAwait(false);
+                                if (del != null)
+                                    await del.ConfigureAwait(false);
                             }
                             catch { }
                         }
@@ -209,21 +202,21 @@ namespace NadekoBot.Modules.Games
                     catch { }
                     finally
                     {
-                        moveLock.Release();
+                        _moveLock.Release();
                     }
                 }, null, 15000, Timeout.Infinite);
 
                 NadekoBot.Client.MessageReceived += Client_MessageReceived;
 
 
-                previousMessage = await _channel.EmbedAsync(GetEmbed("Game Started")).ConfigureAwait(false);
+                _previousMessage = await _channel.EmbedAsync(GetEmbed(GetText("game_started"))).ConfigureAwait(false);
             }
 
             private bool IsDraw()
             {
-                for (int i = 0; i < 3; i++)
+                for (var i = 0; i < 3; i++)
                 {
-                    for (int j = 0; j < 3; j++)
+                    for (var j = 0; j < 3; j++)
                     {
                         if (_state[i, j] == null)
                             return false;
@@ -236,10 +229,10 @@ namespace NadekoBot.Modules.Games
             {
                 var _ = Task.Run(async () =>
                 {
-                    await moveLock.WaitAsync().ConfigureAwait(false);
+                    await _moveLock.WaitAsync().ConfigureAwait(false);
                     try
                     {
-                        var curUser = _users[curUserIndex];
+                        var curUser = _users[_curUserIndex];
                         if (_phase == Phase.Ended || msg.Author?.Id != curUser.Id)
                             return;
 
@@ -249,53 +242,53 @@ namespace NadekoBot.Modules.Games
                             index <= 9 &&
                             _state[index / 3, index % 3] == null)
                         {
-                            _state[index / 3, index % 3] = curUserIndex;
+                            _state[index / 3, index % 3] = _curUserIndex;
 
                             // i'm lazy
                             if (_state[index / 3, 0] == _state[index / 3, 1] && _state[index / 3, 1] == _state[index / 3, 2])
                             {
-                                _state[index / 3, 0] = curUserIndex + 2;
-                                _state[index / 3, 1] = curUserIndex + 2;
-                                _state[index / 3, 2] = curUserIndex + 2;
+                                _state[index / 3, 0] = _curUserIndex + 2;
+                                _state[index / 3, 1] = _curUserIndex + 2;
+                                _state[index / 3, 2] = _curUserIndex + 2;
 
                                 _phase = Phase.Ended;
                             }
                             else if (_state[0, index % 3] == _state[1, index % 3] && _state[1, index % 3] == _state[2, index % 3])
                             {
-                                _state[0, index % 3] = curUserIndex + 2;
-                                _state[1, index % 3] = curUserIndex + 2;
-                                _state[2, index % 3] = curUserIndex + 2;
+                                _state[0, index % 3] = _curUserIndex + 2;
+                                _state[1, index % 3] = _curUserIndex + 2;
+                                _state[2, index % 3] = _curUserIndex + 2;
 
                                 _phase = Phase.Ended;
                             }
-                            else if (curUserIndex == _state[0, 0] && _state[0, 0] == _state[1, 1] && _state[1, 1] == _state[2, 2])
+                            else if (_curUserIndex == _state[0, 0] && _state[0, 0] == _state[1, 1] && _state[1, 1] == _state[2, 2])
                             {
-                                _state[0, 0] = curUserIndex + 2;
-                                _state[1, 1] = curUserIndex + 2;
-                                _state[2, 2] = curUserIndex + 2;
+                                _state[0, 0] = _curUserIndex + 2;
+                                _state[1, 1] = _curUserIndex + 2;
+                                _state[2, 2] = _curUserIndex + 2;
 
                                 _phase = Phase.Ended;
                             }
-                            else if (curUserIndex == _state[0, 2] && _state[0, 2] == _state[1, 1] && _state[1, 1] == _state[2, 0])
+                            else if (_curUserIndex == _state[0, 2] && _state[0, 2] == _state[1, 1] && _state[1, 1] == _state[2, 0])
                             {
-                                _state[0, 2] = curUserIndex + 2;
-                                _state[1, 1] = curUserIndex + 2;
-                                _state[2, 0] = curUserIndex + 2;
+                                _state[0, 2] = _curUserIndex + 2;
+                                _state[1, 1] = _curUserIndex + 2;
+                                _state[2, 0] = _curUserIndex + 2;
 
                                 _phase = Phase.Ended;
                             }
-                            string reason = "";
+                            var reason = "";
 
                             if (_phase == Phase.Ended) // if user won, stop receiving moves
                             {
-                                reason = "Matched three!";
-                                _winner = _users[curUserIndex];
+                                reason = GetText("ttt_matched_three");
+                                _winner = _users[_curUserIndex];
                                 NadekoBot.Client.MessageReceived -= Client_MessageReceived;
                                 OnEnded?.Invoke(this);
                             }
                             else if (IsDraw())
                             {
-                                reason = "A draw!";
+                                reason = GetText("ttt_a_draw");
                                 _phase = Phase.Ended;
                                 NadekoBot.Client.MessageReceived -= Client_MessageReceived;
                                 OnEnded?.Invoke(this);
@@ -304,19 +297,19 @@ namespace NadekoBot.Modules.Games
                             var sendstate = Task.Run(async () =>
                             {
                                 var del1 = msg.DeleteAsync();
-                                var del2 = previousMessage?.DeleteAsync();
-                                try { previousMessage = await _channel.EmbedAsync(GetEmbed(reason)); } catch { }
+                                var del2 = _previousMessage?.DeleteAsync();
+                                try { _previousMessage = await _channel.EmbedAsync(GetEmbed(reason)); } catch { }
                                 try { await del1; } catch { }
                                 try { if (del2 != null) await del2; } catch { }
                             });
-                            curUserIndex ^= 1;
+                            _curUserIndex ^= 1;
 
-                            timeoutTimer.Change(15000, Timeout.Infinite);
+                            _timeoutTimer.Change(15000, Timeout.Infinite);
                         }
                     }
                     finally
                     {
-                        moveLock.Release();
+                        _moveLock.Release();
                     }
                 });
 

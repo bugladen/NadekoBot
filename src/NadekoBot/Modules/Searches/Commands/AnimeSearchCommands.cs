@@ -1,6 +1,5 @@
 ﻿using AngleSharp;
 using AngleSharp.Dom.Html;
-using AngleSharp.Extensions;
 using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
@@ -8,7 +7,6 @@ using NadekoBot.Extensions;
 using NadekoBot.Modules.Searches.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,37 +19,37 @@ namespace NadekoBot.Modules.Searches
     public partial class Searches
     {
         [Group]
-        public class AnimeSearchCommands : ModuleBase
+        public class AnimeSearchCommands : NadekoSubmodule
         {
-            private static Timer anilistTokenRefresher { get; }
-            private static Logger _log { get; }
+            private static readonly Timer anilistTokenRefresher;
             private static string anilistToken { get; set; }
 
             static AnimeSearchCommands()
             {
-                _log = LogManager.GetCurrentClassLogger();
                 anilistTokenRefresher = new Timer(async (state) =>
                 {
                     try
                     {
-                        var headers = new Dictionary<string, string> {
-                        {"grant_type", "client_credentials"},
-                        {"client_id", "kwoth-w0ki9"},
-                        {"client_secret", "Qd6j4FIAi1ZK6Pc7N7V4Z"},
-                    };
+                        var headers = new Dictionary<string, string>
+                        {
+                            {"grant_type", "client_credentials"},
+                            {"client_id", "kwoth-w0ki9"},
+                            {"client_secret", "Qd6j4FIAi1ZK6Pc7N7V4Z"},
+                        };
 
                         using (var http = new HttpClient())
                         {
-                            http.AddFakeHeaders();
+                            //http.AddFakeHeaders();
+                            http.DefaultRequestHeaders.Clear();
                             var formContent = new FormUrlEncodedContent(headers);
-                            var response = await http.PostAsync("http://anilist.co/api/auth/access_token", formContent).ConfigureAwait(false);
+                            var response = await http.PostAsync("https://anilist.co/api/auth/access_token", formContent).ConfigureAwait(false);
                             var stringContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                             anilistToken = JObject.Parse(stringContent)["access_token"].ToString();
                         }
                     }
-                    catch (Exception ex)
+                    catch
                     {
-                        _log.Error(ex);
+                        // ignored
                     }
                 }, null, TimeSpan.FromSeconds(0), TimeSpan.FromMinutes(29));
             }
@@ -75,7 +73,7 @@ namespace NadekoBot.Modules.Searches
 
                 var favorites = document.QuerySelectorAll("div.user-favorites > div.di-tc");
 
-                var favAnime = "No favorite anime yet";
+                var favAnime = GetText("anime_no_fav");
                 if (favorites[0].QuerySelector("p") == null)
                     favAnime = string.Join("\n", favorites[0].QuerySelectorAll("ul > li > div.di-tc.va-t > a")
                        .Shuffle()
@@ -106,14 +104,14 @@ namespace NadekoBot.Modules.Searches
 
                 var embed = new EmbedBuilder()
                     .WithOkColor()
-                    .WithTitle($"{name}'s MAL profile")
-                    .AddField(efb => efb.WithName("💚 Watching").WithValue(stats[0]).WithIsInline(true))
-                    .AddField(efb => efb.WithName("💙 Completed").WithValue(stats[1]).WithIsInline(true));
+                    .WithTitle(GetText("mal_profile", name))
+                    .AddField(efb => efb.WithName("💚 " + GetText("watching")).WithValue(stats[0]).WithIsInline(true))
+                    .AddField(efb => efb.WithName("💙 " + GetText("completed")).WithValue(stats[1]).WithIsInline(true));
                 if (info.Count < 3)
-                    embed.AddField(efb => efb.WithName("💛 On-Hold").WithValue(stats[2]).WithIsInline(true));
+                    embed.AddField(efb => efb.WithName("💛 " + GetText("on_hold")).WithValue(stats[2]).WithIsInline(true));
                 embed
-                    .AddField(efb => efb.WithName("💔 Dropped").WithValue(stats[3]).WithIsInline(true))
-                    .AddField(efb => efb.WithName("⚪ Plan to watch").WithValue(stats[4]).WithIsInline(true))
+                    .AddField(efb => efb.WithName("💔 " + GetText("dropped")).WithValue(stats[3]).WithIsInline(true))
+                    .AddField(efb => efb.WithName("⚪ " + GetText("plan_to_watch")).WithValue(stats[4]).WithIsInline(true))
                     .AddField(efb => efb.WithName("🕐 " + daysAndMean[0][0]).WithValue(daysAndMean[0][1]).WithIsInline(true))
                     .AddField(efb => efb.WithName("📊 " + daysAndMean[1][0]).WithValue(daysAndMean[1][1]).WithIsInline(true))
                     .AddField(efb => efb.WithName(MalInfoToEmoji(info[0].Item1) + " " + info[0].Item1).WithValue(info[0].Item2.TrimTo(20)).WithIsInline(true))
@@ -126,7 +124,7 @@ namespace NadekoBot.Modules.Searches
                     .WithDescription($@"
 ** https://myanimelist.net/animelist/{ name } **
 
-**Top 3 Favorite Anime:**
+**{GetText("top_3_fav_anime")}**
 {favAnime}"
 
 //**[Manga List](https://myanimelist.net/mangalist/{name})**
@@ -176,7 +174,7 @@ namespace NadekoBot.Modules.Searches
 
                 if (animeData == null)
                 {
-                    await Context.Channel.SendErrorAsync("Failed finding that animu.").ConfigureAwait(false);
+                    await ReplyErrorLocalized("failed_finding_anime").ConfigureAwait(false);
                     return;
                 }
 
@@ -185,10 +183,10 @@ namespace NadekoBot.Modules.Searches
                     .WithTitle(animeData.title_english)
                     .WithUrl(animeData.Link)
                     .WithImageUrl(animeData.image_url_lge)
-                    .AddField(efb => efb.WithName("Episodes").WithValue(animeData.total_episodes.ToString()).WithIsInline(true))
-                    .AddField(efb => efb.WithName("Status").WithValue(animeData.AiringStatus.ToString()).WithIsInline(true))
-                    .AddField(efb => efb.WithName("Genres").WithValue(String.Join(", ", animeData.Genres)).WithIsInline(true))
-                    .WithFooter(efb => efb.WithText("Score: " + animeData.average_score + " / 100"));
+                    .AddField(efb => efb.WithName(GetText("episodes")).WithValue(animeData.total_episodes.ToString()).WithIsInline(true))
+                    .AddField(efb => efb.WithName(GetText("status")).WithValue(animeData.AiringStatus.ToString()).WithIsInline(true))
+                    .AddField(efb => efb.WithName(GetText("genres")).WithValue(String.Join(",\n", animeData.Genres)).WithIsInline(true))
+                    .WithFooter(efb => efb.WithText(GetText("score") + " " + animeData.average_score + " / 100"));
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
@@ -203,7 +201,7 @@ namespace NadekoBot.Modules.Searches
 
                 if (mangaData == null)
                 {
-                    await Context.Channel.SendErrorAsync("Failed finding that mango.").ConfigureAwait(false);
+                    await ReplyErrorLocalized("failed_finding_manga").ConfigureAwait(false);
                     return;
                 }
 
@@ -212,10 +210,10 @@ namespace NadekoBot.Modules.Searches
                     .WithTitle(mangaData.title_english)
                     .WithUrl(mangaData.Link)
                     .WithImageUrl(mangaData.image_url_lge)
-                    .AddField(efb => efb.WithName("Episodes").WithValue(mangaData.total_chapters.ToString()).WithIsInline(true))
-                    .AddField(efb => efb.WithName("Status").WithValue(mangaData.publishing_status.ToString()).WithIsInline(true))
-                    .AddField(efb => efb.WithName("Genres").WithValue(String.Join(", ", mangaData.Genres)).WithIsInline(true))
-                    .WithFooter(efb => efb.WithText("Score: " + mangaData.average_score + " / 100"));
+                    .AddField(efb => efb.WithName(GetText("chapters")).WithValue(mangaData.total_chapters.ToString()).WithIsInline(true))
+                    .AddField(efb => efb.WithName(GetText("status")).WithValue(mangaData.publishing_status.ToString()).WithIsInline(true))
+                    .AddField(efb => efb.WithName(GetText("genres")).WithValue(String.Join(",\n", mangaData.Genres)).WithIsInline(true))
+                    .WithFooter(efb => efb.WithText(GetText("score") + " " + mangaData.average_score + " / 100"));
 
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }

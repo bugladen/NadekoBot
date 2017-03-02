@@ -16,7 +16,7 @@ using System.Collections.Concurrent;
 namespace NadekoBot.Modules.Pokemon
 {
     [NadekoModule("Pokemon", ">")]
-    public class Pokemon : NadekoModule
+    public class Pokemon : NadekoTopLevelModule
     {
         private static readonly List<PokemonType> _pokemonTypes = new List<PokemonType>();
         private static readonly ConcurrentDictionary<ulong, PokeStats> _stats = new ConcurrentDictionary<ulong, PokeStats>();

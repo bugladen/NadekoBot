@@ -17,7 +17,7 @@ namespace NadekoBot.Modules.Permissions
     public partial class Permissions
     {
         [Group]
-        public class CommandCostCommands : ModuleBase
+        public class CommandCostCommands : NadekoSubmodule
         {
             private static readonly ConcurrentDictionary<string, int> _commandCosts = new ConcurrentDictionary<string, int>();
             public static IReadOnlyDictionary<string, int> CommandCosts => _commandCosts;
@@ -29,29 +29,29 @@ namespace NadekoBot.Modules.Permissions
                 //    x => x.Cost));
             }
 
-            [NadekoCommand, Usage, Description, Aliases]
-            public async Task CmdCosts(int page = 1)
-            {
-                var prices = _commandCosts.ToList();
+            //[NadekoCommand, Usage, Description, Aliases]
+            //public async Task CmdCosts(int page = 1)
+            //{
+            //    var prices = _commandCosts.ToList();
 
-                if (!prices.Any())
-                {
-                    await Context.Channel.SendConfirmAsync("No costs set.").ConfigureAwait(false);
-                    return;
-                }
+            //    if (!prices.Any())
+            //    {
+            //        await Context.Channel.SendConfirmAsync(GetText("no_costs")).ConfigureAwait(false);
+            //        return;
+            //    }
 
-                await Context.Channel.SendPaginatedConfirmAsync(page, (curPage) => {
-                    var embed = new EmbedBuilder().WithOkColor()
-                        .WithTitle("Command Costs");
-                    var current = prices.Skip((curPage - 1) * 9)
-                        .Take(9);
-                    foreach (var price in current)
-                    {
-                        embed.AddField(efb => efb.WithName(price.Key).WithValue(price.Value.ToString()).WithIsInline(true));
-                    }
-                    return embed;
-                }, prices.Count / 9).ConfigureAwait(false);
-            }
+            //    await Context.Channel.SendPaginatedConfirmAsync(page, (curPage) => {
+            //        var embed = new EmbedBuilder().WithOkColor()
+            //            .WithTitle(GetText("command_costs"));
+            //        var current = prices.Skip((curPage - 1) * 9)
+            //            .Take(9);
+            //        foreach (var price in current)
+            //        {
+            //            embed.AddField(efb => efb.WithName(price.Key).WithValue(price.Value.ToString()).WithIsInline(true));
+            //        }
+            //        return embed;
+            //    }, prices.Count / 9).ConfigureAwait(false);
+            //}
 
             //[NadekoCommand, Usage, Description, Aliases]
             //public async Task CommandCost(int cost, CommandInfo cmd)

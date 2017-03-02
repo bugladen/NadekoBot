@@ -16,7 +16,7 @@ using NLog;
 namespace NadekoBot.Modules.Administration
 {
     [NadekoModule("Administration", ".")]
-    public partial class Administration : NadekoModule
+    public partial class Administration : NadekoTopLevelModule
     {
         private static ConcurrentHashSet<ulong> deleteMessagesOnCommand { get; }
 
@@ -440,6 +440,7 @@ namespace NadekoBot.Modules.Administration
             var enumerable = (await Context.Channel.GetMessagesAsync().Flatten()).AsEnumerable();
             enumerable = enumerable.Where(x => x.Author.Id == user.Id);
             await Context.Channel.DeleteMessagesAsync(enumerable).ConfigureAwait(false);
+            Context.Message.DeleteAfter(3);
         }
 
         // prune x
@@ -451,7 +452,6 @@ namespace NadekoBot.Modules.Administration
         {
             if (count < 1)
                 return;
-            count += 1;
             await Context.Message.DeleteAsync().ConfigureAwait(false);
             int limit = (count < 100) ? count : 100;
             var enumerable = (await Context.Channel.GetMessagesAsync(limit: limit).Flatten().ConfigureAwait(false));
@@ -474,6 +474,8 @@ namespace NadekoBot.Modules.Administration
             int limit = (count < 100) ? count : 100;
             var enumerable = (await Context.Channel.GetMessagesAsync(limit: limit).Flatten()).Where(m => m.Author == user);
             await Context.Channel.DeleteMessagesAsync(enumerable).ConfigureAwait(false);
+
+            Context.Message.DeleteAfter(3);
         }
 
         [NadekoCommand, Usage, Description, Aliases]

@@ -501,7 +501,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Stops people from repeating same message X times in a row. You can specify to either mute, kick or ban  the offenders..
+        ///    Looks up a localized string similar to Stops people from repeating same message X times in a row. You can specify to either mute, kick or ban  the offenders. Max message count is 10..
         /// </summary>
         public static string antispam_desc {
             get {
@@ -717,7 +717,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}atl en&gt;fr`.
+        ///    Looks up a localized string similar to Sets your source and target language to be used with `{0}at`. Specify no arguments to remove previously set value..
         /// </summary>
         public static string autotranslang_desc {
             get {
@@ -726,7 +726,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sets your source and target language to be used with `{0}at`. Specify no arguments to remove previously set value..
+        ///    Looks up a localized string similar to `{0}atl en&gt;fr`.
         /// </summary>
         public static string autotranslang_usage {
             get {
@@ -3552,7 +3552,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Lists every person from the provided role or roles (separated by a &apos;,&apos;) on this server. If the list is too long for 1 message, you must have Manage Messages permission..
+        ///    Looks up a localized string similar to Lists every person from the provided role or roles, separated with space, on this server. You can use role IDs, role names (in quotes if it has multiple words), or role mention If the list is too long for 1 message, you must have Manage Messages permission..
         /// </summary>
         public static string inrole_desc {
             get {
@@ -3561,7 +3561,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}inrole Role`.
+        ///    Looks up a localized string similar to `{0}inrole Role` or `{0}inrole Role1 &quot;Role 2&quot; @role3`.
         /// </summary>
         public static string inrole_usage {
             get {
@@ -5730,6 +5730,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to rategirl.
+        /// </summary>
+        public static string rategirl_cmd {
+            get {
+                return ResourceManager.GetString("rategirl_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Use the universal hot-crazy wife zone matrix to determine the girl&apos;s worth. It is everything young men need to know about women. At any moment in time, any woman you have previously located on this chart can vanish from that location and appear anywhere else on the chart..
+        /// </summary>
+        public static string rategirl_desc {
+            get {
+                return ResourceManager.GetString("rategirl_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}rategirl @SomeGurl`.
+        /// </summary>
+        public static string rategirl_usage {
+            get {
+                return ResourceManager.GetString("rategirl_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to reloadimages.
         /// </summary>
         public static string reloadimages_cmd {
@@ -6671,6 +6698,33 @@ namespace NadekoBot.Resources {
         public static string scsc_usage {
             get {
                 return ResourceManager.GetString("scsc_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to qsearch.
+        /// </summary>
+        public static string searchquote_cmd {
+            get {
+                return ResourceManager.GetString("searchquote_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows a random quote for a keyword that contains any text specified in the search..
+        /// </summary>
+        public static string searchquote_desc {
+            get {
+                return ResourceManager.GetString("searchquote_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}qsearch keyword text`.
+        /// </summary>
+        public static string searchquote_usage {
+            get {
+                return ResourceManager.GetString("searchquote_usage", resourceCulture);
             }
         }
         
