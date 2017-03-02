@@ -26,8 +26,8 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         public Task<Quote> SearchQuoteKeywordTextAsync(ulong guildId, string keyword, string text)
         {      			
             var rngk = new NadekoRandom();
-            lowertext = text.ToLowerInvariant();
-	    uppertext = text.ToUpperInvariant();
+            string lowertext = text.ToLowerInvariant();
+	    string uppertext = text.ToUpperInvariant();
             return _set.Where(q => q.GuildId == guildId && q.Keyword == keyword && (q.Text.Contains(text) || q.Text.Contains(lowertext) || q.Text.Contains(uppertext))).OrderBy(q => rngk.Next()).FirstOrDefaultAsync();
 	}
     }
