@@ -101,7 +101,7 @@ namespace NadekoBot.Modules.Utility
                     }
                     return;
                 }
-                await Context.Channel.SendMessageAsync("💬 " + keyword.toLowerInvariant(); + ":  " + keywordquote.Text.SanitizeMentions());
+                await Context.Channel.SendMessageAsync("💬 " + keyword.toLowerInvariant() + ":  " + keywordquote.Text.SanitizeMentions());
             }
 
             [NadekoCommand, Usage, Description, Aliases]
