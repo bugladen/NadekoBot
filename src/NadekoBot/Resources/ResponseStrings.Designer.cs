@@ -594,7 +594,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Bot&apos;s language is set to {0} - {0}.
+        ///    Looks up a localized string similar to Bot&apos;s language is set to {0} - {1}.
         /// </summary>
         public static string administration_lang_set_bot_show {
             get {
@@ -612,7 +612,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to This server&apos;s language is set to {0} - {0}.
+        ///    Looks up a localized string similar to This server&apos;s language is set to {0} - {1}.
         /// </summary>
         public static string administration_lang_set_show {
             get {
@@ -1443,7 +1443,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Text Channel Destroyed .
+        ///    Looks up a localized string similar to Text Channel Created.
         /// </summary>
         public static string administration_text_chan_created {
             get {
@@ -1650,7 +1650,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Voice Channel Destroyed.
+        ///    Looks up a localized string similar to Voice Channel Created.
         /// </summary>
         public static string administration_voice_chan_created {
             get {
@@ -2181,15 +2181,6 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Betflip Gamble.
-        /// </summary>
-        public static string gambling_betflip_gamble {
-            get {
-                return ResourceManager.GetString("gambling_betflip_gamble", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///    Looks up a localized string similar to Better luck next time ^_^.
         /// </summary>
         public static string gambling_better_luck {
@@ -2235,7 +2226,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Invalid number specified. You can roll up to {0}-{1} dice at a time..
+        ///    Looks up a localized string similar to Invalid number specified. You can roll {0}-{1} dice at once..
         /// </summary>
         public static string gambling_dice_invalid_number {
             get {
@@ -3605,15 +3596,6 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to No music player active..
-        /// </summary>
-        public static string music_player_none {
-            get {
-                return ResourceManager.GetString("music_player_none", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///    Looks up a localized string similar to Player Queue - Page {0}/{1}.
         /// </summary>
         public static string music_player_queue {
@@ -4605,7 +4587,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Your auto-translate language has been set to {from}&gt;{to}.
+        ///    Looks up a localized string similar to Your auto-translate language has been set to {0}&gt;{1}.
         /// </summary>
         public static string searches_atl_set {
             get {
@@ -4884,7 +4866,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Joes not loaded..
+        ///    Looks up a localized string similar to Jokes not loaded..
         /// </summary>
         public static string searches_jokes_not_loaded {
             get {
@@ -4911,7 +4893,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Lsit of {0}place tags.
+        ///    Looks up a localized string similar to List of {0}place tags.
         /// </summary>
         public static string searches_list_of_place_tags {
             get {
@@ -5010,7 +4992,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Failed retreiving osu signature..
+        ///    Looks up a localized string similar to Failed retrieving osu! signature..
         /// </summary>
         public static string searches_osu_failed {
             get {
@@ -6004,7 +5986,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Page #{0} of roels for {1}.
+        ///    Looks up a localized string similar to Page #{0} of roles for {1}.
         /// </summary>
         public static string utility_roles_page {
             get {

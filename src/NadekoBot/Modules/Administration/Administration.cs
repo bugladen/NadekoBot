@@ -452,7 +452,6 @@ namespace NadekoBot.Modules.Administration
         {
             if (count < 1)
                 return;
-            count += 1;
             await Context.Message.DeleteAsync().ConfigureAwait(false);
             int limit = (count < 100) ? count : 100;
             var enumerable = (await Context.Channel.GetMessagesAsync(limit: limit).Flatten().ConfigureAwait(false));

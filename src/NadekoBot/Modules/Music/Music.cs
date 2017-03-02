@@ -301,7 +301,7 @@ namespace NadekoBot.Modules.Music
                 uow.GuildConfigs.For(Context.Guild.Id, set => set).DefaultMusicVolume = val / 100.0f;
                 uow.Complete();
             }
-            await ReplyConfirmLocalized("defvol_set").ConfigureAwait(false);
+            await ReplyConfirmLocalized("defvol_set", val).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -592,7 +592,7 @@ namespace NadekoBot.Modules.Music
             if (seconds == 0)
                 await ReplyConfirmLocalized("max_playtime_none").ConfigureAwait(false);
             else
-                await ReplyConfirmLocalized("max_playtime_set").ConfigureAwait(false);
+                await ReplyConfirmLocalized("max_playtime_set", seconds).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -690,7 +690,7 @@ namespace NadekoBot.Modules.Music
                 return;
             }
             IUserMessage msg = null;
-            try { msg = await ReplyConfirmLocalized("attempting_to_queue", Format.Bold(mpl.Songs.Count.ToString())).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+            try { msg = await Context.Channel.SendMessageAsync(GetText("attempting_to_queue", Format.Bold(mpl.Songs.Count.ToString()))).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
             foreach (var item in mpl.Songs)
             {
                 var usr = (IGuildUser)Context.User;
@@ -818,7 +818,7 @@ namespace NadekoBot.Modules.Music
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer))
             {
-                await ReplyErrorLocalized("player_none").ConfigureAwait(false);
+                await ReplyErrorLocalized("no_player").ConfigureAwait(false);
                 return;
             }
 

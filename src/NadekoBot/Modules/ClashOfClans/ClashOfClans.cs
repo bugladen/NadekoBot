@@ -11,15 +11,13 @@ using NadekoBot.Services.Database.Models;
 using System.Linq;
 using NadekoBot.Extensions;
 using System.Threading;
-using System.Diagnostics;
-using NLog;
 
 namespace NadekoBot.Modules.ClashOfClans
 {
     [NadekoModule("ClashOfClans", ",")]
     public class ClashOfClans : NadekoTopLevelModule
     {
-        public static ConcurrentDictionary<ulong, List<ClashWar>> ClashWars { get; set; } = new ConcurrentDictionary<ulong, List<ClashWar>>();
+        public static ConcurrentDictionary<ulong, List<ClashWar>> ClashWars { get; set; }
 
         private static Timer checkWarTimer { get; }
 
@@ -82,11 +80,9 @@ namespace NadekoBot.Modules.ClashOfClans
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        [RequireUserPermission(GuildPermission.ManageMessages)]
         public async Task CreateWar(int size, [Remainder] string enemyClan = null)
         {
-            if (!(Context.User as IGuildUser).GuildPermissions.ManageChannels)
-                return;
-
             if (string.IsNullOrWhiteSpace(enemyClan))
                 return;
 

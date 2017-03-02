@@ -30,17 +30,19 @@ namespace NadekoBot.Modules.Searches
                 {
                     try
                     {
-                        var headers = new Dictionary<string, string> {
-                        {"grant_type", "client_credentials"},
-                        {"client_id", "kwoth-w0ki9"},
-                        {"client_secret", "Qd6j4FIAi1ZK6Pc7N7V4Z"},
-                    };
+                        var headers = new Dictionary<string, string>
+                        {
+                            {"grant_type", "client_credentials"},
+                            {"client_id", "kwoth-w0ki9"},
+                            {"client_secret", "Qd6j4FIAi1ZK6Pc7N7V4Z"},
+                        };
 
                         using (var http = new HttpClient())
                         {
-                            http.AddFakeHeaders();
+                            //http.AddFakeHeaders();
+                            http.DefaultRequestHeaders.Clear();
                             var formContent = new FormUrlEncodedContent(headers);
-                            var response = await http.PostAsync("http://anilist.co/api/auth/access_token", formContent).ConfigureAwait(false);
+                            var response = await http.PostAsync("https://anilist.co/api/auth/access_token", formContent).ConfigureAwait(false);
                             var stringContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                             anilistToken = JObject.Parse(stringContent)["access_token"].ToString();
                         }

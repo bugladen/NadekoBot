@@ -5,9 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using NLog;
-using System.Diagnostics;
 using Discord.Commands;
-using NadekoBot.Services.Database.Models;
 using NadekoBot.Modules.Permissions;
 using Discord.Net;
 using NadekoBot.Extensions;
@@ -22,7 +20,7 @@ using NadekoBot.DataStructures;
 
 namespace NadekoBot.Services
 {
-    public class IGuildUserComparer : IEqualityComparer<IGuildUser>
+    public class GuildUserComparer : IEqualityComparer<IGuildUser>
     {
         public bool Equals(IGuildUser x, IGuildUser y) => x.Id == y.Id;
 
@@ -48,7 +46,7 @@ namespace NadekoBot.Services
         public ConcurrentDictionary<ulong, uint> UserMessagesSent { get; } = new ConcurrentDictionary<ulong, uint>();
 
         public ConcurrentHashSet<ulong> UsersOnShortCooldown { get; } = new ConcurrentHashSet<ulong>();
-        private Timer clearUsersOnShortCooldown { get; }
+        private readonly Timer _clearUsersOnShortCooldown;
 
         public CommandHandler(DiscordShardedClient client, CommandService commandService)
         {
@@ -56,7 +54,7 @@ namespace NadekoBot.Services
             _commandService = commandService;
             _log = LogManager.GetCurrentClassLogger();
 
-            clearUsersOnShortCooldown = new Timer((_) =>
+            _clearUsersOnShortCooldown = new Timer(_ =>
             {
                 UsersOnShortCooldown.Clear();
             }, null, GlobalCommandsCooldown, GlobalCommandsCooldown);
@@ -68,7 +66,7 @@ namespace NadekoBot.Services
                 await Task.Delay(5000).ConfigureAwait(false);
                 ownerChannels = (await Task.WhenAll(_client.GetGuilds().SelectMany(g => g.Users)
                         .Where(u => NadekoBot.Credentials.OwnerIds.Contains(u.Id))
-                        .Distinct(new IGuildUserComparer())
+                        .Distinct(new GuildUserComparer())
                         .Select(async u =>
                         {
                             try
@@ -141,7 +139,7 @@ namespace NadekoBot.Services
             BlacklistCommands.BlacklistedChannels.Contains(usrMsg.Channel.Id) ||
             BlacklistCommands.BlacklistedUsers.Contains(usrMsg.Author.Id);
 
-        const float oneThousandth = 1.0f / 1000;
+        private const float _oneThousandth = 1.0f / 1000;
         private Task LogSuccessfulExecution(SocketUserMessage usrMsg, ExecuteCommandResult exec, SocketTextChannel channel, int exec1, int exec2, int exec3, int total)
         {
             _log.Info("Command Executed after {4}/{5}/{6}/{7}s\n\t" +
@@ -153,10 +151,10 @@ namespace NadekoBot.Services
                         (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]"), // {1}
                         (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), // {2}
                         usrMsg.Content, // {3}
-                        exec1 * oneThousandth, // {4}
-                        exec2 * oneThousandth, // {5}
-                        exec3 * oneThousandth, // {6}
-                        total * oneThousandth // {7}
+                        exec1 * _oneThousandth, // {4}
+                        exec2 * _oneThousandth, // {5}
+                        exec3 * _oneThousandth, // {6}
+                        total * _oneThousandth // {7}
                         );
             return Task.CompletedTask;
         }
@@ -174,10 +172,10 @@ namespace NadekoBot.Services
                         (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), // {2}
                         usrMsg.Content,// {3}
                         exec.Result.ErrorReason, // {4}
-                        exec1 * oneThousandth, // {5}
-                        exec2 * oneThousandth, // {6}
-                        exec3 * oneThousandth, // {7}
-                        total * oneThousandth // {8}
+                        exec1 * _oneThousandth, // {5}
+                        exec2 * _oneThousandth, // {6}
+                        exec3 * _oneThousandth, // {7}
+                        total * _oneThousandth // {8}
                         );
         }
 
@@ -429,10 +427,10 @@ namespace NadekoBot.Services
                 // Bot will ignore commands which are ran more often than what specified by
                 // GlobalCommandsCooldown constant (miliseconds)
                 if (!UsersOnShortCooldown.Add(context.Message.Author.Id))
-                    return new ExecuteCommandResult(cmd, null, SearchResult.FromError(CommandError.Exception, $"You are on a global cooldown."));
+                    return new ExecuteCommandResult(cmd, null, SearchResult.FromError(CommandError.Exception, "You are on a global cooldown."));
 
                 if (CmdCdsCommands.HasCooldown(cmd, context.Guild, context.User))
-                    return new ExecuteCommandResult(cmd, null, SearchResult.FromError(CommandError.Exception, $"That command is on a cooldown for you."));
+                    return new ExecuteCommandResult(cmd, null, SearchResult.FromError(CommandError.Exception, "That command is on a cooldown for you."));
 
                 return new ExecuteCommandResult(cmd, null, await commands[i].ExecuteAsync(context, parseResult, dependencyMap));
             }
