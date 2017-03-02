@@ -89,18 +89,7 @@ namespace NadekoBot.Modules.Utility
 
                 if (keywordquote == null)
                     return;
-                
-                CREmbed crembed;
-                if (CREmbed.TryParse(keywordquote.Text, out crembed))
-                {
-                    try { await Context.Channel.EmbedAsync(crembed.ToEmbed(), crembed.PlainText ?? "").ConfigureAwait(false); }
-                    catch (Exception ex)
-                    {
-                        _log.Warn("Sending CREmbed failed");
-                        _log.Warn(ex);
-                    }
-                    return;
-                }
+
                 await Context.Channel.SendMessageAsync("💬 " + keyword.ToLowerInvariant() + ":  " + keywordquote.Text.SanitizeMentions());
             }
 
