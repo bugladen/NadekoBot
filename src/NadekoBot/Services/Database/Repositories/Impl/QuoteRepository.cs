@@ -27,7 +27,8 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         {      			
             var rngk = new NadekoRandom();
             lowertext = text.ToLowerInvariant();
-            return _set.Where(q => q.Text.Contains(text) || q.Text.Contains(lowertext) && q.GuildId == guildId && q.Keyword == keyword).OrderBy(q => rngk.Next()).FirstOrDefaultAsync();
+	    uppertext = text.ToUpperInvariant();
+            return _set.Where(q => q.Text.Contains(text) || q.Text.Contains(lowertext) || q.Text.Contains(uppertext) && q.GuildId == guildId && q.Keyword == keyword).OrderBy(q => rngk.Next()).FirstOrDefaultAsync();
 	}
     }
 }
