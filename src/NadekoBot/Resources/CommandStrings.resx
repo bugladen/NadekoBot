@@ -124,7 +124,7 @@
     <value>Either shows a help for a single command, or DMs you help link if no arguments are specified.</value>
   </data>
   <data name="h_usage" xml:space="preserve">
-    <value>`{0}h !!q` or `{0}h`</value>
+    <value>`{0}h -cmds` or `{0}h`</value>
   </data>
   <data name="hgit_cmd" xml:space="preserve">
     <value>hgit</value>
@@ -157,7 +157,7 @@
     <value>commands cmds</value>
   </data>
   <data name="commands_desc" xml:space="preserve">
-    <value>List all of the bot's commands from a certain module. You can either specify full, or only first few letters of the module name.</value>
+    <value>List all of the bot's commands from a certain module. You can either specify the full name or only the first few letters of the module name.</value>
   </data>
   <data name="commands_usage" xml:space="preserve">
     <value>`{0}commands Administration` or `{0}cmds Admin`</value>
@@ -166,7 +166,7 @@
     <value>greetdel grdel</value>
   </data>
   <data name="greetdel_desc" xml:space="preserve">
-    <value>Sets the time it takes (in seconds) for greet messages to be auto-deleted. Set 0 to disable automatic deletion.</value>
+    <value>Sets the time it takes (in seconds) for greet messages to be auto-deleted. Set it to 0 to disable automatic deletion.</value>
   </data>
   <data name="greetdel_usage" xml:space="preserve">
     <value>`{0}greetdel 0` or `{0}greetdel 30`</value>
@@ -184,7 +184,7 @@
     <value>greetmsg</value>
   </data>
   <data name="greetmsg_desc" xml:space="preserve">
-    <value>Sets a new join announcement message which will be shown in the server's channel. Type %user% if you want to mention the new member. Using it with no message will show the current greet message. You can use embed json from &lt;http://nadekobot.xyz/embedbuilder/&gt; instead of a regular text, if you want the message to be embedded.</value>
+    <value>Sets a new join announcement message which will be shown in the server's channel. Type `%user%` if you want to mention the new member. Using it with no message will show the current greet message. You can use embed json from &lt;http://nadekobot.xyz/embedbuilder/&gt; instead of a regular text, if you want the message to be embedded.</value>
   </data>
   <data name="greetmsg_usage" xml:space="preserve">
     <value>`{0}greetmsg Welcome, %user%.`</value>
@@ -202,7 +202,7 @@
     <value>byemsg</value>
   </data>
   <data name="byemsg_desc" xml:space="preserve">
-    <value>Sets a new leave announcement message. Type %user% if you want to show the name the user who left. Type %id% to show id. Using this command with no message will show the current bye message. You can use embed json from &lt;http://nadekobot.xyz/embedbuilder/&gt; instead of a regular text, if you want the message to be embedded.</value>
+    <value>Sets a new leave announcement message. Type `%user%` if you want to show the name the user who left. Type `%id%` to show id. Using this command with no message will show the current bye message. You can use embed json from &lt;http://nadekobot.xyz/embedbuilder/&gt; instead of a regular text, if you want the message to be embedded.</value>
   </data>
   <data name="byemsg_usage" xml:space="preserve">
     <value>`{0}byemsg %user% has left.`</value>
@@ -211,7 +211,7 @@
     <value>byedel</value>
   </data>
   <data name="byedel_desc" xml:space="preserve">
-    <value>Sets the time it takes (in seconds) for bye messages to be auto-deleted. Set 0 to disable automatic deletion.</value>
+    <value>Sets the time it takes (in seconds) for bye messages to be auto-deleted. Set it to `0` to disable automatic deletion.</value>
   </data>
   <data name="byedel_usage" xml:space="preserve">
     <value>`{0}byedel 0` or `{0}byedel 30`</value>
@@ -238,7 +238,7 @@
     <value>logignore</value>
   </data>
   <data name="logignore_desc" xml:space="preserve">
-    <value>Toggles whether the .logserver command ignores this channel. Useful if you have hidden admin channel and public log channel.</value>
+    <value>Toggles whether the `.logserver` command ignores this channel. Useful if you have hidden admin channel and public log channel.</value>
   </data>
   <data name="logignore_usage" xml:space="preserve">
     <value>`{0}logignore`</value>
@@ -274,7 +274,7 @@
     <value>repeat</value>
   </data>
   <data name="repeat_desc" xml:space="preserve">
-    <value>Repeat a message every X minutes in the current channel. You can have up to 5 repeating messages on the server in total.</value>
+    <value>Repeat a message every `X` minutes in the current channel. You can have up to 5 repeating messages on the server in total.</value>
   </data>
   <data name="repeat_usage" xml:space="preserve">
     <value>`{0}repeat 5 Hello there`</value>
@@ -292,7 +292,7 @@
     <value>addplaying adpl</value>
   </data>
   <data name="addplaying_desc" xml:space="preserve">
-    <value>Adds a specified string to the list of playing strings to rotate. Supported placeholders: %servers%, %users%, %playing%, %queued%, %time%,%shardid%,%shardcount%, %shardguilds%</value>
+    <value>Adds a specified string to the list of playing strings to rotate. Supported placeholders: `%servers%`, `%users%`, `%playing%`, `%queued%`, `%time%`, `%shardid%`, `%shardcount%`, `%shardguilds%`.</value>
   </data>
   <data name="addplaying_usage" xml:space="preserve">
     <value>`{0}adpl`</value>
@@ -337,7 +337,7 @@
     <value>voice+text v+t</value>
   </data>
   <data name="voiceplustext_desc" xml:space="preserve">
-    <value>Creates a text channel for each voice channel only users in that voice channel can see.If you are server owner, keep in mind you will see them all the time regardless.</value>
+    <value>Creates a text channel for each voice channel only users in that voice channel can see. If you are server owner, keep in mind you will see them all the time regardless.</value>
   </data>
   <data name="voiceplustext_usage" xml:space="preserve">
     <value>`{0}v+t`</value>
@@ -364,7 +364,7 @@
     <value>lcsc</value>
   </data>
   <data name="lcsc_desc" xml:space="preserve">
-    <value>Leaves Cross server channel instance from this channel.</value>
+    <value>Leaves a cross server channel instance from this channel.</value>
   </data>
   <data name="lcsc_usage" xml:space="preserve">
     <value>`{0}lcsc`</value>
@@ -427,7 +427,7 @@
     <value>addcustreact acr</value>
   </data>
   <data name="addcustreact_desc" xml:space="preserve">
-    <value>Add a custom reaction with a trigger and a response. Running this command in server requires Administration permission. Running this command in DM is Bot Owner only and adds a new global custom reaction. Guide here: &lt;http://nadekobot.readthedocs.io/en/latest/Custom%20Reactions/&gt;</value>
+    <value>Add a custom reaction with a trigger and a response. Running this command in server requires the Administration permission. Running this command in DM is Bot Owner only and adds a new global custom reaction. Guide here: &lt;http://nadekobot.readthedocs.io/en/latest/Custom%20Reactions/&gt;</value>
   </data>
   <data name="addcustreact_usage" xml:space="preserve">
     <value>`{0}acr "hello" Hi there %user%`</value>
@@ -463,7 +463,7 @@
     <value>delcustreact dcr</value>
   </data>
   <data name="delcustreact_desc" xml:space="preserve">
-    <value>Deletes a custom reaction on a specific index. If ran in DM, it is bot owner only and deletes a global custom reaction. If ran in a server, it requires Administration priviledges and removes server custom reaction.</value>
+    <value>Deletes a custom reaction on a specific index. If ran in DM, it is bot owner only and deletes a global custom reaction. If ran in a server, it requires Administration privileges and removes server custom reaction.</value>
   </data>
   <data name="delcustreact_usage" xml:space="preserve">
     <value>`{0}dcr 5`</value>
@@ -481,7 +481,7 @@
     <value>leave</value>
   </data>
   <data name="leave_desc" xml:space="preserve">
-    <value>Makes Nadeko leave the server. Either name or id required.</value>
+    <value>Makes Nadeko leave the server. Either server name or server ID is required.</value>
   </data>
   <data name="leave_usage" xml:space="preserve">
     <value>`{0}leave 123123123331`</value>
@@ -490,7 +490,7 @@
     <value>delmsgoncmd</value>
   </data>
   <data name="delmsgoncmd_desc" xml:space="preserve">
-    <value>Toggles the automatic deletion of user's successful command message to prevent chat flood.</value>
+    <value>Toggles the automatic deletion of the user's successful command message to prevent chat flood.</value>
   </data>
   <data name="delmsgoncmd_usage" xml:space="preserve">
     <value>`{0}delmsgoncmd`</value>
@@ -526,7 +526,7 @@
     <value>renamerole renr</value>
   </data>
   <data name="renamerole_desc" xml:space="preserve">
-    <value>Renames a role. Roles you are renaming must be lower than bot's highest role.</value>
+    <value>Renames a role. The role you are renaming must be lower than bot's highest role.</value>
   </data>
   <data name="renamerole_usage" xml:space="preserve">
     <value>`{0}renr "First role" SecondRole`</value>
@@ -679,7 +679,7 @@
     <value>prune clr</value>
   </data>
   <data name="prune_desc" xml:space="preserve">
-    <value>`{0}prune` removes all nadeko's messages in the last 100 messages.`{0}prune X` removes last X messages from the channel (up to 100)`{0}prune @Someone` removes all Someone's messages in the last 100 messages.`{0}prune @Someone X` removes last X 'Someone's' messages in the channel.</value>
+    <value>`{0}prune` removes all Nadeko's messages in the last 100 messages. `{0}prune X` removes last `X` number of messages from the channel (up to 100). `{0}prune @Someone` removes all Someone's messages in the last 100 messages. `{0}prune @Someone X` removes last `X` number of 'Someone's' messages in the channel.</value>
   </data>
   <data name="prune_usage" xml:space="preserve">
     <value>`{0}prune` or `{0}prune 5` or `{0}prune @Someone` or `{0}prune @Someone X`</value>
@@ -724,7 +724,7 @@
     <value>send</value>
   </data>
   <data name="send_desc" xml:space="preserve">
-    <value>Sends a message to someone on a different server through the bot.  Separate server and channel/user ids with `|` and prepend channel id with `c:` and user id with `u:`.</value>
+    <value>Sends a message to someone on a different server through the bot.  Separate server and channel/user ids with `|` and prefix the channel id with `c:` and the user id with `u:`.</value>
   </data>
   <data name="send_usage" xml:space="preserve">
     <value>`{0}send serverid|c:channelid message` or `{0}send serverid|u:userid message`</value>
@@ -733,7 +733,7 @@
     <value>mentionrole menro</value>
   </data>
   <data name="mentionrole_desc" xml:space="preserve">
-    <value>Mentions every person from the provided role or roles (separated by a ',') on this server. Requires you to have mention everyone permission.</value>
+    <value>Mentions every person from the provided role or roles (separated by a ',') on this server. Requires you to have the mention everyone permission.</value>
   </data>
   <data name="mentionrole_usage" xml:space="preserve">
     <value>`{0}menro RoleName`</value>
@@ -751,7 +751,7 @@
     <value>donators</value>
   </data>
   <data name="donators_desc" xml:space="preserve">
-    <value>List of lovely people who donated to keep this project alive.</value>
+    <value>List of the lovely people who donated to keep this project alive.</value>
   </data>
   <data name="donators_usage" xml:space="preserve">
     <value>`{0}donators`</value>
@@ -769,7 +769,7 @@
     <value>announce</value>
   </data>
   <data name="announce_desc" xml:space="preserve">
-    <value>Sends a message to all servers' general channel bot is connected to.</value>
+    <value>Sends a message to all servers' default channel that bot is connected to.</value>
   </data>
   <data name="announce_usage" xml:space="preserve">
     <value>`{0}announce Useless spam`</value>
@@ -787,7 +787,7 @@
     <value>remind</value>
   </data>
   <data name="remind_desc" xml:space="preserve">
-    <value>Sends a message to you or a channel after certain amount of time. First argument is me/here/'channelname'. Second argument is time in a descending order (mo&gt;w&gt;d&gt;h&gt;m) example: 1w5d3h10m. Third argument is a (multiword)message.</value>
+    <value>Sends a message to you or a channel after certain amount of time. First argument is `me`/`here`/'channelname'. Second argument is time in a descending order (mo&gt;w&gt;d&gt;h&gt;m) example: 1w5d3h10m. Third argument is a (multiword) message.</value>
   </data>
   <data name="remind_usage" xml:space="preserve">
     <value>`{0}remind me 1d5h Do something` or `{0}remind #general 1m Start now!`</value>
@@ -796,7 +796,7 @@
     <value>remindtemplate</value>
   </data>
   <data name="remindtemplate_desc" xml:space="preserve">
-    <value>Sets message for when the remind is triggered.  Available placeholders are %user% - user who ran the command, %message% - Message specified in the remind, %target% - target channel of the remind.</value>
+    <value>Sets message for when the remind is triggered.  Available placeholders are `%user%` - user who ran the command, `%message%` - Message specified in the remind, `%target%` - target channel of the remind.</value>
   </data>
   <data name="remindtemplate_usage" xml:space="preserve">
     <value>`{0}remindtemplate %user%, do %message%!`</value>
@@ -895,7 +895,7 @@
     <value>roles</value>
   </data>
   <data name="roles_desc" xml:space="preserve">
-    <value>List roles on this server or a roles of a specific user if specified. Paginated. 20 roles per page.</value>
+    <value>List roles on this server or a roles of a specific user if specified. Paginated, 20 roles per page.</value>
   </data>
   <data name="roles_usage" xml:space="preserve">
     <value>`{0}roles 2` or `{0}roles @Someone`</value>
@@ -913,7 +913,7 @@
     <value>chnlfilterinv cfi</value>
   </data>
   <data name="chnlfilterinv_desc" xml:space="preserve">
-    <value>Toggles automatic deleting of invites posted in the channel. Does not negate the {0}srvrfilterinv enabled setting. Does not affect Bot Owner.</value>
+    <value>Toggles automatic deletion of invites posted in the channel. Does not negate the `{0}srvrfilterinv` enabled setting. Does not affect the Bot Owner.</value>
   </data>
   <data name="chnlfilterinv_usage" xml:space="preserve">
     <value>`{0}cfi`</value>
@@ -922,7 +922,7 @@
     <value>srvrfilterinv sfi</value>
   </data>
   <data name="srvrfilterinv_desc" xml:space="preserve">
-    <value>Toggles automatic deleting of invites posted in the server. Does not affect Bot Owner.</value>
+    <value>Toggles automatic deletion of invites posted in the server. Does not affect the Bot Owner.</value>
   </data>
   <data name="srvrfilterinv_usage" xml:space="preserve">
     <value>`{0}sfi`</value>
@@ -931,7 +931,7 @@
     <value>chnlfilterwords cfw</value>
   </data>
   <data name="chnlfilterwords_desc" xml:space="preserve">
-    <value>Toggles automatic deleting of messages containing banned words on the channel. Does not negate the {0}srvrfilterwords enabled setting. Does not affect bot owner.</value>
+    <value>Toggles automatic deletion of messages containing filtered words on the channel. Does not negate the `{0}srvrfilterwords` enabled setting. Does not affect the Bot Owner.</value>
   </data>
   <data name="chnlfilterwords_usage" xml:space="preserve">
     <value>`{0}cfw`</value>
@@ -958,7 +958,7 @@
     <value>srvrfilterwords sfw</value>
   </data>
   <data name="srvrfilterwords_desc" xml:space="preserve">
-    <value>Toggles automatic deleting of messages containing forbidden words on the server. Does not affect Bot Owner.</value>
+    <value>Toggles automatic deleting of messages containing filtered words on the server. Does not affect the Bot Owner.</value>
   </data>
   <data name="srvrfilterwords_usage" xml:space="preserve">
     <value>`{0}sfw`</value>
@@ -967,7 +967,7 @@
     <value>permrole pr</value>
   </data>
   <data name="permrole_desc" xml:space="preserve">
-    <value>Sets a role which can change permissions. Or supply no parameters to find out the current one. Default one is 'Nadeko'.</value>
+    <value>Sets a role which can change permissions. Supply no parameters to find out the current one. Default is 'Nadeko'.</value>
   </data>
   <data name="permrole_usage" xml:space="preserve">
     <value>`{0}pr role`</value>
@@ -1084,7 +1084,7 @@
     <value>ubl</value>
   </data>
   <data name="userblacklist_desc" xml:space="preserve">
-    <value>Either [add]s or [rem]oves a user specified by a mention or ID from a blacklist.</value>
+    <value>Either [add]s or [rem]oves a user specified by a Mention or an ID from a blacklist.</value>
   </data>
   <data name="userblacklist_usage" xml:space="preserve">
     <value>`{0}ubl add @SomeUser` or `{0}ubl rem 12312312313`</value>
@@ -1102,7 +1102,7 @@
     <value>sbl</value>
   </data>
   <data name="serverblacklist_desc" xml:space="preserve">
-    <value>Either [add]s or [rem]oves a server specified by a Name or ID from a blacklist.</value>
+    <value>Either [add]s or [rem]oves a server specified by a Name or an ID from a blacklist.</value>
   </data>
   <data name="serverblacklist_usage" xml:space="preserve">
     <value>`{0}sbl add 12312321312` or `{0}sbl rem SomeTrashServer`</value>
@@ -1111,7 +1111,7 @@
     <value>cmdcooldown cmdcd</value>
   </data>
   <data name="cmdcooldown_desc" xml:space="preserve">
-    <value>Sets a cooldown per user for a command. Set to 0 to remove the cooldown.</value>
+    <value>Sets a cooldown per user for a command. Set it to 0 to remove the cooldown.</value>
   </data>
   <data name="cmdcooldown_usage" xml:space="preserve">
     <value>`{0}cmdcd "some cmd" 5`</value>
@@ -1201,7 +1201,7 @@
     <value>roll</value>
   </data>
   <data name="roll_desc" xml:space="preserve">
-    <value>Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. Y can be a letter 'F' if you want to roll fate dice instead of dnd.</value>
+    <value>Rolls 0-100. If you supply a number `X` it rolls up to 30 normal dice. If you split 2 numbers with letter `d` (`xdy`) it will roll `X` dice from 1 to `y`. `Y` can be a letter 'F' if you want to roll fate dice instead of dnd.</value>
   </data>
   <data name="roll_usage" xml:space="preserve">
     <value>`{0}roll` or `{0}roll 7` or `{0}roll 3d5` or `{0}roll 5dF`</value>
@@ -1210,7 +1210,7 @@
     <value>rolluo</value>
   </data>
   <data name="rolluo_desc" xml:space="preserve">
-    <value>Rolls X normal dice (up to 30) unordered. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y.</value>
+    <value>Rolls `X` normal dice (up to 30) unordered. If you split 2 numbers with letter `d` (`xdy`) it will roll `X` dice from 1 to `y`.</value>
   </data>
   <data name="rolluo_usage" xml:space="preserve">
     <value>`{0}rolluo` or `{0}rolluo 7` or `{0}rolluo 3d5`</value>
@@ -1291,7 +1291,7 @@
     <value>leaderboard lb</value>
   </data>
   <data name="leaderboard_desc" xml:space="preserve">
-    <value>Displays bot currency leaderboard.</value>
+    <value>Displays the bot's currency leaderboard.</value>
   </data>
   <data name="leaderboard_usage" xml:space="preserve">
     <value>`{0}lb`</value>
@@ -1300,7 +1300,7 @@
     <value>trivia t</value>
   </data>
   <data name="trivia_desc" xml:space="preserve">
-    <value>Starts a game of trivia. You can add nohint to prevent hints.First player to get to 10 points wins by default. You can specify a different number. 30 seconds per question.</value>
+    <value>Starts a game of trivia. You can add `nohint` to prevent hints. First player to get to 10 points wins by default. You can specify a different number. 30 seconds per question.</value>
   </data>
   <data name="trivia_usage" xml:space="preserve">
     <value>`{0}t` or `{0}t 5 nohint`</value>
@@ -1426,7 +1426,7 @@
     <value>rps</value>
   </data>
   <data name="rps_desc" xml:space="preserve">
-    <value>Play a game of rocket paperclip scissors with Nadeko.</value>
+    <value>Play a game of Rocket-Paperclip-Scissors with Nadeko.</value>
   </data>
   <data name="rps_usage" xml:space="preserve">
     <value>`{0}rps scissors`</value>
@@ -1480,7 +1480,7 @@
     <value>queue q yq</value>
   </data>
   <data name="queue_desc" xml:space="preserve">
-    <value>Queue a song using keywords or a link. Bot will join your voice channel.**You must be in a voice channel**.</value>
+    <value>Queue a song using keywords or a link. Bot will join your voice channel. **You must be in a voice channel**.</value>
   </data>
   <data name="queue_usage" xml:space="preserve">
     <value>`{0}q Dream Of Venice`</value>
@@ -1489,7 +1489,7 @@
     <value>soundcloudqueue sq</value>
   </data>
   <data name="soundcloudqueue_desc" xml:space="preserve">
-    <value>Queue a soundcloud song using keywords. Bot will join your voice channel.**You must be in a voice channel**.</value>
+    <value>Queue a soundcloud song using keywords. Bot will join your voice channel. **You must be in a voice channel**.</value>
   </data>
   <data name="soundcloudqueue_usage" xml:space="preserve">
     <value>`{0}sq Dream Of Venice`</value>
@@ -1507,7 +1507,7 @@
     <value>nowplaying np</value>
   </data>
   <data name="nowplaying_desc" xml:space="preserve">
-    <value>Shows the song currently playing.</value>
+    <value>Shows the song that the bot is currently playing.</value>
   </data>
   <data name="nowplaying_usage" xml:space="preserve">
     <value>`{0}np`</value>
@@ -1516,7 +1516,7 @@
     <value>volume vol</value>
   </data>
   <data name="volume_desc" xml:space="preserve">
-    <value>Sets the music volume 0-100%</value>
+    <value>Sets the music playback volume (0-100%)</value>
   </data>
   <data name="volume_usage" xml:space="preserve">
     <value>`{0}vol 50`</value>
@@ -1534,7 +1534,7 @@
     <value>max</value>
   </data>
   <data name="max_desc" xml:space="preserve">
-    <value>Sets the music volume to 100%.</value>
+    <value>Sets the music playback volume to 100%.</value>
   </data>
   <data name="max_usage" xml:space="preserve">
     <value>`{0}max`</value>
@@ -1543,7 +1543,7 @@
     <value>half</value>
   </data>
   <data name="half_desc" xml:space="preserve">
-    <value>Sets the music volume to 50%.</value>
+    <value>Sets the music playback volume to 50%.</value>
   </data>
   <data name="half_usage" xml:space="preserve">
     <value>`{0}half`</value>
@@ -1561,7 +1561,7 @@
     <value>soundcloudpl scpl</value>
   </data>
   <data name="soundcloudpl_desc" xml:space="preserve">
-    <value>Queue a soundcloud playlist using a link.</value>
+    <value>Queue a Soundcloud playlist using a link.</value>
   </data>
   <data name="soundcloudpl_usage" xml:space="preserve">
     <value>`{0}scpl soundcloudseturl`</value>
@@ -1660,7 +1660,7 @@
     <value>save</value>
   </data>
   <data name="save_desc" xml:space="preserve">
-    <value>Saves a playlist under a certain name. Name must be no longer than 20 characters and mustn't contain dashes.</value>
+    <value>Saves a playlist under a certain name. Playlist name must be no longer than 20 characters and must not contain dashes.</value>
   </data>
   <data name="save_usage" xml:space="preserve">
     <value>`{0}save classical1`</value>
@@ -1669,7 +1669,7 @@
     <value>load</value>
   </data>
   <data name="load_desc" xml:space="preserve">
-    <value>Loads a saved playlist using it's ID. Use `{0}pls` to list all saved playlists and {0}save to save new ones.</value>
+    <value>Loads a saved playlist using its ID. Use `{0}pls` to list all saved playlists and `{0}save` to save new ones.</value>
   </data>
   <data name="load_usage" xml:space="preserve">
     <value>`{0}load 5`</value>
@@ -1678,7 +1678,7 @@
     <value>playlists pls</value>
   </data>
   <data name="playlists_desc" xml:space="preserve">
-    <value>Lists all playlists. Paginated. 20 per page. Default page is 0.</value>
+    <value>Lists all playlists. Paginated, 20 per page. Default page is 0.</value>
   </data>
   <data name="playlists_usage" xml:space="preserve">
     <value>`{0}pls 1`</value>
@@ -1687,7 +1687,7 @@
     <value>deleteplaylist delpls</value>
   </data>
   <data name="deleteplaylist_desc" xml:space="preserve">
-    <value>Deletes a saved playlist. Only if you made it or if you are the bot owner.</value>
+    <value>Deletes a saved playlist. Works only if you made it or if you are the bot owner.</value>
   </data>
   <data name="deleteplaylist_usage" xml:space="preserve">
     <value>`{0}delpls animu-5`</value>
@@ -1705,7 +1705,7 @@
     <value>autoplay ap</value>
   </data>
   <data name="autoplay_desc" xml:space="preserve">
-    <value>Toggles autoplay - When the song is finished, automatically queue a related youtube song. (Works only for youtube songs and when queue is empty)</value>
+    <value>Toggles autoplay - When the song is finished, automatically queue a related Youtube song. (Works only for Youtube songs and when queue is empty)</value>
   </data>
   <data name="autoplay_usage" xml:space="preserve">
     <value>`{0}ap`</value>
@@ -1939,7 +1939,7 @@
     <value>image img</value>
   </data>
   <data name="image_desc" xml:space="preserve">
-    <value>Pulls the first image found using a search parameter. Use {0}rimg for different results.</value>
+    <value>Pulls the first image found using a search parameter. Use `{0}rimg` for different results.</value>
   </data>
   <data name="image_usage" xml:space="preserve">
     <value>`{0}img cute kitten`</value>
@@ -1966,7 +1966,7 @@
     <value>google g</value>
   </data>
   <data name="google_desc" xml:space="preserve">
-    <value>Get a google search link for some terms.</value>
+    <value>Get a Google search link for some terms.</value>
   </data>
   <data name="google_usage" xml:space="preserve">
     <value>`{0}google query`</value>
@@ -2029,7 +2029,7 @@
     <value>chucknorris cn</value>
   </data>
   <data name="chucknorris_desc" xml:space="preserve">
-    <value>Shows a random chucknorris joke from &lt;http://tambal.azurewebsites.net/joke/random&gt;</value>
+    <value>Shows a random Chuck Norris joke from &lt;http://tambal.azurewebsites.net/joke/random&gt;</value>
   </data>
   <data name="chucknorris_usage" xml:space="preserve">
     <value>`{0}cn`</value>
@@ -2038,7 +2038,7 @@
     <value>magicitem mi</value>
   </data>
   <data name="magicitem_desc" xml:space="preserve">
-    <value>Shows a random magicitem from &lt;https://1d4chan.org/wiki/List_of_/tg/%27s_magic_items&gt;</value>
+    <value>Shows a random magic item from &lt;https://1d4chan.org/wiki/List_of_/tg/%27s_magic_items&gt;</value>
   </data>
   <data name="magicitem_usage" xml:space="preserve">
     <value>`{0}mi`</value>
@@ -2047,7 +2047,7 @@
     <value>revav</value>
   </data>
   <data name="revav_desc" xml:space="preserve">
-    <value>Returns a google reverse image search for someone's avatar.</value>
+    <value>Returns a Google reverse image search for someone's avatar.</value>
   </data>
   <data name="revav_usage" xml:space="preserve">
     <value>`{0}revav "@SomeGuy"`</value>
@@ -2056,7 +2056,7 @@
     <value>revimg</value>
   </data>
   <data name="revimg_desc" xml:space="preserve">
-    <value>Returns a google reverse image search for an image from a link.</value>
+    <value>Returns a Google reverse image search for an image from a link.</value>
   </data>
   <data name="revimg_usage" xml:space="preserve">
     <value>`{0}revimg Image link`</value>
@@ -2212,7 +2212,7 @@
     <value>Shows the active war claims by a number. Shows all wars in a short way if no number is specified.</value>
   </data>
   <data name="listwar_usage" xml:space="preserve">
-    <value>`{0}lw [war_number] or {0}lw`</value>
+    <value>`{0}lw [war_number]` or `{0}lw`</value>
   </data>
   <data name="claim_cmd" xml:space="preserve">
     <value>claim call c</value>
@@ -2296,7 +2296,7 @@
     <value>readme guide</value>
   </data>
   <data name="calcops_desc" xml:space="preserve">
-    <value>Shows all available operations in {0}calc command</value>
+    <value>Shows all available operations in the `{0}calc` command</value>
   </data>
   <data name="calcops_usage" xml:space="preserve">
     <value>`{0}calcops`</value>
@@ -2320,7 +2320,7 @@
     <value>`{0}greetdmmsg Welcome to the server, %user%`.</value>
   </data>
   <data name="greetdmmsg_desc" xml:space="preserve">
-    <value>Sets a new join announcement message which will be sent to the user who joined. Type %user% if you want to mention the new member. Using it with no message will show the current DM greet message. You can use embed json from &lt;http://nadekobot.xyz/embedbuilder/&gt; instead of a regular text, if you want the message to be embedded.</value>
+    <value>Sets a new join announcement message which will be sent to the user who joined. Type `%user%` if you want to mention the new member. Using it with no message will show the current DM greet message. You can use embed json from &lt;http://nadekobot.xyz/embedbuilder/&gt; instead of a regular text, if you want the message to be embedded.</value>
   </data>
   <data name="cash_desc" xml:space="preserve">
     <value>Check how much currency a person has. (Defaults to yourself)</value>
@@ -2350,7 +2350,7 @@
     <value>allusrmdls aum</value>
   </data>
   <data name="moveperm_desc" xml:space="preserve">
-    <value>Moves permission from one position to another in Permissions list.</value>
+    <value>Moves permission from one position to another in the Permissions list.</value>
   </data>
   <data name="moveperm_usage" xml:space="preserve">
     <value>`{0}mp 2 4`</value>
@@ -2359,7 +2359,7 @@
     <value>moveperm mp</value>
   </data>
   <data name="removeperm_desc" xml:space="preserve">
-    <value>Removes a permission from a given position in Permissions list.</value>
+    <value>Removes a permission from a given position in the Permissions list.</value>
   </data>
   <data name="removeperm_usage" xml:space="preserve">
     <value>`{0}rp 1`</value>
@@ -2416,7 +2416,7 @@
     <value>fwtoall</value>
   </data>
   <data name="forwardtoall_desc" xml:space="preserve">
-    <value>Toggles whether messages will be forwarded to all bot owners or only to the first one specified in the credentials.json</value>
+    <value>Toggles whether messages will be forwarded to all bot owners or only to the first one specified in the credentials.json file</value>
   </data>
   <data name="forwardtoall_usage" xml:space="preserve">
     <value>`{0}fwtoall`</value>
@@ -2425,7 +2425,7 @@
     <value>resetperms</value>
   </data>
   <data name="resetpermissions_desc" xml:space="preserve">
-    <value>Resets BOT's permissions module on this server to the default value.</value>
+    <value>Resets the bot's permissions module on this server to the default value.</value>
   </data>
   <data name="resetpermissions_usage" xml:space="preserve">
     <value>`{0}resetperms`</value>
@@ -2443,7 +2443,7 @@
     <value>antispam</value>
   </data>
   <data name="antispam_desc" xml:space="preserve">
-    <value>Stops people from repeating same message X times in a row. You can specify to either mute, kick or ban  the offenders. Max message count is 10.</value>
+    <value>Stops people from repeating same message X times in a row. You can specify to either mute, kick or ban the offenders. Max message count is 10.</value>
   </data>
   <data name="antispam_usage" xml:space="preserve">
     <value>`{0}antispam 3 Mute` or `{0}antispam 4 Kick` or `{0}antispam 6 Ban`</value>
@@ -2488,7 +2488,7 @@
     <value>adsarm</value>
   </data>
   <data name="adsarm_desc" xml:space="preserve">
-    <value>Toggles the automatic deletion of confirmations for {0}iam and {0}iamn commands.</value>
+    <value>Toggles the automatic deletion of confirmations for `{0}iam` and `{0}iamn` commands.</value>
   </data>
   <data name="adsarm_usage" xml:space="preserve">
     <value>`{0}adsarm`</value>
@@ -2713,7 +2713,7 @@
     <value>heal</value>
   </data>
   <data name="heal_desc" xml:space="preserve">
-    <value>Heals someone. Revives those who fainted. Costs a NadekoFlower</value>
+    <value>Heals someone. Revives those who fainted. Costs a NadekoFlower. </value>
   </data>
   <data name="heal_usage" xml:space="preserve">
     <value>`{0}heal @someone`</value>
@@ -2812,7 +2812,7 @@
     <value>log</value>
   </data>
   <data name="log_desc" xml:space="preserve">
-    <value>Toggles logging event. Disables it if it's active anywhere on the server. Enables if it's not active. Use `{0}logevents` to see a list of all events you can subscribe to.</value>
+    <value>Toggles logging event. Disables it if it iss active anywhere on the server. Enables if it isn't active. Use `{0}logevents` to see a list of all events you can subscribe to.</value>
   </data>
   <data name="log_usage" xml:space="preserve">
     <value>`{0}log userpresence` or `{0}log userbanned`</value>
@@ -2821,7 +2821,7 @@
     <value>fairplay fp</value>
   </data>
   <data name="fairplay_desc" xml:space="preserve">
-    <value>Toggles fairplay. While enabled, music player will prioritize songs from users who didn't have their song recently played instead of the song's position in the queue.</value>
+    <value>Toggles fairplay. While enabled, the bot will prioritize songs from users who didn't have their song recently played instead of the song's position in the queue.</value>
   </data>
   <data name="fairplay_usage" xml:space="preserve">
     <value>`{0}fp`</value>
@@ -2938,7 +2938,7 @@
     <value>cmdcosts</value>
   </data>
   <data name="cmdcosts_desc" xml:space="preserve">
-    <value>Shows a list of command costs. Paginated with 9 command per page.</value>
+    <value>Shows a list of command costs. Paginated with 9 commands per page.</value>
   </data>
   <data name="cmdcosts_usage" xml:space="preserve">
     <value>`{0}cmdcosts` or `{0}cmdcosts 2`</value>
@@ -3037,7 +3037,7 @@
     <value>mal</value>
   </data>
   <data name="mal_desc" xml:space="preserve">
-    <value>Shows basic info from myanimelist profile.</value>
+    <value>Shows basic info from a MyAnimeList profile.</value>
   </data>
   <data name="mal_usage" xml:space="preserve">
     <value>`{0}mal straysocks`</value>
@@ -3127,7 +3127,7 @@
     <value>languageset langset</value>
   </data>
   <data name="languageset_desc" xml:space="preserve">
-    <value>Sets this server's response language If bot's response strings have been translated to that language, bot will use that language in this server. Reset by using `default` as the locale name. Provide no arguments to see currently set language.</value>
+    <value>Sets this server's response language. If bot's response strings have been translated to that language, bot will use that language in this server. Reset by using `default` as the locale name. Provide no arguments to see currently set language.</value>
   </data>
   <data name="languageset_usage" xml:space="preserve">
     <value>`{0}langset de-DE ` or `{0}langset default`</value>
