@@ -53,7 +53,7 @@ namespace NadekoBot.Modules.Utility
                         "GetHashCode",
                         "GetType"
                     });
-                await Context.Channel.SendConfirmAsync(GetText("utility_calcops", Prefix), string.Join(", ", selection));
+                await Context.Channel.SendConfirmAsync(GetText("calcops", Prefix), string.Join(", ", selection));
             }
         }
 
