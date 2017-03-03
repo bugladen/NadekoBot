@@ -72,8 +72,8 @@ namespace NadekoBot.Modules.Utility
                 await Context.Channel.SendMessageAsync("📣 " + quote.Text.SanitizeMentions());
             }
             
-           [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)] 
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)] 
             public async Task SearchQuote(string keyword, [Remainder] string text)
             {
             if (string.IsNullOrWhiteSpace(keyword) || string.IsNullOrWhiteSpace(text))
@@ -83,14 +83,14 @@ namespace NadekoBot.Modules.Utility
 
                 Quote keywordquote;
                 using (var uow = DbHandler.UnitOfWork())
-               {
+                {
                     keywordquote = await uow.Quotes.SearchQuoteKeywordTextAsync(Context.Guild.Id, keyword, text).ConfigureAwait(false);
-               }
+                }
 
                 if (keywordquote == null)
                     return;
 
-                await Context.Channel.SendMessageAsync("💬 " + keyword + ":  " + keywordquote.Text.SanitizeMentions());
+                await Context.Channel.SendMessageAsync("💬 " + keyword.ToLowerInvariant() + ":  " + keywordquote.Text.SanitizeMentions());
             }
 
             [NadekoCommand, Usage, Description, Aliases]

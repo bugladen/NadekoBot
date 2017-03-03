@@ -1,4 +1,6 @@
-﻿using NadekoBot.Services.Database.Models;
+using NadekoBot.Services.Database.Models;
+using NadekoBot.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,7 +28,7 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         public Task<Quote> SearchQuoteKeywordTextAsync(ulong guildId, string keyword, string text)
         {      			
             var rngk = new NadekoRandom();
-            return _set.Where(q => q.Text.Contains(text) && q.GuildId == guildId && q.Keyword == keyword).OrderBy(q => rngk.Next()).FirstOrDefaultAsync();
+            return _set.Where(q => q.Text.ContainsNoCase(text, StringComparison.OrdinalIgnoreCase) && q.GuildId == guildId && q.Keyword == keyword).OrderBy(q => rngk.Next()).FirstOrDefaultAsync();
 	}
     }
 }
