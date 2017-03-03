@@ -1794,7 +1794,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Claim from @{0} for a war against {1} has expired..
+        ///    Looks up a localized string similar to Claim from @{0} in a war against {1} has expired..
         /// </summary>
         public static string clashofclans_claim_expired {
             get {

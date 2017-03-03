@@ -139,7 +139,7 @@
     <value>@{0} You already claimed base #{1}. You can't claim a new one.</value>
   </data>
   <data name="clashofclans_claim_expired" xml:space="preserve">
-    <value>Claim from @{0} for a war against {1} has expired.</value>
+    <value>Claim from @{0} in a war against {1} has expired.</value>
   </data>
   <data name="clashofclans_enemy" xml:space="preserve">
     <value>Enemy</value>
