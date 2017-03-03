@@ -130,7 +130,7 @@
 </value>
   </data>
   <data name="clashofclans_base_destroyed" xml:space="preserve">
-    <value>{1}との戦争中の整数{0}を破壊しました</value>
+    <value>{1}との戦いで基地#{0}を**破壊**しました</value>
   </data>
   <data name="clashofclans_base_unclaimed" xml:space="preserve">
     <value></value>
@@ -145,79 +145,99 @@
     <value></value>
   </data>
   <data name="clashofclans_enemy" xml:space="preserve">
-    <value></value>
+    <value>敵
+</value>
   </data>
   <data name="clashofclans_info_about_war" xml:space="preserve">
-    <value></value>
+    <value>{0} との戦争に関する情報</value>
   </data>
   <data name="clashofclans_invalid_base_number" xml:space="preserve">
-    <value></value>
+    <value>無効な城の番号
+</value>
   </data>
   <data name="clashofclans_invalid_size" xml:space="preserve">
-    <value></value>
+    <value>有効な戦争サイズではありません。
+</value>
   </data>
   <data name="clashofclans_list_active_wars" xml:space="preserve">
-    <value></value>
+    <value>アクティブな戦争を一覧表示する。
+</value>
   </data>
   <data name="clashofclans_not_claimed" xml:space="preserve">
-    <value></value>
+    <value>請求されていない
+</value>
   </data>
   <data name="clashofclans_not_partic" xml:space="preserve">
-    <value></value>
+    <value>あなたはこの戦争の参加者ではありません。
+</value>
   </data>
   <data name="clashofclans_not_partic_or_destroyed" xml:space="preserve">
-    <value></value>
+    <value>@{0} 
+あなたはその戦争に参加していないか、その基地はすでに破壊されています。</value>
   </data>
   <data name="clashofclans_no_active_wars" xml:space="preserve">
-    <value></value>
+    <value>活動的な戦争はない</value>
   </data>
   <data name="clashofclans_size" xml:space="preserve">
     <value>サイズ</value>
   </data>
   <data name="clashofclans_war_already_started" xml:space="preserve">
-    <value></value>
+    <value>戦争の戦い{0}は既に始まった。
+</value>
   </data>
   <data name="clashofclans_war_created" xml:space="preserve">
-    <value></value>
+    <value>戦争{0}が作成されました。
+</value>
   </data>
   <data name="clashofclans_war_ended" xml:space="preserve">
-    <value></value>
+    <value>{0}に対する戦争は終わった。
+</value>
   </data>
   <data name="clashofclans_war_not_exist" xml:space="preserve">
-    <value></value>
+    <value>その戦争は存在しない。
+</value>
   </data>
   <data name="clashofclans_war_started" xml:space="preserve">
-    <value></value>
+    <value>戦争{0}が始まった！
+</value>
   </data>
   <data name="customreactions_all_stats_cleared" xml:space="preserve">
-    <value></value>
+    <value>すべてのカスタム反応がクリアされました。
+</value>
   </data>
   <data name="customreactions_deleted" xml:space="preserve">
-    <value></value>
+    <value>カスタム反応が削除されました。
+</value>
   </data>
   <data name="customreactions_insuff_perms" xml:space="preserve">
     <value></value>
   </data>
   <data name="customreactions_list_all" xml:space="preserve">
-    <value></value>
+    <value>すべてのカスタム反応をリストします。
+</value>
   </data>
   <data name="customreactions_name" xml:space="preserve">
-    <value></value>
+    <value>カスタム反応。
+</value>
   </data>
   <data name="customreactions_new_cust_react" xml:space="preserve">
-    <value></value>
+    <value>新しいカスタム反応。
+</value>
   </data>
   <data name="customreactions_no_found" xml:space="preserve">
-    <value></value>
+    <value>カスタム反応が見つかりませんでした。
+</value>
   </data>
   <data name="customreactions_no_found_id" xml:space="preserve">
-    <value></value>
+    <value>その識別情報でカスタム反応が見つかりませんでした。
+</value>
   </data>
   <data name="customreactions_response" xml:space="preserve">
     <value>反応</value>
   </data>
   <data name="customreactions_stats" xml:space="preserve">
-    <value></value>
+    <value>カスタム反応の統計
+</value>
   </data>
   <data name="customreactions_stats_cleared" xml:space="preserve">
     <value></value>
@@ -226,13 +246,14 @@
     <value></value>
   </data>
   <data name="customreactions_trigger" xml:space="preserve">
-    <value>トリガー</value>
+    <value>引き金</value>
   </data>
   <data name="nsfw_autohentai_stopped" xml:space="preserve">
     <value></value>
   </data>
   <data name="nsfw_not_found" xml:space="preserve">
-    <value></value>
+    <value>結果が見つかりません
+</value>
   </data>
   <data name="pokemon_already_fainted" xml:space="preserve">
     <value></value>
@@ -317,7 +338,7 @@
     <value></value>
   </data>
   <data name="administration_banned_pl" xml:space="preserve">
-    <value>ＢＡＮＮＥＤ</value>
+    <value>亡命</value>
     <comment>PLURAL</comment>
   </data>
   <data name="administration_banned_user" xml:space="preserve">
@@ -534,12 +555,12 @@
     <value></value>
   </data>
   <data name="administration_muted_pl" xml:space="preserve">
-    <value>ミュート</value>
+    <value>ミュート中</value>
     <comment>PLURAL (users have been muted)
 Fuzzy</comment>
   </data>
   <data name="administration_muted_sn" xml:space="preserve">
-    <value>ミュート</value>
+    <value>ミュート中</value>
     <comment>singular &quot;User muted.&quot;</comment>
   </data>
   <data name="administration_mute_error" xml:space="preserve">
@@ -633,7 +654,7 @@ Fuzzy</comment>
     <value></value>
   </data>
   <data name="administration_renrole" xml:space="preserve">
-    <value></value>
+    <value>役割名を変更しました</value>
   </data>
   <data name="administration_renrole_err" xml:space="preserve">
     <value></value>
@@ -773,7 +794,8 @@ Fuzzy</comment>
     <value></value>
   </data>
   <data name="administration_users" xml:space="preserve">
-    <value></value>
+    <value>ユーザーズ</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_banned" xml:space="preserve">
     <value></value>

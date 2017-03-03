@@ -127,7 +127,7 @@
     <value>Die basis is nog niet veroverd.</value>
   </data>
   <data name="clashofclans_base_destroyed" xml:space="preserve">
-    <value>**VERNIETIGD**basis #{0} in een oorlog tegen {1}</value>
+    <value>**VERNIETIGD** basis #{0} in een oorlog tegen {1}</value>
   </data>
   <data name="clashofclans_base_unclaimed" xml:space="preserve">
     <value>{0} heeft **ONOVERWONNEN** basis #{1} in een oorlog tegen {2}</value>
@@ -136,7 +136,7 @@
     <value>{0} heeft basis #{1} overwonnen in een oorlog tegen {2}</value>
   </data>
   <data name="clashofclans_claimed_other" xml:space="preserve">
-    <value>@{0} Jij hebt al een basis overwonnen #{1}. Je kunt niet nog een nemen.</value>
+    <value>@{0} Je hebt al basis  #{1} overwonnen. Je kunt er niet nog een nemen.</value>
   </data>
   <data name="clashofclans_claim_expired" xml:space="preserve">
     <value>De aanvraag van @{0} voor een oorlog tegen {1} is niet meer geldig.</value>
@@ -145,7 +145,7 @@
     <value>Vijand</value>
   </data>
   <data name="clashofclans_info_about_war" xml:space="preserve">
-    <value>Informatie over oorlog tegen {0}</value>
+    <value>Informatie over de oorlog tegen {0}</value>
   </data>
   <data name="clashofclans_invalid_base_number" xml:space="preserve">
     <value>Ongeldige basis nummer</value>
@@ -163,7 +163,7 @@
     <value>Jij doet niet mee aan die oorlog.</value>
   </data>
   <data name="clashofclans_not_partic_or_destroyed" xml:space="preserve">
-    <value>@{0} Jij doet niet mee aan die oorlog, or die basis is al vernietigd.</value>
+    <value>@{0} Je doet niet mee aan die oorlog, of die basis is al vernietigd.</value>
   </data>
   <data name="clashofclans_no_active_wars" xml:space="preserve">
     <value>Geen voorlopende oorlogen.</value>
@@ -420,7 +420,7 @@
     <value>Momenteen is het privé groet bericht: {0}</value>
   </data>
   <data name="administration_greetdmmsg_enable" xml:space="preserve">
-    <value>Schakel DM begroetings bericht in door {0} in te typen.</value>
+    <value>Schakel DM begroetings bericht in door {0} in te typen</value>
   </data>
   <data name="administration_greetdmmsg_new" xml:space="preserve">
     <value>Nieuwe DM begroetings bericht vastgesteld.</value>
@@ -429,7 +429,7 @@
     <value>DM begroetings aankondiging uitgeschakeld.</value>
   </data>
   <data name="administration_greetdm_on" xml:space="preserve">
-    <value>DM begroetings aankondiging ingeschakeld.</value>
+    <value>DM begroetingen aankondiging ingeschakeld.</value>
   </data>
   <data name="administration_greetmsg_cur" xml:space="preserve">
     <value>Momentele begroetings bericht: {0}</value>
@@ -459,81 +459,81 @@
     <value>Ongeldige parameters.</value>
   </data>
   <data name="administration_joined" xml:space="preserve">
-    <value>{0} heeft {1} toegetreden.</value>
+    <value>{0} heeft {1} toegetreden</value>
   </data>
   <data name="administration_kickdm" xml:space="preserve">
     <value>Je bent weggeschopt van de {0} server.
 Reden: {1}</value>
   </data>
   <data name="administration_kicked_user" xml:space="preserve">
-    <value>Gebruiker weggeschopt.</value>
+    <value>Gebruiker weggeschopt</value>
   </data>
   <data name="administration_lang_list" xml:space="preserve">
     <value>Lijst van talen
 {0}</value>
   </data>
   <data name="administration_lang_set" xml:space="preserve">
-    <value>Jouw server&apos;s plaats van handeling is nu {0} - {1}</value>
+    <value>Jouw server&apos;s locale is nu {0} - {1}</value>
   </data>
   <data name="administration_lang_set_bot" xml:space="preserve">
-    <value>Bot&apos;s standaard plaats van handeling is nu {0} - {1}</value>
+    <value>Bot&apos;s standaard locale is nu {0} - {1}</value>
   </data>
   <data name="administration_lang_set_bot_show" xml:space="preserve">
-    <value>Bot&apos;s taal is vastgesteld van {0} - {1}</value>
+    <value>Taal van de bot is gezet naar {0} - {1}</value>
   </data>
   <data name="administration_lang_set_fail" xml:space="preserve">
-    <value></value>
+    <value>Instellen van locale mislukt. Ga naar de hulp voor dit commando.</value>
   </data>
   <data name="administration_lang_set_show" xml:space="preserve">
-    <value>deze server taal is gezet naar:</value>
+    <value>De taal van de server is gezet naar {0} - {1}</value>
   </data>
   <data name="administration_left" xml:space="preserve">
-    <value>heeft verlaten</value>
+    <value>{0} heeft {1} verlaten</value>
   </data>
   <data name="administration_left_server" xml:space="preserve">
-    <value>Heeft de server verlaten</value>
+    <value>Server {0} verlaten</value>
   </data>
   <data name="administration_log" xml:space="preserve">
-    <value></value>
+    <value>Gebeurtenis {0} wordt bijgehouden in dit kanaal.</value>
   </data>
   <data name="administration_log_all" xml:space="preserve">
-    <value></value>
+    <value>Alle gebeurtenissen worden bijgehouden in dit kanaal.</value>
   </data>
   <data name="administration_log_disabled" xml:space="preserve">
-    <value>Logging uitgeschakeld</value>
+    <value>Logging uitgeschakeld.</value>
   </data>
   <data name="administration_log_events" xml:space="preserve">
-    <value></value>
+    <value>Log gebeurtenissen waar je op kan abonneren:</value>
   </data>
   <data name="administration_log_ignore" xml:space="preserve">
-    <value></value>
+    <value>Logging zal {0} negeren</value>
   </data>
   <data name="administration_log_not_ignore" xml:space="preserve">
-    <value></value>
+    <value>Logging zal {0} niet negeren</value>
   </data>
   <data name="administration_log_stop" xml:space="preserve">
-    <value></value>
+    <value>Gestopt met het loggen van {0}.</value>
   </data>
   <data name="administration_menrole" xml:space="preserve">
-    <value></value>
+    <value>{0} heeft een melding geplaatst op de volgende rollen</value>
   </data>
   <data name="administration_message_from_bo" xml:space="preserve">
-    <value></value>
+    <value>Bericht van {0} `[Bot Eigenaar]`:</value>
   </data>
   <data name="administration_message_sent" xml:space="preserve">
-    <value>Bericht verstuurd</value>
+    <value>Bericht verstuurd.</value>
   </data>
   <data name="administration_moved" xml:space="preserve">
-    <value>verplaats van ... naar ...</value>
+    <value>{0} verplaats van {1} naar {2}</value>
   </data>
   <data name="administration_msg_del" xml:space="preserve">
-    <value>bericht verwijdert in</value>
+    <value>Bericht in #{0} verwijdert</value>
   </data>
   <data name="administration_msg_update" xml:space="preserve">
-    <value>bericht bijgewerkt in</value>
+    <value>Bericht in #{0} bijgewerkt</value>
   </data>
   <data name="administration_muted_pl" xml:space="preserve">
-    <value>gemute</value>
+    <value>Gebruikers zijn gedempt</value>
     <comment>PLURAL (users have been muted)</comment>
   </data>
   <data name="administration_muted_sn" xml:space="preserve">
@@ -541,13 +541,13 @@ Reden: {1}</value>
     <comment>singular &quot;User muted.&quot;</comment>
   </data>
   <data name="administration_mute_error" xml:space="preserve">
-    <value></value>
+    <value>Ik heb de benodigde rechten daar voor waarschijnlijk niet.</value>
   </data>
   <data name="administration_mute_role_set" xml:space="preserve">
-    <value>nieuwe demp group gezet</value>
+    <value>Nieuwe demp rol geplaatst.</value>
   </data>
   <data name="administration_need_admin" xml:space="preserve">
-    <value>Ik heb **administrator** rechten nodig voor dat</value>
+    <value>Ik heb **administrator** rechten daar voor nodig.</value>
   </data>
   <data name="administration_new_msg" xml:space="preserve">
     <value>nieuw bericht</value>
@@ -565,7 +565,7 @@ Reden: {1}</value>
     <value>Kan de server niet vinden</value>
   </data>
   <data name="administration_no_shard_id" xml:space="preserve">
-    <value></value>
+    <value>Geen shard gevonden met dat ID.</value>
   </data>
   <data name="administration_old_msg" xml:space="preserve">
     <value>Oud bericht</value>
@@ -577,160 +577,161 @@ Reden: {1}</value>
     <value>Oude onderwerp</value>
   </data>
   <data name="administration_perms" xml:space="preserve">
-    <value>error hoogst waarschijnlijk niet voldoende permissie</value>
+    <value>Fout. Hoogst waarschijnlijk heb ik geen voldoende rechten.</value>
   </data>
   <data name="administration_perms_reset" xml:space="preserve">
-    <value>de rechten op deze server zijn gereset</value>
+    <value>De rechten op deze server zijn gereset.</value>
   </data>
   <data name="administration_prot_active" xml:space="preserve">
-    <value>actieve bescherming</value>
+    <value>Actieve Beschermingen.</value>
   </data>
   <data name="administration_prot_disable" xml:space="preserve">
-    <value>is ** uitgeschakeld** op deze server</value>
+    <value>{0} is nu ** uitgeschakeld** op deze server.</value>
   </data>
   <data name="administration_prot_enable" xml:space="preserve">
-    <value>aangezet</value>
+    <value>{0} Ingeschakeld</value>
   </data>
   <data name="administration_prot_error" xml:space="preserve">
-    <value>fout. ik heb managergroup rechten nodig</value>
+    <value>Fout. ik heb Beheer Rollen rechten nodig</value>
   </data>
   <data name="administration_prot_none" xml:space="preserve">
-    <value>geen bescherming aangezet</value>
+    <value>Geen bescherming aangezet.</value>
   </data>
   <data name="administration_raid_cnt" xml:space="preserve">
-    <value></value>
+    <value>Gebruiker&apos;s drempel moet tussen {0} en {1} zijn.</value>
   </data>
   <data name="administration_raid_stats" xml:space="preserve">
-    <value></value>
+    <value>Als {0} of meerdere gebruikers binnen {1} seconden, zal ik hun {2}.</value>
   </data>
   <data name="administration_raid_time" xml:space="preserve">
-    <value></value>
+    <value>Aangegeven tijd hoort binnen {0} en {1} seconden te vallen.</value>
   </data>
   <data name="administration_rar" xml:space="preserve">
-    <value></value>
+    <value>Met succes alle roles van de gebruiker {0} verwijderd</value>
   </data>
   <data name="administration_rar_err" xml:space="preserve">
-    <value></value>
+    <value>Het verwijderen van de rollen is mislukt. Ik heb onvoldoende rechten.</value>
   </data>
   <data name="administration_rc" xml:space="preserve">
-    <value></value>
+    <value>De kleur van de rol {0} is veranderd</value>
   </data>
   <data name="administration_rc_not_exist" xml:space="preserve">
-    <value></value>
+    <value>Die rol bestaat niet.</value>
   </data>
   <data name="administration_rc_params" xml:space="preserve">
-    <value></value>
+    <value>De aangegeven parameters zijn ongeldig.</value>
   </data>
   <data name="administration_rc_perms" xml:space="preserve">
-    <value></value>
+    <value>Error opgekomen vanwege ongeldige kleur, of onvoldoende rechten.</value>
   </data>
   <data name="administration_remrole" xml:space="preserve">
-    <value></value>
+    <value>Met sucess rol {0} verwijderd van gebruiker {1}.</value>
   </data>
   <data name="administration_remrole_err" xml:space="preserve">
-    <value></value>
+    <value>Mislukt om rol te verwijderen. Ik heb onvoldoende rechten.</value>
   </data>
   <data name="administration_renrole" xml:space="preserve">
-    <value>group naam veranderd</value>
+    <value>Rol naam veranderd.</value>
   </data>
   <data name="administration_renrole_err" xml:space="preserve">
-    <value>group naam veranderen mislukt. ik heb niet genoeg rechten</value>
+    <value>Rol naam veranderen mislukt. Ik heb onvoldoende rechten.</value>
   </data>
   <data name="administration_renrole_perms" xml:space="preserve">
-    <value>je kan geen groupen bijwerken die hoger zijn dan jou eigen group</value>
+    <value>je kan geen rollen bijwerken die hoger zijn dan je eigen rol.</value>
   </data>
   <data name="administration_reprm" xml:space="preserve">
-    <value>Verwijderd van speel bericht</value>
+    <value>Speel bericht verwijderd: {0}</value>
   </data>
   <data name="administration_role_added" xml:space="preserve">
-    <value>group... is toegevoegd aan de lijst</value>
+    <value>Rol {0} is toegevoegd aan de lijst.</value>
   </data>
   <data name="administration_role_clean" xml:space="preserve">
-    <value>niet gevonden. aan het opruimen</value>
+    <value>{0} niet gevonden. Klaar met opruimen.</value>
   </data>
   <data name="administration_role_in_list" xml:space="preserve">
-    <value>group is al in de lijst</value>
+    <value>Rol {0} staat al in de lijst.</value>
   </data>
   <data name="administration_ropl_added" xml:space="preserve">
-    <value>toegevoegd</value>
+    <value>Toegevoegd.</value>
   </data>
   <data name="administration_ropl_disabled" xml:space="preserve">
-    <value></value>
+    <value>Routerende speelstatus uitgeschakeld.</value>
   </data>
   <data name="administration_ropl_enabled" xml:space="preserve">
-    <value></value>
+    <value>Routerende speelstatus ingeschakeld.</value>
   </data>
   <data name="administration_ropl_list" xml:space="preserve">
-    <value></value>
+    <value>Hier is een lijst met routerende statussen:
+{0}</value>
   </data>
   <data name="administration_ropl_not_set" xml:space="preserve">
-    <value></value>
+    <value>Nog geen routerende speelstatussen ingesteld.</value>
   </data>
   <data name="administration_self_assign_already" xml:space="preserve">
-    <value>je hebt al .. group</value>
+    <value>Je hebt al {0} rol.</value>
   </data>
   <data name="administration_self_assign_already_excl" xml:space="preserve">
-    <value></value>
+    <value>Je hebt {0} exclusieve zelf toegewezen rol al.</value>
   </data>
   <data name="administration_self_assign_excl" xml:space="preserve">
-    <value></value>
+    <value>Zelf toegewezen rollen zijn nu exclusief!</value>
   </data>
   <data name="administration_self_assign_list" xml:space="preserve">
-    <value></value>
+    <value>Er zijn {0} zelf toewijsbare rollen</value>
   </data>
   <data name="administration_self_assign_not" xml:space="preserve">
-    <value>deze group is niet zelf</value>
+    <value>Deze rol is niet zelf toewijsbaar.</value>
   </data>
   <data name="administration_self_assign_not_have" xml:space="preserve">
-    <value></value>
+    <value>Je hebt niet {0} rol.</value>
   </data>
   <data name="administration_self_assign_no_excl" xml:space="preserve">
-    <value></value>
+    <value>Zelf toegewezen rollen zijn nu niet exclusief!</value>
   </data>
   <data name="administration_self_assign_perms" xml:space="preserve">
-    <value></value>
+    <value>Ik kan deze rol niet aan je toevoegen. `Ik kan niet rollen toevoegen aan eigenaren of andere rollen die boven mij staan in de rol hiërarchie.`</value>
   </data>
   <data name="administration_self_assign_rem" xml:space="preserve">
-    <value></value>
+    <value>{0} is verwijderd van de lijst met zelf toewijsbare rollen.</value>
   </data>
   <data name="administration_self_assign_remove" xml:space="preserve">
-    <value>je heb niet lang meer de {0} group</value>
+    <value>Je hebt {0} rol niet meer.</value>
   </data>
   <data name="administration_self_assign_success" xml:space="preserve">
-    <value>je hebt nu {0} group</value>
+    <value>je hebt nu {0} rol.</value>
   </data>
   <data name="administration_setrole" xml:space="preserve">
-    <value>met sucess een group {0) toegevoegd aan gebruiker {1}</value>
+    <value>Succesvol de rol {0} toegevoegd aan gebruiker {1}</value>
   </data>
   <data name="administration_setrole_err" xml:space="preserve">
-    <value>fout bij het toevoegen van een group. je heb onvoldoende rechten</value>
+    <value>Fout bij het toevoegen van de rol. Ik heb onvoldoende rechten.</value>
   </data>
   <data name="administration_set_avatar" xml:space="preserve">
-    <value>Nieuwe avatar gezet!</value>
+    <value>Nieuwe avatar ingesteld!</value>
   </data>
   <data name="administration_set_channel_name" xml:space="preserve">
-    <value>Nieuwe kanaal naam gezet.</value>
+    <value>Nieuwe kanaal naam ingesteld.</value>
   </data>
   <data name="administration_set_game" xml:space="preserve">
-    <value>Nieuwe game gezet!</value>
+    <value>Nieuwe game ingesteld!</value>
   </data>
   <data name="administration_set_stream" xml:space="preserve">
-    <value>Nieuwe stream gezet!</value>
+    <value>Nieuwe stream ingesteld!</value>
   </data>
   <data name="administration_set_topic" xml:space="preserve">
-    <value>Nieuwe kanaal onderwerp gezet</value>
+    <value>Nieuwe kanaal onderwerp ingesteld.</value>
   </data>
   <data name="administration_shard_reconnected" xml:space="preserve">
-    <value></value>
+    <value>Shard {0} opnieuw verbonden.</value>
   </data>
   <data name="administration_shard_reconnecting" xml:space="preserve">
-    <value></value>
+    <value>Shard {0} is opnieuw aan het verbinden.</value>
   </data>
   <data name="administration_shutting_down" xml:space="preserve">
-    <value>afsluiten</value>
+    <value>Afsluiten</value>
   </data>
   <data name="administration_slowmode_desc" xml:space="preserve">
-    <value></value>
+    <value>Gebruikers kunnen niet meer dan {0} berichten sturen per {1} seconden.</value>
   </data>
   <data name="administration_slowmode_disabled" xml:space="preserve">
     <value>langzame mode uitgezet</value>
@@ -739,66 +740,71 @@ Reden: {1}</value>
     <value>langzame mode gestart</value>
   </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
-    <value>zacht-verbannen(kicked)</value>
+    <value>zacht-verbannen (kicked)</value>
     <comment>PLURAL</comment>
   </data>
   <data name="administration_spam_ignore" xml:space="preserve">
-    <value>{0} wil deze kanaal dempen</value>
+    <value>{0} zal dit kanaal negeren.</value>
   </data>
   <data name="administration_spam_not_ignore" xml:space="preserve">
-    <value></value>
+    <value>{0} zal dit kanaal niet meer negeren.</value>
   </data>
   <data name="administration_spam_stats" xml:space="preserve">
-    <value></value>
+    <value>Als een gebruiker {0} de zelfde berichten plaatst, zal ik ze {1}.
+__IgnoredChannels__: {2}</value>
   </data>
   <data name="administration_text_chan_created" xml:space="preserve">
-    <value></value>
+    <value>Tekst kanaal aangemaakt.</value>
   </data>
   <data name="administration_text_chan_destroyed" xml:space="preserve">
-    <value></value>
+    <value>Tekst kanaal verwijderd.</value>
   </data>
   <data name="administration_undeafen" xml:space="preserve">
     <value></value>
   </data>
   <data name="administration_unmuted_sn" xml:space="preserve">
-    <value></value>
+    <value>Ongedempt</value>
     <comment>singular</comment>
   </data>
   <data name="administration_username" xml:space="preserve">
-    <value></value>
+    <value>Gebruikersnaam</value>
   </data>
   <data name="administration_username_changed" xml:space="preserve">
-    <value></value>
+    <value>Gebruikersnaam veranderd</value>
   </data>
   <data name="administration_users" xml:space="preserve">
-    <value></value>
+    <value>Gebruikers</value>
   </data>
   <data name="administration_user_banned" xml:space="preserve">
-    <value></value>
+    <value>Gebruiker verbannen</value>
   </data>
   <data name="administration_user_chat_mute" xml:space="preserve">
-    <value></value>
+    <value>{0} is **gedempt** van chatten.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_chat_unmute" xml:space="preserve">
-    <value></value>
+    <value>{0} is **ongedempt** van chatten.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_joined" xml:space="preserve">
-    <value></value>
+    <value>Gebruiker toegetreden</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_left" xml:space="preserve">
-    <value></value>
+    <value>Gebruiker verlaten</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_muted" xml:space="preserve">
     <value></value>
   </data>
   <data name="administration_user_role_add" xml:space="preserve">
-    <value></value>
+    <value>Gebruiker&apos;s rol toegevoegd</value>
   </data>
   <data name="administration_user_role_rem" xml:space="preserve">
-    <value></value>
+    <value>Gebruiker&apos;s rol verwijderd</value>
   </data>
   <data name="administration_user_status_change" xml:space="preserve">
-    <value></value>
+    <value>{0} is nu {1}</value>
   </data>
   <data name="administration_user_unmuted" xml:space="preserve">
     <value></value>
@@ -1173,16 +1179,16 @@ Reden: {1}</value>
     <value></value>
   </data>
   <data name="games_acro_submit" xml:space="preserve">
-    <value></value>
+    <value>{0} heeft een zin ingezonden. ({1} in totaal)</value>
   </data>
   <data name="games_acro_vote" xml:space="preserve">
     <value></value>
   </data>
   <data name="games_acro_vote_cast" xml:space="preserve">
-    <value></value>
+    <value>{0} heeft gestemd!</value>
   </data>
   <data name="games_acro_winner" xml:space="preserve">
-    <value></value>
+    <value>De winnaar is {0} met {1} punten.</value>
   </data>
   <data name="games_acro_winner_only" xml:space="preserve">
     <value></value>
@@ -2063,13 +2069,13 @@ Reden: {1}</value>
     <value></value>
   </data>
   <data name="utility_quotes_remove_none" xml:space="preserve">
-    <value></value>
+    <value>Geen verwijderbare citaten gevonden</value>
   </data>
   <data name="utility_quote_added" xml:space="preserve">
-    <value></value>
+    <value>Citaat toegevoegd</value>
   </data>
   <data name="utility_quote_deleted" xml:space="preserve">
-    <value></value>
+    <value>Een willekeurig citaat verwijderd</value>
   </data>
   <data name="utility_region" xml:space="preserve">
     <value></value>
