@@ -142,11 +142,11 @@ namespace NadekoBot.Modules.NSFW
 #endif
         [NadekoCommand, Usage, Description, Aliases]
         public Task Yandere([Remainder] string tag = null)
-            => InternalDapiCommand(Context.Message, tag, Searches.Searches.DapiSearchType.Yandere);
+            => InternalDapiCommand(tag, Searches.Searches.DapiSearchType.Yandere);
 
         [NadekoCommand, Usage, Description, Aliases]
         public Task Konachan([Remainder] string tag = null)
-            => InternalDapiCommand(Context.Message, tag, Searches.Searches.DapiSearchType.Konachan);
+            => InternalDapiCommand(tag, Searches.Searches.DapiSearchType.Konachan);
 
         [NadekoCommand, Usage, Description, Aliases]
         public async Task E621([Remainder] string tag = null)
@@ -167,7 +167,7 @@ namespace NadekoBot.Modules.NSFW
 
         [NadekoCommand, Usage, Description, Aliases]
         public Task Rule34([Remainder] string tag = null)
-            => InternalDapiCommand(Context.Message, tag, Searches.Searches.DapiSearchType.Rule34);
+            => InternalDapiCommand(tag, Searches.Searches.DapiSearchType.Rule34);
 
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Danbooru([Remainder] string tag = null)
@@ -210,7 +210,7 @@ namespace NadekoBot.Modules.NSFW
 
         [NadekoCommand, Usage, Description, Aliases]
         public Task Gelbooru([Remainder] string tag = null)
-            => InternalDapiCommand(Context.Message, tag, Searches.Searches.DapiSearchType.Gelbooru);
+            => InternalDapiCommand(tag, Searches.Searches.DapiSearchType.Gelbooru);
 
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Cp()
@@ -288,19 +288,17 @@ namespace NadekoBot.Modules.NSFW
         public static Task<string> GetGelbooruImageLink(string tag) =>
             Searches.Searches.InternalDapiSearch(tag, Searches.Searches.DapiSearchType.Gelbooru);
 
-        public async Task InternalDapiCommand(IUserMessage umsg, string tag, Searches.Searches.DapiSearchType type)
+        public async Task InternalDapiCommand(string tag, Searches.Searches.DapiSearchType type)
         {
-            var channel = umsg.Channel;
-
             tag = tag?.Trim() ?? "";
 
             var url = await Searches.Searches.InternalDapiSearch(tag, type).ConfigureAwait(false);
 
             if (url == null)
-                await channel.SendErrorAsync(umsg.Author.Mention + " " + GetText("no_results"));
+                await ReplyErrorLocalized("not_found").ConfigureAwait(false);
             else
-                await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                    .WithDescription(umsg.Author.Mention + " " + tag)
+                await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                    .WithDescription(Context.User + " " + tag)
                     .WithImageUrl(url)
                     .WithFooter(efb => efb.WithText(type.ToString()))).ConfigureAwait(false);
         }
