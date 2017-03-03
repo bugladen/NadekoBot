@@ -121,7 +121,7 @@
     <value>Diese Basis wurde bereits beansprucht oder zerstört.</value>
   </data>
   <data name="clashofclans_base_already_destroyed" xml:space="preserve">
-    <value>Diese Basis ist bereits zertört.</value>
+    <value>Diese Basis ist bereits zerstört.</value>
   </data>
   <data name="clashofclans_base_already_unclaimed" xml:space="preserve">
     <value>Diese Basis ist nicht beansprucht.</value>
@@ -193,7 +193,7 @@
     <value>Benutzerdefinierte Reaktion gelöscht.</value>
   </data>
   <data name="customreactions_insuff_perms" xml:space="preserve">
-    <value>Unzureichende Rechte. Dies erfordert das sie den Bot besitzen für globale Reaktionen, und Administratorrechte für serverseitige Reaktionen.</value>
+    <value>Unzureichende Rechte. Dies erfordert das Sie den Bot besitzen für globale Reaktionen, und Administratorrechte für serverseitige Reaktionen.</value>
   </data>
   <data name="customreactions_list_all" xml:space="preserve">
     <value>Liste aller benutzerdefinierten Reaktionen.</value>
@@ -287,7 +287,7 @@
     <value>Das ist sehr effektiv!</value>
   </data>
   <data name="pokemon_too_many_moves" xml:space="preserve">
-    <value>Sie haben zu viele Angriffe hintereinander eingesetzt, sodass sie sich nicht bewegen können!</value>
+    <value>Sie haben zu viele Angriffe hintereinander eingesetzt, sodass Sie sich nicht bewegen können!</value>
   </data>
   <data name="pokemon_type_of_user" xml:space="preserve">
     <value>Typ von {0} ist {1}</value>
@@ -296,7 +296,7 @@
     <value>Benutzer nicht gefunden.</value>
   </data>
   <data name="pokemon_you_fainted" xml:space="preserve">
-    <value>Sie sind ohnmächtig, daher können sie sich nicht bewegen!</value>
+    <value>Sie sind ohnmächtig, daher können Sie sich nicht bewegen!</value>
   </data>
   <data name="administration_aar_disabled" xml:space="preserve">
     <value>**Automatische Rollenzuteilung** wenn ein Benutzer beitritt ist nun **deaktiviert**.</value>
@@ -448,7 +448,7 @@ Grund: {1}</value>
     <value>Begrüßungsankündigungen wurden für diesen Kanal aktiviert.</value>
   </data>
   <data name="administration_hierarchy" xml:space="preserve">
-    <value>Sie können diesen befehl nicht an Benutzern mit einer Rolle über oder gleich zu ihrer in der Rangordnung benutzen.</value>
+    <value>Sie können diesen befehl nicht an Benutzern mit einer Rolle über oder gleich zu Ihrer in der Rangordnung benutzen.</value>
   </data>
   <data name="administration_images_loaded" xml:space="preserve">
     <value>Bilder wurden geladen nach {0} sekunden!</value>
@@ -477,13 +477,13 @@ Grund: {1}</value>
     <value>Ihr Servers Sprachumgebung ist jetzt {1} - {1}</value>
   </data>
   <data name="administration_lang_set_bot" xml:space="preserve">
-    <value>Der Bots standard Sprachumgebung ist jetzt {0} - {1}</value>
+    <value>Die Sprachumgebung des Bots ist nun {0} - {1}</value>
   </data>
   <data name="administration_lang_set_bot_show" xml:space="preserve">
     <value>Die Sprache des Bots ist {0} - {1}</value>
   </data>
   <data name="administration_lang_set_fail" xml:space="preserve">
-    <value>Setzen der Sprachumgebung fehlgeschlagen. Greifen sie auf diesen Befehls hilfe erneut auf.</value>
+    <value>Setzen der Sprachumgebung fehlgeschlagen. Greifen Sie auf diesen Befehls hilfe erneut auf.</value>
   </data>
   <data name="administration_lang_set_show" xml:space="preserve">
     <value>Dieser Servers Sprache wurde zu {0} - {1} gesetzt</value>
@@ -504,7 +504,7 @@ Grund: {1}</value>
     <value>Aufzeichnungen wurden deaktiviert.</value>
   </data>
   <data name="administration_log_events" xml:space="preserve">
-    <value>Aufzeichnungs Ereignise die sie abonnieren können:</value>
+    <value>Aufzeichnungs Ereignise die Sie abonnieren können:</value>
   </data>
   <data name="administration_log_ignore" xml:space="preserve">
     <value>Aufzeichnungen werden {0} ignorieren</value>
@@ -602,7 +602,7 @@ Grund: {1}</value>
     <value>Benutzerschwelle muss zwischen {0} und {1} sein.</value>
   </data>
   <data name="administration_raid_stats" xml:space="preserve">
-    <value>Wenn {0} oder mehr Benutzer innerhalb von {1} Sekunden beitreten werde ich sie {2}.</value>
+    <value>Wenn {0} oder mehr Benutzer innerhalb von {1} Sekunden beitreten werde ich Sie {2}.</value>
   </data>
   <data name="administration_raid_time" xml:space="preserve">
     <value>Zeit muss zwischen {0} und {1} sekunden sein.</value>
@@ -638,7 +638,7 @@ Grund: {1}</value>
     <value>Umbenennen der Rolle fehlgeschlagen. Ich habe nicht die erforderlichen Rechte.</value>
   </data>
   <data name="administration_renrole_perms" xml:space="preserve">
-    <value>Sie kännen keine Rollen bearbeiten die höher als ihre eigenen sind.</value>
+    <value>Sie kännen keine Rollen bearbeiten die höher als Ihre eigenen sind.</value>
   </data>
   <data name="administration_reprm" xml:space="preserve">
     <value>Die Abspielnachricht wurde entfernt: {0}</value>
@@ -675,25 +675,25 @@ Grund: {1}</value>
     <value>Sie haben bereits die exklusive, selbstzugewiesene Rolle {0}.</value>
   </data>
   <data name="administration_self_assign_excl" xml:space="preserve">
-    <value>Selbstzuweisbare Rollen sind nun exklusiv!</value>
+    <value>Selbst zugewiesene Rollen sind nun exklusiv!</value>
   </data>
   <data name="administration_self_assign_list" xml:space="preserve">
-    <value>Es gibt {0} selbstzuweisbare Rollen</value>
+    <value>Es gibt {0} Rollen, die man sich selbst zuweisen kann.</value>
   </data>
   <data name="administration_self_assign_not" xml:space="preserve">
-    <value>Diese Rolle ist nicht selbstzuweisbar.</value>
+    <value>Diese Rolle kann man sich nicht selbst zuweisen.</value>
   </data>
   <data name="administration_self_assign_not_have" xml:space="preserve">
     <value>Sie haben die Rolle {0} nicht.</value>
   </data>
   <data name="administration_self_assign_no_excl" xml:space="preserve">
-    <value>Selbstzuweisbare Rollen sind nicht länger exklusiv!</value>
+    <value>Selbst zugewiesene Rollen sind nicht länger exklusiv!</value>
   </data>
   <data name="administration_self_assign_perms" xml:space="preserve">
-    <value>Ich kann dir diese Rolle nicht zuweisen. `Ich kann keine Rollen zu Besitzern oder andere Rollen die höher als meine in der Rangordnung sind hinzufügen.`</value>
+    <value>Ich kann Ihnen diese Rolle nicht zuweisen. `Ich kann keine Rollen zu Besitzern oder andere Rollen die höher als meine in der Rangordnung sind hinzufügen.`</value>
   </data>
   <data name="administration_self_assign_rem" xml:space="preserve">
-    <value>{0} wurde von der Liste der selbstzuweisbaren Rollen entfernt.</value>
+    <value>{0} wurde von der Liste der selbst zuweisbaren Rollen entfernt.</value>
   </data>
   <data name="administration_self_assign_remove" xml:space="preserve">
     <value>Sie haben nicht länger die Rolle {0}.</value>
@@ -875,10 +875,10 @@ Grund: {1}</value>
     <value>vegab {0} zu {1}</value>
   </data>
   <data name="gambling_better_luck" xml:space="preserve">
-    <value>Hoffentlich haben sie beim nächsten Mal mehr Glück ^_^</value>
+    <value>Hoffentlich haben Sie beim nächsten Mal mehr Glück ^_^</value>
   </data>
   <data name="gambling_br_win" xml:space="preserve">
-    <value>Glückwunsch! Sie haben {0} gewonnen, weil sie über {1} gewürfelt haben</value>
+    <value>Glückwunsch! Sie haben {0} gewonnen, weil Sie über {1} gewürfelt haben</value>
   </data>
   <data name="gambling_deck_reshuffled" xml:space="preserve">
     <value>Deck neu gemischt.</value>
@@ -995,7 +995,7 @@ Grund: {1}</value>
     <value>Gebe `{0}h NameDesBefehls` ein, um die Hilfestellung für diesen Befehl zu sehen. Z.B. `{0}h &gt;8ball`</value>
   </data>
   <data name="help_command_not_found" xml:space="preserve">
-    <value>Ich konnte diesen Befehl nicht finden. Bitte stelle sicher das dieser Befehl existiert bevor sie es erneut versuchen.</value>
+    <value>Ich konnte diesen Befehl nicht finden. Bitte stelle sicher das dieser Befehl existiert bevor Sie es erneut versuchen.</value>
   </data>
   <data name="help_desc" xml:space="preserve">
     <value>Beschreibung</value>
@@ -1004,7 +1004,7 @@ Grund: {1}</value>
     <value>Sie können das NadekoBot-Projekt über 
 Patreon &lt;{0}&gt; oder 
 PayPal &lt;{1}&gt; unterstützen.
-Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu hinterlassen.
+Vergessen Sie bitte nicht, Ihren Discord-Namen oder Ihre ID in der Nachricht zu hinterlassen.
 
 **Vielen Dank**♥️</value>
   </data>
@@ -1031,7 +1031,7 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Inhaltsverzeichnis</value>
   </data>
   <data name="help_usage" xml:space="preserve">
-    <value>Benutzweise</value>
+    <value>Verwendung</value>
   </data>
   <data name="nsfw_autohentai_started" xml:space="preserve">
     <value>Autohentai wurde gestartet. Es wird alle {0} Sekunden etwas mit einem der folgenden Stichwörtern gepostet: {1}</value>
@@ -1111,7 +1111,7 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Top Waifus</value>
   </data>
   <data name="gambling_waifu_affinity_already" xml:space="preserve">
-    <value>Ihre Neigung ist bereits zu dieser Waifu gesetzt oder sie versuchsen ihre Neigung zu entfernen während sie keine gesetzt haben.</value>
+    <value>Ihre Neigung ist bereits zu dieser Waifu gesetzt oder Sie versuchsen Ihre Neigung zu entfernen während Sie keine gesetzt haben.</value>
   </data>
   <data name="gambling_waifu_affinity_changed" xml:space="preserve">
     <value>hat seine Neigung von {0} zu {1} geändert.
@@ -1120,47 +1120,47 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <comment>Make sure to get the formatting right, and leave the thinking emoji</comment>
   </data>
   <data name="gambling_waifu_affinity_cooldown" xml:space="preserve">
-    <value>Sie müssen {0} Stunden und {1} Minuten warten bevor sie ihre Neigung ändern können.</value>
+    <value>Sie müssen {0} Stunden und {1} Minuten warten bevor Sie Ihre Neigung ändern können.</value>
   </data>
   <data name="gambling_waifu_affinity_reset" xml:space="preserve">
-    <value>Ihre Neigung wurde zurückgesetzt. Sie haben keine Person mehr die sie mögen.</value>
+    <value>Ihre Neigung wurde zurückgesetzt. Sie haben keine Person mehr die Sie mögen.</value>
   </data>
   <data name="gambling_waifu_affinity_set" xml:space="preserve">
     <value>will {0}s Waifu sein. Aww &lt;3</value>
   </data>
   <data name="gambling_waifu_claimed" xml:space="preserve">
-    <value>hat {0} als seine/ihre Waifu für {1} beansprucht!</value>
+    <value>hat {0} als seine/Ihre Waifu für {1} beansprucht!</value>
   </data>
   <data name="gambling_waifu_divorced_like" xml:space="preserve">
-    <value>Sie haben sich von ihrer Waifu die sie mochte scheiden lassen. Du herzloses Monster. {0} hat {1} als Kompensation erhalten.</value>
+    <value>Sie haben sich von Ihrer Waifu die Sie mochte scheiden lassen. Du herzloses Monster. {0} hat {1} als Kompensation erhalten.</value>
   </data>
   <data name="gambling_waifu_egomaniac" xml:space="preserve">
-    <value>Sie können deine Neigung nicht zu ihnen selbst setzen, sie egomanische Person.</value>
+    <value>Sie können deine Neigung nicht zu Ihnen selbst setzen, Sie egomanische Person.</value>
   </data>
   <data name="gambling_waifu_fulfilled" xml:space="preserve">
     <value>🎉 Ihre Liebe ist besiegelt! 🎉
 {0}&apos;s neuer Wert ist {1}!</value>
   </data>
   <data name="gambling_waifu_isnt_cheap" xml:space="preserve">
-    <value>Keine Waifu ist so billig. Sie müssen wenigstens {0} bezahlen um diese Waifu zu beanspruchen, selbst wenn ihr tatsächlicher Wert geringer ist.</value>
+    <value>Keine Waifu ist so billig. Sie müssen wenigstens {0} bezahlen um diese Waifu zu beanspruchen, selbst wenn Ihr tatsächlicher Wert geringer ist.</value>
   </data>
   <data name="gambling_waifu_not_enough" xml:space="preserve">
     <value>Sie müssen {0} oder mehr bezahlen um diese Waifu zu beanspruchen!</value>
   </data>
   <data name="gambling_waifu_not_yours" xml:space="preserve">
-    <value>Diese Waifu gehört nicht dir.</value>
+    <value>Diese Waifu gehört nicht Ihnen.</value>
   </data>
   <data name="gambling_waifu_not_yourself" xml:space="preserve">
     <value>Sie können sich nicht selbst beanspruchen.</value>
   </data>
   <data name="gambling_waifu_recent_divorce" xml:space="preserve">
-    <value>Sie haben sich vor kurzem scheiden lassen. Sie müssen {0} Stunden und {1} Minuten warten bevor sie sich erneut scheiden lassen können.</value>
+    <value>Sie haben sich vor kurzem scheiden lassen. Sie müssen {0} Stunden und {1} Minuten warten bevor Sie sich erneut scheiden lassen können.</value>
   </data>
   <data name="gambling_nobody" xml:space="preserve">
     <value>Niemand</value>
   </data>
   <data name="gambling_waifu_divorced_notlike" xml:space="preserve">
-    <value>Sie haben sich von einer Waifu scheiden lassen die sie nicht mochte, Du erhältst {0} zurück.</value>
+    <value>Sie haben sich von einer Waifu scheiden lassen die Sie nicht mochte, Du erhältst {0} zurück.</value>
   </data>
   <data name="games_8ball" xml:space="preserve">
     <value>8ball</value>
@@ -1184,7 +1184,7 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Spiel gestartet. Erstelle einen Satz aus dem folgenden Akronym: {0}.</value>
   </data>
   <data name="games_acro_started_footer" xml:space="preserve">
-    <value>Sie haben {0} Sekunden für ihre Einsendung.</value>
+    <value>Sie haben {0} Sekunden für Ihre Einsendung.</value>
   </data>
   <data name="games_acro_submit" xml:space="preserve">
     <value>{0} hat seinen Satz eingereicht. ({1} insgesamt)</value>
@@ -1193,7 +1193,7 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Stimme ab indem du die Nummer der Einsendung eingibst</value>
   </data>
   <data name="games_acro_vote_cast" xml:space="preserve">
-    <value>{0} hat seine/ihre Stimme abgegeben!</value>
+    <value>{0} hat seine/Ihre Stimme abgegeben!</value>
   </data>
   <data name="games_acro_winner" xml:space="preserve">
     <value>Der Gewinner ist {0} mit {1} Punkten.</value>
@@ -1235,11 +1235,11 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Währungsgeneration in diesem Kanal aktiviert.</value>
   </data>
   <data name="games_curgen_pl" xml:space="preserve">
-    <value>{0} zufällige {1} sind erschienen! Sammle sie indem sie `{2}pick` schreiben</value>
+    <value>{0} zufällige {1} sind erschienen! Sammle sie indem Sie `{2}pick` schreiben</value>
     <comment>plural</comment>
   </data>
   <data name="games_curgen_sn" xml:space="preserve">
-    <value>Eine zufällige {0} ist erschienen! Sammle sie indem sie `{1}pick` schreiben</value>
+    <value>Eine zufällige {0} ist erschienen! Sammle sie indem Sie `{1}pick` schreiben</value>
   </data>
   <data name="games_failed_loading_question" xml:space="preserve">
     <value>Laden einer Frage fehlgeschlagen.</value>
@@ -1269,7 +1269,7 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Keine Ergebnisse</value>
   </data>
   <data name="games_picked" xml:space="preserve">
-    <value>{0} aufgehoben</value>
+    <value>hat {0} aufgehoben</value>
     <comment>Kwoth picked 5*</comment>
   </data>
   <data name="games_planted" xml:space="preserve">
@@ -1367,10 +1367,10 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Ungültige Eingabe.</value>
   </data>
   <data name="music_max_playtime_none" xml:space="preserve">
-    <value>Maximale Spielzeit hat kein Limit mehr.</value>
+    <value>Maximale Länge eines Liedes hat kein Limit mehr.</value>
   </data>
   <data name="music_max_playtime_set" xml:space="preserve">
-    <value>Maximale Spielzeit ist nun {0} Sekunden.</value>
+    <value>Maximale länge eines Liedes ist nun {0} Sekunden.</value>
   </data>
   <data name="music_max_queue_unlimited" xml:space="preserve">
     <value>Maximale Musik-Warteschlangengröße ist nun unbegrenzt.</value>
@@ -1412,7 +1412,7 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Playlist gelöscht.</value>
   </data>
   <data name="music_playlist_delete_fail" xml:space="preserve">
-    <value>Playlist konnte nicht gelöscht werden. Entweder sie existiert nicht oder sie gehört nicht dir.</value>
+    <value>Playlist konnte nicht gelöscht werden. Entweder es existiert nicht oder es gehört nicht Ihnen.</value>
   </data>
   <data name="music_playlist_id_not_found" xml:space="preserve">
     <value>Es gibt keine Playlist mit dieser ID.</value>
@@ -1473,7 +1473,7 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Lieder gemischt.</value>
   </data>
   <data name="music_song_moved" xml:space="preserve">
-    <value>Lieder bewegt</value>
+    <value>Lied bewegt</value>
   </data>
   <data name="music_time_format" xml:space="preserve">
     <value>{0}h {1}m {2}s</value>
@@ -1666,7 +1666,7 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Automatische Übersetzung der Nachrichten wurde auf diesem kanal gestoppt.</value>
   </data>
   <data name="searches_bad_input_format" xml:space="preserve">
-    <value>Schlechter Eingabeformat, oder etwas lief schief.</value>
+    <value>Schlechtes Eingabeformat oder etwas lief schief.</value>
   </data>
   <data name="searches_card_not_found" xml:space="preserve">
     <value>Konnte diese Karte nicht finden.</value>
@@ -1844,7 +1844,7 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Etwas lief schief.</value>
   </data>
   <data name="searches_specify_search_params" xml:space="preserve">
-    <value>Bitte spezifizieren sie die Such Parameter.</value>
+    <value>Bitte spezifizieren Sie die Such Parameter.</value>
   </data>
   <data name="searches_status" xml:space="preserve">
     <value>Status</value>
@@ -1883,7 +1883,7 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Sonnenuntergang</value>
   </data>
   <data name="searches_temperature" xml:space="preserve">
-    <value>Temperature</value>
+    <value>Temperatur</value>
   </data>
   <data name="searches_title" xml:space="preserve">
     <value>Titel:</value>
@@ -1913,7 +1913,7 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Der Begriff konnte auf dem spezifizierten wikia nicht gefunden werden.</value>
   </data>
   <data name="searches_wikia_input_error" xml:space="preserve">
-    <value>Bitte geben sie ein Ziel wikia ein, gefolgt bei der Suchanfrage.</value>
+    <value>Bitte geben Sie ein Ziel wikia ein, gefolgt bei der Suchanfrage.</value>
   </data>
   <data name="searches_wiki_page_not_found" xml:space="preserve">
     <value>Seite konnte nicht gefunden werden.</value>
@@ -1984,7 +1984,7 @@ Vergessen sie bitte nicht, ihren Discord-Namen oder ihre ID in der Nachricht zu 
     <value>Verließ Multi-Server-Kanal.</value>
   </data>
   <data name="utility_csc_token" xml:space="preserve">
-    <value>Dies ist ihr MSK token</value>
+    <value>Dies ist Ihr MSK token</value>
   </data>
   <data name="utility_custom_emojis" xml:space="preserve">
     <value>Benutzerdefinierte Emojis</value>
@@ -2085,7 +2085,7 @@ ID des Besitzers: {2}</value>
     <value>Keine Zitate auf dieser Seite.</value>
   </data>
   <data name="utility_quotes_remove_none" xml:space="preserve">
-    <value>Kein Zitat das sie entfernen können gefunden.</value>
+    <value>Kein Zitat das Sie entfernen können gefunden.</value>
   </data>
   <data name="utility_quote_added" xml:space="preserve">
     <value>Zitat hinzugefügt</value>
@@ -2172,7 +2172,7 @@ ID des Besitzers: {2}</value>
     <value>Text Kanäle</value>
   </data>
   <data name="utility_togtub_room_link" xml:space="preserve">
-    <value>Hier ist ihr Raum link</value>
+    <value>Hier ist Ihr Raum link</value>
   </data>
   <data name="utility_uptime" xml:space="preserve">
     <value>Betriebszeit</value>
