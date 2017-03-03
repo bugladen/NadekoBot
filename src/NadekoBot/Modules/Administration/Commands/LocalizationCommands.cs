@@ -97,7 +97,6 @@ namespace NadekoBot.Modules.Administration
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [OwnerOnly]
             public async Task LanguagesList()
             {
                 await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
