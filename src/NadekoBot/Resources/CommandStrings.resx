@@ -124,7 +124,7 @@
     <value>Either shows a help for a single command, or DMs you help link if no arguments are specified.</value>
   </data>
   <data name="h_usage" xml:space="preserve">
-    <value>`{0}h -cmds` or `{0}h`</value>
+    <value>`{0}h {0}cmds` or `{0}h`</value>
   </data>
   <data name="hgit_cmd" xml:space="preserve">
     <value>hgit</value>
@@ -958,7 +958,7 @@
     <value>srvrfilterwords sfw</value>
   </data>
   <data name="srvrfilterwords_desc" xml:space="preserve">
-    <value>Toggles automatic deleting of messages containing filtered words on the server. Does not affect the Bot Owner.</value>
+    <value>Toggles automatic deletion of messages containing filtered words on the server. Does not affect the Bot Owner.</value>
   </data>
   <data name="srvrfilterwords_usage" xml:space="preserve">
     <value>`{0}sfw`</value>
@@ -967,7 +967,7 @@
     <value>permrole pr</value>
   </data>
   <data name="permrole_desc" xml:space="preserve">
-    <value>Sets a role which can change permissions. Supply no parameters to find out the current one. Default is 'Nadeko'.</value>
+    <value>Sets a role which can change permissions. Supply no parameters to see the current one. Default is 'Nadeko'.</value>
   </data>
   <data name="permrole_usage" xml:space="preserve">
     <value>`{0}pr role`</value>
