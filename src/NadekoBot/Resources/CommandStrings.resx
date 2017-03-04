@@ -3150,4 +3150,22 @@
   <data name="rategirl_usage" xml:space="preserve">
     <value>`{0}rategirl @SomeGurl`</value>
   </data>
+  <data name="lucky7test_cmd" xml:space="preserve">
+    <value>lucky7test l7t</value>
+  </data>
+  <data name="lucky7test_desc" xml:space="preserve">
+    <value>Tests the l7 command.</value>
+  </data>
+  <data name="lucky7test_usage" xml:space="preserve">
+    <value>`{0}l7t 10000`</value>
+  </data>
+  <data name="lucky7_cmd" xml:space="preserve">
+    <value>lucky7 l7</value>
+  </data>
+  <data name="lucky7_desc" xml:space="preserve">
+    <value>Bet currency on the game and start rolling 3 sided dice. At any point you can choose to [m]ove (roll again) or [s]tay (get the amount bet times the current multiplier).</value>
+  </data>
+  <data name="lucky7_usage" xml:space="preserve">
+    <value>`{0}l7 10` or `{0}l7 move` or `{0}l7 s`</value>
+  </data>
 </root>
