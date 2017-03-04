@@ -139,7 +139,7 @@
     <value>@{0} sie haben die Basis #{1} bereits beansprucht. Sie können keine weitere beanspruchen.</value>
   </data>
   <data name="clashofclans_claim_expired" xml:space="preserve">
-    <value>Einnahme von @{0} für den Krieg gegen {1} ist abgelaufen.</value>
+    <value>Beanspruchung von @{0} für den Krieg gegen {1} ist abgelaufen.</value>
   </data>
   <data name="clashofclans_enemy" xml:space="preserve">
     <value>Gegner</value>
@@ -474,7 +474,7 @@ Grund: {1}</value>
 {0}</value>
   </data>
   <data name="administration_lang_set" xml:space="preserve">
-    <value>Ihr Servers Sprachumgebung ist jetzt {1} - {1}</value>
+    <value>Die Sprachumgebung des Servers ist jetzt {1} - {1}</value>
   </data>
   <data name="administration_lang_set_bot" xml:space="preserve">
     <value>Die Sprachumgebung des Bots ist nun {0} - {1}</value>
@@ -486,7 +486,8 @@ Grund: {1}</value>
     <value>Setzen der Sprachumgebung fehlgeschlagen. Greifen Sie auf diesen Befehls hilfe erneut auf.</value>
   </data>
   <data name="administration_lang_set_show" xml:space="preserve">
-    <value>Dieser Servers Sprache wurde zu {0} - {1} gesetzt</value>
+    <value>Diese Servers Sprache wurde zu {0} - {1} gesetzt</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_left" xml:space="preserve">
     <value>{0} verließ {1}</value>
@@ -872,7 +873,7 @@ Grund: {1}</value>
     <value>Nutzer wurde gekickt</value>
   </data>
   <data name="gambling_awarded" xml:space="preserve">
-    <value>vegab {0} zu {1}</value>
+    <value>gab {0} an {1}</value>
   </data>
   <data name="gambling_better_luck" xml:space="preserve">
     <value>Hoffentlich haben Sie beim nächsten Mal mehr Glück ^_^</value>
@@ -1295,10 +1296,10 @@ Vergessen Sie bitte nicht, Ihren Discord-Namen oder Ihre ID in der Nachricht zu 
     <value>Wird beendet nach dieser Frage.</value>
   </data>
   <data name="games_trivia_times_up" xml:space="preserve">
-    <value>Die Zeit is um! Die richtige Antwort war {0}</value>
+    <value>Die Zeit ist um! Die richtige Antwort war {0}</value>
   </data>
   <data name="games_trivia_win" xml:space="preserve">
-    <value>{0} erriet es und hat das spiel GEWONNEN! Die Antwort war: {1}</value>
+    <value>{0} erriet es und hat das Spiel GEWONNEN! Die Antwort war: {1}</value>
   </data>
   <data name="games_ttt_against_yourself" xml:space="preserve">
     <value>Sie können nicht gegen sich selber spielen.</value>
@@ -1443,7 +1444,7 @@ Vergessen Sie bitte nicht, Ihren Discord-Namen oder Ihre ID in der Nachricht zu 
     <comment>context: &quot;removed song #5&quot;</comment>
   </data>
   <data name="music_repeating_cur_song" xml:space="preserve">
-    <value>Aktuelle Lied wird wiederholt</value>
+    <value>Aktuelles Lied wird wiederholt</value>
   </data>
   <data name="music_repeating_playlist" xml:space="preserve">
     <value>Playlist wird wiederholt</value>
@@ -1617,7 +1618,7 @@ Vergessen Sie bitte nicht, Ihren Discord-Namen oder Ihre ID in der Nachricht zu 
     <value>{0} mit ID {1} von Sperrliste entfernt</value>
   </data>
   <data name="permissions_uneditable" xml:space="preserve">
-    <value>Nicht Bearbeitbar</value>
+    <value>Nicht editierbar</value>
   </data>
   <data name="permissions_ux_disable" xml:space="preserve">
     <value>Benutzung von {0} {1} wurde für Benutzer {2} verboten.</value>
@@ -1626,7 +1627,7 @@ Vergessen Sie bitte nicht, Ihren Discord-Namen oder Ihre ID in der Nachricht zu 
     <value>Benutzung von {0} {1} wurde für Benutzer {2} erlaubt.</value>
   </data>
   <data name="permissions_verbose_false" xml:space="preserve">
-    <value>Ich werde nicht mehr Warnungen für Rechte anzeigen.</value>
+    <value>Ich werde keine Warnungen für Rechte mehr anzeigen.</value>
   </data>
   <data name="permissions_verbose_true" xml:space="preserve">
     <value>Ich werde jetzt Warnungen für Rechte anzeigen.</value>
@@ -1647,10 +1648,10 @@ Vergessen Sie bitte nicht, Ihren Discord-Namen oder Ihre ID in der Nachricht zu 
     <value>Fähigkeiten</value>
   </data>
   <data name="searches_anime_no_fav" xml:space="preserve">
-    <value>Keine favoritisierten anime </value>
+    <value>Keine favorisierten anime</value>
   </data>
   <data name="searches_atl_ad_started" xml:space="preserve">
-    <value>Startete die Automatische Übersetzung der Nachrichten auf diesem kanal. Nachrichten von Benutzern werden automatisch gelöscht.</value>
+    <value>Startete die Automatische Übersetzung der Nachrichten auf diesem Kanal. Nachrichten von Benutzern werden automatisch gelöscht.</value>
   </data>
   <data name="searches_atl_removed" xml:space="preserve">
     <value>Ihre Automatische-Übersetzungs Sprache wurde entfernt.</value>
@@ -1799,19 +1800,19 @@ Vergessen Sie bitte nicht, Ihren Discord-Namen oder Ihre ID in der Nachricht zu 
     <value>Über {0} Bilder gefunden. Zeige zufälliges {0}.</value>
   </data>
   <data name="searches_ow_user_not_found" xml:space="preserve">
-    <value>Benutzer nicht gefunden! Bitte überprüfe die Region und den BattleTag before erneuten versuchen.</value>
+    <value>Benutzer nicht gefunden! Bitte überprüfe die Region und den BattleTag bevor erneuten Versuchen.</value>
   </data>
   <data name="searches_plan_to_watch" xml:space="preserve">
     <value>Vermerkte</value>
   </data>
   <data name="searches_platform" xml:space="preserve">
-    <value>Platform</value>
+    <value>Plattform</value>
   </data>
   <data name="searches_pokemon_ability_none" xml:space="preserve">
     <value>Keine Fähigkeit gefunden.</value>
   </data>
   <data name="searches_pokemon_none" xml:space="preserve">
-    <value>Kein pokemon gefunden.</value>
+    <value>Kein Pokemon gefunden.</value>
   </data>
   <data name="searches_profile_link" xml:space="preserve">
     <value>Profil Link:</value>
@@ -1859,7 +1860,7 @@ Vergessen Sie bitte nicht, Ihren Discord-Namen oder Ihre ID in der Nachricht zu 
     <value>Streamer {0} ist online mit {1} Zuschauern.</value>
   </data>
   <data name="searches_streams_following" xml:space="preserve">
-    <value>Sie folgen {0} Streamer auf diesem Server.</value>
+    <value>Sie folgen {0} Streamern auf diesem Server.</value>
   </data>
   <data name="searches_streams_none" xml:space="preserve">
     <value>Sie folgen keinem Streamer auf diesem Server.</value>
