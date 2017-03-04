@@ -760,7 +760,7 @@ __IgnoredChannels__: {2}</value>
     <value>Tekst kanaal verwijderd.</value>
   </data>
   <data name="administration_undeafen" xml:space="preserve">
-    <value></value>
+    <value>Ontdempen succesvol</value>
   </data>
   <data name="administration_unmuted_sn" xml:space="preserve">
     <value>Ongedempt</value>
@@ -792,397 +792,411 @@ __IgnoredChannels__: {2}</value>
   </data>
   <data name="administration_user_left" xml:space="preserve">
     <value>Gebruiker verlaten</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_muted" xml:space="preserve">
-    <value></value>
+    <value>{0} is **gedempt** van het tekst en stem kanaal.</value>
   </data>
   <data name="administration_user_role_add" xml:space="preserve">
-    <value>Gebruiker&apos;s rol toegevoegd</value>
+    <value>Rol van gebruiker toegevoegd</value>
   </data>
   <data name="administration_user_role_rem" xml:space="preserve">
-    <value>Gebruiker&apos;s rol verwijderd</value>
+    <value>Rol van gebruiker verwijderd</value>
   </data>
   <data name="administration_user_status_change" xml:space="preserve">
     <value>{0} is nu {1}</value>
   </data>
   <data name="administration_user_unmuted" xml:space="preserve">
-    <value></value>
+    <value>{0} is **ongedempt** van het tekst en stem kanaal.</value>
   </data>
   <data name="administration_user_vjoined" xml:space="preserve">
-    <value></value>
+    <value>{0} is {1} spraakkanaal toegetreden.</value>
   </data>
   <data name="administration_user_vleft" xml:space="preserve">
-    <value></value>
+    <value>{0} heeft {1} spraakkanaal verlaten.</value>
   </data>
   <data name="administration_user_vmoved" xml:space="preserve">
-    <value></value>
+    <value>{0} heeft {1} naar {2} spraakkanaal verplaatst.</value>
   </data>
   <data name="administration_user_voice_mute" xml:space="preserve">
-    <value></value>
+    <value>{0} is **spraak gedempt**</value>
   </data>
   <data name="administration_user_voice_unmute" xml:space="preserve">
-    <value></value>
+    <value>{0} is **spraak ongedempt**</value>
   </data>
   <data name="administration_voice_chan_created" xml:space="preserve">
-    <value></value>
+    <value>Spraakkanaal gemaakt</value>
   </data>
   <data name="administration_voice_chan_destroyed" xml:space="preserve">
-    <value></value>
+    <value>Spraakkanaal vernietigd</value>
   </data>
   <data name="administration_vt_disabled" xml:space="preserve">
-    <value></value>
+    <value>Spraak + tekst mogelijkheid uitgezet.</value>
   </data>
   <data name="administration_vt_enabled" xml:space="preserve">
-    <value></value>
+    <value>Spraak + tekst mogelijkheid aangezet.</value>
   </data>
   <data name="administration_vt_exit" xml:space="preserve">
-    <value></value>
+    <value>Ik heb geen **Rol Beheering** en/of **Kanaal Beheering** toestemmingen, dus ik kan geen `stem+text` gebruiken op de {0} server.</value>
   </data>
   <data name="administration_vt_no_admin" xml:space="preserve">
-    <value></value>
+    <value>Deze eigenschap wordt door jou ingeschakelt/uitgeschakelt maar **Ik heb geen ADMINISTRATIEVE toestemmingen**. Hierdoor kunnen er mogelijk problemen ontstaan, en je zal daarna de tekst kanalen zelf moeten opruimen.</value>
   </data>
   <data name="administration_vt_perms" xml:space="preserve">
-    <value></value>
+    <value>Ik heb tenminste **Rol Beheering** en **Kanaal Beheering** toestemmingen nodig om deze eigenschap in te schakelen. (Geliefe adminstratieve rechten)</value>
   </data>
   <data name="administration_xmuted_text" xml:space="preserve">
-    <value></value>
+    <value>Gebruiker {0} van tekstkanaal</value>
   </data>
   <data name="administration_xmuted_text_and_voice" xml:space="preserve">
-    <value></value>
+    <value>Gebruiker {0} van tekst- en spraakkanaal</value>
   </data>
   <data name="administration_xmuted_voice" xml:space="preserve">
-    <value></value>
+    <value>Gebruiker {0} van spraakkanaal</value>
   </data>
   <data name="administration_sbdm" xml:space="preserve">
-    <value></value>
+    <value>Je bent zacht-verbannen van {0} server.
+Reden: {1}</value>
   </data>
   <data name="administration_user_unbanned" xml:space="preserve">
-    <value></value>
+    <value>Gebruiker niet meer verbannen</value>
   </data>
   <data name="administration_migration_done" xml:space="preserve">
-    <value></value>
+    <value>Migratie gelukt!</value>
   </data>
   <data name="adminsitration_migration_error" xml:space="preserve">
-    <value></value>
+    <value>Fout tijdens het migreren, kijk in de bot&apos;s console voor meer informatie.</value>
   </data>
   <data name="administration_presence_updates" xml:space="preserve">
-    <value></value>
+    <value>Aanwezigheid Updates</value>
   </data>
   <data name="administration_sb_user" xml:space="preserve">
-    <value></value>
+    <value>Gebruiker zacht-verbannen</value>
   </data>
   <data name="gambling_awarded" xml:space="preserve">
-    <value></value>
+    <value>heeft {0} aan {1} gegeven</value>
   </data>
   <data name="gambling_better_luck" xml:space="preserve">
-    <value></value>
+    <value>Volgende keer beter ^_^</value>
   </data>
   <data name="gambling_br_win" xml:space="preserve">
-    <value></value>
+    <value>Gefeliciteerd! Je hebt {0} gewonnen voor het rollen boven de {1}</value>
   </data>
   <data name="gambling_deck_reshuffled" xml:space="preserve">
-    <value></value>
+    <value>Dek geschud.</value>
   </data>
   <data name="gambling_flipped" xml:space="preserve">
-    <value></value>
+    <value>heeft de munt op {0} gegooid</value>
     <comment>User flipped tails.</comment>
   </data>
   <data name="gambling_flip_guess" xml:space="preserve">
-    <value></value>
+    <value>Je hebt het goed gegokt! Je hebt {0} gewonnen</value>
   </data>
   <data name="gambling_flip_invalid" xml:space="preserve">
-    <value></value>
+    <value>Ongeldig nummer opgegeven. Je kan 1 tot {0} munten opgooien</value>
   </data>
   <data name="gambling_flowerreaction_desc" xml:space="preserve">
-    <value></value>
+    <value>Voeg een {0} reactie toe aan dit bericht om {0} te krijgen</value>
   </data>
   <data name="gambling_flowerreaction_footer" xml:space="preserve">
-    <value></value>
+    <value>Dit evenement blijft actief voor {0} uur.</value>
   </data>
   <data name="gambling_flowerreaction_title" xml:space="preserve">
-    <value></value>
+    <value>Bloemen reactie evenement gestart!</value>
   </data>
   <data name="gambling_gifted" xml:space="preserve">
-    <value></value>
+    <value>heeft {0} aan {1} cadeau gegeven</value>
     <comment>X has gifted 15 flowers to Y</comment>
   </data>
   <data name="gambling_has" xml:space="preserve">
-    <value></value>
+    <value>{0} heeft {1}</value>
     <comment>X has Y flowers</comment>
   </data>
   <data name="gambling_heads" xml:space="preserve">
-    <value></value>
+    <value>Kop</value>
   </data>
   <data name="gambling_leaderboard" xml:space="preserve">
-    <value></value>
+    <value>Scoreboard</value>
   </data>
   <data name="gambling_mass_award" xml:space="preserve">
-    <value></value>
+    <value>{0} heeft {1} gebruikers beloont met {2} rol.</value>
   </data>
   <data name="gambling_max_bet_limit" xml:space="preserve">
-    <value></value>
+    <value>Je kan niet meer dan {0} gokken</value>
   </data>
   <data name="gambling_min_bet_limit" xml:space="preserve">
-    <value></value>
+    <value>Je kan niet minder dan {0} gokken</value>
   </data>
   <data name="gambling_not_enough" xml:space="preserve">
-    <value></value>
+    <value>Je hebt niet genoeg {0}</value>
   </data>
   <data name="gambling_no_more_cards" xml:space="preserve">
-    <value></value>
+    <value>Geen kaarten meer in het dek</value>
   </data>
   <data name="gambling_raffled_user" xml:space="preserve">
-    <value></value>
+    <value>Verloten gebruiker</value>
   </data>
   <data name="gambling_roll" xml:space="preserve">
-    <value></value>
+    <value>Je hebt {0} gerold</value>
   </data>
   <data name="gambling_slot_bet" xml:space="preserve">
-    <value></value>
+    <value>Inzet</value>
   </data>
   <data name="gambling_slot_jackpot" xml:space="preserve">
-    <value></value>
+    <value>WOAAHHHHHH!!! Gefeliciteerd!!! x{0}</value>
   </data>
   <data name="gambling_slot_single" xml:space="preserve">
-    <value></value>
+    <value>Een enkele {0}, x{1}</value>
   </data>
   <data name="gambling_slot_three" xml:space="preserve">
-    <value></value>
+    <value>Wow! Gelukkig! Drie van dezelfde! x{0}</value>
   </data>
   <data name="gambling_slot_two" xml:space="preserve">
-    <value></value>
+    <value>Goed gedaan! Twee {0} - wed x{1}</value>
   </data>
   <data name="gambling_slot_won" xml:space="preserve">
-    <value></value>
+    <value>Gewonnen</value>
   </data>
   <data name="gambling_sneakygamestatus_desc" xml:space="preserve">
-    <value></value>
+    <value>Gebruikers moeten een geheime code in typen om {0} te krijgen.
+Duurt {1} seconden. Vertel het aan niemand. Shhh.</value>
   </data>
   <data name="gambling_sneakygamestatus_end" xml:space="preserve">
-    <value></value>
+    <value>SneakyGame evenement geeindigt. {0} gebruikers hebben een beloning ontvangen.</value>
   </data>
   <data name="gambling_sneakygamestatus_title" xml:space="preserve">
-    <value></value>
+    <value>SneakyGameStatus evenement gestart.</value>
   </data>
   <data name="gambling_tails" xml:space="preserve">
-    <value></value>
+    <value>Munt</value>
   </data>
   <data name="gambling_take" xml:space="preserve">
-    <value></value>
+    <value>succesvol {0} van {1} genomen</value>
   </data>
   <data name="gambling_take_fail" xml:space="preserve">
-    <value></value>
+    <value>kon niet {0} van {1} nemen omdat de gebruiker niet zoveel {2} heeft!</value>
   </data>
   <data name="help_back_to_toc" xml:space="preserve">
-    <value></value>
+    <value>Terug naar de inhoudsopgave</value>
   </data>
   <data name="help_bot_owner_only" xml:space="preserve">
-    <value></value>
+    <value>Alleen Voor Bot Eigenaren</value>
   </data>
   <data name="help_channel_permission" xml:space="preserve">
-    <value></value>
+    <value>Heeft {0} kanaal rechten nodig.</value>
   </data>
   <data name="help_cmdlist_donate" xml:space="preserve">
-    <value></value>
+    <value>Je kan het project steunen op patreon: &lt;{0}&gt; of paypal: &lt;{1}&gt;</value>
   </data>
   <data name="help_cmd_and_alias" xml:space="preserve">
-    <value></value>
+    <value>Command en aliassen.</value>
   </data>
   <data name="help_commandlist_regen" xml:space="preserve">
-    <value></value>
+    <value>Commandolijst Geregenereerd.</value>
   </data>
   <data name="help_commands_instr" xml:space="preserve">
-    <value></value>
+    <value>Typ `{0}h CommandoNaam` om de hulp te zien voor die specifieke commando. b.v `{0}h &gt;8bal`</value>
   </data>
   <data name="help_command_not_found" xml:space="preserve">
-    <value></value>
+    <value>Ik kan die commando niet vinden. Verifiëren of die commando echt bestaat voor dat je het opnieuw probeert.</value>
   </data>
   <data name="help_desc" xml:space="preserve">
-    <value></value>
+    <value>Beschrijving</value>
   </data>
   <data name="help_donate" xml:space="preserve">
-    <value></value>
+    <value>Je kan het NadekoBot project steunen op
+Patreon &lt;{0}&gt; of
+Paypal &lt;{1}&gt;
+Vergeet niet je discord naam en id in het bericht te zetten.
+
+**Hartelijk bedankt** ♥️</value>
   </data>
   <data name="help_guide" xml:space="preserve">
-    <value></value>
+    <value>**Lijst met commando&apos;s**: &lt;{0}&gt;
+**Hosting gidsen en documenten kunnen hier gevonden worden**: &lt;{1}&gt;</value>
   </data>
   <data name="help_list_of_commands" xml:space="preserve">
-    <value></value>
+    <value>Lijst Met Commando&apos;s</value>
   </data>
   <data name="help_list_of_modules" xml:space="preserve">
-    <value></value>
+    <value>Lijst Met Modules</value>
   </data>
   <data name="help_modules_footer" xml:space="preserve">
-    <value></value>
+    <value>Typ `{0}cmds ModuleNaam` om een lijst van commando&apos;s te krijgen voor die module. bv `{0}cmds games`</value>
   </data>
   <data name="help_module_not_found" xml:space="preserve">
-    <value></value>
+    <value>Deze module bestaat niet</value>
   </data>
   <data name="help_server_permission" xml:space="preserve">
-    <value></value>
+    <value>Heeft {0} server rechten nodig.</value>
   </data>
   <data name="help_table_of_contents" xml:space="preserve">
-    <value></value>
+    <value>Inhoudsopgave</value>
   </data>
   <data name="help_usage" xml:space="preserve">
-    <value></value>
+    <value>Gebruik</value>
   </data>
   <data name="nsfw_autohentai_started" xml:space="preserve">
-    <value></value>
+    <value>Autohentai gestart. Elke {0}s word een foto geplaatst met de volgende labels:
+{1}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="nsfw_tag" xml:space="preserve">
-    <value></value>
+    <value>Label</value>
   </data>
   <data name="gambling_animal_race" xml:space="preserve">
-    <value></value>
+    <value>Dieren race</value>
   </data>
   <data name="gambling_animal_race_failed" xml:space="preserve">
-    <value></value>
+    <value>Gefaalt om te starten omdat er niet genoeg deelnemers zijn.</value>
   </data>
   <data name="gambling_animal_race_full" xml:space="preserve">
-    <value></value>
+    <value>De race is vol! De race wordt onmiddelijk gestart.</value>
   </data>
   <data name="gambling_animal_race_join" xml:space="preserve">
-    <value></value>
+    <value>{0} doet mee als een {1}</value>
   </data>
   <data name="gambling_animal_race_join_bet" xml:space="preserve">
-    <value></value>
+    <value>{0} doet mee als een {1} en wed {2}!</value>
   </data>
   <data name="gambling_animal_race_join_instr" xml:space="preserve">
-    <value></value>
+    <value>Typ {0}jr om mee te doen met de race.</value>
   </data>
   <data name="gambling_animal_race_starting" xml:space="preserve">
-    <value></value>
+    <value>De race zal beginnen in 20 seconden of wanneer de kamer is vol.</value>
   </data>
   <data name="gambling_animal_race_starting_with_x" xml:space="preserve">
-    <value></value>
+    <value>De race zal beginnen met {0} deelnemers.</value>
   </data>
   <data name="gambling_animal_race_won" xml:space="preserve">
-    <value></value>
+    <value>{0} heeft de race gewonnen als {1}!</value>
   </data>
   <data name="gambling_animal_race_won_money" xml:space="preserve">
-    <value></value>
+    <value>{0} heeft de race gewonnen als {1} en {2}!</value>
   </data>
   <data name="gambling_dice_invalid_number" xml:space="preserve">
-    <value></value>
+    <value>Ongeldig nummer ingevoerd. Je kan de dobbelsteen van {0}-{1} rollen.</value>
   </data>
   <data name="gambling_dice_rolled" xml:space="preserve">
-    <value></value>
+    <value>{0} gerold.</value>
     <comment>Someone rolled 35</comment>
   </data>
   <data name="gambling_dice_rolled_num" xml:space="preserve">
-    <value></value>
+    <value>Dobbelsteen gerold: {0}</value>
     <comment>Dice Rolled: 5</comment>
   </data>
   <data name="gambling_race_failed_starting" xml:space="preserve">
-    <value></value>
+    <value>Gefaalt om de race te starten. Een andere race is waarschijnlijk bezig.</value>
   </data>
   <data name="gambling_race_not_exist" xml:space="preserve">
-    <value></value>
+    <value>Geen enkele race bestaat op deze server.</value>
   </data>
   <data name="gambling_second_larger_than_first" xml:space="preserve">
-    <value></value>
+    <value>Het tweede nummer moet groter zijn dan het eerste nummer.</value>
   </data>
   <data name="gambling_changes_of_heart" xml:space="preserve">
-    <value></value>
+    <value>Verandering Van Het Hart</value>
   </data>
   <data name="gambling_claimed_by" xml:space="preserve">
-    <value></value>
+    <value>Overwonnen door</value>
   </data>
   <data name="gambling_divorces" xml:space="preserve">
-    <value></value>
+    <value>Scheidingen</value>
   </data>
   <data name="gambling_likes" xml:space="preserve">
-    <value></value>
+    <value>Leuk</value>
   </data>
   <data name="gambling_price" xml:space="preserve">
-    <value></value>
+    <value>Prijs</value>
   </data>
   <data name="gambling_waifus_none" xml:space="preserve">
-    <value></value>
+    <value>Nog geen waifus zijn overwonnen.</value>
   </data>
   <data name="gambling_waifus_top_waifus" xml:space="preserve">
-    <value></value>
+    <value>Top Waifus</value>
   </data>
   <data name="gambling_waifu_affinity_already" xml:space="preserve">
-    <value></value>
+    <value>Jouw affiniteit is al ingesteld op een waifu, of je probeert om je affiniteit weg te halen terwijl je geen hebt.</value>
   </data>
   <data name="gambling_waifu_affinity_changed" xml:space="preserve">
-    <value></value>
+    <value>Affiniteit verandert van {0} naar {1}
+
+Dit is moreel twijfelachtig🤔 </value>
     <comment>Make sure to get the formatting right, and leave the thinking emoji</comment>
   </data>
   <data name="gambling_waifu_affinity_cooldown" xml:space="preserve">
-    <value></value>
+    <value>Je moet {0} uren en {1} minuten wachten om je affiniteit weer te veranderen.</value>
   </data>
   <data name="gambling_waifu_affinity_reset" xml:space="preserve">
-    <value></value>
+    <value>Jouw affiniteit is gereset. Je hebt geen persoon meer die je leuk vindt.</value>
   </data>
   <data name="gambling_waifu_affinity_set" xml:space="preserve">
-    <value></value>
+    <value>wil {0}&apos;s waifu zijn. Aww &lt;3</value>
   </data>
   <data name="gambling_waifu_claimed" xml:space="preserve">
-    <value></value>
+    <value>heeft {0} genomen als hun waifu voor {1}!</value>
   </data>
   <data name="gambling_waifu_divorced_like" xml:space="preserve">
-    <value></value>
+    <value>Je bent gescheiden met een waifu die jou leuk vindt. Jij harteloze monster.
+{0} ontvangen {1} als compensatie.</value>
   </data>
   <data name="gambling_waifu_egomaniac" xml:space="preserve">
-    <value></value>
+    <value>Je kunt geen affiniteit zelf opzetten, jij opgeblazen egoist.</value>
   </data>
   <data name="gambling_waifu_fulfilled" xml:space="preserve">
-    <value></value>
+    <value> 🎉Hun liefde overvloeit! 🎉
+{0} nieuwe waarde is {1}!</value>
   </data>
   <data name="gambling_waifu_isnt_cheap" xml:space="preserve">
-    <value></value>
+    <value>Geen enkele waifu is zo goedkoop. Je moet tenminste {0} betalen om een waifu te krijgen, ook al is hun echte waarde lager.</value>
   </data>
   <data name="gambling_waifu_not_enough" xml:space="preserve">
-    <value></value>
+    <value>Je moet tenminste {0} betalen om die waifu te nemen!</value>
   </data>
   <data name="gambling_waifu_not_yours" xml:space="preserve">
-    <value></value>
+    <value>Die waifu is niet van jouw.</value>
   </data>
   <data name="gambling_waifu_not_yourself" xml:space="preserve">
-    <value></value>
+    <value>Je kunt jezelf niet als waifu nemen.</value>
   </data>
   <data name="gambling_waifu_recent_divorce" xml:space="preserve">
-    <value></value>
+    <value>Je bent kort geleden gescheiden. Je moet {0} uren en {1} minuten wachten om weer te scheiden.</value>
   </data>
   <data name="gambling_nobody" xml:space="preserve">
-    <value></value>
+    <value>Niemand</value>
   </data>
   <data name="gambling_waifu_divorced_notlike" xml:space="preserve">
-    <value></value>
+    <value>Je bent gescheiden met een waifu die jou niet leuk vindt. Je krijgt {0} terug.</value>
   </data>
   <data name="games_8ball" xml:space="preserve">
-    <value></value>
+    <value>8bal</value>
   </data>
   <data name="games_acrophobia" xml:space="preserve">
-    <value></value>
+    <value>Acrophobie</value>
   </data>
   <data name="games_acro_ended_no_sub" xml:space="preserve">
-    <value></value>
+    <value>Spel geëindigd zonder submissies.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="games_acro_no_votes_cast" xml:space="preserve">
-    <value></value>
+    <value>Geen stemmen ingestuurdt. Spel geëindigd zonder winnaar.</value>
   </data>
   <data name="games_acro_nym_was" xml:space="preserve">
-    <value></value>
+    <value>Afkorting was {0}</value>
   </data>
   <data name="games_acro_running" xml:space="preserve">
-    <value></value>
+    <value>Acrophobie spel is al bezig in dit kanaal.</value>
   </data>
   <data name="games_acro_started" xml:space="preserve">
-    <value></value>
+    <value>Game is gestart: maak een zin met de volgende afkorting: {0}.</value>
   </data>
   <data name="games_acro_started_footer" xml:space="preserve">
-    <value></value>
+    <value>Je hebt {0} seconden om een inzending te maken.</value>
   </data>
   <data name="games_acro_submit" xml:space="preserve">
     <value>{0} heeft een zin ingezonden. ({1} in totaal)</value>
   </data>
   <data name="games_acro_vote" xml:space="preserve">
-    <value></value>
+    <value>Stem door het nummer van een inzending te typen</value>
   </data>
   <data name="games_acro_vote_cast" xml:space="preserve">
     <value>{0} heeft gestemd!</value>
@@ -1191,56 +1205,56 @@ __IgnoredChannels__: {2}</value>
     <value>De winnaar is {0} met {1} punten.</value>
   </data>
   <data name="games_acro_winner_only" xml:space="preserve">
-    <value></value>
+    <value>{0} is de winnaar doordat deze als enige een inzending heeft gemaakt!</value>
   </data>
   <data name="games_question" xml:space="preserve">
-    <value></value>
+    <value>Vraag</value>
   </data>
   <data name="games_rps_draw" xml:space="preserve">
-    <value></value>
+    <value>Het is gelijkspel! Beiden hebben {0} gekozen</value>
   </data>
   <data name="games_rps_win" xml:space="preserve">
-    <value></value>
+    <value>{0} heeft gewonnen! {1} verslaat {2}</value>
   </data>
   <data name="games_submissions_closed" xml:space="preserve">
-    <value></value>
+    <value>Inzendingen gesloten.</value>
   </data>
   <data name="gambling_animal_race_already_started" xml:space="preserve">
-    <value></value>
+    <value>Dieren Race is al bezig.</value>
   </data>
   <data name="gambling_total_average" xml:space="preserve">
-    <value></value>
+    <value>Totaal: {0} Gemiddelde: {1}</value>
   </data>
   <data name="games_category" xml:space="preserve">
-    <value></value>
+    <value>Categorie</value>
   </data>
   <data name="games_cleverbot_disabled" xml:space="preserve">
-    <value></value>
+    <value>Cleverbot is uitgeschakeld op deze server.</value>
   </data>
   <data name="games_cleverbot_enabled" xml:space="preserve">
-    <value></value>
+    <value>Cleverbot is ingeschakeld op deze server.</value>
   </data>
   <data name="games_curgen_disabled" xml:space="preserve">
-    <value></value>
+    <value>Valuta generatie is uitgeschakeld op dit kanaal.</value>
   </data>
   <data name="games_curgen_enabled" xml:space="preserve">
-    <value></value>
+    <value>Valuta generatie is ingeschakeld op dit kanaal.</value>
   </data>
   <data name="games_curgen_pl" xml:space="preserve">
-    <value></value>
+    <value>{0} willekeurige {1} zijn verschenen! Pak ze op door `{2}pick` in te typen.</value>
     <comment>plural</comment>
   </data>
   <data name="games_curgen_sn" xml:space="preserve">
-    <value></value>
+    <value>Een willekeurige {0} is verschenen! Pak ze op door `{1}pick` in te typen.</value>
   </data>
   <data name="games_failed_loading_question" xml:space="preserve">
-    <value></value>
+    <value>Het laden van de vraag is gefaalt.</value>
   </data>
   <data name="games_game_started" xml:space="preserve">
-    <value></value>
+    <value>Spel gestart.</value>
   </data>
   <data name="games_hangman_game_started" xml:space="preserve">
-    <value></value>
+    <value>Hangman</value>
   </data>
   <data name="games_hangman_running" xml:space="preserve">
     <value></value>
@@ -2123,53 +2137,54 @@ __IgnoredChannels__: {2}</value>
     <value></value>
   </data>
   <data name="utility_rrc_start" xml:space="preserve">
-    <value></value>
+    <value>Gestart met het routeren van kleuren voor de rol {0}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_rrc_stop" xml:space="preserve">
-    <value></value>
+    <value>Gestopt met het routeren van kleuren voor de rol {0}</value>
   </data>
   <data name="utility_serverid" xml:space="preserve">
-    <value></value>
+    <value>{0} van deze server is {1}</value>
   </data>
   <data name="utility_server_info" xml:space="preserve">
-    <value></value>
+    <value>Server Informatie</value>
   </data>
   <data name="utility_shard" xml:space="preserve">
-    <value></value>
+    <value>Shard</value>
   </data>
   <data name="utility_shard_stats" xml:space="preserve">
-    <value></value>
+    <value>Shard Statestieken</value>
   </data>
   <data name="utility_shard_stats_txt" xml:space="preserve">
-    <value></value>
+    <value>Shard **#{0}** is in {1} status met {2} servers</value>
   </data>
   <data name="utility_showemojis" xml:space="preserve">
-    <value></value>
+    <value>*Naam:** {0} **Link:** {1}</value>
   </data>
   <data name="utility_showemojis_none" xml:space="preserve">
-    <value></value>
+    <value>Geen speciale emojis gevonden.</value>
   </data>
   <data name="utility_stats_songs" xml:space="preserve">
-    <value></value>
+    <value>{0} liedjes aan het spelen, {1} in de wachtrij</value>
   </data>
   <data name="utility_text_channels" xml:space="preserve">
-    <value></value>
+    <value>Tekst Kanalen</value>
   </data>
   <data name="utility_togtub_room_link" xml:space="preserve">
-    <value></value>
+    <value>Hier is de link naar je sessie:</value>
   </data>
   <data name="utility_uptime" xml:space="preserve">
     <value></value>
   </data>
   <data name="utility_userid" xml:space="preserve">
-    <value></value>
+    <value>{0} van de gebruker {1} is {2}</value>
     <comment>Id of the user kwoth#1234 is 123123123123</comment>
   </data>
   <data name="utility_users" xml:space="preserve">
-    <value></value>
+    <value>Gebruikers</value>
   </data>
   <data name="utility_voice_channels" xml:space="preserve">
-    <value></value>
+    <value>Spraak Kanalen</value>
   </data>
 
 </root>
