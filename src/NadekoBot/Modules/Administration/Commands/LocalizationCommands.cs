@@ -25,6 +25,7 @@ namespace NadekoBot.Modules.Administration
                 //{"nl-NL", "Dutch, Netherlands"},
                 //{"ja-JP", "Japanese, Japan"},
                 {"pt-BR", "Portuguese, Brazil"},
+                {"zh-CN", "Chinese (Simplified), China"}
                 //{"sr-Cyrl-RS", "Serbian, Serbia - Cyrillic"}
             }.ToImmutableDictionary();
 
