@@ -129,14 +129,12 @@ timeout /t 5
 ECHO.
 ECHO Downloading libsodium.dll and opus.dll...
 SET "FILENAME=%~dp0\NadekoBot\src\NadekoBot\libsodium.dll"
-powershell -Command "Invoke-WebRequest https://github.com/Kwoth/NadekoBot/raw/dev/src/NadekoBot/_libs/32/libsodium.dll -OutFile %FILENAME%"
-::bitsadmin.exe /transfer "Downloading libsodium.dll" /priority high https://github.com/Kwoth/NadekoBot/raw/dev/src/NadekoBot/_libs/32/libsodium.dll "%FILENAME%"
+powershell -Command "Invoke-WebRequest https://github.com/Kwoth/NadekoBot/raw/dev/src/NadekoBot/_libs/32/libsodium.dll -OutFile '%FILENAME%'"
 ECHO libsodium.dll downloaded.
 ECHO.
 timeout /t 5
 SET "FILENAME=%~dp0\NadekoBot\src\NadekoBot\opus.dll"
-powershell -Command "Invoke-WebRequest https://github.com/Kwoth/NadekoBot/raw/dev/src/NadekoBot/_libs/32/opus.dll -OutFile %FILENAME%"
-::bitsadmin.exe /transfer "Downloading opus.dll" /priority high https://github.com/Kwoth/NadekoBot/raw/dev/src/NadekoBot/_libs/32/opus.dll "%FILENAME%"
+powershell -Command "Invoke-WebRequest https://github.com/Kwoth/NadekoBot/raw/dev/src/NadekoBot/_libs/32/opus.dll -OutFile '%FILENAME%'"
 ECHO opus.dll downloaded.
 GOTO end
 :end
