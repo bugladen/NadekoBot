@@ -65,16 +65,19 @@ IF EXIST "%root%NadekoBot\" (GOTO :backupinstall)
 	ROBOCOPY "%root%NadekoBot" "%root%NadekoBot_Old" /MIR >nul 2>&1
 	IF %ERRORLEVEL% GEQ 8 (GOTO :copyerror)
 	ECHO.
-	ECHO Old files backed up to NadekoBot_Old
+	ECHO Old files backed up to NadekoBot_Old...
 	::Copies the credentials and database from the backed up data to the new folder
 	COPY "%root%NadekoBot_Old\src\NadekoBot\credentials.json" "%installtemp%NadekoBot\src\NadekoBot\credentials.json" >nul 2>&1
 	IF %ERRORLEVEL% GEQ 8 (GOTO :copyerror)
 	ECHO.
-	ECHO credentials.json copied to new folder
+	ECHO credentials.json copied...
 	ROBOCOPY "%root%NadekoBot_Old\src\NadekoBot\bin" "%installtemp%NadekoBot\src\NadekoBot\bin" /E >nul 2>&1
 	IF %ERRORLEVEL% GEQ 8 (GOTO :copyerror)
 	ECHO.
-	ECHO Old bin folder copied to new folder
+	ECHO bin folder copied...
+	DEL "%root%NadekoBot_Old\src\NadekoBot\data\musicdata"
+	ECHO.
+	ECHO music cache cleared...
 	ROBOCOPY "%root%NadekoBot_Old\src\NadekoBot\data" "%installtemp%NadekoBot\src\NadekoBot\data" /E >nul 2>&1
 	IF %ERRORLEVEL% GEQ 8 (GOTO :copyerror)
 	ECHO.
@@ -136,10 +139,11 @@ ECHO opus.dll downloaded.
 GOTO end
 :end
 	::Normal execution of end of script
-	TITLE Installation complete!
+	TITLE NadekoBot Installation complete!
 	CD /D "%root%"
 	RMDIR /S /Q "%installtemp%" >nul 2>&1
 	ECHO.
-	ECHO Installation complete, press any key to close this window!
-	timeout /t 5
-	del Stable.bat
+	ECHO Installation complete!
+	ECHO.
+	PAUSE
+	del Latest.bat
