@@ -146,4 +146,4 @@ GOTO end
 	ECHO Installation complete!
 	ECHO.
 	PAUSE
-	del Latest.bat
+	del Stable.bat
