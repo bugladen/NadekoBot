@@ -114,6 +114,7 @@ namespace NadekoBot.Modules.Utility
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.ManageMessages)]
             [Priority(0)]
             public async Task Remind(IMessageChannel ch, string timeStr, [Remainder] string message)
             {
