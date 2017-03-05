@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -2186,5 +2186,36 @@ Owner ID: {2}</value>
   </data>
   <data name="utility_voice_channels" xml:space="preserve">
     <value>Voice channels</value>
+  </data>
+  <data name="games_current_poll_results" xml:space="preserve">
+    <value>Current poll results</value>
+  </data>
+  <data name="games_no_votes_cast" xml:space="preserve">
+    <value>No votes cast.</value>
+  </data>
+  <data name="games_poll_already_running" xml:space="preserve">
+    <value>Poll is already running on this server.</value>
+  </data>
+  <data name="games_poll_created" xml:space="preserve">
+    <value>📃 {0} has created a poll which requires your attention:</value>
+  </data>
+  <data name="games_poll_result" xml:space="preserve">
+    <value>`{0}.` {1} with {2} votes.</value>
+  </data>
+  <data name="games_poll_voted" xml:space="preserve">
+    <value>{0} voted.</value>
+    <comment>Kwoth voted.</comment>
+  </data>
+  <data name="games_poll_vote_private" xml:space="preserve">
+    <value>Private Message me with the corresponding number of the answer.</value>
+  </data>
+  <data name="games_poll_vote_public" xml:space="preserve">
+    <value>Send a Message here with the corresponding number of the answer.</value>
+  </data>
+  <data name="games_thanks_for_voting" xml:space="preserve">
+    <value>Thank you for voting, {0}</value>
+  </data>
+  <data name="games_x_votes_cast" xml:space="preserve">
+    <value>{0} total votes cast.</value>
   </data>
 </root>
