@@ -7,13 +7,13 @@ namespace NadekoBot.Services
     public interface IBotCredentials
     {
         ulong ClientId { get; }
-        ulong BotId { get; }
 
         string Token { get; }
         string GoogleApiKey { get; }
         ImmutableHashSet<ulong> OwnerIds { get; }
         string MashapeKey { get; }
         string LoLApiKey { get; }
+        string PatreonAccessToken { get; }
 
         DBConfig Db { get; }
 

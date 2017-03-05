@@ -1218,6 +1218,9 @@ Don't forget to leave your discord name or id in the message.
   <data name="gambling_animal_race_already_started" xml:space="preserve">
     <value>Animal Race is already running.</value>
   </data>
+  <data name="gambling_animal_race_already_in" xml:space="preserve">
+    <value>You've already joined this race!</value>
+  </data>
   <data name="gambling_total_average" xml:space="preserve">
     <value>Total: {0} Average: {1}</value>
   </data>
