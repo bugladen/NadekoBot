@@ -18,15 +18,19 @@ namespace NadekoBot.Modules.Administration
         {
             private ImmutableDictionary<string, string> supportedLocales { get; } = new Dictionary<string, string>()
             {
+                //{"zh-TW", "Chinese (Traditional), China" },
+                {"zh-CN", "Chinese (Simplified), China"},
+                //{"nl-NL", "Dutch, Netherlands"},
                 {"en-US", "English, United States"},
                 {"fr-FR", "French, France"},
-                {"ru-RU", "Russian, Russia"},
                 {"de-DE", "German, Germany"},
-                //{"nl-NL", "Dutch, Netherlands"},
                 //{"ja-JP", "Japanese, Japan"},
+                {"nb-NO", "Norwegian (bokmål), Norway"},
+                //{"pl-PL", "Polish, Poland" }
                 {"pt-BR", "Portuguese, Brazil"},
-                {"zh-CN", "Chinese (Simplified), China"}
+                {"ru-RU", "Russian, Russia"},
                 //{"sr-Cyrl-RS", "Serbian, Serbia - Cyrillic"}
+                {"sv-SE", "Swedish, Sweden"},
             }.ToImmutableDictionary();
 
             [NadekoCommand, Usage, Description, Aliases]
