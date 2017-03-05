@@ -557,7 +557,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to User Kicked.
+        ///    Looks up a localized string similar to User kicked.
         /// </summary>
         public static string administration_kicked_user {
             get {
@@ -566,8 +566,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to List Of Languages
-        ///{0}.
+        ///    Looks up a localized string similar to List of languages.
         /// </summary>
         public static string administration_lang_list {
             get {
@@ -747,7 +746,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Message Deleted in #{0}.
+        ///    Looks up a localized string similar to Message deleted in #{0}.
         /// </summary>
         public static string administration_msg_del {
             get {
@@ -756,7 +755,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Message Updated in #{0}.
+        ///    Looks up a localized string similar to Message updated in #{0}.
         /// </summary>
         public static string administration_msg_update {
             get {
@@ -1848,7 +1847,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Not a Valid war size..
+        ///    Looks up a localized string similar to Not a valid war size..
         /// </summary>
         public static string clashofclans_invalid_size {
             get {
@@ -1857,7 +1856,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to List Of Active Wars.
+        ///    Looks up a localized string similar to List of active wars.
         /// </summary>
         public static string clashofclans_list_active_wars {
             get {
@@ -1866,7 +1865,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to No active wars..
+        ///    Looks up a localized string similar to No active war..
         /// </summary>
         public static string clashofclans_no_active_wars {
             get {
@@ -2010,7 +2009,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to No custom reactions found..
+        ///    Looks up a localized string similar to No custom reaction found..
         /// </summary>
         public static string customreactions_no_found {
             get {

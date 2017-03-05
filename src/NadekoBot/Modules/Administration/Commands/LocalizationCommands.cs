@@ -101,7 +101,7 @@ namespace NadekoBot.Modules.Administration
             public async Task LanguagesList()
             {
                 await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                    .WithTitle(GetText("lang_list", ""))
+                    .WithTitle(GetText("lang_list"))
                     .WithDescription(string.Join("\n",
                         supportedLocales.Select(x => $"{Format.Code(x.Key), -10} => {x.Value}"))));
             }
