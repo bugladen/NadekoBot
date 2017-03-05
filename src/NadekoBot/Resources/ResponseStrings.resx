@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -550,16 +550,16 @@ Reason: {1}</value>
     <value>I need **Administration** permission to do that.</value>
   </data>
   <data name="administration_new_msg" xml:space="preserve">
-    <value>New Message</value>
+    <value>New message</value>
   </data>
   <data name="administration_new_nick" xml:space="preserve">
-    <value>New Nickname</value>
+    <value>New nickname</value>
   </data>
   <data name="administration_new_topic" xml:space="preserve">
-    <value>New Topic</value>
+    <value>New topic</value>
   </data>
   <data name="administration_nick_change" xml:space="preserve">
-    <value>Nickname Changed</value>
+    <value>Nickname changed</value>
   </data>
   <data name="administration_no_server" xml:space="preserve">
     <value>Can't find that server</value>
@@ -568,13 +568,13 @@ Reason: {1}</value>
     <value>No shard with that ID found.</value>
   </data>
   <data name="administration_old_msg" xml:space="preserve">
-    <value>Old Message</value>
+    <value>Old message</value>
   </data>
   <data name="administration_old_nick" xml:space="preserve">
-    <value>Old Nickname</value>
+    <value>Old nickname</value>
   </data>
   <data name="administration_old_topic" xml:space="preserve">
-    <value>Old Topic</value>
+    <value>Old topic</value>
   </data>
   <data name="administration_perms" xml:space="preserve">
     <value>Error. Most likely I don't have sufficient permissions.</value>
@@ -583,7 +583,7 @@ Reason: {1}</value>
     <value>Permissions for this server are reset.</value>
   </data>
   <data name="administration_prot_active" xml:space="preserve">
-    <value>Active Protections</value>
+    <value>Active protections</value>
   </data>
   <data name="administration_prot_disable" xml:space="preserve">
     <value>{0} has been **disabled** on this server.</value>
@@ -595,7 +595,7 @@ Reason: {1}</value>
     <value>Error. I need ManageRoles permission</value>
   </data>
   <data name="administration_prot_none" xml:space="preserve">
-    <value>No protections enabled.</value>
+    <value>No protection enabled.</value>
   </data>
   <data name="administration_raid_cnt" xml:space="preserve">
     <value>User threshold must be between {0} and {1}.</value>
@@ -754,10 +754,10 @@ Reason: {1}</value>
     __IgnoredChannels__: {2}</value>
   </data>
   <data name="administration_text_chan_created" xml:space="preserve">
-    <value>Text Channel Created</value>
+    <value>Text channel created.</value>
   </data>
   <data name="administration_text_chan_destroyed" xml:space="preserve">
-    <value>Text Channel Destroyed </value>
+    <value>Text channel destroyed.</value>
   </data>
   <data name="administration_undeafen" xml:space="preserve">
     <value>Undeafen successful.</value>
@@ -770,13 +770,13 @@ Reason: {1}</value>
     <value>Username</value>
   </data>
   <data name="administration_username_changed" xml:space="preserve">
-    <value>Username Changed</value>
+    <value>Username changed</value>
   </data>
   <data name="administration_users" xml:space="preserve">
     <value>Users</value>
   </data>
   <data name="administration_user_banned" xml:space="preserve">
-    <value>User Banned</value>
+    <value>User banned</value>
   </data>
   <data name="administration_user_chat_mute" xml:space="preserve">
     <value>{0} has been **muted** from chatting.</value>
@@ -785,19 +785,19 @@ Reason: {1}</value>
     <value>{0} has been **unmuted** from chatting.</value>
   </data>
   <data name="administration_user_joined" xml:space="preserve">
-    <value>User Joined</value>
+    <value>User joined</value>
   </data>
   <data name="administration_user_left" xml:space="preserve">
-    <value>User Left</value>
+    <value>User left</value>
   </data>
   <data name="administration_user_muted" xml:space="preserve">
     <value>{0} has been **muted** from text and voice chat.</value>
   </data>
   <data name="administration_user_role_add" xml:space="preserve">
-    <value>User's Role Added</value>
+    <value>User's role added</value>
   </data>
   <data name="administration_user_role_rem" xml:space="preserve">
-    <value>User's  Role Removed</value>
+    <value>User's  role removed</value>
   </data>
   <data name="administration_user_status_change" xml:space="preserve">
     <value>{0} is now {1}</value>
@@ -821,10 +821,10 @@ Reason: {1}</value>
     <value>{0} has been **voice unmuted**.</value>
   </data>
   <data name="administration_voice_chan_created" xml:space="preserve">
-    <value>Voice Channel Created</value>
+    <value>Voice channel created</value>
   </data>
   <data name="administration_voice_chan_destroyed" xml:space="preserve">
-    <value>Voice Channel Destroyed</value>
+    <value>Voice channel destroyed</value>
   </data>
   <data name="administration_vt_disabled" xml:space="preserve">
     <value>Disabled voice + text feature.</value>
@@ -855,7 +855,7 @@ Reason: {1}</value>
 Reason: {1}</value>
   </data>
   <data name="administration_user_unbanned" xml:space="preserve">
-    <value>User Unbanned</value>
+    <value>User unbanned</value>
   </data>
   <data name="administration_migration_done" xml:space="preserve">
     <value>Migration done!</value>
@@ -864,10 +864,10 @@ Reason: {1}</value>
     <value>Error while migrating, check bot's console for more information.</value>
   </data>
   <data name="administration_presence_updates" xml:space="preserve">
-    <value>Presence Updates</value>
+    <value>Presence updates</value>
   </data>
   <data name="administration_sb_user" xml:space="preserve">
-    <value>User Soft-Banned</value>
+    <value>User soft-banned</value>
   </data>
   <data name="gambling_awarded" xml:space="preserve">
     <value>has awarded {0} to {1}</value>
@@ -909,7 +909,7 @@ Reason: {1}</value>
     <comment>X has Y flowers</comment>
   </data>
   <data name="gambling_heads" xml:space="preserve">
-    <value>Heads</value>
+    <value>Head</value>
   </data>
   <data name="gambling_leaderboard" xml:space="preserve">
     <value>Leaderboard</value>
@@ -930,7 +930,7 @@ Reason: {1}</value>
     <value>No more cards in the deck.</value>
   </data>
   <data name="gambling_raffled_user" xml:space="preserve">
-    <value>Raffled User</value>
+    <value>Raffled user</value>
   </data>
   <data name="gambling_roll" xml:space="preserve">
     <value>You rolled {0}.</value>
@@ -964,7 +964,7 @@ Lasts {1} seconds. Don't tell anyone. Shhh.</value>
     <value>SneakyGameStatus event started</value>
   </data>
   <data name="gambling_tails" xml:space="preserve">
-    <value>Tails</value>
+    <value>Tail</value>
   </data>
   <data name="gambling_take" xml:space="preserve">
     <value>successfully took {0} from {1}</value>
@@ -976,7 +976,7 @@ Lasts {1} seconds. Don't tell anyone. Shhh.</value>
     <value>Back to ToC</value>
   </data>
   <data name="help_bot_owner_only" xml:space="preserve">
-    <value>Bot Owner Only</value>
+    <value>Bot owner only</value>
   </data>
   <data name="help_channel_permission" xml:space="preserve">
     <value>Requires {0} channel permission.</value>
@@ -985,10 +985,10 @@ Lasts {1} seconds. Don't tell anyone. Shhh.</value>
     <value>You can support the project on patreon: &lt;{0}&gt; or paypal: &lt;{1}&gt;</value>
   </data>
   <data name="help_cmd_and_alias" xml:space="preserve">
-    <value>Command and aliases</value>
+    <value>Commands and aliases</value>
   </data>
   <data name="help_commandlist_regen" xml:space="preserve">
-    <value>Commandlist Regenerated.</value>
+    <value>Commandlist regenerated.</value>
   </data>
   <data name="help_commands_instr" xml:space="preserve">
     <value>Type `{0}h CommandName` to see the help for that specified command. e.g. `{0}h &gt;8ball`</value>
@@ -1008,14 +1008,14 @@ Don't forget to leave your discord name or id in the message.
 **Thank you** ♥️</value>
   </data>
   <data name="help_guide" xml:space="preserve">
-    <value>**List of Commands**: &lt;{0}&gt;
-**Hosting Guides and docs can be found here**: &lt;{1}&gt;</value>
+    <value>**List of commands**: &lt;{0}&gt;
+**Hosting guides and docs can be found here**: &lt;{1}&gt;</value>
   </data>
   <data name="help_list_of_commands" xml:space="preserve">
-    <value>List Of Commands</value>
+    <value>List of commands</value>
   </data>
   <data name="help_list_of_modules" xml:space="preserve">
-    <value>List Of Modules</value>
+    <value>List of modules</value>
   </data>
   <data name="help_modules_footer" xml:space="preserve">
     <value>Type `{0}cmds ModuleName` to get a list of commands in that module. eg `{0}cmds games`</value>
@@ -1027,7 +1027,7 @@ Don't forget to leave your discord name or id in the message.
     <value>Requires {0} server permission.</value>
   </data>
   <data name="help_table_of_contents" xml:space="preserve">
-    <value>Table Of Contents</value>
+    <value>Table of contents</value>
   </data>
   <data name="help_usage" xml:space="preserve">
     <value>Usage</value>
@@ -1040,7 +1040,7 @@ Don't forget to leave your discord name or id in the message.
     <value>Tag</value>
   </data>
   <data name="gambling_animal_race" xml:space="preserve">
-    <value>Animal Race</value>
+    <value>Animal race</value>
   </data>
   <data name="gambling_animal_race_failed" xml:space="preserve">
     <value>Failed to start since there was not enough participants.</value>
@@ -1090,10 +1090,10 @@ Don't forget to leave your discord name or id in the message.
     <value>Second number must be larger than the first one.</value>
   </data>
   <data name="gambling_changes_of_heart" xml:space="preserve">
-    <value>Changes Of Heart</value>
+    <value>Changes of heart</value>
   </data>
   <data name="gambling_claimed_by" xml:space="preserve">
-    <value>Claimed By</value>
+    <value>Claimed by</value>
   </data>
   <data name="gambling_divorces" xml:space="preserve">
     <value>Divorces</value>
@@ -1212,7 +1212,7 @@ Don't forget to leave your discord name or id in the message.
     <value>{0} won! {1} beats {2}</value>
   </data>
   <data name="games_submissions_closed" xml:space="preserve">
-    <value>Submissions Closed</value>
+    <value>Submissions closed</value>
   </data>
   <data name="gambling_animal_race_already_started" xml:space="preserve">
     <value>Animal Race is already running.</value>
@@ -1249,7 +1249,7 @@ Don't forget to leave your discord name or id in the message.
     <value>Failed loading a question.</value>
   </data>
   <data name="games_game_started" xml:space="preserve">
-    <value>Game Started</value>
+    <value>Game started</value>
   </data>
   <data name="games_hangman_game_started" xml:space="preserve">
     <value>Hangman game started</value>
@@ -1317,16 +1317,16 @@ Don't forget to leave your discord name or id in the message.
     <value>has created a game of TicTacToe.</value>
   </data>
   <data name="games_ttt_has_won" xml:space="preserve">
-    <value>{0} has Won!</value>
+    <value>{0} has won!</value>
   </data>
   <data name="games_ttt_matched_three" xml:space="preserve">
-    <value>Matched Three</value>
+    <value>Matched three</value>
   </data>
   <data name="games_ttt_no_moves" xml:space="preserve">
     <value>No moves left!</value>
   </data>
   <data name="games_ttt_time_expired" xml:space="preserve">
-    <value>Time Expired!</value>
+    <value>Time expired!</value>
   </data>
   <data name="games_ttt_users_move" xml:space="preserve">
     <value>{0}'s move</value>
@@ -1353,7 +1353,7 @@ Don't forget to leave your discord name or id in the message.
     <value>fairplay</value>
   </data>
   <data name="music_finished_song" xml:space="preserve">
-    <value>Finished Song</value>
+    <value>Finished song</value>
   </data>
   <data name="music_fp_disabled" xml:space="preserve">
     <value>Fair play disabled.</value>
@@ -1389,7 +1389,7 @@ Don't forget to leave your discord name or id in the message.
     <value>Name</value>
   </data>
   <data name="music_now_playing" xml:space="preserve">
-    <value>Now Playing</value>
+    <value>Now playing</value>
   </data>
   <data name="music_no_player" xml:space="preserve">
     <value>No active music player.</value>
@@ -1401,16 +1401,16 @@ Don't forget to leave your discord name or id in the message.
     <value>Music playback paused.</value>
   </data>
   <data name="music_player_queue" xml:space="preserve">
-    <value>Player Queue - Page {0}/{1}</value>
+    <value>Player queue - Page {0}/{1}</value>
   </data>
   <data name="music_playing_song" xml:space="preserve">
-    <value>Playing Song</value>
+    <value>Playing song</value>
   </data>
   <data name="music_playlists" xml:space="preserve">
     <value>`#{0}` - **{1}** by *{2}* ({3} songs)</value>
   </data>
   <data name="music_playlists_page" xml:space="preserve">
-    <value>Page {0} of Saved Playlists</value>
+    <value>Page {0} of saved playlists</value>
   </data>
   <data name="music_playlist_deleted" xml:space="preserve">
     <value>Playlist deleted.</value>
@@ -1425,7 +1425,7 @@ Don't forget to leave your discord name or id in the message.
     <value>Playlist queue complete.</value>
   </data>
   <data name="music_playlist_saved" xml:space="preserve">
-    <value>Playlist Saved</value>
+    <value>Playlist saved</value>
   </data>
   <data name="music_play_limit" xml:space="preserve">
     <value>{0}s limit</value>
@@ -1434,7 +1434,7 @@ Don't forget to leave your discord name or id in the message.
     <value>Queue</value>
   </data>
   <data name="music_queued_song" xml:space="preserve">
-    <value>Queued Song</value>
+    <value>Queued song</value>
   </data>
   <data name="music_queue_cleared" xml:space="preserve">
     <value>Music queue cleared.</value>
@@ -1447,13 +1447,13 @@ Don't forget to leave your discord name or id in the message.
     <comment>context: "removed song #5"</comment>
   </data>
   <data name="music_repeating_cur_song" xml:space="preserve">
-    <value>Repeating Current Song</value>
+    <value>Repeating current song</value>
   </data>
   <data name="music_repeating_playlist" xml:space="preserve">
-    <value>Repeating Playlist</value>
+    <value>Repeating playlist</value>
   </data>
   <data name="music_repeating_track" xml:space="preserve">
-    <value>Repeating Track</value>
+    <value>Repeating track</value>
   </data>
   <data name="music_repeating_track_stopped" xml:space="preserve">
     <value>Current track repeat stopped.</value>
@@ -1474,10 +1474,10 @@ Don't forget to leave your discord name or id in the message.
     <value>Skipped to `{0}:{1}`</value>
   </data>
   <data name="music_songs_shuffled" xml:space="preserve">
-    <value>Songs shuffled.</value>
+    <value>Songs shuffled</value>
   </data>
   <data name="music_song_moved" xml:space="preserve">
-    <value>Song Moved</value>
+    <value>Song moved</value>
   </data>
   <data name="music_time_format" xml:space="preserve">
     <value>{0}h {1}m {2}s</value>
@@ -1495,19 +1495,19 @@ Don't forget to leave your discord name or id in the message.
     <value>Volume set to {0}%</value>
   </data>
   <data name="permissions_acm_disable" xml:space="preserve">
-    <value>Disabled usage of ALL MODULES on {0} channel.</value>
+    <value>Disabled usage of ALL MODULES on channel {0}.</value>
   </data>
   <data name="permissions_acm_enable" xml:space="preserve">
-    <value>Enabled usage of ALL MODULES on {0} channel.</value>
+    <value>Enabled usage of ALL MODULES on channel {0}.</value>
   </data>
   <data name="permissions_allowed" xml:space="preserve">
     <value>Allowed</value>
   </data>
   <data name="permissions_arm_disable" xml:space="preserve">
-    <value>Disabled usage of ALL MODULES for {0} role.</value>
+    <value>Disabled usage of ALL MODULES for role {0}.</value>
   </data>
   <data name="permissions_arm_enable" xml:space="preserve">
-    <value>Enabled usage of ALL MODULES for {0} role.</value>
+    <value>Enabled usage of ALL MODULES for role {0}.</value>
   </data>
   <data name="permissions_asm_disable" xml:space="preserve">
     <value>Disabled usage of ALL MODULES on this server.</value>
@@ -1516,10 +1516,10 @@ Don't forget to leave your discord name or id in the message.
     <value>Enabled usage of ALL MODULES on this server.</value>
   </data>
   <data name="permissions_aum_disable" xml:space="preserve">
-    <value>Disabled usage of ALL MODULES for {0} user.</value>
+    <value>Disabled usage of ALL MODULES for user {0}.</value>
   </data>
   <data name="permissions_aum_enable" xml:space="preserve">
-    <value>Enabled usage of ALL MODULES for {0} user.</value>
+    <value>Enabled usage of ALL MODULES for user {0}.</value>
   </data>
   <data name="permissions_blacklisted" xml:space="preserve">
     <value>Blacklisted {0} with ID {1}</value>
@@ -1528,19 +1528,19 @@ Don't forget to leave your discord name or id in the message.
     <value>Command {0} now has a {1}s cooldown.</value>
   </data>
   <data name="permissions_cmdcd_cleared" xml:space="preserve">
-    <value>Command {0} has no coooldown now and all existing cooldowns have been cleared.</value>
+    <value>Command {0} has no cooldown now and all existing cooldowns have been cleared.</value>
   </data>
   <data name="permissions_cmdcd_none" xml:space="preserve">
     <value>No command cooldowns set.</value>
   </data>
   <data name="permissions_command_costs" xml:space="preserve">
-    <value>Command Costs</value>
+    <value>Command costs</value>
   </data>
   <data name="permissions_cx_disable" xml:space="preserve">
-    <value>Disabled usage of {0} {1} on {2} channel.</value>
+    <value>Disabled usage of {0} {1} on channel {2}.</value>
   </data>
   <data name="permissions_cx_enable" xml:space="preserve">
-    <value>Enabled usage of {0} {1} on {2} channel.</value>
+    <value>Enabled usage of {0} {1} on channel {2}.</value>
   </data>
   <data name="permissions_denied" xml:space="preserve">
     <value>Denied</value>
@@ -1549,7 +1549,7 @@ Don't forget to leave your discord name or id in the message.
     <value>Added word {0} to the list of filtered words.</value>
   </data>
   <data name="permissions_filter_word_list" xml:space="preserve">
-    <value>List Of Filtered Words</value>
+    <value>List of filtered words</value>
   </data>
   <data name="permissions_filter_word_remove" xml:space="preserve">
     <value>Removed word {0} from the list of filtered words.</value>
@@ -1580,7 +1580,7 @@ Don't forget to leave your discord name or id in the message.
   </data>
   <data name="permissions_of_command" xml:space="preserve">
     <value>command</value>
-    <comment>Gen (of command)</comment>
+    <comment>Gen. (of command)</comment>
   </data>
   <data name="permissions_of_module" xml:space="preserve">
     <value>module</value>
@@ -1684,13 +1684,13 @@ Don't forget to leave your discord name or id in the message.
     <value>Comic #</value>
   </data>
   <data name="searches_compet_loses" xml:space="preserve">
-    <value>Competitive Loses</value>
+    <value>Competitive losses</value>
   </data>
   <data name="searches_compet_played" xml:space="preserve">
-    <value>Competitive Played</value>
+    <value>Competitive played</value>
   </data>
   <data name="searches_compet_rank" xml:space="preserve">
-    <value>Competitive Rank</value>
+    <value>Competitive rank</value>
   </data>
   <data name="searches_compet_wins" xml:space="preserve">
     <value>Competitive Wins</value>
@@ -1744,7 +1744,7 @@ Don't forget to leave your discord name or id in the message.
     <value>Humidity</value>
   </data>
   <data name="searches_image_search_for" xml:space="preserve">
-    <value>Image Search For:</value>
+    <value>Image search for:</value>
   </data>
   <data name="searches_imdb_fail" xml:space="preserve">
     <value>Failed to find that movie.</value>
@@ -1787,10 +1787,10 @@ Don't forget to leave your discord name or id in the message.
     <value>No results found.</value>
   </data>
   <data name="searches_on_hold" xml:space="preserve">
-    <value>On-Hold</value>
+    <value>On-hold</value>
   </data>
   <data name="searches_original_url" xml:space="preserve">
-    <value>Original Url</value>
+    <value>Original url</value>
   </data>
   <data name="searches_osu_api_key" xml:space="preserve">
     <value>An osu! API key is required.</value>
@@ -1817,16 +1817,16 @@ Don't forget to leave your discord name or id in the message.
     <value>No pokemon found.</value>
   </data>
   <data name="searches_profile_link" xml:space="preserve">
-    <value>Profile Link:</value>
+    <value>Profile link:</value>
   </data>
   <data name="searches_quality" xml:space="preserve">
     <value>Quality:</value>
   </data>
   <data name="searches_quick_playtime" xml:space="preserve">
-    <value>Quick Playtime</value>
+    <value>Quick playtime</value>
   </data>
   <data name="searches_quick_wins" xml:space="preserve">
-    <value>Quick Wins</value>
+    <value>Quick wins</value>
   </data>
   <data name="searches_rating" xml:space="preserve">
     <value>Rating</value>
@@ -1835,13 +1835,13 @@ Don't forget to leave your discord name or id in the message.
     <value>Score:</value>
   </data>
   <data name="searches_search_for" xml:space="preserve">
-    <value>Search For:</value>
+    <value>Search for:</value>
   </data>
   <data name="searches_shorten_fail" xml:space="preserve">
     <value>Failed to shorten that url.</value>
   </data>
   <data name="searches_short_url" xml:space="preserve">
-    <value>Short Url</value>
+    <value>Short url</value>
   </data>
   <data name="searches_something_went_wrong" xml:space="preserve">
     <value>Something went wrong.</value>
@@ -1853,7 +1853,7 @@ Don't forget to leave your discord name or id in the message.
     <value>Status</value>
   </data>
   <data name="searches_store_url" xml:space="preserve">
-    <value>Store Url</value>
+    <value>Store url</value>
   </data>
   <data name="searches_streamer_offline" xml:space="preserve">
     <value>Streamer {0} is offline.</value>
@@ -1922,7 +1922,7 @@ Don't forget to leave your discord name or id in the message.
     <value>Page not found.</value>
   </data>
   <data name="searches_wind_speed" xml:space="preserve">
-    <value>Wind Speed</value>
+    <value>Wind speed</value>
   </data>
   <data name="searches_x_most_banned_champs" xml:space="preserve">
     <value>The {0} most banned champions</value>
@@ -1939,7 +1939,7 @@ Don't forget to leave your discord name or id in the message.
 `1.` </comment>
   </data>
   <data name="utility_activity_page" xml:space="preserve">
-    <value>Activity Page #{0}</value>
+    <value>Activity page #{0}</value>
   </data>
   <data name="utility_activity_users_total" xml:space="preserve">
     <value>{0} users total.</value>
@@ -1957,10 +1957,10 @@ Don't forget to leave your discord name or id in the message.
     <value>{0} of this channel is {1}</value>
   </data>
   <data name="utility_channel_topic" xml:space="preserve">
-    <value>Channel Topic</value>
+    <value>Channel topic</value>
   </data>
   <data name="utility_commands_ran" xml:space="preserve">
-    <value>Commands Ran</value>
+    <value>Commands ran</value>
   </data>
   <data name="utility_convert" xml:space="preserve">
     <value>{0} {1} is equal to {2} {3}</value>
@@ -1975,7 +1975,7 @@ Don't forget to leave your discord name or id in the message.
     <value>Cannot convert {0} to {1}: types of unit are not equal</value>
   </data>
   <data name="utility_created_at" xml:space="preserve">
-    <value>Created At</value>
+    <value>Created at</value>
   </data>
   <data name="utility_csc_join" xml:space="preserve">
     <value>Joined cross server channel.</value>
@@ -1987,7 +1987,7 @@ Don't forget to leave your discord name or id in the message.
     <value>This is your CSC token</value>
   </data>
   <data name="utility_custom_emojis" xml:space="preserve">
-    <value>Custom Emojis</value>
+    <value>Custom emojis</value>
   </data>
   <data name="utility_error" xml:space="preserve">
     <value>Error</value>
@@ -2005,7 +2005,7 @@ Don't forget to leave your discord name or id in the message.
     <value>Here is a list of users in those roles:</value>
   </data>
   <data name="utility_inrole_not_allowed" xml:space="preserve">
-    <value>you are not allowed to use this command on roles with a lot of users in them to prevent abuse.</value>
+    <value>You are not allowed to use this command on roles with a lot of users in them to prevent abuse.</value>
   </data>
   <data name="utility_invalid_value" xml:space="preserve">
     <value>Invalid {0} value.</value>
@@ -2015,18 +2015,18 @@ Don't forget to leave your discord name or id in the message.
     <value>Joined Discord</value>
   </data>
   <data name="utility_joined_server" xml:space="preserve">
-    <value>Joined Server</value>
+    <value>Joined server</value>
   </data>
   <data name="utility_listservers" xml:space="preserve">
     <value>ID: {0}
 Members: {1}
-OwnerID: {2}</value>
+Owner ID: {2}</value>
   </data>
   <data name="utility_listservers_none" xml:space="preserve">
     <value>No servers found on that page.</value>
   </data>
   <data name="utility_list_of_repeaters" xml:space="preserve">
-    <value>List of Repeaters</value>
+    <value>List of repeater</value>
   </data>
   <data name="utility_members" xml:space="preserve">
     <value>Members</value>
@@ -2038,7 +2038,7 @@ OwnerID: {2}</value>
     <value>Messages</value>
   </data>
   <data name="utility_message_repeater" xml:space="preserve">
-    <value>Message Repeater</value>
+    <value>Message repeater</value>
   </data>
   <data name="utility_name" xml:space="preserve">
     <value>Name</value>
@@ -2097,7 +2097,7 @@ OwnerID: {2}</value>
     <value>Region</value>
   </data>
   <data name="utility_registered_on" xml:space="preserve">
-    <value>Registered On</value>
+    <value>Registered on</value>
   </data>
   <data name="utility_remind" xml:space="preserve">
     <value>I will remind {0} to {1} in {2} `({3:d.M.yyyy.} at {4:HH:mm})`</value>
@@ -2112,7 +2112,7 @@ OwnerID: {2}</value>
     <value>Repeating {0} every {1} day(s), {2} hour(s) and {3} minute(s).</value>
   </data>
   <data name="utility_repeaters_list" xml:space="preserve">
-    <value>List Of Repeaters</value>
+    <value>List of repeaters</value>
   </data>
   <data name="utility_repeaters_none" xml:space="preserve">
     <value>No repeaters running on this server.</value>
@@ -2148,13 +2148,13 @@ OwnerID: {2}</value>
     <value>{0} of this server is {1}</value>
   </data>
   <data name="utility_server_info" xml:space="preserve">
-    <value>Server Info</value>
+    <value>Server info</value>
   </data>
   <data name="utility_shard" xml:space="preserve">
     <value>Shard</value>
   </data>
   <data name="utility_shard_stats" xml:space="preserve">
-    <value>Shard Stats</value>
+    <value>Shard stats</value>
   </data>
   <data name="utility_shard_stats_txt" xml:space="preserve">
     <value>Shard **#{0}** is in {1} state with {2} servers</value>
@@ -2169,7 +2169,7 @@ OwnerID: {2}</value>
     <value>Playing {0} songs, {1} queued.</value>
   </data>
   <data name="utility_text_channels" xml:space="preserve">
-    <value>Text Channels</value>
+    <value>Text channels</value>
   </data>
   <data name="utility_togtub_room_link" xml:space="preserve">
     <value>Here is your room link:</value>
@@ -2185,6 +2185,6 @@ OwnerID: {2}</value>
     <value>Users</value>
   </data>
   <data name="utility_voice_channels" xml:space="preserve">
-    <value>Voice Channels</value>
+    <value>Voice channels</value>
   </data>
 </root>
