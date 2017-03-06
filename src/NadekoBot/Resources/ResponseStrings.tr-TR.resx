@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="clashofclans_base_already_claimed" xml:space="preserve">
-    <value></value>
+    <value>Bu köy daha önceden alınmış veya yok edilmiş.</value>
   </data>
   <data name="clashofclans_base_already_destroyed" xml:space="preserve">
-    <value></value>
+    <value>Bu köy önceden yok edilmiş.</value>
   </data>
   <data name="clashofclans_base_already_unclaimed" xml:space="preserve">
-    <value></value>
+    <value>Bu köy alınmamış.</value>
   </data>
   <data name="clashofclans_base_destroyed" xml:space="preserve">
     <value></value>
@@ -157,7 +157,7 @@
     <value>Aktif olan savaşlar</value>
   </data>
   <data name="clashofclans_not_claimed" xml:space="preserve">
-    <value>Hak idda edilmedi.</value>
+    <value>Alınmamış</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_not_partic" xml:space="preserve">
@@ -233,74 +233,75 @@
     <value>Autohentai durduruldu.</value>
   </data>
   <data name="nsfw_not_found" xml:space="preserve">
-    <value></value>
+    <value>Sonuç bulunamadı.</value>
   </data>
   <data name="pokemon_already_fainted" xml:space="preserve">
-    <value></value>
+    <value>{0} zaten bayılmış.</value>
   </data>
   <data name="pokemon_already_full" xml:space="preserve">
-    <value></value>
+    <value>{0} zaten canı dolu.</value>
   </data>
   <data name="pokemon_already_that_type" xml:space="preserve">
-    <value></value>
+    <value>Senin türn zaten {0}</value>
   </data>
   <data name="pokemon_attack" xml:space="preserve">
     <value></value>
     <comment>Kwoth used punch:type_icon: on Sanity:type_icon: for 50 damage.</comment>
   </data>
   <data name="pokemon_cant_attack_again" xml:space="preserve">
-    <value></value>
+    <value>İntikam almadan bir daha saldıramassın.</value>
   </data>
   <data name="pokemon_cant_attack_yourself" xml:space="preserve">
-    <value></value>
+    <value>Kendine saldıramassın.</value>
   </data>
   <data name="pokemon_fainted" xml:space="preserve">
-    <value></value>
+    <value>{0} bayıldı.</value>
   </data>
   <data name="pokemon_healed" xml:space="preserve">
-    <value></value>
+    <value>{0} iyileştirdi kullanarak {1}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="pokemon_hp_remaining" xml:space="preserve">
-    <value></value>
+    <value>{0} canı {1} kaldı.</value>
   </data>
   <data name="pokemon_invalid_move" xml:space="preserve">
     <value></value>
   </data>
   <data name="pokemon_moves" xml:space="preserve">
-    <value></value>
+    <value>{0} tipi için hareklerin listesi</value>
   </data>
   <data name="pokemon_not_effective" xml:space="preserve">
-    <value></value>
+    <value>Efektif değil.</value>
   </data>
   <data name="pokemon_no_currency" xml:space="preserve">
-    <value></value>
+    <value>Sende yeteri kadar {0} yok</value>
   </data>
   <data name="pokemon_revive_other" xml:space="preserve">
     <value></value>
   </data>
   <data name="pokemon_revive_yourself" xml:space="preserve">
-    <value></value>
+    <value>Kendini yeniden canlardırdın bir tane {0} kullanarak.</value>
   </data>
   <data name="pokemon_settype_success" xml:space="preserve">
-    <value></value>
+    <value>Senin tipin {0}&apos;dan {1}&apos;e değiştirildi.</value>
   </data>
   <data name="pokemon_somewhat_effective" xml:space="preserve">
-    <value></value>
+    <value>BU oldukça efektif!</value>
   </data>
   <data name="pokemon_super_effective" xml:space="preserve">
-    <value></value>
+    <value>Bu süper efektif!</value>
   </data>
   <data name="pokemon_too_many_moves" xml:space="preserve">
-    <value></value>
+    <value>Arka arkaya çok fazla harekt kullandın, artık haraket edemiyorsun!</value>
   </data>
   <data name="pokemon_type_of_user" xml:space="preserve">
     <value></value>
   </data>
   <data name="pokemon_user_not_found" xml:space="preserve">
-    <value></value>
+    <value>Kullanıcı bulunamadı.</value>
   </data>
   <data name="pokemon_you_fainted" xml:space="preserve">
-    <value></value>
+    <value>Bayıldın,yani hareket edemiyiceksin.</value>
   </data>
   <data name="administration_aar_disabled" xml:space="preserve">
     <value>Kullanıcı girişinde otomatik rol tanımlaması devre dışı.</value>
@@ -525,69 +526,69 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="administration_message_from_bo" xml:space="preserve">
-    <value></value>
+    <value>Bot sahibine mesaj {0} `[Bot Owner]`: </value>
   </data>
   <data name="administration_message_sent" xml:space="preserve">
-    <value></value>
+    <value>Mesaj yollandı.</value>
   </data>
   <data name="administration_moved" xml:space="preserve">
-    <value></value>
+    <value>{0} {1}&apos;den {2}&apos;ye taşındı.</value>
   </data>
   <data name="administration_msg_del" xml:space="preserve">
-    <value></value>
+    <value>Mesajlar silinicek {0} içinde</value>
   </data>
   <data name="administration_msg_update" xml:space="preserve">
     <value></value>
   </data>
   <data name="administration_muted_pl" xml:space="preserve">
-    <value></value>
+    <value>Susturuldunuz</value>
     <comment>PLURAL (users have been muted)</comment>
   </data>
   <data name="administration_muted_sn" xml:space="preserve">
-    <value></value>
+    <value>Susturuldun</value>
     <comment>singular &quot;User muted.&quot;</comment>
   </data>
   <data name="administration_mute_error" xml:space="preserve">
     <value></value>
   </data>
   <data name="administration_mute_role_set" xml:space="preserve">
-    <value></value>
+    <value>Yeni swssiz rolu atandı.</value>
   </data>
   <data name="administration_need_admin" xml:space="preserve">
     <value></value>
   </data>
   <data name="administration_new_msg" xml:space="preserve">
-    <value></value>
+    <value>Yeni mesaj</value>
   </data>
   <data name="administration_new_nick" xml:space="preserve">
-    <value></value>
+    <value>Yeni nick</value>
   </data>
   <data name="administration_new_topic" xml:space="preserve">
-    <value></value>
+    <value>Yeni konu</value>
   </data>
   <data name="administration_nick_change" xml:space="preserve">
-    <value></value>
+    <value>Nick  değiştirildi</value>
   </data>
   <data name="administration_no_server" xml:space="preserve">
-    <value></value>
+    <value>Server bulunamadı</value>
   </data>
   <data name="administration_no_shard_id" xml:space="preserve">
     <value></value>
   </data>
   <data name="administration_old_msg" xml:space="preserve">
-    <value></value>
+    <value>Eski mesaj</value>
   </data>
   <data name="administration_old_nick" xml:space="preserve">
-    <value></value>
+    <value>Eski nick</value>
   </data>
   <data name="administration_old_topic" xml:space="preserve">
-    <value></value>
+    <value>Eski konu</value>
   </data>
   <data name="administration_perms" xml:space="preserve">
-    <value></value>
+    <value>Hata.Yüksek ihtimalle yeterki kadar yetki&apos;ye sahip değilim.</value>
   </data>
   <data name="administration_perms_reset" xml:space="preserve">
-    <value></value>
+    <value>Bu server için yetkiler sıfırlandı.</value>
   </data>
   <data name="administration_prot_active" xml:space="preserve">
     <value></value>
@@ -599,7 +600,7 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="administration_prot_error" xml:space="preserve">
-    <value></value>
+    <value>Hata. Rolleri değiştirme iznine sahip değilim</value>
   </data>
   <data name="administration_prot_none" xml:space="preserve">
     <value></value>
@@ -614,37 +615,37 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="administration_rar" xml:space="preserve">
-    <value></value>
+    <value>{0} yetkileri başarı ile alındı</value>
   </data>
   <data name="administration_rar_err" xml:space="preserve">
-    <value></value>
+    <value>Yetkileri almada hata . Yüksek ihtimalle yeteri kadar yetkim yok.</value>
   </data>
   <data name="administration_rc" xml:space="preserve">
-    <value></value>
+    <value>{0}ın rolünün renki değiştirildi </value>
   </data>
   <data name="administration_rc_not_exist" xml:space="preserve">
-    <value></value>
+    <value>Bu röl bulunmamakta.</value>
   </data>
   <data name="administration_rc_params" xml:space="preserve">
-    <value></value>
+    <value>Bu parametreler hatalı.</value>
   </data>
   <data name="administration_rc_perms" xml:space="preserve">
     <value></value>
   </data>
   <data name="administration_remrole" xml:space="preserve">
-    <value></value>
+    <value>{1} kullanıcısının sahip olduğu {0} rolü başarı ile alındı</value>
   </data>
   <data name="administration_remrole_err" xml:space="preserve">
-    <value></value>
+    <value>Yetkiyi almada hata . Yüksek ihtimalle yeteri kadar yetkim yok.</value>
   </data>
   <data name="administration_renrole" xml:space="preserve">
-    <value></value>
+    <value>Rol yeniden adlandırıldı.</value>
   </data>
   <data name="administration_renrole_err" xml:space="preserve">
-    <value></value>
+    <value>Rol yeniden adladırılmasında hata. Yüksek ihtimalle yeteri kadar yetkim yok.</value>
   </data>
   <data name="administration_renrole_perms" xml:space="preserve">
-    <value></value>
+    <value>Kendi rolunüzden daha yüksek rolleri değiştiremezsiniz.</value>
   </data>
   <data name="administration_reprm" xml:space="preserve">
     <value></value>
@@ -659,7 +660,7 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="administration_ropl_added" xml:space="preserve">
-    <value></value>
+    <value>Eklendi.</value>
   </data>
   <data name="administration_ropl_disabled" xml:space="preserve">
     <value></value>
@@ -719,7 +720,7 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="administration_set_game" xml:space="preserve">
-    <value></value>
+    <value>Yeni oyun başladı!</value>
   </data>
   <data name="administration_set_stream" xml:space="preserve">
     <value></value>
@@ -734,19 +735,19 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="administration_shutting_down" xml:space="preserve">
-    <value></value>
+    <value>Kapatılıyor</value>
   </data>
   <data name="administration_slowmode_desc" xml:space="preserve">
     <value></value>
   </data>
   <data name="administration_slowmode_disabled" xml:space="preserve">
-    <value></value>
+    <value>Yavaş modu deaktive edildi</value>
   </data>
   <data name="administration_slowmode_init" xml:space="preserve">
-    <value></value>
+    <value>Yavaş modu aktive edildi</value>
   </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
-    <value></value>
+    <value>Kicklendiniz</value>
     <comment>PLURAL</comment>
   </data>
   <data name="administration_spam_ignore" xml:space="preserve">
@@ -759,50 +760,50 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="administration_text_chan_created" xml:space="preserve">
-    <value></value>
+    <value>Mesaj kanalı oluşturuldu.</value>
   </data>
   <data name="administration_text_chan_destroyed" xml:space="preserve">
-    <value></value>
+    <value>Mesaj kanalı kapatıldı.</value>
   </data>
   <data name="administration_undeafen" xml:space="preserve">
     <value></value>
   </data>
   <data name="administration_unmuted_sn" xml:space="preserve">
-    <value></value>
+    <value>Susturulmanız kaldırıldı</value>
     <comment>singular</comment>
   </data>
   <data name="administration_username" xml:space="preserve">
-    <value></value>
+    <value>Kullanıcı adı</value>
   </data>
   <data name="administration_username_changed" xml:space="preserve">
-    <value></value>
+    <value>Kullanıcı adı değiştirildi</value>
   </data>
   <data name="administration_users" xml:space="preserve">
-    <value></value>
+    <value>Kullanıcılar</value>
   </data>
   <data name="administration_user_banned" xml:space="preserve">
-    <value></value>
+    <value>Kullanıcı uzaklaştırıldı.</value>
   </data>
   <data name="administration_user_chat_mute" xml:space="preserve">
-    <value></value>
+    <value>{0} bundan sonra mesajlaşmak için susturuldu.</value>
   </data>
   <data name="administration_user_chat_unmute" xml:space="preserve">
-    <value></value>
+    <value>{0} bundan sonra mesajlaşmak için susturulması kaldırıldı.</value>
   </data>
   <data name="administration_user_joined" xml:space="preserve">
-    <value></value>
+    <value>Kullanıcı katıldı</value>
   </data>
   <data name="administration_user_left" xml:space="preserve">
-    <value></value>
+    <value>Kullanıcı ayrıldı</value>
   </data>
   <data name="administration_user_muted" xml:space="preserve">
     <value></value>
   </data>
   <data name="administration_user_role_add" xml:space="preserve">
-    <value></value>
+    <value>Kullanıcı rolü eklendi</value>
   </data>
   <data name="administration_user_role_rem" xml:space="preserve">
-    <value></value>
+    <value>Kullanıcı rölü kaldırıldı</value>
   </data>
   <data name="administration_user_status_change" xml:space="preserve">
     <value></value>
@@ -826,10 +827,10 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="administration_voice_chan_created" xml:space="preserve">
-    <value></value>
+    <value>Ses kanalı kuruldu</value>
   </data>
   <data name="administration_voice_chan_destroyed" xml:space="preserve">
-    <value></value>
+    <value>Ses kanalı kapatıldı</value>
   </data>
   <data name="administration_vt_disabled" xml:space="preserve">
     <value></value>
@@ -877,20 +878,20 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="gambling_better_luck" xml:space="preserve">
-    <value></value>
+    <value>Birdaki sefere daha iyi bir şansın olur umarım ^_^</value>
   </data>
   <data name="gambling_br_win" xml:space="preserve">
     <value></value>
   </data>
   <data name="gambling_deck_reshuffled" xml:space="preserve">
-    <value></value>
+    <value>Deste karıldı</value>
   </data>
   <data name="gambling_flipped" xml:space="preserve">
     <value></value>
     <comment>User flipped tails.</comment>
   </data>
   <data name="gambling_flip_guess" xml:space="preserve">
-    <value></value>
+    <value>Tebrikler bildin! {0} kazandın</value>
   </data>
   <data name="gambling_flip_invalid" xml:space="preserve">
     <value></value>
@@ -902,7 +903,7 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="gambling_flowerreaction_title" xml:space="preserve">
-    <value></value>
+    <value>Çiçek reaksiyonu etkinliği başladı!</value>
   </data>
   <data name="gambling_gifted" xml:space="preserve">
     <value></value>
@@ -913,25 +914,25 @@ Sebep: {1}</value>
     <comment>X has Y flowers</comment>
   </data>
   <data name="gambling_heads" xml:space="preserve">
-    <value></value>
+    <value>Tura</value>
   </data>
   <data name="gambling_leaderboard" xml:space="preserve">
-    <value></value>
+    <value>Liderlik Listesi</value>
   </data>
   <data name="gambling_mass_award" xml:space="preserve">
     <value></value>
   </data>
   <data name="gambling_max_bet_limit" xml:space="preserve">
-    <value></value>
+    <value>{0}&apos;dan fazla bahis yapamazssın</value>
   </data>
   <data name="gambling_min_bet_limit" xml:space="preserve">
-    <value></value>
+    <value>{0}&apos;dan az bahis yapamassın</value>
   </data>
   <data name="gambling_not_enough" xml:space="preserve">
-    <value></value>
+    <value>{0} yeteri kadar yok</value>
   </data>
   <data name="gambling_no_more_cards" xml:space="preserve">
-    <value></value>
+    <value>Destede kart kalmadı</value>
   </data>
   <data name="gambling_raffled_user" xml:space="preserve">
     <value></value>
@@ -940,10 +941,10 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="gambling_slot_bet" xml:space="preserve">
-    <value></value>
+    <value>Bahis</value>
   </data>
   <data name="gambling_slot_jackpot" xml:space="preserve">
-    <value></value>
+    <value>WOAAHHHHHH!!!Tebrikler!!! x{0}</value>
   </data>
   <data name="gambling_slot_single" xml:space="preserve">
     <value></value>
@@ -955,7 +956,7 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="gambling_slot_won" xml:space="preserve">
-    <value></value>
+    <value>Kazandın</value>
   </data>
   <data name="gambling_sneakygamestatus_desc" xml:space="preserve">
     <value></value>
@@ -967,7 +968,7 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="gambling_tails" xml:space="preserve">
-    <value></value>
+    <value>Yazı</value>
   </data>
   <data name="gambling_take" xml:space="preserve">
     <value></value>
@@ -979,7 +980,7 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="help_bot_owner_only" xml:space="preserve">
-    <value></value>
+    <value>Bot sahibine özel</value>
   </data>
   <data name="help_channel_permission" xml:space="preserve">
     <value></value>
@@ -1000,7 +1001,7 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="help_desc" xml:space="preserve">
-    <value></value>
+    <value>Açıklama</value>
   </data>
   <data name="help_donate" xml:space="preserve">
     <value></value>
@@ -1009,16 +1010,16 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="help_list_of_commands" xml:space="preserve">
-    <value></value>
+    <value>Komutların listesi</value>
   </data>
   <data name="help_list_of_modules" xml:space="preserve">
-    <value></value>
+    <value>Modüllerin listesi</value>
   </data>
   <data name="help_modules_footer" xml:space="preserve">
     <value></value>
   </data>
   <data name="help_module_not_found" xml:space="preserve">
-    <value></value>
+    <value>Böyle bir  modül bulunamadı</value>
   </data>
   <data name="help_server_permission" xml:space="preserve">
     <value></value>
@@ -1027,7 +1028,7 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="help_usage" xml:space="preserve">
-    <value></value>
+    <value>Kullanım</value>
   </data>
   <data name="nsfw_autohentai_started" xml:space="preserve">
     <value></value>
@@ -1036,51 +1037,51 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="gambling_animal_race" xml:space="preserve">
-    <value></value>
+    <value>Hayvan yarışı</value>
   </data>
   <data name="gambling_animal_race_failed" xml:space="preserve">
     <value></value>
   </data>
   <data name="gambling_animal_race_full" xml:space="preserve">
-    <value></value>
+    <value>Yarış dolu ! Hemen Başlıyor.</value>
   </data>
   <data name="gambling_animal_race_join" xml:space="preserve">
-    <value></value>
+    <value>{0} {1} olarak katıldı</value>
   </data>
   <data name="gambling_animal_race_join_bet" xml:space="preserve">
     <value></value>
   </data>
   <data name="gambling_animal_race_join_instr" xml:space="preserve">
-    <value></value>
+    <value>yarışa katılmak için {0}jr yazın.</value>
   </data>
   <data name="gambling_animal_race_starting" xml:space="preserve">
-    <value></value>
+    <value>Yarışın başlaması için 20 saniye beklenmeli veya odanın dolması gerekmektedir.</value>
   </data>
   <data name="gambling_animal_race_starting_with_x" xml:space="preserve">
-    <value></value>
+    <value>{0} katılımcı ile başlıyor</value>
   </data>
   <data name="gambling_animal_race_won" xml:space="preserve">
-    <value></value>
+    <value>{1} olan {0} yarışı kazandı!</value>
   </data>
   <data name="gambling_animal_race_won_money" xml:space="preserve">
-    <value></value>
+    <value>{1} olan {0} yarışı kazandı ve şu kadarlık bahisi topladı {2}!</value>
   </data>
   <data name="gambling_dice_invalid_number" xml:space="preserve">
     <value></value>
   </data>
   <data name="gambling_dice_rolled" xml:space="preserve">
-    <value></value>
+    <value>atıldı {0}</value>
     <comment>Someone rolled 35</comment>
   </data>
   <data name="gambling_dice_rolled_num" xml:space="preserve">
-    <value></value>
+    <value>Zar atıldı: {0}</value>
     <comment>Dice Rolled: 5</comment>
   </data>
   <data name="gambling_race_failed_starting" xml:space="preserve">
-    <value></value>
+    <value>Yarış başlayamadı. Büyük ihtimalle bir başka yariş aktif.</value>
   </data>
   <data name="gambling_race_not_exist" xml:space="preserve">
-    <value></value>
+    <value>BU serverda bir yariş bulunmuyor.</value>
   </data>
   <data name="gambling_second_larger_than_first" xml:space="preserve">
     <value></value>
@@ -1089,22 +1090,23 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="gambling_claimed_by" xml:space="preserve">
-    <value></value>
+    <value>tarafından alındı.</value>
   </data>
   <data name="gambling_divorces" xml:space="preserve">
-    <value></value>
+    <value>Ayrılıklar</value>
+    <comment>is that plural?</comment>
   </data>
   <data name="gambling_likes" xml:space="preserve">
-    <value></value>
+    <value>Sevdikleri</value>
   </data>
   <data name="gambling_price" xml:space="preserve">
-    <value></value>
+    <value>Ücreti</value>
   </data>
   <data name="gambling_waifus_none" xml:space="preserve">
     <value></value>
   </data>
   <data name="gambling_waifus_top_waifus" xml:space="preserve">
-    <value></value>
+    <value>En yüksek Waifular</value>
   </data>
   <data name="gambling_waifu_affinity_already" xml:space="preserve">
     <value></value>
@@ -1141,22 +1143,22 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="gambling_waifu_not_yours" xml:space="preserve">
-    <value></value>
+    <value>BU waifu senin değil.</value>
   </data>
   <data name="gambling_waifu_not_yourself" xml:space="preserve">
-    <value></value>
+    <value>Kendini alamazsın.</value>
   </data>
   <data name="gambling_waifu_recent_divorce" xml:space="preserve">
     <value></value>
   </data>
   <data name="gambling_nobody" xml:space="preserve">
-    <value></value>
+    <value>Hiç kimse</value>
   </data>
   <data name="gambling_waifu_divorced_notlike" xml:space="preserve">
-    <value></value>
+    <value>Seni sevemeyen bir waifundan ayrıldın.{0} kadarını geri aldın.</value>
   </data>
   <data name="games_8ball" xml:space="preserve">
-    <value></value>
+    <value>8NumaralıTop</value>
   </data>
   <data name="games_acrophobia" xml:space="preserve">
     <value></value>
@@ -1222,7 +1224,7 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="games_curgen_disabled" xml:space="preserve">
-    <value></value>
+    <value>Bu kanalda birim üretimi kapatıldı.</value>
   </data>
   <data name="games_curgen_enabled" xml:space="preserve">
     <value></value>
@@ -1262,11 +1264,11 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="games_picked" xml:space="preserve">
-    <value></value>
+    <value>{0} aldı</value>
     <comment>Kwoth picked 5*</comment>
   </data>
   <data name="games_planted" xml:space="preserve">
-    <value></value>
+    <value>{0} ekti {1} aldı</value>
     <comment>Kwoth planted 5*</comment>
   </data>
   <data name="games_trivia_already_running" xml:space="preserve">
@@ -1423,7 +1425,7 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="music_queued_song" xml:space="preserve">
-    <value></value>
+    <value>Şarkı sırasına eklendi.</value>
   </data>
   <data name="music_queue_cleared" xml:space="preserve">
     <value></value>
@@ -1432,7 +1434,7 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="music_removed_song" xml:space="preserve">
-    <value></value>
+    <value>Şarkı kaldırıldı</value>
     <comment>context: &quot;removed song #5&quot;</comment>
   </data>
   <data name="music_repeating_cur_song" xml:space="preserve">
@@ -1511,7 +1513,7 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="permissions_blacklisted" xml:space="preserve">
-    <value></value>
+    <value>{0} adlı ve {1} idli kullanıcı karalisteye alındı.</value>
   </data>
   <data name="permissions_cmdcd_add" xml:space="preserve">
     <value></value>
@@ -1538,7 +1540,7 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="permissions_filter_word_list" xml:space="preserve">
-    <value></value>
+    <value>Filtrelenmiş sözler listesi</value>
   </data>
   <data name="permissions_filter_word_remove" xml:space="preserve">
     <value></value>
@@ -1568,11 +1570,11 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="permissions_of_command" xml:space="preserve">
-    <value></value>
+    <value>komut</value>
     <comment>Gen (of command)</comment>
   </data>
   <data name="permissions_of_module" xml:space="preserve">
-    <value></value>
+    <value>modül</value>
     <comment>Gen. (of module)</comment>
   </data>
   <data name="permissions_page" xml:space="preserve">
@@ -1597,7 +1599,7 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="permissions_sec" xml:space="preserve">
-    <value></value>
+    <value>sn</value>
     <comment>Short of seconds.</comment>
   </data>
   <data name="permissions_sx_disable" xml:space="preserve">
@@ -1700,7 +1702,7 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="searches_dropped" xml:space="preserve">
-    <value></value>
+    <value>Ara verildi</value>
   </data>
   <data name="searches_episodes" xml:space="preserve">
     <value></value>
@@ -1794,7 +1796,7 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="searches_plan_to_watch" xml:space="preserve">
-    <value></value>
+    <value>İzlemeyi düşünülen</value>
   </data>
   <data name="searches_platform" xml:space="preserve">
     <value></value>
@@ -1824,7 +1826,7 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="searches_search_for" xml:space="preserve">
-    <value></value>
+    <value>Şunu ara:</value>
   </data>
   <data name="searches_shorten_fail" xml:space="preserve">
     <value></value>
@@ -1949,7 +1951,7 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="utility_commands_ran" xml:space="preserve">
-    <value></value>
+    <value>Komutlar yürütüyor</value>
   </data>
   <data name="utility_convert" xml:space="preserve">
     <value></value>
@@ -1991,7 +1993,7 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="utility_inrole_list" xml:space="preserve">
-    <value></value>
+    <value>Bu roldeki kullanıcıların  listesi:</value>
   </data>
   <data name="utility_inrole_not_allowed" xml:space="preserve">
     <value></value>
@@ -2173,6 +2175,37 @@ Sebep: {1}</value>
     <value></value>
   </data>
   <data name="gambling_animal_race_already_in" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_current_poll_results" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_no_votes_cast" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_poll_already_running" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_poll_created" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_poll_result" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_poll_voted" xml:space="preserve">
+    <value>{0} oyladı.</value>
+    <comment>Kwoth voted.</comment>
+  </data>
+  <data name="games_poll_vote_private" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_poll_vote_public" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_thanks_for_voting" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_x_votes_cast" xml:space="preserve">
     <value></value>
   </data>
 
