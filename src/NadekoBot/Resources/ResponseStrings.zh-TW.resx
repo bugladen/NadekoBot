@@ -344,22 +344,22 @@
     <value>目前的告別訊息: {0}</value>
   </data>
   <data name="administration_byemsg_enable" xml:space="preserve">
-    <value>輸入 {0} 來啟用告別訊息</value>
+    <value>輸入 {0} 來啟用告別通知</value>
   </data>
   <data name="administration_byemsg_new" xml:space="preserve">
     <value>新的告別訊息已設定。</value>
   </data>
   <data name="administration_bye_off" xml:space="preserve">
-    <value>告別訊息已停用。</value>
+    <value>告別通知已停用。</value>
   </data>
   <data name="administration_bye_on" xml:space="preserve">
-    <value>在這個頻道啟用告別訊息。</value>
+    <value>在這個頻道啟用告別通知。</value>
   </data>
   <data name="administration_ch_name_change" xml:space="preserve">
     <value>頻道名稱已更改</value>
   </data>
   <data name="administration_ch_old_name" xml:space="preserve">
-    <value>舊名</value>
+    <value>舊頻道名稱</value>
   </data>
   <data name="administration_ch_topic_change" xml:space="preserve">
     <value>頻道主題已更改</value>
@@ -434,43 +434,43 @@
     <value>新的歡迎私訊已設定。</value>
   </data>
   <data name="administration_greetdm_off" xml:space="preserve">
-    <value>DM歡迎公告關閉。</value>
+    <value>私訊歡迎公告已停用。</value>
   </data>
   <data name="administration_greetdm_on" xml:space="preserve">
     <value>私訊歡迎公告已啟用。</value>
   </data>
   <data name="administration_greetmsg_cur" xml:space="preserve">
-    <value>当前欢迎消息是：{0}</value>
+    <value>目前的歡迎訊息: {0}</value>
   </data>
   <data name="administration_greetmsg_enable" xml:space="preserve">
-    <value>输入{0}来启用欢迎消息</value>
+    <value>輸入 {0} 來啟用歡迎訊息</value>
   </data>
   <data name="administration_greetmsg_new" xml:space="preserve">
-    <value>新欢迎消息设定成功。</value>
+    <value>新的歡迎訊息已設定。</value>
   </data>
   <data name="administration_greet_off" xml:space="preserve">
-    <value>欢迎公告关闭。</value>
+    <value>歡迎通知已關閉。</value>
   </data>
   <data name="administration_greet_on" xml:space="preserve">
-    <value>欢迎公告在此频道开启。</value>
+    <value>在這個頻道啟用歡迎通知。</value>
   </data>
   <data name="administration_hierarchy" xml:space="preserve">
-    <value>您不能对身份层次结构中身份高于或等于您的身份的用户使用此命令。</value>
+    <value>您不能對身分組與您一樣或更高的人使用此指令。</value>
   </data>
   <data name="administration_images_loaded" xml:space="preserve">
-    <value>{0} 秒後載入圖片！</value>
+    <value>圖片共花了 {0} 秒載入!</value>
   </data>
   <data name="administration_invalid_format" xml:space="preserve">
-    <value>格式輸入無效。</value>
+    <value>無效的輸入格式。</value>
   </data>
   <data name="administration_invalid_params" xml:space="preserve">
-    <value>參數無效。</value>
+    <value>無效的參數。</value>
   </data>
   <data name="administration_joined" xml:space="preserve">
     <value>{0} 已加入 {1}</value>
   </data>
   <data name="administration_kickdm" xml:space="preserve">
-    <value>你已被從 {0} 伺服器踢出。
+    <value>你已被 {0} 伺服器踢出。
 原因：{1}</value>
   </data>
   <data name="administration_kicked_user" xml:space="preserve">
@@ -478,71 +478,69 @@
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_lang_list" xml:space="preserve">
-    <value>語言列表
+    <value>可用的語言清單
 {0}</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_lang_set" xml:space="preserve">
-    <value>您的服务器的语言设置现在为{0} - {1}</value>
+    <value>您的伺服器語言現在為 {0} - {1}</value>
   </data>
   <data name="administration_lang_set_bot" xml:space="preserve">
-    <value>机器人的默认语言环境现在是{0} - {1}</value>
+    <value>Bot的預設語言為 {0} - {1}</value>
   </data>
   <data name="administration_lang_set_bot_show" xml:space="preserve">
-    <value>机器人的语言设置为{0} - {1}</value>
+    <value>Bot的語言已被設定為 {0} - {1}</value>
   </data>
   <data name="administration_lang_set_fail" xml:space="preserve">
-    <value>设置语言设置失败。 重新访问此命令帮助。</value>
+    <value>語言設定失敗，請重新檢閱本指令說明。</value>
   </data>
   <data name="administration_lang_set_show" xml:space="preserve">
-    <value>此服务器的语言设置为{0} - {1}</value>
+    <value>本伺服器的語言現在為 {0} - {1}</value>
   </data>
   <data name="administration_left" xml:space="preserve">
-    <value>{0}已离开{1}</value>
+    <value>{0} 已離開 {1}</value>
   </data>
   <data name="administration_left_server" xml:space="preserve">
-    <value>离开服务器{0}</value>
+    <value>已離開伺服器 {0}</value>
   </data>
   <data name="administration_log" xml:space="preserve">
-    <value>在此频道中记录{0}事件。</value>
+    <value>在此頻道中紀錄 {0} 事件。</value>
   </data>
   <data name="administration_log_all" xml:space="preserve">
-    <value>记录频道中所有事件</value>
+    <value>在此頻道中記錄所有事件。</value>
   </data>
   <data name="administration_log_disabled" xml:space="preserve">
-    <value>记录功能取消</value>
+    <value>紀錄功能已停用。</value>
   </data>
   <data name="administration_log_events" xml:space="preserve">
-    <value>您可以设定的记录项目：</value>
+    <value>您可以記錄的事件:</value>
   </data>
   <data name="administration_log_ignore" xml:space="preserve">
-    <value>记录会忽略{0}</value>
+    <value>紀錄將會忽略 {0}</value>
   </data>
   <data name="administration_log_not_ignore" xml:space="preserve">
-    <value>记录不会忽略{0}</value>
+    <value>紀錄將不會忽略 {0}</value>
   </data>
   <data name="administration_log_stop" xml:space="preserve">
-    <value>已停止记录{0}事件。</value>
+    <value>已停止紀錄 {0} 事件。</value>
   </data>
   <data name="administration_menrole" xml:space="preserve">
-    <value>{0}已经提到了以下身份</value>
+    <value>{0} 提到了下列身分組</value>
   </data>
   <data name="administration_message_from_bo" xml:space="preserve">
-    <value>来自{0}`[机器人主人]’的消息：</value>
+    <value>来自 {0} &apos;[Bot所有者]’ 的消息：</value>
   </data>
   <data name="administration_message_sent" xml:space="preserve">
-    <value>消息已发.</value>
+    <value>訊息已傳送。</value>
   </data>
   <data name="administration_moved" xml:space="preserve">
-    <value>{0}被移动由{1}到{2}</value>
+    <value>{0} 已從 {1} 移動至 {2}</value>
   </data>
   <data name="administration_msg_del" xml:space="preserve">
-    <value>在＃{0}中删除讯息</value>
-    <comment>Fuzzy</comment>
+    <value>#{0} 中删除了讯息</value>
   </data>
   <data name="administration_msg_update" xml:space="preserve">
-    <value>讯息在＃{0}中被更新</value>
-    <comment>Fuzzy</comment>
+    <value>#{0} 中更新了訊息</value>
   </data>
   <data name="administration_muted_pl" xml:space="preserve">
     <value>已静音</value>
@@ -553,321 +551,317 @@
     <comment>singular &quot;User muted.&quot;</comment>
   </data>
   <data name="administration_mute_error" xml:space="preserve">
-    <value>权限不够执行此命令</value>
+    <value>我並沒有足夠的權限來執行此指令。</value>
   </data>
   <data name="administration_mute_role_set" xml:space="preserve">
-    <value>新的静音角色设定成功。</value>
+    <value>新的禁言身分已設定。</value>
   </data>
   <data name="administration_need_admin" xml:space="preserve">
-    <value>我需要**管理**权限才能做那个。</value>
+    <value>我需要此伺服器的**管理**權限才能執行此指令。</value>
   </data>
   <data name="administration_new_msg" xml:space="preserve">
-    <value>新消息</value>
+    <value>新訊息</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_new_nick" xml:space="preserve">
-    <value>新昵称</value>
+    <value>新暱稱</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_new_topic" xml:space="preserve">
-    <value>新主题</value>
+    <value>新主題</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_nick_change" xml:space="preserve">
-    <value>昵称成功更换</value>
+    <value>暱稱已變更</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_no_server" xml:space="preserve">
-    <value>找不到该服务器</value>
+    <value>找不到那個伺服器</value>
   </data>
   <data name="administration_no_shard_id" xml:space="preserve">
-    <value>找不到具有该ID的分片。</value>
+    <value>找不到有著那個ID的Shard。</value>
   </data>
   <data name="administration_old_msg" xml:space="preserve">
-    <value>旧信息</value>
+    <value>舊訊息</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_old_nick" xml:space="preserve">
-    <value>旧昵称</value>
+    <value>舊暱稱</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_old_topic" xml:space="preserve">
-    <value>旧题目</value>
+    <value>舊主題</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_perms" xml:space="preserve">
-    <value>失败。很可能我没有足够的权限。</value>
+    <value>錯誤: 很可能我並沒有足夠的權限。</value>
   </data>
   <data name="administration_perms_reset" xml:space="preserve">
-    <value>重置此服务器的权限。</value>
+    <value>此伺服器的權限已重設。</value>
   </data>
   <data name="administration_prot_active" xml:space="preserve">
-    <value>主动保护</value>
-    <comment>Fuzzy</comment>
+    <value>生效中的保護機制</value>
   </data>
   <data name="administration_prot_disable" xml:space="preserve">
-    <value>{0}已在此服务器禁用。</value>
+    <value>{0} 已在此伺服器 **停用**。</value>
   </data>
   <data name="administration_prot_enable" xml:space="preserve">
-    <value>{0}已启用。</value>
+    <value>{0} 已啟用。</value>
   </data>
   <data name="administration_prot_error" xml:space="preserve">
-    <value>失败。 我需要 ManageRoles 权限</value>
+    <value>錯誤。我需要此伺服器的 管理身分組 權限</value>
   </data>
   <data name="administration_prot_none" xml:space="preserve">
-    <value>未启用保护项目。</value>
+    <value>沒有生效中的保護機制</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_raid_cnt" xml:space="preserve">
-    <value>用户阈值必须介于{0}和{1}之间。</value>
+    <value>用戶緩衝數應介於 {0} 和 {1} 之間。</value>
   </data>
   <data name="administration_raid_stats" xml:space="preserve">
-    <value>如果{0}或更多用户在{1}秒内加入，我将{2}他们。</value>
+    <value>如果 {1} 秒內進入了 {0} 或更多位使用者，我則會將他們 {2} 。</value>
   </data>
   <data name="administration_raid_time" xml:space="preserve">
-    <value>时间必须在{0}和{1}秒之间。</value>
+    <value>時間必須在於 {0} 和 {1} 秒之間。</value>
   </data>
   <data name="administration_rar" xml:space="preserve">
-    <value>已成功从用户{0}中移除所有身份</value>
+    <value>已成功移除了使用者 {0} 上所有的身分組。</value>
   </data>
   <data name="administration_rar_err" xml:space="preserve">
-    <value>无法移除身份。 我没有足够的权限。</value>
+    <value>無法移除身分組。我的權限不夠。</value>
   </data>
   <data name="administration_rc" xml:space="preserve">
-    <value>{0}身份的颜色已更改。</value>
+    <value>{0} 身份組的顏色已變更。</value>
   </data>
   <data name="administration_rc_not_exist" xml:space="preserve">
-    <value>那个身份不存在。</value>
+    <value>那個身分組並不存在。</value>
   </data>
   <data name="administration_rc_params" xml:space="preserve">
-    <value>指定的参数错误。</value>
+    <value>指定的參數錯誤。</value>
   </data>
   <data name="administration_rc_perms" xml:space="preserve">
-    <value>由于颜色无效或权限不足而发生错误。</value>
+    <value>無效的色碼或是權限不足引起錯誤。</value>
   </data>
   <data name="administration_remrole" xml:space="preserve">
-    <value>已成功从用户{1}中删除身份{0}</value>
+    <value>成功的移除 {1} 的 {0} 身分組。</value>
   </data>
   <data name="administration_remrole_err" xml:space="preserve">
-    <value>无法移除身份。 我没有足够的权限。</value>
+    <value>無法移除身分組。我沒有足夠的權限。</value>
   </data>
   <data name="administration_renrole" xml:space="preserve">
-    <value>身份名已改</value>
+    <value>身分組名已改。</value>
   </data>
   <data name="administration_renrole_err" xml:space="preserve">
-    <value>身份重命名失败。我的权限不足。</value>
+    <value>身分組名變更失敗。我沒有足夠的權限。</value>
   </data>
   <data name="administration_renrole_perms" xml:space="preserve">
-    <value>您不能编辑比你</value>
+    <value>您不能编辑比你最高身分組還高的身分組。</value>
   </data>
   <data name="administration_reprm" xml:space="preserve">
-    <value>已移除游玩消息：{0}</value>
+    <value>已移除遊玩訊息: {0}</value>
   </data>
   <data name="administration_role_added" xml:space="preserve">
-    <value>身份{0}已添加到列表中。</value>
+    <value>身分組 {0} 已新增至清單。</value>
   </data>
   <data name="administration_role_clean" xml:space="preserve">
-    <value>{0}未找到。已清理。</value>
+    <value>{0} 未找到。已清理。</value>
   </data>
   <data name="administration_role_in_list" xml:space="preserve">
-    <value>身份{0}已在列表中。</value>
+    <value>身分組 {0} 已在清單中。</value>
   </data>
   <data name="administration_ropl_added" xml:space="preserve">
-    <value>添加成功.</value>
+    <value>新增成功。</value>
   </data>
   <data name="administration_ropl_disabled" xml:space="preserve">
-    <value>旋转游玩状态关闭。</value>
+    <value>輪播遊玩狀態已停用。</value>
   </data>
   <data name="administration_ropl_enabled" xml:space="preserve">
-    <value>旋转游玩状态开启。</value>
+    <value>輪播遊玩狀態已啟用。</value>
   </data>
   <data name="administration_ropl_list" xml:space="preserve">
-    <value>以下是旋转状态列表：
+    <value>輪播遊玩狀態清單：
 {0}</value>
   </data>
   <data name="administration_ropl_not_set" xml:space="preserve">
-    <value>未设置旋转游戏状态。</value>
+    <value>尚未設定輪播遊玩狀態。</value>
   </data>
   <data name="administration_self_assign_already" xml:space="preserve">
-    <value>您已经拥有{0}身份。</value>
+    <value>您已經是 {0} 身分組了。</value>
   </data>
   <data name="administration_self_assign_already_excl" xml:space="preserve">
-    <value>您已拥有{0}独占的自行分配。</value>
+    <value>您已經是 {0} 身分組的成員，您一次只能加入一個自入身分群組。</value>
   </data>
   <data name="administration_self_assign_excl" xml:space="preserve">
-    <value>自行分配身份现在是独家！</value>
+    <value>自入身分群組現在為擇一模式。</value>
   </data>
   <data name="administration_self_assign_list" xml:space="preserve">
-    <value>有{0}个可自行分配身份</value>
+    <value>有 {0} 個可以自入的身分群組</value>
   </data>
   <data name="administration_self_assign_not" xml:space="preserve">
-    <value>这个身份是不可自行分配的。</value>
+    <value>此身分組並不能自行加入。</value>
   </data>
   <data name="administration_self_assign_not_have" xml:space="preserve">
-    <value>您没有{0}身份。</value>
+    <value>您並不是 {0} 身份組的成員。</value>
   </data>
   <data name="administration_self_assign_no_excl" xml:space="preserve">
-    <value>自我分配的身份现在不是独家的！</value>
+    <value>自入身分群組不再為擇一模式!</value>
   </data>
   <data name="administration_self_assign_perms" xml:space="preserve">
-    <value>我无法向您添加该身份。 ‘我不能向身份层次结构中我身份以外的所有者或其他身份添加身份。’</value>
+    <value>我無法新增身分組比我還高的身分組給您。</value>
   </data>
   <data name="administration_self_assign_rem" xml:space="preserve">
-    <value>{0}已从可自我分配身份列表中删除。</value>
+    <value>{0} 已從自入身分組清單中移除。</value>
   </data>
   <data name="administration_self_assign_remove" xml:space="preserve">
-    <value>您不再拥有{0}身份。</value>
+    <value>您不再是 {0} 身分組的成員了。</value>
   </data>
   <data name="administration_self_assign_success" xml:space="preserve">
-    <value>您现在拥有{0}身份。</value>
+    <value>您現在是 {0} 身份組的成員了。</value>
   </data>
   <data name="administration_setrole" xml:space="preserve">
-    <value>已成功将身份{0}添加到用户{1}</value>
+    <value>成功將 {0} 身分組指派給 {1}</value>
   </data>
   <data name="administration_setrole_err" xml:space="preserve">
-    <value>无法添加身份。 我没有足够的权限。</value>
+    <value>無法指派身分組。我沒有足夠的權限。</value>
   </data>
   <data name="administration_set_avatar" xml:space="preserve">
-    <value>新头像集！</value>
+    <value>新的大頭貼已設定!</value>
   </data>
   <data name="administration_set_channel_name" xml:space="preserve">
-    <value>新频道名称设定。</value>
+    <value>新的頻道名稱已設定。</value>
   </data>
   <data name="administration_set_game" xml:space="preserve">
-    <value>新游戏设定！</value>
+    <value>新的遊戲名稱已設定!</value>
   </data>
   <data name="administration_set_stream" xml:space="preserve">
-    <value>新直播设定！</value>
+    <value>新的實況已設定!</value>
   </data>
   <data name="administration_set_topic" xml:space="preserve">
-    <value>新频道主题集。</value>
+    <value>新的頻道主題已設定!</value>
   </data>
   <data name="administration_shard_reconnected" xml:space="preserve">
-    <value>分段{0}已重新连接。</value>
+    <value>Shard {0} 已重新連線。</value>
   </data>
   <data name="administration_shard_reconnecting" xml:space="preserve">
-    <value>分段{0}重新连接中。</value>
+    <value>Shard {0} 重新連線中。</value>
   </data>
   <data name="administration_shutting_down" xml:space="preserve">
-    <value>关闭中</value>
+    <value>關閉中</value>
   </data>
   <data name="administration_slowmode_desc" xml:space="preserve">
-    <value>用户不能在{1}秒内发送超过{0}条消息。</value>
+    <value>使用者無法在 {1} 秒發送超過 {0} 條訊息。</value>
   </data>
   <data name="administration_slowmode_disabled" xml:space="preserve">
-    <value>慢速模式关闭。</value>
+    <value>慢速模式已停用。</value>
   </data>
   <data name="administration_slowmode_init" xml:space="preserve">
-    <value>慢速模式启动</value>
+    <value>慢速模式已啟用</value>
   </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
-    <value>软禁（踢出）</value>
+    <value>軟禁 (踢出)</value>
     <comment>PLURAL</comment>
   </data>
   <data name="administration_spam_ignore" xml:space="preserve">
-    <value>{0}将忽略此通道。</value>
+    <value>{0} 將會忽略此頻道。</value>
   </data>
   <data name="administration_spam_not_ignore" xml:space="preserve">
-    <value>0}将不再忽略此通道。</value>
+    <value>{0} 將會注意此頻道。</value>
   </data>
   <data name="administration_spam_stats" xml:space="preserve">
-    <value>如果用户发布{0}个相同的消息，我会{1}他们。
-     __IgnoredChannels__：{2}</value>
+    <value>如果使用者連續貼出 {0} 個相同的訊息，我將會把他們 {1}。
+     __忽略的頻道__: {2}</value>
   </data>
   <data name="administration_text_chan_created" xml:space="preserve">
-    <value>新文字频道成立</value>
+    <value>文字頻道已建立</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_text_chan_destroyed" xml:space="preserve">
-    <value>文字频道已删除</value>
+    <value>文字頻道已刪除</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_undeafen" xml:space="preserve">
-    <value>Undeafen成功。</value>
+    <value>成功解除靜音。</value>
   </data>
   <data name="administration_unmuted_sn" xml:space="preserve">
-    <value>已取消静音</value>
+    <value>解除靜音</value>
     <comment>singular</comment>
   </data>
   <data name="administration_username" xml:space="preserve">
-    <value>用户名</value>
+    <value>使用者名稱</value>
   </data>
   <data name="administration_username_changed" xml:space="preserve">
-    <value>用户名已更改</value>
+    <value>使用者名稱已更改</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_users" xml:space="preserve">
-    <value>用户</value>
+    <value>使用者</value>
   </data>
   <data name="administration_user_banned" xml:space="preserve">
-    <value>用户被禁止</value>
+    <value>使用者已封鎖</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_chat_mute" xml:space="preserve">
-    <value>{0}已从聊天内被静音**。</value>
+    <value>{0} 已**被禁**__文字聊天__。</value>
   </data>
   <data name="administration_user_chat_unmute" xml:space="preserve">
-    <value>{0}已从聊天内**取消静音**。</value>
+    <value>{0} 已**允許**__文字聊天__。</value>
   </data>
   <data name="administration_user_joined" xml:space="preserve">
-    <value>用户已加入</value>
+    <value>使用者已加入</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_left" xml:space="preserve">
-    <value>用户离开了</value>
+    <value>使用者已離開</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_muted" xml:space="preserve">
-    <value>{0} 已被文字与语音静音了</value>
+    <value>{0} 已**被禁**__文字和語音聊天__。</value>
   </data>
   <data name="administration_user_role_add" xml:space="preserve">
-    <value>用户身份添加成功</value>
-    <comment>Fuzzy</comment>
+    <value>使用者身分組已新增</value>
   </data>
   <data name="administration_user_role_rem" xml:space="preserve">
-    <value>用户身份移除了</value>
+    <value>已移除用戶的身分組</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_status_change" xml:space="preserve">
     <value>{0} 改成了 {1}</value>
   </data>
   <data name="administration_user_unmuted" xml:space="preserve">
-    <value>{0}已从文字和语音频道中取消静音**。</value>
+    <value>{0} 已從文字頻道和語音頻道被**取消禁音**。</value>
   </data>
   <data name="administration_user_vjoined" xml:space="preserve">
-    <value>{0}已加入{1}语音通道。</value>
+    <value>{0} 已加入 {1} 語音頻道。</value>
   </data>
   <data name="administration_user_vleft" xml:space="preserve">
-    <value>{0}已离开{1}语音通道。</value>
+    <value>{0} 已離開 {1} 語音頻道。</value>
   </data>
   <data name="administration_user_vmoved" xml:space="preserve">
-    <value>{0}已从{1}移至{2}语音通道。</value>
+    <value>{0} 已從 {1} 移至 {2} 語音頻道。</value>
   </data>
   <data name="administration_user_voice_mute" xml:space="preserve">
-    <value>{0}已被**静音**。</value>
+    <value>{0} 已被**静音**。</value>
   </data>
   <data name="administration_user_voice_unmute" xml:space="preserve">
-    <value>{0}已被**取消静音**。</value>
+    <value>{0} 已被**取消静音**。</value>
   </data>
   <data name="administration_voice_chan_created" xml:space="preserve">
-    <value>语音频道已创建</value>
-    <comment>Fuzzy</comment>
+    <value>已建立語音頻道</value>
   </data>
   <data name="administration_voice_chan_destroyed" xml:space="preserve">
-    <value>语音通道已被毁</value>
-    <comment>Fuzzy</comment>
+    <value>已刪除語音頻道</value>
   </data>
   <data name="administration_vt_disabled" xml:space="preserve">
-    <value>已停用语音+文字功能。</value>
+    <value>已停用語音+文字功能。</value>
   </data>
   <data name="administration_vt_enabled" xml:space="preserve">
-    <value>启用语音+文字功能。</value>
+    <value>已啟用語音+文字功能。</value>
   </data>
   <data name="administration_vt_exit" xml:space="preserve">
-    <value>我没有**管理身份**和/或**管理频道**权限，所以我不能在{0}服务器上运行`语音+文字`。</value>
+    <value>我沒有**管理身分組**和/或**管理頻道**權限，所以我無法在 {0} 伺服器上運行`語音+文字`。</value>
   </data>
   <data name="administration_vt_no_admin" xml:space="preserve">
-    <value>您正在启用/禁用此功能，并且**我没有ADMINISTRATOR权限**。 这可能会导致一些问题，您必须自己清理文本频道。</value>
+    <value>您正在啟用/停用此功能，而且**我没有管理員權限**。這可能會造成一些問題，您必須自己清理文字頻道。</value>
   </data>
   <data name="administration_vt_perms" xml:space="preserve">
     <value>我需要至少**管理身份**和**管理频道**权限，以启用此功能。 （优先管理权限）</value>
@@ -904,10 +898,10 @@
     <comment>Fuzzy</comment>
   </data>
   <data name="gambling_awarded" xml:space="preserve">
-    <value>已将{0}奖励给{1}</value>
+    <value>已給予 {0} 給 {1}</value>
   </data>
   <data name="gambling_better_luck" xml:space="preserve">
-    <value>下一次好运^ _ ^</value>
+    <value>祝你下一次好運 ^_^</value>
   </data>
   <data name="gambling_br_win" xml:space="preserve">
     <value>恭喜！ 您赢得{0}因为您滚{1}或以上</value>
@@ -916,35 +910,34 @@
     <value>卡牌改组。</value>
   </data>
   <data name="gambling_flipped" xml:space="preserve">
-    <value>抛了{0}。</value>
+    <value>拋出了 {0}。</value>
     <comment>User flipped tails.</comment>
   </data>
   <data name="gambling_flip_guess" xml:space="preserve">
-    <value>你猜到了！ 您赢得了{0}</value>
+    <value>你猜對了！你赢得了 {0}</value>
   </data>
   <data name="gambling_flip_invalid" xml:space="preserve">
-    <value>指定的数字无效。 你可以抛1到{0}钱币。</value>
+    <value>指定的數字無效。你可以丟 1 至 {0} 個硬幣。</value>
   </data>
   <data name="gambling_flowerreaction_desc" xml:space="preserve">
     <value>将{0}反应添加到此消息以获取{1}</value>
   </data>
   <data name="gambling_flowerreaction_footer" xml:space="preserve">
-    <value>此活动在{0}小时内有效。</value>
+    <value>此活動只在 {0} 小時內有效。</value>
   </data>
   <data name="gambling_flowerreaction_title" xml:space="preserve">
     <value>花反应活动开始了！</value>
   </data>
   <data name="gambling_gifted" xml:space="preserve">
-    <value>给了{1}{0}</value>
+    <value>送了 {1} 給 {0}</value>
     <comment>X has gifted 15 flowers to Y</comment>
   </data>
   <data name="gambling_has" xml:space="preserve">
-    <value>{0}拥有{1}</value>
+    <value>{0} 擁有 {1}</value>
     <comment>X has Y flowers</comment>
   </data>
   <data name="gambling_heads" xml:space="preserve">
-    <value>头</value>
-    <comment>Fuzzy</comment>
+    <value>頭</value>
   </data>
   <data name="gambling_leaderboard" xml:space="preserve">
     <value>排行榜</value>
@@ -953,13 +946,13 @@
     <value>从{2}身份授予{0}至{1}名用户。</value>
   </data>
   <data name="gambling_max_bet_limit" xml:space="preserve">
-    <value>您赌注不能超过{0}</value>
+    <value>你的賭注不能大於 {0}</value>
   </data>
   <data name="gambling_min_bet_limit" xml:space="preserve">
-    <value>您赌注不能低于{0}</value>
+    <value>你的賭注不能少於 {0}</value>
   </data>
   <data name="gambling_not_enough" xml:space="preserve">
-    <value>您没有足够的{0}</value>
+    <value>你沒有足夠的 {0}</value>
   </data>
   <data name="gambling_no_more_cards" xml:space="preserve">
     <value>卡牌组中没有更多的牌。</value>
@@ -972,10 +965,10 @@
     <value>您抛了{0}。</value>
   </data>
   <data name="gambling_slot_bet" xml:space="preserve">
-    <value>赌注</value>
+    <value>賭注</value>
   </data>
   <data name="gambling_slot_jackpot" xml:space="preserve">
-    <value>哇啊啊啊啊啊啊！ 恭喜！ x {0}</value>
+    <value>哇啊啊啊啊啊啊！恭喜！x{0}</value>
   </data>
   <data name="gambling_slot_single" xml:space="preserve">
     <value>单个{0}，x {1}</value>
@@ -987,7 +980,7 @@
     <value>做得好！ 两个{0} - 投注x {1}</value>
   </data>
   <data name="gambling_slot_won" xml:space="preserve">
-    <value>胜利</value>
+    <value>獲勝</value>
   </data>
   <data name="gambling_sneakygamestatus_desc" xml:space="preserve">
     <value>用户必须键入密码才能获取{0}。
@@ -2292,7 +2285,40 @@ Paypal &lt;{1}&gt;
     <comment>Fuzzy</comment>
   </data>
   <data name="gambling_animal_race_already_in" xml:space="preserve">
-    <value></value>
+    <value>你已經加入這場比賽了！</value>
+  </data>
+  <data name="games_current_poll_results" xml:space="preserve">
+    <value>目前投票結果</value>
+  </data>
+  <data name="games_no_votes_cast" xml:space="preserve">
+    <value>沒有投票。</value>
+  </data>
+  <data name="games_poll_already_running" xml:space="preserve">
+    <value>投票已在這個伺服器進行。</value>
+  </data>
+  <data name="games_poll_created" xml:space="preserve">
+    <value>📃 {0} 已建立一個投票 which requires your attention:</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="games_poll_result" xml:space="preserve">
+    <value>`{0}.` {1} 有 {2} 票。</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="games_poll_voted" xml:space="preserve">
+    <value>{0} 已投票。</value>
+    <comment>Kwoth voted.</comment>
+  </data>
+  <data name="games_poll_vote_private" xml:space="preserve">
+    <value>私訊我相對數字的答案。</value>
+  </data>
+  <data name="games_poll_vote_public" xml:space="preserve">
+    <value>發送相對數字的答案在這裡。</value>
+  </data>
+  <data name="games_thanks_for_voting" xml:space="preserve">
+    <value>感謝你的投票, {0}</value>
+  </data>
+  <data name="games_x_votes_cast" xml:space="preserve">
+    <value>共收到 {0}票。</value>
   </data>
 
 </root>
