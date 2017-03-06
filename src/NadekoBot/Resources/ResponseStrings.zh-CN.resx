@@ -141,6 +141,7 @@
   </data>
   <data name="clashofclans_claim_expired" xml:space="preserve">
     <value>@{0} 在与 {1} 对战后认领的基地已过期。</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_enemy" xml:space="preserve">
     <value>敌人</value>
@@ -153,9 +154,11 @@
   </data>
   <data name="clashofclans_invalid_size" xml:space="preserve">
     <value>此战争大小无效</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_list_active_wars" xml:space="preserve">
     <value>现进行的战争列表</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_not_claimed" xml:space="preserve">
     <value>未被认领</value>
@@ -168,6 +171,7 @@
   </data>
   <data name="clashofclans_no_active_wars" xml:space="preserve">
     <value>现无战争进行。</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_size" xml:space="preserve">
     <value>大小</value>
@@ -188,7 +192,7 @@
     <value>与{0}的对战已开始！</value>
   </data>
   <data name="customreactions_all_stats_cleared" xml:space="preserve">
-    <value>所有定制反应清除。</value>
+    <value>所有定制反应数据清除。</value>
   </data>
   <data name="customreactions_deleted" xml:space="preserve">
     <value>定制反应删除</value>
@@ -207,6 +211,7 @@
   </data>
   <data name="customreactions_no_found" xml:space="preserve">
     <value>没有找到定制反应。</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="customreactions_no_found_id" xml:space="preserve">
     <value>于此用户标识相联系的定制反应并未找到。</value>
@@ -227,7 +232,7 @@
     <value>触发器</value>
   </data>
   <data name="nsfw_autohentai_stopped" xml:space="preserve">
-    <value>自动变态模式停止。</value>
+    <value>autohentai停止。</value>
   </data>
   <data name="nsfw_not_found" xml:space="preserve">
     <value>没有结果。</value>
@@ -316,7 +321,7 @@
 原因： {1}</value>
   </data>
   <data name="administration_banned_pl" xml:space="preserve">
-    <value>你被禁止了</value>
+    <value>已被禁止了</value>
     <comment>PLURAL</comment>
   </data>
   <data name="administration_banned_user" xml:space="preserve">
@@ -329,7 +334,7 @@
     <value>机器人状态换成{0}</value>
   </data>
   <data name="administration_byedel_off" xml:space="preserve">
-    <value>自动告别消息关闭。</value>
+    <value>自动删除告别消息关闭。</value>
   </data>
   <data name="administration_byedel_on" xml:space="preserve">
     <value>告别消息将在{0}秒钟内删除。</value>
@@ -395,7 +400,7 @@
     <value>私人信息来自</value>
   </data>
   <data name="administration_donadd" xml:space="preserve">
-    <value>成功添加新的捐赠者. 此用户总共捐赠了: {0}</value>
+    <value>成功添加新的捐赠者. 此用户总共捐赠了: {0}  👑</value>
   </data>
   <data name="administration_donators" xml:space="preserve">
     <value>感谢下面列出的人们使这个项目发生！</value>
@@ -469,10 +474,12 @@
   </data>
   <data name="administration_kicked_user" xml:space="preserve">
     <value>用户已被踢出</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_lang_list" xml:space="preserve">
     <value>语言列表
 {0}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_lang_set" xml:space="preserve">
     <value>您的服务器的语言设置现在为{0} - {1}</value>
@@ -530,9 +537,11 @@
   </data>
   <data name="administration_msg_del" xml:space="preserve">
     <value>在＃{0}中删除讯息</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_msg_update" xml:space="preserve">
     <value>讯息在＃{0}中被更新</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_muted_pl" xml:space="preserve">
     <value>已静音</value>
@@ -553,15 +562,19 @@
   </data>
   <data name="administration_new_msg" xml:space="preserve">
     <value>新消息</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_new_nick" xml:space="preserve">
     <value>新昵称</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_new_topic" xml:space="preserve">
     <value>新主题</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_nick_change" xml:space="preserve">
     <value>昵称成功更换</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_no_server" xml:space="preserve">
     <value>找不到该服务器</value>
@@ -571,12 +584,15 @@
   </data>
   <data name="administration_old_msg" xml:space="preserve">
     <value>旧信息</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_old_nick" xml:space="preserve">
     <value>旧昵称</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_old_topic" xml:space="preserve">
     <value>旧题目</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_perms" xml:space="preserve">
     <value>失败。很可能我没有足够的权限。</value>
@@ -586,6 +602,7 @@
   </data>
   <data name="administration_prot_active" xml:space="preserve">
     <value>主动保护</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_prot_disable" xml:space="preserve">
     <value>{0}已在此服务器禁用。</value>
@@ -598,6 +615,7 @@
   </data>
   <data name="administration_prot_none" xml:space="preserve">
     <value>未启用保护项目。</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_raid_cnt" xml:space="preserve">
     <value>用户阈值必须介于{0}和{1}之间。</value>
@@ -757,9 +775,11 @@
   </data>
   <data name="administration_text_chan_created" xml:space="preserve">
     <value>新文字频道成立</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_text_chan_destroyed" xml:space="preserve">
     <value>文字频道已删除</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_undeafen" xml:space="preserve">
     <value>Undeafen成功。</value>
@@ -773,12 +793,14 @@
   </data>
   <data name="administration_username_changed" xml:space="preserve">
     <value>用户名已更改</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_users" xml:space="preserve">
     <value>用户</value>
   </data>
   <data name="administration_user_banned" xml:space="preserve">
     <value>用户被禁止</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_chat_mute" xml:space="preserve">
     <value>{0}已从聊天内被静音**。</value>
@@ -788,18 +810,22 @@
   </data>
   <data name="administration_user_joined" xml:space="preserve">
     <value>用户已加入</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_left" xml:space="preserve">
     <value>用户离开了</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_muted" xml:space="preserve">
     <value>{0} 已被文字与语音静音了</value>
   </data>
   <data name="administration_user_role_add" xml:space="preserve">
     <value>用户身份添加成功</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_role_rem" xml:space="preserve">
     <value>用户身份移除了</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_status_change" xml:space="preserve">
     <value>{0} 改成了 {1}</value>
@@ -824,9 +850,11 @@
   </data>
   <data name="administration_voice_chan_created" xml:space="preserve">
     <value>语音频道已创建</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_voice_chan_destroyed" xml:space="preserve">
     <value>语音通道已被毁</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_vt_disabled" xml:space="preserve">
     <value>已停用语音+文字功能。</value>
@@ -858,6 +886,7 @@
   </data>
   <data name="administration_user_unbanned" xml:space="preserve">
     <value>用户已取消禁止</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_migration_done" xml:space="preserve">
     <value>迁移完成！</value>
@@ -867,9 +896,11 @@
   </data>
   <data name="administration_presence_updates" xml:space="preserve">
     <value>在线状态更新</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_sb_user" xml:space="preserve">
     <value>用户被软禁用</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_awarded" xml:space="preserve">
     <value>已将{0}奖励给{1}</value>
@@ -912,6 +943,7 @@
   </data>
   <data name="gambling_heads" xml:space="preserve">
     <value>头</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_leaderboard" xml:space="preserve">
     <value>排行榜</value>
@@ -933,6 +965,7 @@
   </data>
   <data name="gambling_raffled_user" xml:space="preserve">
     <value>抽奖用户</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_roll" xml:space="preserve">
     <value>您抛了{0}。</value>
@@ -967,6 +1000,7 @@
   </data>
   <data name="gambling_tails" xml:space="preserve">
     <value>尾</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_take" xml:space="preserve">
     <value>已成功从{1}取得{0}</value>
@@ -979,6 +1013,7 @@
   </data>
   <data name="help_bot_owner_only" xml:space="preserve">
     <value>仅限Bot Owner</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="help_channel_permission" xml:space="preserve">
     <value>需要{0}频道权限。</value>
@@ -988,9 +1023,11 @@
   </data>
   <data name="help_cmd_and_alias" xml:space="preserve">
     <value>命令和别名</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="help_commandlist_regen" xml:space="preserve">
     <value>命令列表已重新生成。</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="help_commands_instr" xml:space="preserve">
     <value>输入`{0} h CommandName`可查看该指定命令的帮助。 例如 `{0} h&gt; 8ball`</value>
@@ -1013,12 +1050,15 @@ Paypal &lt;{1}&gt;
   <data name="help_guide" xml:space="preserve">
     <value>**命令列表**：&lt;{0}&gt;
 **主机指南和文档可以在这里找到**：&lt;{1}&gt;</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="help_list_of_commands" xml:space="preserve">
     <value>命令列表</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="help_list_of_modules" xml:space="preserve">
     <value>组件列表</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="help_modules_footer" xml:space="preserve">
     <value>输入“{0} cmds ModuleName”以获取该组件中的命令列表。 例如`{0} cmds games`</value>
@@ -1031,6 +1071,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="help_table_of_contents" xml:space="preserve">
     <value>目录</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="help_usage" xml:space="preserve">
     <value>用法</value>
@@ -1044,6 +1085,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="gambling_animal_race" xml:space="preserve">
     <value>动物竞赛</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_animal_race_failed" xml:space="preserve">
     <value>启动失败，因为没有足够的参与者。</value>
@@ -1094,9 +1136,11 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="gambling_changes_of_heart" xml:space="preserve">
     <value>爱被改变</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_claimed_by" xml:space="preserve">
     <value>声称</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_divorces" xml:space="preserve">
     <value>离婚</value>
@@ -1216,6 +1260,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="games_submissions_closed" xml:space="preserve">
     <value>提交关闭</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_animal_race_already_started" xml:space="preserve">
     <value>动物竞赛已经运行。</value>
@@ -1250,6 +1295,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="games_game_started" xml:space="preserve">
     <value>游戏开始</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="games_hangman_game_started" xml:space="preserve">
     <value>Hangman游戏开始了</value>
@@ -1318,15 +1364,18 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="games_ttt_has_won" xml:space="preserve">
     <value>{0}赢了！</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="games_ttt_matched_three" xml:space="preserve">
     <value>相配了三个</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="games_ttt_no_moves" xml:space="preserve">
     <value>没有地方动了！</value>
   </data>
   <data name="games_ttt_time_expired" xml:space="preserve">
     <value>时间已过！</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="games_ttt_users_move" xml:space="preserve">
     <value>轮到{0}了</value>
@@ -1354,6 +1403,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="music_finished_song" xml:space="preserve">
     <value>完成歌曲</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_fp_disabled" xml:space="preserve">
     <value>停用公平播放。</value>
@@ -1390,6 +1440,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="music_now_playing" xml:space="preserve">
     <value>现在播放</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_no_player" xml:space="preserve">
     <value>没有活动音乐播放器。
@@ -1403,15 +1454,18 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="music_player_queue" xml:space="preserve">
     <value>播放器队列 - {0} / {1}页</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_playing_song" xml:space="preserve">
     <value>正在播放</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_playlists" xml:space="preserve">
     <value>`＃{0}` - ** {1} ** by * {2} *（{3}首歌）</value>
   </data>
   <data name="music_playlists_page" xml:space="preserve">
     <value>有保存{0}页的播放列表</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_playlist_deleted" xml:space="preserve">
     <value>播放列表已删除。</value>
@@ -1427,6 +1481,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="music_playlist_saved" xml:space="preserve">
     <value>播放列表已保存</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_play_limit" xml:space="preserve">
     <value>{0}秒限制</value>
@@ -1436,6 +1491,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="music_queued_song" xml:space="preserve">
     <value>歌加入队列</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_queue_cleared" xml:space="preserve">
     <value>音乐队列已清除。</value>
@@ -1449,12 +1505,15 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="music_repeating_cur_song" xml:space="preserve">
     <value>重复播放当前歌曲</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_repeating_playlist" xml:space="preserve">
     <value>重复播放列表</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_repeating_track" xml:space="preserve">
     <value>重复曲目</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_repeating_track_stopped" xml:space="preserve">
     <value>当前曲目停止重复。</value>
@@ -1476,9 +1535,11 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="music_songs_shuffled" xml:space="preserve">
     <value>歌播放列表曲被随机。</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_song_moved" xml:space="preserve">
     <value>歌曲被移动</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_time_format" xml:space="preserve">
     <value>{0}小时 {1}分钟 {2}秒</value>
@@ -1497,18 +1558,22 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="permissions_acm_disable" xml:space="preserve">
     <value>在{0}频道上禁止所有组件的使用。</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_acm_enable" xml:space="preserve">
     <value>在{0}频道上允许启用所有组件。</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_allowed" xml:space="preserve">
     <value>允许</value>
   </data>
   <data name="permissions_arm_disable" xml:space="preserve">
     <value>{0}身份的所有组件被禁止使用。</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_arm_enable" xml:space="preserve">
     <value>{0}身份的所有组件被允许使用。</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_asm_disable" xml:space="preserve">
     <value>在此服务器上禁止所有组件的使用。</value>
@@ -1518,9 +1583,11 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="permissions_aum_disable" xml:space="preserve">
     <value>{0}用户的所有模块被禁止使用。</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_aum_enable" xml:space="preserve">
     <value>{0}用户的所有模块被允许使用。</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_blacklisted" xml:space="preserve">
     <value>ID为{1}被加入黑名单{0}</value>
@@ -1530,18 +1597,22 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="permissions_cmdcd_cleared" xml:space="preserve">
     <value>命令{0}没有冷却时间了，现有所有的冷却时间已被清除。</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_cmdcd_none" xml:space="preserve">
     <value>没有设置命令冷却时间。</value>
   </data>
   <data name="permissions_command_costs" xml:space="preserve">
     <value>命令成本</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_cx_disable" xml:space="preserve">
     <value>{2}频道上已停用{0} {1}。</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_cx_enable" xml:space="preserve">
     <value>已在{2}频道上启用{0} {1}的使用。</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_denied" xml:space="preserve">
     <value>被拒绝</value>
@@ -1551,6 +1622,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="permissions_filter_word_list" xml:space="preserve">
     <value>被过滤的词列表</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_filter_word_remove" xml:space="preserve">
     <value>已从过滤字词列表中删除{0}。</value>
@@ -1686,12 +1758,15 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="searches_compet_loses" xml:space="preserve">
     <value>竞争模式失败次数</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_compet_played" xml:space="preserve">
     <value>竞争模式玩次数</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_compet_rank" xml:space="preserve">
     <value>竞争模式排名</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_compet_wins" xml:space="preserve">
     <value>竞争模式胜利次数</value>
@@ -1746,6 +1821,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="searches_image_search_for" xml:space="preserve">
     <value>图片搜索：</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_imdb_fail" xml:space="preserve">
     <value>找不到该电影。</value>
@@ -1789,9 +1865,11 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="searches_on_hold" xml:space="preserve">
     <value>等候接听</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_original_url" xml:space="preserve">
     <value>原始网址</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_osu_api_key" xml:space="preserve">
     <value>需要osu！API密钥。</value>
@@ -1819,15 +1897,18 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="searches_profile_link" xml:space="preserve">
     <value>个人资料链接：</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_quality" xml:space="preserve">
     <value>质量：</value>
   </data>
   <data name="searches_quick_playtime" xml:space="preserve">
     <value>快速游戏时间</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_quick_wins" xml:space="preserve">
     <value>快赢</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_rating" xml:space="preserve">
     <value>评分</value>
@@ -1837,12 +1918,14 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="searches_search_for" xml:space="preserve">
     <value>搜索：</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_shorten_fail" xml:space="preserve">
     <value>无法缩短该链接。</value>
   </data>
   <data name="searches_short_url" xml:space="preserve">
     <value>短链接</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_something_went_wrong" xml:space="preserve">
     <value>出了些问题。</value>
@@ -1855,6 +1938,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="searches_store_url" xml:space="preserve">
     <value>储存链接</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_streamer_offline" xml:space="preserve">
     <value>直播台{0}已离线。</value>
@@ -1920,13 +2004,14 @@ Paypal &lt;{1}&gt;
     <value>请输入目标维基，然后搜索查询。</value>
   </data>
   <data name="searches_wiki_page_not_found" xml:space="preserve">
-    <value>找不到网页。</value>
+    <value>找不到该页面。</value>
   </data>
   <data name="searches_wind_speed" xml:space="preserve">
     <value>风速</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_x_most_banned_champs" xml:space="preserve">
-    <value>{0}个被禁止最多的英雄</value>
+    <value>{0}个被封号最多的英雄</value>
   </data>
   <data name="searches_yodify_error" xml:space="preserve">
     <value>无法yodify您的句子。</value>
@@ -1935,12 +2020,13 @@ Paypal &lt;{1}&gt;
     <value>加入</value>
   </data>
   <data name="utility_activity_line" xml:space="preserve">
-    <value>`{0} .` {1} [{2：F2} / s] - {3}总计</value>
+    <value>`{0}.` {1} [{2:F2}/秒] - {3} 总计</value>
     <comment>/s and total need to be localized to fit the context -
 `1.`</comment>
   </data>
   <data name="utility_activity_page" xml:space="preserve">
     <value>活动页面＃{0}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_activity_users_total" xml:space="preserve">
     <value>{0}个用户。</value>
@@ -1952,16 +2038,18 @@ Paypal &lt;{1}&gt;
     <value>机器ID</value>
   </data>
   <data name="utility_calcops" xml:space="preserve">
-    <value>{0} calc命令功能列表</value>
+    <value>{0} 计算器命令列表</value>
   </data>
   <data name="utility_channelid" xml:space="preserve">
     <value>此频道的{0}是{1}</value>
   </data>
   <data name="utility_channel_topic" xml:space="preserve">
     <value>频道主题</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_commands_ran" xml:space="preserve">
-    <value>执行命令</value>
+    <value>执行的命令</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_convert" xml:space="preserve">
     <value>{0} {1}等于{2} {3}</value>
@@ -1973,10 +2061,11 @@ Paypal &lt;{1}&gt;
     <value>无法将{0}转换为{1}：找不到单位</value>
   </data>
   <data name="utility_convert_type_error" xml:space="preserve">
-    <value>无法将{0}转换为{1}：单位类型不相等</value>
+    <value>无法将{0}转换为{1}：单位类型不属于一类</value>
   </data>
   <data name="utility_created_at" xml:space="preserve">
     <value>创建于</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_csc_join" xml:space="preserve">
     <value>加入跨服务器频道。</value>
@@ -1989,13 +2078,13 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="utility_custom_emojis" xml:space="preserve">
     <value>自定义Emojis</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_error" xml:space="preserve">
     <value>错误</value>
   </data>
   <data name="utility_features" xml:space="preserve">
-    <value>特征
-</value>
+    <value>功能</value>
   </data>
   <data name="utility_id" xml:space="preserve">
     <value>ID</value>
@@ -2007,10 +2096,11 @@ Paypal &lt;{1}&gt;
     <value>以下是这个身份的用户列表：</value>
   </data>
   <data name="utility_inrole_not_allowed" xml:space="preserve">
-    <value>您不能对其中有用户很多的身份使用此命令来防止滥用。</value>
+    <value>为防止滥用，您不能对有过多用户的身份使用此命令。</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_invalid_value" xml:space="preserve">
-    <value>值{0}错误。</value>
+    <value>{0}值错误。</value>
     <comment>Invalid months value/ Invalid hours value</comment>
   </data>
   <data name="utility_joined_discord" xml:space="preserve">
@@ -2018,17 +2108,20 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="utility_joined_server" xml:space="preserve">
     <value>加入服务器</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_listservers" xml:space="preserve">
     <value>ID：{0}
 会员数：{1}	
 业主ID：{2}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_listservers_none" xml:space="preserve">
     <value>在该网页上找不到服务器。</value>
   </data>
   <data name="utility_list_of_repeaters" xml:space="preserve">
     <value>重复列表</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_members" xml:space="preserve">
     <value>会员</value>
@@ -2041,6 +2134,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="utility_message_repeater" xml:space="preserve">
     <value>消息重复功能</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_name" xml:space="preserve">
     <value>名字</value>
@@ -2052,7 +2146,7 @@ Paypal &lt;{1}&gt;
     <value>没有人在玩那个游戏</value>
   </data>
   <data name="utility_no_active_repeaters" xml:space="preserve">
-    <value>没有活动重复功能。</value>
+    <value>没有正在重复的消息。</value>
   </data>
   <data name="utility_no_roles_on_page" xml:space="preserve">
     <value>此页面上没有身份。</value>
@@ -2078,10 +2172,10 @@ Paypal &lt;{1}&gt;
 {2}个语音频道</value>
   </data>
   <data name="utility_quotes_deleted" xml:space="preserve">
-    <value>删除所有引号使用{0}关键字。</value>
+    <value>已删除所有使用{0}关键字的引用。</value>
   </data>
   <data name="utility_quotes_page" xml:space="preserve">
-    <value>{0}页引号</value>
+    <value>引用的第{0}页</value>
   </data>
   <data name="utility_quotes_page_none" xml:space="preserve">
     <value>此页面上没有引用。</value>
@@ -2093,13 +2187,14 @@ Paypal &lt;{1}&gt;
     <value>引用被添加</value>
   </data>
   <data name="utility_quote_deleted" xml:space="preserve">
-    <value>删除了随机引用。</value>
+    <value>随机删除了一个引用。</value>
   </data>
   <data name="utility_region" xml:space="preserve">
     <value>区域</value>
   </data>
   <data name="utility_registered_on" xml:space="preserve">
     <value>注册日</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_remind" xml:space="preserve">
     <value>我将在{2}`（{3：d.M.yyyy。}的{4：HH：mm}）提醒{0}关于{1}</value>
@@ -2114,7 +2209,8 @@ Paypal &lt;{1}&gt;
     <value>会每{1}天{2}小时{3}分钟重复{0}。</value>
   </data>
   <data name="utility_repeaters_list" xml:space="preserve">
-    <value>重复列表</value>
+    <value>重复消息列表</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_repeaters_none" xml:space="preserve">
     <value>此服务器上没有运行重复消息。</value>
@@ -2138,7 +2234,7 @@ Paypal &lt;{1}&gt;
     <value>{1}身份的第{0}页</value>
   </data>
   <data name="utility_rrc_no_colors" xml:space="preserve">
-    <value>颜色的格式不正确。 例如，使用‘＃00ff00’。</value>
+    <value>颜色的格式不正确。 例如，使用 “#00ff00”。</value>
   </data>
   <data name="utility_rrc_start" xml:space="preserve">
     <value>开始轮流{0}身份的颜色。</value>
@@ -2151,15 +2247,17 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="utility_server_info" xml:space="preserve">
     <value>服务器信息</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_shard" xml:space="preserve">
     <value>分片</value>
   </data>
   <data name="utility_shard_stats" xml:space="preserve">
     <value>分片统计</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_shard_stats_txt" xml:space="preserve">
-    <value>分片**＃{0} **处于{1}状态与{2}台服务器</value>
+    <value>分片**＃{0} **与{2}台服务器处于{1}状态</value>
   </data>
   <data name="utility_showemojis" xml:space="preserve">
     <value>**名称：** {0} **链接：** {1}</value>
@@ -2172,6 +2270,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="utility_text_channels" xml:space="preserve">
     <value>文字频道</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_togtub_room_link" xml:space="preserve">
     <value>这是你的房间链接：</value>
@@ -2180,7 +2279,7 @@ Paypal &lt;{1}&gt;
     <value>正常运行时间</value>
   </data>
   <data name="utility_userid" xml:space="preserve">
-    <value>此用户 {1} 的{0} 是 {2}</value>
+    <value>用户 {1} 的{0} 是 {2}</value>
     <comment>Id of the user kwoth#1234 is 123123123123</comment>
   </data>
   <data name="utility_users" xml:space="preserve">
@@ -2188,6 +2287,41 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="utility_voice_channels" xml:space="preserve">
     <value>语音频道</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="gambling_animal_race_already_in" xml:space="preserve">
+    <value>你已经参加这场比赛！</value>
+  </data>
+  <data name="games_current_poll_results" xml:space="preserve">
+    <value>当前投票结果</value>
+  </data>
+  <data name="games_no_votes_cast" xml:space="preserve">
+    <value>没有票投。</value>
+  </data>
+  <data name="games_poll_already_running" xml:space="preserve">
+    <value>此服务器上已运行投票。</value>
+  </data>
+  <data name="games_poll_created" xml:space="preserve">
+    <value>📃{0}创建一个需要您注意的投票：</value>
+  </data>
+  <data name="games_poll_result" xml:space="preserve">
+    <value>&apos;{0}&apos;。{1} 有 {2}票。</value>
+  </data>
+  <data name="games_poll_voted" xml:space="preserve">
+    <value>{0}投了票。</value>
+    <comment>Kwoth voted.</comment>
+  </data>
+  <data name="games_poll_vote_private" xml:space="preserve">
+    <value>私人消息我相应答案的数字。</value>
+  </data>
+  <data name="games_poll_vote_public" xml:space="preserve">
+    <value>在这里发送消息相应答案的数字。</value>
+  </data>
+  <data name="games_thanks_for_voting" xml:space="preserve">
+    <value>谢谢投票，{0}</value>
+  </data>
+  <data name="games_x_votes_cast" xml:space="preserve">
+    <value>{0}投票总数。</value>
   </data>
 
 </root>

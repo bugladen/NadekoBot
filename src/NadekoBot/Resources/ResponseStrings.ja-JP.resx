@@ -118,35 +118,37 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="clashofclans_base_already_claimed" xml:space="preserve">
-    <value>その基盤はすでに主張されている。または破壊されました。
-</value>
+    <value>そのベースはもう要求・破壊されました。</value>
   </data>
   <data name="clashofclans_base_already_destroyed" xml:space="preserve">
-    <value>ベースが破壊されました
-</value>
+    <value>そのベースはもう破壊されました。</value>
   </data>
   <data name="clashofclans_base_already_unclaimed" xml:space="preserve">
-    <value>その基地は主張されていない。
-</value>
+    <value>そのベースは要求されていません。</value>
   </data>
   <data name="clashofclans_base_destroyed" xml:space="preserve">
-    <value>{1}との戦いで基地#{0}を**破壊**しました</value>
+    <value>{1}との対戦でベース#{0}を**破壊**しました。</value>
   </data>
   <data name="clashofclans_base_unclaimed" xml:space="preserve">
-    <value></value>
+    <value>{0}は{2}との戦いで、未請求の塩基番号{1}を持っています
+</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_claimed_base" xml:space="preserve">
-    <value></value>
+    <value>{0}は{2}との戦いで塩基番号{1}を主張しました
+</value>
   </data>
   <data name="clashofclans_claimed_other" xml:space="preserve">
-    <value></value>
+    <value>@ {0}あなたはすでに基本番号{1}を主張しています。あなたは新しいものを請求することはできません。
+</value>
   </data>
   <data name="clashofclans_claim_expired" xml:space="preserve">
-    <value></value>
+    <value>{1}との戦争で@ {0}からの申し立てが終了しました。
+</value>
+    <comment>The English wording is wrong.</comment>
   </data>
   <data name="clashofclans_enemy" xml:space="preserve">
-    <value>敵
-</value>
+    <value>敵</value>
   </data>
   <data name="clashofclans_info_about_war" xml:space="preserve">
     <value>{0} との戦争に関する情報</value>
@@ -182,8 +184,7 @@
     <value>サイズ</value>
   </data>
   <data name="clashofclans_war_already_started" xml:space="preserve">
-    <value>戦争の戦い{0}は既に始まった。
-</value>
+    <value>{0}に対する大戦が既に始まった。</value>
   </data>
   <data name="clashofclans_war_created" xml:space="preserve">
     <value>戦争{0}が作成されました。
@@ -210,7 +211,8 @@
 </value>
   </data>
   <data name="customreactions_insuff_perms" xml:space="preserve">
-    <value></value>
+    <value>権限が不十分です。グローバルカスタム反応のために必要なボットの所有権、サーバーカスタム反応の管理者。
+</value>
   </data>
   <data name="customreactions_list_all" xml:space="preserve">
     <value>すべてのカスタム反応をリストします。
@@ -227,6 +229,7 @@
   <data name="customreactions_no_found" xml:space="preserve">
     <value>カスタム反応が見つかりませんでした。
 </value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="customreactions_no_found_id" xml:space="preserve">
     <value>その識別情報でカスタム反応が見つかりませんでした。
@@ -240,102 +243,132 @@
 </value>
   </data>
   <data name="customreactions_stats_cleared" xml:space="preserve">
-    <value></value>
+    <value>{0}カスタム反応の統計がクリアされました。
+</value>
   </data>
   <data name="customreactions_stats_not_found" xml:space="preserve">
-    <value></value>
+    <value>そのトリガーの統計は見つかりませんでした。
+</value>
   </data>
   <data name="customreactions_trigger" xml:space="preserve">
     <value>引き金</value>
   </data>
   <data name="nsfw_autohentai_stopped" xml:space="preserve">
-    <value></value>
+    <value>NSFWが停止しました
+</value>
   </data>
   <data name="nsfw_not_found" xml:space="preserve">
     <value>結果が見つかりません
 </value>
   </data>
   <data name="pokemon_already_fainted" xml:space="preserve">
-    <value></value>
+    <value>{0}は既に気絶しています。
+</value>
   </data>
   <data name="pokemon_already_full" xml:space="preserve">
-    <value></value>
+    <value>{0}健康は既に最大です
+</value>
   </data>
   <data name="pokemon_already_that_type" xml:space="preserve">
-    <value></value>
+    <value>あなたはすでに{0}です
+</value>
   </data>
   <data name="pokemon_attack" xml:space="preserve">
-    <value></value>
-    <comment>Kwoth used punch:type_icon: on Sanity:type_icon: for 50 damage.</comment>
+    <value>{4}ダメージのために{2} {3}に{0} {1}を使用しました。
+</value>
+    <comment>Kwoth used punch:type_icon: on Sanity:type_icon: for 50 damage.
+Fuzzy</comment>
   </data>
   <data name="pokemon_cant_attack_again" xml:space="preserve">
-    <value></value>
+    <value>あなたは報復せずに再び攻撃することはできません！
+</value>
   </data>
   <data name="pokemon_cant_attack_yourself" xml:space="preserve">
-    <value></value>
+    <value>あなた自身を攻撃することはできません。
+</value>
   </data>
   <data name="pokemon_fainted" xml:space="preserve">
-    <value></value>
+    <value>{0}が気絶しました！
+</value>
   </data>
   <data name="pokemon_healed" xml:space="preserve">
-    <value></value>
+    <value>1つの{1}で{0}を回復しました
+</value>
   </data>
   <data name="pokemon_hp_remaining" xml:space="preserve">
-    <value></value>
+    <value>{0}は{1} HPが残っています。
+</value>
   </data>
   <data name="pokemon_invalid_move" xml:space="preserve">
-    <value></value>
+    <value>{0}を使用することはできません。 `{1} ml`と入力すると、使用できる移動のリストが表示されます。
+</value>
   </data>
   <data name="pokemon_moves" xml:space="preserve">
-    <value></value>
+    <value>{0}タイプの攻撃リスト
+</value>
   </data>
   <data name="pokemon_not_effective" xml:space="preserve">
-    <value></value>
+    <value>それは効果的ではありません。
+</value>
   </data>
   <data name="pokemon_no_currency" xml:space="preserve">
-    <value></value>
+    <value>あなたに十分な{0}がありません。
+</value>
   </data>
   <data name="pokemon_revive_other" xml:space="preserve">
-    <value></value>
+    <value>1つの{1}で復活{0}
+</value>
   </data>
   <data name="pokemon_revive_yourself" xml:space="preserve">
-    <value></value>
+    <value>1つの{0}のために癒された
+</value>
   </data>
   <data name="pokemon_settype_success" xml:space="preserve">
-    <value></value>
+    <value>あなたのタイプは{1}のために{0}に変更されました
+</value>
   </data>
   <data name="pokemon_somewhat_effective" xml:space="preserve">
-    <value></value>
+    <value>それはやや有効です。
+</value>
   </data>
   <data name="pokemon_super_effective" xml:space="preserve">
-    <value></value>
+    <value>それは超効果的です！
+</value>
   </data>
   <data name="pokemon_too_many_moves" xml:space="preserve">
-    <value></value>
+    <value>あなたは連続してあまりにも多くの動きを使用したので、移動することはできません！
+</value>
   </data>
   <data name="pokemon_type_of_user" xml:space="preserve">
-    <value></value>
+    <value>タイプ{0}は{1}です。
+</value>
   </data>
   <data name="pokemon_user_not_found" xml:space="preserve">
-    <value></value>
+    <value>ユーザーが見つかりません。
+</value>
   </data>
   <data name="pokemon_you_fainted" xml:space="preserve">
-    <value></value>
+    <value>あなたが気絶したので、動かすことはできません。
+</value>
   </data>
   <data name="administration_aar_disabled" xml:space="preserve">
-    <value></value>
+    <value>**ユーザー割り当ての**役割を自動割り当て**が無効**になりました。
+</value>
   </data>
   <data name="administration_aar_enabled" xml:space="preserve">
-    <value></value>
+    <value>**ユーザー割り当ての**役割を自動割り当て**が現在有効になっています**。
+</value>
   </data>
   <data name="administration_attachments" xml:space="preserve">
     <value>接続</value>
   </data>
   <data name="administration_avatar_changed" xml:space="preserve">
-    <value></value>
+    <value>画像が変更されました。
+</value>
   </data>
   <data name="administration_bandm" xml:space="preserve">
-    <value></value>
+    <value>あなたは{0}サーバーから追放されました。
+理由：{1}</value>
   </data>
   <data name="administration_banned_pl" xml:space="preserve">
     <value>亡命</value>
@@ -343,306 +376,377 @@
   </data>
   <data name="administration_banned_user" xml:space="preserve">
     <value>ユーザーはＢＡＮＮＥＤ</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_bot_name" xml:space="preserve">
-    <value></value>
+    <value>ボット名が{0}に変更されました
+</value>
   </data>
   <data name="administration_bot_status" xml:space="preserve">
-    <value></value>
+    <value>ボットのステータスが{0}に変更されました
+</value>
   </data>
   <data name="administration_byedel_off" xml:space="preserve">
-    <value></value>
+    <value>byeメッセージの自動削除が無効になっています。
+</value>
   </data>
   <data name="administration_byedel_on" xml:space="preserve">
-    <value></value>
+    <value>Byeメッセージは{0}秒後に削除されます。
+</value>
   </data>
   <data name="administration_byemsg_cur" xml:space="preserve">
-    <value></value>
+    <value>現在の離脱メッセージ：{0}
+</value>
   </data>
   <data name="administration_byemsg_enable" xml:space="preserve">
-    <value></value>
+    <value>{0}と入力して休暇メッセージを有効にする
+</value>
   </data>
   <data name="administration_byemsg_new" xml:space="preserve">
-    <value></value>
+    <value>新しい出発メッセージセット。
+</value>
   </data>
   <data name="administration_bye_off" xml:space="preserve">
-    <value></value>
+    <value>出発アナウンスが無効になりました。
+</value>
   </data>
   <data name="administration_bye_on" xml:space="preserve">
-    <value></value>
+    <value>このチャンネルで有効になっている出発発言。
+</value>
   </data>
   <data name="administration_ch_name_change" xml:space="preserve">
-    <value></value>
+    <value>チャンネル名が変更されました。
+</value>
   </data>
   <data name="administration_ch_old_name" xml:space="preserve">
     <value>古称</value>
   </data>
   <data name="administration_ch_topic_change" xml:space="preserve">
-    <value></value>
+    <value>チャネルトピックが変更されました
+</value>
   </data>
   <data name="administration_cleaned_up" xml:space="preserve">
-    <value></value>
+    <value>クリーンアップ
+</value>
   </data>
   <data name="administration_content" xml:space="preserve">
     <value>コンテント</value>
   </data>
   <data name="administration_cr" xml:space="preserve">
-    <value></value>
+    <value>正常に作成されたロール</value>
   </data>
   <data name="administration_createtextchan" xml:space="preserve">
-    <value></value>
+    <value>正常に作成されたロール</value>
   </data>
   <data name="administration_createvoich" xml:space="preserve">
-    <value></value>
+    <value>音声チャネル{0}が作成されました。</value>
   </data>
   <data name="administration_deafen" xml:space="preserve">
-    <value></value>
+    <value>聴覚障害者は成功です。</value>
   </data>
   <data name="administration_deleted_server" xml:space="preserve">
-    <value></value>
+    <value>削除されたサーバー{0}
+</value>
   </data>
   <data name="administration_delmsg_off" xml:space="preserve">
-    <value></value>
+    <value>成功したコマンド呼び出しの自動削除を停止しました。
+</value>
+    <comment>Invocations* not invokations</comment>
   </data>
   <data name="administration_delmsg_on" xml:space="preserve">
-    <value></value>
+    <value>これで正常に実行されたコマンド呼び出しが自動的に削除されます。
+</value>
   </data>
   <data name="administration_deltextchan" xml:space="preserve">
-    <value></value>
+    <value>テキストチャネル{0}が削除されました。
+</value>
   </data>
   <data name="administration_delvoich" xml:space="preserve">
-    <value></value>
+    <value>音声チャネル{0}が削除されました。
+</value>
   </data>
   <data name="administration_dm_from" xml:space="preserve">
     <value>タイレクトメッセージガ</value>
   </data>
   <data name="administration_donadd" xml:space="preserve">
-    <value></value>
+    <value>新しい寄付者を追加しました。このユーザーから寄付された金額：{0} 
+</value>
   </data>
   <data name="administration_donators" xml:space="preserve">
-    <value></value>
+    <value>このプロジェクトを実現するために、下記の人々に感謝します！
+</value>
   </data>
   <data name="administration_fwall_start" xml:space="preserve">
-    <value></value>
+    <value>私はDMをすべての所有者に転送します。</value>
   </data>
   <data name="administration_fwall_stop" xml:space="preserve">
-    <value></value>
+    <value>私は最初の所有者にDMを転送します。</value>
   </data>
   <data name="administration_fwdm_start" xml:space="preserve">
-    <value></value>
+    <value>私は今からDMを転送します。
+</value>
   </data>
   <data name="administration_fwdm_stop" xml:space="preserve">
-    <value></value>
+    <value>私は今からDMを転送するのをやめます。
+</value>
   </data>
   <data name="administration_greetdel_off" xml:space="preserve">
-    <value></value>
+    <value>挨拶メッセージの自動削除が無効になっています。
+</value>
   </data>
   <data name="administration_greetdel_on" xml:space="preserve">
-    <value></value>
+    <value>{0}秒後にメッセージが削除されます。
+</value>
   </data>
   <data name="administration_greetdmmsg_cur" xml:space="preserve">
-    <value></value>
+    <value>現在のDM挨拶メッセージ：{0}
+</value>
   </data>
   <data name="administration_greetdmmsg_enable" xml:space="preserve">
-    <value></value>
+    <value>{0}を入力してDM greetメッセージを有効にする
+</value>
   </data>
   <data name="administration_greetdmmsg_new" xml:space="preserve">
-    <value></value>
+    <value>新しいDMはメッセージセットを迎える。
+</value>
   </data>
   <data name="administration_greetdm_off" xml:space="preserve">
-    <value></value>
+    <value>DMのお知らせを無効にする</value>
   </data>
   <data name="administration_greetdm_on" xml:space="preserve">
-    <value></value>
+    <value>DMのお知らせを有効にしました。</value>
   </data>
   <data name="administration_greetmsg_cur" xml:space="preserve">
-    <value></value>
+    <value>現在の挨拶メッセージ：{0}
+</value>
   </data>
   <data name="administration_greetmsg_enable" xml:space="preserve">
-    <value></value>
+    <value>{0}と入力してgreetメッセージを有効にする
+</value>
   </data>
   <data name="administration_greetmsg_new" xml:space="preserve">
-    <value></value>
+    <value>新しい挨拶メッセージセット。</value>
   </data>
   <data name="administration_greet_off" xml:space="preserve">
-    <value></value>
+    <value>お知らせを無効にしました。</value>
   </data>
   <data name="administration_greet_on" xml:space="preserve">
-    <value></value>
+    <value>このチャンネルでアナウンスを有効にします。</value>
   </data>
   <data name="administration_hierarchy" xml:space="preserve">
-    <value></value>
+    <value>このコマンドは、役割階層内の役割以上のユーザーに対しては使用できません。</value>
   </data>
   <data name="administration_images_loaded" xml:space="preserve">
-    <value></value>
+    <value>{0}秒後に画像が読み込まれました！</value>
   </data>
   <data name="administration_invalid_format" xml:space="preserve">
-    <value></value>
+    <value>入力フォーマットが無効です。</value>
   </data>
   <data name="administration_invalid_params" xml:space="preserve">
-    <value></value>
+    <value>パラメータが無効です。</value>
   </data>
   <data name="administration_joined" xml:space="preserve">
-    <value></value>
+    <value>{0}は{1}に参加しました</value>
   </data>
   <data name="administration_kickdm" xml:space="preserve">
-    <value></value>
+    <value>あなたは{0}サーバーから蹴られました。
+理由：{1}</value>
   </data>
   <data name="administration_kicked_user" xml:space="preserve">
-    <value></value>
+    <value>ユーザーが蹴った</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_lang_list" xml:space="preserve">
-    <value></value>
+    <value>言語一覧
+{0}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_lang_set" xml:space="preserve">
-    <value></value>
+    <value>サーバーのロケールが{0}  -  {1}になりました
+</value>
   </data>
   <data name="administration_lang_set_bot" xml:space="preserve">
-    <value></value>
+    <value>Botのデフォルトのロケールは{0}  -  {1}になりました
+</value>
   </data>
   <data name="administration_lang_set_bot_show" xml:space="preserve">
-    <value></value>
+    <value>Botの言語は{0}  -  {1}に設定されています
+</value>
   </data>
   <data name="administration_lang_set_fail" xml:space="preserve">
-    <value></value>
+    <value>ロケールの設定に失敗しました。このコマンドのヘルプに戻ってください。</value>
   </data>
   <data name="administration_lang_set_show" xml:space="preserve">
-    <value></value>
+    <value>このサーバーの言語は{0}〜{1}に設定されています
+</value>
   </data>
   <data name="administration_left" xml:space="preserve">
-    <value></value>
+    <value>{0}さんが{1}を去りました</value>
   </data>
   <data name="administration_left_server" xml:space="preserve">
-    <value></value>
+    <value>{0}サーバーを去った</value>
   </data>
   <data name="administration_log" xml:space="preserve">
-    <value></value>
+    <value>このチャネルに{0}イベントを記録します。</value>
   </data>
   <data name="administration_log_all" xml:space="preserve">
-    <value></value>
+    <value>このチャンネルのすべてのイベントを記録します。</value>
   </data>
   <data name="administration_log_disabled" xml:space="preserve">
-    <value></value>
+    <value>ロギングが無効です</value>
   </data>
   <data name="administration_log_events" xml:space="preserve">
-    <value></value>
+    <value>購読可能なイベントを記録する：</value>
   </data>
   <data name="administration_log_ignore" xml:space="preserve">
-    <value></value>
+    <value>ロギングは{0}を無視します {0}</value>
   </data>
   <data name="administration_log_not_ignore" xml:space="preserve">
-    <value></value>
+    <value>ロギングは{0}を無視しません {0}</value>
   </data>
   <data name="administration_log_stop" xml:space="preserve">
-    <value></value>
+    <value>ログに記録された{0}イベントが停止しました。
+</value>
   </data>
   <data name="administration_menrole" xml:space="preserve">
-    <value></value>
+    <value>{0}は次の役割についての言及を呼び出しました
+</value>
   </data>
   <data name="administration_message_from_bo" xml:space="preserve">
-    <value></value>
+    <value>{0} `[Bot Owner]`からのメッセージ：
+</value>
   </data>
   <data name="administration_message_sent" xml:space="preserve">
-    <value></value>
+    <value>メッセージが送信されました。
+</value>
   </data>
   <data name="administration_moved" xml:space="preserve">
-    <value></value>
+    <value>{0}は{1}から{2}に移動しました
+</value>
   </data>
   <data name="administration_msg_del" xml:space="preserve">
-    <value></value>
+    <value>＃{0}でメッセージが削除されました
+</value>
   </data>
   <data name="administration_msg_update" xml:space="preserve">
-    <value></value>
+    <value>＃{0}で更新されたメッセージ</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_muted_pl" xml:space="preserve">
     <value>ミュート中</value>
-    <comment>PLURAL (users have been muted)
-Fuzzy</comment>
+    <comment>PLURAL (users have been muted)</comment>
   </data>
   <data name="administration_muted_sn" xml:space="preserve">
-    <value>ミュート中</value>
+    <value>ミュート
+</value>
     <comment>singular &quot;User muted.&quot;</comment>
   </data>
   <data name="administration_mute_error" xml:space="preserve">
-    <value></value>
+    <value>私はそれに必要な許可を持っていません。
+</value>
   </data>
   <data name="administration_mute_role_set" xml:space="preserve">
-    <value></value>
+    <value>新しいミュートロールセット。
+</value>
   </data>
   <data name="administration_need_admin" xml:space="preserve">
-    <value></value>
+    <value>管理の権利が必要となります。</value>
   </data>
   <data name="administration_new_msg" xml:space="preserve">
-    <value></value>
+    <value>新しいメッセージ</value>
+    <comment>Is this： make a new message or、 there is a new message?
+Fuzzy</comment>
   </data>
   <data name="administration_new_nick" xml:space="preserve">
-    <value></value>
+    <value>新しいニックネーム</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_new_topic" xml:space="preserve">
-    <value></value>
+    <value>新しいトピック</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_nick_change" xml:space="preserve">
-    <value></value>
+    <value>ニックネームが変更されました</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_no_server" xml:space="preserve">
-    <value></value>
+    <value>そのサーバーを見つけることができません
+</value>
   </data>
   <data name="administration_no_shard_id" xml:space="preserve">
-    <value></value>
+    <value>そのIDのシャードは見つかりませんでした。
+</value>
   </data>
   <data name="administration_old_msg" xml:space="preserve">
-    <value></value>
+    <value>古いメッセージ</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_old_nick" xml:space="preserve">
-    <value></value>
+    <value>古いニックネーム</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_old_topic" xml:space="preserve">
-    <value></value>
+    <value>古いトピック</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_perms" xml:space="preserve">
-    <value></value>
+    <value>エラー。ほとんどの場合、十分な権限がありません。
+</value>
   </data>
   <data name="administration_perms_reset" xml:space="preserve">
-    <value></value>
+    <value>このサーバーのアクセス許可はリセットされます。
+</value>
   </data>
   <data name="administration_prot_active" xml:space="preserve">
-    <value></value>
+    <value>アクティブな保護
+</value>
   </data>
   <data name="administration_prot_disable" xml:space="preserve">
-    <value></value>
+    <value>このサーバーで{0}は**無効**になっています。
+</value>
   </data>
   <data name="administration_prot_enable" xml:space="preserve">
-    <value></value>
+    <value>{0}を有効にしました
+</value>
   </data>
   <data name="administration_prot_error" xml:space="preserve">
     <value></value>
   </data>
   <data name="administration_prot_none" xml:space="preserve">
-    <value></value>
+    <value>保護は有効になっていません。
+</value>
   </data>
   <data name="administration_raid_cnt" xml:space="preserve">
-    <value></value>
+    <value>ユーザーのしきい値は{0}から{1}の間でなければなりません。
+</value>
   </data>
   <data name="administration_raid_stats" xml:space="preserve">
-    <value></value>
+    <value>{0}以上のユーザーが{1}秒以内に参加する場合は、{2}それらを行います。
+</value>
   </data>
   <data name="administration_raid_time" xml:space="preserve">
-    <value></value>
+    <value>時刻は{0}〜{1}秒の間でなければなりません。
+</value>
   </data>
   <data name="administration_rar" xml:space="preserve">
-    <value></value>
+    <value>ユーザー{0}からすべてのロールを削除しました
+</value>
   </data>
   <data name="administration_rar_err" xml:space="preserve">
-    <value></value>
+    <value>ロールを削除できませんでした。私には十分な権限がありません。
+</value>
   </data>
   <data name="administration_rc" xml:space="preserve">
-    <value></value>
+    <value>{0}ロールの色が変更されました。
+</value>
   </data>
   <data name="administration_rc_not_exist" xml:space="preserve">
-    <value></value>
+    <value>その役割は存在しません。
+</value>
   </data>
   <data name="administration_rc_params" xml:space="preserve">
-    <value></value>
+    <value>指定されたパラメータは無効です。
+</value>
   </data>
   <data name="administration_rc_perms" xml:space="preserve">
     <value></value>
@@ -699,10 +803,10 @@ Fuzzy</comment>
     <value></value>
   </data>
   <data name="administration_self_assign_list" xml:space="preserve">
-    <value></value>
+    <value>自分に割り当てられるロールが{0}個あります。</value>
   </data>
   <data name="administration_self_assign_not" xml:space="preserve">
-    <value></value>
+    <value>そのロールは自分に割り当てられません。</value>
   </data>
   <data name="administration_self_assign_not_have" xml:space="preserve">
     <value></value>
@@ -726,7 +830,7 @@ Fuzzy</comment>
     <value></value>
   </data>
   <data name="administration_setrole_err" xml:space="preserve">
-    <value></value>
+    <value>ロールの追加に失敗しました。アクセス権が足りません。</value>
   </data>
   <data name="administration_set_avatar" xml:space="preserve">
     <value></value>
@@ -810,19 +914,19 @@ Fuzzy</comment>
     <value></value>
   </data>
   <data name="administration_user_left" xml:space="preserve">
-    <value></value>
+    <value>利用者が去った</value>
   </data>
   <data name="administration_user_muted" xml:space="preserve">
     <value></value>
   </data>
   <data name="administration_user_role_add" xml:space="preserve">
-    <value></value>
+    <value>利用者にロールを追加した</value>
   </data>
   <data name="administration_user_role_rem" xml:space="preserve">
-    <value></value>
+    <value>利用者のロールを削除した</value>
   </data>
   <data name="administration_user_status_change" xml:space="preserve">
-    <value></value>
+    <value>{0}さんは今{1}になった</value>
   </data>
   <data name="administration_user_unmuted" xml:space="preserve">
     <value></value>
@@ -1359,7 +1463,8 @@ Fuzzy</comment>
     <value></value>
   </data>
   <data name="music_finished_song" xml:space="preserve">
-    <value></value>
+    <value>曲が終わった</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_fp_disabled" xml:space="preserve">
     <value></value>
@@ -1392,16 +1497,17 @@ Fuzzy</comment>
     <value></value>
   </data>
   <data name="music_name" xml:space="preserve">
-    <value></value>
+    <value>曲名</value>
   </data>
   <data name="music_now_playing" xml:space="preserve">
-    <value></value>
+    <value>プレイ中</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_no_player" xml:space="preserve">
     <value></value>
   </data>
   <data name="music_no_search_results" xml:space="preserve">
-    <value></value>
+    <value>検索結果なし</value>
   </data>
   <data name="music_paused" xml:space="preserve">
     <value></value>
@@ -1437,10 +1543,11 @@ Fuzzy</comment>
     <value></value>
   </data>
   <data name="music_queue" xml:space="preserve">
-    <value></value>
+    <value>次に聞く曲一覧</value>
   </data>
   <data name="music_queued_song" xml:space="preserve">
     <value></value>
+    <comment>Does this mean &quot;the song was added to the queue&quot; ?</comment>
   </data>
   <data name="music_queue_cleared" xml:space="preserve">
     <value></value>
@@ -1614,7 +1721,7 @@ Fuzzy</comment>
     <value></value>
   </data>
   <data name="permissions_sec" xml:space="preserve">
-    <value></value>
+    <value>秒</value>
     <comment>Short of seconds.</comment>
   </data>
   <data name="permissions_sx_disable" xml:space="preserve">
@@ -1627,7 +1734,7 @@ Fuzzy</comment>
     <value></value>
   </data>
   <data name="permissions_uneditable" xml:space="preserve">
-    <value></value>
+    <value>編集不可能</value>
   </data>
   <data name="permissions_ux_disable" xml:space="preserve">
     <value></value>
@@ -1784,7 +1891,7 @@ Fuzzy</comment>
     <value></value>
   </data>
   <data name="searches_min_max" xml:space="preserve">
-    <value></value>
+    <value>最低／最高</value>
   </data>
   <data name="searches_no_channel_found" xml:space="preserve">
     <value></value>
@@ -1796,7 +1903,8 @@ Fuzzy</comment>
     <value></value>
   </data>
   <data name="searches_original_url" xml:space="preserve">
-    <value></value>
+    <value>元のURL</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_osu_api_key" xml:space="preserve">
     <value></value>
@@ -1823,7 +1931,8 @@ Fuzzy</comment>
     <value></value>
   </data>
   <data name="searches_profile_link" xml:space="preserve">
-    <value></value>
+    <value>プロファイルへのリンク</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_quality" xml:space="preserve">
     <value></value>
@@ -1838,10 +1947,11 @@ Fuzzy</comment>
     <value></value>
   </data>
   <data name="searches_score" xml:space="preserve">
-    <value></value>
+    <value>スコア:</value>
   </data>
   <data name="searches_search_for" xml:space="preserve">
-    <value></value>
+    <value>検索:</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_shorten_fail" xml:space="preserve">
     <value></value>
@@ -2030,22 +2140,23 @@ Fuzzy</comment>
     <value></value>
   </data>
   <data name="utility_list_of_repeaters" xml:space="preserve">
-    <value></value>
+    <value>中継器一覧</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_members" xml:space="preserve">
-    <value></value>
+    <value>メンバー</value>
   </data>
   <data name="utility_memory" xml:space="preserve">
     <value></value>
   </data>
   <data name="utility_messages" xml:space="preserve">
-    <value></value>
+    <value>メッセージ</value>
   </data>
   <data name="utility_message_repeater" xml:space="preserve">
     <value></value>
   </data>
   <data name="utility_name" xml:space="preserve">
-    <value></value>
+    <value>名前</value>
   </data>
   <data name="utility_nickname" xml:space="preserve">
     <value></value>
@@ -2066,10 +2177,10 @@ Fuzzy</comment>
     <value></value>
   </data>
   <data name="utility_owner" xml:space="preserve">
-    <value></value>
+    <value>オーナー</value>
   </data>
   <data name="utility_owner_ids" xml:space="preserve">
-    <value></value>
+    <value>オーナーのID</value>
   </data>
   <data name="utility_presence" xml:space="preserve">
     <value></value>
@@ -2096,7 +2207,7 @@ Fuzzy</comment>
     <value></value>
   </data>
   <data name="utility_region" xml:space="preserve">
-    <value></value>
+    <value>地域</value>
   </data>
   <data name="utility_registered_on" xml:space="preserve">
     <value></value>
@@ -2126,13 +2237,13 @@ Fuzzy</comment>
     <value></value>
   </data>
   <data name="utility_result" xml:space="preserve">
-    <value></value>
+    <value>結果</value>
   </data>
   <data name="utility_roles" xml:space="preserve">
-    <value></value>
+    <value>役割</value>
   </data>
   <data name="utility_roles_all_page" xml:space="preserve">
-    <value></value>
+    <value>このサーバーにある役割一覧のページ{0}</value>
   </data>
   <data name="utility_roles_page" xml:space="preserve">
     <value></value>
@@ -2180,13 +2291,47 @@ Fuzzy</comment>
     <value></value>
   </data>
   <data name="utility_userid" xml:space="preserve">
-    <value></value>
+    <value>{1}の{0}は{2}</value>
     <comment>Id of the user kwoth#1234 is 123123123123</comment>
   </data>
   <data name="utility_users" xml:space="preserve">
-    <value></value>
+    <value>利用者</value>
   </data>
   <data name="utility_voice_channels" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="gambling_animal_race_already_in" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_current_poll_results" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_no_votes_cast" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_poll_already_running" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_poll_created" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_poll_result" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_poll_voted" xml:space="preserve">
+    <value></value>
+    <comment>Kwoth voted.</comment>
+  </data>
+  <data name="games_poll_vote_private" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_poll_vote_public" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_thanks_for_voting" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_x_votes_cast" xml:space="preserve">
     <value></value>
   </data>
 
