@@ -225,8 +225,9 @@ namespace NadekoBot.Modules.Utility
             var usrs = (await Context.Guild.GetUsersAsync()).ToArray();
             foreach (var role in roles.Where(r => r.Id != Context.Guild.Id))
             {
-                send += $"```css\n[{role.Name}]\n";
-                send += string.Join(", ", usrs.Where(u => u.RoleIds.Contains(role.Id)).Select(u => u.ToString()));
+                var roleUsers = usrs.Where(u => u.RoleIds.Contains(role.Id)).Select(u => u.ToString()).ToArray();
+                send += $"```css\n[{role.Name}] ({roleUsers.Length})\n";
+                send += string.Join(", ", roleUsers);
                 send += "\n```";
             }
             var usr = (IGuildUser)Context.User;
