@@ -5702,7 +5702,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Here is a list of users in those roles:.
+        ///    Looks up a localized string similar to List of users in {0} role.
         /// </summary>
         public static string utility_inrole_list {
             get {

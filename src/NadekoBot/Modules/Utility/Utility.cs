@@ -217,34 +217,15 @@ namespace NadekoBot.Modules.Utility
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task InRole(params IRole[] roles)
+        public async Task InRole([Remainder] IRole role)
         {
-            if (roles.Length == 0)
-                return;
-            var send = "ℹ️ " + Format.Bold(GetText("inrole_list"));
+            
             var usrs = (await Context.Guild.GetUsersAsync()).ToArray();
-            foreach (var role in roles.Where(r => r.Id != Context.Guild.Id))
-            {
-                var roleUsers = usrs.Where(u => u.RoleIds.Contains(role.Id)).Select(u => u.ToString()).ToArray();
-                send += $"```css\n[{role.Name}] ({roleUsers.Length})\n";
-                send += string.Join(", ", roleUsers);
-                send += "\n```";
-            }
-            var usr = (IGuildUser)Context.User;
-            while (send.Length > 2000)
-            {
-                if (!usr.GetPermissions((ITextChannel)Context.Channel).ManageMessages)
-                {
-                    await ReplyErrorLocalized("inrole_not_allowed").ConfigureAwait(false);
-                    return;
-                }
-                var curstr = send.Substring(0, 2000);
-                await Context.Channel.SendConfirmAsync(curstr.Substring(0,
-                        curstr.LastIndexOf(", ", StringComparison.Ordinal) + 1)).ConfigureAwait(false);
-                send = curstr.Substring(curstr.LastIndexOf(", ", StringComparison.Ordinal) + 1) +
-                       send.Substring(2000);
-            }
-            await Context.Channel.SendConfirmAsync(send).ConfigureAwait(false);
+            var roleUsers = usrs.Where(u => u.RoleIds.Contains(role.Id)).Select(u => u.ToString()).ToArray();
+            var embed = new EmbedBuilder().WithOkColor()
+                .WithTitle("ℹ️ " + Format.Bold(GetText("inrole_list")) + $" - {roleUsers.Length}")
+                .WithDescription(string.Join(", ", roleUsers));
+            await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]

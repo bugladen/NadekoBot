@@ -3552,7 +3552,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Lists every person from the provided role or roles, separated with space, on this server. You can use role IDs, role names (in quotes if it has multiple words), or role mention If the list is too long for 1 message, you must have Manage Messages permission..
+        ///    Looks up a localized string similar to Lists every person from the specified role on this server. You can use role ID, role name..
         /// </summary>
         public static string inrole_desc {
             get {
@@ -3561,7 +3561,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}inrole Role` or `{0}inrole Role1 &quot;Role 2&quot; @role3`.
+        ///    Looks up a localized string similar to `{0}inrole Some Role`.
         /// </summary>
         public static string inrole_usage {
             get {

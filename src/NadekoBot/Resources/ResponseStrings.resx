@@ -2002,7 +2002,7 @@ Don't forget to leave your discord name or id in the message.
     <value>Index out of range.</value>
   </data>
   <data name="utility_inrole_list" xml:space="preserve">
-    <value>Here is a list of users in those roles:</value>
+    <value>List of users in {0} role</value>
   </data>
   <data name="utility_inrole_not_allowed" xml:space="preserve">
     <value>You are not allowed to use this command on roles with a lot of users in them to prevent abuse.</value>
