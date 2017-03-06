@@ -194,28 +194,28 @@
     <value></value>
   </data>
   <data name="customreactions_deleted" xml:space="preserve">
-    <value></value>
+    <value>Własne reakcje zostały usunięte</value>
   </data>
   <data name="customreactions_insuff_perms" xml:space="preserve">
     <value></value>
   </data>
   <data name="customreactions_list_all" xml:space="preserve">
-    <value></value>
+    <value>Lista własnych reakcji</value>
   </data>
   <data name="customreactions_name" xml:space="preserve">
-    <value></value>
+    <value>Własne reakcje</value>
   </data>
   <data name="customreactions_new_cust_react" xml:space="preserve">
-    <value></value>
+    <value>Nowe własne reakcje</value>
   </data>
   <data name="customreactions_no_found" xml:space="preserve">
-    <value></value>
+    <value>Własne reakcje nie zostały znalezione.</value>
   </data>
   <data name="customreactions_no_found_id" xml:space="preserve">
-    <value></value>
+    <value>Własne reakcje z tym ID nie zostały znalezione.</value>
   </data>
   <data name="customreactions_response" xml:space="preserve">
-    <value></value>
+    <value>Odpowiedź</value>
   </data>
   <data name="customreactions_stats" xml:space="preserve">
     <value></value>
@@ -230,7 +230,7 @@
     <value></value>
   </data>
   <data name="nsfw_autohentai_stopped" xml:space="preserve">
-    <value></value>
+    <value>Zatrzymano autohentai.</value>
   </data>
   <data name="nsfw_not_found" xml:space="preserve">
     <value>Brak rezultatów.</value>
@@ -404,31 +404,31 @@ Powód: {1}</value>
     <value>Dziękuję ludziom wypisanym na dole za pomoc w realizacji tego projektu!</value>
   </data>
   <data name="administration_fwall_start" xml:space="preserve">
-    <value></value>
+    <value>Wyślę prywatne wiadomości do wszystkich właścicieli.</value>
   </data>
   <data name="administration_fwall_stop" xml:space="preserve">
-    <value></value>
+    <value>Wyślę prywatną wiadomość tylko do pierwszego właściciela.</value>
   </data>
   <data name="administration_fwdm_start" xml:space="preserve">
-    <value></value>
+    <value>Od teraz będę wysyłać prywatne wiadomości.</value>
   </data>
   <data name="administration_fwdm_stop" xml:space="preserve">
-    <value></value>
+    <value>Od teraz nie będę wysyłać prywatnych wiadomości.</value>
   </data>
   <data name="administration_greetdel_off" xml:space="preserve">
     <value></value>
   </data>
   <data name="administration_greetdel_on" xml:space="preserve">
-    <value></value>
+    <value>Wiadomości powitalne będą usuwane po {0} sekundach.</value>
   </data>
   <data name="administration_greetdmmsg_cur" xml:space="preserve">
-    <value></value>
+    <value>Aktualna prywatna wiadomość powitalna: {0}</value>
   </data>
   <data name="administration_greetdmmsg_enable" xml:space="preserve">
-    <value></value>
+    <value>Aby włączyć prywatną wiadomość powitalną, wpisz {0}</value>
   </data>
   <data name="administration_greetdmmsg_new" xml:space="preserve">
-    <value></value>
+    <value>Nowa prywatna wiadomość powitalna została ustawiona.</value>
   </data>
   <data name="administration_greetdm_off" xml:space="preserve">
     <value></value>
@@ -440,16 +440,16 @@ Powód: {1}</value>
     <value>Aktualna wiadomość powitalna: {0}</value>
   </data>
   <data name="administration_greetmsg_enable" xml:space="preserve">
-    <value></value>
+    <value>Włącz wiadomości powitalne wpisując {0}</value>
   </data>
   <data name="administration_greetmsg_new" xml:space="preserve">
-    <value></value>
+    <value>Nowa wiadomość powitalna ustawiona.</value>
   </data>
   <data name="administration_greet_off" xml:space="preserve">
-    <value></value>
+    <value>Ogłoszenie powitalne wyłączone.</value>
   </data>
   <data name="administration_greet_on" xml:space="preserve">
-    <value></value>
+    <value>Ogłoszenie powitalne włączone na tym kanale.</value>
   </data>
   <data name="administration_hierarchy" xml:space="preserve">
     <value>Nie możesz użyć tej komendy na użytkowniku z rolą wyższą lub równą twojej.</value>
@@ -498,7 +498,7 @@ Powód: {1}</value>
     <value>{0} opuścił {1}</value>
   </data>
   <data name="administration_left_server" xml:space="preserve">
-    <value></value>
+    <value>Opuścił serwer {0}</value>
   </data>
   <data name="administration_log" xml:space="preserve">
     <value></value>
@@ -525,7 +525,7 @@ Powód: {1}</value>
     <value></value>
   </data>
   <data name="administration_message_from_bo" xml:space="preserve">
-    <value></value>
+    <value>Wiadomość od {0} `[Właściciel bota]`:</value>
   </data>
   <data name="administration_message_sent" xml:space="preserve">
     <value>Wiadomość została wysłana.</value>
@@ -534,10 +534,10 @@ Powód: {1}</value>
     <value>{0} przeniesiono z {1} do {2}</value>
   </data>
   <data name="administration_msg_del" xml:space="preserve">
-    <value></value>
+    <value>Wiadomość usunięta w #{0}</value>
   </data>
   <data name="administration_msg_update" xml:space="preserve">
-    <value></value>
+    <value>Wiadomość zaktualizowana w #{0}</value>
   </data>
   <data name="administration_muted_pl" xml:space="preserve">
     <value>Wyciszony</value>
@@ -548,7 +548,7 @@ Powód: {1}</value>
     <comment>singular &quot;User muted.&quot;</comment>
   </data>
   <data name="administration_mute_error" xml:space="preserve">
-    <value></value>
+    <value>Nie mam wystarczających uprawnień aby to zrobić.</value>
   </data>
   <data name="administration_mute_role_set" xml:space="preserve">
     <value></value>
@@ -576,7 +576,7 @@ Powód: {1}</value>
     <value>Serwer nie został znaleziony.</value>
   </data>
   <data name="administration_no_shard_id" xml:space="preserve">
-    <value></value>
+    <value>Żaden shard z tym ID nie został znaleziony.</value>
   </data>
   <data name="administration_old_msg" xml:space="preserve">
     <value>Stara wiadomość</value>
@@ -600,13 +600,13 @@ Powód: {1}</value>
     <value></value>
   </data>
   <data name="administration_prot_disable" xml:space="preserve">
-    <value></value>
+    <value>{0} został **wyłączony** na tym serwerze.</value>
   </data>
   <data name="administration_prot_enable" xml:space="preserve">
-    <value></value>
+    <value>{0} włączone</value>
   </data>
   <data name="administration_prot_error" xml:space="preserve">
-    <value></value>
+    <value>Wystąpił błąd. Potrzebuję uprawnień zarządzania rolami</value>
   </data>
   <data name="administration_prot_none" xml:space="preserve">
     <value></value>
@@ -615,7 +615,7 @@ Powód: {1}</value>
     <value></value>
   </data>
   <data name="administration_raid_stats" xml:space="preserve">
-    <value></value>
+    <value>Jeśli {0} lub więcej użytkowników dołączy w ciągu {1} sekund, {2} ich.</value>
   </data>
   <data name="administration_raid_time" xml:space="preserve">
     <value>Czas musi być pomiędzy {0} a {1} sekundą.</value>
@@ -633,13 +633,13 @@ Powód: {1}</value>
     <value>Ta rola nie istnieje.</value>
   </data>
   <data name="administration_rc_params" xml:space="preserve">
-    <value></value>
+    <value>Wyszczególnione parametry są błędne</value>
   </data>
   <data name="administration_rc_perms" xml:space="preserve">
-    <value></value>
+    <value>Wystąpił błąd w związku z błędnym kolorem albo niewystarczającymi uprawnieniami.</value>
   </data>
   <data name="administration_remrole" xml:space="preserve">
-    <value></value>
+    <value>Z powodzeniem usunięto rolę {0} użytkownikowi {1}</value>
   </data>
   <data name="administration_remrole_err" xml:space="preserve">
     <value>Wystąpił błąd przy usunięciu roli. Masz niewystarczające uprawnienia.</value>
@@ -663,10 +663,10 @@ Powód: {1}</value>
     <value></value>
   </data>
   <data name="administration_role_in_list" xml:space="preserve">
-    <value></value>
+    <value>Rola {0} jest już na liście.</value>
   </data>
   <data name="administration_ropl_added" xml:space="preserve">
-    <value></value>
+    <value>Dodano.</value>
   </data>
   <data name="administration_ropl_disabled" xml:space="preserve">
     <value></value>
@@ -687,7 +687,7 @@ Powód: {1}</value>
     <value></value>
   </data>
   <data name="administration_self_assign_excl" xml:space="preserve">
-    <value></value>
+    <value>Role, które można nadawać sobie samemu, są teraz ekskluzywne.</value>
   </data>
   <data name="administration_self_assign_list" xml:space="preserve">
     <value>Istnieje {0} ról, które możesz sam sobie nadać.</value>
@@ -699,7 +699,7 @@ Powód: {1}</value>
     <value>Nie posiadasz roli {0}</value>
   </data>
   <data name="administration_self_assign_no_excl" xml:space="preserve">
-    <value></value>
+    <value>Role, które można nadawać sobie samemu, nie są już ekskluzywne.</value>
   </data>
   <data name="administration_self_assign_perms" xml:space="preserve">
     <value>Nie jestem w stanie nadać ci tej roli. `Nie mogę nadawać ról wyższych niż moja.`</value>
@@ -708,7 +708,7 @@ Powód: {1}</value>
     <value>Rola {0} została usunięta z listy ról, które użytkownik może sobie nadać sam.</value>
   </data>
   <data name="administration_self_assign_remove" xml:space="preserve">
-    <value></value>
+    <value>Nie masz więcej roli {0}</value>
   </data>
   <data name="administration_self_assign_success" xml:space="preserve">
     <value>Masz teraz rolę {0}.</value>
@@ -726,34 +726,34 @@ Powód: {1}</value>
     <value>Nowa nazwa kanału została ustawiona!</value>
   </data>
   <data name="administration_set_game" xml:space="preserve">
-    <value></value>
+    <value>Nowa gra ustawiona!</value>
   </data>
   <data name="administration_set_stream" xml:space="preserve">
-    <value></value>
+    <value>Nowy stream ustawiony!</value>
   </data>
   <data name="administration_set_topic" xml:space="preserve">
-    <value></value>
+    <value>Nowy temat kanału ustawiony.</value>
   </data>
   <data name="administration_shard_reconnected" xml:space="preserve">
-    <value></value>
+    <value>Shard {0} połączony ponownie.</value>
   </data>
   <data name="administration_shard_reconnecting" xml:space="preserve">
-    <value></value>
+    <value>Shard {0} łączy się ponownie.</value>
   </data>
   <data name="administration_shutting_down" xml:space="preserve">
-    <value></value>
+    <value>Wyłączanie.</value>
   </data>
   <data name="administration_slowmode_desc" xml:space="preserve">
     <value>Użytkownik nie może wysłać więcej niż {1} wiadomości na {1} sekund.</value>
   </data>
   <data name="administration_slowmode_disabled" xml:space="preserve">
-    <value></value>
+    <value>Slow mode wyłączony.</value>
   </data>
   <data name="administration_slowmode_init" xml:space="preserve">
-    <value></value>
+    <value>Slow mode włączony</value>
   </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
-    <value></value>
+    <value>lekko zbanowany (wyrzucony)</value>
     <comment>PLURAL</comment>
   </data>
   <data name="administration_spam_ignore" xml:space="preserve">
@@ -763,19 +763,20 @@ Powód: {1}</value>
     <value>{0} nie będzie więcej ignorował tego kanału.</value>
   </data>
   <data name="administration_spam_stats" xml:space="preserve">
-    <value></value>
+    <value>Jeśli użytkownik napisze {0} takich samych wiadomości pod rząd, {0} go.
+ __IgnorowaneKanały__: {2}</value>
   </data>
   <data name="administration_text_chan_created" xml:space="preserve">
-    <value></value>
+    <value>Kanał tekstowy został stworzony.</value>
   </data>
   <data name="administration_text_chan_destroyed" xml:space="preserve">
-    <value></value>
+    <value>Kanał tekstowy został usunięty.</value>
   </data>
   <data name="administration_undeafen" xml:space="preserve">
     <value></value>
   </data>
   <data name="administration_unmuted_sn" xml:space="preserve">
-    <value></value>
+    <value>Odciszony</value>
     <comment>singular</comment>
   </data>
   <data name="administration_username" xml:space="preserve">
@@ -793,31 +794,31 @@ Powód: {1}</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_chat_mute" xml:space="preserve">
-    <value></value>
+    <value>{0} został **wyciszony** z chatowania. </value>
   </data>
   <data name="administration_user_chat_unmute" xml:space="preserve">
-    <value></value>
+    <value>{0} został **odciszony** z chatowania. </value>
   </data>
   <data name="administration_user_joined" xml:space="preserve">
-    <value></value>
+    <value>Użytkownik dołączył</value>
   </data>
   <data name="administration_user_left" xml:space="preserve">
-    <value></value>
+    <value>Użytkownik wyszedł</value>
   </data>
   <data name="administration_user_muted" xml:space="preserve">
-    <value></value>
+    <value>{0} został **wyciszony** z chatu głosowego i pisanego.</value>
   </data>
   <data name="administration_user_role_add" xml:space="preserve">
-    <value></value>
+    <value>Rola użytkownika dodana</value>
   </data>
   <data name="administration_user_role_rem" xml:space="preserve">
-    <value></value>
+    <value>Rola użytkownika usunięta</value>
   </data>
   <data name="administration_user_status_change" xml:space="preserve">
     <value>{0} jest teraz {1}</value>
   </data>
   <data name="administration_user_unmuted" xml:space="preserve">
-    <value></value>
+    <value>{0} został **odciszony** z chatu głosowego i pisanego.</value>
   </data>
   <data name="administration_user_vjoined" xml:space="preserve">
     <value>{0} dołączył do kanału {1}.</value>
@@ -829,10 +830,10 @@ Powód: {1}</value>
     <value>{0} przeniesiony z kanału {1} na {2}</value>
   </data>
   <data name="administration_user_voice_mute" xml:space="preserve">
-    <value></value>
+    <value>{0} został **wyciszony z chatu głosowego**.</value>
   </data>
   <data name="administration_user_voice_unmute" xml:space="preserve">
-    <value></value>
+    <value>{0} został **odciszony z chatu głosowego**.</value>
   </data>
   <data name="administration_voice_chan_created" xml:space="preserve">
     <value>Kanał głosowy został stworzony</value>
@@ -843,28 +844,28 @@ Powód: {1}</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_vt_disabled" xml:space="preserve">
-    <value></value>
+    <value>Wyłączono funkcję głos + tekst.</value>
   </data>
   <data name="administration_vt_enabled" xml:space="preserve">
-    <value></value>
+    <value>Włączono funkcję głos + tekst.</value>
   </data>
   <data name="administration_vt_exit" xml:space="preserve">
-    <value></value>
+    <value>Nie mam uprawnień: **zarządzanie rolami** i **zarządzanie kanałami**, więc nie mogę uruchomić funkcji `głos+tekst` na serwerze {0}.</value>
   </data>
   <data name="administration_vt_no_admin" xml:space="preserve">
-    <value></value>
+    <value>Włączasz/Wyłączasz tą funkcję i **Nie mam uprawnień ADMINISTRATORA**. Może to spowodować problemy i będziesz musiał czyścić kanały tekstowe sam.</value>
   </data>
   <data name="administration_vt_perms" xml:space="preserve">
     <value></value>
   </data>
   <data name="administration_xmuted_text" xml:space="preserve">
-    <value></value>
+    <value>Użytkownik {0} z tekstowego czatu</value>
   </data>
   <data name="administration_xmuted_text_and_voice" xml:space="preserve">
-    <value></value>
+    <value>Użytkownik {0} z tekstowego i głosowego czatu</value>
   </data>
   <data name="administration_xmuted_voice" xml:space="preserve">
-    <value>Użytkownik {0} z kanału głosowego</value>
+    <value>Użytkownik {0} z czatu głosowego</value>
   </data>
   <data name="administration_sbdm" xml:space="preserve">
     <value>Zostałeś tymczasowo zablokowany na serwerze {0}
@@ -934,7 +935,7 @@ Powód: {1}</value>
     <value>Ranking</value>
   </data>
   <data name="gambling_mass_award" xml:space="preserve">
-    <value></value>
+    <value>Nagrodził {0} dla {1} użytkowników z roli {2}</value>
   </data>
   <data name="gambling_max_bet_limit" xml:space="preserve">
     <value>Nie możesz założyć się o więcej niż {0}</value>
@@ -1229,7 +1230,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value></value>
   </data>
   <data name="games_rps_win" xml:space="preserve">
-    <value></value>
+    <value>{0} wygrał! {1} pokonuje {2}</value>
   </data>
   <data name="games_submissions_closed" xml:space="preserve">
     <value></value>
@@ -1352,7 +1353,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value>{0} kontra {1}</value>
   </data>
   <data name="music_attempting_to_queue" xml:space="preserve">
-    <value></value>
+    <value>Próba dołączenia {0} piosenek do kolejki...</value>
   </data>
   <data name="music_autoplay_disabled" xml:space="preserve">
     <value>Automatyczne odtwarzanie wyłączone.</value>
@@ -1367,16 +1368,16 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value></value>
   </data>
   <data name="music_fairplay" xml:space="preserve">
-    <value></value>
+    <value>fairplay</value>
   </data>
   <data name="music_finished_song" xml:space="preserve">
     <value>Zakończono odtwarzanie piosenki</value>
   </data>
   <data name="music_fp_disabled" xml:space="preserve">
-    <value></value>
+    <value>Fair play wyłączony.</value>
   </data>
   <data name="music_fp_enabled" xml:space="preserve">
-    <value></value>
+    <value>Fair play włączony.</value>
   </data>
   <data name="music_from_position" xml:space="preserve">
     <value></value>
@@ -1464,7 +1465,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <comment>context: &quot;removed song #5&quot;</comment>
   </data>
   <data name="music_repeating_cur_song" xml:space="preserve">
-    <value></value>
+    <value>Powtarzanie aktualnego utworu</value>
   </data>
   <data name="music_repeating_playlist" xml:space="preserve">
     <value>Powtarzenie playlisty</value>
@@ -1497,7 +1498,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value>Utwór przeniesiony</value>
   </data>
   <data name="music_time_format" xml:space="preserve">
-    <value></value>
+    <value>{0}g {1}m {2}s</value>
   </data>
   <data name="music_to_position" xml:space="preserve">
     <value></value>
@@ -1625,7 +1626,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value></value>
   </data>
   <data name="permissions_sec" xml:space="preserve">
-    <value></value>
+    <value>sek.</value>
     <comment>Short of seconds.</comment>
   </data>
   <data name="permissions_sx_disable" xml:space="preserve">
@@ -1755,7 +1756,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value>Wysokość/szerokość</value>
   </data>
   <data name="searches_height_weight_val" xml:space="preserve">
-    <value></value>
+    <value>{0}m/{1}kg</value>
   </data>
   <data name="searches_humidity" xml:space="preserve">
     <value>Wilgotność</value>
@@ -1798,7 +1799,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value></value>
   </data>
   <data name="searches_no_channel_found" xml:space="preserve">
-    <value></value>
+    <value>Nie znaleziono kanału.</value>
   </data>
   <data name="searches_no_results" xml:space="preserve">
     <value>Brak rezultatów.</value>
@@ -2204,6 +2205,37 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
   </data>
   <data name="gambling_animal_race_already_in" xml:space="preserve">
     <value>Już dołączyłeś do tego wyścigu!</value>
+  </data>
+  <data name="games_current_poll_results" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_no_votes_cast" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_poll_already_running" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_poll_created" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_poll_result" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_poll_voted" xml:space="preserve">
+    <value></value>
+    <comment>Kwoth voted.</comment>
+  </data>
+  <data name="games_poll_vote_private" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_poll_vote_public" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_thanks_for_voting" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_x_votes_cast" xml:space="preserve">
+    <value></value>
   </data>
 
 </root>
