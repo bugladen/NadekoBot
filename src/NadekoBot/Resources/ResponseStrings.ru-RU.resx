@@ -140,6 +140,7 @@
   </data>
   <data name="clashofclans_claim_expired" xml:space="preserve">
     <value>Время действия запроса от @{0} на войну против {1} истёкло.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_enemy" xml:space="preserve">
     <value>Враг</value>
@@ -152,9 +153,11 @@
   </data>
   <data name="clashofclans_invalid_size" xml:space="preserve">
     <value>Неправильный размер войны.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_list_active_wars" xml:space="preserve">
     <value>Список активных войн</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_not_claimed" xml:space="preserve">
     <value>не захвачена</value>
@@ -167,6 +170,7 @@
   </data>
   <data name="clashofclans_no_active_wars" xml:space="preserve">
     <value>Нет активных войн.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_size" xml:space="preserve">
     <value>Размер</value>
@@ -206,6 +210,7 @@
   </data>
   <data name="customreactions_no_found" xml:space="preserve">
     <value>Не найдено настраиваемых реакций.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="customreactions_no_found_id" xml:space="preserve">
     <value>Не найдено настраиваемых реакций с таким номером.</value>
@@ -467,10 +472,12 @@
   </data>
   <data name="administration_kicked_user" xml:space="preserve">
     <value>Пользователь выгнан</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_lang_list" xml:space="preserve">
     <value>Список языков
 {0}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_lang_set" xml:space="preserve">
     <value>Язык вашего сервера теперь {0} - {1}</value>
@@ -528,9 +535,11 @@
   </data>
   <data name="administration_msg_del" xml:space="preserve">
     <value>Сообщение удалено в #{0}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_msg_update" xml:space="preserve">
     <value>Сообщение изменено в #{0}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_muted_pl" xml:space="preserve">
     <value>Заглушены</value>
@@ -551,15 +560,19 @@
   </data>
   <data name="administration_new_msg" xml:space="preserve">
     <value>Новое сообщение</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_new_nick" xml:space="preserve">
     <value>Новое имя</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_new_topic" xml:space="preserve">
     <value>Новый заголовок</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_nick_change" xml:space="preserve">
     <value>Имя изменено</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_no_server" xml:space="preserve">
     <value>Сервер не найден</value>
@@ -569,12 +582,15 @@
   </data>
   <data name="administration_old_msg" xml:space="preserve">
     <value>Старое сообщение</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_old_nick" xml:space="preserve">
     <value>Старое имя</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_old_topic" xml:space="preserve">
     <value>Старый заголовок</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_perms" xml:space="preserve">
     <value>Ошибка. Скорее всего мне не хватает прав.</value>
@@ -584,6 +600,7 @@
   </data>
   <data name="administration_prot_active" xml:space="preserve">
     <value>Активные защиты от рейдов</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_prot_disable" xml:space="preserve">
     <value>{0} был **отключён** на этом сервере.</value>
@@ -596,6 +613,7 @@
   </data>
   <data name="administration_prot_none" xml:space="preserve">
     <value>Нет защит от рейдов</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_raid_cnt" xml:space="preserve">
     <value>Порог пользователей должен лежать между {0} и {1}.</value>
@@ -754,9 +772,11 @@
   </data>
   <data name="administration_text_chan_created" xml:space="preserve">
     <value>Создан текстовый канал</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_text_chan_destroyed" xml:space="preserve">
     <value>Уничтожен текстовый канал.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_undeafen" xml:space="preserve">
     <value>Отключено заглушение.</value>
@@ -771,12 +791,14 @@ Fuzzy</comment>
   </data>
   <data name="administration_username_changed" xml:space="preserve">
     <value>Имя изменено</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_users" xml:space="preserve">
     <value>Пользователи</value>
   </data>
   <data name="administration_user_banned" xml:space="preserve">
     <value>Пользователь заблокирован</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_chat_mute" xml:space="preserve">
     <value>{0} получил **запрет** на разговор в текстовых каналах.</value>
@@ -786,18 +808,22 @@ Fuzzy</comment>
   </data>
   <data name="administration_user_joined" xml:space="preserve">
     <value>Пользователь присоединился</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_left" xml:space="preserve">
     <value>Пользователь вышел</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_muted" xml:space="preserve">
     <value>{0} получил **запрет** на разговор в текстовых и голосовых каналах</value>
   </data>
   <data name="administration_user_role_add" xml:space="preserve">
     <value>Добавлена роль пользователя</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_role_rem" xml:space="preserve">
     <value>Удалена роль пользователя</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_status_change" xml:space="preserve">
     <value>{0} теперь {1}</value>
@@ -822,9 +848,11 @@ Fuzzy</comment>
   </data>
   <data name="administration_voice_chan_created" xml:space="preserve">
     <value>Голосовой канал создан</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_voice_chan_destroyed" xml:space="preserve">
     <value>Голосовой канал удалён</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_vt_disabled" xml:space="preserve">
     <value>Отключены голосовые + текстовые функции.</value>
@@ -855,6 +883,7 @@ Fuzzy</comment>
   </data>
   <data name="administration_user_unbanned" xml:space="preserve">
     <value>Пользователь разбанен.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_migration_done" xml:space="preserve">
     <value>Перемещение закончено!</value>
@@ -864,9 +893,11 @@ Fuzzy</comment>
   </data>
   <data name="administration_presence_updates" xml:space="preserve">
     <value>История присутвия пользователей</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_sb_user" xml:space="preserve">
     <value>Пользователя выгнали</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_awarded" xml:space="preserve">
     <value>наградил {0} пользователю {1}</value>
@@ -909,6 +940,7 @@ Fuzzy</comment>
   </data>
   <data name="gambling_heads" xml:space="preserve">
     <value>Орёл</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_leaderboard" xml:space="preserve">
     <value>Таблица рекордов</value>
@@ -930,6 +962,7 @@ Fuzzy</comment>
   </data>
   <data name="gambling_raffled_user" xml:space="preserve">
     <value>Победитель лотереи</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_roll" xml:space="preserve">
     <value>Вам выпало {0}.</value>
@@ -963,6 +996,7 @@ Fuzzy</comment>
   </data>
   <data name="gambling_tails" xml:space="preserve">
     <value>Решка</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_take" xml:space="preserve">
     <value>успешно забрал {0} у {1}</value>
@@ -975,6 +1009,7 @@ Fuzzy</comment>
   </data>
   <data name="help_bot_owner_only" xml:space="preserve">
     <value>Только для владельца бота</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="help_channel_permission" xml:space="preserve">
     <value>Требуется разрешение канала {0}.</value>
@@ -984,9 +1019,11 @@ Fuzzy</comment>
   </data>
   <data name="help_cmd_and_alias" xml:space="preserve">
     <value>Команды и альтернативные имена команд</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="help_commandlist_regen" xml:space="preserve">
     <value>Список команд создан.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="help_commands_instr" xml:space="preserve">
     <value>Напишите &apos;{0}h ИмяКоманды&apos;, чтобы получить справку для этой команды. Например, &apos;{0}h &gt;8ball&apos;</value>
@@ -1008,12 +1045,15 @@ Paypal &lt;{1}&gt;
   <data name="help_guide" xml:space="preserve">
     <value>**Список команд**: &lt;{0}&gt;
 **Руководства по установке и документы можно найти здесь**: &lt;{1}&gt;</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="help_list_of_commands" xml:space="preserve">
     <value>Список команд</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="help_list_of_modules" xml:space="preserve">
     <value>Список модулей</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="help_modules_footer" xml:space="preserve">
     <value>Напишите &apos;{0}cmds ИмяМодуля&apos;, чтобы получить список команд в этом модуле. Например, &apos;{0}cmds games&apos;</value>
@@ -1026,6 +1066,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="help_table_of_contents" xml:space="preserve">
     <value>Оглавление</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="help_usage" xml:space="preserve">
     <value>Использование</value>
@@ -1039,6 +1080,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="gambling_animal_race" xml:space="preserve">
     <value>Гонка зверей</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_animal_race_failed" xml:space="preserve">
     <value>Не удалось начать гонку, так как не хватает участников.</value>
@@ -1089,6 +1131,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="gambling_changes_of_heart" xml:space="preserve">
     <value>Смены чувств</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_claimed_by" xml:space="preserve">
     <value>Является мужем</value>
@@ -1211,6 +1254,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="games_submissions_closed" xml:space="preserve">
     <value>Приём ответов закончен.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_animal_race_already_started" xml:space="preserve">
     <value>Гонка зверей уже идёт.</value>
@@ -1245,6 +1289,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="games_game_started" xml:space="preserve">
     <value>Игра началась</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="games_hangman_game_started" xml:space="preserve">
     <value>Игра в Виселицу началась</value>
@@ -1313,15 +1358,18 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="games_ttt_has_won" xml:space="preserve">
     <value>{0} выиграл!</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="games_ttt_matched_three" xml:space="preserve">
     <value>Выстроил 3 в ряд</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="games_ttt_no_moves" xml:space="preserve">
     <value>Ходов не осталось!</value>
   </data>
   <data name="games_ttt_time_expired" xml:space="preserve">
     <value>Время вышло!</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="games_ttt_users_move" xml:space="preserve">
     <value>Ход {0}</value>
@@ -1349,6 +1397,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="music_finished_song" xml:space="preserve">
     <value>Песня завершилась.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_fp_disabled" xml:space="preserve">
     <value>Отключено справедливое воспроизведение.</value>
@@ -1387,6 +1436,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="music_now_playing" xml:space="preserve">
     <value>Сейчас играет</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_no_player" xml:space="preserve">
     <value>Нет активного музыкального проигрывателя.</value>
@@ -1399,15 +1449,18 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="music_player_queue" xml:space="preserve">
     <value>Очередь воспроизведения - Страница {0}/{1}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_playing_song" xml:space="preserve">
     <value>Проигрывается песня</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_playlists" xml:space="preserve">
     <value>&apos;#{0}&apos; - **{1}** *{2}* ({3} песен)</value>
   </data>
   <data name="music_playlists_page" xml:space="preserve">
     <value>Страница {0} сохранённых плейлистов.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_playlist_deleted" xml:space="preserve">
     <value>Плейлист удалён.</value>
@@ -1423,6 +1476,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="music_playlist_saved" xml:space="preserve">
     <value>Плейлист сохранён.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_play_limit" xml:space="preserve">
     <value>Ограничение {0}c</value>
@@ -1432,6 +1486,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="music_queued_song" xml:space="preserve">
     <value>Песня добавлена в очередь воспроизведения.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_queue_cleared" xml:space="preserve">
     <value>Очередь воспроизведения музыки очищена.</value>
@@ -1445,12 +1500,15 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="music_repeating_cur_song" xml:space="preserve">
     <value>Повторяется текущая песня.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_repeating_playlist" xml:space="preserve">
     <value>Повторяется плейлист.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_repeating_track" xml:space="preserve">
     <value>Повторяется песня.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_repeating_track_stopped" xml:space="preserve">
     <value>Повтор текущей песни приостановлен.</value>
@@ -1472,9 +1530,11 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="music_songs_shuffled" xml:space="preserve">
     <value>Песни перемешаны.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_song_moved" xml:space="preserve">
     <value>Песня перемещена.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_time_format" xml:space="preserve">
     <value>{0}ч {1}м {2}с</value>
@@ -1493,18 +1553,22 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="permissions_acm_disable" xml:space="preserve">
     <value>Отключено использование ВСЕХ МОДУЛЕЙ в канале {0}.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_acm_enable" xml:space="preserve">
     <value>Включено использование ВСЕХ МОДУЛЕЙ в канале {0}.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_allowed" xml:space="preserve">
     <value>Разрешено</value>
   </data>
   <data name="permissions_arm_disable" xml:space="preserve">
     <value>Отключено использование ВСЕХ МОДУЛЕЙ для роли {0}.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_arm_enable" xml:space="preserve">
     <value>Включено использование ВСЕХ МОДУЛЕЙ для роли {0}.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_asm_disable" xml:space="preserve">
     <value>Отключено использование ВСЕХ МОДУЛЕЙ на этом сервере.</value>
@@ -1514,9 +1578,11 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="permissions_aum_disable" xml:space="preserve">
     <value>Отключено использование ВСЕХ МОДУЛЕЙ для пользователя {0}.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_aum_enable" xml:space="preserve">
     <value>Включено использование ВСЕХ МОДУЛЕЙ для пользователя {0}.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_blacklisted" xml:space="preserve">
     <value>Добавлено {0} в чёрный список c ID {1}</value>
@@ -1526,18 +1592,22 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="permissions_cmdcd_cleared" xml:space="preserve">
     <value>У команды {0} больше нет времени перезарядки и все существующие времена перезадки были сброшены.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_cmdcd_none" xml:space="preserve">
     <value>У команды не установлено время перезарядки.</value>
   </data>
   <data name="permissions_command_costs" xml:space="preserve">
     <value>Стоимость команды</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_cx_disable" xml:space="preserve">
     <value>Отключено использование {0} {1} в канале {2}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_cx_enable" xml:space="preserve">
     <value>Включено использование {0} {1} в канале {2}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_denied" xml:space="preserve">
     <value>Отказано</value>
@@ -1547,6 +1617,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="permissions_filter_word_list" xml:space="preserve">
     <value>Список фильтруемых слов</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_filter_word_remove" xml:space="preserve">
     <value>Слово {0} убрано из списка фильтруемых слов.</value>
@@ -1682,12 +1753,15 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="searches_compet_loses" xml:space="preserve">
     <value>Поражения в соревновательном режиме</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_compet_played" xml:space="preserve">
     <value>Матчи в соревновательном режиме</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_compet_rank" xml:space="preserve">
     <value>Соревновательный ранг</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_compet_wins" xml:space="preserve">
     <value>Победы в соревновательном режиме</value>
@@ -1742,6 +1816,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="searches_image_search_for" xml:space="preserve">
     <value>Поиск изображений:</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_imdb_fail" xml:space="preserve">
     <value>Не удалос найти этот фильм.</value>
@@ -1785,9 +1860,11 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="searches_on_hold" xml:space="preserve">
     <value>Ожидание</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_original_url" xml:space="preserve">
     <value>Оригинальный URL</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_osu_api_key" xml:space="preserve">
     <value>Требуется ключ osu! API.</value>
@@ -1815,16 +1892,19 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="searches_profile_link" xml:space="preserve">
     <value>Ссылка на профиль:</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_quality" xml:space="preserve">
     <value>Качество:</value>
   </data>
   <data name="searches_quick_playtime" xml:space="preserve">
     <value>Время игры в Быстрой Игре</value>
-    <comment>Is this supposed to be Overwatch Quick Play stats?</comment>
+    <comment>Is this supposed to be Overwatch Quick Play stats?
+Fuzzy</comment>
   </data>
   <data name="searches_quick_wins" xml:space="preserve">
     <value>Побед в Быстрой Игре</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_rating" xml:space="preserve">
     <value>Рейтинг:</value>
@@ -1834,12 +1914,14 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="searches_search_for" xml:space="preserve">
     <value>Искать:</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_shorten_fail" xml:space="preserve">
     <value>Не удалось укоротить эту ссылку.</value>
   </data>
   <data name="searches_short_url" xml:space="preserve">
     <value>Короткая ссылка</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_something_went_wrong" xml:space="preserve">
     <value>Что-то пошло не так.</value>
@@ -1852,6 +1934,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="searches_store_url" xml:space="preserve">
     <value>Url Магазина</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_streamer_offline" xml:space="preserve">
     <value>Стример {0} в оффлане.</value>
@@ -1921,6 +2004,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="searches_wind_speed" xml:space="preserve">
     <value>Скорость ветра.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_x_most_banned_champs" xml:space="preserve">
     <value>{0} наиболее часто забаненных чемпионов.</value>
@@ -1938,6 +2022,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="utility_activity_page" xml:space="preserve">
     <value>Страница списка активности #{0}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_activity_users_total" xml:space="preserve">
     <value>Всего {0} пользователей.</value>
@@ -1956,9 +2041,11 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="utility_channel_topic" xml:space="preserve">
     <value>Тема канала</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_commands_ran" xml:space="preserve">
     <value>Команд запущено</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_convert" xml:space="preserve">
     <value>{0} {1} равно {2} {3}</value>
@@ -1974,6 +2061,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="utility_created_at" xml:space="preserve">
     <value>Создано</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_csc_join" xml:space="preserve">
     <value>Присоедился к межсерверному каналу.</value>
@@ -1986,6 +2074,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="utility_custom_emojis" xml:space="preserve">
     <value>Серверные emoji</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_error" xml:space="preserve">
     <value>Ошибка</value>
@@ -2004,6 +2093,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="utility_inrole_not_allowed" xml:space="preserve">
     <value>Вам запрещено использовать эту комманду в отношении ролей с большим числом пользователей для предотвращения</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_invalid_value" xml:space="preserve">
     <value>Неправильное значение {0}.</value>
@@ -2014,17 +2104,20 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="utility_joined_server" xml:space="preserve">
     <value>Присоединился к серверу</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_listservers" xml:space="preserve">
     <value>Имя: {0}
 Участники: {1}
 IDВладельца: {2}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_listservers_none" xml:space="preserve">
     <value>На этой странице не найдено серверов.</value>
   </data>
   <data name="utility_list_of_repeaters" xml:space="preserve">
     <value>Список повторяемых сообщений</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_members" xml:space="preserve">
     <value>Участники</value>
@@ -2037,6 +2130,7 @@ IDВладельца: {2}</value>
   </data>
   <data name="utility_message_repeater" xml:space="preserve">
     <value>Повторяемое сообщения</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_name" xml:space="preserve">
     <value>Имя</value>
@@ -2096,6 +2190,7 @@ IDВладельца: {2}</value>
   </data>
   <data name="utility_registered_on" xml:space="preserve">
     <value>Зарегистрирован</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_remind" xml:space="preserve">
     <value>Я напомню, чтобы {0} сделал {2} &apos;{3:d.M.yyyy.} в {4:HH:mm}&apos;</value>
@@ -2111,6 +2206,7 @@ IDВладельца: {2}</value>
   </data>
   <data name="utility_repeaters_list" xml:space="preserve">
     <value>Список повторяемых сообщений</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_repeaters_none" xml:space="preserve">
     <value>На этом сервере нет повторяемых сообщений.</value>
@@ -2147,12 +2243,14 @@ IDВладельца: {2}</value>
   </data>
   <data name="utility_server_info" xml:space="preserve">
     <value>Информация о сервере</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_shard" xml:space="preserve">
     <value>Shard</value>
   </data>
   <data name="utility_shard_stats" xml:space="preserve">
     <value>Статискика Shard-а</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_shard_stats_txt" xml:space="preserve">
     <value>Shard **#{0}** находится в состоянии {1} с {2} серверами.</value>
@@ -2168,6 +2266,7 @@ IDВладельца: {2}</value>
   </data>
   <data name="utility_text_channels" xml:space="preserve">
     <value>Текстовые каналы</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_togtub_room_link" xml:space="preserve">
     <value>Ссылка на Вашу комнату:</value>
@@ -2184,6 +2283,41 @@ IDВладельца: {2}</value>
   </data>
   <data name="utility_voice_channels" xml:space="preserve">
     <value>Голосовые каналы</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="gambling_animal_race_already_in" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_current_poll_results" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_no_votes_cast" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_poll_already_running" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_poll_created" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_poll_result" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_poll_voted" xml:space="preserve">
+    <value></value>
+    <comment>Kwoth voted.</comment>
+  </data>
+  <data name="games_poll_vote_private" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_poll_vote_public" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_thanks_for_voting" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_x_votes_cast" xml:space="preserve">
+    <value></value>
   </data>
 
 </root>
