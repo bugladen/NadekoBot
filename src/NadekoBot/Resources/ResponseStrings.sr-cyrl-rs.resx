@@ -140,6 +140,7 @@
   </data>
   <data name="clashofclans_claim_expired" xml:space="preserve">
     <value>Захтев од @{0} за рат против {1} је истекао.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_enemy" xml:space="preserve">
     <value>Противник</value>
@@ -152,9 +153,11 @@
   </data>
   <data name="clashofclans_invalid_size" xml:space="preserve">
     <value>Величина рата није валидна.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_list_active_wars" xml:space="preserve">
     <value>Листа Ратова У Току</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_not_claimed" xml:space="preserve">
     <value>нема захтева</value>
@@ -167,6 +170,7 @@
   </data>
   <data name="clashofclans_no_active_wars" xml:space="preserve">
     <value>Нема ратова у току.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_size" xml:space="preserve">
     <value>Величина</value>
@@ -206,6 +210,7 @@
   </data>
   <data name="customreactions_no_found" xml:space="preserve">
     <value>Реакција по избору није нађена.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="customreactions_no_found_id" xml:space="preserve">
     <value>Није нађена реакција са тим идентификатором.</value>
@@ -468,10 +473,12 @@ Reason: {1}</value>
   </data>
   <data name="administration_kicked_user" xml:space="preserve">
     <value>User Kicked</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_lang_list" xml:space="preserve">
     <value>List Of Languages
 {0}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_lang_set" xml:space="preserve">
     <value>Your server&apos;s locale is now {0} - {1}</value>
@@ -531,9 +538,11 @@ Reason: {1}</value>
   </data>
   <data name="administration_msg_del" xml:space="preserve">
     <value>Message Deleted in #{0}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_msg_update" xml:space="preserve">
     <value>Message Updated in #{0}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_muted_pl" xml:space="preserve">
     <value>Muted</value>
@@ -554,15 +563,19 @@ Reason: {1}</value>
   </data>
   <data name="administration_new_msg" xml:space="preserve">
     <value>New Message</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_new_nick" xml:space="preserve">
     <value>New Nickname</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_new_topic" xml:space="preserve">
     <value>New Topic</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_nick_change" xml:space="preserve">
     <value>Nickname Changed</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_no_server" xml:space="preserve">
     <value>Can&apos;t find that server</value>
@@ -572,12 +585,15 @@ Reason: {1}</value>
   </data>
   <data name="administration_old_msg" xml:space="preserve">
     <value>Old Message</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_old_nick" xml:space="preserve">
     <value>Old Nickname</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_old_topic" xml:space="preserve">
     <value>Old Topic</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_perms" xml:space="preserve">
     <value>Error. Most likely I don&apos;t have sufficient permissions.</value>
@@ -587,6 +603,7 @@ Reason: {1}</value>
   </data>
   <data name="administration_prot_active" xml:space="preserve">
     <value>Active Protections</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_prot_disable" xml:space="preserve">
     <value>{0} has been **disabled** on this server.</value>
@@ -599,6 +616,7 @@ Reason: {1}</value>
   </data>
   <data name="administration_prot_none" xml:space="preserve">
     <value>No protections enabled.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_raid_cnt" xml:space="preserve">
     <value>User threshold must be between {0} and {1}.</value>
@@ -758,9 +776,11 @@ Reason: {1}</value>
   </data>
   <data name="administration_text_chan_created" xml:space="preserve">
     <value>Text Channel Destroyed </value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_text_chan_destroyed" xml:space="preserve">
     <value>Text Channel Destroyed </value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_undeafen" xml:space="preserve">
     <value>Undeafen successful.</value>
@@ -774,12 +794,14 @@ Reason: {1}</value>
   </data>
   <data name="administration_username_changed" xml:space="preserve">
     <value>Username Changed</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_users" xml:space="preserve">
     <value>Users</value>
   </data>
   <data name="administration_user_banned" xml:space="preserve">
     <value>User Banned</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_chat_mute" xml:space="preserve">
     <value>{0} has been **muted** from chatting.</value>
@@ -789,18 +811,22 @@ Reason: {1}</value>
   </data>
   <data name="administration_user_joined" xml:space="preserve">
     <value>User Joined</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_left" xml:space="preserve">
     <value>User Left</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_muted" xml:space="preserve">
     <value>{0} has been **muted** from text and voice chat.</value>
   </data>
   <data name="administration_user_role_add" xml:space="preserve">
     <value>User&apos;s Role Added</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_role_rem" xml:space="preserve">
     <value>User&apos;s  Role Removed</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_status_change" xml:space="preserve">
     <value>{0} is now {1}</value>
@@ -825,9 +851,11 @@ Reason: {1}</value>
   </data>
   <data name="administration_voice_chan_created" xml:space="preserve">
     <value>Voice Channel Destroyed</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_voice_chan_destroyed" xml:space="preserve">
     <value>Voice Channel Destroyed</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_vt_disabled" xml:space="preserve">
     <value>Disabled voice + text feature.</value>
@@ -859,6 +887,7 @@ Reason: {1}</value>
   </data>
   <data name="administration_user_unbanned" xml:space="preserve">
     <value>User Unbanned</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_migration_done" xml:space="preserve">
     <value>Migration done!</value>
@@ -868,9 +897,11 @@ Reason: {1}</value>
   </data>
   <data name="administration_presence_updates" xml:space="preserve">
     <value>Presence Updates</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_sb_user" xml:space="preserve">
     <value>User Soft-Banned</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_awarded" xml:space="preserve">
     <value>has awarded {0} to {1}</value>
@@ -913,6 +944,7 @@ Reason: {1}</value>
   </data>
   <data name="gambling_heads" xml:space="preserve">
     <value>Heads</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_leaderboard" xml:space="preserve">
     <value>Leaderboard</value>
@@ -934,6 +966,7 @@ Reason: {1}</value>
   </data>
   <data name="gambling_raffled_user" xml:space="preserve">
     <value>Raffled User</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_roll" xml:space="preserve">
     <value>You rolled {0}.</value>
@@ -968,6 +1001,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="gambling_tails" xml:space="preserve">
     <value>Tails</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_take" xml:space="preserve">
     <value>successfully took {0} from {1}</value>
@@ -980,6 +1014,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="help_bot_owner_only" xml:space="preserve">
     <value>Само Власник Бота</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="help_channel_permission" xml:space="preserve">
     <value>Захтева {0} дозволу на каналу.</value>
@@ -989,9 +1024,11 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="help_cmd_and_alias" xml:space="preserve">
     <value>Команде и псеудоними</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="help_commandlist_regen" xml:space="preserve">
     <value>Листа команди је обновљена.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="help_commands_instr" xml:space="preserve">
     <value>Укуцај `{0}h ИмеКоманде` да видиш помоћ за ту команду. нпр. `{0}h &gt;8ball`</value>
@@ -1013,12 +1050,15 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   <data name="help_guide" xml:space="preserve">
     <value>**List of Commands**: &lt;{0}&gt;
 **Hosting Guides and docs can be found here**: &lt;{1}&gt;</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="help_list_of_commands" xml:space="preserve">
     <value>Листа Команди</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="help_list_of_modules" xml:space="preserve">
     <value>Листа Модула</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="help_modules_footer" xml:space="preserve">
     <value>Укуцај `{0}cmds ИмеМодула` да видиш листу свих команди у том модулу. нпр `{0}cmds games`</value>
@@ -1031,6 +1071,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="help_table_of_contents" xml:space="preserve">
     <value>Садржај</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="help_usage" xml:space="preserve">
     <value>Упутство</value>
@@ -1044,6 +1085,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="gambling_animal_race" xml:space="preserve">
     <value>Трка Животиња</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_animal_race_failed" xml:space="preserve">
     <value>Започињање трке није успело јер нема довољно учесника.</value>
@@ -1095,9 +1137,11 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="gambling_changes_of_heart" xml:space="preserve">
     <value>Промена Осећања</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_claimed_by" xml:space="preserve">
     <value>Присвојена од стране</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_divorces" xml:space="preserve">
     <value>Развода</value>
@@ -1149,37 +1193,37 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value></value>
   </data>
   <data name="gambling_waifu_not_yours" xml:space="preserve">
-    <value></value>
+    <value>Та waifu није твоја.</value>
   </data>
   <data name="gambling_waifu_not_yourself" xml:space="preserve">
-    <value></value>
+    <value>Не можеш присвојити себе.</value>
   </data>
   <data name="gambling_waifu_recent_divorce" xml:space="preserve">
     <value></value>
   </data>
   <data name="gambling_nobody" xml:space="preserve">
-    <value></value>
+    <value>Нико</value>
   </data>
   <data name="gambling_waifu_divorced_notlike" xml:space="preserve">
     <value></value>
   </data>
   <data name="games_8ball" xml:space="preserve">
-    <value></value>
+    <value>8кугла</value>
   </data>
   <data name="games_acrophobia" xml:space="preserve">
-    <value></value>
+    <value>Акрофобија</value>
   </data>
   <data name="games_acro_ended_no_sub" xml:space="preserve">
-    <value></value>
+    <value>Игра је се завршила без уноса.</value>
   </data>
   <data name="games_acro_no_votes_cast" xml:space="preserve">
-    <value></value>
+    <value>Нема гласова. Игра је се завршила без победника.</value>
   </data>
   <data name="games_acro_nym_was" xml:space="preserve">
     <value></value>
   </data>
   <data name="games_acro_running" xml:space="preserve">
-    <value></value>
+    <value>Игра акрофобије већ постоји у овом каналу.</value>
   </data>
   <data name="games_acro_started" xml:space="preserve">
     <value></value>
@@ -1191,7 +1235,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value></value>
   </data>
   <data name="games_acro_vote" xml:space="preserve">
-    <value></value>
+    <value>Гласај тако што укуцаш број уноса.</value>
   </data>
   <data name="games_acro_vote_cast" xml:space="preserve">
     <value></value>
@@ -1203,7 +1247,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value></value>
   </data>
   <data name="games_question" xml:space="preserve">
-    <value></value>
+    <value>Питање</value>
   </data>
   <data name="games_rps_draw" xml:space="preserve">
     <value></value>
@@ -1212,28 +1256,28 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value></value>
   </data>
   <data name="games_submissions_closed" xml:space="preserve">
-    <value></value>
+    <value>Уноси затворени</value>
   </data>
   <data name="gambling_animal_race_already_started" xml:space="preserve">
-    <value></value>
+    <value>Трка животиња већ постоји.</value>
   </data>
   <data name="gambling_total_average" xml:space="preserve">
     <value></value>
   </data>
   <data name="games_category" xml:space="preserve">
-    <value></value>
+    <value>Категорија</value>
   </data>
   <data name="games_cleverbot_disabled" xml:space="preserve">
-    <value></value>
+    <value>Клевербот је угашен на овом серверу.</value>
   </data>
   <data name="games_cleverbot_enabled" xml:space="preserve">
-    <value></value>
+    <value>Клевербот је упаљен на овом серверу.</value>
   </data>
   <data name="games_curgen_disabled" xml:space="preserve">
-    <value></value>
+    <value>Генерација валуте је угашена на овом каналу.</value>
   </data>
   <data name="games_curgen_enabled" xml:space="preserve">
-    <value></value>
+    <value>Генерација валуте је упаљена на овом каналу.</value>
   </data>
   <data name="games_curgen_pl" xml:space="preserve">
     <value></value>
@@ -1243,19 +1287,19 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value></value>
   </data>
   <data name="games_failed_loading_question" xml:space="preserve">
-    <value></value>
+    <value>Није успело учитавање питања.</value>
   </data>
   <data name="games_game_started" xml:space="preserve">
-    <value></value>
+    <value>Игра је почела</value>
   </data>
   <data name="games_hangman_game_started" xml:space="preserve">
-    <value></value>
+    <value>Игра вешалица је почела</value>
   </data>
   <data name="games_hangman_running" xml:space="preserve">
-    <value></value>
+    <value>Игра вешалица већ постоји на овом каналу.</value>
   </data>
   <data name="games_hangman_start_errored" xml:space="preserve">
-    <value></value>
+    <value>Игра вешалица није успешно почела.</value>
   </data>
   <data name="games_hangman_types" xml:space="preserve">
     <value></value>
@@ -1268,7 +1312,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Немаш довољно {0}</value>
   </data>
   <data name="games_no_results" xml:space="preserve">
-    <value></value>
+    <value>Нема резултата.</value>
   </data>
   <data name="games_picked" xml:space="preserve">
     <value></value>
@@ -1279,22 +1323,22 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <comment>Kwoth planted 5*</comment>
   </data>
   <data name="games_trivia_already_running" xml:space="preserve">
-    <value></value>
+    <value>Игра тривије већ постоји на овом серверу.</value>
   </data>
   <data name="games_trivia_game" xml:space="preserve">
-    <value></value>
+    <value>Игра тривије</value>
   </data>
   <data name="games_trivia_guess" xml:space="preserve">
     <value></value>
   </data>
   <data name="games_trivia_none" xml:space="preserve">
-    <value></value>
+    <value>Нема тривије у току на овом серверу.</value>
   </data>
   <data name="games_trivia_points" xml:space="preserve">
     <value></value>
   </data>
   <data name="games_trivia_stopping" xml:space="preserve">
-    <value></value>
+    <value>Игра се зауставља после овог питања.</value>
   </data>
   <data name="games_trivia_times_up" xml:space="preserve">
     <value></value>
@@ -1303,28 +1347,28 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value></value>
   </data>
   <data name="games_ttt_against_yourself" xml:space="preserve">
-    <value></value>
+    <value>Не можеш играти против себе.</value>
   </data>
   <data name="games_ttt_already_running" xml:space="preserve">
-    <value></value>
+    <value>Игра икс-окс већ постоји на овом каналу.</value>
   </data>
   <data name="games_ttt_a_draw" xml:space="preserve">
-    <value></value>
+    <value>Нерешено!</value>
   </data>
   <data name="games_ttt_created" xml:space="preserve">
-    <value></value>
+    <value>је направио игру икс-окса.</value>
   </data>
   <data name="games_ttt_has_won" xml:space="preserve">
     <value></value>
   </data>
   <data name="games_ttt_matched_three" xml:space="preserve">
-    <value></value>
+    <value>Три спојене</value>
   </data>
   <data name="games_ttt_no_moves" xml:space="preserve">
-    <value></value>
+    <value>Нема више потеза!</value>
   </data>
   <data name="games_ttt_time_expired" xml:space="preserve">
-    <value></value>
+    <value>Време је истекло!</value>
   </data>
   <data name="games_ttt_users_move" xml:space="preserve">
     <value></value>
@@ -1336,73 +1380,73 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value></value>
   </data>
   <data name="music_autoplay_disabled" xml:space="preserve">
-    <value></value>
+    <value>Аутопуштање је угашено.</value>
   </data>
   <data name="music_autoplay_enabled" xml:space="preserve">
-    <value></value>
+    <value>Аутопуштање је упаљено.</value>
   </data>
   <data name="music_defvol_set" xml:space="preserve">
     <value></value>
   </data>
   <data name="music_dir_queue_complete" xml:space="preserve">
-    <value></value>
+    <value>Директоријум успешно стављен у плејлисту.</value>
   </data>
   <data name="music_fairplay" xml:space="preserve">
-    <value></value>
+    <value>ферплеј</value>
   </data>
   <data name="music_finished_song" xml:space="preserve">
-    <value></value>
+    <value>Песма је завршена</value>
   </data>
   <data name="music_fp_disabled" xml:space="preserve">
-    <value></value>
+    <value>Ферплеј је угашен.</value>
   </data>
   <data name="music_fp_enabled" xml:space="preserve">
-    <value></value>
+    <value>Ферплеј је упаљен.</value>
   </data>
   <data name="music_from_position" xml:space="preserve">
-    <value></value>
+    <value>Са позиције</value>
   </data>
   <data name="music_id" xml:space="preserve">
-    <value></value>
+    <value>ИД</value>
   </data>
   <data name="music_invalid_input" xml:space="preserve">
-    <value></value>
+    <value>Нисправан унос.</value>
   </data>
   <data name="music_max_playtime_none" xml:space="preserve">
-    <value></value>
+    <value>Максимални плејтајм више нема лимит.</value>
   </data>
   <data name="music_max_playtime_set" xml:space="preserve">
     <value></value>
   </data>
   <data name="music_max_queue_unlimited" xml:space="preserve">
-    <value></value>
+    <value>Максимална величина реда је неограничена.</value>
   </data>
   <data name="music_max_queue_x" xml:space="preserve">
     <value></value>
   </data>
   <data name="music_must_be_in_voice" xml:space="preserve">
-    <value></value>
+    <value>Требаш бити у говорном каналу на овом серверу.</value>
   </data>
   <data name="music_name" xml:space="preserve">
-    <value></value>
+    <value>Име</value>
   </data>
   <data name="music_now_playing" xml:space="preserve">
-    <value></value>
+    <value>Сада се пушта</value>
   </data>
   <data name="music_no_player" xml:space="preserve">
-    <value></value>
+    <value>Нема активног музичког плејера.</value>
   </data>
   <data name="music_no_search_results" xml:space="preserve">
-    <value></value>
+    <value>Нема резултата претраге.</value>
   </data>
   <data name="music_paused" xml:space="preserve">
-    <value></value>
+    <value>Музика је паузирана.</value>
   </data>
   <data name="music_player_queue" xml:space="preserve">
     <value></value>
   </data>
   <data name="music_playing_song" xml:space="preserve">
-    <value></value>
+    <value>Пушта се песма</value>
   </data>
   <data name="music_playlists" xml:space="preserve">
     <value></value>
@@ -1411,28 +1455,28 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value></value>
   </data>
   <data name="music_playlist_deleted" xml:space="preserve">
-    <value></value>
+    <value>Плејлиста обрисана.</value>
   </data>
   <data name="music_playlist_delete_fail" xml:space="preserve">
-    <value></value>
+    <value>Није успело брисање те плејлисте. Или не постоји, или ниси ти ниси њен аутор.</value>
   </data>
   <data name="music_playlist_id_not_found" xml:space="preserve">
-    <value></value>
+    <value>Плејлиста са тим ИДем не постоји.</value>
   </data>
   <data name="music_playlist_queue_complete" xml:space="preserve">
-    <value></value>
+    <value>Успешно учитавање плејлисте.</value>
   </data>
   <data name="music_playlist_saved" xml:space="preserve">
-    <value></value>
+    <value>Плејлиста је сачувана.</value>
   </data>
   <data name="music_play_limit" xml:space="preserve">
     <value></value>
   </data>
   <data name="music_queue" xml:space="preserve">
-    <value></value>
+    <value>Ред</value>
   </data>
   <data name="music_queued_song" xml:space="preserve">
-    <value></value>
+    <value>Песма је учитана</value>
   </data>
   <data name="music_queue_cleared" xml:space="preserve">
     <value></value>
@@ -1986,6 +2030,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="utility_custom_emojis" xml:space="preserve">
     <value>Емотикони по Мери</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_error" xml:space="preserve">
     <value>Грешка</value>
@@ -2004,6 +2049,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="utility_inrole_not_allowed" xml:space="preserve">
     <value>није ти дозвољено да користиш ову команду на ролама са пуно корисника да би се спречила злоупотреба.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_invalid_value" xml:space="preserve">
     <value>Нетачна вредност {0}.</value>
@@ -2014,17 +2060,20 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="utility_joined_server" xml:space="preserve">
     <value>Ушао на сервер</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_listservers" xml:space="preserve">
     <value>ИД: {0}
 Чланова; {1}
 Ид Власника; {2}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_listservers_none" xml:space="preserve">
     <value>Нема сервера на овој страници.</value>
   </data>
   <data name="utility_list_of_repeaters" xml:space="preserve">
     <value>Листа Понављача</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_members" xml:space="preserve">
     <value>Чланова</value>
@@ -2037,6 +2086,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="utility_message_repeater" xml:space="preserve">
     <value>Понављач Порука</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_name" xml:space="preserve">
     <value>Име</value>
@@ -2096,6 +2146,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="utility_registered_on" xml:space="preserve">
     <value>Регистрован</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_remind" xml:space="preserve">
     <value></value>
@@ -2111,6 +2162,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="utility_repeaters_list" xml:space="preserve">
     <value>Листа понављача</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_repeaters_none" xml:space="preserve">
     <value>Нема понављача на овом серверу.</value>
@@ -2147,12 +2199,14 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="utility_server_info" xml:space="preserve">
     <value>Инфо Сервера</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_shard" xml:space="preserve">
     <value>Шард</value>
   </data>
   <data name="utility_shard_stats" xml:space="preserve">
     <value>Статови Шардова</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_shard_stats_txt" xml:space="preserve">
     <value></value>
@@ -2168,6 +2222,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="utility_text_channels" xml:space="preserve">
     <value>Текст Канали</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_togtub_room_link" xml:space="preserve">
     <value>Ево га твој линк ка соби:</value>
@@ -2184,6 +2239,41 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="utility_voice_channels" xml:space="preserve">
     <value>Говорни канал</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="gambling_animal_race_already_in" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_current_poll_results" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_no_votes_cast" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_poll_already_running" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_poll_created" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_poll_result" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_poll_voted" xml:space="preserve">
+    <value></value>
+    <comment>Kwoth voted.</comment>
+  </data>
+  <data name="games_poll_vote_private" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_poll_vote_public" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_thanks_for_voting" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_x_votes_cast" xml:space="preserve">
+    <value></value>
   </data>
 
 </root>
