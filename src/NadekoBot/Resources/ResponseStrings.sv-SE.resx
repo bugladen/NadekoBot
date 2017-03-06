@@ -780,11 +780,11 @@ Anledning: {1}</value>
 __IgnoreradeKannaler_: {2}</value>
   </data>
   <data name="administration_text_chan_created" xml:space="preserve">
-    <value>Text kanal skapad</value>
+    <value>Text kanal skapad.</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_text_chan_destroyed" xml:space="preserve">
-    <value>Text kanal förstörd␣</value>
+    <value>Text kanal förstörd.</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_undeafen" xml:space="preserve">
@@ -1815,7 +1815,7 @@ Fuzzy</comment>
     <value>Fuktighet</value>
   </data>
   <data name="searches_image_search_for" xml:space="preserve">
-    <value>Bild Sökning För:</value>
+    <value>Bild sökning för:</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="searches_imdb_fail" xml:space="preserve">
@@ -2270,6 +2270,38 @@ Medlemmar: {1}
   </data>
   <data name="gambling_animal_race_already_in" xml:space="preserve">
     <value>Du har redan gått med detta lopp!</value>
+  </data>
+  <data name="games_current_poll_results" xml:space="preserve">
+    <value>Nuvarande röstningsresultat</value>
+  </data>
+  <data name="games_no_votes_cast" xml:space="preserve">
+    <value>Inga röster gjorda.</value>
+  </data>
+  <data name="games_poll_already_running" xml:space="preserve">
+    <value>Rösten är redan igång på denna server.</value>
+  </data>
+  <data name="games_poll_created" xml:space="preserve">
+    <value>📃 {0} har skapat en röst som kräver din uppmärksamhet:</value>
+  </data>
+  <data name="games_poll_result" xml:space="preserve">
+    <value>`{0}.` {1} med {2} röster.</value>
+  </data>
+  <data name="games_poll_voted" xml:space="preserve">
+    <value>{0} röstade.</value>
+    <comment>Kwoth voted.</comment>
+  </data>
+  <data name="games_poll_vote_private" xml:space="preserve">
+    <value>Privat Meddela mig det nummer som stämmer överens med svaret.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="games_poll_vote_public" xml:space="preserve">
+    <value>Skicka ett Meddelande här med det nummer som stämmer överens med svaret.</value>
+  </data>
+  <data name="games_thanks_for_voting" xml:space="preserve">
+    <value>Tack för att du röstade, {0}</value>
+  </data>
+  <data name="games_x_votes_cast" xml:space="preserve">
+    <value>{0} antal röster gjorda.</value>
   </data>
 
 </root>
