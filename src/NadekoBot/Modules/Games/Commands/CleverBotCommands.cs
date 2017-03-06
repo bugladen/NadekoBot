@@ -118,7 +118,7 @@ namespace NadekoBot.Modules.Games
             private static NadekoRandom rng { get; } = new NadekoRandom();
             public string ChatterbotId { get; }
             public string ChannelId { get; }
-            private int _botId = 15;
+            private int _botId = 6;
 
             public ChatterBotSession(ulong channelId)
             {
