@@ -21,6 +21,12 @@ namespace NadekoBot.Extensions
         private const string arrow_left = "⬅";
         private const string arrow_right = "➡";
 
+        public static string ToBase64(this string plainText)
+        {
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+            return Convert.ToBase64String(plainTextBytes);
+        }
+
         public static Stream ToStream(this IEnumerable<byte> bytes, bool canWrite = false)
         {
             var ms = new MemoryStream(bytes as byte[] ?? bytes.ToArray(), canWrite);
