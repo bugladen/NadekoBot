@@ -198,17 +198,49 @@ CentOS:
 ![img2](https://cdn.discordapp.com/attachments/251504306010849280/251504746987388938/dotnet.gif)
 
 Go to [this link](https://www.microsoft.com/net/core#ubuntu) (for Ubuntu) or to [this link](https://www.microsoft.com/net/core#linuxcentos) (for CentOS) provided by microsoft for instructions on how to get the most up to date version of the dotnet core sdk!  
-Make sure that you're on the correct page for your distribution of linux as the guides are different for the various distributions  
+Make sure that you're on the correct page for your distribution of linux as the guides are different for the various distributions.		
+Install the **currently supported version** `1.0.0-preview2-1-003177`.		
+You can find it [here](https://github.com/dotnet/core/blob/master/release-notes/download-archives/1.1-preview2.1-download.md) if you prefer manual installing `dpkg` files.
 
-We'll go over the steps here for Ubuntu 16.04 anyway (these will **only** work on Ubuntu 16.04), accurate as of 3/2/2017
+We'll go over the steps here for few linux distributions, accurate as of March 08, 2017:
+**NOTE:** .NET CORE SDK only supports 64-bit Linux Operating Systems (Raspberry Pis are not supported because of this)
 
+**Ubuntu x64 17.04 & 16.10**
+```sh
+sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ yakkety main" > /etc/apt/sources.list.d/dotnetdev.list'
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 417A0893
+sudo apt-get update && sudo apt-get install dotnet-dev-1.0.0-preview2.1-003177 -y
 ```
+
+**Ubuntu x64 16.04**
+```sh
 sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ xenial main" > /etc/apt/sources.list.d/dotnetdev.list'
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 417A0893
 sudo apt-get update && sudo apt-get install dotnet-dev-1.0.0-preview2.1-003177 -y
 ```
 
-**NOTE:** .NET CORE SDK only supports 64-bit Linux Operating Systems (Raspberry Pis are not supported because of this)
+**Ubuntu x64 14.04**
+```sh
+sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ trusty main" > /etc/apt/sources.list.d/dotnetdev.list'
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 417A0893
+sudo apt-get update && sudo apt-get install dotnet-dev-1.0.0-preview2.1-003177 -y
+```
+
+**Debian 8 x64**
+```sh
+sudo apt-get install curl libunwind8 gettext -y
+curl -sSL -o dotnet.tar.gz https://go.microsoft.com/fwlink/?LinkID=835021
+sudo mkdir -p /opt/dotnet && sudo tar zxf dotnet.tar.gz -C /opt/dotnet
+sudo ln -s /opt/dotnet/dotnet /usr/local/bin
+```
+
+**CentOS 7 x64**
+```sh
+sudo yum install libunwind libicu -y
+curl -sSL -o dotnet.tar.gz https://go.microsoft.com/fwlink/?LinkID=835019
+sudo mkdir -p /opt/dotnet && sudo tar zxf dotnet.tar.gz -C /opt/dotnet
+sudo ln -s /opt/dotnet/dotnet /usr/local/bin
+```
 
 #####Installing Opus Voice Codec and libsodium
 
@@ -232,14 +264,14 @@ Ubuntu:
 
 Centos: 
 
-```
+```sh
 yum -y install http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm epel-release
 yum -y install ffmpeg
 ```
 
 **NOTE:** If you are running **UBUNTU 14.04**, you must run these first:
 
-```
+```sh
 sudo add-apt-repository ppa:mc3man/trusty-media
 sudo apt-get update
 sudo apt-get dist-upgrade
@@ -250,7 +282,7 @@ sudo apt-get dist-upgrade
 
 **NOTE:** If you are running **Debian 8 Jessie**, please, follow these steps:
 
-```
+```sh
 sudo apt-get update
 echo "deb http://ftp.debian.org/debian jessie-backports main" | tee /etc/apt/sources.list.d/debian-backports.list
 sudo apt-get update && sudo apt-get install ffmpeg -y
@@ -330,14 +362,14 @@ If the [Nadeko installer](http://nadekobot.readthedocs.io/en/latest/guides/Linux
 
 **OR**
 
-```
+```sh
 cd ~ && git clone -b dev --recursive --depth 1 https://github.com/Kwoth/NadekoBot.git
 cd ~/NadekoBot/discord.net/src/Discord.Net && dotnet restore && cd ../Discord.Net.Commands && dotnet restore && cd ../../../src/NadekoBot/ && dotnet restore && dotnet build --configuration Release
 ```
   
 If you are getting error using the above steps try:
 
-```
+```sh
 cd ~/NadekoBot/discord.net && dotnet restore -s https://dotnet.myget.org/F/dotnet-core/api/v3/index.json && dotnet restore
 cd ~/NadekoBot/src/NadekoBot/ && dotnet restore && dotnet build --configuration Release
 ```
