@@ -120,7 +120,7 @@ In order to have a functioning music module, you need to install ffmpeg and setu
 
 
 
-[.NET Core SDK]: https://www.microsoft.com/net/core#windowscmd
+[.NET Core SDK]: https://github.com/dotnet/core/blob/master/release-notes/download-archives/1.1-preview2.1-download.md
 [Git]: https://git-scm.com/download/win
 [7zip]: http://www.7-zip.org/download.html
 [DiscordApp]: https://discordapp.com/developers/applications/me
