@@ -1052,7 +1052,7 @@ Vergessen Sie bitte nicht, Ihren Discord-Namen oder Ihre ID in der Nachricht zu 
     <comment>Fuzzy</comment>
   </data>
   <data name="help_list_of_commands" xml:space="preserve">
-    <value>Lister der Befehle</value>
+    <value>Liste der Befehle</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="help_list_of_modules" xml:space="preserve">
@@ -1281,11 +1281,11 @@ Vergessen Sie bitte nicht, Ihren Discord-Namen oder Ihre ID in der Nachricht zu 
     <value>Währungsgeneration in diesem Kanal aktiviert.</value>
   </data>
   <data name="games_curgen_pl" xml:space="preserve">
-    <value>{0} zufällige {1} sind erschienen! Sammle sie indem Sie `{2}pick` schreiben</value>
+    <value>{0} zufällige {1} sind erschienen! Sammlen Sie sie indem Sie `{2}pick` schreiben</value>
     <comment>plural</comment>
   </data>
   <data name="games_curgen_sn" xml:space="preserve">
-    <value>Eine zufällige {0} ist erschienen! Sammle sie indem Sie `{1}pick` schreiben</value>
+    <value>Eine zufällige {0} ist erschienen! Sammlen Sie sie indem Sie `{1}pick` schreiben</value>
   </data>
   <data name="games_failed_loading_question" xml:space="preserve">
     <value>Laden einer Frage fehlgeschlagen.</value>
