@@ -998,11 +998,7 @@ Sebep: {1}</value>
     <value>Tanıtım</value>
   </data>
   <data name="help_donate" xml:space="preserve">
-    <value>NadekoBot projesini destekleyebilirsiniz 
-Patreon &lt;{0}&gt; yada
-Paypal &lt;{1}&gt;
-Mesajda discord adınızı veya kimliğini bırakmayı unutma.
-
+    <value>Yakında
 **Teşekkür ederim** ♥️</value>
   </data>
   <data name="help_guide" xml:space="preserve">
@@ -1071,7 +1067,7 @@ Mesajda discord adınızı veya kimliğini bırakmayı unutma.
     <value>Geçersiz numara belirtildi. Bir kerede {0} - {1} zar atabilirsiniz.</value>
   </data>
   <data name="gambling_dice_rolled" xml:space="preserve">
-    <value>rolled {0}</value>
+    <value>{0} çevirdi</value>
   </data>
   <data name="gambling_dice_rolled_num" xml:space="preserve">
     <value>Zar atıldı: {0}</value>
@@ -1309,7 +1305,7 @@ Mesajda discord adınızı veya kimliğini bırakmayı unutma.
     <value>Bir çizim!</value>
   </data>
   <data name="games_ttt_created" xml:space="preserve">
-    <value>TicTacToe bir oyun yarattı.</value>
+    <value>TicTacToe bir oyun oluşturdu.</value>
   </data>
   <data name="games_ttt_has_won" xml:space="preserve">
     <value>{0} kazandı!</value>
@@ -1342,7 +1338,7 @@ Mesajda discord adınızı veya kimliğini bırakmayı unutma.
     <value>Varsayılan müzik sesi {0}%</value>
   </data>
   <data name="music_dir_queue_complete" xml:space="preserve">
-    <value>Directory queue complete.</value>
+    <value>Dizin kuyruğu tamamlandı.</value>
   </data>
   <data name="music_fairplay" xml:space="preserve">
     <value>adil oynatıcı</value>
