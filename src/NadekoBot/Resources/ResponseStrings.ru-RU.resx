@@ -2286,38 +2286,40 @@ IDВладельца: {2}</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="gambling_animal_race_already_in" xml:space="preserve">
-    <value></value>
+    <value>Вы уже участвуете в этой гонке!</value>
   </data>
   <data name="games_current_poll_results" xml:space="preserve">
-    <value></value>
+    <value>Результаты опроса</value>
   </data>
   <data name="games_no_votes_cast" xml:space="preserve">
-    <value></value>
+    <value>Не получено ни одного ответа.</value>
   </data>
   <data name="games_poll_already_running" xml:space="preserve">
-    <value></value>
+    <value>На данном сервере уже идёт опрос.</value>
   </data>
   <data name="games_poll_created" xml:space="preserve">
-    <value></value>
+    <value>{0} создал опрос, требующий Вашего внимания:</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="games_poll_result" xml:space="preserve">
-    <value></value>
+    <value>&apos;{0}.&apos; У {1} {2} голосов.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="games_poll_voted" xml:space="preserve">
-    <value></value>
+    <value>{0} проголосовал.</value>
     <comment>Kwoth voted.</comment>
   </data>
   <data name="games_poll_vote_private" xml:space="preserve">
-    <value></value>
+    <value>Отправьте сообщение в этом текстовом канале с номером, соответствующему Вашему ответу.</value>
   </data>
   <data name="games_poll_vote_public" xml:space="preserve">
-    <value></value>
+    <value>Отправьте сообщение в этом текстовом канале с номером, соответствующему Вашему ответу.</value>
   </data>
   <data name="games_thanks_for_voting" xml:space="preserve">
-    <value></value>
+    <value>Спасибо за Ваш ответ, {0}.</value>
   </data>
   <data name="games_x_votes_cast" xml:space="preserve">
-    <value></value>
+    <value>Всего получено {0} ответов.</value>
   </data>
 
 </root>
