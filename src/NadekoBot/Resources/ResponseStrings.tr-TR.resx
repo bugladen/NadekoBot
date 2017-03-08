@@ -1490,88 +1490,88 @@ Mesajda discord adınızı veya kimliğini bırakmayı unutma.
     <value>Ses düzeyi {0}% olarak ayarlandı.</value>
   </data>
   <data name="permissions_acm_disable" xml:space="preserve">
-    <value>Disabled usage of ALL MODULES on channel {0}.</value>
+    <value>{0} kanalı için TÜM MODÜLLERİN kullanımı devre dışı bırakıldı.</value>
   </data>
   <data name="permissions_acm_enable" xml:space="preserve">
-    <value>Enabled usage of ALL MODULES on channel {0}.</value>
+    <value>{0} kanalı için TÜM MODÜLLERİN kullanımı etkinleştirdi.</value>
   </data>
   <data name="permissions_allowed" xml:space="preserve">
-    <value>Allowed</value>
+    <value>İzin verildi</value>
   </data>
   <data name="permissions_arm_disable" xml:space="preserve">
-    <value>Disabled usage of ALL MODULES for role {0}.</value>
+    <value>{0} rolü için TÜM MODÜLLERİN kullanımı devre dışı bırakıldı.</value>
   </data>
   <data name="permissions_arm_enable" xml:space="preserve">
-    <value>Enabled usage of ALL MODULES for role {0}.</value>
+    <value>{0} rolü için TÜM MODÜLLERİN kullanımı etkinleştirdi.</value>
   </data>
   <data name="permissions_asm_disable" xml:space="preserve">
-    <value>Disabled usage of ALL MODULES on this server.</value>
+    <value>Bu sunucudaki TÜM MODÜLLERİN kullanımı devre dışı bırakıldı.</value>
   </data>
   <data name="permissions_asm_enable" xml:space="preserve">
-    <value>Enabled usage of ALL MODULES on this server.</value>
+    <value>Bu sunucudaki TÜM MODÜLLERİN kullanımı etkinleştirdi.</value>
   </data>
   <data name="permissions_aum_disable" xml:space="preserve">
-    <value>Disabled usage of ALL MODULES for user {0}.</value>
+    <value>{0} kullanıcısı için TÜM MODÜLLERİN kullanımı devre dışı bırakıldı.</value>
   </data>
   <data name="permissions_aum_enable" xml:space="preserve">
-    <value>Enabled usage of ALL MODULES for user {0}.</value>
+    <value>{0} kullanıcısı için TÜM MODÜLLERİN kullanımı etkinleştirdi.</value>
   </data>
   <data name="permissions_blacklisted" xml:space="preserve">
     <value>{0} adlı ve {1} id'li kullanıcı karalisteye alındı.</value>
   </data>
   <data name="permissions_cmdcd_add" xml:space="preserve">
-    <value>Command {0} now has a {1}s cooldown.</value>
+    <value>Komut {0} şimdi {1}'lik bir bekleme süresine sahip.</value>
   </data>
   <data name="permissions_cmdcd_cleared" xml:space="preserve">
-    <value>Command {0} has no cooldown now and all existing cooldowns have been cleared.</value>
+    <value>{0} komutunun şimdi bir bekleme süresi yok ve mevcut tüm bekleme süreleri temizlendi.</value>
   </data>
   <data name="permissions_cmdcd_none" xml:space="preserve">
-    <value>No command cooldowns set.</value>
+    <value>Komut çağırma süresi yok.</value>
   </data>
   <data name="permissions_command_costs" xml:space="preserve">
-    <value>Command costs</value>
+    <value>Komut maliyetleri</value>
   </data>
   <data name="permissions_cx_disable" xml:space="preserve">
-    <value>Disabled usage of {0} {1} on channel {2}.</value>
+    <value>{2} kanalında {0} {1} kullanımı devre dışı bırakıldı.</value>
   </data>
   <data name="permissions_cx_enable" xml:space="preserve">
-    <value>Enabled usage of {0} {1} on channel {2}.</value>
+    <value>{2} kanalında {0} {1} kullanımı etkinleştirildi.</value>
   </data>
   <data name="permissions_denied" xml:space="preserve">
-    <value>Denied</value>
+    <value>Reddedildi</value>
   </data>
   <data name="permissions_filter_word_add" xml:space="preserve">
-    <value>Added word {0} to the list of filtered words.</value>
+    <value>Filtrelenmiş kelimeler listesine {0} kelimesi eklendi.</value>
   </data>
   <data name="permissions_filter_word_list" xml:space="preserve">
     <value>Filtrelenmiş sözler listesi</value>
   </data>
   <data name="permissions_filter_word_remove" xml:space="preserve">
-    <value>Removed word {0} from the list of filtered words.</value>
+    <value>Filtrelenmiş kelimeler listesinden {0} kelimesi kaldırıldı.</value>
   </data>
   <data name="permissions_invalid_second_param_between" xml:space="preserve">
-    <value>Invalid second parameter.(Must be a number between {0} and {1})</value>
+    <value>Geçersiz ikinci parametre. ({0} ile {1} arasındaki bir sayı olmalı)</value>
   </data>
   <data name="permissions_invite_filter_channel_off" xml:space="preserve">
-    <value>Invite filtering disabled on this channel.</value>
+    <value>Davet filtreleme bu kanal üzerinde devre dışı.</value>
   </data>
   <data name="permissions_invite_filter_channel_on" xml:space="preserve">
-    <value>Invite filtering enabled on this channel.</value>
+    <value>Davet filtreleme bu kanal üzerinde etkin.</value>
   </data>
   <data name="permissions_invite_filter_server_off" xml:space="preserve">
-    <value>Invite filtering disabled on this server.</value>
+    <value>Davet filtreleme bu sunucu üzerinde devre dışı.</value>
   </data>
   <data name="permissions_invite_filter_server_on" xml:space="preserve">
-    <value>Invite filtering enabled on this server.</value>
+    <value>Davet filtreleme bu sunucu üzerinde etkin.</value>
   </data>
   <data name="permissions_moved_permission" xml:space="preserve">
-    <value>Moved permission {0} from #{1} to #{2}</value>
+    <value>{0}, #{1}'den #{2}'ye taşındı</value>
   </data>
   <data name="permissions_not_found" xml:space="preserve">
-    <value>Can't find permission at index #{0}</value>
+    <value>{0} dizininde izin bulamıyor.</value>
   </data>
   <data name="permissions_no_costs" xml:space="preserve">
-    <value>No costs set.</value>
+    <value>Maliyet ayarlanmadı.</value>
   </data>
   <data name="permissions_of_command" xml:space="preserve">
     <value>komut</value>
@@ -1582,89 +1582,89 @@ Mesajda discord adınızı veya kimliğini bırakmayı unutma.
     <comment>Gen. (of module)</comment>
   </data>
   <data name="permissions_page" xml:space="preserve">
-    <value>Permissions page {0}</value>
+    <value>İzinler sayfası {0}</value>
   </data>
   <data name="permissions_permrole" xml:space="preserve">
-    <value>Current permissions role is {0}.</value>
+    <value>Geçerli izin rolü {0}.</value>
   </data>
   <data name="permissions_permrole_changed" xml:space="preserve">
-    <value>Users now require {0} role in order to edit permissions.</value>
+    <value>Kullanıcılar artık izinleri düzenlemek için {0} rolü talep ediyor.</value>
   </data>
   <data name="permissions_perm_out_of_range" xml:space="preserve">
-    <value>No permission found on that index.</value>
+    <value>Bu dizinde izin bulunamadı.</value>
   </data>
   <data name="permissions_removed" xml:space="preserve">
-    <value>removed permission #{0} - {1}</value>
+    <value>Izin kaldırıldı #{0} - {1}</value>
   </data>
   <data name="permissions_rx_disable" xml:space="preserve">
-    <value>Disabled usage of {0} {1} for {2} role.</value>
+    <value>{2} rolü için {0} {1} kullanımını devre dışı bırakıldı.</value>
   </data>
   <data name="permissions_rx_enable" xml:space="preserve">
-    <value>Enabled usage of {0} {1} for {2} role.</value>
+    <value>{2} rolü için {0} {1} kullanımını etkinleştirildi.</value>
   </data>
   <data name="permissions_sec" xml:space="preserve">
     <value>sn.</value>
     <comment>Short of seconds.</comment>
   </data>
   <data name="permissions_sx_disable" xml:space="preserve">
-    <value>Disabled usage of {0} {1} on this server.</value>
+    <value>Bu sunucuda {0} {1} kullanımını devre dışı bırakıldı.</value>
   </data>
   <data name="permissions_sx_enable" xml:space="preserve">
-    <value>Enabled usage of {0} {1} on this server.</value>
+    <value>Bu sunucuda {0} {1} kullanımı etkinleştirildi.</value>
   </data>
   <data name="permissions_unblacklisted" xml:space="preserve">
-    <value>Unblacklisted {0} with ID {1}</value>
+    <value>{0} Kimliği {1} ile kara listeden kaldırıldı</value>
   </data>
   <data name="permissions_uneditable" xml:space="preserve">
-    <value>uneditable</value>
+    <value>düzenlenemez</value>
   </data>
   <data name="permissions_ux_disable" xml:space="preserve">
-    <value>Disabled usage of {0} {1} for {2} user.</value>
+    <value>{2} kullanıcısı için {0} {1} kullanımı devre dışı bırakıldı.</value>
   </data>
   <data name="permissions_ux_enable" xml:space="preserve">
-    <value>Enabled usage of {0} {1} for {2} user.</value>
+    <value>{2} kullanıcısı için {0} {1} kullanımı etkinleştirildi.</value>
   </data>
   <data name="permissions_verbose_false" xml:space="preserve">
-    <value>I will no longer show permission warnings.</value>
+    <value>Artık izin uyarıları göstermeyeceğim.</value>
   </data>
   <data name="permissions_verbose_true" xml:space="preserve">
-    <value>I will now show permission warnings.</value>
+    <value>Şimdi izin uyarılarını göstereceğim.</value>
   </data>
   <data name="permissions_word_filter_channel_off" xml:space="preserve">
-    <value>Word filtering disabled on this channel.</value>
+    <value>Bu kanalda kelime filtreleme devre dışı.</value>
   </data>
   <data name="permissions_word_filter_channel_on" xml:space="preserve">
-    <value>Word filtering enabled on this channel.</value>
+    <value>Bu kanalda kelime filtreleme etkin.</value>
   </data>
   <data name="permissions_word_filter_server_off" xml:space="preserve">
-    <value>Word filtering disabled on this server.</value>
+    <value>Bu sunucuda kelime filtreleme özelliği devre dışı.</value>
   </data>
   <data name="permissions_word_filter_server_on" xml:space="preserve">
-    <value>Word filtering enabled on this server.</value>
+    <value>Bu sunucuda kelime filtreleme özelliği etkin.</value>
   </data>
   <data name="searches_abilities" xml:space="preserve">
     <value>Yetenekler</value>
   </data>
   <data name="searches_anime_no_fav" xml:space="preserve">
-    <value>No favorite anime yet</value>
+    <value>Henüz favori anime yok</value>
   </data>
   <data name="searches_atl_ad_started" xml:space="preserve">
-    <value>Started automatic translation of messages on this channel. User messages will be auto-deleted.</value>
+    <value>Bu kanaldaki mesajların otomatik çevirisi başlatıldı. Kullanıcı mesajları otomatik olarak silinecek.</value>
   </data>
   <data name="searches_atl_removed" xml:space="preserve">
-    <value>your auto-translate language has been removed.</value>
+    <value>Otomatik-çeviri diliniz kaldırıldı.</value>
   </data>
   <data name="searches_atl_set" xml:space="preserve">
-    <value>Your auto-translate language has been set to {0}&gt;{1}</value>
+    <value>Otomatik çevir diliniz {0}&gt;{1} olarak ayarlandı.</value>
   </data>
   <data name="searches_atl_started" xml:space="preserve">
-    <value>Started automatic translation of messages on this channel.</value>
+    <value>Bu kanaldaki mesajların otomatik çevirisi başlatıldı.</value>
   </data>
   <data name="searches_atl_stopped" xml:space="preserve">
-    <value>Stopped automatic translation of messages on this channel.</value>
+    <value>Bu kanaldaki mesajların otomatik çevirisini durduruldu.</value>
   </data>
   <data name="searches_bad_input_format" xml:space="preserve">
-    <value>Bad input format, or something went wrong.</value>
+    <value>Bozuk giriş biçimi veya bir şeyler ters gitti.</value>
   </data>
   <data name="searches_card_not_found" xml:space="preserve">
     <value>Kartı bulamadım.</value>
@@ -2057,10 +2057,10 @@ Kurucu Kimliği: {2}</value>
     <value>Konu ayarlanmadı.</value>
   </data>
   <data name="utility_owner" xml:space="preserve">
-    <value>Kurucu</value>
+    <value>Sahip</value>
   </data>
   <data name="utility_owner_ids" xml:space="preserve">
-    <value>Kurucu kimlikleri</value>
+    <value>Sahip kimlikleri</value>
   </data>
   <data name="utility_presence" xml:space="preserve">
     <value>Varlık</value>
