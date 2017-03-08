@@ -856,7 +856,7 @@ Powód: {1}</value>
     <value>Włączasz/Wyłączasz tą funkcję i **Nie mam uprawnień ADMINISTRATORA**. Może to spowodować problemy i będziesz musiał czyścić kanały tekstowe sam.</value>
   </data>
   <data name="administration_vt_perms" xml:space="preserve">
-    <value></value>
+    <value>By włączyć tą funkcję, muszę posiadać uprawnienia: **zarządzanie rolami** i **zarządzanie kanałami**. (Preferowane uprawnienia administratora)</value>
   </data>
   <data name="administration_xmuted_text" xml:space="preserve">
     <value>Użytkownik {0} z tekstowego czatu</value>
@@ -901,7 +901,7 @@ Powód: {1}</value>
     <value>Talia została przetasowana.</value>
   </data>
   <data name="gambling_flipped" xml:space="preserve">
-    <value></value>
+    <value>wyrzucono {0}.</value>
     <comment>User flipped tails.</comment>
   </data>
   <data name="gambling_flip_guess" xml:space="preserve">
@@ -950,7 +950,7 @@ Powód: {1}</value>
     <value>W talii nie ma więcej kart.</value>
   </data>
   <data name="gambling_raffled_user" xml:space="preserve">
-    <value></value>
+    <value>Wylosowano użytkownika</value>
   </data>
   <data name="gambling_roll" xml:space="preserve">
     <value>Wyrzucono {0}</value>
@@ -1117,7 +1117,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <comment>Fuzzy</comment>
   </data>
   <data name="gambling_claimed_by" xml:space="preserve">
-    <value></value>
+    <value>Zdobyta przez</value>
   </data>
   <data name="gambling_divorces" xml:space="preserve">
     <value>Rozwody</value>
@@ -1138,11 +1138,13 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value></value>
   </data>
   <data name="gambling_waifu_affinity_changed" xml:space="preserve">
-    <value></value>
+    <value>lubi teraz {0} zamiast {1}.
+
+*Czy to aby na pewno moralne?*</value>
     <comment>Make sure to get the formatting right, and leave the thinking emoji</comment>
   </data>
   <data name="gambling_waifu_affinity_cooldown" xml:space="preserve">
-    <value></value>
+    <value>Musisz poczekać {0} godzin i {1} minut aby zmienić swój obiekt westchnień.</value>
   </data>
   <data name="gambling_waifu_affinity_reset" xml:space="preserve">
     <value></value>
@@ -1221,19 +1223,19 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value>Zwycięzcą jest {0} z {1} punktami.</value>
   </data>
   <data name="games_acro_winner_only" xml:space="preserve">
-    <value></value>
+    <value>Użytkownik {0} wygrywa, ponieważ jako jedyny coś zgłosił!</value>
   </data>
   <data name="games_question" xml:space="preserve">
     <value>Pytanie</value>
   </data>
   <data name="games_rps_draw" xml:space="preserve">
-    <value></value>
+    <value>Remis! Dwie osoby wybrały {0}</value>
   </data>
   <data name="games_rps_win" xml:space="preserve">
     <value>{0} wygrał! {1} pokonuje {2}</value>
   </data>
   <data name="games_submissions_closed" xml:space="preserve">
-    <value></value>
+    <value>Zgłoszenia zakończone</value>
   </data>
   <data name="gambling_animal_race_already_started" xml:space="preserve">
     <value>Wyścig zwierzaków właśnie się odbywa.</value>
@@ -1261,7 +1263,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <comment>plural</comment>
   </data>
   <data name="games_curgen_sn" xml:space="preserve">
-    <value></value>
+    <value>{0} się pojawiły! Zdobądź je, pisząc `{1}pick`</value>
   </data>
   <data name="games_failed_loading_question" xml:space="preserve">
     <value>Nie udało się załadować pytania.</value>
@@ -1401,7 +1403,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value>Maksymalna długość kolejki ustawiona na {5} utworów.</value>
   </data>
   <data name="music_must_be_in_voice" xml:space="preserve">
-    <value></value>
+    <value>Musisz być na kanale głosowym na tym serwerze.</value>
   </data>
   <data name="music_name" xml:space="preserve">
     <value>Imię</value>
@@ -1422,7 +1424,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value></value>
   </data>
   <data name="music_playing_song" xml:space="preserve">
-    <value></value>
+    <value>Gra utwór</value>
   </data>
   <data name="music_playlists" xml:space="preserve">
     <value></value>
@@ -1458,7 +1460,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value>Kolejka wyczyszczona.</value>
   </data>
   <data name="music_queue_full" xml:space="preserve">
-    <value></value>
+    <value>Zapełnienie kolejki: {0}/{0}</value>
   </data>
   <data name="music_removed_song" xml:space="preserve">
     <value>Usunięto utwór</value>
@@ -1504,7 +1506,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value></value>
   </data>
   <data name="music_unlimited" xml:space="preserve">
-    <value></value>
+    <value>bez limitu</value>
   </data>
   <data name="music_volume_input_invalid" xml:space="preserve">
     <value>Głośność musi być pomiędzy 0 a 100.</value>
@@ -1513,67 +1515,67 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value>Głośność ustawiona na {0}%</value>
   </data>
   <data name="permissions_acm_disable" xml:space="preserve">
-    <value></value>
+    <value>Wyłączono użycie WSZYSTKICH MODÓŁÓW na kanale {0}.</value>
   </data>
   <data name="permissions_acm_enable" xml:space="preserve">
-    <value></value>
+    <value>Włączono użycie WSZYSTKICH MODÓŁÓW na kanale {0}.</value>
   </data>
   <data name="permissions_allowed" xml:space="preserve">
     <value></value>
   </data>
   <data name="permissions_arm_disable" xml:space="preserve">
-    <value></value>
+    <value>Wyłączono użycie WSZYSTKICH MODÓŁÓW dla roli {0}.</value>
   </data>
   <data name="permissions_arm_enable" xml:space="preserve">
-    <value></value>
+    <value>Włączono użycie WSZYSTKICH MODÓŁÓW dla roli {0}.</value>
   </data>
   <data name="permissions_asm_disable" xml:space="preserve">
-    <value></value>
+    <value>Wyłączono użycie WSZYSTKICH MODÓŁÓW na tym serwerze.</value>
   </data>
   <data name="permissions_asm_enable" xml:space="preserve">
-    <value></value>
+    <value>Włączono użycie WSZYSTKICH MODÓŁÓW na tym serwerze.</value>
   </data>
   <data name="permissions_aum_disable" xml:space="preserve">
-    <value></value>
+    <value>Wyłączono użycie WSZYSTKICH MODÓŁÓW dla użytkownika {0}.</value>
   </data>
   <data name="permissions_aum_enable" xml:space="preserve">
-    <value></value>
+    <value>Włączono użycie WSZYSTKICH MODÓŁÓW dla użytkownika {0}.</value>
   </data>
   <data name="permissions_blacklisted" xml:space="preserve">
-    <value></value>
+    <value>Na czarną listę wpisano użytkownika {0} z ID {1}</value>
   </data>
   <data name="permissions_cmdcd_add" xml:space="preserve">
     <value>Komenda {0} ma teraz {1}-sekundowy cooldown.</value>
   </data>
   <data name="permissions_cmdcd_cleared" xml:space="preserve">
-    <value></value>
+    <value>Komenda {0} nie ma teraz cooldown&apos;a. Wszystkie aktywne cooldown&apos;y zostały zresetowane.</value>
   </data>
   <data name="permissions_cmdcd_none" xml:space="preserve">
-    <value></value>
+    <value>Żadna komenda nie ma cooldown&apos;a.</value>
   </data>
   <data name="permissions_command_costs" xml:space="preserve">
-    <value></value>
+    <value>Komenda kosztuje</value>
   </data>
   <data name="permissions_cx_disable" xml:space="preserve">
-    <value></value>
+    <value>Wyłączono użycie {0} {1} na kanale {2}.</value>
   </data>
   <data name="permissions_cx_enable" xml:space="preserve">
-    <value></value>
+    <value>Włączono użycie {0} {1} na kanale {2}.</value>
   </data>
   <data name="permissions_denied" xml:space="preserve">
-    <value></value>
+    <value>Odmówiono</value>
   </data>
   <data name="permissions_filter_word_add" xml:space="preserve">
-    <value></value>
+    <value>Dodano słowo {0} do listy odfiltrowanych słów.</value>
   </data>
   <data name="permissions_filter_word_list" xml:space="preserve">
-    <value></value>
+    <value>Lista odfiltrowanych słów</value>
   </data>
   <data name="permissions_filter_word_remove" xml:space="preserve">
-    <value></value>
+    <value>Usunięto słowo {0} z listy odfiltrowanych słów.</value>
   </data>
   <data name="permissions_invalid_second_param_between" xml:space="preserve">
-    <value></value>
+    <value>Błędny drugi parametr. (Musi być to liczba od {0} do {1})</value>
   </data>
   <data name="permissions_invite_filter_channel_off" xml:space="preserve">
     <value></value>
@@ -1588,10 +1590,10 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value></value>
   </data>
   <data name="permissions_moved_permission" xml:space="preserve">
-    <value></value>
+    <value>Przeniesiono uprawnienia {0} z  #{1} to #{2}</value>
   </data>
   <data name="permissions_not_found" xml:space="preserve">
-    <value></value>
+    <value>Nie znaleziono uprawnień w indeksie  #{0}</value>
   </data>
   <data name="permissions_no_costs" xml:space="preserve">
     <value></value>
@@ -1605,80 +1607,80 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <comment>Gen. (of module)</comment>
   </data>
   <data name="permissions_page" xml:space="preserve">
-    <value></value>
+    <value>Strona uprawnień {0}</value>
   </data>
   <data name="permissions_permrole" xml:space="preserve">
     <value></value>
   </data>
   <data name="permissions_permrole_changed" xml:space="preserve">
-    <value></value>
+    <value>Użytkownicy wymagają roli {0}, by móc edytować uprawnienia.</value>
   </data>
   <data name="permissions_perm_out_of_range" xml:space="preserve">
-    <value></value>
+    <value>Żadne uprawnienia nie zostały znalezione w tym indeksie.</value>
   </data>
   <data name="permissions_removed" xml:space="preserve">
-    <value></value>
+    <value>przeniesiono uprawnienia #{0} - {1} </value>
   </data>
   <data name="permissions_rx_disable" xml:space="preserve">
-    <value></value>
+    <value>Wyłączono użycie {0} {1} dla roli {2}.</value>
   </data>
   <data name="permissions_rx_enable" xml:space="preserve">
-    <value></value>
+    <value>Włączono użycie {0} {1} dla roli {2}.</value>
   </data>
   <data name="permissions_sec" xml:space="preserve">
     <value>sek.</value>
     <comment>Short of seconds.</comment>
   </data>
   <data name="permissions_sx_disable" xml:space="preserve">
-    <value></value>
+    <value>Wyłączono użycie {0} {1} na tym serwerze.</value>
   </data>
   <data name="permissions_sx_enable" xml:space="preserve">
-    <value></value>
+    <value>Włączono użycie {0} {1} na tym serwerze.</value>
   </data>
   <data name="permissions_unblacklisted" xml:space="preserve">
-    <value></value>
+    <value>Z czarnej listy usunięto użytkownika {0} z ID {1}</value>
   </data>
   <data name="permissions_uneditable" xml:space="preserve">
-    <value></value>
+    <value>nie do edytowania</value>
   </data>
   <data name="permissions_ux_disable" xml:space="preserve">
-    <value></value>
+    <value>Wyłączono użycie {0} {1} dla użytkownika {2}.</value>
   </data>
   <data name="permissions_ux_enable" xml:space="preserve">
-    <value></value>
+    <value>Włączono użycie {0} {1} dla użytkownika {2}.</value>
   </data>
   <data name="permissions_verbose_false" xml:space="preserve">
-    <value></value>
+    <value>Nie będę więcej pokazywać ostrzeżeń dotyczących uprawnień.</value>
   </data>
   <data name="permissions_verbose_true" xml:space="preserve">
-    <value></value>
+    <value>Będę pokazywać ostrzeżenia dotyczące uprawnień.</value>
   </data>
   <data name="permissions_word_filter_channel_off" xml:space="preserve">
-    <value></value>
+    <value>Filtrowanie słów wyłączone na tym kanale.</value>
   </data>
   <data name="permissions_word_filter_channel_on" xml:space="preserve">
-    <value></value>
+    <value>Filtrowanie słów włączone na tym kanale.</value>
   </data>
   <data name="permissions_word_filter_server_off" xml:space="preserve">
-    <value></value>
+    <value>Filtrowanie słów wyłączone na tym serwerze.</value>
   </data>
   <data name="permissions_word_filter_server_on" xml:space="preserve">
-    <value></value>
+    <value>Filtrowanie słów włączone na tym serwerze.</value>
   </data>
   <data name="searches_abilities" xml:space="preserve">
     <value>Zdolności</value>
   </data>
   <data name="searches_anime_no_fav" xml:space="preserve">
-    <value></value>
+    <value>Brak ulubionego zwierzęcia</value>
   </data>
   <data name="searches_atl_ad_started" xml:space="preserve">
     <value>Zaczęto automatyczne tłumaczenie wiadomości na tym kanale. Wiadomości użytkowników będą automatycznie usuwane.</value>
   </data>
   <data name="searches_atl_removed" xml:space="preserve">
-    <value></value>
+    <value>twój auto-tłumaczący język został usunięty.</value>
   </data>
   <data name="searches_atl_set" xml:space="preserve">
-    <value></value>
+    <value>twój auto-tłumaczący język został ustawiony {0}&gt;{1}</value>
   </data>
   <data name="searches_atl_started" xml:space="preserve">
     <value>Zaczęto automatyczne tłumaczenie wiadomości na tym kanale.</value>
@@ -1687,7 +1689,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value>Zakończono automatyczne tłumaczenie wiadomości na tym kanale.</value>
   </data>
   <data name="searches_bad_input_format" xml:space="preserve">
-    <value></value>
+    <value>Złe dane wejściowe albo coś poszło nie tak.</value>
   </data>
   <data name="searches_card_not_found" xml:space="preserve">
     <value>Nieznaleziono tej karty.</value>
@@ -1702,25 +1704,25 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value></value>
   </data>
   <data name="searches_compet_loses" xml:space="preserve">
-    <value></value>
+    <value>Przegrane rywalizacje</value>
   </data>
   <data name="searches_compet_played" xml:space="preserve">
-    <value></value>
+    <value>Grane rywalizacje</value>
   </data>
   <data name="searches_compet_rank" xml:space="preserve">
-    <value></value>
+    <value>Ranking rywalizacji</value>
   </data>
   <data name="searches_compet_wins" xml:space="preserve">
-    <value></value>
+    <value>Wygrane rywalizacje</value>
   </data>
   <data name="searches_completed" xml:space="preserve">
     <value>Zakończony</value>
   </data>
   <data name="searches_condition" xml:space="preserve">
-    <value></value>
+    <value>Warunek</value>
   </data>
   <data name="searches_cost" xml:space="preserve">
-    <value></value>
+    <value>Koszt</value>
   </data>
   <data name="searches_date" xml:space="preserve">
     <value>Data</value>
@@ -1750,7 +1752,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value>Gatunki</value>
   </data>
   <data name="searches_hashtag_error" xml:space="preserve">
-    <value></value>
+    <value>Nie udało się znaleźć definicji dla tego tagu.</value>
   </data>
   <data name="searches_height_weight" xml:space="preserve">
     <value>Wysokość/szerokość</value>
@@ -1762,7 +1764,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value>Wilgotność</value>
   </data>
   <data name="searches_image_search_for" xml:space="preserve">
-    <value></value>
+    <value>Szukanie obrazka dla:</value>
   </data>
   <data name="searches_imdb_fail" xml:space="preserve">
     <value>Wyszukiwanie tego filmu nie powiodło się.</value>
@@ -1784,7 +1786,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <comment>Don&apos;t translate {0}place</comment>
   </data>
   <data name="searches_location" xml:space="preserve">
-    <value></value>
+    <value>Lokalizacja</value>
   </data>
   <data name="searches_magicitems_not_loaded" xml:space="preserve">
     <value>Magiczne przedmioty nie zostały załadowane.</value>
@@ -1793,10 +1795,10 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value>MAL użytkownika {0}</value>
   </data>
   <data name="searches_mashape_api_missing" xml:space="preserve">
-    <value></value>
+    <value>Właściciel bota nie sprecyzował MashapeApiKey. Nie możesz użyć tej funkcji.</value>
   </data>
   <data name="searches_min_max" xml:space="preserve">
-    <value></value>
+    <value>Min/Max</value>
   </data>
   <data name="searches_no_channel_found" xml:space="preserve">
     <value>Nie znaleziono kanału.</value>
@@ -1808,7 +1810,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value></value>
   </data>
   <data name="searches_original_url" xml:space="preserve">
-    <value></value>
+    <value>Oryginalny URL</value>
   </data>
   <data name="searches_osu_api_key" xml:space="preserve">
     <value></value>
@@ -1817,7 +1819,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value></value>
   </data>
   <data name="searches_over_x" xml:space="preserve">
-    <value></value>
+    <value>Znaleziono {0} obrazków. Pokazuję przypadkowe {0}</value>
   </data>
   <data name="searches_ow_user_not_found" xml:space="preserve">
     <value></value>
