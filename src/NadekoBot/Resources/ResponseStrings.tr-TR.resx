@@ -130,13 +130,13 @@
     <value> {1}&apos;ye karşı savaşta köy #{0} **BERTARAF EDİLDİ**</value>
   </data>
   <data name="clashofclans_base_unclaimed" xml:space="preserve">
-    <value>{0} has **UNCLAIMED** base #{1} in a war against {2}</value>
+    <value>{0},{2} karşı savaşta #{1} üssünü alamadı.</value>
   </data>
   <data name="clashofclans_claimed_base" xml:space="preserve">
     <value>{0}, {2} ile savaşan bir #{1} temel hak iddia etti.</value>
   </data>
   <data name="clashofclans_claimed_other" xml:space="preserve">
-    <value>@{0} You already claimed base #{1}. You can't claim a new one.</value>
+    <value>@{0} zaten #{1} aldın. Yeni bir tane daha alamazsın.</value>
   </data>
   <data name="clashofclans_claim_expired" xml:space="preserve">
     <value>{1}&apos;a karşı savaşta @{0} tarafından yapılan hak talebinin süresi dolmuştur.</value>
