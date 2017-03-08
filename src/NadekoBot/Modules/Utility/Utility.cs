@@ -22,7 +22,7 @@ namespace NadekoBot.Modules.Utility
     [NadekoModule("Utility", ".")]
     public partial class Utility : NadekoTopLevelModule
     {
-        private static ConcurrentDictionary<ulong, Timer> rotatingRoleColors = new ConcurrentDictionary<ulong, Timer>();
+        private static ConcurrentDictionary<ulong, Timer> _rotatingRoleColors = new ConcurrentDictionary<ulong, Timer>();
 
         //[NadekoCommand, Usage, Description, Aliases]
         //[RequireContext(ContextType.Guild)]
@@ -114,7 +114,7 @@ namespace NadekoBot.Modules.Utility
             Timer t;
             if (timeout == 0 || hexes.Length == 0)
             {
-                if (rotatingRoleColors.TryRemove(role.Id, out t))
+                if (_rotatingRoleColors.TryRemove(role.Id, out t))
                 {
                     t.Change(Timeout.Infinite, Timeout.Infinite);
                     await ReplyConfirmLocalized("rrc_stop", Format.Bold(role.Name)).ConfigureAwait(false);
@@ -157,7 +157,7 @@ namespace NadekoBot.Modules.Utility
                 catch { }
             }, null, 0, timeout * 1000);
 
-            rotatingRoleColors.AddOrUpdate(role.Id, t, (key, old) =>
+            _rotatingRoleColors.AddOrUpdate(role.Id, t, (key, old) =>
             {
                 old.Change(Timeout.Infinite, Timeout.Infinite);
                 return t;

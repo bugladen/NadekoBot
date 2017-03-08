@@ -236,7 +236,7 @@ namespace NadekoBot.Modules.Games
             {
                 hot = NextDouble(8, 10);
                 crazy = NextDouble(5, 7);
-                advice = "Above an 8 hot, and between about 7 and a 5 crazy - this is WIFE ZONE. You you meet this girl, you should consider long-term " +
+                advice = "Above an 8 hot, and between about 7 and a 5 crazy - this is WIFE ZONE. If you meet this girl, you should consider long-term " +
                        "relationship. Rare.";
             }
             else if (roll < 999)
@@ -244,7 +244,7 @@ namespace NadekoBot.Modules.Games
                 hot = NextDouble(8, 10);
                 crazy = NextDouble(2, 3.99d);
                 advice = "You've met a girl she's above 8 hot, and not crazy at all (below 4)... totally cool?" +
-                         " You should be careful. That's a dude. It's a tranny.";
+                         " You should be careful. That's a dude. You're talking to a tranny!";
             }
             else
             {

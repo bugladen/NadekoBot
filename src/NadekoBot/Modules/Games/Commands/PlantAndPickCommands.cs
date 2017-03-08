@@ -81,8 +81,10 @@ namespace NadekoBot.Modules.Games
                                 var msgs = new IUserMessage[dropAmount];
                                 var prefix = NadekoBot.ModulePrefixes[typeof(Games).Name];
                                 var toSend = dropAmount == 1 
-                                    ? GetLocalText(channel, "curgen_sn", NadekoBot.BotConfig.CurrencySign, prefix)
-                                    : GetLocalText(channel, "curgen_pl", dropAmount, NadekoBot.BotConfig.CurrencySign, prefix);
+                                    ? GetLocalText(channel, "curgen_sn", NadekoBot.BotConfig.CurrencySign) 
+                                        + GetLocalText(channel, "pick_sn", prefix)
+                                    : GetLocalText(channel, "curgen_pl", dropAmount, NadekoBot.BotConfig.CurrencySign)
+                                        + GetLocalText(channel, "pick_pl", prefix);
                                 var file = GetRandomCurrencyImage();
                                 using (var fileStream = file.Value.ToStream())
                                 {
@@ -155,9 +157,14 @@ namespace NadekoBot.Modules.Games
                 //and then 
 
                 var msgToSend = GetText("planted",
-                    Format.Bold(Context.User.ToString()), 
-                    amount + NadekoBot.BotConfig.CurrencySign, 
+                    Format.Bold(Context.User.ToString()),
+                    amount + NadekoBot.BotConfig.CurrencySign,
                     Prefix);
+
+                if (amount > 1)
+                    msgToSend += GetText("pick_pl", Prefix);
+                else
+                    msgToSend += GetText("pick_sn", Prefix);
 
                 IUserMessage msg;
                 using (var toSend = imgData.Value.ToStream())

@@ -11,6 +11,7 @@ using Discord.WebSocket;
 using NadekoBot.Services.Database.Models;
 using static NadekoBot.Modules.Permissions.Permissions;
 using System.Collections.Concurrent;
+using Microsoft.EntityFrameworkCore;
 using NLog;
 
 namespace NadekoBot.Modules.Administration
@@ -56,20 +57,12 @@ namespace NadekoBot.Modules.Administration
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task ResetPermissions()
         {
-            var channel = (ITextChannel)Context.Channel;
             using (var uow = DbHandler.UnitOfWork())
             {
-                var config = uow.GuildConfigs.PermissionsFor(Context.Guild.Id);
-                config.RootPermission = Permission.GetDefaultRoot();
-                var toAdd = new PermissionCache()
-                {
-                    RootPermission = config.RootPermission,
-                    PermRole = config.PermissionRole,
-                    Verbose = config.VerbosePermissions,
-                };
-                Cache.AddOrUpdate(channel.Guild.Id,
-                    toAdd, (id, old) => toAdd);
+                var config = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(x => x.Permissions));
+                config.Permissions = Permissionv2.GetDefaultPermlist;
                 await uow.CompleteAsync();
+                UpdateCache(config);
             }
             await ReplyConfirmLocalized("perms_reset").ConfigureAwait(false);
         }

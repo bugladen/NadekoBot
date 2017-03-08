@@ -96,7 +96,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Starts an Acrophobia game. Second argment is optional round length in seconds. (default is 60).
+        ///    Looks up a localized string similar to Starts an Acrophobia game. Second argument is optional round length in seconds. (default is 60).
         /// </summary>
         public static string acro_desc {
             get {

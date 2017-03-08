@@ -41,7 +41,8 @@ namespace NadekoBot.Services.Database.Models
         public HashSet<GCChannelId> GenerateCurrencyChannelIds { get; set; } = new HashSet<GCChannelId>();
 
         //permissions
-        public Permission RootPermission { get; set; }
+        public Permission RootPermission { get; set; } = null;
+        public List<Permissionv2> Permissions { get; set; }
         public bool VerbosePermissions { get; set; } = true;
         public string PermissionRole { get; set; } = "Nadeko";
 

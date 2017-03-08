@@ -2914,7 +2914,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to {0} random {1} appeared! Pick them up by typing `{2}pick`.
+        ///    Looks up a localized string similar to {0} random {1} appeared!.
         /// </summary>
         public static string games_curgen_pl {
             get {
@@ -2923,7 +2923,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to A random {0} appeared! Pick it up by typing `{1}pick`.
+        ///    Looks up a localized string similar to A random {0} appeared!.
         /// </summary>
         public static string games_curgen_sn {
             get {
@@ -3027,6 +3027,24 @@ namespace NadekoBot.Resources {
         public static string games_not_enough {
             get {
                 return ResourceManager.GetString("games_not_enough", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Pick them up by typing `{0}pick`.
+        /// </summary>
+        public static string games_pick_pl {
+            get {
+                return ResourceManager.GetString("games_pick_pl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Pick it up by typing `{0}pick`.
+        /// </summary>
+        public static string games_pick_sn {
+            get {
+                return ResourceManager.GetString("games_pick_sn", resourceCulture);
             }
         }
         

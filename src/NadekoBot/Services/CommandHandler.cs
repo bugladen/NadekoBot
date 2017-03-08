@@ -16,6 +16,7 @@ using NadekoBot.Modules.CustomReactions;
 using NadekoBot.Modules.Games;
 using System.Collections.Concurrent;
 using System.Threading;
+using Microsoft.EntityFrameworkCore;
 using NadekoBot.DataStructures;
 
 namespace NadekoBot.Services
@@ -378,28 +379,26 @@ namespace NadekoBot.Services
                 }
 
                 var cmd = commands[i].Command;
-                bool resetCommand = cmd.Name == "resetperms";
+                var resetCommand = cmd.Name == "resetperms";
                 var module = cmd.Module.GetTopLevelModule();
                 PermissionCache pc;
                 if (context.Guild != null)
                 {
-                    pc = Permissions.Cache.GetOrAdd(context.Guild.Id, (id) =>
+                    if (!Permissions.Cache.TryGetValue(context.Guild.Id, out pc))
                     {
                         using (var uow = DbHandler.UnitOfWork())
                         {
-                            var config = uow.GuildConfigs.PermissionsFor(context.Guild.Id);
-                            return new PermissionCache()
-                            {
-                                Verbose = config.VerbosePermissions,
-                                RootPermission = config.RootPermission,
-                                PermRole = config.PermissionRole.Trim().ToLowerInvariant(),
-                            };
+                            var config = uow.GuildConfigs.For(context.Guild.Id, set => set.Include(x => x.Permissions));
+                            Permissions.UpdateCache(config);
                         }
-                    });
+                        Permissions.Cache.TryGetValue(context.Guild.Id, out pc);
+                        if(pc == null)
+                            throw new Exception("Cache is null.");
+                    }
                     int index;
-                    if (!resetCommand && !pc.RootPermission.AsEnumerable().CheckPermissions(context.Message, cmd.Aliases.First(), module.Name, out index))
+                    if (!resetCommand && !pc.Permissions.CheckPermissions(context.Message, cmd.Aliases.First(), module.Name, out index))
                     {
-                        var returnMsg = $"Permission number #{index + 1} **{pc.RootPermission.GetAt(index).GetCommand((SocketGuild)context.Guild)}** is preventing this action.";
+                        var returnMsg = $"Permission number #{index + 1} **{pc.Permissions[index].GetCommand((SocketGuild)context.Guild)}** is preventing this action.";
                         return new ExecuteCommandResult(cmd, pc, SearchResult.FromError(CommandError.Exception, returnMsg));
                     }
 
