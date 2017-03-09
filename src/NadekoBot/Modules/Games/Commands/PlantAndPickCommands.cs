@@ -162,9 +162,9 @@ namespace NadekoBot.Modules.Games
                     Prefix);
 
                 if (amount > 1)
-                    msgToSend += GetText("pick_pl", Prefix);
+                    msgToSend += " " + GetText("pick_pl", Prefix);
                 else
-                    msgToSend += GetText("pick_sn", Prefix);
+                    msgToSend += " " + GetText("pick_sn", Prefix);
 
                 IUserMessage msg;
                 using (var toSend = imgData.Value.ToStream())

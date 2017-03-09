@@ -1,4 +1,5 @@
-﻿using Discord;
+﻿using System;
+using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
@@ -20,7 +21,7 @@ namespace NadekoBot.Modules.Searches
             {
                 if (string.IsNullOrWhiteSpace(query))
                     return;
-                var battletag = Regex.Replace(query, "#", "-");
+                var battletag = query.Replace("#", "-");
 
                 await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
                 try
@@ -73,15 +74,22 @@ namespace NadekoBot.Modules.Searches
             {
                 try
                 {
-                    using (var http = new HttpClient())
+                    using (var handler = new HttpClientHandler())
                     {
-                        var url = await http.GetStringAsync($"https://api.lootbox.eu/pc/{region.ToLower()}/{battletag}/profile");
-                        var model = JsonConvert.DeserializeObject<OverwatchApiModel.OverwatchPlayer>(url);
-                        return model.data;
+                        handler.ServerCertificateCustomValidationCallback = (x, y, z, e) => true;
+                        using (var http = new HttpClient(handler))
+                        {
+                            var url =
+                                await http.GetStringAsync(
+                                    $"https://api.lootbox.eu/pc/{region.ToLower()}/{battletag}/profile");
+                            var model = JsonConvert.DeserializeObject<OverwatchApiModel.OverwatchPlayer>(url);
+                            return model.data;
+                        }
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
+                    _log.Warn(ex);
                     return null;
                 }
             }
