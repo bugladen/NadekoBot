@@ -920,7 +920,7 @@ Motivo: {1}</value>
     <comment>User flipped tails.</comment>
   </data>
   <data name="gambling_flip_guess" xml:space="preserve">
-    <value>Você Adivinhou! Você ganhou {0}</value>
+    <value>Você adivinhou! Você ganhou {0}</value>
   </data>
   <data name="gambling_flip_invalid" xml:space="preserve">
     <value>O número especificado é inválido. Você pode girar de 1 a {0} moedas.</value>
@@ -1284,10 +1284,12 @@ O novo valor de {0} é {1}!</value>
   </data>
   <data name="games_curgen_pl" xml:space="preserve">
     <value>{0} {1} aleatórios aparecem! Capture-os digitando `{2}pick`</value>
-    <comment>plural</comment>
+    <comment>plural
+Fuzzy</comment>
   </data>
   <data name="games_curgen_sn" xml:space="preserve">
     <value>Um {0} aleatório apareceu! Capture-o digitando `{1}pick`</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="games_failed_loading_question" xml:space="preserve">
     <value>Falha ao carregar a questão.</value>
@@ -1819,7 +1821,7 @@ O novo valor de {0} é {1}!</value>
     <value>Humidade</value>
   </data>
   <data name="searches_image_search_for" xml:space="preserve">
-    <value>Busca de Imagens para:</value>
+    <value>Busca de imagem para:</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="searches_imdb_fail" xml:space="preserve">
@@ -2093,6 +2095,7 @@ O novo valor de {0} é {1}!</value>
   </data>
   <data name="utility_inrole_list" xml:space="preserve">
     <value>Aqui está uma lista de usuários nestes cargos:</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_inrole_not_allowed" xml:space="preserve">
     <value>você não tem permissão de usar esse comando em cargos com muitos usuários para prevenir abuso.</value>
@@ -2187,6 +2190,7 @@ OwnerID: {2}</value>
   </data>
   <data name="utility_quote_deleted" xml:space="preserve">
     <value>Uma citação aleatória foi removida.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_region" xml:space="preserve">
     <value>Região</value>
@@ -2321,6 +2325,18 @@ OwnerID: {2}</value>
   </data>
   <data name="games_x_votes_cast" xml:space="preserve">
     <value>Total de {0} votos proferidos.</value>
+  </data>
+  <data name="games_pick_pl" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_pick_sn" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="gambling_no_users_found" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="gambling_page" xml:space="preserve">
+    <value></value>
   </data>
 
 </root>
