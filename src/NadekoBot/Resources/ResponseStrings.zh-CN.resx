@@ -1285,10 +1285,12 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="games_curgen_pl" xml:space="preserve">
     <value>{0} 个 {1}出现了！ 通过输入`{2} pick&apos;来拾取</value>
-    <comment>plural</comment>
+    <comment>plural
+Fuzzy</comment>
   </data>
   <data name="games_curgen_sn" xml:space="preserve">
     <value>一个{0}出现了！ 通过输入`{1} pick`来拾取</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="games_failed_loading_question" xml:space="preserve">
     <value>加载问题失败。</value>
@@ -2094,6 +2096,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="utility_inrole_list" xml:space="preserve">
     <value>以下是这个身份的用户列表：</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_inrole_not_allowed" xml:space="preserve">
     <value>为防止滥用，您不能对有过多用户的身份使用此命令。</value>
@@ -2188,6 +2191,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="utility_quote_deleted" xml:space="preserve">
     <value>随机删除了一个引用。</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_region" xml:space="preserve">
     <value>区域</value>
@@ -2322,6 +2326,18 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="games_x_votes_cast" xml:space="preserve">
     <value>{0}投票总数。</value>
+  </data>
+  <data name="games_pick_pl" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_pick_sn" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="gambling_no_users_found" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="gambling_page" xml:space="preserve">
+    <value></value>
   </data>
 
 </root>
