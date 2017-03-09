@@ -2405,7 +2405,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to No users found..
+        ///    Looks up a localized string similar to No user found..
         /// </summary>
         public static string gambling_no_users_found {
             get {

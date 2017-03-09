@@ -170,11 +170,14 @@ namespace NadekoBot.Modules.Administration
                 if (conf.ExclusiveSelfAssignedRoles)
                 {
                     var sameRoleId = guildUser.RoleIds.FirstOrDefault(r => roles.Select(sar => sar.RoleId).Contains(r));
-                    var sameRole = Context.Guild.GetRole(sameRoleId);
+                    
                     if (sameRoleId != default(ulong))
                     {
-                        await ReplyErrorLocalized("self_assign_already_excl", Format.Bold(sameRole?.Name)).ConfigureAwait(false);
-                        return;
+                        var sameRole = Context.Guild.GetRole(sameRoleId);
+                        if (sameRole != null)
+                            await guildUser.RemoveRolesAsync(sameRole).ConfigureAwait(false);
+                        //await ReplyErrorLocalized("self_assign_already_excl", Format.Bold(sameRole?.Name)).ConfigureAwait(false);
+                        //return;
                     }
                 }
                 try
