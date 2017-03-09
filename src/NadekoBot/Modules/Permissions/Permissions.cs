@@ -84,7 +84,8 @@ namespace NadekoBot.Modules.Permissions
                     foreach (var oc in oldCache)
                     {
                         if (i % 3 == 0)
-                            log.Info("Migrating Permissions #" + ++i + " - GuildId: " + oc.Key);
+                            log.Info("Migrating Permissions #" + i + " - GuildId: " + oc.Key);
+                        i++;
                         var gc = uow.GuildConfigs.For(oc.Key, set => set.Include(x => x.Permissions));
 
                         var oldPerms = oc.Value.RootPermission.AsEnumerable().Reverse().ToList();
