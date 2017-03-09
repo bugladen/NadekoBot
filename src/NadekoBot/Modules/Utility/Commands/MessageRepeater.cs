@@ -114,11 +114,10 @@ namespace NadekoBot.Modules.Utility
                     source.Cancel();
                 }
 
-                public override string ToString()
-                {
-                    return
-                        $"{Channel.Mention} | {(int) Repeater.Interval.TotalHours}:{Repeater.Interval:mm} | {Repeater.Message.TrimTo(33)}";
-                }
+                public override string ToString() => 
+                    $"{Channel?.Mention ?? $"⚠<#{Repeater.ChannelId}>" } " +
+                    $"| {(int) Repeater.Interval.TotalHours}:{Repeater.Interval:mm} " +
+                    $"| {Repeater.Message.TrimTo(33)}";
             }
 
             static RepeatCommands()
