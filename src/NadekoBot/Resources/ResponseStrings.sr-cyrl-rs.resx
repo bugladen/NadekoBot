@@ -139,8 +139,7 @@
     <value>@{0} Ти већ захтеваш базу #{1}. Не можеш захтевати још једну.</value>
   </data>
   <data name="clashofclans_claim_expired" xml:space="preserve">
-    <value>Захтев од @{0} за рат против {1} је истекао.</value>
-    <comment>Fuzzy</comment>
+    <value>Захтев од @{0} у рату против {1} је истекао.</value>
   </data>
   <data name="clashofclans_enemy" xml:space="preserve">
     <value>Противник</value>
@@ -2046,6 +2045,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="utility_inrole_list" xml:space="preserve">
     <value>Ево је листа корисника у тим ролама:</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_inrole_not_allowed" xml:space="preserve">
     <value>није ти дозвољено да користиш ову команду на ролама са пуно корисника да би се спречила злоупотреба.</value>
@@ -2140,6 +2140,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="utility_quote_deleted" xml:space="preserve">
     <value>Обрисана насумишна </value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_region" xml:space="preserve">
     <value>Регион</value>
@@ -2273,6 +2274,18 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value></value>
   </data>
   <data name="games_x_votes_cast" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_pick_pl" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_pick_sn" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="gambling_no_users_found" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="gambling_page" xml:space="preserve">
     <value></value>
   </data>
 
