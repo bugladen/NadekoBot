@@ -219,12 +219,15 @@ namespace NadekoBot.Modules.Utility
         [RequireContext(ContextType.Guild)]
         public async Task InRole([Remainder] IRole role)
         {
-            
+            var rng = new NadekoRandom();
             var usrs = (await Context.Guild.GetUsersAsync()).ToArray();
-            var roleUsers = usrs.Where(u => u.RoleIds.Contains(role.Id)).Select(u => u.ToString()).ToArray();
+            var roleUsers = usrs.Where(u => u.RoleIds.Contains(role.Id)).Select(u => u.ToString())
+                .ToArray();
             var embed = new EmbedBuilder().WithOkColor()
-                .WithTitle("ℹ️ " + Format.Bold(GetText("inrole_list")) + $" - {roleUsers.Length}")
-                .WithDescription(string.Join(", ", roleUsers));
+                .WithTitle("ℹ️ " + Format.Bold(GetText("inrole_list", Format.Bold(role.Name))) + $" - {roleUsers.Length}")
+                .WithDescription(string.Join(", ", roleUsers
+                    .OrderBy(x => rng.Next())
+                    .Take(50)));
             await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
