@@ -2364,7 +2364,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Deletes a random quote with the specified keyword. You have to either be server Administrator or the creator of the quote to delete it..
+        ///    Looks up a localized string similar to Deletes a quote with the specified ID. You have to be either server Administrator or the creator of the quote to delete it..
         /// </summary>
         public static string deletequote_desc {
             get {

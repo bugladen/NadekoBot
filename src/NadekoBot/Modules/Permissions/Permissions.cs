@@ -219,7 +219,7 @@ namespace NadekoBot.Modules.Permissions
             var startPos = 20 * (page - 1);
             var toSend = Format.Bold(GetText("page", page)) + "\n\n" + string.Join("\n",
                              perms.Reverse()
-                                 .Skip((page - 1) * 20)
+                                 .Skip(startPos)
                                  .Take(20)
                                  .Select(p =>
                                  {

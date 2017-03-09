@@ -2091,7 +2091,7 @@ Owner ID: {2}</value>
     <value>Quote Added</value>
   </data>
   <data name="utility_quote_deleted" xml:space="preserve">
-    <value>Deleted a random quote.</value>
+    <value>Quote #{0} deleted.</value>
   </data>
   <data name="utility_region" xml:space="preserve">
     <value>Region</value>

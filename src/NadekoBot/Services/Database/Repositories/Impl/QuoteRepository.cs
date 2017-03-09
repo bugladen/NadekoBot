@@ -29,6 +29,10 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         {      			
             var rngk = new NadekoRandom();
             return _set.Where(q => q.Text.ContainsNoCase(text, StringComparison.OrdinalIgnoreCase) && q.GuildId == guildId && q.Keyword == keyword).OrderBy(q => rngk.Next()).FirstOrDefaultAsync();
-	}
+    }
+
+        public void RemoveAllByKeyword(ulong guildId, string keyword) =>
+            _set.RemoveRange(_set.Where(x => x.GuildId == guildId && x.Keyword.ToUpper() == keyword));
+
     }
 }

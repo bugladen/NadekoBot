@@ -1156,7 +1156,7 @@
     <value>deletequote delq</value>
   </data>
   <data name="deletequote_desc" xml:space="preserve">
-    <value>Deletes a random quote with the specified keyword. You have to either be server Administrator or the creator of the quote to delete it.</value>
+    <value>Deletes a quote with the specified ID. You have to be either server Administrator or the creator of the quote to delete it.</value>
   </data>
   <data name="deletequote_usage" xml:space="preserve">
     <value>`{0}delq abc`</value>
