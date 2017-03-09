@@ -1287,10 +1287,12 @@ Glömm inte att lämna ditt discord namn eller id i meddelandet.
   </data>
   <data name="games_curgen_pl" xml:space="preserve">
     <value>{0} slumpmässig {1} dök up! Plocka upp genom att skriva `{2} pick`</value>
-    <comment>plural</comment>
+    <comment>plural
+Fuzzy</comment>
   </data>
   <data name="games_curgen_sn" xml:space="preserve">
     <value>En slumpmässig {0} dök upp! Plocka upp genom att skriva `{1} pick`</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="games_failed_loading_question" xml:space="preserve">
     <value>Misslyckades ladda en fråga.</value>
@@ -2077,6 +2079,7 @@ Fuzzy</comment>
   </data>
   <data name="utility_inrole_list" xml:space="preserve">
     <value>Här är en lista av användare i dom rollerna:</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_inrole_not_allowed" xml:space="preserve">
     <value>Du är inte tillåten att använda detta kommando på roller med många användare i dem för att förhindra missbruk.</value>
@@ -2168,6 +2171,7 @@ Medlemmar: {1}
   </data>
   <data name="utility_quote_deleted" xml:space="preserve">
     <value>Tog bort ett slumpvalt citat.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_region" xml:space="preserve">
     <value>Region</value>
@@ -2300,6 +2304,18 @@ Medlemmar: {1}
   </data>
   <data name="games_x_votes_cast" xml:space="preserve">
     <value>{0} antal röster gjorda.</value>
+  </data>
+  <data name="games_pick_pl" xml:space="preserve">
+    <value>Plocka upp de genom att skriva `{0}pick`</value>
+  </data>
+  <data name="games_pick_sn" xml:space="preserve">
+    <value>Plocka upp den genom att skriva `{0}pick`</value>
+  </data>
+  <data name="gambling_no_users_found" xml:space="preserve">
+    <value>Inga användare funna.</value>
+  </data>
+  <data name="gambling_page" xml:space="preserve">
+    <value>sida {0}</value>
   </data>
 
 </root>
