@@ -93,9 +93,9 @@ namespace NadekoBot.Extensions
         private static EmbedBuilder AddPaginatedFooter(this EmbedBuilder embed, int curPage, int? lastPage)
         {
             if (lastPage != null)
-                return embed.WithFooter(efb => efb.WithText($"page {curPage} / {lastPage}"));
+                return embed.WithFooter(efb => efb.WithText($"{curPage} / {lastPage}"));
             else
-                return embed.WithFooter(efb => efb.WithText($"page {curPage}"));
+                return embed.WithFooter(efb => efb.WithText(curPage.ToString()));
         }
 
         public static ReactionEventWrapper OnReaction(this IUserMessage msg, Action<SocketReaction> reactionAdded, Action<SocketReaction> reactionRemoved = null)

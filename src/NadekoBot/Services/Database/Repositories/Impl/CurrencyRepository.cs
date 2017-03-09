@@ -27,8 +27,8 @@ namespace NadekoBot.Services.Database.Repositories.Impl
             return cur;
         }
 
-        public IEnumerable<Currency> GetTopRichest(int count) =>
-            _set.OrderByDescending(c => c.Amount).Take(count).ToList();
+        public IEnumerable<Currency> GetTopRichest(int count, int skip = 0) =>
+            _set.OrderByDescending(c => c.Amount).Skip(skip).Take(count).ToList();
 
         public long GetUserCurrency(ulong userId) => 
             GetOrCreate(userId).Amount;

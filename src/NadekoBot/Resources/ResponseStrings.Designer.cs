@@ -2405,6 +2405,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to No users found..
+        /// </summary>
+        public static string gambling_no_users_found {
+            get {
+                return ResourceManager.GetString("gambling_no_users_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Nobody.
         /// </summary>
         public static string gambling_nobody {
@@ -2419,6 +2428,15 @@ namespace NadekoBot.Resources {
         public static string gambling_not_enough {
             get {
                 return ResourceManager.GetString("gambling_not_enough", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to page {0}.
+        /// </summary>
+        public static string gambling_page {
+            get {
+                return ResourceManager.GetString("gambling_page", resourceCulture);
             }
         }
         

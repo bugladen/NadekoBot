@@ -2224,4 +2224,10 @@ Owner ID: {2}</value>
   <data name="games_pick_sn" xml:space="preserve">
     <value>Pick it up by typing `{0}pick`</value>
   </data>
+  <data name="gambling_no_users_found" xml:space="preserve">
+    <value>No users found.</value>
+  </data>
+  <data name="gambling_page" xml:space="preserve">
+    <value>page {0}</value>
+  </data>
 </root>
