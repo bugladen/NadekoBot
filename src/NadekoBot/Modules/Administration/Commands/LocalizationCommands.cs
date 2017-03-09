@@ -18,7 +18,7 @@ namespace NadekoBot.Modules.Administration
         {
             private ImmutableDictionary<string, string> supportedLocales { get; } = new Dictionary<string, string>()
             {
-                //{"zh-TW", "Chinese (Traditional), China" },
+                {"zh-TW", "Chinese (Traditional), China" },
                 {"zh-CN", "Chinese (Simplified), China"},
                 //{"nl-NL", "Dutch, Netherlands"},
                 {"en-US", "English, United States"},
@@ -31,6 +31,7 @@ namespace NadekoBot.Modules.Administration
                 {"ru-RU", "Russian, Russia"},
                 //{"sr-Cyrl-RS", "Serbian, Serbia - Cyrillic"}
                 {"sv-SE", "Swedish, Sweden"},
+                {"tr-TR", "Turkish, Turkey" }
             }.ToImmutableDictionary();
 
             [NadekoCommand, Usage, Description, Aliases]
