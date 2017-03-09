@@ -558,7 +558,7 @@ Raison : {1}</value>
     <value>Nouveau rôle muet créé.</value>
   </data>
   <data name="administration_need_admin" xml:space="preserve">
-    <value>J&apos;ai besoin de la permission d&apos;**Administrateur** pour effectuer cela.</value>
+    <value>Je nécessite la permission **Administrateur** pour effectuer cela.</value>
   </data>
   <data name="administration_new_msg" xml:space="preserve">
     <value>Nouveau message</value>
@@ -779,7 +779,7 @@ Raison : {1}</value>
     __SalonsIgnorés__: {2}</value>
   </data>
   <data name="administration_text_chan_created" xml:space="preserve">
-    <value>Salon textuel crée.</value>
+    <value>Salon textuel créé.</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_text_chan_destroyed" xml:space="preserve">
@@ -854,7 +854,7 @@ Raison : {1}</value>
     <value>{0} n&apos;est maintenant **plus muet**.</value>
   </data>
   <data name="administration_voice_chan_created" xml:space="preserve">
-    <value>Salon vocal crée.</value>
+    <value>Salon vocal créé.</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_voice_chan_destroyed" xml:space="preserve">
@@ -874,7 +874,7 @@ Raison : {1}</value>
     <value>Vous activez/désactivez cette fonctionnalité et **je n&apos;ai pas la permission ADMINISTRATEUR**. Cela pourrait causer des dysfonctionnements, et vous devrez nettoyer les salons textuels vous-même après ça.</value>
   </data>
   <data name="administration_vt_perms" xml:space="preserve">
-    <value>Je nécessite au moins les permissions  **Gérer les rôles** et **Gérer les salons** pour activer cette fonctionnalité. (Permission Administrateur de préférence)</value>
+    <value>Je nécessite au minimum les rôles **Gérer les rôles** et **Gérer les salons** pour activer cette fonctionnalité. (Permission Administrateur de préférence)</value>
   </data>
   <data name="administration_xmuted_text" xml:space="preserve">
     <value>Utilisateur {0} depuis un salon textuel.</value>
@@ -995,7 +995,8 @@ Raison: {1}</value>
     <value>Gagné</value>
   </data>
   <data name="gambling_sneakygamestatus_desc" xml:space="preserve">
-    <value>Les utilisateurs doivent écrire un code secret pour avoir {0}. Dure {1} secondes. Ne le dite à personne. Shhh.</value>
+    <value>Les utilisateurs doivent écrire un code secret pour avoir {0}. Dure {1} secondes. Ne le dites à personne. Shhh.</value>
+    <comment>&quot;Ne le dis à personne&quot; ou &quot;Ne le dites à personne&quot;. Je vous laisse faire le choix</comment>
   </data>
   <data name="gambling_sneakygamestatus_end" xml:space="preserve">
     <value>L’événement &quot;jeu sournois&quot; s&apos;est fini. {0} utilisateurs ont reçu la récompense.</value>
@@ -1005,7 +1006,8 @@ Raison: {1}</value>
   </data>
   <data name="gambling_tails" xml:space="preserve">
     <value>Pile</value>
-    <comment>Fuzzy</comment>
+    <comment>C&apos;est pas plutôt face ca ?
+Fuzzy</comment>
   </data>
   <data name="gambling_take" xml:space="preserve">
     <value>Vous avez pris {0} de {1} avec succès</value>
@@ -1288,11 +1290,13 @@ La nouvelle valeur de {0} est {1} !</value>
     <value>La génération monétaire a été désactivée sur ce salon.</value>
   </data>
   <data name="games_curgen_pl" xml:space="preserve">
-    <value>{0} {1} aléatoires sont apparus ! Attrapez-les en entrant `{2}pick`</value>
-    <comment>plural</comment>
+    <value>{0} {1} aléatoires sont apparus!</value>
+    <comment>plural
+Fuzzy</comment>
   </data>
   <data name="games_curgen_sn" xml:space="preserve">
-    <value>Un {0} aléatoire est apparu ! Attrapez-le en entrant `{1}pick`</value>
+    <value>Un {0} aléatoire est apparu!</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="games_failed_loading_question" xml:space="preserve">
     <value>Impossible de charger une question.</value>
@@ -1364,7 +1368,7 @@ La nouvelle valeur de {0} est {1} !</value>
     <value>Égalité!</value>
   </data>
   <data name="games_ttt_created" xml:space="preserve">
-    <value>a crée une partie de Morpion.</value>
+    <value>a créé une partie de Morpion.</value>
   </data>
   <data name="games_ttt_has_won" xml:space="preserve">
     <value>{0} a gagné !</value>
@@ -1560,36 +1564,36 @@ La nouvelle valeur de {0} est {1} !</value>
     <value>Volume réglé sur {0}%</value>
   </data>
   <data name="permissions_acm_disable" xml:space="preserve">
-    <value>Désactivation de l&apos;usage de TOUS LES MODULES pour le salon {0}.</value>
+    <value>Désactivation de TOUS LES MODULES pour le salon {0}.</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="permissions_acm_enable" xml:space="preserve">
-    <value>Activation de l&apos;usage de TOUS LES MODULES pour le salon {0}.</value>
+    <value>Activation de TOUS LES MODULES pour le salon {0}.</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="permissions_allowed" xml:space="preserve">
     <value>Permis</value>
   </data>
   <data name="permissions_arm_disable" xml:space="preserve">
-    <value>Désactivation de l&apos;usage de TOUS LES MODULES pour le rôle {0}.</value>
+    <value>Désactivation de TOUS LES MODULES pour le rôle {0}.</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="permissions_arm_enable" xml:space="preserve">
-    <value>Activation de l&apos;usage de TOUS LES MODULES pour le rôle {0}.</value>
+    <value>Activation de TOUS LES MODULES pour le rôle {0}.</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="permissions_asm_disable" xml:space="preserve">
-    <value>Désactivation de l&apos;usage de TOUS LES MODULES sur ce serveur.</value>
+    <value>Désactivation de TOUS LES MODULES sur ce serveur.</value>
   </data>
   <data name="permissions_asm_enable" xml:space="preserve">
-    <value>Activation de l&apos;usage de TOUS LES MODULES sur ce serveur.</value>
+    <value>Activation de TOUS LES MODULES sur ce serveur.</value>
   </data>
   <data name="permissions_aum_disable" xml:space="preserve">
-    <value>Désactivation de l&apos;usage de TOUS LES MODULES pour l&apos;utilisateur {0}.</value>
+    <value>Désactivation de TOUS LES MODULES pour l&apos;utilisateur {0}.</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="permissions_aum_enable" xml:space="preserve">
-    <value>Activation de l&apos;usage de TOUS LES MODULES pour l&apos;utilisateur {0}.</value>
+    <value>Activation de TOUS LES MODULES pour l&apos;utilisateur {0}.</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="permissions_blacklisted" xml:space="preserve">
@@ -1611,11 +1615,11 @@ La nouvelle valeur de {0} est {1} !</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="permissions_cx_disable" xml:space="preserve">
-    <value>Usage de {0} {1} désactivé sur le salon {2}.</value>
+    <value>Désactivation: {1} {0} sur le salon {2}.</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="permissions_cx_enable" xml:space="preserve">
-    <value>Usage de {0} {1} activé sur le salon {2}.</value>
+    <value>Activation: {1} {0} sur le salon {2}.</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="permissions_denied" xml:space="preserve">
@@ -1679,20 +1683,20 @@ La nouvelle valeur de {0} est {1} !</value>
     <value>Supression des permissions #{0} - {1}</value>
   </data>
   <data name="permissions_rx_disable" xml:space="preserve">
-    <value>Usage de {0} {1} désactivé pour le rôle {2}.</value>
+    <value>Désactivation: {1} {0} pour le rôle {2}.</value>
   </data>
   <data name="permissions_rx_enable" xml:space="preserve">
-    <value>Usage de {0} {1} activé pour le rôle {2}.</value>
+    <value>Activation: {1} {0} pour le rôle {2}.</value>
   </data>
   <data name="permissions_sec" xml:space="preserve">
     <value>sec.</value>
     <comment>Short of seconds.</comment>
   </data>
   <data name="permissions_sx_disable" xml:space="preserve">
-    <value>Usage de {0} {1} désactivé pour le serveur.</value>
+    <value>Désactivation: {1} {0} sur tout le serveur.</value>
   </data>
   <data name="permissions_sx_enable" xml:space="preserve">
-    <value>Usage de {0} {1} activé pour le serveur.</value>
+    <value>Activation: {1} {0} sur tout le serveur.</value>
   </data>
   <data name="permissions_unblacklisted" xml:space="preserve">
     <value>Débanni {0} avec l&apos;ID {1}</value>
@@ -1701,10 +1705,10 @@ La nouvelle valeur de {0} est {1} !</value>
     <value>Non modifiable</value>
   </data>
   <data name="permissions_ux_disable" xml:space="preserve">
-    <value>Usage de {0} {1} désactivé pour l&apos;utilisateur {2}.</value>
+    <value>Désactivation: {1} {0} pour l&apos;utilisateur {2}.</value>
   </data>
   <data name="permissions_ux_enable" xml:space="preserve">
-    <value>Usage de {0} {1} activé pour l&apos;utilisateur {2}.</value>
+    <value>Activation: {1} {0} pour l&apos;utilisateur {2}.</value>
   </data>
   <data name="permissions_verbose_false" xml:space="preserve">
     <value>Je n&apos;afficherai plus les avertissements des permissions.</value>
@@ -2101,6 +2105,7 @@ Fuzzy</comment>
   </data>
   <data name="utility_inrole_list" xml:space="preserve">
     <value>Voici une liste des utilisateurs dans ces rôles :</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_inrole_not_allowed" xml:space="preserve">
     <value>Vous ne pouvez pas utiliser cette commande sur un rôle incluant beaucoup d&apos;utilisateurs afin d&apos;éviter les abus.</value>
@@ -2195,7 +2200,8 @@ OwnerID: {2}</value>
     <value>Citation ajoutée</value>
   </data>
   <data name="utility_quote_deleted" xml:space="preserve">
-    <value>Une citation aléatoire a été supprimée.</value>
+    <value>Citation #{0} supprimée.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_region" xml:space="preserve">
     <value>Région</value>
@@ -2333,6 +2339,18 @@ Fuzzy</comment>
   </data>
   <data name="games_x_votes_cast" xml:space="preserve">
     <value>{0} votes enregistrés au total.</value>
+  </data>
+  <data name="games_pick_pl" xml:space="preserve">
+    <value>Attrapez-les en écrivant `{0}pick`</value>
+  </data>
+  <data name="games_pick_sn" xml:space="preserve">
+    <value>Attrapez-le en écrivant `{0}pick`</value>
+  </data>
+  <data name="gambling_no_users_found" xml:space="preserve">
+    <value>Aucun utilisateur trouvé.</value>
+  </data>
+  <data name="gambling_page" xml:space="preserve">
+    <value>page {0}</value>
   </data>
 
 </root>
