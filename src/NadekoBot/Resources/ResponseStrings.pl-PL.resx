@@ -1264,6 +1264,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
   </data>
   <data name="games_curgen_sn" xml:space="preserve">
     <value>{0} się pojawiły! Zdobądź je, pisząc `{1}pick`</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="games_failed_loading_question" xml:space="preserve">
     <value>Nie udało się załadować pytania.</value>
@@ -2237,6 +2238,18 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value></value>
   </data>
   <data name="games_x_votes_cast" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_pick_pl" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="games_pick_sn" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="gambling_no_users_found" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="gambling_page" xml:space="preserve">
     <value></value>
   </data>
 
