@@ -158,6 +158,7 @@
   </data>
   <data name="clashofclans_not_claimed" xml:space="preserve">
     <value>Alınmamış</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_not_partic" xml:space="preserve">
     <value>Bu savaşa katılmadınız.</value>
@@ -191,6 +192,7 @@
   </data>
   <data name="customreactions_deleted" xml:space="preserve">
     <value>Özel reaksiyonlar silindi.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="customreactions_insuff_perms" xml:space="preserve">
     <value>Yetersiz yetki.Global özel reaksiyonlar için bot sahibi yetkisi gerkirken, server tabanlı özel reaksiyonlar için Administrator yetkisi gerekir.</value>
@@ -242,6 +244,7 @@
   </data>
   <data name="pokemon_attack" xml:space="preserve">
     <value>{2}{3}&apos;de {4} hasar için {0}{1} kullandı</value>
+    <comment>Kwoth used punch:type_icon: on Sanity:type_icon: for 50 damage.</comment>
   </data>
   <data name="pokemon_cant_attack_again" xml:space="preserve">
     <value>İntikam almadan bir daha saldıramassın.</value>
@@ -254,6 +257,7 @@
   </data>
   <data name="pokemon_healed" xml:space="preserve">
     <value>{0} iyileştirdi kullanarak {1}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="pokemon_hp_remaining" xml:space="preserve">
     <value>{0} canı {1} kaldı.</value>
@@ -467,6 +471,7 @@ Sebep: {1}</value>
   </data>
   <data name="administration_kicked_user" xml:space="preserve">
     <value>Kullanıcı Atıldı</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_lang_list" xml:space="preserve">
     <value>Dil Listesi</value>
@@ -537,7 +542,7 @@ Sebep: {1}</value>
   </data>
   <data name="administration_muted_sn" xml:space="preserve">
     <value>Susturuldu!</value>
-    <comment>singular "User muted."</comment>
+    <comment>singular &quot;User muted.&quot;</comment>
   </data>
   <data name="administration_mute_error" xml:space="preserve">
     <value>Bunun için gerekli iznim yok.</value>
@@ -688,7 +693,7 @@ Sebep: {1}</value>
     <value>Otomatik atanabilir roller artık özel değil!</value>
   </data>
   <data name="administration_self_assign_perms" xml:space="preserve">
-    <value>Bu rolü ekleyemem. `Rol hiyerarşisinde rolümden daha yüksek olan sahiplere veya diğer rollere rol ekleyemem. '</value>
+    <value>Bu rolü ekleyemem. `Rol hiyerarşisinde rolümden daha yüksek olan sahiplere veya diğer rollere rol ekleyemem. &apos;</value>
   </data>
   <data name="administration_self_assign_rem" xml:space="preserve">
     <value>{0}, otomatik atanabilir roller listesinden kaldırıldı.</value>
@@ -730,7 +735,7 @@ Sebep: {1}</value>
     <value>Kapatılıyor.</value>
   </data>
   <data name="administration_slowmode_desc" xml:space="preserve">
-    <value>Kullanıcılar, {1} saniyede bir {0}'den fazla mesaj gönderemez.</value>
+    <value>Kullanıcılar, {1} saniyede bir {0}&apos;den fazla mesaj gönderemez.</value>
   </data>
   <data name="administration_slowmode_disabled" xml:space="preserve">
     <value>Yavaş mod devre dışı.</value>
@@ -749,7 +754,7 @@ Sebep: {1}</value>
     <value>{0} artık bu kanalı yoksayacak.</value>
   </data>
   <data name="administration_spam_stats" xml:space="preserve">
-    <value>Bir kullanıcı {0} 'da aynı mesajları aynı sırada gönderirse, bunları {1} yapacağım.
+    <value>Bir kullanıcı {0} &apos;da aynı mesajları aynı sırada gönderirse, bunları {1} yapacağım.
     __YokSayılanKanallar__: {2}</value>
   </data>
   <data name="administration_text_chan_created" xml:space="preserve">
@@ -832,7 +837,7 @@ Sebep: {1}</value>
     <value>Ses + metin özelliği etkin.</value>
   </data>
   <data name="administration_vt_exit" xml:space="preserve">
-    <value>**Rolleri yönetme** ve/veya **Kanalları yönetme** iznim yok, Bu yüzden {0} sunucusunda 'ses + metin' çalıştıramıyorum.</value>
+    <value>**Rolleri yönetme** ve/veya **Kanalları yönetme** iznim yok, Bu yüzden {0} sunucusunda &apos;ses + metin&apos; çalıştıramıyorum.</value>
   </data>
   <data name="administration_vt_no_admin" xml:space="preserve">
     <value>Bu özelliği etkinleştiriyorsun/devre dışı bırakıyorsun ve **YÖNETİCİ izinlerine sahip değilim**. Bu bazı sorunlara neden olabilir ve daha sonra kendiniz metin kanallarını temizlemeklisiniz.</value>
@@ -869,7 +874,7 @@ Sebep: {1}</value>
     <value>Kullanıcı hafif bir şekilde yasaklandı.</value>
   </data>
   <data name="gambling_awarded" xml:space="preserve">
-    <value>{1} 'e {0} ödül vermiş</value>
+    <value>{1} &apos;e {0} ödül vermiş</value>
   </data>
   <data name="gambling_better_luck" xml:space="preserve">
     <value>Bir dahaki sefere artık ^_^</value>
@@ -882,6 +887,7 @@ Sebep: {1}</value>
   </data>
   <data name="gambling_flipped" xml:space="preserve">
     <value>{0} çevirdi.</value>
+    <comment>User flipped tails.</comment>
   </data>
   <data name="gambling_flip_guess" xml:space="preserve">
     <value>Tahmin ettin! {0} kazandın</value>
@@ -899,11 +905,11 @@ Sebep: {1}</value>
     <value>Çiçek reaksiyonu olayı başladı!</value>
   </data>
   <data name="gambling_gifted" xml:space="preserve">
-    <value>{0}'dan {1}'e hediye verdi</value>
+    <value>{0}&apos;dan {1}&apos;e hediye verdi</value>
     <comment>X has gifted 15 flowers to Y</comment>
   </data>
   <data name="gambling_has" xml:space="preserve">
-    <value>{0}'da {1} var</value>
+    <value>{0}&apos;da {1} var</value>
     <comment>X has Y flowers</comment>
   </data>
   <data name="gambling_heads" xml:space="preserve">
@@ -916,10 +922,10 @@ Sebep: {1}</value>
     <value>{2} rolünden {1} kullanıcıya {0} kazandı.</value>
   </data>
   <data name="gambling_max_bet_limit" xml:space="preserve">
-    <value>{0}'dan fazla bahse giremezsiniz.</value>
+    <value>{0}&apos;dan fazla bahse giremezsiniz.</value>
   </data>
   <data name="gambling_min_bet_limit" xml:space="preserve">
-    <value>{0}'dan daha az bahis oynayamazsınız</value>
+    <value>{0}&apos;dan daha az bahis oynayamazsınız</value>
   </data>
   <data name="gambling_not_enough" xml:space="preserve">
     <value>Yeterli düzeyde {0} yok</value>
@@ -965,10 +971,10 @@ Sebep: {1}</value>
     <value>Kuyruklar</value>
   </data>
   <data name="gambling_take" xml:space="preserve">
-    <value>Başarıyla {1}'den {0} aldı</value>
+    <value>Başarıyla {1}&apos;den {0} aldı</value>
   </data>
   <data name="gambling_take_fail" xml:space="preserve">
-    <value>Kullanıcı {2} sayısına sahip olmadığından {1}'ten {0} alamadı!</value>
+    <value>Kullanıcı {2} sayısına sahip olmadığından {1}&apos;ten {0} alamadı!</value>
   </data>
   <data name="help_back_to_toc" xml:space="preserve">
     <value>Listenin başına dön</value>
@@ -989,7 +995,7 @@ Sebep: {1}</value>
     <value>Komut listesi yeniden oluşturuldu.</value>
   </data>
   <data name="help_commands_instr" xml:space="preserve">
-    <value>Belirli bir komut hakkinda yardim icin, {0}h "Komut Adı" bu şekilde kullanınız. (Örneğin: {0}h &gt;8ball).</value>
+    <value>Belirli bir komut hakkinda yardim icin, {0}h &quot;Komut Adı&quot; bu şekilde kullanınız. (Örneğin: {0}h &gt;8ball).</value>
   </data>
   <data name="help_command_not_found" xml:space="preserve">
     <value>Bu komutu bulamıyorum. Lütfen tekrar denemeden önce komutun var olduğunu doğrulayın.</value>
@@ -998,7 +1004,11 @@ Sebep: {1}</value>
     <value>Tanıtım</value>
   </data>
   <data name="help_donate" xml:space="preserve">
-    <value>Yakında
+    <value>NadekoBot projesini destekleyebilirsiniz 
+ Patreon &lt;{0}&gt; yada
+ Paypal &lt;{1}&gt;
+ Mesajda discord adınızı veya kimliğini bırakmayı unutma.
+ 
 **Teşekkür ederim** ♥️</value>
   </data>
   <data name="help_guide" xml:space="preserve">
@@ -1012,7 +1022,7 @@ Sebep: {1}</value>
     <value>Modüllerin listesi</value>
   </data>
   <data name="help_modules_footer" xml:space="preserve">
-    <value>Modül komutlarının bir listesini görmek için "{0}cmds Modül İsmi" (Örneğin: {0}cmds Administration) şeklinde kullanmalısınız.</value>
+    <value>Modül komutlarının bir listesini görmek için &quot;{0}cmds Modül İsmi&quot; (Örneğin: {0}cmds Administration) şeklinde kullanmalısınız.</value>
   </data>
   <data name="help_module_not_found" xml:space="preserve">
     <value>Bu modül mevcut değil.</value>
@@ -1068,6 +1078,7 @@ Sebep: {1}</value>
   </data>
   <data name="gambling_dice_rolled" xml:space="preserve">
     <value>{0} çevirdi</value>
+    <comment>Someone rolled 35</comment>
   </data>
   <data name="gambling_dice_rolled_num" xml:space="preserve">
     <value>Zar atıldı: {0}</value>
@@ -1090,12 +1101,10 @@ Sebep: {1}</value>
   </data>
   <data name="gambling_divorces" xml:space="preserve">
     <value>Boşandı</value>
+    <comment>is that plural?</comment>
   </data>
   <data name="gambling_likes" xml:space="preserve">
     <value>Beğendi</value>
-  </data>
-  <data name="gambling_nobody" xml:space="preserve">
-    <value>Kimse</value>
   </data>
   <data name="gambling_price" xml:space="preserve">
     <value>Fiyat</value>
@@ -1110,7 +1119,7 @@ Sebep: {1}</value>
     <value>Çekiminiz zaten o talip ayarlıyken veya çekim yapmadığınız halde çekimliliğinizi kaldırmaya çalışıyorsunuz.</value>
   </data>
   <data name="gambling_waifu_affinity_changed" xml:space="preserve">
-    <value>Bağlılıkları {0}'dan {1}'e değiştirildi.
+    <value>Bağlılıkları {0}&apos;dan {1}&apos;e değiştirildi.
 
 *Bu ahlaki açıdan sorgulanabilir.*🤔</value>
     <comment>Make sure to get the formatting right, and leave the thinking emoji</comment>
@@ -1122,7 +1131,7 @@ Sebep: {1}</value>
     <value>Benzeşim sıfırlandı. Artık sevdiğin bir insana sahip değilsin.</value>
   </data>
   <data name="gambling_waifu_affinity_set" xml:space="preserve">
-    <value>{0} 'ın talip olmasını istiyor. Aww &lt;3 </value>
+    <value>{0} &apos;ın talip olmasını istiyor. Aww &lt;3 </value>
   </data>
   <data name="gambling_waifu_claimed" xml:space="preserve">
     <value>{1} için kendi talibi olarak {0} iddiasında bulundu!</value>
@@ -1131,15 +1140,12 @@ Sebep: {1}</value>
     <value>Seni seven bir talipden boşandın. Seni kalpsiz canavar.
 {0} tazminat olarak {1} aldı.</value>
   </data>
-  <data name="gambling_waifu_divorced_notlike" xml:space="preserve">
-    <value>Senden hoşlanmayan bir talib den boşandın. {0} geri aldınız.</value>
-  </data>
   <data name="gambling_waifu_egomaniac" xml:space="preserve">
     <value>Kendinize yakınlık kuramazsınız, sizi egomanyak.</value>
   </data>
   <data name="gambling_waifu_fulfilled" xml:space="preserve">
     <value>🎉 Aşkları yerine getirildi! 🎉
-{0}'un yeni durumu {1}!</value>
+{0}&apos;un yeni durumu {1}!</value>
   </data>
   <data name="gambling_waifu_isnt_cheap" xml:space="preserve">
     <value>Hiçbir talip bu kadar ucuz değil. Gerçek değeriniz düşük olsa dahi, en azından {0} ödemek zorundasınız.</value>
@@ -1155,6 +1161,12 @@ Sebep: {1}</value>
   </data>
   <data name="gambling_waifu_recent_divorce" xml:space="preserve">
     <value>Son zamanlarda boşandın. Boşanmak için {0} saat ve {1} dakika beklemelisiniz.</value>
+  </data>
+  <data name="gambling_nobody" xml:space="preserve">
+    <value>Kimse</value>
+  </data>
+  <data name="gambling_waifu_divorced_notlike" xml:space="preserve">
+    <value>Senden hoşlanmayan bir talib den boşandın. {0} geri aldınız.</value>
   </data>
   <data name="games_8ball" xml:space="preserve">
     <value>8Top</value>
@@ -1210,9 +1222,6 @@ Sebep: {1}</value>
   <data name="gambling_animal_race_already_started" xml:space="preserve">
     <value>Hayvan yarışı zaten çalışıyor.</value>
   </data>
-  <data name="gambling_animal_race_already_in" xml:space="preserve">
-    <value>Zaten bu yarışa katıldınız!</value>
-  </data>
   <data name="gambling_total_average" xml:space="preserve">
     <value>Toplam: {0} Ortalama: {1}</value>
   </data>
@@ -1232,11 +1241,13 @@ Sebep: {1}</value>
     <value>Para birimi oluşturma, bu kanalda etkinleştirildi.</value>
   </data>
   <data name="games_curgen_pl" xml:space="preserve">
-    <value>{0} rastgele {1} ortaya çıktı! `{2}pick` yazarak onları topla</value>
-    <comment>plural</comment>
+    <value>{0} rastgele {1} ortaya çıktı!</value>
+    <comment>plural
+Fuzzy</comment>
   </data>
   <data name="games_curgen_sn" xml:space="preserve">
-    <value>Rastgele bir {0} ortaya çıktı! `{1}pick` yazarak topla</value>
+    <value>Rastgele bir {0} ortaya çıktı!</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="games_failed_loading_question" xml:space="preserve">
     <value>Bir soru yüklenemedi.</value>
@@ -1254,7 +1265,7 @@ Sebep: {1}</value>
     <value>Adam asmaca başlatılırken hata verdi.</value>
   </data>
   <data name="games_hangman_types" xml:space="preserve">
-    <value>"{0}hangman" terim türlerinin listesi:</value>
+    <value>&quot;{0}hangman&quot; terim türlerinin listesi:</value>
   </data>
   <data name="games_leaderboard" xml:space="preserve">
     <value>Lider listesi</value>
@@ -1267,9 +1278,11 @@ Sebep: {1}</value>
   </data>
   <data name="games_picked" xml:space="preserve">
     <value>{0} adet topladı</value>
+    <comment>Kwoth picked 5*</comment>
   </data>
   <data name="games_planted" xml:space="preserve">
     <value>{0},{1} dikti.</value>
+    <comment>Kwoth planted 5*</comment>
   </data>
   <data name="games_trivia_already_running" xml:space="preserve">
     <value>Oyuncak oyunu zaten bu sunucuda çalışıyor.</value>
@@ -1284,7 +1297,7 @@ Sebep: {1}</value>
     <value>Bu sunucuda hiçbir oyuncak çalışmıyor.</value>
   </data>
   <data name="games_trivia_points" xml:space="preserve">
-    <value>{0}'da {1} puan var</value>
+    <value>{0}&apos;da {1} puan var</value>
   </data>
   <data name="games_trivia_stopping" xml:space="preserve">
     <value>Bu sorunun ardından bitiriyorum.</value>
@@ -1320,7 +1333,7 @@ Sebep: {1}</value>
     <value>Zaman doldu!</value>
   </data>
   <data name="games_ttt_users_move" xml:space="preserve">
-    <value>{0}'un hareketi</value>
+    <value>{0}&apos;un hareketi</value>
   </data>
   <data name="games_vs" xml:space="preserve">
     <value>{0} ile {1} karşılaşıyor</value>
@@ -1410,7 +1423,7 @@ Sebep: {1}</value>
     <value>Bu çalma listesini silmek başarısız oldu.Ya mevcut değil yada oluşturan siz değilsiniz.</value>
   </data>
   <data name="music_playlist_id_not_found" xml:space="preserve">
-    <value>Bu id'ye sahip oynatma listesi mevcut değil.</value>
+    <value>Bu id&apos;ye sahip oynatma listesi mevcut değil.</value>
   </data>
   <data name="music_playlist_queue_complete" xml:space="preserve">
     <value>Oynatma listesi tamamlandı.</value>
@@ -1435,7 +1448,7 @@ Sebep: {1}</value>
   </data>
   <data name="music_removed_song" xml:space="preserve">
     <value>numaralı şarkı kaldırıldı.</value>
-    <comment>context: "removed song #5"</comment>
+    <comment>context: &quot;removed song #5&quot;</comment>
   </data>
   <data name="music_repeating_cur_song" xml:space="preserve">
     <value>Geçerli şarkı tekrarlanıyor</value>
@@ -1513,10 +1526,10 @@ Sebep: {1}</value>
     <value>{0} kullanıcısı için TÜM MODÜLLERİN kullanımı etkinleştirdi.</value>
   </data>
   <data name="permissions_blacklisted" xml:space="preserve">
-    <value>{0} adlı ve {1} id'li kullanıcı karalisteye alındı.</value>
+    <value>{0} adlı ve {1} id&apos;li kullanıcı karalisteye alındı.</value>
   </data>
   <data name="permissions_cmdcd_add" xml:space="preserve">
-    <value>Komut {0} şimdi {1}'lik bir bekleme süresine sahip.</value>
+    <value>Komut {0} şimdi {1}&apos;lik bir bekleme süresine sahip.</value>
   </data>
   <data name="permissions_cmdcd_cleared" xml:space="preserve">
     <value>{0} komutunun şimdi bir bekleme süresi yok ve mevcut tüm bekleme süreleri temizlendi.</value>
@@ -1561,7 +1574,7 @@ Sebep: {1}</value>
     <value>Davet filtreleme bu sunucu üzerinde etkin.</value>
   </data>
   <data name="permissions_moved_permission" xml:space="preserve">
-    <value>{0}, #{1}'den #{2}'ye taşındı</value>
+    <value>{0}, #{1}&apos;den #{2}&apos;ye taşındı</value>
   </data>
   <data name="permissions_not_found" xml:space="preserve">
     <value>{0} dizininde izin bulamıyor.</value>
@@ -1571,7 +1584,7 @@ Sebep: {1}</value>
   </data>
   <data name="permissions_of_command" xml:space="preserve">
     <value>komut</value>
-    <comment>Gen. (of command)</comment>
+    <comment>Gen (of command)</comment>
   </data>
   <data name="permissions_of_module" xml:space="preserve">
     <value>modül</value>
@@ -1754,7 +1767,7 @@ Sebep: {1}</value>
   </data>
   <data name="searches_list_of_place_tags" xml:space="preserve">
     <value>{0}place etiketlerinin listesi</value>
-    <comment>Don't translate {0}place</comment>
+    <comment>Don&apos;t translate {0}place</comment>
   </data>
   <data name="searches_location" xml:space="preserve">
     <value>Lokasyon</value>
@@ -1925,9 +1938,9 @@ Sebep: {1}</value>
     <value>Katıldı</value>
   </data>
   <data name="utility_activity_line" xml:space="preserve">
-    <value>`{0}.` {1} [{2:F2}/s] - {3} total </value>
+    <value>`{0}.` {1} [her saniye/{2:F2}] - toplam {3}</value>
     <comment>/s and total need to be localized to fit the context -
-`1.` </comment>
+`1.`</comment>
   </data>
   <data name="utility_activity_page" xml:space="preserve">
     <value>Aktivite sayfası #{0}</value>
@@ -1939,7 +1952,7 @@ Sebep: {1}</value>
     <value>Yapımcı</value>
   </data>
   <data name="utility_botid" xml:space="preserve">
-    <value>Bot ID</value>
+    <value>Bot Kimliği</value>
   </data>
   <data name="utility_calcops" xml:space="preserve">
     <value>{0}calc komutundaki fonksiyonların listesi</value>
@@ -1960,10 +1973,10 @@ Sebep: {1}</value>
     <value>Dönüştürücü tarafından kullanılabilen üniteler</value>
   </data>
   <data name="utility_convert_not_found" xml:space="preserve">
-    <value>{0} 'ı {1}' e dönüştüremem: birimleri bulunamadım</value>
+    <value>{0} &apos;ı {1}&apos; e dönüştüremem: birimleri bulunamadım</value>
   </data>
   <data name="utility_convert_type_error" xml:space="preserve">
-    <value>{0} 'ı {1}' e dönüştüremiyorum: birim türleri eşit değil.</value>
+    <value>{0} &apos;ı {1}&apos; e dönüştüremiyorum: birim türleri eşit değil.</value>
   </data>
   <data name="utility_created_at" xml:space="preserve">
     <value>Tarihinde oluşturuldu</value>
@@ -1994,6 +2007,7 @@ Sebep: {1}</value>
   </data>
   <data name="utility_inrole_list" xml:space="preserve">
     <value>{0} rolündeki kullanıcıların listesi</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_inrole_not_allowed" xml:space="preserve">
     <value>Kötüye kullanımını önlemek için bu komutlar, çok sayıda kullanıcısı olan rollerde kullanmanıza izin verilmez.</value>
@@ -2003,7 +2017,7 @@ Sebep: {1}</value>
     <comment>Invalid months value/ Invalid hours value</comment>
   </data>
   <data name="utility_joined_discord" xml:space="preserve">
-    <value>Discord'a katıldı</value>
+    <value>Discord&apos;a katıldı</value>
   </data>
   <data name="utility_joined_server" xml:space="preserve">
     <value>Sunucuya katıldı</value>
@@ -2059,7 +2073,7 @@ Kurucu Kimliği: {2}</value>
     <value>Sahip kimlikleri</value>
   </data>
   <data name="utility_presence" xml:space="preserve">
-    <value>Varlık</value>
+    <value>Durum</value>
   </data>
   <data name="utility_presence_txt" xml:space="preserve">
     <value>{0} Sunucu
@@ -2083,6 +2097,7 @@ Kurucu Kimliği: {2}</value>
   </data>
   <data name="utility_quote_deleted" xml:space="preserve">
     <value>Rastgele alıntı silindi.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_region" xml:space="preserve">
     <value>Bölge</value>
@@ -2091,7 +2106,7 @@ Kurucu Kimliği: {2}</value>
     <value>Tarihinden beri kayıtlı</value>
   </data>
   <data name="utility_remind" xml:space="preserve">
-    <value>({4:HH:mm} de {3:d.M.yyyy.}) {0}'ı {2}`de {1}'e hatırlatacağım</value>
+    <value>({4:HH:mm} de {3:d.M.yyyy.}) {0}&apos;ı {2}`de {1}&apos;e hatırlatacağım</value>
   </data>
   <data name="utility_remind_invalid_format" xml:space="preserve">
     <value>Geçerli zaman biçimi değil. Komut listesine bakın.</value>
@@ -2170,12 +2185,16 @@ Kurucu Kimliği: {2}</value>
   </data>
   <data name="utility_userid" xml:space="preserve">
     <value>{1} kullanıcısının {0} numarası {2}</value>
+    <comment>Id of the user kwoth#1234 is 123123123123</comment>
   </data>
   <data name="utility_users" xml:space="preserve">
     <value>Kullanıcı</value>
   </data>
   <data name="utility_voice_channels" xml:space="preserve">
     <value>Ses kanalı</value>
+  </data>
+  <data name="gambling_animal_race_already_in" xml:space="preserve">
+    <value>Zaten bu yarışa katıldınız!</value>
   </data>
   <data name="games_current_poll_results" xml:space="preserve">
     <value>Geçerli anket sonuçları</value>
@@ -2190,10 +2209,11 @@ Kurucu Kimliği: {2}</value>
     <value>📃 {0} dikkatinizi gerektiren bir anket hazırladı:</value>
   </data>
   <data name="games_poll_result" xml:space="preserve">
-    <value>`{0}.'{1} ile {2} oy aldı.</value>
+    <value>`{0}.&apos;{1} ile {2} oy aldı.</value>
   </data>
   <data name="games_poll_voted" xml:space="preserve">
     <value>{0} oyladı.</value>
+    <comment>Kwoth voted.</comment>
   </data>
   <data name="games_poll_vote_private" xml:space="preserve">
     <value>Özel cevap numarasına karşılık bana mesaj atın.</value>
@@ -2207,4 +2227,17 @@ Kurucu Kimliği: {2}</value>
   <data name="games_x_votes_cast" xml:space="preserve">
     <value>{0} toplam oynanan oy.</value>
   </data>
+  <data name="games_pick_pl" xml:space="preserve">
+    <value>`{0} pick` yazarak onları topla</value>
+  </data>
+  <data name="games_pick_sn" xml:space="preserve">
+    <value>`{0}pick` yazarak topla</value>
+  </data>
+  <data name="gambling_no_users_found" xml:space="preserve">
+    <value>Kullanıcı bulunamadı.</value>
+  </data>
+  <data name="gambling_page" xml:space="preserve">
+    <value>sayfa {0}</value>
+  </data>
+
 </root>
