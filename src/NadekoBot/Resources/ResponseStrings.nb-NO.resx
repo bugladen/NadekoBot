@@ -1275,10 +1275,12 @@ Ikke glem å skrive Discord navnet eller ID i meldingen.
   </data>
   <data name="games_curgen_pl" xml:space="preserve">
     <value>{0} tilfeldig {1} dukket opp! Plukk dem opp ved og skrive&apos;{2}pick&apos;</value>
-    <comment>plural</comment>
+    <comment>plural
+Fuzzy</comment>
   </data>
   <data name="games_curgen_sn" xml:space="preserve">
     <value>En tilfeldig {0} dukket opp! Plukk den opp ved og skrive &apos;{1}pick&apos;</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="games_failed_loading_question" xml:space="preserve">
     <value>Kunne ikke laste inn spørsmål.</value>
@@ -2052,6 +2054,7 @@ Ikke glem å skrive Discord navnet eller ID i meldingen.
   </data>
   <data name="utility_inrole_list" xml:space="preserve">
     <value>Her er en liste over brukere i disse rollene:</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_inrole_not_allowed" xml:space="preserve">
     <value>Du har ikke lov til å bruke denne kommandoen på roller med mange brukere i dem for å hindre misbruk.</value>
@@ -2140,7 +2143,8 @@ Eier ID: {2}</value>
     <value>Sitat lagt til</value>
   </data>
   <data name="utility_quote_deleted" xml:space="preserve">
-    <value>Slettet et tilfeldig sitat.</value>
+    <value>Sitat #{0} slettet.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_region" xml:space="preserve">
     <value>Region</value>
@@ -2149,7 +2153,7 @@ Eier ID: {2}</value>
     <value>Registrert den</value>
   </data>
   <data name="utility_remind" xml:space="preserve">
-    <value>Jeg vil minne på {0} til {1} i {2} `({3:. d.M.yyyy} ved {4:HH:mm})`</value>
+    <value>Jeg vil minne {0} på å {1} i {2} `({3:. d.M.yyyy} om {4:HH:mm})`</value>
   </data>
   <data name="utility_remind_invalid_format" xml:space="preserve">
     <value>Ikke et gyldig format. Sjekk kommandolisten.</value>
@@ -2269,6 +2273,18 @@ Eier ID: {2}</value>
   </data>
   <data name="games_x_votes_cast" xml:space="preserve">
     <value>{0} totalt stemmer avgitt.</value>
+  </data>
+  <data name="games_pick_pl" xml:space="preserve">
+    <value>Plukk dem opp ved å skrive `{0}pick`</value>
+  </data>
+  <data name="games_pick_sn" xml:space="preserve">
+    <value>Plukk den opp ved å skrive `{0}pick`</value>
+  </data>
+  <data name="gambling_no_users_found" xml:space="preserve">
+    <value>Ingen bruker funnet</value>
+  </data>
+  <data name="gambling_page" xml:space="preserve">
+    <value>side {0}</value>
   </data>
 
 </root>
