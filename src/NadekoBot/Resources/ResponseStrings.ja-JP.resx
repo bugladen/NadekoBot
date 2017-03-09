@@ -749,58 +749,79 @@ Fuzzy</comment>
 </value>
   </data>
   <data name="administration_rc_perms" xml:space="preserve">
-    <value></value>
+    <value>無効な色または権限が不十分なためにエラーが発生しました。
+</value>
+    <comment>TYPO, &quot;Occured&quot; should be &apos;Occurred&apos;</comment>
   </data>
   <data name="administration_remrole" xml:space="preserve">
-    <value></value>
+    <value>ユーザー{1}からロール{0}を削除しました
+</value>
   </data>
   <data name="administration_remrole_err" xml:space="preserve">
-    <value></value>
+    <value>役割を削除できませんでした。私には十分な権限がありません。
+</value>
   </data>
   <data name="administration_renrole" xml:space="preserve">
     <value>役割名を変更しました</value>
   </data>
   <data name="administration_renrole_err" xml:space="preserve">
-    <value></value>
+    <value>役割の名前を変更できませんでした。私には十分な権限がありません。
+</value>
   </data>
   <data name="administration_renrole_perms" xml:space="preserve">
-    <value></value>
+    <value>最高のロールよりも上位のロールは編集できません。
+</value>
   </data>
   <data name="administration_reprm" xml:space="preserve">
-    <value></value>
+    <value>再生メッセージを削除しました：{0}
+</value>
   </data>
   <data name="administration_role_added" xml:space="preserve">
-    <value></value>
+    <value>ロール{0}がリストに追加されました。
+</value>
+    <comment>TYPO. &quot;as&quot; should be &apos;has&apos;</comment>
   </data>
   <data name="administration_role_clean" xml:space="preserve">
-    <value></value>
+    <value>{0}は見つかりませんでした。
+</value>
   </data>
   <data name="administration_role_in_list" xml:space="preserve">
-    <value></value>
+    <value>ロール{0}はすでにリストにあります。
+</value>
   </data>
   <data name="administration_ropl_added" xml:space="preserve">
-    <value></value>
+    <value>追加されました。
+</value>
   </data>
   <data name="administration_ropl_disabled" xml:space="preserve">
-    <value></value>
+    <value>回転再生状態が無効になっています。
+</value>
   </data>
   <data name="administration_ropl_enabled" xml:space="preserve">
-    <value></value>
+    <value>回転再生状態が有効になっています。
+</value>
   </data>
   <data name="administration_ropl_list" xml:space="preserve">
-    <value></value>
+    <value>
+回転状態の一覧は次のとおりです：
+{0}
+</value>
   </data>
   <data name="administration_ropl_not_set" xml:space="preserve">
-    <value></value>
+    <value>回転再生状態は設定されません。
+</value>
   </data>
   <data name="administration_self_assign_already" xml:space="preserve">
-    <value></value>
+    <value>あなたはすでに{0}ロールがあります。
+</value>
   </data>
   <data name="administration_self_assign_already_excl" xml:space="preserve">
-    <value></value>
+    <value>{0}はすでに自己割り当てロールを持っています。
+</value>
   </data>
   <data name="administration_self_assign_excl" xml:space="preserve">
-    <value></value>
+    <value>自己割り当ての役割は今排他的です！
+</value>
   </data>
   <data name="administration_self_assign_list" xml:space="preserve">
     <value>自分に割り当てられるロールが{0}個あります。</value>
@@ -809,55 +830,72 @@ Fuzzy</comment>
     <value>そのロールは自分に割り当てられません。</value>
   </data>
   <data name="administration_self_assign_not_have" xml:space="preserve">
-    <value></value>
+    <value>あなたは{0}ロールを持っていません。
+</value>
   </data>
   <data name="administration_self_assign_no_excl" xml:space="preserve">
-    <value></value>
+    <value>自己割り当ての役割は現在無制限です
+</value>
   </data>
   <data name="administration_self_assign_perms" xml:space="preserve">
-    <value></value>
+    <value>私はあなたにその役割を追加することができません。 `私は役割階層に私の役割よりも高い所有者または他の役割に役割を追加することはできません。
+</value>
   </data>
   <data name="administration_self_assign_rem" xml:space="preserve">
-    <value></value>
+    <value>自己割り当て可能なロールのリストから{0}が削除されました。
+</value>
   </data>
   <data name="administration_self_assign_remove" xml:space="preserve">
-    <value></value>
+    <value>あなたはもはや{0}ロールを持っていません。
+</value>
   </data>
   <data name="administration_self_assign_success" xml:space="preserve">
-    <value></value>
+    <value>あなたは今{0}の役割を持っています。
+</value>
   </data>
   <data name="administration_setrole" xml:space="preserve">
-    <value></value>
+    <value>ユーザー{1}にロール{0}を追加しました
+</value>
+    <comment>Typo- &quot;Sucessfully&quot; should be &apos;Successfully&apos;</comment>
   </data>
   <data name="administration_setrole_err" xml:space="preserve">
     <value>ロールの追加に失敗しました。アクセス権が足りません。</value>
   </data>
   <data name="administration_set_avatar" xml:space="preserve">
-    <value></value>
+    <value>新しいアバターセット！
+</value>
   </data>
   <data name="administration_set_channel_name" xml:space="preserve">
-    <value></value>
+    <value>新しいチャンネル名が設定されました。
+</value>
   </data>
   <data name="administration_set_game" xml:space="preserve">
-    <value></value>
+    <value>新しいゲームセット！
+</value>
   </data>
   <data name="administration_set_stream" xml:space="preserve">
-    <value></value>
+    <value>新しいストリームセット！
+</value>
   </data>
   <data name="administration_set_topic" xml:space="preserve">
-    <value></value>
+    <value>新しいチャンネルのトピックセット。
+</value>
   </data>
   <data name="administration_shard_reconnected" xml:space="preserve">
-    <value></value>
+    <value>シャード{0}が再接続されました。
+</value>
   </data>
   <data name="administration_shard_reconnecting" xml:space="preserve">
-    <value></value>
+    <value>シャード{0}再接続中です。
+</value>
   </data>
   <data name="administration_shutting_down" xml:space="preserve">
-    <value></value>
+    <value>シャットダウン
+</value>
   </data>
   <data name="administration_slowmode_desc" xml:space="preserve">
-    <value></value>
+    <value>ユーザーは{1}秒ごとに{0}以上のメッセージを送信することはできません。
+</value>
   </data>
   <data name="administration_slowmode_disabled" xml:space="preserve">
     <value></value>
@@ -870,19 +908,21 @@ Fuzzy</comment>
     <comment>PLURAL</comment>
   </data>
   <data name="administration_spam_ignore" xml:space="preserve">
-    <value></value>
+    <value>{0}はこのチャンネルを無視します。</value>
   </data>
   <data name="administration_spam_not_ignore" xml:space="preserve">
-    <value></value>
+    <value>{0}はこのチャンネルを無視しなくなりました。</value>
   </data>
   <data name="administration_spam_stats" xml:space="preserve">
-    <value></value>
+    <value>ユーザーが同じメッセージを{0}行に投稿した場合は、{1}それらを送信します。
+</value>
   </data>
   <data name="administration_text_chan_created" xml:space="preserve">
-    <value></value>
+    <value>テキストチャンネルが作成されました。</value>
   </data>
   <data name="administration_text_chan_destroyed" xml:space="preserve">
-    <value></value>
+    <value>テキストチャネルが破棄されました。
+</value>
   </data>
   <data name="administration_undeafen" xml:space="preserve">
     <value></value>
@@ -892,32 +932,38 @@ Fuzzy</comment>
     <comment>singular</comment>
   </data>
   <data name="administration_username" xml:space="preserve">
-    <value></value>
+    <value>ユーザー名
+</value>
   </data>
   <data name="administration_username_changed" xml:space="preserve">
-    <value></value>
+    <value>ユーザー名が変更されました
+</value>
   </data>
   <data name="administration_users" xml:space="preserve">
     <value>ユーザーズ</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_banned" xml:space="preserve">
-    <value></value>
+    <value>追放されたユーザー
+</value>
   </data>
   <data name="administration_user_chat_mute" xml:space="preserve">
-    <value></value>
+    <value>{0}はチャットから**ミュートされています**。
+</value>
   </data>
   <data name="administration_user_chat_unmute" xml:space="preserve">
-    <value></value>
+    <value>{0}は、チャットから**ミュートされていません**。
+</value>
   </data>
   <data name="administration_user_joined" xml:space="preserve">
-    <value></value>
+    <value>ユーザーが参加しました
+</value>
   </data>
   <data name="administration_user_left" xml:space="preserve">
     <value>利用者が去った</value>
   </data>
   <data name="administration_user_muted" xml:space="preserve">
-    <value></value>
+    <value>{0}はテキストチャットとボイスチャットから**ミュート**されています。
+</value>
   </data>
   <data name="administration_user_role_add" xml:space="preserve">
     <value>利用者にロールを追加した</value>
@@ -929,187 +975,234 @@ Fuzzy</comment>
     <value>{0}さんは今{1}になった</value>
   </data>
   <data name="administration_user_unmuted" xml:space="preserve">
-    <value></value>
+    <value>{0}はテキストとボイスチャットから**ミュートされていません**。</value>
   </data>
   <data name="administration_user_vjoined" xml:space="preserve">
-    <value></value>
+    <value>{0}は{1}音声チャンネルに参加しました</value>
   </data>
   <data name="administration_user_vleft" xml:space="preserve">
-    <value></value>
+    <value>{0}は音声チャネルを残しました{1}</value>
   </data>
   <data name="administration_user_vmoved" xml:space="preserve">
-    <value></value>
+    <value>{0}は{1}から{2}音声チャネルに移動しました。
+</value>
   </data>
   <data name="administration_user_voice_mute" xml:space="preserve">
-    <value></value>
+    <value>{0}は**音声ミュートされました**。
+</value>
   </data>
   <data name="administration_user_voice_unmute" xml:space="preserve">
-    <value></value>
+    <value>{0}は**音声ミュートされていません**。</value>
   </data>
   <data name="administration_voice_chan_created" xml:space="preserve">
-    <value></value>
+    <value>音声チャネルが作成されました
+</value>
   </data>
   <data name="administration_voice_chan_destroyed" xml:space="preserve">
-    <value></value>
+    <value>音声チャネルが破壊されました
+</value>
   </data>
   <data name="administration_vt_disabled" xml:space="preserve">
-    <value></value>
+    <value>音声+テキスト機能が無効になっています。
+</value>
   </data>
   <data name="administration_vt_enabled" xml:space="preserve">
-    <value></value>
+    <value>音声+テキスト機能を有効にしました。
+</value>
   </data>
   <data name="administration_vt_exit" xml:space="preserve">
-    <value></value>
+    <value>**私は役割を管理していません**そして/または**チャンネルを管理しています**許可。だから{0}サーバーで音声+テキストを実行できません。
+</value>
   </data>
   <data name="administration_vt_no_admin" xml:space="preserve">
-    <value></value>
+    <value>あなたはこの機能を有効/無効にしています。**私は管理者権限を持っていません**。これによりいくつかの問題が発生する可能性があります。その後、自分でテキストチャネルをクリーンアップする必要があります。
+</value>
   </data>
   <data name="administration_vt_perms" xml:space="preserve">
-    <value></value>
+    <value>この機能を有効にするには、少なくとも**役割を管理する**と**チャネルを管理する**権限が必要です。 （管理権限が必要です）
+</value>
+    <comment>TYPO &gt; &quot;atleast&quot; isn&apos;t a word. It&apos;s &apos;At least&apos;</comment>
   </data>
   <data name="administration_xmuted_text" xml:space="preserve">
-    <value></value>
+    <value>テキストチャットのユーザー{0}
+</value>
   </data>
   <data name="administration_xmuted_text_and_voice" xml:space="preserve">
-    <value></value>
+    <value>テキストとボイスチャットのユーザー{0}
+</value>
   </data>
   <data name="administration_xmuted_voice" xml:space="preserve">
-    <value></value>
+    <value>ボイスチャットからのユーザー{0}
+</value>
   </data>
   <data name="administration_sbdm" xml:space="preserve">
-    <value></value>
+    <value>あなたは{0}サーバーからソフト禁止されました。
+理由：{1}</value>
   </data>
   <data name="administration_user_unbanned" xml:space="preserve">
-    <value></value>
+    <value>Since I&apos;m using &quot;exiled&quot; for banned. need to rethink a new word.. so just leave this one alone
+</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_migration_done" xml:space="preserve">
-    <value></value>
+    <value>移行が完了しました！
+</value>
   </data>
   <data name="adminsitration_migration_error" xml:space="preserve">
-    <value></value>
+    <value>移行中にエラーが発生しました。詳細については、ボットのコンソールを確認してください。
+</value>
   </data>
   <data name="administration_presence_updates" xml:space="preserve">
-    <value></value>
+    <value>存在の更新</value>
   </data>
   <data name="administration_sb_user" xml:space="preserve">
-    <value></value>
+    <value>And this is where using exiled screws me over.. again lol
+</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_awarded" xml:space="preserve">
-    <value></value>
+    <value>{0}から{1}に授与されました
+</value>
   </data>
   <data name="gambling_better_luck" xml:space="preserve">
-    <value></value>
+    <value>次回より良い運がいいよ^ _ ^
+</value>
   </data>
   <data name="gambling_br_win" xml:space="preserve">
-    <value></value>
+    <value>おめでとう！あなたは{1}以上で転がって{0}勝った</value>
   </data>
   <data name="gambling_deck_reshuffled" xml:space="preserve">
-    <value></value>
+    <value>デッキが再編されました。
+</value>
   </data>
   <data name="gambling_flipped" xml:space="preserve">
-    <value></value>
+    <value>反転した{0}。</value>
     <comment>User flipped tails.</comment>
   </data>
   <data name="gambling_flip_guess" xml:space="preserve">
-    <value></value>
+    <value>ご想像の通り！あなたは{0}を獲得しました
+</value>
   </data>
   <data name="gambling_flip_invalid" xml:space="preserve">
-    <value></value>
+    <value>無効な番号が指定されました。 1を{0}コインにすることができます。
+</value>
   </data>
   <data name="gambling_flowerreaction_desc" xml:space="preserve">
-    <value></value>
+    <value>このメッセージに{0}反応を加えて{1}を得る␣
+</value>
   </data>
   <data name="gambling_flowerreaction_footer" xml:space="preserve">
-    <value></value>
+    <value>このイベントは最大{0}時間有効です。
+</value>
   </data>
   <data name="gambling_flowerreaction_title" xml:space="preserve">
-    <value></value>
+    <value>花の反応が始まった！
+</value>
   </data>
   <data name="gambling_gifted" xml:space="preserve">
-    <value></value>
+    <value>は{0}から{1}に才能を与えました
+</value>
     <comment>X has gifted 15 flowers to Y</comment>
   </data>
   <data name="gambling_has" xml:space="preserve">
-    <value></value>
+    <value>{0}には{1}があります
+</value>
     <comment>X has Y flowers</comment>
   </data>
   <data name="gambling_heads" xml:space="preserve">
-    <value></value>
+    <value>頭
+</value>
   </data>
   <data name="gambling_leaderboard" xml:space="preserve">
-    <value></value>
+    <value>リーダーボード
+</value>
   </data>
   <data name="gambling_mass_award" xml:space="preserve">
-    <value></value>
+    <value>{2}から{0}人の{1}人のユーザーを獲得しました。
+</value>
   </data>
   <data name="gambling_max_bet_limit" xml:space="preserve">
-    <value></value>
+    <value>{0}以上の賭けはできません
+</value>
   </data>
   <data name="gambling_min_bet_limit" xml:space="preserve">
-    <value></value>
+    <value>あなたは{0}未満に賭けることはできません
+</value>
   </data>
   <data name="gambling_not_enough" xml:space="preserve">
-    <value></value>
+    <value>あなたに十分な{0}がありません。
+</value>
   </data>
   <data name="gambling_no_more_cards" xml:space="preserve">
-    <value></value>
+    <value>デッキにはもうカードがありません。
+</value>
   </data>
   <data name="gambling_raffled_user" xml:space="preserve">
-    <value></value>
+    <value>抽選でユーザーを入力しました。
+</value>
   </data>
   <data name="gambling_roll" xml:space="preserve">
-    <value></value>
+    <value>あなたは{0}をロールした。
+</value>
   </data>
   <data name="gambling_slot_bet" xml:space="preserve">
-    <value></value>
+    <value>賭ける</value>
   </data>
   <data name="gambling_slot_jackpot" xml:space="preserve">
-    <value></value>
+    <value>素晴らしい！おめでとう！ x {0}</value>
   </data>
   <data name="gambling_slot_single" xml:space="preserve">
-    <value></value>
+    <value>単一の{0}、x {1}</value>
   </data>
   <data name="gambling_slot_three" xml:space="preserve">
-    <value></value>
+    <value>うわー！幸運な！ 3種類の！ x {0}
+</value>
   </data>
   <data name="gambling_slot_two" xml:space="preserve">
-    <value></value>
+    <value>よくやった！ 2つの{0}  - ベットx {1}
+</value>
   </data>
   <data name="gambling_slot_won" xml:space="preserve">
-    <value></value>
+    <value>ウォン</value>
   </data>
   <data name="gambling_sneakygamestatus_desc" xml:space="preserve">
-    <value></value>
+    <value>ユーザーは{0}を取得するために秘密のコードを入力する必要があります。
+{1}秒続く。誰にも言わないでください。 ：ウィンク：</value>
   </data>
   <data name="gambling_sneakygamestatus_end" xml:space="preserve">
-    <value></value>
+    <value>卑劣なゲームイベントが終了しました。 {0}ユーザーは報酬を受け取った。</value>
   </data>
   <data name="gambling_sneakygamestatus_title" xml:space="preserve">
-    <value></value>
+    <value>卑劣なゲームステータスイベントが開始されました</value>
   </data>
   <data name="gambling_tails" xml:space="preserve">
-    <value></value>
+    <value>テイル</value>
   </data>
   <data name="gambling_take" xml:space="preserve">
-    <value></value>
+    <value>{1}から{0}を正常に受け取りました
+</value>
   </data>
   <data name="gambling_take_fail" xml:space="preserve">
-    <value></value>
+    <value>ユーザーが{2}をあまり持っていないので{1}から{0}を取ることができませんでした！
+</value>
   </data>
   <data name="help_back_to_toc" xml:space="preserve">
     <value></value>
   </data>
   <data name="help_bot_owner_only" xml:space="preserve">
-    <value></value>
+    <value>ボットの所有者のみ
+</value>
   </data>
   <data name="help_channel_permission" xml:space="preserve">
-    <value></value>
+    <value>{0}チャンネル許可が必要です。
+</value>
   </data>
   <data name="help_cmdlist_donate" xml:space="preserve">
     <value></value>
   </data>
   <data name="help_cmd_and_alias" xml:space="preserve">
-    <value></value>
+    <value>コマンドとエイリアス
+</value>
   </data>
   <data name="help_commandlist_regen" xml:space="preserve">
     <value></value>

@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="clashofclans_base_already_claimed" xml:space="preserve">
-    <value>Denna bas är redan tagen eller förstörd. </value>
+    <value>Denna bas är redan tagen eller förstörd.</value>
   </data>
   <data name="clashofclans_base_already_destroyed" xml:space="preserve">
     <value>Denna bas är redan förstörd.</value>
@@ -194,8 +194,7 @@
     <value>Alla anpassade emojis uppgifter borttagna.</value>
   </data>
   <data name="customreactions_deleted" xml:space="preserve">
-    <value>Anpassad emoji har blivit raderad.
-</value>
+    <value>Anpassad emoji har blivit raderad</value>
   </data>
   <data name="customreactions_insuff_perms" xml:space="preserve">
     <value>Otillräckliga behörigheter. Kräver Bot ägande för globala anpassade reaktioner, och administratör för server anpassade reaktioner.</value>
@@ -217,10 +216,10 @@
     <value>Ingen egengjord reaktion funnen med det id.</value>
   </data>
   <data name="customreactions_response" xml:space="preserve">
-    <value>svar</value>
+    <value>Svar</value>
   </data>
   <data name="customreactions_stats" xml:space="preserve">
-    <value>Egengjord reaktion statistiker.</value>
+    <value>Egengjord reaktion statistiker</value>
   </data>
   <data name="customreactions_stats_cleared" xml:space="preserve">
     <value>Statistiker rensade för {0} egengjorda reaktioner.</value>
@@ -229,7 +228,7 @@
     <value>Inga statistik för den triggern funnen, inget återgärd gjord.</value>
   </data>
   <data name="customreactions_trigger" xml:space="preserve">
-    <value>Trigger.</value>
+    <value>Trigger</value>
   </data>
   <data name="nsfw_autohentai_stopped" xml:space="preserve">
     <value>Automatisk hentai stoppad.</value>
@@ -238,11 +237,10 @@
     <value>Inga resultat hittades.</value>
   </data>
   <data name="pokemon_already_fainted" xml:space="preserve">
-    <value>
-{0} har redan svimmat</value>
+    <value>{0} har redan svimmat.</value>
   </data>
   <data name="pokemon_already_full" xml:space="preserve">
-    <value>{0} har redan full hälsa</value>
+    <value>{0} har redan full hälsa.</value>
   </data>
   <data name="pokemon_already_that_type" xml:space="preserve">
     <value>din typ är redan {0}</value>

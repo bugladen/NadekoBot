@@ -1531,7 +1531,7 @@ La nouvelle valeur de {0} est {1} !</value>
     <value>Lecture en boucle activée.</value>
   </data>
   <data name="music_set_music_channel" xml:space="preserve">
-    <value>Je vais désormais afficher les pistess en cours, en pause, terminées et supprimées sur ce salon.</value>
+    <value>Je vais désormais afficher les pistes en cours, en pause, terminées et supprimées dans ce salon.</value>
   </data>
   <data name="music_skipped_to" xml:space="preserve">
     <value>Saut à `{0}:{1}`</value>
