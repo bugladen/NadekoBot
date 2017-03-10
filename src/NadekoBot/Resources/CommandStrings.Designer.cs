@@ -4956,7 +4956,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Mutes a mentioned user both from speaking and chatting..
+        ///    Looks up a localized string similar to Mutes a mentioned user both from speaking and chatting. You can also specify time in minutes (up to 1440) for how long the user should be muted..
         /// </summary>
         public static string mute_desc {
             get {
@@ -4965,7 +4965,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}mute @Someone`.
+        ///    Looks up a localized string similar to `{0}mute @Someone` or `{0}mute 30 @Someone`.
         /// </summary>
         public static string mute_usage {
             get {

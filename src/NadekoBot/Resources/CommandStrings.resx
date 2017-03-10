@@ -589,10 +589,10 @@
     <value>mute</value>
   </data>
   <data name="mute_desc" xml:space="preserve">
-    <value>Mutes a mentioned user both from speaking and chatting.</value>
+    <value>Mutes a mentioned user both from speaking and chatting. You can also specify time in minutes (up to 1440) for how long the user should be muted.</value>
   </data>
   <data name="mute_usage" xml:space="preserve">
-    <value>`{0}mute @Someone`</value>
+    <value>`{0}mute @Someone` or `{0}mute 30 @Someone`</value>
   </data>
   <data name="voiceunmute_cmd" xml:space="preserve">
     <value>voiceunmute</value>
