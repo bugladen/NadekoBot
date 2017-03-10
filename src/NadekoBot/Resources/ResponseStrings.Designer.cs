@@ -1532,6 +1532,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to {0} has been **muted** from text and voice chat for {1} minutes..
+        /// </summary>
+        public static string administration_user_muted_time {
+            get {
+                return ResourceManager.GetString("administration_user_muted_time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to User&apos;s role added.
         /// </summary>
         public static string administration_user_role_add {
@@ -5958,7 +5967,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Deleted a random quote..
+        ///    Looks up a localized string similar to Quote #{0} deleted..
         /// </summary>
         public static string utility_quote_deleted {
             get {

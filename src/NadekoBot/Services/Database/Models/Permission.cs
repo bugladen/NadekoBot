@@ -64,7 +64,7 @@ namespace NadekoBot.Services.Database.Models
 
     public class Permissionv2 : DbEntity, IIndexed
     {
-        public int GuildConfigId { get; set; }
+        public int? GuildConfigId { get; set; }
         public int Index { get; set; }
 
         public PrimaryPermissionType PrimaryTarget { get; set; }

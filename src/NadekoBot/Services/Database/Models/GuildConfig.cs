@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using static NadekoBot.Modules.Administration.Administration;
 
 namespace NadekoBot.Services.Database.Models
@@ -68,7 +69,26 @@ namespace NadekoBot.Services.Database.Models
         public string Locale { get; set; } = null;
         public string TimeZoneId { get; set; } = null;
 
+        public HashSet<UnmuteTimer> UnmuteTimers { get; set; } = new HashSet<UnmuteTimer>();
+
         //public List<ProtectionIgnoredChannel> ProtectionIgnoredChannels { get; set; } = new List<ProtectionIgnoredChannel>();
+    }
+
+    public class UnmuteTimer : DbEntity
+    {
+        public ulong UserId { get; set; }
+        public DateTime UnmuteAt { get; set; }
+
+        public override int GetHashCode() =>
+            UserId.GetHashCode();
+
+        public override bool Equals(object obj)
+        {
+            var ut = obj as UnmuteTimer;
+            if (ut == null)
+                return false;
+            return ut.UserId == UserId;
+        }
     }
 
     public class FilterChannelId : DbEntity

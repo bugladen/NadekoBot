@@ -2230,4 +2230,7 @@ Owner ID: {2}</value>
   <data name="gambling_page" xml:space="preserve">
     <value>page {0}</value>
   </data>
+  <data name="administration_user_muted_time" xml:space="preserve">
+    <value>{0} has been **muted** from text and voice chat for {1} minutes.</value>
+  </data>
 </root>

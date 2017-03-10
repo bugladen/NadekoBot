@@ -720,7 +720,7 @@ namespace NadekoBot.Modules.Music
             var embed = new EmbedBuilder()
                 .WithAuthor(eab => eab.WithName(GetText("playlists_page", num)).WithMusicIcon())
                 .WithDescription(string.Join("\n", playlists.Select(r =>
-                    GetText("playlists", "#" + r.Id, r.Name, r.Author, r.Songs.Count))))
+                    GetText("playlists", r.Id, r.Name, r.Author, r.Songs.Count))))
                 .WithOkColor();
             await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
 

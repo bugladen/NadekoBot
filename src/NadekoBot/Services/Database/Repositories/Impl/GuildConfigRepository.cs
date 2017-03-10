@@ -16,6 +16,7 @@ namespace NadekoBot.Services.Database.Repositories.Impl
             _set.Include(gc => gc.LogSetting)
                     .ThenInclude(ls => ls.IgnoredChannels)
                 .Include(gc => gc.MutedUsers)
+                .Include(gc => gc.UnmuteTimers)
                 .Include(gc => gc.GenerateCurrencyChannelIds)
                 .Include(gc => gc.FilterInvitesChannelIds)
                 .Include(gc => gc.FilterWordsChannelIds)
