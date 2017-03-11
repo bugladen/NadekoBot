@@ -475,8 +475,7 @@ Powód: {1}</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_lang_list" xml:space="preserve">
-    <value>Lista języków
-{0}</value>
+    <value>Lista języków</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_lang_set" xml:space="preserve">
@@ -1263,7 +1262,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <comment>plural</comment>
   </data>
   <data name="games_curgen_sn" xml:space="preserve">
-    <value>{0} się pojawiły! Zdobądź je, pisząc `{1}pick`</value>
+    <value>{0} się pojawiły!</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="games_failed_loading_question" xml:space="preserve">
@@ -2250,6 +2249,24 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value></value>
   </data>
   <data name="gambling_page" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_must_be_in_voice" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_no_vcroles" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_user_muted_time" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_vcrole_added" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_vcrole_removed" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_vc_role_list" xml:space="preserve">
     <value></value>
   </data>
 
