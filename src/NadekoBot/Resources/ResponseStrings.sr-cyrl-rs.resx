@@ -1161,11 +1161,11 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>твој афинитет је већ постављен на ту waifu или покушаваш да обришеш афинитет који не постоји.</value>
   </data>
   <data name="gambling_waifu_affinity_changed" xml:space="preserve">
-    <value></value>
+    <value>променили су афинитет са {0} на {1}.</value>
     <comment>Make sure to get the formatting right, and leave the thinking emoji</comment>
   </data>
   <data name="gambling_waifu_affinity_cooldown" xml:space="preserve">
-    <value></value>
+    <value>Морате сачекати {0} сати и {1} минута да поново промените афинитет.</value>
   </data>
   <data name="gambling_waifu_affinity_reset" xml:space="preserve">
     <value>Твој афинитет је ресетован, Више немаш особу која ти се свиђа.</value>
@@ -1183,7 +1183,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>не можеш ставити афинитет на себе, егоманијаче.</value>
   </data>
   <data name="gambling_waifu_fulfilled" xml:space="preserve">
-    <value></value>
+    <value>🎉 Њихова љубав је испуњена! 🎉</value>
   </data>
   <data name="gambling_waifu_isnt_cheap" xml:space="preserve">
     <value>Ни једна waifu није тако јефтина. Мораш да платиш бар {0} да би имао waifu, чак иако је њена вредност мања.</value>
@@ -1198,7 +1198,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Не можеш присвојити себе.</value>
   </data>
   <data name="gambling_waifu_recent_divorce" xml:space="preserve">
-    <value></value>
+    <value>Скоро сте се развели. Морате сачекати {0} сати и {1} минута да се разведете поново.</value>
   </data>
   <data name="gambling_nobody" xml:space="preserve">
     <value>Нико</value>
@@ -1231,7 +1231,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Имате {0} секунди за унос.</value>
   </data>
   <data name="games_acro_submit" xml:space="preserve">
-    <value></value>
+    <value>{0} су доставили своју реченицу. ({1} укупно)</value>
   </data>
   <data name="games_acro_vote" xml:space="preserve">
     <value>Гласај тако што укуцаш број уноса.</value>
@@ -1261,7 +1261,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Трка животиња већ постоји.</value>
   </data>
   <data name="gambling_total_average" xml:space="preserve">
-    <value></value>
+    <value>Укупно: {0} Просечно: {1}</value>
   </data>
   <data name="games_category" xml:space="preserve">
     <value>Категорија</value>
@@ -1279,11 +1279,11 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Генерација валуте је упаљена на овом каналу.</value>
   </data>
   <data name="games_curgen_pl" xml:space="preserve">
-    <value></value>
+    <value>{0} случајних {1} се појавило!</value>
     <comment>plural</comment>
   </data>
   <data name="games_curgen_sn" xml:space="preserve">
-    <value></value>
+    <value>Случајан {0} се појавио!</value>
   </data>
   <data name="games_failed_loading_question" xml:space="preserve">
     <value>Није успело учитавање питања.</value>
@@ -1301,7 +1301,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Игра вешалица није успешно почела.</value>
   </data>
   <data name="games_hangman_types" xml:space="preserve">
-    <value></value>
+    <value>Листа &quot;{0}hangman&quot; типова термина:</value>
   </data>
   <data name="games_leaderboard" xml:space="preserve">
     <value>Ранг листа
@@ -1385,7 +1385,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Аутопуштање је упаљено.</value>
   </data>
   <data name="music_defvol_set" xml:space="preserve">
-    <value></value>
+    <value>Стална вредност јачине је понедешена на {0}%</value>
   </data>
   <data name="music_dir_queue_complete" xml:space="preserve">
     <value>Директоријум успешно стављен у плејлисту.</value>
@@ -1421,7 +1421,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Максимална величина реда је неограничена.</value>
   </data>
   <data name="music_max_queue_x" xml:space="preserve">
-    <value></value>
+    <value>Максимална величина реда подешена на {0} песама.</value>
   </data>
   <data name="music_must_be_in_voice" xml:space="preserve">
     <value>Требаш бити у говорном каналу на овом серверу.</value>
@@ -1442,16 +1442,16 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Музика је паузирана.</value>
   </data>
   <data name="music_player_queue" xml:space="preserve">
-    <value></value>
+    <value>Ред пуштања - Страна {0}/{1}</value>
   </data>
   <data name="music_playing_song" xml:space="preserve">
     <value>Пушта се песма</value>
   </data>
   <data name="music_playlists" xml:space="preserve">
-    <value></value>
+    <value>`#{0}` - **{1}** by *{2}* ({3} песама)</value>
   </data>
   <data name="music_playlists_page" xml:space="preserve">
-    <value></value>
+    <value>Страна {0} сачуваних плејлисти</value>
   </data>
   <data name="music_playlist_deleted" xml:space="preserve">
     <value>Плејлиста обрисана.</value>
@@ -1469,7 +1469,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Плејлиста је сачувана.</value>
   </data>
   <data name="music_play_limit" xml:space="preserve">
-    <value></value>
+    <value>{0}s лимит</value>
   </data>
   <data name="music_queue" xml:space="preserve">
     <value>Ред</value>
@@ -1481,7 +1481,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Музички ред је очишћен.</value>
   </data>
   <data name="music_queue_full" xml:space="preserve">
-    <value></value>
+    <value>Ред је пун на {0}/{0}.</value>
   </data>
   <data name="music_removed_song" xml:space="preserve">
     <value>Песма је обрисана</value>
@@ -1512,7 +1512,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value></value>
   </data>
   <data name="music_skipped_to" xml:space="preserve">
-    <value></value>
+    <value>Прескочено на `{0}:{1}`</value>
   </data>
   <data name="music_songs_shuffled" xml:space="preserve">
     <value>Песме су измешане</value>
@@ -1521,7 +1521,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Песме су померене</value>
   </data>
   <data name="music_time_format" xml:space="preserve">
-    <value></value>
+    <value>{0}х {1}м {2}с</value>
   </data>
   <data name="music_to_position" xml:space="preserve">
     <value>На позицију</value>
@@ -1530,46 +1530,46 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>неограничено</value>
   </data>
   <data name="music_volume_input_invalid" xml:space="preserve">
-    <value></value>
+    <value>Јачина звука мора бити између 0 и 100</value>
   </data>
   <data name="music_volume_set" xml:space="preserve">
-    <value></value>
+    <value>Јачина звука подешена на {0}%</value>
   </data>
   <data name="permissions_acm_disable" xml:space="preserve">
-    <value></value>
+    <value>Искључено коришћење СВИХ МОДУЛА на каналу {0}.</value>
   </data>
   <data name="permissions_acm_enable" xml:space="preserve">
-    <value></value>
+    <value>Укључено коришћење СВИХ МОДУЛА на каналу {0}.</value>
   </data>
   <data name="permissions_allowed" xml:space="preserve">
     <value>Дозвољено</value>
   </data>
   <data name="permissions_arm_disable" xml:space="preserve">
-    <value></value>
+    <value>Искључено коришћење СВИХ МОДУЛА за ролу {0}.</value>
   </data>
   <data name="permissions_arm_enable" xml:space="preserve">
-    <value></value>
+    <value>Укључено коришћење СВИХ МОДУЛА за ролу {0}.</value>
   </data>
   <data name="permissions_asm_disable" xml:space="preserve">
-    <value></value>
+    <value>Искључено коришћење СВИХ МОДУЛА на овом серверу.</value>
   </data>
   <data name="permissions_asm_enable" xml:space="preserve">
-    <value></value>
+    <value>Укључено коришћење СВИХ МОДУЛА на овом серверу.</value>
   </data>
   <data name="permissions_aum_disable" xml:space="preserve">
-    <value></value>
+    <value>Искључено коришћење СВИХ МОДУЛА за корисника {0}.</value>
   </data>
   <data name="permissions_aum_enable" xml:space="preserve">
-    <value></value>
+    <value>Укључено коришћење СВИХ МОДУЛА за корисника {0}.</value>
   </data>
   <data name="permissions_blacklisted" xml:space="preserve">
     <value></value>
   </data>
   <data name="permissions_cmdcd_add" xml:space="preserve">
-    <value></value>
+    <value>Команда {0} сада има {1}с кулдаун. </value>
   </data>
   <data name="permissions_cmdcd_cleared" xml:space="preserve">
-    <value></value>
+    <value>Команда{0} сада нема кулдаун и сви постојећи кулдаунови су обрисани.</value>
   </data>
   <data name="permissions_cmdcd_none" xml:space="preserve">
     <value>Нема кулдауна за команде.</value>
@@ -1578,25 +1578,25 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Цене команди</value>
   </data>
   <data name="permissions_cx_disable" xml:space="preserve">
-    <value></value>
+    <value>Искључено коришћење {0} {1} на каналу {2}.</value>
   </data>
   <data name="permissions_cx_enable" xml:space="preserve">
-    <value></value>
+    <value>Укључено коришћење {0} {1} на каналу {2}.</value>
   </data>
   <data name="permissions_denied" xml:space="preserve">
     <value>Забрањено</value>
   </data>
   <data name="permissions_filter_word_add" xml:space="preserve">
-    <value></value>
+    <value>Додата реч {0} у листу филтрираних речи.</value>
   </data>
   <data name="permissions_filter_word_list" xml:space="preserve">
     <value>Листа филтрираних речи</value>
   </data>
   <data name="permissions_filter_word_remove" xml:space="preserve">
-    <value></value>
+    <value>Уклоњена реч {0} из листе филтрираних речи.</value>
   </data>
   <data name="permissions_invalid_second_param_between" xml:space="preserve">
-    <value></value>
+    <value>Неисправан други параметар. (Мора бити број између {0} и {1})</value>
   </data>
   <data name="permissions_invite_filter_channel_off" xml:space="preserve">
     <value>Филтрирање позивница је угашено на овом каналу.</value>
@@ -1611,10 +1611,10 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Филтрирање позивница је упаљено на овом серверу.</value>
   </data>
   <data name="permissions_moved_permission" xml:space="preserve">
-    <value></value>
+    <value>Померена дозвола {0} са #{1} на #{2}</value>
   </data>
   <data name="permissions_not_found" xml:space="preserve">
-    <value></value>
+    <value>Не могу да пронађем дозволу са индексом #{0}</value>
   </data>
   <data name="permissions_no_costs" xml:space="preserve">
     <value>Нема постављених цена.</value>
@@ -1628,35 +1628,35 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <comment>Gen. (of module)</comment>
   </data>
   <data name="permissions_page" xml:space="preserve">
-    <value></value>
+    <value>Страна са дозволама {0}</value>
   </data>
   <data name="permissions_permrole" xml:space="preserve">
-    <value></value>
+    <value>Тренутна рола за дозволе је {0}.</value>
   </data>
   <data name="permissions_permrole_changed" xml:space="preserve">
-    <value></value>
+    <value>Корисници сада захтевају {0} ролу да би мењали дозволе.</value>
   </data>
   <data name="permissions_perm_out_of_range" xml:space="preserve">
-    <value></value>
+    <value>Не постоји дозвола са тим индексом.</value>
   </data>
   <data name="permissions_removed" xml:space="preserve">
-    <value></value>
+    <value>уклоњена дозвола #{0} - {1}</value>
   </data>
   <data name="permissions_rx_disable" xml:space="preserve">
-    <value></value>
+    <value>Искључено коришћење {0} {1} за {2} ролу.</value>
   </data>
   <data name="permissions_rx_enable" xml:space="preserve">
-    <value></value>
+    <value>Укључено коришћење {0} {1} за {2} ролу.</value>
   </data>
   <data name="permissions_sec" xml:space="preserve">
     <value>сек.</value>
     <comment>Short of seconds.</comment>
   </data>
   <data name="permissions_sx_disable" xml:space="preserve">
-    <value></value>
+    <value>Искључено коришћење {0} {1} на овом серверу.</value>
   </data>
   <data name="permissions_sx_enable" xml:space="preserve">
-    <value></value>
+    <value>Укључено коришћење {0} {1} на овом серверу.</value>
   </data>
   <data name="permissions_unblacklisted" xml:space="preserve">
     <value></value>
@@ -1665,10 +1665,10 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>неизмењиво</value>
   </data>
   <data name="permissions_ux_disable" xml:space="preserve">
-    <value></value>
+    <value>Искључено коришћење {0} {1} за {2} корисника.</value>
   </data>
   <data name="permissions_ux_enable" xml:space="preserve">
-    <value></value>
+    <value>Укључено коришћење {0} {1} за {2} корисника.</value>
   </data>
   <data name="permissions_verbose_false" xml:space="preserve">
     <value>Више нећу приказивати упозорења за дозволе.</value>
@@ -1695,13 +1695,13 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Нема омиљених анимеа.</value>
   </data>
   <data name="searches_atl_ad_started" xml:space="preserve">
-    <value></value>
+    <value>Започето аутоматско превођење порука у овом каналу. Поруке корисника ће бити аутоматски обрисане.</value>
   </data>
   <data name="searches_atl_removed" xml:space="preserve">
     <value>твој језик ауто-превођења је обрисан.</value>
   </data>
   <data name="searches_atl_set" xml:space="preserve">
-    <value></value>
+    <value>Ваш језик за превођење је постављен од {0}&gt;{1}</value>
   </data>
   <data name="searches_atl_started" xml:space="preserve">
     <value>Започето аутоматско превођење порука на овом каналу</value>
@@ -1813,10 +1813,10 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Магични предмети нису учитани.</value>
   </data>
   <data name="searches_mal_profile" xml:space="preserve">
-    <value></value>
+    <value>{0}&apos;s МАЛ профил</value>
   </data>
   <data name="searches_mashape_api_missing" xml:space="preserve">
-    <value></value>
+    <value>Власник бота није унео MashapeApiKey. Не можете да користите ову функционалност.</value>
   </data>
   <data name="searches_min_max" xml:space="preserve">
     <value>Мин/Макс</value>
@@ -1834,16 +1834,16 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Оригинални линк</value>
   </data>
   <data name="searches_osu_api_key" xml:space="preserve">
-    <value></value>
+    <value>Захтева се osu! API кључ.</value>
   </data>
   <data name="searches_osu_failed" xml:space="preserve">
-    <value></value>
+    <value>Неуспешно учитавање osu! потписа.</value>
   </data>
   <data name="searches_over_x" xml:space="preserve">
-    <value></value>
+    <value>Пронађено преко {0} слика. Насумично учитавам {0}.</value>
   </data>
   <data name="searches_ow_user_not_found" xml:space="preserve">
-    <value></value>
+    <value>Корисник није пронађен. Проверите регион и BattleTag пре него што покушате поново.</value>
   </data>
   <data name="searches_plan_to_watch" xml:space="preserve">
     <value>Планира да гледа</value>
@@ -1897,13 +1897,13 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Линк Продавнице</value>
   </data>
   <data name="searches_streamer_offline" xml:space="preserve">
-    <value></value>
+    <value>Стример {0} није на мрежи.</value>
   </data>
   <data name="searches_streamer_online" xml:space="preserve">
-    <value></value>
+    <value>Стример {0} је на мрежи са {1} прегледа.</value>
   </data>
   <data name="searches_streams_following" xml:space="preserve">
-    <value></value>
+    <value>Пратите стримера {0} на овом серверу.</value>
   </data>
   <data name="searches_streams_none" xml:space="preserve">
     <value>Не пратиш ниједан стрим ан овом серверу.</value>
@@ -1915,7 +1915,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Стрим вероватно не постоји.</value>
   </data>
   <data name="searches_stream_removed" xml:space="preserve">
-    <value></value>
+    <value>Уклоњен {0} стрим ({1}) из обавештења. </value>
   </data>
   <data name="searches_stream_tracked" xml:space="preserve">
     <value>Обавестићу овај канал када се статус промени.</value>
@@ -1966,7 +1966,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Брзина ветра</value>
   </data>
   <data name="searches_x_most_banned_champs" xml:space="preserve">
-    <value></value>
+    <value>{0} највише банованих хероја</value>
   </data>
   <data name="searches_yodify_error" xml:space="preserve">
     <value>Јодификовање реченице није успешно.</value>
@@ -1975,15 +1975,15 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Ушао</value>
   </data>
   <data name="utility_activity_line" xml:space="preserve">
-    <value></value>
+    <value>`{0}.` {1} [{2:F2}/s] - {3} укупно</value>
     <comment>/s and total need to be localized to fit the context -
 `1.`</comment>
   </data>
   <data name="utility_activity_page" xml:space="preserve">
-    <value></value>
+    <value>Страна активности #{0}</value>
   </data>
   <data name="utility_activity_users_total" xml:space="preserve">
-    <value></value>
+    <value>{0} укупно корисника.</value>
   </data>
   <data name="utility_author" xml:space="preserve">
     <value>Аутор</value>
@@ -1992,10 +1992,10 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Бот ИД</value>
   </data>
   <data name="utility_calcops" xml:space="preserve">
-    <value></value>
+    <value>Листа функција у {0}calc команди</value>
   </data>
   <data name="utility_channelid" xml:space="preserve">
-    <value></value>
+    <value>{0} овог канала је {1}</value>
   </data>
   <data name="utility_channel_topic" xml:space="preserve">
     <value>Тема канала</value>
@@ -2004,16 +2004,16 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Извршених команди</value>
   </data>
   <data name="utility_convert" xml:space="preserve">
-    <value></value>
+    <value>{0} {1} је једнако {2} {3}</value>
   </data>
   <data name="utility_convertlist" xml:space="preserve">
-    <value></value>
+    <value>Мере које могу бити коришћене у конвертеру</value>
   </data>
   <data name="utility_convert_not_found" xml:space="preserve">
-    <value></value>
+    <value>Неуспешно конвертовање {0} у {1}: мера није пронађена</value>
   </data>
   <data name="utility_convert_type_error" xml:space="preserve">
-    <value></value>
+    <value>Неуспешно конвертовање {0} у {1}: типови мера нису једнаки</value>
   </data>
   <data name="utility_created_at" xml:space="preserve">
     <value>Направљен</value>
@@ -2025,7 +2025,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value></value>
   </data>
   <data name="utility_csc_token" xml:space="preserve">
-    <value></value>
+    <value>Ово је твој CSC токен</value>
   </data>
   <data name="utility_custom_emojis" xml:space="preserve">
     <value>Емотикони по Мери</value>
@@ -2159,7 +2159,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Нови темплејт за подсетник је постаљен.</value>
   </data>
   <data name="utility_repeater" xml:space="preserve">
-    <value></value>
+    <value>Понављање {0} сваких {1} дан(а), {2} сат(а) и {3} минута(а).</value>
   </data>
   <data name="utility_repeaters_list" xml:space="preserve">
     <value>Листа понављача</value>
@@ -2169,7 +2169,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Нема понављача на овом серверу.</value>
   </data>
   <data name="utility_repeater_stopped" xml:space="preserve">
-    <value></value>
+    <value>#{0} прекинуто. </value>
   </data>
   <data name="utility_repeat_invoke_none" xml:space="preserve">
     <value>Нису пронађене понављајуће поруке на овом серверу.</value>
@@ -2181,22 +2181,22 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Роле</value>
   </data>
   <data name="utility_roles_all_page" xml:space="preserve">
-    <value></value>
+    <value>Страна #{0} свих рола на овом серверу: </value>
   </data>
   <data name="utility_roles_page" xml:space="preserve">
-    <value></value>
+    <value>Страна #{0} рола за {1} </value>
   </data>
   <data name="utility_rrc_no_colors" xml:space="preserve">
-    <value></value>
+    <value>Боје нису у исправном формату. Користите `#00ff00` као пример.</value>
   </data>
   <data name="utility_rrc_start" xml:space="preserve">
-    <value></value>
+    <value>Започето ротирање боје {0} роле. </value>
   </data>
   <data name="utility_rrc_stop" xml:space="preserve">
-    <value></value>
+    <value>Стопирано ротираење боја за {0} ролу.</value>
   </data>
   <data name="utility_serverid" xml:space="preserve">
-    <value></value>
+    <value>{0} овог сервера је {1} </value>
   </data>
   <data name="utility_server_info" xml:space="preserve">
     <value>Инфо Сервера</value>
@@ -2210,16 +2210,16 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="utility_shard_stats_txt" xml:space="preserve">
-    <value></value>
+    <value>Шард **#{0}** је у {1} стању са {2} сервера.</value>
   </data>
   <data name="utility_showemojis" xml:space="preserve">
-    <value></value>
+    <value>**Име:** {0} **Линк:** {1} </value>
   </data>
   <data name="utility_showemojis_none" xml:space="preserve">
     <value>Нема специјалних емотикона.</value>
   </data>
   <data name="utility_stats_songs" xml:space="preserve">
-    <value></value>
+    <value>Пуштено {0} песама, {1} на чекању. </value>
   </data>
   <data name="utility_text_channels" xml:space="preserve">
     <value>Текст Канали</value>
@@ -2232,7 +2232,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Време Рада</value>
   </data>
   <data name="utility_userid" xml:space="preserve">
-    <value></value>
+    <value>{0} од корисника {1} је {2} </value>
     <comment>Id of the user kwoth#1234 is 123123123123</comment>
   </data>
   <data name="utility_users" xml:space="preserve">
@@ -2258,7 +2258,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>📃 {0} је направио анкету која захтева вашу пажњу.</value>
   </data>
   <data name="games_poll_result" xml:space="preserve">
-    <value></value>
+    <value>`{0}.` {1} са {2} гласова. </value>
   </data>
   <data name="games_poll_voted" xml:space="preserve">
     <value>{0} је гласао</value>
@@ -2271,13 +2271,13 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Пошаљите број одговора у овом каналу.</value>
   </data>
   <data name="games_thanks_for_voting" xml:space="preserve">
-    <value></value>
+    <value>Хвала што сте гласали.</value>
   </data>
   <data name="games_x_votes_cast" xml:space="preserve">
-    <value></value>
+    <value>{0} укупан број гласова.</value>
   </data>
   <data name="games_pick_pl" xml:space="preserve">
-    <value></value>
+    <value>Покупите их куцајући `{0}pick` </value>
   </data>
   <data name="games_pick_sn" xml:space="preserve">
     <value></value>
@@ -2286,6 +2286,24 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value></value>
   </data>
   <data name="gambling_page" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_must_be_in_voice" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_no_vcroles" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_user_muted_time" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_vcrole_added" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_vcrole_removed" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_vc_role_list" xml:space="preserve">
     <value></value>
   </data>
 
