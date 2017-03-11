@@ -2237,22 +2237,22 @@ Paypal &lt;{1}&gt;
     <value>第 {0} 頁</value>
   </data>
   <data name="administration_must_be_in_voice" xml:space="preserve">
-    <value></value>
+    <value>您必須要在此伺服器上的語音頻道。</value>
   </data>
   <data name="administration_no_vcroles" xml:space="preserve">
-    <value></value>
+    <value>沒有語音頻道身分組。</value>
   </data>
   <data name="administration_user_muted_time" xml:space="preserve">
-    <value></value>
+    <value>{0} 已被 **禁止** __文字和語音聊天__，持續 {1} 分鐘。</value>
   </data>
   <data name="administration_vcrole_added" xml:space="preserve">
-    <value></value>
+    <value>進入 {0} 頻道的成員將會獲得 {1} 身分組。</value>
   </data>
   <data name="administration_vcrole_removed" xml:space="preserve">
-    <value></value>
+    <value>進入 {0} 頻道的成員將不再獲得身分組。</value>
   </data>
   <data name="administration_vc_role_list" xml:space="preserve">
-    <value></value>
+    <value>語音頻道身分組</value>
   </data>
 
 </root>
