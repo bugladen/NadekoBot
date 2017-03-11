@@ -184,7 +184,7 @@
     <value>此戰爭不存在。</value>
   </data>
   <data name="clashofclans_war_started" xml:space="preserve">
-    <value>與 {0} 的戰爭已開始！</value>
+    <value>與 {0} 的戰爭已開始!</value>
   </data>
   <data name="customreactions_all_stats_cleared" xml:space="preserve">
     <value>所有自訂回應統計已刪除。</value>
@@ -247,13 +247,13 @@
     <comment>Kwoth used punch:type_icon: on Sanity:type_icon: for 50 damage.</comment>
   </data>
   <data name="pokemon_cant_attack_again" xml:space="preserve">
-    <value>對方反擊前無法對他再次攻擊！</value>
+    <value>對方反擊前無法對他再次攻擊!</value>
   </data>
   <data name="pokemon_cant_attack_yourself" xml:space="preserve">
     <value>您不能攻擊自己。</value>
   </data>
   <data name="pokemon_fainted" xml:space="preserve">
-    <value>{0} 已昏厥！</value>
+    <value>{0} 已昏厥!</value>
   </data>
   <data name="pokemon_healed" xml:space="preserve">
     <value>用了一個 {1} 醫好 {0}</value>
@@ -286,10 +286,10 @@
     <value>效果一般。</value>
   </data>
   <data name="pokemon_super_effective" xml:space="preserve">
-    <value>效果絕佳！</value>
+    <value>效果絕佳!</value>
   </data>
   <data name="pokemon_too_many_moves" xml:space="preserve">
-    <value>您已連續使用太多招式，所以您無法行動！</value>
+    <value>您已連續使用太多招式，所以您無法行動!</value>
   </data>
   <data name="pokemon_type_of_user" xml:space="preserve">
     <value>{0} 的屬性是 {1} </value>
@@ -298,7 +298,7 @@
     <value>該成員不存在。</value>
   </data>
   <data name="pokemon_you_fainted" xml:space="preserve">
-    <value>您已昏厥所以不能移動！</value>
+    <value>您已昏厥所以不能移動!</value>
   </data>
   <data name="administration_aar_disabled" xml:space="preserve">
     <value>**自動指派身分組**給新加入的成員**已停用**。</value>
@@ -399,7 +399,7 @@
     <value>成功新增了新的捐贈者。此成員總共捐贈了：{0}</value>
   </data>
   <data name="administration_donators" xml:space="preserve">
-    <value>感謝下列的人使這個項目繼續運作！</value>
+    <value>感謝下列的人使這個項目繼續運作!</value>
   </data>
   <data name="administration_fwall_start" xml:space="preserve">
     <value>我會將私人訊息轉發給所有擁有者。</value>
@@ -453,7 +453,7 @@
     <value>您不能對身分組與您一樣或更高的成員使用此指令。</value>
   </data>
   <data name="administration_images_loaded" xml:space="preserve">
-    <value>圖片共花了 {0} 秒載入！</value>
+    <value>圖片共花了 {0} 秒載入!</value>
   </data>
   <data name="administration_invalid_format" xml:space="preserve">
     <value>無效的輸入格式。</value>
@@ -689,7 +689,7 @@
     <value>您並不是 {0} 身份組的成員。</value>
   </data>
   <data name="administration_self_assign_no_excl" xml:space="preserve">
-    <value>自入身分群組不再為擇一模式！</value>
+    <value>自入身分群組不再為擇一模式!</value>
   </data>
   <data name="administration_self_assign_perms" xml:space="preserve">
     <value>我無法新增身分組比我還高的身分組給您。</value>
@@ -710,19 +710,19 @@
     <value>無法指派身分組。我沒有足夠的權限。</value>
   </data>
   <data name="administration_set_avatar" xml:space="preserve">
-    <value>新的大頭貼已設定！</value>
+    <value>新的大頭貼已設定!</value>
   </data>
   <data name="administration_set_channel_name" xml:space="preserve">
     <value>新的頻道名稱已設定。</value>
   </data>
   <data name="administration_set_game" xml:space="preserve">
-    <value>新的遊戲名稱已設定！</value>
+    <value>新的遊戲名稱已設定!</value>
   </data>
   <data name="administration_set_stream" xml:space="preserve">
-    <value>已設定新的實況台！</value>
+    <value>已設定新的實況台!</value>
   </data>
   <data name="administration_set_topic" xml:space="preserve">
-    <value>新的頻道主題已設定！</value>
+    <value>新的頻道主題已設定!</value>
   </data>
   <data name="administration_shard_reconnected" xml:space="preserve">
     <value>Shard {0} 已重新連線。</value>
@@ -743,7 +743,7 @@
     <value>慢速模式已啟用</value>
   </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
-    <value>soft-banned (踢出)</value>
+    <value>軟禁 (踢出)</value>
     <comment>PLURAL</comment>
   </data>
   <data name="administration_spam_ignore" xml:space="preserve">
@@ -861,7 +861,7 @@
     <value>成員已解禁</value>
   </data>
   <data name="administration_migration_done" xml:space="preserve">
-    <value>合併完成！</value>
+    <value>合併完成!</value>
   </data>
   <data name="adminsitration_migration_error" xml:space="preserve">
     <value>在合併時發生問題，請查閱命令視窗來取得更多資訊。</value>
@@ -879,7 +879,7 @@
     <value>再接再厲，下次會更好 ^_^</value>
   </data>
   <data name="gambling_br_win" xml:space="preserve">
-    <value>恭喜！您因骰出高於 {1} 以上獲得了 {0}</value>
+    <value>恭喜! 您因骰出高於 {1} 以上獲得了 {0}</value>
   </data>
   <data name="gambling_deck_reshuffled" xml:space="preserve">
     <value>重新洗牌。</value>
@@ -889,7 +889,7 @@
     <comment>User flipped tails.</comment>
   </data>
   <data name="gambling_flip_guess" xml:space="preserve">
-    <value>您猜對了！您赢得了 {0}</value>
+    <value>您猜對了! 您赢得了 {0}</value>
   </data>
   <data name="gambling_flip_invalid" xml:space="preserve">
     <value>指定的數字無效。你可以丟 1 至 {0} 個硬幣。</value>
@@ -901,7 +901,7 @@
     <value>此活動只在 {0} 小時內有效。</value>
   </data>
   <data name="gambling_flowerreaction_title" xml:space="preserve">
-    <value>花幣大放送開始了！</value>
+    <value>花幣大放送開始了!</value>
   </data>
   <data name="gambling_gifted" xml:space="preserve">
     <value>送了 {1} 給 {0}</value>
@@ -942,16 +942,16 @@
     <value>下注</value>
   </data>
   <data name="gambling_slot_jackpot" xml:space="preserve">
-    <value>哇啊啊啊啊啊啊！！！ 恭喜！！！ - 投注 x{0}</value>
+    <value>哇啊啊啊啊啊啊!!! 恭喜!!! - 投注 x{0}</value>
   </data>
   <data name="gambling_slot_single" xml:space="preserve">
     <value>一個 {0} - 投注 x{1}</value>
   </data>
   <data name="gambling_slot_three" xml:space="preserve">
-    <value>哇！真幸運！三個一樣！- 投注 x{0}</value>
+    <value>哇! 真幸運! 三個一樣! - 投注 x{0}</value>
   </data>
   <data name="gambling_slot_two" xml:space="preserve">
-    <value>不錯喔！兩個{0} - 投注 x{1}</value>
+    <value>不錯喔! 兩個{0} - 投注 x{1}</value>
   </data>
   <data name="gambling_slot_won" xml:space="preserve">
     <value>獲得</value>
@@ -973,7 +973,7 @@
     <value>成功從 {1} 獲得 {0}</value>
   </data>
   <data name="gambling_take_fail" xml:space="preserve">
-    <value>無法從 {1} 獲得 {0}，因為成員並沒有那麼多 {2}！</value>
+    <value>無法從 {1} 獲得 {0}，因為成員並沒有那麼多 {2}!</value>
   </data>
   <data name="help_back_to_toc" xml:space="preserve">
     <value>回目錄</value>
@@ -985,7 +985,7 @@
     <value>需要 {0} 頻道權限。</value>
   </data>
   <data name="help_cmdlist_donate" xml:space="preserve">
-    <value>您可以透過 Patreon: &lt;{0}&gt; 或 Paypal：&lt;{1}&gt; 來贊助此專案</value>
+    <value>您可以透過 Patreon: &lt;{0}&gt; 或 Paypal: &lt;{1}&gt; 來贊助此專案</value>
   </data>
   <data name="help_cmd_and_alias" xml:space="preserve">
     <value>指令和快捷</value>
@@ -1012,7 +1012,7 @@ Paypal &lt;{1}&gt;
 **感謝您**♥️</value>
   </data>
   <data name="help_guide" xml:space="preserve">
-    <value>**指令清單**：&lt;{0}&gt;
+    <value>**指令清單**: &lt;{0}&gt;
 **自己架設的教學和文件可參考**: &lt;{1}&gt;</value>
   </data>
   <data name="help_list_of_commands" xml:space="preserve">
@@ -1038,7 +1038,7 @@ Paypal &lt;{1}&gt;
     <value>使用方式</value>
   </data>
   <data name="nsfw_autohentai_started" xml:space="preserve">
-    <value>啟動 Autohentai。每 {0} 秒發送一張含有以下標籤的圖片：
+    <value>啟動 Autohentai。每 {0} 秒發送一張含有以下標籤的圖片:
 {1}</value>
   </data>
   <data name="nsfw_tag" xml:space="preserve">
@@ -1051,13 +1051,13 @@ Paypal &lt;{1}&gt;
     <value>參賽者不足，無法開始比賽。</value>
   </data>
   <data name="gambling_animal_race_full" xml:space="preserve">
-    <value>參賽者已滿！立即開始比賽。</value>
+    <value>參賽者已滿! 立即開始比賽。</value>
   </data>
   <data name="gambling_animal_race_join" xml:space="preserve">
     <value>{0} 扮演為 {1}</value>
   </data>
   <data name="gambling_animal_race_join_bet" xml:space="preserve">
-    <value>{0} 扮演為 {1} 並下注了 {2}！</value>
+    <value>{0} 扮演為 {1} 並下注了 {2}!</value>
   </data>
   <data name="gambling_animal_race_join_instr" xml:space="preserve">
     <value>輸入 {0}jr 來加入比賽。</value>
@@ -1069,10 +1069,10 @@ Paypal &lt;{1}&gt;
     <value>比賽開始，共有 {0} 位參賽者。</value>
   </data>
   <data name="gambling_animal_race_won" xml:space="preserve">
-    <value>身為 {1} 的 {0} 贏得比賽！</value>
+    <value>身為 {1} 的 {0} 贏得比賽!</value>
   </data>
   <data name="gambling_animal_race_won_money" xml:space="preserve">
-    <value>身為 {1} 的 {0} 贏得比賽並獲得 {2}！</value>
+    <value>身為 {1} 的 {0} 贏得比賽並獲得 {2}!</value>
   </data>
   <data name="gambling_dice_invalid_number" xml:space="preserve">
     <value>指定的數量無效。您可以一次骰 {0} ~ {1} 個骰子。</value>
@@ -1134,7 +1134,7 @@ Paypal &lt;{1}&gt;
     <value>想要成為 {0} 的後宮。 嗚挖~ &lt;3</value>
   </data>
   <data name="gambling_waifu_claimed" xml:space="preserve">
-    <value>花了 {1} 將 {0} 收為後宮！</value>
+    <value>花了 {1} 將 {0} 收為後宮!</value>
   </data>
   <data name="gambling_waifu_divorced_like" xml:space="preserve">
     <value>你已經甩掉了一位喜歡你的對象，你這無情的怪物。
@@ -1145,13 +1145,13 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="gambling_waifu_fulfilled" xml:space="preserve">
     <value>🎉他們的愛情終於開花結果 🎉
-{0} 的新值為 {1}！</value>
+{0} 的新值為 {1}!</value>
   </data>
   <data name="gambling_waifu_isnt_cheap" xml:space="preserve">
     <value>後宮才沒有那麼便宜。您必須至少支付 {0} 以上才能買下對方，即使對方的所需金額比這個還低。</value>
   </data>
   <data name="gambling_waifu_not_enough" xml:space="preserve">
-    <value>您必須支付 {0} 或更多才能收納對方入你後宮！</value>
+    <value>您必須支付 {0} 或更多才能收納對方入你後宮!</value>
   </data>
   <data name="gambling_waifu_not_yours" xml:space="preserve">
     <value>那個後宮不是你的。</value>
@@ -1199,22 +1199,22 @@ Paypal &lt;{1}&gt;
     <value>請輸入您喜歡的句子編號。</value>
   </data>
   <data name="games_acro_vote_cast" xml:space="preserve">
-    <value>{0} 投下了他寶貴的一票！</value>
+    <value>{0} 投下了他寶貴的一票!</value>
   </data>
   <data name="games_acro_winner" xml:space="preserve">
     <value>優勝者為獲得 {1} 分的 {0}。</value>
   </data>
   <data name="games_acro_winner_only" xml:space="preserve">
-    <value>優勝者為唯一一個送出答案的 {0}！</value>
+    <value>優勝者為唯一一個送出答案的 {0}!</value>
   </data>
   <data name="games_question" xml:space="preserve">
     <value>題目</value>
   </data>
   <data name="games_rps_draw" xml:space="preserve">
-    <value>平手！雙方都選擇了 {0}</value>
+    <value>平手! 雙方都選擇了 {0}</value>
   </data>
   <data name="games_rps_win" xml:space="preserve">
-    <value>{0} 赢了！{1} 打敗了 {2}</value>
+    <value>{0} 赢了! {1} 打敗了 {2}</value>
   </data>
   <data name="games_submissions_closed" xml:space="preserve">
     <value>結束收件</value>
@@ -1241,11 +1241,11 @@ Paypal &lt;{1}&gt;
     <value>開始在此頻道上生產貨幣。</value>
   </data>
   <data name="games_curgen_pl" xml:space="preserve">
-    <value>發現了 {0} 個野生的 {1}！</value>
+    <value>發現了 {0} 個野生的 {1}!</value>
     <comment>plural</comment>
   </data>
   <data name="games_curgen_sn" xml:space="preserve">
-    <value>發現了一個野生的 {0}！</value>
+    <value>發現了一個野生的 {0}!</value>
   </data>
   <data name="games_failed_loading_question" xml:space="preserve">
     <value>載入問題失敗。</value>
@@ -1289,7 +1289,7 @@ Paypal &lt;{1}&gt;
     <value>知識小學堂</value>
   </data>
   <data name="games_trivia_guess" xml:space="preserve">
-    <value>{0} 答對了！答案是: {1}</value>
+    <value>{0} 答對了! 答案是: {1}</value>
   </data>
   <data name="games_trivia_none" xml:space="preserve">
     <value>此伺服器上沒有運行中的知識小學堂。</value>
@@ -1301,10 +1301,10 @@ Paypal &lt;{1}&gt;
     <value>於此問題後結束。</value>
   </data>
   <data name="games_trivia_times_up" xml:space="preserve">
-    <value>時間到！正確答案為: {0}</value>
+    <value>時間到! 正確答案為: {0}</value>
   </data>
   <data name="games_trivia_win" xml:space="preserve">
-    <value>{0} 答對並贏得遊戲！答案是: {1}</value>
+    <value>{0} 答對並贏得遊戲! 答案是: {1}</value>
   </data>
   <data name="games_ttt_against_yourself" xml:space="preserve">
     <value>你不能對自己玩。</value>
@@ -1313,22 +1313,22 @@ Paypal &lt;{1}&gt;
     <value>圈圈叉叉遊戲已經在此頻道上運行中。</value>
   </data>
   <data name="games_ttt_a_draw" xml:space="preserve">
-    <value>平手！</value>
+    <value>平手!</value>
   </data>
   <data name="games_ttt_created" xml:space="preserve">
     <value>開始了一場圈圈叉叉遊戲。</value>
   </data>
   <data name="games_ttt_has_won" xml:space="preserve">
-    <value>{0} 赢了！</value>
+    <value>{0} 赢了!</value>
   </data>
   <data name="games_ttt_matched_three" xml:space="preserve">
     <value>配對了三個</value>
   </data>
   <data name="games_ttt_no_moves" xml:space="preserve">
-    <value>沒有可動的步！</value>
+    <value>沒有可動的步!</value>
   </data>
   <data name="games_ttt_time_expired" xml:space="preserve">
-    <value>時間已到！</value>
+    <value>時間已到!</value>
   </data>
   <data name="games_ttt_users_move" xml:space="preserve">
     <value>輪到 {0} 了</value>
@@ -1805,7 +1805,7 @@ Paypal &lt;{1}&gt;
     <value>找到超過 {0} 張圖。 顯示隨機 {0}。</value>
   </data>
   <data name="searches_ow_user_not_found" xml:space="preserve">
-    <value>找不到該玩家！請再次檢查BattleTag及區域是否正確。</value>
+    <value>找不到該玩家! 請再次檢查BattleTag及區域是否正確。</value>
   </data>
   <data name="searches_plan_to_watch" xml:space="preserve">
     <value>預計觀看</value>
@@ -2191,7 +2191,7 @@ Paypal &lt;{1}&gt;
     <value>語音頻道</value>
   </data>
   <data name="gambling_animal_race_already_in" xml:space="preserve">
-    <value>您已經加入了這場比賽！</value>
+    <value>您已經加入了這場比賽!</value>
   </data>
   <data name="games_current_poll_results" xml:space="preserve">
     <value>目前投票結果</value>
@@ -2235,6 +2235,24 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="gambling_page" xml:space="preserve">
     <value>第 {0} 頁</value>
+  </data>
+  <data name="administration_must_be_in_voice" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_no_vcroles" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_user_muted_time" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_vcrole_added" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_vcrole_removed" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_vc_role_list" xml:space="preserve">
+    <value></value>
   </data>
 
 </root>
