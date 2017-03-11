@@ -536,12 +536,10 @@
     <value>{0}被移动由{1}到{2}</value>
   </data>
   <data name="administration_msg_del" xml:space="preserve">
-    <value>在＃{0}中删除讯息</value>
-    <comment>Fuzzy</comment>
+    <value>在#{0}中删除讯息</value>
   </data>
   <data name="administration_msg_update" xml:space="preserve">
-    <value>讯息在＃{0}中被更新</value>
-    <comment>Fuzzy</comment>
+    <value>讯息在#{0}中被更新</value>
   </data>
   <data name="administration_muted_pl" xml:space="preserve">
     <value>已静音</value>
@@ -2027,8 +2025,7 @@ Fuzzy</comment>
 `1.`</comment>
   </data>
   <data name="utility_activity_page" xml:space="preserve">
-    <value>活动页面＃{0}</value>
-    <comment>Fuzzy</comment>
+    <value>活动页面#{0}</value>
   </data>
   <data name="utility_activity_users_total" xml:space="preserve">
     <value>{0}个用户。</value>
@@ -2190,8 +2187,7 @@ Fuzzy</comment>
     <value>引用被添加</value>
   </data>
   <data name="utility_quote_deleted" xml:space="preserve">
-    <value>随机删除了一个引用。</value>
-    <comment>Fuzzy</comment>
+    <value>引用#{0}删除。</value>
   </data>
   <data name="utility_region" xml:space="preserve">
     <value>区域</value>
@@ -2337,6 +2333,24 @@ Fuzzy</comment>
     <value></value>
   </data>
   <data name="gambling_page" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_must_be_in_voice" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_no_vcroles" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_user_muted_time" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_vcrole_added" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_vcrole_removed" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_vc_role_list" xml:space="preserve">
     <value></value>
   </data>
 
