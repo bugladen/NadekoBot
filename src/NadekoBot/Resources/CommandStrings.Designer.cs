@@ -8646,6 +8646,60 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to vcrole.
+        /// </summary>
+        public static string vcrole_cmd {
+            get {
+                return ResourceManager.GetString("vcrole_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Sets or resets a role which will be given to users who join the voice channel you&apos;re in when you run this command. Provide no role name to disable. You must be in a voice channel to run this command..
+        /// </summary>
+        public static string vcrole_desc {
+            get {
+                return ResourceManager.GetString("vcrole_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}vcrole SomeRole` or `{0}vcrole`.
+        /// </summary>
+        public static string vcrole_usage {
+            get {
+                return ResourceManager.GetString("vcrole_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to vcrolelist.
+        /// </summary>
+        public static string vcrolelist_cmd {
+            get {
+                return ResourceManager.GetString("vcrolelist_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows a list of currently set voice channel roles..
+        /// </summary>
+        public static string vcrolelist_desc {
+            get {
+                return ResourceManager.GetString("vcrolelist_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}vcrolelist`.
+        /// </summary>
+        public static string vcrolelist_usage {
+            get {
+                return ResourceManager.GetString("vcrolelist_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to verbose v.
         /// </summary>
         public static string verbose_cmd {

@@ -70,8 +70,15 @@ namespace NadekoBot.Services.Database.Models
         public string TimeZoneId { get; set; } = null;
 
         public HashSet<UnmuteTimer> UnmuteTimers { get; set; } = new HashSet<UnmuteTimer>();
+        public HashSet<VcRoleInfo> VcRoleInfos { get; set; }
 
         //public List<ProtectionIgnoredChannel> ProtectionIgnoredChannels { get; set; } = new List<ProtectionIgnoredChannel>();
+    }
+
+    public class VcRoleInfo : DbEntity
+    {
+        public ulong VoiceChannelId { get; set; }
+        public ulong RoleId { get; set; }
     }
 
     public class UnmuteTimer : DbEntity

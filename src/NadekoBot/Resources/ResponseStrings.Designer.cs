@@ -764,6 +764,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to You must be in a voice channel on this server..
+        /// </summary>
+        public static string administration_must_be_in_voice {
+            get {
+                return ResourceManager.GetString("administration_must_be_in_voice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to I don&apos;t have the permission necessary for that most likely..
         /// </summary>
         public static string administration_mute_error {
@@ -859,6 +868,15 @@ namespace NadekoBot.Resources {
         public static string administration_no_shard_id {
             get {
                 return ResourceManager.GetString("administration_no_shard_id", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to There are no voice channel roles..
+        /// </summary>
+        public static string administration_no_vcroles {
+            get {
+                return ResourceManager.GetString("administration_no_vcroles", resourceCulture);
             }
         }
         
@@ -1654,6 +1672,33 @@ namespace NadekoBot.Resources {
         public static string administration_users {
             get {
                 return ResourceManager.GetString("administration_users", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Voice channel roles.
+        /// </summary>
+        public static string administration_vc_role_list {
+            get {
+                return ResourceManager.GetString("administration_vc_role_list", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Users who join {0} voice channel will get {1} role..
+        /// </summary>
+        public static string administration_vcrole_added {
+            get {
+                return ResourceManager.GetString("administration_vcrole_added", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Users who join {0} voice channel will no longer get a role..
+        /// </summary>
+        public static string administration_vcrole_removed {
+            get {
+                return ResourceManager.GetString("administration_vcrole_removed", resourceCulture);
             }
         }
         
