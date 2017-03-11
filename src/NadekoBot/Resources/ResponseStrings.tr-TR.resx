@@ -158,7 +158,6 @@
   </data>
   <data name="clashofclans_not_claimed" xml:space="preserve">
     <value>Alınmamış</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_not_partic" xml:space="preserve">
     <value>Bu savaşa katılmadınız.</value>
@@ -207,10 +206,10 @@
     <value>Yeni özel reaksiyon</value>
   </data>
   <data name="customreactions_no_found" xml:space="preserve">
-    <value>Bir özel reaksiyon bulunamadı.</value>
+    <value>Hiç özel reaksiyon bulunamadı.</value>
   </data>
   <data name="customreactions_no_found_id" xml:space="preserve">
-    <value>Bu id&apos;ye sahip bir özel reaksiyon bulunamadı.</value>
+    <value>Bu kimliğe sahip bir özel reaksiyon bulunamadı.</value>
   </data>
   <data name="customreactions_response" xml:space="preserve">
     <value>Cevap</value>
@@ -225,7 +224,7 @@
     <value>Bu tetikleyici için herhangi bir istatistik bulunamadı, herhangi bir işlem yapılmadı.</value>
   </data>
   <data name="customreactions_trigger" xml:space="preserve">
-    <value>Tetiklendi</value>
+    <value>Tetikleyen</value>
   </data>
   <data name="nsfw_autohentai_stopped" xml:space="preserve">
     <value>Autohentai durduruldu.</value>
@@ -247,16 +246,16 @@
     <comment>Kwoth used punch:type_icon: on Sanity:type_icon: for 50 damage.</comment>
   </data>
   <data name="pokemon_cant_attack_again" xml:space="preserve">
-    <value>İntikam almadan bir daha saldıramassın.</value>
+    <value>İntikam almadan bir daha saldıramazsın.</value>
   </data>
   <data name="pokemon_cant_attack_yourself" xml:space="preserve">
-    <value>Kendine saldıramassın.</value>
+    <value>Kendine saldıramazsın.</value>
   </data>
   <data name="pokemon_fainted" xml:space="preserve">
     <value>{0} bayıldı!</value>
   </data>
   <data name="pokemon_healed" xml:space="preserve">
-    <value>{0} iyileştirdi kullanarak {1}</value>
+    <value>{1} kullanarak {0} iyileştirildi.</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="pokemon_hp_remaining" xml:space="preserve">
@@ -302,10 +301,10 @@
     <value>Bayıldın,yani hareket edemiyiceksin.</value>
   </data>
   <data name="administration_aar_disabled" xml:space="preserve">
-    <value>Kullanıcı girişinde **Otomatik rol tanımlaması** **Devre dışı**.</value>
+    <value>Kullanıcı girişinde **Otomatik Rol Tanımlaması** **Devre Dışı**.</value>
   </data>
   <data name="administration_aar_enabled" xml:space="preserve">
-    <value>Kullanıcı girişinde **Otomatik rol tanımlaması** **Devrede**.</value>
+    <value>Kullanıcı girişinde **Otomatik Rol Tanımlaması** **Devrede**.</value>
   </data>
   <data name="administration_attachments" xml:space="preserve">
     <value>Eklentiler</value>
@@ -325,10 +324,10 @@ Sebep: {1}</value>
     <value>Kullanıcı Uzaklaştırıldı</value>
   </data>
   <data name="administration_bot_name" xml:space="preserve">
-    <value>Bot ismi {0} ile değiştirildi.</value>
+    <value>Bot ismi {0} olarak değiştirildi.</value>
   </data>
   <data name="administration_bot_status" xml:space="preserve">
-    <value>Bot durum mesajı {0} ile değiştirildi.</value>
+    <value>Bot durum mesajı {0} olarak değiştirildi.</value>
   </data>
   <data name="administration_byedel_off" xml:space="preserve">
     <value>Çıkış mesajlarının otomatik silinmesi devre dışı bırakıldı.</value>
@@ -382,10 +381,10 @@ Sebep: {1}</value>
     <value>{0} sunucusu silindi.</value>
   </data>
   <data name="administration_delmsg_off" xml:space="preserve">
-    <value>Komut bildirimlerinin otomatik silinmesi durduruldu.</value>
+    <value>Komut bildirimlerinin otomatik silinmesi başarıyla durduruldu.</value>
   </data>
   <data name="administration_delmsg_on" xml:space="preserve">
-    <value>Artık komut bildirimleri siliniyor.</value>
+    <value>Artık komut bildirimleri başarıyla siliniyor.</value>
   </data>
   <data name="administration_deltextchan" xml:space="preserve">
     <value>{0} yazı kanalı silindi.</value>
@@ -406,7 +405,7 @@ Sebep: {1}</value>
     <value>Özel mesajları tüm sahiplerine ileteceğim.</value>
   </data>
   <data name="administration_fwall_stop" xml:space="preserve">
-    <value>Özel mesajları sadece ilk sahibe ileteceğim.</value>
+    <value>Özel mesajları sadece ilk sahibine ileteceğim.</value>
   </data>
   <data name="administration_fwdm_start" xml:space="preserve">
     <value>Özel mesajları iletmeye başlayacağım.</value>
@@ -486,7 +485,7 @@ Sebep: {1}</value>
     <value>Bot dili değiştirildi: {0} - {1}</value>
   </data>
   <data name="administration_lang_set_fail" xml:space="preserve">
-    <value>Yerel ayarlar değiştirilemedi. Komutun kılavuzuna bakın.</value>
+    <value>Dil ayarları değiştirilemedi. Komutun kılavuzuna bakın.</value>
   </data>
   <data name="administration_lang_set_show" xml:space="preserve">
     <value>Sunucunun dili değiştirildi: {0} - {1}</value>
@@ -495,7 +494,7 @@ Sebep: {1}</value>
     <value>{0} {1}&apos;den ayrıldı.</value>
   </data>
   <data name="administration_left_server" xml:space="preserve">
-    <value>Sunucudan çıkıldı: {0}</value>
+    <value>{0} sunucudan ayrıldı.</value>
   </data>
   <data name="administration_log" xml:space="preserve">
     <value>Bu kanaldaki {0} olayları kayıt ediliyor.</value>
@@ -510,10 +509,10 @@ Sebep: {1}</value>
     <value>Abone olabileceğiniz olaylar:</value>
   </data>
   <data name="administration_log_ignore" xml:space="preserve">
-    <value>Günlük kaydı {0} yoksayar</value>
+    <value>{0} günlük kayıtlarını yok sayar.</value>
   </data>
   <data name="administration_log_not_ignore" xml:space="preserve">
-    <value>Günlüğe yazma {0} yok saymaz</value>
+    <value>{0} günlüğe yazmayı yok saymaz.</value>
   </data>
   <data name="administration_log_stop" xml:space="preserve">
     <value>{0} olayını günlüğe kaydetme işlemi durduruldu.</value>
@@ -522,7 +521,7 @@ Sebep: {1}</value>
     <value>{0}, aşağıdaki rollerde bir söz atadı.</value>
   </data>
   <data name="administration_message_from_bo" xml:space="preserve">
-    <value>Bot sahibinden mesaj {0} `[Bot Sahibi]`:</value>
+    <value>{0} gönderdiği mesaj `[Bot Sahibi]`:</value>
   </data>
   <data name="administration_message_sent" xml:space="preserve">
     <value>Mesaj yollandı.</value>
@@ -531,7 +530,7 @@ Sebep: {1}</value>
     <value>{0} {1}&apos;den {2}&apos;ye taşındı.</value>
   </data>
   <data name="administration_msg_del" xml:space="preserve">
-    <value>Mesajlar silinicek {0} içinde</value>
+    <value>{0} içindeki mesajlar silinicek.</value>
   </data>
   <data name="administration_msg_update" xml:space="preserve">
     <value>Mesaj {0} da güncellendi</value>
@@ -560,13 +559,13 @@ Sebep: {1}</value>
     <value>Yeni takma ad</value>
   </data>
   <data name="administration_new_topic" xml:space="preserve">
-    <value>Yeni konu</value>
+    <value>Yeni Konu</value>
   </data>
   <data name="administration_nick_change" xml:space="preserve">
     <value>Takma Ad değiştirildi.</value>
   </data>
   <data name="administration_no_server" xml:space="preserve">
-    <value>Server bulunamadı</value>
+    <value>Sunucu bulunamadı.</value>
   </data>
   <data name="administration_no_shard_id" xml:space="preserve">
     <value>Kimlik numarası bulunamadı.</value>
@@ -605,7 +604,7 @@ Sebep: {1}</value>
     <value>Kullanıcı eşiği {0} ile {1} arasında olmalıdır.</value>
   </data>
   <data name="administration_raid_stats" xml:space="preserve">
-    <value>{0} veya daha fazla kullanıcı {1} saniye içinde katılırsa, onlara {2} vereceğim.</value>
+    <value>{0} veya daha fazla kullanıcı {1} saniye içinde katılırsa, onlara {2} uygulayacağım.</value>
   </data>
   <data name="administration_raid_time" xml:space="preserve">
     <value>Zaman {0} ile {1} saniye arasında olmalıdır.</value>
@@ -669,7 +668,7 @@ Sebep: {1}</value>
 {0}</value>
   </data>
   <data name="administration_ropl_not_set" xml:space="preserve">
-    <value>Dönen oyun durumları ayarlanmadı.</value>
+    <value>Dönen durumlar ayarlanmadı.</value>
   </data>
   <data name="administration_self_assign_already" xml:space="preserve">
     <value>Zaten {0} role sahip.</value>
@@ -738,10 +737,10 @@ Sebep: {1}</value>
     <value>Kullanıcılar, {1} saniyede bir {0}&apos;den fazla mesaj gönderemez.</value>
   </data>
   <data name="administration_slowmode_disabled" xml:space="preserve">
-    <value>Yavaş mod devre dışı.</value>
+    <value>Yavaşlatılmış mod devre dışı.</value>
   </data>
   <data name="administration_slowmode_init" xml:space="preserve">
-    <value>Yavaş mod başlatıldı</value>
+    <value>Yavaşlatılmış mod başlatıldı</value>
   </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
     <value>Hafif bir şekilde yasaklandılar (atıldılar)</value>
@@ -751,11 +750,11 @@ Sebep: {1}</value>
     <value>{0} bu kanalı yoksayacak.</value>
   </data>
   <data name="administration_spam_not_ignore" xml:space="preserve">
-    <value>{0} artık bu kanalı yoksayacak.</value>
+    <value>{0} artık bu kanalı yoksaymayacak.</value>
   </data>
   <data name="administration_spam_stats" xml:space="preserve">
-    <value>Bir kullanıcı {0} &apos;da aynı mesajları aynı sırada gönderirse, bunları {1} yapacağım.
-    __YokSayılanKanallar__: {2}</value>
+    <value>Bir kullanıcı {0} aynı mesajı aynı sırada gönderirse, bunları {1} yapacağım.
+__Yok Sayılan Kanallar__:  {2}</value>
   </data>
   <data name="administration_text_chan_created" xml:space="preserve">
     <value>Metin kanalı oluşturuldu.</value>
@@ -795,7 +794,7 @@ Sebep: {1}</value>
     <value>Kullanıcı ayrıldı</value>
   </data>
   <data name="administration_user_muted" xml:space="preserve">
-    <value>{0}, metin ve sesli sohbetde **sessiz durumdaydı**.</value>
+    <value>{0}, metin ve sesli sohbetde **sessiz durumda**.</value>
   </data>
   <data name="administration_user_role_add" xml:space="preserve">
     <value>Kullanıcının rolü eklendi</value>
@@ -810,13 +809,13 @@ Sebep: {1}</value>
     <value>{0}, metin ve sesli sohbetde **sessiz durumda değil**.</value>
   </data>
   <data name="administration_user_vjoined" xml:space="preserve">
-    <value>{0}, {1} sesli kanala katıldı.</value>
+    <value>{0}, {1} sesli kanalına katıldı.</value>
   </data>
   <data name="administration_user_vleft" xml:space="preserve">
-    <value>{0}, {1} sesli kanaldan ayrıldı.</value>
+    <value>{0}, {1} sesli kanalından ayrıldı.</value>
   </data>
   <data name="administration_user_vmoved" xml:space="preserve">
-    <value>{0}, {1} kanalından {2} sesli kanala taşındı.</value>
+    <value>{0}, {1} kanalından {2} sesli kanalına taşındı.</value>
   </data>
   <data name="administration_user_voice_mute" xml:space="preserve">
     <value>{0} **susturuldu**.</value>
@@ -825,10 +824,10 @@ Sebep: {1}</value>
     <value>{0} **susturulması kaldırıldı**.</value>
   </data>
   <data name="administration_voice_chan_created" xml:space="preserve">
-    <value>Sesli kanal oluşturuldu</value>
+    <value>Ses kanalı oluşturuldu</value>
   </data>
   <data name="administration_voice_chan_destroyed" xml:space="preserve">
-    <value>Sesli kanal yok edildi</value>
+    <value>Ses kanalı yok edildi</value>
   </data>
   <data name="administration_vt_disabled" xml:space="preserve">
     <value>Ses + metin özelliği devre dışı.</value>
@@ -849,7 +848,7 @@ Sebep: {1}</value>
     <value>Metin sohbetinde {0} kullanıcı</value>
   </data>
   <data name="administration_xmuted_text_and_voice" xml:space="preserve">
-    <value>Metin ve sesli sohbetten {0} kullanıcı</value>
+    <value>Metin ve sesli sohbetinde {0} kullanıcı</value>
   </data>
   <data name="administration_xmuted_voice" xml:space="preserve">
     <value>Sesli sohbetten {0} kullanıcı</value>
@@ -913,7 +912,7 @@ Sebep: {1}</value>
     <comment>X has Y flowers</comment>
   </data>
   <data name="gambling_heads" xml:space="preserve">
-    <value>Kafalar</value>
+    <value>Kafa</value>
   </data>
   <data name="gambling_leaderboard" xml:space="preserve">
     <value>Lider listesi</value>
@@ -968,7 +967,7 @@ Sebep: {1}</value>
     <value>GizliOyunDurumu etkinliği başlatıldı</value>
   </data>
   <data name="gambling_tails" xml:space="preserve">
-    <value>Kuyruklar</value>
+    <value>Kuyruk</value>
   </data>
   <data name="gambling_take" xml:space="preserve">
     <value>Başarıyla {1}&apos;den {0} aldı</value>
@@ -1037,7 +1036,7 @@ Sebep: {1}</value>
     <value>Kullanım</value>
   </data>
   <data name="nsfw_autohentai_started" xml:space="preserve">
-    <value>Otomatik hentai başladı. Her {0} etiketini aşağıdaki etiketlerden biriyle yeniden yayınlanıyor:
+    <value>Otomatik hentai başladı. Her {0} saniyede bir aşağıdaki etiketlerden biriyle yeniden yayınlanıyor:
 {1}</value>
   </data>
   <data name="nsfw_tag" xml:space="preserve">
@@ -1384,7 +1383,7 @@ Fuzzy</comment>
     <value>Maksimum müzik sıra limiti, limitsiz olarak ayarlandı.</value>
   </data>
   <data name="music_max_queue_x" xml:space="preserve">
-    <value>Maksimum müzik sıra limiti {0} şarkı(lar) olarak ayarlandı.</value>
+    <value>Maksimum şarkı sıra limiti {0} şarkı(lar) olarak ayarlandı.</value>
   </data>
   <data name="music_must_be_in_voice" xml:space="preserve">
     <value>Bu sunucunun bir ses kanalına ihtiyacın var.</value>
@@ -1447,7 +1446,7 @@ Fuzzy</comment>
     <value>Sıra {0}/{0} dolu.</value>
   </data>
   <data name="music_removed_song" xml:space="preserve">
-    <value>numaralı şarkı kaldırıldı.</value>
+    <value>Şu numaradaki şarkı kaldırıldı.</value>
     <comment>context: &quot;removed song #5&quot;</comment>
   </data>
   <data name="music_repeating_cur_song" xml:space="preserve">
@@ -1691,13 +1690,13 @@ Fuzzy</comment>
     <value>Rekabetçi kayıpları</value>
   </data>
   <data name="searches_compet_played" xml:space="preserve">
-    <value>Rekabetçi oynandı</value>
+    <value>Rekabetçi oynadı</value>
   </data>
   <data name="searches_compet_rank" xml:space="preserve">
-    <value>Rekabetçi sıralama</value>
+    <value>Rekabetçi sıralaması</value>
   </data>
   <data name="searches_compet_wins" xml:space="preserve">
-    <value>Rekabetçi Kazançlar</value>
+    <value>Rekabetçi Kazançları</value>
   </data>
   <data name="searches_completed" xml:space="preserve">
     <value>Tamamlandı</value>
@@ -1827,10 +1826,10 @@ Fuzzy</comment>
     <value>Kalite:</value>
   </data>
   <data name="searches_quick_playtime" xml:space="preserve">
-    <value>Hızlı oynama süresi</value>
+    <value>Normal maç oynama süresi</value>
   </data>
   <data name="searches_quick_wins" xml:space="preserve">
-    <value>Hızlı kazanma</value>
+    <value>Normal maç kazanma</value>
   </data>
   <data name="searches_rating" xml:space="preserve">
     <value>Değerlendirme</value>
@@ -1929,7 +1928,7 @@ Fuzzy</comment>
     <value>Rüzgar hızı</value>
   </data>
   <data name="searches_x_most_banned_champs" xml:space="preserve">
-    <value>En yasaklanan {0} şampiyon</value>
+    <value>En çok yasaklanan {0} şampiyon</value>
   </data>
   <data name="searches_yodify_error" xml:space="preserve">
     <value>Cümleyi yozlaştırma başarısız oldu.</value>
@@ -2228,7 +2227,7 @@ Kurucu Kimliği: {2}</value>
     <value>{0} toplam oynanan oy.</value>
   </data>
   <data name="games_pick_pl" xml:space="preserve">
-    <value>`{0} pick` yazarak onları topla</value>
+    <value>`{0}pick` yazarak onları topla</value>
   </data>
   <data name="games_pick_sn" xml:space="preserve">
     <value>`{0}pick` yazarak topla</value>
@@ -2238,6 +2237,24 @@ Kurucu Kimliği: {2}</value>
   </data>
   <data name="gambling_page" xml:space="preserve">
     <value>sayfa {0}</value>
+  </data>
+  <data name="administration_must_be_in_voice" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_no_vcroles" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_user_muted_time" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_vcrole_added" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_vcrole_removed" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_vc_role_list" xml:space="preserve">
+    <value></value>
   </data>
 
 </root>
