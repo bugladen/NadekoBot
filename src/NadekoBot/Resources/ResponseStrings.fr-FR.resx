@@ -2353,22 +2353,22 @@ Fuzzy</comment>
     <value>page {0}</value>
   </data>
   <data name="administration_must_be_in_voice" xml:space="preserve">
-    <value></value>
+    <value>Vous devez être sur un canal vocal sur ce serveur.</value>
   </data>
   <data name="administration_no_vcroles" xml:space="preserve">
-    <value></value>
+    <value>Il n&apos;y a pas de rôle de canal vocal.</value>
   </data>
   <data name="administration_user_muted_time" xml:space="preserve">
-    <value></value>
+    <value>{0} est désormais **muet** du chat textuel et vocal pour {1} minutes.</value>
   </data>
   <data name="administration_vcrole_added" xml:space="preserve">
-    <value></value>
+    <value>Les utilisateurs rejoignant le canal vocal {0} obtiendrons le rôle {1}.</value>
   </data>
   <data name="administration_vcrole_removed" xml:space="preserve">
-    <value></value>
+    <value>Les utilisateurs rejoignant le canal vocal {0} n’obtiendrons plus de rôle.</value>
   </data>
   <data name="administration_vc_role_list" xml:space="preserve">
-    <value></value>
+    <value>Rôles du canal vocal</value>
   </data>
 
 </root>
