@@ -2231,5 +2231,23 @@ IDВладельца: {2}</value>
   <data name="gambling_page" xml:space="preserve">
     <value>Страница {0}</value>
   </data>
+  <data name="administration_must_be_in_voice" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_no_vcroles" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_user_muted_time" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_vcrole_added" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_vcrole_removed" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_vc_role_list" xml:space="preserve">
+    <value></value>
+  </data>
 
 </root>
