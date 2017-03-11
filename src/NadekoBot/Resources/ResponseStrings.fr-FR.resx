@@ -140,6 +140,7 @@
   </data>
   <data name="clashofclans_claim_expired" xml:space="preserve">
     <value>La demande de la part de @{0} pour une guerre contre {1} a expiré.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_enemy" xml:space="preserve">
     <value>Ennemi</value>
@@ -152,9 +153,11 @@
   </data>
   <data name="clashofclans_invalid_size" xml:space="preserve">
     <value>La taille de la guerre n&apos;est pas valide.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_list_active_wars" xml:space="preserve">
     <value>Liste des guerres en cours</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_not_claimed" xml:space="preserve">
     <value>non réclamé</value>
@@ -167,6 +170,7 @@
   </data>
   <data name="clashofclans_no_active_wars" xml:space="preserve">
     <value>Aucune guerre en cours.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_size" xml:space="preserve">
     <value>Taille</value>
@@ -206,6 +210,7 @@
   </data>
   <data name="customreactions_no_found" xml:space="preserve">
     <value>Aucune réaction personnalisée trouvée.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="customreactions_no_found_id" xml:space="preserve">
     <value>Aucune réaction personnalisée ne correspond à cet ID.</value>
@@ -315,7 +320,7 @@
 Raison: {1}</value>
   </data>
   <data name="administration_banned_pl" xml:space="preserve">
-    <value>banni</value>
+    <value>bannis</value>
     <comment>PLURAL</comment>
   </data>
   <data name="administration_banned_user" xml:space="preserve">
@@ -468,10 +473,12 @@ Raison : {1}</value>
   </data>
   <data name="administration_kicked_user" xml:space="preserve">
     <value>Utilisateur expulsé</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_lang_list" xml:space="preserve">
     <value>Listes des langues
 {0}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_lang_set" xml:space="preserve">
     <value>La langue du serveur est désormais {0} - {1}</value>
@@ -530,9 +537,11 @@ Raison : {1}</value>
   </data>
   <data name="administration_msg_del" xml:space="preserve">
     <value>Message supprimé dans #{0}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_msg_update" xml:space="preserve">
     <value>Mise à jour du message dans #{0}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_muted_pl" xml:space="preserve">
     <value>Tous les utilisateurs sont maintenant muets.</value>
@@ -549,19 +558,23 @@ Raison : {1}</value>
     <value>Nouveau rôle muet créé.</value>
   </data>
   <data name="administration_need_admin" xml:space="preserve">
-    <value>J&apos;ai besoin de la permission d&apos;**Administrateur** pour effectuer cela.</value>
+    <value>Je nécessite la permission **Administrateur** pour effectuer cela.</value>
   </data>
   <data name="administration_new_msg" xml:space="preserve">
     <value>Nouveau message</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_new_nick" xml:space="preserve">
     <value>Nouveau pseudonyme</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_new_topic" xml:space="preserve">
     <value>Nouveau sujet</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_nick_change" xml:space="preserve">
     <value>Pseudonyme changé</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_no_server" xml:space="preserve">
     <value>Impossible de trouver ce serveur</value>
@@ -572,12 +585,15 @@ Raison : {1}</value>
   </data>
   <data name="administration_old_msg" xml:space="preserve">
     <value>Ancien message</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_old_nick" xml:space="preserve">
     <value>Ancien pseudonyme</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_old_topic" xml:space="preserve">
     <value>Ancien sujet</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_perms" xml:space="preserve">
     <value>Erreur. Je ne dois sûrement pas posséder les permissions suffisantes.</value>
@@ -587,6 +603,7 @@ Raison : {1}</value>
   </data>
   <data name="administration_prot_active" xml:space="preserve">
     <value>Protections actives</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_prot_disable" xml:space="preserve">
     <value>{0} a été **désactivé** sur ce serveur.</value>
@@ -599,6 +616,7 @@ Raison : {1}</value>
   </data>
   <data name="administration_prot_none" xml:space="preserve">
     <value>Aucune protection activée.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_raid_cnt" xml:space="preserve">
     <value>Le seuil d&apos;utilisateurs doit être entre {0} et {1}.</value>
@@ -628,7 +646,7 @@ Raison : {1}</value>
     <value>Erreur due à un manque de permissions ou à une couleur invalide.</value>
   </data>
   <data name="administration_remrole" xml:space="preserve">
-    <value>L&apos;utilisateur {1} n&apos;appartient plus au rôle {0}.</value>
+    <value>L&apos;utilisateur {1} n&apos;a plus le rôle {0}.</value>
   </data>
   <data name="administration_remrole_err" xml:space="preserve">
     <value>Impossible de supprimer ce rôle. Je ne possède pas les permissions suffisantes.</value>
@@ -705,7 +723,7 @@ Raison : {1}</value>
     <value>Vous avez désormais le rôle {0}.</value>
   </data>
   <data name="administration_setrole" xml:space="preserve">
-    <value>L&apos;ajout du rôle {0} pour l&apos;utilisateur {1} a été réalisé avec succès.</value>
+    <value>L&apos;utilisateur {1} a désormais le rôle {0}.</value>
   </data>
   <data name="administration_setrole_err" xml:space="preserve">
     <value>Impossible d&apos;ajouter un rôle. Je ne possède pas les permissions suffisantes.</value>
@@ -727,7 +745,7 @@ Raison : {1}</value>
     <value>Nouveau sujet du salon défini.</value>
   </data>
   <data name="administration_shard_reconnected" xml:space="preserve">
-    <value>Shard {0} reconnectée.</value>
+    <value>Shard {0} reconnecté.</value>
     <comment>Ne pas confondre Shard et Shared ;) Dans discord, le mot shard n&apos;a pas d&apos;équivalent francophone.</comment>
   </data>
   <data name="administration_shard_reconnecting" xml:space="preserve">
@@ -758,13 +776,15 @@ Raison : {1}</value>
   </data>
   <data name="administration_spam_stats" xml:space="preserve">
     <value>Si un utilisateur poste {0} le même message à la suite, je le {1}. 
-    __SalonsIgnorés__: {2} </value>
+    __SalonsIgnorés__: {2}</value>
   </data>
   <data name="administration_text_chan_created" xml:space="preserve">
-    <value>Salon textuel crée.</value>
+    <value>Salon textuel créé.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_text_chan_destroyed" xml:space="preserve">
-    <value>Salon textuel détruit.</value>
+    <value>Salon textuel supprimé.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_undeafen" xml:space="preserve">
     <value>Son activé avec succès.</value>
@@ -774,16 +794,18 @@ Raison : {1}</value>
     <comment>singular</comment>
   </data>
   <data name="administration_username" xml:space="preserve">
-    <value>Nom d&apos;utilisateur.</value>
+    <value>Nom d&apos;utilisateur</value>
   </data>
   <data name="administration_username_changed" xml:space="preserve">
     <value>Nom d&apos;utilisateur modifié.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_users" xml:space="preserve">
     <value>Utilisateurs</value>
   </data>
   <data name="administration_user_banned" xml:space="preserve">
     <value>Utilisateur banni</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_chat_mute" xml:space="preserve">
     <value>{0} est maintenant **muet** sur le chat.</value>
@@ -793,18 +815,22 @@ Raison : {1}</value>
   </data>
   <data name="administration_user_joined" xml:space="preserve">
     <value>L&apos;utilisateur a rejoint</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_left" xml:space="preserve">
     <value>L&apos;utilisateur a quitté</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_muted" xml:space="preserve">
-    <value>{0} est maintenant **muet** à la fois sur le salon textuel et vocal.</value>
+    <value>{0} est maintenant **muet** à la fois sur les salons textuels et vocaux.</value>
   </data>
   <data name="administration_user_role_add" xml:space="preserve">
     <value>Rôle ajouté à l&apos;utilisateur</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_role_rem" xml:space="preserve">
     <value>Rôle retiré de l&apos;utilisateur</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_status_change" xml:space="preserve">
     <value>{0} est maintenant {1}</value>
@@ -819,7 +845,7 @@ Raison : {1}</value>
     <value>{0} a quitté le salon vocal {1}.</value>
   </data>
   <data name="administration_user_vmoved" xml:space="preserve">
-    <value>{0} est allé du salon vocal {1} au {2}.</value>
+    <value>{0} est allé du salon vocal {1} à {2}.</value>
   </data>
   <data name="administration_user_voice_mute" xml:space="preserve">
     <value>{0} est maintenant **muet**.</value>
@@ -828,10 +854,12 @@ Raison : {1}</value>
     <value>{0} n&apos;est maintenant **plus muet**.</value>
   </data>
   <data name="administration_voice_chan_created" xml:space="preserve">
-    <value>Salon vocal crée.</value>
+    <value>Salon vocal créé.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_voice_chan_destroyed" xml:space="preserve">
-    <value>Salon vocal détruit.</value>
+    <value>Salon vocal supprimé.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_vt_disabled" xml:space="preserve">
     <value>Fonctionnalités vocales et textuelles désactivées.</value>
@@ -843,10 +871,10 @@ Raison : {1}</value>
     <value>Je n&apos;ai pas la permission **Gérer les rôles** et/ou **Gérer les salons**, je ne peux donc pas utiliser `voice+text` sur le serveur {0}.</value>
   </data>
   <data name="administration_vt_no_admin" xml:space="preserve">
-    <value>Vous activez/désactivez cette fonctionnalité et **je n&apos;ai pas les permissions ADMINISTRATEURS**. Cela pourrait causer des dysfonctionnements, et vous devrez nettoyer les salons textuels vous-même après ça.</value>
+    <value>Vous activez/désactivez cette fonctionnalité et **je n&apos;ai pas la permission ADMINISTRATEUR**. Cela pourrait causer des dysfonctionnements, et vous devrez nettoyer les salons textuels vous-même après ça.</value>
   </data>
   <data name="administration_vt_perms" xml:space="preserve">
-    <value>Je nécessite au moins les permissions  **Gérer les rôles** et **Gérer les salons** pour activer cette fonctionnalité. (permissions administateurs préférées)</value>
+    <value>Je nécessite au minimum les rôles **Gérer les rôles** et **Gérer les salons** pour activer cette fonctionnalité. (Permission Administrateur de préférence)</value>
   </data>
   <data name="administration_xmuted_text" xml:space="preserve">
     <value>Utilisateur {0} depuis un salon textuel.</value>
@@ -863,6 +891,7 @@ Raison: {1}</value>
   </data>
   <data name="administration_user_unbanned" xml:space="preserve">
     <value>Utilisateur débanni</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_migration_done" xml:space="preserve">
     <value>Migration effectuée!</value>
@@ -872,18 +901,21 @@ Raison: {1}</value>
   </data>
   <data name="administration_presence_updates" xml:space="preserve">
     <value>Présences mises à jour.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_sb_user" xml:space="preserve">
     <value>Utilisateur expulsé.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_awarded" xml:space="preserve">
     <value>a récompensé {0} à {1}</value>
   </data>
   <data name="gambling_better_luck" xml:space="preserve">
-    <value>Meilleure chance la prochaine fois ^_^</value>
+    <value>Plus de chance la prochaine fois ^_^</value>
+    <comment>C&apos;est vraiment québecois ca.. On ne le dit pas comme ca ici xD</comment>
   </data>
   <data name="gambling_br_win" xml:space="preserve">
-    <value>Félicitations! Vous avez gagné {0} pour avoir lancé au dessus de {1}</value>
+    <value>Félicitations! Vous avez gagné {0} pour avoir lancé au dessus de {1}.</value>
   </data>
   <data name="gambling_deck_reshuffled" xml:space="preserve">
     <value>Deck remélangé.</value>
@@ -893,7 +925,7 @@ Raison: {1}</value>
     <comment>User flipped tails.</comment>
   </data>
   <data name="gambling_flip_guess" xml:space="preserve">
-    <value>Vous l&apos;avez deviné! Vous avez gagné {0}</value>
+    <value>Vous avez deviné! Vous avez gagné {0}</value>
   </data>
   <data name="gambling_flip_invalid" xml:space="preserve">
     <value>Nombre spécifié invalide. Vous pouvez lancer 1 à {0} pièces.</value>
@@ -917,6 +949,7 @@ Raison: {1}</value>
   </data>
   <data name="gambling_heads" xml:space="preserve">
     <value>Face</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_leaderboard" xml:space="preserve">
     <value>Classement</value>
@@ -938,6 +971,7 @@ Raison: {1}</value>
   </data>
   <data name="gambling_raffled_user" xml:space="preserve">
     <value>Utilisateur tiré au sort</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_roll" xml:space="preserve">
     <value>Vous avez roulé un {0}.</value>
@@ -961,7 +995,8 @@ Raison: {1}</value>
     <value>Gagné</value>
   </data>
   <data name="gambling_sneakygamestatus_desc" xml:space="preserve">
-    <value>Les utilisateurs doivent écrire un code secret pour avoir {0}. Dure {1} secondes. Ne le dite à personne. Shhh.</value>
+    <value>Les utilisateurs doivent écrire un code secret pour avoir {0}. Dure {1} secondes. Ne le dites à personne. Shhh.</value>
+    <comment>&quot;Ne le dis à personne&quot; ou &quot;Ne le dites à personne&quot;. Je vous laisse faire le choix</comment>
   </data>
   <data name="gambling_sneakygamestatus_end" xml:space="preserve">
     <value>L’événement &quot;jeu sournois&quot; s&apos;est fini. {0} utilisateurs ont reçu la récompense.</value>
@@ -971,6 +1006,8 @@ Raison: {1}</value>
   </data>
   <data name="gambling_tails" xml:space="preserve">
     <value>Pile</value>
+    <comment>C&apos;est pas plutôt face ca ?
+Fuzzy</comment>
   </data>
   <data name="gambling_take" xml:space="preserve">
     <value>Vous avez pris {0} de {1} avec succès</value>
@@ -983,6 +1020,7 @@ Raison: {1}</value>
   </data>
   <data name="help_bot_owner_only" xml:space="preserve">
     <value>Propriétaire du Bot seulement</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="help_channel_permission" xml:space="preserve">
     <value>Nécessite {0} permissions du salon.</value>
@@ -992,9 +1030,11 @@ Raison: {1}</value>
   </data>
   <data name="help_cmd_and_alias" xml:space="preserve">
     <value>Commandes et alias</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="help_commandlist_regen" xml:space="preserve">
     <value>Liste des commandes rafraîchie.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="help_commands_instr" xml:space="preserve">
     <value>Écrivez `{0}h NomDeLaCommande` pour voir l&apos;aide spécifique à cette commande. Ex: `{0}h &gt;8ball`</value>
@@ -1016,12 +1056,15 @@ N&apos;oubliez pas de mettre votre nom discord ou ID dans le message.
   <data name="help_guide" xml:space="preserve">
     <value>**Liste des Commandes**: &lt;{0}&gt;
 **La liste des guides et tous les documents peuvent être trouvés ici**: &lt;{1}&gt;</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="help_list_of_commands" xml:space="preserve">
     <value>Liste des commandes</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="help_list_of_modules" xml:space="preserve">
     <value>Liste des modules</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="help_modules_footer" xml:space="preserve">
     <value>Entrez `{0}cmds NomDuModule` pour avoir la liste des commandes de ce module. ex `{0}cmds games`</value>
@@ -1034,6 +1077,7 @@ N&apos;oubliez pas de mettre votre nom discord ou ID dans le message.
   </data>
   <data name="help_table_of_contents" xml:space="preserve">
     <value>Table des matières</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="help_usage" xml:space="preserve">
     <value>Usage</value>
@@ -1047,6 +1091,7 @@ N&apos;oubliez pas de mettre votre nom discord ou ID dans le message.
   </data>
   <data name="gambling_animal_race" xml:space="preserve">
     <value>Course d&apos;animaux</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_animal_race_failed" xml:space="preserve">
     <value>Pas assez de participants pour commencer.</value>
@@ -1097,9 +1142,11 @@ N&apos;oubliez pas de mettre votre nom discord ou ID dans le message.
   </data>
   <data name="gambling_changes_of_heart" xml:space="preserve">
     <value>Changements de Coeur</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_claimed_by" xml:space="preserve">
     <value>Revendiquée par</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_divorces" xml:space="preserve">
     <value>Divorces</value>
@@ -1218,6 +1265,7 @@ La nouvelle valeur de {0} est {1} !</value>
   </data>
   <data name="games_submissions_closed" xml:space="preserve">
     <value>Inscriptions terminées.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_animal_race_already_started" xml:space="preserve">
     <value>Une course d&apos;animaux est déjà en cours.</value>
@@ -1242,17 +1290,20 @@ La nouvelle valeur de {0} est {1} !</value>
     <value>La génération monétaire a été désactivée sur ce salon.</value>
   </data>
   <data name="games_curgen_pl" xml:space="preserve">
-    <value>{0} {1} aléatoires sont apparus ! Attrapez-les en entrant `{2}pick`</value>
-    <comment>plural</comment>
+    <value>{0} {1} aléatoires sont apparus!</value>
+    <comment>plural
+Fuzzy</comment>
   </data>
   <data name="games_curgen_sn" xml:space="preserve">
-    <value>Un {0} aléatoire est apparu ! Attrapez-le en entrant `{1}pick`</value>
+    <value>Un {0} aléatoire est apparu!</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="games_failed_loading_question" xml:space="preserve">
     <value>Impossible de charger une question.</value>
   </data>
   <data name="games_game_started" xml:space="preserve">
     <value>La jeu a commencé.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="games_hangman_game_started" xml:space="preserve">
     <value>Partie de pendu commencée.</value>
@@ -1276,7 +1327,7 @@ La nouvelle valeur de {0} est {1} !</value>
     <value>Pas de résultat</value>
   </data>
   <data name="games_picked" xml:space="preserve">
-    <value>a cueilli {0}</value>
+    <value>a ramassé {0}</value>
     <comment>Kwoth picked 5*</comment>
   </data>
   <data name="games_planted" xml:space="preserve">
@@ -1317,19 +1368,22 @@ La nouvelle valeur de {0} est {1} !</value>
     <value>Égalité!</value>
   </data>
   <data name="games_ttt_created" xml:space="preserve">
-    <value>a crée une partie de Morpion.</value>
+    <value>a créé une partie de Morpion.</value>
   </data>
   <data name="games_ttt_has_won" xml:space="preserve">
     <value>{0} a gagné !</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="games_ttt_matched_three" xml:space="preserve">
     <value>Trois alignés.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="games_ttt_no_moves" xml:space="preserve">
     <value>Aucun mouvement restant !</value>
   </data>
   <data name="games_ttt_time_expired" xml:space="preserve">
     <value>Le temps a expiré !</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="games_ttt_users_move" xml:space="preserve">
     <value>Tour de {0}.</value>
@@ -1338,7 +1392,7 @@ La nouvelle valeur de {0} est {1} !</value>
     <value>{0} contre {1}</value>
   </data>
   <data name="music_attempting_to_queue" xml:space="preserve">
-    <value>Tentative d&apos;ajouter {0} à la file d&apos;attente...</value>
+    <value>Tentative d&apos;ajouter {0} pistes à la file d&apos;attente...</value>
   </data>
   <data name="music_autoplay_disabled" xml:space="preserve">
     <value>Lecture automatique désactivée.</value>
@@ -1347,7 +1401,7 @@ La nouvelle valeur de {0} est {1} !</value>
     <value>Lecture automatique activée.</value>
   </data>
   <data name="music_defvol_set" xml:space="preserve">
-    <value>Volume de base défini à {0}%</value>
+    <value>Volume par défaut défini à {0}%</value>
   </data>
   <data name="music_dir_queue_complete" xml:space="preserve">
     <value>File d&apos;attente complète.</value>
@@ -1357,6 +1411,7 @@ La nouvelle valeur de {0} est {1} !</value>
   </data>
   <data name="music_finished_song" xml:space="preserve">
     <value>Lecture terminée</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_fp_disabled" xml:space="preserve">
     <value>Système de tour de rôle désactivé.</value>
@@ -1374,10 +1429,10 @@ La nouvelle valeur de {0} est {1} !</value>
     <value>Entrée invalide.</value>
   </data>
   <data name="music_max_playtime_none" xml:space="preserve">
-    <value>Le temps maximum de lecture n&apos;a désormais plus de limite.</value>
+    <value>Le temps maximum de lecture est désormais illimité.</value>
   </data>
   <data name="music_max_playtime_set" xml:space="preserve">
-    <value>Le temps de lecture maximum a été mis à {0} seconde(s).</value>
+    <value>Temps maximum de lecture défini à {0} seconde(s).</value>
   </data>
   <data name="music_max_queue_unlimited" xml:space="preserve">
     <value>La taille de la file d&apos;attente est désormais illmitée.</value>
@@ -1393,6 +1448,7 @@ La nouvelle valeur de {0} est {1} !</value>
   </data>
   <data name="music_now_playing" xml:space="preserve">
     <value>Vous écoutez</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_no_player" xml:space="preserve">
     <value>Aucun lecteur de musique actif.</value>
@@ -1401,19 +1457,22 @@ La nouvelle valeur de {0} est {1} !</value>
     <value>Pas de résultat.</value>
   </data>
   <data name="music_paused" xml:space="preserve">
-    <value>Lecteur mis sur pause.</value>
+    <value>Lecteure mise en pause.</value>
   </data>
   <data name="music_player_queue" xml:space="preserve">
-    <value>Liste d&apos;attente - Page {0}/{1}</value>
+    <value>File d&apos;attente - Page {0}/{1}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_playing_song" xml:space="preserve">
-    <value>Lecture en cours:</value>
+    <value>Lecture en cours</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_playlists" xml:space="preserve">
-    <value>`#{0}` - **{1}** par *{2}* ({3} morceaux)</value>
+    <value>`#{0}` - **{1}** par *{2}* ({3} pistes)</value>
   </data>
   <data name="music_playlists_page" xml:space="preserve">
     <value>Page {0} des listes de lecture sauvegardées</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_playlist_deleted" xml:space="preserve">
     <value>Liste de lecture supprimée.</value>
@@ -1429,34 +1488,39 @@ La nouvelle valeur de {0} est {1} !</value>
   </data>
   <data name="music_playlist_saved" xml:space="preserve">
     <value>Liste de lecture sauvegardée</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_play_limit" xml:space="preserve">
     <value>Limite à {0}s</value>
   </data>
   <data name="music_queue" xml:space="preserve">
-    <value>Liste d&apos;attente</value>
+    <value>File d&apos;attente</value>
   </data>
   <data name="music_queued_song" xml:space="preserve">
-    <value>Son ajouté à la file d&apos;attente</value>
+    <value>Piste ajoutée à la file d&apos;attente</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_queue_cleared" xml:space="preserve">
-    <value>Liste d&apos;attente effacée.</value>
+    <value>File d&apos;attente effacée.</value>
   </data>
   <data name="music_queue_full" xml:space="preserve">
-    <value>Liste d&apos;attente complète ({0}/{0}).</value>
+    <value>File d&apos;attente complète ({0}/{0}).</value>
   </data>
   <data name="music_removed_song" xml:space="preserve">
-    <value>Son retiré</value>
+    <value>Piste retirée</value>
     <comment>context: &quot;removed song #5&quot;</comment>
   </data>
   <data name="music_repeating_cur_song" xml:space="preserve">
-    <value>Répétition de la musique en cours</value>
+    <value>Répétition de la piste en cours de lecture</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_repeating_playlist" xml:space="preserve">
     <value>Liste de lecture en boucle</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_repeating_track" xml:space="preserve">
     <value>Piste en boucle</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_repeating_track_stopped" xml:space="preserve">
     <value>La piste ne sera lue qu&apos;une fois.</value>
@@ -1471,22 +1535,24 @@ La nouvelle valeur de {0} est {1} !</value>
     <value>Lecture en boucle activée.</value>
   </data>
   <data name="music_set_music_channel" xml:space="preserve">
-    <value>Je vais désormais afficher les musiques en cours, en pause, terminées et supprimées sur ce salon.</value>
+    <value>Je vais désormais afficher les pistes en cours, en pause, terminées et supprimées dans ce salon.</value>
   </data>
   <data name="music_skipped_to" xml:space="preserve">
     <value>Saut à `{0}:{1}`</value>
   </data>
   <data name="music_songs_shuffled" xml:space="preserve">
     <value>Lecture aléatoire activée.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_song_moved" xml:space="preserve">
-    <value>Musique déplacée</value>
+    <value>Piste déplacée</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_time_format" xml:space="preserve">
     <value>{0}h {1}m {2}s</value>
   </data>
   <data name="music_to_position" xml:space="preserve">
-    <value>En position</value>
+    <value>À la position</value>
   </data>
   <data name="music_unlimited" xml:space="preserve">
     <value>Illimité</value>
@@ -1498,31 +1564,37 @@ La nouvelle valeur de {0} est {1} !</value>
     <value>Volume réglé sur {0}%</value>
   </data>
   <data name="permissions_acm_disable" xml:space="preserve">
-    <value>Désactivation de l&apos;usage de TOUS LES MODULES pour le salon {0}.</value>
+    <value>Désactivation de TOUS LES MODULES pour le salon {0}.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_acm_enable" xml:space="preserve">
-    <value>Activation de l&apos;usage de TOUS LES MODULES pour le salon {0}.</value>
+    <value>Activation de TOUS LES MODULES pour le salon {0}.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_allowed" xml:space="preserve">
     <value>Permis</value>
   </data>
   <data name="permissions_arm_disable" xml:space="preserve">
-    <value>Désactivation de l&apos;usage de TOUS LES MODULES pour le rôle {0}.</value>
+    <value>Désactivation de TOUS LES MODULES pour le rôle {0}.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_arm_enable" xml:space="preserve">
-    <value>Activation de l&apos;usage de TOUS LES MODULES pour le rôle {0}.</value>
+    <value>Activation de TOUS LES MODULES pour le rôle {0}.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_asm_disable" xml:space="preserve">
-    <value>Désactivation de l&apos;usage de TOUS LES MODULES sur ce serveur.</value>
+    <value>Désactivation de TOUS LES MODULES sur ce serveur.</value>
   </data>
   <data name="permissions_asm_enable" xml:space="preserve">
-    <value>Activation de l&apos;usage de TOUS LES MODULES sur ce serveur.</value>
+    <value>Activation de TOUS LES MODULES sur ce serveur.</value>
   </data>
   <data name="permissions_aum_disable" xml:space="preserve">
-    <value>Désactivation de l&apos;usage de TOUS LES MODULES pour l&apos;utilisateur {0}.</value>
+    <value>Désactivation de TOUS LES MODULES pour l&apos;utilisateur {0}.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_aum_enable" xml:space="preserve">
-    <value>Activation de l&apos;usage de TOUS LES MODULES pour l&apos;utilisateur {0}.</value>
+    <value>Activation de TOUS LES MODULES pour l&apos;utilisateur {0}.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_blacklisted" xml:space="preserve">
     <value>{0} sur liste noire avec l&apos;ID {1}</value>
@@ -1533,18 +1605,22 @@ La nouvelle valeur de {0} est {1} !</value>
   </data>
   <data name="permissions_cmdcd_cleared" xml:space="preserve">
     <value>La commande {0} n&apos;a pas de temps de recharge et tous les temps de recharge ont été réinitialisés.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_cmdcd_none" xml:space="preserve">
     <value>Aucune commande n&apos;a de temps de recharge.</value>
   </data>
   <data name="permissions_command_costs" xml:space="preserve">
     <value>Coût de la commande :</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_cx_disable" xml:space="preserve">
-    <value>Usage de {0} {1} désactivé sur le salon {2}.</value>
+    <value>Désactivation: {1} {0} sur le salon {2}.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_cx_enable" xml:space="preserve">
-    <value>Usage de {0} {1} activé sur le salon {2}.</value>
+    <value>Activation: {1} {0} sur le salon {2}.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_denied" xml:space="preserve">
     <value>Refusé</value>
@@ -1554,6 +1630,7 @@ La nouvelle valeur de {0} est {1} !</value>
   </data>
   <data name="permissions_filter_word_list" xml:space="preserve">
     <value>Liste Des Mots Filtrés</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_filter_word_remove" xml:space="preserve">
     <value>Suppression du mot {0} de la liste des mots filtrés.</value>
@@ -1606,20 +1683,20 @@ La nouvelle valeur de {0} est {1} !</value>
     <value>Supression des permissions #{0} - {1}</value>
   </data>
   <data name="permissions_rx_disable" xml:space="preserve">
-    <value>Usage de {0} {1} désactivé pour le rôle {2}.</value>
+    <value>Désactivation: {1} {0} pour le rôle {2}.</value>
   </data>
   <data name="permissions_rx_enable" xml:space="preserve">
-    <value>Usage de {0} {1} activé pour le rôle {2}.</value>
+    <value>Activation: {1} {0} pour le rôle {2}.</value>
   </data>
   <data name="permissions_sec" xml:space="preserve">
     <value>sec.</value>
     <comment>Short of seconds.</comment>
   </data>
   <data name="permissions_sx_disable" xml:space="preserve">
-    <value>Usage de {0} {1} désactivé pour le serveur.</value>
+    <value>Désactivation: {1} {0} sur tout le serveur.</value>
   </data>
   <data name="permissions_sx_enable" xml:space="preserve">
-    <value>Usage de {0} {1} activé pour le serveur.</value>
+    <value>Activation: {1} {0} sur tout le serveur.</value>
   </data>
   <data name="permissions_unblacklisted" xml:space="preserve">
     <value>Débanni {0} avec l&apos;ID {1}</value>
@@ -1628,10 +1705,10 @@ La nouvelle valeur de {0} est {1} !</value>
     <value>Non modifiable</value>
   </data>
   <data name="permissions_ux_disable" xml:space="preserve">
-    <value>Usage de {0} {1} désactivé pour l&apos;utilisateur {2}.</value>
+    <value>Désactivation: {1} {0} pour l&apos;utilisateur {2}.</value>
   </data>
   <data name="permissions_ux_enable" xml:space="preserve">
-    <value>Usage de {0} {1} activé pour l&apos;utilisateur {2}.</value>
+    <value>Activation: {1} {0} pour l&apos;utilisateur {2}.</value>
   </data>
   <data name="permissions_verbose_false" xml:space="preserve">
     <value>Je n&apos;afficherai plus les avertissements des permissions.</value>
@@ -1665,7 +1742,6 @@ La nouvelle valeur de {0} est {1} !</value>
   </data>
   <data name="searches_atl_set" xml:space="preserve">
     <value>Votre langue de traduction a été changée de {0} à {1}</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="searches_atl_started" xml:space="preserve">
     <value>Traduction automatique des messages commencée sur ce salon.</value>
@@ -1690,12 +1766,15 @@ La nouvelle valeur de {0} est {1} !</value>
   </data>
   <data name="searches_compet_loses" xml:space="preserve">
     <value>Parties compétitives perdues</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_compet_played" xml:space="preserve">
     <value>Parties compétitives jouées</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_compet_rank" xml:space="preserve">
     <value>Rang en compétitif</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_compet_wins" xml:space="preserve">
     <value>Parties compétitives gagnées</value>
@@ -1751,6 +1830,7 @@ La nouvelle valeur de {0} est {1} !</value>
   </data>
   <data name="searches_image_search_for" xml:space="preserve">
     <value>Recherche d&apos;images pour:</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_imdb_fail" xml:space="preserve">
     <value>Impossible de trouver ce film.</value>
@@ -1794,9 +1874,11 @@ La nouvelle valeur de {0} est {1} !</value>
   </data>
   <data name="searches_on_hold" xml:space="preserve">
     <value>En attente</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_original_url" xml:space="preserve">
     <value>Url originale</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_osu_api_key" xml:space="preserve">
     <value>Une clé d&apos;API osu! est nécessaire.</value>
@@ -1825,15 +1907,18 @@ La nouvelle valeur de {0} est {1} !</value>
   </data>
   <data name="searches_profile_link" xml:space="preserve">
     <value>Lien du profil :</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_quality" xml:space="preserve">
     <value>Qualité</value>
   </data>
   <data name="searches_quick_playtime" xml:space="preserve">
     <value>Durée en Jeux Rapides</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_quick_wins" xml:space="preserve">
     <value>Victoires Rapides</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_rating" xml:space="preserve">
     <value>Évaluation</value>
@@ -1843,13 +1928,15 @@ La nouvelle valeur de {0} est {1} !</value>
   </data>
   <data name="searches_search_for" xml:space="preserve">
     <value>Chercher pour:</value>
-    <comment>recherche plutôt non ?</comment>
+    <comment>recherche plutôt non ?
+Fuzzy</comment>
   </data>
   <data name="searches_shorten_fail" xml:space="preserve">
     <value>Impossible de réduire cette Url.</value>
   </data>
   <data name="searches_short_url" xml:space="preserve">
     <value>Url réduite</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_something_went_wrong" xml:space="preserve">
     <value>Une erreur s&apos;est produite.</value>
@@ -1862,6 +1949,7 @@ La nouvelle valeur de {0} est {1} !</value>
   </data>
   <data name="searches_store_url" xml:space="preserve">
     <value>Url stockée</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_streamer_offline" xml:space="preserve">
     <value>Le streamer {0} est hors ligne.</value>
@@ -1931,6 +2019,7 @@ La nouvelle valeur de {0} est {1} !</value>
   </data>
   <data name="searches_wind_speed" xml:space="preserve">
     <value>Vitesse du vent</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_x_most_banned_champs" xml:space="preserve">
     <value>Les {0} champions les plus bannis</value>
@@ -1948,6 +2037,7 @@ La nouvelle valeur de {0} est {1} !</value>
   </data>
   <data name="utility_activity_page" xml:space="preserve">
     <value>Page d&apos;activité #{0}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_activity_users_total" xml:space="preserve">
     <value>{0} utilisateurs en total.</value>
@@ -1966,9 +2056,11 @@ La nouvelle valeur de {0} est {1} !</value>
   </data>
   <data name="utility_channel_topic" xml:space="preserve">
     <value>Sujet du salon</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_commands_ran" xml:space="preserve">
     <value>Commandes exécutées</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_convert" xml:space="preserve">
     <value>{0} {1} est équivalent à {2} {3}</value>
@@ -1984,6 +2076,7 @@ La nouvelle valeur de {0} est {1} !</value>
   </data>
   <data name="utility_created_at" xml:space="preserve">
     <value>Créé le</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_csc_join" xml:space="preserve">
     <value>Salon inter-serveur rejoint.</value>
@@ -1996,6 +2089,7 @@ La nouvelle valeur de {0} est {1} !</value>
   </data>
   <data name="utility_custom_emojis" xml:space="preserve">
     <value>Emojis personnalisées</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_error" xml:space="preserve">
     <value>Erreur</value>
@@ -2011,9 +2105,11 @@ La nouvelle valeur de {0} est {1} !</value>
   </data>
   <data name="utility_inrole_list" xml:space="preserve">
     <value>Voici une liste des utilisateurs dans ces rôles :</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_inrole_not_allowed" xml:space="preserve">
     <value>Vous ne pouvez pas utiliser cette commande sur un rôle incluant beaucoup d&apos;utilisateurs afin d&apos;éviter les abus.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_invalid_value" xml:space="preserve">
     <value>Valeur {0} invalide.</value>
@@ -2024,17 +2120,20 @@ La nouvelle valeur de {0} est {1} !</value>
   </data>
   <data name="utility_joined_server" xml:space="preserve">
     <value>Serveur rejoint</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_listservers" xml:space="preserve">
     <value>ID: {0}
 Membres: {1}
 OwnerID: {2}</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_listservers_none" xml:space="preserve">
     <value>Aucun serveur trouvée sur cette page.</value>
   </data>
   <data name="utility_list_of_repeaters" xml:space="preserve">
     <value>Liste des messages répétés</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_members" xml:space="preserve">
     <value>Membres</value>
@@ -2047,6 +2146,7 @@ OwnerID: {2}</value>
   </data>
   <data name="utility_message_repeater" xml:space="preserve">
     <value>Répéteur de messages</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_name" xml:space="preserve">
     <value>Nom</value>
@@ -2100,13 +2200,15 @@ OwnerID: {2}</value>
     <value>Citation ajoutée</value>
   </data>
   <data name="utility_quote_deleted" xml:space="preserve">
-    <value>Une citation aléatoire a été supprimée.</value>
+    <value>Citation #{0} supprimée.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_region" xml:space="preserve">
     <value>Région</value>
   </data>
   <data name="utility_registered_on" xml:space="preserve">
     <value>Inscrit sur</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_remind" xml:space="preserve">
     <value>Je vais vous rappeler {0} pour {1} dans {2} `({3:d.M.yyyy} à {4:HH:mm})` </value>
@@ -2122,6 +2224,7 @@ OwnerID: {2}</value>
   </data>
   <data name="utility_repeaters_list" xml:space="preserve">
     <value>Liste des répétitions</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_repeaters_none" xml:space="preserve">
     <value>Aucune répétition active sur ce serveur.</value>
@@ -2145,7 +2248,7 @@ OwnerID: {2}</value>
     <value>Page #{0} des rôles pour {1}</value>
   </data>
   <data name="utility_rrc_no_colors" xml:space="preserve">
-    <value>Aucunes couleurs ne sont dans le format correct. Utilisez `#00ff00` par exemple.</value>
+    <value>Aucune couleur n&apos;est dans le bon format. Utilisez `#00ff00` par exemple.</value>
   </data>
   <data name="utility_rrc_start" xml:space="preserve">
     <value>Couleurs alternées pour le rôle {0} activées.</value>
@@ -2158,6 +2261,7 @@ OwnerID: {2}</value>
   </data>
   <data name="utility_server_info" xml:space="preserve">
     <value>Info du serveur</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_shard" xml:space="preserve">
     <value>Shard</value>
@@ -2165,7 +2269,8 @@ OwnerID: {2}</value>
   </data>
   <data name="utility_shard_stats" xml:space="preserve">
     <value>Statistique des shards</value>
-    <comment>Ne pas confondre Shard et Shared ;) Dans discord, le mot shard n&apos;a pas d&apos;équivalent francophone.</comment>
+    <comment>Ne pas confondre Shard et Shared ;) Dans discord, le mot shard n&apos;a pas d&apos;équivalent francophone.
+Fuzzy</comment>
   </data>
   <data name="utility_shard_stats_txt" xml:space="preserve">
     <value>Le shard **#{0}** est en état {1} avec {2} serveurs.</value>
@@ -2178,10 +2283,11 @@ OwnerID: {2}</value>
     <value>Pas d&apos;emojis spéciaux trouvés.</value>
   </data>
   <data name="utility_stats_songs" xml:space="preserve">
-    <value>Joue actuellement {0} musiques, {1} en attente.</value>
+    <value>Joue actuellement {0} piste(s), {1} en attente.</value>
   </data>
   <data name="utility_text_channels" xml:space="preserve">
     <value>Salons textuels</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_togtub_room_link" xml:space="preserve">
     <value>Voici le lien pour votre salon:</value>
@@ -2190,7 +2296,7 @@ OwnerID: {2}</value>
     <value>Durée de fonctionnement</value>
   </data>
   <data name="utility_userid" xml:space="preserve">
-    <value>{0} de l&apos;utilisateur {1} est {2}</value>
+    <value>{0} de l&apos;utilisateur {1}: {2}</value>
     <comment>Id of the user kwoth#1234 is 123123123123</comment>
   </data>
   <data name="utility_users" xml:space="preserve">
@@ -2198,6 +2304,71 @@ OwnerID: {2}</value>
   </data>
   <data name="utility_voice_channels" xml:space="preserve">
     <value>Salons vocaux</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="gambling_animal_race_already_in" xml:space="preserve">
+    <value>Vous avez déjà rejoint cette course!</value>
+  </data>
+  <data name="games_current_poll_results" xml:space="preserve">
+    <value>Résultats du sondage actuel</value>
+  </data>
+  <data name="games_no_votes_cast" xml:space="preserve">
+    <value>Aucun vote enregistré.</value>
+  </data>
+  <data name="games_poll_already_running" xml:space="preserve">
+    <value>Un sondage est déjà en cours sur ce serveur.</value>
+  </data>
+  <data name="games_poll_created" xml:space="preserve">
+    <value>📃 {0} a créé un sondage qui requiert votre attention:</value>
+  </data>
+  <data name="games_poll_result" xml:space="preserve">
+    <value>`{0}.` {1} avec {2} votes.</value>
+  </data>
+  <data name="games_poll_voted" xml:space="preserve">
+    <value>{0} a voté.</value>
+    <comment>Kwoth voted.</comment>
+  </data>
+  <data name="games_poll_vote_private" xml:space="preserve">
+    <value>Envoyez moi un message privé avec le numéro correspondant à la réponse.</value>
+  </data>
+  <data name="games_poll_vote_public" xml:space="preserve">
+    <value>Envoyez un Message ici avec le numéro correspondant à la réponse.</value>
+  </data>
+  <data name="games_thanks_for_voting" xml:space="preserve">
+    <value>Merci d&apos;avoir voté, {0}</value>
+  </data>
+  <data name="games_x_votes_cast" xml:space="preserve">
+    <value>{0} votes enregistrés au total.</value>
+  </data>
+  <data name="games_pick_pl" xml:space="preserve">
+    <value>Ramassez-les en écrivant `{0}pick`</value>
+  </data>
+  <data name="games_pick_sn" xml:space="preserve">
+    <value>Ramassez-le en écrivant `{0}pick`</value>
+  </data>
+  <data name="gambling_no_users_found" xml:space="preserve">
+    <value>Aucun utilisateur trouvé.</value>
+  </data>
+  <data name="gambling_page" xml:space="preserve">
+    <value>page {0}</value>
+  </data>
+  <data name="administration_must_be_in_voice" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_no_vcroles" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_user_muted_time" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_vcrole_added" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_vcrole_removed" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_vc_role_list" xml:space="preserve">
+    <value></value>
   </data>
 
 </root>
