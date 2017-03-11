@@ -2239,22 +2239,22 @@ Kurucu Kimliği: {2}</value>
     <value>sayfa {0}</value>
   </data>
   <data name="administration_must_be_in_voice" xml:space="preserve">
-    <value></value>
+    <value>Bu sunucudaki bir ses kanalda olmalısınız.</value>
   </data>
   <data name="administration_no_vcroles" xml:space="preserve">
-    <value></value>
+    <value>Sesli kanal rolü yok.</value>
   </data>
   <data name="administration_user_muted_time" xml:space="preserve">
-    <value></value>
+    <value>{0} metin ve sesli sohbetten {1} dakika **sessiz** hale getirildi.</value>
   </data>
   <data name="administration_vcrole_added" xml:space="preserve">
-    <value></value>
+    <value>{0} sesli kanalına katılan kullanıcılar {1} rolünü alacaktır.</value>
   </data>
   <data name="administration_vcrole_removed" xml:space="preserve">
-    <value></value>
+    <value>{0} sesli kanalına katılan kullanıcılar artık bir rol almaz.</value>
   </data>
   <data name="administration_vc_role_list" xml:space="preserve">
-    <value></value>
+    <value>Sesli kanal rolleri</value>
   </data>
 
 </root>
