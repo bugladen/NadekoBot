@@ -2230,5 +2230,23 @@ Owner ID: {2}</value>
   <data name="gambling_page" xml:space="preserve">
     <value>page {0}</value>
   </data>
+  <data name="administration_must_be_in_voice" xml:space="preserve">
+    <value>You must be in a voice channel on this server.</value>
+  </data>
+  <data name="administration_no_vcroles" xml:space="preserve">
+    <value>There are no voice channel roles.</value>
+  </data>
+  <data name="administration_user_muted_time" xml:space="preserve">
+    <value>{0} has been **muted** from text and voice chat for {1} minutes.</value>
+  </data>
+  <data name="administration_vcrole_added" xml:space="preserve">
+    <value>Users who join {0} voice channel will get {1} role.</value>
+  </data>
+  <data name="administration_vcrole_removed" xml:space="preserve">
+    <value>Users who join {0} voice channel will no longer get a role.</value>
+  </data>
+  <data name="administration_vc_role_list" xml:space="preserve">
+    <value>Voice channel roles</value>
+  </data>
 
 </root>
