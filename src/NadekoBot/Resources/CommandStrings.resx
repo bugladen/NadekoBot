@@ -1159,7 +1159,7 @@
     <value>Deletes a quote with the specified ID. You have to be either server Administrator or the creator of the quote to delete it.</value>
   </data>
   <data name="deletequote_usage" xml:space="preserve">
-    <value>`{0}delq abc`</value>
+    <value>`{0}delq 123456`</value>
   </data>
   <data name="draw_cmd" xml:space="preserve">
     <value>draw</value>
