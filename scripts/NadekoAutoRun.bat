@@ -29,7 +29,7 @@ CD /D %~dp0NadekoBot\src\NadekoBot
 dotnet run --configuration Release
 ECHO Updating...
 SET "FILENAME=%~dp0\Latest.bat"
-powershell -Command "Invoke-WebRequest https://github.com/Kwoth/NadekoBot/raw/master/scripts/Latest.bat -OutFile '%FILENAME%'"
+powershell -Command "Invoke-WebRequest https://github.com/Kwoth/NadekoBot/raw/dev/scripts/Latest.bat -OutFile '%FILENAME%'"
 ECHO NadekoBot Dev Build (latest) downloaded.
 SET root=%~dp0
 CD /D %root%
@@ -43,7 +43,7 @@ CD /D %~dp0NadekoBot\src\NadekoBot
 dotnet run --configuration Release
 ECHO Updating...
 SET "FILENAME=%~dp0\Stable.bat"
-powershell -Command "Invoke-WebRequest https://github.com/Kwoth/NadekoBot/raw/master/scripts/Stable.bat -OutFile '%FILENAME%'"
+powershell -Command "Invoke-WebRequest https://github.com/Kwoth/NadekoBot/raw/dev/scripts/Stable.bat -OutFile '%FILENAME%'"
 ECHO NadekoBot Stable build downloaded.
 SET root=%~dp0
 CD /D %root%
