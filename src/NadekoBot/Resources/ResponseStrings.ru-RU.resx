@@ -789,7 +789,7 @@
     <value>Пользователь вышел</value>
   </data>
   <data name="administration_user_muted" xml:space="preserve">
-    <value>{0} получил **запрет** на разговор в текстовых и голосовых каналах</value>
+    <value>{0} получил **запрет** на разговор в текстовых и голосовых каналах.</value>
   </data>
   <data name="administration_user_role_add" xml:space="preserve">
     <value>Добавлена роль пользователя</value>
@@ -1114,7 +1114,7 @@ Paypal &lt;{1}&gt;
   <data name="gambling_waifu_affinity_changed" xml:space="preserve">
     <value>сменил свою предрасположенность с {0} на {1}.
 
-*Это сомнительно с точки зрения морали* :thinking:</value>
+*Это сомнительно с моральной точки зрения* :thinking:</value>
     <comment>Make sure to get the formatting right, and leave the thinking emoji</comment>
   </data>
   <data name="gambling_waifu_affinity_cooldown" xml:space="preserve">
@@ -2232,22 +2232,22 @@ IDВладельца: {2}</value>
     <value>Страница {0}</value>
   </data>
   <data name="administration_must_be_in_voice" xml:space="preserve">
-    <value></value>
+    <value>Вы должны быть в голосовом канале на этом сервере.</value>
   </data>
   <data name="administration_no_vcroles" xml:space="preserve">
-    <value></value>
+    <value>Нет ролей для голосовых каналов.</value>
   </data>
   <data name="administration_user_muted_time" xml:space="preserve">
-    <value></value>
+    <value>{0} получил **запрет** на разговор в текстовых и голосовых каналах на {1} минут.</value>
   </data>
   <data name="administration_vcrole_added" xml:space="preserve">
-    <value></value>
+    <value>Пользователи, присоединяющиеся к голосовому каналу {0}, получат роль {1}.</value>
   </data>
   <data name="administration_vcrole_removed" xml:space="preserve">
-    <value></value>
+    <value>Пользователи, присоединяющиеся к голосовому каналу {0}, больше не будут получать роль.</value>
   </data>
   <data name="administration_vc_role_list" xml:space="preserve">
-    <value></value>
+    <value>Роли голосовых каналов</value>
   </data>
 
 </root>

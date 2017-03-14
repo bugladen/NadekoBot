@@ -544,11 +544,11 @@ Grund: {1}</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_muted_pl" xml:space="preserve">
-    <value>wurden Stumm geschalten</value>
+    <value>wurden Stummgeschalten</value>
     <comment>PLURAL (users have been muted)</comment>
   </data>
   <data name="administration_muted_sn" xml:space="preserve">
-    <value>wurde Stumm geschalten</value>
+    <value>wurde Stummgeschalten</value>
     <comment>singular &quot;User muted.&quot;</comment>
   </data>
   <data name="administration_mute_error" xml:space="preserve">
@@ -2289,7 +2289,7 @@ ID des Besitzers: {2}</value>
     <value>Benutzer</value>
   </data>
   <data name="utility_voice_channels" xml:space="preserve">
-    <value>Sprach Kanäle</value>
+    <value>Sprach-Kanäle</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="gambling_animal_race_already_in" xml:space="preserve">
@@ -2341,22 +2341,22 @@ ID des Besitzers: {2}</value>
     <value>Seite {0}</value>
   </data>
   <data name="administration_must_be_in_voice" xml:space="preserve">
-    <value></value>
+    <value>Sie müssen in einem Sprachkanal auf diesem Server sein.</value>
   </data>
   <data name="administration_no_vcroles" xml:space="preserve">
-    <value></value>
+    <value>Keine Sprachkanal Rollen gefunden.</value>
   </data>
   <data name="administration_user_muted_time" xml:space="preserve">
-    <value></value>
+    <value>{0} wurde **stummgeschaltet** im Text- und Sprachchat für {1} minuten.</value>
   </data>
   <data name="administration_vcrole_added" xml:space="preserve">
-    <value></value>
+    <value>Benutzer die dem Sprachkanal {0} beitreten werden der Rolle {1} zugeweist.</value>
   </data>
   <data name="administration_vcrole_removed" xml:space="preserve">
-    <value></value>
+    <value>Benutzer die den Sprachkanal {0} beitreten werden nicht länger einer Rolle zugeweist.</value>
   </data>
   <data name="administration_vc_role_list" xml:space="preserve">
-    <value></value>
+    <value>Rollen für Sprachkanäle</value>
   </data>
 
 </root>
