@@ -29,11 +29,7 @@ namespace NadekoBot.Services
     }
     public class CommandHandler
     {
-#if GLOBAL_NADEKO
-        public const int GlobalCommandsCooldown = 1500;
-#else
         public const int GlobalCommandsCooldown = 750;
-#endif
 
         private readonly DiscordShardedClient _client;
         private readonly CommandService _commandService;
@@ -274,9 +270,47 @@ namespace NadekoBot.Services
 
                     // maybe this message is a custom reaction
                     // todo log custom reaction executions. return struct with info
-                    var crExecuted = await Task.Run(() => CustomReactions.TryExecuteCustomReaction(usrMsg)).ConfigureAwait(false);
-                    if (crExecuted) //if it was, don't execute the command
+                    var cr = await Task.Run(() => CustomReactions.TryGetCustomReaction(usrMsg)).ConfigureAwait(false);
+                    if (cr != null) //if it was, don't execute the command
+                    {
+                        try
+                        {
+                            if (guild != null)
+                            {
+                                PermissionCache pc;
+                                if (!Permissions.Cache.TryGetValue(guild.Id, out pc))
+                                {
+                                    using (var uow = DbHandler.UnitOfWork())
+                                    {
+                                        var config = uow.GuildConfigs.For(guild.Id,
+                                            set => set.Include(x => x.Permissions));
+                                        Permissions.UpdateCache(config);
+                                    }
+                                    Permissions.Cache.TryGetValue(guild.Id, out pc);
+                                    if (pc == null)
+                                        throw new Exception("Cache is null.");
+                                }
+                                int index;
+                                if (
+                                    !pc.Permissions.CheckPermissions(usrMsg, cr.Trigger, "ActualCustomReactions",
+                                        out index))
+                                {
+                                    //todo print in guild actually
+                                    var returnMsg =
+                                        $"Permission number #{index + 1} **{pc.Permissions[index].GetCommand(guild)}** is preventing this action.";
+                                    _log.Info(returnMsg);
+                                    return;
+                                }
+                            }
+                            await cr.Send(usrMsg).ConfigureAwait(false);
+                        }
+                        catch (Exception ex)
+                        {
+                            _log.Warn("Sending CREmbed failed");
+                            _log.Warn(ex);
+                        }
                         return;
+                    }
 
                     var exec3 = Environment.TickCount - execTime;
 
@@ -384,6 +418,7 @@ namespace NadekoBot.Services
                 PermissionCache pc;
                 if (context.Guild != null)
                 {
+                    //todo move to permissions module?
                     if (!Permissions.Cache.TryGetValue(context.Guild.Id, out pc))
                     {
                         using (var uow = DbHandler.UnitOfWork())

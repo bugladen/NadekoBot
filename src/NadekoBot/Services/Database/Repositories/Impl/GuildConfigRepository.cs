@@ -32,8 +32,9 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         /// <summary>
         /// Gets and creates if it doesn't exist a config for a guild.
         /// </summary>
-        /// <param name="guildId"></param>
-        /// <returns></returns>
+        /// <param name="guildId">For which guild</param>
+        /// <param name="includes">Use to manipulate the set however you want</param>
+        /// <returns>Config for the guild</returns>
         public GuildConfig For(ulong guildId, Func<DbSet<GuildConfig>, IQueryable<GuildConfig>> includes = null)
         {
             GuildConfig config;

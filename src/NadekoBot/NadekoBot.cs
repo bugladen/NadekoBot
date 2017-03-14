@@ -110,6 +110,7 @@ namespace NadekoBot
             //setup typereaders
             CommandService.AddTypeReader<PermissionAction>(new PermissionActionTypeReader());
             CommandService.AddTypeReader<CommandInfo>(new CommandTypeReader());
+            CommandService.AddTypeReader<CommandOrCrInfo>(new CommandOrCrTypeReader());
             CommandService.AddTypeReader<ModuleInfo>(new ModuleTypeReader());
             CommandService.AddTypeReader<IGuild>(new GuildTypeReader());
 

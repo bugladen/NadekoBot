@@ -13,9 +13,27 @@ using Discord.WebSocket;
 using System;
 using Newtonsoft.Json;
 using NadekoBot.DataStructures;
+using NLog.Fluent;
 
 namespace NadekoBot.Modules.CustomReactions
 {
+    public static class CustomReactionExtensions
+    {
+        public static Task<IUserMessage> Send(this CustomReaction cr, IUserMessage context)
+        {
+            var channel = context.Channel;
+            
+            CustomReactions.ReactionStats.AddOrUpdate(cr.Trigger, 1, (k, old) => ++old);
+
+            CREmbed crembed;
+            if (CREmbed.TryParse(cr.Response, out crembed))
+            {
+                return channel.EmbedAsync(crembed.ToEmbed(), crembed.PlainText ?? "");
+            }
+            return channel.SendMessageAsync(cr.ResponseWithContext(context));
+        }
+    }
+
     [NadekoModule("CustomReactions", ".")]
     public class CustomReactions : NadekoTopLevelModule
     {
@@ -25,7 +43,7 @@ namespace NadekoBot.Modules.CustomReactions
 
         public static ConcurrentDictionary<string, uint> ReactionStats { get; } = new ConcurrentDictionary<string, uint>();
 
-        private static new readonly Logger _log;
+        private new static readonly Logger _log;
 
         static CustomReactions()
         {
@@ -43,11 +61,11 @@ namespace NadekoBot.Modules.CustomReactions
 
         public void ClearStats() => ReactionStats.Clear();
 
-        public static async Task<bool> TryExecuteCustomReaction(SocketUserMessage umsg)
+        public static async Task<CustomReaction> TryGetCustomReaction(SocketUserMessage umsg)
         {
             var channel = umsg.Channel as SocketTextChannel;
             if (channel == null)
-                return false;
+                return null;
 
             var content = umsg.Content.Trim().ToLowerInvariant();
             CustomReaction[] reactions;
@@ -70,26 +88,9 @@ namespace NadekoBot.Modules.CustomReactions
                     var reaction = rs[new NadekoRandom().Next(0, rs.Length)];
                     if (reaction != null)
                     {
-                        if (reaction.Response != "-")
-                        {
-                            CREmbed crembed;
-                            if (CREmbed.TryParse(reaction.Response, out crembed))
-                            {
-                                try { await channel.EmbedAsync(crembed.ToEmbed(), crembed.PlainText ?? "").ConfigureAwait(false); }
-                                catch (Exception ex)
-                                {
-                                    _log.Warn("Sending CREmbed failed");
-                                    _log.Warn(ex);
-                                }
-                            }
-                            else
-                            {
-                                try { await channel.SendMessageAsync(reaction.ResponseWithContext(umsg)).ConfigureAwait(false); } catch { }
-                            }
-                        }
-
-                        ReactionStats.AddOrUpdate(reaction.Trigger, 1, (k, old) => ++old);
-                        return true;
+                        if (reaction.Response == "-")
+                            return null;
+                        return reaction;
                     }
                 }
             }
@@ -103,29 +104,10 @@ namespace NadekoBot.Modules.CustomReactions
                 return ((hasTarget && content.StartsWith(trigger + " ")) || content == trigger);
             }).ToArray();
             if (grs.Length == 0)
-                return false;
+                return null;
             var greaction = grs[new NadekoRandom().Next(0, grs.Length)];
 
-            if (greaction != null)
-            {
-                CREmbed crembed;
-                if (CREmbed.TryParse(greaction.Response, out crembed))
-                {
-                    try { await channel.EmbedAsync(crembed.ToEmbed(), crembed.PlainText ?? "").ConfigureAwait(false); }
-                    catch (Exception ex)
-                    {
-                        _log.Warn("Sending CREmbed failed");
-                        _log.Warn(ex);
-                    }
-                }
-                else
-                {
-                    try { await channel.SendMessageAsync(greaction.ResponseWithContext(umsg)).ConfigureAwait(false); } catch { }
-                }
-                ReactionStats.AddOrUpdate(greaction.Trigger, 1, (k, old) => ++old);
-                return true;
-            }
-            return false;
+            return greaction;
         }
 
         [NadekoCommand, Usage, Description, Aliases]

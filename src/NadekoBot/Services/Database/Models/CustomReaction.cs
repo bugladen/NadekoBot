@@ -12,6 +12,8 @@ namespace NadekoBot.Services.Database.Models
         public string Trigger { get; set; }
         public bool IsRegex { get; set; }
         public bool OwnerOnly { get; set; }
+
+        public bool IsGlobal => !GuildId.HasValue;
     }
 
     public class ReactionResponse : DbEntity
