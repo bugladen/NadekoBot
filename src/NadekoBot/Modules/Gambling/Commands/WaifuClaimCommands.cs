@@ -395,7 +395,7 @@ namespace NadekoBot.Modules.Gambling
                     target = Context.User;
                 WaifuInfo w;
                 IList<WaifuInfo> claims;
-                int divorces = 0;
+                int divorces;
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     w = uow.Waifus.ByWaifuUserId(target.Id);
@@ -494,7 +494,10 @@ namespace NadekoBot.Modules.Gambling
                 int count;
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    count = uow._context.WaifuUpdates.Count(w => w.User.UserId == userId && w.UpdateType == WaifuUpdateType.AffinityChanged);
+                    count = uow._context.WaifuUpdates
+                        .Where(w => w.User.UserId == userId && w.UpdateType == WaifuUpdateType.AffinityChanged && w.New != null)
+                        .GroupBy(x => x.New)
+                        .Count();
                 }
 
                 AffinityTitles title;
