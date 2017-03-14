@@ -26,12 +26,17 @@ namespace NadekoBot.Modules.Searches
                     {
                         var res = await http.GetStringAsync($"{_xkcdUrl}/info.0.json").ConfigureAwait(false);
                         var comic = JsonConvert.DeserializeObject<XkcdComic>(res);
-                        var sent = await Context.Channel.SendMessageAsync($"{Context.User.Mention} " + comic)
+                        var embed = new EmbedBuilder().WithColor(NadekoBot.OkColor)
+                                                  .WithImageUrl(comic.ImageLink)
+                                                  .WithAuthor(eab => eab.WithName(comic.Title).WithUrl($"{_xkcdUrl}/{comic.Num}").WithIconUrl("http://xkcd.com/s/919f27.ico"))
+                                                  .AddField(efb => efb.WithName(GetText("comic_number")).WithValue(comic.Num.ToString()).WithIsInline(true))
+                                                  .AddField(efb => efb.WithName(GetText("date")).WithValue($"{comic.Month}/{comic.Year}").WithIsInline(true));
+                        var sent = await Context.Channel.EmbedAsync(embed)
                                      .ConfigureAwait(false);
 
                         await Task.Delay(10000).ConfigureAwait(false);
 
-                        await sent.ModifyAsync(m => m.Content = sent.Content + $"\n`Alt:` {comic.Alt}");
+                        await sent.ModifyAsync(m => m.Embed = embed.AddField(efb => efb.WithName("Alt").WithValue(comic.Alt.ToString()).WithIsInline(false)).Build());
                     }
                     return;
                 }
