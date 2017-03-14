@@ -246,7 +246,7 @@ namespace NadekoBot.Modules.Utility
 
                 await Context.Channel.SendConfirmAsync(
                     "🔁 " + GetText("repeater",
-                        Format.Bold(rep.Repeater.Message),
+                        Format.Bold(((IGuildUser)Context.User).GuildPermissions.MentionEveryone ? rep.Repeater.Message : rep.Repeater.Message.SanitizeMentions()),
                         Format.Bold(rep.Repeater.Interval.Days.ToString()),
                         Format.Bold(rep.Repeater.Interval.Hours.ToString()),
                         Format.Bold(rep.Repeater.Interval.Minutes.ToString()))).ConfigureAwait(false);
