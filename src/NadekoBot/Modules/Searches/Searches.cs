@@ -51,7 +51,7 @@ namespace NadekoBot.Modules.Searches
                 .AddField(fb => fb.WithName("🌄 " + Format.Bold(GetText("sunrise"))).WithValue($"{data.sys.sunrise.ToUnixTimestamp():HH:mm} UTC").WithIsInline(true))
                 .AddField(fb => fb.WithName("🌇 " + Format.Bold(GetText("sunset"))).WithValue($"{data.sys.sunset.ToUnixTimestamp():HH:mm} UTC").WithIsInline(true))
                 .WithOkColor()
-                .WithFooter(efb => efb.WithText("Powered by openweathermap.org").WithIconUrl($"http://openweathermap.org/img/w/{string.Join(", ", data.weather.Select(w => w.icon))}.png"));
+                .WithFooter(efb => efb.WithText("Powered by openweathermap.org").WithIconUrl($"http://openweathermap.org/img/w/{data.weather[0].icon}.png"));
             await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
@@ -217,7 +217,7 @@ namespace NadekoBot.Modules.Searches
             if (string.IsNullOrWhiteSpace(ffs))
                 return;
 
-            await Context.Channel.SendConfirmAsync(await NadekoBot.Google.ShortenUrl($"<http://lmgtfy.com/?q={ Uri.EscapeUriString(ffs) }>"))
+            await Context.Channel.SendConfirmAsync("<" + await NadekoBot.Google.ShortenUrl($"http://lmgtfy.com/?q={ Uri.EscapeUriString(ffs) }") + ">")
                            .ConfigureAwait(false);
         }
 
