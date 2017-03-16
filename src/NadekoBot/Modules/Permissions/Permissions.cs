@@ -161,7 +161,7 @@ namespace NadekoBot.Modules.Permissions
         {
             using (var uow = DbHandler.UnitOfWork())
             {
-                var config = uow.GuildConfigs.For(Context.Guild.Id, set => set);
+                var config = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(x => x.Permissions));
                 config.VerbosePermissions = action.Value;
                 await uow.CompleteAsync().ConfigureAwait(false);
                 UpdateCache(config);
