@@ -376,7 +376,7 @@
     <value>Text kanal {0} skapad.</value>
   </data>
   <data name="administration_createvoich" xml:space="preserve">
-    <value>Röst kanal {0} skapad.</value>
+    <value>Röstkanal {0} skapad.</value>
   </data>
   <data name="administration_deafen" xml:space="preserve">
     <value>Dövning lyckats.</value>
@@ -394,7 +394,7 @@
     <value>Text kanal {0} raderad.</value>
   </data>
   <data name="administration_delvoich" xml:space="preserve">
-    <value>Röst kanal {0} raderad.</value>
+    <value>Röstkanal {0} raderad.</value>
   </data>
   <data name="administration_dm_from" xml:space="preserve">
     <value>Meddelande från</value>
@@ -853,11 +853,11 @@ __IgnoreradeKannaler_: {2}</value>
     <value>{0} har blivit **röst omutad**-</value>
   </data>
   <data name="administration_voice_chan_created" xml:space="preserve">
-    <value>Röst Kanal Skapad</value>
+    <value>Röstkanal Skapad</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_voice_chan_destroyed" xml:space="preserve">
-    <value>Röst Kanal Förstörd</value>
+    <value>Röstkanal Förstörd</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_vt_disabled" xml:space="preserve">
@@ -2318,22 +2318,22 @@ Medlemmar: {1}
     <value>sida {0}</value>
   </data>
   <data name="administration_must_be_in_voice" xml:space="preserve">
-    <value></value>
+    <value>Du måste vara i en röstkanal på denna server.</value>
   </data>
   <data name="administration_no_vcroles" xml:space="preserve">
-    <value></value>
+    <value>Det finns inga röstkanalsroller.</value>
   </data>
   <data name="administration_user_muted_time" xml:space="preserve">
-    <value></value>
+    <value>{0} har blivit **mutad** från text och röstchatt i {1} minuter.</value>
   </data>
   <data name="administration_vcrole_added" xml:space="preserve">
-    <value></value>
+    <value>Användare som går in i röstkanalen {0} får rollen {1}.</value>
   </data>
   <data name="administration_vcrole_removed" xml:space="preserve">
-    <value></value>
+    <value>Användare som går</value>
   </data>
   <data name="administration_vc_role_list" xml:space="preserve">
-    <value></value>
+    <value>Röstkanalsroller</value>
   </data>
 
 </root>
