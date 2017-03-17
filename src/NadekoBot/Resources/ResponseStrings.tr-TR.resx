@@ -190,8 +190,7 @@
     <value>Tüm özel reaksiyon istatistikleri temizlendi.</value>
   </data>
   <data name="customreactions_deleted" xml:space="preserve">
-    <value>Özel reaksiyonlar silindi.</value>
-    <comment>Fuzzy</comment>
+    <value>Özel reaksiyon silindi</value>
   </data>
   <data name="customreactions_insuff_perms" xml:space="preserve">
     <value>Yetersiz yetki.Global özel reaksiyonlar için bot sahibi yetkisi gerkirken, server tabanlı özel reaksiyonlar için Administrator yetkisi gerekir.</value>
@@ -255,8 +254,7 @@
     <value>{0} bayıldı!</value>
   </data>
   <data name="pokemon_healed" xml:space="preserve">
-    <value>{1} kullanarak {0} iyileştirildi.</value>
-    <comment>Fuzzy</comment>
+    <value>Bir {1} kullanılarak {0} iyileştirildi</value>
   </data>
   <data name="pokemon_hp_remaining" xml:space="preserve">
     <value>{0} canı {1} kaldı.</value>
@@ -469,8 +467,7 @@ Sebep: {1}</value>
 Sebep: {1}</value>
   </data>
   <data name="administration_kicked_user" xml:space="preserve">
-    <value>Kullanıcı Atıldı</value>
-    <comment>Fuzzy</comment>
+    <value>Kullanıcı atıldı</value>
   </data>
   <data name="administration_lang_list" xml:space="preserve">
     <value>Dil Listesi</value>
@@ -2005,8 +2002,7 @@ Fuzzy</comment>
     <value>Dizin aralık dışında.</value>
   </data>
   <data name="utility_inrole_list" xml:space="preserve">
-    <value>{0} rolündeki kullanıcıların listesi</value>
-    <comment>Fuzzy</comment>
+    <value>{0} rolüne sahip kullanıcı listesi</value>
   </data>
   <data name="utility_inrole_not_allowed" xml:space="preserve">
     <value>Kötüye kullanımını önlemek için bu komutlar, çok sayıda kullanıcısı olan rollerde kullanmanıza izin verilmez.</value>
@@ -2095,8 +2091,7 @@ Kurucu Kimliği: {2}</value>
     <value>Alıntı Eklendi</value>
   </data>
   <data name="utility_quote_deleted" xml:space="preserve">
-    <value>Rastgele alıntı silindi.</value>
-    <comment>Fuzzy</comment>
+    <value>{0} numaralı alıntı silindi.</value>
   </data>
   <data name="utility_region" xml:space="preserve">
     <value>Bölge</value>
