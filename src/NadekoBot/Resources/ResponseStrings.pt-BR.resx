@@ -2327,34 +2327,34 @@ OwnerID: {2}</value>
     <value>Total de {0} votos proferidos.</value>
   </data>
   <data name="games_pick_pl" xml:space="preserve">
-    <value></value>
+    <value>Pegue digitando `{0}pick`</value>
   </data>
   <data name="games_pick_sn" xml:space="preserve">
-    <value></value>
+    <value>Pegue digitando `{0}pick`</value>
   </data>
   <data name="gambling_no_users_found" xml:space="preserve">
-    <value></value>
+    <value>Nenhum usuário encontrado.</value>
   </data>
   <data name="gambling_page" xml:space="preserve">
-    <value></value>
+    <value>Página {0}</value>
   </data>
   <data name="administration_must_be_in_voice" xml:space="preserve">
-    <value></value>
+    <value>Você deve estar em um canal de voz neste servidor.</value>
   </data>
   <data name="administration_no_vcroles" xml:space="preserve">
-    <value></value>
+    <value>Não há cargos de canais de voz.</value>
   </data>
   <data name="administration_user_muted_time" xml:space="preserve">
-    <value></value>
+    <value>{0} foi **mutado** nos chats de texto e voz por {1} minutos.</value>
   </data>
   <data name="administration_vcrole_added" xml:space="preserve">
-    <value></value>
+    <value>Usuários que entrarem no canal de voz {0} receberão o cargo {1}.</value>
   </data>
   <data name="administration_vcrole_removed" xml:space="preserve">
-    <value></value>
+    <value>Usuários que entrarem no canal de voz {0} não irão mais receber um cargo.</value>
   </data>
   <data name="administration_vc_role_list" xml:space="preserve">
-    <value></value>
+    <value>Cargos de canais de voz</value>
   </data>
 
 </root>
