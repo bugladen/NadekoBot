@@ -166,7 +166,7 @@ namespace NadekoBot.Modules.Administration
                 var botUser = await guild.GetCurrentUserAsync().ConfigureAwait(false);
                 if (!botUser.GuildPermissions.ManageRoles || !botUser.GuildPermissions.ManageChannels)
                 {
-                    await ReplyErrorLocalized("vt_no_perms").ConfigureAwait(false);
+                    await ReplyErrorLocalized("vt_perms").ConfigureAwait(false);
                     return;
                 }
 
