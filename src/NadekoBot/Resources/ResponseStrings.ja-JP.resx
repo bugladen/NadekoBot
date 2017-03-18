@@ -227,7 +227,7 @@
 </value>
   </data>
   <data name="customreactions_no_found" xml:space="preserve">
-    <value>カスタム反応が見つかりませんでした。
+    <value>カスタムリアクションが見つかりませんでした。
 </value>
     <comment>Fuzzy</comment>
   </data>
@@ -710,7 +710,7 @@ Fuzzy</comment>
 </value>
   </data>
   <data name="administration_prot_error" xml:space="preserve">
-    <value></value>
+    <value>エラー。管理権限が必要です。</value>
   </data>
   <data name="administration_prot_none" xml:space="preserve">
     <value>保護は有効になっていません。
@@ -898,13 +898,13 @@ Fuzzy</comment>
 </value>
   </data>
   <data name="administration_slowmode_disabled" xml:space="preserve">
-    <value></value>
+    <value>低速モードは無効です。</value>
   </data>
   <data name="administration_slowmode_init" xml:space="preserve">
-    <value></value>
+    <value>低速モードが初期化しました。</value>
   </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
-    <value></value>
+    <value>ソフトバン（キック）</value>
     <comment>PLURAL</comment>
   </data>
   <data name="administration_spam_ignore" xml:space="preserve">
@@ -928,7 +928,7 @@ Fuzzy</comment>
     <value></value>
   </data>
   <data name="administration_unmuted_sn" xml:space="preserve">
-    <value></value>
+    <value>ミュート解除</value>
     <comment>singular</comment>
   </data>
   <data name="administration_username" xml:space="preserve">
@@ -1056,8 +1056,7 @@ Fuzzy</comment>
     <value>存在の更新</value>
   </data>
   <data name="administration_sb_user" xml:space="preserve">
-    <value>And this is where using exiled screws me over.. again lol
-</value>
+    <value>ユーザはソフトバン</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="gambling_awarded" xml:space="preserve">
@@ -1273,16 +1272,16 @@ Paypal &lt;{1}&gt;
 </value>
   </data>
   <data name="gambling_animal_race" xml:space="preserve">
-    <value></value>
+    <value>アニマルレース</value>
   </data>
   <data name="gambling_animal_race_failed" xml:space="preserve">
-    <value></value>
+    <value>十分な参加者がいなかったのでスタートできませんでした。</value>
   </data>
   <data name="gambling_animal_race_full" xml:space="preserve">
-    <value></value>
+    <value>レースは満員になりました。すぐにスタートします。</value>
   </data>
   <data name="gambling_animal_race_join" xml:space="preserve">
-    <value></value>
+    <value>{0} は {1} として参加しました。</value>
   </data>
   <data name="gambling_animal_race_join_bet" xml:space="preserve">
     <value></value>
@@ -1291,10 +1290,10 @@ Paypal &lt;{1}&gt;
     <value></value>
   </data>
   <data name="gambling_animal_race_starting" xml:space="preserve">
-    <value></value>
+    <value>部屋がいっぱいになるか、20秒後にスタートします。</value>
   </data>
   <data name="gambling_animal_race_starting_with_x" xml:space="preserve">
-    <value></value>
+    <value> {0} 人の参加者でスタートします。</value>
   </data>
   <data name="gambling_animal_race_won" xml:space="preserve">
     <value></value>
@@ -1303,24 +1302,25 @@ Paypal &lt;{1}&gt;
     <value></value>
   </data>
   <data name="gambling_dice_invalid_number" xml:space="preserve">
-    <value></value>
+    <value>数が正しくありません。一度に {0}-{1} のダイスを触れます。</value>
   </data>
   <data name="gambling_dice_rolled" xml:space="preserve">
-    <value></value>
+    <value>ロール状{0}
+</value>
     <comment>Someone rolled 35</comment>
   </data>
   <data name="gambling_dice_rolled_num" xml:space="preserve">
-    <value></value>
+    <value>サイコロ振りました。: {0}</value>
     <comment>Dice Rolled: 5</comment>
   </data>
   <data name="gambling_race_failed_starting" xml:space="preserve">
-    <value></value>
+    <value>レーズが開始できませんでした。他のレースが行われているかもしれません。</value>
   </data>
   <data name="gambling_race_not_exist" xml:space="preserve">
-    <value></value>
+    <value>このサーバーでは、どのレースも存在していません。</value>
   </data>
   <data name="gambling_second_larger_than_first" xml:space="preserve">
-    <value></value>
+    <value>最初の数よりも２番めの数が大きくなければなりません。</value>
   </data>
   <data name="gambling_changes_of_heart" xml:space="preserve">
     <value></value>
@@ -1393,7 +1393,7 @@ Paypal &lt;{1}&gt;
     <value></value>
   </data>
   <data name="games_8ball" xml:space="preserve">
-    <value></value>
+    <value>エイトボール</value>
   </data>
   <data name="games_acrophobia" xml:space="preserve">
     <value></value>
@@ -1420,7 +1420,7 @@ Paypal &lt;{1}&gt;
     <value></value>
   </data>
   <data name="games_acro_vote" xml:space="preserve">
-    <value></value>
+    <value>数字を入力して投票</value>
   </data>
   <data name="games_acro_vote_cast" xml:space="preserve">
     <value></value>
@@ -1432,7 +1432,7 @@ Paypal &lt;{1}&gt;
     <value></value>
   </data>
   <data name="games_question" xml:space="preserve">
-    <value></value>
+    <value>質問</value>
   </data>
   <data name="games_rps_draw" xml:space="preserve">
     <value></value>
@@ -1450,13 +1450,13 @@ Paypal &lt;{1}&gt;
     <value></value>
   </data>
   <data name="games_category" xml:space="preserve">
-    <value></value>
+    <value>カテゴリー</value>
   </data>
   <data name="games_cleverbot_disabled" xml:space="preserve">
     <value></value>
   </data>
   <data name="games_cleverbot_enabled" xml:space="preserve">
-    <value></value>
+    <value>このサーバーではCleverbotが有効です。</value>
   </data>
   <data name="games_curgen_disabled" xml:space="preserve">
     <value></value>
@@ -1469,22 +1469,22 @@ Paypal &lt;{1}&gt;
     <comment>plural</comment>
   </data>
   <data name="games_curgen_sn" xml:space="preserve">
-    <value></value>
+    <value>ランダム {0} が出現！</value>
   </data>
   <data name="games_failed_loading_question" xml:space="preserve">
-    <value></value>
+    <value>質問のロードに失敗しました。</value>
   </data>
   <data name="games_game_started" xml:space="preserve">
-    <value></value>
+    <value>ゲームが始まりました。</value>
   </data>
   <data name="games_hangman_game_started" xml:space="preserve">
-    <value></value>
+    <value>ハングマンゲームが始まりました。</value>
   </data>
   <data name="games_hangman_running" xml:space="preserve">
-    <value></value>
+    <value>ハングマンゲームはすでにこのチャンネルで開始されています。</value>
   </data>
   <data name="games_hangman_start_errored" xml:space="preserve">
-    <value></value>
+    <value>ハングマンのスタート時にエラーが起きました。</value>
   </data>
   <data name="games_hangman_types" xml:space="preserve">
     <value></value>
@@ -1537,13 +1537,13 @@ Paypal &lt;{1}&gt;
     <value></value>
   </data>
   <data name="games_ttt_a_draw" xml:space="preserve">
-    <value></value>
+    <value>引き分け</value>
   </data>
   <data name="games_ttt_created" xml:space="preserve">
     <value></value>
   </data>
   <data name="games_ttt_has_won" xml:space="preserve">
-    <value></value>
+    <value>{0} の勝ち！</value>
   </data>
   <data name="games_ttt_matched_three" xml:space="preserve">
     <value></value>
@@ -1564,16 +1564,16 @@ Paypal &lt;{1}&gt;
     <value></value>
   </data>
   <data name="music_autoplay_disabled" xml:space="preserve">
-    <value></value>
+    <value>オートプレイは無効です。</value>
   </data>
   <data name="music_autoplay_enabled" xml:space="preserve">
-    <value></value>
+    <value>オートプレイは有効です。</value>
   </data>
   <data name="music_defvol_set" xml:space="preserve">
-    <value></value>
+    <value>デフォルトの音量を{0}% にしました。</value>
   </data>
   <data name="music_dir_queue_complete" xml:space="preserve">
-    <value></value>
+    <value>ディレクトリのキューが完了しました。</value>
   </data>
   <data name="music_fairplay" xml:space="preserve">
     <value></value>
@@ -1598,19 +1598,19 @@ Paypal &lt;{1}&gt;
     <value></value>
   </data>
   <data name="music_max_playtime_none" xml:space="preserve">
-    <value></value>
+    <value>最大再生時間は制限ありません。</value>
   </data>
   <data name="music_max_playtime_set" xml:space="preserve">
-    <value></value>
+    <value>最大再生時間を {0} 秒にセットしました。</value>
   </data>
   <data name="music_max_queue_unlimited" xml:space="preserve">
-    <value></value>
+    <value>最大の音楽キューサイズを無制限にしました。</value>
   </data>
   <data name="music_max_queue_x" xml:space="preserve">
-    <value></value>
+    <value>最大の音楽キューサイズを {0} トラックに設定しました。</value>
   </data>
   <data name="music_must_be_in_voice" xml:space="preserve">
-    <value></value>
+    <value>このサーバーのボイスチャンネルにいる必要があります。</value>
   </data>
   <data name="music_name" xml:space="preserve">
     <value>曲名</value>
@@ -1620,56 +1620,56 @@ Paypal &lt;{1}&gt;
     <comment>Fuzzy</comment>
   </data>
   <data name="music_no_player" xml:space="preserve">
-    <value></value>
+    <value>アクティブな音楽再生がありません。</value>
   </data>
   <data name="music_no_search_results" xml:space="preserve">
     <value>検索結果なし</value>
   </data>
   <data name="music_paused" xml:space="preserve">
-    <value></value>
+    <value>音楽の再生を一時停止します。</value>
   </data>
   <data name="music_player_queue" xml:space="preserve">
-    <value></value>
+    <value>キュー　Page {0}/{1}</value>
   </data>
   <data name="music_playing_song" xml:space="preserve">
-    <value></value>
+    <value>音楽を再生しています。</value>
   </data>
   <data name="music_playlists" xml:space="preserve">
-    <value></value>
+    <value>`#{0}` - **{1}** by *{2}* ({3} 曲)</value>
   </data>
   <data name="music_playlists_page" xml:space="preserve">
-    <value></value>
+    <value>保存されたリストの {0} ページ目 </value>
   </data>
   <data name="music_playlist_deleted" xml:space="preserve">
-    <value></value>
+    <value>プレイリストは削除されました。</value>
   </data>
   <data name="music_playlist_delete_fail" xml:space="preserve">
-    <value></value>
+    <value>プレイリストの削除に失敗しました。存在しないか、権限がありません。</value>
   </data>
   <data name="music_playlist_id_not_found" xml:space="preserve">
-    <value></value>
+    <value>そのIDのプレイリストは存在しません。</value>
   </data>
   <data name="music_playlist_queue_complete" xml:space="preserve">
-    <value></value>
+    <value>プレイリストのキューは完了しました。</value>
   </data>
   <data name="music_playlist_saved" xml:space="preserve">
-    <value></value>
+    <value>プレイリストを保存しました。</value>
   </data>
   <data name="music_play_limit" xml:space="preserve">
-    <value></value>
+    <value>{0} の上限です</value>
   </data>
   <data name="music_queue" xml:space="preserve">
     <value>次に聞く曲一覧</value>
   </data>
   <data name="music_queued_song" xml:space="preserve">
-    <value></value>
+    <value>キューに追加した曲</value>
     <comment>Does this mean &quot;the song was added to the queue&quot; ?</comment>
   </data>
   <data name="music_queue_cleared" xml:space="preserve">
-    <value></value>
+    <value>キューの音楽はクリアされました。</value>
   </data>
   <data name="music_queue_full" xml:space="preserve">
-    <value></value>
+    <value>キュー( {0}/{0} ) はいっぱいです。</value>
   </data>
   <data name="music_removed_song" xml:space="preserve">
     <value></value>
@@ -1733,28 +1733,29 @@ Paypal &lt;{1}&gt;
     <value></value>
   </data>
   <data name="permissions_arm_disable" xml:space="preserve">
-    <value></value>
+    <value>役割  {0}　のすべてのモジュールの使用は無効になりました。</value>
   </data>
   <data name="permissions_arm_enable" xml:space="preserve">
-    <value></value>
+    <value>役割  {0}　のすべてのモジュールの使用は有効になりました。</value>
   </data>
   <data name="permissions_asm_disable" xml:space="preserve">
-    <value></value>
+    <value>このサーバーのすべてのモジュールの使用が無効になりました。</value>
   </data>
   <data name="permissions_asm_enable" xml:space="preserve">
-    <value></value>
+    <value>このサーバーのすべてのモジュールの使用が有効になりました。</value>
   </data>
   <data name="permissions_aum_disable" xml:space="preserve">
-    <value></value>
+    <value>ユーザー {0} へのすべてのモジュールの使用を無効にしました。</value>
   </data>
   <data name="permissions_aum_enable" xml:space="preserve">
-    <value></value>
+    <value>ユーザー {0} へのすべてのモジュールの使用を有効にしました。</value>
   </data>
   <data name="permissions_blacklisted" xml:space="preserve">
-    <value></value>
+    <value>{0} (ID {1})をブラックリストに登録しました。</value>
   </data>
   <data name="permissions_cmdcd_add" xml:space="preserve">
     <value></value>
+    <comment>Cooldown?</comment>
   </data>
   <data name="permissions_cmdcd_cleared" xml:space="preserve">
     <value></value>

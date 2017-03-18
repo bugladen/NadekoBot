@@ -476,8 +476,7 @@ Raison : {1}</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_lang_list" xml:space="preserve">
-    <value>Listes des langues
-{0}</value>
+    <value>Listes des langues</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_lang_set" xml:space="preserve">
@@ -673,20 +672,20 @@ Raison : {1}</value>
     <value>Le rôle {0} est déjà présent dans la liste.</value>
   </data>
   <data name="administration_ropl_added" xml:space="preserve">
-    <value>Ajouté.</value>
+    <value>Ajouté</value>
   </data>
   <data name="administration_ropl_disabled" xml:space="preserve">
-    <value>Rotation du statut de jeu désactivée.</value>
+    <value>Alternance du statut de jeu désactivé.</value>
   </data>
   <data name="administration_ropl_enabled" xml:space="preserve">
-    <value>Rotation du statut de jeu activée.</value>
+    <value>Alternance du statut de jeu activé.</value>
   </data>
   <data name="administration_ropl_list" xml:space="preserve">
-    <value>Voici une liste des rotations de statuts :
+    <value>Liste des statuts alternants:
 {0}</value>
   </data>
   <data name="administration_ropl_not_set" xml:space="preserve">
-    <value>Aucune rotation de statuts en place.</value>
+    <value>Aucun statut alternant défini.</value>
   </data>
   <data name="administration_self_assign_already" xml:space="preserve">
     <value>Vous avez déjà le rôle {0}.</value>
@@ -1164,7 +1163,7 @@ N&apos;oubliez pas de mettre votre nom discord ou ID dans le message.
     <value>Top Waifus</value>
   </data>
   <data name="gambling_waifu_affinity_already" xml:space="preserve">
-    <value>votre affinité est déjà liée à cette waifu ou vous êtes en train de retirer votre affinité avec quelqu&apos;un alors que vous n&apos;en possédez pas.</value>
+    <value>Votre affinité est déjà liée à cette waifu ou vous êtes en train de retirer votre affinité avec quelqu&apos;un alors que vous n&apos;en possédez pas.</value>
   </data>
   <data name="gambling_waifu_affinity_changed" xml:space="preserve">
     <value>Affinités changées de de {0} à {1}.
@@ -1176,16 +1175,16 @@ N&apos;oubliez pas de mettre votre nom discord ou ID dans le message.
     <value>Vous devez attendre {0} heures et {1} minutes avant de pouvoir changer de nouveau votre affinité.</value>
   </data>
   <data name="gambling_waifu_affinity_reset" xml:space="preserve">
-    <value>Votre affinité a été réinitialisée. Vous n&apos;avez désormais plus la personne que vous aimez.</value>
+    <value>Votre affinité a été réinitialisée. Vous n&apos;aimez plus personne désormais.</value>
   </data>
   <data name="gambling_waifu_affinity_set" xml:space="preserve">
     <value>veut être la waifu de {0}. Aww &lt;3</value>
   </data>
   <data name="gambling_waifu_claimed" xml:space="preserve">
-    <value>a revendiqué {0} comme sa waifu pour {1}</value>
+    <value>a revendiqué {0} comme sa waifu pour {1}!</value>
   </data>
   <data name="gambling_waifu_divorced_like" xml:space="preserve">
-    <value>Vous avez divorcé avec une waifu qui vous aimais. Monstre sans cœur. {0} a reçu {1} en guise de compensation.</value>
+    <value>Vous avez divorcé d&apos;une waifu qui vous aimait. Monstre sans cœur. {0} a reçu {1} en guise de compensation.</value>
   </data>
   <data name="gambling_waifu_egomaniac" xml:space="preserve">
     <value>vous ne pouvez pas vous lier d&apos;affinité avec vous-même, espèce d&apos;égocentrique.</value>
@@ -1309,7 +1308,7 @@ Fuzzy</comment>
     <value>Partie de pendu commencée.</value>
   </data>
   <data name="games_hangman_running" xml:space="preserve">
-    <value>Une partie de pendu est déjà en cours sur ce canal.</value>
+    <value>Une partie de pendu est déjà en cours sur ce salon.</value>
   </data>
   <data name="games_hangman_start_errored" xml:space="preserve">
     <value>Initialisation du pendu erronée.</value>
@@ -2104,7 +2103,7 @@ Fuzzy</comment>
     <value>Index hors limites.</value>
   </data>
   <data name="utility_inrole_list" xml:space="preserve">
-    <value>Voici une liste des utilisateurs dans ces rôles :</value>
+    <value>Liste des utilisateurs ayant le rôle {0}:</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="utility_inrole_not_allowed" xml:space="preserve">
@@ -2168,7 +2167,7 @@ OwnerID: {2}</value>
     <comment>Ne pas confondre Shard et Shared ;) Dans discord, le mot shard n&apos;a pas d&apos;équivalent francophone.</comment>
   </data>
   <data name="utility_no_topic_set" xml:space="preserve">
-    <value>Aucun sujet choisi.</value>
+    <value>Aucun sujet défini.</value>
   </data>
   <data name="utility_owner" xml:space="preserve">
     <value>Propriétaire</value>
@@ -2251,10 +2250,10 @@ OwnerID: {2}</value>
     <value>Aucune couleur n&apos;est dans le bon format. Utilisez `#00ff00` par exemple.</value>
   </data>
   <data name="utility_rrc_start" xml:space="preserve">
-    <value>Couleurs alternées pour le rôle {0} activées.</value>
+    <value>Alternance de couleurs pour le rôle {0} activée.</value>
   </data>
   <data name="utility_rrc_stop" xml:space="preserve">
-    <value>Couleurs alternées pour le rôle {0} arrêtées</value>
+    <value>Alternance de couleurs pour le rôle {0} désactivée.</value>
   </data>
   <data name="utility_serverid" xml:space="preserve">
     <value>{0} de ce serveur est {1}</value>
@@ -2353,22 +2352,22 @@ Fuzzy</comment>
     <value>page {0}</value>
   </data>
   <data name="administration_must_be_in_voice" xml:space="preserve">
-    <value>Vous devez être sur un canal vocal sur ce serveur.</value>
+    <value>Vous devez être sur un salon vocal sur ce serveur.</value>
   </data>
   <data name="administration_no_vcroles" xml:space="preserve">
-    <value>Il n&apos;y a pas de rôle de canal vocal.</value>
+    <value>Il n&apos;y a pas de rôle de salon vocal.</value>
   </data>
   <data name="administration_user_muted_time" xml:space="preserve">
     <value>{0} est désormais **muet** du chat textuel et vocal pour {1} minutes.</value>
   </data>
   <data name="administration_vcrole_added" xml:space="preserve">
-    <value>Les utilisateurs rejoignant le canal vocal {0} obtiendrons le rôle {1}.</value>
+    <value>Les utilisateurs rejoignant le salon vocal {0} obtiendront le rôle {1}.</value>
   </data>
   <data name="administration_vcrole_removed" xml:space="preserve">
-    <value>Les utilisateurs rejoignant le canal vocal {0} n’obtiendrons plus de rôle.</value>
+    <value>Les utilisateurs rejoignant le salon vocal {0} n’obtiendront plus de rôle.</value>
   </data>
   <data name="administration_vc_role_list" xml:space="preserve">
-    <value>Rôles du canal vocal</value>
+    <value>Rôles du salon vocal</value>
   </data>
 
 </root>

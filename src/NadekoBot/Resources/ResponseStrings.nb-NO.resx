@@ -2287,22 +2287,22 @@ Eier ID: {2}</value>
     <value>side {0}</value>
   </data>
   <data name="administration_must_be_in_voice" xml:space="preserve">
-    <value></value>
+    <value>Du må være i en talekanal på denne serveren</value>
   </data>
   <data name="administration_no_vcroles" xml:space="preserve">
-    <value></value>
+    <value>Det finnes ingen stemmekanal-roller</value>
   </data>
   <data name="administration_user_muted_time" xml:space="preserve">
-    <value></value>
+    <value>{0} har blitt **dempet** fra tekst og tale i {1} minutt(er)</value>
   </data>
   <data name="administration_vcrole_added" xml:space="preserve">
-    <value></value>
+    <value>Brukere som blir med i talekanalen {0} får rollen {1}.</value>
   </data>
   <data name="administration_vcrole_removed" xml:space="preserve">
-    <value></value>
+    <value>Brukere som blir med i talekanalen {0} får ikke lenger noen rolle.</value>
   </data>
   <data name="administration_vc_role_list" xml:space="preserve">
-    <value></value>
+    <value>Stemmekanal-roller</value>
   </data>
 
 </root>

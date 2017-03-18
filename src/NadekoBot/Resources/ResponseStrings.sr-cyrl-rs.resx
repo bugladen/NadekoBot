@@ -127,7 +127,7 @@
     <value>Та база није под захтевом.</value>
   </data>
   <data name="clashofclans_base_destroyed" xml:space="preserve">
-    <value>**DESTROYED** base #{0} in a war against {1}</value>
+    <value>**УНИШТЕНА** база #{0} у рату против {1}</value>
   </data>
   <data name="clashofclans_base_unclaimed" xml:space="preserve">
     <value>{0} је **ПОНИШТИО ЗАХТЕВ** за базу #{1} у рату против {2}</value>
@@ -1174,10 +1174,10 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>хоће да буде waifu од {0}</value>
   </data>
   <data name="gambling_waifu_claimed" xml:space="preserve">
-    <value></value>
+    <value>је присвојио {0} као своју waifu за {1}!</value>
   </data>
   <data name="gambling_waifu_divorced_like" xml:space="preserve">
-    <value></value>
+    <value>Развео си waifu којој се свиђаш. Душмане! {0} је добио {1} као компензацију.</value>
   </data>
   <data name="gambling_waifu_egomaniac" xml:space="preserve">
     <value>не можеш ставити афинитет на себе, егоманијаче.</value>
@@ -1415,7 +1415,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Максимални плејтајм више нема лимит.</value>
   </data>
   <data name="music_max_playtime_set" xml:space="preserve">
-    <value></value>
+    <value>Максимално време пуштања је сада {0} секунди.</value>
   </data>
   <data name="music_max_queue_unlimited" xml:space="preserve">
     <value>Максимална величина реда је неограничена.</value>
@@ -1509,7 +1509,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Понављање плејлисте је упаљено.</value>
   </data>
   <data name="music_set_music_channel" xml:space="preserve">
-    <value></value>
+    <value>Исписиваћу поруке за почетак, крај, паузу и брисање песме у овом каналу.</value>
   </data>
   <data name="music_skipped_to" xml:space="preserve">
     <value>Прескочено на `{0}:{1}`</value>
@@ -1563,7 +1563,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Укључено коришћење СВИХ МОДУЛА за корисника {0}.</value>
   </data>
   <data name="permissions_blacklisted" xml:space="preserve">
-    <value></value>
+    <value>{0} сa ИДем {1} је стављен на црну листу.</value>
   </data>
   <data name="permissions_cmdcd_add" xml:space="preserve">
     <value>Команда {0} сада има {1}с кулдаун. </value>
@@ -1659,7 +1659,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Укључено коришћење {0} {1} на овом серверу.</value>
   </data>
   <data name="permissions_unblacklisted" xml:space="preserve">
-    <value></value>
+    <value>{0} сa ИДем {1} је скинут са црне листе.</value>
   </data>
   <data name="permissions_uneditable" xml:space="preserve">
     <value>неизмењиво</value>
@@ -1725,13 +1725,13 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Стрип #</value>
   </data>
   <data name="searches_compet_loses" xml:space="preserve">
-    <value></value>
+    <value>Такмичарских партија изгубљено</value>
   </data>
   <data name="searches_compet_played" xml:space="preserve">
-    <value></value>
+    <value>Такмичарских партија играно</value>
   </data>
   <data name="searches_compet_rank" xml:space="preserve">
-    <value></value>
+    <value>Такмичарски ранг</value>
   </data>
   <data name="searches_compet_wins" xml:space="preserve">
     <value>Такмичних победа</value>
@@ -1803,7 +1803,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Ниво</value>
   </data>
   <data name="searches_list_of_place_tags" xml:space="preserve">
-    <value></value>
+    <value>Листа {0}place тагова</value>
     <comment>Don&apos;t translate {0}place</comment>
   </data>
   <data name="searches_location" xml:space="preserve">
@@ -2019,10 +2019,10 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Направљен</value>
   </data>
   <data name="utility_csc_join" xml:space="preserve">
-    <value></value>
+    <value>Прикључен у међусерверни канал.</value>
   </data>
   <data name="utility_csc_leave" xml:space="preserve">
-    <value></value>
+    <value>Међусерверни канал напуштен.</value>
   </data>
   <data name="utility_csc_token" xml:space="preserve">
     <value>Ово је твој CSC токен</value>
@@ -2150,7 +2150,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="utility_remind" xml:space="preserve">
-    <value></value>
+    <value>Подсетићу {0} да {1} у {2} `({3:d.M.yyyy.} at {4:HH:mm})` </value>
   </data>
   <data name="utility_remind_invalid_format" xml:space="preserve">
     <value>Није исправан формат времена. Проверите листу команди.</value>
@@ -2280,25 +2280,25 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Покупите их куцајући `{0}pick` </value>
   </data>
   <data name="games_pick_sn" xml:space="preserve">
-    <value></value>
+    <value>Покупи тако што укуцаш `{0}pick`</value>
   </data>
   <data name="gambling_no_users_found" xml:space="preserve">
-    <value></value>
+    <value>Нема корисника.</value>
   </data>
   <data name="gambling_page" xml:space="preserve">
-    <value></value>
+    <value>страница {0}</value>
   </data>
   <data name="administration_must_be_in_voice" xml:space="preserve">
-    <value></value>
+    <value>Мораш бити у гласовном каналу на овом серверу.</value>
   </data>
   <data name="administration_no_vcroles" xml:space="preserve">
-    <value></value>
+    <value>Нема рола за говорне канале.</value>
   </data>
   <data name="administration_user_muted_time" xml:space="preserve">
-    <value></value>
+    <value>{0} је **занемљен** из текстовних и гласовних канала на {1} минута. </value>
   </data>
   <data name="administration_vcrole_added" xml:space="preserve">
-    <value></value>
+    <value>Корисници који уђу у говорни канал {0} ће добити ролу {1}.</value>
   </data>
   <data name="administration_vcrole_removed" xml:space="preserve">
     <value></value>
