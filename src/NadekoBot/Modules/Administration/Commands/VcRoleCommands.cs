@@ -71,8 +71,17 @@ namespace NadekoBot.Modules.Administration
                                 {
                                     if (gusr.RoleIds.Contains(role.Id))
                                     {
-                                        await gusr.RemoveRolesAsync(role).ConfigureAwait(false);
-                                        await Task.Delay(500).ConfigureAwait(false);
+                                        try
+                                        {
+                                            await gusr.RemoveRolesAsync(role).ConfigureAwait(false);
+                                            await Task.Delay(500).ConfigureAwait(false);
+                                        }
+                                        catch
+                                        {
+                                            await Task.Delay(200).ConfigureAwait(false);
+                                            await gusr.RemoveRolesAsync(role).ConfigureAwait(false);
+                                            await Task.Delay(500).ConfigureAwait(false);
+                                        }
                                     }
                                 }
                                 //add new
