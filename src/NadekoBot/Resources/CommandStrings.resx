@@ -3186,4 +3186,22 @@
   <data name="vcrole_usage" xml:space="preserve">
     <value>`{0}vcrole SomeRole` or `{0}vcrole`</value>
   </data>
+  <data name="crad_cmd" xml:space="preserve">
+    <value>crad</value>
+  </data>
+  <data name="crad_desc" xml:space="preserve">
+    <value>Toggles whether the message triggering the custom reaction will be automatically deleted.</value>
+  </data>
+  <data name="crad_usage" xml:space="preserve">
+    <value>`{0}crad 59`</value>
+  </data>
+  <data name="crdm_cmd" xml:space="preserve">
+    <value>crdm</value>
+  </data>
+  <data name="crdm_desc" xml:space="preserve">
+    <value>Toggles whether the response message of the custom reaction will be sent as a direct message.</value>
+  </data>
+  <data name="crdm_usage" xml:space="preserve">
+    <value>`{0}crad 44`</value>
+  </data>
 </root>

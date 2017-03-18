@@ -10,8 +10,11 @@ namespace NadekoBot.Services.Database.Models
         public Regex Regex { get; set; }
         public string Response { get; set; }
         public string Trigger { get; set; }
+
         public bool IsRegex { get; set; }
         public bool OwnerOnly { get; set; }
+        public bool AutoDeleteTrigger { get; set; }
+        public bool DmResponse { get; set; }
 
         public bool IsGlobal => !GuildId.HasValue;
     }

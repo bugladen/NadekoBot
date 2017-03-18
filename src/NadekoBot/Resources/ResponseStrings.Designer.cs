@@ -2018,6 +2018,42 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Message triggering the custom reaction with id {0} won&apos;t get automatically deleted..
+        /// </summary>
+        public static string customreactions_crad_disabled {
+            get {
+                return ResourceManager.GetString("customreactions_crad_disabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Message triggering the custom reaction with id {0} will get automatically deleted..
+        /// </summary>
+        public static string customreactions_crad_enabled {
+            get {
+                return ResourceManager.GetString("customreactions_crad_enabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Response message for the custom reaction with id {0} won&apos;t be sent as a DM..
+        /// </summary>
+        public static string customreactions_crdm_disabled {
+            get {
+                return ResourceManager.GetString("customreactions_crdm_disabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Response message for the custom reaction with id {0} will be sent as a DM..
+        /// </summary>
+        public static string customreactions_crdm_enabled {
+            get {
+                return ResourceManager.GetString("customreactions_crdm_enabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Custom Reaction deleted.
         /// </summary>
         public static string customreactions_deleted {

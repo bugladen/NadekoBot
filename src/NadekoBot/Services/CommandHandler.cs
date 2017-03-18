@@ -303,6 +303,11 @@ namespace NadekoBot.Services
                                 }
                             }
                             await cr.Send(usrMsg).ConfigureAwait(false);
+
+                            if (cr.AutoDeleteTrigger)
+                            {
+                                try { await msg.DeleteAsync().ConfigureAwait(false); } catch { }
+                            }
                         }
                         catch (Exception ex)
                         {

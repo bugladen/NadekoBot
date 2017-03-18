@@ -2248,4 +2248,16 @@ Owner ID: {2}</value>
   <data name="administration_vc_role_list" xml:space="preserve">
     <value>Voice channel roles</value>
   </data>
+  <data name="customreactions_crad_disabled" xml:space="preserve">
+    <value>Message triggering the custom reaction with id {0} won't get automatically deleted.</value>
+  </data>
+  <data name="customreactions_crad_enabled" xml:space="preserve">
+    <value>Message triggering the custom reaction with id {0} will get automatically deleted.</value>
+  </data>
+  <data name="customreactions_crdm_disabled" xml:space="preserve">
+    <value>Response message for the custom reaction with id {0} won't be sent as a DM.</value>
+  </data>
+  <data name="customreactions_crdm_enabled" xml:space="preserve">
+    <value>Response message for the custom reaction with id {0} will be sent as a DM.</value>
+  </data>
 </root>

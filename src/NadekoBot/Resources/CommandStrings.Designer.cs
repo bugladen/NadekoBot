@@ -1977,6 +1977,60 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to crad.
+        /// </summary>
+        public static string crad_cmd {
+            get {
+                return ResourceManager.GetString("crad_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Toggles whether the message triggering the custom reaction will be automatically deleted..
+        /// </summary>
+        public static string crad_desc {
+            get {
+                return ResourceManager.GetString("crad_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}crad 59`.
+        /// </summary>
+        public static string crad_usage {
+            get {
+                return ResourceManager.GetString("crad_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to crdm.
+        /// </summary>
+        public static string crdm_cmd {
+            get {
+                return ResourceManager.GetString("crdm_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Toggles whether the response message of the custom reaction will be sent as a direct message..
+        /// </summary>
+        public static string crdm_desc {
+            get {
+                return ResourceManager.GetString("crdm_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}crad 44`.
+        /// </summary>
+        public static string crdm_usage {
+            get {
+                return ResourceManager.GetString("crdm_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to createinvite crinv.
         /// </summary>
         public static string createinvite_cmd {
@@ -2373,7 +2427,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}delq abc`.
+        ///    Looks up a localized string similar to `{0}delq 123456`.
         /// </summary>
         public static string deletequote_usage {
             get {
