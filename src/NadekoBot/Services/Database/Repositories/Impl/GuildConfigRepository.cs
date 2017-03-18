@@ -67,19 +67,25 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                 }));
                 _context.SaveChanges();
             }
-            else if (config.Permissions == null)
-            {
-                config.Permissions = Permissionv2.GetDefaultPermlist;
-                _context.SaveChanges();
-            }
             return config;
         }
 
         public GuildConfig LogSettingsFor(ulong guildId)
         {
-            return _set.Include(gc => gc.LogSetting)
+            var config = _set.Include(gc => gc.LogSetting)
                             .ThenInclude(gc => gc.IgnoredChannels)
                .FirstOrDefault();
+
+            if (config == null)
+            {
+                _set.Add((config = new GuildConfig
+                {
+                    GuildId = guildId,
+                    Permissions = Permissionv2.GetDefaultPermlist
+                }));
+                _context.SaveChanges();
+            }
+            return config;
         }
 
         public IEnumerable<GuildConfig> OldPermissionsForAll()
@@ -106,6 +112,31 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                 .Include(gc => gc.Permissions);
 
             return query.ToList();
+        }
+
+        public GuildConfig GcWithPermissionsv2For(ulong guildId)
+        {
+            var config = _set
+                .Where(gc => gc.GuildId == guildId)
+                .Include(gc => gc.Permissions)
+                .FirstOrDefault();
+
+            if (config == null) // if there is no guildconfig, create new one
+            {
+                _set.Add((config = new GuildConfig
+                {
+                    GuildId = guildId,
+                    Permissions = Permissionv2.GetDefaultPermlist
+                }));
+                _context.SaveChanges();
+            }
+            else if (config.Permissions == null || !config.Permissions.Any()) // if no perms, add default ones
+            {
+                config.Permissions = Permissionv2.GetDefaultPermlist;
+                _context.SaveChanges();
+            }
+
+            return config;
         }
 
         public IEnumerable<FollowedStream> GetAllFollowedStreams() =>

@@ -423,7 +423,7 @@ namespace NadekoBot.Services
                     {
                         using (var uow = DbHandler.UnitOfWork())
                         {
-                            var config = uow.GuildConfigs.For(context.Guild.Id, set => set.Include(x => x.Permissions));
+                            var config = uow.GuildConfigs.GcWithPermissionsv2For(context.Guild.Id);
                             Permissions.UpdateCache(config);
                         }
                         Permissions.Cache.TryGetValue(context.Guild.Id, out pc);
