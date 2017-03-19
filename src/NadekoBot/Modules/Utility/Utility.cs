@@ -466,7 +466,31 @@ namespace NadekoBot.Modules.Utility
 
             var title = $"Chatlog-{Context.Guild.Name}/#{Context.Channel.Name}-{DateTime.Now}.txt";
             var grouping = msgs.GroupBy(x => $"{x.CreatedAt.Date:dd.MM.yyyy}")
-                .Select(g => new { date = g.Key, messages = g.OrderBy(x => x.CreatedAt).Select(s => $"【{s.Timestamp:HH:mm:ss}】{s.Author}:" + s.ToString()) });
+                .Select(g => new
+                {
+                    date = g.Key,
+                    messages = g.OrderBy(x => x.CreatedAt).Select(s =>
+                    {
+                        var msg = $"【{s.Timestamp:HH:mm:ss}】{s.Author}:";
+                        if (string.IsNullOrWhiteSpace(s.ToString()))
+                        {
+                            if (s.Attachments.Any())
+                            {
+                                msg += "FILES_UPLOADED: " + string.Join("\n", s.Attachments.Select(x => x.Url));
+                            }
+                            else if (s.Embeds.Any())
+                            {
+                                //todo probably just go through all properties and check if they are set, if they are, add them
+                                msg += "EMBEDS: " + string.Join("\n--------\n", s.Embeds.Select(x => $"Description: {x.Description}"));
+                            }
+                        }
+                        else
+                        {
+                            msg += s.ToString();
+                        }
+                        return msg;
+                    })
+                });
             await Context.User.SendFileAsync(
                 await JsonConvert.SerializeObject(grouping, Formatting.Indented).ToStream().ConfigureAwait(false), title, title).ConfigureAwait(false);
         }

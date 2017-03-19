@@ -113,7 +113,7 @@ namespace NadekoBot.Modules.Administration
             public static async Task UnmuteUser(IGuildUser usr)
             {
                 StopUnmuteTimer(usr.GuildId, usr.Id);
-                await usr.ModifyAsync(x => x.Mute = false).ConfigureAwait(false);
+                try { await usr.ModifyAsync(x => x.Mute = false).ConfigureAwait(false); } catch { }
                 try { await usr.RemoveRolesAsync(await GetMuteRole(usr.Guild)).ConfigureAwait(false); } catch { /*ignore*/ }
                 using (var uow = DbHandler.UnitOfWork())
                 {
