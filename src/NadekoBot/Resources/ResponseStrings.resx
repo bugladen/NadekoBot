@@ -2275,4 +2275,7 @@ Owner ID: {2}</value>
   <data name="utility_alias_remove_fail" xml:space="preserve">
     <value>Trigger {0} didn't have an alias.</value>
   </data>
+  <data name="searches_compet_playtime" xml:space="preserve">
+    <value>Competitive playtime</value>
+  </data>
 </root>

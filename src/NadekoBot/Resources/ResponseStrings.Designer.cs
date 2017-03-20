@@ -4901,6 +4901,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Competitive playtime.
+        /// </summary>
+        public static string searches_compet_playtime {
+            get {
+                return ResourceManager.GetString("searches_compet_playtime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Competitive rank.
         /// </summary>
         public static string searches_compet_rank {
