@@ -22,6 +22,7 @@ using Configuration = AngleSharp.Configuration;
 using NadekoBot.Attributes;
 using Discord.Commands;
 using ImageSharp.Processing.Processors;
+using ImageSharp;
 
 namespace NadekoBot.Modules.Searches
 {
@@ -605,7 +606,7 @@ namespace NadekoBot.Modules.Searches
                 return;
             var img = new ImageSharp.Image(50, 50);
 
-            img.ApplyProcessor(new BackgroundColorProcessor<ImageSharp.Color>(ImageSharp.Color.FromHex(color)), img.Bounds);
+            img.BackgroundColor(ImageSharp.Color.FromHex(color));
 
             await Context.Channel.SendFileAsync(img.ToStream(), $"{color}.png").ConfigureAwait(false);
         }
