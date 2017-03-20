@@ -320,6 +320,26 @@ namespace NadekoBot.Services
                     var exec3 = Environment.TickCount - execTime;
 
                     string messageContent = usrMsg.Content;
+                    if (guild != null)
+                    {
+                        ConcurrentDictionary<string, string> maps;
+                        if (Modules.Utility.Utility.CommandMapCommands.AliasMaps.TryGetValue(guild.Id, out maps))
+                        {
+                            string newMessageContent;
+                            if (maps.TryGetValue(messageContent.Trim().ToLowerInvariant(), out newMessageContent))
+                            {
+                                _log.Info(@"--Mapping Command--
+    GuildId: {0}
+    Trigger: {1}
+    Mapping: {2}", guild.Id, messageContent, newMessageContent);
+                                var oldMessageContent = messageContent;
+                                messageContent = newMessageContent;
+
+                                try { await usrMsg.Channel.SendConfirmAsync($"{oldMessageContent} => {newMessageContent}").ConfigureAwait(false); } catch { }
+                            }
+                        }
+                    }
+                    
 
                     // execute the command and measure the time it took
                     var exec = await Task.Run(() => ExecuteCommand(new CommandContext(_client, usrMsg), messageContent, DependencyMap.Empty, MultiMatchHandling.Best)).ConfigureAwait(false);

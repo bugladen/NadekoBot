@@ -5657,6 +5657,51 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Typing {0} will now be an alias of {1}..
+        /// </summary>
+        public static string utility_alias_added {
+            get {
+                return ResourceManager.GetString("utility_alias_added", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to List of aliases.
+        /// </summary>
+        public static string utility_alias_list {
+            get {
+                return ResourceManager.GetString("utility_alias_list", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Trigger {0} didn&apos;t have an alias..
+        /// </summary>
+        public static string utility_alias_remove_fail {
+            get {
+                return ResourceManager.GetString("utility_alias_remove_fail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Trigger {0} no longer has an alias..
+        /// </summary>
+        public static string utility_alias_removed {
+            get {
+                return ResourceManager.GetString("utility_alias_removed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No alias found.
+        /// </summary>
+        public static string utility_aliases_none {
+            get {
+                return ResourceManager.GetString("utility_aliases_none", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Author.
         /// </summary>
         public static string utility_author {

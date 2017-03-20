@@ -3204,4 +3204,22 @@
   <data name="crdm_usage" xml:space="preserve">
     <value>`{0}crad 44`</value>
   </data>
+  <data name="aliaslist_cmd" xml:space="preserve">
+    <value>aliaslist cmdmaplist aliases</value>
+  </data>
+  <data name="aliaslist_desc" xml:space="preserve">
+    <value>Shows the list of currently set aliases. Paginated.</value>
+  </data>
+  <data name="aliaslist_usage" xml:space="preserve">
+    <value>`{0}aliaslist` or `{0}aliaslist 3`</value>
+  </data>
+  <data name="alias_cmd" xml:space="preserve">
+    <value>alias cmdmap</value>
+  </data>
+  <data name="alias_desc" xml:space="preserve">
+    <value>Create a custom alias for a certain Nadeko command. Provide no alias to remove the existing one.</value>
+  </data>
+  <data name="alias_usage" xml:space="preserve">
+    <value>`{0}alias allin $bf 100 h` or `{0}alias "linux thingy" &gt;loonix Spyware Windows`</value>
+  </data>
 </root>

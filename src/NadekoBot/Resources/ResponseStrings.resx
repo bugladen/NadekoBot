@@ -2260,4 +2260,19 @@ Owner ID: {2}</value>
   <data name="customreactions_crdm_enabled" xml:space="preserve">
     <value>Response message for the custom reaction with id {0} will be sent as a DM.</value>
   </data>
+  <data name="utility_aliases_none" xml:space="preserve">
+    <value>No alias found</value>
+  </data>
+  <data name="utility_alias_added" xml:space="preserve">
+    <value>Typing {0} will now be an alias of {1}.</value>
+  </data>
+  <data name="utility_alias_list" xml:space="preserve">
+    <value>List of aliases</value>
+  </data>
+  <data name="utility_alias_removed" xml:space="preserve">
+    <value>Trigger {0} no longer has an alias.</value>
+  </data>
+  <data name="utility_alias_remove_fail" xml:space="preserve">
+    <value>Trigger {0} didn't have an alias.</value>
+  </data>
 </root>
