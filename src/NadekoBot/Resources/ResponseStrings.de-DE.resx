@@ -2329,10 +2329,10 @@ ID des Besitzers: {2}</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="games_pick_pl" xml:space="preserve">
-    <value>Sammel sie durch das Schreiben von `{0}pick`</value>
+    <value>sammel sie durch das Schreiben von `{0}pick`</value>
   </data>
   <data name="games_pick_sn" xml:space="preserve">
-    <value>Sammel sie durch das Schreiben von `{0}pick</value>
+    <value>sammel sie durch das Schreiben von `{0}pick</value>
   </data>
   <data name="gambling_no_users_found" xml:space="preserve">
     <value>Kein Benutzer gefunden.</value>
@@ -2357,6 +2357,36 @@ ID des Besitzers: {2}</value>
   </data>
   <data name="administration_vc_role_list" xml:space="preserve">
     <value>Rollen für Sprachkanäle</value>
+  </data>
+  <data name="customreactions_crad_disabled" xml:space="preserve">
+    <value>Auslösende Nachricht der benutzerdefinierten Reaktion mit der ID {0} wird nicht automatisch gelöscht.</value>
+  </data>
+  <data name="customreactions_crad_enabled" xml:space="preserve">
+    <value>Auslösende Nachricht der benutzerdefinierten Reaktion mit der ID {0} wird automatisch gelöscht.</value>
+  </data>
+  <data name="customreactions_crdm_disabled" xml:space="preserve">
+    <value>Reaktionsnachricht für die benutzerdefinierte Reaktion mit der ID {0} wird nicht als DN gesendet.</value>
+  </data>
+  <data name="customreactions_crdm_enabled" xml:space="preserve">
+    <value>Reaktionsnachricht für die benutzerdefinierte Reaktion mit der ID {0} wird nicht als DN gesendet.</value>
+  </data>
+  <data name="utility_aliases_none" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_alias_added" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_alias_list" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_alias_removed" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_alias_remove_fail" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="searches_compet_playtime" xml:space="preserve">
+    <value></value>
   </data>
 
 </root>
