@@ -45,7 +45,7 @@ ________________________________________________________________________________
 - Again, copy the same `Client ID` and replace the `null` part of the `BotId` line with it.
 - Go to a server on discord and attempt to mention yourself, but put a backslash at the start like shown below
 - So the message `\@fearnlj01#3535` will appears as `<@145521851676884992>` after you send the message (to make it slightly easier, add the backslash after you type the mention out)
-- The message will appear as a mention if done correctly, copy the numbers from the message you sent (`145521851676884992`) and replace the `0` on the `OwnerIds` section with your user ID shown earlier.
+- The message will appear as a mention if done correctly, copy the numbers from the message you sent (`145521851676884992`) and replace the ID (By default, the ID is `105635576866156544`) on the `OwnerIds` section with your user ID shown earlier.
 - Save `credentials.json` (make sure you aren't saving it as `credentials.json.txt`)
 - If done correctly, you are now the bot owner. You can add multiple owners by seperating each owner ID with a comma within the square brackets.
 
