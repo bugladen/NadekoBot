@@ -2248,5 +2248,35 @@ Owner ID: {2}</value>
   <data name="administration_vc_role_list" xml:space="preserve">
     <value>Voice channel roles</value>
   </data>
+  <data name="customreactions_crad_disabled" xml:space="preserve">
+    <value>Message triggering the custom reaction with id {0} won&apos;t get automatically deleted.</value>
+  </data>
+  <data name="customreactions_crad_enabled" xml:space="preserve">
+    <value>Message triggering the custom reaction with id {0} will get automatically deleted.</value>
+  </data>
+  <data name="customreactions_crdm_disabled" xml:space="preserve">
+    <value>Response message for the custom reaction with id {0} won&apos;t be sent as a DM.</value>
+  </data>
+  <data name="customreactions_crdm_enabled" xml:space="preserve">
+    <value>Response message for the custom reaction with id {0} will be sent as a DM.</value>
+  </data>
+  <data name="utility_aliases_none" xml:space="preserve">
+    <value>No alias found</value>
+  </data>
+  <data name="utility_alias_added" xml:space="preserve">
+    <value>Typing {0} will now be an alias of {1}.</value>
+  </data>
+  <data name="utility_alias_list" xml:space="preserve">
+    <value>List of aliases</value>
+  </data>
+  <data name="utility_alias_removed" xml:space="preserve">
+    <value>Trigger {0} no longer has an alias.</value>
+  </data>
+  <data name="utility_alias_remove_fail" xml:space="preserve">
+    <value>Trigger {0} didn&apos;t have an alias.</value>
+  </data>
+  <data name="searches_compet_playtime" xml:space="preserve">
+    <value>Competitive playtime</value>
+  </data>
 
 </root>
