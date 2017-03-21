@@ -315,7 +315,7 @@
 Razón: {1}</value>
   </data>
   <data name="administration_banned_pl" xml:space="preserve">
-    <value>Bloqueado</value>
+    <value>bloqueados</value>
     <comment>PLURAL</comment>
   </data>
   <data name="administration_banned_user" xml:space="preserve">
@@ -376,7 +376,7 @@ Razón: {1}</value>
     <value>Ensordecimiento satisfactorio.</value>
   </data>
   <data name="administration_deleted_server" xml:space="preserve">
-    <value>Servidor eliminado {0}</value>
+    <value>Servidor {0} eliminado</value>
   </data>
   <data name="administration_delmsg_off" xml:space="preserve">
     <value>Detenida la eliminación automática de comandos de invocación.</value>
@@ -400,10 +400,10 @@ Razón: {1}</value>
     <value>¡Gracias a las personas enlistadas por apoyar el proyecto!</value>
   </data>
   <data name="administration_fwall_start" xml:space="preserve">
-    <value>Enviaré los MPs a todos los administradores.</value>
+    <value>Redirigiré los MPs a todos los administradores.</value>
   </data>
   <data name="administration_fwall_stop" xml:space="preserve">
-    <value>Enviaré los MPs solamente al primer administrador.</value>
+    <value>Redirigiré los MPs solamente al primer administrador.</value>
   </data>
   <data name="administration_fwdm_start" xml:space="preserve">
     <value>Redirigiré los MPs desde ahora.</value>
@@ -427,10 +427,10 @@ Razón: {1}</value>
     <value>Nuevo mensaje de bienvenida por MP configurado.</value>
   </data>
   <data name="administration_greetdm_off" xml:space="preserve">
-    <value>Anuncio de bienvenida por mensaje privado desactivado.</value>
+    <value>Anuncio de bienvenida por MP desactivado.</value>
   </data>
   <data name="administration_greetdm_on" xml:space="preserve">
-    <value>Anuncio de bienvenida por mensaje privado activado.</value>
+    <value>Anuncio de bienvenida por MP activado.</value>
   </data>
   <data name="administration_greetmsg_cur" xml:space="preserve">
     <value>Mensaje de bienvenida actual: {0}</value>
@@ -442,10 +442,10 @@ Razón: {1}</value>
     <value>Nuevo mensaje de bienvenida configurado.</value>
   </data>
   <data name="administration_greet_off" xml:space="preserve">
-    <value>Bienvenida desactivada.</value>
+    <value>Anuncio de bienvenida desactivado.</value>
   </data>
   <data name="administration_greet_on" xml:space="preserve">
-    <value>Bienvenida activada en este canal.</value>
+    <value>Anuncio de bienvenida activado en este canal.</value>
   </data>
   <data name="administration_hierarchy" xml:space="preserve">
     <value>No puedes usar este comando con usuarios que tienen un rol más alto o igual al tuyo.</value>
@@ -476,10 +476,10 @@ Razón: {1}</value>
     <value>El lenguaje local del servidor ahora es {0} - {1}</value>
   </data>
   <data name="administration_lang_set_bot" xml:space="preserve">
-    <value>El lenguaje local del Bot ahora es {0} - {1}</value>
+    <value>Lenguaje local por defecto del Bot ahora es {0} - {1}</value>
   </data>
   <data name="administration_lang_set_bot_show" xml:space="preserve">
-    <value>Lenguaje del Bot configurado {0} - {1}</value>
+    <value>Lenguaje del Bot configurado a {0} - {1}</value>
   </data>
   <data name="administration_lang_set_fail" xml:space="preserve">
     <value>No pude configurar el lenguaje local. Revisa la ayuda.</value>
@@ -494,7 +494,7 @@ Razón: {1}</value>
     <value>Servidor abandonado {0}</value>
   </data>
   <data name="administration_log" xml:space="preserve">
-    <value>Registrando los eventos {0} en este canal.</value>
+    <value>Registrando los eventos de {0} en este canal.</value>
   </data>
   <data name="administration_log_all" xml:space="preserve">
     <value>Registrando todos los eventos en este canal.</value>
@@ -512,7 +512,7 @@ Razón: {1}</value>
     <value>El registro no ignorará {0}.</value>
   </data>
   <data name="administration_log_stop" xml:space="preserve">
-    <value>El registro del {0} evento fue detenido.</value>
+    <value>El registro de los eventos de {0} fue detenido.</value>
   </data>
   <data name="administration_menrole" xml:space="preserve">
     <value>{0} ha pedido mención de los siguientes roles:</value>
@@ -611,7 +611,7 @@ Razón: {1}</value>
     <value>He removido todos los roles del usuario {0}</value>
   </data>
   <data name="administration_rar_err" xml:space="preserve">
-    <value>No pude mover los roles. No tengo suficientes permisos.</value>
+    <value>No pude remover los roles. No tengo suficientes permisos.</value>
   </data>
   <data name="administration_rc" xml:space="preserve">
     <value>El color del rol {0} ha sido cambiado.</value>
@@ -641,7 +641,7 @@ Razón: {1}</value>
     <value>No puedes editar roles con más poder que el tuyo.</value>
   </data>
   <data name="administration_reprm" xml:space="preserve">
-    <value>Removido el mensaje de juego: {0}</value>
+    <value>Removido el mensaje de estado: {0}</value>
   </data>
   <data name="administration_role_added" xml:space="preserve">
     <value>El rol {0} ha sido añadido a la lista.</value>
@@ -726,7 +726,7 @@ Razón: {1}</value>
     <value>Fragmento {0} reconectado.</value>
   </data>
   <data name="administration_shard_reconnecting" xml:space="preserve">
-    <value>Fragmento {0} reconectando.</value>
+    <value>Reconectando fragmento {0}.</value>
   </data>
   <data name="administration_shutting_down" xml:space="preserve">
     <value>Apagando</value>
@@ -768,10 +768,10 @@ __CanalesIgnorados__: {2}</value>
     <comment>singular</comment>
   </data>
   <data name="administration_username" xml:space="preserve">
-    <value>Usuario</value>
+    <value>Nombre de usuario</value>
   </data>
   <data name="administration_username_changed" xml:space="preserve">
-    <value>Usuario cambiado</value>
+    <value>Nombre de usuario cambiado</value>
   </data>
   <data name="administration_users" xml:space="preserve">
     <value>Usuarios</value>
@@ -780,10 +780,10 @@ __CanalesIgnorados__: {2}</value>
     <value>Usuario bloqueado</value>
   </data>
   <data name="administration_user_chat_mute" xml:space="preserve">
-    <value>{0} ha sido **silenciado** en chat.</value>
+    <value>{0} ha sido **silenciado** del chat.</value>
   </data>
   <data name="administration_user_chat_unmute" xml:space="preserve">
-    <value>{0} ahora puede escribir en el chat.</value>
+    <value>{0} ha sido **desilenciado** del chat.</value>
   </data>
   <data name="administration_user_joined" xml:space="preserve">
     <value>Usuario se unió.</value>
@@ -804,7 +804,7 @@ __CanalesIgnorados__: {2}</value>
     <value>{0} ahora está {1}</value>
   </data>
   <data name="administration_user_unmuted" xml:space="preserve">
-    <value>{0} ha sido removido del mundo de los silenciados.</value>
+    <value>{0} ha sido **desilenciado** de chat y voz.</value>
   </data>
   <data name="administration_user_vjoined" xml:space="preserve">
     <value>{0} ha entrado al canal de voz {1}.</value>
@@ -819,7 +819,7 @@ __CanalesIgnorados__: {2}</value>
     <value>{0} ha sido **silenciado de voz**</value>
   </data>
   <data name="administration_user_voice_unmute" xml:space="preserve">
-    <value>{0} ya puede hablar por voz.</value>
+    <value>{0} ha sido **desilenciado de voz**.</value>
   </data>
   <data name="administration_voice_chan_created" xml:space="preserve">
     <value>Canal de voz creado</value>
@@ -837,7 +837,7 @@ __CanalesIgnorados__: {2}</value>
     <value>No tengo los permisos para **administrar roles** y/o **administrar canales**, así que no puedo ejecutar `voz+texto` en el servidor {0}.</value>
   </data>
   <data name="administration_vt_no_admin" xml:space="preserve">
-    <value>Estás activando o desactivando esto y **no poseo permisos de administración**. Esto puede causar problemas y tendrás que arreglar los canales tú mismo después.</value>
+    <value>Estás activando o desactivando esto y **no poseo permisos de ADMINISTRADOR**. Esto puede causar problemas y tendrás que arreglar los canales tú mismo después.</value>
   </data>
   <data name="administration_vt_perms" xml:space="preserve">
     <value>Necesito permisos para **administrar roles** y **administrar canales** para hacer esto. De preferencia permisos de Administración.</value>
@@ -877,7 +877,7 @@ Razón: {1}</value>
     <value>Suerte la próxima.</value>
   </data>
   <data name="gambling_br_win" xml:space="preserve">
-    <value>¡Felicitaciones! Ganaste {0} por sacar sobre {1}</value>
+    <value>¡Felicitaciones! Ganaste {0} por sacar sobre {1}.</value>
   </data>
   <data name="gambling_deck_reshuffled" xml:space="preserve">
     <value>Mazo reconstruido.</value>
@@ -958,10 +958,10 @@ Razón: {1}</value>
     <value>Los usuarios deben escribir un código secreto para obtener {0}. Quedan {1} segundos. No le digas a nadie.</value>
   </data>
   <data name="gambling_sneakygamestatus_end" xml:space="preserve">
-    <value>El evento de Estado Escurridizo ha terminado. {0} recibieron el premio.</value>
+    <value>El evento de EstadoEscurridizo ha terminado. {0} recibieron el premio.</value>
   </data>
   <data name="gambling_sneakygamestatus_title" xml:space="preserve">
-    <value>Evento de Estado Escurridizo iniciado</value>
+    <value>Evento de EstadoEscurridizo iniciado</value>
   </data>
   <data name="gambling_tails" xml:space="preserve">
     <value>Cruz</value>
@@ -970,7 +970,7 @@ Razón: {1}</value>
     <value>le quitó {0} a {1}</value>
   </data>
   <data name="gambling_take_fail" xml:space="preserve">
-    <value>no pudo quitarle {0} a {1} porque el usuario no tiene tal cantidad {2}.</value>
+    <value>no pudo quitarle {0} a {1} porque el usuario no tiene tal cantidad de {2}.</value>
   </data>
   <data name="help_back_to_toc" xml:space="preserve">
     <value>Regresar a la tabla de contenidos</value>
@@ -994,7 +994,7 @@ Razón: {1}</value>
     <value>Escribe `{0}h NombreDelComando` para recibir ayuda específica. Ej: `{0}h &gt;8ball`</value>
   </data>
   <data name="help_command_not_found" xml:space="preserve">
-    <value>No puedo encontrar ese comando. Por favor verifica que el comando exista y trata de nuevo.</value>
+    <value>No puedo encontrar ese comando. Por favor verifica que el comando exista antes de tratar de nuevo.</value>
   </data>
   <data name="help_desc" xml:space="preserve">
     <value>Descripción</value>
@@ -1009,7 +1009,7 @@ No olvides dejar tu usuario de Discord o ID en el mensaje.
   </data>
   <data name="help_guide" xml:space="preserve">
     <value>**Lista de comandos**. &lt;{0}&gt;
-**Las guías para albergar y documentos pueden ser encontradas aquí**: &lt;{1}&gt;</value>
+**Las guías para albergar y documentos pueden ser encontrados aquí**: &lt;{1}&gt;</value>
   </data>
   <data name="help_list_of_commands" xml:space="preserve">
     <value>Lista de comandos</value>
@@ -1049,7 +1049,7 @@ No olvides dejar tu usuario de Discord o ID en el mensaje.
     <value>¡Todo listo! ¡Allá vamos!</value>
   </data>
   <data name="gambling_animal_race_join" xml:space="preserve">
-    <value>{} entró como un {1}</value>
+    <value>{0} entró como  un {1}</value>
   </data>
   <data name="gambling_animal_race_join_bet" xml:space="preserve">
     <value>{0} entró como un {1} y apostó {2}.</value>
@@ -1067,7 +1067,7 @@ No olvides dejar tu usuario de Discord o ID en el mensaje.
     <value>{0} como un {1} ganó la carrera.</value>
   </data>
   <data name="gambling_animal_race_won_money" xml:space="preserve">
-    <value>{0} como {1} ganó la carrera y {2}.</value>
+    <value>{0} como un {1} ganó la carrera y {2}.</value>
   </data>
   <data name="gambling_dice_invalid_number" xml:space="preserve">
     <value>Número especificado no válido. Puedes lanzar {0}-{1} dados a la vez.</value>
@@ -1135,14 +1135,14 @@ No olvides dejar tu usuario de Discord o ID en el mensaje.
     <value>Te has divorciado de una waifu que te quería. Monstruo sin corazón. {0} recibió {1} como compensación.</value>
   </data>
   <data name="gambling_waifu_egomaniac" xml:space="preserve">
-    <value>no puedes configurar tu afinidad hacia ti mismo, rarito.</value>
+    <value>no puedes configurar tu afinidad hacia ti mismo, ególatra.</value>
   </data>
   <data name="gambling_waifu_fulfilled" xml:space="preserve">
     <value>🎉 ¡Su amor es correspondido! 🎉
 ¡El nuevo valor de {0} es {1}!</value>
   </data>
   <data name="gambling_waifu_isnt_cheap" xml:space="preserve">
-    <value>Ninguna waifu es tan barata. Debes pagar al menos {0} para obtener una waifu, aunque su valor actual sea bajo.</value>
+    <value>Ninguna waifu es tan barata. Debes pagar al menos {0} para obtener una waifu, aunque su valor actual sea menor.</value>
   </data>
   <data name="gambling_waifu_not_enough" xml:space="preserve">
     <value>¡Debes pagar {0} o más para reclamar esa waifu!</value>
@@ -1157,10 +1157,10 @@ No olvides dejar tu usuario de Discord o ID en el mensaje.
     <value>Te divorciaste recientemente. Debes esperar {0} horas y {1} minutos para divorciarte otra vez.</value>
   </data>
   <data name="gambling_nobody" xml:space="preserve">
-    <value>Nadi</value>
+    <value>Nadie</value>
   </data>
   <data name="gambling_waifu_divorced_notlike" xml:space="preserve">
-    <value>Te has divorciado de uan waifu que no te querías. Recibes {0} de regreso.</value>
+    <value>Te has divorciado de una waifu que no te quería. Recibes {0} de regreso.</value>
   </data>
   <data name="games_8ball" xml:space="preserve">
     <value>Bola 8</value>
@@ -1184,7 +1184,7 @@ No olvides dejar tu usuario de Discord o ID en el mensaje.
     <value>Inicia el juego. Crea una oración con el siguiente acrónimo: {0}.</value>
   </data>
   <data name="games_acro_started_footer" xml:space="preserve">
-    <value>Tienes {0} segundos.</value>
+    <value>Tienes {0} segundos para enviar tu oración.</value>
   </data>
   <data name="games_acro_submit" xml:space="preserve">
     <value>{0} enviaron sus oraciones. ({1} en total)</value>
@@ -1193,7 +1193,7 @@ No olvides dejar tu usuario de Discord o ID en el mensaje.
     <value>Vota escribiendo el número correspondiente.</value>
   </data>
   <data name="games_acro_vote_cast" xml:space="preserve">
-    <value>¡{0} votaron!</value>
+    <value>¡{0} votó!</value>
   </data>
   <data name="games_acro_winner" xml:space="preserve">
     <value>El ganador es {0} con {1} puntos.</value>
@@ -1229,29 +1229,29 @@ No olvides dejar tu usuario de Discord o ID en el mensaje.
     <value>Cleverbot activado en este servidor.</value>
   </data>
   <data name="games_curgen_disabled" xml:space="preserve">
-    <value>La regeneración ha sido desactivada en este canal.</value>
+    <value>La generación de moneda ha sido desactivada en este canal.</value>
   </data>
   <data name="games_curgen_enabled" xml:space="preserve">
-    <value>La regeneración ha sido activada en este canal.</value>
+    <value>La generación de moneda ha sido activada en este canal.</value>
   </data>
   <data name="games_curgen_pl" xml:space="preserve">
-    <value>{0} {1} apareció.</value>
+    <value>{0} {1} aparecieron.</value>
     <comment>plural</comment>
   </data>
   <data name="games_curgen_sn" xml:space="preserve">
     <value>¡Una {0} apareció!</value>
   </data>
   <data name="games_failed_loading_question" xml:space="preserve">
-    <value>No pue cargar la pregunta.</value>
+    <value>No pude cargar la pregunta.</value>
   </data>
   <data name="games_game_started" xml:space="preserve">
-    <value>Inicia el juego</value>
+    <value>Juego iniciado</value>
   </data>
   <data name="games_hangman_game_started" xml:space="preserve">
     <value>Juego del ahorcado iniciado</value>
   </data>
   <data name="games_hangman_running" xml:space="preserve">
-    <value>Un juego del ahorcado ya se está ejecutando.</value>
+    <value>Un juego del ahorcado ya se está ejecutando en este canal.</value>
   </data>
   <data name="games_hangman_start_errored" xml:space="preserve">
     <value>Error iniciando el ahorcado.</value>
@@ -1269,7 +1269,7 @@ No olvides dejar tu usuario de Discord o ID en el mensaje.
     <value>Sin resultados</value>
   </data>
   <data name="games_picked" xml:space="preserve">
-    <value>tomó {0}</value>
+    <value>recogió {0}</value>
     <comment>Kwoth picked 5*</comment>
   </data>
   <data name="games_planted" xml:space="preserve">
@@ -1340,22 +1340,22 @@ No olvides dejar tu usuario de Discord o ID en el mensaje.
     <value>Reproducción automática activada.</value>
   </data>
   <data name="music_defvol_set" xml:space="preserve">
-    <value>El volumen por defecto configurado en {0}%</value>
+    <value>El volumen por defecto configurado es {0}%</value>
   </data>
   <data name="music_dir_queue_complete" xml:space="preserve">
     <value>Directorio completo</value>
   </data>
   <data name="music_fairplay" xml:space="preserve">
-    <value>Juego sucio</value>
+    <value>Juego limpio</value>
   </data>
   <data name="music_finished_song" xml:space="preserve">
     <value>Canción finalizada</value>
   </data>
   <data name="music_fp_disabled" xml:space="preserve">
-    <value>Juego sucio desactivado.</value>
+    <value>Juego limpio desactivado.</value>
   </data>
   <data name="music_fp_enabled" xml:space="preserve">
-    <value>Juego sucio activado.</value>
+    <value>Juego limpio activado.</value>
   </data>
   <data name="music_from_position" xml:space="preserve">
     <value>De la posición</value>
@@ -1376,7 +1376,7 @@ No olvides dejar tu usuario de Discord o ID en el mensaje.
     <value>Tamaño máximo de la cola configurada en ilimitado.</value>
   </data>
   <data name="music_max_queue_x" xml:space="preserve">
-    <value>Tamaño máximo de la cola configurado en {0} pista(s).</value>
+    <value>Tamaño máximo de la cola configurado en {0} canción(es).</value>
   </data>
   <data name="music_must_be_in_voice" xml:space="preserve">
     <value>Tienes que estar en un canal de voz.</value>
@@ -1436,10 +1436,10 @@ No olvides dejar tu usuario de Discord o ID en el mensaje.
     <value>Se eliminó la cola de música.</value>
   </data>
   <data name="music_queue_full" xml:space="preserve">
-    <value>La cola está llena con {0}.</value>
+    <value>La cola está llena con {0}/{0}.</value>
   </data>
   <data name="music_removed_song" xml:space="preserve">
-    <value>Canción eliminada:</value>
+    <value>Canción eliminada</value>
     <comment>context: &quot;removed song #5&quot;</comment>
   </data>
   <data name="music_repeating_cur_song" xml:space="preserve">
@@ -1449,10 +1449,10 @@ No olvides dejar tu usuario de Discord o ID en el mensaje.
     <value>Repitiendo lista de reproducción</value>
   </data>
   <data name="music_repeating_track" xml:space="preserve">
-    <value>Repitiendo pista</value>
+    <value>Repitiendo canción</value>
   </data>
   <data name="music_repeating_track_stopped" xml:space="preserve">
-    <value>Repetición de la pista actual detenida.</value>
+    <value>Repetición de la canción actual detenida.</value>
   </data>
   <data name="music_resumed" xml:space="preserve">
     <value>Reproducción resumida</value>
@@ -1518,13 +1518,13 @@ No olvides dejar tu usuario de Discord o ID en el mensaje.
     <value>Activado el uso de todos los módulos para el usuario {0}.</value>
   </data>
   <data name="permissions_blacklisted" xml:space="preserve">
-    <value>Enviado a la lista negra a: {0} con la ID: {1}</value>
+    <value>Enviado a la lista negra a: {0} con el ID: {1}</value>
   </data>
   <data name="permissions_cmdcd_add" xml:space="preserve">
     <value>El comando {0} ahora tiene {1} de enfriamiento.</value>
   </data>
   <data name="permissions_cmdcd_cleared" xml:space="preserve">
-    <value>El comando {0} ya no se está enfriando y todos los tiempos de enfriamiento han sido reiniciados.</value>
+    <value>El comando {0} ya no tiene enfriamiento y todos los tiempos de enfriamiento han sido reiniciados.</value>
   </data>
   <data name="permissions_cmdcd_none" xml:space="preserve">
     <value>No se ha configurado tiempo de enfriamiento.</value>
@@ -1542,7 +1542,7 @@ No olvides dejar tu usuario de Discord o ID en el mensaje.
     <value>Prohibido</value>
   </data>
   <data name="permissions_filter_word_add" xml:space="preserve">
-    <value>Se ha añadido la palabra {0} a la lista de groserías.</value>
+    <value>Se ha añadido la palabra {0} a la lista de palabras filtradas.</value>
   </data>
   <data name="permissions_filter_word_list" xml:space="preserve">
     <value>Lista de palabras filtradas</value>
@@ -1614,7 +1614,7 @@ No olvides dejar tu usuario de Discord o ID en el mensaje.
     <value>Activado el uso de {0} {1} en este servidor.</value>
   </data>
   <data name="permissions_unblacklisted" xml:space="preserve">
-    <value>Removido de la lista negra a: {0} con la ID: {1}</value>
+    <value>Removido de la lista negra a: {0} con el ID: {1}</value>
   </data>
   <data name="permissions_uneditable" xml:space="preserve">
     <value>ineditable</value>
@@ -1632,7 +1632,7 @@ No olvides dejar tu usuario de Discord o ID en el mensaje.
     <value>Desde ahora mostraré las advertencias de permisos.</value>
   </data>
   <data name="permissions_word_filter_channel_off" xml:space="preserve">
-    <value>Filtro de groserías activado en este canal.</value>
+    <value>Filtro de groserías desactivado en este canal.</value>
   </data>
   <data name="permissions_word_filter_channel_on" xml:space="preserve">
     <value>Filtro de groserías activado en este canal.</value>
@@ -1692,7 +1692,7 @@ No olvides dejar tu usuario de Discord o ID en el mensaje.
     <value>Victorias en competitivo</value>
   </data>
   <data name="searches_completed" xml:space="preserve">
-    <value>Completada</value>
+    <value>Completadas</value>
   </data>
   <data name="searches_condition" xml:space="preserve">
     <value>Condición</value>
@@ -1707,7 +1707,7 @@ No olvides dejar tu usuario de Discord o ID en el mensaje.
     <value>Defininir:</value>
   </data>
   <data name="searches_dropped" xml:space="preserve">
-    <value>Eliminadas</value>
+    <value>Dejadas de ver</value>
   </data>
   <data name="searches_episodes" xml:space="preserve">
     <value>Episodios</value>
@@ -1771,7 +1771,7 @@ No olvides dejar tu usuario de Discord o ID en el mensaje.
     <value>Perfil de MAL de {0}</value>
   </data>
   <data name="searches_mashape_api_missing" xml:space="preserve">
-    <value>El dueño del Bot no especificó una clave MashapeApi. No puedes usar esto.</value>
+    <value>El dueño del Bot no especificó una MashapeApiKey. No puedes usar esto.</value>
   </data>
   <data name="searches_min_max" xml:space="preserve">
     <value>Mín/Máx</value>
@@ -1786,7 +1786,7 @@ No olvides dejar tu usuario de Discord o ID en el mensaje.
     <value>En espera</value>
   </data>
   <data name="searches_original_url" xml:space="preserve">
-    <value>Original</value>
+    <value>Enlace original</value>
   </data>
   <data name="searches_osu_api_key" xml:space="preserve">
     <value>Se requiere una clave de API de osu!</value>
@@ -1801,7 +1801,7 @@ No olvides dejar tu usuario de Discord o ID en el mensaje.
     <value>¡Usuario no encontrado! Por favor revisa la región y BattleTag antes de intentar de nuevo.</value>
   </data>
   <data name="searches_plan_to_watch" xml:space="preserve">
-    <value>Planeadas</value>
+    <value>Planeadas ver</value>
   </data>
   <data name="searches_platform" xml:space="preserve">
     <value>Plataforma</value>
@@ -1837,7 +1837,7 @@ No olvides dejar tu usuario de Discord o ID en el mensaje.
     <value>No pude acortar ese enlace.</value>
   </data>
   <data name="searches_short_url" xml:space="preserve">
-    <value>Acortada</value>
+    <value>Enlace acortado</value>
   </data>
   <data name="searches_something_went_wrong" xml:space="preserve">
     <value>Algo salió mal.</value>
@@ -1849,7 +1849,7 @@ No olvides dejar tu usuario de Discord o ID en el mensaje.
     <value>Estado</value>
   </data>
   <data name="searches_store_url" xml:space="preserve">
-    <value>Depósito de enlace</value>
+    <value>Guardar enlace</value>
   </data>
   <data name="searches_streamer_offline" xml:space="preserve">
     <value>El usuario {0} está desconectado.</value>
@@ -1921,7 +1921,7 @@ No olvides dejar tu usuario de Discord o ID en el mensaje.
     <value>Velocidad del viento</value>
   </data>
   <data name="searches_x_most_banned_champs" xml:space="preserve">
-    <value>Los {0} campeones bloqueados</value>
+    <value>Los {0} campeones más bloqueados</value>
   </data>
   <data name="searches_yodify_error" xml:space="preserve">
     <value>No pude yodificar tu oración</value>
@@ -2004,7 +2004,7 @@ No olvides dejar tu usuario de Discord o ID en el mensaje.
     <value>No tienes permitido usar este comando en roles con muchos usuarios para prevenir abuso.</value>
   </data>
   <data name="utility_invalid_value" xml:space="preserve">
-    <value>Valor {0} no válido.</value>
+    <value>Valor en {0} no válido.</value>
     <comment>Invalid months value/ Invalid hours value</comment>
   </data>
   <data name="utility_joined_discord" xml:space="preserve">
@@ -2016,7 +2016,7 @@ No olvides dejar tu usuario de Discord o ID en el mensaje.
   <data name="utility_listservers" xml:space="preserve">
     <value>ID: {0}
 Miembros: {1}
-ID del admin: {2}</value>
+IDs de dueños: {2}</value>
   </data>
   <data name="utility_listservers_none" xml:space="preserve">
     <value>No encontré servidores en esa página.</value>
@@ -2058,13 +2058,13 @@ ID del admin: {2}</value>
     <value>No hay tema configurado.</value>
   </data>
   <data name="utility_owner" xml:space="preserve">
-    <value>Administrador</value>
+    <value>Dueño</value>
   </data>
   <data name="utility_owner_ids" xml:space="preserve">
-    <value>ID del administrador</value>
+    <value>ID del dueño</value>
   </data>
   <data name="utility_presence" xml:space="preserve">
-    <value>En</value>
+    <value>Presencia</value>
   </data>
   <data name="utility_presence_txt" xml:space="preserve">
     <value>{0} servidores
@@ -2218,10 +2218,10 @@ ID del admin: {2}</value>
     <value>{0} votos totales.</value>
   </data>
   <data name="games_pick_pl" xml:space="preserve">
-    <value>Atrápala escribiendo `{0}pick`</value>
+    <value>Tómalas escribiendo `{0}pick`</value>
   </data>
   <data name="games_pick_sn" xml:space="preserve">
-    <value>Atrápala escribiendo `{0}pick`</value>
+    <value>Tómala escribiendo `{0}pick`</value>
   </data>
   <data name="gambling_no_users_found" xml:space="preserve">
     <value>No encontré ese usuario.</value>
@@ -2246,6 +2246,36 @@ ID del admin: {2}</value>
   </data>
   <data name="administration_vc_role_list" xml:space="preserve">
     <value>Roles para el canal de voz</value>
+  </data>
+  <data name="customreactions_crad_disabled" xml:space="preserve">
+    <value>El mensaje de ejecución del comando personalizado con la ID {0} no será eliminado automáticamente.</value>
+  </data>
+  <data name="customreactions_crad_enabled" xml:space="preserve">
+    <value>El mensaje de ejecución del comando personalizado con la ID {0} será eliminado automáticamente.</value>
+  </data>
+  <data name="customreactions_crdm_disabled" xml:space="preserve">
+    <value>Respuesta del mensaje para el comando personalizado con la ID {0} no será enviada como MP.</value>
+  </data>
+  <data name="customreactions_crdm_enabled" xml:space="preserve">
+    <value>Respuesta del mensaje para el comando personalizado con la ID {0} será enviada como MP.</value>
+  </data>
+  <data name="utility_aliases_none" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_alias_added" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_alias_list" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_alias_removed" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_alias_remove_fail" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="searches_compet_playtime" xml:space="preserve">
+    <value></value>
   </data>
 
 </root>
