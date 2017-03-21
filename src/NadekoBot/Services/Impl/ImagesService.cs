@@ -21,7 +21,7 @@ namespace NadekoBot.Services.Impl
         private const string _currencyImagesPath = _basePath + "currency";
         private const string _diceImagesPath = _basePath + "dice";
 
-        private const string _slotBackgroundPath = _basePath + "slots/background.png";
+        private const string _slotBackgroundPath = _basePath + "slots/background2.png";
         private const string _slotNumbersPath = _basePath + "slots/numbers/";
         private const string _slotEmojisPath = _basePath + "slots/emojis/";
 
