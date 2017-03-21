@@ -1,6 +1,5 @@
 using Discord;
 using Discord.Commands;
-using ImageSharp;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
@@ -10,7 +9,6 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using ImageSharp.Formats;
 using Image = ImageSharp.Image;
 
 namespace NadekoBot.Modules.Gambling

@@ -106,19 +106,13 @@ namespace NadekoBot.Modules.Permissions
             switch (perm.PrimaryTarget)
             {
                 case PrimaryPermissionType.User:
-                    if (guild == null)
-                        com += $"<@{perm.PrimaryTargetId}>";
-                    else
-                        com += guild.GetUser(perm.PrimaryTargetId).ToString() ?? $"<@{perm.PrimaryTargetId}>";
+                    com += guild?.GetUser(perm.PrimaryTargetId).ToString() ?? $"<@{perm.PrimaryTargetId}>";
                     break;
                 case PrimaryPermissionType.Channel:
                     com += $"<#{perm.PrimaryTargetId}>";
                     break;
                 case PrimaryPermissionType.Role:
-                    if(guild == null)
-                        com += $"<@&{perm.PrimaryTargetId}>";
-                    else
-                        com += guild.GetRole(perm.PrimaryTargetId).ToString() ?? $"<@{perm.PrimaryTargetId}>";
+                    com += guild?.GetRole(perm.PrimaryTargetId)?.ToString() ?? $"<@&{perm.PrimaryTargetId}>";
                     break;
                 case PrimaryPermissionType.Server:
                     break;
