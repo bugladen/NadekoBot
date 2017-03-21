@@ -2353,5 +2353,35 @@ Fuzzy</comment>
   <data name="administration_vc_role_list" xml:space="preserve">
     <value></value>
   </data>
+  <data name="customreactions_crad_disabled" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="customreactions_crad_enabled" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="customreactions_crdm_disabled" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="customreactions_crdm_enabled" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_aliases_none" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_alias_added" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_alias_list" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_alias_removed" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_alias_remove_fail" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="searches_compet_playtime" xml:space="preserve">
+    <value></value>
+  </data>
 
 </root>
