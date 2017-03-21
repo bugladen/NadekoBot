@@ -925,7 +925,8 @@ Fuzzy</comment>
 </value>
   </data>
   <data name="administration_undeafen" xml:space="preserve">
-    <value></value>
+    <value>逆の聴覚障害を成功させる。
+</value>
   </data>
   <data name="administration_unmuted_sn" xml:space="preserve">
     <value>ミュート解除</value>
@@ -1284,10 +1285,10 @@ Paypal &lt;{1}&gt;
     <value>{0} は {1} として参加しました。</value>
   </data>
   <data name="gambling_animal_race_join_bet" xml:space="preserve">
-    <value></value>
+    <value>{0}は{1}と{2}に参加しました！</value>
   </data>
   <data name="gambling_animal_race_join_instr" xml:space="preserve">
-    <value></value>
+    <value>レースに参加するには{0} jrと入力してください。</value>
   </data>
   <data name="gambling_animal_race_starting" xml:space="preserve">
     <value>部屋がいっぱいになるか、20秒後にスタートします。</value>
@@ -1296,10 +1297,12 @@ Paypal &lt;{1}&gt;
     <value> {0} 人の参加者でスタートします。</value>
   </data>
   <data name="gambling_animal_race_won" xml:space="preserve">
-    <value></value>
+    <value>{0}を{1}としてレースを獲得しました！
+</value>
   </data>
   <data name="gambling_animal_race_won_money" xml:space="preserve">
-    <value></value>
+    <value>{0}を{1}に、レースを{2}獲得しました！
+</value>
   </data>
   <data name="gambling_dice_invalid_number" xml:space="preserve">
     <value>数が正しくありません。一度に {0}-{1} のダイスを触れます。</value>
@@ -1323,53 +1326,66 @@ Paypal &lt;{1}&gt;
     <value>最初の数よりも２番めの数が大きくなければなりません。</value>
   </data>
   <data name="gambling_changes_of_heart" xml:space="preserve">
-    <value></value>
+    <value>「心」の変化</value>
   </data>
   <data name="gambling_claimed_by" xml:space="preserve">
-    <value></value>
+    <value>が主張する
+</value>
   </data>
   <data name="gambling_divorces" xml:space="preserve">
-    <value></value>
+    <value>離婚
+</value>
   </data>
   <data name="gambling_likes" xml:space="preserve">
-    <value></value>
+    <value>好き</value>
   </data>
   <data name="gambling_price" xml:space="preserve">
-    <value></value>
+    <value>価格</value>
   </data>
   <data name="gambling_waifus_none" xml:space="preserve">
-    <value></value>
+    <value>waifusはまだ主張されていません。</value>
   </data>
   <data name="gambling_waifus_top_waifus" xml:space="preserve">
-    <value></value>
+    <value>トップワイフス
+</value>
   </data>
   <data name="gambling_waifu_affinity_already" xml:space="preserve">
-    <value></value>
+    <value>あなたの親和性はすでにそのwaifuに設定されているか、親和性を持たずに削除しようとしています。
+</value>
   </data>
   <data name="gambling_waifu_affinity_changed" xml:space="preserve">
-    <value></value>
+    <value>{0}から{1}にアフィニティを変更しました。
+
+*これは道徳的に疑問です。*🤔</value>
     <comment>Make sure to get the formatting right, and leave the thinking emoji</comment>
   </data>
   <data name="gambling_waifu_affinity_cooldown" xml:space="preserve">
-    <value></value>
+    <value>アフィニティを再度変更するには、{0}時間と{1}分を待つ必要があります。
+</value>
   </data>
   <data name="gambling_waifu_affinity_reset" xml:space="preserve">
-    <value></value>
+    <value>親和性がリセットされます。あなたはもはや好きな人がいません。
+</value>
   </data>
   <data name="gambling_waifu_affinity_set" xml:space="preserve">
-    <value></value>
+    <value>{0}のwaifuになりたいAww &lt;3</value>
   </data>
   <data name="gambling_waifu_claimed" xml:space="preserve">
-    <value></value>
+    <value>{1}のウェイフとして{0}が主張されています！
+</value>
   </data>
   <data name="gambling_waifu_divorced_like" xml:space="preserve">
-    <value></value>
+    <value>あなたが好きな人と離婚しました。あなたは無情な怪物です。
+{0}は補償として{1}を受け取りました。</value>
   </data>
   <data name="gambling_waifu_egomaniac" xml:space="preserve">
-    <value></value>
+    <value>あなたは自分自身に親和性を設定することはできません。
+</value>
   </data>
   <data name="gambling_waifu_fulfilled" xml:space="preserve">
-    <value></value>
+    <value>
+🎉彼らの愛が成就した！ 🎉
+{0}の新しい値は{1}です！</value>
   </data>
   <data name="gambling_waifu_isnt_cheap" xml:space="preserve">
     <value></value>
@@ -2479,6 +2495,36 @@ Paypal &lt;{1}&gt;
     <value></value>
   </data>
   <data name="administration_vc_role_list" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="customreactions_crad_disabled" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="customreactions_crad_enabled" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="customreactions_crdm_disabled" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="customreactions_crdm_enabled" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_aliases_none" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_alias_added" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_alias_list" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_alias_removed" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_alias_remove_fail" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="searches_compet_playtime" xml:space="preserve">
     <value></value>
   </data>
 
