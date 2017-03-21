@@ -20,16 +20,16 @@ namespace NadekoBot.Modules.Administration
             {
                 {"zh-TW", "Chinese (Traditional), China" },
                 {"zh-CN", "Chinese (Simplified), China"},
-                //{"nl-NL", "Dutch, Netherlands"},
+                {"nl-NL", "Dutch, Netherlands"},
                 {"en-US", "English, United States"},
                 {"fr-FR", "French, France"},
                 {"de-DE", "German, Germany"},
                 //{"ja-JP", "Japanese, Japan"},
                 {"nb-NO", "Norwegian (bokmål), Norway"},
-                //{"pl-PL", "Polish, Poland" }
+                {"pl-PL", "Polish, Poland" },
                 {"pt-BR", "Portuguese, Brazil"},
                 {"ru-RU", "Russian, Russia"},
-                //{"sr-Cyrl-RS", "Serbian, Serbia - Cyrillic"}
+                {"sr-Cyrl-RS", "Serbian, Serbia - Cyrillic"},
                 {"es-ES", "Spanish, Spain"},
                 {"sv-SE", "Swedish, Sweden"},
                 {"tr-TR", "Turkish, Turkey" }
