@@ -1382,7 +1382,7 @@ Paypal &lt;{1}&gt;
     <value>播放清單大小現在沒有限制了。</value>
   </data>
   <data name="music_max_queue_x" xml:space="preserve">
-    <value>播放清單最多可以排序 {0} 首。</value>
+    <value>播放清單最多可以點播 {0} 首。</value>
   </data>
   <data name="music_must_be_in_voice" xml:space="preserve">
     <value>你必須要進入在此伺服器上的語音頻道。</value>
@@ -1470,7 +1470,7 @@ Paypal &lt;{1}&gt;
     <value>啟用重複播放清單。</value>
   </data>
   <data name="music_set_music_channel" xml:space="preserve">
-    <value>我將在此頻道輸出播放、暫停、結束和移除的歌曲。</value>
+    <value>我將在此頻道輸出播放、暫停、結束和移除歌曲的訊息。</value>
   </data>
   <data name="music_skipped_to" xml:space="preserve">
     <value>跳至 ‘{0}:{1}’</value>
@@ -2253,6 +2253,36 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="administration_vc_role_list" xml:space="preserve">
     <value>語音頻道身分組</value>
+  </data>
+  <data name="customreactions_crad_disabled" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="customreactions_crad_enabled" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="customreactions_crdm_disabled" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="customreactions_crdm_enabled" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_aliases_none" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_alias_added" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_alias_list" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_alias_removed" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_alias_remove_fail" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="searches_compet_playtime" xml:space="preserve">
+    <value></value>
   </data>
 
 </root>
