@@ -152,11 +152,9 @@
   </data>
   <data name="clashofclans_invalid_size" xml:space="preserve">
     <value>Величина рата није валидна.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_list_active_wars" xml:space="preserve">
-    <value>Листа Ратова У Току</value>
-    <comment>Fuzzy</comment>
+    <value>Листа ратова у току</value>
   </data>
   <data name="clashofclans_not_claimed" xml:space="preserve">
     <value>нема захтева</value>
@@ -169,7 +167,6 @@
   </data>
   <data name="clashofclans_no_active_wars" xml:space="preserve">
     <value>Нема ратова у току.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_size" xml:space="preserve">
     <value>Величина</value>
@@ -209,7 +206,6 @@
   </data>
   <data name="customreactions_no_found" xml:space="preserve">
     <value>Реакција по избору није нађена.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="customreactions_no_found_id" xml:space="preserve">
     <value>Није нађена реакција са тим идентификатором.</value>
@@ -471,7 +467,7 @@ Reason: {1}</value>
 Reason: {1}</value>
   </data>
   <data name="administration_kicked_user" xml:space="preserve">
-    <value>User Kicked</value>
+    <value>Кикован корисник</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_lang_list" xml:space="preserve">
@@ -583,16 +579,13 @@ Reason: {1}</value>
     <value>No shard with that ID found.</value>
   </data>
   <data name="administration_old_msg" xml:space="preserve">
-    <value>Old Message</value>
-    <comment>Fuzzy</comment>
+    <value>Стара порука</value>
   </data>
   <data name="administration_old_nick" xml:space="preserve">
-    <value>Old Nickname</value>
-    <comment>Fuzzy</comment>
+    <value>Стари надимак</value>
   </data>
   <data name="administration_old_topic" xml:space="preserve">
-    <value>Old Topic</value>
-    <comment>Fuzzy</comment>
+    <value>Стара тема</value>
   </data>
   <data name="administration_perms" xml:space="preserve">
     <value>Error. Most likely I don&apos;t have sufficient permissions.</value>
@@ -601,8 +594,7 @@ Reason: {1}</value>
     <value>Permissions for this server are reset.</value>
   </data>
   <data name="administration_prot_active" xml:space="preserve">
-    <value>Active Protections</value>
-    <comment>Fuzzy</comment>
+    <value>Активне заштите</value>
   </data>
   <data name="administration_prot_disable" xml:space="preserve">
     <value>{0} has been **disabled** on this server.</value>
@@ -614,8 +606,7 @@ Reason: {1}</value>
     <value>Error. I need ManageRoles permission</value>
   </data>
   <data name="administration_prot_none" xml:space="preserve">
-    <value>No protections enabled.</value>
-    <comment>Fuzzy</comment>
+    <value>Нема активних заштита.</value>
   </data>
   <data name="administration_raid_cnt" xml:space="preserve">
     <value>User threshold must be between {0} and {1}.</value>
@@ -774,8 +765,7 @@ Reason: {1}</value>
     __IgnoredChannels__: {2}</value>
   </data>
   <data name="administration_text_chan_created" xml:space="preserve">
-    <value>Text Channel Destroyed </value>
-    <comment>Fuzzy</comment>
+    <value>Уништен текстуелни канал</value>
   </data>
   <data name="administration_text_chan_destroyed" xml:space="preserve">
     <value>Text Channel Destroyed </value>
@@ -2304,6 +2294,36 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value></value>
   </data>
   <data name="administration_vc_role_list" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="customreactions_crad_disabled" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="customreactions_crad_enabled" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="customreactions_crdm_disabled" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="customreactions_crdm_enabled" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_aliases_none" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_alias_added" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_alias_list" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_alias_removed" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_alias_remove_fail" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="searches_compet_playtime" xml:space="preserve">
     <value></value>
   </data>
 
