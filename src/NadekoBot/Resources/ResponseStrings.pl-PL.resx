@@ -432,10 +432,10 @@ Powód: {1}</value>
     <value>Nowa prywatna wiadomość powitalna została ustawiona.</value>
   </data>
   <data name="administration_greetdm_off" xml:space="preserve">
-    <value></value>
+    <value>Prywatne ogłoszenie powitalne zostało włączone</value>
   </data>
   <data name="administration_greetdm_on" xml:space="preserve">
-    <value></value>
+    <value>Prywatne ogłoszenie powitalne zostało wyłączone</value>
   </data>
   <data name="administration_greetmsg_cur" xml:space="preserve">
     <value>Aktualna wiadomość powitalna: {0}</value>
@@ -504,10 +504,10 @@ Powód: {1}</value>
     <value></value>
   </data>
   <data name="administration_log_all" xml:space="preserve">
-    <value></value>
+    <value>Logowanie wszystkich wydarzeń na tym kanale.</value>
   </data>
   <data name="administration_log_disabled" xml:space="preserve">
-    <value></value>
+    <value>Logowanie wyłączone.</value>
   </data>
   <data name="administration_log_events" xml:space="preserve">
     <value></value>
@@ -516,7 +516,7 @@ Powód: {1}</value>
     <value></value>
   </data>
   <data name="administration_log_not_ignore" xml:space="preserve">
-    <value></value>
+    <value>Logowanie nie będzie ignorowało {0}</value>
   </data>
   <data name="administration_log_stop" xml:space="preserve">
     <value></value>
@@ -551,7 +551,7 @@ Powód: {1}</value>
     <value>Nie mam wystarczających uprawnień aby to zrobić.</value>
   </data>
   <data name="administration_mute_role_set" xml:space="preserve">
-    <value></value>
+    <value>Nowa wyciszająca rola ustawiona.</value>
   </data>
   <data name="administration_need_admin" xml:space="preserve">
     <value>Potrzebuję uprawnień **administratora* żeby to zrobić.</value>
@@ -597,7 +597,7 @@ Powód: {1}</value>
     <value>Uprawnienia tego serwera zostały zresetowane.</value>
   </data>
   <data name="administration_prot_active" xml:space="preserve">
-    <value></value>
+    <value>Aktywne zabezpieczenia</value>
   </data>
   <data name="administration_prot_disable" xml:space="preserve">
     <value>{0} został **wyłączony** na tym serwerze.</value>
@@ -609,7 +609,7 @@ Powód: {1}</value>
     <value>Wystąpił błąd. Potrzebuję uprawnień zarządzania rolami</value>
   </data>
   <data name="administration_prot_none" xml:space="preserve">
-    <value></value>
+    <value>Żadne zabezpieczenie nie jest aktywne.</value>
   </data>
   <data name="administration_raid_cnt" xml:space="preserve">
     <value></value>
@@ -773,7 +773,7 @@ Powód: {1}</value>
     <value>Kanał tekstowy został usunięty.</value>
   </data>
   <data name="administration_undeafen" xml:space="preserve">
-    <value></value>
+    <value>wyciszenie wyłączone</value>
   </data>
   <data name="administration_unmuted_sn" xml:space="preserve">
     <value>Odciszony</value>
@@ -876,7 +876,7 @@ Powód: {1}</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_migration_done" xml:space="preserve">
-    <value></value>
+    <value>Migracja zakończona!</value>
   </data>
   <data name="adminsitration_migration_error" xml:space="preserve">
     <value></value>
@@ -908,7 +908,7 @@ Powód: {1}</value>
     <value>Zgadłeś! Wygrałeś {0}</value>
   </data>
   <data name="gambling_flip_invalid" xml:space="preserve">
-    <value></value>
+    <value>Użyty numer jest niepoprawny. Możesz rzucić 1 do {0} monet</value>
   </data>
   <data name="gambling_flowerreaction_desc" xml:space="preserve">
     <value>Dodaj reakcję {0} do tej wiadomości, aby dostać {1}</value>
@@ -962,16 +962,16 @@ Powód: {1}</value>
     <value>ŁAAAAAAAAAAAAŁ!!! Gratulacje!!! x{0}</value>
   </data>
   <data name="gambling_slot_single" xml:space="preserve">
-    <value></value>
+    <value>Pojedyńczy {0}, x{1}</value>
   </data>
   <data name="gambling_slot_three" xml:space="preserve">
-    <value></value>
+    <value>Wow! Szczęściarz! Trójka! x{0}</value>
   </data>
   <data name="gambling_slot_two" xml:space="preserve">
-    <value></value>
+    <value>Nieźle! Dwójka {0} - stawka x{1}</value>
   </data>
   <data name="gambling_slot_won" xml:space="preserve">
-    <value></value>
+    <value>Wygrana</value>
   </data>
   <data name="gambling_sneakygamestatus_desc" xml:space="preserve">
     <value>Użytkownicy muszą wpisać tajny kod aby dostać {0}.
@@ -994,13 +994,13 @@ Trwa {0} sekund. Nie nikomu. Ciiii.</value>
     <value>nie był w stanie wziąć {0} od {1}, ponieważ użytkownik nie ma tylu {2}!</value>
   </data>
   <data name="help_back_to_toc" xml:space="preserve">
-    <value></value>
+    <value>Powrót do ToC</value>
   </data>
   <data name="help_bot_owner_only" xml:space="preserve">
     <value>Tylko właściciel bota</value>
   </data>
   <data name="help_channel_permission" xml:space="preserve">
-    <value></value>
+    <value>Wymagane {0} uprawnienie kanału.</value>
   </data>
   <data name="help_cmdlist_donate" xml:space="preserve">
     <value>Możesz wspierać ten projekt na patreonie: &lt;{0}&gt; albo poprzez paypala: &lt;{1}&gt;</value>
@@ -1050,7 +1050,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value></value>
   </data>
   <data name="help_table_of_contents" xml:space="preserve">
-    <value></value>
+    <value>Spis treści</value>
   </data>
   <data name="help_usage" xml:space="preserve">
     <value>Użycie</value>
@@ -1093,7 +1093,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value>{1} czyli {0} wygrał wyścig i {2}!</value>
   </data>
   <data name="gambling_dice_invalid_number" xml:space="preserve">
-    <value></value>
+    <value>Użyty numer jest nie poprawny. Możesz rzucić {0}-{1} kośćmi na raz</value>
   </data>
   <data name="gambling_dice_rolled" xml:space="preserve">
     <value>wyrzucono {0}</value>
@@ -1302,22 +1302,22 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <comment>Kwoth planted 5*</comment>
   </data>
   <data name="games_trivia_already_running" xml:space="preserve">
-    <value></value>
+    <value>Trivia jest aktywna na tym serwerze</value>
   </data>
   <data name="games_trivia_game" xml:space="preserve">
-    <value></value>
+    <value>Trivia</value>
   </data>
   <data name="games_trivia_guess" xml:space="preserve">
     <value>{0} zgadł! Odpowiedź to: {1}</value>
   </data>
   <data name="games_trivia_none" xml:space="preserve">
-    <value></value>
+    <value>Trivia nie jest aktywna na tym serwerze</value>
   </data>
   <data name="games_trivia_points" xml:space="preserve">
     <value>{0} posiada {1} punktów</value>
   </data>
   <data name="games_trivia_stopping" xml:space="preserve">
-    <value></value>
+    <value>Koniec po tym pytaniu</value>
   </data>
   <data name="games_trivia_times_up" xml:space="preserve">
     <value>Koniec czasu! Prawidłowa odpowiedź to {0}</value>
@@ -1431,7 +1431,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value></value>
   </data>
   <data name="music_playlists_page" xml:space="preserve">
-    <value></value>
+    <value>Strona {0} zapisanych playlist</value>
   </data>
   <data name="music_playlist_deleted" xml:space="preserve">
     <value>Playlista usunięta.</value>
@@ -1443,7 +1443,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value>Playlista z takim ID nie istnieje.</value>
   </data>
   <data name="music_playlist_queue_complete" xml:space="preserve">
-    <value></value>
+    <value>Kolejka do playlisty zakończona</value>
   </data>
   <data name="music_playlist_saved" xml:space="preserve">
     <value>Playlista zapisana</value>
@@ -1835,7 +1835,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value></value>
   </data>
   <data name="searches_pokemon_none" xml:space="preserve">
-    <value></value>
+    <value>Pokemon nieznaleziony</value>
   </data>
   <data name="searches_profile_link" xml:space="preserve">
     <value>Link profilowy:</value>
@@ -1949,7 +1949,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value></value>
   </data>
   <data name="searches_yodify_error" xml:space="preserve">
-    <value></value>
+    <value>Problem z napisaniem Twojego zdania w stylu Yody</value>
   </data>
   <data name="utiliity_joined" xml:space="preserve">
     <value>Dołączył</value>
@@ -2271,6 +2271,36 @@ ID właściciela: {2}</value>
   </data>
   <data name="administration_vc_role_list" xml:space="preserve">
     <value>Uprawnienia kanału głosowego</value>
+  </data>
+  <data name="customreactions_crad_disabled" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="customreactions_crad_enabled" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="customreactions_crdm_disabled" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="customreactions_crdm_enabled" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_aliases_none" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_alias_added" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_alias_list" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_alias_removed" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_alias_remove_fail" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="searches_compet_playtime" xml:space="preserve">
+    <value></value>
   </data>
 
 </root>
