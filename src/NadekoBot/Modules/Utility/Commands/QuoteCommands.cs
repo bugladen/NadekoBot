@@ -97,7 +97,7 @@ namespace NadekoBot.Modules.Utility
                 if (keywordquote == null)
                     return;
 
-                await Context.Channel.SendMessageAsync("💬 " + keyword.ToLowerInvariant() + ":  " +
+                await Context.Channel.SendMessageAsync($"`#{keywordquote.Id}` 💬 " + keyword.ToLowerInvariant() + ":  " +
                                                        keywordquote.Text.SanitizeMentions());
             }
 
