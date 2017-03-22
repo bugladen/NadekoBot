@@ -3001,7 +3001,7 @@
     <value>claimwaifu claim</value>
   </data>
   <data name="waifuclaim_desc" xml:space="preserve">
-    <value>Claim a waifu for yourself by spending currency.  You must spend atleast 10% more than her current value unless she set `{0}affinity` towards you.</value>
+    <value>Claim a waifu for yourself by spending currency.  You must spend at least 10% more than her current value unless she set `{0}affinity` towards you.</value>
   </data>
   <data name="waifuclaim_usage" xml:space="preserve">
     <value>`{0}claim 50 @Himesama`</value>

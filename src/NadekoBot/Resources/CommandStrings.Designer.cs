@@ -9006,7 +9006,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Claim a waifu for yourself by spending currency.  You must spend atleast 10% more than her current value unless she set `{0}affinity` towards you..
+        ///    Looks up a localized string similar to Claim a waifu for yourself by spending currency.  You must spend at least 10% more than her current value unless she set `{0}affinity` towards you..
         /// </summary>
         public static string waifuclaim_desc {
             get {
