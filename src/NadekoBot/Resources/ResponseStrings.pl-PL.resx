@@ -1006,7 +1006,7 @@ Trwa {0} sekund. Nie nikomu. Ciiii.</value>
     <value>Możesz wspierać ten projekt na patreonie: &lt;{0}&gt; albo poprzez paypala: &lt;{1}&gt;</value>
   </data>
   <data name="help_cmd_and_alias" xml:space="preserve">
-    <value></value>
+    <value>Komendy i aliasy</value>
   </data>
   <data name="help_commandlist_regen" xml:space="preserve">
     <value></value>
@@ -1194,6 +1194,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
   </data>
   <data name="games_acro_ended_no_sub" xml:space="preserve">
     <value></value>
+    <comment>Jakies pomysły jak przetlumaczyć Submission by miało sens?</comment>
   </data>
   <data name="games_acro_no_votes_cast" xml:space="preserve">
     <value>Brak głosów. Gra zakończyła się bez zwycięzcy.</value>
@@ -1585,10 +1586,10 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value></value>
   </data>
   <data name="permissions_invite_filter_server_off" xml:space="preserve">
-    <value></value>
+    <value>Filtrowanie zaproszeń na tym serwerze wyłączone.</value>
   </data>
   <data name="permissions_invite_filter_server_on" xml:space="preserve">
-    <value></value>
+    <value>Filtrowanie zaproszeń na tym serwerze włączone.</value>
   </data>
   <data name="permissions_moved_permission" xml:space="preserve">
     <value>Przeniesiono uprawnienia {0} z  #{1} to #{2}</value>
@@ -1732,7 +1733,8 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value>Zdefiniuj:</value>
   </data>
   <data name="searches_dropped" xml:space="preserve">
-    <value></value>
+    <value>Porzucone</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_episodes" xml:space="preserve">
     <value>Odcinki</value>
@@ -1783,7 +1785,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value>Poziom</value>
   </data>
   <data name="searches_list_of_place_tags" xml:space="preserve">
-    <value></value>
+    <value>Lista {0}place tagów</value>
     <comment>Don&apos;t translate {0}place</comment>
   </data>
   <data name="searches_location" xml:space="preserve">
@@ -1877,22 +1879,23 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value></value>
   </data>
   <data name="searches_streamer_offline" xml:space="preserve">
-    <value></value>
+    <value>Streamer {0} jest niedostępny.</value>
   </data>
   <data name="searches_streamer_online" xml:space="preserve">
-    <value></value>
+    <value>Streamer {0} jest online z {1} widzami.</value>
   </data>
   <data name="searches_streams_following" xml:space="preserve">
-    <value></value>
+    <value>Śledzisz {0} streamów na tym serwerze.</value>
   </data>
   <data name="searches_streams_none" xml:space="preserve">
-    <value></value>
+    <value>Nie śledzisz żadnych streamów na tym serwerze.</value>
+    <comment>Jak lepiej by brzmiało; streamy/strumyki</comment>
   </data>
   <data name="searches_stream_no" xml:space="preserve">
-    <value></value>
+    <value>Nie ma takiego streamu.</value>
   </data>
   <data name="searches_stream_not_exist" xml:space="preserve">
-    <value></value>
+    <value>Stream prawdopodobnie nie istnieje.</value>
   </data>
   <data name="searches_stream_removed" xml:space="preserve">
     <value></value>
@@ -1919,7 +1922,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value>Tłumaczenie:</value>
   </data>
   <data name="searches_types" xml:space="preserve">
-    <value></value>
+    <value>Typy</value>
   </data>
   <data name="searches_ud_error" xml:space="preserve">
     <value></value>
@@ -2237,7 +2240,7 @@ ID właściciela: {2}</value>
     <value></value>
   </data>
   <data name="games_thanks_for_voting" xml:space="preserve">
-    <value></value>
+    <value>Dziękuję za oddany głos, {0}</value>
   </data>
   <data name="games_x_votes_cast" xml:space="preserve">
     <value></value>
