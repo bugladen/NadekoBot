@@ -476,8 +476,7 @@ Grund: {1}</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_lang_list" xml:space="preserve">
-    <value>Liste der Sprachen
-{0}</value>
+    <value>Liste der Sprachen</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_lang_set" xml:space="preserve">
@@ -1281,12 +1280,12 @@ Vergessen Sie bitte nicht, Ihren Discord-Namen oder Ihre ID in der Nachricht zu 
     <value>Währungsgeneration in diesem Kanal aktiviert.</value>
   </data>
   <data name="games_curgen_pl" xml:space="preserve">
-    <value>{0} zufällige {1} sind erschienen! Sammlen Sie sie indem Sie `{2}pick` schreiben</value>
+    <value>{0} zufällige {1} sind erschienen!</value>
     <comment>plural
 Fuzzy</comment>
   </data>
   <data name="games_curgen_sn" xml:space="preserve">
-    <value>Eine zufällige {0} ist erschienen! Sammlen Sie sie indem Sie `{1}pick` schreiben</value>
+    <value>Eine zufällige {0} ist erschienen!</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="games_failed_loading_question" xml:space="preserve">
@@ -2371,22 +2370,22 @@ ID des Besitzers: {2}</value>
     <value>Reaktionsnachricht für die benutzerdefinierte Reaktion mit der ID {0} wird nicht als DN gesendet.</value>
   </data>
   <data name="utility_aliases_none" xml:space="preserve">
-    <value></value>
+    <value>Keinen Alias gefunden</value>
   </data>
   <data name="utility_alias_added" xml:space="preserve">
-    <value></value>
+    <value>{0} ist nun ein Alias für {1}</value>
   </data>
   <data name="utility_alias_list" xml:space="preserve">
-    <value></value>
+    <value>Liste der Aliasse</value>
   </data>
   <data name="utility_alias_removed" xml:space="preserve">
-    <value></value>
+    <value>Der Auslöser {0} hat keinen Alias mehr</value>
   </data>
   <data name="utility_alias_remove_fail" xml:space="preserve">
-    <value></value>
+    <value>Der Auslöser {0} hatte keinen Alias</value>
   </data>
   <data name="searches_compet_playtime" xml:space="preserve">
-    <value></value>
+    <value>Kompetetive Spielzeit</value>
   </data>
 
 </root>

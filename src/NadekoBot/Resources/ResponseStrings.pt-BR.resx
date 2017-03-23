@@ -2369,22 +2369,22 @@ OwnerID: {2}</value>
     <value>A resposta para a reação personalizada com o id {0} será enviada como mensagem direta.</value>
   </data>
   <data name="utility_aliases_none" xml:space="preserve">
-    <value></value>
+    <value>Atalho não encontrado</value>
   </data>
   <data name="utility_alias_added" xml:space="preserve">
-    <value></value>
+    <value>Digitar {0} agora será um atalho de {1}.</value>
   </data>
   <data name="utility_alias_list" xml:space="preserve">
-    <value></value>
+    <value>Lista de atalhos</value>
   </data>
   <data name="utility_alias_removed" xml:space="preserve">
-    <value></value>
+    <value>Comando {0} não possui mais um atalho.</value>
   </data>
   <data name="utility_alias_remove_fail" xml:space="preserve">
-    <value></value>
+    <value>Comando {0} não possui um atalho.</value>
   </data>
   <data name="searches_compet_playtime" xml:space="preserve">
-    <value></value>
+    <value>Tempo de jogo competitivo</value>
   </data>
 
 </root>

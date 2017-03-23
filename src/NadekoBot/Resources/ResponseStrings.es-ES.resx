@@ -1518,7 +1518,7 @@ No olvides dejar tu usuario de Discord o ID en el mensaje.
     <value>Activado el uso de todos los módulos para el usuario {0}.</value>
   </data>
   <data name="permissions_blacklisted" xml:space="preserve">
-    <value>Enviado a la lista negra a: {0} con el ID: {1}</value>
+    <value>Enviado a la lista negra a: {0} con la ID: {1}</value>
   </data>
   <data name="permissions_cmdcd_add" xml:space="preserve">
     <value>El comando {0} ahora tiene {1} de enfriamiento.</value>
@@ -1614,7 +1614,7 @@ No olvides dejar tu usuario de Discord o ID en el mensaje.
     <value>Activado el uso de {0} {1} en este servidor.</value>
   </data>
   <data name="permissions_unblacklisted" xml:space="preserve">
-    <value>Removido de la lista negra a: {0} con el ID: {1}</value>
+    <value>Removido de la lista negra a: {0} con la ID: {1}</value>
   </data>
   <data name="permissions_uneditable" xml:space="preserve">
     <value>ineditable</value>
@@ -2260,22 +2260,22 @@ IDs de dueños: {2}</value>
     <value>Respuesta del mensaje para el comando personalizado con la ID {0} será enviada como MP.</value>
   </data>
   <data name="utility_aliases_none" xml:space="preserve">
-    <value></value>
+    <value>No encontré ningún alias.</value>
   </data>
   <data name="utility_alias_added" xml:space="preserve">
-    <value></value>
+    <value>Escribir {0} ahora será un alias de {1}.</value>
   </data>
   <data name="utility_alias_list" xml:space="preserve">
-    <value></value>
+    <value>Lista de alias</value>
   </data>
   <data name="utility_alias_removed" xml:space="preserve">
-    <value></value>
+    <value>El comando {0} ya no tiene un alias.</value>
   </data>
   <data name="utility_alias_remove_fail" xml:space="preserve">
-    <value></value>
+    <value>El comando {0} no tiene un alias.</value>
   </data>
   <data name="searches_compet_playtime" xml:space="preserve">
-    <value></value>
+    <value>Tiempo de juego en competitivo</value>
   </data>
 
 </root>

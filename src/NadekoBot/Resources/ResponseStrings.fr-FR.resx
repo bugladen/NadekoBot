@@ -2383,22 +2383,22 @@ Fuzzy</comment>
     <value>Le message de réponse pour la réaction personnalisée avec l&apos;ID {0} sera envoyé en MP.</value>
   </data>
   <data name="utility_aliases_none" xml:space="preserve">
-    <value></value>
+    <value>Pas d&apos;alias trouvé.</value>
   </data>
   <data name="utility_alias_added" xml:space="preserve">
-    <value></value>
+    <value>{0} sera maintenant l&apos;alias de {1}.</value>
   </data>
   <data name="utility_alias_list" xml:space="preserve">
-    <value></value>
+    <value>Liste des alias.</value>
   </data>
   <data name="utility_alias_removed" xml:space="preserve">
-    <value></value>
+    <value>{0} n&apos;a plus d&apos;alias.</value>
   </data>
   <data name="utility_alias_remove_fail" xml:space="preserve">
-    <value></value>
+    <value>{0} n&apos;avait pas d&apos;alias.</value>
   </data>
   <data name="searches_compet_playtime" xml:space="preserve">
-    <value></value>
+    <value>Temps en jeu compétitif.</value>
   </data>
 
 </root>

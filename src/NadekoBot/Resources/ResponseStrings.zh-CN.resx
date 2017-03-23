@@ -2324,64 +2324,64 @@ Fuzzy</comment>
     <value>{0}投票总数。</value>
   </data>
   <data name="games_pick_pl" xml:space="preserve">
-    <value></value>
+    <value>用 `{0}pick` 命令來捡起。</value>
   </data>
   <data name="games_pick_sn" xml:space="preserve">
-    <value></value>
+    <value>用 `{0}pick` 命令來捡起。</value>
   </data>
   <data name="gambling_no_users_found" xml:space="preserve">
-    <value></value>
+    <value>此用户不存在。</value>
   </data>
   <data name="gambling_page" xml:space="preserve">
-    <value></value>
+    <value>页面 {0} </value>
   </data>
   <data name="administration_must_be_in_voice" xml:space="preserve">
-    <value></value>
+    <value>您必须加入此服务器的语音频道。</value>
   </data>
   <data name="administration_no_vcroles" xml:space="preserve">
-    <value></value>
+    <value>没有可设置的语音频道身份。</value>
   </data>
   <data name="administration_user_muted_time" xml:space="preserve">
-    <value></value>
+    <value>用户 {0} 被静音和禁言 {1} 分钟。</value>
   </data>
   <data name="administration_vcrole_added" xml:space="preserve">
-    <value></value>
+    <value>新加入{0}语音频道的用户会得到{1}身份。</value>
   </data>
   <data name="administration_vcrole_removed" xml:space="preserve">
-    <value></value>
+    <value>新加入{0}语音频道的用户不会再得到身份。</value>
   </data>
   <data name="administration_vc_role_list" xml:space="preserve">
-    <value></value>
+    <value>语音频道身份</value>
   </data>
   <data name="customreactions_crad_disabled" xml:space="preserve">
-    <value></value>
+    <value>触发 ID{0} 定制反应的命令不会被自动删除。</value>
   </data>
   <data name="customreactions_crad_enabled" xml:space="preserve">
-    <value></value>
+    <value>触发 ID{0} 定制反应的命令将会被被自动删除。</value>
   </data>
   <data name="customreactions_crdm_disabled" xml:space="preserve">
-    <value></value>
+    <value>ID {0}定制反应的回复不会已私聊模式发送。</value>
   </data>
   <data name="customreactions_crdm_enabled" xml:space="preserve">
-    <value></value>
+    <value>ID {0}定制反应的回复会以私聊模式发送。</value>
   </data>
   <data name="utility_aliases_none" xml:space="preserve">
-    <value></value>
+    <value>没有找到任何命令别名。</value>
   </data>
   <data name="utility_alias_added" xml:space="preserve">
-    <value></value>
+    <value>{1} 命令的新别名设置成为 {0}。</value>
   </data>
   <data name="utility_alias_list" xml:space="preserve">
-    <value></value>
+    <value>别名列表</value>
   </data>
   <data name="utility_alias_removed" xml:space="preserve">
-    <value></value>
+    <value>{0} 命令的别名已经成功删除。</value>
   </data>
   <data name="utility_alias_remove_fail" xml:space="preserve">
-    <value></value>
+    <value>{0} 命令没有已经设置的别名。</value>
   </data>
   <data name="searches_compet_playtime" xml:space="preserve">
-    <value></value>
+    <value>竞争比赛游戏时间。</value>
   </data>
 
 </root>
