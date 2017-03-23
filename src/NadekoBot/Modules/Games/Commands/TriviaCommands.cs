@@ -19,17 +19,21 @@ namespace NadekoBot.Modules.Games
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public Task Trivia([Remainder] string additionalArgs = "")
-                => Trivia(10, additionalArgs);
+                => InternalTrivia(10, additionalArgs);
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Trivia(int winReq = 10, [Remainder] string additionalArgs = "")
+            public Task Trivia(int winReq = 10, [Remainder] string additionalArgs = "")
+                => InternalTrivia(winReq, additionalArgs);
+
+            public async Task InternalTrivia(int winReq, string additionalArgs = "")
             {
                 var channel = (ITextChannel)Context.Channel;
 
                 var showHints = !additionalArgs.Contains("nohint");
+                var isPokemon = additionalArgs.Contains("pokemon");
 
-                var trivia = new TriviaGame(channel.Guild, channel, showHints, winReq);
+                var trivia = new TriviaGame(channel.Guild, channel, showHints, winReq, isPokemon);
                 if (RunningTrivias.TryAdd(channel.Guild.Id, trivia))
                 {
                     try
@@ -41,9 +45,9 @@ namespace NadekoBot.Modules.Games
                         RunningTrivias.TryRemove(channel.Guild.Id, out trivia);
                         await trivia.EnsureStopped().ConfigureAwait(false);
                     }
-                    return;                    
+                    return;
                 }
-                
+
                 await Context.Channel.SendErrorAsync(GetText("trivia_already_running") + "\n" + trivia.CurrentQuestion)
                     .ConfigureAwait(false);
             }

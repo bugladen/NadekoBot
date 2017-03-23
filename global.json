@@ -1,3 +1,6 @@
 {
-  "projects": [ "Discord.Net/src", "src" ]
+  "projects": [ "Discord.Net/src", "src" ],
+  "sdk": {
+    "version": "1.0.0-preview2-1-003177"
+  }
 }
