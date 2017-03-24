@@ -188,7 +188,19 @@ namespace NadekoBot.Modules.CustomReactions
                     .WithDescription(string.Join("\n", customReactions.OrderBy(cr => cr.Trigger)
                                                     .Skip((curPage - 1) * 20)
                                                     .Take(20)
-                                                    .Select(cr => $"`#{cr.Id}`  `{GetText("trigger")}:` {cr.Trigger}"))), lastPage)
+                                                    .Select(cr =>
+                                                    {
+                                                        var str = $"`#{cr.Id}` {cr.Trigger}";
+                                                        if (cr.AutoDeleteTrigger)
+                                                        {
+                                                            str = "🗑" + str;
+                                                        }
+                                                        if (cr.DmResponse)
+                                                        {
+                                                            str = "📪" + str;
+                                                        }
+                                                        return str;
+                                                    }))), lastPage)
                                 .ConfigureAwait(false);
         }
 
