@@ -30,6 +30,8 @@ namespace NadekoBot.Modules.Games
             {
                 var channel = (ITextChannel)Context.Channel;
 
+                additionalArgs = additionalArgs?.Trim()?.ToLowerInvariant();
+
                 var showHints = !additionalArgs.Contains("nohint");
                 var isPokemon = additionalArgs.Contains("pokemon");
 
