@@ -21,7 +21,7 @@ namespace NadekoBot.Modules.Games.Trivia
         public static TriviaQuestionPool Instance { get; } = _instance ?? (_instance = new TriviaQuestionPool());
 
         private const string questionsFile = "data/trivia_questions.json";
-        private const string pokemonMapPath = "data/pokemon/name-id_map2.json";
+        private const string pokemonMapPath = "data/pokemon/name-id_map3.json";
         private readonly int maxPokemonId;
 
         private Random rng { get; } = new NadekoRandom();
