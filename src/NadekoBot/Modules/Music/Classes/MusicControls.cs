@@ -163,7 +163,7 @@ namespace NadekoBot.Modules.Music.Classes
                         }
 
 
-                        if (RepeatPlaylist)
+                        if (RepeatPlaylist & !RepeatSong)
                             AddSong(CurrentSong, CurrentSong.QueuerName);
 
                         if (RepeatSong)
