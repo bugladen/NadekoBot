@@ -1422,7 +1422,6 @@ Fuzzy</comment>
   </data>
   <data name="music_playlist_id_not_found" xml:space="preserve">
     <value>Плейлист с таким номером не существует.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="music_playlist_queue_complete" xml:space="preserve">
     <value>Добавление плейлиста в очередь завершено.</value>
@@ -1526,7 +1525,6 @@ Fuzzy</comment>
   </data>
   <data name="permissions_blacklisted" xml:space="preserve">
     <value>{0} добавлено в чёрный список под номером {1}</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_cmdcd_add" xml:space="preserve">
     <value>У команды {0} теперь есть время перезарядки {1}c</value>
@@ -1624,7 +1622,6 @@ Fuzzy</comment>
   </data>
   <data name="permissions_unblacklisted" xml:space="preserve">
     <value>{0} с номером {1} убраны из черного списка.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_uneditable" xml:space="preserve">
     <value>нередактируемое</value>
@@ -2268,11 +2265,11 @@ Fuzzy</comment>
     <comment>Fuzzy</comment>
   </data>
   <data name="customreactions_crdm_disabled" xml:space="preserve">
-    <value>Ответное сообщение для настраеваемой реакцией с номером {0} не будет отправлено в ЛС.</value>
+    <value>Ответное сообщение для настраеваемой реакции с номером {0} не будет отправлено в ЛС.</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="customreactions_crdm_enabled" xml:space="preserve">
-    <value>Ответное сообщение для настраиваемой реакцией с номером {0} будет отправлено в ЛС.</value>
+    <value>Ответное сообщение для настраиваемой реакции с номером {0} будет отправлено в ЛС.</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="utility_aliases_none" xml:space="preserve">

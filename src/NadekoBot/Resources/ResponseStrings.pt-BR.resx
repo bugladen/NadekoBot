@@ -583,7 +583,7 @@ Razão: {1}</value>
     <value>Nenhum shard com aquele ID foi encontrado.</value>
   </data>
   <data name="administration_old_msg" xml:space="preserve">
-    <value>Mensagem Antiga</value>
+    <value>Mensagem Anterior</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_old_nick" xml:space="preserve">
@@ -794,14 +794,12 @@ __Canais Ignorados__: {2}</value>
   </data>
   <data name="administration_username_changed" xml:space="preserve">
     <value>Nome de usuário alterado</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_users" xml:space="preserve">
     <value>Usuários</value>
   </data>
   <data name="administration_user_banned" xml:space="preserve">
     <value>Usuário Banido</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_chat_mute" xml:space="preserve">
     <value>{0} foi **mutado**</value>
@@ -1134,7 +1132,7 @@ Não esqueça de deixar seu nome ou id do discord na mensagem.
     <value>O segundo número deve ser maior que o primeiro.</value>
   </data>
   <data name="gambling_changes_of_heart" xml:space="preserve">
-    <value>Mudanças no Coração</value>
+    <value>Mudanças de ideia</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="gambling_claimed_by" xml:space="preserve">
@@ -1918,7 +1916,7 @@ Fuzzy</comment>
     <value>Pontuação:</value>
   </data>
   <data name="searches_search_for" xml:space="preserve">
-    <value>Busca Por:</value>
+    <value>Buscar Por:</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="searches_shorten_fail" xml:space="preserve">
@@ -2094,8 +2092,7 @@ Fuzzy</comment>
     <value>Índice fora de alcance.</value>
   </data>
   <data name="utility_inrole_list" xml:space="preserve">
-    <value>Aqui está uma lista de usuários nestes cargos:</value>
-    <comment>Fuzzy</comment>
+    <value>Lista de usuários no cargo {0}</value>
   </data>
   <data name="utility_inrole_not_allowed" xml:space="preserve">
     <value>você não tem permissão de usar esse comando em cargos com muitos usuários para prevenir abuso.</value>
@@ -2189,7 +2186,7 @@ OwnerID: {2}</value>
     <value>Citação adicionada</value>
   </data>
   <data name="utility_quote_deleted" xml:space="preserve">
-    <value>Uma citação aleatória foi removida.</value>
+    <value>Citação #{0} Deletada.</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="utility_region" xml:space="preserve">

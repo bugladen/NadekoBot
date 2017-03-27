@@ -156,7 +156,7 @@
     <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_list_active_wars" xml:space="preserve">
-    <value>Lista Över Aktiva Krig</value>
+    <value>Lista över aktiva krig</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_not_claimed" xml:space="preserve">
@@ -209,7 +209,7 @@
     <value>Nya egengjorda Reaktioner</value>
   </data>
   <data name="customreactions_no_found" xml:space="preserve">
-    <value>Inga egnagjorde reaktioner hittades.</value>
+    <value>Inga custom reaktioner hittades.</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="customreactions_no_found_id" xml:space="preserve">
@@ -536,11 +536,11 @@ Anledning: {1}</value>
     <value>{0} flyttad från {1] till {2}</value>
   </data>
   <data name="administration_msg_del" xml:space="preserve">
-    <value>Meddelande Raderat i #{0}</value>
+    <value>Meddelande raderat i #{0}</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_msg_update" xml:space="preserve">
-    <value>Meddelande Uppdaterat i #{0}</value>
+    <value>Meddelande uppdaterat i #{0}</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_muted_pl" xml:space="preserve">
@@ -561,19 +561,19 @@ Anledning: {1}</value>
     <value>Jag behöver **Administration** tillåtelse för att göra det där.</value>
   </data>
   <data name="administration_new_msg" xml:space="preserve">
-    <value>Nytt Meddelande</value>
+    <value>Ny meddelande</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_new_nick" xml:space="preserve">
-    <value>Nytt Smeknamn</value>
+    <value>Ny smeknamn</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_new_topic" xml:space="preserve">
-    <value>Nytt Ämne</value>
+    <value>Ny ämne</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_nick_change" xml:space="preserve">
-    <value>Smeknamn Ändrat</value>
+    <value>Smeknamn ändrat</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_no_server" xml:space="preserve">
@@ -583,15 +583,15 @@ Anledning: {1}</value>
     <value>Ingen shard med den ID funnen</value>
   </data>
   <data name="administration_old_msg" xml:space="preserve">
-    <value>Gammalt Meddelande</value>
+    <value>Gammal meddelande</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_old_nick" xml:space="preserve">
-    <value>Gammalt Smeknamn</value>
+    <value>Gammal smeknamn</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_old_topic" xml:space="preserve">
-    <value>Gammalt Ämne</value>
+    <value>Gammal ämne</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_perms" xml:space="preserve">
@@ -601,7 +601,7 @@ Anledning: {1}</value>
     <value>Tillstånd för denna server har blivit återställt.</value>
   </data>
   <data name="administration_prot_active" xml:space="preserve">
-    <value>Aktiva Skydd</value>
+    <value>Aktiva skydd</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_prot_disable" xml:space="preserve">
@@ -2342,7 +2342,7 @@ Medlemmar: {1}
     <value>Meddelandet som triggrar den egengjorda reaktion med id {0} kommer bli</value>
   </data>
   <data name="customreactions_crdm_disabled" xml:space="preserve">
-    <value></value>
+    <value>Svar meddelande för custom reaktion med id {0} kommer inte att skickas som ett DM.</value>
   </data>
   <data name="customreactions_crdm_enabled" xml:space="preserve">
     <value>
@@ -2358,10 +2358,10 @@ Medlemmar: {1}
     <value>Lista av aliaser</value>
   </data>
   <data name="utility_alias_removed" xml:space="preserve">
-    <value></value>
+    <value>Aktivering {0} har inte längre någon alias. </value>
   </data>
   <data name="utility_alias_remove_fail" xml:space="preserve">
-    <value></value>
+    <value>Trigger {0} hade ingen alias.</value>
   </data>
   <data name="searches_compet_playtime" xml:space="preserve">
     <value>Kompetitiv speltid</value>

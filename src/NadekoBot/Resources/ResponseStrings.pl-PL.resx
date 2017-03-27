@@ -486,7 +486,7 @@ Powód: {1}</value>
     <value></value>
   </data>
   <data name="administration_lang_set_bot_show" xml:space="preserve">
-    <value></value>
+    <value>Język bota ustawiony na {0} - {1}</value>
   </data>
   <data name="administration_lang_set_fail" xml:space="preserve">
     <value></value>
@@ -501,7 +501,8 @@ Powód: {1}</value>
     <value>Opuścił serwer {0}</value>
   </data>
   <data name="administration_log" xml:space="preserve">
-    <value></value>
+    <value>Logowanie wydarzenia {0} na tym kanale.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_log_all" xml:space="preserve">
     <value>Logowanie wszystkich wydarzeń na tym kanale.</value>
@@ -513,7 +514,7 @@ Powód: {1}</value>
     <value></value>
   </data>
   <data name="administration_log_ignore" xml:space="preserve">
-    <value></value>
+    <value>Logowanie będzie ignorowało {0}</value>
   </data>
   <data name="administration_log_not_ignore" xml:space="preserve">
     <value>Logowanie nie będzie ignorowało {0}</value>
@@ -1816,7 +1817,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value>Oryginalny URL</value>
   </data>
   <data name="searches_osu_api_key" xml:space="preserve">
-    <value></value>
+    <value>Klucz osu! API jest wymagany.</value>
   </data>
   <data name="searches_osu_failed" xml:space="preserve">
     <value></value>
@@ -1825,10 +1826,10 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value>Znaleziono {0} obrazków. Pokazuję przypadkowe {0}</value>
   </data>
   <data name="searches_ow_user_not_found" xml:space="preserve">
-    <value></value>
+    <value>Nie znaleziono użytkownika! Proszę sprawdzić Region i BattleTag zanim znowu spróbujesz.</value>
   </data>
   <data name="searches_plan_to_watch" xml:space="preserve">
-    <value></value>
+    <value>Planowane</value>
   </data>
   <data name="searches_platform" xml:space="preserve">
     <value>Platforma</value>
@@ -1876,7 +1877,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value>Status</value>
   </data>
   <data name="searches_store_url" xml:space="preserve">
-    <value></value>
+    <value>Url sklepu</value>
   </data>
   <data name="searches_streamer_offline" xml:space="preserve">
     <value>Streamer {0} jest niedostępny.</value>
@@ -1898,7 +1899,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value>Stream prawdopodobnie nie istnieje.</value>
   </data>
   <data name="searches_stream_removed" xml:space="preserve">
-    <value></value>
+    <value>Usunięto stream użytkownika {0} ({1}) z powiadomień.</value>
   </data>
   <data name="searches_stream_tracked" xml:space="preserve">
     <value></value>
@@ -1934,7 +1935,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value>Widzowie:</value>
   </data>
   <data name="searches_watching" xml:space="preserve">
-    <value></value>
+    <value>Oglądane</value>
   </data>
   <data name="searches_wikia_error" xml:space="preserve">
     <value></value>
@@ -1949,7 +1950,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value>Szybkość wiatru</value>
   </data>
   <data name="searches_x_most_banned_champs" xml:space="preserve">
-    <value></value>
+    <value>Najczęściej banowane postacie w {0}</value>
   </data>
   <data name="searches_yodify_error" xml:space="preserve">
     <value>Problem z napisaniem Twojego zdania w stylu Yody</value>
@@ -1966,7 +1967,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value></value>
   </data>
   <data name="utility_activity_users_total" xml:space="preserve">
-    <value></value>
+    <value>Łącznie {0} użytkowników.</value>
   </data>
   <data name="utility_author" xml:space="preserve">
     <value>Autor</value>
@@ -1987,13 +1988,13 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value></value>
   </data>
   <data name="utility_convert" xml:space="preserve">
-    <value></value>
+    <value>{0} {1} wynosi {2} {3}</value>
   </data>
   <data name="utility_convertlist" xml:space="preserve">
-    <value></value>
+    <value>Jednostki które mogą być przekonwertwane</value>
   </data>
   <data name="utility_convert_not_found" xml:space="preserve">
-    <value></value>
+    <value>Nie można przekonwertować {0} na {1}: nie znaleziono jednostki</value>
   </data>
   <data name="utility_convert_type_error" xml:space="preserve">
     <value></value>
@@ -2077,13 +2078,13 @@ ID właściciela: {2}</value>
     <value></value>
   </data>
   <data name="utility_no_roles_on_page" xml:space="preserve">
-    <value></value>
+    <value>Brak roli na tej stronie.</value>
   </data>
   <data name="utility_no_shards_on_page" xml:space="preserve">
     <value></value>
   </data>
   <data name="utility_no_topic_set" xml:space="preserve">
-    <value></value>
+    <value>Brak tematu.</value>
   </data>
   <data name="utility_owner" xml:space="preserve">
     <value>Właściciel</value>
@@ -2100,10 +2101,10 @@ ID właściciela: {2}</value>
 {2} kanałów tekstowych</value>
   </data>
   <data name="utility_quotes_deleted" xml:space="preserve">
-    <value></value>
+    <value>Usunięto wszystkie cytaty ze słowem {0}.</value>
   </data>
   <data name="utility_quotes_page" xml:space="preserve">
-    <value></value>
+    <value>{0} strona cytatów</value>
   </data>
   <data name="utility_quotes_page_none" xml:space="preserve">
     <value></value>
@@ -2112,10 +2113,10 @@ ID właściciela: {2}</value>
     <value></value>
   </data>
   <data name="utility_quote_added" xml:space="preserve">
-    <value></value>
+    <value>Dodano cytat</value>
   </data>
   <data name="utility_quote_deleted" xml:space="preserve">
-    <value></value>
+    <value>Usunięto cytat #{0}</value>
   </data>
   <data name="utility_region" xml:space="preserve">
     <value>Region</value>
@@ -2184,7 +2185,7 @@ ID właściciela: {2}</value>
     <value></value>
   </data>
   <data name="utility_showemojis" xml:space="preserve">
-    <value></value>
+    <value>**Nazwa:** {0} **Link:** {1}</value>
   </data>
   <data name="utility_showemojis_none" xml:space="preserve">
     <value>Nie znaleziono żadnych specjalnych emotikon</value>
@@ -2196,7 +2197,7 @@ ID właściciela: {2}</value>
     <value>Kanały głosowe</value>
   </data>
   <data name="utility_togtub_room_link" xml:space="preserve">
-    <value></value>
+    <value>Twój link do pokoju:</value>
   </data>
   <data name="utility_uptime" xml:space="preserve">
     <value></value>

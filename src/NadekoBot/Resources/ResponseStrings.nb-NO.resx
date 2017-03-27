@@ -2305,34 +2305,34 @@ Eier ID: {2}</value>
     <value>Stemmekanal-roller</value>
   </data>
   <data name="customreactions_crad_disabled" xml:space="preserve">
-    <value></value>
+    <value>Meldingen som aktiverer reaksjonen med ID {0} vil ikke bli automatisk slettet.</value>
   </data>
   <data name="customreactions_crad_enabled" xml:space="preserve">
-    <value></value>
+    <value>Meldingen som aktiverer reaksjonen med ID {0} vil bli automatisk slettet.</value>
   </data>
   <data name="customreactions_crdm_disabled" xml:space="preserve">
-    <value></value>
+    <value>Respons-meldingen for tilpasset reaksjon med ID {0} vil ikke bli sendt som DM.</value>
   </data>
   <data name="customreactions_crdm_enabled" xml:space="preserve">
-    <value></value>
+    <value>Respons-meldingen for tilpasset reaksjon med ID {0} vil bli sendt som DM</value>
   </data>
   <data name="utility_aliases_none" xml:space="preserve">
-    <value></value>
+    <value>Ingen alias funnet</value>
   </data>
   <data name="utility_alias_added" xml:space="preserve">
-    <value></value>
+    <value>{0} er nå alias for {1}</value>
   </data>
   <data name="utility_alias_list" xml:space="preserve">
-    <value></value>
+    <value>Liste over alias</value>
   </data>
   <data name="utility_alias_removed" xml:space="preserve">
-    <value></value>
+    <value>{0} har ikke lenger noe alias</value>
   </data>
   <data name="utility_alias_remove_fail" xml:space="preserve">
-    <value></value>
+    <value>{0} hadde ikke noe alias</value>
   </data>
   <data name="searches_compet_playtime" xml:space="preserve">
-    <value></value>
+    <value>Kompetitiv spilltid</value>
   </data>
 
 </root>

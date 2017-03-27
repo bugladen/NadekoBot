@@ -364,7 +364,7 @@ Reason: {1}</value>
     <value>Content</value>
   </data>
   <data name="administration_cr" xml:space="preserve">
-    <value>successfully created role {0}</value>
+    <value>Sucessfully created role {0}</value>
   </data>
   <data name="administration_createtextchan" xml:space="preserve">
     <value>Text channel {0} created.</value>
@@ -394,7 +394,7 @@ Reason: {1}</value>
     <value>DM from</value>
   </data>
   <data name="administration_donadd" xml:space="preserve">
-    <value>successfully added a new donator.Total donated amount from this user: {0} 👑</value>
+    <value>Sucessfully added a new donator.Total donated amount from this user: {0} 👑</value>
   </data>
   <data name="administration_donators" xml:space="preserve">
     <value>Thanks to the people listed below for making this project hjappen!</value>
@@ -712,7 +712,7 @@ Reason: {1}</value>
     <value>You now have {0} role.</value>
   </data>
   <data name="administration_setrole" xml:space="preserve">
-    <value>successfully added role {0} to user {1}</value>
+    <value>Sucessfully added role {0} to user {1}</value>
   </data>
   <data name="administration_setrole_err" xml:space="preserve">
     <value>Failed to add role. I have insufficient permissions.</value>
