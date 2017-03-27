@@ -505,13 +505,13 @@ Grund: {1}</value>
     <value>Ereignis {0} wird in diesem Kanal aufgezeichnet.</value>
   </data>
   <data name="administration_log_all" xml:space="preserve">
-    <value>Alle Ereignise wird in diesem Kanal aufgezeichnet.</value>
+    <value>Alle Ereignisse wird in diesem Kanal aufgezeichnet.</value>
   </data>
   <data name="administration_log_disabled" xml:space="preserve">
     <value>Aufzeichnungen wurden deaktiviert.</value>
   </data>
   <data name="administration_log_events" xml:space="preserve">
-    <value>Aufzeichnungs Ereignise die Sie abonnieren können:</value>
+    <value>Aufzeichnungs Ereignisse die Sie abonnieren können:</value>
   </data>
   <data name="administration_log_ignore" xml:space="preserve">
     <value>Aufzeichnungen werden {0} ignorieren</value>
@@ -1280,12 +1280,12 @@ Vergessen Sie bitte nicht, Ihren Discord-Namen oder Ihre ID in der Nachricht zu 
     <value>Währungsgeneration in diesem Kanal aktiviert.</value>
   </data>
   <data name="games_curgen_pl" xml:space="preserve">
-    <value>{0} zufällige {1} sind erschienen!</value>
+    <value>{0} zufällige {1} sind erschienen! </value>
     <comment>plural
 Fuzzy</comment>
   </data>
   <data name="games_curgen_sn" xml:space="preserve">
-    <value>Eine zufällige {0} ist erschienen!</value>
+    <value>Eine zufällige {0} ist erschienen! </value>
     <comment>Fuzzy</comment>
   </data>
   <data name="games_failed_loading_question" xml:space="preserve">
@@ -1321,7 +1321,7 @@ Fuzzy</comment>
     <comment>Kwoth picked 5*</comment>
   </data>
   <data name="games_planted" xml:space="preserve">
-    <value>{0} pflanzte {1}</value>
+    <value>{0} pflanzte {1}! </value>
     <comment>Kwoth planted 5*</comment>
   </data>
   <data name="games_trivia_already_running" xml:space="preserve">
@@ -2328,10 +2328,10 @@ ID des Besitzers: {2}</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="games_pick_pl" xml:space="preserve">
-    <value>sammel sie durch das Schreiben von `{0}pick`</value>
+    <value>Sammel sie durch das Schreiben von `{0}pick`</value>
   </data>
   <data name="games_pick_sn" xml:space="preserve">
-    <value>sammel sie durch das Schreiben von `{0}pick</value>
+    <value>Sammel sie durch das Schreiben von `{0}pick</value>
   </data>
   <data name="gambling_no_users_found" xml:space="preserve">
     <value>Kein Benutzer gefunden.</value>
