@@ -24,6 +24,7 @@ namespace NadekoBot.Modules.Administration
                 {"en-US", "English, United States"},
                 {"fr-FR", "French, France"},
                 {"de-DE", "German, Germany"},
+                {"it-IT", "Italian, Italy" },
                 //{"ja-JP", "Japanese, Japan"},
                 {"nb-NO", "Norwegian (bokmål), Norway"},
                 {"pl-PL", "Polish, Poland" },
