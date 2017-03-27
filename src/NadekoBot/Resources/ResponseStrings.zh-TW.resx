@@ -1337,7 +1337,7 @@ Paypal &lt;{1}&gt;
     <value>{0} 對 {1}</value>
   </data>
   <data name="music_attempting_to_queue" xml:space="preserve">
-    <value>正在排 {0} 首歌...</value>
+    <value>正在點播 {0} 首歌...</value>
   </data>
   <data name="music_autoplay_disabled" xml:space="preserve">
     <value>已停用自動播放。</value>
@@ -2255,16 +2255,16 @@ Paypal &lt;{1}&gt;
     <value>語音頻道身分組</value>
   </data>
   <data name="customreactions_crad_disabled" xml:space="preserve">
-    <value></value>
+    <value>觸發自訂回應 ID 為 {0} 的訊息不會自動刪除。</value>
   </data>
   <data name="customreactions_crad_enabled" xml:space="preserve">
-    <value></value>
+    <value>觸發自訂回應 ID 為 {0} 的訊息將會自動刪除。</value>
   </data>
   <data name="customreactions_crdm_disabled" xml:space="preserve">
-    <value></value>
+    <value>自訂回應 ID 為 {0} 的回應不會以私訊方式傳送。</value>
   </data>
   <data name="customreactions_crdm_enabled" xml:space="preserve">
-    <value></value>
+    <value>自訂回應 ID 為 {0} 的回應將會以私訊方式傳送。</value>
   </data>
   <data name="utility_aliases_none" xml:space="preserve">
     <value>找不到別名</value>
@@ -2276,13 +2276,13 @@ Paypal &lt;{1}&gt;
     <value>別名列表</value>
   </data>
   <data name="utility_alias_removed" xml:space="preserve">
-    <value></value>
+    <value>觸發 {0} 不再有別名。</value>
   </data>
   <data name="utility_alias_remove_fail" xml:space="preserve">
-    <value></value>
+    <value>觸發 {0} 並沒有別名。</value>
   </data>
   <data name="searches_compet_playtime" xml:space="preserve">
-    <value></value>
+    <value>競技時數</value>
   </data>
 
 </root>
