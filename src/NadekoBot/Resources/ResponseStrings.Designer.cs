@@ -250,7 +250,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sucessfully created role {0}.
+        ///    Looks up a localized string similar to Successfully created role {0}.
         /// </summary>
         public static string administration_cr {
             get {
@@ -340,7 +340,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sucessfully added a new donator.Total donated amount from this user: {0} 👑.
+        ///    Looks up a localized string similar to Successfully added a new donator.Total donated amount from this user: {0} 👑.
         /// </summary>
         public static string administration_donadd {
             get {
@@ -1351,7 +1351,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sucessfully added role {0} to user {1}.
+        ///    Looks up a localized string similar to Successfully added role {0} to user {1}.
         /// </summary>
         public static string administration_setrole {
             get {

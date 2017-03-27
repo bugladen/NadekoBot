@@ -856,7 +856,7 @@ Fuzzy</comment>
   <data name="administration_setrole" xml:space="preserve">
     <value>ユーザー{1}にロール{0}を追加しました
 </value>
-    <comment>Typo- &quot;Sucessfully&quot; should be &apos;Successfully&apos;</comment>
+    <comment>Typo- &quot;successfully&quot; should be &apos;Successfully&apos;</comment>
   </data>
   <data name="administration_setrole_err" xml:space="preserve">
     <value>ロールの追加に失敗しました。アクセス権が足りません。</value>
