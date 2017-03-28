@@ -16,7 +16,7 @@ namespace NadekoBot.Services.Impl
         private readonly DiscordShardedClient _client;
         private readonly DateTime _started;
 
-        public const string BotVersion = "1.26";
+        public const string BotVersion = "1.26a";
 
         public string Author => "Kwoth#2560";
         public string Library => "Discord.Net";
