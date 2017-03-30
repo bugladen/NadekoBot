@@ -292,6 +292,51 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.BanMembers)]
+            [RequireBotPermission(GuildPermission.BanMembers)]
+            public async Task Unban([Remainder]string user)
+            {
+                var bans = await Context.Guild.GetBansAsync();
+
+                var bun = bans.FirstOrDefault(x => x.User.ToString().ToLowerInvariant() == user.ToLowerInvariant());
+
+                if (bun == null)
+                {
+                    await ReplyErrorLocalized("user_not_found").ConfigureAwait(false);
+                    return;
+                }
+
+                await UnbanInternal(bun.User).ConfigureAwait(false);
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.BanMembers)]
+            [RequireBotPermission(GuildPermission.BanMembers)]
+            public async Task Unban(ulong userId)
+            {
+                var bans = await Context.Guild.GetBansAsync();
+
+                var bun = bans.FirstOrDefault(x => x.User.Id == userId);
+
+                if (bun == null)
+                {
+                    await ReplyErrorLocalized("user_not_found").ConfigureAwait(false);
+                    return;
+                }
+
+                await UnbanInternal(bun.User).ConfigureAwait(false);
+            }
+
+            private async Task UnbanInternal(IUser user)
+            {
+                await Context.Guild.RemoveBanAsync(user).ConfigureAwait(false);
+
+                await ReplyConfirmLocalized("unbanned_user", Format.Bold(user.ToString())).ConfigureAwait(false);
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.KickMembers)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
             [RequireBotPermission(GuildPermission.BanMembers)]

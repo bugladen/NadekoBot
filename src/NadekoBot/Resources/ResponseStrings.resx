@@ -2287,6 +2287,12 @@ Owner ID: {2}</value>
   <data name="administration_reason" xml:space="preserve">
     <value>Reason</value>
   </data>
+  <data name="administration_unbanned_user" xml:space="preserve">
+    <value>User {0} has been unbanned.</value>
+  </data>
+  <data name="administration_user_not_found" xml:space="preserve">
+    <value>User not found.</value>
+  </data>
   <data name="administration_user_warned" xml:space="preserve">
     <value>User {0} has been warned.</value>
   </data>

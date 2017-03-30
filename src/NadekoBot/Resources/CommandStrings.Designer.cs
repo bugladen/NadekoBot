@@ -8457,6 +8457,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to unban.
+        /// </summary>
+        public static string unban_cmd {
+            get {
+                return ResourceManager.GetString("unban_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Unbans a user with the provided user#discrim or id..
+        /// </summary>
+        public static string unban_desc {
+            get {
+                return ResourceManager.GetString("unban_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}unban kwoth#1234` or `{0}unban 123123123`.
+        /// </summary>
+        public static string unban_usage {
+            get {
+                return ResourceManager.GetString("unban_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to unclaim ucall uc.
         /// </summary>
         public static string unclaim_cmd {

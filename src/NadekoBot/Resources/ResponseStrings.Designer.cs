@@ -1505,6 +1505,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to User {0} has been unbanned..
+        /// </summary>
+        public static string administration_unbanned_user {
+            get {
+                return ResourceManager.GetString("administration_unbanned_user", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Undeafen successful..
         /// </summary>
         public static string administration_undeafen {
@@ -1582,6 +1591,15 @@ namespace NadekoBot.Resources {
         public static string administration_user_muted_time {
             get {
                 return ResourceManager.GetString("administration_user_muted_time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to User not found..
+        /// </summary>
+        public static string administration_user_not_found {
+            get {
+                return ResourceManager.GetString("administration_user_not_found", resourceCulture);
             }
         }
         

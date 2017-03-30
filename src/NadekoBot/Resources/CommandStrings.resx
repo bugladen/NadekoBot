@@ -3240,6 +3240,15 @@
   <data name="warn_usage" xml:space="preserve">
     <value>`{0}warn @b1nzy`</value>
   </data>
+  <data name="unban_cmd" xml:space="preserve">
+    <value>unban</value>
+  </data>
+  <data name="unban_desc" xml:space="preserve">
+    <value>Unbans a user with the provided user#discrim or id.</value>
+  </data>
+  <data name="unban_usage" xml:space="preserve">
+    <value>`{0}unban kwoth#1234` or `{0}unban 123123123`</value>
+  </data>
   <data name="warnclear_cmd" xml:space="preserve">
     <value>warnclear warnc</value>
   </data>
