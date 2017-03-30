@@ -17,26 +17,27 @@ namespace NadekoBot.Modules.Administration
         public class LocalizationCommands : NadekoSubmodule
         {
             //Română, România
+            //Bahasa Indonesia, Indonesia
             private ImmutableDictionary<string, string> supportedLocales { get; } = new Dictionary<string, string>()
             {
                 {"zh-TW", "繁體中文, 台灣" },
                 {"zh-CN", "简体中文, 中华人民共和国"},
-                {"nl-NL", "Dutch, Netherlands"},
+                {"nl-NL", "Nederlands, Nederland"},
                 {"en-US", "English, United States"},
                 {"fr-FR", "Français, France"},
                 {"de-DE", "Deutsch, Deutschland"},
-                {"he-IL", "Hebrew, Israel" },
+                {"he-IL", "עברית, ישראל"},
                 {"it-IT", "Italiano, Italia" },
-                //{"ja-JP", "Japanese, Japan"},
+                //{"ja-JP", "日本語, 日本"},
                 {"ko-KR", "한국어, 대한민국" },
-                {"nb-NO", "Norwegian (bokmål), Norway"},
+                {"nb-NO", "Norsk, Norge"},
                 {"pl-PL", "Polski, Polska" },
                 {"pt-BR", "Português Brasileiro, Brasil"},
-                {"ru-RU", "Russian, Russia"},
+                {"ru-RU", "Русский, Россия"},
                 {"sr-Cyrl-RS", "Српски, Србија"},
                 {"es-ES", "Español, España"},
                 {"sv-SE", "Svenska, Sverige"},
-                {"tr-TR", "Turkish, Turkey" }
+                {"tr-TR", "Türkçe, Türkiye"}
             }.ToImmutableDictionary();
 
             [NadekoCommand, Usage, Description, Aliases]
