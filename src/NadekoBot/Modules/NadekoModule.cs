@@ -69,7 +69,7 @@ namespace NadekoBot.Modules
                 LogManager.GetCurrentClassLogger().Warn(lowerModuleTypeName + "_" + key + " key is missing from " + cultureInfo + " response strings. PLEASE REPORT THIS.");
                 text = NadekoBot.ResponsesResourceManager.GetString(lowerModuleTypeName + "_" + key, _usCultureInfo) ?? $"Error: dkey {lowerModuleTypeName + "_" + key} not found!";
                 if (string.IsNullOrWhiteSpace(text))
-                    return "I can't tell you is the command executed, because there was an error printing out the response. Key '" +
+                    return "I can't tell you if the command is executed, because there was an error printing out the response. Key '" +
                         lowerModuleTypeName + "_" + key + "' " + "is missing from resources. Please report this.";
             }
             return text;
@@ -84,7 +84,7 @@ namespace NadekoBot.Modules
             }
             catch (FormatException)
             {
-                return "I cant tell if you command is executed, because there was an error printing out the response. Key '" +
+                return "I can't tell you if the command is executed, because there was an error printing out the response. Key '" +
                        lowerModuleTypeName + "_" + key + "' " + "is not properly formatted. Please report this.";
             }
         }
