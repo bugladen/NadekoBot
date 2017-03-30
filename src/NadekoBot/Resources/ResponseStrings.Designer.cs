@@ -1703,6 +1703,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to User {0} has been warned and {1} punishment has been applied..
+        /// </summary>
+        public static string administration_user_warned_and_punished {
+            get {
+                return ResourceManager.GetString("administration_user_warned_and_punished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Username.
         /// </summary>
         public static string administration_username {
@@ -1897,6 +1906,15 @@ namespace NadekoBot.Resources {
         public static string administration_warnlog_for {
             get {
                 return ResourceManager.GetString("administration_warnlog_for", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No punishments set..
+        /// </summary>
+        public static string administration_warnpl_none {
+            get {
+                return ResourceManager.GetString("administration_warnpl_none", resourceCulture);
             }
         }
         

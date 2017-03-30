@@ -2296,6 +2296,9 @@ Owner ID: {2}</value>
   <data name="administration_user_warned" xml:space="preserve">
     <value>User {0} has been warned.</value>
   </data>
+  <data name="administration_user_warned_and_punished" xml:space="preserve">
+    <value>User {0} has been warned and {1} punishment has been applied.</value>
+  </data>
   <data name="administration_warned_on" xml:space="preserve">
     <value>Warned on {0} server</value>
   </data>
@@ -2310,6 +2313,9 @@ Owner ID: {2}</value>
   </data>
   <data name="administration_warnlog_for" xml:space="preserve">
     <value>Warnlog for {0}</value>
+  </data>
+  <data name="administration_warnpl_none" xml:space="preserve">
+    <value>No punishments set.</value>
   </data>
   <data name="administration_warn_cleared_by" xml:space="preserve">
     <value>cleared by {0}</value>

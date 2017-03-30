@@ -18,7 +18,7 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class UserPunishCommands : NadekoSubmodule
         {
-            private async Task InternalWarn(IGuild guild, ulong userId, string modName, string reason)
+            private async Task<PunishmentAction?> InternalWarn(IGuild guild, ulong userId, string modName, string reason)
             {
                 if (string.IsNullOrWhiteSpace(reason))
                     reason = "-";
@@ -34,19 +34,19 @@ namespace NadekoBot.Modules.Administration
                     Moderator = modName,
                 };
 
-                int warnings;
+                int warnings = 1;
                 List<WarningPunishment> ps;
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     ps = uow.GuildConfigs.For(guildId, set => set.Include(x => x.WarnPunishments))
                         .WarnPunishments;
-                    
-                    uow.Warnings.Add(warn);
 
-                    warnings = uow.Warnings
+                    warnings += uow.Warnings
                         .For(guildId, userId)                        
                         .Where(w => !w.Forgiven && w.UserId == userId)
                         .Count();
+
+                    uow.Warnings.Add(warn);
 
                     uow.Complete();
                 }
@@ -57,7 +57,7 @@ namespace NadekoBot.Modules.Administration
                 {
                     var user = await guild.GetUserAsync(userId);
                     if (user == null)
-                        return;
+                        return null;
                     switch (p.Punishment)
                     {
                         case PunishmentAction.Mute:
@@ -72,7 +72,10 @@ namespace NadekoBot.Modules.Administration
                         default:
                             break;
                     }
+                    return p.Punishment;
                 }
+
+                return null;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -89,9 +92,16 @@ namespace NadekoBot.Modules.Administration
                         .ConfigureAwait(false);
                 }
                 catch { }
-                await InternalWarn(Context.Guild, user.Id, Context.User.ToString(), reason).ConfigureAwait(false);
+                var punishment = await InternalWarn(Context.Guild, user.Id, Context.User.ToString(), reason).ConfigureAwait(false);
 
-                await ReplyConfirmLocalized("user_warned", Format.Bold(user.ToString())).ConfigureAwait(false);
+                if (punishment == null)
+                {
+                    await ReplyConfirmLocalized("user_warned", Format.Bold(user.ToString())).ConfigureAwait(false);
+                }
+                else
+                {
+                    await ReplyConfirmLocalized("user_warned_and_punished", Format.Bold(user.ToString()), Format.Bold(punishment.ToString())).ConfigureAwait(false);
+                }
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -146,7 +156,7 @@ namespace NadekoBot.Modules.Administration
                     {
                         var name = GetText("warned_on_by", w.DateAdded.Value.ToString("dd.MM.yyy"), w.DateAdded.Value.ToString("HH:mm"), w.Moderator);
                         if (w.Forgiven)
-                            name = Format.Strikethrough(name) + GetText("warn_cleared_by", w.ForgivenBy);
+                            name = Format.Strikethrough(name) + " " + GetText("warn_cleared_by", w.ForgivenBy);
 
                         embed.AddField(x => x
                             .WithName(name)
@@ -175,7 +185,7 @@ namespace NadekoBot.Modules.Administration
                 }
 
                 await ReplyConfirmLocalized("warnings_cleared",
-                    (Context.Guild as SocketGuild)?.GetUser(userId)?.ToString() ?? userId.ToString()).ConfigureAwait(false);
+                    Format.Bold((Context.Guild as SocketGuild)?.GetUser(userId)?.ToString() ?? userId.ToString())).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -254,9 +264,18 @@ namespace NadekoBot.Modules.Administration
                         .ToArray();
                 }
 
+                string list;
+                if (ps.Any())
+                {
+                    list = string.Join("\n", ps.Select(x => $"{x.Count} -> {x.Punishment}"));
+                }
+                else
+                {
+                    list = GetText("warnpl_none");
+                }
                 await Context.Channel.SendConfirmAsync(
                     GetText("warn_punish_list"),
-                    string.Join("\n", ps.Select(x => $"{x.Count} -> {x.Punishment}"))).ConfigureAwait(false);
+                    list).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
