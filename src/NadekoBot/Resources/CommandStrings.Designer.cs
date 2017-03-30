@@ -9105,6 +9105,141 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to warn.
+        /// </summary>
+        public static string warn_cmd {
+            get {
+                return ResourceManager.GetString("warn_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Warns a user..
+        /// </summary>
+        public static string warn_desc {
+            get {
+                return ResourceManager.GetString("warn_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}warn @b1nzy`.
+        /// </summary>
+        public static string warn_usage {
+            get {
+                return ResourceManager.GetString("warn_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to warnclear warnc.
+        /// </summary>
+        public static string warnclear_cmd {
+            get {
+                return ResourceManager.GetString("warnclear_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Clears all warnings from a certain user..
+        /// </summary>
+        public static string warnclear_desc {
+            get {
+                return ResourceManager.GetString("warnclear_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}warnclear @PoorDude`.
+        /// </summary>
+        public static string warnclear_usage {
+            get {
+                return ResourceManager.GetString("warnclear_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to warnlog.
+        /// </summary>
+        public static string warnlog_cmd {
+            get {
+                return ResourceManager.GetString("warnlog_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to See a list of warnings of a certain user..
+        /// </summary>
+        public static string warnlog_desc {
+            get {
+                return ResourceManager.GetString("warnlog_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}warnlog @b1nzy`.
+        /// </summary>
+        public static string warnlog_usage {
+            get {
+                return ResourceManager.GetString("warnlog_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to warnpunish warnp.
+        /// </summary>
+        public static string warnpunish_cmd {
+            get {
+                return ResourceManager.GetString("warnpunish_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Sets a punishment for a certain number of warnings. Provide no punishment to remove..
+        /// </summary>
+        public static string warnpunish_desc {
+            get {
+                return ResourceManager.GetString("warnpunish_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}warnpunish 5 Ban` or `{0}warnpunish 3`.
+        /// </summary>
+        public static string warnpunish_usage {
+            get {
+                return ResourceManager.GetString("warnpunish_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to warnpunishlist warnpl.
+        /// </summary>
+        public static string warnpunishlist_cmd {
+            get {
+                return ResourceManager.GetString("warnpunishlist_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Lists punishments for warnings..
+        /// </summary>
+        public static string warnpunishlist_desc {
+            get {
+                return ResourceManager.GetString("warnpunishlist_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}warnpunishlist`.
+        /// </summary>
+        public static string warnpunishlist_usage {
+            get {
+                return ResourceManager.GetString("warnpunishlist_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to weather we.
         /// </summary>
         public static string weather_cmd {

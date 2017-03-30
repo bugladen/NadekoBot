@@ -3222,4 +3222,49 @@
   <data name="alias_usage" xml:space="preserve">
     <value>`{0}alias allin $bf 100 h` or `{0}alias "linux thingy" &gt;loonix Spyware Windows`</value>
   </data>
+  <data name="warnlog_cmd" xml:space="preserve">
+    <value>warnlog</value>
+  </data>
+  <data name="warnlog_desc" xml:space="preserve">
+    <value>See a list of warnings of a certain user.</value>
+  </data>
+  <data name="warnlog_usage" xml:space="preserve">
+    <value>`{0}warnlog @b1nzy`</value>
+  </data>
+  <data name="warn_cmd" xml:space="preserve">
+    <value>warn</value>
+  </data>
+  <data name="warn_desc" xml:space="preserve">
+    <value>Warns a user.</value>
+  </data>
+  <data name="warn_usage" xml:space="preserve">
+    <value>`{0}warn @b1nzy`</value>
+  </data>
+  <data name="warnclear_cmd" xml:space="preserve">
+    <value>warnclear warnc</value>
+  </data>
+  <data name="warnclear_desc" xml:space="preserve">
+    <value>Clears all warnings from a certain user.</value>
+  </data>
+  <data name="warnclear_usage" xml:space="preserve">
+    <value>`{0}warnclear @PoorDude`</value>
+  </data>
+  <data name="warnpunishlist_cmd" xml:space="preserve">
+    <value>warnpunishlist warnpl</value>
+  </data>
+  <data name="warnpunishlist_desc" xml:space="preserve">
+    <value>Lists punishments for warnings.</value>
+  </data>
+  <data name="warnpunishlist_usage" xml:space="preserve">
+    <value>`{0}warnpunishlist`</value>
+  </data>
+  <data name="warnpunish_cmd" xml:space="preserve">
+    <value>warnpunish warnp</value>
+  </data>
+  <data name="warnpunish_desc" xml:space="preserve">
+    <value>Sets a punishment for a certain number of warnings. Provide no punishment to remove.</value>
+  </data>
+  <data name="warnpunish_usage" xml:space="preserve">
+    <value>`{0}warnpunish 5 Ban` or `{0}warnpunish 3`</value>
+  </data>
 </root>

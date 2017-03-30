@@ -737,6 +737,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Moderator.
+        /// </summary>
+        public static string administration_moderator {
+            get {
+                return ResourceManager.GetString("administration_moderator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to {0} moved from {1} to {2}.
         /// </summary>
         public static string administration_moved {
@@ -908,6 +917,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to page {0}.
+        /// </summary>
+        public static string administration_page {
+            get {
+                return ResourceManager.GetString("administration_page", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Error. Most likely I don&apos;t have sufficient permissions..
         /// </summary>
         public static string administration_perms {
@@ -1057,6 +1075,15 @@ namespace NadekoBot.Resources {
         public static string administration_rc_perms {
             get {
                 return ResourceManager.GetString("administration_rc_perms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Reason.
+        /// </summary>
+        public static string administration_reason {
+            get {
+                return ResourceManager.GetString("administration_reason", resourceCulture);
             }
         }
         
@@ -1649,6 +1676,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to User {0} has been warned..
+        /// </summary>
+        public static string administration_user_warned {
+            get {
+                return ResourceManager.GetString("administration_user_warned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Username.
         /// </summary>
         public static string administration_username {
@@ -1762,6 +1798,87 @@ namespace NadekoBot.Resources {
         public static string administration_vt_perms {
             get {
                 return ResourceManager.GetString("administration_vt_perms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to cleared by {0}.
+        /// </summary>
+        public static string administration_warn_cleared_by {
+            get {
+                return ResourceManager.GetString("administration_warn_cleared_by", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Warning punishment list.
+        /// </summary>
+        public static string administration_warn_punish_list {
+            get {
+                return ResourceManager.GetString("administration_warn_punish_list", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Having {0} warnings will no longer trigger a punishment..
+        /// </summary>
+        public static string administration_warn_punish_rem {
+            get {
+                return ResourceManager.GetString("administration_warn_punish_rem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to I will apply {0} punishment to users with {1} warnings..
+        /// </summary>
+        public static string administration_warn_punish_set {
+            get {
+                return ResourceManager.GetString("administration_warn_punish_set", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Warned on {0} server.
+        /// </summary>
+        public static string administration_warned_on {
+            get {
+                return ResourceManager.GetString("administration_warned_on", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to On {0} at {1} by {2}.
+        /// </summary>
+        public static string administration_warned_on_by {
+            get {
+                return ResourceManager.GetString("administration_warned_on_by", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to All warnings have been cleared for {0}..
+        /// </summary>
+        public static string administration_warnings_cleared {
+            get {
+                return ResourceManager.GetString("administration_warnings_cleared", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No warning on this page..
+        /// </summary>
+        public static string administration_warnings_none {
+            get {
+                return ResourceManager.GetString("administration_warnings_none", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Warnlog for {0}.
+        /// </summary>
+        public static string administration_warnlog_for {
+            get {
+                return ResourceManager.GetString("administration_warnlog_for", resourceCulture);
             }
         }
         

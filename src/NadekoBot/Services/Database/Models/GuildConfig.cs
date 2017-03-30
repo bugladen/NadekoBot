@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using static NadekoBot.Modules.Administration.Administration;
 
 namespace NadekoBot.Services.Database.Models
 {
@@ -72,8 +71,17 @@ namespace NadekoBot.Services.Database.Models
         public HashSet<UnmuteTimer> UnmuteTimers { get; set; } = new HashSet<UnmuteTimer>();
         public HashSet<VcRoleInfo> VcRoleInfos { get; set; }
         public HashSet<CommandAlias> CommandAliases { get; set; } = new HashSet<CommandAlias>();
+        public List<WarningPunishment> WarnPunishments { get; set; } = new List<WarningPunishment>();
+        public bool WarningsInitialized { get; set; }
 
         //public List<ProtectionIgnoredChannel> ProtectionIgnoredChannels { get; set; } = new List<ProtectionIgnoredChannel>();
+    }
+
+    public class WarningPunishment : DbEntity
+    {
+        public int Count { get; set; }
+        public PunishmentAction Punishment { get; set; }
+        public int Time { get; set; }
     }
 
     public class CommandAlias : DbEntity

@@ -12,6 +12,18 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         {
         }
 
+        private List<WarningPunishment> DefaultWarnPunishments =>
+            new List<WarningPunishment>() {
+                new WarningPunishment() {
+                    Count = 3,
+                    Punishment = PunishmentAction.Kick
+                },
+                new WarningPunishment() {
+                    Count = 5,
+                    Punishment = PunishmentAction.Ban
+                }
+            };
+
         public IEnumerable<GuildConfig> GetAllGuildConfigs() =>
             _set.Include(gc => gc.LogSetting)
                     .ThenInclude(ls => ls.IgnoredChannels)
@@ -64,10 +76,19 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                 _set.Add((config = new GuildConfig
                 {
                     GuildId = guildId,
-                    Permissions = Permissionv2.GetDefaultPermlist
+                    Permissions = Permissionv2.GetDefaultPermlist,
+                    WarningsInitialized = true,
+                    WarnPunishments = DefaultWarnPunishments,
                 }));
                 _context.SaveChanges();
             }
+
+            if (!config.WarningsInitialized)
+            {
+                config.WarningsInitialized = true;
+                config.WarnPunishments = DefaultWarnPunishments;
+            }
+
             return config;
         }
 
@@ -82,9 +103,17 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                 _set.Add((config = new GuildConfig
                 {
                     GuildId = guildId,
-                    Permissions = Permissionv2.GetDefaultPermlist
+                    Permissions = Permissionv2.GetDefaultPermlist,
+                    WarningsInitialized = true,
+                    WarnPunishments = DefaultWarnPunishments,
                 }));
                 _context.SaveChanges();
+            }
+
+            if (!config.WarningsInitialized)
+            {
+                config.WarningsInitialized = true;
+                config.WarnPunishments = DefaultWarnPunishments;
             }
             return config;
         }

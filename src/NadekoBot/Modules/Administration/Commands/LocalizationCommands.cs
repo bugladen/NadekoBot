@@ -16,25 +16,26 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class LocalizationCommands : NadekoSubmodule
         {
+            //Română, România
             private ImmutableDictionary<string, string> supportedLocales { get; } = new Dictionary<string, string>()
             {
-                {"zh-TW", "Chinese (Traditional), China" },
-                {"zh-CN", "Chinese (Simplified), China"},
+                {"zh-TW", "繁體中文, 台灣" },
+                {"zh-CN", "简体中文, 中华人民共和国"},
                 {"nl-NL", "Dutch, Netherlands"},
                 {"en-US", "English, United States"},
-                {"fr-FR", "French, France"},
+                {"fr-FR", "Français, France"},
                 {"de-DE", "German, Germany"},
                 {"he-IL", "Hebrew, Israel" },
-                {"it-IT", "Italian, Italy" },
+                {"it-IT", "Italiano, Italia" },
                 //{"ja-JP", "Japanese, Japan"},
-                {"ko-KR", "Korean, Korea" },
+                {"ko-KR", "Korean, South Korea" },
                 {"nb-NO", "Norwegian (bokmål), Norway"},
-                {"pl-PL", "Polish, Poland" },
-                {"pt-BR", "Portuguese, Brazil"},
+                {"pl-PL", "Polski, Polska" },
+                {"pt-BR", "Português Brasileiro, Brasil"},
                 {"ru-RU", "Russian, Russia"},
-                {"sr-Cyrl-RS", "Serbian, Serbia - Cyrillic"},
-                {"es-ES", "Spanish, Spain"},
-                {"sv-SE", "Swedish, Sweden"},
+                {"sr-Cyrl-RS", "Српски, Србија"},
+                {"es-ES", "Español, España"},
+                {"sv-SE", "Svenska, Sverige"},
                 {"tr-TR", "Turkish, Turkey" }
             }.ToImmutableDictionary();
 

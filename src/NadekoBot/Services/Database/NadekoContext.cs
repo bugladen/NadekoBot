@@ -40,6 +40,7 @@ namespace NadekoBot.Services.Database
         public DbSet<CurrencyTransaction> CurrencyTransactions { get; set; }
         public DbSet<UserPokeTypes> PokeGame { get; set; }
         public DbSet<WaifuUpdate> WaifuUpdates { get; set; }
+        public DbSet<Warning> Warnings { get; set; }
 
         //logging
         public DbSet<LogSetting> LogSettings { get; set; }
@@ -271,6 +272,10 @@ namespace NadekoBot.Services.Database
             var du = modelBuilder.Entity<DiscordUser>();
             du.HasAlternateKey(w => w.UserId);
 
+            #endregion
+
+            #region Warnings
+            var warn = modelBuilder.Entity<Warning>();
             #endregion
         }
     }
