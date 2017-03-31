@@ -7890,6 +7890,114 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to scadd.
+        /// </summary>
+        public static string startupcommandadd_cmd {
+            get {
+                return ResourceManager.GetString("startupcommandadd_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Adds a command to the list of commands which will be executed automatically in the current channel, in the order they were added in, by the bot when it startups up..
+        /// </summary>
+        public static string startupcommandadd_desc {
+            get {
+                return ResourceManager.GetString("startupcommandadd_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}scadd .stats`.
+        /// </summary>
+        public static string startupcommandadd_usage {
+            get {
+                return ResourceManager.GetString("startupcommandadd_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to scrm.
+        /// </summary>
+        public static string startupcommandremove_cmd {
+            get {
+                return ResourceManager.GetString("startupcommandremove_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Removes a startup command with the provided command text..
+        /// </summary>
+        public static string startupcommandremove_desc {
+            get {
+                return ResourceManager.GetString("startupcommandremove_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}scrm .stats`.
+        /// </summary>
+        public static string startupcommandremove_usage {
+            get {
+                return ResourceManager.GetString("startupcommandremove_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to sclist.
+        /// </summary>
+        public static string startupcommands_cmd {
+            get {
+                return ResourceManager.GetString("startupcommands_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Lists all startup commands in the order they will be executed in..
+        /// </summary>
+        public static string startupcommands_desc {
+            get {
+                return ResourceManager.GetString("startupcommands_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}sclist`.
+        /// </summary>
+        public static string startupcommands_usage {
+            get {
+                return ResourceManager.GetString("startupcommands_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to scclr.
+        /// </summary>
+        public static string startupcommandsclear_cmd {
+            get {
+                return ResourceManager.GetString("startupcommandsclear_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Removes all startup commands..
+        /// </summary>
+        public static string startupcommandsclear_desc {
+            get {
+                return ResourceManager.GetString("startupcommandsclear_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}scclr`.
+        /// </summary>
+        public static string startupcommandsclear_usage {
+            get {
+                return ResourceManager.GetString("startupcommandsclear_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to startwar sw.
         /// </summary>
         public static string startwar_cmd {
@@ -9128,6 +9236,33 @@ namespace NadekoBot.Resources {
         public static string waifuleaderboard_usage {
             get {
                 return ResourceManager.GetString("waifuleaderboard_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to wait.
+        /// </summary>
+        public static string wait_cmd {
+            get {
+                return ResourceManager.GetString("wait_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Used only as a startup command. Waits a certain number of miliseconds before continuing the execution of the following startup commands..
+        /// </summary>
+        public static string wait_desc {
+            get {
+                return ResourceManager.GetString("wait_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}wait 3000`.
+        /// </summary>
+        public static string wait_usage {
+            get {
+                return ResourceManager.GetString("wait_usage", resourceCulture);
             }
         }
         

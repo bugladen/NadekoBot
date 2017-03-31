@@ -3240,6 +3240,42 @@
   <data name="warn_usage" xml:space="preserve">
     <value>`{0}warn @b1nzy`</value>
   </data>
+  <data name="startupcommandadd_cmd" xml:space="preserve">
+    <value>scadd</value>
+  </data>
+  <data name="startupcommandadd_desc" xml:space="preserve">
+    <value>Adds a command to the list of commands which will be executed automatically in the current channel, in the order they were added in, by the bot when it startups up.</value>
+  </data>
+  <data name="startupcommandadd_usage" xml:space="preserve">
+    <value>`{0}scadd .stats`</value>
+  </data>
+  <data name="startupcommandremove_cmd" xml:space="preserve">
+    <value>scrm</value>
+  </data>
+  <data name="startupcommandremove_desc" xml:space="preserve">
+    <value>Removes a startup command with the provided command text.</value>
+  </data>
+  <data name="startupcommandremove_usage" xml:space="preserve">
+    <value>`{0}scrm .stats`</value>
+  </data>
+  <data name="startupcommandsclear_cmd" xml:space="preserve">
+    <value>scclr</value>
+  </data>
+  <data name="startupcommandsclear_desc" xml:space="preserve">
+    <value>Removes all startup commands.</value>
+  </data>
+  <data name="startupcommandsclear_usage" xml:space="preserve">
+    <value>`{0}scclr`</value>
+  </data>
+  <data name="startupcommands_cmd" xml:space="preserve">
+    <value>sclist</value>
+  </data>
+  <data name="startupcommands_desc" xml:space="preserve">
+    <value>Lists all startup commands in the order they will be executed in.</value>
+  </data>
+  <data name="startupcommands_usage" xml:space="preserve">
+    <value>`{0}sclist`</value>
+  </data>
   <data name="unban_cmd" xml:space="preserve">
     <value>unban</value>
   </data>
@@ -3248,6 +3284,15 @@
   </data>
   <data name="unban_usage" xml:space="preserve">
     <value>`{0}unban kwoth#1234` or `{0}unban 123123123`</value>
+  </data>
+  <data name="wait_cmd" xml:space="preserve">
+    <value>wait</value>
+  </data>
+  <data name="wait_desc" xml:space="preserve">
+    <value>Used only as a startup command. Waits a certain number of miliseconds before continuing the execution of the following startup commands.</value>
+  </data>
+  <data name="wait_usage" xml:space="preserve">
+    <value>`{0}wait 3000`</value>
   </data>
   <data name="warnclear_cmd" xml:space="preserve">
     <value>warnclear warnc</value>

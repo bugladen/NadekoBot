@@ -61,7 +61,10 @@ namespace NadekoBot.Modules.Administration
                     switch (p.Punishment)
                     {
                         case PunishmentAction.Mute:
-                            await MuteCommands.TimedMute(user, TimeSpan.FromMinutes(p.Time));
+                            if (p.Time == 0)
+                                await MuteCommands.MuteUser(user).ConfigureAwait(false);
+                            else
+                                await MuteCommands.TimedMute(user, TimeSpan.FromMinutes(p.Time)).ConfigureAwait(false);
                             break;
                         case PunishmentAction.Kick:
                             await user.KickAsync().ConfigureAwait(false);

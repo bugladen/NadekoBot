@@ -37,7 +37,7 @@ namespace NadekoBot.Services
 
         private List<IDMChannel> ownerChannels { get; set; } = new List<IDMChannel>();
 
-        public event Func<SocketUserMessage, CommandInfo, Task> CommandExecuted = delegate { return Task.CompletedTask; };
+        public event Func<IUserMessage, CommandInfo, Task> CommandExecuted = delegate { return Task.CompletedTask; };
 
         //userid/msg count
         public ConcurrentDictionary<ulong, uint> UserMessagesSent { get; } = new ConcurrentDictionary<ulong, uint>();
@@ -109,7 +109,7 @@ namespace NadekoBot.Services
             return Task.CompletedTask;
         }
 
-        private async Task<bool> TryRunCleverbot(SocketUserMessage usrMsg, IGuild guild)
+        private async Task<bool> TryRunCleverbot(IUserMessage usrMsg, IGuild guild)
         {
             if (guild == null)
                 return false;
@@ -130,14 +130,13 @@ namespace NadekoBot.Services
             return false;
         }
 
-        private bool IsBlacklisted(IGuild guild, SocketUserMessage usrMsg) =>
-            usrMsg.Author?.Id == 193022505026453504 || // he requested to be blacklisted from self-hosted bots
+        private bool IsBlacklisted(IGuild guild, IUserMessage usrMsg) =>
             (guild != null && BlacklistCommands.BlacklistedGuilds.Contains(guild.Id)) ||
             BlacklistCommands.BlacklistedChannels.Contains(usrMsg.Channel.Id) ||
             BlacklistCommands.BlacklistedUsers.Contains(usrMsg.Author.Id);
 
         private const float _oneThousandth = 1.0f / 1000;
-        private Task LogSuccessfulExecution(SocketUserMessage usrMsg, ExecuteCommandResult exec, SocketTextChannel channel, int exec1, int exec2, int exec3, int total)
+        private Task LogSuccessfulExecution(IUserMessage usrMsg, ExecuteCommandResult exec, ITextChannel channel, int exec1, int exec2, int exec3, int total)
         {
             _log.Info("Command Executed after {4}/{5}/{6}/{7}s\n\t" +
                         "User: {0}\n\t" +
@@ -156,7 +155,7 @@ namespace NadekoBot.Services
             return Task.CompletedTask;
         }
 
-        private void LogErroredExecution(SocketUserMessage usrMsg, ExecuteCommandResult exec, SocketTextChannel channel, int exec1, int exec2, int exec3, int total)
+        private void LogErroredExecution(IUserMessage usrMsg, ExecuteCommandResult exec, ITextChannel channel, int exec1, int exec2, int exec3, int total)
         {
             _log.Warn("Command Errored after {5}/{6}/{7}/{8}s\n\t" +
                         "User: {0}\n\t" +
@@ -176,7 +175,7 @@ namespace NadekoBot.Services
                         );
         }
 
-        private async Task<bool> InviteFiltered(IGuild guild, SocketUserMessage usrMsg)
+        private async Task<bool> InviteFiltered(IGuild guild, IUserMessage usrMsg)
         {
             if ((Permissions.FilterCommands.InviteFilteringChannels.Contains(usrMsg.Channel.Id) ||
                 Permissions.FilterCommands.InviteFilteringServers.Contains(guild.Id)) &&
@@ -196,7 +195,7 @@ namespace NadekoBot.Services
             return false;
         }
 
-        private async Task<bool> WordFiltered(IGuild guild, SocketUserMessage usrMsg)
+        private async Task<bool> WordFiltered(IGuild guild, IUserMessage usrMsg)
         {
             var filteredChannelWords = Permissions.FilterCommands.FilteredWordsForChannel(usrMsg.Channel.Id, guild.Id) ?? new ConcurrentHashSet<string>();
             var filteredServerWords = Permissions.FilterCommands.FilteredWordsForServer(guild.Id) ?? new ConcurrentHashSet<string>();
@@ -232,8 +231,6 @@ namespace NadekoBot.Services
                     if (msg.Author.IsBot || !NadekoBot.Ready) //no bots, wait until bot connected and initialized
                         return;
 
-                    var execTime = Environment.TickCount;
-
                     var usrMsg = msg as SocketUserMessage;
                     if (usrMsg == null) //has to be an user message, not system/other messages.
                         return;
@@ -248,131 +245,7 @@ namespace NadekoBot.Services
                     var channel = msg.Channel as SocketTextChannel;
                     var guild = channel?.Guild;
 
-                    if (guild != null && guild.OwnerId != msg.Author.Id)
-                    {
-                        if (await InviteFiltered(guild, usrMsg).ConfigureAwait(false))
-                            return;
-
-                        if (await WordFiltered(guild, usrMsg).ConfigureAwait(false))
-                            return;
-                    }
-
-                    if (IsBlacklisted(guild, usrMsg))
-                        return;
-
-                    var exec1 = Environment.TickCount - execTime;
-
-                    var cleverBotRan = await Task.Run(() => TryRunCleverbot(usrMsg, guild)).ConfigureAwait(false);
-                    if (cleverBotRan)
-                        return;
-
-                    var exec2 = Environment.TickCount - execTime;
-
-                    // maybe this message is a custom reaction
-                    // todo log custom reaction executions. return struct with info
-                    var cr = await Task.Run(() => CustomReactions.TryGetCustomReaction(usrMsg)).ConfigureAwait(false);
-                    if (cr != null) //if it was, don't execute the command
-                    {
-                        try
-                        {
-                            if (guild != null)
-                            {
-                                PermissionCache pc;
-                                if (!Permissions.Cache.TryGetValue(guild.Id, out pc))
-                                {
-                                    using (var uow = DbHandler.UnitOfWork())
-                                    {
-                                        var config = uow.GuildConfigs.For(guild.Id,
-                                            set => set.Include(x => x.Permissions));
-                                        Permissions.UpdateCache(config);
-                                    }
-                                    Permissions.Cache.TryGetValue(guild.Id, out pc);
-                                    if (pc == null)
-                                        throw new Exception("Cache is null.");
-                                }
-                                int index;
-                                if (
-                                    !pc.Permissions.CheckPermissions(usrMsg, cr.Trigger, "ActualCustomReactions",
-                                        out index))
-                                {
-                                    //todo print in guild actually
-                                    var returnMsg =
-                                        $"Permission number #{index + 1} **{pc.Permissions[index].GetCommand(guild)}** is preventing this action.";
-                                    _log.Info(returnMsg);
-                                    return;
-                                }
-                            }
-                            await cr.Send(usrMsg).ConfigureAwait(false);
-
-                            if (cr.AutoDeleteTrigger)
-                            {
-                                try { await msg.DeleteAsync().ConfigureAwait(false); } catch { }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            _log.Warn("Sending CREmbed failed");
-                            _log.Warn(ex);
-                        }
-                        return;
-                    }
-
-                    var exec3 = Environment.TickCount - execTime;
-
-                    string messageContent = usrMsg.Content;
-                    if (guild != null)
-                    {
-                        ConcurrentDictionary<string, string> maps;
-                        if (Modules.Utility.Utility.CommandMapCommands.AliasMaps.TryGetValue(guild.Id, out maps))
-                        {
-                            string newMessageContent;
-                            if (maps.TryGetValue(messageContent.Trim().ToLowerInvariant(), out newMessageContent))
-                            {
-                                _log.Info(@"--Mapping Command--
-    GuildId: {0}
-    Trigger: {1}
-    Mapping: {2}", guild.Id, messageContent, newMessageContent);
-                                var oldMessageContent = messageContent;
-                                messageContent = newMessageContent;
-
-                                try { await usrMsg.Channel.SendConfirmAsync($"{oldMessageContent} => {newMessageContent}").ConfigureAwait(false); } catch { }
-                            }
-                        }
-                    }
-                    
-
-                    // execute the command and measure the time it took
-                    var exec = await Task.Run(() => ExecuteCommand(new CommandContext(_client, usrMsg), messageContent, DependencyMap.Empty, MultiMatchHandling.Best)).ConfigureAwait(false);
-                    execTime = Environment.TickCount - execTime;
-
-                    if (exec.Result.IsSuccess)
-                    {
-                        await CommandExecuted(usrMsg, exec.CommandInfo).ConfigureAwait(false);
-                        await LogSuccessfulExecution(usrMsg, exec, channel, exec1, exec2, exec3, execTime).ConfigureAwait(false);
-                    }
-                    else if (!exec.Result.IsSuccess && exec.Result.Error != CommandError.UnknownCommand)
-                    {
-                        LogErroredExecution(usrMsg, exec, channel, exec1, exec2, exec3, execTime);
-                        if (guild != null && exec.CommandInfo != null && exec.Result.Error == CommandError.Exception)
-                        {
-                            if (exec.PermissionCache != null && exec.PermissionCache.Verbose)
-                                try { await msg.Channel.SendMessageAsync("⚠️ " + exec.Result.ErrorReason).ConfigureAwait(false); } catch { }
-                        }
-                    }
-                    else
-                    {
-                        if (msg.Channel is IPrivateChannel)
-                        {
-                            // rofl, gotta do this to prevent dm help message being sent to 
-                            // users who are voting on private polls (sending a number in a DM)
-                            int vote;
-                            if (int.TryParse(msg.Content, out vote)) return;
-
-                            await msg.Channel.SendMessageAsync(Help.DMHelpString).ConfigureAwait(false);
-
-                            await SelfCommands.HandleDmForwarding(msg, ownerChannels).ConfigureAwait(false);
-                        }
-                    }
+                    await TryRunCommand(guild, channel, usrMsg);
                 }
                 catch (Exception ex)
                 {
@@ -386,6 +259,137 @@ namespace NadekoBot.Services
                 }
             });
             return Task.CompletedTask;
+        }
+
+        public async Task TryRunCommand(SocketGuild guild, ITextChannel channel, IUserMessage usrMsg)
+        {
+            var execTime = Environment.TickCount;
+
+            if (guild != null && guild.OwnerId != usrMsg.Author.Id)
+            {
+                if (await InviteFiltered(guild, usrMsg).ConfigureAwait(false))
+                    return;
+
+                if (await WordFiltered(guild, usrMsg).ConfigureAwait(false))
+                    return;
+            }
+
+            if (IsBlacklisted(guild, usrMsg))
+                return;
+
+            var exec1 = Environment.TickCount - execTime;
+
+            var cleverBotRan = await Task.Run(() => TryRunCleverbot(usrMsg, guild)).ConfigureAwait(false);
+            if (cleverBotRan)
+                return;
+
+            var exec2 = Environment.TickCount - execTime;
+
+            // maybe this message is a custom reaction
+            // todo log custom reaction executions. return struct with info
+            var cr = await Task.Run(() => CustomReactions.TryGetCustomReaction(usrMsg)).ConfigureAwait(false);
+            if (cr != null) //if it was, don't execute the command
+            {
+                try
+                {
+                    if (guild != null)
+                    {
+                        PermissionCache pc;
+                        if (!Permissions.Cache.TryGetValue(guild.Id, out pc))
+                        {
+                            using (var uow = DbHandler.UnitOfWork())
+                            {
+                                var config = uow.GuildConfigs.For(guild.Id,
+                                    set => set.Include(x => x.Permissions));
+                                Permissions.UpdateCache(config);
+                            }
+                            Permissions.Cache.TryGetValue(guild.Id, out pc);
+                            if (pc == null)
+                                throw new Exception("Cache is null.");
+                        }
+                        int index;
+                        if (
+                            !pc.Permissions.CheckPermissions(usrMsg, cr.Trigger, "ActualCustomReactions",
+                                out index))
+                        {
+                            //todo print in guild actually
+                            var returnMsg =
+                                $"Permission number #{index + 1} **{pc.Permissions[index].GetCommand(guild)}** is preventing this action.";
+                            _log.Info(returnMsg);
+                            return;
+                        }
+                    }
+                    await cr.Send(usrMsg).ConfigureAwait(false);
+
+                    if (cr.AutoDeleteTrigger)
+                    {
+                        try { await usrMsg.DeleteAsync().ConfigureAwait(false); } catch { }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _log.Warn("Sending CREmbed failed");
+                    _log.Warn(ex);
+                }
+                return;
+            }
+
+            var exec3 = Environment.TickCount - execTime;
+
+            string messageContent = usrMsg.Content;
+            if (guild != null)
+            {
+                ConcurrentDictionary<string, string> maps;
+                if (Modules.Utility.Utility.CommandMapCommands.AliasMaps.TryGetValue(guild.Id, out maps))
+                {
+                    string newMessageContent;
+                    if (maps.TryGetValue(messageContent.Trim().ToLowerInvariant(), out newMessageContent))
+                    {
+                        _log.Info(@"--Mapping Command--
+    GuildId: {0}
+    Trigger: {1}
+    Mapping: {2}", guild.Id, messageContent, newMessageContent);
+                        var oldMessageContent = messageContent;
+                        messageContent = newMessageContent;
+
+                        try { await usrMsg.Channel.SendConfirmAsync($"{oldMessageContent} => {newMessageContent}").ConfigureAwait(false); } catch { }
+                    }
+                }
+            }
+
+
+            // execute the command and measure the time it took
+            var exec = await Task.Run(() => ExecuteCommand(new CommandContext(_client, usrMsg), messageContent, DependencyMap.Empty, MultiMatchHandling.Best)).ConfigureAwait(false);
+            execTime = Environment.TickCount - execTime;
+
+            if (exec.Result.IsSuccess)
+            {
+                await CommandExecuted(usrMsg, exec.CommandInfo).ConfigureAwait(false);
+                await LogSuccessfulExecution(usrMsg, exec, channel, exec1, exec2, exec3, execTime).ConfigureAwait(false);
+            }
+            else if (!exec.Result.IsSuccess && exec.Result.Error != CommandError.UnknownCommand)
+            {
+                LogErroredExecution(usrMsg, exec, channel, exec1, exec2, exec3, execTime);
+                if (guild != null && exec.CommandInfo != null && exec.Result.Error == CommandError.Exception)
+                {
+                    if (exec.PermissionCache != null && exec.PermissionCache.Verbose)
+                        try { await usrMsg.Channel.SendMessageAsync("⚠️ " + exec.Result.ErrorReason).ConfigureAwait(false); } catch { }
+                }
+            }
+            else
+            {
+                if (usrMsg.Channel is IPrivateChannel)
+                {
+                    // rofl, gotta do this to prevent dm help message being sent to 
+                    // users who are voting on private polls (sending a number in a DM)
+                    int vote;
+                    if (int.TryParse(usrMsg.Content, out vote)) return;
+
+                    await usrMsg.Channel.SendMessageAsync(Help.DMHelpString).ConfigureAwait(false);
+
+                    await SelfCommands.HandleDmForwarding(usrMsg, ownerChannels).ConfigureAwait(false);
+                }
+            }
         }
 
         public Task<ExecuteCommandResult> ExecuteCommandAsync(CommandContext context, int argPos, IDependencyMap dependencyMap = null, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)

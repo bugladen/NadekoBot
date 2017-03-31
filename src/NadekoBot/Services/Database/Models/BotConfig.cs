@@ -61,6 +61,19 @@ Nadeko Support Server: https://discord.gg/nadekobot";
         public string OkColor { get; set; } = "71cd40";
         public string ErrorColor { get; set; } = "ee281f";
         public string Locale { get; set; } = null;
+        public List<StartupCommand> StartupCommands { get; set; }
+    }
+
+    public class StartupCommand : DbEntity, IIndexed
+    {
+        public int Index { get; set; }
+        public string CommandText { get; set; }
+        public ulong ChannelId { get; set; }
+        public string ChannelName { get; set; }
+        public ulong? GuildId { get; set; }
+        public string GuildName { get; set; }
+        public ulong? VoiceChannelId { get; set; }
+        public string VoiceChannelName { get; set; }
     }
 
     public class PlayingStatus :DbEntity
