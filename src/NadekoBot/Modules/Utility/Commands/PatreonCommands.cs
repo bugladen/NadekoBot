@@ -12,6 +12,7 @@ using System.Collections.Immutable;
 using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
 using NadekoBot.Extensions;
+using Discord;
 
 namespace NadekoBot.Modules.Utility
 {
@@ -31,10 +32,11 @@ namespace NadekoBot.Modules.Utility
             {
                 if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.PatreonAccessToken))
                     return;
-                if (DateTime.UtcNow.Day < 5)
-                {
-                    await ReplyErrorLocalized("clpa_too_early").ConfigureAwait(false);
-                }
+                //if (DateTime.UtcNow.Day < 5)
+                //{
+                //    await ReplyErrorLocalized("clpa_too_early").ConfigureAwait(false);
+                //    return;
+                //}
                 int amount = 0;
                 try
                 {
@@ -50,12 +52,13 @@ namespace NadekoBot.Modules.Utility
                     await ReplyConfirmLocalized("clpa_success", amount + NadekoBot.BotConfig.CurrencySign).ConfigureAwait(false);
                     return;
                 }
-
-                await Context.Channel.EmbedAsync(new Discord.EmbedBuilder().WithOkColor()
+                var helpcmd = Format.Code(NadekoBot.ModulePrefixes[typeof(Help.Help).Name] + "donate");
+                await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                     .WithDescription(GetText("clpa_fail"))
                     .AddField(efb => efb.WithName(GetText("clpa_fail_already_title")).WithValue(GetText("clpa_fail_already")))
                     .AddField(efb => efb.WithName(GetText("clpa_fail_wait_title")).WithValue(GetText("clpa_fail_wait")))
-                    .AddField(efb => efb.WithName(GetText("clpa_fail_sup_title")).WithValue(GetText("clpa_fail_sup"))))
+                    .AddField(efb => efb.WithName(GetText("clpa_fail_conn_title")).WithValue(GetText("clpa_fail_conn")))
+                    .AddField(efb => efb.WithName(GetText("clpa_fail_sup_title")).WithValue(GetText("clpa_fail_sup", helpcmd))))
                     .ConfigureAwait(false);
             }
         }
@@ -129,9 +132,10 @@ namespace NadekoBot.Modules.Utility
             public async Task<int> ClaimReward(ulong userId)
             {
                 await claimLockJustInCase.WaitAsync();
+                var now = DateTime.UtcNow;
                 try
                 {
-                    var data = Pledges.FirstOrDefault(x => x.User.id == userId.ToString());
+                    var data = Pledges.FirstOrDefault(x => x.User.attributes?.social_connections?.discord?.user_id == userId.ToString());
 
                     if (data == null)
                         return 0;
@@ -148,24 +152,35 @@ namespace NadekoBot.Modules.Utility
                             users.Add(new RewardedUser()
                             {
                                 UserId = userId,
-                                LastReward = DateTime.UtcNow,
+                                LastReward = now,
                                 AmountRewardedThisMonth = amount,
                             });
 
-                            await CurrencyHandler.AddCurrencyAsync(usr.UserId, "Patreon reward", amount, uow).ConfigureAwait(false);
+                            await CurrencyHandler.AddCurrencyAsync(userId, "Patreon reward - new", amount, uow).ConfigureAwait(false);
 
                             await uow.CompleteAsync().ConfigureAwait(false);
                             return amount;
                         }
 
-                        if (usr.AmountRewardedThisMonth < amount)
+                        if (usr.LastReward.Month != now.Month)
+                        {
+                            usr.LastReward = now;
+                            usr.AmountRewardedThisMonth = amount;
+
+                            await CurrencyHandler.AddCurrencyAsync(userId, "Patreon reward - recurring", amount, uow).ConfigureAwait(false);
+
+                            await uow.CompleteAsync().ConfigureAwait(false);
+                            return amount;
+                        }
+
+                        if ( usr.AmountRewardedThisMonth < amount)
                         {
                             var toAward = amount - usr.AmountRewardedThisMonth;
 
-                            usr.LastReward = DateTime.UtcNow;
+                            usr.LastReward = now;
                             usr.AmountRewardedThisMonth = amount;
 
-                            await CurrencyHandler.AddCurrencyAsync(usr.UserId, "Patreon reward", toAward, uow).ConfigureAwait(false);
+                            await CurrencyHandler.AddCurrencyAsync(usr.UserId, "Patreon reward - update", toAward, uow).ConfigureAwait(false);
 
                             await uow.CompleteAsync().ConfigureAwait(false);
                             return toAward;

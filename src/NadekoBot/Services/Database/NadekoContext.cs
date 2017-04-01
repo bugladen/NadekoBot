@@ -51,6 +51,7 @@ namespace NadekoBot.Services.Database
         public DbSet<EightBallResponse> EightBallResponses { get; set; }
         public DbSet<RaceAnimal> RaceAnimals { get; set; }
         public DbSet<ModulePrefix> ModulePrefixes { get; set; }
+        public DbSet<RewardedUser> RewardedUsers { get; set; }
 
         public NadekoContext() : base()
         {
@@ -276,6 +277,12 @@ namespace NadekoBot.Services.Database
 
             #region Warnings
             var warn = modelBuilder.Entity<Warning>();
+            #endregion
+
+            #region PatreonRewards
+            var pr = modelBuilder.Entity<RewardedUser>();
+            pr.HasIndex(x => x.UserId)
+                .IsUnique();
             #endregion
         }
     }

@@ -2373,19 +2373,25 @@ Owner ID: {2}</value>
     <value>Failed claiming rewards due to one of the following reasons:</value>
   </data>
   <data name="utility_clpa_fail_already" xml:space="preserve">
-    <value>Maybe you have already received your reward for this month. You can receive rewards only once a month unless you increase your pledge.</value>
+    <value>Maybe you've already received your reward for this month. You can receive rewards only once a month unless you increase your pledge.</value>
   </data>
   <data name="utility_clpa_fail_already_title" xml:space="preserve">
     <value>Already rewarded</value>
   </data>
+  <data name="utility_clpa_fail_conn" xml:space="preserve">
+    <value>Your discord account might not be connected to Patreon.. If you are unsure what that means, or don't know how to connect it - you have to go to [Patreon account settings page](https://patreon.com/settings/account) and click 'Connect to discord' button.</value>
+  </data>
+  <data name="utility_clpa_fail_conn_title" xml:space="preserve">
+    <value>Discord account not connected</value>
+  </data>
   <data name="utility_clpa_fail_sup" xml:space="preserve">
-    <value>In order to be eligible for the reward, you must support the project on patreon. Use {0} command to get the link.</value>
+    <value>In order to be eligible for the reward, you must support the project on patreon. You can use {0} command to get the link.</value>
   </data>
   <data name="utility_clpa_fail_sup_title" xml:space="preserve">
     <value>Not supporting</value>
   </data>
   <data name="utility_clpa_fail_wait" xml:space="preserve">
-    <value>You have to wait a few hours after making your pledge, if you didn't, waiut a bit and then try again later.</value>
+    <value>You have to wait a few hours after making your pledge, if you didn't, try again later.</value>
   </data>
   <data name="utility_clpa_fail_wait_title" xml:space="preserve">
     <value>Wait some time</value>

@@ -6035,7 +6035,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Maybe you have already received your reward for this month. You can receive rewards only once a month unless you increase your pledge..
+        ///    Looks up a localized string similar to Maybe you&apos;ve already received your reward for this month. You can receive rewards only once a month unless you increase your pledge..
         /// </summary>
         public static string utility_clpa_fail_already {
             get {
@@ -6053,7 +6053,25 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to In order to be eligible for the reward, you must support the project on patreon. Use {0} command to get the link..
+        ///    Looks up a localized string similar to Your discord account might not be connected to Patreon.. If you are unsure what that means, or don&apos;t know how to connect it - you have to go to [Patreon account settings page](https://patreon.com/settings/account) and click &apos;Connect to discord&apos; button..
+        /// </summary>
+        public static string utility_clpa_fail_conn {
+            get {
+                return ResourceManager.GetString("utility_clpa_fail_conn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Discord account not connected.
+        /// </summary>
+        public static string utility_clpa_fail_conn_title {
+            get {
+                return ResourceManager.GetString("utility_clpa_fail_conn_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to In order to be eligible for the reward, you must support the project on patreon. You can use {0} command to get the link..
         /// </summary>
         public static string utility_clpa_fail_sup {
             get {
@@ -6071,7 +6089,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to You have to wait a few hours after making your pledge, if you didn&apos;t, waiut a bit and then try again later..
+        ///    Looks up a localized string similar to You have to wait a few hours after making your pledge, if you didn&apos;t, try again later..
         /// </summary>
         public static string utility_clpa_fail_wait {
             get {

@@ -2,7 +2,7 @@
 
 namespace NadekoBot.Services.Database.Models
 {
-    public class RewardedUser
+    public class RewardedUser : DbEntity
     {
         public ulong UserId { get; set; }
         public int AmountRewardedThisMonth { get; set; }
