@@ -3322,10 +3322,10 @@
     <value>`{0}warnpunish 5 Ban` or `{0}warnpunish 3`</value>
   </data>
   <data name="claimpatreonrewards_cmd" xml:space="preserve">
-    <value>claimpatreonrewards</value>
+    <value>clparew</value>
   </data>
   <data name="claimpatreonrewards_desc" xml:space="preserve">
-    <value>If you're subscribed to bot owner's patreon you can user this command to claim your rewards - assuming bot owner did setup has their patreon key.</value>
+    <value>Claim patreon rewards. If you're subscribed to bot owner's patreon you can user this command to claim your rewards - assuming bot owner did setup has their patreon key.</value>
   </data>
   <data name="claimpatreonrewards_usage" xml:space="preserve">
     <value>`{0}claimpatreonrewards`</value>

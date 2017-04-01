@@ -1707,7 +1707,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to claimpatreonrewards.
+        ///    Looks up a localized string similar to clparew.
         /// </summary>
         public static string claimpatreonrewards_cmd {
             get {
@@ -1716,7 +1716,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to If you&apos;re subscribed to bot owner&apos;s patreon you can user this command to claim your rewards - assuming bot owner did setup has their patreon key..
+        ///    Looks up a localized string similar to Claim patreon rewards. If you&apos;re subscribed to bot owner&apos;s patreon you can user this command to claim your rewards - assuming bot owner did setup has their patreon key..
         /// </summary>
         public static string claimpatreonrewards_desc {
             get {
