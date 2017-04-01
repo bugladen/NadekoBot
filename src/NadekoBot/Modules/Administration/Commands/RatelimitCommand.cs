@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
-using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
 using NLog;
 using System;
@@ -20,16 +19,16 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class RatelimitCommand : NadekoSubmodule
+        public class RatelimitCommands : NadekoSubmodule
         {
             public static ConcurrentDictionary<ulong, Ratelimiter> RatelimitingChannels = new ConcurrentDictionary<ulong, Ratelimiter>();
+            public static ConcurrentDictionary<ulong, HashSet<ulong>> IgnoredRoles = new ConcurrentDictionary<ulong, HashSet<ulong>>();
+            public static ConcurrentDictionary<ulong, HashSet<ulong>> IgnoredUsers = new ConcurrentDictionary<ulong, HashSet<ulong>>();
+
             private new static readonly Logger _log;
 
             public class Ratelimiter
             {
-                public HashSet<ulong> IgnoreUsers { get; set; } = new HashSet<ulong>();
-                public HashSet<ulong> IgnoreRoles { get; set; } = new HashSet<ulong>();
-
                 public class RatelimitedUser
                 {
                     public ulong UserId { get; set; }
@@ -45,10 +44,13 @@ namespace NadekoBot.Modules.Administration
 
                 public ConcurrentDictionary<ulong, RatelimitedUser> Users { get; set; } = new ConcurrentDictionary<ulong, RatelimitedUser>();
 
-                public bool CheckUserRatelimit(ulong id, SocketGuildUser optUser)
+                public bool CheckUserRatelimit(ulong id, ulong guildId, SocketGuildUser optUser)
                 {
-                    if (IgnoreUsers.Contains(id) || 
-                        (optUser != null && optUser.RoleIds.Any(x => IgnoreRoles.Contains(x))))
+                    HashSet<ulong> ignoreUsers;
+                    HashSet<ulong> ignoreRoles;
+
+                    if ((IgnoredUsers.TryGetValue(guildId, out ignoreUsers) && ignoreUsers.Contains(id)) || 
+                        (optUser != null && IgnoredRoles.TryGetValue(guildId, out ignoreRoles) && optUser.RoleIds.Any(x => ignoreRoles.Contains(x))))
                         return false;
 
                     var usr = Users.GetOrAdd(id, (key) => new RatelimitedUser() { UserId = id });
@@ -70,9 +72,19 @@ namespace NadekoBot.Modules.Administration
                 }
             }
 
-            static RatelimitCommand()
+            static RatelimitCommands()
             {
                 _log = LogManager.GetCurrentClassLogger();
+
+                IgnoredRoles = new ConcurrentDictionary<ulong, HashSet<ulong>>(
+                    NadekoBot.AllGuildConfigs
+                             .ToDictionary(x => x.GuildId,
+                                           x => new HashSet<ulong>(x.SlowmodeIgnoredRoles.Select(y => y.RoleId))));
+
+                IgnoredUsers = new ConcurrentDictionary<ulong, HashSet<ulong>>(
+                    NadekoBot.AllGuildConfigs
+                             .ToDictionary(x => x.GuildId,
+                                           x => new HashSet<ulong>(x.SlowmodeIgnoredUsers.Select(y => y.UserId))));
 
                 NadekoBot.Client.MessageReceived += async (umsg) =>
                  {
@@ -87,7 +99,7 @@ namespace NadekoBot.Modules.Administration
                          if (!RatelimitingChannels.TryGetValue(channel.Id, out limiter))
                              return;
 
-                         if (limiter.CheckUserRatelimit(usrMsg.Author.Id, usrMsg.Author as SocketGuildUser))
+                         if (limiter.CheckUserRatelimit(usrMsg.Author.Id, channel.Guild.Id, usrMsg.Author as SocketGuildUser))
                              await usrMsg.DeleteAsync();
                      }
                      catch (Exception ex) { _log.Warn(ex); }
@@ -157,11 +169,8 @@ namespace NadekoBot.Modules.Administration
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
 
-                Ratelimiter rl;
-                if (RatelimitingChannels.TryGetValue(Context.Guild.Id, out rl))
-                {
-                    rl.IgnoreUsers = new HashSet<ulong>(usrs.Select(x => x.UserId));
-                }
+                IgnoredUsers.AddOrUpdate(Context.Guild.Id, new HashSet<ulong>(usrs.Select(x => x.UserId)), (key, old) => new HashSet<ulong>(usrs.Select(x => x.UserId)));
+
                 if(removed)
                     await ReplyConfirmLocalized("slowmodewl_user_stop", Format.Bold(user.ToString())).ConfigureAwait(false);
                 else
@@ -192,11 +201,7 @@ namespace NadekoBot.Modules.Administration
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
 
-                Ratelimiter rl;
-                if (RatelimitingChannels.TryGetValue(Context.Guild.Id, out rl))
-                {
-                    rl.IgnoreRoles = new HashSet<ulong>(roles.Select(x => x.RoleId));
-                }
+                IgnoredRoles.AddOrUpdate(Context.Guild.Id, new HashSet<ulong>(roles.Select(x => x.RoleId)), (key, old) => new HashSet<ulong>(roles.Select(x => x.RoleId)));
 
                 if (removed)
                     await ReplyConfirmLocalized("slowmodewl_role_stop", Format.Bold(role.ToString())).ConfigureAwait(false);

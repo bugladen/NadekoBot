@@ -1513,7 +1513,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Slowmode will now ignore role {0}.
+        ///    Looks up a localized string similar to Slowmode will now ignore {0} role..
         /// </summary>
         public static string administration_slowmodewl_role_start {
             get {
@@ -1522,7 +1522,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Slowmode will no longer ignore role {0}.
+        ///    Looks up a localized string similar to Slowmode will no longer ignore {0} role..
         /// </summary>
         public static string administration_slowmodewl_role_stop {
             get {
@@ -1531,7 +1531,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Slowmode will now ignore user {0}.
+        ///    Looks up a localized string similar to Slowmode will now ignore user {0}..
         /// </summary>
         public static string administration_slowmodewl_user_start {
             get {
@@ -1540,7 +1540,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Slowmode will no longer ignore user {0}.
+        ///    Looks up a localized string similar to Slowmode will no longer ignore user {0}..
         /// </summary>
         public static string administration_slowmodewl_user_stop {
             get {
@@ -6107,7 +6107,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to You&apos;ve received {0}. Thanks for supporting the project!.
+        ///    Looks up a localized string similar to You&apos;ve received {0} Thanks for supporting the project!.
         /// </summary>
         public static string utility_clpa_success {
             get {

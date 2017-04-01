@@ -2358,16 +2358,16 @@ Owner ID: {2}</value>
     <value>I will apply {0} punishment to users with {1} warnings.</value>
   </data>
   <data name="administration_slowmodewl_role_start" xml:space="preserve">
-    <value>Slowmode will now ignore role {0}</value>
+    <value>Slowmode will now ignore {0} role.</value>
   </data>
   <data name="administration_slowmodewl_role_stop" xml:space="preserve">
-    <value>Slowmode will no longer ignore role {0}</value>
+    <value>Slowmode will no longer ignore {0} role.</value>
   </data>
   <data name="administration_slowmodewl_user_start" xml:space="preserve">
-    <value>Slowmode will now ignore user {0}</value>
+    <value>Slowmode will now ignore user {0}.</value>
   </data>
   <data name="administration_slowmodewl_user_stop" xml:space="preserve">
-    <value>Slowmode will no longer ignore user {0}</value>
+    <value>Slowmode will no longer ignore user {0}.</value>
   </data>
   <data name="utility_clpa_fail" xml:space="preserve">
     <value>Failed claiming rewards due to one of the following reasons:</value>
@@ -2397,7 +2397,7 @@ Owner ID: {2}</value>
     <value>Wait some time</value>
   </data>
   <data name="utility_clpa_success" xml:space="preserve">
-    <value>You've received {0}. Thanks for supporting the project!</value>
+    <value>You've received {0} Thanks for supporting the project!</value>
   </data>
   <data name="utility_clpa_too_early" xml:space="preserve">
     <value>Rewards can be claimed on or after 5th of each month.</value>

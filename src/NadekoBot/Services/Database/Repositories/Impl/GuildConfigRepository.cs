@@ -38,6 +38,8 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                 .Include(gc => gc.CommandCooldowns)
                 .Include(gc => gc.GuildRepeaters)
                 .Include(gc => gc.AntiRaidSetting)
+                .Include(gc => gc.SlowmodeIgnoredRoles)
+                .Include(gc => gc.SlowmodeIgnoredUsers)
                 .Include(gc => gc.AntiSpamSetting)
                     .ThenInclude(x => x.IgnoredChannels)
                 .ToList();
