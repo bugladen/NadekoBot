@@ -57,6 +57,7 @@ namespace NadekoBot.Modules.Administration
                             }
                             catch { }
                         }
+                        await Task.Delay(400).ConfigureAwait(false);
                     }
                 });
             }
