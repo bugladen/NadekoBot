@@ -1,7 +1,10 @@
 using Discord;
 using Discord.Commands;
+using Microsoft.EntityFrameworkCore;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
+using NadekoBot.Services;
+using NadekoBot.Services.Database;
 using NLog;
 using System;
 using System.Collections.Concurrent;
@@ -118,6 +121,30 @@ namespace NadekoBot.Modules.Administration
                                                 .ConfigureAwait(false);
                 }
             }
+
+            //[NadekoCommand, Usage, Description, Aliases]
+            //[RequireContext(ContextType.Guild)]
+            //[RequireUserPermission(GuildPermission.ManageMessages)]
+            //public async Task SlowmodeWhitelist(IUser user)
+            //{
+            //    Ratelimiter throwaway;
+            //    if (RatelimitingChannels.TryRemove(Context.Channel.Id, out throwaway))
+            //    {
+            //        throwaway.cancelSource.Cancel();
+            //        await ReplyConfirmLocalized("slowmode_disabled").ConfigureAwait(false);
+            //    }
+            //}
+
+            //[NadekoCommand, Usage, Description, Aliases]
+            //[RequireContext(ContextType.Guild)]
+            //[RequireUserPermission(GuildPermission.ManageMessages)]
+            //public async Task SlowmodeWhitelist(IRole role)
+            //{
+            //    using (var uow = DbHandler.UnitOfWork())
+            //    {
+            //        uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(x => x.SlowmodeWhitelists)).
+            //    }
+            //}
         }
     }
 }

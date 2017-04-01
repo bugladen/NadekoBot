@@ -36,11 +36,9 @@ namespace NadekoBot.Modules.Administration
 
                 var _ = Task.Run(async () =>
                 {
-#if !GLOBAL_NADEKO
-                    await Task.Delay(2000);
-#else
-                    await Task.Delay(10000);
-#endif
+                    while(!NadekoBot.Ready)
+                        await Task.Delay(1000);
+
                     foreach (var cmd in NadekoBot.BotConfig.StartupCommands)
                     {
                         if (cmd.GuildId != null)
@@ -52,7 +50,8 @@ namespace NadekoBot.Modules.Administration
 
                             try
                             {
-                                var msg = await channel.SendMessageAsync(cmd.CommandText).ConfigureAwait(false);
+                                IUserMessage msg = await channel.SendMessageAsync(cmd.CommandText).ConfigureAwait(false);
+                                msg = (IUserMessage)await channel.GetMessageAsync(msg.Id).ConfigureAwait(false);
                                 await NadekoBot.CommandHandler.TryRunCommand(guild, channel, msg).ConfigureAwait(false);
                                 //msg.DeleteAfter(5);
                             }
