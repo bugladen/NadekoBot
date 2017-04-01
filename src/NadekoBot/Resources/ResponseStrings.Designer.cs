@@ -1513,6 +1513,42 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Slowmode will now ignore role {0}.
+        /// </summary>
+        public static string administration_slowmodewl_role_start {
+            get {
+                return ResourceManager.GetString("administration_slowmodewl_role_start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Slowmode will no longer ignore role {0}.
+        /// </summary>
+        public static string administration_slowmodewl_role_stop {
+            get {
+                return ResourceManager.GetString("administration_slowmodewl_role_stop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Slowmode will now ignore user {0}.
+        /// </summary>
+        public static string administration_slowmodewl_user_start {
+            get {
+                return ResourceManager.GetString("administration_slowmodewl_user_start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Slowmode will no longer ignore user {0}.
+        /// </summary>
+        public static string administration_slowmodewl_user_stop {
+            get {
+                return ResourceManager.GetString("administration_slowmodewl_user_stop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to soft-banned.
         /// </summary>
         public static string administration_soft_banned_pl {
@@ -5986,6 +6022,87 @@ namespace NadekoBot.Resources {
         public static string utility_channelid {
             get {
                 return ResourceManager.GetString("utility_channelid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Failed claiming rewards due to one of the following reasons:.
+        /// </summary>
+        public static string utility_claimpatreon_fail {
+            get {
+                return ResourceManager.GetString("utility_claimpatreon_fail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Maybe you have already received your reward for this month. You can receive rewards only once a month unless you increase your pledge..
+        /// </summary>
+        public static string utility_claimpatreon_fail_already {
+            get {
+                return ResourceManager.GetString("utility_claimpatreon_fail_already", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Already rewarded.
+        /// </summary>
+        public static string utility_claimpatreon_fail_already_title {
+            get {
+                return ResourceManager.GetString("utility_claimpatreon_fail_already_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to In order to be eligible for the reward, you must support the project on patreon. Use {0} command to get the link..
+        /// </summary>
+        public static string utility_claimpatreon_fail_sup {
+            get {
+                return ResourceManager.GetString("utility_claimpatreon_fail_sup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Not supporting.
+        /// </summary>
+        public static string utility_claimpatreon_fail_sup_title {
+            get {
+                return ResourceManager.GetString("utility_claimpatreon_fail_sup_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You have to wait a few hours after making your pledge, if you didn&apos;t, waiut a bit and then try again later..
+        /// </summary>
+        public static string utility_claimpatreon_fail_wait {
+            get {
+                return ResourceManager.GetString("utility_claimpatreon_fail_wait", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Wait some time.
+        /// </summary>
+        public static string utility_claimpatreon_fail_wait_title {
+            get {
+                return ResourceManager.GetString("utility_claimpatreon_fail_wait_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You&apos;ve received {0}. Thanks for supporting the project!.
+        /// </summary>
+        public static string utility_claimpatreon_success {
+            get {
+                return ResourceManager.GetString("utility_claimpatreon_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Rewards can be claimed on or after 5th of each month..
+        /// </summary>
+        public static string utility_claimpatreon_too_early {
+            get {
+                return ResourceManager.GetString("utility_claimpatreon_too_early", resourceCulture);
             }
         }
         

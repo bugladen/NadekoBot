@@ -3321,4 +3321,22 @@
   <data name="warnpunish_usage" xml:space="preserve">
     <value>`{0}warnpunish 5 Ban` or `{0}warnpunish 3`</value>
   </data>
+  <data name="claimpatreonrewards_cmd" xml:space="preserve">
+    <value>claimpatreonrewards</value>
+  </data>
+  <data name="claimpatreonrewards_desc" xml:space="preserve">
+    <value>If you're subscribed to bot owner's patreon you can user this command to claim your rewards - assuming bot owner did setup has their patreon key.</value>
+  </data>
+  <data name="claimpatreonrewards_usage" xml:space="preserve">
+    <value>`{0}claimpatreonrewards`</value>
+  </data>
+  <data name="slowmodewhitelist_cmd" xml:space="preserve">
+    <value>slowmodewl</value>
+  </data>
+  <data name="slowmodewhitelist_desc" xml:space="preserve">
+    <value>Ignores a role or a user from the slowmode feature.</value>
+  </data>
+  <data name="slowmodewhitelist_usage" xml:space="preserve">
+    <value>`{0}slowmodewl SomeRole` or `{0}slowmodewl AdminDude`</value>
+  </data>
 </root>

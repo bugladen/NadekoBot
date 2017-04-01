@@ -1707,6 +1707,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to claimpatreonrewards.
+        /// </summary>
+        public static string claimpatreonrewards_cmd {
+            get {
+                return ResourceManager.GetString("claimpatreonrewards_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to If you&apos;re subscribed to bot owner&apos;s patreon you can user this command to claim your rewards - assuming bot owner did setup has their patreon key..
+        /// </summary>
+        public static string claimpatreonrewards_desc {
+            get {
+                return ResourceManager.GetString("claimpatreonrewards_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}claimpatreonrewards`.
+        /// </summary>
+        public static string claimpatreonrewards_usage {
+            get {
+                return ResourceManager.GetString("claimpatreonrewards_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to cleanup.
         /// </summary>
         public static string cleanup_cmd {
@@ -7670,6 +7697,33 @@ namespace NadekoBot.Resources {
         public static string slowmode_usage {
             get {
                 return ResourceManager.GetString("slowmode_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to slowmodewl.
+        /// </summary>
+        public static string slowmodewhitelist_cmd {
+            get {
+                return ResourceManager.GetString("slowmodewhitelist_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Ignores a role or a user from the slowmode feature..
+        /// </summary>
+        public static string slowmodewhitelist_desc {
+            get {
+                return ResourceManager.GetString("slowmodewhitelist_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}slowmodewl SomeRole` or `{0}slowmodewl AdminDude`.
+        /// </summary>
+        public static string slowmodewhitelist_usage {
+            get {
+                return ResourceManager.GetString("slowmodewhitelist_usage", resourceCulture);
             }
         }
         

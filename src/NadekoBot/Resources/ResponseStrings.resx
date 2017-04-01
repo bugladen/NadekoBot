@@ -2357,4 +2357,43 @@ Owner ID: {2}</value>
   <data name="administration_warn_punish_set" xml:space="preserve">
     <value>I will apply {0} punishment to users with {1} warnings.</value>
   </data>
+  <data name="administration_slowmodewl_role_start" xml:space="preserve">
+    <value>Slowmode will now ignore role {0}</value>
+  </data>
+  <data name="administration_slowmodewl_role_stop" xml:space="preserve">
+    <value>Slowmode will no longer ignore role {0}</value>
+  </data>
+  <data name="administration_slowmodewl_user_start" xml:space="preserve">
+    <value>Slowmode will now ignore user {0}</value>
+  </data>
+  <data name="administration_slowmodewl_user_stop" xml:space="preserve">
+    <value>Slowmode will no longer ignore user {0}</value>
+  </data>
+  <data name="utility_claimpatreon_fail" xml:space="preserve">
+    <value>Failed claiming rewards due to one of the following reasons:</value>
+  </data>
+  <data name="utility_claimpatreon_fail_already" xml:space="preserve">
+    <value>Maybe you have already received your reward for this month. You can receive rewards only once a month unless you increase your pledge.</value>
+  </data>
+  <data name="utility_claimpatreon_fail_already_title" xml:space="preserve">
+    <value>Already rewarded</value>
+  </data>
+  <data name="utility_claimpatreon_fail_sup" xml:space="preserve">
+    <value>In order to be eligible for the reward, you must support the project on patreon. Use {0} command to get the link.</value>
+  </data>
+  <data name="utility_claimpatreon_fail_sup_title" xml:space="preserve">
+    <value>Not supporting</value>
+  </data>
+  <data name="utility_claimpatreon_fail_wait" xml:space="preserve">
+    <value>You have to wait a few hours after making your pledge, if you didn't, waiut a bit and then try again later.</value>
+  </data>
+  <data name="utility_claimpatreon_fail_wait_title" xml:space="preserve">
+    <value>Wait some time</value>
+  </data>
+  <data name="utility_claimpatreon_success" xml:space="preserve">
+    <value>You've received {0}. Thanks for supporting the project!</value>
+  </data>
+  <data name="utility_claimpatreon_too_early" xml:space="preserve">
+    <value>Rewards can be claimed on or after 5th of each month.</value>
+  </data>
 </root>

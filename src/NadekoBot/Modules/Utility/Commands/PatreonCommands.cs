@@ -9,6 +9,9 @@
 //using System.Threading;
 //using System;
 //using System.Collections.Immutable;
+//using NadekoBot.Services;
+//using NadekoBot.Services.Database.Models;
+//using NadekoBot.Extensions;
 
 //namespace NadekoBot.Modules.Utility
 //{
@@ -17,20 +20,45 @@
 //        [Group]
 //        public class PatreonCommands : NadekoSubmodule
 //        {
+//            private static readonly PatreonThingy patreon;
+
+//            static PatreonCommands()
+//            {
+//                patreon = PatreonThingy.Instance;
+//            }
 //            [NadekoCommand, Usage, Description, Aliases]
 //            public async Task ClaimPatreonRewards()
 //            {
-//                var patreon = PatreonThingy.Instance;
-
-//                var pledges = (await patreon.GetPledges().ConfigureAwait(false))
-//                    .OrderByDescending(x => x.Reward.attributes.amount_cents);
-
-//                if (pledges == null)
+//                if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.PatreonAccessToken))
+//                    return;
+//                if (DateTime.UtcNow.Day < 5)
 //                {
-//                    await ReplyErrorLocalized("pledges_loading").ConfigureAwait(false);
+//                    await ReplyErrorLocalized("claimpatreon_too_early").ConfigureAwait(false);
+//                }
+//                int amount = 0;
+//                try
+//                {
+//                    amount = await patreon.ClaimReward(Context.User.Id).ConfigureAwait(false);
+//                }
+//                catch (Exception ex)
+//                {
+//                    _log.Warn(ex);
+//                }
+
+//                if (amount > 0)
+//                {
+//                    await ReplyConfirmLocalized("claimpatreon_success", amount).ConfigureAwait(false);
 //                    return;
 //                }
 
+//                await Context.Channel.EmbedAsync(new Discord.EmbedBuilder().WithOkColor()
+//                    .WithDescription(GetText("claimpatreon_fail"))
+//                    .AddField(efb => efb.WithName("").WithValue(""))
+//                    .AddField(efb => efb.WithName("").WithValue(""))
+//                    .AddField(efb => efb.WithName("").WithValue("")))
+//                    .ConfigureAwait(false);
+
+//                await ReplyErrorLocalized("claimpatreon_fail").ConfigureAwait(false);
 //            }
 //        }
 
@@ -41,21 +69,16 @@
 
 //            private readonly SemaphoreSlim getPledgesLocker = new SemaphoreSlim(1, 1);
 
-//            private ImmutableArray<PatreonUserAndReward> pledges;
+//            public ImmutableArray<PatreonUserAndReward> Pledges { get; private set; }
 
-//            static PatreonThingy() { }
+//            private readonly Timer update;
+//            private readonly SemaphoreSlim claimLockJustInCase = new SemaphoreSlim(1, 1);
 
-//            public async Task<ImmutableArray<PatreonUserAndReward>> GetPledges()
+//            private PatreonThingy()
 //            {
-//                try
-//                {
-//                    await LoadPledges().ConfigureAwait(false);
-//                    return pledges;
-//                }
-//                catch (OperationCanceledException)
-//                {
-//                    return pledges;
-//                }
+//                if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.PatreonAccessToken))
+//                    return;
+//                update = new Timer(async (_) => await LoadPledges(), null, TimeSpan.Zero, TimeSpan.FromHours(3));
 //            }
 
 //            public async Task LoadPledges()
@@ -89,7 +112,7 @@
 //                                .Select(x => JsonConvert.DeserializeObject<PatreonUser>(x.ToString())));
 //                        } while (!string.IsNullOrWhiteSpace(data.Links.next));
 //                    }
-//                    pledges = rewards.Join(users, (r) => r.relationships?.patron?.data?.id, (u) => u.id, (x, y) => new PatreonUserAndReward()
+//                    Pledges = rewards.Join(users, (r) => r.relationships?.patron?.data?.id, (u) => u.id, (x, y) => new PatreonUserAndReward()
 //                    {
 //                        User = y,
 //                        Reward = x,
@@ -102,7 +125,55 @@
 //                        await Task.Delay(TimeSpan.FromMinutes(5)).ConfigureAwait(false);
 //                        getPledgesLocker.Release();
 //                    });
-                    
+
+//                }
+//            }
+
+//            public async Task<int> ClaimReward(ulong userId)
+//            {
+//                await claimLockJustInCase.WaitAsync();
+//                try
+//                {
+//                    var data = Pledges.FirstOrDefault(x => x.User.id == userId.ToString());
+
+//                    if (data == null)
+//                        return 0;
+
+//                    var amount = data.Reward.attributes.amount_cents;
+
+//                    using (var uow = DbHandler.UnitOfWork())
+//                    {
+//                        var users = uow._context.Set<RewardedUser>();
+//                        var usr = users.FirstOrDefault(x => x.UserId == userId);
+
+//                        if (usr == null)
+//                        {
+//                            users.Add(new RewardedUser()
+//                            {
+//                                UserId = userId,
+//                                LastReward = DateTime.UtcNow,
+//                                AmountRewardedThisMonth = amount,
+//                            });
+//                            await uow.CompleteAsync().ConfigureAwait(false);
+//                            return amount;
+//                        }
+
+//                        if (usr.AmountRewardedThisMonth < amount)
+//                        {
+//                            var toAward = amount - usr.AmountRewardedThisMonth;
+
+//                            usr.LastReward = DateTime.UtcNow;
+//                            usr.AmountRewardedThisMonth = amount;
+
+//                            await uow.CompleteAsync().ConfigureAwait(false);
+//                            return toAward;
+//                        }
+//                    }
+//                    return 0;
+//                }
+//                finally
+//                {
+//                    claimLockJustInCase.Release();
 //                }
 //            }
 //        }
