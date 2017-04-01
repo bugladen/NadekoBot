@@ -575,6 +575,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Kicked.
+        /// </summary>
+        public static string administration_kicked_pl {
+            get {
+                return ResourceManager.GetString("administration_kicked_pl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to User kicked.
         /// </summary>
         public static string administration_kicked_user {
@@ -1504,7 +1513,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to soft-banned (kicked).
+        ///    Looks up a localized string similar to soft-banned.
         /// </summary>
         public static string administration_soft_banned_pl {
             get {

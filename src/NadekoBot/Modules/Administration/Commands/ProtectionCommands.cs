@@ -190,6 +190,13 @@ namespace NadekoBot.Modules.Administration
                         case PunishmentAction.Kick:
                             try
                             {
+                                await gu.KickAsync().ConfigureAwait(false);
+                            }
+                            catch (Exception ex) { _log.Warn(ex, "I can't apply punishement"); }
+                            break;
+                        case PunishmentAction.Softban:
+                            try
+                            {
                                 await gu.Guild.AddBanAsync(gu, 7).ConfigureAwait(false);
                                 try
                                 {

@@ -740,7 +740,7 @@ Reason: {1}</value>
     <value>Slow mode initiated</value>
   </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
-    <value>soft-banned (kicked)</value>
+    <value>soft-banned</value>
     <comment>PLURAL</comment>
   </data>
   <data name="administration_spam_ignore" xml:space="preserve">
@@ -2283,6 +2283,10 @@ Owner ID: {2}</value>
   </data>
   <data name="administration_command_text" xml:space="preserve">
     <value>Command Text</value>
+  </data>
+  <data name="administration_kicked_pl" xml:space="preserve">
+    <value>Kicked</value>
+    <comment>PLURAL</comment>
   </data>
   <data name="administration_moderator" xml:space="preserve">
     <value>Moderator</value>
