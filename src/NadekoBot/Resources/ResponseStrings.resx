@@ -2382,7 +2382,7 @@ Owner ID: {2}</value>
     <value>Already rewarded</value>
   </data>
   <data name="utility_clpa_fail_conn" xml:space="preserve">
-    <value>Your discord account might not be connected to Patreon.. If you are unsure what that means, or don't know how to connect it - you have to go to [Patreon account settings page](https://patreon.com/settings/account) and click 'Connect to discord' button.</value>
+    <value>Your discord account might not be connected to Patreon. If you are unsure what that means, or don't know how to connect it - you have to go to [Patreon account settings page](https://patreon.com/settings/account) and click 'Connect to discord' button.</value>
   </data>
   <data name="utility_clpa_fail_conn_title" xml:space="preserve">
     <value>Discord account not connected</value>
