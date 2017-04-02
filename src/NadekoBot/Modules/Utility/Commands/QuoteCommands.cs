@@ -105,7 +105,7 @@ namespace NadekoBot.Modules.Utility
             [RequireContext(ContextType.Guild)]
             public async Task QuoteId(int id)
             {  
-                if (id < 0 || id > Int32.MaxValue)
+                if (id < 0)
                     return;
                 
                 using (var uow = DbHandler.UnitOfWork())
