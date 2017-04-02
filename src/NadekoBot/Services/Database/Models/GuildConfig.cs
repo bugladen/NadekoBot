@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using static NadekoBot.Modules.Administration.Administration;
 
 namespace NadekoBot.Services.Database.Models
 {
@@ -72,8 +71,63 @@ namespace NadekoBot.Services.Database.Models
         public HashSet<UnmuteTimer> UnmuteTimers { get; set; } = new HashSet<UnmuteTimer>();
         public HashSet<VcRoleInfo> VcRoleInfos { get; set; }
         public HashSet<CommandAlias> CommandAliases { get; set; } = new HashSet<CommandAlias>();
+        public List<WarningPunishment> WarnPunishments { get; set; } = new List<WarningPunishment>();
+        public bool WarningsInitialized { get; set; }
+        public HashSet<SlowmodeIgnoredUser> SlowmodeIgnoredUsers { get; set; }
+        public HashSet<SlowmodeIgnoredRole> SlowmodeIgnoredRoles { get; set; }
 
         //public List<ProtectionIgnoredChannel> ProtectionIgnoredChannels { get; set; } = new List<ProtectionIgnoredChannel>();
+    }
+
+    public class SlowmodeIgnoredUser : DbEntity
+    {
+        public ulong UserId { get; set; }
+
+        // override object.Equals
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            return ((SlowmodeIgnoredUser)obj).UserId == UserId;
+        }
+
+        // override object.GetHashCode
+        public override int GetHashCode()
+        {
+            return UserId.GetHashCode();
+        }
+    }
+
+    public class SlowmodeIgnoredRole : DbEntity
+    {
+        public ulong RoleId { get; set; }
+
+        // override object.Equals
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            return ((SlowmodeIgnoredRole)obj).RoleId == RoleId;
+        }
+
+        // override object.GetHashCode
+        public override int GetHashCode()
+        {
+            return RoleId.GetHashCode();
+        }
+    }
+
+    public class WarningPunishment : DbEntity
+    {
+        public int Count { get; set; }
+        public PunishmentAction Punishment { get; set; }
+        public int Time { get; set; }
     }
 
     public class CommandAlias : DbEntity

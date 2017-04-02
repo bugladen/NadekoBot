@@ -32,7 +32,7 @@ namespace NadekoBot.Modules.Administration
 
         }
 
-        private static Task DelMsgOnCmd_Handler(SocketUserMessage msg, CommandInfo cmd)
+        private static Task DelMsgOnCmd_Handler(IUserMessage msg, CommandInfo cmd)
         {
             var _ = Task.Run(async () =>
             {
@@ -216,101 +216,6 @@ namespace NadekoBot.Modules.Administration
             {
                 await ReplyErrorLocalized("rc_perms").ConfigureAwait(false);
             }
-        }
-
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.BanMembers)]
-        [RequireBotPermission(GuildPermission.BanMembers)]
-        public async Task Ban(IGuildUser user, [Remainder] string msg = null)
-        {
-            if (Context.User.Id != user.Guild.OwnerId && (user.GetRoles().Select(r => r.Position).Max() >= ((IGuildUser)Context.User).GetRoles().Select(r => r.Position).Max()))
-            {
-                await ReplyErrorLocalized("hierarchy").ConfigureAwait(false);
-                return;
-            }
-            if (!string.IsNullOrWhiteSpace(msg))
-            {
-                try
-                {
-                    await user.SendErrorAsync(GetText("bandm", Format.Bold(Context.Guild.Name), msg));
-                }
-                catch
-                {
-                    // ignored
-                }
-            }
-
-            await Context.Guild.AddBanAsync(user, 7).ConfigureAwait(false);
-            await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                    .WithTitle("⛔️ " + GetText("banned_user"))
-                    .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
-                    .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true)))
-                .ConfigureAwait(false);
-        }
-
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.KickMembers)]
-        [RequireUserPermission(GuildPermission.ManageMessages)]
-        [RequireBotPermission(GuildPermission.BanMembers)]
-        public async Task Softban(IGuildUser user, [Remainder] string msg = null)
-        {
-            if (Context.User.Id != user.Guild.OwnerId && user.GetRoles().Select(r => r.Position).Max() >= ((IGuildUser)Context.User).GetRoles().Select(r => r.Position).Max())
-            {
-                await ReplyErrorLocalized("hierarchy").ConfigureAwait(false);
-                return;
-            }
-
-            if (!string.IsNullOrWhiteSpace(msg))
-            {
-                try
-                {
-                    await user.SendErrorAsync(GetText("sbdm", Format.Bold(Context.Guild.Name), msg));
-                }
-                catch
-                {
-                    // ignored
-                }
-            }
-
-            await Context.Guild.AddBanAsync(user, 7).ConfigureAwait(false);
-            try { await Context.Guild.RemoveBanAsync(user).ConfigureAwait(false); }
-            catch { await Context.Guild.RemoveBanAsync(user).ConfigureAwait(false); }
-            
-            await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                    .WithTitle("☣ " + GetText("sb_user"))
-                    .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
-                    .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true)))
-                .ConfigureAwait(false);
-        }
-
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.KickMembers)]
-        [RequireBotPermission(GuildPermission.KickMembers)]
-        public async Task Kick(IGuildUser user, [Remainder] string msg = null)
-        {
-            if (Context.Message.Author.Id != user.Guild.OwnerId && user.GetRoles().Select(r => r.Position).Max() >= ((IGuildUser)Context.User).GetRoles().Select(r => r.Position).Max())
-            {
-                await ReplyErrorLocalized("hierarchy").ConfigureAwait(false);
-                return;
-            }
-            if (!string.IsNullOrWhiteSpace(msg))
-            {
-                try
-                {
-                    await user.SendErrorAsync(GetText("kickdm", Format.Bold(Context.Guild.Name), msg));
-                }
-                catch { }
-            }
-
-            await user.KickAsync().ConfigureAwait(false);
-            await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                    .WithTitle(GetText("kicked_user"))
-                    .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
-                    .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true)))
-                .ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]

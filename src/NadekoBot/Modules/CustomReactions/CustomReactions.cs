@@ -59,7 +59,7 @@ namespace NadekoBot.Modules.CustomReactions
 
         public void ClearStats() => ReactionStats.Clear();
 
-        public static CustomReaction TryGetCustomReaction(SocketUserMessage umsg)
+        public static CustomReaction TryGetCustomReaction(IUserMessage umsg)
         {
             var channel = umsg.Channel as SocketTextChannel;
             if (channel == null)

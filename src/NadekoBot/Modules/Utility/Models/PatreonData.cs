@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,32 +7,22 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Utility.Models
 {
-
     public class PatreonData
     {
-        public Pledge[] Data { get; set; }
-        public Links Links { get; set; }
+        public JObject[] Included { get; set; }
+        public JObject[] Data { get; set; }
+        public PatreonDataLinks Links { get; set; }
     }
 
-    public class Attributes
+    public class PatreonDataLinks
     {
-        public int amount_cents { get; set; }
-        public string created_at { get; set; }
-        public string declined_since { get; set; }
-        public bool is_twitch_pledge { get; set; }
-        public bool patron_pays_fees { get; set; }
-        public int pledge_cap_cents { get; set; }
+        public string first { get; set; }
+        public string next { get; set; }
     }
 
-    public class Pledge
+    public class PatreonUserAndReward
     {
-        public Attributes Attributes { get; set; }
-        public int Id { get; set; }
-    }
-
-    public class Links
-    {
-        public string First { get; set; }
-        public string Next { get; set; }
+        public PatreonUser User { get; set; }
+        public PatreonPledge Reward { get; set; }
     }
 }

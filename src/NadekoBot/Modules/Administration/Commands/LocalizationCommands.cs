@@ -16,26 +16,29 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class LocalizationCommands : NadekoSubmodule
         {
+            //Română, România
+            //Bahasa Indonesia, Indonesia
             private ImmutableDictionary<string, string> supportedLocales { get; } = new Dictionary<string, string>()
             {
-                {"zh-TW", "Chinese (Traditional), China" },
-                {"zh-CN", "Chinese (Simplified), China"},
-                {"nl-NL", "Dutch, Netherlands"},
+                {"zh-TW", "繁體中文, 台灣" },
+                {"zh-CN", "简体中文, 中华人民共和国"},
+                {"nl-NL", "Nederlands, Nederland"},
                 {"en-US", "English, United States"},
-                {"fr-FR", "French, France"},
-                {"de-DE", "German, Germany"},
-                {"he-IL", "Hebrew, Israel" },
-                {"it-IT", "Italian, Italy" },
-                //{"ja-JP", "Japanese, Japan"},
-                {"ko-KR", "Korean, Korea" },
-                {"nb-NO", "Norwegian (bokmål), Norway"},
-                {"pl-PL", "Polish, Poland" },
-                {"pt-BR", "Portuguese, Brazil"},
-                {"ru-RU", "Russian, Russia"},
-                {"sr-Cyrl-RS", "Serbian, Serbia - Cyrillic"},
-                {"es-ES", "Spanish, Spain"},
-                {"sv-SE", "Swedish, Sweden"},
-                {"tr-TR", "Turkish, Turkey" }
+                {"fr-FR", "Français, France"},
+                {"de-DE", "Deutsch, Deutschland"},
+                {"he-IL", "עברית, ישראל"},
+                {"id-ID", "Bahasa Indonesia, Indonesia" },
+                {"it-IT", "Italiano, Italia" },
+                //{"ja-JP", "日本語, 日本"},
+                {"ko-KR", "한국어, 대한민국" },
+                {"nb-NO", "Norsk, Norge"},
+                {"pl-PL", "Polski, Polska" },
+                {"pt-BR", "Português Brasileiro, Brasil"},
+                {"ru-RU", "Русский, Россия"},
+                {"sr-Cyrl-RS", "Српски, Србија"},
+                {"es-ES", "Español, España"},
+                {"sv-SE", "Svenska, Sverige"},
+                {"tr-TR", "Türkçe, Türkiye"}
             }.ToImmutableDictionary();
 
             [NadekoCommand, Usage, Description, Aliases]

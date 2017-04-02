@@ -246,6 +246,9 @@ namespace NadekoBot.Modules.Gambling
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Leaderboard(int page = 1)
         {
+            if (page < 1)
+                return;
+
             List<Currency> richest;
             using (var uow = DbHandler.UnitOfWork())
             {

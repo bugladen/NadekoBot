@@ -307,6 +307,9 @@ namespace NadekoBot.Modules.Administration
                             punishment = "🔇 " + logChannel.Guild.GetLogText("muted_pl").ToUpperInvariant();
                             break;
                         case PunishmentAction.Kick:
+                            punishment = "👢 " + logChannel.Guild.GetLogText("kicked_pl").ToUpperInvariant();
+                            break;
+                        case PunishmentAction.Softban:
                             punishment = "☣ " + logChannel.Guild.GetLogText("soft_banned_pl").ToUpperInvariant();
                             break;
                         case PunishmentAction.Ban:

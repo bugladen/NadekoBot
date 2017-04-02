@@ -1,6 +1,7 @@
 ﻿using NadekoBot.Services.Database.Models;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace NadekoBot.Services.Database.Repositories.Impl
 {
@@ -10,15 +11,21 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         {
         }
 
-        public BotConfig GetOrCreate()
+        public BotConfig GetOrCreate(Func<DbSet<BotConfig>, IQueryable<BotConfig>> includes = null)
         {
-            var config = _set.Include(bc => bc.RotatingStatusMessages)
+            BotConfig config;
+
+            if (includes == null)
+                config = _set.Include(bc => bc.RotatingStatusMessages)
                              .Include(bc => bc.RaceAnimals)
                              .Include(bc => bc.Blacklist)
                              .Include(bc => bc.EightBallResponses)
                              .Include(bc => bc.ModulePrefixes)
+                             .Include(bc => bc.StartupCommands)
                              //.Include(bc => bc.CommandCosts)
                              .FirstOrDefault();
+            else
+                config = includes(_set).FirstOrDefault();
 
             if (config == null)
             {

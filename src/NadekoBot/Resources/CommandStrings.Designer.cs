@@ -1707,6 +1707,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to clparew.
+        /// </summary>
+        public static string claimpatreonrewards_cmd {
+            get {
+                return ResourceManager.GetString("claimpatreonrewards_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Claim patreon rewards. If you&apos;re subscribed to bot owner&apos;s patreon you can user this command to claim your rewards - assuming bot owner did setup has their patreon key..
+        /// </summary>
+        public static string claimpatreonrewards_desc {
+            get {
+                return ResourceManager.GetString("claimpatreonrewards_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}claimpatreonrewards`.
+        /// </summary>
+        public static string claimpatreonrewards_usage {
+            get {
+                return ResourceManager.GetString("claimpatreonrewards_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to cleanup.
         /// </summary>
         public static string cleanup_cmd {
@@ -7674,6 +7701,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to slowmodewl.
+        /// </summary>
+        public static string slowmodewhitelist_cmd {
+            get {
+                return ResourceManager.GetString("slowmodewhitelist_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Ignores a role or a user from the slowmode feature..
+        /// </summary>
+        public static string slowmodewhitelist_desc {
+            get {
+                return ResourceManager.GetString("slowmodewhitelist_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}slowmodewl SomeRole` or `{0}slowmodewl AdminDude`.
+        /// </summary>
+        public static string slowmodewhitelist_usage {
+            get {
+                return ResourceManager.GetString("slowmodewhitelist_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to softban sb.
         /// </summary>
         public static string softban_cmd {
@@ -7886,6 +7940,114 @@ namespace NadekoBot.Resources {
         public static string startevent_usage {
             get {
                 return ResourceManager.GetString("startevent_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to scadd.
+        /// </summary>
+        public static string startupcommandadd_cmd {
+            get {
+                return ResourceManager.GetString("startupcommandadd_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Adds a command to the list of commands which will be executed automatically in the current channel, in the order they were added in, by the bot when it startups up..
+        /// </summary>
+        public static string startupcommandadd_desc {
+            get {
+                return ResourceManager.GetString("startupcommandadd_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}scadd .stats`.
+        /// </summary>
+        public static string startupcommandadd_usage {
+            get {
+                return ResourceManager.GetString("startupcommandadd_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to scrm.
+        /// </summary>
+        public static string startupcommandremove_cmd {
+            get {
+                return ResourceManager.GetString("startupcommandremove_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Removes a startup command with the provided command text..
+        /// </summary>
+        public static string startupcommandremove_desc {
+            get {
+                return ResourceManager.GetString("startupcommandremove_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}scrm .stats`.
+        /// </summary>
+        public static string startupcommandremove_usage {
+            get {
+                return ResourceManager.GetString("startupcommandremove_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to sclist.
+        /// </summary>
+        public static string startupcommands_cmd {
+            get {
+                return ResourceManager.GetString("startupcommands_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Lists all startup commands in the order they will be executed in..
+        /// </summary>
+        public static string startupcommands_desc {
+            get {
+                return ResourceManager.GetString("startupcommands_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}sclist`.
+        /// </summary>
+        public static string startupcommands_usage {
+            get {
+                return ResourceManager.GetString("startupcommands_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to scclr.
+        /// </summary>
+        public static string startupcommandsclear_cmd {
+            get {
+                return ResourceManager.GetString("startupcommandsclear_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Removes all startup commands..
+        /// </summary>
+        public static string startupcommandsclear_desc {
+            get {
+                return ResourceManager.GetString("startupcommandsclear_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}scclr`.
+        /// </summary>
+        public static string startupcommandsclear_usage {
+            get {
+                return ResourceManager.GetString("startupcommandsclear_usage", resourceCulture);
             }
         }
         
@@ -8453,6 +8615,33 @@ namespace NadekoBot.Resources {
         public static string typestop_usage {
             get {
                 return ResourceManager.GetString("typestop_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to unban.
+        /// </summary>
+        public static string unban_cmd {
+            get {
+                return ResourceManager.GetString("unban_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Unbans a user with the provided user#discrim or id..
+        /// </summary>
+        public static string unban_desc {
+            get {
+                return ResourceManager.GetString("unban_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}unban kwoth#1234` or `{0}unban 123123123`.
+        /// </summary>
+        public static string unban_usage {
+            get {
+                return ResourceManager.GetString("unban_usage", resourceCulture);
             }
         }
         
@@ -9101,6 +9290,168 @@ namespace NadekoBot.Resources {
         public static string waifuleaderboard_usage {
             get {
                 return ResourceManager.GetString("waifuleaderboard_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to wait.
+        /// </summary>
+        public static string wait_cmd {
+            get {
+                return ResourceManager.GetString("wait_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Used only as a startup command. Waits a certain number of miliseconds before continuing the execution of the following startup commands..
+        /// </summary>
+        public static string wait_desc {
+            get {
+                return ResourceManager.GetString("wait_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}wait 3000`.
+        /// </summary>
+        public static string wait_usage {
+            get {
+                return ResourceManager.GetString("wait_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to warn.
+        /// </summary>
+        public static string warn_cmd {
+            get {
+                return ResourceManager.GetString("warn_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Warns a user..
+        /// </summary>
+        public static string warn_desc {
+            get {
+                return ResourceManager.GetString("warn_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}warn @b1nzy`.
+        /// </summary>
+        public static string warn_usage {
+            get {
+                return ResourceManager.GetString("warn_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to warnclear warnc.
+        /// </summary>
+        public static string warnclear_cmd {
+            get {
+                return ResourceManager.GetString("warnclear_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Clears all warnings from a certain user..
+        /// </summary>
+        public static string warnclear_desc {
+            get {
+                return ResourceManager.GetString("warnclear_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}warnclear @PoorDude`.
+        /// </summary>
+        public static string warnclear_usage {
+            get {
+                return ResourceManager.GetString("warnclear_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to warnlog.
+        /// </summary>
+        public static string warnlog_cmd {
+            get {
+                return ResourceManager.GetString("warnlog_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to See a list of warnings of a certain user..
+        /// </summary>
+        public static string warnlog_desc {
+            get {
+                return ResourceManager.GetString("warnlog_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}warnlog @b1nzy`.
+        /// </summary>
+        public static string warnlog_usage {
+            get {
+                return ResourceManager.GetString("warnlog_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to warnpunish warnp.
+        /// </summary>
+        public static string warnpunish_cmd {
+            get {
+                return ResourceManager.GetString("warnpunish_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Sets a punishment for a certain number of warnings. Provide no punishment to remove..
+        /// </summary>
+        public static string warnpunish_desc {
+            get {
+                return ResourceManager.GetString("warnpunish_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}warnpunish 5 Ban` or `{0}warnpunish 3`.
+        /// </summary>
+        public static string warnpunish_usage {
+            get {
+                return ResourceManager.GetString("warnpunish_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to warnpunishlist warnpl.
+        /// </summary>
+        public static string warnpunishlist_cmd {
+            get {
+                return ResourceManager.GetString("warnpunishlist_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Lists punishments for warnings..
+        /// </summary>
+        public static string warnpunishlist_desc {
+            get {
+                return ResourceManager.GetString("warnpunishlist_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}warnpunishlist`.
+        /// </summary>
+        public static string warnpunishlist_usage {
+            get {
+                return ResourceManager.GetString("warnpunishlist_usage", resourceCulture);
             }
         }
         

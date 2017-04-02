@@ -55,8 +55,14 @@ namespace NadekoBot.Modules.Help
                 await ReplyErrorLocalized("module_not_found").ConfigureAwait(false);
                 return;
             }
+            var j = 0;
+            var groups = cmdsArray.GroupBy(x => j++ / 48).ToArray();
 
-            await channel.SendTableAsync($"📃 **{GetText("list_of_commands")}**\n", cmdsArray, el => $"{el.Aliases.First(),-15} {"["+el.Aliases.Skip(1).FirstOrDefault()+"]",-8}").ConfigureAwait(false);
+            for (int i = 0; i < groups.Count(); i++)
+            {
+                await channel.SendTableAsync(i == 0 ? $"📃 **{GetText("list_of_commands")}**\n" : "", groups.ElementAt(i), el => $"{el.Aliases.First(),-15} {"[" + el.Aliases.Skip(1).FirstOrDefault() + "]",-8}").ConfigureAwait(false);
+            }
+            
 
             await ConfirmLocalized("commands_instr", Prefix).ConfigureAwait(false);
         }

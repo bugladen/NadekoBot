@@ -232,11 +232,29 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Channel.
+        /// </summary>
+        public static string administration_channel {
+            get {
+                return ResourceManager.GetString("administration_channel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Cleaned up..
         /// </summary>
         public static string administration_cleaned_up {
             get {
                 return ResourceManager.GetString("administration_cleaned_up", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Command Text.
+        /// </summary>
+        public static string administration_command_text {
+            get {
+                return ResourceManager.GetString("administration_command_text", resourceCulture);
             }
         }
         
@@ -557,6 +575,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Kicked.
+        /// </summary>
+        public static string administration_kicked_pl {
+            get {
+                return ResourceManager.GetString("administration_kicked_pl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to User kicked.
         /// </summary>
         public static string administration_kicked_user {
@@ -737,6 +764,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Moderator.
+        /// </summary>
+        public static string administration_moderator {
+            get {
+                return ResourceManager.GetString("administration_moderator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to {0} moved from {1} to {2}.
         /// </summary>
         public static string administration_moved {
@@ -908,6 +944,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to page {0}.
+        /// </summary>
+        public static string administration_page {
+            get {
+                return ResourceManager.GetString("administration_page", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Error. Most likely I don&apos;t have sufficient permissions..
         /// </summary>
         public static string administration_perms {
@@ -1061,6 +1106,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Reason.
+        /// </summary>
+        public static string administration_reason {
+            get {
+                return ResourceManager.GetString("administration_reason", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Successfully removed role {0} from user {1}.
         /// </summary>
         public static string administration_remrole {
@@ -1207,6 +1261,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to New startup command added..
+        /// </summary>
+        public static string administration_scadd {
+            get {
+                return ResourceManager.GetString("administration_scadd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Startup command successfully removed..
+        /// </summary>
+        public static string administration_scrm {
+            get {
+                return ResourceManager.GetString("administration_scrm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Startup command not found..
+        /// </summary>
+        public static string administration_scrm_fail {
+            get {
+                return ResourceManager.GetString("administration_scrm_fail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to You already have {0} role..
         /// </summary>
         public static string administration_self_assign_already {
@@ -1302,6 +1383,15 @@ namespace NadekoBot.Resources {
         public static string administration_self_assign_success {
             get {
                 return ResourceManager.GetString("administration_self_assign_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Server.
+        /// </summary>
+        public static string administration_server {
+            get {
+                return ResourceManager.GetString("administration_server", resourceCulture);
             }
         }
         
@@ -1423,7 +1513,43 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to soft-banned (kicked).
+        ///    Looks up a localized string similar to Slowmode will now ignore {0} role..
+        /// </summary>
+        public static string administration_slowmodewl_role_start {
+            get {
+                return ResourceManager.GetString("administration_slowmodewl_role_start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Slowmode will no longer ignore {0} role..
+        /// </summary>
+        public static string administration_slowmodewl_role_stop {
+            get {
+                return ResourceManager.GetString("administration_slowmodewl_role_stop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Slowmode will now ignore user {0}..
+        /// </summary>
+        public static string administration_slowmodewl_user_start {
+            get {
+                return ResourceManager.GetString("administration_slowmodewl_user_start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Slowmode will no longer ignore user {0}..
+        /// </summary>
+        public static string administration_slowmodewl_user_stop {
+            get {
+                return ResourceManager.GetString("administration_slowmodewl_user_stop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to soft-banned.
         /// </summary>
         public static string administration_soft_banned_pl {
             get {
@@ -1460,6 +1586,24 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to No startup commands on this page..
+        /// </summary>
+        public static string administration_startcmdlist_none {
+            get {
+                return ResourceManager.GetString("administration_startcmdlist_none", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Cleared all startup commands..
+        /// </summary>
+        public static string administration_startcmds_cleared {
+            get {
+                return ResourceManager.GetString("administration_startcmds_cleared", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Text channel created..
         /// </summary>
         public static string administration_text_chan_created {
@@ -1474,6 +1618,15 @@ namespace NadekoBot.Resources {
         public static string administration_text_chan_destroyed {
             get {
                 return ResourceManager.GetString("administration_text_chan_destroyed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to User {0} has been unbanned..
+        /// </summary>
+        public static string administration_unbanned_user {
+            get {
+                return ResourceManager.GetString("administration_unbanned_user", resourceCulture);
             }
         }
         
@@ -1555,6 +1708,15 @@ namespace NadekoBot.Resources {
         public static string administration_user_muted_time {
             get {
                 return ResourceManager.GetString("administration_user_muted_time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to User not found..
+        /// </summary>
+        public static string administration_user_not_found {
+            get {
+                return ResourceManager.GetString("administration_user_not_found", resourceCulture);
             }
         }
         
@@ -1645,6 +1807,24 @@ namespace NadekoBot.Resources {
         public static string administration_user_voice_unmute {
             get {
                 return ResourceManager.GetString("administration_user_voice_unmute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to User {0} has been warned..
+        /// </summary>
+        public static string administration_user_warned {
+            get {
+                return ResourceManager.GetString("administration_user_warned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to User {0} has been warned and {1} punishment has been applied..
+        /// </summary>
+        public static string administration_user_warned_and_punished {
+            get {
+                return ResourceManager.GetString("administration_user_warned_and_punished", resourceCulture);
             }
         }
         
@@ -1762,6 +1942,96 @@ namespace NadekoBot.Resources {
         public static string administration_vt_perms {
             get {
                 return ResourceManager.GetString("administration_vt_perms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to cleared by {0}.
+        /// </summary>
+        public static string administration_warn_cleared_by {
+            get {
+                return ResourceManager.GetString("administration_warn_cleared_by", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Warning punishment list.
+        /// </summary>
+        public static string administration_warn_punish_list {
+            get {
+                return ResourceManager.GetString("administration_warn_punish_list", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Having {0} warnings will no longer trigger a punishment..
+        /// </summary>
+        public static string administration_warn_punish_rem {
+            get {
+                return ResourceManager.GetString("administration_warn_punish_rem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to I will apply {0} punishment to users with {1} warnings..
+        /// </summary>
+        public static string administration_warn_punish_set {
+            get {
+                return ResourceManager.GetString("administration_warn_punish_set", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Warned on {0} server.
+        /// </summary>
+        public static string administration_warned_on {
+            get {
+                return ResourceManager.GetString("administration_warned_on", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to On {0} at {1} by {2}.
+        /// </summary>
+        public static string administration_warned_on_by {
+            get {
+                return ResourceManager.GetString("administration_warned_on_by", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to All warnings have been cleared for {0}..
+        /// </summary>
+        public static string administration_warnings_cleared {
+            get {
+                return ResourceManager.GetString("administration_warnings_cleared", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No warning on this page..
+        /// </summary>
+        public static string administration_warnings_none {
+            get {
+                return ResourceManager.GetString("administration_warnings_none", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Warnlog for {0}.
+        /// </summary>
+        public static string administration_warnlog_for {
+            get {
+                return ResourceManager.GetString("administration_warnlog_for", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No punishments set..
+        /// </summary>
+        public static string administration_warnpl_none {
+            get {
+                return ResourceManager.GetString("administration_warnpl_none", resourceCulture);
             }
         }
         
@@ -5752,6 +6022,105 @@ namespace NadekoBot.Resources {
         public static string utility_channelid {
             get {
                 return ResourceManager.GetString("utility_channelid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Failed claiming rewards due to one of the following reasons:.
+        /// </summary>
+        public static string utility_clpa_fail {
+            get {
+                return ResourceManager.GetString("utility_clpa_fail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Maybe you&apos;ve already received your reward for this month. You can receive rewards only once a month unless you increase your pledge..
+        /// </summary>
+        public static string utility_clpa_fail_already {
+            get {
+                return ResourceManager.GetString("utility_clpa_fail_already", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Already rewarded.
+        /// </summary>
+        public static string utility_clpa_fail_already_title {
+            get {
+                return ResourceManager.GetString("utility_clpa_fail_already_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Your discord account might not be connected to Patreon.. If you are unsure what that means, or don&apos;t know how to connect it - you have to go to [Patreon account settings page](https://patreon.com/settings/account) and click &apos;Connect to discord&apos; button..
+        /// </summary>
+        public static string utility_clpa_fail_conn {
+            get {
+                return ResourceManager.GetString("utility_clpa_fail_conn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Discord account not connected.
+        /// </summary>
+        public static string utility_clpa_fail_conn_title {
+            get {
+                return ResourceManager.GetString("utility_clpa_fail_conn_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to In order to be eligible for the reward, you must support the project on patreon. You can use {0} command to get the link..
+        /// </summary>
+        public static string utility_clpa_fail_sup {
+            get {
+                return ResourceManager.GetString("utility_clpa_fail_sup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Not supporting.
+        /// </summary>
+        public static string utility_clpa_fail_sup_title {
+            get {
+                return ResourceManager.GetString("utility_clpa_fail_sup_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You have to wait a few hours after making your pledge, if you didn&apos;t, try again later..
+        /// </summary>
+        public static string utility_clpa_fail_wait {
+            get {
+                return ResourceManager.GetString("utility_clpa_fail_wait", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Wait some time.
+        /// </summary>
+        public static string utility_clpa_fail_wait_title {
+            get {
+                return ResourceManager.GetString("utility_clpa_fail_wait_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You&apos;ve received {0} Thanks for supporting the project!.
+        /// </summary>
+        public static string utility_clpa_success {
+            get {
+                return ResourceManager.GetString("utility_clpa_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Rewards can be claimed on or after 5th of each month..
+        /// </summary>
+        public static string utility_clpa_too_early {
+            get {
+                return ResourceManager.GetString("utility_clpa_too_early", resourceCulture);
             }
         }
         

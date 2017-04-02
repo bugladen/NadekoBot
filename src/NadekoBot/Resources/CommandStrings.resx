@@ -3222,4 +3222,121 @@
   <data name="alias_usage" xml:space="preserve">
     <value>`{0}alias allin $bf 100 h` or `{0}alias "linux thingy" &gt;loonix Spyware Windows`</value>
   </data>
+  <data name="warnlog_cmd" xml:space="preserve">
+    <value>warnlog</value>
+  </data>
+  <data name="warnlog_desc" xml:space="preserve">
+    <value>See a list of warnings of a certain user.</value>
+  </data>
+  <data name="warnlog_usage" xml:space="preserve">
+    <value>`{0}warnlog @b1nzy`</value>
+  </data>
+  <data name="warn_cmd" xml:space="preserve">
+    <value>warn</value>
+  </data>
+  <data name="warn_desc" xml:space="preserve">
+    <value>Warns a user.</value>
+  </data>
+  <data name="warn_usage" xml:space="preserve">
+    <value>`{0}warn @b1nzy`</value>
+  </data>
+  <data name="startupcommandadd_cmd" xml:space="preserve">
+    <value>scadd</value>
+  </data>
+  <data name="startupcommandadd_desc" xml:space="preserve">
+    <value>Adds a command to the list of commands which will be executed automatically in the current channel, in the order they were added in, by the bot when it startups up.</value>
+  </data>
+  <data name="startupcommandadd_usage" xml:space="preserve">
+    <value>`{0}scadd .stats`</value>
+  </data>
+  <data name="startupcommandremove_cmd" xml:space="preserve">
+    <value>scrm</value>
+  </data>
+  <data name="startupcommandremove_desc" xml:space="preserve">
+    <value>Removes a startup command with the provided command text.</value>
+  </data>
+  <data name="startupcommandremove_usage" xml:space="preserve">
+    <value>`{0}scrm .stats`</value>
+  </data>
+  <data name="startupcommandsclear_cmd" xml:space="preserve">
+    <value>scclr</value>
+  </data>
+  <data name="startupcommandsclear_desc" xml:space="preserve">
+    <value>Removes all startup commands.</value>
+  </data>
+  <data name="startupcommandsclear_usage" xml:space="preserve">
+    <value>`{0}scclr`</value>
+  </data>
+  <data name="startupcommands_cmd" xml:space="preserve">
+    <value>sclist</value>
+  </data>
+  <data name="startupcommands_desc" xml:space="preserve">
+    <value>Lists all startup commands in the order they will be executed in.</value>
+  </data>
+  <data name="startupcommands_usage" xml:space="preserve">
+    <value>`{0}sclist`</value>
+  </data>
+  <data name="unban_cmd" xml:space="preserve">
+    <value>unban</value>
+  </data>
+  <data name="unban_desc" xml:space="preserve">
+    <value>Unbans a user with the provided user#discrim or id.</value>
+  </data>
+  <data name="unban_usage" xml:space="preserve">
+    <value>`{0}unban kwoth#1234` or `{0}unban 123123123`</value>
+  </data>
+  <data name="wait_cmd" xml:space="preserve">
+    <value>wait</value>
+  </data>
+  <data name="wait_desc" xml:space="preserve">
+    <value>Used only as a startup command. Waits a certain number of miliseconds before continuing the execution of the following startup commands.</value>
+  </data>
+  <data name="wait_usage" xml:space="preserve">
+    <value>`{0}wait 3000`</value>
+  </data>
+  <data name="warnclear_cmd" xml:space="preserve">
+    <value>warnclear warnc</value>
+  </data>
+  <data name="warnclear_desc" xml:space="preserve">
+    <value>Clears all warnings from a certain user.</value>
+  </data>
+  <data name="warnclear_usage" xml:space="preserve">
+    <value>`{0}warnclear @PoorDude`</value>
+  </data>
+  <data name="warnpunishlist_cmd" xml:space="preserve">
+    <value>warnpunishlist warnpl</value>
+  </data>
+  <data name="warnpunishlist_desc" xml:space="preserve">
+    <value>Lists punishments for warnings.</value>
+  </data>
+  <data name="warnpunishlist_usage" xml:space="preserve">
+    <value>`{0}warnpunishlist`</value>
+  </data>
+  <data name="warnpunish_cmd" xml:space="preserve">
+    <value>warnpunish warnp</value>
+  </data>
+  <data name="warnpunish_desc" xml:space="preserve">
+    <value>Sets a punishment for a certain number of warnings. Provide no punishment to remove.</value>
+  </data>
+  <data name="warnpunish_usage" xml:space="preserve">
+    <value>`{0}warnpunish 5 Ban` or `{0}warnpunish 3`</value>
+  </data>
+  <data name="claimpatreonrewards_cmd" xml:space="preserve">
+    <value>clparew</value>
+  </data>
+  <data name="claimpatreonrewards_desc" xml:space="preserve">
+    <value>Claim patreon rewards. If you're subscribed to bot owner's patreon you can user this command to claim your rewards - assuming bot owner did setup has their patreon key.</value>
+  </data>
+  <data name="claimpatreonrewards_usage" xml:space="preserve">
+    <value>`{0}claimpatreonrewards`</value>
+  </data>
+  <data name="slowmodewhitelist_cmd" xml:space="preserve">
+    <value>slowmodewl</value>
+  </data>
+  <data name="slowmodewhitelist_desc" xml:space="preserve">
+    <value>Ignores a role or a user from the slowmode feature.</value>
+  </data>
+  <data name="slowmodewhitelist_usage" xml:space="preserve">
+    <value>`{0}slowmodewl SomeRole` or `{0}slowmodewl AdminDude`</value>
+  </data>
 </root>

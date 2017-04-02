@@ -40,7 +40,7 @@ namespace NadekoBot.Modules.Games
                 _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
             }
 
-            public static async Task<bool> TryAsk(SocketUserMessage msg)
+            public static async Task<bool> TryAsk(IUserMessage msg)
             {
                 var channel = msg.Channel as ITextChannel;
 
