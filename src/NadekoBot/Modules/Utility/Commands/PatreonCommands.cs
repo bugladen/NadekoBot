@@ -32,11 +32,11 @@ namespace NadekoBot.Modules.Utility
             {
                 if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.PatreonAccessToken))
                     return;
-                //if (DateTime.UtcNow.Day < 5)
-                //{
-                //    await ReplyErrorLocalized("clpa_too_early").ConfigureAwait(false);
-                //    return;
-                //}
+                if (DateTime.UtcNow.Day < 5)
+                {
+                    await ReplyErrorLocalized("clpa_too_early").ConfigureAwait(false);
+                    return;
+                }
                 int amount = 0;
                 try
                 {
