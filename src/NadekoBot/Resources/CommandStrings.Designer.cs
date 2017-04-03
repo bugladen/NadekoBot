@@ -5757,7 +5757,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar quoteid qid.
+        ///    Looks up a localized string similar to quoteid qid.
         /// </summary>
         public static string quoteid_cmd {
             get {
@@ -8264,6 +8264,33 @@ namespace NadekoBot.Resources {
         public static string tictactoe_usage {
             get {
                 return ResourceManager.GetString("tictactoe_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to time.
+        /// </summary>
+        public static string time_cmd {
+            get {
+                return ResourceManager.GetString("time_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows the current time and timezone in the specified location..
+        /// </summary>
+        public static string time_desc {
+            get {
+                return ResourceManager.GetString("time_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}time London, UK`.
+        /// </summary>
+        public static string time_usage {
+            get {
+                return ResourceManager.GetString("time_usage", resourceCulture);
             }
         }
         

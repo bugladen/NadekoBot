@@ -1152,7 +1152,7 @@
   <data name="searchquote_usage" xml:space="preserve">
     <value>`{0}qsearch keyword text`</value>
   </data>
-    <data name="quoteid_cmd" xml:space="preserve">
+  <data name="quoteid_cmd" xml:space="preserve">
     <value>quoteid qid</value>
   </data>
   <data name="quoteid_desc" xml:space="preserve">
@@ -3356,5 +3356,14 @@
   </data>
   <data name="slowmodewhitelist_usage" xml:space="preserve">
     <value>`{0}slowmodewl SomeRole` or `{0}slowmodewl AdminDude`</value>
+  </data>
+  <data name="time_cmd" xml:space="preserve">
+    <value>time</value>
+  </data>
+  <data name="time_desc" xml:space="preserve">
+    <value>Shows the current time and timezone in the specified location.</value>
+  </data>
+  <data name="time_usage" xml:space="preserve">
+    <value>`{0}time London, UK`</value>
   </data>
 </root>

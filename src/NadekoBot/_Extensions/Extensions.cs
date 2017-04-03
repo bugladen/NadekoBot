@@ -193,7 +193,7 @@ namespace NadekoBot.Extensions
         public static string SanitizeMentions(this string str) =>
             str.Replace("@everyone", "@everyοne").Replace("@here", "@һere");
 
-        public static double UnixTimestamp(this DateTime dt) => dt.ToUniversalTime().Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+        public static double UnixTimestamp(this DateTime dt) => dt.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0)).TotalSeconds;
 
         public static async Task<IUserMessage> SendMessageAsync(this IUser user, string message, bool isTTS = false) =>
             await (await user.CreateDMChannelAsync().ConfigureAwait(false)).SendMessageAsync(message, isTTS).ConfigureAwait(false);

@@ -43,6 +43,10 @@ namespace NadekoBot.Modules.Administration
             {
                 IEnumerable<SelfAssignedRole> roles;
 
+                var guser = (IGuildUser)Context.User;
+                if (Context.User.Id != guser.Guild.OwnerId && guser.GetRoles().Max(x => x.Position) <= role.Position)
+                    return;
+
                 string msg;
                 var error = false;
                 using (var uow = DbHandler.UnitOfWork())
@@ -75,6 +79,10 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.ManageRoles)]
             public async Task Rsar([Remainder] IRole role)
             {
+                var guser = (IGuildUser)Context.User;
+                if (Context.User.Id != guser.Guild.OwnerId && guser.GetRoles().Max(x => x.Position) <= role.Position)
+                    return;
+
                 bool success;
                 using (var uow = DbHandler.UnitOfWork())
                 {

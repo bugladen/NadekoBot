@@ -169,7 +169,8 @@ namespace NadekoBot.Modules.Administration
             var guser = (IGuildUser)Context.User;
 
             var userRoles = user.GetRoles();
-            if (guser.Id != Context.Guild.OwnerId && (user.Id == Context.Guild.OwnerId || guser.GetRoles().Max(x => x.Position) <= userRoles.Max(x => x.Position)))
+            if (guser.Id != Context.Guild.OwnerId && 
+                (user.Id == Context.Guild.OwnerId || guser.GetRoles().Max(x => x.Position) <= userRoles.Max(x => x.Position)))
                 return;
             try
             {

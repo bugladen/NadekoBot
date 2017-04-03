@@ -5774,6 +5774,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Time in {0} is {1} - {2}.
+        /// </summary>
+        public static string searches_time {
+            get {
+                return ResourceManager.GetString("searches_time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Title:.
         /// </summary>
         public static string searches_title {
@@ -6498,20 +6507,11 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to No quotes on this page..
+        ///    Looks up a localized string similar to No quotes found matching the quote ID specified..
         /// </summary>
         public static string utility_quotes_page_none {
             get {
                 return ResourceManager.GetString("utility_quotes_page_none", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to No quotes found matching the quote ID specified..
-        /// </summary>
-        public static string utility_quotes_notfound {
-            get {
-                return ResourceManager.GetString("utility_quotes_notfound", resourceCulture);
             }
         }
         

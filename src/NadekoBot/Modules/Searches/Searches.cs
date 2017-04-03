@@ -57,6 +57,27 @@ namespace NadekoBot.Modules.Searches
         }
 
         [NadekoCommand, Usage, Description, Aliases]
+        public async Task Time([Remainder] string arg)
+        {
+            if (string.IsNullOrWhiteSpace(arg) || string.IsNullOrWhiteSpace(NadekoBot.Credentials.GoogleApiKey))
+                return;
+
+            using (var http = new HttpClient())
+            {
+                var res = await http.GetStringAsync($"https://maps.googleapis.com/maps/api/geocode/json?address={arg}&key={NadekoBot.Credentials.GoogleApiKey}").ConfigureAwait(false);
+                var obj = JsonConvert.DeserializeObject<GeolocationResult>(res);
+
+                var currentSeconds = DateTime.UtcNow.UnixTimestamp();
+                var timeRes = await http.GetStringAsync($"https://maps.googleapis.com/maps/api/timezone/json?location={obj.results[0].Geometry.Location.Lat},{obj.results[0].Geometry.Location.Lng}&timestamp={currentSeconds}&key={NadekoBot.Credentials.GoogleApiKey}").ConfigureAwait(false);
+                var timeObj = JsonConvert.DeserializeObject<TimeZoneResult>(timeRes);
+
+                var time = DateTime.UtcNow.AddSeconds(timeObj.DstOffset + timeObj.RawOffset);
+
+                await ReplyConfirmLocalized("time", Format.Bold(obj.results[0].FormattedAddress), Format.Code(time.ToString("HH:mm")), timeObj.TimeZoneName).ConfigureAwait(false);
+            }
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
         public async Task Youtube([Remainder] string query = null)
         {
             if (!await ValidateQuery(Context.Channel, query).ConfigureAwait(false)) return;
