@@ -16,9 +16,7 @@ using NadekoBot.Modules.CustomReactions;
 using NadekoBot.Modules.Games;
 using System.Collections.Concurrent;
 using System.Threading;
-using Microsoft.EntityFrameworkCore;
 using NadekoBot.DataStructures;
-using Services.CleverBotApi;
 
 namespace NadekoBot.Services
 {
