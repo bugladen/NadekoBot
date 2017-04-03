@@ -5757,6 +5757,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar quoteid qid.
+        /// </summary>
+        public static string quoteid_cmd {
+            get {
+                return ResourceManager.GetString("quoteid_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Displays the quote with the specified ID number. Quote ID numbers can be found by typing `.liqu [num]` where `[num]` is a number of a page which contains 15 quotes..
+        /// </summary>
+        public static string quoteid_desc {
+            get {
+                return ResourceManager.GetString("quoteid_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}qid 123456`.
+        /// </summary>
+        public static string quoteid_usage {
+            get {
+                return ResourceManager.GetString("quoteid_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to race.
         /// </summary>
         public static string race_cmd {
