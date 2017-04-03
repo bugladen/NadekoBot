@@ -18,6 +18,7 @@ using System.Collections.Concurrent;
 using System.Threading;
 using Microsoft.EntityFrameworkCore;
 using NadekoBot.DataStructures;
+using Services.CleverBotApi;
 
 namespace NadekoBot.Services
 {
@@ -109,13 +110,33 @@ namespace NadekoBot.Services
             return Task.CompletedTask;
         }
 
-        private async Task<bool> TryRunCleverbot(IUserMessage usrMsg, IGuild guild)
+        private async Task<bool> TryRunCleverbot(IUserMessage usrMsg, SocketGuild guild)
         {
             if (guild == null)
                 return false;
             try
             {
-                var cleverbotExecuted = await Games.CleverBotCommands.TryAsk(usrMsg).ConfigureAwait(false);
+                Games.ChatterBotSession cbs;
+                var message = Games.CleverBotCommands.PrepareMessage(usrMsg, out cbs);
+                if(message == null || cbs == null)
+                    return false;
+
+                PermissionCache pc = Permissions.GetCache(guild.Id);
+                int index;
+                if (
+                    !pc.Permissions.CheckPermissions(usrMsg,
+                        NadekoBot.ModulePrefixes[typeof(Games).Name] + "cleverbot",
+                        typeof(Games).Name,
+                        out index))
+                {
+                    //todo print in guild actually
+                    var returnMsg =
+                        $"Permission number #{index + 1} **{pc.Permissions[index].GetCommand(guild)}** is preventing this action.";
+                    _log.Info(returnMsg);
+                    return true;
+                }
+
+                var cleverbotExecuted = await Games.CleverBotCommands.TryAsk(cbs, (ITextChannel)usrMsg.Channel, message).ConfigureAwait(false);
                 if (cleverbotExecuted)
                 {
                     _log.Info($@"CleverBot Executed
@@ -278,6 +299,7 @@ namespace NadekoBot.Services
                 return;
 
             var exec1 = Environment.TickCount - execTime;
+            
 
             var cleverBotRan = await Task.Run(() => TryRunCleverbot(usrMsg, guild)).ConfigureAwait(false);
             if (cleverBotRan)
@@ -294,19 +316,8 @@ namespace NadekoBot.Services
                 {
                     if (guild != null)
                     {
-                        PermissionCache pc;
-                        if (!Permissions.Cache.TryGetValue(guild.Id, out pc))
-                        {
-                            using (var uow = DbHandler.UnitOfWork())
-                            {
-                                var config = uow.GuildConfigs.For(guild.Id,
-                                    set => set.Include(x => x.Permissions));
-                                Permissions.UpdateCache(config);
-                            }
-                            Permissions.Cache.TryGetValue(guild.Id, out pc);
-                            if (pc == null)
-                                throw new Exception("Cache is null.");
-                        }
+                        PermissionCache pc = Permissions.GetCache(guild.Id);
+                        
                         int index;
                         if (
                             !pc.Permissions.CheckPermissions(usrMsg, cr.Trigger, "ActualCustomReactions",
@@ -457,21 +468,9 @@ namespace NadekoBot.Services
                 var cmd = commands[i].Command;
                 var resetCommand = cmd.Name == "resetperms";
                 var module = cmd.Module.GetTopLevelModule();
-                PermissionCache pc;
                 if (context.Guild != null)
                 {
-                    //todo move to permissions module?
-                    if (!Permissions.Cache.TryGetValue(context.Guild.Id, out pc))
-                    {
-                        using (var uow = DbHandler.UnitOfWork())
-                        {
-                            var config = uow.GuildConfigs.GcWithPermissionsv2For(context.Guild.Id);
-                            Permissions.UpdateCache(config);
-                        }
-                        Permissions.Cache.TryGetValue(context.Guild.Id, out pc);
-                        if(pc == null)
-                            throw new Exception("Cache is null.");
-                    }
+                    PermissionCache pc = Permissions.GetCache(context.Guild.Id);
                     int index;
                     if (!resetCommand && !pc.Permissions.CheckPermissions(context.Message, cmd.Aliases.First(), module.Name, out index))
                     {

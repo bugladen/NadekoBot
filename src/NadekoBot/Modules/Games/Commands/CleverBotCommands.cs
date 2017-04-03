@@ -40,16 +40,19 @@ namespace NadekoBot.Modules.Games
                 _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
             }
 
-            public static async Task<bool> TryAsk(IUserMessage msg)
+            public static string PrepareMessage(IUserMessage msg, out ChatterBotSession cleverbot)
             {
                 var channel = msg.Channel as ITextChannel;
+                cleverbot = null;
 
                 if (channel == null)
-                    return false;
+                    return null;
 
-                Lazy<ChatterBotSession> cleverbot;
-                if (!CleverbotGuilds.TryGetValue(channel.Guild.Id, out cleverbot))
-                    return false;
+                Lazy<ChatterBotSession> lazyCleverbot;
+                if (!CleverbotGuilds.TryGetValue(channel.Guild.Id, out lazyCleverbot))
+                    return null;
+
+                cleverbot = lazyCleverbot.Value;
 
                 var nadekoId = NadekoBot.Client.CurrentUser.Id;
                 var normalMention = $"<@{nadekoId}> ";
@@ -65,19 +68,24 @@ namespace NadekoBot.Modules.Games
                 }
                 else
                 {
-                    return false;
+                    return null;
                 }
 
-                await msg.Channel.TriggerTypingAsync().ConfigureAwait(false);
+                return message;
+            }
 
-                var response = await cleverbot.Value.Think(message).ConfigureAwait(false);
+            public static async Task<bool> TryAsk(ChatterBotSession cleverbot, ITextChannel channel, string message)
+            {
+                await channel.TriggerTypingAsync().ConfigureAwait(false);
+
+                var response = await cleverbot.Think(message).ConfigureAwait(false);
                 try
                 {
-                    await msg.Channel.SendConfirmAsync(response.SanitizeMentions()).ConfigureAwait(false);
+                    await channel.SendConfirmAsync(response.SanitizeMentions()).ConfigureAwait(false);
                 }
                 catch
                 {
-                    await msg.Channel.SendConfirmAsync(response.SanitizeMentions()).ConfigureAwait(false); // try twice :\
+                    await channel.SendConfirmAsync(response.SanitizeMentions()).ConfigureAwait(false); // try twice :\
                 }
                 return true;
             }

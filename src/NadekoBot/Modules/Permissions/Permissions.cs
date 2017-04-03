@@ -62,6 +62,24 @@ namespace NadekoBot.Modules.Permissions
             log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
         }
 
+        public static PermissionCache GetCache(ulong guildId)
+        {
+            PermissionCache pc;
+            if (!Permissions.Cache.TryGetValue(guildId, out pc))
+            {
+                using (var uow = DbHandler.UnitOfWork())
+                {
+                    var config = uow.GuildConfigs.For(guildId,
+                        set => set.Include(x => x.Permissions));
+                    Permissions.UpdateCache(config);
+                }
+                Permissions.Cache.TryGetValue(guildId, out pc);
+                if (pc == null)
+                    throw new Exception("Cache is null.");
+            }
+            return pc;
+        }
+
         private static void TryMigratePermissions()
         {
             var log = LogManager.GetCurrentClassLogger();
