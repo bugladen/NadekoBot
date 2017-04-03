@@ -11,7 +11,6 @@ using Discord.WebSocket;
 using NadekoBot.Services.Database.Models;
 using static NadekoBot.Modules.Permissions.Permissions;
 using System.Collections.Concurrent;
-using Microsoft.EntityFrameworkCore;
 using NLog;
 
 namespace NadekoBot.Modules.Administration
@@ -99,6 +98,10 @@ namespace NadekoBot.Modules.Administration
         [RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task Setrole(IGuildUser usr, [Remainder] IRole role)
         {
+            var guser = (IGuildUser)Context.User;
+            var maxRole = guser.GetRoles().Max(x => x.Position);
+            if (maxRole < role.Position || maxRole <= usr.GetRoles().Max(x => x.Position))
+                return;
             try
             {
                 await usr.AddRolesAsync(role).ConfigureAwait(false);
@@ -118,6 +121,9 @@ namespace NadekoBot.Modules.Administration
         [RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task Removerole(IGuildUser usr, [Remainder] IRole role)
         {
+            var guser = (IGuildUser)Context.User;
+            if (Context.User.Id != guser.Guild.OwnerId && guser.GetRoles().Max(x => x.Position) <= usr.GetRoles().Max(x => x.Position))
+                return;
             try
             {
                 await usr.RemoveRolesAsync(role).ConfigureAwait(false);
@@ -135,6 +141,9 @@ namespace NadekoBot.Modules.Administration
         [RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task RenameRole(IRole roleToEdit, string newname)
         {
+            var guser = (IGuildUser)Context.User;
+            if (Context.User.Id != guser.Guild.OwnerId && guser.GetRoles().Max(x => x.Position) <= roleToEdit.Position)
+                return;
             try
             {
                 if (roleToEdit.Position > (await Context.Guild.GetCurrentUserAsync().ConfigureAwait(false)).GetRoles().Max(r => r.Position))
@@ -157,9 +166,14 @@ namespace NadekoBot.Modules.Administration
         [RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task RemoveAllRoles([Remainder] IGuildUser user)
         {
+            var guser = (IGuildUser)Context.User;
+
+            var userRoles = user.GetRoles();
+            if (guser.Id != Context.Guild.OwnerId && (user.Id == Context.Guild.OwnerId || guser.GetRoles().Max(x => x.Position) <= userRoles.Max(x => x.Position)))
+                return;
             try
             {
-                await user.RemoveRolesAsync(user.GetRoles()).ConfigureAwait(false);
+                await user.RemoveRolesAsync(userRoles).ConfigureAwait(false);
                 await ReplyConfirmLocalized("rar", Format.Bold(user.ToString())).ConfigureAwait(false);
             }
             catch
