@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Discord.WebSocket;
 using NadekoBot.Services;
+using System.Diagnostics;
 
 namespace NadekoBot.Modules.Utility
 {
@@ -493,6 +494,17 @@ namespace NadekoBot.Modules.Utility
                 });
             await Context.User.SendFileAsync(
                 await JsonConvert.SerializeObject(grouping, Formatting.Indented).ToStream().ConfigureAwait(false), title, title).ConfigureAwait(false);
+        }
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task Ping()
+        {
+            var sw = Stopwatch.StartNew();
+            var msg = await Context.Channel.SendMessageAsync("🏓").ConfigureAwait(false);
+            sw.Stop();
+            msg.DeleteAfter(0);
+
+            await Context.Channel.SendConfirmAsync($"{Format.Bold(Context.User.ToString())} 🏓 {(int)sw.Elapsed.TotalMilliseconds}ms").ConfigureAwait(false);
         }
     }
 }

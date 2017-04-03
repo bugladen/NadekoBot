@@ -3330,6 +3330,15 @@
   <data name="claimpatreonrewards_usage" xml:space="preserve">
     <value>`{0}claimpatreonrewards`</value>
   </data>
+  <data name="ping_cmd" xml:space="preserve">
+    <value>ping</value>
+  </data>
+  <data name="ping_desc" xml:space="preserve">
+    <value>Ping the bot to see if there are latency issues.</value>
+  </data>
+  <data name="ping_usage" xml:space="preserve">
+    <value>`{0}ping`</value>
+  </data>
   <data name="slowmodewhitelist_cmd" xml:space="preserve">
     <value>slowmodewl</value>
   </data>
