@@ -106,7 +106,7 @@ namespace NadekoBot.Modules.Permissions
             switch (perm.PrimaryTarget)
             {
                 case PrimaryPermissionType.User:
-                    com += guild?.GetUser(perm.PrimaryTargetId).ToString() ?? $"<@{perm.PrimaryTargetId}>";
+                    com += guild?.GetUser(perm.PrimaryTargetId)?.ToString() ?? $"<@{perm.PrimaryTargetId}>";
                     break;
                 case PrimaryPermissionType.Channel:
                     com += $"<#{perm.PrimaryTargetId}>";
