@@ -3337,7 +3337,7 @@
     <value>Claim patreon rewards. If you're subscribed to bot owner's patreon you can user this command to claim your rewards - assuming bot owner did setup has their patreon key.</value>
   </data>
   <data name="claimpatreonrewards_usage" xml:space="preserve">
-    <value>`{0}claimpatreonrewards`</value>
+    <value>`{0}clparew`</value>
   </data>
   <data name="ping_cmd" xml:space="preserve">
     <value>ping</value>

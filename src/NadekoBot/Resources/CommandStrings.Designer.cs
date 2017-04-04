@@ -1725,7 +1725,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}claimpatreonrewards`.
+        ///    Looks up a localized string similar to `{0}clparew`.
         /// </summary>
         public static string claimpatreonrewards_usage {
             get {
