@@ -1169,6 +1169,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Set the display of guild role {0} to {1}..
+        /// </summary>
+        public static string administration_rh {
+            get {
+                return ResourceManager.GetString("administration_rh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Role {0} as been added to the list..
         /// </summary>
         public static string administration_role_added {

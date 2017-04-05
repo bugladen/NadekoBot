@@ -12,6 +12,7 @@ using NadekoBot.Services.Database.Models;
 using static NadekoBot.Modules.Permissions.Permissions;
 using System.Collections.Concurrent;
 using NLog;
+using NadekoBot.Modules.Permissions;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -200,12 +201,13 @@ namespace NadekoBot.Modules.Administration
         [RequireContext(ContextType.Guild)]
         [RequireUserPermission(GuildPermission.ManageRoles)]
         [RequireBotPermission(GuildPermission.ManageRoles)]
-        public async Task RoleHoist(string roleSearchName, bool targetState)
+        public async Task RoleHoist(string roleSearchName, PermissionAction targetState)
         {
             var roleName = roleSearchName.ToUpperInvariant();
             var role = Context.Guild.Roles.FirstOrDefault(r => r.Name.ToUpperInvariant() == roleName);
 
-            await role.ModifyAsync(r => r.Hoist = targetState).ConfigureAwait(false);
+            await role.ModifyAsync(r => r.Hoist = targetState.Value).ConfigureAwait(false);
+            await ReplyConfirmLocalized("rh", Format.Bold(role.Name), Format.Bold(targetState.Value.ToString())).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
