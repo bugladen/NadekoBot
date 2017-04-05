@@ -119,7 +119,6 @@
   </resheader>
   <data name="clashofclans_base_already_claimed" xml:space="preserve">
     <value>기지가 이미 요청되었거나 파괴되었습니다.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_base_already_destroyed" xml:space="preserve">
     <value>기지가 이미 파괴되었습니다.</value>
@@ -129,11 +128,9 @@
   </data>
   <data name="clashofclans_base_destroyed" xml:space="preserve">
     <value>{1} 와의 전쟁에서 #{0} 번 기지가 **파괴**되었습니다.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_base_unclaimed" xml:space="preserve">
     <value>{2} 와의 전쟁에서 {0} 가 #{1} 번 기지를 **요청**하지 못했습니다.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_claimed_base" xml:space="preserve">
     <value>{2} 와의 전쟁에서 #{1} 번 기지를 {0} 가 요청하였습니다.</value>
@@ -143,11 +140,9 @@
   </data>
   <data name="clashofclans_claim_expired" xml:space="preserve">
     <value>{1} 와의 전쟁에서 @{0} 의 요청이 만료되었습니다.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_enemy" xml:space="preserve">
     <value>적</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_info_about_war" xml:space="preserve">
     <value>{0} 와의 전쟁에 대한 정보</value>
@@ -175,7 +170,6 @@
   </data>
   <data name="clashofclans_size" xml:space="preserve">
     <value>크기</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_war_already_started" xml:space="preserve">
     <value>{0} 에 대한 전쟁이 이미 시작되었습니다.</value>
@@ -205,7 +199,7 @@
     <value>모든 커스텀 리액션 목록</value>
   </data>
   <data name="customreactions_name" xml:space="preserve">
-    <value>커스텀 리액션</value>
+    <value>커스텀 리액션 목록</value>
   </data>
   <data name="customreactions_new_cust_react" xml:space="preserve">
     <value>새로운 커스텀 리액션</value>
@@ -339,23 +333,23 @@ Fuzzy</comment>
     <value>봇의 상태가 {0} 으로 변경되었습니다.</value>
   </data>
   <data name="administration_byedel_off" xml:space="preserve">
-    <value>퇴장 메세지의 자동삭제가 비활성화되었습니다.</value>
+    <value>퇴장 메시지의 자동삭제가 비활성화되었습니다.</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_byedel_on" xml:space="preserve">
-    <value>퇴장 메세지는 앞으로 {0} 초 후에 삭제됩니다.</value>
+    <value>퇴장 메시지는 앞으로 {0} 초 후에 삭제됩니다.</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_byemsg_cur" xml:space="preserve">
-    <value>현재 퇴장 메세지: {0}</value>
+    <value>현재 퇴장 메시지: {0}</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_byemsg_enable" xml:space="preserve">
-    <value>퇴장 메세지를 활성화하기 위해서는 {0} 를 입력하십시오.</value>
+    <value>퇴장 메시지를 활성화하기 위해서는 {0} 를 입력하십시오.</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_byemsg_new" xml:space="preserve">
-    <value>새로운 퇴장 메세지가 설정되었습니다.</value>
+    <value>새로운 퇴장 메시지가 설정되었습니다.</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_bye_off" xml:space="preserve">
@@ -369,7 +363,6 @@ Fuzzy</comment>
   </data>
   <data name="administration_ch_old_name" xml:space="preserve">
     <value>이전 이름</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_ch_topic_change" xml:space="preserve">
     <value>채널의 주제가 변경되었습니다.</value>
@@ -379,7 +372,6 @@ Fuzzy</comment>
   </data>
   <data name="administration_content" xml:space="preserve">
     <value>내용</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_cr" xml:space="preserve">
     <value>{0} 역할을 성공적으로 생성하였습니다.</value>
@@ -410,11 +402,11 @@ Fuzzy</comment>
     <value>음성 채널 {0} 를 삭제했습니다.</value>
   </data>
   <data name="administration_dm_from" xml:space="preserve">
-    <value>개인 메세지</value>
+    <value>개인 메시지</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_donadd" xml:space="preserve">
-    <value>성공적으로 새로운 기부자를 추가했습니다. 이 유저의 총 기부량은 {0} 입니다.</value>
+    <value>성공적으로 새로운 기부자를 추가했습니다. 이 유저의 총 기부량은 {0} 👑 입니다.</value>
   </data>
   <data name="administration_donators" xml:space="preserve">
     <value>이 프로젝트를 위해 수고해주신 아래의 사람들에게 감사드립니다!</value>
@@ -432,19 +424,19 @@ Fuzzy</comment>
     <value>지금부터 DM 전달을 중단하겠습니다.</value>
   </data>
   <data name="administration_greetdel_off" xml:space="preserve">
-    <value>환영 메세지에 대한 자동삭제가 비활성화되었습니다.</value>
+    <value>환영 메시지에 대한 자동삭제가 비활성화되었습니다.</value>
   </data>
   <data name="administration_greetdel_on" xml:space="preserve">
-    <value>환영 메세지는 {0} 초 후에 삭제될 것입니다.</value>
+    <value>환영 메시지는 {0} 초 후에 삭제될 것입니다.</value>
   </data>
   <data name="administration_greetdmmsg_cur" xml:space="preserve">
-    <value>현재 DM 환영 메세지: {0}</value>
+    <value>현재 DM 환영 메시지: {0}</value>
   </data>
   <data name="administration_greetdmmsg_enable" xml:space="preserve">
-    <value>{0} 을(를) 입력하여서 DM 환영 메세지를 활성화시킵니다.</value>
+    <value>{0} 을(를) 입력하여서 DM 환영 메시지를 활성화시킵니다.</value>
   </data>
   <data name="administration_greetdmmsg_new" xml:space="preserve">
-    <value>새로운 DM 환영 메세지가 설정되었습니다.</value>
+    <value>새로운 DM 환영 메시지가 설정되었습니다.</value>
   </data>
   <data name="administration_greetdm_off" xml:space="preserve">
     <value>DM 환영 알림이 비활성화되었습니다.</value>
@@ -454,13 +446,13 @@ Fuzzy</comment>
     <value>DM 환영 알림 활성화 되었습니다.</value>
   </data>
   <data name="administration_greetmsg_cur" xml:space="preserve">
-    <value>현재 환영 메세지: {0}</value>
+    <value>현재 환영 메시지: {0}</value>
   </data>
   <data name="administration_greetmsg_enable" xml:space="preserve">
-    <value>{0} 를 입력하여서 환영 메세지를 활성화시킵니다.</value>
+    <value>{0} 를 입력하여서 환영 메시지를 활성화시킵니다.</value>
   </data>
   <data name="administration_greetmsg_new" xml:space="preserve">
-    <value>새로운 환영 메세지가 설정되었습니다.</value>
+    <value>새로운 환영 메시지가 설정되었습니다.</value>
   </data>
   <data name="administration_greet_off" xml:space="preserve">
     <value>환영 알림이 비활성화되었습니다.</value>
@@ -541,20 +533,20 @@ Fuzzy</comment>
     <value>{0} 이(가) 다음 역할에 대한 언급을 요청했습니다.</value>
   </data>
   <data name="administration_message_from_bo" xml:space="preserve">
-    <value>{0} `[봇의 소유자]` 로부터 메세지:</value>
+    <value>{0} `[봇의 소유자]` 로부터 메시지:</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_message_sent" xml:space="preserve">
-    <value>메세지가 전송되었습니다.</value>
+    <value>메시지가 전송되었습니다.</value>
   </data>
   <data name="administration_moved" xml:space="preserve">
     <value>{0} 이(가) {1} 에서 {2} 로 이동했습니다.</value>
   </data>
   <data name="administration_msg_del" xml:space="preserve">
-    <value>#{0} 에서 메세지가 삭제되었습니다.</value>
+    <value>#{0} 에서 메시지가 삭제되었습니다.</value>
   </data>
   <data name="administration_msg_update" xml:space="preserve">
-    <value>#{0} 에서 메세지가 업데이트되었습니다.</value>
+    <value>#{0} 에서 메시지가 업데이트되었습니다.</value>
   </data>
   <data name="administration_muted_pl" xml:space="preserve">
     <value>음소거</value>
@@ -576,7 +568,7 @@ Fuzzy</comment>
     <value>요청하신 것을 처리하기 위해서는**관리자** 권한이 필요합니다.</value>
   </data>
   <data name="administration_new_msg" xml:space="preserve">
-    <value>새로운 메세지</value>
+    <value>새로운 메시지</value>
   </data>
   <data name="administration_new_nick" xml:space="preserve">
     <value>새로운 닉네임</value>
@@ -594,7 +586,7 @@ Fuzzy</comment>
     <value>해당하는 Shard ID가 없습니다.</value>
   </data>
   <data name="administration_old_msg" xml:space="preserve">
-    <value>이전 메세지</value>
+    <value>이전 메시지</value>
   </data>
   <data name="administration_old_nick" xml:space="preserve">
     <value>이전 닉네임</value>
@@ -669,7 +661,7 @@ Fuzzy</comment>
     <value>자신보다 가장 높은 역할보다 높은 사용자의 역할을 수정할 수 없습니다.</value>
   </data>
   <data name="administration_reprm" xml:space="preserve">
-    <value>다루고있었든 메세지 치웠습니다: {0}</value>
+    <value>다루고있었던 메시지를 치웠습니다: {0}</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_role_added" xml:space="preserve">
@@ -777,16 +769,17 @@ Fuzzy</comment>
   </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
     <value>소프트 밴 (강제퇴장)</value>
-    <comment>PLURAL</comment>
+    <comment>PLURAL
+Fuzzy</comment>
   </data>
   <data name="administration_spam_ignore" xml:space="preserve">
     <value>{0} 은(는) 이 채널을 무시할 것입니다.</value>
   </data>
   <data name="administration_spam_not_ignore" xml:space="preserve">
-    <value>{0} 은(는) 더이상 이 채널을 무시하지 않을 것입니다.</value>
+    <value>{0} 은(는) 더 이상 이 채널을 무시하지 않을 것입니다.</value>
   </data>
   <data name="administration_spam_stats" xml:space="preserve">
-    <value>만약 사용자가 {0} 개 이상의 같은 메세지를 보내면 {1} 합니다.
+    <value>만약 사용자가 {0} 개 이상의 같은 메시지를 보내면 {1} 합니다.
     __무시하는 채널들__: {2} </value>
   </data>
   <data name="administration_text_chan_created" xml:space="preserve">
@@ -842,16 +835,16 @@ Fuzzy</comment>
     <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_status_change" xml:space="preserve">
-    <value>{0} 은(는) 이제 {1} 입니다.</value>
+    <value>{0} 님은 상태는 {1} 입니다.</value>
   </data>
   <data name="administration_user_unmuted" xml:space="preserve">
     <value>{0} 은(는) 텍스트와 음성 채팅으로부터 **차단해제**되었습니다.</value>
   </data>
   <data name="administration_user_vjoined" xml:space="preserve">
-    <value>{0} 님이 {1} 음성채널에 입장하셨습니다.</value>
+    <value>{0} 님이 음성채널 {1} 에 입장하셨습니다.</value>
   </data>
   <data name="administration_user_vleft" xml:space="preserve">
-    <value>{0} 님이 {1} 음성채널에서 퇴장하셨습니다.</value>
+    <value>{0} 님이 음성채널 {1} 에서 퇴장하셨습니다.</value>
   </data>
   <data name="administration_user_vmoved" xml:space="preserve">
     <value>{0}님이 음성채널 {1} 에서 {2} 로 이동되었습니다.</value>
@@ -942,7 +935,7 @@ Fuzzy</comment>
     <comment>Fuzzy</comment>
   </data>
   <data name="gambling_flowerreaction_desc" xml:space="preserve">
-    <value>{1} 을(를) 받으려면 이 메세지에 {0} 리액션을 추가하세요.</value>
+    <value>{1} 을(를) 받으려면 이 메시지에 {0} 리액션을 추가하세요.</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="gambling_flowerreaction_footer" xml:space="preserve">
@@ -1142,7 +1135,7 @@ Discord 닉네임이나 ID를 메시지에 남겨 두는 것을 잊지 마십시
     <comment>Fuzzy</comment>
   </data>
   <data name="gambling_animal_race_won_money" xml:space="preserve">
-    <value>{0} 이(가) {1} (으)로 레이스를 이겼고 {2}!</value>
+    <value>{0} 이(가) {1} (으)로 레이스를 이겼고 {2} 을 획득했습니다!</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="gambling_dice_invalid_number" xml:space="preserve">
@@ -1194,41 +1187,44 @@ Discord 닉네임이나 ID를 메시지에 남겨 두는 것을 잊지 마십시
     <value>최고의 와이프</value>
   </data>
   <data name="gambling_waifu_affinity_already" xml:space="preserve">
-    <value></value>
+    <value>당신의 친밀감이 이미 그 와이프로 설정 했거나 당신에게 친밀감이 없는 상태의 와이프에게 친밀감 삭제를 시도했습니다.</value>
   </data>
   <data name="gambling_waifu_affinity_changed" xml:space="preserve">
-    <value></value>
+    <value>친밀감이 {0} 에서 {1} 으로 변경되었습니다.
+
+*도덕성이 의심스럽습니다.*🤔</value>
     <comment>Make sure to get the formatting right, and leave the thinking emoji</comment>
   </data>
   <data name="gambling_waifu_affinity_cooldown" xml:space="preserve">
-    <value></value>
+    <value>친밀감을 다시 바꾸기 위해서는 {0} 시간 {1} 분을 기다려야합니다.</value>
   </data>
   <data name="gambling_waifu_affinity_reset" xml:space="preserve">
-    <value></value>
+    <value>당신의 친밀감은 초기화되었습니다. 당신이 좋아하는 사람은 더 이상 없습니다.</value>
   </data>
   <data name="gambling_waifu_affinity_set" xml:space="preserve">
-    <value></value>
+    <value>님이 {0}의 와이프가 되고싶어합니다.</value>
   </data>
   <data name="gambling_waifu_claimed" xml:space="preserve">
-    <value></value>
+    <value>님이 {1} 에 {0} 님을 와이프로 요구했습니다.</value>
   </data>
   <data name="gambling_waifu_divorced_like" xml:space="preserve">
-    <value></value>
+    <value>당신을 좋아하는 와이프와 이혼했습니다. {0} 님이 보상금으로 {1} 만큼을 받았습니다. </value>
   </data>
   <data name="gambling_waifu_egomaniac" xml:space="preserve">
-    <value></value>
+    <value>자기 자신에게 친밀감을 설정 할 수 없습니다.</value>
   </data>
   <data name="gambling_waifu_fulfilled" xml:space="preserve">
-    <value></value>
+    <value>🎉 그들의 사랑이 성취되었습니다! 🎉
+{0} 의 새로운 가치는 {1} 입니다!</value>
   </data>
   <data name="gambling_waifu_isnt_cheap" xml:space="preserve">
-    <value></value>
+    <value>그렇게 싼 와이프는 없습니다. 와이프를 얻기 위해서는 실제 가치보다 낮더라도 {0} 만큼을 지불해야합니다.</value>
   </data>
   <data name="gambling_waifu_not_enough" xml:space="preserve">
-    <value></value>
+    <value>와이프를 요구하기 위해서는 {0} 이상을 지불해야합니다!</value>
   </data>
   <data name="gambling_waifu_not_yours" xml:space="preserve">
-    <value></value>
+    <value>그 와이프는 당신의 와이프가 아닙니다.</value>
   </data>
   <data name="gambling_waifu_not_yourself" xml:space="preserve">
     <value>자기자신을 클레임 할 수 없습니다.</value>
@@ -1242,7 +1238,7 @@ Discord 닉네임이나 ID를 메시지에 남겨 두는 것을 잊지 마십시
     <value>아무도 없음</value>
   </data>
   <data name="gambling_waifu_divorced_notlike" xml:space="preserve">
-    <value></value>
+    <value>당신을 좋아하지 않는 와이프와 이혼했습니다. 당신은 {0}을 돌려받았습니다.</value>
   </data>
   <data name="games_8ball" xml:space="preserve">
     <value>8ball</value>
@@ -1256,98 +1252,102 @@ Discord 닉네임이나 ID를 메시지에 남겨 두는 것을 잊지 마십시
     <value>아무런 제출 없이 게임이 끝났습니다.</value>
   </data>
   <data name="games_acro_no_votes_cast" xml:space="preserve">
-    <value></value>
+    <value>아무도 투표하지 않았습니다. 승자없이 게임이 종료되었습니다.</value>
   </data>
   <data name="games_acro_nym_was" xml:space="preserve">
-    <value>두문자가 {0} 이었슴니다.</value>
+    <value>머리글자는 {0} 이었습니다.</value>
   </data>
   <data name="games_acro_running" xml:space="preserve">
-    <value></value>
+    <value>아크로포비아 게임이 이미 이 채널에서 진행 중입니다.</value>
   </data>
   <data name="games_acro_started" xml:space="preserve">
-    <value></value>
+    <value>게임이 시작되었습니다. {0} 머리글자를 사용해서 문장 만드십시오.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="games_acro_started_footer" xml:space="preserve">
-    <value></value>
+    <value>제출까지 {0} 초 남았습니다.</value>
   </data>
   <data name="games_acro_submit" xml:space="preserve">
-    <value></value>
+    <value>{0} 가 그의 문장을 입력했습니다. (합계: {1})</value>
   </data>
   <data name="games_acro_vote" xml:space="preserve">
-    <value></value>
+    <value>제출번호를 입력해서 투표를 하십시오.</value>
   </data>
   <data name="games_acro_vote_cast" xml:space="preserve">
-    <value></value>
+    <value>{0} 가 투표했습니다!</value>
   </data>
   <data name="games_acro_winner" xml:space="preserve">
-    <value></value>
+    <value>우승자는 {1} 포인트를 가진 {0} 입니다.</value>
   </data>
   <data name="games_acro_winner_only" xml:space="preserve">
-    <value></value>
+    <value>{0} 님이 서버에서 유일한 제출자이기 때문에 승리했습니다.</value>
   </data>
   <data name="games_question" xml:space="preserve">
-    <value></value>
+    <value>문제
+</value>
   </data>
   <data name="games_rps_draw" xml:space="preserve">
-    <value></value>
+    <value>비겼습니다! 둘다 {0} 을(를) 선택했습니다.</value>
   </data>
   <data name="games_rps_win" xml:space="preserve">
-    <value></value>
+    <value>{0} 가 승리했습니다! {1} 은(는) {2} 을(를) 이겼습니다.</value>
   </data>
   <data name="games_submissions_closed" xml:space="preserve">
-    <value></value>
+    <value>제출이 마감되었습니다.</value>
   </data>
   <data name="gambling_animal_race_already_started" xml:space="preserve">
-    <value></value>
+    <value>동물 레이스가 이미 진행 중입니다.</value>
   </data>
   <data name="gambling_total_average" xml:space="preserve">
-    <value></value>
+    <value>총합: {0} 평균: {1}</value>
   </data>
   <data name="games_category" xml:space="preserve">
-    <value></value>
+    <value>범주</value>
   </data>
   <data name="games_cleverbot_disabled" xml:space="preserve">
-    <value></value>
+    <value>이 서버에서 클레버봇을 비활성화하였습니다.</value>
   </data>
   <data name="games_cleverbot_enabled" xml:space="preserve">
-    <value></value>
+    <value>이 서버에서 클레버봇을 활성화하였습니다.</value>
   </data>
   <data name="games_curgen_disabled" xml:space="preserve">
-    <value></value>
+    <value>이 채널에서 통화 생성이 비활성화되었습니다.</value>
   </data>
   <data name="games_curgen_enabled" xml:space="preserve">
-    <value></value>
+    <value>이 채널에서 통화 생성이 활성화되었습니다.</value>
   </data>
   <data name="games_curgen_pl" xml:space="preserve">
-    <value></value>
-    <comment>plural</comment>
+    <value>{0} 무작위 {1} 가 등장했습니다!</value>
+    <comment>plural
+Fuzzy</comment>
   </data>
   <data name="games_curgen_sn" xml:space="preserve">
-    <value></value>
+    <value>무작위 {0} 가 등장했습니다!</value>
   </data>
   <data name="games_failed_loading_question" xml:space="preserve">
-    <value></value>
+    <value>질문 로딩에 실패하였습니다.</value>
   </data>
   <data name="games_game_started" xml:space="preserve">
-    <value></value>
+    <value>게임이 시작되었습니다</value>
   </data>
   <data name="games_hangman_game_started" xml:space="preserve">
-    <value></value>
+    <value>행맨 게임이 시작되었습니다</value>
   </data>
   <data name="games_hangman_running" xml:space="preserve">
-    <value></value>
+    <value>행맨 게임이 이미 시작되었습니다</value>
   </data>
   <data name="games_hangman_start_errored" xml:space="preserve">
-    <value></value>
+    <value>행맨 게임 시작에 오류가 발생하였습니다.</value>
   </data>
   <data name="games_hangman_types" xml:space="preserve">
-    <value></value>
+    <value>&quot;{0}hangman&quot; 용어 종류 목록</value>
   </data>
   <data name="games_leaderboard" xml:space="preserve">
-    <value></value>
+    <value>리더 보드</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="games_not_enough" xml:space="preserve">
-    <value></value>
+    <value>당신은 충분한 {0} 이(가) 없습니다.</value>
   </data>
   <data name="games_no_results" xml:space="preserve">
     <value>결과가 없습니다.</value>
@@ -1361,246 +1361,252 @@ Discord 닉네임이나 ID를 메시지에 남겨 두는 것을 잊지 마십시
     <comment>Kwoth planted 5*</comment>
   </data>
   <data name="games_trivia_already_running" xml:space="preserve">
-    <value></value>
+    <value>이미 이 서버에서 트리비아 게임이 진행중입니다.</value>
   </data>
   <data name="games_trivia_game" xml:space="preserve">
-    <value></value>
+    <value>트리비아 게임</value>
   </data>
   <data name="games_trivia_guess" xml:space="preserve">
-    <value></value>
+    <value>{0} 님이 맞췄습니다! 답은 {1} 입니다.</value>
   </data>
   <data name="games_trivia_none" xml:space="preserve">
-    <value></value>
+    <value>이 서버에서 진행중인 트리비아 게임이 없습니다.</value>
   </data>
   <data name="games_trivia_points" xml:space="preserve">
-    <value></value>
+    <value>{0} 이(가) {1} 포인트를 갖고있습니다.</value>
   </data>
   <data name="games_trivia_stopping" xml:space="preserve">
-    <value></value>
+    <value>이 질문 후에 중지합니다.</value>
   </data>
   <data name="games_trivia_times_up" xml:space="preserve">
-    <value></value>
+    <value>시간초과! 정확한 답은 {0} 입니다.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="games_trivia_win" xml:space="preserve">
-    <value></value>
+    <value>{0} 님이 맞춰서 게임을 이겼습니다! 답은 {1} 입니다.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="games_ttt_against_yourself" xml:space="preserve">
-    <value></value>
+    <value>당신을 상대로 플레이 할 수 없습니다.</value>
   </data>
   <data name="games_ttt_already_running" xml:space="preserve">
-    <value></value>
+    <value>이미 이 채널에서 TicTacToe 게임이 진행중입니다.</value>
   </data>
   <data name="games_ttt_a_draw" xml:space="preserve">
-    <value></value>
+    <value>비겼습니다!</value>
   </data>
   <data name="games_ttt_created" xml:space="preserve">
-    <value></value>
+    <value>님이 TicTacToe 게임을 생성하였습니다.</value>
   </data>
   <data name="games_ttt_has_won" xml:space="preserve">
-    <value></value>
+    <value>{0} 님이 이겼습니다!</value>
   </data>
   <data name="games_ttt_matched_three" xml:space="preserve">
-    <value></value>
+    <value>3개 일치</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="games_ttt_no_moves" xml:space="preserve">
-    <value></value>
+    <value>더 이상 움직일 수 없습니다!</value>
   </data>
   <data name="games_ttt_time_expired" xml:space="preserve">
-    <value></value>
+    <value>시간이 만료되었습니다!</value>
   </data>
   <data name="games_ttt_users_move" xml:space="preserve">
-    <value></value>
+    <value>{0}의 이동</value>
   </data>
   <data name="games_vs" xml:space="preserve">
-    <value></value>
+    <value>{0} 대 {1}</value>
   </data>
   <data name="music_attempting_to_queue" xml:space="preserve">
-    <value></value>
+    <value>{0} 개의 곡을 대기열에 추가하는 중...</value>
   </data>
   <data name="music_autoplay_disabled" xml:space="preserve">
-    <value></value>
+    <value>자동재생이 비활성화되었습니다. </value>
   </data>
   <data name="music_autoplay_enabled" xml:space="preserve">
-    <value></value>
+    <value>자동재생이 활성화되었습니다. </value>
   </data>
   <data name="music_defvol_set" xml:space="preserve">
-    <value></value>
+    <value>기본 음량이 {0}%로 설정되었습니다.</value>
   </data>
   <data name="music_dir_queue_complete" xml:space="preserve">
-    <value></value>
+    <value>디렉토리 대기열 추가가 완료되었습니다.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_fairplay" xml:space="preserve">
-    <value></value>
+    <value>페어플레이</value>
   </data>
   <data name="music_finished_song" xml:space="preserve">
-    <value></value>
+    <value>재생 완료</value>
   </data>
   <data name="music_fp_disabled" xml:space="preserve">
-    <value></value>
+    <value>페어플레이가 비활성화되었습니다.</value>
   </data>
   <data name="music_fp_enabled" xml:space="preserve">
-    <value></value>
+    <value>페어플레이가 활성화되었습니다.</value>
   </data>
   <data name="music_from_position" xml:space="preserve">
-    <value></value>
+    <value>원레 위치</value>
   </data>
   <data name="music_id" xml:space="preserve">
-    <value></value>
+    <value>ID</value>
   </data>
   <data name="music_invalid_input" xml:space="preserve">
-    <value></value>
+    <value>유효하지 않은 입력입니다.</value>
   </data>
   <data name="music_max_playtime_none" xml:space="preserve">
-    <value></value>
+    <value>이제 최대 재생시간에 제한이 없습니다.</value>
   </data>
   <data name="music_max_playtime_set" xml:space="preserve">
-    <value></value>
+    <value>최대 재생시간이 {0} 초로 설정되었습니다.</value>
   </data>
   <data name="music_max_queue_unlimited" xml:space="preserve">
-    <value></value>
+    <value>이제 음악 대기열 크기는 제한이 없습니다.</value>
   </data>
   <data name="music_max_queue_x" xml:space="preserve">
-    <value></value>
+    <value>음악 대기열 크기가 {0} 곡으로 변경되었습니다.</value>
   </data>
   <data name="music_must_be_in_voice" xml:space="preserve">
-    <value></value>
+    <value>당신은 이 서버의 음성채널에 있어야 합니다.</value>
   </data>
   <data name="music_name" xml:space="preserve">
-    <value></value>
+    <value>이름</value>
   </data>
   <data name="music_now_playing" xml:space="preserve">
-    <value></value>
+    <value>현재 재생 중</value>
   </data>
   <data name="music_no_player" xml:space="preserve">
-    <value></value>
+    <value>재생중인 곡이 없습니다.</value>
   </data>
   <data name="music_no_search_results" xml:space="preserve">
-    <value></value>
+    <value>검색 결과가 없습니다.</value>
   </data>
   <data name="music_paused" xml:space="preserve">
-    <value></value>
+    <value>음악 재생이 일시정지되었습니다.</value>
   </data>
   <data name="music_player_queue" xml:space="preserve">
-    <value></value>
+    <value>음악 대기열 - {0}/{1} 페이지</value>
   </data>
   <data name="music_playing_song" xml:space="preserve">
-    <value></value>
+    <value>노래 재생 중</value>
   </data>
   <data name="music_playlists" xml:space="preserve">
-    <value></value>
+    <value>`#{0}` - {2} 님의 재생목록 **{1}** ({3} 곡)</value>
   </data>
   <data name="music_playlists_page" xml:space="preserve">
-    <value></value>
+    <value>저장된 재생목록의 {0} 번째 페이지</value>
   </data>
   <data name="music_playlist_deleted" xml:space="preserve">
-    <value></value>
+    <value>재생목록이 삭제되었습니다.</value>
   </data>
   <data name="music_playlist_delete_fail" xml:space="preserve">
-    <value></value>
+    <value>재생목록 삭제에 실패했습니다. 존재하지 않거나, 당신이 재생목록의 저자가 아닙니다.</value>
   </data>
   <data name="music_playlist_id_not_found" xml:space="preserve">
-    <value></value>
+    <value>그 ID에 해당하는 재생목록이 존재하지 않습니다.</value>
   </data>
   <data name="music_playlist_queue_complete" xml:space="preserve">
-    <value></value>
+    <value>재생목록 대기열 추가 완료.</value>
   </data>
   <data name="music_playlist_saved" xml:space="preserve">
-    <value></value>
+    <value>재생목록이 저장되었습니다.</value>
   </data>
   <data name="music_play_limit" xml:space="preserve">
-    <value></value>
+    <value>{0} 초 한계</value>
   </data>
   <data name="music_queue" xml:space="preserve">
-    <value></value>
+    <value>대기열</value>
   </data>
   <data name="music_queued_song" xml:space="preserve">
-    <value></value>
+    <value>대기열에 추가됨</value>
   </data>
   <data name="music_queue_cleared" xml:space="preserve">
-    <value></value>
+    <value>음악 대기열이 초기화되었습니다.</value>
   </data>
   <data name="music_queue_full" xml:space="preserve">
-    <value></value>
+    <value>대기열이 {0}/{0} 으(로) 가득찼습니다.</value>
   </data>
   <data name="music_removed_song" xml:space="preserve">
-    <value></value>
+    <value>곡 삭제됨</value>
     <comment>context: &quot;removed song #5&quot;</comment>
   </data>
   <data name="music_repeating_cur_song" xml:space="preserve">
-    <value></value>
+    <value>현재 곡을 반복재생합니다.</value>
   </data>
   <data name="music_repeating_playlist" xml:space="preserve">
-    <value></value>
+    <value>현재 재생목록을 반복재생합니다.</value>
   </data>
   <data name="music_repeating_track" xml:space="preserve">
-    <value></value>
+    <value>현재 트랙을 반복재생합니다.</value>
   </data>
   <data name="music_repeating_track_stopped" xml:space="preserve">
-    <value></value>
+    <value>현재 트랙 반복이 중지되었습니다.</value>
   </data>
   <data name="music_resumed" xml:space="preserve">
-    <value></value>
+    <value>음악 재생이 재개되었습니다.</value>
   </data>
   <data name="music_rpl_disabled" xml:space="preserve">
-    <value></value>
+    <value>재생목록 반복이 비활성화되었습니다.</value>
   </data>
   <data name="music_rpl_enabled" xml:space="preserve">
-    <value></value>
+    <value>재생목록 반복이 활성화되었습니다.</value>
   </data>
   <data name="music_set_music_channel" xml:space="preserve">
-    <value></value>
+    <value>앞으로 재생 중, 완료, 일시정지, 삭제된 곡들을 이 채널에 출력합니다.</value>
   </data>
   <data name="music_skipped_to" xml:space="preserve">
-    <value></value>
+    <value>`{0}:{1}`로 이동하였습니다.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_songs_shuffled" xml:space="preserve">
-    <value></value>
+    <value>곡을 섞었습니다.</value>
   </data>
   <data name="music_song_moved" xml:space="preserve">
-    <value></value>
+    <value>곡이 이동되었습니다.</value>
   </data>
   <data name="music_time_format" xml:space="preserve">
-    <value></value>
+    <value>{0}시간 {1}분 {2}초</value>
   </data>
   <data name="music_to_position" xml:space="preserve">
-    <value></value>
+    <value>바뀐 위치</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="music_unlimited" xml:space="preserve">
-    <value></value>
+    <value>무제한</value>
   </data>
   <data name="music_volume_input_invalid" xml:space="preserve">
-    <value></value>
+    <value>음량은 0과 100 사이의 값이여야 합니다. </value>
   </data>
   <data name="music_volume_set" xml:space="preserve">
-    <value></value>
+    <value>음량이 {0}% 로 설정되었습니다.</value>
   </data>
   <data name="permissions_acm_disable" xml:space="preserve">
-    <value></value>
+    <value>{0} 채널에서 모든 모듈의 사용을 비활성화했습니다.</value>
   </data>
   <data name="permissions_acm_enable" xml:space="preserve">
-    <value></value>
+    <value>{0} 채널에서 모든 모듈의 사용을 활성화했습니다.</value>
   </data>
   <data name="permissions_allowed" xml:space="preserve">
     <value>허락함</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="permissions_arm_disable" xml:space="preserve">
-    <value></value>
+    <value>{0} 역할에게 모든 모듈의 사용을 비활성화했습니다.</value>
   </data>
   <data name="permissions_arm_enable" xml:space="preserve">
-    <value></value>
+    <value>{0} 역할에게 모든 모듈의 사용을 활성화했습니다.</value>
   </data>
   <data name="permissions_asm_disable" xml:space="preserve">
-    <value></value>
+    <value>이 서버에서 모든 모듈의 사용을 비활성화했습니다.</value>
   </data>
   <data name="permissions_asm_enable" xml:space="preserve">
-    <value></value>
+    <value>이 서버에서 모든 모듈의 사용을 활성화했습니다.</value>
   </data>
   <data name="permissions_aum_disable" xml:space="preserve">
-    <value></value>
+    <value>{0} 사용자에 대한 모든 모듈의 사용을 비활성화합니다.</value>
   </data>
   <data name="permissions_aum_enable" xml:space="preserve">
-    <value></value>
+    <value>{0} 사용자에 대한 모든 모듈의 사용을 활성화합니다.</value>
   </data>
   <data name="permissions_blacklisted" xml:space="preserve">
     <value>{0} (ID {1})님을 블랙리스트했습니다</value>
@@ -1639,28 +1645,28 @@ Discord 닉네임이나 ID를 메시지에 남겨 두는 것을 잊지 마십시
     <comment>Fuzzy</comment>
   </data>
   <data name="permissions_invalid_second_param_between" xml:space="preserve">
-    <value></value>
+    <value>유효하지 않은 두번째 파라미터입니다. ( {0} 와(과) {1} 사이의 숫자여야 합니다.)</value>
   </data>
   <data name="permissions_invite_filter_channel_off" xml:space="preserve">
-    <value></value>
+    <value>초대 필터링이 이 채널에서 비활성화되었습니다.</value>
   </data>
   <data name="permissions_invite_filter_channel_on" xml:space="preserve">
-    <value></value>
+    <value>초대 필터링이 이 채널에서 활성화되었습니다.</value>
   </data>
   <data name="permissions_invite_filter_server_off" xml:space="preserve">
-    <value></value>
+    <value>초대 필터링이 이 서버에서 비활성화되었습니다.</value>
   </data>
   <data name="permissions_invite_filter_server_on" xml:space="preserve">
-    <value></value>
+    <value>초대 필터링이 이 서버에서 활성화되었습니다.</value>
   </data>
   <data name="permissions_moved_permission" xml:space="preserve">
-    <value></value>
+    <value>{0} 권한을 #{1} 에서 #{2} (으)로 이동했습니다.</value>
   </data>
   <data name="permissions_not_found" xml:space="preserve">
-    <value></value>
+    <value>색인 #{0} 에 대한 권한을 찾을 수 없습니다.</value>
   </data>
   <data name="permissions_no_costs" xml:space="preserve">
-    <value></value>
+    <value>아무런 값이 설정되지 않았습니다.</value>
   </data>
   <data name="permissions_of_command" xml:space="preserve">
     <value>명령어</value>
@@ -1674,137 +1680,140 @@ Discord 닉네임이나 ID를 메시지에 남겨 두는 것을 잊지 마십시
     <value>권한 목록 {0} 페이지</value>
   </data>
   <data name="permissions_permrole" xml:space="preserve">
-    <value></value>
+    <value>현재 권한 역할은 {0} 입니다.</value>
   </data>
   <data name="permissions_permrole_changed" xml:space="preserve">
-    <value></value>
+    <value>이제 사용자가 권한 수정을 위해서는 {0} 권한이 필요합니다.</value>
   </data>
   <data name="permissions_perm_out_of_range" xml:space="preserve">
-    <value></value>
+    <value>그 색인에 대한 권한을 찾을 수 없습니다.</value>
   </data>
   <data name="permissions_removed" xml:space="preserve">
-    <value></value>
+    <value>#{0} - {1} 권한을 삭제했습니다.</value>
   </data>
   <data name="permissions_rx_disable" xml:space="preserve">
-    <value></value>
+    <value>{2} 역할에 대한 {0} {1} 의 사용을 비활성화했습니다.</value>
   </data>
   <data name="permissions_rx_enable" xml:space="preserve">
-    <value></value>
+    <value>{2} 역할에 대한 {0} {1} 의 사용을 활성화했습니다.</value>
   </data>
   <data name="permissions_sec" xml:space="preserve">
     <value>초.</value>
     <comment>Short of seconds.</comment>
   </data>
   <data name="permissions_sx_disable" xml:space="preserve">
-    <value></value>
+    <value>이 서버에서 {0} {1} 의 사용을 비활성화했습니다.</value>
   </data>
   <data name="permissions_sx_enable" xml:space="preserve">
-    <value></value>
+    <value>이 서버에서 {0} {1} 의 사용을 활성화했습니다.</value>
   </data>
   <data name="permissions_unblacklisted" xml:space="preserve">
-    <value></value>
+    <value>{0} (ID {1} ) 님을 블랙리스트에서 해제하였습니다.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_uneditable" xml:space="preserve">
-    <value></value>
+    <value>수정불가</value>
   </data>
   <data name="permissions_ux_disable" xml:space="preserve">
-    <value></value>
+    <value>{2} 사용자의 {0} {1} 의 사용을 비활성화했습니다.</value>
   </data>
   <data name="permissions_ux_enable" xml:space="preserve">
-    <value></value>
+    <value>{2} 사용자의 {0} {1} 의 사용을 활성화했습니다.</value>
   </data>
   <data name="permissions_verbose_false" xml:space="preserve">
-    <value></value>
+    <value>더 이상 권한 경고를 표시하지 않습니다.</value>
   </data>
   <data name="permissions_verbose_true" xml:space="preserve">
-    <value></value>
+    <value>앞으로 권한 경고를 표시합니다.</value>
   </data>
   <data name="permissions_word_filter_channel_off" xml:space="preserve">
-    <value></value>
+    <value>단어 필터링이 이 채널에서 비활성화되었습니다.</value>
   </data>
   <data name="permissions_word_filter_channel_on" xml:space="preserve">
-    <value></value>
+    <value>단어 필터링이 이 채널에서 활성화되었습니다.</value>
   </data>
   <data name="permissions_word_filter_server_off" xml:space="preserve">
-    <value></value>
+    <value>단어 필터링이 이 서버에서 비활성화되었습니다.</value>
   </data>
   <data name="permissions_word_filter_server_on" xml:space="preserve">
-    <value></value>
+    <value>단어 필터링이 이 서버에서 활성화되었습니다.</value>
   </data>
   <data name="searches_abilities" xml:space="preserve">
     <value>능력</value>
   </data>
   <data name="searches_anime_no_fav" xml:space="preserve">
-    <value></value>
+    <value>좋아하는 애니메이션이 없습니다.</value>
   </data>
   <data name="searches_atl_ad_started" xml:space="preserve">
-    <value></value>
+    <value>이 채널 메시지의 자동번역을 시작합니다. 사용자의 메시지는 자동삭제 됩니다.</value>
   </data>
   <data name="searches_atl_removed" xml:space="preserve">
-    <value></value>
+    <value>당신의 자동번역 언어가 제거되었습니다.</value>
   </data>
   <data name="searches_atl_set" xml:space="preserve">
-    <value></value>
+    <value>당신의 자동번역 언어가 {0}&gt;{1} 로 설정되었습니다.</value>
   </data>
   <data name="searches_atl_started" xml:space="preserve">
-    <value></value>
+    <value>이 채널의 자동번역을 시작합니다.</value>
   </data>
   <data name="searches_atl_stopped" xml:space="preserve">
-    <value></value>
+    <value>이 채널의 자동번역을 중지합니다.</value>
   </data>
   <data name="searches_bad_input_format" xml:space="preserve">
-    <value></value>
+    <value>올바르지 않은 입력 포맷이거나 무언가가 잘못되었습니다.</value>
   </data>
   <data name="searches_card_not_found" xml:space="preserve">
-    <value></value>
+    <value>그 카드를 찾을 수 없습니다.</value>
   </data>
   <data name="searches_catfact" xml:space="preserve">
-    <value></value>
+    <value>사실</value>
   </data>
   <data name="searches_chapters" xml:space="preserve">
-    <value></value>
+    <value>챕터</value>
   </data>
   <data name="searches_comic_number" xml:space="preserve">
-    <value></value>
+    <value>만화 #</value>
   </data>
   <data name="searches_compet_loses" xml:space="preserve">
-    <value></value>
+    <value>경쟁전 패배</value>
   </data>
   <data name="searches_compet_played" xml:space="preserve">
-    <value></value>
+    <value>경쟁전 플레이</value>
   </data>
   <data name="searches_compet_rank" xml:space="preserve">
-    <value></value>
+    <value>경쟁전 랭크</value>
   </data>
   <data name="searches_compet_wins" xml:space="preserve">
-    <value></value>
+    <value>경쟁전 승리</value>
   </data>
   <data name="searches_completed" xml:space="preserve">
-    <value></value>
+    <value>완료</value>
   </data>
   <data name="searches_condition" xml:space="preserve">
-    <value></value>
+    <value>조건</value>
   </data>
   <data name="searches_cost" xml:space="preserve">
-    <value></value>
+    <value>값</value>
   </data>
   <data name="searches_date" xml:space="preserve">
-    <value></value>
+    <value>날짜</value>
   </data>
   <data name="searches_define" xml:space="preserve">
-    <value></value>
+    <value>정의:</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_dropped" xml:space="preserve">
-    <value></value>
+    <value>시청 종료</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_episodes" xml:space="preserve">
-    <value></value>
+    <value>에피소드</value>
   </data>
   <data name="searches_error_occured" xml:space="preserve">
-    <value></value>
+    <value>오류가 발생했습니다.</value>
   </data>
   <data name="searches_example" xml:space="preserve">
-    <value></value>
+    <value>예시</value>
   </data>
   <data name="searches_failed_finding_anime" xml:space="preserve">
     <value>애니메이션 검색에 실패했습니다.</value>
@@ -1816,7 +1825,7 @@ Discord 닉네임이나 ID를 메시지에 남겨 두는 것을 잊지 마십시
     <value>장르</value>
   </data>
   <data name="searches_hashtag_error" xml:space="preserve">
-    <value></value>
+    <value>해당 태그에 대한 정의를 찾지 못했습니다.</value>
   </data>
   <data name="searches_height_weight" xml:space="preserve">
     <value>키/무게</value>
@@ -1834,339 +1843,353 @@ Discord 닉네임이나 ID를 메시지에 남겨 두는 것을 잊지 마십시
     <value>영화 검색에 실패했습니다.</value>
   </data>
   <data name="searches_invalid_lang" xml:space="preserve">
-    <value></value>
+    <value>유효하지 않은 소스 또는 언어입니다.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_jokes_not_loaded" xml:space="preserve">
-    <value></value>
+    <value>농담이 로드되지 않았습니다.</value>
   </data>
   <data name="searches_latlong" xml:space="preserve">
-    <value></value>
+    <value>위도/경도</value>
   </data>
   <data name="searches_level" xml:space="preserve">
-    <value></value>
+    <value>레벨</value>
   </data>
   <data name="searches_list_of_place_tags" xml:space="preserve">
-    <value></value>
+    <value>{0}place 태그 목록</value>
     <comment>Don&apos;t translate {0}place</comment>
   </data>
   <data name="searches_location" xml:space="preserve">
-    <value></value>
+    <value>위치</value>
   </data>
   <data name="searches_magicitems_not_loaded" xml:space="preserve">
-    <value></value>
+    <value>마법 아이템이 로드되지 않습니다.</value>
   </data>
   <data name="searches_mal_profile" xml:space="preserve">
-    <value></value>
+    <value>{0}의 MAL 프로필</value>
   </data>
   <data name="searches_mashape_api_missing" xml:space="preserve">
-    <value></value>
+    <value>봇의 소유자가 MashapeApiKey을 설정하지 않아서 이 기능을 사용 할 수 없습니다.</value>
   </data>
   <data name="searches_min_max" xml:space="preserve">
-    <value></value>
+    <value>최소/최대</value>
   </data>
   <data name="searches_no_channel_found" xml:space="preserve">
-    <value></value>
+    <value>채널을 찾을 수 없습니다</value>
   </data>
   <data name="searches_no_results" xml:space="preserve">
-    <value></value>
+    <value>결과를 찾을 수 없습니다.</value>
   </data>
   <data name="searches_on_hold" xml:space="preserve">
-    <value></value>
+    <value>보류</value>
   </data>
   <data name="searches_original_url" xml:space="preserve">
-    <value></value>
+    <value>원본 Url</value>
   </data>
   <data name="searches_osu_api_key" xml:space="preserve">
-    <value></value>
+    <value>osu! API키가 필요합니다.</value>
   </data>
   <data name="searches_osu_failed" xml:space="preserve">
-    <value></value>
+    <value>osu! 정보 검색에 실패했습니다.</value>
   </data>
   <data name="searches_over_x" xml:space="preserve">
-    <value></value>
+    <value>{0} 개 이상의 이미지가 발견되었습니다. 무작위로 {0}개를 표시합니다.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_ow_user_not_found" xml:space="preserve">
-    <value></value>
+    <value>사용자를 찾을 수 없습니다! 다시 시도하기 전에 지역과 배틀태그를 확인해주십시오</value>
   </data>
   <data name="searches_plan_to_watch" xml:space="preserve">
-    <value></value>
+    <value>볼 예정</value>
   </data>
   <data name="searches_platform" xml:space="preserve">
-    <value></value>
+    <value>플랫폼</value>
   </data>
   <data name="searches_pokemon_ability_none" xml:space="preserve">
-    <value></value>
+    <value>능력을 찾을 수 없습니다.</value>
   </data>
   <data name="searches_pokemon_none" xml:space="preserve">
-    <value></value>
+    <value>포케몬을 찾을 수 없습니다.</value>
   </data>
   <data name="searches_profile_link" xml:space="preserve">
-    <value></value>
+    <value>프로필 링크:</value>
   </data>
   <data name="searches_quality" xml:space="preserve">
-    <value></value>
+    <value>품질:</value>
   </data>
   <data name="searches_quick_playtime" xml:space="preserve">
-    <value></value>
+    <value>빠른대전 플레이 시간</value>
   </data>
   <data name="searches_quick_wins" xml:space="preserve">
-    <value></value>
+    <value>빠른대전 승리</value>
   </data>
   <data name="searches_rating" xml:space="preserve">
-    <value></value>
+    <value>레이팅</value>
   </data>
   <data name="searches_score" xml:space="preserve">
-    <value></value>
+    <value>점수:</value>
   </data>
   <data name="searches_search_for" xml:space="preserve">
-    <value></value>
+    <value>검색 쿼리:</value>
   </data>
   <data name="searches_shorten_fail" xml:space="preserve">
-    <value></value>
+    <value>Url 단축에 실패했습니다.</value>
   </data>
   <data name="searches_short_url" xml:space="preserve">
-    <value></value>
+    <value>Url 단축</value>
   </data>
   <data name="searches_something_went_wrong" xml:space="preserve">
-    <value></value>
+    <value>무언가가 잘못되었습니다.</value>
   </data>
   <data name="searches_specify_search_params" xml:space="preserve">
-    <value></value>
+    <value>검색어를 입력해주세요.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_status" xml:space="preserve">
-    <value></value>
+    <value>상태</value>
   </data>
   <data name="searches_store_url" xml:space="preserve">
-    <value></value>
+    <value>저장된 Url</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_streamer_offline" xml:space="preserve">
-    <value></value>
+    <value>스트리머 {0} 은(는) 오프라인입니다.</value>
   </data>
   <data name="searches_streamer_online" xml:space="preserve">
-    <value></value>
+    <value>스트리머 {0} 은(는) {1} 명의 시청자와 함께 온라인입니다.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_streams_following" xml:space="preserve">
-    <value></value>
+    <value>당신은 이 서버에서 {0} 개의 스트리밍을 팔로우 중입니다.</value>
   </data>
   <data name="searches_streams_none" xml:space="preserve">
-    <value></value>
+    <value>당신은 이 서버에서 어떠한 스트리밍도 팔로우하지 않았습니다.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_stream_no" xml:space="preserve">
-    <value></value>
+    <value>스트리밍이 없습니다.</value>
   </data>
   <data name="searches_stream_not_exist" xml:space="preserve">
-    <value></value>
+    <value>스트리밍 속성이 존재하지 않습니다.</value>
   </data>
   <data name="searches_stream_removed" xml:space="preserve">
-    <value></value>
+    <value>{0}의 스트리밍 ({1})을 알림에서 삭제했습니다.</value>
   </data>
   <data name="searches_stream_tracked" xml:space="preserve">
-    <value></value>
+    <value>상태가 변경되면 이 채널에 알립니다.</value>
   </data>
   <data name="searches_sunrise" xml:space="preserve">
-    <value></value>
+    <value>일출</value>
   </data>
   <data name="searches_sunset" xml:space="preserve">
-    <value></value>
+    <value>일몰</value>
   </data>
   <data name="searches_temperature" xml:space="preserve">
-    <value></value>
+    <value>온도</value>
   </data>
   <data name="searches_title" xml:space="preserve">
-    <value></value>
+    <value>제목:</value>
   </data>
   <data name="searches_top_3_fav_anime" xml:space="preserve">
-    <value></value>
+    <value>좋아하는 상위 3개 애니:</value>
   </data>
   <data name="searches_translation" xml:space="preserve">
-    <value></value>
+    <value>번역 결과:</value>
   </data>
   <data name="searches_types" xml:space="preserve">
-    <value></value>
+    <value>종류</value>
   </data>
   <data name="searches_ud_error" xml:space="preserve">
-    <value></value>
+    <value>해당 용어에 대한 정의를 찾지 못했습니다.</value>
   </data>
   <data name="searches_url" xml:space="preserve">
-    <value></value>
+    <value>Url</value>
   </data>
   <data name="searches_viewers" xml:space="preserve">
-    <value></value>
+    <value>시청자</value>
   </data>
   <data name="searches_watching" xml:space="preserve">
-    <value>보고있는것:</value>
+    <value>시청중</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="searches_wikia_error" xml:space="preserve">
-    <value></value>
+    <value>해당 용어에 대한 특정 Wikia를 찾지 못했습니다.</value>
   </data>
   <data name="searches_wikia_input_error" xml:space="preserve">
-    <value></value>
+    <value>목적 Wikia를 입력하고 검색 쿼리를 입력하십시오.</value>
   </data>
   <data name="searches_wiki_page_not_found" xml:space="preserve">
-    <value></value>
+    <value>페이지를 찾지 못했습니다.</value>
   </data>
   <data name="searches_wind_speed" xml:space="preserve">
-    <value></value>
+    <value>바람의 속도</value>
   </data>
   <data name="searches_x_most_banned_champs" xml:space="preserve">
-    <value></value>
+    <value>{0} 번째로 많은 밴을 당한 챔피언</value>
   </data>
   <data name="searches_yodify_error" xml:space="preserve">
-    <value></value>
+    <value>당신의 문장을 Yodify하지 못했습니다.</value>
   </data>
   <data name="utiliity_joined" xml:space="preserve">
-    <value></value>
+    <value>입장</value>
   </data>
   <data name="utility_activity_line" xml:space="preserve">
-    <value></value>
+    <value>`{0}.` {1} [{2:F2}/초] - 합계 {3}</value>
     <comment>/s and total need to be localized to fit the context -
 `1.`</comment>
   </data>
   <data name="utility_activity_page" xml:space="preserve">
-    <value></value>
+    <value>활성 페이지 #{0}</value>
   </data>
   <data name="utility_activity_users_total" xml:space="preserve">
-    <value></value>
+    <value>총 {0} 명의 사용자.</value>
   </data>
   <data name="utility_author" xml:space="preserve">
-    <value></value>
+    <value>저자</value>
   </data>
   <data name="utility_botid" xml:space="preserve">
-    <value></value>
+    <value>봇 ID</value>
   </data>
   <data name="utility_calcops" xml:space="preserve">
-    <value></value>
+    <value>{0}calc 명령어의 기능 목록</value>
   </data>
   <data name="utility_channelid" xml:space="preserve">
-    <value></value>
+    <value>이 채널의 {0} 은 {1} 입니다.</value>
   </data>
   <data name="utility_channel_topic" xml:space="preserve">
-    <value></value>
+    <value>채널 주제</value>
   </data>
   <data name="utility_commands_ran" xml:space="preserve">
-    <value></value>
+    <value>실행된 명령어</value>
   </data>
   <data name="utility_convert" xml:space="preserve">
-    <value></value>
+    <value>{0} {1} 은(는) {2} {3} 와(과) 같습니다. </value>
   </data>
   <data name="utility_convertlist" xml:space="preserve">
-    <value></value>
+    <value>변환기에서 사용할수있는 단위</value>
   </data>
   <data name="utility_convert_not_found" xml:space="preserve">
-    <value></value>
+    <value>단위를 찾지 못해서 {0} 을(를) {1} (으)로 변환 할 수 없습니다.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_convert_type_error" xml:space="preserve">
-    <value></value>
+    <value>단위의 종류가 같지 않기때문에 {0} 을(를) {1} (으)로 변환 할 수 없습니다.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_created_at" xml:space="preserve">
-    <value></value>
+    <value>작성 시간:</value>
   </data>
   <data name="utility_csc_join" xml:space="preserve">
-    <value></value>
+    <value>크로스 서버 채널에 입장했습니다.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_csc_leave" xml:space="preserve">
-    <value></value>
+    <value>크로스 서버 채널에서 퇴장했습니다.</value>
   </data>
   <data name="utility_csc_token" xml:space="preserve">
-    <value></value>
+    <value>이것은 당신의 CSC 토큰입니다.</value>
   </data>
   <data name="utility_custom_emojis" xml:space="preserve">
-    <value></value>
+    <value>커스텀 이모지</value>
   </data>
   <data name="utility_error" xml:space="preserve">
-    <value></value>
+    <value>오류</value>
   </data>
   <data name="utility_features" xml:space="preserve">
-    <value></value>
+    <value>기능</value>
   </data>
   <data name="utility_id" xml:space="preserve">
-    <value></value>
+    <value>아이디</value>
   </data>
   <data name="utility_index_out_of_range" xml:space="preserve">
-    <value></value>
+    <value>색인이 범위를 벗어났습니다.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_inrole_list" xml:space="preserve">
-    <value></value>
+    <value>{0} 역할의 사용자 목록</value>
   </data>
   <data name="utility_inrole_not_allowed" xml:space="preserve">
-    <value></value>
+    <value>악용을 막기위해서 많은 사용자가 있는 역할의 이 명령어 사용이 제한되었습니다.</value>
   </data>
   <data name="utility_invalid_value" xml:space="preserve">
-    <value></value>
+    <value>유효하지 않은 {0} 값입니다.</value>
     <comment>Invalid months value/ Invalid hours value</comment>
   </data>
   <data name="utility_joined_discord" xml:space="preserve">
-    <value></value>
+    <value>디스코드 입장</value>
   </data>
   <data name="utility_joined_server" xml:space="preserve">
-    <value></value>
+    <value>서버 입장</value>
   </data>
   <data name="utility_listservers" xml:space="preserve">
-    <value></value>
+    <value>ID: {0}
+맴버: {1}
+소유자 ID: {2}</value>
   </data>
   <data name="utility_listservers_none" xml:space="preserve">
-    <value></value>
+    <value>이 페이지에서 서버를 찾을 수 없습니다.</value>
   </data>
   <data name="utility_list_of_repeaters" xml:space="preserve">
-    <value></value>
+    <value>리피터 목록</value>
   </data>
   <data name="utility_members" xml:space="preserve">
-    <value></value>
+    <value>맴버</value>
   </data>
   <data name="utility_memory" xml:space="preserve">
-    <value></value>
+    <value>메모리</value>
   </data>
   <data name="utility_messages" xml:space="preserve">
-    <value></value>
+    <value>메시지</value>
   </data>
   <data name="utility_message_repeater" xml:space="preserve">
-    <value></value>
+    <value>메시지 리피터</value>
   </data>
   <data name="utility_name" xml:space="preserve">
-    <value></value>
+    <value>이름</value>
   </data>
   <data name="utility_nickname" xml:space="preserve">
-    <value></value>
+    <value>닉네임</value>
   </data>
   <data name="utility_nobody_playing_game" xml:space="preserve">
-    <value></value>
+    <value>아무도 그 게임을 플레이하고 있지 않습니다.</value>
   </data>
   <data name="utility_no_active_repeaters" xml:space="preserve">
-    <value></value>
+    <value>활성화된 리피터가 없습니다.</value>
   </data>
   <data name="utility_no_roles_on_page" xml:space="preserve">
-    <value></value>
+    <value>이 페이지에 역할이 없습니다.</value>
   </data>
   <data name="utility_no_shards_on_page" xml:space="preserve">
-    <value></value>
+    <value>이 페이지에 Shard가 없습니다.</value>
   </data>
   <data name="utility_no_topic_set" xml:space="preserve">
-    <value></value>
+    <value>주제가 설정되지 않았습니다.</value>
   </data>
   <data name="utility_owner" xml:space="preserve">
-    <value></value>
+    <value>소유자</value>
   </data>
   <data name="utility_owner_ids" xml:space="preserve">
-    <value></value>
+    <value>소유자의 ID</value>
   </data>
   <data name="utility_presence" xml:space="preserve">
-    <value></value>
+    <value>상태</value>
   </data>
   <data name="utility_presence_txt" xml:space="preserve">
-    <value></value>
+    <value>{0} 서버
+{1} 텍스트 채널
+{2} 음성 채널</value>
   </data>
   <data name="utility_quotes_deleted" xml:space="preserve">
-    <value></value>
+    <value>{0} 키워드를 가진 모든 인용구를 삭제했습니다.</value>
   </data>
   <data name="utility_quotes_page" xml:space="preserve">
-    <value></value>
+    <value>인용구 페이지 {0}</value>
   </data>
   <data name="utility_quotes_page_none" xml:space="preserve">
-    <value></value>
+    <value>이 페이지에 인용구가 없습니다.</value>
   </data>
   <data name="utility_quotes_remove_none" xml:space="preserve">
-    <value></value>
+    <value>삭제 할 수 있는 인용구를 찾지못했습니다.</value>
   </data>
   <data name="utility_quote_added" xml:space="preserve">
     <value>인용구가 추가되었습니다.</value>
@@ -2181,28 +2204,28 @@ Discord 닉네임이나 ID를 메시지에 남겨 두는 것을 잊지 마십시
     <value>가입 날짜</value>
   </data>
   <data name="utility_remind" xml:space="preserve">
-    <value></value>
+    <value>제가 {2} `({3:d.M.yyyy.} at {4:HH:mm})`에 {0} 에게 {1}을(를) 상기시킬 것입니다.</value>
   </data>
   <data name="utility_remind_invalid_format" xml:space="preserve">
     <value>유효하지않은 시간 포맷입니다. 명령어 목록을 확인하십시오.</value>
   </data>
   <data name="utility_remind_template" xml:space="preserve">
-    <value></value>
+    <value>새로운 상기 템플릿이 설정되었습니다.</value>
   </data>
   <data name="utility_repeater" xml:space="preserve">
-    <value></value>
+    <value>{0} 을 {1} 일 {2} 시간 {3} 분마다 반복합니다.</value>
   </data>
   <data name="utility_repeaters_list" xml:space="preserve">
     <value>반복 메시지 목록</value>
   </data>
   <data name="utility_repeaters_none" xml:space="preserve">
-    <value>이 서버에 반복 메시지 실행하고있지 안습니다.</value>
+    <value>이 서버에 반복 메시지가 실행하고있지 않습니다.</value>
   </data>
   <data name="utility_repeater_stopped" xml:space="preserve">
     <value>#{0} 이 정지되었습니다.</value>
   </data>
   <data name="utility_repeat_invoke_none" xml:space="preserve">
-    <value></value>
+    <value>이 서버에서 반복 메시지를 찾을 수 없습니다.</value>
   </data>
   <data name="utility_result" xml:space="preserve">
     <value>결과</value>
@@ -2211,25 +2234,26 @@ Discord 닉네임이나 ID를 메시지에 남겨 두는 것을 잊지 마십시
     <value>역할</value>
   </data>
   <data name="utility_roles_all_page" xml:space="preserve">
-    <value></value>
+    <value>이 서버의 모든 역할 페이지 #{0} :</value>
   </data>
   <data name="utility_roles_page" xml:space="preserve">
-    <value></value>
+    <value>{1} 역할에 대한 페이지 #{0}</value>
   </data>
   <data name="utility_rrc_no_colors" xml:space="preserve">
-    <value></value>
+    <value>색상 포맷이 정확하지 않습니다. `#00FF00`을 사용해보십시오.</value>
   </data>
   <data name="utility_rrc_start" xml:space="preserve">
-    <value></value>
+    <value>{0} 역할의 색상 로테이션을 시작했습니다.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_rrc_stop" xml:space="preserve">
-    <value></value>
+    <value>{0} 역할의 색상 로테이션을 중지했습니다.</value>
   </data>
   <data name="utility_serverid" xml:space="preserve">
-    <value></value>
+    <value>이 서버의 {0} 은 {1} 입니다.</value>
   </data>
   <data name="utility_server_info" xml:space="preserve">
-    <value></value>
+    <value>서버 정보</value>
   </data>
   <data name="utility_shard" xml:space="preserve">
     <value>Shard</value>
@@ -2245,7 +2269,6 @@ Discord 닉네임이나 ID를 메시지에 남겨 두는 것을 잊지 마십시
   </data>
   <data name="utility_showemojis_none" xml:space="preserve">
     <value>특수 이모지를 찾을 수 없습니다.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="utility_stats_songs" xml:space="preserve">
     <value>{0} 개의 곡을 재생중이며, {1} 개의 대기열이 있습니다.</value>
@@ -2254,10 +2277,10 @@ Discord 닉네임이나 ID를 메시지에 남겨 두는 것을 잊지 마십시
     <value>텍스트 채널</value>
   </data>
   <data name="utility_togtub_room_link" xml:space="preserve">
-    <value></value>
+    <value>방 링크:</value>
   </data>
   <data name="utility_uptime" xml:space="preserve">
-    <value></value>
+    <value>작동 시간</value>
   </data>
   <data name="utility_userid" xml:space="preserve">
     <value>{1} 의 {0} 은(는) {2} 입니다.</value>
@@ -2265,7 +2288,6 @@ Discord 닉네임이나 ID를 메시지에 남겨 두는 것을 잊지 마십시
   </data>
   <data name="utility_users" xml:space="preserve">
     <value>사용자</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="utility_voice_channels" xml:space="preserve">
     <value>음성 채널</value>
@@ -2284,10 +2306,9 @@ Discord 닉네임이나 ID를 메시지에 남겨 두는 것을 잊지 마십시
   </data>
   <data name="games_poll_created" xml:space="preserve">
     <value>📃 {0} 님이 투표를 생성하였습니다.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="games_poll_result" xml:space="preserve">
-    <value></value>
+    <value>`{0}.` {2} 표를 가진 {1}.</value>
   </data>
   <data name="games_poll_voted" xml:space="preserve">
     <value>{0} 님이 투표하였습니다.</value>
@@ -2295,25 +2316,21 @@ Discord 닉네임이나 ID를 메시지에 남겨 두는 것을 잊지 마십시
   </data>
   <data name="games_poll_vote_private" xml:space="preserve">
     <value>해당 답변 번호와 함께 개인 메시지를 보내십시오.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="games_poll_vote_public" xml:space="preserve">
     <value>해당 답변 번호와 함께 여기에 메시지를 보내십시오.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="games_thanks_for_voting" xml:space="preserve">
     <value>{0} 님, 투표해주셔서 감사합니다</value>
   </data>
   <data name="games_x_votes_cast" xml:space="preserve">
-    <value>{0} 개의 표가 던져졌습니다.</value>
-    <comment>Fuzzy</comment>
+    <value>{0} 개의 표가 투표되었습니다.</value>
   </data>
   <data name="games_pick_pl" xml:space="preserve">
-    <value></value>
+    <value>`{0}pick`을 입력해서 획득하십시오.</value>
   </data>
   <data name="games_pick_sn" xml:space="preserve">
     <value>`{0}pick`을 입력해서 획득하십시오.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_no_users_found" xml:space="preserve">
     <value>사용자를 찾지 못했습니다.</value>
@@ -2331,31 +2348,31 @@ Discord 닉네임이나 ID를 메시지에 남겨 두는 것을 잊지 마십시
     <value>{0} 은(는) 음성과 텍스트 채팅으로 부터 {1} 분간 **음소거**되었습니다.</value>
   </data>
   <data name="administration_vcrole_added" xml:space="preserve">
-    <value>{0} 음성채널에 입장하는 사용자는 {1} 역할을 얻게됩니다.</value>
+    <value>음성채널 {0} 에 입장하는 사용자는 {1} 역할을 얻게됩니다.</value>
   </data>
   <data name="administration_vcrole_removed" xml:space="preserve">
-    <value>{0} 음성채널에 입장하는 사용자는 더이상 {1} 역할을 얻지 못합니다.</value>
+    <value>음성채널 {0} 에 입장하는 사용자는 더이상 {1} 역할을 얻지 못합니다.</value>
   </data>
   <data name="administration_vc_role_list" xml:space="preserve">
     <value>음성채널 역할</value>
   </data>
   <data name="customreactions_crad_disabled" xml:space="preserve">
-    <value></value>
+    <value>ID {0} 커스텀 리액션을 작동시키는 메시지는 자동삭제되지 않습니다.</value>
   </data>
   <data name="customreactions_crad_enabled" xml:space="preserve">
-    <value></value>
+    <value>ID {0} 커스텀 리액션을 작동시키는 메시지는 자동삭제됩니다.</value>
   </data>
   <data name="customreactions_crdm_disabled" xml:space="preserve">
-    <value></value>
+    <value>이제 ID {0} 커스텀 리액션에 대한 반응은 DM으로 전송되지 않습니다.</value>
   </data>
   <data name="customreactions_crdm_enabled" xml:space="preserve">
-    <value></value>
+    <value>ID {0} 커스텀 리액션에 대한 반응은 DM으로 전송됩니다.</value>
   </data>
   <data name="utility_aliases_none" xml:space="preserve">
     <value>가명을 찾지 못했습니다.</value>
   </data>
   <data name="utility_alias_added" xml:space="preserve">
-    <value>{0} 입력은 이제 {1} 의 가명일것이니다.</value>
+    <value>{0} 을(를) 입력하면 이제 {1} 의 가명입니다.</value>
   </data>
   <data name="utility_alias_list" xml:space="preserve">
     <value>가명 목록</value>
@@ -2364,10 +2381,134 @@ Discord 닉네임이나 ID를 메시지에 남겨 두는 것을 잊지 마십시
     <value>트리거 {0} 의 가명을 삭제했습니다.</value>
   </data>
   <data name="utility_alias_remove_fail" xml:space="preserve">
-    <value>트리거 {0} 은(는) 가명 없었습니다.</value>
+    <value>트리거 {0} 은(는) 가명이 없었습니다.</value>
   </data>
   <data name="searches_compet_playtime" xml:space="preserve">
-    <value>경기한 시간</value>
+    <value>경쟁전 플레이 시간</value>
+  </data>
+  <data name="administration_channel" xml:space="preserve">
+    <value>채널</value>
+  </data>
+  <data name="administration_command_text" xml:space="preserve">
+    <value>명령어 텍스트</value>
+  </data>
+  <data name="administration_kicked_pl" xml:space="preserve">
+    <value>강퇴</value>
+    <comment>PLURAL</comment>
+  </data>
+  <data name="administration_moderator" xml:space="preserve">
+    <value>관리자</value>
+  </data>
+  <data name="administration_page" xml:space="preserve">
+    <value>{0} 페이지</value>
+  </data>
+  <data name="administration_reason" xml:space="preserve">
+    <value>사유</value>
+  </data>
+  <data name="administration_scadd" xml:space="preserve">
+    <value>새로운 시작 명령어가 추가되었습니다.</value>
+  </data>
+  <data name="administration_scrm" xml:space="preserve">
+    <value>시작 명렁어가 성공적으로 삭제되었습니다.</value>
+  </data>
+  <data name="administration_scrm_fail" xml:space="preserve">
+    <value>시작 명령어를 찾을 수 없습니다.</value>
+  </data>
+  <data name="administration_server" xml:space="preserve">
+    <value>서버</value>
+  </data>
+  <data name="administration_startcmdlist_none" xml:space="preserve">
+    <value>이 페이지에는 시작 명령어가 없습니다.</value>
+  </data>
+  <data name="administration_startcmds_cleared" xml:space="preserve">
+    <value>모든 시작 명령어를 삭제했습니다.</value>
+  </data>
+  <data name="administration_unbanned_user" xml:space="preserve">
+    <value>사용자 {0} 님이 밴에서 해제되었습니다.</value>
+  </data>
+  <data name="administration_user_not_found" xml:space="preserve">
+    <value>사용자를 찾을 수 없습니다.</value>
+  </data>
+  <data name="administration_user_warned" xml:space="preserve">
+    <value>사용자 {0} 님이 경고를 받았습니다.</value>
+  </data>
+  <data name="administration_user_warned_and_punished" xml:space="preserve">
+    <value>사용자 {0} 님이 경고를 받았고, {1} 처벌이 적용되었습니다.</value>
+  </data>
+  <data name="administration_warned_on" xml:space="preserve">
+    <value>{0} 서버에 경고했습니다.</value>
+  </data>
+  <data name="administration_warned_on_by" xml:space="preserve">
+    <value>{0} {1} 에 {2} 이(가)</value>
+  </data>
+  <data name="administration_warnings_cleared" xml:space="preserve">
+    <value>{0} 님이 모든 경고를 삭제했습니다.</value>
+  </data>
+  <data name="administration_warnings_none" xml:space="preserve">
+    <value>이 페이지에는 경고가 없습니다.</value>
+  </data>
+  <data name="administration_warnlog_for" xml:space="preserve">
+    <value>{0} 의 경고 기록</value>
+  </data>
+  <data name="administration_warnpl_none" xml:space="preserve">
+    <value>처벌이 설정되지 않았습니다.</value>
+  </data>
+  <data name="administration_warn_cleared_by" xml:space="preserve">
+    <value>{0} 이(가) 제거했습니다.</value>
+  </data>
+  <data name="administration_warn_punish_list" xml:space="preserve">
+    <value>경고 처벌 목록</value>
+  </data>
+  <data name="administration_warn_punish_rem" xml:space="preserve">
+    <value>{0} 개의 경고를 받은 사용자에 대한 처벌을 하지않습니다.</value>
+  </data>
+  <data name="administration_warn_punish_set" xml:space="preserve">
+    <value>{1} 개의 경고를 받은 사용자에게 {0} 처벌을 내립니다.</value>
+  </data>
+  <data name="administration_slowmodewl_role_start" xml:space="preserve">
+    <value>이제 슬로우모드는 {0} 역할에게 적용되지 않습니다.</value>
+  </data>
+  <data name="administration_slowmodewl_role_stop" xml:space="preserve">
+    <value>이제 슬로우모드는 {0} 역할에게 적용됩니다.</value>
+  </data>
+  <data name="administration_slowmodewl_user_start" xml:space="preserve">
+    <value>이제 슬로우모드는 {0} 님에게 적용되지 않습니다.</value>
+  </data>
+  <data name="administration_slowmodewl_user_stop" xml:space="preserve">
+    <value>이제 슬로우모드는 {0} 님에게 적용됩니다.</value>
+  </data>
+  <data name="utility_clpa_fail" xml:space="preserve">
+    <value>다음과 같은 이유로 인해서 보상을 요청하지 못했습니다:</value>
+  </data>
+  <data name="utility_clpa_fail_already" xml:space="preserve">
+    <value>당신은 이미 이번달의 보상을 받은 것 같습니다. 당신의 후원금을 올리지 않는 이상 한 달에 한 번만 보상을 받을 수 있습니다. </value>
+  </data>
+  <data name="utility_clpa_fail_already_title" xml:space="preserve">
+    <value>이미 지급되었습니다.</value>
+  </data>
+  <data name="utility_clpa_fail_conn" xml:space="preserve">
+    <value>당신의 디스코드 계정이 Patreon에 연결되지 않았습니다. 이것이 무슨 뜻인지 모르거나, 어떻게 연결하는지 모른다면 - [Patreon 계정 설정 페이지] (https://patreon.com/settings/account) 에 접속해서 &apos;Connect to discord&apos; 버튼을 클릭하십시오.</value>
+  </data>
+  <data name="utility_clpa_fail_conn_title" xml:space="preserve">
+    <value>디스코드 계정이 연결되지 않았습니다.</value>
+  </data>
+  <data name="utility_clpa_fail_sup" xml:space="preserve">
+    <value>보상을 받을 수 있는 자격을 얻기 위해서는 Patreon에서 프로젝트를 후원해야 합니다. {0} 명령어를 이용해서 링크를 얻을 수 있습니다.</value>
+  </data>
+  <data name="utility_clpa_fail_sup_title" xml:space="preserve">
+    <value>후원 중이지 않습니다.</value>
+  </data>
+  <data name="utility_clpa_fail_wait" xml:space="preserve">
+    <value>다시 시도하지 않았다면, 후원을 한 후에 몇 시간을 기다려야합니다.</value>
+  </data>
+  <data name="utility_clpa_fail_wait_title" xml:space="preserve">
+    <value>잠시만 기다려주십시오.</value>
+  </data>
+  <data name="utility_clpa_success" xml:space="preserve">
+    <value>{0} 을 받았습니다. 프로젝트를 후원 해주셔서 감사합니다!</value>
+  </data>
+  <data name="utility_clpa_too_early" xml:space="preserve">
+    <value>보상은 매 달 5일에 요구 할 수 있습니다.</value>
   </data>
 
 </root>
