@@ -140,7 +140,6 @@
   </data>
   <data name="clashofclans_claim_expired" xml:space="preserve">
     <value>De aanvraag van @{0} voor een oorlog tegen {1} is niet meer geldig.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_enemy" xml:space="preserve">
     <value>Vijand</value>
@@ -153,11 +152,9 @@
   </data>
   <data name="clashofclans_invalid_size" xml:space="preserve">
     <value>Ongeldig oorlogsformaat.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_list_active_wars" xml:space="preserve">
-    <value>Lijst van voorlopende oorlogen.</value>
-    <comment>Fuzzy</comment>
+    <value>Lijst van actieve oorlogen</value>
   </data>
   <data name="clashofclans_not_claimed" xml:space="preserve">
     <value>Niet veroverd.</value>
@@ -169,8 +166,7 @@
     <value>@{0} Je doet niet mee aan die oorlog, of die basis is al vernietigd.</value>
   </data>
   <data name="clashofclans_no_active_wars" xml:space="preserve">
-    <value>Geen voorlopende oorlogen.</value>
-    <comment>Fuzzy</comment>
+    <value>Geen actieve oorlogen</value>
   </data>
   <data name="clashofclans_size" xml:space="preserve">
     <value>Grootte.</value>
@@ -209,8 +205,7 @@
     <value>Nieuwe Speciale Reacties</value>
   </data>
   <data name="customreactions_no_found" xml:space="preserve">
-    <value>Geen speciale reacties gevonden.</value>
-    <comment>Fuzzy</comment>
+    <value>Geen aangepaste reacties gevonden.</value>
   </data>
   <data name="customreactions_no_found_id" xml:space="preserve">
     <value>Geen speciale reacties gevonden met dat ID.</value>
@@ -476,7 +471,6 @@ Reden: {1}</value>
   <data name="administration_lang_list" xml:space="preserve">
     <value>Lijst van talen
 {0}</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_lang_set" xml:space="preserve">
     <value>Je server&apos;s landinstelling is nu {0} - {1}</value>
@@ -533,12 +527,10 @@ Reden: {1}</value>
     <value>{0} verplaats van {1} naar {2}</value>
   </data>
   <data name="administration_msg_del" xml:space="preserve">
-    <value>Bericht in #{0} verwijdert</value>
-    <comment>Fuzzy</comment>
+    <value>Bericht in #{0} verwijderd</value>
   </data>
   <data name="administration_msg_update" xml:space="preserve">
     <value>Bericht in #{0} bijgewerkt</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_muted_pl" xml:space="preserve">
     <value>gemute</value>
@@ -749,7 +741,8 @@ Reden: {1}</value>
   </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
     <value>soft-verbannen (gekickt)</value>
-    <comment>PLURAL</comment>
+    <comment>PLURAL
+Fuzzy</comment>
   </data>
   <data name="administration_spam_ignore" xml:space="preserve">
     <value>{0} zal dit kanaal negeren.</value>
@@ -1395,7 +1388,6 @@ Vergeet niet je discord naam en id in het bericht te zetten.
   </data>
   <data name="music_now_playing" xml:space="preserve">
     <value>Nu aan het spelen</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="music_no_player" xml:space="preserve">
     <value>Geen actieve muziek speler.</value>
@@ -1731,12 +1723,10 @@ Vergeet niet je discord naam en id in het bericht te zetten.
     <value>Voorbeeld</value>
   </data>
   <data name="searches_failed_finding_anime" xml:space="preserve">
-    <value>Mislukt in het vinden van die chinese tekenfilm</value>
-    <comment>Fuzzy</comment>
+    <value>Kon die animu niet vinden.</value>
   </data>
   <data name="searches_failed_finding_manga" xml:space="preserve">
-    <value>Mislukt in het vinden van die </value>
-    <comment>Fuzzy</comment>
+    <value>Kon die mango niet vinden.</value>
   </data>
   <data name="searches_genres" xml:space="preserve">
     <value>Genres</value>
@@ -2012,8 +2002,7 @@ Vergeet niet je discord naam en id in het bericht te zetten.
     <value>Index buiten bereik.</value>
   </data>
   <data name="utility_inrole_list" xml:space="preserve">
-    <value>Hier is de lijst met gebruikers in die rollen:</value>
-    <comment>Fuzzy</comment>
+    <value>Lijst van gebruikers met rol {0}</value>
   </data>
   <data name="utility_inrole_not_allowed" xml:space="preserve">
     <value>Om misbruik te voorkomen ben je niet gemachtigd om dit commando te gebruiken op rollen met veel gebruikers.</value>
@@ -2102,8 +2091,7 @@ Eigenaar ID: {2}</value>
     <value>Citaat toegevoegd</value>
   </data>
   <data name="utility_quote_deleted" xml:space="preserve">
-    <value>Een willekeurig citaat verwijderd</value>
-    <comment>Fuzzy</comment>
+    <value>Citaat #{0} verwijderd.</value>
   </data>
   <data name="utility_region" xml:space="preserve">
     <value>Regio</value>
@@ -2292,6 +2280,130 @@ Eigenaar ID: {2}</value>
   </data>
   <data name="searches_compet_playtime" xml:space="preserve">
     <value>Competitieve speeltijd</value>
+  </data>
+  <data name="administration_channel" xml:space="preserve">
+    <value>Kanaal</value>
+  </data>
+  <data name="administration_command_text" xml:space="preserve">
+    <value>Tekst commando</value>
+  </data>
+  <data name="administration_kicked_pl" xml:space="preserve">
+    <value>Geschopt</value>
+    <comment>PLURAL</comment>
+  </data>
+  <data name="administration_moderator" xml:space="preserve">
+    <value>Toezichthouder</value>
+  </data>
+  <data name="administration_page" xml:space="preserve">
+    <value>Pagina {0}</value>
+  </data>
+  <data name="administration_reason" xml:space="preserve">
+    <value>Reden</value>
+  </data>
+  <data name="administration_scadd" xml:space="preserve">
+    <value>Nieuw startup commando toegevoegd.</value>
+  </data>
+  <data name="administration_scrm" xml:space="preserve">
+    <value>Startup commando succesvol toegevoegd.</value>
+  </data>
+  <data name="administration_scrm_fail" xml:space="preserve">
+    <value>Startup commando niet gevonden.</value>
+  </data>
+  <data name="administration_server" xml:space="preserve">
+    <value>Server</value>
+  </data>
+  <data name="administration_startcmdlist_none" xml:space="preserve">
+    <value>Geen startup commando&apos;s op deze pagina.</value>
+  </data>
+  <data name="administration_startcmds_cleared" xml:space="preserve">
+    <value>Verwijder alle startup commando&apos;s.</value>
+  </data>
+  <data name="administration_unbanned_user" xml:space="preserve">
+    <value>Gebruiker {0} is unbanned.</value>
+  </data>
+  <data name="administration_user_not_found" xml:space="preserve">
+    <value>Gebruiker niet gevonden.</value>
+  </data>
+  <data name="administration_user_warned" xml:space="preserve">
+    <value>Gebruiker {0} is gewaarschuwd.</value>
+  </data>
+  <data name="administration_user_warned_and_punished" xml:space="preserve">
+    <value>Gebruiker {0} is gewaarschuwd en {1) straf is uitgevoerd.</value>
+  </data>
+  <data name="administration_warned_on" xml:space="preserve">
+    <value>Gewaarschuwd op {0} server</value>
+  </data>
+  <data name="administration_warned_on_by" xml:space="preserve">
+    <value>op {0} tussen {1} bij (2}</value>
+  </data>
+  <data name="administration_warnings_cleared" xml:space="preserve">
+    <value>Alle waarschuwingen zijn verwijdert van {0}.</value>
+  </data>
+  <data name="administration_warnings_none" xml:space="preserve">
+    <value>Geen waarschuwingen op deze pagina.</value>
+  </data>
+  <data name="administration_warnlog_for" xml:space="preserve">
+    <value>Waarschuwings logboek van {0}</value>
+  </data>
+  <data name="administration_warnpl_none" xml:space="preserve">
+    <value>Geen straffen geconfigureerd.</value>
+  </data>
+  <data name="administration_warn_cleared_by" xml:space="preserve">
+    <value>Verwijdert door {0}</value>
+  </data>
+  <data name="administration_warn_punish_list" xml:space="preserve">
+    <value>waarschuwing straffen lijst</value>
+  </data>
+  <data name="administration_warn_punish_rem" xml:space="preserve">
+    <value>Bij {0} waarschuwingen treed niet langer meer een straf.</value>
+  </data>
+  <data name="administration_warn_punish_set" xml:space="preserve">
+    <value>Ik pas {0} straf toe aan de gebruikers met {1} waarschuwingen.</value>
+  </data>
+  <data name="administration_slowmodewl_role_start" xml:space="preserve">
+    <value>Slowmotion modus word genegeerd voor {0} rol.</value>
+  </data>
+  <data name="administration_slowmodewl_role_stop" xml:space="preserve">
+    <value>Slowmotion wordt niet langer genegeerd door {0} rol.</value>
+  </data>
+  <data name="administration_slowmodewl_user_start" xml:space="preserve">
+    <value>Slowmotion modus wordt genegeerd door gebruiker {0}.</value>
+  </data>
+  <data name="administration_slowmodewl_user_stop" xml:space="preserve">
+    <value>Slowmotion modus wordt niet langer genegeerd door genegeerde gebruiker {0}.</value>
+  </data>
+  <data name="utility_clpa_fail" xml:space="preserve">
+    <value>Mislukt om beloningen te claimen door een van de volgende redenen:</value>
+  </data>
+  <data name="utility_clpa_fail_already" xml:space="preserve">
+    <value>Misschien heb je al je beloningen gekregen deze maand. Je krijgt beloningen maar een keer per maand tenzij je je </value>
+  </data>
+  <data name="utility_clpa_fail_already_title" xml:space="preserve">
+    <value>Al beloond</value>
+  </data>
+  <data name="utility_clpa_fail_conn" xml:space="preserve">
+    <value>Jouw discord account is nog niet verbonden met Patreon. Als je onzeker bent wat dit betekend, of niet weet hoe je dit moet doen - ga dan naar [Patreon account settings page](https://patreon.com/settings/account) en click dan op &apos;Verbind met discord&apos;.</value>
+  </data>
+  <data name="utility_clpa_fail_conn_title" xml:space="preserve">
+    <value>Discord account nog niet verbonden</value>
+  </data>
+  <data name="utility_clpa_fail_sup" xml:space="preserve">
+    <value>Om in aanmerking te komen voor de beloning, moet je eerst een donatie doen voor het project bij patreon. Je kunt (0} commando gebruiken om de link te krijgen.</value>
+  </data>
+  <data name="utility_clpa_fail_sup_title" xml:space="preserve">
+    <value>Niet ondersteund</value>
+  </data>
+  <data name="utility_clpa_fail_wait" xml:space="preserve">
+    <value>Je moet een aantal uren wachten na het plaatsen van je donatie, als je het nog niet hebt gedaan, probeer later dan opnieuw.</value>
+  </data>
+  <data name="utility_clpa_fail_wait_title" xml:space="preserve">
+    <value>Wacht nog even</value>
+  </data>
+  <data name="utility_clpa_success" xml:space="preserve">
+    <value>Je ontvangt {0} Hartelijk bedankt voor het steunen van het project!</value>
+  </data>
+  <data name="utility_clpa_too_early" xml:space="preserve">
+    <value>Beloningen kunnen worden geclaimd op of na elke 5de van de maand.</value>
   </data>
 
 </root>
