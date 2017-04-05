@@ -741,7 +741,8 @@ Sebep: {1}</value>
   </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
     <value>Hafif bir şekilde yasaklandılar (atıldılar)</value>
-    <comment>PLURAL</comment>
+    <comment>PLURAL
+Fuzzy</comment>
   </data>
   <data name="administration_spam_ignore" xml:space="preserve">
     <value>{0} bu kanalı yoksayacak.</value>
@@ -2280,6 +2281,130 @@ Kurucu Kimliği: {2}</value>
   </data>
   <data name="searches_compet_playtime" xml:space="preserve">
     <value>Rekabetçi oyun süresi</value>
+  </data>
+  <data name="administration_channel" xml:space="preserve">
+    <value>Kanal</value>
+  </data>
+  <data name="administration_command_text" xml:space="preserve">
+    <value>Kanal Mesajı</value>
+  </data>
+  <data name="administration_kicked_pl" xml:space="preserve">
+    <value>Atıldı</value>
+    <comment>PLURAL</comment>
+  </data>
+  <data name="administration_moderator" xml:space="preserve">
+    <value>Moderatör</value>
+  </data>
+  <data name="administration_page" xml:space="preserve">
+    <value>sayfa {0}</value>
+  </data>
+  <data name="administration_reason" xml:space="preserve">
+    <value>Sebep</value>
+  </data>
+  <data name="administration_scadd" xml:space="preserve">
+    <value>Yeni başlangıç komutu eklendi.</value>
+  </data>
+  <data name="administration_scrm" xml:space="preserve">
+    <value>Başlangıç komutu başarıyla kaldırıldı.</value>
+  </data>
+  <data name="administration_scrm_fail" xml:space="preserve">
+    <value>Başlangıç komutu bulunamadı.</value>
+  </data>
+  <data name="administration_server" xml:space="preserve">
+    <value>Sunucu</value>
+  </data>
+  <data name="administration_startcmdlist_none" xml:space="preserve">
+    <value>Bu sayfada başlangıç komutları bulunmuyor.</value>
+  </data>
+  <data name="administration_startcmds_cleared" xml:space="preserve">
+    <value>Tüm başlangıç komutları temizlendi.</value>
+  </data>
+  <data name="administration_unbanned_user" xml:space="preserve">
+    <value>{0} kullanıcısının yasağı kaldırıldı.</value>
+  </data>
+  <data name="administration_user_not_found" xml:space="preserve">
+    <value>Kullanıcı bulunamadı.</value>
+  </data>
+  <data name="administration_user_warned" xml:space="preserve">
+    <value>{0} kullanıcısı uyarıldı.</value>
+  </data>
+  <data name="administration_user_warned_and_punished" xml:space="preserve">
+    <value>{0} kullanıcısı uyarıldı ve {1} cezası uygulandı.</value>
+  </data>
+  <data name="administration_warned_on" xml:space="preserve">
+    <value>{0} sunucusunda uyarıldı.</value>
+  </data>
+  <data name="administration_warned_on_by" xml:space="preserve">
+    <value>{0} - {1} tarihinde {2} tarafından</value>
+  </data>
+  <data name="administration_warnings_cleared" xml:space="preserve">
+    <value>{0} için tüm uyarılar silindi.</value>
+  </data>
+  <data name="administration_warnings_none" xml:space="preserve">
+    <value>Bu sayfada uyarı bulunamadı.</value>
+  </data>
+  <data name="administration_warnlog_for" xml:space="preserve">
+    <value>{0} için Uyarı Kayıtları</value>
+  </data>
+  <data name="administration_warnpl_none" xml:space="preserve">
+    <value>Hiç ceza belirlenmedi.</value>
+  </data>
+  <data name="administration_warn_cleared_by" xml:space="preserve">
+    <value>{0} tarafından temizlendi.</value>
+  </data>
+  <data name="administration_warn_punish_list" xml:space="preserve">
+    <value>Uyarı ceza listesi</value>
+  </data>
+  <data name="administration_warn_punish_rem" xml:space="preserve">
+    <value>{0} uyarılarına sahip olmak artık cezayı tetiklemeyecektir.</value>
+  </data>
+  <data name="administration_warn_punish_set" xml:space="preserve">
+    <value>{1} uyarılarıyla {0} cezasını kullanıcılara uygulayacağım.</value>
+  </data>
+  <data name="administration_slowmodewl_role_start" xml:space="preserve">
+    <value>Yavaş mod, artık {0} rolünü görmezden gelecektir.</value>
+  </data>
+  <data name="administration_slowmodewl_role_stop" xml:space="preserve">
+    <value>Yavaş mod, artık {0} rolünü görmezden gelmeyecek.</value>
+  </data>
+  <data name="administration_slowmodewl_user_start" xml:space="preserve">
+    <value>Yavaş mod, artık {0} kullanıcısını yoksayacak.</value>
+  </data>
+  <data name="administration_slowmodewl_user_stop" xml:space="preserve">
+    <value>Yavaş mod, {0} kullanıcısını artık görmezden gelmeyecek.</value>
+  </data>
+  <data name="utility_clpa_fail" xml:space="preserve">
+    <value>Aşağıdaki nedenlerden biriyle ödül talebinde bulunamadı:</value>
+  </data>
+  <data name="utility_clpa_fail_already" xml:space="preserve">
+    <value>Belki de bu ay için ödülünüzü zaten almışsınızdır. Bağış miktarınızı artırmadıkça, yalnızca ayda bir kez ödül alabilirsiniz.</value>
+  </data>
+  <data name="utility_clpa_fail_already_title" xml:space="preserve">
+    <value>Zaten ödüllendirildi</value>
+  </data>
+  <data name="utility_clpa_fail_conn" xml:space="preserve">
+    <value>Discord hesabınız Patreon&apos;a bağlı olmayabilir. Bunun ne anlama geldiğinden emin değilseniz veya nasıl bağlanacağınızı bilmiyorsanız - [Patreon hesap ayarları sayfasına] (https://patreon.com/settings/account) adresine gidin ve &apos;Bağlantı&apos; butonuna tıklayın.</value>
+  </data>
+  <data name="utility_clpa_fail_conn_title" xml:space="preserve">
+    <value>Discord hesabı bağlı değil</value>
+  </data>
+  <data name="utility_clpa_fail_sup" xml:space="preserve">
+    <value>Ödül için uygun olabilmeniz için, projeyi patreon&apos;da bağış yapmanız gerek. Bağlantıyı almak için {0} komutunu kullanabilirsiniz.</value>
+  </data>
+  <data name="utility_clpa_fail_sup_title" xml:space="preserve">
+    <value>Desteklemiyor</value>
+  </data>
+  <data name="utility_clpa_fail_wait" xml:space="preserve">
+    <value>Bağış yaptıktan sonra birkaç saat beklemek zorundasınız, yapmadıysanız, daha sonra tekrar deneyin.</value>
+  </data>
+  <data name="utility_clpa_fail_wait_title" xml:space="preserve">
+    <value>Biraz bekleyin</value>
+  </data>
+  <data name="utility_clpa_success" xml:space="preserve">
+    <value>{0} Projeyi desteklediğiniz için teşekkürlerimizi aldınız!</value>
+  </data>
+  <data name="utility_clpa_too_early" xml:space="preserve">
+    <value>Ödüller, her ayın 5&apos;inde veya sonrasında talep edilebilir.</value>
   </data>
 
 </root>
