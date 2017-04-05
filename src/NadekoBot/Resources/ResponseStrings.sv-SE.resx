@@ -256,8 +256,7 @@
     <value>du kan inte attackera dig själv</value>
   </data>
   <data name="pokemon_fainted" xml:space="preserve">
-    <value>
-{0} har svimmat!</value>
+    <value>{0} har svimmat!</value>
   </data>
   <data name="pokemon_healed" xml:space="preserve">
     <value>helade {0} med en {1}
@@ -765,7 +764,8 @@ Anledning: {1}</value>
   </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
     <value>mjukt-bannad (kickad)</value>
-    <comment>PLURAL</comment>
+    <comment>PLURAL
+Fuzzy</comment>
   </data>
   <data name="administration_spam_ignore" xml:space="preserve">
     <value>{0} kommer ignorera denna kanal.</value>
@@ -2330,7 +2330,7 @@ Medlemmar: {1}
     <value>Användare som går in i röstkanalen {0} får rollen {1}.</value>
   </data>
   <data name="administration_vcrole_removed" xml:space="preserve">
-    <value>Användare som går</value>
+    <value>Användare som går med {0} röstkanalen kommer inte längre få en roll.</value>
   </data>
   <data name="administration_vc_role_list" xml:space="preserve">
     <value>Röstkanalsroller</value>
@@ -2342,11 +2342,10 @@ Medlemmar: {1}
     <value>Meddelandet som triggrar den egengjorda reaktion med id {0} kommer bli</value>
   </data>
   <data name="customreactions_crdm_disabled" xml:space="preserve">
-    <value>Svar meddelande för custom reaktion med id {0} kommer inte att skickas som ett DM.</value>
+    <value>Svar meddelande för den egengjorda reaktion med id {0} kommer inte att skickas som ett DM.</value>
   </data>
   <data name="customreactions_crdm_enabled" xml:space="preserve">
-    <value>
-</value>
+    <value>Svar meddelande för den egengjoda reaktion med id {0} kommer att skickas som ett DM.</value>
   </data>
   <data name="utility_aliases_none" xml:space="preserve">
     <value>Ingen alias hittad</value>
@@ -2365,6 +2364,131 @@ Medlemmar: {1}
   </data>
   <data name="searches_compet_playtime" xml:space="preserve">
     <value>Kompetitiv speltid</value>
+  </data>
+  <data name="administration_channel" xml:space="preserve">
+    <value>Kanal</value>
+  </data>
+  <data name="administration_command_text" xml:space="preserve">
+    <value>Kommando Text</value>
+  </data>
+  <data name="administration_kicked_pl" xml:space="preserve">
+    <value>Sparkad</value>
+    <comment>PLURAL</comment>
+  </data>
+  <data name="administration_moderator" xml:space="preserve">
+    <value>Moderator</value>
+  </data>
+  <data name="administration_page" xml:space="preserve">
+    <value>Sida {0}</value>
+  </data>
+  <data name="administration_reason" xml:space="preserve">
+    <value>Anledning</value>
+  </data>
+  <data name="administration_scadd" xml:space="preserve">
+    <value>Ny uppstart kommando tillagd.</value>
+  </data>
+  <data name="administration_scrm" xml:space="preserve">
+    <value>Uppstart kommando har blivit avtagen.</value>
+  </data>
+  <data name="administration_scrm_fail" xml:space="preserve">
+    <value>Uppstart kommando hittas inte.</value>
+  </data>
+  <data name="administration_server" xml:space="preserve">
+    <value>Server</value>
+  </data>
+  <data name="administration_startcmdlist_none" xml:space="preserve">
+    <value>Ingen uppstart kommando har hittats på denna sidan.</value>
+  </data>
+  <data name="administration_startcmds_cleared" xml:space="preserve">
+    <value>Rensat alla uppstart kommando.</value>
+  </data>
+  <data name="administration_unbanned_user" xml:space="preserve">
+    <value>Användaren {0} har blivit icke avstängd.</value>
+  </data>
+  <data name="administration_user_not_found" xml:space="preserve">
+    <value>Användaren hittades inte. </value>
+  </data>
+  <data name="administration_user_warned" xml:space="preserve">
+    <value>Användaren {0} har blivit varnad.</value>
+  </data>
+  <data name="administration_user_warned_and_punished" xml:space="preserve">
+    <value>Användaren {0} har blivit varnad och {1} straff har blivit tillämpat.</value>
+  </data>
+  <data name="administration_warned_on" xml:space="preserve">
+    <value>Varning på {0} server</value>
+  </data>
+  <data name="administration_warned_on_by" xml:space="preserve">
+    <value>På {0} i {1} av {2}</value>
+  </data>
+  <data name="administration_warnings_cleared" xml:space="preserve">
+    <value>Alla varningar har blivit rensad.</value>
+  </data>
+  <data name="administration_warnings_none" xml:space="preserve">
+    <value>Inga varningar på denna sidan.</value>
+  </data>
+  <data name="administration_warnlog_for" xml:space="preserve">
+    <value>Varning log för {0}</value>
+  </data>
+  <data name="administration_warnpl_none" xml:space="preserve">
+    <value>Ingen straff ställt.</value>
+  </data>
+  <data name="administration_warn_cleared_by" xml:space="preserve">
+    <value>rensad av {0}</value>
+  </data>
+  <data name="administration_warn_punish_list" xml:space="preserve">
+    <value>Varning straff lista</value>
+  </data>
+  <data name="administration_warn_punish_rem" xml:space="preserve">
+    <value>Har {0} varningar kommer inte längre aktivera ett straff.</value>
+  </data>
+  <data name="administration_warn_punish_set" xml:space="preserve">
+    <value>Jag kommer att tillägga {0} straff till användare med {1} varningar.</value>
+  </data>
+  <data name="administration_slowmodewl_role_start" xml:space="preserve">
+    <value>Långsam läge kommer nu att bli ignorerad {0} roll.</value>
+  </data>
+  <data name="administration_slowmodewl_role_stop" xml:space="preserve">
+    <value>Långsam läge kommer inte längre att bli ignorerad {0} roll.</value>
+  </data>
+  <data name="administration_slowmodewl_user_start" xml:space="preserve">
+    <value>Långsam läge kommer nu ignorera användaren {0}</value>
+  </data>
+  <data name="administration_slowmodewl_user_stop" xml:space="preserve">
+    <value>Långsam läge kommer inte längre ignorera användaren {0}</value>
+  </data>
+  <data name="utility_clpa_fail" xml:space="preserve">
+    <value>Misslyckad anpråk av pris på grund av följande anledningar:</value>
+  </data>
+  <data name="utility_clpa_fail_already" xml:space="preserve">
+    <value>Du har kanske redan mottagit din pris för denna månaden. Du kan bara motta priser en gång per månad om inte du ökar din pledge.</value>
+  </data>
+  <data name="utility_clpa_fail_already_title" xml:space="preserve">
+    <value>Redan belönat</value>
+  </data>
+  <data name="utility_clpa_fail_conn" xml:space="preserve">
+    <value>Din discord konto är kanske inte ansluten till Patreon. Om du inte är säker om vad det betyder, eller inte vet hur du skall ansluta det - du måse då gå till [Patreon account settings page]
+(https://patreon.com/settings/account) och klicka på &apos;Connect to discord&apos; knappen.</value>
+  </data>
+  <data name="utility_clpa_fail_conn_title" xml:space="preserve">
+    <value>Discord konto är icke ansluten.</value>
+  </data>
+  <data name="utility_clpa_fail_sup" xml:space="preserve">
+    <value>För att vara berättigad till priset så måste du stödja projektet på patreon. Du kan använda {0} kommandot för att få länken.</value>
+  </data>
+  <data name="utility_clpa_fail_sup_title" xml:space="preserve">
+    <value>Ingen stöd</value>
+  </data>
+  <data name="utility_clpa_fail_wait" xml:space="preserve">
+    <value>Du måste vänta några timmer efter din pledge, om du inte har gjort det, prova igen senare.</value>
+  </data>
+  <data name="utility_clpa_fail_wait_title" xml:space="preserve">
+    <value>Vänta en stund</value>
+  </data>
+  <data name="utility_clpa_success" xml:space="preserve">
+    <value>Du har mottagit {0} Tack för att du har stödjat projektet! </value>
+  </data>
+  <data name="utility_clpa_too_early" xml:space="preserve">
+    <value>Pris kan bli hävdad på eller efter femte av varje månad.</value>
   </data>
 
 </root>
