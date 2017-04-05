@@ -200,6 +200,18 @@ namespace NadekoBot.Modules.Administration
         [RequireContext(ContextType.Guild)]
         [RequireUserPermission(GuildPermission.ManageRoles)]
         [RequireBotPermission(GuildPermission.ManageRoles)]
+        public async Task RoleHoist(string roleSearchName, bool targetState)
+        {
+            var roleName = roleSearchName.ToUpperInvariant();
+            var role = Context.Guild.Roles.FirstOrDefault(r => r.Name.ToUpperInvariant() == roleName);
+
+            await role.ModifyAsync(r => r.Hoist = targetState).ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [RequireUserPermission(GuildPermission.ManageRoles)]
+        [RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task RoleColor(params string[] args)
         {
             if (args.Length != 2 && args.Length != 4)
