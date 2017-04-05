@@ -742,7 +742,8 @@ Alasan: {1}</value>
   </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
     <value>Ban halus (Dikeluarkan)</value>
-    <comment>PLURAL</comment>
+    <comment>PLURAL
+Fuzzy</comment>
   </data>
   <data name="administration_spam_ignore" xml:space="preserve">
     <value>{0} akan mengabaikan channel ini.</value>
@@ -2280,6 +2281,131 @@ ID Pemilik: {2}</value>
   </data>
   <data name="searches_compet_playtime" xml:space="preserve">
     <value>Waktu bermain kompetitif</value>
+  </data>
+  <data name="administration_channel" xml:space="preserve">
+    <value>Saluran</value>
+  </data>
+  <data name="administration_command_text" xml:space="preserve">
+    <value>Teks perintah</value>
+  </data>
+  <data name="administration_kicked_pl" xml:space="preserve">
+    <value>Ditendang</value>
+    <comment>PLURAL</comment>
+  </data>
+  <data name="administration_moderator" xml:space="preserve">
+    <value>Moderator</value>
+  </data>
+  <data name="administration_page" xml:space="preserve">
+    <value>Halaman {0}</value>
+  </data>
+  <data name="administration_reason" xml:space="preserve">
+    <value>Alasan</value>
+  </data>
+  <data name="administration_scadd" xml:space="preserve">
+    <value>Perintah startup ditambahkan.</value>
+  </data>
+  <data name="administration_scrm" xml:space="preserve">
+    <value>Penghilangan perintah startup sukses.</value>
+  </data>
+  <data name="administration_scrm_fail" xml:space="preserve">
+    <value>Perintah startup tidak ditemukan.</value>
+  </data>
+  <data name="administration_server" xml:space="preserve">
+    <value>Server</value>
+  </data>
+  <data name="administration_startcmdlist_none" xml:space="preserve">
+    <value>Tidak ada perintah startup dihalaman ini.</value>
+  </data>
+  <data name="administration_startcmds_cleared" xml:space="preserve">
+    <value>Membersihkan semua perintah startup.</value>
+  </data>
+  <data name="administration_unbanned_user" xml:space="preserve">
+    <value>Pengguna {0} telah dinonlarangkan.</value>
+  </data>
+  <data name="administration_user_not_found" xml:space="preserve">
+    <value>Pengguna tidak ditemukan</value>
+  </data>
+  <data name="administration_user_warned" xml:space="preserve">
+    <value>Pengguna {0} telah diperingatkan.</value>
+  </data>
+  <data name="administration_user_warned_and_punished" xml:space="preserve">
+    <value>Pengguna {0} telah diperingatkan dan hukuman {1} diberikan.</value>
+  </data>
+  <data name="administration_warned_on" xml:space="preserve">
+    <value>Diperingatkan di server {0}</value>
+  </data>
+  <data name="administration_warned_on_by" xml:space="preserve">
+    <value>Di {0} saat {1} oleh {2}</value>
+  </data>
+  <data name="administration_warnings_cleared" xml:space="preserve">
+    <value>Semua peringatan telah dibersihkan untuk {0}.</value>
+  </data>
+  <data name="administration_warnings_none" xml:space="preserve">
+    <value>Tidak ada peringatan dihalaman ini.</value>
+  </data>
+  <data name="administration_warnlog_for" xml:space="preserve">
+    <value>Berkas peringatan untuk {0}</value>
+  </data>
+  <data name="administration_warnpl_none" xml:space="preserve">
+    <value>Tidak ada hukuman ditetapkan.</value>
+  </data>
+  <data name="administration_warn_cleared_by" xml:space="preserve">
+    <value>Dibersihkan oleh {0}</value>
+  </data>
+  <data name="administration_warn_punish_list" xml:space="preserve">
+    <value>Daftar peringatan hukum</value>
+  </data>
+  <data name="administration_warn_punish_rem" xml:space="preserve">
+    <value>Mempunyai {0} peringatan tidak akan memulai hukuman.</value>
+  </data>
+  <data name="administration_warn_punish_set" xml:space="preserve">
+    <value>Saya akan menambahkan hukuman {0} untuk pengguna dengan {1} peringatan.</value>
+  </data>
+  <data name="administration_slowmodewl_role_start" xml:space="preserve">
+    <value>Slowmode akan mengabaikan peran {0}.</value>
+  </data>
+  <data name="administration_slowmodewl_role_stop" xml:space="preserve">
+    <value>Slowmode tidak akan lagi mengabaikan peran {0}</value>
+  </data>
+  <data name="administration_slowmodewl_user_start" xml:space="preserve">
+    <value>Slowmode akan mengabaikan pengguna {0}</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="administration_slowmodewl_user_stop" xml:space="preserve">
+    <value>Slowmode tidak akan lagi mengabaikan pengguna {0}.</value>
+  </data>
+  <data name="utility_clpa_fail" xml:space="preserve">
+    <value>Gagal untuk mengambil hadiah karena salah satu dari alasan ini:</value>
+  </data>
+  <data name="utility_clpa_fail_already" xml:space="preserve">
+    <value>Mungkin anda telah mendapatkan hadiah anda untuk bulan ini. Anda hanya bisa mendapatkan hadiah sekali sebulan kecuali anda menambahkan jumlah janji anda.</value>
+  </data>
+  <data name="utility_clpa_fail_already_title" xml:space="preserve">
+    <value>Telah dihadiahkan</value>
+  </data>
+  <data name="utility_clpa_fail_conn" xml:space="preserve">
+    <value>Akun DIscord anda mungkin tidak terkoneksi ke Patreon. Jika anda tidak yakin artinya, atau tidak tahu cara menghubungkannya ` anda harus pergi ke [Halaman pengaturan akun Patreon] (https://patreon.com/settings/account) dan menekan tombol &apos;Connect to Discord&apos;.</value>
+  </data>
+  <data name="utility_clpa_fail_conn_title" xml:space="preserve">
+    <value>Akun Discord tidak terhubung</value>
+  </data>
+  <data name="utility_clpa_fail_sup" xml:space="preserve">
+    <value>Untuk berhak mendapatkan hadiah, anda harus mendukung  proyek di Patreon. </value>
+  </data>
+  <data name="utility_clpa_fail_sup_title" xml:space="preserve">
+    <value>Tidak mendukung.</value>
+  </data>
+  <data name="utility_clpa_fail_wait" xml:space="preserve">
+    <value>Anda harus menunggu beberapa jam setelah memohon, jika anda tidak, cobalah nanti lagi.</value>
+  </data>
+  <data name="utility_clpa_fail_wait_title" xml:space="preserve">
+    <value>Tunggulah sebentar.</value>
+  </data>
+  <data name="utility_clpa_success" xml:space="preserve">
+    <value>Anda telah menerima {0}. Terima kasih untuk mendukung proyek ini!</value>
+  </data>
+  <data name="utility_clpa_too_early" xml:space="preserve">
+    <value>Hadiah bisa diambil saat atau setelah tanggal 5 dari setiap bulan.</value>
   </data>
 
 </root>
