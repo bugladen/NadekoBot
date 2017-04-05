@@ -3366,4 +3366,13 @@
   <data name="time_usage" xml:space="preserve">
     <value>`{0}time London, UK`</value>
   </data>
+  <data name="rolehoist_cmd" xml:space="preserve">
+    <value>rolehoist rh</value>
+  </data>
+  <data name="rolehoist_desc" xml:space="preserve">
+    <value>Toggles if this role is displayed in the sidebar or not</value>
+  </data>
+  <data name="rolehoist_usage" xml:space="preserve">
+    <value>`{0}rh Guests true` or `{0}rh "Space Wizards" true</value>
+  </data>
 </root>
