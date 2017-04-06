@@ -1716,7 +1716,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Claim patreon rewards. If you&apos;re subscribed to bot owner&apos;s patreon you can user this command to claim your rewards - assuming bot owner did setup has their patreon key..
+        ///    Looks up a localized string similar to Claim patreon rewards. If you&apos;re subscribed to bot owner&apos;s patreon you can use this command to claim your rewards - assuming bot owner did setup has their patreon key..
         /// </summary>
         public static string claimpatreonrewards_desc {
             get {
@@ -2103,7 +2103,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}crad 44`.
+        ///    Looks up a localized string similar to `{0}crdm 44`.
         /// </summary>
         public static string crdm_usage {
             get {
@@ -4173,7 +4173,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}liqu` or `{0}liqu 3`.
+        ///    Looks up a localized string similar to Lists all quotes on the server ordered alphabetically. 15 Per page..
         /// </summary>
         public static string listquotes_desc {
             get {
@@ -4182,7 +4182,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Lists all quotes on the server ordered alphabetically. 15 Per page..
+        ///    Looks up a localized string similar to `{0}liqu` or `{0}liqu 3`.
         /// </summary>
         public static string listquotes_usage {
             get {
@@ -5294,6 +5294,33 @@ namespace NadekoBot.Resources {
         public static string overwatch_usage {
             get {
                 return ResourceManager.GetString("overwatch_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to parewrel.
+        /// </summary>
+        public static string patreonrewardsreload_cmd {
+            get {
+                return ResourceManager.GetString("patreonrewardsreload_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Forces the update of the list of patrons who are eligible for the reward..
+        /// </summary>
+        public static string patreonrewardsreload_desc {
+            get {
+                return ResourceManager.GetString("patreonrewardsreload_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}parewrel`.
+        /// </summary>
+        public static string patreonrewardsreload_usage {
+            get {
+                return ResourceManager.GetString("patreonrewardsreload_usage", resourceCulture);
             }
         }
         
@@ -7481,6 +7508,78 @@ namespace NadekoBot.Resources {
         public static string shardstats_usage {
             get {
                 return ResourceManager.GetString("shardstats_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to shop.
+        /// </summary>
+        public static string shop_cmd {
+            get {
+                return ResourceManager.GetString("shop_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Lists this server&apos;s administrators&apos; shop. Paginated..
+        /// </summary>
+        public static string shop_desc {
+            get {
+                return ResourceManager.GetString("shop_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}shop` or `{0}shop 2`.
+        /// </summary>
+        public static string shop_usage {
+            get {
+                return ResourceManager.GetString("shop_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to shopadd.
+        /// </summary>
+        public static string shopadd_cmd {
+            get {
+                return ResourceManager.GetString("shopadd_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Adds an item to the shop by specifying type price and name..
+        /// </summary>
+        public static string shopadd_desc {
+            get {
+                return ResourceManager.GetString("shopadd_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}shopadd role 1000 Rich`.
+        /// </summary>
+        public static string shopadd_usage {
+            get {
+                return ResourceManager.GetString("shopadd_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to shoprem shoprm.
+        /// </summary>
+        public static string shopremove_cmd {
+            get {
+                return ResourceManager.GetString("shopremove_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Removes an item from the shop by its color..
+        /// </summary>
+        public static string shopremove_desc {
+            get {
+                return ResourceManager.GetString("shopremove_desc", resourceCulture);
             }
         }
         

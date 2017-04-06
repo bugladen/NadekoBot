@@ -2406,4 +2406,26 @@ Owner ID: {2}</value>
     <value>Time in {0} is {1} - {2}</value>
     <comment>Time in London, UK is 15:30 - Time Zone Name</comment>
   </data>
+  <data name="gambling_name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="gambling_shop" xml:space="preserve">
+    <value>Shop</value>
+  </data>
+  <data name="gambling_shop_item_add" xml:space="preserve">
+    <value>Shop item added</value>
+  </data>
+  <data name="gambling_shop_none" xml:space="preserve">
+    <value>No shop items found on this page.</value>
+  </data>
+  <data name="gambling_shop_role" xml:space="preserve">
+    <value>You will get {0} role.</value>
+  </data>
+  <data name="gambling_type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="utility_clpa_next_update" xml:space="preserve">
+    <value>Next update in {0}</value>
+    <comment>Next update in 05:30</comment>
+  </data>
 </root>
