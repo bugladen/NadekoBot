@@ -741,8 +741,9 @@ Razón: {1}</value>
     <value>Modo lento iniciado</value>
   </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
-    <value>advertido (expulsado)</value>
-    <comment>PLURAL</comment>
+    <value>advertidos (expulsado)</value>
+    <comment>PLURAL
+Fuzzy</comment>
   </data>
   <data name="administration_spam_ignore" xml:space="preserve">
     <value>{0} ignorará este canal.</value>
@@ -2276,6 +2277,130 @@ IDs de dueños: {2}</value>
   </data>
   <data name="searches_compet_playtime" xml:space="preserve">
     <value>Tiempo de juego en competitivo</value>
+  </data>
+  <data name="administration_channel" xml:space="preserve">
+    <value>Canal</value>
+  </data>
+  <data name="administration_command_text" xml:space="preserve">
+    <value>Comando de texto</value>
+  </data>
+  <data name="administration_kicked_pl" xml:space="preserve">
+    <value>Expulsados</value>
+    <comment>PLURAL</comment>
+  </data>
+  <data name="administration_moderator" xml:space="preserve">
+    <value>Moderador</value>
+  </data>
+  <data name="administration_page" xml:space="preserve">
+    <value>Página {0}</value>
+  </data>
+  <data name="administration_reason" xml:space="preserve">
+    <value>Razón</value>
+  </data>
+  <data name="administration_scadd" xml:space="preserve">
+    <value>Nuevo comando de inicio añadido.</value>
+  </data>
+  <data name="administration_scrm" xml:space="preserve">
+    <value>Comando de inicio removido satisfactoriamente.</value>
+  </data>
+  <data name="administration_scrm_fail" xml:space="preserve">
+    <value>Comando de inicio no encontrado.</value>
+  </data>
+  <data name="administration_server" xml:space="preserve">
+    <value>Servidor</value>
+  </data>
+  <data name="administration_startcmdlist_none" xml:space="preserve">
+    <value>No hay comandos de inicio en esta página.</value>
+  </data>
+  <data name="administration_startcmds_cleared" xml:space="preserve">
+    <value>Reiniciados todos los comandos de inicio.</value>
+  </data>
+  <data name="administration_unbanned_user" xml:space="preserve">
+    <value>El usuario {0} ha sido desbloqueado.</value>
+  </data>
+  <data name="administration_user_not_found" xml:space="preserve">
+    <value>No encuentro tal usuario.</value>
+  </data>
+  <data name="administration_user_warned" xml:space="preserve">
+    <value>El usuario {0} ha sido advertido.</value>
+  </data>
+  <data name="administration_user_warned_and_punished" xml:space="preserve">
+    <value>El usuario {0} ha sido advertido y el castigo {0} ha sido aplicado.</value>
+  </data>
+  <data name="administration_warned_on" xml:space="preserve">
+    <value>Advertido en el servidor {0}</value>
+  </data>
+  <data name="administration_warned_on_by" xml:space="preserve">
+    <value>El {0} a las {1} por {2}</value>
+  </data>
+  <data name="administration_warnings_cleared" xml:space="preserve">
+    <value>Todas las advertencias han sido reiniciadas por {0}.</value>
+  </data>
+  <data name="administration_warnings_none" xml:space="preserve">
+    <value>No hay advertencias en esta página.</value>
+  </data>
+  <data name="administration_warnlog_for" xml:space="preserve">
+    <value>Registro de advertencias para {0}</value>
+  </data>
+  <data name="administration_warnpl_none" xml:space="preserve">
+    <value>No hay castigos configurados.</value>
+  </data>
+  <data name="administration_warn_cleared_by" xml:space="preserve">
+    <value>Reiniciados por {0}</value>
+  </data>
+  <data name="administration_warn_punish_list" xml:space="preserve">
+    <value>Lista de castigos de advertencia</value>
+  </data>
+  <data name="administration_warn_punish_rem" xml:space="preserve">
+    <value>Tener {0} advertencias ya no ejecutará un castigo.</value>
+  </data>
+  <data name="administration_warn_punish_set" xml:space="preserve">
+    <value>Aplicaré el castigo {0} a los usuarios con {1} advertecias.</value>
+  </data>
+  <data name="administration_slowmodewl_role_start" xml:space="preserve">
+    <value>El modo lento ahora ignorará el rol {0}.</value>
+  </data>
+  <data name="administration_slowmodewl_role_stop" xml:space="preserve">
+    <value>El modo lento ya no ignorará el rol {0}.</value>
+  </data>
+  <data name="administration_slowmodewl_user_start" xml:space="preserve">
+    <value>El modo lento ignorará al usuario {0}.</value>
+  </data>
+  <data name="administration_slowmodewl_user_stop" xml:space="preserve">
+    <value>El modo lento ya no ignorará al usuario {0}.</value>
+  </data>
+  <data name="utility_clpa_fail" xml:space="preserve">
+    <value>Imposible reclamar recompensas debido a una de las siguientes razones:</value>
+  </data>
+  <data name="utility_clpa_fail_already" xml:space="preserve">
+    <value>Tal vez ya has recibido tu recompensa de este mes. Puedes recibir recompensa solo una vez cada mes a menos que incrementes el monto.</value>
+  </data>
+  <data name="utility_clpa_fail_already_title" xml:space="preserve">
+    <value>Ya recompensado</value>
+  </data>
+  <data name="utility_clpa_fail_conn" xml:space="preserve">
+    <value>Puede que tu cuenta de Discord no esté conectada a Patreon. Si no estás seguro de lo que significa, o no sabes cómo conectarla, tienes que ir a la página de configuración de Patreon (https://patreon.com/settings/account) y presionar el botón de &apos;conectar a Discord&apos;.</value>
+  </data>
+  <data name="utility_clpa_fail_conn_title" xml:space="preserve">
+    <value>Cuenta de Discord no conectada.</value>
+  </data>
+  <data name="utility_clpa_fail_sup" xml:space="preserve">
+    <value>Para elegir una recompensa, debes apoyar el proyecto en Patreon. Puedes usar el comando {0} para obtener el enlace.</value>
+  </data>
+  <data name="utility_clpa_fail_sup_title" xml:space="preserve">
+    <value>No apoyando</value>
+  </data>
+  <data name="utility_clpa_fail_wait" xml:space="preserve">
+    <value>Tienes que esperar algunas horas después de hacer tu colaboración, sino, trata otra vez.</value>
+  </data>
+  <data name="utility_clpa_fail_wait_title" xml:space="preserve">
+    <value>Espera un tiempo</value>
+  </data>
+  <data name="utility_clpa_success" xml:space="preserve">
+    <value>Has recibido {0} ¡Gracias por apoyar el proyecto!</value>
+  </data>
+  <data name="utility_clpa_too_early" xml:space="preserve">
+    <value>Las recompensas pueden ser reclamadas el día 5 de cada mes.</value>
   </data>
 
 </root>

@@ -6594,6 +6594,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to rolehoist rh.
+        /// </summary>
+        public static string rolehoist_cmd {
+            get {
+                return ResourceManager.GetString("rolehoist_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Toggles if this role is displayed in the sidebar or not.
+        /// </summary>
+        public static string rolehoist_desc {
+            get {
+                return ResourceManager.GetString("rolehoist_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}rh Guests true` or `{0}rh &quot;Space Wizards&quot; true.
+        /// </summary>
+        public static string rolehoist_usage {
+            get {
+                return ResourceManager.GetString("rolehoist_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to rolemdl rm.
         /// </summary>
         public static string rolemdl_cmd {

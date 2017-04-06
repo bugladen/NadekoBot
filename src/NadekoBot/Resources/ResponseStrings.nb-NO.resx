@@ -761,7 +761,8 @@ Grunn: {1}</value>
   </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
     <value>soft-banned (sparket)</value>
-    <comment>PLURAL</comment>
+    <comment>PLURAL
+Fuzzy</comment>
   </data>
   <data name="administration_spam_ignore" xml:space="preserve">
     <value>{0} vil nå ignorere denne kanalen.</value>
@@ -2333,6 +2334,131 @@ Eier ID: {2}</value>
   </data>
   <data name="searches_compet_playtime" xml:space="preserve">
     <value>Kompetitiv spilltid</value>
+  </data>
+  <data name="administration_channel" xml:space="preserve">
+    <value>Kanal</value>
+  </data>
+  <data name="administration_command_text" xml:space="preserve">
+    <value>Kommando tekst</value>
+  </data>
+  <data name="administration_kicked_pl" xml:space="preserve">
+    <value>Sparket</value>
+    <comment>PLURAL</comment>
+  </data>
+  <data name="administration_moderator" xml:space="preserve">
+    <value>Moderator</value>
+  </data>
+  <data name="administration_page" xml:space="preserve">
+    <value>side {0}</value>
+  </data>
+  <data name="administration_reason" xml:space="preserve">
+    <value>Grunn</value>
+  </data>
+  <data name="administration_scadd" xml:space="preserve">
+    <value>Ny oppstartskommando lagt til.</value>
+  </data>
+  <data name="administration_scrm" xml:space="preserve">
+    <value>Oppstartskommando fjernet.</value>
+  </data>
+  <data name="administration_scrm_fail" xml:space="preserve">
+    <value>Fant ikke oppstartskommando</value>
+  </data>
+  <data name="administration_server" xml:space="preserve">
+    <value>Server</value>
+  </data>
+  <data name="administration_startcmdlist_none" xml:space="preserve">
+    <value>Ingen oppstartskommandoer på denne siden.</value>
+  </data>
+  <data name="administration_startcmds_cleared" xml:space="preserve">
+    <value>Fjernet alle oppstartskommandoer</value>
+  </data>
+  <data name="administration_unbanned_user" xml:space="preserve">
+    <value>Bruker {0} er ikke lenger utestengt</value>
+  </data>
+  <data name="administration_user_not_found" xml:space="preserve">
+    <value>Fant ikke bruker.</value>
+  </data>
+  <data name="administration_user_warned" xml:space="preserve">
+    <value>Advarte bruker {0}</value>
+  </data>
+  <data name="administration_user_warned_and_punished" xml:space="preserve">
+    <value>Bruker {0} ble advart og straffet med {0}</value>
+  </data>
+  <data name="administration_warned_on" xml:space="preserve">
+    <value>Advart på server {0}</value>
+  </data>
+  <data name="administration_warned_on_by" xml:space="preserve">
+    <value>Den {0} kl. {1} av {2}</value>
+    <comment>On 02.04.2017 at 16:03 by Kwoth</comment>
+  </data>
+  <data name="administration_warnings_cleared" xml:space="preserve">
+    <value>Alle advarsler fjernet for {0}</value>
+  </data>
+  <data name="administration_warnings_none" xml:space="preserve">
+    <value>Ingen advarsler på denne siden.</value>
+  </data>
+  <data name="administration_warnlog_for" xml:space="preserve">
+    <value>Advarselslogg for {0}</value>
+  </data>
+  <data name="administration_warnpl_none" xml:space="preserve">
+    <value>Ingen straff satt.</value>
+  </data>
+  <data name="administration_warn_cleared_by" xml:space="preserve">
+    <value>fjernet av {0}</value>
+  </data>
+  <data name="administration_warn_punish_list" xml:space="preserve">
+    <value>Straffliste</value>
+  </data>
+  <data name="administration_warn_punish_rem" xml:space="preserve">
+    <value>Å ha {0} advarsler vil ikke lenger gi noen straff.</value>
+  </data>
+  <data name="administration_warn_punish_set" xml:space="preserve">
+    <value>Brukere med {1} advarsler vil bli straffet med {0}</value>
+  </data>
+  <data name="administration_slowmodewl_role_start" xml:space="preserve">
+    <value>Slowmode vil nå ignorere rollen {0}.</value>
+  </data>
+  <data name="administration_slowmodewl_role_stop" xml:space="preserve">
+    <value>Slowmode ignorerer ikke lenger rollen {0}.</value>
+  </data>
+  <data name="administration_slowmodewl_user_start" xml:space="preserve">
+    <value>Slowmode vil nå ignorere brukeren {0}.</value>
+  </data>
+  <data name="administration_slowmodewl_user_stop" xml:space="preserve">
+    <value>Slowmode vil ikke lenger ignorere brukeren {0}</value>
+  </data>
+  <data name="utility_clpa_fail" xml:space="preserve">
+    <value>Kunne ikke hevde premie p.g.a. én av følgende grunner:</value>
+  </data>
+  <data name="utility_clpa_fail_already" xml:space="preserve">
+    <value>Det er mulig du allerede har mottatt premien din for denne måneden. Du kan bare hevde premien én gang i måneden med mindre du øker summen.</value>
+  </data>
+  <data name="utility_clpa_fail_already_title" xml:space="preserve">
+    <value>Allerede belønnet.</value>
+  </data>
+  <data name="utility_clpa_fail_conn" xml:space="preserve">
+    <value>Din Discord konto er ikke tilkoblet Patreon. Om du er usikker på hva dette betyr, eller ikke er sikker på hvordan du gjør det, kan du gå til [Patreon kontoinnstillinger](https://patreon.com/settings/account) og klikk på &apos;Connect to Discord&apos;-knappen.</value>
+  </data>
+  <data name="utility_clpa_fail_conn_title" xml:space="preserve">
+    <value>Discord kontoen er ikke tilknyttet.</value>
+  </data>
+  <data name="utility_clpa_fail_sup" xml:space="preserve">
+    <value>For å være kvalifisert for belønning, må du støtte prosjektet på Patreon. Du kan bruke {0} kommandoen for å få link.</value>
+  </data>
+  <data name="utility_clpa_fail_sup_title" xml:space="preserve">
+    <value>Støttes ikke</value>
+  </data>
+  <data name="utility_clpa_fail_wait" xml:space="preserve">
+    <value>Du må vente noen timer etter du har gitt ditt løfte. Prøv igjen om litt.</value>
+  </data>
+  <data name="utility_clpa_fail_wait_title" xml:space="preserve">
+    <value>Vent litt.</value>
+  </data>
+  <data name="utility_clpa_success" xml:space="preserve">
+    <value>Du har mottatt {0}. Takk for at du støtter prosjektet!</value>
+  </data>
+  <data name="utility_clpa_too_early" xml:space="preserve">
+    <value>Belønninger kan bare hevdes fra og med den 5. dagen i måneden.</value>
   </data>
 
 </root>

@@ -748,7 +748,8 @@ Raison: {1}</value>
   </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
     <value>expulsés (kick)</value>
-    <comment>PLURAL</comment>
+    <comment>PLURAL
+Fuzzy</comment>
   </data>
   <data name="administration_spam_ignore" xml:space="preserve">
     <value>{0} ignorera ce Salon.</value>
@@ -757,7 +758,7 @@ Raison: {1}</value>
     <value>{0} n&apos;ignorera plus ce Salon.</value>
   </data>
   <data name="administration_spam_stats" xml:space="preserve">
-    <value>Si un utilisateur poste {0} le même message à la suite, je le {1}. 
+    <value>Si un utilisateur poste {0} fois le même message à la suite, je le {1}. 
     __SalonsIgnorés__: {2}</value>
   </data>
   <data name="administration_text_chan_created" xml:space="preserve">
@@ -1432,7 +1433,7 @@ La nouvelle valeur de {0} est {1} !</value>
     <value>Aucune liste de lecture ne correspond a cet ID.</value>
   </data>
   <data name="music_playlist_queue_complete" xml:space="preserve">
-    <value>File d&apos;attente de la liste complétée.</value>
+    <value>Liste de lecture ajoutée à la file d&apos;attente.</value>
   </data>
   <data name="music_playlist_saved" xml:space="preserve">
     <value>Liste de lecture sauvegardée</value>
@@ -2291,7 +2292,7 @@ ID du propriétaire: {2}</value>
     <value>{0} sera maintenant l&apos;alias de {1}.</value>
   </data>
   <data name="utility_alias_list" xml:space="preserve">
-    <value>Liste des alias.</value>
+    <value>Liste des alias</value>
   </data>
   <data name="utility_alias_removed" xml:space="preserve">
     <value>{0} n&apos;a plus d&apos;alias.</value>
@@ -2301,6 +2302,130 @@ ID du propriétaire: {2}</value>
   </data>
   <data name="searches_compet_playtime" xml:space="preserve">
     <value>Temps en jeu compétitif.</value>
+  </data>
+  <data name="administration_channel" xml:space="preserve">
+    <value>Salon</value>
+  </data>
+  <data name="administration_command_text" xml:space="preserve">
+    <value>Texte de la commande.</value>
+  </data>
+  <data name="administration_kicked_pl" xml:space="preserve">
+    <value>Expulsés</value>
+    <comment>PLURAL</comment>
+  </data>
+  <data name="administration_moderator" xml:space="preserve">
+    <value>Modérateur</value>
+  </data>
+  <data name="administration_page" xml:space="preserve">
+    <value>Page {0}</value>
+  </data>
+  <data name="administration_reason" xml:space="preserve">
+    <value>Raison</value>
+  </data>
+  <data name="administration_scadd" xml:space="preserve">
+    <value>Nouvelle commande au démarrage ajoutée</value>
+  </data>
+  <data name="administration_scrm" xml:space="preserve">
+    <value>Commande au démarrage retirée.</value>
+  </data>
+  <data name="administration_scrm_fail" xml:space="preserve">
+    <value>Commande au démarrage introuvable.</value>
+  </data>
+  <data name="administration_server" xml:space="preserve">
+    <value>Serveur</value>
+  </data>
+  <data name="administration_startcmdlist_none" xml:space="preserve">
+    <value>Aucune commande de démarrage sur cette page.</value>
+  </data>
+  <data name="administration_startcmds_cleared" xml:space="preserve">
+    <value>Toutes les commandes au démarrage ont été retirées.</value>
+  </data>
+  <data name="administration_unbanned_user" xml:space="preserve">
+    <value>L&apos;utilisateur {0} a été débanni.</value>
+  </data>
+  <data name="administration_user_not_found" xml:space="preserve">
+    <value>Utilisateur introuvable.</value>
+  </data>
+  <data name="administration_user_warned" xml:space="preserve">
+    <value>L&apos;utilisateur {0} a été averti.</value>
+  </data>
+  <data name="administration_user_warned_and_punished" xml:space="preserve">
+    <value>L&apos;utilisateur {0} a été averti et {1} punition a été appliquée.</value>
+  </data>
+  <data name="administration_warned_on" xml:space="preserve">
+    <value>Averti sur le serveur {0}</value>
+  </data>
+  <data name="administration_warned_on_by" xml:space="preserve">
+    <value>Le {0} à {1} par {2}</value>
+  </data>
+  <data name="administration_warnings_cleared" xml:space="preserve">
+    <value>Toutes les avertissements ont étés effacés pour {0}.</value>
+  </data>
+  <data name="administration_warnings_none" xml:space="preserve">
+    <value>Pas d&apos;avertissement sur cette page.</value>
+  </data>
+  <data name="administration_warnlog_for" xml:space="preserve">
+    <value>Log d&apos;avertissement pour {0}</value>
+  </data>
+  <data name="administration_warnpl_none" xml:space="preserve">
+    <value>Pas de punition définie.</value>
+  </data>
+  <data name="administration_warn_cleared_by" xml:space="preserve">
+    <value>Effacé par {0}</value>
+  </data>
+  <data name="administration_warn_punish_list" xml:space="preserve">
+    <value>Liste des avertissements de punitions.</value>
+  </data>
+  <data name="administration_warn_punish_rem" xml:space="preserve">
+    <value>Avoir {0} avertissements ne déclenche plus de punition.</value>
+  </data>
+  <data name="administration_warn_punish_set" xml:space="preserve">
+    <value>J&apos;appliquerai seulement la punition {0} aux utilisateurs ayant {1} avertissements.</value>
+  </data>
+  <data name="administration_slowmodewl_role_start" xml:space="preserve">
+    <value>Le mode lent ignorera le rôle {0}.</value>
+  </data>
+  <data name="administration_slowmodewl_role_stop" xml:space="preserve">
+    <value>Le mode lent n&apos;ignorera plus le rôle {0}.</value>
+  </data>
+  <data name="administration_slowmodewl_user_start" xml:space="preserve">
+    <value>Le mode lent ignorera l&apos;utilisateur {0}.</value>
+  </data>
+  <data name="administration_slowmodewl_user_stop" xml:space="preserve">
+    <value>Le mode lent n&apos;ignorera plus l&apos;utilisateur {0}.</value>
+  </data>
+  <data name="utility_clpa_fail" xml:space="preserve">
+    <value>Échec de la réclamation des récompenses à cause d&apos;une des raisons suivantes:</value>
+  </data>
+  <data name="utility_clpa_fail_already" xml:space="preserve">
+    <value>Vous avez peut-être déjà reçu votre récompense mensuelle. Vous ne pouvez recevoir qu&apos;une récompense mensuelle sauf si vous augmentez votre engagement.</value>
+  </data>
+  <data name="utility_clpa_fail_already_title" xml:space="preserve">
+    <value>Déjà récompensé.</value>
+  </data>
+  <data name="utility_clpa_fail_conn" xml:space="preserve">
+    <value>Votre compte Discord n&apos;est peut-être pas connecté à Patreon. Si vous n&apos;êtes pas sur de ce que ça veut dire, ou ne savez pas comment le connecter, vous devez aller à la [Page de configurations du compte Patreon](https://patreon.com/settings/account) et cliquer sur &apos;Connect to discord&apos;.</value>
+  </data>
+  <data name="utility_clpa_fail_conn_title" xml:space="preserve">
+    <value>Le compte Discord n&apos;est pas connecté</value>
+  </data>
+  <data name="utility_clpa_fail_sup" xml:space="preserve">
+    <value>Pour être éligible à la récompense, vous devez supporter le projet sur Patreon. Vous pouvez utiliser la commande {0} afin d&apos;avoir le lien.</value>
+  </data>
+  <data name="utility_clpa_fail_sup_title" xml:space="preserve">
+    <value>Ne supporte pas.</value>
+  </data>
+  <data name="utility_clpa_fail_wait" xml:space="preserve">
+    <value>Vous devez attendre quelques heures après avoir fait votre engagement, si ce n&apos;est pas le cas, réessayez plus tard.</value>
+  </data>
+  <data name="utility_clpa_fail_wait_title" xml:space="preserve">
+    <value>Attendez quelque temps</value>
+  </data>
+  <data name="utility_clpa_success" xml:space="preserve">
+    <value>Vous avez reçu {0}. Merci de supporter le projet!</value>
+  </data>
+  <data name="utility_clpa_too_early" xml:space="preserve">
+    <value>Les récompenses peuvent être réclamés le 5e du mois ou après.</value>
   </data>
 
 </root>

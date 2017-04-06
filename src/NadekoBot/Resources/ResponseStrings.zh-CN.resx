@@ -759,7 +759,8 @@
   </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
     <value>软禁（踢出）</value>
-    <comment>PLURAL</comment>
+    <comment>PLURAL
+Fuzzy</comment>
   </data>
   <data name="administration_spam_ignore" xml:space="preserve">
     <value>{0}将忽略此通道。</value>
@@ -2382,6 +2383,130 @@ Fuzzy</comment>
   </data>
   <data name="searches_compet_playtime" xml:space="preserve">
     <value>竞争比赛游戏时间。</value>
+  </data>
+  <data name="administration_channel" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_command_text" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_kicked_pl" xml:space="preserve">
+    <value></value>
+    <comment>PLURAL</comment>
+  </data>
+  <data name="administration_moderator" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_page" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_reason" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_scadd" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_scrm" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_scrm_fail" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_server" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_startcmdlist_none" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_startcmds_cleared" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_unbanned_user" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_user_not_found" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_user_warned" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_user_warned_and_punished" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_warned_on" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_warned_on_by" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_warnings_cleared" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_warnings_none" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_warnlog_for" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_warnpl_none" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_warn_cleared_by" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_warn_punish_list" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_warn_punish_rem" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_warn_punish_set" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_slowmodewl_role_start" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_slowmodewl_role_stop" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_slowmodewl_user_start" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_slowmodewl_user_stop" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_clpa_fail" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_clpa_fail_already" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_clpa_fail_already_title" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_clpa_fail_conn" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_clpa_fail_conn_title" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_clpa_fail_sup" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_clpa_fail_sup_title" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_clpa_fail_wait" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_clpa_fail_wait_title" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_clpa_success" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_clpa_too_early" xml:space="preserve">
+    <value></value>
   </data>
 
 </root>
