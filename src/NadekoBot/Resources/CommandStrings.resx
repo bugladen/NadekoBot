@@ -2596,10 +2596,10 @@
     <value>listquotes liqu</value>
   </data>
   <data name="listquotes_desc" xml:space="preserve">
-    <value>`{0}liqu` or `{0}liqu 3`</value>
+    <value>Lists all quotes on the server ordered alphabetically. 15 Per page.</value>
   </data>
   <data name="listquotes_usage" xml:space="preserve">
-    <value>Lists all quotes on the server ordered alphabetically. 15 Per page.</value>
+    <value>`{0}liqu` or `{0}liqu 3`</value>
   </data>
   <data name="typedel_cmd" xml:space="preserve">
     <value>typedel</value>
@@ -3211,7 +3211,7 @@
     <value>Toggles whether the response message of the custom reaction will be sent as a direct message.</value>
   </data>
   <data name="crdm_usage" xml:space="preserve">
-    <value>`{0}crad 44`</value>
+    <value>`{0}crdm 44`</value>
   </data>
   <data name="aliaslist_cmd" xml:space="preserve">
     <value>aliaslist cmdmaplist aliases</value>
@@ -3334,7 +3334,7 @@
     <value>clparew</value>
   </data>
   <data name="claimpatreonrewards_desc" xml:space="preserve">
-    <value>Claim patreon rewards. If you're subscribed to bot owner's patreon you can user this command to claim your rewards - assuming bot owner did setup has their patreon key.</value>
+    <value>Claim patreon rewards. If you're subscribed to bot owner's patreon you can use this command to claim your rewards - assuming bot owner did setup has their patreon key.</value>
   </data>
   <data name="claimpatreonrewards_usage" xml:space="preserve">
     <value>`{0}clparew`</value>
@@ -3365,5 +3365,38 @@
   </data>
   <data name="time_usage" xml:space="preserve">
     <value>`{0}time London, UK`</value>
+  </data>
+  <data name="patreonrewardsreload_cmd" xml:space="preserve">
+    <value>parewrel</value>
+  </data>
+  <data name="patreonrewardsreload_desc" xml:space="preserve">
+    <value>Forces the update of the list of patrons who are eligible for the reward.</value>
+  </data>
+  <data name="patreonrewardsreload_usage" xml:space="preserve">
+    <value>`{0}parewrel`</value>
+  </data>
+  <data name="shopadd_cmd" xml:space="preserve">
+    <value>shopadd</value>
+  </data>
+  <data name="shopadd_desc" xml:space="preserve">
+    <value>Adds an item to the shop by specifying type price and name.</value>
+  </data>
+  <data name="shopadd_usage" xml:space="preserve">
+    <value>`{0}shopadd role 1000 Rich`</value>
+  </data>
+  <data name="shopremove_cmd" xml:space="preserve">
+    <value>shoprem shoprm</value>
+  </data>
+  <data name="shopremove_desc" xml:space="preserve">
+    <value>Removes an item from the shop by its color.</value>
+  </data>
+  <data name="shop_cmd" xml:space="preserve">
+    <value>shop</value>
+  </data>
+  <data name="shop_desc" xml:space="preserve">
+    <value>Lists this server's administrators' shop. Paginated.</value>
+  </data>
+  <data name="shop_usage" xml:space="preserve">
+    <value>`{0}shop` or `{0}shop 2`</value>
   </data>
 </root>
