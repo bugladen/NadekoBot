@@ -151,7 +151,7 @@ namespace NadekoBot.Modules.Gambling
                                 .AddField(efb => efb.WithName(GetText("name")).WithValue(entry.Name).WithIsInline(true)))
                                 .ConfigureAwait(false);
 
-                            await CurrencyHandler.AddCurrencyAsync(Context.User.Id,
+                            await CurrencyHandler.AddCurrencyAsync(entry.AuthorId,
                                     $"Shop error refund - {entry.Name}",
                                     GetProfitAmount(entry.Price)).ConfigureAwait(false);
                         }
