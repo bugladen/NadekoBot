@@ -2720,6 +2720,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Item.
+        /// </summary>
+        public static string gambling_item {
+            get {
+                return ResourceManager.GetString("gambling_item", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Leaderboard.
         /// </summary>
         public static string gambling_leaderboard {
@@ -2765,6 +2774,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Name.
+        /// </summary>
+        public static string gambling_name {
+            get {
+                return ResourceManager.GetString("gambling_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to No more cards in the deck..
         /// </summary>
         public static string gambling_no_more_cards {
@@ -2797,6 +2815,15 @@ namespace NadekoBot.Resources {
         public static string gambling_not_enough {
             get {
                 return ResourceManager.GetString("gambling_not_enough", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Out of stock..
+        /// </summary>
+        public static string gambling_out_of_stock {
+            get {
+                return ResourceManager.GetString("gambling_out_of_stock", resourceCulture);
             }
         }
         
@@ -2846,6 +2873,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Random unique item..
+        /// </summary>
+        public static string gambling_random_unique_item {
+            get {
+                return ResourceManager.GetString("gambling_random_unique_item", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to You rolled {0}..
         /// </summary>
         public static string gambling_roll {
@@ -2860,6 +2896,141 @@ namespace NadekoBot.Resources {
         public static string gambling_second_larger_than_first {
             get {
                 return ResourceManager.GetString("gambling_second_larger_than_first", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shop.
+        /// </summary>
+        public static string gambling_shop {
+            get {
+                return ResourceManager.GetString("gambling_shop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Error DMing item. You&apos;ve been refunded..
+        /// </summary>
+        public static string gambling_shop_buy_error {
+            get {
+                return ResourceManager.GetString("gambling_shop_buy_error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shop item added.
+        /// </summary>
+        public static string gambling_shop_item_add {
+            get {
+                return ResourceManager.GetString("gambling_shop_item_add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No item on that index found..
+        /// </summary>
+        public static string gambling_shop_item_not_found {
+            get {
+                return ResourceManager.GetString("gambling_shop_item_not_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Item purchase successful..
+        /// </summary>
+        public static string gambling_shop_item_purchase {
+            get {
+                return ResourceManager.GetString("gambling_shop_item_purchase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shop item removed.
+        /// </summary>
+        public static string gambling_shop_item_rm {
+            get {
+                return ResourceManager.GetString("gambling_shop_item_rm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to That shop entry does not support item adding..
+        /// </summary>
+        public static string gambling_shop_item_wrong_type {
+            get {
+                return ResourceManager.GetString("gambling_shop_item_wrong_type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Item successfully added..
+        /// </summary>
+        public static string gambling_shop_list_item_added {
+            get {
+                return ResourceManager.GetString("gambling_shop_list_item_added", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to That item is already added..
+        /// </summary>
+        public static string gambling_shop_list_item_not_unique {
+            get {
+                return ResourceManager.GetString("gambling_shop_list_item_not_unique", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No shop items found on this page..
+        /// </summary>
+        public static string gambling_shop_none {
+            get {
+                return ResourceManager.GetString("gambling_shop_none", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Purchase on {0} server.
+        /// </summary>
+        public static string gambling_shop_purchase {
+            get {
+                return ResourceManager.GetString("gambling_shop_purchase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You will get {0} role..
+        /// </summary>
+        public static string gambling_shop_role {
+            get {
+                return ResourceManager.GetString("gambling_shop_role", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Role which is being sold no longer exists..
+        /// </summary>
+        public static string gambling_shop_role_not_found {
+            get {
+                return ResourceManager.GetString("gambling_shop_role_not_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You&apos;ve successfully purchased {0} role..
+        /// </summary>
+        public static string gambling_shop_role_purchase {
+            get {
+                return ResourceManager.GetString("gambling_shop_role_purchase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Error assigning role. Your purchase has been refunded..
+        /// </summary>
+        public static string gambling_shop_role_purchase_error {
+            get {
+                return ResourceManager.GetString("gambling_shop_role_purchase_error", resourceCulture);
             }
         }
         
@@ -2978,6 +3149,24 @@ namespace NadekoBot.Resources {
         public static string gambling_total_average {
             get {
                 return ResourceManager.GetString("gambling_total_average", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Type.
+        /// </summary>
+        public static string gambling_type {
+            get {
+                return ResourceManager.GetString("gambling_type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} unique items left..
+        /// </summary>
+        public static string gambling_unique_items_left {
+            get {
+                return ResourceManager.GetString("gambling_unique_items_left", resourceCulture);
             }
         }
         
@@ -6121,6 +6310,15 @@ namespace NadekoBot.Resources {
         public static string utility_clpa_fail_wait_title {
             get {
                 return ResourceManager.GetString("utility_clpa_fail_wait_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Next update in {0}.
+        /// </summary>
+        public static string utility_clpa_next_update {
+            get {
+                return ResourceManager.GetString("utility_clpa_next_update", resourceCulture);
             }
         }
         

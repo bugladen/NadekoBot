@@ -3379,7 +3379,7 @@
     <value>shopadd</value>
   </data>
   <data name="shopadd_desc" xml:space="preserve">
-    <value>Adds an item to the shop by specifying type price and name.</value>
+    <value>Adds an item to the shop by specifying type price and name. Available types are role and list.</value>
   </data>
   <data name="shopadd_usage" xml:space="preserve">
     <value>`{0}shopadd role 1000 Rich`</value>
@@ -3407,5 +3407,26 @@
   </data>
   <data name="rolehoist_usage" xml:space="preserve">
     <value>`{0}rh Guests true` or `{0}rh "Space Wizards" true</value>
+  </data>
+  <data name="buy_cmd" xml:space="preserve">
+    <value>buy</value>
+  </data>
+  <data name="buy_desc" xml:space="preserve">
+    <value>Buys an item from the shop on a given index. If buying items, make sure that the bot can DM you.</value>
+  </data>
+  <data name="buy_usage" xml:space="preserve">
+    <value>`{0}buy 2`</value>
+  </data>
+  <data name="shoplistadd_cmd" xml:space="preserve">
+    <value>shoplistadd</value>
+  </data>
+  <data name="shoplistadd_desc" xml:space="preserve">
+    <value>Adds an item to the list of items for sale in the shop entry given the index.</value>
+  </data>
+  <data name="shoplistadd_usage" xml:space="preserve">
+    <value>`{0}shoplistadd 1 Uni-que-Steam-Key`</value>
+  </data>
+  <data name="shopremove_usage" xml:space="preserve">
+    <value>`{0}shoprm 1`</value>
   </data>
 </root>
