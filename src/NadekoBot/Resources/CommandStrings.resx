@@ -3417,11 +3417,20 @@
   <data name="buy_usage" xml:space="preserve">
     <value>`{0}buy 2`</value>
   </data>
+  <data name="gamevoicechannel_cmd" xml:space="preserve">
+    <value>gvc</value>
+  </data>
+  <data name="gamevoicechannel_desc" xml:space="preserve">
+    <value>Toggles game voice channel feature in the voice channel you're currently in. Users who join the game voice channel will get automatically redirected to the voice channel with the name of their current game if it exists. Can't move users to channels that the bot has no connect permission for. One per server.</value>
+  </data>
+  <data name="gamevoicechannel_usage" xml:space="preserve">
+    <value>`{0}gvc`</value>
+  </data>
   <data name="shoplistadd_cmd" xml:space="preserve">
     <value>shoplistadd</value>
   </data>
   <data name="shoplistadd_desc" xml:space="preserve">
-    <value>Adds an item to the list of items for sale in the shop entry given the index.</value>
+    <value>Adds an item to the list of items for sale in the shop entry given the index. You usually want to run this command in the secret channel, so that the unique items are not leaked.</value>
   </data>
   <data name="shoplistadd_usage" xml:space="preserve">
     <value>`{0}shoplistadd 1 Uni-que-Steam-Key`</value>

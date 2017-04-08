@@ -2431,6 +2431,15 @@ Owner ID: {2}</value>
     <value>Next update in {0}</value>
     <comment>Next update in 05:30</comment>
   </data>
+  <data name="administration_gvc_disabled" xml:space="preserve">
+    <value>Game Voice Channel feature has been disabled on this server.</value>
+  </data>
+  <data name="administration_gvc_enabled" xml:space="preserve">
+    <value>{0} is a Game Voice Channel now.</value>
+  </data>
+  <data name="administration_not_in_voice" xml:space="preserve">
+    <value>You are not in voice channel on this server.</value>
+  </data>
   <data name="gambling_item" xml:space="preserve">
     <value>Item</value>
   </data>

@@ -520,6 +520,24 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Game Voice Channel feature has been disabled on this server..
+        /// </summary>
+        public static string administration_gvc_disabled {
+            get {
+                return ResourceManager.GetString("administration_gvc_disabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} is a Game Voice Channel now..
+        /// </summary>
+        public static string administration_gvc_enabled {
+            get {
+                return ResourceManager.GetString("administration_gvc_enabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to You can&apos;t use this command on users with a role higher or equal to yours in the role hierarchy..
         /// </summary>
         public static string administration_hierarchy {
@@ -913,6 +931,15 @@ namespace NadekoBot.Resources {
         public static string administration_no_vcroles {
             get {
                 return ResourceManager.GetString("administration_no_vcroles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You are not in voice channel on this server..
+        /// </summary>
+        public static string administration_not_in_voice {
+            get {
+                return ResourceManager.GetString("administration_not_in_voice", resourceCulture);
             }
         }
         

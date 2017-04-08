@@ -3003,6 +3003,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to gvc.
+        /// </summary>
+        public static string gamevoicechannel_cmd {
+            get {
+                return ResourceManager.GetString("gamevoicechannel_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Toggles game voice channel feature in the voice channel you&apos;re currently in. Users who join the game voice channel will get automatically redirected to the voice channel with the name of their current game if it exists. Can&apos;t move users to channels that the bot has no connect permission for. One per server..
+        /// </summary>
+        public static string gamevoicechannel_desc {
+            get {
+                return ResourceManager.GetString("gamevoicechannel_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}gvc`.
+        /// </summary>
+        public static string gamevoicechannel_usage {
+            get {
+                return ResourceManager.GetString("gamevoicechannel_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to gelbooru.
         /// </summary>
         public static string gelbooru_cmd {
@@ -7629,7 +7656,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Adds an item to the list of items for sale in the shop entry given the index..
+        ///    Looks up a localized string similar to Adds an item to the list of items for sale in the shop entry given the index. You usually want to run this command in the secret channel, so that the unique items are not leaked..
         /// </summary>
         public static string shoplistadd_desc {
             get {
