@@ -3247,7 +3247,7 @@
     <value>Warns a user.</value>
   </data>
   <data name="warn_usage" xml:space="preserve">
-    <value>`{0}warn @b1nzy`</value>
+    <value>`{0}warn @b1nzy Very rude person`</value>
   </data>
   <data name="startupcommandadd_cmd" xml:space="preserve">
     <value>scadd</value>

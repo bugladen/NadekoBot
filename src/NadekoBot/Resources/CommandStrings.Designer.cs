@@ -9744,7 +9744,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}warn @b1nzy`.
+        ///    Looks up a localized string similar to `{0}warn @b1nzy Very rude person`.
         /// </summary>
         public static string warn_usage {
             get {
