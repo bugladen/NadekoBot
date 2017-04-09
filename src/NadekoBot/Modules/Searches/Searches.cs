@@ -585,7 +585,7 @@ namespace NadekoBot.Modules.Searches
         {
             if (usr == null)
                 usr = Context.User;
-            await Context.Channel.SendConfirmAsync($"https://images.google.com/searchbyimage?image_url={usr.AvatarUrl}").ConfigureAwait(false);
+            await Context.Channel.SendConfirmAsync($"https://images.google.com/searchbyimage?image_url={usr.RealAvatarUrl()}").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]

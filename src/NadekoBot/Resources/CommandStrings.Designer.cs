@@ -5037,7 +5037,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Mentions every person from the provided role or roles (separated by a &apos;,&apos;) on this server. Requires you to have the mention everyone permission..
+        ///    Looks up a localized string similar to Mentions every person from the provided role or roles (separated by a &apos;,&apos;) on this server..
         /// </summary>
         public static string mentionrole_desc {
             get {

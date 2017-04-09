@@ -733,7 +733,7 @@
     <value>mentionrole menro</value>
   </data>
   <data name="mentionrole_desc" xml:space="preserve">
-    <value>Mentions every person from the provided role or roles (separated by a ',') on this server. Requires you to have the mention everyone permission.</value>
+    <value>Mentions every person from the provided role or roles (separated by a ',') on this server.</value>
   </data>
   <data name="mentionrole_usage" xml:space="preserve">
     <value>`{0}menro RoleName`</value>
