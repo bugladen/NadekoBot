@@ -48,7 +48,6 @@ namespace NadekoBot.Modules.Utility
                         Task.Run(Run);
                 }
 
-
                 private async Task Run()
                 {
                     source = new CancellationTokenSource();
@@ -124,7 +123,12 @@ namespace NadekoBot.Modules.Utility
             {
                 var _ = Task.Run(async () =>
                 {
+#if !GLOBAL_NADEKO
                     await Task.Delay(5000).ConfigureAwait(false);
+#else
+                    await Task.Delay(30000).ConfigureAwait(false);
+#endif
+                    //todo this is pretty terrible
                     Repeaters = new ConcurrentDictionary<ulong, ConcurrentQueue<RepeatRunner>>(NadekoBot.AllGuildConfigs
                         .ToDictionary(gc => gc.GuildId,
                             gc => new ConcurrentQueue<RepeatRunner>(gc.GuildRepeaters
@@ -132,6 +136,21 @@ namespace NadekoBot.Modules.Utility
                                 .Where(x => x.Guild != null))));
                     _ready = true;
                 });
+            }
+
+            public static void Unload()
+            {
+                _ready = false;
+                foreach (var kvp in Repeaters)
+                {
+                    RepeatRunner r;
+                    while (kvp.Value.TryDequeue(out r))
+                    {
+                        r.Stop();
+                    }
+                }
+
+                Repeaters.Clear();
             }
 
             [NadekoCommand, Usage, Description, Aliases]

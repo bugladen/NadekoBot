@@ -62,6 +62,25 @@ Nadeko Support Server: https://discord.gg/nadekobot";
         public string ErrorColor { get; set; } = "ee281f";
         public string Locale { get; set; } = null;
         public List<StartupCommand> StartupCommands { get; set; }
+        public HashSet<BlockedCmdOrMdl> BlockedCommands { get; set; }
+        public HashSet<BlockedCmdOrMdl> BlockedModules { get; set; }
+    }
+
+    public class BlockedCmdOrMdl : DbEntity
+    {
+        public string Name { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            return ((BlockedCmdOrMdl)obj).Name.ToLowerInvariant() == Name.ToLowerInvariant();
+        }
+
+        public override int GetHashCode() => Name.GetHashCode();
     }
 
     public class StartupCommand : DbEntity, IIndexed

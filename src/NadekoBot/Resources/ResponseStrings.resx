@@ -2431,6 +2431,9 @@ Owner ID: {2}</value>
     <value>Next update in {0}</value>
     <comment>Next update in 05:30</comment>
   </data>
+  <data name="administration_global_perms_reset" xml:space="preserve">
+    <value>Global permissions have been reset.</value>
+  </data>
   <data name="administration_gvc_disabled" xml:space="preserve">
     <value>Game Voice Channel feature has been disabled on this server.</value>
   </data>
@@ -2484,5 +2487,26 @@ Owner ID: {2}</value>
   </data>
   <data name="gambling_unique_items_left" xml:space="preserve">
     <value>{0} unique items left.</value>
+  </data>
+  <data name="permissions_blocked_commands" xml:space="preserve">
+    <value>Blocked Commands</value>
+  </data>
+  <data name="permissions_blocked_modules" xml:space="preserve">
+    <value>Blocked Modules</value>
+  </data>
+  <data name="permissions_gcmd_add" xml:space="preserve">
+    <value>Command {0} has been disabled on all servers.</value>
+  </data>
+  <data name="permissions_gcmd_remove" xml:space="preserve">
+    <value>Command {0} has been enabled on all servers.</value>
+  </data>
+  <data name="permissions_gmod_add" xml:space="preserve">
+    <value>Module {0} has been disabled on all servers.</value>
+  </data>
+  <data name="permissions_gmod_remove" xml:space="preserve">
+    <value>Module {0} has been enabled on all servers.</value>
+  </data>
+  <data name="permissions_lgp_none" xml:space="preserve">
+    <value>No blocked commands or modules.</value>
   </data>
 </root>

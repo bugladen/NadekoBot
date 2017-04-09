@@ -68,6 +68,23 @@ namespace NadekoBot.Modules.Administration
         }
 
         [NadekoCommand, Usage, Description, Aliases]
+        [OwnerOnly]
+        public async Task ResetGlobalPermissions()
+        {
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                var gc = uow.BotConfig.GetOrCreate();
+                gc.BlockedCommands.Clear();
+                gc.BlockedModules.Clear();
+
+                GlobalPermissionCommands.BlockedCommands.Clear();
+                GlobalPermissionCommands.BlockedModules.Clear();
+                await uow.CompleteAsync();
+            }
+            await ReplyConfirmLocalized("global_perms_reset").ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [RequireUserPermission(GuildPermission.Administrator)]
         [RequireBotPermission(GuildPermission.ManageMessages)]

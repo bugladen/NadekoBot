@@ -3,6 +3,7 @@ using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
+using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,43 +17,50 @@ namespace NadekoBot.Modules.Utility
         {
             static CrossServerTextChannel()
             {
-                NadekoBot.Client.MessageReceived += async imsg =>
+                NadekoBot.Client.MessageReceived += Client_MessageReceived;
+            }
+
+            public static void Unload()
+            {
+                NadekoBot.Client.MessageReceived -= Client_MessageReceived;
+            }
+
+            private static async Task Client_MessageReceived(Discord.WebSocket.SocketMessage imsg)
+            {
+                try
                 {
-                    try
+                    if (imsg.Author.IsBot)
+                        return;
+                    var msg = imsg as IUserMessage;
+                    if (msg == null)
+                        return;
+                    var channel = imsg.Channel as ITextChannel;
+                    if (channel == null)
+                        return;
+                    if (msg.Author.Id == NadekoBot.Client.CurrentUser.Id) return;
+                    foreach (var subscriber in Subscribers)
                     {
-                        if (imsg.Author.IsBot)
-                            return;
-                        var msg = imsg as IUserMessage;
-                        if (msg == null)
-                            return;
-                        var channel = imsg.Channel as ITextChannel;
-                        if (channel == null)
-                            return;
-                        if (msg.Author.Id == NadekoBot.Client.CurrentUser.Id) return;
-                        foreach (var subscriber in Subscribers)
+                        var set = subscriber.Value;
+                        if (!set.Contains(channel))
+                            continue;
+                        foreach (var chan in set.Except(new[] { channel }))
                         {
-                            var set = subscriber.Value;
-                            if (!set.Contains(channel))
-                                continue;
-                            foreach (var chan in set.Except(new[] {channel}))
+                            try
                             {
-                                try
-                                {
-                                    await chan.SendMessageAsync(GetMessage(channel, (IGuildUser) msg.Author,
-                                        msg)).ConfigureAwait(false);
-                                }
-                                catch
-                                {
-                                    // ignored
-                                }
+                                await chan.SendMessageAsync(GetMessage(channel, (IGuildUser)msg.Author,
+                                    msg)).ConfigureAwait(false);
+                            }
+                            catch
+                            {
+                                // ignored
                             }
                         }
                     }
-                    catch
-                    {
-                        // ignored
-                    }
-                };
+                }
+                catch
+                {
+                    // ignored
+                }
             }
 
             private static string GetMessage(ITextChannel channel, IGuildUser user, IUserMessage message) =>

@@ -412,6 +412,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Global permissions have been reset..
+        /// </summary>
+        public static string administration_global_perms_reset {
+            get {
+                return ResourceManager.GetString("administration_global_perms_reset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Greet announcements disabled..
         /// </summary>
         public static string administration_greet_off {
@@ -4712,6 +4721,24 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Blocked Commands.
+        /// </summary>
+        public static string permissions_blocked_commands {
+            get {
+                return ResourceManager.GetString("permissions_blocked_commands", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Blocked Modules.
+        /// </summary>
+        public static string permissions_blocked_modules {
+            get {
+                return ResourceManager.GetString("permissions_blocked_modules", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Command {0} now has a {1}s cooldown..
         /// </summary>
         public static string permissions_cmdcd_add {
@@ -4802,6 +4829,42 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Command {0} has been disabled on all servers..
+        /// </summary>
+        public static string permissions_gcmd_add {
+            get {
+                return ResourceManager.GetString("permissions_gcmd_add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Command {0} has been enabled on all servers..
+        /// </summary>
+        public static string permissions_gcmd_remove {
+            get {
+                return ResourceManager.GetString("permissions_gcmd_remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Module {0} has been disabled on all servers..
+        /// </summary>
+        public static string permissions_gmod_add {
+            get {
+                return ResourceManager.GetString("permissions_gmod_add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Module {0} has been enabled on all servers..
+        /// </summary>
+        public static string permissions_gmod_remove {
+            get {
+                return ResourceManager.GetString("permissions_gmod_remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Invalid second parameter.(Must be a number between {0} and {1}).
         /// </summary>
         public static string permissions_invalid_second_param_between {
@@ -4843,6 +4906,15 @@ namespace NadekoBot.Resources {
         public static string permissions_invite_filter_server_on {
             get {
                 return ResourceManager.GetString("permissions_invite_filter_server_on", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No blocked commands or modules..
+        /// </summary>
+        public static string permissions_lgp_none {
+            get {
+                return ResourceManager.GetString("permissions_lgp_none", resourceCulture);
             }
         }
         

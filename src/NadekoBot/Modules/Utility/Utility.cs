@@ -25,6 +25,12 @@ namespace NadekoBot.Modules.Utility
     {
         private static ConcurrentDictionary<ulong, Timer> _rotatingRoleColors = new ConcurrentDictionary<ulong, Timer>();
 
+        public static void Unload()
+        {
+            _rotatingRoleColors.ForEach(x => x.Value?.Change(Timeout.Infinite, Timeout.Infinite));
+            _rotatingRoleColors.Clear();
+        }
+
         //[NadekoCommand, Usage, Description, Aliases]
         //[RequireContext(ContextType.Guild)]
         //public async Task Midorina([Remainder] string arg)
@@ -49,7 +55,7 @@ namespace NadekoBot.Modules.Utility
 
         //    var roleStrings = roles
         //            .Select(x => $"{reactions[j++]} -> {x.Name}");
-            
+
         //    var msg = await Context.Channel.SendConfirmAsync("Pick a Role",
         //        string.Join("\n", roleStrings)).ConfigureAwait(false);
 
@@ -100,6 +106,7 @@ namespace NadekoBot.Modules.Utility
         //        }
         //    }));
         //}
+        
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]

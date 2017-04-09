@@ -22,6 +22,8 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                              .Include(bc => bc.EightBallResponses)
                              .Include(bc => bc.ModulePrefixes)
                              .Include(bc => bc.StartupCommands)
+                             .Include(bc => bc.BlockedCommands)
+                             .Include(bc => bc.BlockedModules)
                              //.Include(bc => bc.CommandCosts)
                              .FirstOrDefault();
             else

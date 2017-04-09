@@ -49,12 +49,17 @@ namespace NadekoBot.Modules.Utility
                     }
                     Units = data.ToList();
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    _log.Warn("Could not load units: " + e.Message);
+                    _log.Warn("Could not load units: " + ex.Message);
                 }
 
                 _timer = new Timer(async (obj) => await UpdateCurrency(), null, _updateInterval, _updateInterval);
+            }
+
+            public static void Unload()
+            {
+                _timer.Change(Timeout.Infinite, Timeout.Infinite);
             }
 
             public static async Task UpdateCurrency()

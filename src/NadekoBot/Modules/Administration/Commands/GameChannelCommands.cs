@@ -22,7 +22,7 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class GameChannelCommands : NadekoSubmodule
         {
-            private static readonly Timer _t;
+            //private static readonly Timer _t;
 
             private static readonly ConcurrentHashSet<ulong> gameVoiceChannels = new ConcurrentHashSet<ulong>();
 

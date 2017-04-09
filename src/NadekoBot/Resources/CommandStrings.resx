@@ -3421,7 +3421,7 @@
     <value>gvc</value>
   </data>
   <data name="gamevoicechannel_desc" xml:space="preserve">
-    <value>Toggles game voice channel feature in the voice channel you're currently in. Users who join the game voice channel will get automatically redirected to the voice channel with the name of their current game if it exists. Can't move users to channels that the bot has no connect permission for. One per server.</value>
+    <value>Toggles game voice channel feature in the voice channel you're currently in. Users who join the game voice channel will get automatically redirected to the voice channel with the name of their current game, if it exists. Can't move users to channels that the bot has no connect permission for. One per server.</value>
   </data>
   <data name="gamevoicechannel_usage" xml:space="preserve">
     <value>`{0}gvc`</value>
@@ -3437,5 +3437,41 @@
   </data>
   <data name="shopremove_usage" xml:space="preserve">
     <value>`{0}shoprm 1`</value>
+  </data>
+  <data name="gcmd_cmd" xml:space="preserve">
+    <value>globalcommand gcmd</value>
+  </data>
+  <data name="gcmd_desc" xml:space="preserve">
+    <value>Enables or disables a command from use on all servers.</value>
+  </data>
+  <data name="gcmd_usage" xml:space="preserve">
+    <value>`{0}gcmd  `</value>
+  </data>
+  <data name="gmod_cmd" xml:space="preserve">
+    <value>globalmodule gmod</value>
+  </data>
+  <data name="gmod_desc" xml:space="preserve">
+    <value>Enable or disable a module from use on all servers.</value>
+  </data>
+  <data name="gmod_usage" xml:space="preserve">
+    <value>`{0}gmod nsfw disable`</value>
+  </data>
+  <data name="lgp_cmd" xml:space="preserve">
+    <value>listglobalperms lgp</value>
+  </data>
+  <data name="lgp_desc" xml:space="preserve">
+    <value>Lists global permissions set by the bot owner.</value>
+  </data>
+  <data name="lgp_usage" xml:space="preserve">
+    <value>`{0}lgp`</value>
+  </data>
+  <data name="resetglobalpermissions_cmd" xml:space="preserve">
+    <value>resetglobalperms</value>
+  </data>
+  <data name="resetglobalpermissions_desc" xml:space="preserve">
+    <value>Resets global permissions set by bot owner.</value>
+  </data>
+  <data name="resetglobalpermissions_usage" xml:space="preserve">
+    <value>`{0}resetglobalperms`</value>
   </data>
 </root>

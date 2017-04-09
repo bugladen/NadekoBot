@@ -486,15 +486,22 @@ namespace NadekoBot.Services
                         }
                     }
 
-                    int price;
-                    if (Permissions.CommandCostCommands.CommandCosts.TryGetValue(cmd.Aliases.First().Trim().ToLowerInvariant(), out price) && price > 0)
-                    {
-                        var success = await CurrencyHandler.RemoveCurrencyAsync(context.User.Id, $"Running {cmd.Name} command.", price).ConfigureAwait(false);
-                        if (!success)
-                        {
-                            return new ExecuteCommandResult(cmd, pc, SearchResult.FromError(CommandError.Exception, $"Insufficient funds. You need {price}{NadekoBot.BotConfig.CurrencySign} to run this command."));
-                        }
-                    }
+                    //int price;
+                    //if (Permissions.CommandCostCommands.CommandCosts.TryGetValue(cmd.Aliases.First().Trim().ToLowerInvariant(), out price) && price > 0)
+                    //{
+                    //    var success = await CurrencyHandler.RemoveCurrencyAsync(context.User.Id, $"Running {cmd.Name} command.", price).ConfigureAwait(false);
+                    //    if (!success)
+                    //    {
+                    //        return new ExecuteCommandResult(cmd, pc, SearchResult.FromError(CommandError.Exception, $"Insufficient funds. You need {price}{NadekoBot.BotConfig.CurrencySign} to run this command."));
+                    //    }
+                    //}
+                }
+
+                if (cmd.Name != "resetglobalperms" && 
+                    (GlobalPermissionCommands.BlockedCommands.Contains(cmd.Aliases.First().ToLowerInvariant()) ||
+                    GlobalPermissionCommands.BlockedModules.Contains(module.Name.ToLowerInvariant())))
+                {
+                    return new ExecuteCommandResult(cmd, null, SearchResult.FromError(CommandError.Exception, $"Command or module is blocked globally by the bot owner."));
                 }
 
                 // Bot will ignore commands which are ran more often than what specified by

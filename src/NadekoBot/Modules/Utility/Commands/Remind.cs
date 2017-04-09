@@ -32,10 +32,15 @@ namespace NadekoBot.Modules.Utility
             };
 
             private new static readonly Logger _log;
+            private static readonly CancellationTokenSource cancelSource;
+            private static readonly CancellationToken cancelAllToken;
 
             static RemindCommands()
             {
                 _log = LogManager.GetCurrentClassLogger();
+
+                cancelSource = new CancellationTokenSource();
+                cancelAllToken = cancelSource.Token;
                 List<Reminder> reminders;
                 using (var uow = DbHandler.UnitOfWork())
                 {
@@ -45,11 +50,17 @@ namespace NadekoBot.Modules.Utility
 
                 foreach (var r in reminders)
                 {
-                    Task.Run(() => StartReminder(r));
+                    Task.Run(() => StartReminder(r, cancelAllToken));
                 }
             }
 
-            private static async Task StartReminder(Reminder r)
+            public static void Unload()
+            {
+                if (!cancelSource.IsCancellationRequested)
+                    cancelSource.Cancel();
+            }
+
+            private static async Task StartReminder(Reminder r, CancellationToken t)
             {
                 var now = DateTime.Now;
 
@@ -58,7 +69,7 @@ namespace NadekoBot.Modules.Utility
                 if (time.TotalMilliseconds > int.MaxValue)
                     return;
 
-                await Task.Delay(time).ConfigureAwait(false);
+                await Task.Delay(time, t).ConfigureAwait(false);
                 try
                 {
                     IMessageChannel ch;
@@ -188,7 +199,7 @@ namespace NadekoBot.Modules.Utility
                 {
                     // ignored
                 }
-                await StartReminder(rem);
+                await StartReminder(rem, cancelAllToken);
             }
             
             [NadekoCommand, Usage, Description, Aliases]

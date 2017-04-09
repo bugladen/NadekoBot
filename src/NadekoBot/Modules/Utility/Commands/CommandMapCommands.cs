@@ -16,7 +16,6 @@ namespace NadekoBot.Modules.Utility
 {
     public partial class Utility
     {
-
         public class CommandAliasEqualityComparer : IEqualityComparer<CommandAlias>
         {
             public bool Equals(CommandAlias x, CommandAlias y) => x.Trigger == y.Trigger;
@@ -39,6 +38,11 @@ namespace NadekoBot.Modules.Utility
                         x => new ConcurrentDictionary<string, string>(x.CommandAliases
                             .Distinct(eq)
                             .ToDictionary(ca => ca.Trigger, ca => ca.Mapping))));
+            }
+
+            public static void Unload()
+            {
+                AliasMaps.Clear();
             }
 
             [NadekoCommand, Usage, Description, Aliases]
