@@ -21,7 +21,7 @@ namespace NadekoBot.Services.Impl
 
         public string Token { get; }
 
-        public ImmutableHashSet<ulong> OwnerIds { get; }
+        public ImmutableArray<ulong> OwnerIds { get; }
 
         public string LoLApiKey { get; }
         public string OsuApiKey { get; }
@@ -62,7 +62,7 @@ namespace NadekoBot.Services.Impl
                 Token = data[nameof(Token)];
                 if (string.IsNullOrWhiteSpace(Token))
                     throw new ArgumentNullException(nameof(Token), "Token is missing from credentials.json or Environment varibles.");
-                OwnerIds = data.GetSection("OwnerIds").GetChildren().Select(c => ulong.Parse(c.Value)).ToImmutableHashSet();
+                OwnerIds = data.GetSection("OwnerIds").GetChildren().Select(c => ulong.Parse(c.Value)).ToImmutableArray();
                 LoLApiKey = data[nameof(LoLApiKey)];
                 GoogleApiKey = data[nameof(GoogleApiKey)];
                 MashapeKey = data[nameof(MashapeKey)];
