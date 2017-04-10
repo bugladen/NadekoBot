@@ -112,6 +112,7 @@ namespace NadekoBot
             CommandService.AddTypeReader<CommandInfo>(new CommandTypeReader());
             CommandService.AddTypeReader<CommandOrCrInfo>(new CommandOrCrTypeReader());
             CommandService.AddTypeReader<ModuleInfo>(new ModuleTypeReader());
+            CommandService.AddTypeReader<ModuleOrCrInfo>(new ModuleOrCrTypeReader());
             CommandService.AddTypeReader<IGuild>(new GuildTypeReader());
 
 

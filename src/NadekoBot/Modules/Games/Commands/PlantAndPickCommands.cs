@@ -181,7 +181,7 @@ namespace NadekoBot.Modules.Games
                     return old;
                 });
             }
-
+#if !GLOBAL_NADEKO
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
@@ -218,6 +218,7 @@ namespace NadekoBot.Modules.Games
                     await ReplyConfirmLocalized("curgen_disabled").ConfigureAwait(false);
                 }
             }
+#endif
 
             private static KeyValuePair<string, ImmutableArray<byte>> GetRandomCurrencyImage()
             {
