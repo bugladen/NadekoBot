@@ -2385,128 +2385,128 @@ Fuzzy</comment>
     <value>竞争比赛游戏时间。</value>
   </data>
   <data name="administration_channel" xml:space="preserve">
-    <value></value>
+    <value>频道</value>
   </data>
   <data name="administration_command_text" xml:space="preserve">
-    <value></value>
+    <value>指令</value>
   </data>
   <data name="administration_kicked_pl" xml:space="preserve">
-    <value></value>
+    <value>已被踢出</value>
     <comment>PLURAL</comment>
   </data>
   <data name="administration_moderator" xml:space="preserve">
-    <value></value>
+    <value>群管</value>
   </data>
   <data name="administration_page" xml:space="preserve">
-    <value></value>
+    <value>第{0}页</value>
   </data>
   <data name="administration_reason" xml:space="preserve">
-    <value></value>
+    <value>原因</value>
   </data>
   <data name="administration_scadd" xml:space="preserve">
-    <value></value>
+    <value>新启动执行命令已加</value>
   </data>
   <data name="administration_scrm" xml:space="preserve">
-    <value></value>
+    <value>启动执行命令已删</value>
   </data>
   <data name="administration_scrm_fail" xml:space="preserve">
-    <value></value>
+    <value>启动执行命令未找到</value>
   </data>
   <data name="administration_server" xml:space="preserve">
-    <value></value>
+    <value>服务器</value>
   </data>
   <data name="administration_startcmdlist_none" xml:space="preserve">
-    <value></value>
+    <value>该页并无启动执行命令</value>
   </data>
   <data name="administration_startcmds_cleared" xml:space="preserve">
-    <value></value>
+    <value>清除所有启动执行命令</value>
   </data>
   <data name="administration_unbanned_user" xml:space="preserve">
-    <value></value>
+    <value>用户 {0} 已被解禁</value>
   </data>
   <data name="administration_user_not_found" xml:space="preserve">
-    <value></value>
+    <value>该用户未找到</value>
   </data>
   <data name="administration_user_warned" xml:space="preserve">
-    <value></value>
+    <value>用户{0}已被警告</value>
   </data>
   <data name="administration_user_warned_and_punished" xml:space="preserve">
-    <value></value>
+    <value>用户 {0} 已被警告，惩罚已执行。</value>
   </data>
   <data name="administration_warned_on" xml:space="preserve">
-    <value></value>
+    <value>在 {0} 服务器上被警告</value>
   </data>
   <data name="administration_warned_on_by" xml:space="preserve">
-    <value></value>
+    <value>在 {0} {1} 被 {2}  </value>
   </data>
   <data name="administration_warnings_cleared" xml:space="preserve">
-    <value></value>
+    <value>{0} 的所有警告已清除。</value>
   </data>
   <data name="administration_warnings_none" xml:space="preserve">
-    <value></value>
+    <value>该页并无警告。</value>
   </data>
   <data name="administration_warnlog_for" xml:space="preserve">
-    <value></value>
+    <value>{0} 的警告记录。</value>
   </data>
   <data name="administration_warnpl_none" xml:space="preserve">
-    <value></value>
+    <value>没有设定任何惩罚</value>
   </data>
   <data name="administration_warn_cleared_by" xml:space="preserve">
-    <value></value>
+    <value>被{0} 清除</value>
   </data>
   <data name="administration_warn_punish_list" xml:space="preserve">
-    <value></value>
+    <value>警告惩罚记录</value>
   </data>
   <data name="administration_warn_punish_rem" xml:space="preserve">
-    <value></value>
+    <value>拥有{0} 个警告已不会触动惩罚。</value>
   </data>
   <data name="administration_warn_punish_set" xml:space="preserve">
-    <value></value>
+    <value>我会给拥有 {1} 个警告的用户执行{0} 惩罚。</value>
   </data>
   <data name="administration_slowmodewl_role_start" xml:space="preserve">
-    <value></value>
+    <value>Slowmode 现在会无视 {0} 身份组。</value>
   </data>
   <data name="administration_slowmodewl_role_stop" xml:space="preserve">
-    <value></value>
+    <value>Slowmode不会无视 {0} 身份组。</value>
   </data>
   <data name="administration_slowmodewl_user_start" xml:space="preserve">
-    <value></value>
+    <value>Slowmode 现在会无视用户 {0} 。</value>
   </data>
   <data name="administration_slowmodewl_user_stop" xml:space="preserve">
-    <value></value>
+    <value>Slowmode 现在不会无视用户 {0} 。</value>
   </data>
   <data name="utility_clpa_fail" xml:space="preserve">
-    <value></value>
+    <value>因下列原因无法领取奖励：</value>
   </data>
   <data name="utility_clpa_fail_already" xml:space="preserve">
-    <value></value>
+    <value>你可能已领取这个月的奖励。除非你的赞助金额增加，你只能领取奖励一个月一次。</value>
   </data>
   <data name="utility_clpa_fail_already_title" xml:space="preserve">
-    <value></value>
+    <value>已被奖励</value>
   </data>
   <data name="utility_clpa_fail_conn" xml:space="preserve">
-    <value></value>
+    <value>你的discord账户可能未与Patreon连接。如果你并不明白或不知如何连接 - 你需要去 [Patreon account settings page] (https://patreon.com/settings/account) 然后点击&apos;Connect to discord&apos; 的按钮。 </value>
   </data>
   <data name="utility_clpa_fail_conn_title" xml:space="preserve">
-    <value></value>
+    <value>Discord账号没有连接</value>
   </data>
   <data name="utility_clpa_fail_sup" xml:space="preserve">
-    <value></value>
+    <value>你必须要在patreon赞助该项目才有资格领取奖励。你可以使用命令 {0} 取得网址。</value>
   </data>
   <data name="utility_clpa_fail_sup_title" xml:space="preserve">
-    <value></value>
+    <value>无法支援</value>
   </data>
   <data name="utility_clpa_fail_wait" xml:space="preserve">
-    <value></value>
+    <value>你需要在赞助了之后等几个小时。如果你没有，请稍后再试。</value>
   </data>
   <data name="utility_clpa_fail_wait_title" xml:space="preserve">
-    <value></value>
+    <value>稍等片刻</value>
   </data>
   <data name="utility_clpa_success" xml:space="preserve">
-    <value></value>
+    <value>您已领取 {0} 。感谢您支持该项目！</value>
   </data>
   <data name="utility_clpa_too_early" xml:space="preserve">
-    <value></value>
+    <value>奖励只能在每月五号或五号后才能领取。</value>
   </data>
 
 </root>
