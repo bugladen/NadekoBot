@@ -2992,7 +2992,7 @@
     <value>slot</value>
   </data>
   <data name="slot_desc" xml:space="preserve">
-    <value>Play Nadeko slots. Max bet is 999. 3 seconds cooldown per user.</value>
+    <value>Play Nadeko slots. Max bet is 9999. 1.5 second cooldown per user.</value>
   </data>
   <data name="slot_usage" xml:space="preserve">
     <value>`{0}slot 5`</value>

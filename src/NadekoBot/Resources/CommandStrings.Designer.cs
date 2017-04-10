@@ -7980,7 +7980,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Play Nadeko slots. Max bet is 999. 3 seconds cooldown per user..
+        ///    Looks up a localized string similar to Play Nadeko slots. Max bet is 9999. 1.5 second cooldown per user..
         /// </summary>
         public static string slot_desc {
             get {
