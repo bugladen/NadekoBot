@@ -89,7 +89,7 @@ namespace NadekoBot.Modules.Utility
                             Channel = Guild.GetTextChannel(Repeater.ChannelId);
 
                         if (Channel != null)
-                            oldMsg = await Channel.SendMessageAsync(toSend).ConfigureAwait(false);
+                            oldMsg = await Channel.SendMessageAsync(toSend.SanitizeMentions()).ConfigureAwait(false);
                     }
                     catch (HttpException ex) when (ex.HttpCode == System.Net.HttpStatusCode.Forbidden)
                     {
