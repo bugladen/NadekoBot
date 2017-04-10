@@ -34,7 +34,7 @@ namespace NadekoBot.Modules.Utility
 
                 if (quotes.Any())
                     await Context.Channel.SendConfirmAsync(GetText("quotes_page", page + 1),
-                            string.Join("\n", quotes.Select(q => $"`#{q.Id}` {Format.Bold(q.Keyword),-20} by {q.AuthorName}")))
+                            string.Join("\n", quotes.Select(q => $"`#{q.Id}` {Format.Bold(q.Keyword.SanitizeMentions()),-20} by {q.AuthorName.SanitizeMentions()}")))
                         .ConfigureAwait(false);
                 else
                     await ReplyErrorLocalized("quotes_page_none").ConfigureAwait(false);
@@ -132,7 +132,7 @@ namespace NadekoBot.Modules.Utility
                         return;
                     }
                     
-                    else { await Context.Channel.SendMessageAsync($"`#{qfromid.Id}` 🗯️ " + qfromid.Keyword.ToLowerInvariant() + ":  " +
+                    else { await Context.Channel.SendMessageAsync($"`#{qfromid.Id}` 🗯️ " + qfromid.Keyword.ToLowerInvariant().SanitizeMentions() + ":  " +
                                                        qfromid.Text.SanitizeMentions()); }
                 }
             }        
@@ -208,7 +208,7 @@ namespace NadekoBot.Modules.Utility
                     await uow.CompleteAsync();
                 }
 
-                await ReplyConfirmLocalized("quotes_deleted", Format.Bold(keyword)).ConfigureAwait(false);
+                await ReplyConfirmLocalized("quotes_deleted", Format.Bold(keyword.SanitizeMentions())).ConfigureAwait(false);
             }
         }
     }
