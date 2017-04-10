@@ -392,13 +392,18 @@ namespace NadekoBot.Modules.Administration
         [RequireContext(ContextType.Guild)]
         [RequireUserPermission(ChannelPermission.ManageMessages)]
         [RequireBotPermission(GuildPermission.ManageMessages)]
+        [Priority(0)]
         public async Task Prune(int count)
         {
             if (count < 1)
                 return;
             await Context.Message.DeleteAsync().ConfigureAwait(false);
-            int limit = (count < 100) ? count : 100;
+            int limit = (count < 100) ? count + 1 : 100;
             var enumerable = (await Context.Channel.GetMessagesAsync(limit: limit).Flatten().ConfigureAwait(false));
+            if (enumerable.FirstOrDefault()?.Id == Context.Message.Id)
+                enumerable = enumerable.Skip(1).ToArray();
+            else
+                enumerable = enumerable.Take(count);
             await Context.Channel.DeleteMessagesAsync(enumerable).ConfigureAwait(false);
         }
 
@@ -407,6 +412,7 @@ namespace NadekoBot.Modules.Administration
         [RequireContext(ContextType.Guild)]
         [RequireUserPermission(ChannelPermission.ManageMessages)]
         [RequireBotPermission(GuildPermission.ManageMessages)]
+        [Priority(1)]
         public async Task Prune(IGuildUser user, int count = 100)
         {
             if (count < 1)
