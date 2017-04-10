@@ -100,7 +100,7 @@ Commands and aliases | Description | Usage
 `.bye` | Toggles anouncements on the current channel when someone leaves the server. **Requires ManageServer server permission.** | `.bye`
 `.byemsg` | Sets a new leave announcement message. Type `%user%` if you want to show the name the user who left. Type `%id%` to show id. Using this command with no message will show the current bye message. You can use embed json from <http://nadekobot.xyz/embedbuilder/> instead of a regular text, if you want the message to be embedded. **Requires ManageServer server permission.** | `.byemsg %user% has left.`
 `.byedel` | Sets the time it takes (in seconds) for bye messages to be auto-deleted. Set it to `0` to disable automatic deletion. **Requires ManageServer server permission.** | `.byedel 0` or `.byedel 30`
-`.warn` | Warns a user. **Requires BanMembers server permission.** | `.warn @b1nzy`
+`.warn` | Warns a user. **Requires BanMembers server permission.** | `.warn @b1nzy Very rude person`
 `.warnlog` | See a list of warnings of a certain user. **Requires BanMembers server permission.** | `.warnlog @b1nzy`
 `.warnclear` `.warnc` | Clears all warnings from a certain user. **Requires BanMembers server permission.** | `.warnclear @PoorDude`
 `.warnpunish` `.warnp` | Sets a punishment for a certain number of warnings. Provide no punishment to remove. **Requires BanMembers server permission.** | `.warnpunish 5 Ban` or `.warnpunish 3`
@@ -173,7 +173,7 @@ Commands and aliases | Description | Usage
 `$shoprem` `$shoprm` | Removes an item from the shop by its color. **Requires Administrator server permission.** | `$shoprm 1`
 `$slotstats` | Shows the total stats of the slot command for this bot's session. **Bot owner only** | `$slotstats`
 `$slottest` | Tests to see how much slots payout for X number of plays. **Bot owner only** | `$slottest 1000`
-`$slot` | Play Nadeko slots. Max bet is 999. 3 seconds cooldown per user.  | `$slot 5`
+`$slot` | Play Nadeko slots. Max bet is 9999. 1.5 second cooldown per user.  | `$slot 5`
 `$claimwaifu` `$claim` | Claim a waifu for yourself by spending currency.  You must spend at least 10% more than her current value unless she set `$affinity` towards you.  | `$claim 50 @Himesama`
 `$divorce` | Releases your claim on a specific waifu. You will get some of the money you've spent back unless that waifu has an affinity towards you. 6 hours cooldown.  | `$divorce @CheatingSloot`
 `$affinity` | Sets your affinity towards someone you want to be claimed by. Setting affinity will reduce their `$claim` on you by 20%. You can leave second argument empty to clear your affinity. 30 minutes cooldown.  | `$affinity @MyHusband` or `$affinity`
