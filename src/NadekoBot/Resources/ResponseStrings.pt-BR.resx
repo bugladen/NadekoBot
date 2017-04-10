@@ -2391,7 +2391,7 @@ OwnerID: {2}</value>
     <value>Comando de Texto</value>
   </data>
   <data name="administration_kicked_pl" xml:space="preserve">
-    <value>Chutado</value>
+    <value>Kickados</value>
     <comment>PLURAL</comment>
   </data>
   <data name="administration_moderator" xml:space="preserve">
@@ -2485,7 +2485,7 @@ OwnerID: {2}</value>
     <value>Já recompensado</value>
   </data>
   <data name="utility_clpa_fail_conn" xml:space="preserve">
-    <value>Sua conta do discord pode não estar conectada ao Patreon. Se você não tem certeza do que isso significa, ou não sabe como conectá-la - Você deve ir para [Página de configurações de conta do Patreon)(https://patreon.com/settings/account) e clicar em &apos;Connect to discord&apos; button.</value>
+    <value>Sua conta do discord pode não estar conectada ao Patreon. Se você não tem certeza do que isso significa, ou não sabe como conectá-la - Você deve ir para [Página de configurações de conta do Patreon](https://patreon.com/settings/account) e clicar no botão &apos;Connect to discord&apos;.</value>
   </data>
   <data name="utility_clpa_fail_conn_title" xml:space="preserve">
     <value>Conta do discord não conectada</value>

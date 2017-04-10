@@ -2451,7 +2451,7 @@ ID des Besitzers: {2}</value>
     <value>Keine Warnungen auf dieser Seite.</value>
   </data>
   <data name="administration_warnlog_for" xml:space="preserve">
-    <value></value>
+    <value>Warnlog für {0}</value>
   </data>
   <data name="administration_warnpl_none" xml:space="preserve">
     <value>Keine Bestrafungen gesetzt.</value>
@@ -2469,34 +2469,34 @@ ID des Besitzers: {2}</value>
     <value>Ich werde die Bestrafung {0} an Benutzern mit {1} Warnungen ausführen.</value>
   </data>
   <data name="administration_slowmodewl_role_start" xml:space="preserve">
-    <value></value>
+    <value>Slow mode wird jetzt die Rolle {0} ignorieren.</value>
   </data>
   <data name="administration_slowmodewl_role_stop" xml:space="preserve">
-    <value></value>
+    <value>Slow mode wird nicht mehr die Rolle {0} ignorieren.</value>
   </data>
   <data name="administration_slowmodewl_user_start" xml:space="preserve">
-    <value></value>
+    <value>Slow mod witrd jetzt den Benutzer {0} ignorieren.</value>
   </data>
   <data name="administration_slowmodewl_user_stop" xml:space="preserve">
-    <value></value>
+    <value>Slow mod witrd nicht mehr Benutzer {0} ignorieren.</value>
   </data>
   <data name="utility_clpa_fail" xml:space="preserve">
-    <value></value>
+    <value>Belohnungen konnten nicht beansprucht werden wegen einer dieser Gründe:</value>
   </data>
   <data name="utility_clpa_fail_already" xml:space="preserve">
-    <value></value>
+    <value>Eventuell haben Sie ihre Belohnung für diesen Monat schon bekommen. Sie können Belohnungen nur einmal pro Monat beanspruchen, außer sie erhören ihre Unterstützung.</value>
   </data>
   <data name="utility_clpa_fail_already_title" xml:space="preserve">
-    <value></value>
+    <value>Belohnung schon beansprucht</value>
   </data>
   <data name="utility_clpa_fail_conn" xml:space="preserve">
-    <value></value>
+    <value>Ihr Discord Account ist eventuell nicht mit Patreon verbunden. Wenn Sie unsicher sind was dies bedeutet, oder nicht wissen wie man es verbinded - Sie müssen zu der [Patreon Account Einstellungs Seite](https://patreon.com/settings/account) gehen und den &apos;Zu Discord verbinden&apos; Knopf betätigen.</value>
   </data>
   <data name="utility_clpa_fail_conn_title" xml:space="preserve">
-    <value></value>
+    <value>Discord Account nicht verbunden</value>
   </data>
   <data name="utility_clpa_fail_sup" xml:space="preserve">
-    <value></value>
+    <value>Um berechtigt für die Belohnung zu sein, müssen Sie das Projekt auf Patreon unterstützen. Sie können den Befehl {0} benutzen um den Link zu kriegen.</value>
   </data>
   <data name="utility_clpa_fail_sup_title" xml:space="preserve">
     <value>Keine Unterstützung</value>
@@ -2506,13 +2506,13 @@ ID des Besitzers: {2}</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="utility_clpa_fail_wait_title" xml:space="preserve">
-    <value></value>
+    <value>Bitte warten Sie eine weile</value>
   </data>
   <data name="utility_clpa_success" xml:space="preserve">
-    <value></value>
+    <value>Sie haben {0} erhalten. Danke für das unterstützen des Projektes!</value>
   </data>
   <data name="utility_clpa_too_early" xml:space="preserve">
-    <value></value>
+    <value>Belohnungen können am or nach dem fünften tag jedes Monats beansprucht werden.</value>
   </data>
 
 </root>
