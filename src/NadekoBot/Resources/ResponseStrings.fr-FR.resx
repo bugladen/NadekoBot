@@ -2323,7 +2323,7 @@ ID du propriétaire: {2}</value>
     <value>Raison</value>
   </data>
   <data name="administration_scadd" xml:space="preserve">
-    <value>Nouvelle commande au démarrage ajoutée</value>
+    <value>Nouvelle commande au démarrage ajoutée.</value>
   </data>
   <data name="administration_scrm" xml:space="preserve">
     <value>Commande au démarrage retirée.</value>
@@ -2350,7 +2350,7 @@ ID du propriétaire: {2}</value>
     <value>L&apos;utilisateur {0} a été averti.</value>
   </data>
   <data name="administration_user_warned_and_punished" xml:space="preserve">
-    <value>L&apos;utilisateur {0} a été averti et {1} punition a été appliquée.</value>
+    <value>L&apos;utilisateur {0} a été averti et la punition {1} a été appliquée.</value>
   </data>
   <data name="administration_warned_on" xml:space="preserve">
     <value>Averti sur le serveur {0}</value>
@@ -2359,13 +2359,14 @@ ID du propriétaire: {2}</value>
     <value>Le {0} à {1} par {2}</value>
   </data>
   <data name="administration_warnings_cleared" xml:space="preserve">
-    <value>Toutes les avertissements ont étés effacés pour {0}.</value>
+    <value>Tous les avertissements ont été effacés pour {0}.</value>
   </data>
   <data name="administration_warnings_none" xml:space="preserve">
     <value>Pas d&apos;avertissement sur cette page.</value>
   </data>
   <data name="administration_warnlog_for" xml:space="preserve">
     <value>Log d&apos;avertissement pour {0}</value>
+    <comment>Log ou historique ?</comment>
   </data>
   <data name="administration_warnpl_none" xml:space="preserve">
     <value>Pas de punition définie.</value>
@@ -2404,7 +2405,7 @@ ID du propriétaire: {2}</value>
     <value>Déjà récompensé.</value>
   </data>
   <data name="utility_clpa_fail_conn" xml:space="preserve">
-    <value>Votre compte Discord n&apos;est peut-être pas connecté à Patreon. Si vous n&apos;êtes pas sur de ce que ça veut dire, ou ne savez pas comment le connecter, vous devez aller à la [Page de configurations du compte Patreon](https://patreon.com/settings/account) et cliquer sur &apos;Connect to discord&apos;.</value>
+    <value>Votre compte Discord n&apos;est peut-être pas connecté à Patreon. Si vous n&apos;êtes pas sur de ce que ça veut dire, ou ne savez pas comment le connecter, vous devez aller à la [Page de configuration du compte Patreon](https://patreon.com/settings/account) et cliquer sur &apos;Connect to discord&apos;.</value>
   </data>
   <data name="utility_clpa_fail_conn_title" xml:space="preserve">
     <value>Le compte Discord n&apos;est pas connecté</value>
