@@ -20,6 +20,7 @@ namespace NadekoBot.Modules.Administration
             //Bahasa Indonesia, Indonesia
             private ImmutableDictionary<string, string> supportedLocales { get; } = new Dictionary<string, string>()
             {
+                //{"ar", "العربية" },
                 {"zh-TW", "繁體中文, 台灣" },
                 {"zh-CN", "简体中文, 中华人民共和国"},
                 {"nl-NL", "Nederlands, Nederland"},
