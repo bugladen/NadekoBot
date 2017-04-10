@@ -2391,7 +2391,7 @@ IDs de dueños: {2}</value>
     <value>No apoyando</value>
   </data>
   <data name="utility_clpa_fail_wait" xml:space="preserve">
-    <value>Tienes que esperar algunas horas después de hacer tu colaboración, sino, trata otra vez.</value>
+    <value>Tienes que esperar algunas horas después de hacer tu colaboración, sino, trata otra vez más tarde.</value>
   </data>
   <data name="utility_clpa_fail_wait_title" xml:space="preserve">
     <value>Espera un tiempo</value>
