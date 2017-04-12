@@ -2441,7 +2441,7 @@ Owner ID: {2}</value>
     <value>{0} is a Game Voice Channel now.</value>
   </data>
   <data name="administration_not_in_voice" xml:space="preserve">
-    <value>You are not in voice channel on this server.</value>
+    <value>You are not in a voice channel on this server.</value>
   </data>
   <data name="gambling_item" xml:space="preserve">
     <value>Item</value>

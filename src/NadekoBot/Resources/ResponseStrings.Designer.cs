@@ -944,7 +944,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to You are not in voice channel on this server..
+        ///    Looks up a localized string similar to You are not in a voice channel on this server..
         /// </summary>
         public static string administration_not_in_voice {
             get {
