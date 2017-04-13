@@ -1,4 +1,0 @@
-[submodule "Discord.Net"]
-	path = Discord.Net
-	url = https://github.com/Kwoth/Discord.Net
-	branch = rogue-dev
