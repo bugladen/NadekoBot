@@ -107,6 +107,7 @@ In order to have a functioning music module, you need to install ffmpeg and setu
     - Go to [Google Console][Google Console] and log in.
     - Create a new project (name does not matter). Once the project is created, go into "Enable and manage APIs."
     - Under the "Other Popular APIs" section, enable `URL Shortener API` and `Custom Search API`. Under the `YouTube APIs` section, enable `YouTube Data API`.
+    - Under the "Google Maps APIs" section, enable `Google Maps Geocoding API` and `Google Maps Time Zone API`.
     - On the left tab, access `Credentials`. Click `Create Credentials` button. Click on `API Key`. A new window will appear with your `Google API key`. 
     - Copy the key.
     - Open up `credentials.json`. 
@@ -118,9 +119,7 @@ In order to have a functioning music module, you need to install ffmpeg and setu
     - All requests for an API key must go through the review process, where applications will be reviewed on a case by case basis, in line with Soundcloud API Terms of Use. If your application is successful, you will receive an API key. 
 - **Restart your computer**
 
-### Setting Up NadekoBot For GoogleMaps
-   - Go to [Google Console][Google Console] and log in.
-   - Under the "Google Maps APIs" section, enable `Google Maps Geocoding API` and `Google Maps Time Zone API`.
+   
 
 
 
