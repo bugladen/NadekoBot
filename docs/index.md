@@ -33,7 +33,7 @@ If you want to contribute, be sure to PR on the **[dev][dev]** branch.
 - [Donate](Donate.md)
 
 [img]: https://cdn.discordapp.com/attachments/202743183774318593/210580315381563392/discord.png
-[NadekoBot Server]: https://discord.gg/0ehQwTK2RBjAxzEY
+[NadekoBot Server]: https://discord.gg/nadekobot
 [GitHub]: https://github.com/Kwoth/NadekoBot
 [Issues]: https://github.com/Kwoth/NadekoBot/issues
 [dev]: https://github.com/Kwoth/NadekoBot/tree/dev

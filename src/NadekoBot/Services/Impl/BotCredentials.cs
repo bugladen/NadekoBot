@@ -5,6 +5,7 @@ using Discord;
 using System.Linq;
 using NLog;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Immutable;
 
 namespace NadekoBot.Services.Impl
 {
@@ -13,7 +14,6 @@ namespace NadekoBot.Services.Impl
         private Logger _log;
 
         public ulong ClientId { get; }
-        public ulong BotId { get; }
 
         public string GoogleApiKey { get; }
 
@@ -21,17 +21,28 @@ namespace NadekoBot.Services.Impl
 
         public string Token { get; }
 
-        public ulong[] OwnerIds { get; }
+        public ImmutableArray<ulong> OwnerIds { get; }
 
         public string LoLApiKey { get; }
         public string OsuApiKey { get; }
-        public string SoundCloudClientId { get; }
+        private string _soundcloudClientId;
+        public string SoundCloudClientId {
+            get {
+                return string.IsNullOrWhiteSpace(_soundcloudClientId)
+                    ? "d0bd7768e3a1a2d15430f0dccb871117"
+                    : _soundcloudClientId;
+            }
+            set {
+                _soundcloudClientId = value;
+            }
+        }
 
         public DBConfig Db { get; }
         public int TotalShards { get; }
         public string CarbonKey { get; }
 
         public string credsFileName { get; } = Path.Combine(Directory.GetCurrentDirectory(), "credentials.json");
+        public string PatreonAccessToken { get; }
 
         public BotCredentials()
         {
@@ -51,11 +62,12 @@ namespace NadekoBot.Services.Impl
                 Token = data[nameof(Token)];
                 if (string.IsNullOrWhiteSpace(Token))
                     throw new ArgumentNullException(nameof(Token), "Token is missing from credentials.json or Environment varibles.");
-                OwnerIds = data.GetSection("OwnerIds").GetChildren().Select(c => ulong.Parse(c.Value)).ToArray();
+                OwnerIds = data.GetSection("OwnerIds").GetChildren().Select(c => ulong.Parse(c.Value)).ToImmutableArray();
                 LoLApiKey = data[nameof(LoLApiKey)];
                 GoogleApiKey = data[nameof(GoogleApiKey)];
                 MashapeKey = data[nameof(MashapeKey)];
                 OsuApiKey = data[nameof(OsuApiKey)];
+                PatreonAccessToken = data[nameof(PatreonAccessToken)];
 
                 int ts = 1;
                 int.TryParse(data[nameof(TotalShards)], out ts);
@@ -97,6 +109,7 @@ namespace NadekoBot.Services.Impl
             public string CarbonKey { get; set; } = "";
             public DBConfig Db { get; set; } = new DBConfig("sqlite", "Filename=./data/NadekoBot.db");
             public int TotalShards { get; set; } = 1;
+            public string PatreonAccessToken { get; set; } = "";
         }
 
         private class DbModel

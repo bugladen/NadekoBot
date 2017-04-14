@@ -7,18 +7,17 @@ ________________________________________________________________________________
 #### Prerequisites 
 - 1) [.NET Core SDK][.NET Core SDK]
 - 2) [Git][Git]
-- 3) [FFMPEG][FFMPEG] 
-- 4) Google Account
-- 5) Soundcloud Account (if you want soundcloud support)
-- 6) [7zip][7zip] (or whatever you are using, WinRar)
-- 7) [Notepad++][Notepad++]
-- 8) Windows 8 or later
+- 3) Google Account
+- 4) Soundcloud Account (if you want soundcloud support)
+- 5) [7zip][7zip] (or whatever you are using, WinRar)
+- 6) [Notepad++][Notepad++]
+- 7) Windows 8 or later
 
 ####Guide 
 - Make sure you have installed both [Git][Git] and the [.NET Core SDK][.NET Core SDK].
 - Create a **new folder** anywhere you like and name it `Nadeko`.
-- Next, [Right-Click on this link](https://github.com/Kwoth/NadekoBotInstallerWin/raw/master/NadekoInstaller.bat) and select **Save link as** and save the file `NadekoInstaller.bat` inside the `Nadeko` folder that we created earlier. (**DO NOT** rename the file `NadekoInstaller.bat`)
-- Once that's done, double-click on `NadekoInstaller.bat` to run it.
+- Next, [Right-Click on this link](https://github.com/Kwoth/NadekoBotInstallerWin/raw/master/NadekoInstaller.bat) and select **Save link as** and save the file `NadekoInstaller.bat` inside the `Nadeko` folder that we created earlier. (Please **DO NOT** rename the file `NadekoInstaller.bat`.)
+- Once that's done, right-click on `NadekoInstaller.bat` to run it as Administrator.
 - From the options, 
 	- Choose `1` to get the **most recent build**.
 	- Choose `2` to get the **stable build**.
@@ -46,7 +45,7 @@ ________________________________________________________________________________
 - Again, copy the same `Client ID` and replace the `null` part of the `BotId` line with it.
 - Go to a server on discord and attempt to mention yourself, but put a backslash at the start like shown below
 - So the message `\@fearnlj01#3535` will appears as `<@145521851676884992>` after you send the message (to make it slightly easier, add the backslash after you type the mention out)
-- The message will appear as a mention if done correctly, copy the numbers from the message you sent (`145521851676884992`) and replace the `0` on the `OwnerIds` section with your user ID shown earlier.
+- The message will appear as a mention if done correctly, copy the numbers from the message you sent (`145521851676884992`) and replace the ID (By default, the ID is `105635576866156544`) on the `OwnerIds` section with your user ID shown earlier.
 - Save `credentials.json` (make sure you aren't saving it as `credentials.json.txt`)
 - If done correctly, you are now the bot owner. You can add multiple owners by seperating each owner ID with a comma within the square brackets.
 
@@ -59,7 +58,7 @@ ________________________________________________________________________________
 - The bot should have been added to your server.
 
 ####Starting the bot
-- Go to the `Nadeko` folder that we have created earlier, and run the `NadekoInstaller.bat` file.
+- Go to the `Nadeko` folder that we have created earlier, and run the `NadekoInstaller.bat` file as Administrator.
 - From the options,
 	- Choose `3` to **run the bot normally**.	
 	(with normal-run the bot will shutdown and will stay offline if it disconnects by the use of `.die` command until you manually run it again. Useful if you want to test the bot.)
@@ -80,11 +79,30 @@ ________________________________________________________________________________
 - You've updated and are running again, easy as that!
 ________________________________________________________________________________
 
-#### Setting Up NadekoBot For Music
-##### Prerequisites
-- 1) [FFMPEG][FFMPEG] installed.
-- 2) Setting up API keys.
+### Setting Up NadekoBot For Music
 
+In order to have a functioning music module, you need to install ffmpeg and setup api keys.
+
+#### Setting up `ffmpeg` using NadekoBot Client!
+- Go to the `Nadeko` folder that we have created earlier, and run the `NadekoInstaller.bat` file as Administrator.
+- From the options select `6` Install ffmpeg (for music)
+- Next, **Press Any Key** if you are running as Administrator or just close and relaunch it as Administrator using mouse right-click.
+- Wait for it to finish installing and backing up existing. 
+- Once done, you should see "ffmpeg Installation complete!".
+- Next, **Press Any Key** to go back to NadekoBot Client.
+- Press `3` to run the bot normally just to test music. (optional)
+- `ffmpeg` installation for Music is now complete.
+
+#### Manual `ffmpeg` setup 
+- Create a folder named `ffmpeg` in your main Windows directory. We will use **C:\ffmpeg** (for our guide)
+- Download FFMPEG through the link https://ffmpeg.zeranoe.com/builds/ (download static build)
+- EXTRACT it using `7zip` and place the FOLDER `ffmpeg-xxxxx-git-xxxxx-xxxx-static` inside **C:\ffmpeg**
+- Before proceeding, check out this gif to set up `ffmpeg` PATH correctly ![LINK TO gif](http://i.imgur.com/aR5l1Hn.gif) *(thanks to PooPeePants#7135)*
+- Go to My Computer, right click and select Properties. On the left tab, select Advanced System Settings. Under the Advanced tab, select Environmental Variables near the bottom. One of the variables should be called "Path". Add a semi-colon (;) to the end followed by your FFMPEG's **bin** install location (**for example C:\ffmpeg\ffmpeg-xxxxx-git-xxxxx-xxxx-static\bin**). Save and close.
+- Setup your API keys as explained above.
+- **Restart your computer**
+
+#### Api keys setup
 - Follow these steps on how to setup Google API keys:
     - Go to [Google Console][Google Console] and log in.
     - Create a new project (name does not matter). Once the project is created, go into "Enable and manage APIs."
@@ -98,22 +116,12 @@ ________________________________________________________________________________
     - Enter a name for the app and create it. 
     - You will need to fill out an application form to request access to the Soundcloud API.
     - All requests for an API key must go through the review process, where applications will be reviewed on a case by case basis, in line with Soundcloud API Terms of Use. If your application is successful, you will receive an API key. 
-- **Restart your computer**.
+- **Restart your computer**
 
-####Manual `ffmpeg` setup 
-**Do this step in case you were not able to install `ffmpeg` with the installer.**
 
-- Create a folder named `ffmpeg` in your main Windows directory. We will use **C:\ffmpeg** (for our guide)
-- Download FFMPEG through the link https://ffmpeg.zeranoe.com/builds/ (download static build)
-- Extract it using `7zip` and place the folder `ffmpeg-xxxxx-git-xxxxx-xxxx-static` inside **C:\ffmpeg**
-- Before proceeding, check out this gif to set up `ffmpeg` PATH correctly ![LINK TO gif](http://i.imgur.com/aR5l1Hn.gif) *(thanks to PooPeePants#7135)*
-- Go to My Computer, right click and select Properties. On the left tab, select Advanced System Settings. Under the Advanced tab, select Environmental Variables near the bottom. One of the variables should be called "Path". Add a semi-colon (;) to the end followed by your FFMPEG's **bin** install location (**for example C:\ffmpeg\ffmpeg-xxxxx-git-xxxxx-xxxx-static\bin**). Save and close.
-- Setup your API keys as explained above.
-- Restart your computer.
 
-[.NET Core SDK]: https://www.microsoft.com/net/core#windowscmd
+[.NET Core SDK]: https://github.com/dotnet/core/blob/master/release-notes/download-archives/1.1-preview2.1-download.md
 [Git]: https://git-scm.com/download/win
-[FFMPEG]: https://github.com/Soundofdarkness/FFMPEG-Inst/releases
 [7zip]: http://www.7-zip.org/download.html
 [DiscordApp]: https://discordapp.com/developers/applications/me
 [Notepad++]: https://notepad-plus-plus.org/

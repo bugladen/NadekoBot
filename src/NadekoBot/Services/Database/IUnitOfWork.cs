@@ -15,13 +15,15 @@ namespace NadekoBot.Services.Database
         IReminderRepository Reminders { get; }
         ISelfAssignedRolesRepository SelfAssignedRoles { get; }
         IBotConfigRepository BotConfig { get; }
-        IRepeaterRepository Repeaters { get; }
         IUnitConverterRepository ConverterUnits { get; }
         ICustomReactionRepository CustomReactions { get; }
         ICurrencyRepository Currency { get; }
         ICurrencyTransactionsRepository CurrencyTransactions { get; }
         IMusicPlaylistRepository MusicPlaylists { get; }
         IPokeGameRepository PokeGame { get; }
+        IWaifuRepository Waifus { get; }
+        IDiscordUserRepository DiscordUsers { get; }
+        IWarningsRepository Warnings { get; }
 
         int Complete();
         Task<int> CompleteAsync();

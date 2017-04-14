@@ -30,7 +30,7 @@ brew install tmux
 
 - `ln -s /usr/local/opt/openssl/lib/libcrypto.1.0.0.dylib /usr/local/lib/`
 - `ln -s /usr/local/opt/openssl/lib/libssl.1.0.0.dylib /usr/local/lib/`
-- Download the [.NET Core SDK](https://www.microsoft.com/net/core#macos), found [here.](https://go.microsoft.com/fwlink/?LinkID=835011)
+- Download the [.NET Core SDK][.NET Core SDK]
 - Open the `.pkg` file you downloaded and install it.
 - `ln -s /usr/local/share/dotnet/dotnet /usr/local/bin`
 
@@ -166,6 +166,7 @@ If you used Screen press CTRL+A+D (this will detach the nadeko screen)
 - `dotnet build --configuration Release`
 
 [Homebrew]: http://brew.sh/
+[.NET Core SDK]: https://github.com/dotnet/core/blob/master/release-notes/download-archives/1.1-preview2.1-download.md
 [DiscordApp]: https://discordapp.com/developers/applications/me
 [Atom]: https://atom.io/
 [Invite Guide]: http://discord.kongslien.net/guide.html

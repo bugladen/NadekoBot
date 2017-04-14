@@ -30,9 +30,6 @@ namespace NadekoBot.Services.Database
         private IBotConfigRepository _botConfig;
         public IBotConfigRepository BotConfig => _botConfig ?? (_botConfig = new BotConfigRepository(_context));
 
-        private IRepeaterRepository _repeaters;
-        public IRepeaterRepository Repeaters => _repeaters ?? (_repeaters = new RepeaterRepository(_context));
-
         private ICurrencyRepository _currency;
         public ICurrencyRepository Currency => _currency ?? (_currency = new CurrencyRepository(_context));
 
@@ -50,6 +47,15 @@ namespace NadekoBot.Services.Database
 
         private IPokeGameRepository _pokegame;
         public IPokeGameRepository PokeGame => _pokegame ?? (_pokegame = new PokeGameRepository(_context));
+
+        private IWaifuRepository _waifus;
+        public IWaifuRepository Waifus => _waifus ?? (_waifus = new WaifuRepository(_context));
+
+        private IDiscordUserRepository _discordUsers;
+        public IDiscordUserRepository DiscordUsers => _discordUsers ?? (_discordUsers = new DiscordUserRepository(_context));
+
+        private IWarningsRepository _warnings;
+        public IWarningsRepository Warnings => _warnings ?? (_warnings = new WarningsRepository(_context));
 
         public UnitOfWork(NadekoContext context)
         {

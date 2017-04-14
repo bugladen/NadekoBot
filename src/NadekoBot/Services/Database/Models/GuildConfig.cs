@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace NadekoBot.Services.Database.Models
 {
@@ -40,7 +41,8 @@ namespace NadekoBot.Services.Database.Models
         public HashSet<GCChannelId> GenerateCurrencyChannelIds { get; set; } = new HashSet<GCChannelId>();
 
         //permissions
-        public Permission RootPermission { get; set; }
+        public Permission RootPermission { get; set; } = null;
+        public List<Permissionv2> Permissions { get; set; }
         public bool VerbosePermissions { get; set; } = true;
         public string PermissionRole { get; set; } = "Nadeko";
 
@@ -58,6 +60,123 @@ namespace NadekoBot.Services.Database.Models
 
         public string MuteRoleName { get; set; }
         public bool CleverbotEnabled { get; set; }
+        public HashSet<GuildRepeater> GuildRepeaters { get; set; } = new HashSet<GuildRepeater>();
+
+        public AntiRaidSetting AntiRaidSetting { get; set; }
+        public AntiSpamSetting AntiSpamSetting { get; set; }
+
+        public string Locale { get; set; } = null;
+        public string TimeZoneId { get; set; } = null;
+
+        public HashSet<UnmuteTimer> UnmuteTimers { get; set; } = new HashSet<UnmuteTimer>();
+        public HashSet<VcRoleInfo> VcRoleInfos { get; set; }
+        public HashSet<CommandAlias> CommandAliases { get; set; } = new HashSet<CommandAlias>();
+        public List<WarningPunishment> WarnPunishments { get; set; } = new List<WarningPunishment>();
+        public bool WarningsInitialized { get; set; }
+        public HashSet<SlowmodeIgnoredUser> SlowmodeIgnoredUsers { get; set; }
+        public HashSet<SlowmodeIgnoredRole> SlowmodeIgnoredRoles { get; set; }
+
+        public List<ShopEntry> ShopEntries { get; set; }
+        public ulong? GameVoiceChannel { get; set; } = null;
+
+        //public List<ProtectionIgnoredChannel> ProtectionIgnoredChannels { get; set; } = new List<ProtectionIgnoredChannel>();
+    }
+
+    public class SlowmodeIgnoredUser : DbEntity
+    {
+        public ulong UserId { get; set; }
+
+        // override object.Equals
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            return ((SlowmodeIgnoredUser)obj).UserId == UserId;
+        }
+
+        // override object.GetHashCode
+        public override int GetHashCode()
+        {
+            return UserId.GetHashCode();
+        }
+    }
+
+    public class SlowmodeIgnoredRole : DbEntity
+    {
+        public ulong RoleId { get; set; }
+
+        // override object.Equals
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            return ((SlowmodeIgnoredRole)obj).RoleId == RoleId;
+        }
+
+        // override object.GetHashCode
+        public override int GetHashCode()
+        {
+            return RoleId.GetHashCode();
+        }
+    }
+
+    public class WarningPunishment : DbEntity
+    {
+        public int Count { get; set; }
+        public PunishmentAction Punishment { get; set; }
+        public int Time { get; set; }
+    }
+
+    public class CommandAlias : DbEntity
+    {
+        public string Trigger { get; set; }
+        public string Mapping { get; set; }
+
+        //// override object.Equals
+        //public override bool Equals(object obj)
+        //{
+        //    if (obj == null || GetType() != obj.GetType())
+        //    {
+        //        return false;
+        //    }
+
+        //    return ((CommandAlias)obj).Trigger.Trim().ToLowerInvariant() == Trigger.Trim().ToLowerInvariant();
+        //}
+
+        //// override object.GetHashCode
+        //public override int GetHashCode()
+        //{
+        //    return Trigger.Trim().ToLowerInvariant().GetHashCode();
+        //}
+    }
+
+    public class VcRoleInfo : DbEntity
+    {
+        public ulong VoiceChannelId { get; set; }
+        public ulong RoleId { get; set; }
+    }
+
+    public class UnmuteTimer : DbEntity
+    {
+        public ulong UserId { get; set; }
+        public DateTime UnmuteAt { get; set; }
+
+        public override int GetHashCode() =>
+            UserId.GetHashCode();
+
+        public override bool Equals(object obj)
+        {
+            var ut = obj as UnmuteTimer;
+            if (ut == null)
+                return false;
+            return ut.UserId == UserId;
+        }
     }
 
     public class FilterChannelId : DbEntity

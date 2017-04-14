@@ -13,13 +13,13 @@ namespace NadekoBot.Modules.Permissions
     public partial class Permissions
     {
         [Group]
-        public class FilterCommands : ModuleBase
+        public class FilterCommands : NadekoSubmodule
         {
             public static ConcurrentHashSet<ulong> InviteFilteringChannels { get; }
             public static ConcurrentHashSet<ulong> InviteFilteringServers { get; }
 
             //serverid, filteredwords
-            private static ConcurrentDictionary<ulong, ConcurrentHashSet<string>> ServerFilteredWords { get; }
+            private static ConcurrentDictionary<ulong, ConcurrentHashSet<string>> serverFilteredWords { get; }
 
             public static ConcurrentHashSet<ulong> WordFilteringChannels { get; }
             public static ConcurrentHashSet<ulong> WordFilteringServers { get; }
@@ -28,7 +28,7 @@ namespace NadekoBot.Modules.Permissions
             {
                 ConcurrentHashSet<string> words = new ConcurrentHashSet<string>();
                 if(WordFilteringChannels.Contains(channelId))
-                    ServerFilteredWords.TryGetValue(guildId, out words);
+                    serverFilteredWords.TryGetValue(guildId, out words);
                 return words;
             }
 
@@ -36,29 +36,25 @@ namespace NadekoBot.Modules.Permissions
             {
                 var words = new ConcurrentHashSet<string>();
                 if(WordFilteringServers.Contains(guildId))
-                    ServerFilteredWords.TryGetValue(guildId, out words);
+                    serverFilteredWords.TryGetValue(guildId, out words);
                 return words;
             }
 
             static FilterCommands()
             {
-                using (var uow = DbHandler.UnitOfWork())
-                {
-                    var guildConfigs = NadekoBot.AllGuildConfigs;
+                var guildConfigs = NadekoBot.AllGuildConfigs;
 
-                    InviteFilteringServers = new ConcurrentHashSet<ulong>(guildConfigs.Where(gc => gc.FilterInvites).Select(gc => gc.GuildId));
-                    InviteFilteringChannels = new ConcurrentHashSet<ulong>(guildConfigs.SelectMany(gc => gc.FilterInvitesChannelIds.Select(fci => fci.ChannelId)));
+                InviteFilteringServers = new ConcurrentHashSet<ulong>(guildConfigs.Where(gc => gc.FilterInvites).Select(gc => gc.GuildId));
+                InviteFilteringChannels = new ConcurrentHashSet<ulong>(guildConfigs.SelectMany(gc => gc.FilterInvitesChannelIds.Select(fci => fci.ChannelId)));
 
-                    var dict = guildConfigs.ToDictionary(gc => gc.GuildId, gc => new ConcurrentHashSet<string>(gc.FilteredWords.Select(fw => fw.Word)));
+                var dict = guildConfigs.ToDictionary(gc => gc.GuildId, gc => new ConcurrentHashSet<string>(gc.FilteredWords.Select(fw => fw.Word)));
 
-                    ServerFilteredWords = new ConcurrentDictionary<ulong, ConcurrentHashSet<string>>(dict);
+                serverFilteredWords = new ConcurrentDictionary<ulong, ConcurrentHashSet<string>>(dict);
 
-                    var serverFiltering = guildConfigs.Where(gc => gc.FilterWords);
-                    WordFilteringServers = new ConcurrentHashSet<ulong>(serverFiltering.Select(gc => gc.GuildId));
+                var serverFiltering = guildConfigs.Where(gc => gc.FilterWords);
+                WordFilteringServers = new ConcurrentHashSet<ulong>(serverFiltering.Select(gc => gc.GuildId));
 
-                    WordFilteringChannels = new ConcurrentHashSet<ulong>(guildConfigs.SelectMany(gc => gc.FilterWordsChannelIds.Select(fwci => fwci.ChannelId)));
-
-                }
+                WordFilteringChannels = new ConcurrentHashSet<ulong>(guildConfigs.SelectMany(gc => gc.FilterWordsChannelIds.Select(fwci => fwci.ChannelId)));
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -78,12 +74,12 @@ namespace NadekoBot.Modules.Permissions
                 if (enabled)
                 {
                     InviteFilteringServers.Add(channel.Guild.Id);
-                    await channel.SendConfirmAsync("Invite filtering enabled on this server.").ConfigureAwait(false);
+                    await ReplyConfirmLocalized("invite_filter_server_on").ConfigureAwait(false);
                 }
                 else
                 {
                     InviteFilteringServers.TryRemove(channel.Guild.Id);
-                    await channel.SendConfirmAsync("Invite filtering disabled on this server.").ConfigureAwait(false);
+                    await ReplyConfirmLocalized("invite_filter_server_off").ConfigureAwait(false);
                 }
             }
 
@@ -111,12 +107,11 @@ namespace NadekoBot.Modules.Permissions
                 if (removed == 0)
                 {
                     InviteFilteringChannels.Add(channel.Id);
-                    await channel.SendConfirmAsync("Invite filtering enabled on this channel.").ConfigureAwait(false);
+                    await ReplyConfirmLocalized("invite_filter_channel_on").ConfigureAwait(false);
                 }
                 else
                 {
-                    InviteFilteringChannels.TryRemove(channel.Id);
-                    await channel.SendConfirmAsync("Invite filtering disabled on this channel.").ConfigureAwait(false);
+                    await ReplyConfirmLocalized("invite_filter_channel_off").ConfigureAwait(false);
                 }
             }
 
@@ -137,12 +132,12 @@ namespace NadekoBot.Modules.Permissions
                 if (enabled)
                 {
                     WordFilteringServers.Add(channel.Guild.Id);
-                    await channel.SendConfirmAsync("Word filtering enabled on this server.").ConfigureAwait(false);
+                    await ReplyConfirmLocalized("word_filter_server_on").ConfigureAwait(false);
                 }
                 else
                 {
                     WordFilteringServers.TryRemove(channel.Guild.Id);
-                    await channel.SendConfirmAsync("Word filtering disabled on this server.").ConfigureAwait(false);
+                    await ReplyConfirmLocalized("word_filter_server_off").ConfigureAwait(false);
                 }
             }
 
@@ -170,12 +165,12 @@ namespace NadekoBot.Modules.Permissions
                 if (removed == 0)
                 {
                     WordFilteringChannels.Add(channel.Id);
-                    await channel.SendConfirmAsync("Word filtering enabled on this channel.").ConfigureAwait(false);
+                    await ReplyConfirmLocalized("word_filter_channel_on").ConfigureAwait(false);
                 }
                 else
                 {
                     WordFilteringChannels.TryRemove(channel.Id);
-                    await channel.SendConfirmAsync("Word filtering disabled on this channel.").ConfigureAwait(false);
+                    await ReplyConfirmLocalized("word_filter_channel_off").ConfigureAwait(false);
                 }
             }
 
@@ -203,19 +198,17 @@ namespace NadekoBot.Modules.Permissions
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
 
-                var filteredWords = ServerFilteredWords.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<string>());
+                var filteredWords = serverFilteredWords.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<string>());
 
                 if (removed == 0)
                 {
                     filteredWords.Add(word);
-                    await channel.SendConfirmAsync($"Word `{word}` successfully added to the list of filtered words.")
-                            .ConfigureAwait(false);
+                    await ReplyConfirmLocalized("filter_word_add", Format.Code(word)).ConfigureAwait(false);
                 }
                 else
                 {
                     filteredWords.TryRemove(word);
-                    await channel.SendConfirmAsync($"Word `{word}` removed from the list of filtered words.")
-                            .ConfigureAwait(false);
+                    await ReplyConfirmLocalized("filter_word_remove", Format.Code(word)).ConfigureAwait(false);
                 }
             }
 
@@ -226,9 +219,9 @@ namespace NadekoBot.Modules.Permissions
                 var channel = (ITextChannel)Context.Channel;
 
                 ConcurrentHashSet<string> filteredWords;
-                ServerFilteredWords.TryGetValue(channel.Guild.Id, out filteredWords);
+                serverFilteredWords.TryGetValue(channel.Guild.Id, out filteredWords);
 
-                await channel.SendConfirmAsync($"List of filtered words", string.Join("\n", filteredWords))
+                await channel.SendConfirmAsync(GetText("filter_word_list"), string.Join("\n", filteredWords))
                         .ConfigureAwait(false);
             }
         }

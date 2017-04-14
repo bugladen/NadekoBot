@@ -1,0 +1,2410 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="clashofclans_base_already_claimed" xml:space="preserve">
+    <value>Bu köy daha önceden alınmış veya yok edilmiş.</value>
+  </data>
+  <data name="clashofclans_base_already_destroyed" xml:space="preserve">
+    <value>Bu köy önceden yok edilmiş.</value>
+  </data>
+  <data name="clashofclans_base_already_unclaimed" xml:space="preserve">
+    <value>Bu köy alınmamış.</value>
+  </data>
+  <data name="clashofclans_base_destroyed" xml:space="preserve">
+    <value> {1}&apos;ye karşı savaşta köy #{0} **BERTARAF EDİLDİ**</value>
+  </data>
+  <data name="clashofclans_base_unclaimed" xml:space="preserve">
+    <value>{0},{2} karşı savaşta #{1} üssünü alamadı.</value>
+  </data>
+  <data name="clashofclans_claimed_base" xml:space="preserve">
+    <value>{0}, {2} ile savaşan bir #{1} temel hak iddia etti.</value>
+  </data>
+  <data name="clashofclans_claimed_other" xml:space="preserve">
+    <value>@{0} zaten #{1} aldın. Yeni bir tane daha alamazsın.</value>
+  </data>
+  <data name="clashofclans_claim_expired" xml:space="preserve">
+    <value>{1}&apos;a karşı savaşta @{0} tarafından yapılan hak talebinin süresi dolmuştur.</value>
+  </data>
+  <data name="clashofclans_enemy" xml:space="preserve">
+    <value>Düşman</value>
+  </data>
+  <data name="clashofclans_info_about_war" xml:space="preserve">
+    <value>{0} ile savaşa ilişkin bilgi</value>
+  </data>
+  <data name="clashofclans_invalid_base_number" xml:space="preserve">
+    <value>Hatalı köy numarası.</value>
+  </data>
+  <data name="clashofclans_invalid_size" xml:space="preserve">
+    <value>Savaş büyüklüğü geçerli değil.</value>
+  </data>
+  <data name="clashofclans_list_active_wars" xml:space="preserve">
+    <value>Aktif olan savaşlar</value>
+  </data>
+  <data name="clashofclans_not_claimed" xml:space="preserve">
+    <value>Alınmamış</value>
+  </data>
+  <data name="clashofclans_not_partic" xml:space="preserve">
+    <value>Bu savaşa katılmadınız.</value>
+  </data>
+  <data name="clashofclans_not_partic_or_destroyed" xml:space="preserve">
+    <value>@{0} Bu savaşa katılmadınız veya köyünüz yok edildi.</value>
+  </data>
+  <data name="clashofclans_no_active_wars" xml:space="preserve">
+    <value>Aktif olan savaş yok.</value>
+  </data>
+  <data name="clashofclans_size" xml:space="preserve">
+    <value>Büyüklük</value>
+  </data>
+  <data name="clashofclans_war_already_started" xml:space="preserve">
+    <value>{0} ile olan savaş başladı.</value>
+  </data>
+  <data name="clashofclans_war_created" xml:space="preserve">
+    <value>{0} ile şavaş çıkardın.</value>
+  </data>
+  <data name="clashofclans_war_ended" xml:space="preserve">
+    <value>{0} ile olan savaş sona erdi.</value>
+  </data>
+  <data name="clashofclans_war_not_exist" xml:space="preserve">
+    <value>Böyle bir savaş bulunamadı.</value>
+  </data>
+  <data name="clashofclans_war_started" xml:space="preserve">
+    <value>{0} ile olan savaş başladı.</value>
+  </data>
+  <data name="customreactions_all_stats_cleared" xml:space="preserve">
+    <value>Tüm özel reaksiyon istatistikleri temizlendi.</value>
+  </data>
+  <data name="customreactions_deleted" xml:space="preserve">
+    <value>Özel reaksiyon silindi</value>
+  </data>
+  <data name="customreactions_insuff_perms" xml:space="preserve">
+    <value>Yetersiz yetki.Global özel reaksiyonlar için bot sahibi yetkisi gerkirken, server tabanlı özel reaksiyonlar için Administrator yetkisi gerekir.</value>
+  </data>
+  <data name="customreactions_list_all" xml:space="preserve">
+    <value>Tüm özel reaksiyonların listesi</value>
+  </data>
+  <data name="customreactions_name" xml:space="preserve">
+    <value>Özel reaksiyonlar</value>
+  </data>
+  <data name="customreactions_new_cust_react" xml:space="preserve">
+    <value>Yeni özel reaksiyon</value>
+  </data>
+  <data name="customreactions_no_found" xml:space="preserve">
+    <value>Hiç özel reaksiyon bulunamadı.</value>
+  </data>
+  <data name="customreactions_no_found_id" xml:space="preserve">
+    <value>Bu kimliğe sahip bir özel reaksiyon bulunamadı.</value>
+  </data>
+  <data name="customreactions_response" xml:space="preserve">
+    <value>Cevap</value>
+  </data>
+  <data name="customreactions_stats" xml:space="preserve">
+    <value>Özel reaksiyon istatistikleri</value>
+  </data>
+  <data name="customreactions_stats_cleared" xml:space="preserve">
+    <value>{0} özel reaksiyonun istatistikleri temizlendi.</value>
+  </data>
+  <data name="customreactions_stats_not_found" xml:space="preserve">
+    <value>Bu tetikleyici için herhangi bir istatistik bulunamadı, herhangi bir işlem yapılmadı.</value>
+  </data>
+  <data name="customreactions_trigger" xml:space="preserve">
+    <value>Tetikleyen</value>
+  </data>
+  <data name="nsfw_autohentai_stopped" xml:space="preserve">
+    <value>Autohentai durduruldu.</value>
+  </data>
+  <data name="nsfw_not_found" xml:space="preserve">
+    <value>Sonuç bulunamadı.</value>
+  </data>
+  <data name="pokemon_already_fainted" xml:space="preserve">
+    <value>{0} zaten bayılmış.</value>
+  </data>
+  <data name="pokemon_already_full" xml:space="preserve">
+    <value>{0} zaten canı dolu.</value>
+  </data>
+  <data name="pokemon_already_that_type" xml:space="preserve">
+    <value>Senin türün zaten {0}</value>
+  </data>
+  <data name="pokemon_attack" xml:space="preserve">
+    <value>{2}{3}&apos;de {4} hasar için {0}{1} kullandı</value>
+    <comment>Kwoth used punch:type_icon: on Sanity:type_icon: for 50 damage.</comment>
+  </data>
+  <data name="pokemon_cant_attack_again" xml:space="preserve">
+    <value>İntikam almadan bir daha saldıramazsın.</value>
+  </data>
+  <data name="pokemon_cant_attack_yourself" xml:space="preserve">
+    <value>Kendine saldıramazsın.</value>
+  </data>
+  <data name="pokemon_fainted" xml:space="preserve">
+    <value>{0} bayıldı!</value>
+  </data>
+  <data name="pokemon_healed" xml:space="preserve">
+    <value>Bir {1} kullanılarak {0} iyileştirildi</value>
+  </data>
+  <data name="pokemon_hp_remaining" xml:space="preserve">
+    <value>{0} canı {1} kaldı.</value>
+  </data>
+  <data name="pokemon_invalid_move" xml:space="preserve">
+    <value>{0}&apos;ı kullanamazsın. Kullanabileceğiniz hamle listesini görmek için `{1}ml` yazın.</value>
+  </data>
+  <data name="pokemon_moves" xml:space="preserve">
+    <value>{0} tipi için hareklerin listesi</value>
+  </data>
+  <data name="pokemon_not_effective" xml:space="preserve">
+    <value>Efektif değil.</value>
+  </data>
+  <data name="pokemon_no_currency" xml:space="preserve">
+    <value>Sende yeteri kadar {0} yok</value>
+  </data>
+  <data name="pokemon_revive_other" xml:space="preserve">
+    <value>{0} {1} ile canlandırıldı</value>
+  </data>
+  <data name="pokemon_revive_yourself" xml:space="preserve">
+    <value>{0} ile kendinizi yeniden canlandırdınız.</value>
+  </data>
+  <data name="pokemon_settype_success" xml:space="preserve">
+    <value>{1} için türünüz {0} olarak değiştirildi.</value>
+  </data>
+  <data name="pokemon_somewhat_effective" xml:space="preserve">
+    <value>Biraz etkili.</value>
+  </data>
+  <data name="pokemon_super_effective" xml:space="preserve">
+    <value>Süper etkili!</value>
+  </data>
+  <data name="pokemon_too_many_moves" xml:space="preserve">
+    <value>Çok fazla hamle yaptınız, bu nedenle hareket edemezsiniz!</value>
+  </data>
+  <data name="pokemon_type_of_user" xml:space="preserve">
+    <value>{0} türü {1}</value>
+  </data>
+  <data name="pokemon_user_not_found" xml:space="preserve">
+    <value>Kullanıcı bulunamadı.</value>
+  </data>
+  <data name="pokemon_you_fainted" xml:space="preserve">
+    <value>Bayıldın,yani hareket edemiyiceksin.</value>
+  </data>
+  <data name="administration_aar_disabled" xml:space="preserve">
+    <value>Kullanıcı girişinde **Otomatik Rol Tanımlaması** **Devre Dışı**.</value>
+  </data>
+  <data name="administration_aar_enabled" xml:space="preserve">
+    <value>Kullanıcı girişinde **Otomatik Rol Tanımlaması** **Devrede**.</value>
+  </data>
+  <data name="administration_attachments" xml:space="preserve">
+    <value>Eklentiler</value>
+  </data>
+  <data name="administration_avatar_changed" xml:space="preserve">
+    <value>Profil fotoğrafı değiştirildi</value>
+  </data>
+  <data name="administration_bandm" xml:space="preserve">
+    <value>{0} sunucusundan uzaklaştırıldınız.
+Sebep: {1}</value>
+  </data>
+  <data name="administration_banned_pl" xml:space="preserve">
+    <value>Uzaklaştırıldı.</value>
+    <comment>PLURAL</comment>
+  </data>
+  <data name="administration_banned_user" xml:space="preserve">
+    <value>Kullanıcı Uzaklaştırıldı</value>
+  </data>
+  <data name="administration_bot_name" xml:space="preserve">
+    <value>Bot ismi {0} olarak değiştirildi.</value>
+  </data>
+  <data name="administration_bot_status" xml:space="preserve">
+    <value>Bot durum mesajı {0} olarak değiştirildi.</value>
+  </data>
+  <data name="administration_byedel_off" xml:space="preserve">
+    <value>Çıkış mesajlarının otomatik silinmesi devre dışı bırakıldı.</value>
+  </data>
+  <data name="administration_byedel_on" xml:space="preserve">
+    <value>Çıkış mesajları {0} saniye sonra silinecektir.</value>
+  </data>
+  <data name="administration_byemsg_cur" xml:space="preserve">
+    <value>Şu anki çıkış mesajı: {0}</value>
+  </data>
+  <data name="administration_byemsg_enable" xml:space="preserve">
+    <value>{0} yazarak çıkış mesajlarını etkinleştirin.</value>
+  </data>
+  <data name="administration_byemsg_new" xml:space="preserve">
+    <value>Yeni çıkış mesajı tanımlandı.</value>
+  </data>
+  <data name="administration_bye_off" xml:space="preserve">
+    <value>Çıkış duyuruları devre dışı.</value>
+  </data>
+  <data name="administration_bye_on" xml:space="preserve">
+    <value>Çıkış duyuruları bu kanalda devreye sokuldu.</value>
+  </data>
+  <data name="administration_ch_name_change" xml:space="preserve">
+    <value>Kanal İsmi Değişti</value>
+  </data>
+  <data name="administration_ch_old_name" xml:space="preserve">
+    <value>Eski İsim</value>
+  </data>
+  <data name="administration_ch_topic_change" xml:space="preserve">
+    <value>Kanal Konusu Değişti</value>
+  </data>
+  <data name="administration_cleaned_up" xml:space="preserve">
+    <value>Temizlendi.</value>
+  </data>
+  <data name="administration_content" xml:space="preserve">
+    <value>İçerik</value>
+  </data>
+  <data name="administration_cr" xml:space="preserve">
+    <value>{0} rolü başarıyla oluşturuldu.</value>
+  </data>
+  <data name="administration_createtextchan" xml:space="preserve">
+    <value>{0} yazı kanalı oluşturuldu.</value>
+  </data>
+  <data name="administration_createvoich" xml:space="preserve">
+    <value>{0} ses kanalı oluşturuldu.</value>
+  </data>
+  <data name="administration_deafen" xml:space="preserve">
+    <value>Sağırlaştırma başarılı.</value>
+  </data>
+  <data name="administration_deleted_server" xml:space="preserve">
+    <value>{0} sunucusu silindi.</value>
+  </data>
+  <data name="administration_delmsg_off" xml:space="preserve">
+    <value>Komut bildirimlerinin otomatik silinmesi başarıyla durduruldu.</value>
+  </data>
+  <data name="administration_delmsg_on" xml:space="preserve">
+    <value>Artık komut bildirimleri başarıyla siliniyor.</value>
+  </data>
+  <data name="administration_deltextchan" xml:space="preserve">
+    <value>{0} yazı kanalı silindi.</value>
+  </data>
+  <data name="administration_delvoich" xml:space="preserve">
+    <value>{0} ses kanalı silindi.</value>
+  </data>
+  <data name="administration_dm_from" xml:space="preserve">
+    <value>Bu kullanıcıdan özel mesaj geldi:</value>
+  </data>
+  <data name="administration_donadd" xml:space="preserve">
+    <value>Başarıyla yeni bağışçı eklendi. Bu kullanıcının bağışladığı toplam miktar: {0} 👑</value>
+  </data>
+  <data name="administration_donators" xml:space="preserve">
+    <value>Aşağıda ismi bulunan kişilerin bu projeyi gerçekleşmesini sağladıkları için teşekkürler!</value>
+  </data>
+  <data name="administration_fwall_start" xml:space="preserve">
+    <value>Özel mesajları tüm sahiplerine ileteceğim.</value>
+  </data>
+  <data name="administration_fwall_stop" xml:space="preserve">
+    <value>Özel mesajları sadece ilk sahibine ileteceğim.</value>
+  </data>
+  <data name="administration_fwdm_start" xml:space="preserve">
+    <value>Özel mesajları iletmeye başlayacağım.</value>
+  </data>
+  <data name="administration_fwdm_stop" xml:space="preserve">
+    <value>Özel mesajları iletmeyi bırakacağım.</value>
+  </data>
+  <data name="administration_greetdel_off" xml:space="preserve">
+    <value>Karşılama mesajlarının otomatik silinmesi devre dışı bırakıldı.</value>
+  </data>
+  <data name="administration_greetdel_on" xml:space="preserve">
+    <value>Karşılama mesajları {0} saniye sonra silinecektir.</value>
+  </data>
+  <data name="administration_greetdmmsg_cur" xml:space="preserve">
+    <value>Şu anki özelden karşılama mesajı: {0}</value>
+  </data>
+  <data name="administration_greetdmmsg_enable" xml:space="preserve">
+    <value>{0} yazarak özelden karşılama mesajlarını aktif edebilirsiniz.</value>
+  </data>
+  <data name="administration_greetdmmsg_new" xml:space="preserve">
+    <value>Yeni özelden karşılama mesajı tanımlandı.</value>
+  </data>
+  <data name="administration_greetdm_off" xml:space="preserve">
+    <value>Özel mesajdan karşılama duyuruları devre dışı.</value>
+  </data>
+  <data name="administration_greetdm_on" xml:space="preserve">
+    <value>Özel mesajdan karşılama duyuruları devrede.</value>
+  </data>
+  <data name="administration_greetmsg_cur" xml:space="preserve">
+    <value>Şu anki karşılama mesajı: {0}</value>
+  </data>
+  <data name="administration_greetmsg_enable" xml:space="preserve">
+    <value>{0} yazarak karşılama mesajlarını aktif et.</value>
+  </data>
+  <data name="administration_greetmsg_new" xml:space="preserve">
+    <value>Yeni karşılama mesajı tanımlandı.</value>
+  </data>
+  <data name="administration_greet_off" xml:space="preserve">
+    <value>Karşılama duyuruları devre dışı.</value>
+  </data>
+  <data name="administration_greet_on" xml:space="preserve">
+    <value>Karşılama duyuruları bu kanalda aktif edildi.</value>
+  </data>
+  <data name="administration_hierarchy" xml:space="preserve">
+    <value>Bu komutu, rol hiyerarşisinde sizinle aynı veya daha yüksek bir rolü olan kullanıcılar üzerinde kullanamazsınız.</value>
+  </data>
+  <data name="administration_images_loaded" xml:space="preserve">
+    <value>Resimler {0} saniye sonra yüklendi!</value>
+  </data>
+  <data name="administration_invalid_format" xml:space="preserve">
+    <value>Geçersiz giriş biçimi.</value>
+  </data>
+  <data name="administration_invalid_params" xml:space="preserve">
+    <value>Geçersiz parametreler.</value>
+  </data>
+  <data name="administration_joined" xml:space="preserve">
+    <value>{0} {1}&apos;e katıldı.</value>
+  </data>
+  <data name="administration_kickdm" xml:space="preserve">
+    <value>{0} sunucusundan atıldınız.
+Sebep: {1}</value>
+  </data>
+  <data name="administration_kicked_user" xml:space="preserve">
+    <value>Kullanıcı atıldı</value>
+  </data>
+  <data name="administration_lang_list" xml:space="preserve">
+    <value>Dil Listesi</value>
+  </data>
+  <data name="administration_lang_set" xml:space="preserve">
+    <value>Sunucunuzun dili değiştirildi: {0} - {1}</value>
+  </data>
+  <data name="administration_lang_set_bot" xml:space="preserve">
+    <value>Bot varsayılan dili değiştirildi: {0} - {1}</value>
+  </data>
+  <data name="administration_lang_set_bot_show" xml:space="preserve">
+    <value>Bot dili değiştirildi: {0} - {1}</value>
+  </data>
+  <data name="administration_lang_set_fail" xml:space="preserve">
+    <value>Dil ayarları değiştirilemedi. Komutun kılavuzuna bakın.</value>
+  </data>
+  <data name="administration_lang_set_show" xml:space="preserve">
+    <value>Sunucunun dili değiştirildi: {0} - {1}</value>
+  </data>
+  <data name="administration_left" xml:space="preserve">
+    <value>{0} {1}&apos;den ayrıldı.</value>
+  </data>
+  <data name="administration_left_server" xml:space="preserve">
+    <value>{0} sunucudan ayrıldı.</value>
+  </data>
+  <data name="administration_log" xml:space="preserve">
+    <value>Bu kanaldaki {0} olayları kayıt ediliyor.</value>
+  </data>
+  <data name="administration_log_all" xml:space="preserve">
+    <value>Bu kanaldaki bütün olaylar kayıt ediliyor.</value>
+  </data>
+  <data name="administration_log_disabled" xml:space="preserve">
+    <value>Kayıtlar devre dışı.</value>
+  </data>
+  <data name="administration_log_events" xml:space="preserve">
+    <value>Abone olabileceğiniz olaylar:</value>
+  </data>
+  <data name="administration_log_ignore" xml:space="preserve">
+    <value>{0} günlük kayıtlarını yok sayar.</value>
+  </data>
+  <data name="administration_log_not_ignore" xml:space="preserve">
+    <value>{0} günlüğe yazmayı yok saymaz.</value>
+  </data>
+  <data name="administration_log_stop" xml:space="preserve">
+    <value>{0} olayını günlüğe kaydetme işlemi durduruldu.</value>
+  </data>
+  <data name="administration_menrole" xml:space="preserve">
+    <value>{0}, aşağıdaki rollerde bir söz atadı.</value>
+  </data>
+  <data name="administration_message_from_bo" xml:space="preserve">
+    <value>{0} gönderdiği mesaj `[Bot Sahibi]`:</value>
+  </data>
+  <data name="administration_message_sent" xml:space="preserve">
+    <value>Mesaj yollandı.</value>
+  </data>
+  <data name="administration_moved" xml:space="preserve">
+    <value>{0} {1}&apos;den {2}&apos;ye taşındı.</value>
+  </data>
+  <data name="administration_msg_del" xml:space="preserve">
+    <value>{0} içindeki mesajlar silinicek.</value>
+  </data>
+  <data name="administration_msg_update" xml:space="preserve">
+    <value>Mesaj {0} da güncellendi</value>
+  </data>
+  <data name="administration_muted_pl" xml:space="preserve">
+    <value>Susturuldular!</value>
+    <comment>PLURAL (users have been muted)</comment>
+  </data>
+  <data name="administration_muted_sn" xml:space="preserve">
+    <value>Susturuldu!</value>
+    <comment>singular &quot;User muted.&quot;</comment>
+  </data>
+  <data name="administration_mute_error" xml:space="preserve">
+    <value>Bunun için gerekli iznim yok.</value>
+  </data>
+  <data name="administration_mute_role_set" xml:space="preserve">
+    <value>Yeni sessiz rolü atandı.</value>
+  </data>
+  <data name="administration_need_admin" xml:space="preserve">
+    <value>Bunu yapmak için **Yönetici** iznine ihtiyacım var.</value>
+  </data>
+  <data name="administration_new_msg" xml:space="preserve">
+    <value>Yeni Mesaj</value>
+  </data>
+  <data name="administration_new_nick" xml:space="preserve">
+    <value>Yeni takma ad</value>
+  </data>
+  <data name="administration_new_topic" xml:space="preserve">
+    <value>Yeni Konu</value>
+  </data>
+  <data name="administration_nick_change" xml:space="preserve">
+    <value>Takma Ad değiştirildi.</value>
+  </data>
+  <data name="administration_no_server" xml:space="preserve">
+    <value>Sunucu bulunamadı.</value>
+  </data>
+  <data name="administration_no_shard_id" xml:space="preserve">
+    <value>Kimlik numarası bulunamadı.</value>
+  </data>
+  <data name="administration_old_msg" xml:space="preserve">
+    <value>Eski mesaj</value>
+  </data>
+  <data name="administration_old_nick" xml:space="preserve">
+    <value>Eski takma ad</value>
+  </data>
+  <data name="administration_old_topic" xml:space="preserve">
+    <value>Eski konu</value>
+  </data>
+  <data name="administration_perms" xml:space="preserve">
+    <value>Hata.Yüksek ihtimalle yeterli yetki&apos;ye sahip değilim.</value>
+  </data>
+  <data name="administration_perms_reset" xml:space="preserve">
+    <value>Bu server için yetkiler sıfırlandı.</value>
+  </data>
+  <data name="administration_prot_active" xml:space="preserve">
+    <value>Koruma Aktif</value>
+  </data>
+  <data name="administration_prot_disable" xml:space="preserve">
+    <value>{0} Bu sunucudaki {0} **Devre Dışı**.</value>
+  </data>
+  <data name="administration_prot_enable" xml:space="preserve">
+    <value>{0} Etkin</value>
+  </data>
+  <data name="administration_prot_error" xml:space="preserve">
+    <value>Hata. Rolleri Yönet iznine ihtiyacım var</value>
+  </data>
+  <data name="administration_prot_none" xml:space="preserve">
+    <value>Hiçbir koruma etkin değil.</value>
+  </data>
+  <data name="administration_raid_cnt" xml:space="preserve">
+    <value>Kullanıcı eşiği {0} ile {1} arasında olmalıdır.</value>
+  </data>
+  <data name="administration_raid_stats" xml:space="preserve">
+    <value>{0} veya daha fazla kullanıcı {1} saniye içinde katılırsa, onlara {2} uygulayacağım.</value>
+  </data>
+  <data name="administration_raid_time" xml:space="preserve">
+    <value>Zaman {0} ile {1} saniye arasında olmalıdır.</value>
+  </data>
+  <data name="administration_rar" xml:space="preserve">
+    <value>{0} kullanıcısından tüm roller başarıyla kaldırdı.</value>
+  </data>
+  <data name="administration_rar_err" xml:space="preserve">
+    <value>Yetkileri almada hata. Yüksek ihtimalle yeteri kadar yetkim yok.</value>
+  </data>
+  <data name="administration_rc" xml:space="preserve">
+    <value>{0} rolünün rengi değiştirildi.</value>
+  </data>
+  <data name="administration_rc_not_exist" xml:space="preserve">
+    <value>Bu rol bulunmamakta.</value>
+  </data>
+  <data name="administration_rc_params" xml:space="preserve">
+    <value>Belirtilen parametreler geçersiz.</value>
+  </data>
+  <data name="administration_rc_perms" xml:space="preserve">
+    <value>Renk geçersiz veya yetersiz izinler nedeniyle hata oluştu.</value>
+  </data>
+  <data name="administration_remrole" xml:space="preserve">
+    <value>{1} kullanıcısının sahip olduğu {0} rolü başarı ile alındı.</value>
+  </data>
+  <data name="administration_remrole_err" xml:space="preserve">
+    <value>Yetkiyi almada hata. Yüksek ihtimalle yeteri kadar yetkim yok.</value>
+  </data>
+  <data name="administration_renrole" xml:space="preserve">
+    <value>Rol yeniden adlandırıldı.</value>
+  </data>
+  <data name="administration_renrole_err" xml:space="preserve">
+    <value>Rol yeniden adladırılmasında hata. Yüksek ihtimalle yeteri kadar yetkim yok.</value>
+  </data>
+  <data name="administration_renrole_perms" xml:space="preserve">
+    <value>Kendi rolunüzden daha yüksek rolleri değiştiremezsiniz.</value>
+  </data>
+  <data name="administration_reprm" xml:space="preserve">
+    <value>{0} oynatılan mesaj kaldırıldı.</value>
+  </data>
+  <data name="administration_role_added" xml:space="preserve">
+    <value>Rol {0}, listeye eklendi.</value>
+  </data>
+  <data name="administration_role_clean" xml:space="preserve">
+    <value>{0} bulunamadı. Temizlendi.</value>
+  </data>
+  <data name="administration_role_in_list" xml:space="preserve">
+    <value>Rol {0} zaten listede.</value>
+  </data>
+  <data name="administration_ropl_added" xml:space="preserve">
+    <value>Eklendi.</value>
+  </data>
+  <data name="administration_ropl_disabled" xml:space="preserve">
+    <value>Döndürme işlemi durdu.</value>
+  </data>
+  <data name="administration_ropl_enabled" xml:space="preserve">
+    <value>Döndürme işlemi etkinleştirildi.</value>
+  </data>
+  <data name="administration_ropl_list" xml:space="preserve">
+    <value>Döndürülen durumların bir listesi:
+{0}</value>
+  </data>
+  <data name="administration_ropl_not_set" xml:space="preserve">
+    <value>Dönen durumlar ayarlanmadı.</value>
+  </data>
+  <data name="administration_self_assign_already" xml:space="preserve">
+    <value>Zaten {0} role sahip.</value>
+  </data>
+  <data name="administration_self_assign_already_excl" xml:space="preserve">
+    <value>{0} özel otomatik atanmış role zaten sahibidir.</value>
+  </data>
+  <data name="administration_self_assign_excl" xml:space="preserve">
+    <value>Otomatik atanmış roller artık özel!</value>
+  </data>
+  <data name="administration_self_assign_list" xml:space="preserve">
+    <value>{0} otomatik atanabilir rolü var</value>
+  </data>
+  <data name="administration_self_assign_not" xml:space="preserve">
+    <value>Bu rol otomatik atanabilir değil.</value>
+  </data>
+  <data name="administration_self_assign_not_have" xml:space="preserve">
+    <value>{0} rolünüz yok.</value>
+  </data>
+  <data name="administration_self_assign_no_excl" xml:space="preserve">
+    <value>Otomatik atanabilir roller artık özel değil!</value>
+  </data>
+  <data name="administration_self_assign_perms" xml:space="preserve">
+    <value>Bu rolü ekleyemem. `Rol hiyerarşisinde rolümden daha yüksek olan sahiplere veya diğer rollere rol ekleyemem. &apos;</value>
+  </data>
+  <data name="administration_self_assign_rem" xml:space="preserve">
+    <value>{0}, otomatik atanabilir roller listesinden kaldırıldı.</value>
+  </data>
+  <data name="administration_self_assign_remove" xml:space="preserve">
+    <value>Artık {0} rolü yok.</value>
+  </data>
+  <data name="administration_self_assign_success" xml:space="preserve">
+    <value>Şimdi {0} rolünüz var.</value>
+  </data>
+  <data name="administration_setrole" xml:space="preserve">
+    <value>{1} kullanıcısına {0} rolü başarıyla eklendi</value>
+  </data>
+  <data name="administration_setrole_err" xml:space="preserve">
+    <value>Rol eklenemedi. İzinlerim yetersiz.</value>
+  </data>
+  <data name="administration_set_avatar" xml:space="preserve">
+    <value>Yeni profil resmi belirlendi!</value>
+  </data>
+  <data name="administration_set_channel_name" xml:space="preserve">
+    <value>Yeni kanal adı belirlendi.</value>
+  </data>
+  <data name="administration_set_game" xml:space="preserve">
+    <value>Yeni oyun belirlendi!</value>
+  </data>
+  <data name="administration_set_stream" xml:space="preserve">
+    <value>Yeni yayıncı belirlendi!</value>
+  </data>
+  <data name="administration_set_topic" xml:space="preserve">
+    <value>Yeni kanal konusu belirlendi.</value>
+  </data>
+  <data name="administration_shard_reconnected" xml:space="preserve">
+    <value>Shard {0} yeniden bağlandı.</value>
+  </data>
+  <data name="administration_shard_reconnecting" xml:space="preserve">
+    <value>Shard {0} yeniden bağlanıyor.</value>
+  </data>
+  <data name="administration_shutting_down" xml:space="preserve">
+    <value>Kapatılıyor.</value>
+  </data>
+  <data name="administration_slowmode_desc" xml:space="preserve">
+    <value>Kullanıcılar, {1} saniyede bir {0}&apos;den fazla mesaj gönderemez.</value>
+  </data>
+  <data name="administration_slowmode_disabled" xml:space="preserve">
+    <value>Yavaşlatılmış mod devre dışı.</value>
+  </data>
+  <data name="administration_slowmode_init" xml:space="preserve">
+    <value>Yavaşlatılmış mod başlatıldı</value>
+  </data>
+  <data name="administration_soft_banned_pl" xml:space="preserve">
+    <value>Hafif bir şekilde yasaklandılar (atıldılar)</value>
+    <comment>PLURAL
+Fuzzy</comment>
+  </data>
+  <data name="administration_spam_ignore" xml:space="preserve">
+    <value>{0} bu kanalı yoksayacak.</value>
+  </data>
+  <data name="administration_spam_not_ignore" xml:space="preserve">
+    <value>{0} artık bu kanalı yoksaymayacak.</value>
+  </data>
+  <data name="administration_spam_stats" xml:space="preserve">
+    <value>Bir kullanıcı {0} aynı mesajı aynı sırada gönderirse, bunları {1} yapacağım.
+__Yok Sayılan Kanallar__:  {2}</value>
+  </data>
+  <data name="administration_text_chan_created" xml:space="preserve">
+    <value>Metin kanalı oluşturuldu.</value>
+  </data>
+  <data name="administration_text_chan_destroyed" xml:space="preserve">
+    <value>Metin kanalı yok edildi.</value>
+  </data>
+  <data name="administration_undeafen" xml:space="preserve">
+    <value>Sağırlaştırmayı kaldırma başarılı.</value>
+  </data>
+  <data name="administration_unmuted_sn" xml:space="preserve">
+    <value>Sesi açıldı</value>
+    <comment>singular</comment>
+  </data>
+  <data name="administration_username" xml:space="preserve">
+    <value>Kullanıcı adı</value>
+  </data>
+  <data name="administration_username_changed" xml:space="preserve">
+    <value>Kullanıcı adı değişti</value>
+  </data>
+  <data name="administration_users" xml:space="preserve">
+    <value>Kullanıcılar</value>
+  </data>
+  <data name="administration_user_banned" xml:space="preserve">
+    <value>Kullanıcı yasaklandı</value>
+  </data>
+  <data name="administration_user_chat_mute" xml:space="preserve">
+    <value>{0} sohbet **edemiyor**.</value>
+  </data>
+  <data name="administration_user_chat_unmute" xml:space="preserve">
+    <value>{0} sohbet **edebiliyor**.</value>
+  </data>
+  <data name="administration_user_joined" xml:space="preserve">
+    <value>Kullanıcı katıldı</value>
+  </data>
+  <data name="administration_user_left" xml:space="preserve">
+    <value>Kullanıcı ayrıldı</value>
+  </data>
+  <data name="administration_user_muted" xml:space="preserve">
+    <value>{0}, metin ve sesli sohbetde **sessiz durumda**.</value>
+  </data>
+  <data name="administration_user_role_add" xml:space="preserve">
+    <value>Kullanıcının rolü eklendi</value>
+  </data>
+  <data name="administration_user_role_rem" xml:space="preserve">
+    <value>Kullanıcının rolü kaldırıldı</value>
+  </data>
+  <data name="administration_user_status_change" xml:space="preserve">
+    <value>{0} artık {1}</value>
+  </data>
+  <data name="administration_user_unmuted" xml:space="preserve">
+    <value>{0}, metin ve sesli sohbetde **sessiz durumda değil**.</value>
+  </data>
+  <data name="administration_user_vjoined" xml:space="preserve">
+    <value>{0}, {1} sesli kanalına katıldı.</value>
+  </data>
+  <data name="administration_user_vleft" xml:space="preserve">
+    <value>{0}, {1} sesli kanalından ayrıldı.</value>
+  </data>
+  <data name="administration_user_vmoved" xml:space="preserve">
+    <value>{0}, {1} kanalından {2} sesli kanalına taşındı.</value>
+  </data>
+  <data name="administration_user_voice_mute" xml:space="preserve">
+    <value>{0} **susturuldu**.</value>
+  </data>
+  <data name="administration_user_voice_unmute" xml:space="preserve">
+    <value>{0} **susturulması kaldırıldı**.</value>
+  </data>
+  <data name="administration_voice_chan_created" xml:space="preserve">
+    <value>Ses kanalı oluşturuldu</value>
+  </data>
+  <data name="administration_voice_chan_destroyed" xml:space="preserve">
+    <value>Ses kanalı yok edildi</value>
+  </data>
+  <data name="administration_vt_disabled" xml:space="preserve">
+    <value>Ses + metin özelliği devre dışı.</value>
+  </data>
+  <data name="administration_vt_enabled" xml:space="preserve">
+    <value>Ses + metin özelliği etkin.</value>
+  </data>
+  <data name="administration_vt_exit" xml:space="preserve">
+    <value>**Rolleri yönetme** ve/veya **Kanalları yönetme** iznim yok, Bu yüzden {0} sunucusunda &apos;ses + metin&apos; çalıştıramıyorum.</value>
+  </data>
+  <data name="administration_vt_no_admin" xml:space="preserve">
+    <value>Bu özelliği etkinleştiriyorsun/devre dışı bırakıyorsun ve **YÖNETİCİ izinlerine sahip değilim**. Bu bazı sorunlara neden olabilir ve daha sonra kendiniz metin kanallarını temizlemeklisiniz.</value>
+  </data>
+  <data name="administration_vt_perms" xml:space="preserve">
+    <value>Bu özelliği etkinleştirmek için en azından **rolleri yönetmek** ve **kanal izinlerini yönetmek** zorundayım.(Tercih edilen Yönetim izni)</value>
+  </data>
+  <data name="administration_xmuted_text" xml:space="preserve">
+    <value>Metin sohbetinde {0} kullanıcı</value>
+  </data>
+  <data name="administration_xmuted_text_and_voice" xml:space="preserve">
+    <value>Metin ve sesli sohbetinde {0} kullanıcı</value>
+  </data>
+  <data name="administration_xmuted_voice" xml:space="preserve">
+    <value>Sesli sohbetten {0} kullanıcı</value>
+  </data>
+  <data name="administration_sbdm" xml:space="preserve">
+    <value>{0} sunucusundan hafif bir şekilde yasaklandınız.
+Sebep: {1}</value>
+  </data>
+  <data name="administration_user_unbanned" xml:space="preserve">
+    <value>Kullanıcı yasağı kaldırıldı</value>
+  </data>
+  <data name="administration_migration_done" xml:space="preserve">
+    <value>Eski kayıtlar taşındı!</value>
+  </data>
+  <data name="adminsitration_migration_error" xml:space="preserve">
+    <value>Taşıma işlemi sırasında hata oluştu, daha fazla bilgi için bot konsolunu kontrol edin.</value>
+  </data>
+  <data name="administration_presence_updates" xml:space="preserve">
+    <value>Durum güncellemeleri</value>
+  </data>
+  <data name="administration_sb_user" xml:space="preserve">
+    <value>Kullanıcı hafif bir şekilde yasaklandı.</value>
+  </data>
+  <data name="gambling_awarded" xml:space="preserve">
+    <value>{1} &apos;e {0} ödül vermiş</value>
+  </data>
+  <data name="gambling_better_luck" xml:space="preserve">
+    <value>Bir dahaki sefere artık ^_^</value>
+  </data>
+  <data name="gambling_br_win" xml:space="preserve">
+    <value>Tebrik ederiz! {1} çevirdi ve {0} kazandı</value>
+  </data>
+  <data name="gambling_deck_reshuffled" xml:space="preserve">
+    <value>Deste yeniden düzenlendi.</value>
+  </data>
+  <data name="gambling_flipped" xml:space="preserve">
+    <value>{0} çevirdi.</value>
+    <comment>User flipped tails.</comment>
+  </data>
+  <data name="gambling_flip_guess" xml:space="preserve">
+    <value>Tahmin ettin! {0} kazandın</value>
+  </data>
+  <data name="gambling_flip_invalid" xml:space="preserve">
+    <value>Geçersiz numara belirtildi. 1 tanesini {0} madeni paraya çevirebilirsiniz.</value>
+  </data>
+  <data name="gambling_flowerreaction_desc" xml:space="preserve">
+    <value>{1} almak için bu mesaja {0} reaksiyon ekleyin. </value>
+  </data>
+  <data name="gambling_flowerreaction_footer" xml:space="preserve">
+    <value>Bu etkinlik {0} saat boyunca aktiftir.</value>
+  </data>
+  <data name="gambling_flowerreaction_title" xml:space="preserve">
+    <value>Çiçek reaksiyonu olayı başladı!</value>
+  </data>
+  <data name="gambling_gifted" xml:space="preserve">
+    <value>{0}&apos;dan {1}&apos;e hediye verdi</value>
+    <comment>X has gifted 15 flowers to Y</comment>
+  </data>
+  <data name="gambling_has" xml:space="preserve">
+    <value>{0}&apos;da {1} var</value>
+    <comment>X has Y flowers</comment>
+  </data>
+  <data name="gambling_heads" xml:space="preserve">
+    <value>Kafa</value>
+  </data>
+  <data name="gambling_leaderboard" xml:space="preserve">
+    <value>Lider listesi</value>
+  </data>
+  <data name="gambling_mass_award" xml:space="preserve">
+    <value>{2} rolünden {1} kullanıcıya {0} kazandı.</value>
+  </data>
+  <data name="gambling_max_bet_limit" xml:space="preserve">
+    <value>{0}&apos;dan fazla bahse giremezsiniz.</value>
+  </data>
+  <data name="gambling_min_bet_limit" xml:space="preserve">
+    <value>{0}&apos;dan daha az bahis oynayamazsınız</value>
+  </data>
+  <data name="gambling_not_enough" xml:space="preserve">
+    <value>Yeterli düzeyde {0} yok</value>
+  </data>
+  <data name="gambling_no_more_cards" xml:space="preserve">
+    <value>Destede artık kart yok.</value>
+  </data>
+  <data name="gambling_raffled_user" xml:space="preserve">
+    <value>Kullanıcı piyango çekti</value>
+  </data>
+  <data name="gambling_roll" xml:space="preserve">
+    <value>{0} çevrildi.</value>
+  </data>
+  <data name="gambling_slot_bet" xml:space="preserve">
+    <value>Bahis</value>
+  </data>
+  <data name="gambling_slot_jackpot" xml:space="preserve">
+    <value>Vay canına!!! Tebrik ederiz!!! x{0}</value>
+  </data>
+  <data name="gambling_slot_single" xml:space="preserve">
+    <value>Tek bir {0}, x{1}</value>
+  </data>
+  <data name="gambling_slot_three" xml:space="preserve">
+    <value>Vaov! Şanslı! Üç çeşit! x{0}</value>
+  </data>
+  <data name="gambling_slot_two" xml:space="preserve">
+    <value>Aferin! İki {0} - bahis x{1}</value>
+  </data>
+  <data name="gambling_slot_won" xml:space="preserve">
+    <value>Kazandı</value>
+  </data>
+  <data name="gambling_sneakygamestatus_desc" xml:space="preserve">
+    <value>Kullanıcılar {0} almak için gizli bir kod yazmalıdır.
+{1} saniye sürer. Kimseye söyleme. Shhh.</value>
+  </data>
+  <data name="gambling_sneakygamestatus_end" xml:space="preserve">
+    <value>GizliOyun etkinliği sona erdi. {0} kullanıcılar ödüllerini aldı.</value>
+  </data>
+  <data name="gambling_sneakygamestatus_title" xml:space="preserve">
+    <value>GizliOyunDurumu etkinliği başlatıldı</value>
+  </data>
+  <data name="gambling_tails" xml:space="preserve">
+    <value>Kuyruk</value>
+  </data>
+  <data name="gambling_take" xml:space="preserve">
+    <value>Başarıyla {1}&apos;den {0} aldı</value>
+  </data>
+  <data name="gambling_take_fail" xml:space="preserve">
+    <value>Kullanıcı {2} sayısına sahip olmadığından {1}&apos;ten {0} alamadı!</value>
+  </data>
+  <data name="help_back_to_toc" xml:space="preserve">
+    <value>Listenin başına dön</value>
+  </data>
+  <data name="help_bot_owner_only" xml:space="preserve">
+    <value>Sadece bot sahibi</value>
+  </data>
+  <data name="help_channel_permission" xml:space="preserve">
+    <value>{0} kanal izni gerektiriyor.</value>
+  </data>
+  <data name="help_cmdlist_donate" xml:space="preserve">
+    <value>Projeyi patreonda destekleyebilirsin:&lt;{0}&gt; ya da paypalde:&lt;{1}&gt;</value>
+  </data>
+  <data name="help_cmd_and_alias" xml:space="preserve">
+    <value>Komutlar ve takma adlar</value>
+  </data>
+  <data name="help_commandlist_regen" xml:space="preserve">
+    <value>Komut listesi yeniden oluşturuldu.</value>
+  </data>
+  <data name="help_commands_instr" xml:space="preserve">
+    <value>Belirli bir komut hakkinda yardim icin, {0}h &quot;Komut Adı&quot; bu şekilde kullanınız. (Örneğin: {0}h &gt;8ball).</value>
+  </data>
+  <data name="help_command_not_found" xml:space="preserve">
+    <value>Bu komutu bulamıyorum. Lütfen tekrar denemeden önce komutun var olduğunu doğrulayın.</value>
+  </data>
+  <data name="help_desc" xml:space="preserve">
+    <value>Tanıtım</value>
+  </data>
+  <data name="help_donate" xml:space="preserve">
+    <value>NadekoBot projesini destekleyebilirsiniz 
+ Patreon &lt;{0}&gt; yada
+ Paypal &lt;{1}&gt;
+ Mesajda discord adınızı veya kimliğini bırakmayı unutma.
+ 
+**Teşekkür ederim** ♥️</value>
+  </data>
+  <data name="help_guide" xml:space="preserve">
+    <value>**Komutların listesi**: &lt;{0}&gt;
+**Rehber ve dokümanlar barındırma sayfasında bulunabilir**: &lt;{1}&gt;</value>
+  </data>
+  <data name="help_list_of_commands" xml:space="preserve">
+    <value>Komutların listesi</value>
+  </data>
+  <data name="help_list_of_modules" xml:space="preserve">
+    <value>Modüllerin listesi</value>
+  </data>
+  <data name="help_modules_footer" xml:space="preserve">
+    <value>Modül komutlarının bir listesini görmek için &quot;{0}cmds Modül İsmi&quot; (Örneğin: {0}cmds Administration) şeklinde kullanmalısınız.</value>
+  </data>
+  <data name="help_module_not_found" xml:space="preserve">
+    <value>Bu modül mevcut değil.</value>
+  </data>
+  <data name="help_server_permission" xml:space="preserve">
+    <value>{0} sunucu izni gerektirir.</value>
+  </data>
+  <data name="help_table_of_contents" xml:space="preserve">
+    <value>İçindekiler</value>
+  </data>
+  <data name="help_usage" xml:space="preserve">
+    <value>Kullanım</value>
+  </data>
+  <data name="nsfw_autohentai_started" xml:space="preserve">
+    <value>Otomatik hentai başladı. Her {0} saniyede bir aşağıdaki etiketlerden biriyle yeniden yayınlanıyor:
+{1}</value>
+  </data>
+  <data name="nsfw_tag" xml:space="preserve">
+    <value>Etiket</value>
+  </data>
+  <data name="gambling_animal_race" xml:space="preserve">
+    <value>Hayvan yarışı</value>
+  </data>
+  <data name="gambling_animal_race_failed" xml:space="preserve">
+    <value>Yeterli katılımcı olmadığından başlatılamadı.</value>
+  </data>
+  <data name="gambling_animal_race_full" xml:space="preserve">
+    <value>Yarış doldu! Derhal başlıyoruz.</value>
+  </data>
+  <data name="gambling_animal_race_join" xml:space="preserve">
+    <value>{0} bir {1} olarak katıldı</value>
+  </data>
+  <data name="gambling_animal_race_join_bet" xml:space="preserve">
+    <value>{0} bir {1} olarak ve {2} bahisleriyle katıldı!</value>
+  </data>
+  <data name="gambling_animal_race_join_instr" xml:space="preserve">
+    <value>Yarışa katılmak için {0}jr yazın.</value>
+  </data>
+  <data name="gambling_animal_race_starting" xml:space="preserve">
+    <value>20 saniye içinde veya oda dolu olduğunda başlayarak.</value>
+  </data>
+  <data name="gambling_animal_race_starting_with_x" xml:space="preserve">
+    <value>{0} katılımcı ile başlıyor.</value>
+  </data>
+  <data name="gambling_animal_race_won" xml:space="preserve">
+    <value>{0} {1}. olarak yarışı kazandı!</value>
+  </data>
+  <data name="gambling_animal_race_won_money" xml:space="preserve">
+    <value>{0} {1}. olarak yarışı kazandı ve {2} aldı!</value>
+  </data>
+  <data name="gambling_dice_invalid_number" xml:space="preserve">
+    <value>Geçersiz numara belirtildi. Bir kerede {0} - {1} zar atabilirsiniz.</value>
+  </data>
+  <data name="gambling_dice_rolled" xml:space="preserve">
+    <value>{0} çevirdi</value>
+    <comment>Someone rolled 35</comment>
+  </data>
+  <data name="gambling_dice_rolled_num" xml:space="preserve">
+    <value>Zar atıldı: {0}</value>
+    <comment>Dice Rolled: 5</comment>
+  </data>
+  <data name="gambling_race_failed_starting" xml:space="preserve">
+    <value>Yarış başlatılamadı. Muhtemelen başka bir yarış çalışıyor.</value>
+  </data>
+  <data name="gambling_race_not_exist" xml:space="preserve">
+    <value>Bu sunucuda yarış yok</value>
+  </data>
+  <data name="gambling_second_larger_than_first" xml:space="preserve">
+    <value>İkinci numara birinciden büyük olmalıdır.</value>
+  </data>
+  <data name="gambling_changes_of_heart" xml:space="preserve">
+    <value>Aşkı değişti</value>
+  </data>
+  <data name="gambling_claimed_by" xml:space="preserve">
+    <value>tarafından talip talep etti.</value>
+  </data>
+  <data name="gambling_divorces" xml:space="preserve">
+    <value>Boşandı</value>
+    <comment>is that plural?</comment>
+  </data>
+  <data name="gambling_likes" xml:space="preserve">
+    <value>Beğendi</value>
+  </data>
+  <data name="gambling_price" xml:space="preserve">
+    <value>Fiyat</value>
+  </data>
+  <data name="gambling_waifus_none" xml:space="preserve">
+    <value>Henüz hiçbir talep de bulunulmadı.</value>
+  </data>
+  <data name="gambling_waifus_top_waifus" xml:space="preserve">
+    <value>En İyi Talipler</value>
+  </data>
+  <data name="gambling_waifu_affinity_already" xml:space="preserve">
+    <value>Çekiminiz zaten o talip ayarlıyken veya çekim yapmadığınız halde çekimliliğinizi kaldırmaya çalışıyorsunuz.</value>
+  </data>
+  <data name="gambling_waifu_affinity_changed" xml:space="preserve">
+    <value>Bağlılıkları {0}&apos;dan {1}&apos;e değiştirildi.
+
+*Bu ahlaki açıdan sorgulanabilir.*🤔</value>
+    <comment>Make sure to get the formatting right, and leave the thinking emoji</comment>
+  </data>
+  <data name="gambling_waifu_affinity_cooldown" xml:space="preserve">
+    <value>Benzeşimini tekrar değiştirmek için {0} saat ve {1} dakika beklemelisiniz.</value>
+  </data>
+  <data name="gambling_waifu_affinity_reset" xml:space="preserve">
+    <value>Benzeşim sıfırlandı. Artık sevdiğin bir insana sahip değilsin.</value>
+  </data>
+  <data name="gambling_waifu_affinity_set" xml:space="preserve">
+    <value>{0} &apos;ın talip olmasını istiyor. Aww &lt;3 </value>
+  </data>
+  <data name="gambling_waifu_claimed" xml:space="preserve">
+    <value>{1} için kendi talibi olarak {0} iddiasında bulundu!</value>
+  </data>
+  <data name="gambling_waifu_divorced_like" xml:space="preserve">
+    <value>Seni seven bir talipden boşandın. Seni kalpsiz canavar.
+{0} tazminat olarak {1} aldı.</value>
+  </data>
+  <data name="gambling_waifu_egomaniac" xml:space="preserve">
+    <value>Kendinize yakınlık kuramazsınız, sizi egomanyak.</value>
+  </data>
+  <data name="gambling_waifu_fulfilled" xml:space="preserve">
+    <value>🎉 Aşkları yerine getirildi! 🎉
+{0}&apos;un yeni durumu {1}!</value>
+  </data>
+  <data name="gambling_waifu_isnt_cheap" xml:space="preserve">
+    <value>Hiçbir talip bu kadar ucuz değil. Gerçek değeriniz düşük olsa dahi, en azından {0} ödemek zorundasınız.</value>
+  </data>
+  <data name="gambling_waifu_not_enough" xml:space="preserve">
+    <value>Talip talebinde bulunmak için {0} veya daha fazla ödeme yapmalısınız!</value>
+  </data>
+  <data name="gambling_waifu_not_yours" xml:space="preserve">
+    <value>Bu talip senin değil.</value>
+  </data>
+  <data name="gambling_waifu_not_yourself" xml:space="preserve">
+    <value>Kendinize talip edemezsiniz.</value>
+  </data>
+  <data name="gambling_waifu_recent_divorce" xml:space="preserve">
+    <value>Son zamanlarda boşandın. Boşanmak için {0} saat ve {1} dakika beklemelisiniz.</value>
+  </data>
+  <data name="gambling_nobody" xml:space="preserve">
+    <value>Kimse</value>
+  </data>
+  <data name="gambling_waifu_divorced_notlike" xml:space="preserve">
+    <value>Senden hoşlanmayan bir talib den boşandın. {0} geri aldınız.</value>
+  </data>
+  <data name="games_8ball" xml:space="preserve">
+    <value>8Top</value>
+  </data>
+  <data name="games_acrophobia" xml:space="preserve">
+    <value>Akrofobi</value>
+  </data>
+  <data name="games_acro_ended_no_sub" xml:space="preserve">
+    <value>Oyun hiç sonuç vermeden sona erdi.</value>
+  </data>
+  <data name="games_acro_no_votes_cast" xml:space="preserve">
+    <value>Oy yok. Oyun kazanan olmadan sona erdi.</value>
+  </data>
+  <data name="games_acro_nym_was" xml:space="preserve">
+    <value>Kısaltma {0} idi.</value>
+  </data>
+  <data name="games_acro_running" xml:space="preserve">
+    <value>Akrofobi oyunu zaten bu kanalda çalışıyor.</value>
+  </data>
+  <data name="games_acro_started" xml:space="preserve">
+    <value>Oyun başladı. Aşağıdaki kısaltma ile bir cümle oluşturun: {0}.</value>
+  </data>
+  <data name="games_acro_started_footer" xml:space="preserve">
+    <value>Gönderi yapmak için {0} saniye kaldı.</value>
+  </data>
+  <data name="games_acro_submit" xml:space="preserve">
+    <value>{0} cezalarını gönderdiler. ({1} toplam)</value>
+  </data>
+  <data name="games_acro_vote" xml:space="preserve">
+    <value>Gönderi sayısını yazarak oy verin</value>
+  </data>
+  <data name="games_acro_vote_cast" xml:space="preserve">
+    <value>{0} oy kullandı!</value>
+  </data>
+  <data name="games_acro_winner" xml:space="preserve">
+    <value>Kazanan {0}, {1} puanla.</value>
+  </data>
+  <data name="games_acro_winner_only" xml:space="preserve">
+    <value>{0} kazanan!, gönderim yapan tek kullanıcı olmakla birlikte.</value>
+  </data>
+  <data name="games_question" xml:space="preserve">
+    <value>Soru</value>
+  </data>
+  <data name="games_rps_draw" xml:space="preserve">
+    <value>Beraberlik! Her ikisi de {0}</value>
+  </data>
+  <data name="games_rps_win" xml:space="preserve">
+    <value>{0} kazandı! {1} atıyor {2}</value>
+  </data>
+  <data name="games_submissions_closed" xml:space="preserve">
+    <value>Gönderilenler kapalı</value>
+  </data>
+  <data name="gambling_animal_race_already_started" xml:space="preserve">
+    <value>Hayvan yarışı zaten çalışıyor.</value>
+  </data>
+  <data name="gambling_total_average" xml:space="preserve">
+    <value>Toplam: {0} Ortalama: {1}</value>
+  </data>
+  <data name="games_category" xml:space="preserve">
+    <value>Kategori</value>
+  </data>
+  <data name="games_cleverbot_disabled" xml:space="preserve">
+    <value>Bu sunucudaki cleverbot devre dışı bırakıldı.</value>
+  </data>
+  <data name="games_cleverbot_enabled" xml:space="preserve">
+    <value>Bu sunucudaki cleverbot etkinleştirildi.</value>
+  </data>
+  <data name="games_curgen_disabled" xml:space="preserve">
+    <value>Bu kanalda para birimi oluşturma devre dışı.</value>
+  </data>
+  <data name="games_curgen_enabled" xml:space="preserve">
+    <value>Para birimi oluşturma, bu kanalda etkinleştirildi.</value>
+  </data>
+  <data name="games_curgen_pl" xml:space="preserve">
+    <value>{0} rastgele {1} ortaya çıktı!</value>
+    <comment>plural
+Fuzzy</comment>
+  </data>
+  <data name="games_curgen_sn" xml:space="preserve">
+    <value>Rastgele bir {0} ortaya çıktı!</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="games_failed_loading_question" xml:space="preserve">
+    <value>Bir soru yüklenemedi.</value>
+  </data>
+  <data name="games_game_started" xml:space="preserve">
+    <value>Oyun başladı</value>
+  </data>
+  <data name="games_hangman_game_started" xml:space="preserve">
+    <value>Adam asmaca oyunu başladı</value>
+  </data>
+  <data name="games_hangman_running" xml:space="preserve">
+    <value>Adam asmaca oyunu zaten bu kanalda çalışıyor.</value>
+  </data>
+  <data name="games_hangman_start_errored" xml:space="preserve">
+    <value>Adam asmaca başlatılırken hata verdi.</value>
+  </data>
+  <data name="games_hangman_types" xml:space="preserve">
+    <value>&quot;{0}hangman&quot; terim türlerinin listesi:</value>
+  </data>
+  <data name="games_leaderboard" xml:space="preserve">
+    <value>Lider listesi</value>
+  </data>
+  <data name="games_not_enough" xml:space="preserve">
+    <value>Yeterli düzeyde {0} yok</value>
+  </data>
+  <data name="games_no_results" xml:space="preserve">
+    <value>Sonuç yok</value>
+  </data>
+  <data name="games_picked" xml:space="preserve">
+    <value>{0} adet topladı</value>
+    <comment>Kwoth picked 5*</comment>
+  </data>
+  <data name="games_planted" xml:space="preserve">
+    <value>{0},{1} dikti.</value>
+    <comment>Kwoth planted 5*</comment>
+  </data>
+  <data name="games_trivia_already_running" xml:space="preserve">
+    <value>Oyuncak oyunu zaten bu sunucuda çalışıyor.</value>
+  </data>
+  <data name="games_trivia_game" xml:space="preserve">
+    <value>Oyuncak oyunu</value>
+  </data>
+  <data name="games_trivia_guess" xml:space="preserve">
+    <value>{0} tahmin etti! Cevap şuydu: {1}</value>
+  </data>
+  <data name="games_trivia_none" xml:space="preserve">
+    <value>Bu sunucuda hiçbir oyuncak çalışmıyor.</value>
+  </data>
+  <data name="games_trivia_points" xml:space="preserve">
+    <value>{0}&apos;da {1} puan var</value>
+  </data>
+  <data name="games_trivia_stopping" xml:space="preserve">
+    <value>Bu sorunun ardından bitiriyorum.</value>
+  </data>
+  <data name="games_trivia_times_up" xml:space="preserve">
+    <value>Süre doldu! Doğru cevap {0} idi</value>
+  </data>
+  <data name="games_trivia_win" xml:space="preserve">
+    <value>{0} tahmin etti ve oyunu kazandı! Cevap şuydu: {1}</value>
+  </data>
+  <data name="games_ttt_against_yourself" xml:space="preserve">
+    <value>Kendinize karşı oynayamazsınız.</value>
+  </data>
+  <data name="games_ttt_already_running" xml:space="preserve">
+    <value>TicTacToe Oyunu zaten bu kanalda çalışıyor.</value>
+  </data>
+  <data name="games_ttt_a_draw" xml:space="preserve">
+    <value>Bir çizim!</value>
+  </data>
+  <data name="games_ttt_created" xml:space="preserve">
+    <value>TicTacToe bir oyun oluşturdu.</value>
+  </data>
+  <data name="games_ttt_has_won" xml:space="preserve">
+    <value>{0} kazandı!</value>
+  </data>
+  <data name="games_ttt_matched_three" xml:space="preserve">
+    <value>Eşleşen üç</value>
+  </data>
+  <data name="games_ttt_no_moves" xml:space="preserve">
+    <value>Hareket yok!</value>
+  </data>
+  <data name="games_ttt_time_expired" xml:space="preserve">
+    <value>Zaman doldu!</value>
+  </data>
+  <data name="games_ttt_users_move" xml:space="preserve">
+    <value>{0}&apos;un hareketi</value>
+  </data>
+  <data name="games_vs" xml:space="preserve">
+    <value>{0} ile {1} karşılaşıyor</value>
+  </data>
+  <data name="music_attempting_to_queue" xml:space="preserve">
+    <value>Sıraya {0} şarkı ekleniyor...</value>
+  </data>
+  <data name="music_autoplay_disabled" xml:space="preserve">
+    <value>Otomatik Oynatıcı devre dışı.</value>
+  </data>
+  <data name="music_autoplay_enabled" xml:space="preserve">
+    <value>Otomatik Oynatıcı etkin.</value>
+  </data>
+  <data name="music_defvol_set" xml:space="preserve">
+    <value>Varsayılan müzik sesi {0}%</value>
+  </data>
+  <data name="music_dir_queue_complete" xml:space="preserve">
+    <value>Dizin kuyruğu tamamlandı.</value>
+  </data>
+  <data name="music_fairplay" xml:space="preserve">
+    <value>adil oynatıcı</value>
+  </data>
+  <data name="music_finished_song" xml:space="preserve">
+    <value>Şarkı bitti</value>
+  </data>
+  <data name="music_fp_disabled" xml:space="preserve">
+    <value>Adil oynatıcı devre dışı.</value>
+  </data>
+  <data name="music_fp_enabled" xml:space="preserve">
+    <value>Adil oynatıcı etkin.</value>
+  </data>
+  <data name="music_from_position" xml:space="preserve">
+    <value>Konumdan</value>
+  </data>
+  <data name="music_id" xml:space="preserve">
+    <value>Kimlik</value>
+  </data>
+  <data name="music_invalid_input" xml:space="preserve">
+    <value>Geçersiz giriş.</value>
+  </data>
+  <data name="music_max_playtime_none" xml:space="preserve">
+    <value>Şu anda maksimum oynatıcı zaman limiti yok.</value>
+  </data>
+  <data name="music_max_playtime_set" xml:space="preserve">
+    <value>Maksimum oynatıcı zaman limiti {0} saniye(ler) olarak ayarlandı.</value>
+  </data>
+  <data name="music_max_queue_unlimited" xml:space="preserve">
+    <value>Maksimum müzik sıra limiti, limitsiz olarak ayarlandı.</value>
+  </data>
+  <data name="music_max_queue_x" xml:space="preserve">
+    <value>Maksimum şarkı sıra limiti {0} şarkı(lar) olarak ayarlandı.</value>
+  </data>
+  <data name="music_must_be_in_voice" xml:space="preserve">
+    <value>Bu sunucunun bir ses kanalına ihtiyacın var.</value>
+  </data>
+  <data name="music_name" xml:space="preserve">
+    <value>İsim</value>
+  </data>
+  <data name="music_now_playing" xml:space="preserve">
+    <value>Şu anda yürütülüyor</value>
+  </data>
+  <data name="music_no_player" xml:space="preserve">
+    <value>Şu anda aktif bir müzik oynatıcısı yok.</value>
+  </data>
+  <data name="music_no_search_results" xml:space="preserve">
+    <value>Aranılan sonuç bulunamadı.</value>
+  </data>
+  <data name="music_paused" xml:space="preserve">
+    <value>Müzik oynatıcısı duraklatıldı.</value>
+  </data>
+  <data name="music_player_queue" xml:space="preserve">
+    <value>Oynatıcı Sıra Listesi - Sayfa {0}/{1}</value>
+  </data>
+  <data name="music_playing_song" xml:space="preserve">
+    <value>Şarkı oynatılıyor</value>
+  </data>
+  <data name="music_playlists" xml:space="preserve">
+    <value>`#{0}` - **{1}** *{2}* tarafından ({3} müzik)</value>
+  </data>
+  <data name="music_playlists_page" xml:space="preserve">
+    <value>Kayıtlı çalma listelerinin {0}. sayfası.</value>
+  </data>
+  <data name="music_playlist_deleted" xml:space="preserve">
+    <value>Çalma listesi silindi.</value>
+  </data>
+  <data name="music_playlist_delete_fail" xml:space="preserve">
+    <value>Bu çalma listesini silmek başarısız oldu.Ya mevcut değil yada oluşturan siz değilsiniz.</value>
+  </data>
+  <data name="music_playlist_id_not_found" xml:space="preserve">
+    <value>Bu id&apos;ye sahip oynatma listesi mevcut değil.</value>
+  </data>
+  <data name="music_playlist_queue_complete" xml:space="preserve">
+    <value>Oynatma listesi tamamlandı.</value>
+  </data>
+  <data name="music_playlist_saved" xml:space="preserve">
+    <value>Oynatma listesi kayıt edildi.</value>
+  </data>
+  <data name="music_play_limit" xml:space="preserve">
+    <value>Limit {0}</value>
+  </data>
+  <data name="music_queue" xml:space="preserve">
+    <value>Sıra</value>
+  </data>
+  <data name="music_queued_song" xml:space="preserve">
+    <value>Şarkı sıraya eklendi.</value>
+  </data>
+  <data name="music_queue_cleared" xml:space="preserve">
+    <value>Müzik sırası temizlendi.</value>
+  </data>
+  <data name="music_queue_full" xml:space="preserve">
+    <value>Sıra {0}/{0} dolu.</value>
+  </data>
+  <data name="music_removed_song" xml:space="preserve">
+    <value>Şu numaradaki şarkı kaldırıldı.</value>
+    <comment>context: &quot;removed song #5&quot;</comment>
+  </data>
+  <data name="music_repeating_cur_song" xml:space="preserve">
+    <value>Geçerli şarkı tekrarlanıyor</value>
+  </data>
+  <data name="music_repeating_playlist" xml:space="preserve">
+    <value>Oynatma listesi tekrarlanıyor</value>
+  </data>
+  <data name="music_repeating_track" xml:space="preserve">
+    <value>Müzik parçası tekrarlanıyor</value>
+  </data>
+  <data name="music_repeating_track_stopped" xml:space="preserve">
+    <value>Geçerli müzik parçası tekrarı durduruldu.</value>
+  </data>
+  <data name="music_resumed" xml:space="preserve">
+    <value>Müzik oynatıcısı yürütülüyor.</value>
+  </data>
+  <data name="music_rpl_disabled" xml:space="preserve">
+    <value>Çalma listesi tekrarı devre dışı</value>
+  </data>
+  <data name="music_rpl_enabled" xml:space="preserve">
+    <value>Çalma listesi tekrarı etkin.</value>
+  </data>
+  <data name="music_set_music_channel" xml:space="preserve">
+    <value>Şimdi bu kanaldaki şarkıların çalınması, bitmesi, duraklatılması ve çıkarılmasını yapacağım.</value>
+  </data>
+  <data name="music_skipped_to" xml:space="preserve">
+    <value>`{0}:{1}` atlandı</value>
+  </data>
+  <data name="music_songs_shuffled" xml:space="preserve">
+    <value>Şarkılar karıştırıldı</value>
+  </data>
+  <data name="music_song_moved" xml:space="preserve">
+    <value>Şarkı taşındı</value>
+  </data>
+  <data name="music_time_format" xml:space="preserve">
+    <value>{0} saat {1} dakika {2} saniye</value>
+  </data>
+  <data name="music_to_position" xml:space="preserve">
+    <value>Konumlandır</value>
+  </data>
+  <data name="music_unlimited" xml:space="preserve">
+    <value>limitsiz</value>
+  </data>
+  <data name="music_volume_input_invalid" xml:space="preserve">
+    <value>Ses düzeyi 0 ile 100 arasında olmalıdır.</value>
+  </data>
+  <data name="music_volume_set" xml:space="preserve">
+    <value>Ses düzeyi {0}% olarak ayarlandı.</value>
+  </data>
+  <data name="permissions_acm_disable" xml:space="preserve">
+    <value>{0} kanalı için TÜM MODÜLLERİN kullanımı devre dışı bırakıldı.</value>
+  </data>
+  <data name="permissions_acm_enable" xml:space="preserve">
+    <value>{0} kanalı için TÜM MODÜLLERİN kullanımı etkinleştirdi.</value>
+  </data>
+  <data name="permissions_allowed" xml:space="preserve">
+    <value>İzin verildi</value>
+  </data>
+  <data name="permissions_arm_disable" xml:space="preserve">
+    <value>{0} rolü için TÜM MODÜLLERİN kullanımı devre dışı bırakıldı.</value>
+  </data>
+  <data name="permissions_arm_enable" xml:space="preserve">
+    <value>{0} rolü için TÜM MODÜLLERİN kullanımı etkinleştirdi.</value>
+  </data>
+  <data name="permissions_asm_disable" xml:space="preserve">
+    <value>Bu sunucudaki TÜM MODÜLLERİN kullanımı devre dışı bırakıldı.</value>
+  </data>
+  <data name="permissions_asm_enable" xml:space="preserve">
+    <value>Bu sunucudaki TÜM MODÜLLERİN kullanımı etkinleştirdi.</value>
+  </data>
+  <data name="permissions_aum_disable" xml:space="preserve">
+    <value>{0} kullanıcısı için TÜM MODÜLLERİN kullanımı devre dışı bırakıldı.</value>
+  </data>
+  <data name="permissions_aum_enable" xml:space="preserve">
+    <value>{0} kullanıcısı için TÜM MODÜLLERİN kullanımı etkinleştirdi.</value>
+  </data>
+  <data name="permissions_blacklisted" xml:space="preserve">
+    <value>{0} adlı ve {1} id&apos;li kullanıcı karalisteye alındı.</value>
+  </data>
+  <data name="permissions_cmdcd_add" xml:space="preserve">
+    <value>Komut {0} şimdi {1}&apos;lik bir bekleme süresine sahip.</value>
+  </data>
+  <data name="permissions_cmdcd_cleared" xml:space="preserve">
+    <value>{0} komutunun şimdi bir bekleme süresi yok ve mevcut tüm bekleme süreleri temizlendi.</value>
+  </data>
+  <data name="permissions_cmdcd_none" xml:space="preserve">
+    <value>Komut çağırma süresi yok.</value>
+  </data>
+  <data name="permissions_command_costs" xml:space="preserve">
+    <value>Komut maliyetleri</value>
+  </data>
+  <data name="permissions_cx_disable" xml:space="preserve">
+    <value>{2} kanalında {0} {1} kullanımı devre dışı bırakıldı.</value>
+  </data>
+  <data name="permissions_cx_enable" xml:space="preserve">
+    <value>{2} kanalında {0} {1} kullanımı etkinleştirildi.</value>
+  </data>
+  <data name="permissions_denied" xml:space="preserve">
+    <value>Reddedildi</value>
+  </data>
+  <data name="permissions_filter_word_add" xml:space="preserve">
+    <value>Filtrelenmiş kelimeler listesine {0} kelimesi eklendi.</value>
+  </data>
+  <data name="permissions_filter_word_list" xml:space="preserve">
+    <value>Filtrelenmiş sözler listesi</value>
+  </data>
+  <data name="permissions_filter_word_remove" xml:space="preserve">
+    <value>Filtrelenmiş kelimeler listesinden {0} kelimesi kaldırıldı.</value>
+  </data>
+  <data name="permissions_invalid_second_param_between" xml:space="preserve">
+    <value>Geçersiz ikinci parametre. ({0} ile {1} arasındaki bir sayı olmalı)</value>
+  </data>
+  <data name="permissions_invite_filter_channel_off" xml:space="preserve">
+    <value>Davet filtreleme bu kanal üzerinde devre dışı.</value>
+  </data>
+  <data name="permissions_invite_filter_channel_on" xml:space="preserve">
+    <value>Davet filtreleme bu kanal üzerinde etkin.</value>
+  </data>
+  <data name="permissions_invite_filter_server_off" xml:space="preserve">
+    <value>Davet filtreleme bu sunucu üzerinde devre dışı.</value>
+  </data>
+  <data name="permissions_invite_filter_server_on" xml:space="preserve">
+    <value>Davet filtreleme bu sunucu üzerinde etkin.</value>
+  </data>
+  <data name="permissions_moved_permission" xml:space="preserve">
+    <value>{0}, #{1}&apos;den #{2}&apos;ye taşındı</value>
+  </data>
+  <data name="permissions_not_found" xml:space="preserve">
+    <value>{0} dizininde izin bulamıyor.</value>
+  </data>
+  <data name="permissions_no_costs" xml:space="preserve">
+    <value>Maliyet ayarlanmadı.</value>
+  </data>
+  <data name="permissions_of_command" xml:space="preserve">
+    <value>komut</value>
+    <comment>Gen (of command)</comment>
+  </data>
+  <data name="permissions_of_module" xml:space="preserve">
+    <value>modül</value>
+    <comment>Gen. (of module)</comment>
+  </data>
+  <data name="permissions_page" xml:space="preserve">
+    <value>İzinler sayfası {0}</value>
+  </data>
+  <data name="permissions_permrole" xml:space="preserve">
+    <value>Geçerli izin rolü {0}.</value>
+  </data>
+  <data name="permissions_permrole_changed" xml:space="preserve">
+    <value>Kullanıcılar artık izinleri düzenlemek için {0} rolü talep ediyor.</value>
+  </data>
+  <data name="permissions_perm_out_of_range" xml:space="preserve">
+    <value>Bu dizinde izin bulunamadı.</value>
+  </data>
+  <data name="permissions_removed" xml:space="preserve">
+    <value>Izin kaldırıldı #{0} - {1}</value>
+  </data>
+  <data name="permissions_rx_disable" xml:space="preserve">
+    <value>{2} rolü için {0} {1} kullanımını devre dışı bırakıldı.</value>
+  </data>
+  <data name="permissions_rx_enable" xml:space="preserve">
+    <value>{2} rolü için {0} {1} kullanımını etkinleştirildi.</value>
+  </data>
+  <data name="permissions_sec" xml:space="preserve">
+    <value>sn.</value>
+    <comment>Short of seconds.</comment>
+  </data>
+  <data name="permissions_sx_disable" xml:space="preserve">
+    <value>Bu sunucuda {0} {1} kullanımını devre dışı bırakıldı.</value>
+  </data>
+  <data name="permissions_sx_enable" xml:space="preserve">
+    <value>Bu sunucuda {0} {1} kullanımı etkinleştirildi.</value>
+  </data>
+  <data name="permissions_unblacklisted" xml:space="preserve">
+    <value>{0} Kimliği {1} ile kara listeden kaldırıldı</value>
+  </data>
+  <data name="permissions_uneditable" xml:space="preserve">
+    <value>düzenlenemez</value>
+  </data>
+  <data name="permissions_ux_disable" xml:space="preserve">
+    <value>{2} kullanıcısı için {0} {1} kullanımı devre dışı bırakıldı.</value>
+  </data>
+  <data name="permissions_ux_enable" xml:space="preserve">
+    <value>{2} kullanıcısı için {0} {1} kullanımı etkinleştirildi.</value>
+  </data>
+  <data name="permissions_verbose_false" xml:space="preserve">
+    <value>Artık izin uyarıları göstermeyeceğim.</value>
+  </data>
+  <data name="permissions_verbose_true" xml:space="preserve">
+    <value>Şimdi izin uyarılarını göstereceğim.</value>
+  </data>
+  <data name="permissions_word_filter_channel_off" xml:space="preserve">
+    <value>Bu kanalda kelime filtreleme devre dışı.</value>
+  </data>
+  <data name="permissions_word_filter_channel_on" xml:space="preserve">
+    <value>Bu kanalda kelime filtreleme etkin.</value>
+  </data>
+  <data name="permissions_word_filter_server_off" xml:space="preserve">
+    <value>Bu sunucuda kelime filtreleme özelliği devre dışı.</value>
+  </data>
+  <data name="permissions_word_filter_server_on" xml:space="preserve">
+    <value>Bu sunucuda kelime filtreleme özelliği etkin.</value>
+  </data>
+  <data name="searches_abilities" xml:space="preserve">
+    <value>Yetenekler</value>
+  </data>
+  <data name="searches_anime_no_fav" xml:space="preserve">
+    <value>Henüz favori anime yok</value>
+  </data>
+  <data name="searches_atl_ad_started" xml:space="preserve">
+    <value>Bu kanaldaki mesajların otomatik çevirisi başlatıldı. Kullanıcı mesajları otomatik olarak silinecek.</value>
+  </data>
+  <data name="searches_atl_removed" xml:space="preserve">
+    <value>Otomatik-çeviri diliniz kaldırıldı.</value>
+  </data>
+  <data name="searches_atl_set" xml:space="preserve">
+    <value>Otomatik çevir diliniz {0}&gt;{1} olarak ayarlandı.</value>
+  </data>
+  <data name="searches_atl_started" xml:space="preserve">
+    <value>Bu kanaldaki mesajların otomatik çevirisi başlatıldı.</value>
+  </data>
+  <data name="searches_atl_stopped" xml:space="preserve">
+    <value>Bu kanaldaki mesajların otomatik çevirisini durduruldu.</value>
+  </data>
+  <data name="searches_bad_input_format" xml:space="preserve">
+    <value>Bozuk giriş biçimi veya bir şeyler ters gitti.</value>
+  </data>
+  <data name="searches_card_not_found" xml:space="preserve">
+    <value>Kartı bulamadım.</value>
+  </data>
+  <data name="searches_catfact" xml:space="preserve">
+    <value>gerçek</value>
+  </data>
+  <data name="searches_chapters" xml:space="preserve">
+    <value>Bölümler</value>
+  </data>
+  <data name="searches_comic_number" xml:space="preserve">
+    <value>Komik #</value>
+  </data>
+  <data name="searches_compet_loses" xml:space="preserve">
+    <value>Rekabetçi kayıpları</value>
+  </data>
+  <data name="searches_compet_played" xml:space="preserve">
+    <value>Rekabetçi oynadı</value>
+  </data>
+  <data name="searches_compet_rank" xml:space="preserve">
+    <value>Rekabetçi sıralaması</value>
+  </data>
+  <data name="searches_compet_wins" xml:space="preserve">
+    <value>Rekabetçi Kazançları</value>
+  </data>
+  <data name="searches_completed" xml:space="preserve">
+    <value>Tamamlandı</value>
+  </data>
+  <data name="searches_condition" xml:space="preserve">
+    <value>Şart</value>
+  </data>
+  <data name="searches_cost" xml:space="preserve">
+    <value>Maliyet</value>
+  </data>
+  <data name="searches_date" xml:space="preserve">
+    <value>Tarih</value>
+  </data>
+  <data name="searches_define" xml:space="preserve">
+    <value>Tanımla:</value>
+  </data>
+  <data name="searches_dropped" xml:space="preserve">
+    <value>Bırakıldı</value>
+  </data>
+  <data name="searches_episodes" xml:space="preserve">
+    <value>Bölümler</value>
+  </data>
+  <data name="searches_error_occured" xml:space="preserve">
+    <value>Hata oluştu.</value>
+  </data>
+  <data name="searches_example" xml:space="preserve">
+    <value>Örnek</value>
+  </data>
+  <data name="searches_failed_finding_anime" xml:space="preserve">
+    <value>Animu bulunamadı.</value>
+  </data>
+  <data name="searches_failed_finding_manga" xml:space="preserve">
+    <value>Mango bulunamadı.</value>
+  </data>
+  <data name="searches_genres" xml:space="preserve">
+    <value>Türler</value>
+  </data>
+  <data name="searches_hashtag_error" xml:space="preserve">
+    <value>Bu etiket için bir tanım bulunamadı.</value>
+  </data>
+  <data name="searches_height_weight" xml:space="preserve">
+    <value>Boy/Kilo</value>
+  </data>
+  <data name="searches_height_weight_val" xml:space="preserve">
+    <value>{0}m/{1}kg</value>
+  </data>
+  <data name="searches_humidity" xml:space="preserve">
+    <value>Nem</value>
+  </data>
+  <data name="searches_image_search_for" xml:space="preserve">
+    <value>Resim araması:</value>
+  </data>
+  <data name="searches_imdb_fail" xml:space="preserve">
+    <value>Bu filmi bulamadım.</value>
+  </data>
+  <data name="searches_invalid_lang" xml:space="preserve">
+    <value>Geçersiz kaynak veya hedef dili.</value>
+  </data>
+  <data name="searches_jokes_not_loaded" xml:space="preserve">
+    <value>Şakalar yüklenmedi.</value>
+  </data>
+  <data name="searches_latlong" xml:space="preserve">
+    <value>Enlem/Boylam</value>
+  </data>
+  <data name="searches_level" xml:space="preserve">
+    <value>Seviye</value>
+  </data>
+  <data name="searches_list_of_place_tags" xml:space="preserve">
+    <value>{0}place etiketlerinin listesi</value>
+    <comment>Don&apos;t translate {0}place</comment>
+  </data>
+  <data name="searches_location" xml:space="preserve">
+    <value>Lokasyon</value>
+  </data>
+  <data name="searches_magicitems_not_loaded" xml:space="preserve">
+    <value>Büyülü eşyalar yüklenmedi.</value>
+  </data>
+  <data name="searches_mal_profile" xml:space="preserve">
+    <value>{0} adlı kişinin MAL profili</value>
+  </data>
+  <data name="searches_mashape_api_missing" xml:space="preserve">
+    <value>Bot sahibi MashapeApiKey belirtmedi. Bu işlevi kullanamazsınız.</value>
+  </data>
+  <data name="searches_min_max" xml:space="preserve">
+    <value>Min/Maks</value>
+  </data>
+  <data name="searches_no_channel_found" xml:space="preserve">
+    <value>Kanal bulunamadı.</value>
+  </data>
+  <data name="searches_no_results" xml:space="preserve">
+    <value>Sonuç bulunamadı.</value>
+  </data>
+  <data name="searches_on_hold" xml:space="preserve">
+    <value>Beklemede</value>
+  </data>
+  <data name="searches_original_url" xml:space="preserve">
+    <value>Orjinal url</value>
+  </data>
+  <data name="searches_osu_api_key" xml:space="preserve">
+    <value>Bir osu! API anahtarı gerekiyor.</value>
+  </data>
+  <data name="searches_osu_failed" xml:space="preserve">
+    <value>Başarısız osu! imza.</value>
+  </data>
+  <data name="searches_over_x" xml:space="preserve">
+    <value>{0} resimler üzerinde bulundu. Rastgele {0} gösteriliyor.</value>
+  </data>
+  <data name="searches_ow_user_not_found" xml:space="preserve">
+    <value>Kullanıcı bulunamadı! Lütfen tekrar denemeden önce Bölge ve Savaşçı etiketini kontrol edin.</value>
+  </data>
+  <data name="searches_plan_to_watch" xml:space="preserve">
+    <value>İzlemeyi planla</value>
+  </data>
+  <data name="searches_platform" xml:space="preserve">
+    <value>Platform</value>
+  </data>
+  <data name="searches_pokemon_ability_none" xml:space="preserve">
+    <value>Hiçbir yetenek bulunamadı.</value>
+  </data>
+  <data name="searches_pokemon_none" xml:space="preserve">
+    <value>Pokemon bulunamadı.</value>
+  </data>
+  <data name="searches_profile_link" xml:space="preserve">
+    <value>Profil adresi:</value>
+  </data>
+  <data name="searches_quality" xml:space="preserve">
+    <value>Kalite:</value>
+  </data>
+  <data name="searches_quick_playtime" xml:space="preserve">
+    <value>Normal maç oynama süresi</value>
+  </data>
+  <data name="searches_quick_wins" xml:space="preserve">
+    <value>Normal maç kazanma</value>
+  </data>
+  <data name="searches_rating" xml:space="preserve">
+    <value>Değerlendirme</value>
+  </data>
+  <data name="searches_score" xml:space="preserve">
+    <value>Skor:</value>
+  </data>
+  <data name="searches_search_for" xml:space="preserve">
+    <value>Arama:</value>
+  </data>
+  <data name="searches_shorten_fail" xml:space="preserve">
+    <value>URL kısaltılamadı..</value>
+  </data>
+  <data name="searches_short_url" xml:space="preserve">
+    <value>Kısa URL</value>
+  </data>
+  <data name="searches_something_went_wrong" xml:space="preserve">
+    <value>Bir şeyler yanlış gitti.</value>
+  </data>
+  <data name="searches_specify_search_params" xml:space="preserve">
+    <value>Lütfen arama parametrelerini belirtin.</value>
+  </data>
+  <data name="searches_status" xml:space="preserve">
+    <value>Durum</value>
+  </data>
+  <data name="searches_store_url" xml:space="preserve">
+    <value>Mağaza url</value>
+  </data>
+  <data name="searches_streamer_offline" xml:space="preserve">
+    <value>Yayıncı {0} çevrimdışı.</value>
+  </data>
+  <data name="searches_streamer_online" xml:space="preserve">
+    <value>Yayıncı {0}, {1} izleyici ile çevrimiçi.</value>
+  </data>
+  <data name="searches_streams_following" xml:space="preserve">
+    <value>Bu sunucudaki {0} yayıncısını takip ediyorsunuz.</value>
+  </data>
+  <data name="searches_streams_none" xml:space="preserve">
+    <value>Bu sunucuda herhangi bir yayıncıyı takip etmiyorsunuz.</value>
+  </data>
+  <data name="searches_stream_no" xml:space="preserve">
+    <value>Böyle bir yayın yok.</value>
+  </data>
+  <data name="searches_stream_not_exist" xml:space="preserve">
+    <value>Yayın muhtemelen mevcut değil.</value>
+  </data>
+  <data name="searches_stream_removed" xml:space="preserve">
+    <value>{0} yayıncısının ({1}) bildirimlerden kaldırdı.</value>
+  </data>
+  <data name="searches_stream_tracked" xml:space="preserve">
+    <value>Durum değiştiğinde bu kanalı bilgilendireceğim.</value>
+  </data>
+  <data name="searches_sunrise" xml:space="preserve">
+    <value>Gün doğumu</value>
+  </data>
+  <data name="searches_sunset" xml:space="preserve">
+    <value>Gün batımı</value>
+  </data>
+  <data name="searches_temperature" xml:space="preserve">
+    <value>Sıcaklık</value>
+  </data>
+  <data name="searches_title" xml:space="preserve">
+    <value>Başlık:</value>
+  </data>
+  <data name="searches_top_3_fav_anime" xml:space="preserve">
+    <value>En çok sevilen 3 anime:</value>
+  </data>
+  <data name="searches_translation" xml:space="preserve">
+    <value>Çeviri:</value>
+  </data>
+  <data name="searches_types" xml:space="preserve">
+    <value>Tipler</value>
+  </data>
+  <data name="searches_ud_error" xml:space="preserve">
+    <value>Bu terim için tanım bulma başarısız.</value>
+  </data>
+  <data name="searches_url" xml:space="preserve">
+    <value>Url</value>
+  </data>
+  <data name="searches_viewers" xml:space="preserve">
+    <value>İzleyici</value>
+  </data>
+  <data name="searches_watching" xml:space="preserve">
+    <value>Seyret</value>
+  </data>
+  <data name="searches_wikia_error" xml:space="preserve">
+    <value>Belirtilen wikia da terimi bulamadım.</value>
+  </data>
+  <data name="searches_wikia_input_error" xml:space="preserve">
+    <value>Lütfen bir hedef wikia girip ardından arama sorgusu yapın.</value>
+  </data>
+  <data name="searches_wiki_page_not_found" xml:space="preserve">
+    <value>Sayfa bulunamadı.</value>
+  </data>
+  <data name="searches_wind_speed" xml:space="preserve">
+    <value>Rüzgar hızı</value>
+  </data>
+  <data name="searches_x_most_banned_champs" xml:space="preserve">
+    <value>En çok yasaklanan {0} şampiyon</value>
+  </data>
+  <data name="searches_yodify_error" xml:space="preserve">
+    <value>Cümleyi yozlaştırma başarısız oldu.</value>
+  </data>
+  <data name="utiliity_joined" xml:space="preserve">
+    <value>Katıldı</value>
+  </data>
+  <data name="utility_activity_line" xml:space="preserve">
+    <value>`{0}.` {1} [her saniye/{2:F2}] - toplam {3}</value>
+    <comment>/s and total need to be localized to fit the context -
+`1.`</comment>
+  </data>
+  <data name="utility_activity_page" xml:space="preserve">
+    <value>Aktivite sayfası #{0}</value>
+  </data>
+  <data name="utility_activity_users_total" xml:space="preserve">
+    <value>{0} toplam kullanıcı.</value>
+  </data>
+  <data name="utility_author" xml:space="preserve">
+    <value>Yapımcı</value>
+  </data>
+  <data name="utility_botid" xml:space="preserve">
+    <value>Bot Kimliği</value>
+  </data>
+  <data name="utility_calcops" xml:space="preserve">
+    <value>{0}calc komutundaki fonksiyonların listesi</value>
+  </data>
+  <data name="utility_channelid" xml:space="preserve">
+    <value>Bu kanalın {0} değeri {1}</value>
+  </data>
+  <data name="utility_channel_topic" xml:space="preserve">
+    <value>Kanal konusu</value>
+  </data>
+  <data name="utility_commands_ran" xml:space="preserve">
+    <value>Yürütülen komut</value>
+  </data>
+  <data name="utility_convert" xml:space="preserve">
+    <value>{0} {1}, {2} {3} e eşit.</value>
+  </data>
+  <data name="utility_convertlist" xml:space="preserve">
+    <value>Dönüştürücü tarafından kullanılabilen üniteler</value>
+  </data>
+  <data name="utility_convert_not_found" xml:space="preserve">
+    <value>{0} &apos;ı {1}&apos; e dönüştüremem: birimleri bulunamadım</value>
+  </data>
+  <data name="utility_convert_type_error" xml:space="preserve">
+    <value>{0} &apos;ı {1}&apos; e dönüştüremiyorum: birim türleri eşit değil.</value>
+  </data>
+  <data name="utility_created_at" xml:space="preserve">
+    <value>Tarihinde oluşturuldu</value>
+  </data>
+  <data name="utility_csc_join" xml:space="preserve">
+    <value>Çapraz sunucu kanalına katıldı.</value>
+  </data>
+  <data name="utility_csc_leave" xml:space="preserve">
+    <value>Çapraz sunucu kanalından ayrıldı.</value>
+  </data>
+  <data name="utility_csc_token" xml:space="preserve">
+    <value>Bu,senin CSC anahtarın</value>
+  </data>
+  <data name="utility_custom_emojis" xml:space="preserve">
+    <value>Özel emojiler</value>
+  </data>
+  <data name="utility_error" xml:space="preserve">
+    <value>Hata</value>
+  </data>
+  <data name="utility_features" xml:space="preserve">
+    <value>Özellikler</value>
+  </data>
+  <data name="utility_id" xml:space="preserve">
+    <value>Kimlik</value>
+  </data>
+  <data name="utility_index_out_of_range" xml:space="preserve">
+    <value>Dizin aralık dışında.</value>
+  </data>
+  <data name="utility_inrole_list" xml:space="preserve">
+    <value>{0} rolüne sahip kullanıcı listesi</value>
+  </data>
+  <data name="utility_inrole_not_allowed" xml:space="preserve">
+    <value>Kötüye kullanımını önlemek için bu komutlar, çok sayıda kullanıcısı olan rollerde kullanmanıza izin verilmez.</value>
+  </data>
+  <data name="utility_invalid_value" xml:space="preserve">
+    <value>Geçersiz {0} değer.</value>
+    <comment>Invalid months value/ Invalid hours value</comment>
+  </data>
+  <data name="utility_joined_discord" xml:space="preserve">
+    <value>Discord&apos;a katıldı</value>
+  </data>
+  <data name="utility_joined_server" xml:space="preserve">
+    <value>Sunucuya katıldı</value>
+  </data>
+  <data name="utility_listservers" xml:space="preserve">
+    <value>Kimlik: {0}
+Üyeler: {1}
+Kurucu Kimliği: {2}</value>
+  </data>
+  <data name="utility_listservers_none" xml:space="preserve">
+    <value>Bu sayfada hiçbir sunucu bulunamadı.</value>
+  </data>
+  <data name="utility_list_of_repeaters" xml:space="preserve">
+    <value>Tekrarlayıcı Listesi</value>
+  </data>
+  <data name="utility_members" xml:space="preserve">
+    <value>Üyeler</value>
+  </data>
+  <data name="utility_memory" xml:space="preserve">
+    <value>Bellek</value>
+  </data>
+  <data name="utility_messages" xml:space="preserve">
+    <value>Mesajlar</value>
+  </data>
+  <data name="utility_message_repeater" xml:space="preserve">
+    <value>Mesaj tekrarlayıcısı</value>
+  </data>
+  <data name="utility_name" xml:space="preserve">
+    <value>İsim</value>
+  </data>
+  <data name="utility_nickname" xml:space="preserve">
+    <value>Takma ad</value>
+  </data>
+  <data name="utility_nobody_playing_game" xml:space="preserve">
+    <value>Kimse o oyunu oynamıyor.</value>
+  </data>
+  <data name="utility_no_active_repeaters" xml:space="preserve">
+    <value>Etkin tekrarlayıcı yok.</value>
+  </data>
+  <data name="utility_no_roles_on_page" xml:space="preserve">
+    <value>Bu sayfada rol yok.</value>
+  </data>
+  <data name="utility_no_shards_on_page" xml:space="preserve">
+    <value>Bu sayfada kırık yok.</value>
+  </data>
+  <data name="utility_no_topic_set" xml:space="preserve">
+    <value>Konu ayarlanmadı.</value>
+  </data>
+  <data name="utility_owner" xml:space="preserve">
+    <value>Sahip</value>
+  </data>
+  <data name="utility_owner_ids" xml:space="preserve">
+    <value>Sahip kimlikleri</value>
+  </data>
+  <data name="utility_presence" xml:space="preserve">
+    <value>Durum</value>
+  </data>
+  <data name="utility_presence_txt" xml:space="preserve">
+    <value>{0} Sunucu
+{1} Metin kanalı
+{2} Ses kanalı</value>
+  </data>
+  <data name="utility_quotes_deleted" xml:space="preserve">
+    <value>Tüm teklifleri {0} anahtar kelime ile silindi.</value>
+  </data>
+  <data name="utility_quotes_page" xml:space="preserve">
+    <value>Alıntılar Sayfa {0}</value>
+  </data>
+  <data name="utility_quotes_page_none" xml:space="preserve">
+    <value>Bu sayfada alıntı yok.</value>
+  </data>
+  <data name="utility_quotes_remove_none" xml:space="preserve">
+    <value>Kaldırabileceğiniz alıntı bulunamadı.</value>
+  </data>
+  <data name="utility_quote_added" xml:space="preserve">
+    <value>Alıntı Eklendi</value>
+  </data>
+  <data name="utility_quote_deleted" xml:space="preserve">
+    <value>{0} numaralı alıntı silindi.</value>
+  </data>
+  <data name="utility_region" xml:space="preserve">
+    <value>Bölge</value>
+  </data>
+  <data name="utility_registered_on" xml:space="preserve">
+    <value>Tarihinden beri kayıtlı</value>
+  </data>
+  <data name="utility_remind" xml:space="preserve">
+    <value>({4:HH:mm} de {3:d.M.yyyy.}) {0}&apos;ı {2}`de {1}&apos;e hatırlatacağım</value>
+  </data>
+  <data name="utility_remind_invalid_format" xml:space="preserve">
+    <value>Geçerli zaman biçimi değil. Komut listesine bakın.</value>
+  </data>
+  <data name="utility_remind_template" xml:space="preserve">
+    <value>Yeni hatırlatma şablonu ayarlandı.</value>
+  </data>
+  <data name="utility_repeater" xml:space="preserve">
+    <value>{0} her {1} gün(de) {2} saat(te) {3} dakika(da) bir tekrarlanıyor.</value>
+  </data>
+  <data name="utility_repeaters_list" xml:space="preserve">
+    <value>Tekrarlayıcıların listesi</value>
+  </data>
+  <data name="utility_repeaters_none" xml:space="preserve">
+    <value>Bu sunucuda çalışan tekrarlayıcı yok.</value>
+  </data>
+  <data name="utility_repeater_stopped" xml:space="preserve">
+    <value>#{0} durduruldu.</value>
+  </data>
+  <data name="utility_repeat_invoke_none" xml:space="preserve">
+    <value>Bu sunucuda tekrarlanan mesaj bulunamadı.</value>
+  </data>
+  <data name="utility_result" xml:space="preserve">
+    <value>Sonuç</value>
+  </data>
+  <data name="utility_roles" xml:space="preserve">
+    <value>Roller</value>
+  </data>
+  <data name="utility_roles_all_page" xml:space="preserve">
+    <value>Bu sunucudaki tüm rollerin sayfası #{0}:</value>
+  </data>
+  <data name="utility_roles_page" xml:space="preserve">
+    <value>Page #{0} of roles for {1}</value>
+  </data>
+  <data name="utility_rrc_no_colors" xml:space="preserve">
+    <value>Renk doğru biçimde değil. Mesela `#00ff00` şekilde kullanın.</value>
+  </data>
+  <data name="utility_rrc_start" xml:space="preserve">
+    <value>{0} rolü için renkler döndürmeye başlandı.</value>
+  </data>
+  <data name="utility_rrc_stop" xml:space="preserve">
+    <value>{0} rolü için renkleri döndürme durduruldu</value>
+  </data>
+  <data name="utility_serverid" xml:space="preserve">
+    <value>Bu sunucunun {0} {1}</value>
+  </data>
+  <data name="utility_server_info" xml:space="preserve">
+    <value>Sunucu bilgisi</value>
+  </data>
+  <data name="utility_shard" xml:space="preserve">
+    <value>Shard</value>
+  </data>
+  <data name="utility_shard_stats" xml:space="preserve">
+    <value>Shard istatistikleri</value>
+  </data>
+  <data name="utility_shard_stats_txt" xml:space="preserve">
+    <value>Shard **#{0}** {2} sunucularıyla {1} durumundadır</value>
+  </data>
+  <data name="utility_showemojis" xml:space="preserve">
+    <value>**İsim:** {0} **Adres:** {1}</value>
+  </data>
+  <data name="utility_showemojis_none" xml:space="preserve">
+    <value>Özel emoji bulunamadı.</value>
+  </data>
+  <data name="utility_stats_songs" xml:space="preserve">
+    <value>Şu anda {0} müzik yürütülüyor, {1} sırada.</value>
+  </data>
+  <data name="utility_text_channels" xml:space="preserve">
+    <value>Metin odası</value>
+  </data>
+  <data name="utility_togtub_room_link" xml:space="preserve">
+    <value>İşte odanızın bağlantısı:</value>
+  </data>
+  <data name="utility_uptime" xml:space="preserve">
+    <value>Çalışma süresi</value>
+  </data>
+  <data name="utility_userid" xml:space="preserve">
+    <value>{1} kullanıcısının {0} numarası {2}</value>
+    <comment>Id of the user kwoth#1234 is 123123123123</comment>
+  </data>
+  <data name="utility_users" xml:space="preserve">
+    <value>Kullanıcı</value>
+  </data>
+  <data name="utility_voice_channels" xml:space="preserve">
+    <value>Ses kanalı</value>
+  </data>
+  <data name="gambling_animal_race_already_in" xml:space="preserve">
+    <value>Zaten bu yarışa katıldınız!</value>
+  </data>
+  <data name="games_current_poll_results" xml:space="preserve">
+    <value>Geçerli anket sonuçları</value>
+  </data>
+  <data name="games_no_votes_cast" xml:space="preserve">
+    <value>Oy yok.</value>
+  </data>
+  <data name="games_poll_already_running" xml:space="preserve">
+    <value>Anket, bu sunucuda zaten çalışıyor.</value>
+  </data>
+  <data name="games_poll_created" xml:space="preserve">
+    <value>📃 {0} dikkatinizi gerektiren bir anket hazırladı:</value>
+  </data>
+  <data name="games_poll_result" xml:space="preserve">
+    <value>`{0}.&apos;{1} ile {2} oy aldı.</value>
+  </data>
+  <data name="games_poll_voted" xml:space="preserve">
+    <value>{0} oyladı.</value>
+    <comment>Kwoth voted.</comment>
+  </data>
+  <data name="games_poll_vote_private" xml:space="preserve">
+    <value>Özel cevap numarasına karşılık bana mesaj atın.</value>
+  </data>
+  <data name="games_poll_vote_public" xml:space="preserve">
+    <value>Yanıtın ilgili numarasını içeren bir Mesaj gönderin.</value>
+  </data>
+  <data name="games_thanks_for_voting" xml:space="preserve">
+    <value>Oylama için teşekkür ederiz, {0}</value>
+  </data>
+  <data name="games_x_votes_cast" xml:space="preserve">
+    <value>{0} toplam oynanan oy.</value>
+  </data>
+  <data name="games_pick_pl" xml:space="preserve">
+    <value>`{0}pick` yazarak onları topla</value>
+  </data>
+  <data name="games_pick_sn" xml:space="preserve">
+    <value>`{0}pick` yazarak topla</value>
+  </data>
+  <data name="gambling_no_users_found" xml:space="preserve">
+    <value>Kullanıcı bulunamadı.</value>
+  </data>
+  <data name="gambling_page" xml:space="preserve">
+    <value>sayfa {0}</value>
+  </data>
+  <data name="administration_must_be_in_voice" xml:space="preserve">
+    <value>Bu sunucudaki bir ses kanalda olmalısınız.</value>
+  </data>
+  <data name="administration_no_vcroles" xml:space="preserve">
+    <value>Sesli kanal rolü yok.</value>
+  </data>
+  <data name="administration_user_muted_time" xml:space="preserve">
+    <value>{0} metin ve sesli sohbetten {1} dakika **sessiz** hale getirildi.</value>
+  </data>
+  <data name="administration_vcrole_added" xml:space="preserve">
+    <value>{0} sesli kanalına katılan kullanıcılar {1} rolünü alacaktır.</value>
+  </data>
+  <data name="administration_vcrole_removed" xml:space="preserve">
+    <value>{0} sesli kanalına katılan kullanıcılar artık bir rol almaz.</value>
+  </data>
+  <data name="administration_vc_role_list" xml:space="preserve">
+    <value>Sesli kanal rolleri</value>
+  </data>
+  <data name="customreactions_crad_disabled" xml:space="preserve">
+    <value>{0} kimliğiyle özel reaksiyonu tetikleyen mesaj otomatik olarak silinmeyecek.</value>
+  </data>
+  <data name="customreactions_crad_enabled" xml:space="preserve">
+    <value>{0} kimliğiyle özel reaksiyonu tetikleyen mesaj otomatik olarak silinecek.</value>
+  </data>
+  <data name="customreactions_crdm_disabled" xml:space="preserve">
+    <value>{0} kimliğine sahip özel reaksiyon için verilen yanıt mesajı DM olarak gönderilmeyecek.</value>
+  </data>
+  <data name="customreactions_crdm_enabled" xml:space="preserve">
+    <value>{0} kimliğine sahip özel reaksiyon için verilen yanıt mesajı bir DM olarak gönderilecek.</value>
+  </data>
+  <data name="utility_aliases_none" xml:space="preserve">
+    <value>Takma ad bulunamadı</value>
+  </data>
+  <data name="utility_alias_added" xml:space="preserve">
+    <value>Yazma {0} şimdi {1} &apos;in bir takma adı olacak.</value>
+  </data>
+  <data name="utility_alias_list" xml:space="preserve">
+    <value>Takma ad listesi</value>
+  </data>
+  <data name="utility_alias_removed" xml:space="preserve">
+    <value>Tetikleyici {0} artık bir takma ada sahip değil.</value>
+  </data>
+  <data name="utility_alias_remove_fail" xml:space="preserve">
+    <value>Tetikleyici {0} &apos;nin takma adı yoktu.</value>
+  </data>
+  <data name="searches_compet_playtime" xml:space="preserve">
+    <value>Rekabetçi oyun süresi</value>
+  </data>
+  <data name="administration_channel" xml:space="preserve">
+    <value>Kanal</value>
+  </data>
+  <data name="administration_command_text" xml:space="preserve">
+    <value>Kanal Mesajı</value>
+  </data>
+  <data name="administration_kicked_pl" xml:space="preserve">
+    <value>Atıldı</value>
+    <comment>PLURAL</comment>
+  </data>
+  <data name="administration_moderator" xml:space="preserve">
+    <value>Moderatör</value>
+  </data>
+  <data name="administration_page" xml:space="preserve">
+    <value>sayfa {0}</value>
+  </data>
+  <data name="administration_reason" xml:space="preserve">
+    <value>Sebep</value>
+  </data>
+  <data name="administration_scadd" xml:space="preserve">
+    <value>Yeni başlangıç komutu eklendi.</value>
+  </data>
+  <data name="administration_scrm" xml:space="preserve">
+    <value>Başlangıç komutu başarıyla kaldırıldı.</value>
+  </data>
+  <data name="administration_scrm_fail" xml:space="preserve">
+    <value>Başlangıç komutu bulunamadı.</value>
+  </data>
+  <data name="administration_server" xml:space="preserve">
+    <value>Sunucu</value>
+  </data>
+  <data name="administration_startcmdlist_none" xml:space="preserve">
+    <value>Bu sayfada başlangıç komutları bulunmuyor.</value>
+  </data>
+  <data name="administration_startcmds_cleared" xml:space="preserve">
+    <value>Tüm başlangıç komutları temizlendi.</value>
+  </data>
+  <data name="administration_unbanned_user" xml:space="preserve">
+    <value>{0} kullanıcısının yasağı kaldırıldı.</value>
+  </data>
+  <data name="administration_user_not_found" xml:space="preserve">
+    <value>Kullanıcı bulunamadı.</value>
+  </data>
+  <data name="administration_user_warned" xml:space="preserve">
+    <value>{0} kullanıcısı uyarıldı.</value>
+  </data>
+  <data name="administration_user_warned_and_punished" xml:space="preserve">
+    <value>{0} kullanıcısı uyarıldı ve {1} cezası uygulandı.</value>
+  </data>
+  <data name="administration_warned_on" xml:space="preserve">
+    <value>{0} sunucusunda uyarıldı.</value>
+  </data>
+  <data name="administration_warned_on_by" xml:space="preserve">
+    <value>{0} - {1} tarihinde {2} tarafından</value>
+  </data>
+  <data name="administration_warnings_cleared" xml:space="preserve">
+    <value>{0} için tüm uyarılar silindi.</value>
+  </data>
+  <data name="administration_warnings_none" xml:space="preserve">
+    <value>Bu sayfada uyarı bulunamadı.</value>
+  </data>
+  <data name="administration_warnlog_for" xml:space="preserve">
+    <value>{0} için Uyarı Kayıtları</value>
+  </data>
+  <data name="administration_warnpl_none" xml:space="preserve">
+    <value>Hiç ceza belirlenmedi.</value>
+  </data>
+  <data name="administration_warn_cleared_by" xml:space="preserve">
+    <value>{0} tarafından temizlendi.</value>
+  </data>
+  <data name="administration_warn_punish_list" xml:space="preserve">
+    <value>Uyarı ceza listesi</value>
+  </data>
+  <data name="administration_warn_punish_rem" xml:space="preserve">
+    <value>{0} uyarılarına sahip olmak artık cezayı tetiklemeyecektir.</value>
+  </data>
+  <data name="administration_warn_punish_set" xml:space="preserve">
+    <value>{1} uyarılarıyla {0} cezasını kullanıcılara uygulayacağım.</value>
+  </data>
+  <data name="administration_slowmodewl_role_start" xml:space="preserve">
+    <value>Yavaş mod, artık {0} rolünü görmezden gelecektir.</value>
+  </data>
+  <data name="administration_slowmodewl_role_stop" xml:space="preserve">
+    <value>Yavaş mod, artık {0} rolünü görmezden gelmeyecek.</value>
+  </data>
+  <data name="administration_slowmodewl_user_start" xml:space="preserve">
+    <value>Yavaş mod, artık {0} kullanıcısını yoksayacak.</value>
+  </data>
+  <data name="administration_slowmodewl_user_stop" xml:space="preserve">
+    <value>Yavaş mod, {0} kullanıcısını artık görmezden gelmeyecek.</value>
+  </data>
+  <data name="utility_clpa_fail" xml:space="preserve">
+    <value>Aşağıdaki nedenlerden biriyle ödül talebinde bulunamadı:</value>
+  </data>
+  <data name="utility_clpa_fail_already" xml:space="preserve">
+    <value>Belki de bu ay için ödülünüzü zaten almışsınızdır. Bağış miktarınızı artırmadıkça, yalnızca ayda bir kez ödül alabilirsiniz.</value>
+  </data>
+  <data name="utility_clpa_fail_already_title" xml:space="preserve">
+    <value>Zaten ödüllendirildi</value>
+  </data>
+  <data name="utility_clpa_fail_conn" xml:space="preserve">
+    <value>Discord hesabınız Patreon&apos;a bağlı olmayabilir. Bunun ne anlama geldiğinden emin değilseniz veya nasıl bağlanacağınızı bilmiyorsanız - [Patreon hesap ayarları sayfasına] (https://patreon.com/settings/account) adresine gidin ve &apos;Bağlantı&apos; butonuna tıklayın.</value>
+  </data>
+  <data name="utility_clpa_fail_conn_title" xml:space="preserve">
+    <value>Discord hesabı bağlı değil</value>
+  </data>
+  <data name="utility_clpa_fail_sup" xml:space="preserve">
+    <value>Ödül için uygun olabilmeniz için, projeyi patreon&apos;da bağış yapmanız gerek. Bağlantıyı almak için {0} komutunu kullanabilirsiniz.</value>
+  </data>
+  <data name="utility_clpa_fail_sup_title" xml:space="preserve">
+    <value>Desteklemiyor</value>
+  </data>
+  <data name="utility_clpa_fail_wait" xml:space="preserve">
+    <value>Bağış yaptıktan sonra birkaç saat beklemek zorundasınız, yapmadıysanız, daha sonra tekrar deneyin.</value>
+  </data>
+  <data name="utility_clpa_fail_wait_title" xml:space="preserve">
+    <value>Biraz bekleyin</value>
+  </data>
+  <data name="utility_clpa_success" xml:space="preserve">
+    <value>{0} Projeyi desteklediğiniz için teşekkürlerimizi aldınız!</value>
+  </data>
+  <data name="utility_clpa_too_early" xml:space="preserve">
+    <value>Ödüller, her ayın 5&apos;inde veya sonrasında talep edilebilir.</value>
+  </data>
+
+</root>

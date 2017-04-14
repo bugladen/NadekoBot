@@ -13,7 +13,7 @@ namespace NadekoBot.Services.Database.Repositories.Impl
 
         public bool DeleteByGuildAndRoleId(ulong guildId, ulong roleId)
         {
-            var role = _set.Where(s => s.GuildId == guildId && s.RoleId == roleId).FirstOrDefault();
+            var role = _set.FirstOrDefault(s => s.GuildId == guildId && s.RoleId == roleId);
 
             if (role == null)
                 return false;

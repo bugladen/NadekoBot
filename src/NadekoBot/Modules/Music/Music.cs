@@ -14,14 +14,13 @@ using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using NadekoBot.Services.Database.Models;
-using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace NadekoBot.Modules.Music
 {
     [NadekoModule("Music", "!!")]
     [DontAutoLoad]
-    public partial class Music : DiscordModule
+    public class Music : NadekoTopLevelModule 
     {
         public static ConcurrentDictionary<ulong, MusicPlayer> MusicPlayers { get; } = new ConcurrentDictionary<ulong, MusicPlayer>();
 
@@ -37,30 +36,52 @@ namespace NadekoBot.Modules.Music
             Directory.CreateDirectory(MusicDataPath);
         }
 
-        private static async void Client_UserVoiceStateUpdated(SocketUser iusr, SocketVoiceState oldState, SocketVoiceState newState)
+        private static Task Client_UserVoiceStateUpdated(SocketUser iusr, SocketVoiceState oldState, SocketVoiceState newState)
         {
             var usr = iusr as SocketGuildUser;
             if (usr == null ||
                 oldState.VoiceChannel == newState.VoiceChannel)
-                return;
+                return Task.CompletedTask;
 
             MusicPlayer player;
             if (!MusicPlayers.TryGetValue(usr.Guild.Id, out player))
-                return;
+                return Task.CompletedTask;
+
             try
             {
-                var users = await player.PlaybackVoiceChannel.GetUsersAsync().Flatten().ConfigureAwait(false);
+
+
+                //if bot moved
+                if ((player.PlaybackVoiceChannel == oldState.VoiceChannel) &&
+                        usr.Id == NadekoBot.Client.CurrentUser.Id)
+                {
+                    if (player.Paused && newState.VoiceChannel.Users.Count > 1) //unpause if there are people in the new channel
+                        player.TogglePause();
+                    else if (!player.Paused && newState.VoiceChannel.Users.Count <= 1) // pause if there are no users in the new channel
+                        player.TogglePause();
+
+                    return Task.CompletedTask;
+                }
+
+
+                //if some other user moved
                 if ((player.PlaybackVoiceChannel == newState.VoiceChannel && //if joined first, and player paused, unpause 
                         player.Paused &&
-                        users.Count() == 2) ||  // keep in mind bot is in the channel (+1)
+                        newState.VoiceChannel.Users.Count == 2) ||  // keep in mind bot is in the channel (+1)
                     (player.PlaybackVoiceChannel == oldState.VoiceChannel && // if left last, and player unpaused, pause
                         !player.Paused &&
-                        users.Count() == 1))
+                        oldState.VoiceChannel.Users.Count == 1))
                 {
                     player.TogglePause();
+                    return Task.CompletedTask;
                 }
+
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
+            return Task.CompletedTask;
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -134,7 +155,14 @@ namespace NadekoBot.Modules.Music
                 return;
             var val = musicPlayer.FairPlay = !musicPlayer.FairPlay;
 
-            await channel.SendConfirmAsync("Fair play " + (val ? "enabled" : "disabled") + ".").ConfigureAwait(false);
+            if (val)
+            {
+                await ReplyConfirmLocalized("fp_enabled").ConfigureAwait(false);
+            }
+            else
+            {
+                await ReplyConfirmLocalized("fp_disabled").ConfigureAwait(false);
+            }
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -163,56 +191,61 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task ListQueue(int page = 1)
         {
-
+            Song currentSong;
             MusicPlayer musicPlayer;
-            if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer))
+            if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer) ||
+                (currentSong = musicPlayer?.CurrentSong) == null)
             {
-                await Context.Channel.SendErrorAsync("🎵 No active music player.").ConfigureAwait(false);
+                await ReplyErrorLocalized("no_player").ConfigureAwait(false);
                 return;
             }
             if (page <= 0)
                 return;
 
-            var currentSong = musicPlayer.CurrentSong;
-            if (currentSong == null)
-            {
-                await Context.Channel.SendErrorAsync("🎵 No active music player.").ConfigureAwait(false);
-                return;
-            }
-
             try { await musicPlayer.UpdateSongDurationsAsync().ConfigureAwait(false); } catch { }
 
             const int itemsPerPage = 10;
-            int startAt = itemsPerPage * (page - 1);
-            var number = 0 + startAt;
 
             var total = musicPlayer.TotalPlaytime;
+            var totalStr = total == TimeSpan.MaxValue ? "∞" : GetText("time_format", 
+                (int) total.TotalHours, 
+                total.Minutes, 
+                total.Seconds);
             var maxPlaytime = musicPlayer.MaxPlaytimeSeconds;
-            var embed = new EmbedBuilder()
-                .WithAuthor(eab => eab.WithName($"Player Queue - Page {page}")
-                                      .WithMusicIcon())
-                .WithDescription(string.Join("\n", musicPlayer.Playlist
-                    .Skip(startAt)
-                    .Take(10)
-                    .Select(v => $"`{++number}.` {v.PrettyFullName}")))
-                .WithFooter(ef => ef.WithText($"{musicPlayer.PrettyVolume} | {musicPlayer.Playlist.Count} " +
-$"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {total.Minutes}m {total.Seconds}s | " +
-(musicPlayer.FairPlay ? "✔️fairplay" : "✖️fairplay") + $" | " + (maxPlaytime == 0 ? "unlimited" : $"{maxPlaytime}s limit")))
-                .WithOkColor();
+            var lastPage = musicPlayer.Playlist.Count / itemsPerPage;
+            Func<int, EmbedBuilder> printAction = curPage =>
+            {
+                var startAt = itemsPerPage * (curPage - 1);
+                var number = 0 + startAt;
+                var desc = string.Join("\n", musicPlayer.Playlist
+                        .Skip(startAt)
+                        .Take(itemsPerPage)
+                        .Select(v => $"`{++number}.` {v.PrettyFullName}"));
+                
+                desc = $"`🔊` {currentSong.PrettyFullName}\n\n" + desc;
 
-            if (musicPlayer.RepeatSong)
-            {
-                embed.WithTitle($"🔂 Repeating Song: {currentSong.SongInfo.Title} | {currentSong.PrettyFullTime}");
-            }
-            else if (musicPlayer.RepeatPlaylist)
-            {
-                embed.WithTitle("🔁 Repeating Playlist");
-            }
-            if (musicPlayer.MaxQueueSize != 0 && musicPlayer.Playlist.Count >= musicPlayer.MaxQueueSize)
-            {
-                embed.WithTitle("🎵 Song queue is full!");
-            }
-            await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                if (musicPlayer.RepeatSong)
+                    desc = "🔂 " + GetText("repeating_cur_song") +"\n\n" + desc;
+                else if (musicPlayer.RepeatPlaylist)
+                    desc = "🔁 " + GetText("repeating_playlist")+"\n\n" + desc;
+
+
+
+                var embed = new EmbedBuilder()
+                    .WithAuthor(eab => eab.WithName(GetText("player_queue", curPage, lastPage + 1))
+                        .WithMusicIcon())
+                    .WithDescription(desc)
+                    .WithFooter(ef => ef.WithText($"{musicPlayer.PrettyVolume} | {musicPlayer.Playlist.Count} " +
+                                                  $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {totalStr} | " +
+                                                  (musicPlayer.FairPlay
+                                                      ? "✔️" + GetText("fairplay")
+                                                      : "✖️" + GetText("fairplay")) + " | " +
+                                                  (maxPlaytime == 0 ? "unlimited" : GetText("play_limit", maxPlaytime))))
+                    .WithOkColor();
+
+                return embed;
+            };
+            await Context.Channel.SendPaginatedConfirmAsync(page, printAction, lastPage, false).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -228,7 +261,7 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
             try { await musicPlayer.UpdateSongDurationsAsync().ConfigureAwait(false); } catch { }
 
             var embed = new EmbedBuilder().WithOkColor()
-                            .WithAuthor(eab => eab.WithName("Now Playing").WithMusicIcon())
+                            .WithAuthor(eab => eab.WithName(GetText("now_playing")).WithMusicIcon())
                             .WithDescription(currentSong.PrettyName)
                             .WithThumbnailUrl(currentSong.Thumbnail)
                             .WithFooter(ef => ef.WithText(musicPlayer.PrettyVolume + " | " + currentSong.PrettyFullTime + $" | {currentSong.PrettyProvider} | {currentSong.QueuerName}"));
@@ -245,21 +278,22 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
                 return;
             if (((IGuildUser)Context.User).VoiceChannel != musicPlayer.PlaybackVoiceChannel)
                 return;
-            if (val < 0)
+            if (val < 0 || val > 100)
+            {
+                await ReplyErrorLocalized("volume_input_invalid").ConfigureAwait(false);
                 return;
+            }
             var volume = musicPlayer.SetVolume(val);
-            await Context.Channel.SendConfirmAsync($"🎵 Volume set to {volume}%").ConfigureAwait(false);
+            await ReplyConfirmLocalized("volume_set", volume).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Defvol([Remainder] int val)
         {
-
-
             if (val < 0 || val > 100)
             {
-                await Context.Channel.SendErrorAsync("Volume number invalid. Must be between 0 and 100").ConfigureAwait(false);
+                await ReplyErrorLocalized("volume_input_invalid").ConfigureAwait(false);
                 return;
             }
             using (var uow = DbHandler.UnitOfWork())
@@ -267,7 +301,7 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
                 uow.GuildConfigs.For(Context.Guild.Id, set => set).DefaultMusicVolume = val / 100.0f;
                 uow.Complete();
             }
-            await Context.Channel.SendConfirmAsync($"🎵 Default volume set to {val}%").ConfigureAwait(false);
+            await ReplyConfirmLocalized("defvol_set", val).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -281,13 +315,10 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
             if (((IGuildUser)Context.User).VoiceChannel != musicPlayer.PlaybackVoiceChannel)
                 return;
             if (musicPlayer.Playlist.Count < 2)
-            {
-                await Context.Channel.SendErrorAsync("💢 Not enough songs in order to perform the shuffle.").ConfigureAwait(false);
                 return;
-            }
 
             musicPlayer.Shuffle();
-            await Context.Channel.SendConfirmAsync("🎵 Songs shuffled.").ConfigureAwait(false);
+            await ReplyConfirmLocalized("songs_shuffled").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -300,29 +331,29 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
                 return;
             if (((IGuildUser)Context.User).VoiceChannel?.Guild != Context.Guild)
             {
-                await Context.Channel.SendErrorAsync("💢 You need to be in a **voice channel** on this server.\n If you are already in a voice (ITextChannel)Context.Channel, try rejoining it.").ConfigureAwait(false);
+                await ReplyErrorLocalized("must_be_in_voice").ConfigureAwait(false);
                 return;
             }
             var plId = (await NadekoBot.Google.GetPlaylistIdsByKeywordsAsync(arg).ConfigureAwait(false)).FirstOrDefault();
             if (plId == null)
             {
-                await Context.Channel.SendErrorAsync("No search results for that query.");
+                await ReplyErrorLocalized("no_search_results").ConfigureAwait(false);
                 return;
             }
             var ids = await NadekoBot.Google.GetPlaylistTracksAsync(plId, 500).ConfigureAwait(false);
             if (!ids.Any())
             {
-                await Context.Channel.SendErrorAsync($"🎵 Failed to find any songs.").ConfigureAwait(false);
+                await ReplyErrorLocalized("no_search_results").ConfigureAwait(false);
                 return;
             }
             var count = ids.Count();
-
-            var msg = await Context.Channel.SendMessageAsync($"🎵 Attempting to queue **{count}** songs".SnPl(count) + "...").ConfigureAwait(false);
+            var msg = await Context.Channel.SendMessageAsync("🎵 " + GetText("attempting_to_queue",
+                Format.Bold(count.ToString()))).ConfigureAwait(false);
 
             var cancelSource = new CancellationTokenSource();
 
             var gusr = (IGuildUser)Context.User;
-
+            //todo use grouping
             while (ids.Any() && !cancelSource.IsCancellationRequested)
             {
                 var tasks = Task.WhenAll(ids.Take(5).Select(async id =>
@@ -341,7 +372,7 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
                 ids = ids.Skip(5);
             }
 
-            await msg.ModifyAsync(m => m.Content = "✅ Playlist queue complete.").ConfigureAwait(false);
+            await msg.ModifyAsync(m => m.Content = "✅ " + Format.Bold(GetText("playlist_queue_complete"))).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -367,7 +398,7 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
                 {
                     try
                     {
-                        mp.AddSong(new Song(new Classes.SongInfo
+                        mp.AddSong(new Song(new SongInfo
                         {
                             Title = svideo.FullName,
                             Provider = "SoundCloud",
@@ -390,40 +421,39 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
             var arg = directory;
             if (string.IsNullOrWhiteSpace(arg))
                 return;
-            try
+            var dir = new DirectoryInfo(arg);
+            var fileEnum = dir.GetFiles("*", SearchOption.AllDirectories)
+                                .Where(x => !x.Attributes.HasFlag(FileAttributes.Hidden | FileAttributes.System));
+            var gusr = (IGuildUser)Context.User;
+            foreach (var file in fileEnum)
             {
-                var dir = new DirectoryInfo(arg);
-                var fileEnum = dir.GetFiles("*", SearchOption.AllDirectories)
-                                    .Where(x => !x.Attributes.HasFlag(FileAttributes.Hidden | FileAttributes.System));
-                var gusr = (IGuildUser)Context.User;
-                foreach (var file in fileEnum)
+                try
                 {
-                    try
-                    {
-                        await QueueSong(((IGuildUser)Context.User), (ITextChannel)Context.Channel, ((IGuildUser)Context.User).VoiceChannel, file.FullName, true, MusicType.Local).ConfigureAwait(false);
-                    }
-                    catch (PlaylistFullException)
-                    {
-                        break;
-                    }
-                    catch { }
+                    await QueueSong(gusr, (ITextChannel)Context.Channel, gusr.VoiceChannel, file.FullName, true, MusicType.Local).ConfigureAwait(false);
                 }
-                await Context.Channel.SendConfirmAsync("🎵 Directory queue complete.").ConfigureAwait(false);
+                catch (PlaylistFullException)
+                {
+                    break;
+                }
+                catch
+                {
+                    // ignored
+                }
             }
-            catch { }
+            await ReplyConfirmLocalized("dir_queue_complete").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Radio(string radio_link)
+        public async Task Radio(string radioLink)
         {
 
             if (((IGuildUser)Context.User).VoiceChannel?.Guild != Context.Guild)
             {
-                await Context.Channel.SendErrorAsync("💢 You need to be in a voice channel on this server.\n If you are already in a voice (ITextChannel)Context.Channel, try rejoining it.").ConfigureAwait(false);
+                await ReplyErrorLocalized("must_be_in_voice").ConfigureAwait(false);
                 return;
             }
-            await QueueSong(((IGuildUser)Context.User), (ITextChannel)Context.Channel, ((IGuildUser)Context.User).VoiceChannel, radio_link, musicType: MusicType.Radio).ConfigureAwait(false);
+            await QueueSong(((IGuildUser)Context.User), (ITextChannel)Context.Channel, ((IGuildUser)Context.User).VoiceChannel, radioLink, musicType: MusicType.Radio).ConfigureAwait(false);
             if ((await Context.Guild.GetCurrentUserAsync()).GetPermissions((IGuildChannel)Context.Channel).ManageMessages)
             {
                 Context.Message.DeleteAfter(10);
@@ -443,17 +473,17 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
 
         }
 
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        public async Task Move()
-        {
+        //[NadekoCommand, Usage, Description, Aliases]
+        //[RequireContext(ContextType.Guild)]
+        //public async Task Move()
+        //{
 
-            MusicPlayer musicPlayer;
-            var voiceChannel = ((IGuildUser)Context.User).VoiceChannel;
-            if (voiceChannel == null || voiceChannel.Guild != Context.Guild || !MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer))
-                return;
-            await musicPlayer.MoveToVoiceChannel(voiceChannel);
-        }
+        //    MusicPlayer musicPlayer;
+        //    var voiceChannel = ((IGuildUser)Context.User).VoiceChannel;
+        //    if (voiceChannel == null || voiceChannel.Guild != Context.Guild || !MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer))
+        //        return;
+        //    await musicPlayer.MoveToVoiceChannel(voiceChannel);
+        //}
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
@@ -480,20 +510,20 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer)) return;
             musicPlayer.ClearQueue();
-            await Context.Channel.SendConfirmAsync($"🎵 Queue cleared!").ConfigureAwait(false);
-            return;
+            await ReplyConfirmLocalized("queue_cleared").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task MoveSong([Remainder] string fromto)
         {
+            if (string.IsNullOrWhiteSpace(fromto))
+                return;
 
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer))
-            {
                 return;
-            }
+            
             fromto = fromto?.Trim();
             var fromtoArr = fromto.Split('>');
 
@@ -506,7 +536,7 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
                 !int.TryParse(fromtoArr[1], out n2) || n1 < 1 || n2 < 1 || n1 == n2 ||
                 n1 > playlist.Count || n2 > playlist.Count)
             {
-                await Context.Channel.SendErrorAsync("Invalid input.").ConfigureAwait(false);
+                await ReplyConfirmLocalized("invalid_input").ConfigureAwait(false);
                 return;
             }
 
@@ -517,10 +547,10 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
 
             var embed = new EmbedBuilder()
                 .WithTitle($"{s.SongInfo.Title.TrimTo(70)}")
-            .WithUrl($"{s.SongInfo.Query}")
-            .WithAuthor(eab => eab.WithName("Song Moved").WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/258605269972549642/music1.png"))
-            .AddField(fb => fb.WithName("**From Position**").WithValue($"#{n1}").WithIsInline(true))
-            .AddField(fb => fb.WithName("**To Position**").WithValue($"#{n2}").WithIsInline(true))
+                .WithUrl(s.SongUrl)
+            .WithAuthor(eab => eab.WithName(GetText("song_moved")).WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/258605269972549642/music1.png"))
+            .AddField(fb => fb.WithName(GetText("from_position")).WithValue($"#{n1}").WithIsInline(true))
+            .AddField(fb => fb.WithName(GetText("to_position")).WithValue($"#{n2}").WithIsInline(true))
             .WithColor(NadekoBot.OkColor);
             await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
 
@@ -531,14 +561,18 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task SetMaxQueue(uint size)
+        public async Task SetMaxQueue(uint size = 0)
         {
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer))
                 return;
 
             musicPlayer.MaxQueueSize = size;
-            await Context.Channel.SendConfirmAsync($"🎵 Max queue set to {(size == 0 ? ("unlimited") : size + " tracks")}.");
+
+            if(size == 0)
+                await ReplyConfirmLocalized("max_queue_unlimited").ConfigureAwait(false);
+            else
+                await ReplyConfirmLocalized("max_queue_x", size).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -554,9 +588,9 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
                 return;
             musicPlayer.MaxPlaytimeSeconds = seconds;
             if (seconds == 0)
-                await channel.SendConfirmAsync($"🎵 Max playtime has no limit now.");
+                await ReplyConfirmLocalized("max_playtime_none").ConfigureAwait(false);
             else
-                await channel.SendConfirmAsync($"🎵 Max playtime set to {seconds} seconds.");
+                await ReplyConfirmLocalized("max_playtime_set", seconds).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -575,11 +609,11 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
             if (currentValue)
                 await Context.Channel.EmbedAsync(new EmbedBuilder()
                     .WithOkColor()
-                    .WithAuthor(eab => eab.WithMusicIcon().WithName("🔂 Repeating track"))
+                    .WithAuthor(eab => eab.WithMusicIcon().WithName("🔂 " + GetText("repeating_track")))
                     .WithDescription(currentSong.PrettyName)
                     .WithFooter(ef => ef.WithText(currentSong.PrettyInfo))).ConfigureAwait(false);
             else
-                await Context.Channel.SendConfirmAsync($"🔂 Current track repeat stopped.")
+                await Context.Channel.SendConfirmAsync("🔂 "  + GetText("repeating_track_stopped"))
                                             .ConfigureAwait(false);
         }
 
@@ -592,7 +626,10 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
             if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer))
                 return;
             var currentValue = musicPlayer.ToggleRepeatPlaylist();
-            await Context.Channel.SendConfirmAsync($"🔁 Repeat playlist {(currentValue ? "**enabled**." : "**disabled**.")}").ConfigureAwait(false);
+            if(currentValue)
+                await ReplyConfirmLocalized("rpl_enabled").ConfigureAwait(false);
+            else
+                await ReplyConfirmLocalized("rpl_disabled").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -629,7 +666,10 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
 
-            await Context.Channel.SendConfirmAsync(($"🎵 Saved playlist as **{name}**, ID: {playlist.Id}.")).ConfigureAwait(false);
+            await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                .WithTitle(GetText("playlist_saved"))
+                .AddField(efb => efb.WithName(GetText("name")).WithValue(name))
+                .AddField(efb => efb.WithName(GetText("id")).WithValue(playlist.Id.ToString())));
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -644,11 +684,11 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
 
             if (mpl == null)
             {
-                await Context.Channel.SendErrorAsync("Can't find playlist with that ID.").ConfigureAwait(false);
+                await ReplyErrorLocalized("playlist_id_not_found").ConfigureAwait(false);
                 return;
             }
             IUserMessage msg = null;
-            try { msg = await Context.Channel.SendMessageAsync($"🎶 Attempting to load **{mpl.Songs.Count}** songs...").ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
+            try { msg = await Context.Channel.SendMessageAsync(GetText("attempting_to_queue", Format.Bold(mpl.Songs.Count.ToString()))).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
             foreach (var item in mpl.Songs)
             {
                 var usr = (IGuildUser)Context.User;
@@ -660,15 +700,13 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
                 catch { break; }
             }
             if (msg != null)
-                await msg.ModifyAsync(m => m.Content = $"✅ Done loading playlist **{mpl.Name}**.").ConfigureAwait(false);
+                await msg.ModifyAsync(m => m.Content = GetText("playlist_queue_complete")).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Playlists([Remainder] int num = 1)
         {
-
-
             if (num <= 0)
                 return;
 
@@ -680,27 +718,24 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
             }
 
             var embed = new EmbedBuilder()
-                .WithAuthor(eab => eab.WithName($"Page {num} of Saved Playlists").WithMusicIcon())
-                .WithDescription(string.Join("\n", playlists.Select(r => $"`#{r.Id}` - **{r.Name}** by *{r.Author}* ({r.Songs.Count} songs)")))
+                .WithAuthor(eab => eab.WithName(GetText("playlists_page", num)).WithMusicIcon())
+                .WithDescription(string.Join("\n", playlists.Select(r =>
+                    GetText("playlists", r.Id, r.Name, r.Author, r.Songs.Count))))
                 .WithOkColor();
             await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
 
         }
-
-        //todo only author or owner
+        
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task DeletePlaylist([Remainder] int id)
         {
-
-
-            bool success = false;
-            MusicPlaylist pl = null;
+            var success = false;
             try
             {
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    pl = uow.MusicPlaylists.Get(id);
+                    var pl = uow.MusicPlaylists.Get(id);
 
                     if (pl != null)
                     {
@@ -710,19 +745,17 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
                             await uow.CompleteAsync().ConfigureAwait(false);
                             success = true;
                         }
-                        else
-                            success = false;
                     }
                 }
 
                 if (!success)
-                    await Context.Channel.SendErrorAsync("Failed to delete that playlist. It either doesn't exist, or you are not its author.").ConfigureAwait(false);
+                    await ReplyErrorLocalized("playlist_delete_fail").ConfigureAwait(false);
                 else
-                    await Context.Channel.SendConfirmAsync("🗑 Playlist successfully **deleted**.").ConfigureAwait(false);
+                    await ReplyConfirmLocalized("playlist_deleted").ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                _log.Warn(ex);
             }
         }
 
@@ -758,7 +791,7 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
             if (seconds.Length == 1)
                 seconds = "0" + seconds;
 
-            await Context.Channel.SendConfirmAsync($"Skipped to `{minutes}:{seconds}`").ConfigureAwait(false);
+            await ReplyConfirmLocalized("skipped_to", minutes, seconds).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -770,103 +803,145 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
                 return;
 
             if (!musicPlayer.ToggleAutoplay())
-                await Context.Channel.SendConfirmAsync("❌ Autoplay disabled.").ConfigureAwait(false);
+                await ReplyConfirmLocalized("autoplay_disabled").ConfigureAwait(false);
             else
-                await Context.Channel.SendConfirmAsync("✅ Autoplay enabled.").ConfigureAwait(false);
+                await ReplyConfirmLocalized("autoplay_enabled").ConfigureAwait(false);
         }
 
-        public static async Task QueueSong(IGuildUser queuer, ITextChannel textCh, IVoiceChannel voiceCh, string query, bool silent = false, MusicType musicType = MusicType.Normal)
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [RequireUserPermission(GuildPermission.ManageMessages)]
+        public async Task SetMusicChannel()
+        {
+            MusicPlayer musicPlayer;
+            if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer))
+            {
+                await ReplyErrorLocalized("no_player").ConfigureAwait(false);
+                return;
+            }
+
+            musicPlayer.OutputTextChannel = (ITextChannel)Context.Channel;
+
+            await ReplyConfirmLocalized("set_music_channel").ConfigureAwait(false);
+        }
+
+        public async Task QueueSong(IGuildUser queuer, ITextChannel textCh, IVoiceChannel voiceCh, string query, bool silent = false, MusicType musicType = MusicType.Normal)
         {
             if (voiceCh == null || voiceCh.Guild != textCh.Guild)
             {
                 if (!silent)
-                    await textCh.SendErrorAsync("💢 You need to be in a voice channel on this server.\n If you are already in a voice (ITextChannel)Context.Channel, try rejoining.").ConfigureAwait(false);
+                    await textCh.SendErrorAsync(GetText("must_be_in_voice")).ConfigureAwait(false);
                 throw new ArgumentNullException(nameof(voiceCh));
             }
             if (string.IsNullOrWhiteSpace(query) || query.Length < 3)
-                throw new ArgumentException("💢 Invalid query for queue song.", nameof(query));
+                throw new ArgumentException("Invalid song query.", nameof(query));
 
             var musicPlayer = MusicPlayers.GetOrAdd(textCh.Guild.Id, server =>
             {
-                float vol = 1;// SpecificConfigurations.Default.Of(server.Id).DefaultMusicVolume;
+                float vol;// SpecificConfigurations.Default.Of(server.Id).DefaultMusicVolume;
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     vol = uow.GuildConfigs.For(textCh.Guild.Id, set => set).DefaultMusicVolume;
                 }
-                var mp = new MusicPlayer(voiceCh, vol);
+                var mp = new MusicPlayer(voiceCh, textCh, vol);
                 IUserMessage playingMessage = null;
                 IUserMessage lastFinishedMessage = null;
                 mp.OnCompleted += async (s, song) =>
                 {
                     try
                     {
-                        if (lastFinishedMessage != null)
-                            lastFinishedMessage.DeleteAfter(0);
+                        lastFinishedMessage?.DeleteAfter(0);
 
-                        lastFinishedMessage = await textCh.EmbedAsync(new EmbedBuilder().WithOkColor()
-                                                  .WithAuthor(eab => eab.WithName("Finished Song").WithMusicIcon())
-                                                  .WithDescription(song.PrettyName)
-                                                  .WithFooter(ef => ef.WithText(song.PrettyInfo)))
-                                                    .ConfigureAwait(false);
-
-                        if (mp.Autoplay && mp.Playlist.Count == 0 && song.SongInfo.Provider == "YouTube")
+                        try
                         {
-                            await QueueSong(await queuer.Guild.GetCurrentUserAsync(), textCh, voiceCh, (await NadekoBot.Google.GetRelatedVideosAsync(song.SongInfo.Query, 4)).ToList().Shuffle().FirstOrDefault(), silent, musicType).ConfigureAwait(false);
+                            lastFinishedMessage = await mp.OutputTextChannel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                                    .WithAuthor(eab => eab.WithName(GetText("finished_song")).WithMusicIcon())
+                                    .WithDescription(song.PrettyName)
+                                    .WithFooter(ef => ef.WithText(song.PrettyInfo)))
+                                .ConfigureAwait(false);
+                        }
+                        catch
+                        {
+                            // ignored
+                        }
+
+                        if (mp.Autoplay && mp.Playlist.Count == 0 && song.SongInfo.ProviderType == MusicType.Normal)
+                        {
+                            var relatedVideos = (await NadekoBot.Google.GetRelatedVideosAsync(song.SongInfo.Query, 4)).ToList();
+                            if(relatedVideos.Count > 0)
+                            await QueueSong(await queuer.Guild.GetCurrentUserAsync(), 
+                                textCh, 
+                                voiceCh, 
+                                relatedVideos[new NadekoRandom().Next(0, relatedVideos.Count)],
+                                true).ConfigureAwait(false);
                         }
                     }
-                    catch { }
+                    catch
+                    {
+                        // ignored
+                    }
                 };
 
                 mp.OnStarted += async (player, song) =>
                 {
-                    try { await mp.UpdateSongDurationsAsync().ConfigureAwait(false); } catch { }
-                    var sender = player as MusicPlayer;
+                    try { await mp.UpdateSongDurationsAsync().ConfigureAwait(false); }
+                    catch
+                    {
+                        // ignored
+                    }
+                    var sender = player;
                     if (sender == null)
                         return;
                     try
                     {
-                        if (playingMessage != null)
-                            playingMessage.DeleteAfter(0);
+                        playingMessage?.DeleteAfter(0);
 
-                        playingMessage = await textCh.EmbedAsync(new EmbedBuilder().WithOkColor()
-                                                    .WithAuthor(eab => eab.WithName("Playing Song").WithMusicIcon())
+                        playingMessage = await mp.OutputTextChannel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                                                    .WithAuthor(eab => eab.WithName(GetText("playing_song")).WithMusicIcon())
                                                     .WithDescription(song.PrettyName)
                                                     .WithFooter(ef => ef.WithText(song.PrettyInfo)))
                                                     .ConfigureAwait(false);
                     }
-                    catch { }
+                    catch
+                    {
+                        // ignored
+                    }
                 };
                 mp.OnPauseChanged += async (paused) =>
-                        {
-                            try
-                            {
-                                IUserMessage msg;
-                                if (paused)
-                                    msg = await textCh.SendConfirmAsync("🎵 Music playback **paused**.").ConfigureAwait(false);
-                                else
-                                    msg = await textCh.SendConfirmAsync("🎵 Music playback **resumed**.").ConfigureAwait(false);
+                {
+                    try
+                    {
+                        IUserMessage msg;
+                        if (paused)
+                            msg = await mp.OutputTextChannel.SendConfirmAsync(GetText("paused")).ConfigureAwait(false);
+                        else
+                            msg = await mp.OutputTextChannel.SendConfirmAsync(GetText("resumed")).ConfigureAwait(false);
 
-                                if (msg != null)
-                                    msg.DeleteAfter(10);
-                            }
-                            catch { }
-                        };
-
-
+                        msg?.DeleteAfter(10);
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                };
+                
                 mp.SongRemoved += async (song, index) =>
                 {
                     try
                     {
                         var embed = new EmbedBuilder()
-                            .WithAuthor(eab => eab.WithName("Removed song #" + (index + 1)).WithMusicIcon())
+                            .WithAuthor(eab => eab.WithName(GetText("removed_song") + " #" + (index + 1)).WithMusicIcon())
                             .WithDescription(song.PrettyName)
                             .WithFooter(ef => ef.WithText(song.PrettyInfo))
                             .WithErrorColor();
 
-                        await textCh.EmbedAsync(embed).ConfigureAwait(false);
+                        await mp.OutputTextChannel.EmbedAsync(embed).ConfigureAwait(false);
 
                     }
-                    catch { }
+                    catch
+                    {
+                        // ignored
+                    }
                 };
                 return mp;
             });
@@ -883,7 +958,14 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
             }
             catch (PlaylistFullException)
             {
-                try { await textCh.SendConfirmAsync($"🎵 Queue is full at **{musicPlayer.MaxQueueSize}/{musicPlayer.MaxQueueSize}**."); } catch { }
+                try
+                {
+                    await textCh.SendConfirmAsync(GetText("queue_full", musicPlayer.MaxQueueSize));
+                }
+                catch
+                {
+                    // ignored
+                }
                 throw;
             }
             if (!silent)
@@ -892,15 +974,17 @@ $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {tota
                 {
                     //var queuedMessage = await textCh.SendConfirmAsync($"🎵 Queued **{resolvedSong.SongInfo.Title}** at `#{musicPlayer.Playlist.Count + 1}`").ConfigureAwait(false);
                     var queuedMessage = await textCh.EmbedAsync(new EmbedBuilder().WithOkColor()
-                                                            .WithAuthor(eab => eab.WithName("Queued Song #" + (musicPlayer.Playlist.Count + 1)).WithMusicIcon())
-                                                            .WithDescription($"{resolvedSong.PrettyName}\nQueue ")
+                                                            .WithAuthor(eab => eab.WithName(GetText("queued_song") + " #" + (musicPlayer.Playlist.Count + 1)).WithMusicIcon())
+                                                            .WithDescription($"{resolvedSong.PrettyName}\n{GetText("queue")} ")
                                                             .WithThumbnailUrl(resolvedSong.Thumbnail)
                                                             .WithFooter(ef => ef.WithText(resolvedSong.PrettyProvider)))
                                                             .ConfigureAwait(false);
-                    if (queuedMessage != null)
-                        queuedMessage.DeleteAfter(10);
+                    queuedMessage?.DeleteAfter(10);
                 }
-                catch { } // if queued message sending fails, don't attempt to delete it
+                catch
+                {
+                    // ignored
+                } // if queued message sending fails, don't attempt to delete it
             }
         }
     }

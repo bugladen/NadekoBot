@@ -56,7 +56,7 @@ namespace NadekoBot.Modules.Music.Classes
                    p = Process.Start(new ProcessStartInfo
                    {
                        FileName = "ffmpeg",
-                       Arguments = $"-ss {SkipTo} -i {SongInfo.Uri} -f s16le -ar 48000 -ac 2 pipe:1 -loglevel quiet",
+                       Arguments = $"-ss {SkipTo} -i {SongInfo.Uri} -f s16le -ar 48000 -vn -ac 2 pipe:1 -loglevel quiet",
                        UseShellExecute = false,
                        RedirectStandardOutput = true,
                        RedirectStandardError = false,
@@ -99,8 +99,8 @@ namespace NadekoBot.Modules.Music.Classes
                    Console.WriteLine(@"You have not properly installed or configured FFMPEG. 
 Please install and configure FFMPEG to play music. 
 Check the guides for your platform on how to setup ffmpeg correctly:
-    Windows Guide: https://goo.gl/SCv72y
-    Linux Guide:  https://goo.gl/rRhjCp");
+    Windows Guide: https://goo.gl/OjKk8F
+    Linux Guide:  https://goo.gl/ShjCUo");
                    Console.ForegroundColor = oldclr;
                }
                catch (Exception ex)

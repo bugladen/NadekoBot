@@ -1,17 +1,19 @@
 ﻿using Discord;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace NadekoBot.Services
 {
     public interface IBotCredentials
     {
         ulong ClientId { get; }
-        ulong BotId { get; }
 
         string Token { get; }
         string GoogleApiKey { get; }
-        ulong[] OwnerIds { get; }
+        ImmutableArray<ulong> OwnerIds { get; }
         string MashapeKey { get; }
         string LoLApiKey { get; }
+        string PatreonAccessToken { get; }
 
         DBConfig Db { get; }
 

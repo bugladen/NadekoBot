@@ -3,7 +3,6 @@ using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using Newtonsoft.Json.Linq;
-using NLog;
 using System;
 using System.Globalization;
 using System.IO;
@@ -16,21 +15,15 @@ namespace NadekoBot.Modules.Searches
     public partial class Searches
     {
         [Group]
-        public class OsuCommands : ModuleBase
+        public class OsuCommands : NadekoSubmodule
         {
-            private static Logger _log { get; }
-
-            static OsuCommands()
-            {
-                _log = LogManager.GetCurrentClassLogger();
-            }
             [NadekoCommand, Usage, Description, Aliases]
             public async Task Osu(string usr, [Remainder] string mode = null)
             {
                 if (string.IsNullOrWhiteSpace(usr))
                     return;
 
-                using (HttpClient http = new HttpClient())
+                using (var http = new HttpClient())
                 {
                     try
                     {
@@ -42,15 +35,15 @@ namespace NadekoBot.Modules.Searches
                         http.AddFakeHeaders();
                         var res = await http.GetStreamAsync(new Uri($"http://lemmmy.pw/osusig/sig.php?uname={ usr }&flagshadow&xpbar&xpbarhex&pp=2&mode={m}")).ConfigureAwait(false);
 
-                        MemoryStream ms = new MemoryStream();
+                        var ms = new MemoryStream();
                         res.CopyTo(ms);
                         ms.Position = 0;
-                        await Context.Channel.SendFileAsync(ms, $"{usr}.png", $"🎧 **Profile Link: **https://osu.ppy.sh/u/{Uri.EscapeDataString(usr)}\n`Image provided by https://lemmmy.pw/osusig`").ConfigureAwait(false);
+                        await Context.Channel.SendFileAsync(ms, $"{usr}.png", $"🎧 **{GetText("profile_link")}** <https://new.ppy.sh/u/{Uri.EscapeDataString(usr)}>\n`Image provided by https://lemmmy.pw/osusig`").ConfigureAwait(false);
                     }
                     catch (Exception ex)
                     {
-                        await Context.Channel.SendErrorAsync("Failed retrieving osu signature.").ConfigureAwait(false);
-                        _log.Warn(ex, "Osu command failed");
+                        await ReplyErrorLocalized("osu_failed").ConfigureAwait(false);
+                        _log.Warn(ex);
                     }
                 }
             }
@@ -60,7 +53,7 @@ namespace NadekoBot.Modules.Searches
             {
                 if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.OsuApiKey))
                 {
-                    await Context.Channel.SendErrorAsync("An osu! API key is required.").ConfigureAwait(false);
+                    await ReplyErrorLocalized("osu_api_key").ConfigureAwait(false);
                     return;
                 }
 
@@ -75,8 +68,8 @@ namespace NadekoBot.Modules.Searches
                         var reqString = $"https://osu.ppy.sh/api/get_beatmaps?k={NadekoBot.Credentials.OsuApiKey}&{mapId}";
                         var obj = JArray.Parse(await http.GetStringAsync(reqString).ConfigureAwait(false))[0];
                         var sb = new System.Text.StringBuilder();
-                        var starRating = Math.Round(Double.Parse($"{obj["difficultyrating"]}", CultureInfo.InvariantCulture), 2);
-                        var time = TimeSpan.FromSeconds(Double.Parse($"{obj["total_length"]}")).ToString(@"mm\:ss");
+                        var starRating = Math.Round(double.Parse($"{obj["difficultyrating"]}", CultureInfo.InvariantCulture), 2);
+                        var time = TimeSpan.FromSeconds(double.Parse($"{obj["total_length"]}")).ToString(@"mm\:ss");
                         sb.AppendLine($"{obj["artist"]} - {obj["title"]}, mapped by {obj["creator"]}. https://osu.ppy.sh/s/{obj["beatmapset_id"]}");
                         sb.AppendLine($"{starRating} stars, {obj["bpm"]} BPM | AR{obj["diff_approach"]}, CS{obj["diff_size"]}, OD{obj["diff_overall"]} | Length: {time}");
                         await Context.Channel.SendMessageAsync(sb.ToString()).ConfigureAwait(false);
@@ -84,8 +77,8 @@ namespace NadekoBot.Modules.Searches
                 }
                 catch (Exception ex)
                 {
-                    await Context.Channel.SendErrorAsync("Something went wrong.");
-                    _log.Warn(ex, "Osub command failed");
+                    await ReplyErrorLocalized("something_went_wrong").ConfigureAwait(false);
+                    _log.Warn(ex);
                 }
             }
 
@@ -121,54 +114,53 @@ namespace NadekoBot.Modules.Searches
                         {
                             var mapReqString = $"https://osu.ppy.sh/api/get_beatmaps?k={NadekoBot.Credentials.OsuApiKey}&b={item["beatmap_id"]}";
                             var map = JArray.Parse(await http.GetStringAsync(mapReqString).ConfigureAwait(false))[0];
-                            var pp = Math.Round(Double.Parse($"{item["pp"]}", CultureInfo.InvariantCulture), 2);
+                            var pp = Math.Round(double.Parse($"{item["pp"]}", CultureInfo.InvariantCulture), 2);
                             var acc = CalculateAcc(item, m);
-                            var mods = ResolveMods(Int32.Parse($"{item["enabled_mods"]}"));
-                            if (mods != "+")
-                                sb.AppendLine($"{pp + "pp",-7} | {acc + "%",-7} | {map["artist"] + "-" + map["title"] + " (" + map["version"] + ")",-40} | **{mods,-10}** | /b/{item["beatmap_id"]}");
-                            else
-                                sb.AppendLine($"{pp + "pp",-7} | {acc + "%",-7} | {map["artist"] + "-" + map["title"] + " (" + map["version"] + ")",-40}  | /b/{item["beatmap_id"]}");
+                            var mods = ResolveMods(int.Parse($"{item["enabled_mods"]}"));
+                            sb.AppendLine(mods != "+"
+                                ? $"{pp + "pp",-7} | {acc + "%",-7} | {map["artist"] + "-" + map["title"] + " (" + map["version"] + ")",-40} | **{mods,-10}** | /b/{item["beatmap_id"]}"
+                                : $"{pp + "pp",-7} | {acc + "%",-7} | {map["artist"] + "-" + map["title"] + " (" + map["version"] + ")",-40}  | /b/{item["beatmap_id"]}");
                         }
                         sb.Append("```");
                         await channel.SendMessageAsync(sb.ToString()).ConfigureAwait(false);
                     }
                     catch (Exception ex)
                     {
-                        await channel.SendErrorAsync("Something went wrong.");
-                        _log.Warn(ex, "Osu5 command failed");
+                        await ReplyErrorLocalized("something_went_wrong").ConfigureAwait(false);
+                        _log.Warn(ex);
                     }
 
                 }
             }
 
             //https://osu.ppy.sh/wiki/Accuracy
-            private static Double CalculateAcc(JToken play, int mode)
+            private static double CalculateAcc(JToken play, int mode)
             {
                 if (mode == 0)
                 {
-                    var hitPoints = Double.Parse($"{play["count50"]}") * 50 + Double.Parse($"{play["count100"]}") * 100 + Double.Parse($"{play["count300"]}") * 300;
-                    var totalHits = Double.Parse($"{play["count50"]}") + Double.Parse($"{play["count100"]}") + Double.Parse($"{play["count300"]}") + Double.Parse($"{play["countmiss"]}");
+                    var hitPoints = double.Parse($"{play["count50"]}") * 50 + double.Parse($"{play["count100"]}") * 100 + double.Parse($"{play["count300"]}") * 300;
+                    var totalHits = double.Parse($"{play["count50"]}") + double.Parse($"{play["count100"]}") + double.Parse($"{play["count300"]}") + double.Parse($"{play["countmiss"]}");
                     totalHits *= 300;
                     return Math.Round(hitPoints / totalHits * 100, 2);
                 }
                 else if (mode == 1)
                 {
-                    var hitPoints = Double.Parse($"{play["countmiss"]}") * 0 + Double.Parse($"{play["count100"]}") * 0.5 + Double.Parse($"{play["count300"]}") * 1;
-                    var totalHits = Double.Parse($"{play["countmiss"]}") + Double.Parse($"{play["count100"]}") + Double.Parse($"{play["count300"]}");
+                    var hitPoints = double.Parse($"{play["countmiss"]}") * 0 + double.Parse($"{play["count100"]}") * 0.5 + double.Parse($"{play["count300"]}") * 1;
+                    var totalHits = double.Parse($"{play["countmiss"]}") + double.Parse($"{play["count100"]}") + double.Parse($"{play["count300"]}");
                     hitPoints *= 300;
                     totalHits *= 300;
                     return Math.Round(hitPoints / totalHits * 100, 2);
                 }
                 else if (mode == 2)
                 {
-                    var fruitsCaught = Double.Parse($"{play["count50"]}") + Double.Parse($"{play["count100"]}") + Double.Parse($"{play["count300"]}");
-                    var totalFruits = Double.Parse($"{play["countmiss"]}") + Double.Parse($"{play["count50"]}") + Double.Parse($"{play["count100"]}") + Double.Parse($"{play["count300"]}") + Double.Parse($"{play["countkatu"]}");
+                    var fruitsCaught = double.Parse($"{play["count50"]}") + double.Parse($"{play["count100"]}") + double.Parse($"{play["count300"]}");
+                    var totalFruits = double.Parse($"{play["countmiss"]}") + double.Parse($"{play["count50"]}") + double.Parse($"{play["count100"]}") + double.Parse($"{play["count300"]}") + double.Parse($"{play["countkatu"]}");
                     return Math.Round(fruitsCaught / totalFruits * 100, 2);
                 }
                 else
                 {
-                    var hitPoints = Double.Parse($"{play["count50"]}") * 50 + Double.Parse($"{play["count100"]}") * 100 + Double.Parse($"{play["countkatu"]}") * 200 + (Double.Parse($"{play["count300"]}") + Double.Parse($"{play["countgeki"]}")) * 300;
-                    var totalHits = Double.Parse($"{play["countmiss"]}") + Double.Parse($"{play["count50"]}") + Double.Parse($"{play["count100"]}") + Double.Parse($"{play["countkatu"]}") + Double.Parse($"{play["count300"]}") + Double.Parse($"{play["countgeki"]}");
+                    var hitPoints = double.Parse($"{play["count50"]}") * 50 + double.Parse($"{play["count100"]}") * 100 + double.Parse($"{play["countkatu"]}") * 200 + (double.Parse($"{play["count300"]}") + double.Parse($"{play["countgeki"]}")) * 300;
+                    var totalHits = double.Parse($"{play["countmiss"]}") + double.Parse($"{play["count50"]}") + double.Parse($"{play["count100"]}") + double.Parse($"{play["countkatu"]}") + double.Parse($"{play["count300"]}") + double.Parse($"{play["countgeki"]}");
                     totalHits *= 300;
                     return Math.Round(hitPoints / totalHits * 100, 2);
                 }
@@ -176,10 +168,10 @@ namespace NadekoBot.Modules.Searches
 
             private static string ResolveMap(string mapLink)
             {
-                Match s = new Regex(@"osu.ppy.sh\/s\/", RegexOptions.IgnoreCase).Match(mapLink);
-                Match b = new Regex(@"osu.ppy.sh\/b\/", RegexOptions.IgnoreCase).Match(mapLink);
-                Match p = new Regex(@"osu.ppy.sh\/p\/", RegexOptions.IgnoreCase).Match(mapLink);
-                Match m = new Regex(@"&m=", RegexOptions.IgnoreCase).Match(mapLink);
+                var s = new Regex(@"osu.ppy.sh\/s\/", RegexOptions.IgnoreCase).Match(mapLink);
+                var b = new Regex(@"osu.ppy.sh\/b\/", RegexOptions.IgnoreCase).Match(mapLink);
+                var p = new Regex(@"osu.ppy.sh\/p\/", RegexOptions.IgnoreCase).Match(mapLink);
+                var m = new Regex(@"&m=", RegexOptions.IgnoreCase).Match(mapLink);
                 if (s.Success)
                 {
                     var mapId = mapLink.Substring(mapLink.IndexOf("/s/") + 3);

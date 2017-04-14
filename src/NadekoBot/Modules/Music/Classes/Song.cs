@@ -5,12 +5,9 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.IO;
-using System.Linq;
-using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using VideoLibrary;
 using System.Net;
 
 namespace NadekoBot.Modules.Music.Classes
@@ -32,45 +29,52 @@ namespace NadekoBot.Modules.Music.Classes
         public string QueuerName { get; set; }
 
         public TimeSpan TotalTime { get; set; } = TimeSpan.Zero;
-        public TimeSpan CurrentTime => TimeSpan.FromSeconds(bytesSent / frameBytes / (1000 / milliseconds));
+        public TimeSpan CurrentTime => TimeSpan.FromSeconds(bytesSent / (float)_frameBytes / (1000 / (float)_milliseconds));
 
-        const int milliseconds = 20;
-        const int samplesPerFrame = (48000 / 1000) * milliseconds;
-        const int frameBytes = 3840; //16-bit, 2 channels
+        private const int _milliseconds = 20;
+        private const int _samplesPerFrame = (48000 / 1000) * _milliseconds;
+        private const int _frameBytes = 3840; //16-bit, 2 channels
 
-        private ulong bytesSent { get; set; } = 0;
+        private ulong bytesSent { get; set; }
 
         //pwetty
 
         public string PrettyProvider =>
-            $"{(SongInfo.Provider ?? "No Provider")}";
+            $"{(SongInfo.Provider ?? "???")}";
 
         public string PrettyFullTime => PrettyCurrentTime + " / " + PrettyTotalTime;
 
-        public string PrettyName  => $"**[{SongInfo.Title.TrimTo(65)}]({songUrl})**";
+        public string PrettyName => $"**[{SongInfo.Title.TrimTo(65)}]({SongUrl})**";
 
         public string PrettyInfo => $"{MusicPlayer.PrettyVolume} | {PrettyTotalTime} | {PrettyProvider} | {QueuerName}";
 
         public string PrettyFullName => $"{PrettyName}\n\t\t`{PrettyTotalTime} | {PrettyProvider} | {QueuerName}`";
 
-        public string PrettyCurrentTime => CurrentTime.ToString(@"mm\:ss");
-
-        private string PrettyTotalTime {
+        public string PrettyCurrentTime {
             get {
+                var time = CurrentTime.ToString(@"mm\:ss");
+                var hrs = (int)CurrentTime.TotalHours;
+
+                if (hrs > 0)
+                    return hrs + ":" + time;
+                else
+                    return time;
+            }
+        }
+
+        public string PrettyTotalTime {
+            get
+            {
                 if (TotalTime == TimeSpan.Zero)
                     return "(?)";
-                else if (TotalTime == TimeSpan.MaxValue)
+                if (TotalTime == TimeSpan.MaxValue)
                     return "∞";
-                else
-                {
-                    var time = TotalTime.ToString(@"mm\:ss");
-                    var hrs = (int)TotalTime.TotalHours;
+                var time = TotalTime.ToString(@"mm\:ss");
+                var hrs = (int)TotalTime.TotalHours;
 
-                    if (hrs > 0)
-                        return hrs + ":" + time;
-                    else
-                        return time;
-                } 
+                if (hrs > 0)
+                    return hrs + ":" + time;
+                return time;
             }
         }
 
@@ -79,13 +83,13 @@ namespace NadekoBot.Modules.Music.Classes
                 switch (SongInfo.ProviderType)
                 {
                     case MusicType.Radio:
-                        return $"https://cdn.discordapp.com/attachments/155726317222887425/261850925063340032/1482522097_radio.png"; //test links
+                        return "https://cdn.discordapp.com/attachments/155726317222887425/261850925063340032/1482522097_radio.png"; //test links
                     case MusicType.Normal:
                         //todo have videoid in songinfo from the start
                         var videoId = Regex.Match(SongInfo.Query, "<=v=[a-zA-Z0-9-]+(?=&)|(?<=[0-9])[^&\n]+|(?<=v=)[^&\n]+");
                         return $"https://img.youtube.com/vi/{ videoId }/0.jpg";
                     case MusicType.Local:
-                        return $"https://cdn.discordapp.com/attachments/155726317222887425/261850914783100928/1482522077_music.png"; //test links
+                        return "https://cdn.discordapp.com/attachments/155726317222887425/261850914783100928/1482522077_music.png"; //test links
                     case MusicType.Soundcloud:
                         return SongInfo.AlbumArt;
                     default:
@@ -94,7 +98,7 @@ namespace NadekoBot.Modules.Music.Classes
             }
         }
 
-        private string songUrl {
+        public string SongUrl {
             get {
                 switch (SongInfo.ProviderType)
                 {
@@ -112,36 +116,32 @@ namespace NadekoBot.Modules.Music.Classes
             }
         }
 
-        private int skipTo = 0;
-        public int SkipTo {
-            get { return skipTo; }
-            set {
-                skipTo = value;
-                bytesSent = (ulong)skipTo * 3840 * 50;
-            }
-        }
+        public int SkipTo { get; set; }
 
         private readonly Logger _log;
 
         public Song(SongInfo songInfo)
         {
-            this.SongInfo = songInfo;
-            this._log = LogManager.GetCurrentClassLogger();
+            SongInfo = songInfo;
+            _log = LogManager.GetCurrentClassLogger();
         }
 
         public Song Clone()
         {
-            var s = new Song(SongInfo);
-            s.MusicPlayer = MusicPlayer;
-            s.QueuerName = QueuerName;
+            var s = new Song(SongInfo)
+            {
+                MusicPlayer = MusicPlayer,
+                QueuerName = QueuerName
+            };
             return s;
         }
 
         public async Task Play(IAudioClient voiceClient, CancellationToken cancelToken)
         {
+            bytesSent = (ulong) SkipTo * 3840 * 50;
             var filename = Path.Combine(Music.MusicDataPath, DateTime.Now.UnixTimestamp().ToString());
 
-            SongBuffer inStream = new SongBuffer(MusicPlayer, filename, SongInfo, skipTo, frameBytes * 100);
+            var inStream = new SongBuffer(MusicPlayer, filename, SongInfo, SkipTo, _frameBytes * 100);
             var bufferTask = inStream.BufferSong(cancelToken).ConfigureAwait(false);
 
             try
@@ -190,22 +190,22 @@ namespace NadekoBot.Modules.Music.Classes
 
                 var outStream = voiceClient.CreatePCMStream(960);
 
-                int nextTime = Environment.TickCount + milliseconds;
+                int nextTime = Environment.TickCount + _milliseconds;
 
-                byte[] buffer = new byte[frameBytes];
+                byte[] buffer = new byte[_frameBytes];
                 while (!cancelToken.IsCancellationRequested && //song canceled for whatever reason
                     !(MusicPlayer.MaxPlaytimeSeconds != 0 && CurrentTime.TotalSeconds >= MusicPlayer.MaxPlaytimeSeconds)) // or exceedded max playtime
                 {
                     //Console.WriteLine($"Read: {songBuffer.ReadPosition}\nWrite: {songBuffer.WritePosition}\nContentLength:{songBuffer.ContentLength}\n---------");
                     var read = await inStream.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
                     //await inStream.CopyToAsync(voiceClient.OutputStream);
-                    if (read < frameBytes)
+                    if (read < _frameBytes)
                         _log.Debug("read {0}", read);
                     unchecked
                     {
                         bytesSent += (ulong)read;
                     }
-                    if (read < frameBytes)
+                    if (read < _frameBytes)
                     {
                         if (read == 0)
                         {
@@ -221,12 +221,12 @@ namespace NadekoBot.Modules.Music.Classes
                                 _log.Warn("Slow connection has disrupted music, waiting a bit for buffer");
 
                                 await Task.Delay(1000, cancelToken).ConfigureAwait(false);
-                                nextTime = Environment.TickCount + milliseconds;
+                                nextTime = Environment.TickCount + _milliseconds;
                             }
                             else
                             {
                                 await Task.Delay(100, cancelToken).ConfigureAwait(false);
-                                nextTime = Environment.TickCount + milliseconds;
+                                nextTime = Environment.TickCount + _milliseconds;
                             }
                         }
                         else
@@ -235,16 +235,16 @@ namespace NadekoBot.Modules.Music.Classes
                     else
                         attempt = 0;
 
-                    while (this.MusicPlayer.Paused)
+                    while (MusicPlayer.Paused)
                     {
                         await Task.Delay(200, cancelToken).ConfigureAwait(false);
-                        nextTime = Environment.TickCount + milliseconds;
+                        nextTime = Environment.TickCount + _milliseconds;
                     }
 
 
                     buffer = AdjustVolume(buffer, MusicPlayer.Volume);
-                    if (read != frameBytes) continue;
-                    nextTime = unchecked(nextTime + milliseconds);
+                    if (read != _frameBytes) continue;
+                    nextTime = unchecked(nextTime + _milliseconds);
                     int delayMillis = unchecked(nextTime - Environment.TickCount);
                     if (delayMillis > 0)
                         await Task.Delay(delayMillis, cancelToken).ConfigureAwait(false);
@@ -254,8 +254,7 @@ namespace NadekoBot.Modules.Music.Classes
             finally
             {
                 await bufferTask;
-                if (inStream != null)
-                    inStream.Dispose();
+                inStream.Dispose();
             }
         }
 
@@ -269,25 +268,20 @@ namespace NadekoBot.Modules.Music.Classes
         }
 
         //aidiakapi ftw
-        public unsafe static byte[] AdjustVolume(byte[] audioSamples, float volume)
+        public static unsafe byte[] AdjustVolume(byte[] audioSamples, float volume)
         {
-            Contract.Requires(audioSamples != null);
-            Contract.Requires(audioSamples.Length % 2 == 0);
-            Contract.Requires(volume >= 0f && volume <= 1f);
-            Contract.Assert(BitConverter.IsLittleEndian);
-
             if (Math.Abs(volume - 1f) < 0.0001f) return audioSamples;
 
             // 16-bit precision for the multiplication
-            int volumeFixed = (int)Math.Round(volume * 65536d);
+            var volumeFixed = (int)Math.Round(volume * 65536d);
 
-            int count = audioSamples.Length / 2;
+            var count = audioSamples.Length / 2;
 
             fixed (byte* srcBytes = audioSamples)
             {
-                short* src = (short*)srcBytes;
+                var src = (short*)srcBytes;
 
-                for (int i = count; i != 0; i--, src++)
+                for (var i = count; i != 0; i--, src++)
                     *src = (short)(((*src) * volumeFixed) >> 16);
             }
 

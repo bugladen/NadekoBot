@@ -18,10 +18,94 @@ namespace NadekoBot.Extensions
 {
     public static class Extensions
     {
-        public static ReactionEventWrapper OnReactionAdded(this SocketMessage msg, Action<SocketReaction> reactionAdded)
+        private const string arrow_left = "⬅";
+        private const string arrow_right = "➡";
+
+        public static string ToBase64(this string plainText)
         {
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+            return Convert.ToBase64String(plainTextBytes);
+        }
+
+        public static Stream ToStream(this IEnumerable<byte> bytes, bool canWrite = false)
+        {
+            var ms = new MemoryStream(bytes as byte[] ?? bytes.ToArray(), canWrite);
+            ms.Seek(0, SeekOrigin.Begin);
+            return ms;
+        }
+
+        /// <summary>
+        /// danny kamisama
+        /// </summary>
+        public static async Task SendPaginatedConfirmAsync(this IMessageChannel channel, int currentPage, Func<int, EmbedBuilder> pageFunc, int? lastPage = null, bool addPaginatedFooter = true)
+        {
+            lastPage += 1;
+            var embed = pageFunc(currentPage);
+
+            if(addPaginatedFooter)
+                embed.AddPaginatedFooter(currentPage, lastPage);
+
+            var msg = await channel.EmbedAsync(embed) as IUserMessage;
+
+            if (currentPage >= lastPage && lastPage == 1)
+                return;
+
+            await msg.AddReactionAsync(arrow_left).ConfigureAwait(false);
+            await msg.AddReactionAsync(arrow_right).ConfigureAwait(false);
+
+            await Task.Delay(2000).ConfigureAwait(false);
+
+            Action<SocketReaction> changePage = async r =>
+            {
+                try
+                {
+                    if (r.Emoji.Name == arrow_left)
+                    {
+                        if (currentPage == 1)
+                            return;
+                        var toSend = pageFunc(--currentPage);
+                        if (addPaginatedFooter)
+                            toSend.AddPaginatedFooter(currentPage, lastPage);
+                        await msg.ModifyAsync(x => x.Embed = toSend.Build()).ConfigureAwait(false);
+                    }
+                    else if (r.Emoji.Name == arrow_right)
+                    {
+                        if (lastPage == null || lastPage > currentPage)
+                        {
+                            var toSend = pageFunc(++currentPage);
+                            if (addPaginatedFooter)
+                                toSend.AddPaginatedFooter(currentPage, lastPage);
+                            await msg.ModifyAsync(x => x.Embed = toSend.Build()).ConfigureAwait(false);
+                        }
+                    }
+                }
+                catch (Exception ex) { Console.WriteLine(ex); }
+            };
+
+            using (msg.OnReaction(changePage, changePage))
+            {
+                await Task.Delay(30000).ConfigureAwait(false);
+            }
+
+            await msg.RemoveAllReactionsAsync().ConfigureAwait(false);
+        }
+
+        private static EmbedBuilder AddPaginatedFooter(this EmbedBuilder embed, int curPage, int? lastPage)
+        {
+            if (lastPage != null)
+                return embed.WithFooter(efb => efb.WithText($"{curPage} / {lastPage}"));
+            else
+                return embed.WithFooter(efb => efb.WithText(curPage.ToString()));
+        }
+
+        public static ReactionEventWrapper OnReaction(this IUserMessage msg, Action<SocketReaction> reactionAdded, Action<SocketReaction> reactionRemoved = null)
+        {
+            if (reactionRemoved == null)
+                reactionRemoved = delegate { };
+
             var wrap = new ReactionEventWrapper(msg);
             wrap.OnReactionAdded += reactionAdded;
+            wrap.OnReactionRemoved += reactionRemoved;
             return wrap;
         }
 
@@ -31,6 +115,9 @@ namespace NadekoBot.Extensions
             http.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.202 Safari/535.1");
             http.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
         }
+
+        public static string GetInitials(this string txt, string glue = "") =>
+            string.Join(glue, txt.Split(' ').Select(x => x.FirstOrDefault()));
 
         public static DateTime ToUnixTimestamp(this double number) => new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(number);
 
@@ -53,7 +140,8 @@ namespace NadekoBot.Extensions
 
         public static string GetPrefix(this ModuleInfo module) => NadekoBot.ModulePrefixes[module.GetTopLevelModule().Name];
 
-        public static ModuleInfo GetTopLevelModule(this ModuleInfo module) {
+        public static ModuleInfo GetTopLevelModule(this ModuleInfo module)
+        {
             while (module.Parent != null)
             {
                 module = module.Parent;
@@ -102,27 +190,27 @@ namespace NadekoBot.Extensions
 
         public static bool IsInteger(this decimal number) => number == Math.Truncate(number);
 
-        public static string SanitizeMentions(this string str) => 
+        public static string SanitizeMentions(this string str) =>
             str.Replace("@everyone", "@everyοne").Replace("@here", "@һere");
 
-        public static double UnixTimestamp(this DateTime dt) => dt.ToUniversalTime().Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+        public static double UnixTimestamp(this DateTime dt) => dt.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0)).TotalSeconds;
 
         public static async Task<IUserMessage> SendMessageAsync(this IUser user, string message, bool isTTS = false) =>
             await (await user.CreateDMChannelAsync().ConfigureAwait(false)).SendMessageAsync(message, isTTS).ConfigureAwait(false);
 
         public static async Task<IUserMessage> SendConfirmAsync(this IUser user, string text)
-             => await (await user.CreateDMChannelAsync()).SendMessageAsync("", embed: new EmbedBuilder().WithColor(NadekoBot.OkColor).WithDescription(text));
+             => await (await user.CreateDMChannelAsync()).SendMessageAsync("", embed: new EmbedBuilder().WithOkColor().WithDescription(text));
 
         public static async Task<IUserMessage> SendConfirmAsync(this IUser user, string title, string text, string url = null)
-             => await(await user.CreateDMChannelAsync()).SendMessageAsync("", embed: new EmbedBuilder().WithColor(NadekoBot.OkColor).WithDescription(text)
+             => await (await user.CreateDMChannelAsync()).SendMessageAsync("", embed: new EmbedBuilder().WithOkColor().WithDescription(text)
                  .WithTitle(title).WithUrl(url));
 
         public static async Task<IUserMessage> SendErrorAsync(this IUser user, string title, string error, string url = null)
-             => await (await user.CreateDMChannelAsync()).SendMessageAsync("", embed: new EmbedBuilder().WithColor(NadekoBot.OkColor).WithDescription(error)
+             => await (await user.CreateDMChannelAsync()).SendMessageAsync("", embed: new EmbedBuilder().WithErrorColor().WithDescription(error)
                  .WithTitle(title).WithUrl(url));
 
         public static async Task<IUserMessage> SendErrorAsync(this IUser user, string error)
-             => await (await user.CreateDMChannelAsync()).SendMessageAsync("", embed: new EmbedBuilder().WithColor(NadekoBot.OkColor).WithDescription(error));
+             => await (await user.CreateDMChannelAsync()).SendMessageAsync("", embed: new EmbedBuilder().WithErrorColor().WithDescription(error));
 
         public static async Task<IUserMessage> SendFileAsync(this IUser user, string filePath, string caption = null, string text = null, bool isTTS = false) =>
             await (await user.CreateDMChannelAsync().ConfigureAwait(false)).SendFileAsync(File.Open(filePath, FileMode.Open), caption ?? "x", text, isTTS).ConfigureAwait(false);
@@ -131,27 +219,27 @@ namespace NadekoBot.Extensions
             await (await user.CreateDMChannelAsync().ConfigureAwait(false)).SendFileAsync(fileStream, fileName, caption, isTTS).ConfigureAwait(false);
 
         public static bool IsAuthor(this IUserMessage msg) =>
-            NadekoBot.Client.CurrentUser().Id == msg.Author.Id;
+            NadekoBot.Client.CurrentUser.Id == msg.Author.Id;
 
         public static IEnumerable<IUser> Members(this IRole role) =>
             role.Guild.GetUsersAsync().GetAwaiter().GetResult().Where(u => u.RoleIds.Contains(role.Id)) ?? Enumerable.Empty<IUser>();
-        
+
         public static Task<IUserMessage> EmbedAsync(this IMessageChannel ch, EmbedBuilder embed, string msg = "")
              => ch.SendMessageAsync(msg, embed: embed);
 
         public static Task<IUserMessage> SendErrorAsync(this IMessageChannel ch, string title, string error, string url = null, string footer = null)
-             => ch.SendMessageAsync("", embed: new EmbedBuilder().WithColor(NadekoBot.ErrorColor).WithDescription(error)
+             => ch.SendMessageAsync("", embed: new EmbedBuilder().WithErrorColor().WithDescription(error)
                  .WithTitle(title).WithUrl(url).WithFooter(efb => efb.WithText(footer)));
 
         public static Task<IUserMessage> SendErrorAsync(this IMessageChannel ch, string error)
-             => ch.SendMessageAsync("", embed: new EmbedBuilder().WithColor(NadekoBot.OkColor).WithDescription(error));
+             => ch.SendMessageAsync("", embed: new EmbedBuilder().WithErrorColor().WithDescription(error));
 
         public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string title, string text, string url = null, string footer = null)
-             => ch.SendMessageAsync("", embed: new EmbedBuilder().WithColor(NadekoBot.OkColor).WithDescription(text)
+             => ch.SendMessageAsync("", embed: new EmbedBuilder().WithOkColor().WithDescription(text)
                  .WithTitle(title).WithUrl(url).WithFooter(efb => efb.WithText(footer)));
 
         public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string text)
-             => ch.SendMessageAsync("", embed: new EmbedBuilder().WithColor(NadekoBot.OkColor).WithDescription(text));
+             => ch.SendMessageAsync("", embed: new EmbedBuilder().WithOkColor().WithDescription(text));
 
         public static Task<IUserMessage> SendTableAsync<T>(this IMessageChannel ch, string seed, IEnumerable<T> items, Func<T, string> howToPrint, int columns = 3)
         {
@@ -162,7 +250,7 @@ namespace NadekoBot.Extensions
 ```");
         }
 
-        public static Task<IUserMessage> SendTableAsync<T>(this IMessageChannel ch, IEnumerable<T> items, Func<T, string> howToPrint, int columns = 3) => 
+        public static Task<IUserMessage> SendTableAsync<T>(this IMessageChannel ch, IEnumerable<T> items, Func<T, string> howToPrint, int columns = 3) =>
             ch.SendTableAsync("", items, howToPrint, columns);
 
         /// <summary>
@@ -195,6 +283,15 @@ namespace NadekoBot.Extensions
                 }
                 return list;
             }
+        }
+    
+        /// <summary>
+        /// Easy use of fast, efficient case-insensitive Contains check with StringComparison Member Types 
+        /// CurrentCulture, CurrentCultureIgnoreCase, InvariantCulture, InvariantCultureIgnoreCase, Ordinal, OrdinalIgnoreCase
+        /// </summary>    
+        public static bool ContainsNoCase(this string str, string contains, StringComparison compare)
+        {
+            return str.IndexOf(contains, compare) >= 0;
         }
 
         public static string TrimTo(this string str, int maxLength, bool hideDots = false)
@@ -295,7 +392,7 @@ namespace NadekoBot.Extensions
 
         }
 
-        public static string ToJson<T>(this T any, Formatting formatting = Formatting.Indented) => 
+        public static string ToJson<T>(this T any, Formatting formatting = Formatting.Indented) =>
             JsonConvert.SerializeObject(any, formatting);
 
         public static int KiB(this int value) => value * 1024;
@@ -320,22 +417,15 @@ namespace NadekoBot.Extensions
 
         public static ImageSharp.Image Merge(this IEnumerable<ImageSharp.Image> images)
         {
-            var imgList = images.ToList();
+            var imgs = images.ToArray();
 
-            var canvas = new ImageSharp.Image(imgList.Sum(img => img.Width), imgList.Max(img => img.Height));
+            var canvas = new ImageSharp.Image(imgs.Sum(img => img.Width), imgs.Max(img => img.Height));
 
-            var canvasPixels = canvas.Lock();
-            int offsetX = 0;
-            foreach (var img in imgList.Select(img=>img.Lock()))
+            var xOffset = 0;
+            for (int i = 0; i < imgs.Length; i++)
             {
-                for (int i = 0; i < img.Width; i++)
-                {
-                    for (int j = 0; j < img.Height; j++)
-                    {
-                        canvasPixels[i + offsetX, j] = img[i, j];
-                    }
-                }
-                offsetX += img.Width;                
+                canvas.DrawImage(imgs[i], 100, default(Size), new Point(xOffset, 0));
+                xOffset += imgs[i].Bounds.Width;
             }
 
             return canvas;
@@ -344,7 +434,7 @@ namespace NadekoBot.Extensions
         public static Stream ToStream(this ImageSharp.Image img)
         {
             var imageStream = new MemoryStream();
-            img.SaveAsPng(imageStream);
+            img.Save(imageStream);
             imageStream.Position = 0;
             return imageStream;
         }
@@ -353,5 +443,12 @@ namespace NadekoBot.Extensions
 
         public static bool IsDiscordInvite(this string str)
             => filterRegex.IsMatch(str);
+
+        public static string RealAvatarUrl(this IUser usr)
+        {
+            return usr.AvatarId.StartsWith("a_")
+                    ? $"{DiscordConfig.CDNUrl}avatars/{usr.Id}/{usr.AvatarId}.gif"
+                    : usr.AvatarUrl;
+        }
     }
 }

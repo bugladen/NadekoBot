@@ -12,7 +12,7 @@ namespace NadekoBot.Modules.Utility
     public partial class Utility
     {
         [Group]
-        public class CalcCommands : ModuleBase
+        public class CalcCommands : NadekoSubmodule
         {
             [NadekoCommand, Usage, Description, Aliases]
             public async Task Calculate([Remainder] string expression)
@@ -21,9 +21,9 @@ namespace NadekoBot.Modules.Utility
                 expr.EvaluateParameter += Expr_EvaluateParameter;
                 var result = expr.Evaluate();
                 if (expr.Error == null)
-                    await Context.Channel.SendConfirmAsync("Result", $"{result}");
+                    await Context.Channel.SendConfirmAsync("⚙ " + GetText("result"), result.ToString());
                 else
-                    await Context.Channel.SendErrorAsync($"⚙ Error", expr.Error);
+                    await Context.Channel.SendErrorAsync("⚙ " + GetText("error"), expr.Error);
             }
 
             private static void Expr_EvaluateParameter(string name, NCalc.ParameterArgs args)
@@ -42,29 +42,26 @@ namespace NadekoBot.Modules.Utility
             [NadekoCommand, Usage, Description, Aliases]
             public async Task CalcOps()
             {
-                var selection = typeof(Math).GetTypeInfo().GetMethods().Except(typeof(object).GetTypeInfo().GetMethods()).Distinct(new MethodInfoEqualityComparer()).Select(x =>
-                {
-                    return x.Name;
-                })
-                .Except(new[] { "ToString",
-                            "Equals",
-                            "GetHashCode",
-                            "GetType"});
-                await Context.Channel.SendConfirmAsync("Available functions in calc", string.Join(", ", selection));
+                var selection = typeof(Math).GetTypeInfo()
+                    .GetMethods()
+                    .Distinct(new MethodInfoEqualityComparer())
+                    .Select(x => x.Name)
+                    .Except(new[]
+                    {
+                        "ToString",
+                        "Equals",
+                        "GetHashCode",
+                        "GetType"
+                    });
+                await Context.Channel.SendConfirmAsync(GetText("calcops", Prefix), string.Join(", ", selection));
             }
         }
 
-        class MethodInfoEqualityComparer : IEqualityComparer<MethodInfo>
+        private class MethodInfoEqualityComparer : IEqualityComparer<MethodInfo>
         {
             public bool Equals(MethodInfo x, MethodInfo y) => x.Name == y.Name;
 
             public int GetHashCode(MethodInfo obj) => obj.Name.GetHashCode();
         }
-
-        class ExpressionContext
-        {
-            public double Pi { get; set; } = Math.PI;
-        }
-
     }
 }

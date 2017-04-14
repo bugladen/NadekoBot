@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using NadekoBot.Services.Database;
 
 namespace NadekoBot.Services
@@ -13,7 +15,8 @@ namespace NadekoBot.Services
 
         static DbHandler() { }
 
-        private DbHandler() {
+        private DbHandler()
+        {
             connectionString = NadekoBot.Credentials.Db.ConnectionString;
             var optionsBuilder = new DbContextOptionsBuilder();
             optionsBuilder.UseSqlite(NadekoBot.Credentials.Db.ConnectionString);
@@ -32,10 +35,16 @@ namespace NadekoBot.Services
             //}
         }
 
-        public NadekoContext GetDbContext() =>
-            new NadekoContext(options);
+        public NadekoContext GetDbContext()
+        {
+            var context = new NadekoContext(options);
+            context.Database.Migrate();
+            context.EnsureSeedData();
 
-        public IUnitOfWork GetUnitOfWork() =>
+            return context;
+        }
+
+        private IUnitOfWork GetUnitOfWork() =>
             new UnitOfWork(GetDbContext());
 
         public static IUnitOfWork UnitOfWork() =>

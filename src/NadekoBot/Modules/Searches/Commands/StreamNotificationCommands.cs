@@ -12,9 +12,7 @@ using System.Net.Http;
 using NadekoBot.Attributes;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using NLog;
 using NadekoBot.Extensions;
-using System.Diagnostics;
 
 namespace NadekoBot.Modules.Searches
 {
@@ -65,23 +63,19 @@ namespace NadekoBot.Modules.Searches
         }
 
         [Group]
-        public class StreamNotificationCommands : ModuleBase
+        public class StreamNotificationCommands : NadekoSubmodule
         {
-            private static Timer checkTimer { get; }
-            private static ConcurrentDictionary<string, StreamStatus> oldCachedStatuses = new ConcurrentDictionary<string, StreamStatus>();
-            private static ConcurrentDictionary<string, StreamStatus> cachedStatuses = new ConcurrentDictionary<string, StreamStatus>();
-            private static Logger _log { get; }
+            private static readonly Timer _checkTimer;
+            private static readonly ConcurrentDictionary<string, StreamStatus> _cachedStatuses = new ConcurrentDictionary<string, StreamStatus>();
 
-            private static bool FirstPass { get; set; } = true;
+            private static bool firstPass { get; set; } = true;
 
             static StreamNotificationCommands()
             {
-                _log = LogManager.GetCurrentClassLogger();
-
-                checkTimer = new Timer(async (state) =>
+                _checkTimer = new Timer(async (state) =>
                 {
-                    oldCachedStatuses = new ConcurrentDictionary<string, StreamStatus>(cachedStatuses);
-                    cachedStatuses.Clear();
+                    var oldCachedStatuses = new ConcurrentDictionary<string, StreamStatus>(_cachedStatuses);
+                    _cachedStatuses.Clear();
                     IEnumerable<FollowedStream> streams;
                     using (var uow = DbHandler.UnitOfWork())
                     {
@@ -93,7 +87,7 @@ namespace NadekoBot.Modules.Searches
                         try
                         {
                             var newStatus = await GetStreamStatus(fs).ConfigureAwait(false);
-                            if (FirstPass)
+                            if (firstPass)
                             {
                                 return;
                             }
@@ -103,22 +97,26 @@ namespace NadekoBot.Modules.Searches
                                 oldStatus.IsLive != newStatus.IsLive)
                             {
                                 var server = NadekoBot.Client.GetGuild(fs.GuildId);
-                                if (server == null)
-                                    return;
-                                var channel = await server.GetTextChannelAsync(fs.ChannelId);
+                                var channel = server?.GetTextChannel(fs.ChannelId);
                                 if (channel == null)
                                     return;
                                 try
                                 {
-                                    var msg = await channel.EmbedAsync(fs.GetEmbed(newStatus)).ConfigureAwait(false);
+                                    await channel.EmbedAsync(fs.GetEmbed(newStatus, channel.Guild.Id)).ConfigureAwait(false);
                                 }
-                                catch { }
+                                catch
+                                {
+                                    // ignored
+                                }
                             }
                         }
-                        catch { }
+                        catch
+                        {
+                            // ignored
+                        }
                     }));
 
-                    FirstPass = false;
+                    firstPass = false;
                 }, null, TimeSpan.Zero, TimeSpan.FromSeconds(60));
             }
 
@@ -130,7 +128,7 @@ namespace NadekoBot.Modules.Searches
                 {
                     case FollowedStream.FollowedStreamType.Hitbox:
                         var hitboxUrl = $"https://api.hitbox.tv/media/status/{stream.Username.ToLowerInvariant()}";
-                        if (checkCache && cachedStatuses.TryGetValue(hitboxUrl, out result))
+                        if (checkCache && _cachedStatuses.TryGetValue(hitboxUrl, out result))
                             return result;
                         using (var http = new HttpClient())
                         {
@@ -145,11 +143,11 @@ namespace NadekoBot.Modules.Searches
                             ApiLink = hitboxUrl,
                             Views = hbData.Views
                         };
-                        cachedStatuses.AddOrUpdate(hitboxUrl, result, (key, old) => result);
+                        _cachedStatuses.AddOrUpdate(hitboxUrl, result, (key, old) => result);
                         return result;
                     case FollowedStream.FollowedStreamType.Twitch:
                         var twitchUrl = $"https://api.twitch.tv/kraken/streams/{Uri.EscapeUriString(stream.Username.ToLowerInvariant())}?client_id=67w6z9i09xv2uoojdm9l0wsyph4hxo6";
-                        if (checkCache && cachedStatuses.TryGetValue(twitchUrl, out result))
+                        if (checkCache && _cachedStatuses.TryGetValue(twitchUrl, out result))
                             return result;
                         using (var http = new HttpClient())
                         {
@@ -166,11 +164,11 @@ namespace NadekoBot.Modules.Searches
                             ApiLink = twitchUrl,
                             Views = twData.Stream?.Viewers.ToString() ?? "0"
                         };
-                        cachedStatuses.AddOrUpdate(twitchUrl, result, (key, old) => result);
+                        _cachedStatuses.AddOrUpdate(twitchUrl, result, (key, old) => result);
                         return result;
                     case FollowedStream.FollowedStreamType.Beam:
                         var beamUrl = $"https://beam.pro/api/v1/channels/{stream.Username.ToLowerInvariant()}";
-                        if (checkCache && cachedStatuses.TryGetValue(beamUrl, out result))
+                        if (checkCache && _cachedStatuses.TryGetValue(beamUrl, out result))
                             return result;
                         using (var http = new HttpClient())
                         {
@@ -186,7 +184,7 @@ namespace NadekoBot.Modules.Searches
                             ApiLink = beamUrl,
                             Views = bmData.ViewersCurrent.ToString()
                         };
-                        cachedStatuses.AddOrUpdate(beamUrl, result, (key, old) => result);
+                        _cachedStatuses.AddOrUpdate(beamUrl, result, (key, old) => result);
                         return result;
                     default:
                         break;
@@ -230,17 +228,21 @@ namespace NadekoBot.Modules.Searches
 
                 if (!streams.Any())
                 {
-                    await Context.Channel.SendConfirmAsync("You are not following any streams on this server.").ConfigureAwait(false);
+                    await ReplyErrorLocalized("streams_none").ConfigureAwait(false);
                     return;
                 }
 
                 var text = string.Join("\n", await Task.WhenAll(streams.Select(async snc =>
                 {
                     var ch = await Context.Guild.GetTextChannelAsync(snc.ChannelId);
-                    return $"`{snc.Username}`'s stream on **{(ch)?.Name}** channel. 【`{snc.Type.ToString()}`】";
+                    return string.Format("{0}'s stream on {1} channel. 【{2}】", 
+                        Format.Code(snc.Username), 
+                        Format.Bold(ch?.Name ?? "deleted-channel"),
+                        Format.Code(snc.Type.ToString()));
                 })));
-
-                await Context.Channel.SendConfirmAsync($"You are following **{streams.Count()}** streams on this server.\n\n" + text).ConfigureAwait(false);
+                
+                await Context.Channel.SendConfirmAsync(GetText("streams_following", streams.Count()) + "\n\n" + text)
+                    .ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -267,10 +269,13 @@ namespace NadekoBot.Modules.Searches
                 }
                 if (!removed)
                 {
-                    await Context.Channel.SendErrorAsync("No such stream.").ConfigureAwait(false);
+                    await ReplyErrorLocalized("stream_no").ConfigureAwait(false);
                     return;
                 }
-                await Context.Channel.SendConfirmAsync($"Removed `{username}`'s stream ({type}) from notifications.").ConfigureAwait(false);
+
+                await ReplyConfirmLocalized("stream_removed",
+                    Format.Code(username),
+                    type).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -289,20 +294,24 @@ namespace NadekoBot.Modules.Searches
                     }));
                     if (streamStatus.IsLive)
                     {
-                        await Context.Channel.SendConfirmAsync($"Streamer {username} is online with {streamStatus.Views} viewers.");
+                        await ReplyConfirmLocalized("streamer_online",
+                                username,
+                                streamStatus.Views)
+                            .ConfigureAwait(false);
                     }
                     else
                     {
-                        await Context.Channel.SendConfirmAsync($"Streamer {username} is offline.");
+                        await ReplyConfirmLocalized("streamer_offline",
+                            username).ConfigureAwait(false);
                     }
                 }
                 catch
                 {
-                    await Context.Channel.SendErrorAsync("No channel found.");
+                    await ReplyErrorLocalized("no_channel_found").ConfigureAwait(false);
                 }
             }
 
-            private static async Task TrackStream(ITextChannel channel, string username, FollowedStream.FollowedStreamType type)
+            private async Task TrackStream(ITextChannel channel, string username, FollowedStream.FollowedStreamType type)
             {
                 username = username.ToLowerInvariant().Trim();
                 var fs = new FollowedStream
@@ -320,7 +329,7 @@ namespace NadekoBot.Modules.Searches
                 }
                 catch
                 {
-                    await channel.SendErrorAsync("Stream probably doesn't exist.").ConfigureAwait(false);
+                    await ReplyErrorLocalized("stream_not_exist").ConfigureAwait(false);
                     return;
                 }
 
@@ -331,24 +340,24 @@ namespace NadekoBot.Modules.Searches
                                     .Add(fs);
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
-                await channel.EmbedAsync(fs.GetEmbed(status), $"🆗 I will notify this channel when status changes.").ConfigureAwait(false);
+                await channel.EmbedAsync(fs.GetEmbed(status, Context.Guild.Id), GetText("stream_tracked")).ConfigureAwait(false);
             }
         }
     }
 
     public static class FollowedStreamExtensions
     {
-        public static EmbedBuilder GetEmbed(this FollowedStream fs, Searches.StreamStatus status)
+        public static EmbedBuilder GetEmbed(this FollowedStream fs, Searches.StreamStatus status, ulong guildId)
         {
             var embed = new EmbedBuilder().WithTitle(fs.Username)
                                           .WithUrl(fs.GetLink())
-                                          .AddField(efb => efb.WithName("Status")
+                                          .AddField(efb => efb.WithName(fs.GetText("status"))
                                                             .WithValue(status.IsLive ? "Online" : "Offline")
                                                             .WithIsInline(true))
-                                          .AddField(efb => efb.WithName("Viewers")
+                                          .AddField(efb => efb.WithName(fs.GetText("viewers"))
                                                             .WithValue(status.IsLive ? status.Views : "-")
                                                             .WithIsInline(true))
-                                          .AddField(efb => efb.WithName("Platform")
+                                          .AddField(efb => efb.WithName(fs.GetText("platform"))
                                                             .WithValue(fs.Type.ToString())
                                                             .WithIsInline(true))
                                           .WithColor(status.IsLive ? NadekoBot.OkColor : NadekoBot.ErrorColor);
@@ -356,15 +365,21 @@ namespace NadekoBot.Modules.Searches
             return embed;
         }
 
-        public static string GetLink(this FollowedStream fs) {
+        public static string GetText(this FollowedStream fs, string key, params object[] replacements) =>
+            NadekoTopLevelModule.GetTextStatic(key,
+                NadekoBot.Localization.GetCultureInfo(fs.GuildId),
+                typeof(Searches).Name.ToLowerInvariant(),
+                replacements);
+
+        public static string GetLink(this FollowedStream fs)
+        {
             if (fs.Type == FollowedStream.FollowedStreamType.Hitbox)
                 return $"http://www.hitbox.tv/{fs.Username}/";
-            else if (fs.Type == FollowedStream.FollowedStreamType.Twitch)
+            if (fs.Type == FollowedStream.FollowedStreamType.Twitch)
                 return $"http://www.twitch.tv/{fs.Username}/";
-            else if (fs.Type == FollowedStream.FollowedStreamType.Beam)
+            if (fs.Type == FollowedStream.FollowedStreamType.Beam)
                 return $"https://beam.pro/{fs.Username}/";
-            else
-                return "??";
+            return "??";
         }
     }
 }

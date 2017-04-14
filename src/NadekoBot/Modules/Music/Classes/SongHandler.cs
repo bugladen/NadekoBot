@@ -6,12 +6,14 @@ using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using NLog;
 using VideoLibrary;
 
 namespace NadekoBot.Modules.Music.Classes
 {
     public static class SongHandler
     {
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
         public static async Task<Song> ResolveSong(string query, MusicType musicType = MusicType.Normal)
         {
             if (string.IsNullOrWhiteSpace(query))
@@ -97,7 +99,7 @@ namespace NadekoBot.Modules.Music.Classes
                 {
                     Title = video.Title.Substring(0, video.Title.Length - 10), // removing trailing "- You Tube"
                     Provider = "YouTube",
-                    Uri = video.Uri,
+                    Uri = await video.GetUriAsync().ConfigureAwait(false),
                     Query = link,
                     ProviderType = musicType,
                 });
@@ -106,7 +108,8 @@ namespace NadekoBot.Modules.Music.Classes
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed resolving the link.{ex.Message}");
+                _log.Warn($"Failed resolving the link.{ex.Message}");
+                _log.Warn(ex);
                 return null;
             }
         }
@@ -137,7 +140,7 @@ namespace NadekoBot.Modules.Music.Classes
                 }
                 catch
                 {
-                    Console.WriteLine($"Failed reading .pls:\n{file}");
+                    _log.Warn($"Failed reading .pls:\n{file}");
                     return null;
                 }
             }
@@ -156,7 +159,7 @@ namespace NadekoBot.Modules.Music.Classes
                 }
                 catch
                 {
-                    Console.WriteLine($"Failed reading .m3u:\n{file}");
+                    _log.Warn($"Failed reading .m3u:\n{file}");
                     return null;
                 }
 
@@ -172,7 +175,7 @@ namespace NadekoBot.Modules.Music.Classes
                 }
                 catch
                 {
-                    Console.WriteLine($"Failed reading .asx:\n{file}");
+                    _log.Warn($"Failed reading .asx:\n{file}");
                     return null;
                 }
             }
@@ -192,7 +195,7 @@ namespace NadekoBot.Modules.Music.Classes
                 }
                 catch
                 {
-                    Console.WriteLine($"Failed reading .xspf:\n{file}");
+                    _log.Warn($"Failed reading .xspf:\n{file}");
                     return null;
                 }
             }

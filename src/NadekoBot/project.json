@@ -18,12 +18,13 @@
   },
   "dependencies": {
     "AngleSharp": "0.9.9",
-    "VideoLibrary": "1.3.4",
+    "libvideo": "1.0.1",
     "CoreCLR-NCalc": "2.1.2",
     "Google.Apis.Urlshortener.v1": "1.19.0.138",
     "Google.Apis.YouTube.v3": "1.20.0.701",
     "Google.Apis.Customsearch.v1": "1.20.0.466",
-    "ImageSharp": "1.0.0-alpha-000079",
+    "ImageSharp": "1.0.0-alpha4-00031",
+    "ImageSharp.Drawing": "1.0.0-alpha4-00031",
     "Microsoft.EntityFrameworkCore": "1.1.0",
     "Microsoft.EntityFrameworkCore.Design": "1.1.0",
     "Microsoft.EntityFrameworkCore.Sqlite": "1.1.0",
@@ -39,7 +40,6 @@
     },
     "Newtonsoft.Json": "9.0.2-beta1",
     "NLog": "5.0.0-beta03",
-    "System.Diagnostics.Contracts": "4.3.0",
     "System.Xml.XPath": "4.3.0",
     "Discord.Net.Commands": {
       "target": "project",
