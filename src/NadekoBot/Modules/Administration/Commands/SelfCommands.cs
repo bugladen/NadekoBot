@@ -289,7 +289,7 @@ namespace NadekoBot.Modules.Administration
                 try
                 {
                     await ReplyConfirmLocalized("shard_reconnecting", Format.Bold("#" + shardid)).ConfigureAwait(false);
-                    await shard.ConnectAsync().ConfigureAwait(false);
+                    await shard.StartAsync().ConfigureAwait(false);
                     await ReplyConfirmLocalized("shard_reconnected", Format.Bold("#" + shardid)).ConfigureAwait(false);
                 }
                 catch (Exception ex)
@@ -303,8 +303,8 @@ namespace NadekoBot.Modules.Administration
             public async Task Leave([Remainder] string guildStr)
             {
                 guildStr = guildStr.Trim().ToUpperInvariant();
-                var server = NadekoBot.Client.GetGuilds().FirstOrDefault(g => g.Id.ToString() == guildStr) ??
-                    NadekoBot.Client.GetGuilds().FirstOrDefault(g => g.Name.Trim().ToUpperInvariant() == guildStr);
+                var server = NadekoBot.Client.Guilds.FirstOrDefault(g => g.Id.ToString() == guildStr) ??
+                    NadekoBot.Client.Guilds.FirstOrDefault(g => g.Name.Trim().ToUpperInvariant() == guildStr);
 
                 if (server == null)
                 {
@@ -414,7 +414,7 @@ namespace NadekoBot.Modules.Administration
                 if (ids.Length != 2)
                     return;
                 var sid = ulong.Parse(ids[0]);
-                var server = NadekoBot.Client.GetGuilds().FirstOrDefault(s => s.Id == sid);
+                var server = NadekoBot.Client.Guilds.FirstOrDefault(s => s.Id == sid);
 
                 if (server == null)
                     return;
@@ -451,7 +451,7 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task Announce([Remainder] string message)
             {
-                var channels = NadekoBot.Client.GetGuilds().Select(g => g.DefaultChannel).ToArray();
+                var channels = NadekoBot.Client.Guilds.Select(g => g.DefaultChannel).ToArray();
                 if (channels == null)
                     return;
                 await Task.WhenAll(channels.Where(c => c != null).Select(c => c.SendConfirmAsync(GetText("message_from_bo", Context.User.ToString()), message)))

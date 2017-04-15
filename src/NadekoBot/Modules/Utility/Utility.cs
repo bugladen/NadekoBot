@@ -384,9 +384,9 @@ namespace NadekoBot.Modules.Utility
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task ShardId(ulong guildid)
+        public async Task ShardId(IGuild guild)
         {
-            var shardId = NadekoBot.Client.GetShardIdFor(guildid);
+            var shardId = NadekoBot.Client.GetShardIdFor(guild);
 
             await Context.Channel.SendConfirmAsync(shardId.ToString()).ConfigureAwait(false);
         }
@@ -397,7 +397,7 @@ namespace NadekoBot.Modules.Utility
             var stats = NadekoBot.Stats;
 
             var shardId = Context.Guild != null
-                ? NadekoBot.Client.GetShardIdFor(Context.Guild.Id)
+                ? NadekoBot.Client.GetShardIdFor(Context.Guild)
                 : 0;
 
             await Context.Channel.EmbedAsync(
@@ -415,7 +415,7 @@ namespace NadekoBot.Modules.Utility
                     .AddField(efb => efb.WithName(GetText("uptime")).WithValue(stats.GetUptimeString("\n")).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("presence")).WithValue(
                         GetText("presence_txt",
-                            NadekoBot.Client.GetGuildCount(), stats.TextChannels, stats.VoiceChannels)).WithIsInline(true))
+                            NadekoBot.Client.Guilds.Count, stats.TextChannels, stats.VoiceChannels)).WithIsInline(true))
 #if !GLOBAL_NADEKO
                     .WithFooter(efb => efb.WithText(GetText("stats_songs",
                         Music.Music.MusicPlayers.Count(mp => mp.Value.CurrentSong != null),
@@ -446,7 +446,7 @@ namespace NadekoBot.Modules.Utility
             if (page < 0)
                 return;
 
-            var guilds = await Task.Run(() => NadekoBot.Client.GetGuilds().OrderBy(g => g.Name).Skip((page - 1) * 15).Take(15)).ConfigureAwait(false);
+            var guilds = await Task.Run(() => NadekoBot.Client.Guilds.OrderBy(g => g.Name).Skip((page - 1) * 15).Take(15)).ConfigureAwait(false);
 
             if (!guilds.Any())
             {

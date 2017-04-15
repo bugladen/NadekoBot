@@ -40,17 +40,14 @@ namespace NadekoBot.Modules.Administration
                 public int MaxMessages { get; set; }
                 public int PerSeconds { get; set; }
 
-                public CancellationTokenSource cancelSource { get; set; } = new CancellationTokenSource();
+                public CancellationTokenSource CancelSource { get; set; } = new CancellationTokenSource();
 
                 public ConcurrentDictionary<ulong, RatelimitedUser> Users { get; set; } = new ConcurrentDictionary<ulong, RatelimitedUser>();
 
                 public bool CheckUserRatelimit(ulong id, ulong guildId, SocketGuildUser optUser)
                 {
-                    HashSet<ulong> ignoreUsers;
-                    HashSet<ulong> ignoreRoles;
-
-                    if ((IgnoredUsers.TryGetValue(guildId, out ignoreUsers) && ignoreUsers.Contains(id)) || 
-                        (optUser != null && IgnoredRoles.TryGetValue(guildId, out ignoreRoles) && optUser.RoleIds.Any(x => ignoreRoles.Contains(x))))
+                    if ((IgnoredUsers.TryGetValue(guildId, out HashSet<ulong> ignoreUsers) && ignoreUsers.Contains(id)) ||
+                        (optUser != null && IgnoredRoles.TryGetValue(guildId, out HashSet<ulong> ignoreRoles) && optUser.Roles.Any(x => ignoreRoles.Contains(x.Id))))
                         return false;
 
                     var usr = Users.GetOrAdd(id, (key) => new RatelimitedUser() { UserId = id });
@@ -63,7 +60,7 @@ namespace NadekoBot.Modules.Administration
                     {
                         try
                         {
-                            await Task.Delay(PerSeconds * 1000, cancelSource.Token);
+                            await Task.Delay(PerSeconds * 1000, CancelSource.Token);
                         }
                         catch (OperationCanceledException) { }
                         usr.MessageCount--;
@@ -95,8 +92,7 @@ namespace NadekoBot.Modules.Administration
 
                          if (channel == null || usrMsg.IsAuthor())
                              return;
-                         Ratelimiter limiter;
-                         if (!RatelimitingChannels.TryGetValue(channel.Id, out limiter))
+                         if (!RatelimitingChannels.TryGetValue(channel.Id, out Ratelimiter limiter))
                              return;
 
                          if (limiter.CheckUserRatelimit(usrMsg.Author.Id, channel.Guild.Id, usrMsg.Author as SocketGuildUser))
@@ -111,10 +107,9 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.ManageMessages)]
             public async Task Slowmode()
             {
-                Ratelimiter throwaway;
-                if (RatelimitingChannels.TryRemove(Context.Channel.Id, out throwaway))
+                if (RatelimitingChannels.TryRemove(Context.Channel.Id, out Ratelimiter throwaway))
                 {
-                    throwaway.cancelSource.Cancel();
+                    throwaway.CancelSource.Cancel();
                     await ReplyConfirmLocalized("slowmode_disabled").ConfigureAwait(false);
                 }
             }

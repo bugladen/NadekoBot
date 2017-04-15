@@ -34,7 +34,7 @@ namespace NadekoBot.Services
         private readonly CommandService _commandService;
         private readonly Logger _log;
 
-        private List<IDMChannel> ownerChannels { get; set; } = new List<IDMChannel>();
+        private List<IDMChannel> OwnerChannels { get; set; } = new List<IDMChannel>();
 
         public event Func<IUserMessage, CommandInfo, Task> CommandExecuted = delegate { return Task.CompletedTask; };
 
@@ -60,7 +60,7 @@ namespace NadekoBot.Services
             var _ = Task.Run(async () =>
             {
                 await Task.Delay(5000).ConfigureAwait(false);
-                ownerChannels = (await Task.WhenAll(_client.GetGuilds().SelectMany(g => g.Users)
+                OwnerChannels = (await Task.WhenAll(_client.Guilds.SelectMany(g => g.Users)
                         .Where(u => NadekoBot.Credentials.OwnerIds.Contains(u.Id))
                         .Distinct(new GuildUserComparer())
                         .Select(async u =>
@@ -78,14 +78,14 @@ namespace NadekoBot.Services
                     .OrderBy(x => NadekoBot.Credentials.OwnerIds.IndexOf(x.Id))
                     .ToList();
 
-                if (!ownerChannels.Any())
+                if (!OwnerChannels.Any())
                     _log.Warn("No owner channels created! Make sure you've specified correct OwnerId in the credentials.json file.");
                 else
-                    _log.Info($"Created {ownerChannels.Count} out of {NadekoBot.Credentials.OwnerIds.Length} owner message channels.");
+                    _log.Info($"Created {OwnerChannels.Count} out of {NadekoBot.Credentials.OwnerIds.Length} owner message channels.");
             });
 
             _client.MessageReceived += MessageReceivedHandler;
-            _client.MessageUpdated += (oldmsg, newMsg) =>
+            _client.MessageUpdated += (oldmsg, newMsg, channel) =>
             {
                 var ignore = Task.Run(async () =>
                 {
@@ -115,18 +115,15 @@ namespace NadekoBot.Services
                 return false;
             try
             {
-                Games.ChatterBotSession cbs;
-                var message = Games.CleverBotCommands.PrepareMessage(usrMsg, out cbs);
-                if(message == null || cbs == null)
+                var message = Games.CleverBotCommands.PrepareMessage(usrMsg, out Games.ChatterBotSession cbs);
+                if (message == null || cbs == null)
                     return false;
 
                 PermissionCache pc = Permissions.GetCache(guild.Id);
-                int index;
-                if (
-                    !pc.Permissions.CheckPermissions(usrMsg,
-                        NadekoBot.ModulePrefixes[typeof(Games).Name] + "cleverbot",
-                        typeof(Games).Name,
-                        out index))
+                if (!pc.Permissions.CheckPermissions(usrMsg,
+                    NadekoBot.ModulePrefixes[typeof(Games).Name] + "cleverbot",
+                    typeof(Games).Name,
+                    out int index))
                 {
                     //todo print in guild actually
                     var returnMsg =
@@ -316,11 +313,9 @@ namespace NadekoBot.Services
                     if (guild != null)
                     {
                         PermissionCache pc = Permissions.GetCache(guild.Id);
-                        
-                        int index;
-                        if (
-                            !pc.Permissions.CheckPermissions(usrMsg, cr.Trigger, "ActualCustomReactions",
-                                out index))
+
+                        if (!pc.Permissions.CheckPermissions(usrMsg, cr.Trigger, "ActualCustomReactions",
+                            out int index))
                         {
                             //todo print in guild actually
                             var returnMsg =
@@ -349,8 +344,7 @@ namespace NadekoBot.Services
             string messageContent = usrMsg.Content;
             if (guild != null)
             {
-                ConcurrentDictionary<string, string> maps;
-                if (Modules.Utility.Utility.CommandMapCommands.AliasMaps.TryGetValue(guild.Id, out maps))
+                if (Modules.Utility.Utility.CommandMapCommands.AliasMaps.TryGetValue(guild.Id, out ConcurrentDictionary<string, string> maps))
                 {
 
                     var keys = maps.Keys
@@ -367,7 +361,7 @@ namespace NadekoBot.Services
                         else
                             continue;
 
-                            _log.Info(@"--Mapping Command--
+                        _log.Info(@"--Mapping Command--
     GuildId: {0}
     Trigger: {1}
     Mapping: {2}", guild.Id, messageContent, newMessageContent);
@@ -405,12 +399,11 @@ namespace NadekoBot.Services
                 {
                     // rofl, gotta do this to prevent dm help message being sent to 
                     // users who are voting on private polls (sending a number in a DM)
-                    int vote;
-                    if (int.TryParse(usrMsg.Content, out vote)) return;
+                    if (int.TryParse(usrMsg.Content, out int vote)) return;
 
                     await usrMsg.Channel.SendMessageAsync(Help.DMHelpString).ConfigureAwait(false);
 
-                    await SelfCommands.HandleDmForwarding(usrMsg, ownerChannels).ConfigureAwait(false);
+                    await SelfCommands.HandleDmForwarding(usrMsg, OwnerChannels).ConfigureAwait(false);
                 }
             }
         }
@@ -470,8 +463,7 @@ namespace NadekoBot.Services
                 if (context.Guild != null)
                 {
                     PermissionCache pc = Permissions.GetCache(context.Guild.Id);
-                    int index;
-                    if (!resetCommand && !pc.Permissions.CheckPermissions(context.Message, cmd.Aliases.First(), module.Name, out index))
+                    if (!resetCommand && !pc.Permissions.CheckPermissions(context.Message, cmd.Aliases.First(), module.Name, out int index))
                     {
                         var returnMsg = $"Permission number #{index + 1} **{pc.Permissions[index].GetCommand((SocketGuild)context.Guild)}** is preventing this action.";
                         return new ExecuteCommandResult(cmd, pc, SearchResult.FromError(CommandError.Exception, returnMsg));

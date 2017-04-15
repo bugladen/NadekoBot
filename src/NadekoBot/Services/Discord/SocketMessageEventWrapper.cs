@@ -17,20 +17,18 @@ namespace NadekoBot.Services.Discord
 
         public ReactionEventWrapper(IUserMessage msg)
         {
-            if (msg == null)
-                throw new ArgumentNullException(nameof(msg));
-            Message = msg;
+            Message = msg ?? throw new ArgumentNullException(nameof(msg));
 
             NadekoBot.Client.ReactionAdded += Discord_ReactionAdded;
             NadekoBot.Client.ReactionRemoved += Discord_ReactionRemoved;
             NadekoBot.Client.ReactionsCleared += Discord_ReactionsCleared;
         }
 
-        private Task Discord_ReactionsCleared(ulong messageId, Optional<SocketUserMessage> reaction)
+        private Task Discord_ReactionsCleared(Cacheable<IUserMessage, ulong> msg, ISocketMessageChannel channel)
         {
             try
             {
-                if (messageId == Message.Id)
+                if (msg.Id == Message.Id)
                     OnReactionsCleared?.Invoke();
             }
             catch { }
@@ -38,11 +36,11 @@ namespace NadekoBot.Services.Discord
             return Task.CompletedTask;
         }
 
-        private Task Discord_ReactionRemoved(ulong messageId, Optional<SocketUserMessage> arg2, SocketReaction reaction)
+        private Task Discord_ReactionRemoved(Cacheable<IUserMessage, ulong> msg, ISocketMessageChannel channel, SocketReaction reaction)
         {
             try
             {
-                if (messageId == Message.Id)
+                if (msg.Id == Message.Id)
                     OnReactionRemoved?.Invoke(reaction);
             }
             catch { }
@@ -50,11 +48,11 @@ namespace NadekoBot.Services.Discord
             return Task.CompletedTask;
         }
 
-        private Task Discord_ReactionAdded(ulong messageId, Optional<SocketUserMessage> message, SocketReaction reaction)
+        private Task Discord_ReactionAdded(Cacheable<IUserMessage, ulong> msg, ISocketMessageChannel channel, SocketReaction reaction)
         {
             try
             {
-                if (messageId == Message.Id)
+                if (msg.Id == Message.Id)
                     OnReactionAdded?.Invoke(reaction);
             }
             catch { }

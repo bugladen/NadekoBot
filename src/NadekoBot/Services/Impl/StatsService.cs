@@ -16,7 +16,7 @@ namespace NadekoBot.Services.Impl
         private readonly DiscordShardedClient _client;
         private readonly DateTime _started;
 
-        public const string BotVersion = "1.3a";
+        public const string BotVersion = "1.4-alpha";
 
         public string Author => "Kwoth#2560";
         public string Library => "Discord.Net";
@@ -124,7 +124,7 @@ namespace NadekoBot.Services.Impl
                     {
                         using (var content = new FormUrlEncodedContent(
                             new Dictionary<string, string> {
-                                { "servercount", _client.GetGuildCount().ToString() },
+                                { "servercount", _client.Guilds.Count.ToString() },
                                 { "key", NadekoBot.Credentials.CarbonKey }}))
                         {
                             content.Headers.Clear();
@@ -143,21 +143,23 @@ namespace NadekoBot.Services.Impl
 
         public void Initialize()
         {
-            var guilds = _client.GetGuilds().ToArray();
+            var guilds = _client.Guilds.ToArray();
             _textChannels = guilds.Sum(g => g.Channels.Count(cx => cx is ITextChannel));
             _voiceChannels = guilds.Sum(g => g.Channels.Count) - _textChannels;
         }
 
         public Task<string> Print()
         {
-            var curUser = _client.CurrentUser;
+            SocketSelfUser curUser;
+            while ((curUser = _client.CurrentUser) == null) Task.Delay(1000).ConfigureAwait(false);
+
             return Task.FromResult($@"
 Author: [{Author}] | Library: [{Library}]
 Bot Version: [{BotVersion}]
 Bot ID: {curUser.Id}
 Owner ID(s): {string.Join(", ", NadekoBot.Credentials.OwnerIds)}
 Uptime: {GetUptimeString()}
-Servers: {_client.GetGuildCount()} | TextChannels: {TextChannels} | VoiceChannels: {VoiceChannels}
+Servers: {_client.Guilds.Count} | TextChannels: {TextChannels} | VoiceChannels: {VoiceChannels}
 Commands Ran this session: {CommandsRan}
 Messages: {MessageCounter} [{MessagesPerSecond:F2}/sec] Heap: [{Heap} MB]");
         }

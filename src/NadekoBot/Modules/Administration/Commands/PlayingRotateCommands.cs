@@ -73,8 +73,8 @@ namespace NadekoBot.Modules.Administration
 
             public static Dictionary<string, Func<string>> PlayingPlaceholders { get; } =
                 new Dictionary<string, Func<string>> {
-                    { "%servers%", () => NadekoBot.Client.GetGuildCount().ToString()},
-                    { "%users%", () => NadekoBot.Client.GetGuilds().Sum(s => s.Users.Count).ToString()},
+                    { "%servers%", () => NadekoBot.Client.Guilds.Count.ToString()},
+                    { "%users%", () => NadekoBot.Client.Guilds.Sum(s => s.Users.Count).ToString()},
                     { "%playing%", () => {
                             var cnt = Music.Music.MusicPlayers.Count(kvp => kvp.Value.CurrentSong != null);
                             if (cnt != 1) return cnt.ToString();

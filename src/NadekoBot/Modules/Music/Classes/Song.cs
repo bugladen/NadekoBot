@@ -29,13 +29,13 @@ namespace NadekoBot.Modules.Music.Classes
         public string QueuerName { get; set; }
 
         public TimeSpan TotalTime { get; set; } = TimeSpan.Zero;
-        public TimeSpan CurrentTime => TimeSpan.FromSeconds(bytesSent / (float)_frameBytes / (1000 / (float)_milliseconds));
+        public TimeSpan CurrentTime => TimeSpan.FromSeconds(BytesSent / (float)_frameBytes / (1000 / (float)_milliseconds));
 
         private const int _milliseconds = 20;
         private const int _samplesPerFrame = (48000 / 1000) * _milliseconds;
         private const int _frameBytes = 3840; //16-bit, 2 channels
 
-        private ulong bytesSent { get; set; }
+        private ulong BytesSent { get; set; }
 
         //pwetty
 
@@ -138,7 +138,7 @@ namespace NadekoBot.Modules.Music.Classes
 
         public async Task Play(IAudioClient voiceClient, CancellationToken cancelToken)
         {
-            bytesSent = (ulong) SkipTo * 3840 * 50;
+            BytesSent = (ulong) SkipTo * 3840 * 50;
             var filename = Path.Combine(Music.MusicDataPath, DateTime.Now.UnixTimestamp().ToString());
 
             var inStream = new SongBuffer(MusicPlayer, filename, SongInfo, SkipTo, _frameBytes * 100);
@@ -188,7 +188,7 @@ namespace NadekoBot.Modules.Music.Classes
                 sw.Stop();
                 _log.Debug("Prebuffering successfully completed in " + sw.Elapsed);
 
-                var outStream = voiceClient.CreatePCMStream(960);
+                var outStream = voiceClient.CreatePCMStream(AudioApplication.Music);
 
                 int nextTime = Environment.TickCount + _milliseconds;
 
@@ -203,7 +203,7 @@ namespace NadekoBot.Modules.Music.Classes
                         _log.Debug("read {0}", read);
                     unchecked
                     {
-                        bytesSent += (ulong)read;
+                        BytesSent += (ulong)read;
                     }
                     if (read < _frameBytes)
                     {

@@ -22,23 +22,23 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class LogCommands : NadekoSubmodule
         {
-            private static DiscordShardedClient client { get; }
+            private static DiscordShardedClient Client { get; }
             private new static Logger _log { get; }
 
-            private static string prettyCurrentTime => $"【{DateTime.Now:HH:mm:ss}】";
-            private static string currentTime => $"{DateTime.Now:HH:mm:ss}";
+            private static string PrettyCurrentTime => $"【{DateTime.Now:HH:mm:ss}】";
+            private static string CurrentTime => $"{DateTime.Now:HH:mm:ss}";
 
             public static ConcurrentDictionary<ulong, LogSetting> GuildLogSettings { get; }
 
-            private static ConcurrentDictionary<ITextChannel, List<string>> presenceUpdates { get; } = new ConcurrentDictionary<ITextChannel, List<string>>();
+            private static ConcurrentDictionary<ITextChannel, List<string>> PresenceUpdates { get; } = new ConcurrentDictionary<ITextChannel, List<string>>();
             private static readonly Timer _timerReference;
 
             static LogCommands()
             {
-                client = NadekoBot.Client;
+                Client = NadekoBot.Client;
                 _log = LogManager.GetCurrentClassLogger();
                 var sw = Stopwatch.StartNew();
-                
+
                 GuildLogSettings = new ConcurrentDictionary<ulong, LogSetting>(NadekoBot.AllGuildConfigs
                     .ToDictionary(g => g.GuildId, g => g.LogSetting));
 
@@ -46,12 +46,11 @@ namespace NadekoBot.Modules.Administration
                 {
                     try
                     {
-                        var keys = presenceUpdates.Keys.ToList();
+                        var keys = PresenceUpdates.Keys.ToList();
 
                         await Task.WhenAll(keys.Select(async key =>
                         {
-                            List<string> messages;
-                            if (presenceUpdates.TryRemove(key, out messages))
+                            if (PresenceUpdates.TryRemove(key, out List<string> messages))
                                 try { await key.SendConfirmAsync(key.Guild.GetLogText("presence_updates"), string.Join(Environment.NewLine, messages)); }
                                 catch
                                 {
@@ -69,22 +68,22 @@ namespace NadekoBot.Modules.Administration
                 _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
 
                 //_client.MessageReceived += _client_MessageReceived;
-                client.MessageUpdated += _client_MessageUpdated;
-                client.MessageDeleted += _client_MessageDeleted;
-                client.UserBanned += _client_UserBanned;
-                client.UserUnbanned += _client_UserUnbanned;
-                client.UserJoined += _client_UserJoined;
-                client.UserLeft += _client_UserLeft;
-                client.UserPresenceUpdated += _client_UserPresenceUpdated;
-                client.UserVoiceStateUpdated += _client_UserVoiceStateUpdated;
-                client.UserVoiceStateUpdated += _client_UserVoiceStateUpdated_TTS;
-                client.GuildMemberUpdated += _client_GuildUserUpdated;
+                Client.MessageUpdated += _client_MessageUpdated;
+                Client.MessageDeleted += _client_MessageDeleted;
+                Client.UserBanned += _client_UserBanned;
+                Client.UserUnbanned += _client_UserUnbanned;
+                Client.UserJoined += _client_UserJoined;
+                Client.UserLeft += _client_UserLeft;
+                Client.UserPresenceUpdated += _client_UserPresenceUpdated;
+                Client.UserVoiceStateUpdated += _client_UserVoiceStateUpdated;
+                Client.UserVoiceStateUpdated += _client_UserVoiceStateUpdated_TTS;
+                Client.GuildMemberUpdated += _client_GuildUserUpdated;
 #if !GLOBAL_NADEKO
-                client.UserUpdated += _client_UserUpdated;
+                Client.UserUpdated += _client_UserUpdated;
 #endif
-                client.ChannelCreated += _client_ChannelCreated;
-                client.ChannelDestroyed += _client_ChannelDestroyed;
-                client.ChannelUpdated += _client_ChannelUpdated;
+                Client.ChannelCreated += _client_ChannelCreated;
+                Client.ChannelDestroyed += _client_ChannelDestroyed;
+                Client.ChannelUpdated += _client_ChannelUpdated;
 
                 MuteCommands.UserMuted += MuteCommands_UserMuted;
                 MuteCommands.UserUnmuted += MuteCommands_UserUnmuted;
@@ -101,8 +100,7 @@ namespace NadekoBot.Modules.Administration
 
                     var g = after.Guild;
 
-                    LogSetting logSetting;
-                    if (!GuildLogSettings.TryGetValue(g.Id, out logSetting)
+                    if (!GuildLogSettings.TryGetValue(g.Id, out LogSetting logSetting)
                         || (logSetting.UserUpdatedId == null))
                         return;
 
@@ -119,16 +117,16 @@ namespace NadekoBot.Modules.Administration
                             .WithDescription($"{before.Username}#{before.Discriminator} | {before.Id}")
                             .AddField(fb => fb.WithName("Old Name").WithValue($"{before.Username}").WithIsInline(true))
                             .AddField(fb => fb.WithName("New Name").WithValue($"{after.Username}").WithIsInline(true))
-                            .WithFooter(fb => fb.WithText(currentTime))
+                            .WithFooter(fb => fb.WithText(CurrentTime))
                             .WithOkColor();
                     }
-                    else if (before.AvatarUrl != after.AvatarUrl)
+                    else if (before.AvatarId != after.AvatarId)
                     {
                         embed.WithTitle("👥" + g.GetLogText("avatar_changed"))
                             .WithDescription($"{before.Username}#{before.Discriminator} | {before.Id}")
-                            .WithThumbnailUrl(before.AvatarUrl)
-                            .WithImageUrl(after.AvatarUrl)
-                            .WithFooter(fb => fb.WithText(currentTime))
+                            .WithThumbnailUrl(before.GetAvatarUrl())
+                            .WithImageUrl(after.GetAvatarUrl())
+                            .WithFooter(fb => fb.WithText(CurrentTime))
                             .WithOkColor();
                     }
                     else
@@ -173,8 +171,7 @@ namespace NadekoBot.Modules.Administration
                     if (beforeVch == afterVch)
                         return;
 
-                    LogSetting logSetting;
-                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out logSetting)
+                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out LogSetting logSetting)
                         || (logSetting.LogVoicePresenceTTSId == null))
                         return;
 
@@ -208,8 +205,7 @@ namespace NadekoBot.Modules.Administration
             {
                 try
                 {
-                    LogSetting logSetting;
-                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out logSetting)
+                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out LogSetting logSetting)
                         || (logSetting.UserMutedId == null))
                         return;
 
@@ -233,7 +229,7 @@ namespace NadekoBot.Modules.Administration
 
                     var embed = new EmbedBuilder().WithAuthor(eab => eab.WithName(mutes))
                             .WithTitle($"{usr.Username}#{usr.Discriminator} | {usr.Id}")
-                            .WithFooter(fb => fb.WithText(currentTime))
+                            .WithFooter(fb => fb.WithText(CurrentTime))
                             .WithOkColor();
 
                     await logChannel.EmbedAsync(embed).ConfigureAwait(false);
@@ -248,8 +244,7 @@ namespace NadekoBot.Modules.Administration
             {
                 try
                 {
-                    LogSetting logSetting;
-                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out logSetting)
+                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out LogSetting logSetting)
                         || (logSetting.UserMutedId == null))
                         return;
 
@@ -274,7 +269,7 @@ namespace NadekoBot.Modules.Administration
 
                     var embed = new EmbedBuilder().WithAuthor(eab => eab.WithName(mutes))
                             .WithTitle($"{usr.Username}#{usr.Discriminator} | {usr.Id}")
-                            .WithFooter(fb => fb.WithText($"{currentTime}"))
+                            .WithFooter(fb => fb.WithText($"{CurrentTime}"))
                             .WithOkColor();
 
                     await logChannel.EmbedAsync(embed).ConfigureAwait(false);
@@ -292,8 +287,7 @@ namespace NadekoBot.Modules.Administration
                     if (users.Length == 0)
                         return;
 
-                    LogSetting logSetting;
-                    if (!GuildLogSettings.TryGetValue(users.First().Guild.Id, out logSetting)
+                    if (!GuildLogSettings.TryGetValue(users.First().Guild.Id, out LogSetting logSetting)
                         || (logSetting.LogOtherId == null))
                         return;
                     ITextChannel logChannel;
@@ -320,7 +314,7 @@ namespace NadekoBot.Modules.Administration
                     var embed = new EmbedBuilder().WithAuthor(eab => eab.WithName($"🛡 Anti-{protection}"))
                             .WithTitle(logChannel.Guild.GetLogText("users") + " " + punishment)
                             .WithDescription(string.Join("\n", users.Select(u => u.ToString())))
-                            .WithFooter(fb => fb.WithText($"{currentTime}"))
+                            .WithFooter(fb => fb.WithText($"{CurrentTime}"))
                             .WithOkColor();
 
                     await logChannel.EmbedAsync(embed).ConfigureAwait(false);
@@ -335,15 +329,14 @@ namespace NadekoBot.Modules.Administration
             {
                 try
                 {
-                    LogSetting logSetting;
-                    if (!GuildLogSettings.TryGetValue(before.Guild.Id, out logSetting)
+                    if (!GuildLogSettings.TryGetValue(before.Guild.Id, out LogSetting logSetting)
                         || (logSetting.UserUpdatedId == null))
                         return;
 
                     ITextChannel logChannel;
                     if ((logChannel = await TryGetLogChannel(before.Guild, logSetting, LogType.UserUpdated)) == null)
                         return;
-                    var embed = new EmbedBuilder().WithOkColor().WithFooter(efb => efb.WithText(currentTime))
+                    var embed = new EmbedBuilder().WithOkColor().WithFooter(efb => efb.WithText(CurrentTime))
                         .WithTitle($"{before.Username}#{before.Discriminator} | {before.Id}");
                     if (before.Nickname != after.Nickname)
                     {
@@ -352,17 +345,17 @@ namespace NadekoBot.Modules.Administration
                             .AddField(efb => efb.WithName(logChannel.Guild.GetLogText("old_nick")).WithValue($"{before.Nickname}#{before.Discriminator}"))
                             .AddField(efb => efb.WithName(logChannel.Guild.GetLogText("new_nick")).WithValue($"{after.Nickname}#{after.Discriminator}"));
                     }
-                    else if (!before.RoleIds.SequenceEqual(after.RoleIds))
+                    else if (!before.Roles.SequenceEqual(after.Roles))
                     {
-                        if (before.RoleIds.Count < after.RoleIds.Count)
+                        if (before.Roles.Count < after.Roles.Count)
                         {
-                            var diffRoles = after.RoleIds.Where(r => !before.RoleIds.Contains(r)).Select(r => before.Guild.GetRole(r).Name);
+                            var diffRoles = after.Roles.Where(r => !before.Roles.Contains(r)).Select(r => r.Name);
                             embed.WithAuthor(eab => eab.WithName("⚔ " + logChannel.Guild.GetLogText("user_role_add")))
                                 .WithDescription(string.Join(", ", diffRoles).SanitizeMentions());
                         }
-                        else if (before.RoleIds.Count > after.RoleIds.Count)
+                        else if (before.Roles.Count > after.Roles.Count)
                         {
-                            var diffRoles = before.RoleIds.Where(r => !after.RoleIds.Contains(r)).Select(r => before.Guild.GetRole(r).Name);
+                            var diffRoles = before.Roles.Where(r => !after.Roles.Contains(r)).Select(r => r.Name);
                             embed.WithAuthor(eab => eab.WithName("⚔ " + logChannel.Guild.GetLogText("user_role_rem")))
                                 .WithDescription(string.Join(", ", diffRoles).SanitizeMentions());
                         }
@@ -386,8 +379,7 @@ namespace NadekoBot.Modules.Administration
                         return;
                     var after = (IGuildChannel)cafter;
 
-                    LogSetting logSetting;
-                    if (!GuildLogSettings.TryGetValue(before.Guild.Id, out logSetting)
+                    if (!GuildLogSettings.TryGetValue(before.Guild.Id, out LogSetting logSetting)
                         || (logSetting.ChannelUpdatedId == null)
                         || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == after.Id))
                         return;
@@ -396,7 +388,7 @@ namespace NadekoBot.Modules.Administration
                     if ((logChannel = await TryGetLogChannel(before.Guild, logSetting, LogType.ChannelUpdated)) == null)
                         return;
 
-                    var embed = new EmbedBuilder().WithOkColor().WithFooter(efb => efb.WithText(currentTime));
+                    var embed = new EmbedBuilder().WithOkColor().WithFooter(efb => efb.WithText(CurrentTime));
 
                     var beforeTextChannel = cbefore as ITextChannel;
                     var afterTextChannel = cafter as ITextChannel;
@@ -433,8 +425,7 @@ namespace NadekoBot.Modules.Administration
                     if (ch == null)
                         return;
 
-                    LogSetting logSetting;
-                    if (!GuildLogSettings.TryGetValue(ch.Guild.Id, out logSetting)
+                    if (!GuildLogSettings.TryGetValue(ch.Guild.Id, out LogSetting logSetting)
                         || (logSetting.ChannelDestroyedId == null)
                         || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == ch.Id))
                         return;
@@ -453,7 +444,7 @@ namespace NadekoBot.Modules.Administration
                         .WithOkColor()
                         .WithTitle("🆕 " + title)
                         .WithDescription($"{ch.Name} | {ch.Id}")
-                        .WithFooter(efb => efb.WithText(currentTime))).ConfigureAwait(false);
+                        .WithFooter(efb => efb.WithText(CurrentTime))).ConfigureAwait(false);
                 }
                 catch
                 {
@@ -469,8 +460,7 @@ namespace NadekoBot.Modules.Administration
                     if (ch == null)
                         return;
 
-                    LogSetting logSetting;
-                    if (!GuildLogSettings.TryGetValue(ch.Guild.Id, out logSetting)
+                    if (!GuildLogSettings.TryGetValue(ch.Guild.Id, out LogSetting logSetting)
                         || (logSetting.ChannelCreatedId == null))
                         return;
 
@@ -488,7 +478,7 @@ namespace NadekoBot.Modules.Administration
                         .WithOkColor()
                         .WithTitle("🆕 " + title)
                         .WithDescription($"{ch.Name} | {ch.Id}")
-                        .WithFooter(efb => efb.WithText(currentTime))).ConfigureAwait(false);
+                        .WithFooter(efb => efb.WithText(CurrentTime))).ConfigureAwait(false);
                 }
                 catch (Exception ex) { _log.Warn(ex); }
             }
@@ -507,8 +497,7 @@ namespace NadekoBot.Modules.Administration
                     if (beforeVch == afterVch)
                         return;
 
-                    LogSetting logSetting;
-                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out logSetting)
+                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out LogSetting logSetting)
                         || (logSetting.LogVoicePresenceId == null))
                         return;
 
@@ -519,24 +508,24 @@ namespace NadekoBot.Modules.Administration
                     string str = null;
                     if (beforeVch?.Guild == afterVch?.Guild)
                     {
-                        str = "🎙" + Format.Code(prettyCurrentTime) + logChannel.Guild.GetLogText("user_vmoved",
+                        str = "🎙" + Format.Code(PrettyCurrentTime) + logChannel.Guild.GetLogText("user_vmoved",
                                 "👤" + Format.Bold(usr.Username + "#" + usr.Discriminator),
                                 Format.Bold(beforeVch?.Name ?? ""), Format.Bold(afterVch?.Name ?? ""));
                     }
                     else if (beforeVch == null)
                     {
-                        str = "🎙" + Format.Code(prettyCurrentTime) + logChannel.Guild.GetLogText("user_vjoined",
+                        str = "🎙" + Format.Code(PrettyCurrentTime) + logChannel.Guild.GetLogText("user_vjoined",
                                 "👤" + Format.Bold(usr.Username + "#" + usr.Discriminator),
                                 Format.Bold(afterVch.Name ?? ""));
                     }
                     else if (afterVch == null)
                     {
-                        str = "🎙" + Format.Code(prettyCurrentTime) + logChannel.Guild.GetLogText("user_vleft",
+                        str = "🎙" + Format.Code(PrettyCurrentTime) + logChannel.Guild.GetLogText("user_vleft",
                                 "👤" + Format.Bold(usr.Username + "#" + usr.Discriminator),
                                 Format.Bold(beforeVch.Name ?? ""));
                     }
                     if (str != null)
-                        presenceUpdates.AddOrUpdate(logChannel, new List<string>() { str }, (id, list) => { list.Add(str); return list; });
+                        PresenceUpdates.AddOrUpdate(logChannel, new List<string>() { str }, (id, list) => { list.Add(str); return list; });
                 }
                 catch
                 {
@@ -553,8 +542,7 @@ namespace NadekoBot.Modules.Administration
                     if (guild == null)
                         return;
 
-                    LogSetting logSetting;
-                    if (!GuildLogSettings.TryGetValue(guild.Id, out logSetting)
+                    if (!GuildLogSettings.TryGetValue(guild.Id, out LogSetting logSetting)
                         || (logSetting.LogUserPresenceId == null)
                         || before.Status == after.Status)
                         return;
@@ -564,7 +552,7 @@ namespace NadekoBot.Modules.Administration
                         return;
                     string str = "";
                     if (before.Status != after.Status)
-                        str = "🎭" + Format.Code(prettyCurrentTime) +
+                        str = "🎭" + Format.Code(PrettyCurrentTime) +
                               logChannel.Guild.GetLogText("user_status_change",
                                     "👤" + Format.Bold(usr.Username),
                                     Format.Bold(after.Status.ToString()));
@@ -576,7 +564,7 @@ namespace NadekoBot.Modules.Administration
                     //    str += $"👾`{prettyCurrentTime}`👤__**{usr.Username}**__ is now playing **{after.Game?.Name}**.";
                     //}
 
-                    presenceUpdates.AddOrUpdate(logChannel, new List<string>() { str }, (id, list) => { list.Add(str); return list; });
+                    PresenceUpdates.AddOrUpdate(logChannel, new List<string>() { str }, (id, list) => { list.Add(str); return list; });
                 }
                 catch
                 {
@@ -588,8 +576,7 @@ namespace NadekoBot.Modules.Administration
             {
                 try
                 {
-                    LogSetting logSetting;
-                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out logSetting)
+                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out LogSetting logSetting)
                         || (logSetting.UserLeftId == null))
                         return;
 
@@ -600,10 +587,10 @@ namespace NadekoBot.Modules.Administration
                     await logChannel.EmbedAsync(new EmbedBuilder()
                         .WithOkColor()
                         .WithTitle("❌ " + logChannel.Guild.GetLogText("user_left"))
-                        .WithThumbnailUrl(usr.AvatarUrl)
+                        .WithThumbnailUrl(usr.GetAvatarUrl())
                         .WithDescription(usr.ToString())
                         .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))
-                        .WithFooter(efb => efb.WithText(currentTime))).ConfigureAwait(false);
+                        .WithFooter(efb => efb.WithText(CurrentTime))).ConfigureAwait(false);
                 }
                 catch
                 {
@@ -615,8 +602,7 @@ namespace NadekoBot.Modules.Administration
             {
                 try
                 {
-                    LogSetting logSetting;
-                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out logSetting)
+                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out LogSetting logSetting)
                         || (logSetting.UserJoinedId == null))
                         return;
 
@@ -627,10 +613,10 @@ namespace NadekoBot.Modules.Administration
                     await logChannel.EmbedAsync(new EmbedBuilder()
                         .WithOkColor()
                         .WithTitle("✅ " + logChannel.Guild.GetLogText("user_joined"))
-                        .WithThumbnailUrl(usr.AvatarUrl)
+                        .WithThumbnailUrl(usr.GetAvatarUrl())
                         .WithDescription($"{usr}")
                         .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))
-                        .WithFooter(efb => efb.WithText(currentTime))).ConfigureAwait(false);
+                        .WithFooter(efb => efb.WithText(CurrentTime))).ConfigureAwait(false);
                 }
                 catch (Exception ex) { _log.Warn(ex); }
             }
@@ -639,8 +625,7 @@ namespace NadekoBot.Modules.Administration
             {
                 try
                 {
-                    LogSetting logSetting;
-                    if (!GuildLogSettings.TryGetValue(guild.Id, out logSetting)
+                    if (!GuildLogSettings.TryGetValue(guild.Id, out LogSetting logSetting)
                         || (logSetting.UserUnbannedId == null))
                         return;
 
@@ -651,10 +636,10 @@ namespace NadekoBot.Modules.Administration
                     await logChannel.EmbedAsync(new EmbedBuilder()
                         .WithOkColor()
                         .WithTitle("♻️ " + logChannel.Guild.GetLogText("user_unbanned"))
-                        .WithThumbnailUrl(usr.AvatarUrl)
+                        .WithThumbnailUrl(usr.GetAvatarUrl())
                         .WithDescription(usr.ToString())
                         .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))
-                        .WithFooter(efb => efb.WithText(currentTime))).ConfigureAwait(false);
+                        .WithFooter(efb => efb.WithText(CurrentTime))).ConfigureAwait(false);
                 }
                 catch (Exception ex) { _log.Warn(ex); }
             }
@@ -663,8 +648,7 @@ namespace NadekoBot.Modules.Administration
             {
                 try
                 {
-                    LogSetting logSetting;
-                    if (!GuildLogSettings.TryGetValue(guild.Id, out logSetting)
+                    if (!GuildLogSettings.TryGetValue(guild.Id, out LogSetting logSetting)
                         || (logSetting.UserBannedId == null))
                         return;
 
@@ -674,29 +658,28 @@ namespace NadekoBot.Modules.Administration
                     await logChannel.EmbedAsync(new EmbedBuilder()
                         .WithOkColor()
                         .WithTitle("🚫 " + logChannel.Guild.GetLogText("user_banned"))
-                        .WithThumbnailUrl(usr.AvatarUrl)
+                        .WithThumbnailUrl(usr.GetAvatarUrl())
                         .WithDescription(usr.ToString())
                         .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))
-                        .WithFooter(efb => efb.WithText(currentTime))).ConfigureAwait(false);
+                        .WithFooter(efb => efb.WithText(CurrentTime))).ConfigureAwait(false);
                 }
                 catch (Exception ex) { _log.Warn(ex); }
             }
 
-            private static async Task _client_MessageDeleted(ulong arg1, Optional<SocketMessage> imsg)
+            private static async Task _client_MessageDeleted(Cacheable<IMessage, ulong> optMsg, ISocketMessageChannel ch)
             {
 
                 try
                 {
-                    var msg = (imsg.IsSpecified ? imsg.Value : null) as IUserMessage;
+                    var msg = (optMsg.HasValue ? optMsg.Value : null) as IUserMessage;
                     if (msg == null || msg.IsAuthor())
                         return;
 
-                    var channel = msg.Channel as ITextChannel;
+                    var channel = ch as ITextChannel;
                     if (channel == null)
                         return;
 
-                    LogSetting logSetting;
-                    if (!GuildLogSettings.TryGetValue(channel.Guild.Id, out logSetting)
+                    if (!GuildLogSettings.TryGetValue(channel.Guild.Id, out LogSetting logSetting)
                         || (logSetting.MessageDeletedId == null)
                         || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == channel.Id))
                         return;
@@ -710,7 +693,7 @@ namespace NadekoBot.Modules.Administration
                         .WithDescription(msg.Author.ToString())
                         .AddField(efb => efb.WithName(logChannel.Guild.GetLogText("content")).WithValue(string.IsNullOrWhiteSpace(msg.Content) ? "-" : msg.Resolve(userHandling: TagHandling.FullName)).WithIsInline(false))
                         .AddField(efb => efb.WithName("Id").WithValue(msg.Id.ToString()).WithIsInline(false))
-                        .WithFooter(efb => efb.WithText(currentTime));
+                        .WithFooter(efb => efb.WithText(CurrentTime));
                     if (msg.Attachments.Any())
                         embed.AddField(efb => efb.WithName(logChannel.Guild.GetLogText("attachments")).WithValue(string.Join(", ", msg.Attachments.Select(a => a.Url))).WithIsInline(false));
 
@@ -723,7 +706,7 @@ namespace NadekoBot.Modules.Administration
                 }
             }
 
-            private static async Task _client_MessageUpdated(Optional<SocketMessage> optmsg, SocketMessage imsg2)
+            private static async Task _client_MessageUpdated(Cacheable<IMessage, ulong> optmsg, SocketMessage imsg2, ISocketMessageChannel ch)
             {
                 try
                 {
@@ -731,19 +714,18 @@ namespace NadekoBot.Modules.Administration
                     if (after == null || after.IsAuthor())
                         return;
 
-                    var before = (optmsg.IsSpecified ? optmsg.Value : null) as IUserMessage;
+                    var before = (optmsg.HasValue ? optmsg.Value : null) as IUserMessage;
                     if (before == null)
                         return;
 
-                    var channel = after.Channel as ITextChannel;
+                    var channel = ch as ITextChannel;
                     if (channel == null)
                         return;
 
                     if (before.Content == after.Content)
                         return;
 
-                    LogSetting logSetting;
-                    if (!GuildLogSettings.TryGetValue(channel.Guild.Id, out logSetting)
+                    if (!GuildLogSettings.TryGetValue(channel.Guild.Id, out LogSetting logSetting)
                         || (logSetting.MessageUpdatedId == null)
                         || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == channel.Id))
                         return;
@@ -759,7 +741,7 @@ namespace NadekoBot.Modules.Administration
                         .AddField(efb => efb.WithName(logChannel.Guild.GetLogText("old_msg")).WithValue(string.IsNullOrWhiteSpace(before.Content) ? "-" : before.Resolve(userHandling: TagHandling.FullName)).WithIsInline(false))
                         .AddField(efb => efb.WithName(logChannel.Guild.GetLogText("new_msg")).WithValue(string.IsNullOrWhiteSpace(after.Content) ? "-" : after.Resolve(userHandling: TagHandling.FullName)).WithIsInline(false))
                         .AddField(efb => efb.WithName("Id").WithValue(after.Id.ToString()).WithIsInline(false))
-                        .WithFooter(efb => efb.WithText(currentTime));
+                        .WithFooter(efb => efb.WithText(CurrentTime));
 
                     await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                 }

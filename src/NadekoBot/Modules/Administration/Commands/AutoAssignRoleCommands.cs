@@ -17,20 +17,19 @@ namespace NadekoBot.Modules.Administration
         public class AutoAssignRoleCommands : NadekoSubmodule
         {
             //guildid/roleid
-            private static ConcurrentDictionary<ulong, ulong> autoAssignedRoles { get; }
+            private static ConcurrentDictionary<ulong, ulong> AutoAssignedRoles { get; }
 
             static AutoAssignRoleCommands()
             {
                 var log = LogManager.GetCurrentClassLogger();
 
-                autoAssignedRoles = new ConcurrentDictionary<ulong, ulong>(NadekoBot.AllGuildConfigs.Where(x => x.AutoAssignRoleId != 0)
+                AutoAssignedRoles = new ConcurrentDictionary<ulong, ulong>(NadekoBot.AllGuildConfigs.Where(x => x.AutoAssignRoleId != 0)
                     .ToDictionary(k => k.GuildId, v => v.AutoAssignRoleId));
                 NadekoBot.Client.UserJoined += async (user) =>
                 {
                     try
                     {
-                        ulong roleId;
-                        autoAssignedRoles.TryGetValue(user.Guild.Id, out roleId);
+                        AutoAssignedRoles.TryGetValue(user.Guild.Id, out ulong roleId);
 
                         if (roleId == 0)
                             return;
@@ -38,7 +37,7 @@ namespace NadekoBot.Modules.Administration
                         var role = user.Guild.Roles.FirstOrDefault(r => r.Id == roleId);
 
                         if (role != null)
-                            await user.AddRolesAsync(role).ConfigureAwait(false);
+                            await user.AddRoleAsync(role).ConfigureAwait(false);
                     }
                     catch (Exception ex) { log.Warn(ex); }
                 };
@@ -60,13 +59,12 @@ namespace NadekoBot.Modules.Administration
                     if (role == null)
                     {
                         conf.AutoAssignRoleId = 0;
-                        ulong throwaway;
-                        autoAssignedRoles.TryRemove(Context.Guild.Id, out throwaway);
+                        AutoAssignedRoles.TryRemove(Context.Guild.Id, out ulong throwaway);
                     }
                     else
                     {
                         conf.AutoAssignRoleId = role.Id;
-                        autoAssignedRoles.AddOrUpdate(Context.Guild.Id, role.Id, (key, val) => role.Id);
+                        AutoAssignedRoles.AddOrUpdate(Context.Guild.Id, role.Id, (key, val) => role.Id);
                     }
 
                     await uow.CompleteAsync().ConfigureAwait(false);

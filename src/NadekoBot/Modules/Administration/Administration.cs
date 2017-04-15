@@ -19,7 +19,7 @@ namespace NadekoBot.Modules.Administration
     [NadekoModule("Administration", ".")]
     public partial class Administration : NadekoTopLevelModule
     {
-        private static ConcurrentHashSet<ulong> deleteMessagesOnCommand { get; }
+        private static readonly ConcurrentHashSet<ulong> deleteMessagesOnCommand;
 
         private new static readonly Logger _log;
 
@@ -122,7 +122,7 @@ namespace NadekoBot.Modules.Administration
                 return;
             try
             {
-                await usr.AddRolesAsync(role).ConfigureAwait(false);
+                await usr.AddRoleAsync(role).ConfigureAwait(false);
                 await ReplyConfirmLocalized("setrole", Format.Bold(role.Name), Format.Bold(usr.ToString()))
                     .ConfigureAwait(false);
             }
@@ -144,7 +144,7 @@ namespace NadekoBot.Modules.Administration
                 return;
             try
             {
-                await usr.RemoveRolesAsync(role).ConfigureAwait(false);
+                await usr.RemoveRoleAsync(role).ConfigureAwait(false);
                 await ReplyConfirmLocalized("remrole", Format.Bold(role.Name), Format.Bold(usr.ToString())).ConfigureAwait(false);
             }
             catch

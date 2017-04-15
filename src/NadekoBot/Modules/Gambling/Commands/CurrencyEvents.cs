@@ -51,7 +51,7 @@ namespace NadekoBot.Modules.Gambling
                 }
             }
 
-            public async Task SneakyGameStatusEvent(CommandContext context, int? arg)
+            public async Task SneakyGameStatusEvent(ICommandContext context, int? arg)
             {
                 int num;
                 if (arg == null || arg < 5)
@@ -115,7 +115,7 @@ namespace NadekoBot.Modules.Gambling
                 return Task.Delay(0);
             }
 
-            public async Task FlowerReactionEvent(CommandContext context, int amount)
+            public async Task FlowerReactionEvent(ICommandContext context, int amount)
             {
                 if (amount <= 0)
                     amount = 100;
@@ -134,7 +134,7 @@ namespace NadekoBot.Modules.Gambling
 
     public abstract class CurrencyEvent
     {
-        public abstract Task Start(IUserMessage msg, CommandContext channel, int amount);
+        public abstract Task Start(IUserMessage msg, ICommandContext channel, int amount);
     }
 
     public class FlowerReactionEvent : CurrencyEvent
@@ -142,31 +142,31 @@ namespace NadekoBot.Modules.Gambling
         private readonly ConcurrentHashSet<ulong> _flowerReactionAwardedUsers = new ConcurrentHashSet<ulong>();
         private readonly Logger _log;
 
-        private IUserMessage msg { get; set; }
+        private IUserMessage StartingMessage { get; set; }
 
-        private CancellationTokenSource source { get; }
-        private CancellationToken cancelToken { get; }
+        private CancellationTokenSource Source { get; }
+        private CancellationToken CancelToken { get; }
 
         public FlowerReactionEvent()
         {
             _log = LogManager.GetCurrentClassLogger();
-            source = new CancellationTokenSource();
-            cancelToken = source.Token;
+            Source = new CancellationTokenSource();
+            CancelToken = Source.Token;
         }
 
         private async Task End()
         {
-            if(msg != null)
-                await msg.DeleteAsync().ConfigureAwait(false);
+            if(StartingMessage != null)
+                await StartingMessage.DeleteAsync().ConfigureAwait(false);
 
-            if(!source.IsCancellationRequested)
-                source.Cancel();
+            if(!Source.IsCancellationRequested)
+                Source.Cancel();
 
             NadekoBot.Client.MessageDeleted -= MessageDeletedEventHandler;
         }
 
-        private Task MessageDeletedEventHandler(ulong id, Optional<SocketMessage> _) {
-            if (msg?.Id == id)
+        private Task MessageDeletedEventHandler(Cacheable<IMessage, ulong> msg, ISocketMessageChannel channel) {
+            if (StartingMessage?.Id == msg.Id)
             {
                 _log.Warn("Stopping flower reaction event because message is deleted.");
                 var __ = Task.Run(End);
@@ -175,22 +175,22 @@ namespace NadekoBot.Modules.Gambling
             return Task.CompletedTask;
         }
 
-        public override async Task Start(IUserMessage umsg, CommandContext context, int amount)
+        public override async Task Start(IUserMessage umsg, ICommandContext context, int amount)
         {
-            msg = umsg;
+            StartingMessage = umsg;
             NadekoBot.Client.MessageDeleted += MessageDeletedEventHandler;
 
-            try { await msg.AddReactionAsync("🌸").ConfigureAwait(false); }
+            try { await StartingMessage.AddReactionAsync("🌸").ConfigureAwait(false); }
             catch
             {
-                try { await msg.AddReactionAsync("🌸").ConfigureAwait(false); }
+                try { await StartingMessage.AddReactionAsync("🌸").ConfigureAwait(false); }
                 catch
                 {
-                    try { await msg.DeleteAsync().ConfigureAwait(false); }
+                    try { await StartingMessage.DeleteAsync().ConfigureAwait(false); }
                     catch { return; }
                 }
             }
-            using (msg.OnReaction(async (r) =>
+            using (StartingMessage.OnReaction(async (r) =>
             {
                 try
                 {
@@ -208,13 +208,13 @@ namespace NadekoBot.Modules.Gambling
             {
                 try
                 {
-                    await Task.Delay(TimeSpan.FromHours(24), cancelToken).ConfigureAwait(false);
+                    await Task.Delay(TimeSpan.FromHours(24), CancelToken).ConfigureAwait(false);
                 }
                 catch (OperationCanceledException)
                 {
                     
                 }
-                if (cancelToken.IsCancellationRequested)
+                if (CancelToken.IsCancellationRequested)
                     return;
 
                 _log.Warn("Stopping flower reaction event because it expired.");

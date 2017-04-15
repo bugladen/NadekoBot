@@ -448,7 +448,7 @@ namespace NadekoBot.Extensions
         {
             return usr.AvatarId.StartsWith("a_")
                     ? $"{DiscordConfig.CDNUrl}avatars/{usr.Id}/{usr.AvatarId}.gif"
-                    : usr.AvatarUrl;
+                    : usr.GetAvatarUrl(ImageFormat.Auto);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace NadekoBot.TypeReaders
         public override Task<TypeReaderResult> Read(ICommandContext context, string input)
         {
             input = input.Trim().ToLowerInvariant();
-            var guilds = NadekoBot.Client.GetGuilds();
+            var guilds = NadekoBot.Client.Guilds;
             var guild = guilds.FirstOrDefault(g => g.Id.ToString().Trim().ToLowerInvariant() == input) ?? //by id
                         guilds.FirstOrDefault(g => g.Name.Trim().ToLowerInvariant() == input); //by name
 

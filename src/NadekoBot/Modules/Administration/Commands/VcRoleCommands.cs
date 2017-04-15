@@ -18,12 +18,12 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class VcRoleCommands : NadekoSubmodule
         {
-            private static ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, IRole>> vcRoles { get; }
+            private static ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, IRole>> VcRoles { get; }
 
             static VcRoleCommands()
             {
                 NadekoBot.Client.UserVoiceStateUpdated += ClientOnUserVoiceStateUpdated;
-                vcRoles = new ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, IRole>>();
+                VcRoles = new ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, IRole>>();
                 foreach (var gconf in NadekoBot.AllGuildConfigs)
                 {
                     var g = NadekoBot.Client.GetGuild(gconf.GuildId);
@@ -31,7 +31,7 @@ namespace NadekoBot.Modules.Administration
                         continue; //todo delete everything from db if guild doesn't exist?
 
                     var infos = new ConcurrentDictionary<ulong, IRole>();
-                    vcRoles.TryAdd(gconf.GuildId, infos);
+                    VcRoles.TryAdd(gconf.GuildId, infos);
                     foreach (var ri in gconf.VcRoleInfos)
                     {
                         var role = g.GetRole(ri.RoleId);
@@ -62,24 +62,22 @@ namespace NadekoBot.Modules.Administration
                             ulong guildId;
                             guildId = newVc?.Guild.Id ?? oldVc.Guild.Id;
 
-                            ConcurrentDictionary<ulong, IRole> guildVcRoles;
-                            if (vcRoles.TryGetValue(guildId, out guildVcRoles))
+                            if (VcRoles.TryGetValue(guildId, out ConcurrentDictionary<ulong, IRole> guildVcRoles))
                             {
-                                IRole role;
                                 //remove old
-                                if (oldVc != null && guildVcRoles.TryGetValue(oldVc.Id, out role))
+                                if (oldVc != null && guildVcRoles.TryGetValue(oldVc.Id, out IRole role))
                                 {
-                                    if (gusr.RoleIds.Contains(role.Id))
+                                    if (gusr.Roles.Contains(role))
                                     {
                                         try
                                         {
-                                            await gusr.RemoveRolesAsync(role).ConfigureAwait(false);
+                                            await gusr.RemoveRoleAsync(role).ConfigureAwait(false);
                                             await Task.Delay(500).ConfigureAwait(false);
                                         }
                                         catch
                                         {
                                             await Task.Delay(200).ConfigureAwait(false);
-                                            await gusr.RemoveRolesAsync(role).ConfigureAwait(false);
+                                            await gusr.RemoveRoleAsync(role).ConfigureAwait(false);
                                             await Task.Delay(500).ConfigureAwait(false);
                                         }
                                     }
@@ -87,10 +85,10 @@ namespace NadekoBot.Modules.Administration
                                 //add new
                                 if (newVc != null && guildVcRoles.TryGetValue(newVc.Id, out role))
                                 {
-                                    if (!gusr.RoleIds.Contains(role.Id))
-                                        await gusr.AddRolesAsync(role).ConfigureAwait(false);
+                                    if (!gusr.Roles.Contains(role))
+                                        await gusr.AddRoleAsync(role).ConfigureAwait(false);
                                 }
-                                
+
                             }
                         }
                     }
@@ -120,7 +118,7 @@ namespace NadekoBot.Modules.Administration
                     return;
                 }
 
-                var guildVcRoles = vcRoles.GetOrAdd(user.GuildId, new ConcurrentDictionary<ulong, IRole>());
+                var guildVcRoles = VcRoles.GetOrAdd(user.GuildId, new ConcurrentDictionary<ulong, IRole>());
 
                 if (role == null)
                 {
@@ -159,8 +157,7 @@ namespace NadekoBot.Modules.Administration
             {
                 var guild = (SocketGuild) Context.Guild;
                 string text;
-                ConcurrentDictionary<ulong, IRole> roles;
-                if (vcRoles.TryGetValue(Context.Guild.Id, out roles))
+                if (VcRoles.TryGetValue(Context.Guild.Id, out ConcurrentDictionary<ulong, IRole> roles))
                 {
                     if (!roles.Any())
                     {

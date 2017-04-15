@@ -102,7 +102,7 @@ namespace NadekoBot.Modules.Gambling
                     {
                         try
                         {
-                            await guser.AddRolesAsync(role).ConfigureAwait(false);
+                            await guser.AddRoleAsync(role).ConfigureAwait(false);
                         }
                         catch (Exception ex)
                         {
@@ -200,10 +200,12 @@ namespace NadekoBot.Modules.Gambling
                 };
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    var entries = new IndexedCollection<ShopEntry>(uow.GuildConfigs.For(Context.Guild.Id, 
+                    var entries = new IndexedCollection<ShopEntry>(uow.GuildConfigs.For(Context.Guild.Id,
                         set => set.Include(x => x.ShopEntries)
-                                  .ThenInclude(x => x.Items)).ShopEntries);
-                    entries.Add(entry);
+                                  .ThenInclude(x => x.Items)).ShopEntries)
+                    {
+                        entry
+                    };
                     uow.GuildConfigs.For(Context.Guild.Id, set => set).ShopEntries = entries;
                     uow.Complete();
                 }
@@ -228,8 +230,10 @@ namespace NadekoBot.Modules.Gambling
                 {
                     var entries = new IndexedCollection<ShopEntry>(uow.GuildConfigs.For(Context.Guild.Id,
                         set => set.Include(x => x.ShopEntries)
-                                  .ThenInclude(x => x.Items)).ShopEntries);
-                    entries.Add(entry);
+                                  .ThenInclude(x => x.Items)).ShopEntries)
+                    {
+                        entry
+                    };
                     uow.GuildConfigs.For(Context.Guild.Id, set => set).ShopEntries = entries;
                     uow.Complete();
                 }

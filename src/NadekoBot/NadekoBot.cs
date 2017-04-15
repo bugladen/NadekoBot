@@ -20,6 +20,7 @@ using NadekoBot.Modules.Music;
 using NadekoBot.Services.Database.Models;
 using System.Resources;
 using NadekoBot.Resources;
+using System.Threading;
 
 namespace NadekoBot
 {
@@ -74,7 +75,6 @@ namespace NadekoBot
             //create client
             Client = new DiscordShardedClient(new DiscordSocketConfig
             {
-                AudioMode = Discord.Audio.AudioMode.Outgoing,
                 MessageCacheSize = 10,
                 LogLevel = LogSeverity.Warning,
                 TotalShards = Credentials.TotalShards,
@@ -119,8 +119,17 @@ namespace NadekoBot
             var sw = Stopwatch.StartNew();
             //connect
             await Client.LoginAsync(TokenType.Bot, Credentials.Token).ConfigureAwait(false);
-            await Client.ConnectAsync().ConfigureAwait(false);
+            await Client.StartAsync().ConfigureAwait(false);
             //await Client.DownloadAllUsersAsync().ConfigureAwait(false);
+            
+            // wait for all shards to be ready
+            int readyCount = 0;
+            foreach (var s in Client.Shards)
+                s.Ready += () => Task.FromResult(Interlocked.Increment(ref readyCount));
+
+            while (readyCount < Client.Shards.Count)
+                await Task.Delay(100).ConfigureAwait(false);
+
             Stats.Initialize();
 
             sw.Stop();
@@ -162,10 +171,10 @@ namespace NadekoBot
             try
             {
                 var logConfig = new LoggingConfiguration();
-                var consoleTarget = new ColoredConsoleTarget();
-
-                consoleTarget.Layout = @"${date:format=HH\:mm\:ss} ${logger} | ${message}";
-
+                var consoleTarget = new ColoredConsoleTarget()
+                {
+                    Layout = @"${date:format=HH\:mm\:ss} ${logger} | ${message}"
+                };
                 logConfig.AddTarget("Console", consoleTarget);
 
                 logConfig.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, consoleTarget));

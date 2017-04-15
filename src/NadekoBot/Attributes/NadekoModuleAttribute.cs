@@ -33,13 +33,12 @@ namespace NadekoBot.Attributes
 
         private static string GetModulePrefix(string moduleName, string defaultPrefix)
         {
-            string prefix = null;
-            if (!ModulePrefixes.TryGetValue(moduleName, out prefix))
+            if (!ModulePrefixes.TryGetValue(moduleName, out string prefix))
             {
                 NadekoBot.ModulePrefixes.TryAdd(moduleName, defaultPrefix);
                 NLog.LogManager.GetCurrentClassLogger().Warn("Prefix not found for {0}. Will use default one: {1}", moduleName, defaultPrefix);
             }
-            
+
 
             return prefix ?? defaultPrefix;
         }

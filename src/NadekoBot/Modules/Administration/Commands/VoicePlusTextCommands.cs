@@ -98,7 +98,7 @@ namespace NadekoBot.Modules.Administration
                                     try
                                     {
                                         _log.Info("Removing role " + beforeRoleName + " from user " + user.Username);
-                                        await user.RemoveRolesAsync(beforeRole).ConfigureAwait(false);
+                                        await user.RemoveRoleAsync(beforeRole).ConfigureAwait(false);
                                         await Task.Delay(200).ConfigureAwait(false);
                                     }
                                     catch (Exception ex)
@@ -119,7 +119,7 @@ namespace NadekoBot.Modules.Administration
                                 {
                                     var created = (await guild.CreateTextChannelAsync(GetChannelName(afterVch.Name).ToLowerInvariant()).ConfigureAwait(false));
 
-                                    try { await guild.CurrentUser.AddRolesAsync(roleToAdd).ConfigureAwait(false); } catch {/*ignored*/}
+                                    try { await guild.CurrentUser.AddRoleAsync(roleToAdd).ConfigureAwait(false); } catch {/*ignored*/}
                                     await Task.Delay(50).ConfigureAwait(false);
                                     await created.AddPermissionOverwriteAsync(roleToAdd, new OverwritePermissions(
                                         readMessages: PermValue.Allow,
@@ -133,7 +133,7 @@ namespace NadekoBot.Modules.Administration
                                     await Task.Delay(50).ConfigureAwait(false);
                                 }
                                 _log.Warn("Adding role " + roleToAdd.Name + " to user " + user.Username);
-                                await user.AddRolesAsync(roleToAdd).ConfigureAwait(false);
+                                await user.AddRoleAsync(roleToAdd).ConfigureAwait(false);
                             }
                         }
                         finally

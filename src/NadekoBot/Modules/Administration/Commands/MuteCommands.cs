@@ -19,9 +19,9 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class MuteCommands : NadekoSubmodule
         {
-            private static ConcurrentDictionary<ulong, string> guildMuteRoles { get; }
-            private static ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>> mutedUsers { get; }
-            private static ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, Timer>> unmuteTimers { get; }
+            private static ConcurrentDictionary<ulong, string> GuildMuteRoles { get; }
+            private static ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>> MutedUsers { get; }
+            private static ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, Timer>> UnmuteTimers { get; }
                 = new ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, Timer>>();
 
             public static event Action<IGuildUser, MuteType> UserMuted = delegate { };
@@ -40,11 +40,11 @@ namespace NadekoBot.Modules.Administration
             static MuteCommands()
             {
                 var configs = NadekoBot.AllGuildConfigs;
-                guildMuteRoles = new ConcurrentDictionary<ulong, string>(configs
+                GuildMuteRoles = new ConcurrentDictionary<ulong, string>(configs
                         .Where(c => !string.IsNullOrWhiteSpace(c.MuteRoleName))
                         .ToDictionary(c => c.GuildId, c => c.MuteRoleName));
 
-                mutedUsers = new ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>>(configs.ToDictionary(
+                MutedUsers = new ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>>(configs.ToDictionary(
                     k => k.GuildId,
                     v => new ConcurrentHashSet<ulong>(v.MutedUsers.Select(m => m.UserId))
                 ));
@@ -73,8 +73,7 @@ namespace NadekoBot.Modules.Administration
             {
                 try
                 {
-                    ConcurrentHashSet<ulong> muted;
-                    mutedUsers.TryGetValue(usr.Guild.Id, out muted);
+                    MutedUsers.TryGetValue(usr.Guild.Id, out ConcurrentHashSet<ulong> muted);
 
                     if (muted == null || !muted.Contains(usr.Id))
                         return;
@@ -92,7 +91,7 @@ namespace NadekoBot.Modules.Administration
                 await usr.ModifyAsync(x => x.Mute = true).ConfigureAwait(false);
                 var muteRole = await GetMuteRole(usr.Guild);
                 if (!usr.RoleIds.Contains(muteRole.Id))
-                    await usr.AddRolesAsync(muteRole).ConfigureAwait(false);
+                    await usr.AddRoleAsync(muteRole).ConfigureAwait(false);
                 StopUnmuteTimer(usr.GuildId, usr.Id);
                 using (var uow = DbHandler.UnitOfWork())
                 {
@@ -103,8 +102,7 @@ namespace NadekoBot.Modules.Administration
                     {
                         UserId = usr.Id
                     });
-                    ConcurrentHashSet<ulong> muted;
-                    if (mutedUsers.TryGetValue(usr.Guild.Id, out muted))
+                    if (MutedUsers.TryGetValue(usr.Guild.Id, out ConcurrentHashSet<ulong> muted))
                         muted.Add(usr.Id);
 
                     config.UnmuteTimers.RemoveWhere(x => x.UserId == usr.Id);
@@ -118,7 +116,7 @@ namespace NadekoBot.Modules.Administration
             {
                 StopUnmuteTimer(usr.GuildId, usr.Id);
                 try { await usr.ModifyAsync(x => x.Mute = false).ConfigureAwait(false); } catch { }
-                try { await usr.RemoveRolesAsync(await GetMuteRole(usr.Guild)).ConfigureAwait(false); } catch { /*ignore*/ }
+                try { await usr.RemoveRoleAsync(await GetMuteRole(usr.Guild)).ConfigureAwait(false); } catch { /*ignore*/ }
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     var config = uow.GuildConfigs.For(usr.Guild.Id, set => set.Include(gc => gc.MutedUsers)
@@ -127,8 +125,7 @@ namespace NadekoBot.Modules.Administration
                     {
                         UserId = usr.Id
                     });
-                    ConcurrentHashSet<ulong> muted;
-                    if (mutedUsers.TryGetValue(usr.Guild.Id, out muted))
+                    if (MutedUsers.TryGetValue(usr.Guild.Id, out ConcurrentHashSet<ulong> muted))
                         muted.TryRemove(usr.Id);
 
                     config.UnmuteTimers.RemoveWhere(x => x.UserId == usr.Id);
@@ -142,7 +139,7 @@ namespace NadekoBot.Modules.Administration
             {
                 const string defaultMuteRoleName = "nadeko-mute";
 
-                var muteRoleName = guildMuteRoles.GetOrAdd(guild.Id, defaultMuteRoleName);
+                var muteRoleName = GuildMuteRoles.GetOrAdd(guild.Id, defaultMuteRoleName);
 
                 var muteRole = guild.Roles.FirstOrDefault(r => r.Name == muteRoleName);
                 if (muteRole == null)
@@ -198,7 +195,7 @@ namespace NadekoBot.Modules.Administration
             public static void StartUnmuteTimer(ulong guildId, ulong userId, TimeSpan after)
             {
                 //load the unmute timers for this guild
-                var userUnmuteTimers = unmuteTimers.GetOrAdd(guildId, new ConcurrentDictionary<ulong, Timer>());
+                var userUnmuteTimers = UnmuteTimers.GetOrAdd(guildId, new ConcurrentDictionary<ulong, Timer>());
 
                 //unmute timer to be added
                 var toAdd = new Timer(async _ =>
@@ -232,11 +229,9 @@ namespace NadekoBot.Modules.Administration
 
             public static void StopUnmuteTimer(ulong guildId, ulong userId)
             {
-                ConcurrentDictionary<ulong, Timer> userUnmuteTimers;
-                if (!unmuteTimers.TryGetValue(guildId, out userUnmuteTimers)) return;
+                if (!UnmuteTimers.TryGetValue(guildId, out ConcurrentDictionary<ulong, Timer> userUnmuteTimers)) return;
 
-                Timer removed;
-                if(userUnmuteTimers.TryRemove(userId, out removed))
+                if (userUnmuteTimers.TryRemove(userId, out Timer removed))
                 {
                     removed.Change(Timeout.Infinite, Timeout.Infinite);
                 }
@@ -266,7 +261,7 @@ namespace NadekoBot.Modules.Administration
                 {
                     var config = uow.GuildConfigs.For(Context.Guild.Id, set => set);
                     config.MuteRoleName = name;
-                    guildMuteRoles.AddOrUpdate(Context.Guild.Id, name, (id, old) => name);
+                    GuildMuteRoles.AddOrUpdate(Context.Guild.Id, name, (id, old) => name);
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
                 await ReplyConfirmLocalized("mute_role_set").ConfigureAwait(false);
@@ -342,7 +337,7 @@ namespace NadekoBot.Modules.Administration
             {
                 try
                 {
-                    await user.AddRolesAsync(await GetMuteRole(Context.Guild).ConfigureAwait(false)).ConfigureAwait(false);
+                    await user.AddRoleAsync(await GetMuteRole(Context.Guild).ConfigureAwait(false)).ConfigureAwait(false);
                     UserMuted(user, MuteType.Chat);
                     await ReplyConfirmLocalized("user_chat_mute", Format.Bold(user.ToString())).ConfigureAwait(false);
                 }
@@ -359,7 +354,7 @@ namespace NadekoBot.Modules.Administration
             {
                 try
                 {
-                    await user.RemoveRolesAsync(await GetMuteRole(Context.Guild).ConfigureAwait(false)).ConfigureAwait(false);
+                    await user.RemoveRoleAsync(await GetMuteRole(Context.Guild).ConfigureAwait(false)).ConfigureAwait(false);
                     UserUnmuted(user, MuteType.Chat);
                     await ReplyConfirmLocalized("user_chat_unmute", Format.Bold(user.ToString())).ConfigureAwait(false);
                 }
