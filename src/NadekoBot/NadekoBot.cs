@@ -10,7 +10,6 @@ using System;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using NadekoBot.Modules.Permissions;
 using NadekoBot.TypeReaders;
 using System.Collections.Concurrent;
@@ -18,8 +17,6 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using NadekoBot.Modules.Music;
 using NadekoBot.Services.Database.Models;
-using System.Resources;
-using NadekoBot.Resources;
 using System.Threading;
 
 namespace NadekoBot
@@ -37,7 +34,7 @@ namespace NadekoBot
         public static BotCredentials Credentials { get; }
 
         public static Localization Localization { get; private set; }
-        public static ResourceManager ResponsesResourceManager { get; } = new ResourceManager(typeof(ResponseStrings));
+        public static NadekoStrings Strings { get; private set; }
 
         public static GoogleApiService Google { get; private set; }
         public static StatsService Stats { get; private set; }
@@ -87,6 +84,8 @@ namespace NadekoBot
 #if GLOBAL_NADEKO
             Client.Log += Client_Log;
 #endif
+            // initialize response strings
+            Strings = new NadekoStrings();
 
             //initialize Services
             Localization = new Localization(NadekoBot.BotConfig.Locale, NadekoBot.AllGuildConfigs.ToDictionary(x => x.GuildId, x => x.Locale));
@@ -129,7 +128,7 @@ namespace NadekoBot
 
             while (readyCount < Client.Shards.Count)
                 await Task.Delay(100).ConfigureAwait(false);
-
+            
             Stats.Initialize();
 
             sw.Stop();

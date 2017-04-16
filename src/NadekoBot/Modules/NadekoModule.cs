@@ -3,7 +3,6 @@ using Discord.Commands;
 using NadekoBot.Extensions;
 using NLog;
 using System;
-using System.Collections.Concurrent;
 using System.Globalization;
 using System.Threading.Tasks;
 
@@ -62,12 +61,12 @@ namespace NadekoBot.Modules
 
         public static string GetTextStatic(string key, CultureInfo cultureInfo, string lowerModuleTypeName)
         {
-            var text = NadekoBot.ResponsesResourceManager.GetString(lowerModuleTypeName + "_" + key, cultureInfo);
+            var text = NadekoBot.Strings.GetString(lowerModuleTypeName + "_" + key, cultureInfo);
 
             if (string.IsNullOrWhiteSpace(text))
             {
                 LogManager.GetCurrentClassLogger().Warn(lowerModuleTypeName + "_" + key + " key is missing from " + cultureInfo + " response strings. PLEASE REPORT THIS.");
-                text = NadekoBot.ResponsesResourceManager.GetString(lowerModuleTypeName + "_" + key, _usCultureInfo) ?? $"Error: dkey {lowerModuleTypeName + "_" + key} not found!";
+                text = NadekoBot.Strings.GetString(lowerModuleTypeName + "_" + key, _usCultureInfo) ?? $"Error: dkey {lowerModuleTypeName + "_" + key} not found!";
                 if (string.IsNullOrWhiteSpace(text))
                     return "I can't tell you if the command is executed, because there was an error printing out the response. Key '" +
                         lowerModuleTypeName + "_" + key + "' " + "is missing from resources. Please report this.";

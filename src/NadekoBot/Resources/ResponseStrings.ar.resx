@@ -1,2424 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="clashofclans_base_already_claimed" xml:space="preserve">
-    <value>تم الاسنيلاء على القاعدة ,او مدمرة</value>
-  </data>
-  <data name="clashofclans_base_already_destroyed" xml:space="preserve">
-    <value>القاعدة مدمرة</value>
-  </data>
-  <data name="clashofclans_base_already_unclaimed" xml:space="preserve">
-    <value>تلك القاعدة غير محتلة</value>
-  </data>
-  <data name="clashofclans_base_destroyed" xml:space="preserve">
-    <value>** تدمير** القاعدة #{0} في الحرب ضد {1}</value>
-  </data>
-  <data name="clashofclans_base_unclaimed" xml:space="preserve">
-    <value>{0}**قد تنازل**عن قاعدة #{1} في الحرب ضد {2}</value>
-  </data>
-  <data name="clashofclans_claimed_base" xml:space="preserve">
-    <value>{0} استولى على قاعدة #{1} في الحرب ضد {2}</value>
-  </data>
-  <data name="clashofclans_claimed_other" xml:space="preserve">
-    <value>@{0} أنت استوليت بالفعل قاعدة # {1}. لا يمكنك المطالبة بوحدة جديدة.</value>
-  </data>
-  <data name="clashofclans_claim_expired" xml:space="preserve">
-    <value>الاستولى من @{0} في الحرب ضد {1} قد انته.</value>
-  </data>
-  <data name="clashofclans_enemy" xml:space="preserve">
-    <value>عدو</value>
-  </data>
-  <data name="clashofclans_info_about_war" xml:space="preserve">
-    <value>معلومات عن الحرب ضد {0}</value>
-  </data>
-  <data name="clashofclans_invalid_base_number" xml:space="preserve">
-    <value>رقم القاعدة خطأ.</value>
-  </data>
-  <data name="clashofclans_invalid_size" xml:space="preserve">
-    <value>غير متاح حجم الحرب.</value>
-  </data>
-  <data name="clashofclans_list_active_wars" xml:space="preserve">
-    <value>قائمة الحرب القائمة</value>
-  </data>
-  <data name="clashofclans_not_claimed" xml:space="preserve">
-    <value>غير محتلة</value>
-  </data>
-  <data name="clashofclans_not_partic" xml:space="preserve">
-    <value>انت لست مدرج في هذه الحرب</value>
-  </data>
-  <data name="clashofclans_not_partic_or_destroyed" xml:space="preserve">
-    <value>@{0} لست مشارك في الحرب , او ان القاعدة قد تدمرت</value>
-  </data>
-  <data name="clashofclans_no_active_wars" xml:space="preserve">
-    <value>لا توجد حروب ناشطة</value>
-  </data>
-  <data name="clashofclans_size" xml:space="preserve">
-    <value>حجم</value>
-  </data>
-  <data name="clashofclans_war_already_started" xml:space="preserve">
-    <value>الحرب ضد {0} قد بدأت</value>
-  </data>
-  <data name="clashofclans_war_created" xml:space="preserve">
-    <value>أنشئت حرب ضد {0}.</value>
-  </data>
-  <data name="clashofclans_war_ended" xml:space="preserve">
-    <value>الحرب ضد {0} قد انتهت</value>
-  </data>
-  <data name="clashofclans_war_not_exist" xml:space="preserve">
-    <value>هذه الحرب لا توجد</value>
-  </data>
-  <data name="clashofclans_war_started" xml:space="preserve">
-    <value>الحرب ضد {0} قد بدأت</value>
-  </data>
-  <data name="customreactions_all_stats_cleared" xml:space="preserve">
-    <value>كل خصائص الرموز التعبيرية المخصصى خالية</value>
-  </data>
-  <data name="customreactions_deleted" xml:space="preserve">
-    <value>تم محي الرمز التعبيري المخصص</value>
-  </data>
-  <data name="customreactions_insuff_perms" xml:space="preserve">
-    <value>أذونات غير كافية. البوت بحاجة الى تصريح المالك لتعديل الرد التفاعلي , وايضا المدير لتخصيص الرد التفاعلي</value>
-  </data>
-  <data name="customreactions_list_all" xml:space="preserve">
-    <value>فائمة الرموز التعبيرية المخصصة</value>
-  </data>
-  <data name="customreactions_name" xml:space="preserve">
-    <value>الرموز التعبيرية المخصصة</value>
-  </data>
-  <data name="customreactions_new_cust_react" xml:space="preserve">
-    <value>رمز تعبيري مخصص جديد</value>
-  </data>
-  <data name="customreactions_no_found" xml:space="preserve">
-    <value>لم يوجد هذا الرمز</value>
-  </data>
-  <data name="customreactions_no_found_id" xml:space="preserve">
-    <value>الرمز التعبيري المخصص ليس موجود حسب المدخل</value>
-  </data>
-  <data name="customreactions_response" xml:space="preserve">
-    <value>الإستجاب</value>
-  </data>
-  <data name="customreactions_stats" xml:space="preserve">
-    <value>احصائيات الرموز التعبيرية مخصصة</value>
-  </data>
-  <data name="customreactions_stats_cleared" xml:space="preserve">
-    <value>الخصائص خالية (0) للترميز التفاعلي</value>
-  </data>
-  <data name="customreactions_stats_not_found" xml:space="preserve">
-    <value>لا يوجد خصائص مفعلة متاحة , لم يتم اتخاذ اي اجراء.</value>
-  </data>
-  <data name="customreactions_trigger" xml:space="preserve">
-    <value>تفعيل</value>
-  </data>
-  <data name="nsfw_autohentai_stopped" xml:space="preserve">
-    <value>Autohentai توقف</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="nsfw_not_found" xml:space="preserve">
-    <value>لا توجد نتائج.</value>
-  </data>
-  <data name="pokemon_already_fainted" xml:space="preserve">
-    <value>{0} قد اغمي عليه</value>
-  </data>
-  <data name="pokemon_already_full" xml:space="preserve">
-    <value>(0) عنده من قبل HP كامل</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="pokemon_already_that_type" xml:space="preserve">
-    <value>لديك النوع التالي (0).</value>
-  </data>
-  <data name="pokemon_attack" xml:space="preserve">
-    <value>استخدام (0)(1) على (2)(3) لضرر (4).</value>
-    <comment>Kwoth used punch:type_icon: on Sanity:type_icon: for 50 damage.</comment>
-  </data>
-  <data name="pokemon_cant_attack_again" xml:space="preserve">
-    <value>لا يمكنك الهجوم مرة أخرى دون انتقام!</value>
-  </data>
-  <data name="pokemon_cant_attack_yourself" xml:space="preserve">
-    <value>لا يمكنك الهجوم على نفسك.</value>
-  </data>
-  <data name="pokemon_fainted" xml:space="preserve">
-    <value>(0) اغمى عليه.</value>
-  </data>
-  <data name="pokemon_healed" xml:space="preserve">
-    <value>عالج (0) باستخدام واحد (1) .</value>
-  </data>
-  <data name="pokemon_hp_remaining" xml:space="preserve">
-    <value>(0) لديه (1) HP متبقي.</value>
-  </data>
-  <data name="pokemon_invalid_move" xml:space="preserve">
-    <value>لا يمكنك استخدام (0). اكتب &quot;(1)ml&quot; لروئية لائحة التحريكات التي يمكنك استخدمها.</value>
-  </data>
-  <data name="pokemon_moves" xml:space="preserve">
-    <value>حرك القائمة الى (0) نوع .</value>
-  </data>
-  <data name="pokemon_not_effective" xml:space="preserve">
-    <value>غير فعالة.</value>
-  </data>
-  <data name="pokemon_no_currency" xml:space="preserve">
-    <value>لاتملك ما يكفي (0) .</value>
-  </data>
-  <data name="pokemon_revive_other" xml:space="preserve">
-    <value>أحيا (0) باستخدام (1) .</value>
-  </data>
-  <data name="pokemon_revive_yourself" xml:space="preserve">
-    <value>لقد احبيبت تقسك باستخدام واحد (0).</value>
-  </data>
-  <data name="pokemon_settype_success" xml:space="preserve">
-    <value>لقد تم تغير النوع الى (0) مقابل (1) .</value>
-  </data>
-  <data name="pokemon_somewhat_effective" xml:space="preserve">
-    <value>انها فعالة إلى حد ما.</value>
-  </data>
-  <data name="pokemon_super_effective" xml:space="preserve">
-    <value>انها فعالة جدا .</value>
-  </data>
-  <data name="pokemon_too_many_moves" xml:space="preserve">
-    <value>لقد استخدمت اكثر من حركة في صف . لا تستطيع التحرك .</value>
-  </data>
-  <data name="pokemon_type_of_user" xml:space="preserve">
-    <value>نوع (0) هو (1) .</value>
-  </data>
-  <data name="pokemon_user_not_found" xml:space="preserve">
-    <value>المستخدم غير متاح .</value>
-  </data>
-  <data name="pokemon_you_fainted" xml:space="preserve">
-    <value>لقد اغمى عليك , لا تيستطيع التحرك !</value>
-  </data>
-  <data name="administration_aar_disabled" xml:space="preserve">
-    <value>**تعين دور ** على ضخول مستخدم**تم تعطيله **.</value>
-  </data>
-  <data name="administration_aar_enabled" xml:space="preserve">
-    <value>**تعين دور ** على ضخول مستخدم**تم تشغيله **.</value>
-  </data>
-  <data name="administration_attachments" xml:space="preserve">
-    <value>مرفق .</value>
-  </data>
-  <data name="administration_avatar_changed" xml:space="preserve">
-    <value>تغير المظهر .</value>
-  </data>
-  <data name="administration_bandm" xml:space="preserve">
-    <value>تم طردك من السيرفر (0) .
-السبب : (1) .</value>
-  </data>
-  <data name="administration_banned_pl" xml:space="preserve">
-    <value>تم طردك .</value>
-    <comment>PLURAL</comment>
-  </data>
-  <data name="administration_banned_user" xml:space="preserve">
-    <value>المستخدم مطرود .</value>
-  </data>
-  <data name="administration_bot_name" xml:space="preserve">
-    <value>تغير اسم البوت الى (0) .</value>
-  </data>
-  <data name="administration_bot_status" xml:space="preserve">
-    <value>خصائص البوت غيرت الى (0).</value>
-  </data>
-  <data name="administration_byedel_off" xml:space="preserve">
-    <value>تم تعطيل الحذف الالي لرسالة الوداع.</value>
-  </data>
-  <data name="administration_byedel_on" xml:space="preserve">
-    <value>سيتم حذف رسالة الوداع بعد {0} ثواني .</value>
-  </data>
-  <data name="administration_byemsg_cur" xml:space="preserve">
-    <value>رسالة الوداع حاليا : (0) .</value>
-  </data>
-  <data name="administration_byemsg_enable" xml:space="preserve">
-    <value>تفعيل رسالة الوداع بكتابة (0) .</value>
-  </data>
-  <data name="administration_byemsg_new" xml:space="preserve">
-    <value>وضع رسالة وداع جديدة .</value>
-  </data>
-  <data name="administration_bye_off" xml:space="preserve">
-    <value>اعلان رسالة الوداع غير مفعلة .</value>
-  </data>
-  <data name="administration_bye_on" xml:space="preserve">
-    <value>اعلان رسالة الوداع مفعلة في هذه القناة .</value>
-  </data>
-  <data name="administration_ch_name_change" xml:space="preserve">
-    <value>تم تغير اسم القناة .</value>
-  </data>
-  <data name="administration_ch_old_name" xml:space="preserve">
-    <value>الاسم القديم .</value>
-  </data>
-  <data name="administration_ch_topic_change" xml:space="preserve">
-    <value>تم تغير موضوع القناة.</value>
-  </data>
-  <data name="administration_cleaned_up" xml:space="preserve">
-    <value>تم تنظيف المحتوى .</value>
-  </data>
-  <data name="administration_content" xml:space="preserve">
-    <value>المحتوى .</value>
-  </data>
-  <data name="administration_cr" xml:space="preserve">
-    <value>تم انشاء دور (0).</value>
-  </data>
-  <data name="administration_createtextchan" xml:space="preserve">
-    <value>تم انشاء قناة رسائل (0) .</value>
-  </data>
-  <data name="administration_createvoich" xml:space="preserve">
-    <value>تم أنشاء قناة الصوت {0}.</value>
-  </data>
-  <data name="administration_deafen" xml:space="preserve">
-    <value>تم الطرش بنجاح .</value>
-  </data>
-  <data name="administration_deleted_server" xml:space="preserve">
-    <value>حذف السيرفر {0}.</value>
-  </data>
-  <data name="administration_delmsg_off" xml:space="preserve">
-    <value>تم وقف الحذف الالي  لأوامر الاستدعاء الناجحة.</value>
-  </data>
-  <data name="administration_delmsg_on" xml:space="preserve">
-    <value>سيتم الغاء الامر تلقائيا بعد التنفيذ .</value>
-  </data>
-  <data name="administration_deltextchan" xml:space="preserve">
-    <value>تم حذف قناة الرسائل {0}.</value>
-  </data>
-  <data name="administration_delvoich" xml:space="preserve">
-    <value>قناة الصوت {0} قد أحذفت.</value>
-  </data>
-  <data name="administration_dm_from" xml:space="preserve">
-    <value>رسالة خاصة من</value>
-  </data>
-  <data name="administration_donadd" xml:space="preserve">
-    <value>تم اضافة متبرع جديد بنجاح . اجمالي تبرعات هذا المستخدم (0) 👑</value>
-  </data>
-  <data name="administration_donators" xml:space="preserve">
-    <value>شكرا للجميع في القائمة التالية على مساهمتهم في تحقيق هذا المشروع!</value>
-  </data>
-  <data name="administration_fwall_start" xml:space="preserve">
-    <value>سوف ارسل الرسائل الخاصة الى جميع المالكين.</value>
-  </data>
-  <data name="administration_fwall_stop" xml:space="preserve">
-    <value>سوف ارسل الرسائل الخاصة الى المالك الأول فقط.</value>
-  </data>
-  <data name="administration_fwdm_start" xml:space="preserve">
-    <value>من الان فصاعدا سوف أرسل الرسائل الخاصة.</value>
-  </data>
-  <data name="administration_fwdm_stop" xml:space="preserve">
-    <value>من الان فصاعدا سوف أتوقف عن أرسال الرسائل الخاصة.</value>
-  </data>
-  <data name="administration_greetdel_off" xml:space="preserve">
-    <value>تم تعطيل الحذف الالي لرسائل التحية.</value>
-  </data>
-  <data name="administration_greetdel_on" xml:space="preserve">
-    <value>سوف يتم حذف رسائل التحية بعد {0} ثانية.</value>
-  </data>
-  <data name="administration_greetdmmsg_cur" xml:space="preserve">
-    <value>الرسالة الخاصة الحالية للتحية : {0}</value>
-  </data>
-  <data name="administration_greetdmmsg_enable" xml:space="preserve">
-    <value>تمكين DM رسائل التحية عن طريق كتابة {0}</value>
-  </data>
-  <data name="administration_greetdmmsg_new" xml:space="preserve">
-    <value>تم تثبيت رسالة التحية عبر رسالة خاصة.</value>
-  </data>
-  <data name="administration_greetdm_off" xml:space="preserve">
-    <value>تم تعطيل الإعلان عن التحية عبر الرسائل الخاصة.</value>
-  </data>
-  <data name="administration_greetdm_on" xml:space="preserve">
-    <value>تم تفعيل الإعلان عن التحية عبر الرسائل الخاصة.</value>
-  </data>
-  <data name="administration_greetmsg_cur" xml:space="preserve">
-    <value>رسالة التحية الحالية : {0}</value>
-  </data>
-  <data name="administration_greetmsg_enable" xml:space="preserve">
-    <value>يتم تفعيل رسائل التحية بكتابة {0}</value>
-  </data>
-  <data name="administration_greetmsg_new" xml:space="preserve">
-    <value>وضع رسالة تحية جديدة.</value>
-  </data>
-  <data name="administration_greet_off" xml:space="preserve">
-    <value>اعلان التحية غير مفعل .</value>
-  </data>
-  <data name="administration_greet_on" xml:space="preserve">
-    <value>اعلان التحية مفعل في هذه القناة .</value>
-  </data>
-  <data name="administration_hierarchy" xml:space="preserve">
-    <value>ليس باستطاعتك ان تستخدم هذا الأمر على المستخدمين بدور اعلى من دورك او مساوا له  في سلم الأدوار.</value>
-  </data>
-  <data name="administration_images_loaded" xml:space="preserve">
-    <value>تحميل الصور بعد {0} ثواني!</value>
-  </data>
-  <data name="administration_invalid_format" xml:space="preserve">
-    <value>ادخال خاطئ .</value>
-  </data>
-  <data name="administration_invalid_params" xml:space="preserve">
-    <value>معلمات غير صالحة.
-</value>
-  </data>
-  <data name="administration_joined" xml:space="preserve">
-    <value>انضم {0} الى {1}</value>
-  </data>
-  <data name="administration_kickdm" xml:space="preserve">
-    <value>لقد تم طردك من {0} السيرفر.
-السبب: {1}</value>
-  </data>
-  <data name="administration_kicked_user" xml:space="preserve">
-    <value>تم طرد المستخدم .</value>
-  </data>
-  <data name="administration_lang_list" xml:space="preserve">
-    <value>قائمة اللغات .</value>
-  </data>
-  <data name="administration_lang_set" xml:space="preserve">
-    <value>لغة سيرفرك الان {0}-{1}</value>
-  </data>
-  <data name="administration_lang_set_bot" xml:space="preserve">
-    <value>لغة الألي إفتراضياً الآن {0} - {1}</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="administration_lang_set_bot_show" xml:space="preserve">
-    <value>تم ضبط لغة البوت الى (0) - (1) .</value>
-  </data>
-  <data name="administration_lang_set_fail" xml:space="preserve">
-    <value>فشل الضبط المحلي . قم بزيارة قائمة مساعدة الاوامر .</value>
-  </data>
-  <data name="administration_lang_set_show" xml:space="preserve">
-    <value>لغة السيرفر مضبوطة الى (0) - (1) .</value>
-  </data>
-  <data name="administration_left" xml:space="preserve">
-    <value>{0} ترك {1}</value>
-  </data>
-  <data name="administration_left_server" xml:space="preserve">
-    <value>خرج من السيرفر (0)</value>
-  </data>
-  <data name="administration_log" xml:space="preserve">
-    <value>تسجيل هذا الحدث في القناة (0) .</value>
-  </data>
-  <data name="administration_log_all" xml:space="preserve">
-    <value>تسجيل جميع الاحداث في هذه القناة .</value>
-  </data>
-  <data name="administration_log_disabled" xml:space="preserve">
-    <value>تم تعطيل التسجيل.</value>
-  </data>
-  <data name="administration_log_events" xml:space="preserve">
-    <value>قائمة الاحداث التي يمكنك التسجيل بها .</value>
-  </data>
-  <data name="administration_log_ignore" xml:space="preserve">
-    <value>التسجيل سيتجاهل {0}</value>
-  </data>
-  <data name="administration_log_not_ignore" xml:space="preserve">
-    <value>التسجيل لن يتجاهل {0}</value>
-  </data>
-  <data name="administration_log_stop" xml:space="preserve">
-    <value>تم ايقاف تسجيل الحدث (0).</value>
-  </data>
-  <data name="administration_menrole" xml:space="preserve">
-    <value>(0) قد استند إلى ذكر الأدوار التالية</value>
-  </data>
-  <data name="administration_message_from_bo" xml:space="preserve">
-    <value>رسالة من (0) &apos;[ مالك البوت ]&apos; .</value>
-  </data>
-  <data name="administration_message_sent" xml:space="preserve">
-    <value>تم ارسال الرسالة .</value>
-  </data>
-  <data name="administration_moved" xml:space="preserve">
-    <value>(0) تم تحريك من (1) الى (2) .</value>
-  </data>
-  <data name="administration_msg_del" xml:space="preserve">
-    <value>تم حذف الرسالة في {0}#</value>
-  </data>
-  <data name="administration_msg_update" xml:space="preserve">
-    <value>تم تحديث الرسالة في {0}#</value>
-  </data>
-  <data name="administration_muted_pl" xml:space="preserve">
-    <value>صامتة .</value>
-    <comment>PLURAL (users have been muted)</comment>
-  </data>
-  <data name="administration_muted_sn" xml:space="preserve">
-    <value>صامتة .</value>
-    <comment>singular &quot;User muted.&quot;</comment>
-  </data>
-  <data name="administration_mute_error" xml:space="preserve">
-    <value>ليس لدي الأذن الازم لذلك على ما يبدو.</value>
-  </data>
-  <data name="administration_mute_role_set" xml:space="preserve">
-    <value>ضبط اسكات لدور جديد .</value>
-  </data>
-  <data name="administration_need_admin" xml:space="preserve">
-    <value>أحتاج الى الأذن &quot;Administrator&quot; للقيام بذلك.</value>
-  </data>
-  <data name="administration_new_msg" xml:space="preserve">
-    <value>رسالة جديدة .</value>
-  </data>
-  <data name="administration_new_nick" xml:space="preserve">
-    <value>لقب جديد .</value>
-  </data>
-  <data name="administration_new_topic" xml:space="preserve">
-    <value>موضوع جديد .</value>
-  </data>
-  <data name="administration_nick_change" xml:space="preserve">
-    <value>تغير اللقب .</value>
-  </data>
-  <data name="administration_no_server" xml:space="preserve">
-    <value>لم أجد هذا السيرجر</value>
-  </data>
-  <data name="administration_no_shard_id" xml:space="preserve">
-    <value>لم يوجد مشاركة مع صاحب ID</value>
-  </data>
-  <data name="administration_old_msg" xml:space="preserve">
-    <value>رسائل قديمة .</value>
-  </data>
-  <data name="administration_old_nick" xml:space="preserve">
-    <value>لقب قديم .</value>
-  </data>
-  <data name="administration_old_topic" xml:space="preserve">
-    <value>موضوع قديم .</value>
-  </data>
-  <data name="administration_perms" xml:space="preserve">
-    <value>خطأ . على الاغلب لا امتلك الصلاحيات الكافية .</value>
-  </data>
-  <data name="administration_perms_reset" xml:space="preserve">
-    <value>جميع الأذون في السيرفر أعاد تعيينهم.</value>
-  </data>
-  <data name="administration_prot_active" xml:space="preserve">
-    <value>الحماية فعالة .</value>
-  </data>
-  <data name="administration_prot_disable" xml:space="preserve">
-    <value>تم تعطيل {0} على هذا السيرفر.</value>
-  </data>
-  <data name="administration_prot_enable" xml:space="preserve">
-    <value>{0} مفعل</value>
-  </data>
-  <data name="administration_prot_error" xml:space="preserve">
-    <value>خطأ. أحتاج الى الأذن ManageRoles</value>
-  </data>
-  <data name="administration_prot_none" xml:space="preserve">
-    <value>لس هنالك حماية فغالة.</value>
-  </data>
-  <data name="administration_raid_cnt" xml:space="preserve">
-    <value>يجب أن يكون المستخدم عتبة بين {0} و {1}.</value>
-  </data>
-  <data name="administration_raid_stats" xml:space="preserve">
-    <value>إذا {0} أو أكثر من المستخدمين الانضمام في {1} ثواني، سوف {2} لهم.</value>
-  </data>
-  <data name="administration_raid_time" xml:space="preserve">
-    <value>يجب أن يكون الوقت بين {0} و {1} ثواني.</value>
-  </data>
-  <data name="administration_rar" xml:space="preserve">
-    <value>تم حذف جميع الادوار من هذا المستخدم (0) .</value>
-  </data>
-  <data name="administration_rar_err" xml:space="preserve">
-    <value>فشل حذف الدور . لا امتلك الصلاحيات الكافية .</value>
-  </data>
-  <data name="administration_rc" xml:space="preserve">
-    <value>تم تغيير لون الدور{0} .</value>
-  </data>
-  <data name="administration_rc_not_exist" xml:space="preserve">
-    <value>الدور غير موجود.</value>
-  </data>
-  <data name="administration_rc_params" xml:space="preserve">
-    <value>المعلمات المحددة غير صالحة.</value>
-  </data>
-  <data name="administration_rc_perms" xml:space="preserve">
-    <value>حدث خطأ بسبب لون غير صالح أو أذونات غير كافية.</value>
-  </data>
-  <data name="administration_remrole" xml:space="preserve">
-    <value>تم ازالة دور {0} من المستخدم {1}</value>
-  </data>
-  <data name="administration_remrole_err" xml:space="preserve">
-    <value>فشل حذف الدور. لا امتلك الصلاحيات الكافية .</value>
-  </data>
-  <data name="administration_renrole" xml:space="preserve">
-    <value>تغير اسم الدور .</value>
-  </data>
-  <data name="administration_renrole_err" xml:space="preserve">
-    <value>فشل تغير الاسم . لا امتلك الصلاحيات الكافية .</value>
-  </data>
-  <data name="administration_renrole_perms" xml:space="preserve">
-    <value>لا يمكنك تعديل أدوار أعلى من أعلى دورك</value>
-  </data>
-  <data name="administration_reprm" xml:space="preserve">
-    <value>إزالة رسالة اللعب: {0}</value>
-  </data>
-  <data name="administration_role_added" xml:space="preserve">
-    <value>دور {0} تم أضيفت إلى القائمة.</value>
-  </data>
-  <data name="administration_role_clean" xml:space="preserve">
-    <value>{0} لم يتم العثور.تم تنظيفه</value>
-  </data>
-  <data name="administration_role_in_list" xml:space="preserve">
-    <value>دور {0} موجود بالفعل في القائمة.</value>
-  </data>
-  <data name="administration_ropl_added" xml:space="preserve">
-    <value>اضافة .</value>
-  </data>
-  <data name="administration_ropl_disabled" xml:space="preserve">
-    <value> تعطيل دوار وضع اللعب </value>
-  </data>
-  <data name="administration_ropl_enabled" xml:space="preserve">
-    <value>تشغيل دوار وضع اللعب </value>
-  </data>
-  <data name="administration_ropl_list" xml:space="preserve">
-    <value>هذه قائمة من الحالات الدورية:(0)</value>
-  </data>
-  <data name="administration_ropl_not_set" xml:space="preserve">
-    <value>لم يتعين اوضاع اللعب الدوري.</value>
-  </data>
-  <data name="administration_self_assign_already" xml:space="preserve">
-    <value>لديك بالفعل الدور{0}.</value>
-  </data>
-  <data name="administration_self_assign_already_excl" xml:space="preserve">
-    <value>لديك بالفعل دور{0} الحصري المعين لك.</value>
-  </data>
-  <data name="administration_self_assign_excl" xml:space="preserve">
-    <value>الادوار المخصصة للتعين الذاتي الان اصبحت خاصة!</value>
-  </data>
-  <data name="administration_self_assign_list" xml:space="preserve">
-    <value>هنالك (0) ادور مخصصة للتعين الذاتي .</value>
-  </data>
-  <data name="administration_self_assign_not" xml:space="preserve">
-    <value>الدور غير مخصص للتعين الذاتي .</value>
-  </data>
-  <data name="administration_self_assign_not_have" xml:space="preserve">
-    <value>ليس لديك دور {0}.</value>
-  </data>
-  <data name="administration_self_assign_no_excl" xml:space="preserve">
-    <value>الادوار المخصصة للتعين الذاتي الان اصبحت غير خاصة!</value>
-  </data>
-  <data name="administration_self_assign_perms" xml:space="preserve">
-    <value>لا أست</value>
-  </data>
-  <data name="administration_self_assign_rem" xml:space="preserve">
-    <value> {0} تمت إزالته من قائمة الأدوار الذاتية التعيين.</value>
-  </data>
-  <data name="administration_self_assign_remove" xml:space="preserve">
-    <value>انت لا تملك هذا الدور (0) بعد الان.</value>
-  </data>
-  <data name="administration_self_assign_success" xml:space="preserve">
-    <value>لقد اصبحت تملك هذا الدور (0) .</value>
-  </data>
-  <data name="administration_setrole" xml:space="preserve">
-    <value>تم اضافة الدور (0)  بنجاح الى مستخدم (1).</value>
-  </data>
-  <data name="administration_setrole_err" xml:space="preserve">
-    <value>فشل اضافة الدور . لا امتلك الاذن الكافي .</value>
-  </data>
-  <data name="administration_set_avatar" xml:space="preserve">
-    <value>مظهر جديد ضبط .</value>
-  </data>
-  <data name="administration_set_channel_name" xml:space="preserve">
-    <value>ضبط اسم قناة جديد.</value>
-  </data>
-  <data name="administration_set_game" xml:space="preserve">
-    <value>تم اضافة لعبة جديدة !</value>
-  </data>
-  <data name="administration_set_stream" xml:space="preserve">
-    <value>تم اضافة بث جديد !</value>
-  </data>
-  <data name="administration_set_topic" xml:space="preserve">
-    <value>اسند موضوع جديد للقناة.</value>
-  </data>
-  <data name="administration_shard_reconnected" xml:space="preserve">
-    <value>شارد {0} اعيدت أتصالها.</value>
-  </data>
-  <data name="administration_shard_reconnecting" xml:space="preserve">
-    <value>شارد {0} يعادة الاتصال.</value>
-  </data>
-  <data name="administration_shutting_down" xml:space="preserve">
-    <value>جاري الأغلاق.</value>
-  </data>
-  <data name="administration_slowmode_desc" xml:space="preserve">
-    <value>لا يمكن للمستخدمين إرسال أكثر من {0} رسائل كل {1} ثواني.</value>
-  </data>
-  <data name="administration_slowmode_disabled" xml:space="preserve">
-    <value>الوضع البطيئ تم ايقافه .</value>
-  </data>
-  <data name="administration_slowmode_init" xml:space="preserve">
-    <value>الوضع البطيئ تم تفعيله .</value>
-  </data>
-  <data name="administration_soft_banned_pl" xml:space="preserve">
-    <value>حظر ناعم (رفض)</value>
-    <comment>PLURAL
-Fuzzy</comment>
-  </data>
-  <data name="administration_spam_ignore" xml:space="preserve">
-    <value>{0} سيتجاهل هذه القناة.</value>
-  </data>
-  <data name="administration_spam_not_ignore" xml:space="preserve">
-    <value>{0} لم يعد يتجاهل هذه القناة.</value>
-  </data>
-  <data name="administration_spam_stats" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_text_chan_created" xml:space="preserve">
-    <value>قناة كتبه صنعت</value>
-  </data>
-  <data name="administration_text_chan_destroyed" xml:space="preserve">
-    <value>تدمير قناة المراسلة .</value>
-  </data>
-  <data name="administration_undeafen" xml:space="preserve">
-    <value>ازالة عدم السماع بنجاح .</value>
-  </data>
-  <data name="administration_unmuted_sn" xml:space="preserve">
-    <value>إلغاء الصامت</value>
-    <comment>singular</comment>
-  </data>
-  <data name="administration_username" xml:space="preserve">
-    <value>اسم المستخدم</value>
-  </data>
-  <data name="administration_username_changed" xml:space="preserve">
-    <value>اسم المستخدم تغير</value>
-  </data>
-  <data name="administration_users" xml:space="preserve">
-    <value>المستخدمين .</value>
-  </data>
-  <data name="administration_user_banned" xml:space="preserve">
-    <value>المستخدم مطرود .</value>
-  </data>
-  <data name="administration_user_chat_mute" xml:space="preserve">
-    <value>{0} تم **صامتة** من الدردشة.</value>
-  </data>
-  <data name="administration_user_chat_unmute" xml:space="preserve">
-    <value>{0} تم **إلغاء صامتة** من الدردشة.</value>
-  </data>
-  <data name="administration_user_joined" xml:space="preserve">
-    <value>تم اضافة مستخدم .</value>
-  </data>
-  <data name="administration_user_left" xml:space="preserve">
-    <value>المستخدم غادر</value>
-  </data>
-  <data name="administration_user_muted" xml:space="preserve">
-    <value>{0} تم **صامتة** من الدردشة والدردشة الصوتية.</value>
-  </data>
-  <data name="administration_user_role_add" xml:space="preserve">
-    <value>أضافة دور المستخدم</value>
-  </data>
-  <data name="administration_user_role_rem" xml:space="preserve">
-    <value>إزالة دور المستخدم</value>
-  </data>
-  <data name="administration_user_status_change" xml:space="preserve">
-    <value>(0) اصبح الان (1) </value>
-  </data>
-  <data name="administration_user_unmuted" xml:space="preserve">
-    <value>(0) اصبح ** صامت ** في المراسلة والمحادثة .</value>
-  </data>
-  <data name="administration_user_vjoined" xml:space="preserve">
-    <value>(0) اشترك ب (1) قناة الصوت .</value>
-  </data>
-  <data name="administration_user_vleft" xml:space="preserve">
-    <value>(0) خرج من (1) قناة الصوت .</value>
-  </data>
-  <data name="administration_user_vmoved" xml:space="preserve">
-    <value>{0} تغير من {1} الى {2} قناة الصوتية.</value>
-  </data>
-  <data name="administration_user_voice_mute" xml:space="preserve">
-    <value>(0) تم **اسكات الصوت**</value>
-  </data>
-  <data name="administration_user_voice_unmute" xml:space="preserve">
-    <value>(0) تم ازالة  **اسكات الصوت**</value>
-  </data>
-  <data name="administration_voice_chan_created" xml:space="preserve">
-    <value>انشاء قناة صوت</value>
-  </data>
-  <data name="administration_voice_chan_destroyed" xml:space="preserve">
-    <value>تدمير قناة الصوت</value>
-  </data>
-  <data name="administration_vt_disabled" xml:space="preserve">
-    <value>ايقاف خصائص الصوت والكتابة</value>
-  </data>
-  <data name="administration_vt_enabled" xml:space="preserve">
-    <value>تفعيل خصائص الصوت والكتابة</value>
-  </data>
-  <data name="administration_vt_exit" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_vt_no_admin" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_vt_perms" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_xmuted_text" xml:space="preserve">
-    <value>المستخدم (0) من كتابة الرسائل</value>
-  </data>
-  <data name="administration_xmuted_text_and_voice" xml:space="preserve">
-    <value>المستخدم (0) من الكتابة ومحادثة الصوت</value>
-  </data>
-  <data name="administration_xmuted_voice" xml:space="preserve">
-    <value>المستخدم (0) من محادثة الصوت</value>
-  </data>
-  <data name="administration_sbdm" xml:space="preserve">
-    <value>لقد تم حظرك من {0} مزود.
-السبب: {1}</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="administration_user_unbanned" xml:space="preserve">
-    <value>ازالة الطرد عن المستخدم</value>
-  </data>
-  <data name="administration_migration_done" xml:space="preserve">
-    <value>تمت الهجرة ! </value>
-  </data>
-  <data name="adminsitration_migration_error" xml:space="preserve">
-    <value>حدث خطأ أثناء الترحيل، راجع وحدة تحكم بوت للحصول على مزيد من المعلومات.</value>
-  </data>
-  <data name="administration_presence_updates" xml:space="preserve">
-    <value>التحديث الحالي</value>
-  </data>
-  <data name="administration_sb_user" xml:space="preserve">
-    <value>المستخدم طرد-مخفض</value>
-  </data>
-  <data name="gambling_awarded" xml:space="preserve">
-    <value>تم  منح (0) الى (1)</value>
-  </data>
-  <data name="gambling_better_luck" xml:space="preserve">
-    <value>حظا اوفر المرة القادمة  ^_^</value>
-  </data>
-  <data name="gambling_br_win" xml:space="preserve">
-    <value>مبارك لقد فزت (0) دحرجة فوق (1)</value>
-  </data>
-  <data name="gambling_deck_reshuffled" xml:space="preserve">
-    <value>خلط ورق اللعب مرة ثانية</value>
-  </data>
-  <data name="gambling_flipped" xml:space="preserve">
-    <value>قلب (0)</value>
-    <comment>User flipped tails.</comment>
-  </data>
-  <data name="gambling_flip_guess" xml:space="preserve">
-    <value>لقد خمنتها ! فزت (0)</value>
-  </data>
-  <data name="gambling_flip_invalid" xml:space="preserve">
-    <value>رقم خطأ غير مخصص . بأمكانك قلب 1 الى (0) عملة نقدية</value>
-  </data>
-  <data name="gambling_flowerreaction_desc" xml:space="preserve">
-    <value>اضف الى (0) للحصول على الرمز التفاعلي ل(1)</value>
-  </data>
-  <data name="gambling_flowerreaction_footer" xml:space="preserve">
-    <value>الحدث مستمر لغاية (0) ساعة</value>
-  </data>
-  <data name="gambling_flowerreaction_title" xml:space="preserve">
-    <value>وردة الرمز التفاعلي بدأت !</value>
-  </data>
-  <data name="gambling_gifted" xml:space="preserve">
-    <value>لقد اهدا (0) الى (1)</value>
-    <comment>X has gifted 15 flowers to Y</comment>
-  </data>
-  <data name="gambling_has" xml:space="preserve">
-    <value>(0) يملك (1)</value>
-    <comment>X has Y flowers</comment>
-  </data>
-  <data name="gambling_heads" xml:space="preserve">
-    <value>رأس</value>
-  </data>
-  <data name="gambling_leaderboard" xml:space="preserve">
-    <value>قائمة المتصدرين</value>
-  </data>
-  <data name="gambling_mass_award" xml:space="preserve">
-    <value>تم مكافئة {0} الى {1} المستخدم من دور {2}.</value>
-  </data>
-  <data name="gambling_max_bet_limit" xml:space="preserve">
-    <value>لايمكنك المزايدة اكثر من (0)</value>
-  </data>
-  <data name="gambling_min_bet_limit" xml:space="preserve">
-    <value>لا يمكنك المزايدة اقل من (0)</value>
-  </data>
-  <data name="gambling_not_enough" xml:space="preserve">
-    <value>انت لا تملك ما يكفي (0)</value>
-  </data>
-  <data name="gambling_no_more_cards" xml:space="preserve">
-    <value>لا مزيد للورق على الطاولة</value>
-  </data>
-  <data name="gambling_raffled_user" xml:space="preserve">
-    <value>بيع المستخدم يانصيب</value>
-  </data>
-  <data name="gambling_roll" xml:space="preserve">
-    <value>لقد دحرجت (0)</value>
-  </data>
-  <data name="gambling_slot_bet" xml:space="preserve">
-    <value>المزايدة</value>
-  </data>
-  <data name="gambling_slot_jackpot" xml:space="preserve">
-    <value>WOAAHHHHHH!!! مبارك !!! * (0)</value>
-  </data>
-  <data name="gambling_slot_single" xml:space="preserve">
-    <value>اشارة (0) , *(1)</value>
-  </data>
-  <data name="gambling_slot_three" xml:space="preserve">
-    <value>واو ! محظوظ! ثلاثة من نوع ! * (0)</value>
-  </data>
-  <data name="gambling_slot_two" xml:space="preserve">
-    <value>عمل جيد ! اثنين (0) - مزايدة *(1)</value>
-  </data>
-  <data name="gambling_slot_won" xml:space="preserve">
-    <value>فزت</value>
-  </data>
-  <data name="gambling_sneakygamestatus_desc" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="gambling_sneakygamestatus_end" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="gambling_sneakygamestatus_title" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="gambling_tails" xml:space="preserve">
-    <value>ذيل</value>
-  </data>
-  <data name="gambling_take" xml:space="preserve">
-    <value>بنجاح اخذت (0) من (1)</value>
-  </data>
-  <data name="gambling_take_fail" xml:space="preserve">
-    <value>لم استطع اخذ (0) من (1) بسبب المستخدم لا يملك ما يكفي من (2)!</value>
-  </data>
-  <data name="help_back_to_toc" xml:space="preserve">
-    <value>العودة الى TOC</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="help_bot_owner_only" xml:space="preserve">
-    <value>فقط مالك البوت</value>
-  </data>
-  <data name="help_channel_permission" xml:space="preserve">
-    <value>مطلوب (0) للسماح بالقناة</value>
-  </data>
-  <data name="help_cmdlist_donate" xml:space="preserve">
-    <value>يمكنك بدعم المشروع في &lt;{patreon: &lt;{0 او في &lt;{1}&gt; :paypal</value>
-  </data>
-  <data name="help_cmd_and_alias" xml:space="preserve">
-    <value>الأوامر والأسماء المستعارة</value>
-  </data>
-  <data name="help_commandlist_regen" xml:space="preserve">
-    <value>قائمة الأوامر مجددة.</value>
-  </data>
-  <data name="help_commands_instr" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="help_command_not_found" xml:space="preserve">
-    <value>لا استطيع ان اجد الامر . الرجاء تأكد من وجود الامر قبل المحاولة التالية</value>
-  </data>
-  <data name="help_desc" xml:space="preserve">
-    <value>وصف</value>
-  </data>
-  <data name="help_donate" xml:space="preserve">
-    <value>يمكنكم الدعم مشروع NadekoBot في &lt;{Patreon &lt;{0 او في &lt;{1}&gt; PayPal
-لا تنسى تترك اسمك في ديسكورد او الID في علبة الرسالة.
-
-** شكراً لكم **♥️  </value>
-  </data>
-  <data name="help_guide" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="help_list_of_commands" xml:space="preserve">
-    <value>قاىمة الأوامر</value>
-  </data>
-  <data name="help_list_of_modules" xml:space="preserve">
-    <value>قائمة الوحدات</value>
-  </data>
-  <data name="help_modules_footer" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="help_module_not_found" xml:space="preserve">
-    <value>تلك الوحدة غير موجودة.</value>
-  </data>
-  <data name="help_server_permission" xml:space="preserve">
-    <value>يتطلب (0) أذن من السيرفر</value>
-  </data>
-  <data name="help_table_of_contents" xml:space="preserve">
-    <value>جدول المحتويات</value>
-  </data>
-  <data name="help_usage" xml:space="preserve">
-    <value>الأستعمال</value>
-  </data>
-  <data name="nsfw_autohentai_started" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="nsfw_tag" xml:space="preserve">
-    <value>ربط</value>
-  </data>
-  <data name="gambling_animal_race" xml:space="preserve">
-    <value>سباق الحيوانات</value>
-  </data>
-  <data name="gambling_animal_race_failed" xml:space="preserve">
-    <value>فشل في البدء لعدم وجود مشاركين كفاية</value>
-  </data>
-  <data name="gambling_animal_race_full" xml:space="preserve">
-    <value>امتلئ السباق ! البدء فورا.</value>
-  </data>
-  <data name="gambling_animal_race_join" xml:space="preserve">
-    <value>(0) انضم بصفة (1)</value>
-  </data>
-  <data name="gambling_animal_race_join_bet" xml:space="preserve">
-    <value>(0) انضم بصفة (1) و راهن (2)!</value>
-  </data>
-  <data name="gambling_animal_race_join_instr" xml:space="preserve">
-    <value>اكتب {0}jr للانضمام إلى السباق.</value>
-    <comment>Not sure whether to use the actual Arabic letters here to just use the English ones.</comment>
-  </data>
-  <data name="gambling_animal_race_starting" xml:space="preserve">
-    <value>البدء خلال 20 ثانية او عند اكتمال العدد في الغرفة</value>
-  </data>
-  <data name="gambling_animal_race_starting_with_x" xml:space="preserve">
-    <value>البدء مع (0) مشتركين.</value>
-  </data>
-  <data name="gambling_animal_race_won" xml:space="preserve">
-    <value>(0) بصفة (1) فاز بالسباق!</value>
-  </data>
-  <data name="gambling_animal_race_won_money" xml:space="preserve">
-    <value>(0) بصفة (1) فاز بالسباق وايضا (2)!</value>
-  </data>
-  <data name="gambling_dice_invalid_number" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="gambling_dice_rolled" xml:space="preserve">
-    <value>دحرج (0)</value>
-    <comment>Someone rolled 35</comment>
-  </data>
-  <data name="gambling_dice_rolled_num" xml:space="preserve">
-    <value>دحرج النرد : (0)</value>
-    <comment>Dice Rolled: 5</comment>
-  </data>
-  <data name="gambling_race_failed_starting" xml:space="preserve">
-    <value>فشل بداية السباق. ربما سباق آخر في طور الحدوت.</value>
-  </data>
-  <data name="gambling_race_not_exist" xml:space="preserve">
-    <value>لا يوجد سباق على هذا الموزع</value>
-  </data>
-  <data name="gambling_second_larger_than_first" xml:space="preserve">
-    <value>الرقم الثانيي يجب ان يكون اكبر من الرقم الاول.</value>
-  </data>
-  <data name="gambling_changes_of_heart" xml:space="preserve">
-    <value>تغير بالخاطر</value>
-  </data>
-  <data name="gambling_claimed_by" xml:space="preserve">
-    <value>المطالبة</value>
-  </data>
-  <data name="gambling_divorces" xml:space="preserve">
-    <value>طلاق</value>
-  </data>
-  <data name="gambling_likes" xml:space="preserve">
-    <value>اعجاب</value>
-  </data>
-  <data name="gambling_price" xml:space="preserve">
-    <value>ثمن</value>
-  </data>
-  <data name="gambling_waifus_none" xml:space="preserve">
-    <value>لم يتم المطلبة بأي waifus بعد.</value>
-  </data>
-  <data name="gambling_waifus_top_waifus" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="gambling_waifu_affinity_already" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="gambling_waifu_affinity_changed" xml:space="preserve">
-    <value>تغير إنجذابهم من {0} الى {1}
-*هذا مشكوك فيه أدبياً.*🤔 </value>
-    <comment>Make sure to get the formatting right, and leave the thinking emoji</comment>
-  </data>
-  <data name="gambling_waifu_affinity_cooldown" xml:space="preserve">
-    <value>يجب ان تنتظر {0} ساعات و {1} دقائق إذا اردت تغيير انجذابك مرة أخرى.</value>
-  </data>
-  <data name="gambling_waifu_affinity_reset" xml:space="preserve">
-    <value>تم إعادته إنجذابك. ليس لديك أي شخص تحبه.</value>
-  </data>
-  <data name="gambling_waifu_affinity_set" xml:space="preserve">
-    <value>يريد ان يكون {0} وايفو. كيوووت 3&gt;</value>
-  </data>
-  <data name="gambling_waifu_claimed" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="gambling_waifu_divorced_like" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="gambling_waifu_egomaniac" xml:space="preserve">
-    <value>لا يمكنك تعيين تقارب لنفسك، انت إغومانياك.</value>
-  </data>
-  <data name="gambling_waifu_fulfilled" xml:space="preserve">
-    <value>🎉 يتم الوفاء بحبهم! 🎉
-قيمة (0) الجديدة (1)!</value>
-  </data>
-  <data name="gambling_waifu_isnt_cheap" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="gambling_waifu_not_enough" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="gambling_waifu_not_yours" xml:space="preserve">
-    <value>هذه ليست زوجنك</value>
-  </data>
-  <data name="gambling_waifu_not_yourself" xml:space="preserve">
-    <value>لا يمكنك المطالبة بنفسك.</value>
-  </data>
-  <data name="gambling_waifu_recent_divorce" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="gambling_nobody" xml:space="preserve">
-    <value>لا أحد</value>
-  </data>
-  <data name="gambling_waifu_divorced_notlike" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="games_8ball" xml:space="preserve">
-    <value>8 كرة</value>
-  </data>
-  <data name="games_acrophobia" xml:space="preserve">
-    <value>رهاب الأجسام.</value>
-  </data>
-  <data name="games_acro_ended_no_sub" xml:space="preserve">
-    <value>اللعبة انتهت بدون اي اخضاع.</value>
-  </data>
-  <data name="games_acro_no_votes_cast" xml:space="preserve">
-    <value>لم يحتسب الاصوات . اللعبة انتهت بدون فائز.</value>
-  </data>
-  <data name="games_acro_nym_was" xml:space="preserve">
-    <value>كان الاختصار (0)</value>
-  </data>
-  <data name="games_acro_running" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="games_acro_started" xml:space="preserve">
-    <value>بدأت اللعبة. إنشاء جملة مع الاختصار التالي : (0).</value>
-  </data>
-  <data name="games_acro_started_footer" xml:space="preserve">
-    <value>لديك (0) ثانية لعمل اخضاع.</value>
-  </data>
-  <data name="games_acro_submit" xml:space="preserve">
-    <value>(0) اعتمد حكمهم .((1) الاجمالي)</value>
-  </data>
-  <data name="games_acro_vote" xml:space="preserve">
-    <value>تصويت بكتابة رقم من الاخضاع.</value>
-  </data>
-  <data name="games_acro_vote_cast" xml:space="preserve">
-    <value>(0) وضعوا اصواتهم !</value>
-  </data>
-  <data name="games_acro_winner" xml:space="preserve">
-    <value>الفائز هو (0) مع (1) من النقاط.</value>
-  </data>
-  <data name="games_acro_winner_only" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="games_question" xml:space="preserve">
-    <value>سؤال</value>
-  </data>
-  <data name="games_rps_draw" xml:space="preserve">
-    <value>انها التعادل! اختار كلاهما {0}.</value>
-  </data>
-  <data name="games_rps_win" xml:space="preserve">
-    <value>{0} فاز! {1} هزم على {2}.</value>
-  </data>
-  <data name="games_submissions_closed" xml:space="preserve">
-    <value>اغلاق الاخضاع</value>
-  </data>
-  <data name="gambling_animal_race_already_started" xml:space="preserve">
-    <value>سباق الحيوانات جاهز للركض.</value>
-  </data>
-  <data name="gambling_total_average" xml:space="preserve">
-    <value>المجموع: {0} المعدل: {1}</value>
-  </data>
-  <data name="games_category" xml:space="preserve">
-    <value>قوائم</value>
-  </data>
-  <data name="games_cleverbot_disabled" xml:space="preserve">
-    <value>ايقاف البوت الذكي في هذا السيرفر</value>
-  </data>
-  <data name="games_cleverbot_enabled" xml:space="preserve">
-    <value>تفعيل البوت الذكي في هذا السيرفر</value>
-  </data>
-  <data name="games_curgen_disabled" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="games_curgen_enabled" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="games_curgen_pl" xml:space="preserve">
-    <value></value>
-    <comment>plural</comment>
-  </data>
-  <data name="games_curgen_sn" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="games_failed_loading_question" xml:space="preserve">
-    <value>فشل في تحميل السؤال</value>
-  </data>
-  <data name="games_game_started" xml:space="preserve">
-    <value>بدأت اللعبة</value>
-  </data>
-  <data name="games_hangman_game_started" xml:space="preserve">
-    <value>بدأت لعبة Hangman</value>
-  </data>
-  <data name="games_hangman_running" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="games_hangman_start_errored" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="games_hangman_types" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="games_leaderboard" xml:space="preserve">
-    <value>قائمة المتصدرين</value>
-  </data>
-  <data name="games_not_enough" xml:space="preserve">
-    <value>انت لا تملك ما يكفي من(0)</value>
-  </data>
-  <data name="games_no_results" xml:space="preserve">
-    <value>لا يوجد ناتج</value>
-  </data>
-  <data name="games_picked" xml:space="preserve">
-    <value>حمل (0)</value>
-    <comment>Kwoth picked 5*</comment>
-  </data>
-  <data name="games_planted" xml:space="preserve">
-    <value>(0) زرع (1)</value>
-    <comment>Kwoth planted 5*</comment>
-  </data>
-  <data name="games_trivia_already_running" xml:space="preserve">
-    <value>لعبة Trivia تعمل على هذا السيرفر.</value>
-  </data>
-  <data name="games_trivia_game" xml:space="preserve">
-    <value>لعبة Trivia</value>
-  </data>
-  <data name="games_trivia_guess" xml:space="preserve">
-    <value>(0) لقد حزرها ! الجواب كان :(1)</value>
-  </data>
-  <data name="games_trivia_none" xml:space="preserve">
-    <value>Trivia  لا تعمل على هذا السيرفر.</value>
-  </data>
-  <data name="games_trivia_points" xml:space="preserve">
-    <value>(0) لديه (1) نقطة</value>
-  </data>
-  <data name="games_trivia_stopping" xml:space="preserve">
-    <value>التوقف بعد هذا السؤال</value>
-  </data>
-  <data name="games_trivia_times_up" xml:space="preserve">
-    <value>انتهى الوقت ! الاجابة الصحيحة كانت (0)</value>
-  </data>
-  <data name="games_trivia_win" xml:space="preserve">
-    <value>(0) حزر الاجابة وفاز باللعبة ! الاجابة كانت : (1)</value>
-  </data>
-  <data name="games_ttt_against_yourself" xml:space="preserve">
-    <value>لا يمكنك اللعب ضد نفسك.</value>
-  </data>
-  <data name="games_ttt_already_running" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="games_ttt_a_draw" xml:space="preserve">
-    <value>تعادل !</value>
-  </data>
-  <data name="games_ttt_created" xml:space="preserve">
-    <value>تم انتاج لعبة TicTacToe.</value>
-  </data>
-  <data name="games_ttt_has_won" xml:space="preserve">
-    <value>(0) لقد فاز!</value>
-  </data>
-  <data name="games_ttt_matched_three" xml:space="preserve">
-    <value>تطابق ثلاث</value>
-  </data>
-  <data name="games_ttt_no_moves" xml:space="preserve">
-    <value>لا تحركات متبقية!</value>
-  </data>
-  <data name="games_ttt_time_expired" xml:space="preserve">
-    <value>نفذ الوقت !</value>
-  </data>
-  <data name="games_ttt_users_move" xml:space="preserve">
-    <value>حركة {0}.</value>
-  </data>
-  <data name="games_vs" xml:space="preserve">
-    <value>(0) ضد (1)</value>
-  </data>
-  <data name="music_attempting_to_queue" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="music_autoplay_disabled" xml:space="preserve">
-    <value>تم تعطيل التشغيل التلقائي.</value>
-  </data>
-  <data name="music_autoplay_enabled" xml:space="preserve">
-    <value>تم تفعيلل التشغيل التلقائي.</value>
-  </data>
-  <data name="music_defvol_set" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="music_dir_queue_complete" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="music_fairplay" xml:space="preserve">
-    <value>اللعب العادل</value>
-  </data>
-  <data name="music_finished_song" xml:space="preserve">
-    <value>انتهت الاغنية</value>
-  </data>
-  <data name="music_fp_disabled" xml:space="preserve">
-    <value>تم تعطيل اللعب العادل.</value>
-  </data>
-  <data name="music_fp_enabled" xml:space="preserve">
-    <value>تم تفعيل اللعب العادل.</value>
-  </data>
-  <data name="music_from_position" xml:space="preserve">
-    <value>من الوضع</value>
-  </data>
-  <data name="music_id" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="music_invalid_input" xml:space="preserve">
-    <value>مدخل غير صالح.</value>
-  </data>
-  <data name="music_max_playtime_none" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="music_max_playtime_set" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="music_max_queue_unlimited" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="music_max_queue_x" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="music_must_be_in_voice" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="music_name" xml:space="preserve">
-    <value>اسم الاغنية</value>
-  </data>
-  <data name="music_now_playing" xml:space="preserve">
-    <value>الان تسمع اغنية</value>
-  </data>
-  <data name="music_no_player" xml:space="preserve">
-    <value>لايوجد موسيقى </value>
-  </data>
-  <data name="music_no_search_results" xml:space="preserve">
-    <value>لم يتم ايجاد البحث</value>
-  </data>
-  <data name="music_paused" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="music_player_queue" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="music_playing_song" xml:space="preserve">
-    <value>تشغيل الاغنية</value>
-  </data>
-  <data name="music_playlists" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="music_playlists_page" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="music_playlist_deleted" xml:space="preserve">
-    <value>تم حذف قائمة التشغيل.</value>
-  </data>
-  <data name="music_playlist_delete_fail" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="music_playlist_id_not_found" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="music_playlist_queue_complete" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="music_playlist_saved" xml:space="preserve">
-    <value>حفظ قائمة التشغيل</value>
-  </data>
-  <data name="music_play_limit" xml:space="preserve">
-    <value>(0) ث الحد</value>
-  </data>
-  <data name="music_queue" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="music_queued_song" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="music_queue_cleared" xml:space="preserve">
-    <value>تم حذف قائمة انتظار الموسيقى.</value>
-  </data>
-  <data name="music_queue_full" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="music_removed_song" xml:space="preserve">
-    <value>ازالة الاغنية</value>
-    <comment>context: &quot;removed song #5&quot;</comment>
-  </data>
-  <data name="music_repeating_cur_song" xml:space="preserve">
-    <value>اعادة تشغيل الاغنية الحالية</value>
-  </data>
-  <data name="music_repeating_playlist" xml:space="preserve">
-    <value>تكرار قائمة التشغيل</value>
-  </data>
-  <data name="music_repeating_track" xml:space="preserve">
-    <value>تكرار المسار للموسيقى</value>
-  </data>
-  <data name="music_repeating_track_stopped" xml:space="preserve">
-    <value>توقيف تكرار المسار الحالي</value>
-  </data>
-  <data name="music_resumed" xml:space="preserve">
-    <value>تم استئناف تشغيل الموسيقى.</value>
-  </data>
-  <data name="music_rpl_disabled" xml:space="preserve">
-    <value>تم تعطيل قائمة التشغيل المتكررة.</value>
-  </data>
-  <data name="music_rpl_enabled" xml:space="preserve">
-    <value>تم تمكين قائمة التشغيل المتكرر.</value>
-  </data>
-  <data name="music_set_music_channel" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="music_skipped_to" xml:space="preserve">
-    <value>تخطي الى &apos;(0):(1)&apos;</value>
-  </data>
-  <data name="music_songs_shuffled" xml:space="preserve">
-    <value>خلط الاغاني</value>
-  </data>
-  <data name="music_song_moved" xml:space="preserve">
-    <value>تحريك الاغنية</value>
-  </data>
-  <data name="music_time_format" xml:space="preserve">
-    <value>(0 س (1)د (2)ث</value>
-  </data>
-  <data name="music_to_position" xml:space="preserve">
-    <value>الى مكان</value>
-  </data>
-  <data name="music_unlimited" xml:space="preserve">
-    <value>غير محدود</value>
-  </data>
-  <data name="music_volume_input_invalid" xml:space="preserve">
-    <value>يجب أن يكون درجة الصوت بين 0 و 100</value>
-  </data>
-  <data name="music_volume_set" xml:space="preserve">
-    <value>ضبط درجة الصوت الى (0)%</value>
-  </data>
-  <data name="permissions_acm_disable" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="permissions_acm_enable" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="permissions_allowed" xml:space="preserve">
-    <value>السماح</value>
-  </data>
-  <data name="permissions_arm_disable" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="permissions_arm_enable" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="permissions_asm_disable" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="permissions_asm_enable" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="permissions_aum_disable" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="permissions_aum_enable" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="permissions_blacklisted" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="permissions_cmdcd_add" xml:space="preserve">
-    <value>الامر (0) الان لديه (1)ث ليصبح جاهز.</value>
-  </data>
-  <data name="permissions_cmdcd_cleared" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="permissions_cmdcd_none" xml:space="preserve">
-    <value>لم يتم تعيين أي تهدئة الأوامر.</value>
-  </data>
-  <data name="permissions_command_costs" xml:space="preserve">
-    <value>تكلفة الامر</value>
-  </data>
-  <data name="permissions_cx_disable" xml:space="preserve">
-    <value>ايقاف الاستخدام في (0) (1) على قناة (2).</value>
-  </data>
-  <data name="permissions_cx_enable" xml:space="preserve">
-    <value>تفعيل الاستخدام في (0) (1) على قناة (2).</value>
-  </data>
-  <data name="permissions_denied" xml:space="preserve">
-    <value>رفض</value>
-  </data>
-  <data name="permissions_filter_word_add" xml:space="preserve">
-    <value>تم اضافة الكلمة (0) الى قائمة الكلمات المصفاة.</value>
-  </data>
-  <data name="permissions_filter_word_list" xml:space="preserve">
-    <value>قائمة الكلمات المصفاة.</value>
-  </data>
-  <data name="permissions_filter_word_remove" xml:space="preserve">
-    <value>ازالة الكلمة (0) من لائحة الكلمات المصفاة .</value>
-  </data>
-  <data name="permissions_invalid_second_param_between" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="permissions_invite_filter_channel_off" xml:space="preserve">
-    <value>الدعوات المصفاة تم ايقافها في هذه القناة.</value>
-  </data>
-  <data name="permissions_invite_filter_channel_on" xml:space="preserve">
-    <value>الدعوات المصفاة مفعلة في هذه القناة.</value>
-  </data>
-  <data name="permissions_invite_filter_server_off" xml:space="preserve">
-    <value>الدعوات المصفاة تم ايقافها في هذا السيرفر.</value>
-  </data>
-  <data name="permissions_invite_filter_server_on" xml:space="preserve">
-    <value>الدعوات المصفاة مفعلة في هذا السيرفر.</value>
-  </data>
-  <data name="permissions_moved_permission" xml:space="preserve">
-    <value>تحريك الاذن (0) من #(1) الى #(2)</value>
-  </data>
-  <data name="permissions_not_found" xml:space="preserve">
-    <value>لا استطيع ايجاد الاذن في الدليل</value>
-  </data>
-  <data name="permissions_no_costs" xml:space="preserve">
-    <value>لم يوضع تكلفة.</value>
-  </data>
-  <data name="permissions_of_command" xml:space="preserve">
-    <value>الامر</value>
-    <comment>Gen (of command)</comment>
-  </data>
-  <data name="permissions_of_module" xml:space="preserve">
-    <value>وحدة</value>
-    <comment>Gen. (of module)</comment>
-  </data>
-  <data name="permissions_page" xml:space="preserve">
-    <value>صفحة السماحات (0)</value>
-  </data>
-  <data name="permissions_permrole" xml:space="preserve">
-    <value>وضع السماح للدور هو (0)</value>
-  </data>
-  <data name="permissions_permrole_changed" xml:space="preserve">
-    <value>المستخدم يتطلب (0) دور للتمكن من تعديل الاذونات.</value>
-  </data>
-  <data name="permissions_perm_out_of_range" xml:space="preserve">
-    <value>لم اجد الاذن في القائمة.</value>
-  </data>
-  <data name="permissions_removed" xml:space="preserve">
-    <value>ازالة الاذن #(0) - (1)</value>
-  </data>
-  <data name="permissions_rx_disable" xml:space="preserve">
-    <value>ايقاف الاستخدام (0) (1) للدور (2)</value>
-  </data>
-  <data name="permissions_rx_enable" xml:space="preserve">
-    <value>تفعيل الاستخدام (0) (1) للدور (2)</value>
-  </data>
-  <data name="permissions_sec" xml:space="preserve">
-    <value>ثواني.</value>
-    <comment>Short of seconds.
-Fuzzy</comment>
-  </data>
-  <data name="permissions_sx_disable" xml:space="preserve">
-    <value>ايقاف استخدام (0) (1) في هذا السيرفر</value>
-  </data>
-  <data name="permissions_sx_enable" xml:space="preserve">
-    <value>تفعيل استخدام (0) (1) في هذا السيرفر</value>
-  </data>
-  <data name="permissions_unblacklisted" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="permissions_uneditable" xml:space="preserve">
-    <value>لا يتعدل</value>
-  </data>
-  <data name="permissions_ux_disable" xml:space="preserve">
-    <value>ايقاف الاستخدام (0) (1) للمستخدم (2)</value>
-  </data>
-  <data name="permissions_ux_enable" xml:space="preserve">
-    <value>تفعيل الاستخدام (0) (1) للمستخدم (2)</value>
-  </data>
-  <data name="permissions_verbose_false" xml:space="preserve">
-    <value>لن اقوم بأظهار اي تحذير للاذونات.</value>
-  </data>
-  <data name="permissions_verbose_true" xml:space="preserve">
-    <value>سوف اظهر تحذير الاذونات.</value>
-  </data>
-  <data name="permissions_word_filter_channel_off" xml:space="preserve">
-    <value>ايقاف تصفية الكلمات في هذه القناة.</value>
-  </data>
-  <data name="permissions_word_filter_channel_on" xml:space="preserve">
-    <value>تفعيل تصفية الكلمات في هذه القناة.</value>
-  </data>
-  <data name="permissions_word_filter_server_off" xml:space="preserve">
-    <value>ايقاف تصفية الكلمات في هذا السيرفر.</value>
-  </data>
-  <data name="permissions_word_filter_server_on" xml:space="preserve">
-    <value>تفعيل تصفية الكلمات في هذا السيرفر.</value>
-  </data>
-  <data name="searches_abilities" xml:space="preserve">
-    <value>قدرات</value>
-  </data>
-  <data name="searches_anime_no_fav" xml:space="preserve">
-    <value>لا يوجد انمي مفضل بعد</value>
-  </data>
-  <data name="searches_atl_ad_started" xml:space="preserve">
-    <value>البدء بالترجمة الفورية للمسجات في هذه القناة . رسائل المستخدم سيتم الغائها تلقائيا.</value>
-  </data>
-  <data name="searches_atl_removed" xml:space="preserve">
-    <value>تمت إزالة لغة الترجمة التلقائية.</value>
-  </data>
-  <data name="searches_atl_set" xml:space="preserve">
-    <value>تم تعيين لغة الترجمة التلقائية إلى (0)&gt;(1)</value>
-  </data>
-  <data name="searches_atl_started" xml:space="preserve">
-    <value>بدء الترجمة التلقائية للرسائل على هذه القناة.</value>
-  </data>
-  <data name="searches_atl_stopped" xml:space="preserve">
-    <value>تم إيقاف الترجمة التلقائية للرسائل على هذه القناة.</value>
-  </data>
-  <data name="searches_bad_input_format" xml:space="preserve">
-    <value>ادخال خطأ للصيغة, او شيء ما حدث بالخطأ.</value>
-  </data>
-  <data name="searches_card_not_found" xml:space="preserve">
-    <value>لم استطع ايجاد هذه البطاقة.</value>
-  </data>
-  <data name="searches_catfact" xml:space="preserve">
-    <value>واقعية</value>
-  </data>
-  <data name="searches_chapters" xml:space="preserve">
-    <value>فصول</value>
-  </data>
-  <data name="searches_comic_number" xml:space="preserve">
-    <value>رسوم متحركة #</value>
-  </data>
-  <data name="searches_compet_loses" xml:space="preserve">
-    <value>خسائر تنافسية</value>
-  </data>
-  <data name="searches_compet_played" xml:space="preserve">
-    <value>لعب تنافسي</value>
-  </data>
-  <data name="searches_compet_rank" xml:space="preserve">
-    <value>مرتبة تنافسية</value>
-  </data>
-  <data name="searches_compet_wins" xml:space="preserve">
-    <value>فوز تنافسي</value>
-  </data>
-  <data name="searches_completed" xml:space="preserve">
-    <value>منتهي</value>
-  </data>
-  <data name="searches_condition" xml:space="preserve">
-    <value>شرط</value>
-  </data>
-  <data name="searches_cost" xml:space="preserve">
-    <value>تكلفة</value>
-  </data>
-  <data name="searches_date" xml:space="preserve">
-    <value>موعد</value>
-  </data>
-  <data name="searches_define" xml:space="preserve">
-    <value>تحديد:</value>
-  </data>
-  <data name="searches_dropped" xml:space="preserve">
-    <value>اسقاط</value>
-  </data>
-  <data name="searches_episodes" xml:space="preserve">
-    <value>حلقة</value>
-  </data>
-  <data name="searches_error_occured" xml:space="preserve">
-    <value>حدث خطأ</value>
-  </data>
-  <data name="searches_example" xml:space="preserve">
-    <value>مثال</value>
-  </data>
-  <data name="searches_failed_finding_anime" xml:space="preserve">
-    <value>فشل ايجاد ذلك الانمي</value>
-  </data>
-  <data name="searches_failed_finding_manga" xml:space="preserve">
-    <value>فشل ايجاد ذلك المانجا</value>
-  </data>
-  <data name="searches_genres" xml:space="preserve">
-    <value>الانواع</value>
-  </data>
-  <data name="searches_hashtag_error" xml:space="preserve">
-    <value>فشل العثور على تعريف لهذه العلامة.</value>
-  </data>
-  <data name="searches_height_weight" xml:space="preserve">
-    <value>طول/وزن</value>
-  </data>
-  <data name="searches_height_weight_val" xml:space="preserve">
-    <value>(0) م / (1) كجم</value>
-  </data>
-  <data name="searches_humidity" xml:space="preserve">
-    <value>رطوبة</value>
-  </data>
-  <data name="searches_image_search_for" xml:space="preserve">
-    <value>بحث الصورة في:</value>
-  </data>
-  <data name="searches_imdb_fail" xml:space="preserve">
-    <value>فشل ايجاد ذلك الفيلم.</value>
-  </data>
-  <data name="searches_invalid_lang" xml:space="preserve">
-    <value>لغة المصدر أو الهدف غير صالحة</value>
-  </data>
-  <data name="searches_jokes_not_loaded" xml:space="preserve">
-    <value>النكت غير محملة</value>
-  </data>
-  <data name="searches_latlong" xml:space="preserve">
-    <value>خط العرض/طول</value>
-  </data>
-  <data name="searches_level" xml:space="preserve">
-    <value>مستوى</value>
-  </data>
-  <data name="searches_list_of_place_tags" xml:space="preserve">
-    <value>قائمة (0) الامان المعلمة</value>
-    <comment>Don&apos;t translate {0}place</comment>
-  </data>
-  <data name="searches_location" xml:space="preserve">
-    <value>المكان</value>
-  </data>
-  <data name="searches_magicitems_not_loaded" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="searches_mal_profile" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="searches_mashape_api_missing" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="searches_min_max" xml:space="preserve">
-    <value>ادنى/ اعلى</value>
-  </data>
-  <data name="searches_no_channel_found" xml:space="preserve">
-    <value>القناة غير موجودة</value>
-  </data>
-  <data name="searches_no_results" xml:space="preserve">
-    <value>لا توجد نتائج.</value>
-  </data>
-  <data name="searches_on_hold" xml:space="preserve">
-    <value>على- الانتظار</value>
-  </data>
-  <data name="searches_original_url" xml:space="preserve">
-    <value>الرابط الاصلي</value>
-  </data>
-  <data name="searches_osu_api_key" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="searches_osu_failed" xml:space="preserve">
-    <value>فشل استرداد أوسو! التوقيع.</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="searches_over_x" xml:space="preserve">
-    <value>تم ايجاد اكثر من (0) صورة . عرض عشوائي(0).</value>
-  </data>
-  <data name="searches_ow_user_not_found" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="searches_plan_to_watch" xml:space="preserve">
-    <value>خطط للمشاهدة</value>
-  </data>
-  <data name="searches_platform" xml:space="preserve">
-    <value>منصة</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="searches_pokemon_ability_none" xml:space="preserve">
-    <value>لم يتم العثور على أي قدرة.</value>
-  </data>
-  <data name="searches_pokemon_none" xml:space="preserve">
-    <value>لم اجد اليوكمون.</value>
-  </data>
-  <data name="searches_profile_link" xml:space="preserve">
-    <value>رابط الملف الشخصي:</value>
-  </data>
-  <data name="searches_quality" xml:space="preserve">
-    <value>الجودة:</value>
-  </data>
-  <data name="searches_quick_playtime" xml:space="preserve">
-    <value>وقت اللعب السريع</value>
-  </data>
-  <data name="searches_quick_wins" xml:space="preserve">
-    <value>الفوز السريع</value>
-  </data>
-  <data name="searches_rating" xml:space="preserve">
-    <value>الترتيب</value>
-  </data>
-  <data name="searches_score" xml:space="preserve">
-    <value>مجموع النقاط:</value>
-  </data>
-  <data name="searches_search_for" xml:space="preserve">
-    <value>البحث عن:</value>
-  </data>
-  <data name="searches_shorten_fail" xml:space="preserve">
-    <value>فشل تقصير الربط</value>
-  </data>
-  <data name="searches_short_url" xml:space="preserve">
-    <value>عنوان الرابط قصير</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="searches_something_went_wrong" xml:space="preserve">
-    <value>هناك خطأ ما.</value>
-  </data>
-  <data name="searches_specify_search_params" xml:space="preserve">
-    <value>يرجى تحديد معلمات البحث.</value>
-  </data>
-  <data name="searches_status" xml:space="preserve">
-    <value>الحالة</value>
-  </data>
-  <data name="searches_store_url" xml:space="preserve">
-    <value>حفظ الرابط</value>
-  </data>
-  <data name="searches_streamer_offline" xml:space="preserve">
-    <value>ستريمر {0} غير متواجد حاليا.</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="searches_streamer_online" xml:space="preserve">
-    <value>ستريمر (0) على الإنترنت مع (1) من المشاهدين.</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="searches_streams_following" xml:space="preserve">
-    <value>انت تتابع (0) بث على هذا السيرفر</value>
-  </data>
-  <data name="searches_streams_none" xml:space="preserve">
-    <value>انت لا تتابع اي بث على هذا السيرفر</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="searches_stream_no" xml:space="preserve">
-    <value>لا يوجد مثل هذا البث.</value>
-  </data>
-  <data name="searches_stream_not_exist" xml:space="preserve">
-    <value>البث على الاغلب غير موجود.</value>
-  </data>
-  <data name="searches_stream_removed" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="searches_stream_tracked" xml:space="preserve">
-    <value>سوف اعلم هذه القناة عند تغير الحالة.</value>
-  </data>
-  <data name="searches_sunrise" xml:space="preserve">
-    <value>شروق الشمس</value>
-  </data>
-  <data name="searches_sunset" xml:space="preserve">
-    <value>غروب الشمس</value>
-  </data>
-  <data name="searches_temperature" xml:space="preserve">
-    <value>درجة الحرارة</value>
-  </data>
-  <data name="searches_title" xml:space="preserve">
-    <value>عنوان:</value>
-  </data>
-  <data name="searches_top_3_fav_anime" xml:space="preserve">
-    <value>اعلى 3 أنيمي مفضلة:</value>
-  </data>
-  <data name="searches_translation" xml:space="preserve">
-    <value>ترجمة:</value>
-  </data>
-  <data name="searches_types" xml:space="preserve">
-    <value>الأنواع</value>
-  </data>
-  <data name="searches_ud_error" xml:space="preserve">
-    <value>فشل العثور على تعريف لهذا المصطلح.</value>
-  </data>
-  <data name="searches_url" xml:space="preserve">
-    <value>رابط</value>
-  </data>
-  <data name="searches_viewers" xml:space="preserve">
-    <value>متابعين</value>
-  </data>
-  <data name="searches_watching" xml:space="preserve">
-    <value>مشاهدة</value>
-  </data>
-  <data name="searches_wikia_error" xml:space="preserve">
-    <value>فشل العثور على هذا المصطلح على wikia المحدد.</value>
-  </data>
-  <data name="searches_wikia_input_error" xml:space="preserve">
-    <value>الرجاء إدخال وتحديد wikia ، يليه طلب البحث.</value>
-  </data>
-  <data name="searches_wiki_page_not_found" xml:space="preserve">
-    <value>الصفحة غير موجودة.</value>
-  </data>
-  <data name="searches_wind_speed" xml:space="preserve">
-    <value>سرعة الرياح</value>
-  </data>
-  <data name="searches_x_most_banned_champs" xml:space="preserve">
-    <value>معظم الأبطال المحظورة (0)</value>
-  </data>
-  <data name="searches_yodify_error" xml:space="preserve">
-    <value>أخفق تعديل الجملة.</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="utiliity_joined" xml:space="preserve">
-    <value>انضم</value>
-  </data>
-  <data name="utility_activity_line" xml:space="preserve">
-    <value>{0} .` {1} [{2: F2} / s] - {3} ألمجموع</value>
-    <comment>/s and total need to be localized to fit the context -
-`1.`</comment>
-  </data>
-  <data name="utility_activity_page" xml:space="preserve">
-    <value>صفحة النشاط #(0)</value>
-  </data>
-  <data name="utility_activity_users_total" xml:space="preserve">
-    <value>{0} مجموع المستخدمين.</value>
-  </data>
-  <data name="utility_author" xml:space="preserve">
-    <value>مؤلف</value>
-  </data>
-  <data name="utility_botid" xml:space="preserve">
-    <value>بوت ID</value>
-  </data>
-  <data name="utility_calcops" xml:space="preserve">
-    <value>قائمة الوظائف في الأمر (0) كلك</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="utility_channelid" xml:space="preserve">
-    <value>(0) من هذه القناة هو (1)</value>
-  </data>
-  <data name="utility_channel_topic" xml:space="preserve">
-    <value>موضوع القناة</value>
-  </data>
-  <data name="utility_commands_ran" xml:space="preserve">
-    <value>تم تشغيل الأوامر</value>
-  </data>
-  <data name="utility_convert" xml:space="preserve">
-    <value>{0} {1} يساوي {2} {3}</value>
-  </data>
-  <data name="utility_convertlist" xml:space="preserve">
-    <value>الوحدات التي يمكن استخدامها من قبل المحول</value>
-  </data>
-  <data name="utility_convert_not_found" xml:space="preserve">
-    <value>لا يمكنني تحويل (0) الى (1): الوحة غير موجودة</value>
-  </data>
-  <data name="utility_convert_type_error" xml:space="preserve">
-    <value>لا يمكن تحويل (0) إلى (1): أنواع الوحدات غير متساوية</value>
-  </data>
-  <data name="utility_created_at" xml:space="preserve">
-    <value>أنشئت في</value>
-  </data>
-  <data name="utility_csc_join" xml:space="preserve">
-    <value>انضممت الى قناة تقاطع السيرفارات </value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="utility_csc_leave" xml:space="preserve">
-    <value>مغادرة قناة تقاطع السيرفارات </value>
-  </data>
-  <data name="utility_csc_token" xml:space="preserve">
-    <value>هذا csc قطعة</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="utility_custom_emojis" xml:space="preserve">
-    <value>الرمز التعبيري المخصص</value>
-    <comment>In Arabic, we do have instances where we add &quot;AL&quot; (the) to a sentence since at times it might not make sense without it. It really depends on the sentence wording.</comment>
-  </data>
-  <data name="utility_error" xml:space="preserve">
-    <value>خطأ</value>
-  </data>
-  <data name="utility_features" xml:space="preserve">
-    <value>الميزات
-</value>
-  </data>
-  <data name="utility_id" xml:space="preserve">
-    <value>الهوية
-</value>
-  </data>
-  <data name="utility_index_out_of_range" xml:space="preserve">
-    <value>القائمة خارج النطاق.</value>
-  </data>
-  <data name="utility_inrole_list" xml:space="preserve">
-    <value>قائمة المستخدمين في {0} دور</value>
-  </data>
-  <data name="utility_inrole_not_allowed" xml:space="preserve">
-    <value>لا يسمح لك باستخدام هذا الأمر في الأدوار التي تملك الكثير من المستخدمين فيها لكي تمنع الإساءة</value>
-  </data>
-  <data name="utility_invalid_value" xml:space="preserve">
-    <value>قيمة {0} غير صالحة</value>
-    <comment>Invalid months value/ Invalid hours value</comment>
-  </data>
-  <data name="utility_joined_discord" xml:space="preserve">
-    <value>انضم إلى ديسكورد</value>
-  </data>
-  <data name="utility_joined_server" xml:space="preserve">
-    <value>انضم إلى السيرفر</value>
-    <comment>There are two terms that can be used here other than what is already used. 
-مُزَوِّد and خادم. 
-خادم could be mistaken for another word so I avoided it.</comment>
-  </data>
-  <data name="utility_listservers" xml:space="preserve">
-    <value>الهوية: {0}
-الأعضاء: {1}
-هوية المالك: {2}</value>
-  </data>
-  <data name="utility_listservers_none" xml:space="preserve">
-    <value>لم يتم ايجاد سيرفر على تلك الصفحة</value>
-  </data>
-  <data name="utility_list_of_repeaters" xml:space="preserve">
-    <value>قائمة المكررين</value>
-  </data>
-  <data name="utility_members" xml:space="preserve">
-    <value>اعضاء</value>
-  </data>
-  <data name="utility_memory" xml:space="preserve">
-    <value>ذاكرة</value>
-  </data>
-  <data name="utility_messages" xml:space="preserve">
-    <value>رسالة</value>
-  </data>
-  <data name="utility_message_repeater" xml:space="preserve">
-    <value>مكرر رسائل</value>
-  </data>
-  <data name="utility_name" xml:space="preserve">
-    <value>الاسم</value>
-  </data>
-  <data name="utility_nickname" xml:space="preserve">
-    <value>الاسم المستعار</value>
-  </data>
-  <data name="utility_nobody_playing_game" xml:space="preserve">
-    <value>لا احد يلعب تلك اللعبة</value>
-  </data>
-  <data name="utility_no_active_repeaters" xml:space="preserve">
-    <value>لا نشاط للمكريرن</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="utility_no_roles_on_page" xml:space="preserve">
-    <value>لا يوجد ادوار في هذه الصفحة</value>
-  </data>
-  <data name="utility_no_shards_on_page" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="utility_no_topic_set" xml:space="preserve">
-    <value>لم يضبط الموضوع</value>
-  </data>
-  <data name="utility_owner" xml:space="preserve">
-    <value>مالك</value>
-  </data>
-  <data name="utility_owner_ids" xml:space="preserve">
-    <value>صاحب IDs</value>
-  </data>
-  <data name="utility_presence" xml:space="preserve">
-    <value>حضور</value>
-  </data>
-  <data name="utility_presence_txt" xml:space="preserve">
-    <value>(0) سيرفرز
-(1) قناة الرسائل
-(2) قناة الصوت</value>
-  </data>
-  <data name="utility_quotes_deleted" xml:space="preserve">
-    <value>تم حذف جميع علامات الاقتباس باستخدام كلمة رئيسية (0)</value>
-  </data>
-  <data name="utility_quotes_page" xml:space="preserve">
-    <value>صفحة (0) من علامات الاقتباس</value>
-  </data>
-  <data name="utility_quotes_page_none" xml:space="preserve">
-    <value>لا توجد علامات اقتباس في هذه الصفحة.</value>
-  </data>
-  <data name="utility_quotes_remove_none" xml:space="preserve">
-    <value>لم يتم العثور على علامات الاقتباس التي يمكنك إزالة.</value>
-  </data>
-  <data name="utility_quote_added" xml:space="preserve">
-    <value>تمت إضافة اقتباس</value>
-  </data>
-  <data name="utility_quote_deleted" xml:space="preserve">
-    <value>تم حذف الاقتباس # (0)</value>
-  </data>
-  <data name="utility_region" xml:space="preserve">
-    <value>منطقة</value>
-  </data>
-  <data name="utility_registered_on" xml:space="preserve">
-    <value>مسجل في</value>
-  </data>
-  <data name="utility_remind" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="utility_remind_invalid_format" xml:space="preserve">
-    <value> تنسيق الوقت ليس صالحا. تحقق من قائمة الأوامر.</value>
-  </data>
-  <data name="utility_remind_template" xml:space="preserve">
-    <value>تذكير جديد قالب مضبوط</value>
-  </data>
-  <data name="utility_repeater" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="utility_repeaters_list" xml:space="preserve">
-    <value>قائمة المكررين</value>
-  </data>
-  <data name="utility_repeaters_none" xml:space="preserve">
-    <value>لا يوجد مكررين على هذا السيرفر</value>
-  </data>
-  <data name="utility_repeater_stopped" xml:space="preserve">
-    <value>#(0) توقف</value>
-  </data>
-  <data name="utility_repeat_invoke_none" xml:space="preserve">
-    <value>لم اجد رسائل مكررة على هذا السيرفر</value>
-  </data>
-  <data name="utility_result" xml:space="preserve">
-    <value>ناتج</value>
-  </data>
-  <data name="utility_roles" xml:space="preserve">
-    <value>دور</value>
-  </data>
-  <data name="utility_roles_all_page" xml:space="preserve">
-    <value>صفحة #(0) لجميع الادوار على هذا السيرفر</value>
-  </data>
-  <data name="utility_roles_page" xml:space="preserve">
-    <value>صفحة #(0) من الادوار ل (1)</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="utility_rrc_no_colors" xml:space="preserve">
-    <value>لا توجد ألوان بالتنسيق الصحيح. استخدم `# 00ff00` على سبيل المثال.</value>
-  </data>
-  <data name="utility_rrc_start" xml:space="preserve">
-    <value>بدأ تدوير لون الدور (0)</value>
-  </data>
-  <data name="utility_rrc_stop" xml:space="preserve">
-    <value>توقف الألوان الدورية لدور (0)</value>
-  </data>
-  <data name="utility_serverid" xml:space="preserve">
-    <value>(0) من هذا السيرفر(1)</value>
-  </data>
-  <data name="utility_server_info" xml:space="preserve">
-    <value>معلومات السيرفر</value>
-  </data>
-  <data name="utility_shard" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="utility_shard_stats" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="utility_shard_stats_txt" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="utility_showemojis" xml:space="preserve">
-    <value>**الاسم:** (0) **الرابط:**(1)</value>
-  </data>
-  <data name="utility_showemojis_none" xml:space="preserve">
-    <value>لم يتم العثور على رموز تعبيرية خاصة.</value>
-  </data>
-  <data name="utility_stats_songs" xml:space="preserve">
-    <value>تشغيل الأغاني (0). (1) في قائمة الانتظار.</value>
-  </data>
-  <data name="utility_text_channels" xml:space="preserve">
-    <value>قناة الرسائل</value>
-  </data>
-  <data name="utility_togtub_room_link" xml:space="preserve">
-    <value>إليك رابط غرفتك:</value>
-  </data>
-  <data name="utility_uptime" xml:space="preserve">
-    <value>مدة التشغيل</value>
-  </data>
-  <data name="utility_userid" xml:space="preserve">
-    <value>(0) للمستخدم (1) هو (2)</value>
-    <comment>Id of the user kwoth#1234 is 123123123123</comment>
-  </data>
-  <data name="utility_users" xml:space="preserve">
-    <value>المستخدمين</value>
-  </data>
-  <data name="utility_voice_channels" xml:space="preserve">
-    <value>قناة الصوت</value>
-  </data>
-  <data name="gambling_animal_race_already_in" xml:space="preserve">
-    <value>لقد انضممت بالفعل لهذا السباق!</value>
-  </data>
-  <data name="games_current_poll_results" xml:space="preserve">
-    <value>نتائج الاستطلاع الحالية</value>
-  </data>
-  <data name="games_no_votes_cast" xml:space="preserve">
-    <value>لا اصوات وضعت</value>
-  </data>
-  <data name="games_poll_already_running" xml:space="preserve">
-    <value>يتم تشغيل الاستطلاع بالفعل على هذا السيرفر</value>
-  </data>
-  <data name="games_poll_created" xml:space="preserve">
-    <value>📃 (0) قام بإنشاء استطلاع يتطلب انتباهك:</value>
-  </data>
-  <data name="games_poll_result" xml:space="preserve">
-    <value>`{0}.` {1} مع {2} اصوات.</value>
-  </data>
-  <data name="games_poll_voted" xml:space="preserve">
-    <value>(0) صوت.</value>
-    <comment>Kwoth voted.</comment>
-  </data>
-  <data name="games_poll_vote_private" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="games_poll_vote_public" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="games_thanks_for_voting" xml:space="preserve">
-    <value>شكرا للتصويت (0)</value>
-  </data>
-  <data name="games_x_votes_cast" xml:space="preserve">
-    <value>مجموع الاصوات (0)</value>
-  </data>
-  <data name="games_pick_pl" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="games_pick_sn" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="gambling_no_users_found" xml:space="preserve">
-    <value>لم يتم العثور على مستخدم</value>
-  </data>
-  <data name="gambling_page" xml:space="preserve">
-    <value>صفحة (0)</value>
-  </data>
-  <data name="administration_must_be_in_voice" xml:space="preserve">
-    <value>يجب أن تكون في قناة الصوت على هذا السيرفر</value>
-  </data>
-  <data name="administration_no_vcroles" xml:space="preserve">
-    <value>لا توجد أدوار لقنوات الصوت</value>
-  </data>
-  <data name="administration_user_muted_time" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_vcrole_added" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_vcrole_removed" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_vc_role_list" xml:space="preserve">
-    <value>ادوار قناة الصوت</value>
-  </data>
-  <data name="customreactions_crad_disabled" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="customreactions_crad_enabled" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="customreactions_crdm_disabled" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="customreactions_crdm_enabled" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="utility_aliases_none" xml:space="preserve">
-    <value>لم يتم العثور على اسم مستعار</value>
-  </data>
-  <data name="utility_alias_added" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="utility_alias_list" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="utility_alias_removed" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="utility_alias_remove_fail" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="searches_compet_playtime" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_channel" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_command_text" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_kicked_pl" xml:space="preserve">
-    <value></value>
-    <comment>PLURAL</comment>
-  </data>
-  <data name="administration_moderator" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_page" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_reason" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_scadd" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_scrm" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_scrm_fail" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_server" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_startcmdlist_none" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_startcmds_cleared" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_unbanned_user" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_user_not_found" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_user_warned" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_user_warned_and_punished" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_warned_on" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_warned_on_by" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_warnings_cleared" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_warnings_none" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_warnlog_for" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_warnpl_none" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_warn_cleared_by" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_warn_punish_list" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_warn_punish_rem" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_warn_punish_set" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_slowmodewl_role_start" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_slowmodewl_role_stop" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_slowmodewl_user_start" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="administration_slowmodewl_user_stop" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="utility_clpa_fail" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="utility_clpa_fail_already" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="utility_clpa_fail_already_title" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="utility_clpa_fail_conn" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="utility_clpa_fail_conn_title" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="utility_clpa_fail_sup" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="utility_clpa_fail_sup_title" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="utility_clpa_fail_wait" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="utility_clpa_fail_wait_title" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="utility_clpa_success" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="utility_clpa_too_early" xml:space="preserve">
-    <value></value>
-  </data>
-
-</root>

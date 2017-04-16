@@ -33,7 +33,7 @@ namespace NadekoBot.Services.Impl
         private long _commandsRan;
         public long CommandsRan => Interlocked.Read(ref _commandsRan);
 
-        private Timer carbonitexTimer { get; }
+        private readonly Timer _carbonitexTimer;
 
         public StatsService(DiscordShardedClient client, CommandHandler cmdHandler)
         {
@@ -114,7 +114,7 @@ namespace NadekoBot.Services.Impl
                 return Task.CompletedTask;
             };
 
-            carbonitexTimer = new Timer(async (state) =>
+            _carbonitexTimer = new Timer(async (state) =>
             {
                 if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.CarbonKey))
                     return;
