@@ -4,7 +4,7 @@
     <Description>General purpose Discord bot written in C#.</Description>
     <Copyright>Kwoth</Copyright>
     <Authors>Kwoth</Authors>
-    <Version>1.4.$(VersionSuffix)</Version>
+    <Version>1.4</Version>
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <AssemblyName>NadekoBot</AssemblyName>
