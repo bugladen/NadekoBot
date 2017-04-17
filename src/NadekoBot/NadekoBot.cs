@@ -147,7 +147,7 @@ namespace NadekoBot
             await CommandService.AddModuleAsync<Music>().ConfigureAwait(false);
 #endif
             Ready = true;
-            Console.WriteLine(await Stats.Print().ConfigureAwait(false));
+            _log.Info(await Stats.Print().ConfigureAwait(false));
         }
 
         private Task Client_Log(LogMessage arg)
