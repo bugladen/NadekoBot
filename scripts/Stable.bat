@@ -162,5 +162,5 @@ GOTO end
 	ECHO.
 	ECHO Installation complete!
 	ECHO.
-	PAUSE
+	timeout /t 5
 	del Stable.bat
