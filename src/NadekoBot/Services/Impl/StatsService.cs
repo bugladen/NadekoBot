@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,7 +17,7 @@ namespace NadekoBot.Services.Impl
         private readonly DiscordShardedClient _client;
         private readonly DateTime _started;
 
-        public const string BotVersion = "1.4-alpha";
+        public const string BotVersion = "1.4";
 
         public string Author => "Kwoth#2560";
         public string Library => "Discord.Net";
