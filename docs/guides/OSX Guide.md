@@ -14,6 +14,7 @@ Run `brew update` to fetch the latest package data.
 
 ####Installing dependencies
 ```
+brew install wget
 brew install git
 brew install ffmpeg
 brew update && brew upgrade ffmpeg
