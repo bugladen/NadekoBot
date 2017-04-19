@@ -57,13 +57,14 @@ You should see these following options after using the above command:
 ```
 #####Part II - Downloading Nadekobot prerequisites
 
-(Optional) **If** you want to install it manually, you can try finding it [here](https://raw.githubusercontent.com/Kwoth/NadekoBot-BashScript/master/nadekoautoinstaller.sh)
 **If** you are running NadekoBot for the first time on your system and never had any *prerequisites* installed and have Ubuntu, Debian or CentOS, Press `5` and `enter` key, then `y` when you see the following:
 ```
 Welcome to NadekoBot Auto Prerequisites Installer.
 Would you like to continue?
 ```
 That will install all the prerequisites your system need to run NadekoBot.
+
+(Optional) **If** you want to install it manually, you can try finding it [here](https://raw.githubusercontent.com/Kwoth/NadekoBot-BashScript/master/nadekoautoinstaller.sh)
 
 Once *prerequisites* finish installing.
 #####Part III - Installing Nadeko
@@ -189,25 +190,3 @@ Once done, go back to **PuTTY**
 - If you want to **see the sessions** after logging back again, type `tmux ls`, and that will give you the list of sessions running.
 - If you want to **switch to/ see that session**, type `tmux a -t nadeko` (**nadeko** is the name of the session we created before so, replace **“nadeko”** with the session name you created.)
 - If you want to **kill** NadekoBot **session**, type `tmux kill-session -t nadeko`
-
-#####Alternative way to Install
-
-If the [Nadeko installer](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#getting-nadekobot) shows any kind error, check if you have the `linuxAIO.sh` file and make sure its not renamed or if you want to manually install the bot. Use the following command(s):
-
-![img6](https://cdn.discordapp.com/attachments/251504306010849280/251505587089571850/getting_nadeko.gif)
-
-`cd ~ && curl -L https://github.com/Kwoth/NadekoBot-BashScript/raw/master/nadeko_installer.sh | sh`
-
-**OR**
-
-```sh
-cd ~ && git clone -b dev --recursive --depth 1 https://github.com/Kwoth/NadekoBot.git
-cd ~/NadekoBot/discord.net/src/Discord.Net && dotnet restore && cd ../Discord.Net.Commands && dotnet restore && cd ../../../src/NadekoBot/ && dotnet restore && dotnet build --configuration Release
-```
-  
-If you are getting error using the above steps try:
-
-```sh
-cd ~/NadekoBot/discord.net && dotnet restore -s https://dotnet.myget.org/F/dotnet-core/api/v3/index.json && dotnet restore
-cd ~/NadekoBot/src/NadekoBot/ && dotnet restore && dotnet build --configuration Release
-```
