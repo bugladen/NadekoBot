@@ -8,7 +8,7 @@ Assuming you have followed the link above to setup an account and Droplet with 6
 
 **Go through this whole guide before setting up Nadeko**
 
-####Prerequisites
+#### Prerequisites
 - Download [PuTTY](http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html)
 - Download [WinSCP](https://winscp.net/eng/download.php) *(optional)*
 
@@ -112,7 +112,7 @@ Next, [Run your bot again with **tmux**.](http://nadekobot.readthedocs.io/en/lat
 
 [Check this when you need to **restart** your **NadekoBot** anytime later along with tmux session.](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#restarting-nadeko)
 
-####Running NadekoBot
+#### Running NadekoBot
 
 **Create a new Session:**
 
