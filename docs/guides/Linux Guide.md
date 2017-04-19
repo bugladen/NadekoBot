@@ -192,7 +192,7 @@ Once done, go back to **PuTTY**
 - If you want to **switch to/ see that session**, type `tmux a -t nadeko` (**nadeko** is the name of the session we created before so, replace **“nadeko”** with the session name you created.)
 - If you want to **kill** NadekoBot **session**, type `tmux kill-session -t nadeko`
 
-####Guide for Advance Users (Optional)
+#### Guide for Advance Users (Optional)
 
 **Skip this step if you are a Regular User or New to Linux.**
 
