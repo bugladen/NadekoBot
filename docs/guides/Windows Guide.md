@@ -24,6 +24,7 @@ ________________________________________________________________________________
 - Wait a while for the file to finish installing, it'll display it's progress in the command prompt.
 - You should now have a new folder named `NadekoBot` inside the `Nadeko` folder we previously created.
 - Once Installation is completed, press any key to close the command prompt.
+![img1](http://i.imgur.com/O1dY9eW.gif)
 
 ####Creating DiscordBot application
 - Go to [the Discord developer application page][DiscordApp].
@@ -33,6 +34,7 @@ ________________________________________________________________________________
 - Create the application.
 - Click on `Create a Bot User` and confirm that you do want to add a bot to this app.
 - Keep this window open for now.
+![img2](http://i.imgur.com/x3jWudH.gif)
 
 ####Setting up credentials.json file
 - In our `NadekoBot` folder you should see a `src` folder, then *another* `NadekoBot` folder, in this final folder, you should see a `.json` file named `credentials.json`. (Note: If you do not see a `.json` after `credentials.json`, do not add the `.json`. You most likely have **"Hide file extensions"** enabled.)
@@ -48,6 +50,7 @@ ________________________________________________________________________________
 - The message will appear as a mention if done correctly, copy the numbers from the message you sent (`145521851676884992`) and replace the ID (By default, the ID is `105635576866156544`) on the `OwnerIds` section with your user ID shown earlier.
 - Save `credentials.json` (make sure you aren't saving it as `credentials.json.txt`)
 - If done correctly, you are now the bot owner. You can add multiple owners by seperating each owner ID with a comma within the square brackets.
+![img3](http://i.imgur.com/QwKMnTG.gif)
 
 ####Inviting your bot to your server 
 - [Invite Guide][Invite Guide]
@@ -56,6 +59,7 @@ ________________________________________________________________________________
 - The link should now look like this: `https://discordapp.com/oauth2/authorize?client_id=**YOUR_CLENT_ID_HERE**&scope=bot&permissions=66186303`.
 - Go to the newly created link and pick the server we created, and click `Authorize`.
 - The bot should have been added to your server.
+![img4](http://i.imgur.com/aFK7InR.gif)
 
 ####Starting the bot
 - Go to the `Nadeko` folder that we have created earlier, and run the `NadekoInstaller.bat` file as Administrator.
