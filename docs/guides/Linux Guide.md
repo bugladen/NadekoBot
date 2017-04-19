@@ -66,8 +66,9 @@ That will install all the prerequisites your system need to run NadekoBot.
 
 (Optional) **If** you want to install it manually, you can try finding it [here](https://github.com/Kwoth/NadekoBot-BashScript/blob/master/nadekoautoinstaller.sh)
 
-Once *prerequisites* finish installing.
-#####Part III - Installing Nadeko
+Once *prerequisites* finish installing,
+
+##### Part III - Installing Nadeko
 Choose either 
 `1` to get the **most updated build of NadekoBot** 
 or 
@@ -102,11 +103,11 @@ You will be asked to enter the required informations, just follow the on-screen 
 
 (If you want to skip any optional infos, just press `enter` key without typing/pasting anything.)		
 Once done,		
-#####Part V - Checking if Nadeko is working
+##### Part V - Checking if Nadeko is working
 You should see the options again.	
-Next, press `3` to **Run Nadeko (Normally)**	
+Next, press `3` to **Run Nadeko (Normally)**.
 Check in your discord server if your new bot is working properly.	
-#####Part VI - Running Nadeko on tmux
+##### Part VI - Running Nadeko on tmux
 If your bot is working properly in your server, type `.die` to **shut down the bot**, then press `7` to **exit**.
 Next, [Run your bot again with **tmux**.](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#running-nadekobot)	
 
