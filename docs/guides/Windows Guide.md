@@ -13,7 +13,7 @@ ________________________________________________________________________________
 - 6) [Notepad++][Notepad++]
 - 7) Windows 8 or later
 
-####Guide 
+#### Guide 
 - Make sure you have installed both [Git][Git] and the [.NET Core SDK][.NET Core SDK].
 - Create a **new folder** anywhere you like and name it `Nadeko`.
 - Next, [Right-Click on this link](https://github.com/Kwoth/NadekoBotInstallerWin/raw/master/NadekoInstaller.bat) and select **Save link as** and save the file `NadekoInstaller.bat` inside the `Nadeko` folder that we created earlier. (Please **DO NOT** rename the file `NadekoInstaller.bat`.)
@@ -26,7 +26,7 @@ ________________________________________________________________________________
 - Once Installation is completed, press any key to close the command prompt.
 ![img1](http://i.imgur.com/O1dY9eW.gif)
 
-####Creating DiscordBot application
+#### Creating DiscordBot application
 - Go to [the Discord developer application page][DiscordApp].
 - Log in with your Discord account.
 - On the left side, press `New Application`.
@@ -36,7 +36,7 @@ ________________________________________________________________________________
 - Keep this window open for now.
 ![img2](http://i.imgur.com/x3jWudH.gif)
 
-####Setting up credentials.json file
+#### Setting up credentials.json file
 - In our `NadekoBot` folder you should see a `src` folder, then *another* `NadekoBot` folder, in this final folder, you should see a `.json` file named `credentials.json`. (Note: If you do not see a `.json` after `credentials.json`, do not add the `.json`. You most likely have **"Hide file extensions"** enabled.)
 - If you mess up the setup of `credentials.json`, rename `credentials_example.json` to `credentials.json`.
 - Open the file with [Notepad++][Notepad++].
@@ -52,7 +52,7 @@ ________________________________________________________________________________
 - If done correctly, you are now the bot owner. You can add multiple owners by seperating each owner ID with a comma within the square brackets.
 ![img3](http://i.imgur.com/QwKMnTG.gif)
 
-####Inviting your bot to your server 
+#### Inviting your bot to your server 
 - [Invite Guide][Invite Guide]
 - Copy your `Client ID` from your [applications page][DiscordApp].
 - Replace the `12345678` in this link `https://discordapp.com/oauth2/authorize?client_id=12345678&scope=bot&permissions=66186303` with your `Client ID`.
@@ -61,7 +61,7 @@ ________________________________________________________________________________
 - The bot should have been added to your server.
 ![img4](http://i.imgur.com/aFK7InR.gif)
 
-####Starting the bot
+#### Starting the bot
 - Go to the `Nadeko` folder that we have created earlier, and run the `NadekoInstaller.bat` file as Administrator.
 - From the options,
 	- Choose `3` to **run the bot normally**.	
@@ -69,7 +69,7 @@ ________________________________________________________________________________
 	- Choose `4` to **run the bot with auto restart**.	
 	(with auto restart the bot will restart itself if it disconnects by the use of `.die` command. Useful if you want to have restart function for any reason.)
 
-####Updating NadekoBot
+#### Updating NadekoBot
 - Make sure the bot is closed and is not running (Run `.die` in a connected server to ensure it's not running).
 - Once that's checked, go to the `Nadeko` folder.
 - Run the `NadekoInstaller.bat` file.
