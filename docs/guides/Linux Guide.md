@@ -1,18 +1,18 @@
-##Setting up NadekoBot on Linux
+## Setting up NadekoBot on Linux
 
-####Setting up NadekoBot on Linux Digital Ocean Droplet
+#### Setting up NadekoBot on Linux Digital Ocean Droplet
 If you want Nadeko to play music for you 24/7 without having to hosting it on your PC and want to keep it cheap, reliable and convenient as possible, you can try Nadeko on Linux Digital Ocean Droplet using the link [DigitalOcean](http://m.do.co/c/46b4d3d44795/) (and using this link will be supporting Nadeko and will give you **$10 credit**)
 
-####Setting up NadekoBot
+#### Setting up NadekoBot
 Assuming you have followed the link above to setup an account and Droplet with 64bit OS in Digital Ocean and got the `IP address and root password (in email)` to login, its time to get started.
 
 **Go through this whole guide before setting up Nadeko**
 
-####Prerequisites
+#### Prerequisites
 - Download [PuTTY](http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html)
 - Download [WinSCP](https://winscp.net/eng/download.php) *(optional)*
 
-####Starting up
+#### Starting up
 
 - **Open PuTTY.exe** that you downloaded before, and paste or enter your `IP address` and then click **Open**.
 If you entered your Droplets IP address correctly, it should show **login as:** in a newly opened window.
@@ -24,7 +24,7 @@ If you entered your Droplets IP address correctly, it should show **login as:** 
 
 **NOTE:** Copy the commands, and just paste them using **mouse single right-click.**
 
-####Creating and Inviting bot
+#### Creating and Inviting bot
 
 - Read here how to [create a DiscordBot application](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#creating-discordbot-application)
 - [Visual Invite Guide](http://discord.kongslien.net/guide.html) **(Note: Client ID is your Bot ID)**
@@ -37,8 +37,8 @@ If you entered your Droplets IP address correctly, it should show **login as:** 
 - Go to the newly created link and pick the server we created, and click `Authorize`
 - The bot should have been added to your server.
 
-####Getting NadekoBot
-#####Part I
+#### Getting NadekoBot
+##### Part I - Downloading the installer
 Use the following command to get and run `linuxAIO.sh`		
 (Remember **Do Not** rename the file **linuxAIO.sh**)
 
@@ -55,7 +55,8 @@ You should see these following options after using the above command:
 6. Set up credentials.json (if you have downloaded the bot already)
 7. To exit
 ```
-#####Part II (Optional)
+##### Part II - Downloading Nadekobot prerequisites
+
 **If** you are running NadekoBot for the first time on your system and never had any *prerequisites* installed and have Ubuntu, Debian or CentOS, Press `5` and `enter` key, then `y` when you see the following:
 ```
 Welcome to NadekoBot Auto Prerequisites Installer.
@@ -63,10 +64,11 @@ Would you like to continue?
 ```
 That will install all the prerequisites your system need to run NadekoBot.
 
-If you prefer to install them [manually](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#installing-manually-optional), click on the link. *(Optional)*
+(Optional) **If** you want to install it manually, you can try finding it [here](https://github.com/Kwoth/NadekoBot-BashScript/blob/master/nadekoautoinstaller.sh)
 
-Once *prerequisites* finish installing.
-#####Part III
+Once *prerequisites* finish installing,
+
+##### Part III - Installing Nadeko
 Choose either 
 `1` to get the **most updated build of NadekoBot** 
 or 
@@ -76,8 +78,7 @@ and then press `enter` key.
 Once Installation is completed you should see the options again.
 
 Next, check out:
-#####Part IV (Optional)
-If you prefer to skip this step and want to do it [manually](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#setting-up-sftp) or already have the `credentials.json` file, click on the link. *(Optional)*
+##### Part IV - Setting up credentials
 
 - [1. Setting up credentials.json](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#setting-up-credentialsjson)
 - [2. To Get the Google API](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#setting-up-nadekobot-for-music)
@@ -102,17 +103,17 @@ You will be asked to enter the required informations, just follow the on-screen 
 
 (If you want to skip any optional infos, just press `enter` key without typing/pasting anything.)		
 Once done,		
-#####Part V
+##### Part V - Checking if Nadeko is working
 You should see the options again.	
-Next, press `3` to **Run Nadeko (Normally)**	
+Next, press `3` to **Run Nadeko (Normally)**.
 Check in your discord server if your new bot is working properly.	
-#####Part VI
+##### Part VI - Running Nadeko on tmux
 If your bot is working properly in your server, type `.die` to **shut down the bot**, then press `7` to **exit**.
 Next, [Run your bot again with **tmux**.](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#running-nadekobot)	
 
 [Check this when you need to **restart** your **NadekoBot** anytime later along with tmux session.](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#restarting-nadeko)
 
-####Running NadekoBot
+#### Running NadekoBot
 
 **Create a new Session:**
 
@@ -147,9 +148,9 @@ See how that happens:
 
 **Now check your Discord, the bot should be online**
 
-Next to **move the bot to background** and to do that, press **CTRL+B+D** (that will detach the nadeko session using TMUX) and you can finally close **PuTTY** if you want.
+Next to **move the bot to background** and to do that, press **CTRL+B, release, D** (that will detach the nadeko session using TMUX) and you can finally close **PuTTY** if you want.
 
-####Restarting Nadeko
+#### Restarting Nadeko
 
 **Restarting NadekoBot:**
 
@@ -166,7 +167,7 @@ Open **PuTTY** and login as you have before, type `reboot` and hit Enter.
 - `tmux kill-session -t nadeko` (don't forget to replace "nadeko" to what ever you named your bot's session)
 - [Run the bot again.](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#running-nadekobot)
 
-####Updating Nadeko
+#### Updating Nadeko
 
 - Connect to the terminal through **PuTTY**.
 - `tmux kill-session -t nadeko` (don't forget to replace **nadeko** in the command with the name of your bot's session)
@@ -177,130 +178,21 @@ Open **PuTTY** and login as you have before, type `reboot` and hit Enter.
 - Choose either `3` or `4` to run the bot again with **normally** or **auto restart** respectively.
 - Done. You can close **PuTTY** now.
 
-####Installing Manually (Optional)
+#### Setting up Music
 
-#####Installing Git
+To set up Nadeko for music and Google API Keys, follow [Setting up NadekoBot for Music](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#setting-up-nadekobot-for-music)
 
-![img1](https://cdn.discordapp.com/attachments/251504306010849280/251504416019054592/git.gif)
+Once done, go back to **PuTTY**
 
-Ubuntu: 
+#### Some more Info
 
-`sudo apt-get install git -y`
+##### Info about tmux
 
-CentOS: 
+- If you want to **see the sessions** after logging back again, type `tmux ls`, and that will give you the list of sessions running.
+- If you want to **switch to/ see that session**, type `tmux a -t nadeko` (**nadeko** is the name of the session we created before so, replace **“nadeko”** with the session name you created.)
+- If you want to **kill** NadekoBot **session**, type `tmux kill-session -t nadeko`
 
-`yum -y install git`
-
-**NOTE:** If the command is not being initiated, hit **Enter**
-
-#####Installing .NET Core SDK
-
-![img2](https://cdn.discordapp.com/attachments/251504306010849280/251504746987388938/dotnet.gif)
-
-Go to [this link](https://www.microsoft.com/net/core#ubuntu) (for Ubuntu) or to [this link](https://www.microsoft.com/net/core#linuxcentos) (for CentOS) provided by microsoft for instructions on how to get the most up to date version of the dotnet core sdk!  
-Make sure that you're on the correct page for your distribution of linux as the guides are different for the various distributions.		
-Install the **currently supported version** `1.0.0-preview2-1-003177`.		
-You can find it [here](https://github.com/dotnet/core/blob/master/release-notes/download-archives/1.1-preview2.1-download.md) if you prefer manual installing `dpkg` files.
-
-We'll go over the steps here for few linux distributions, accurate as of March 08, 2017:
-**NOTE:** .NET CORE SDK only supports 64-bit Linux Operating Systems (Raspberry Pis are not supported because of this)
-
-**Ubuntu x64 17.04 & 16.10**
-```sh
-sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ yakkety main" > /etc/apt/sources.list.d/dotnetdev.list'
-sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 417A0893
-sudo apt-get update && sudo apt-get install dotnet-dev-1.0.0-preview2.1-003177 -y
-```
-
-**Ubuntu x64 16.04**
-```sh
-sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ xenial main" > /etc/apt/sources.list.d/dotnetdev.list'
-sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 417A0893
-sudo apt-get update && sudo apt-get install dotnet-dev-1.0.0-preview2.1-003177 -y
-```
-
-**Ubuntu x64 14.04**
-```sh
-sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ trusty main" > /etc/apt/sources.list.d/dotnetdev.list'
-sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 417A0893
-sudo apt-get update && sudo apt-get install dotnet-dev-1.0.0-preview2.1-003177 -y
-```
-
-**Debian 8 x64**
-```sh
-sudo apt-get install curl libunwind8 gettext -y
-curl -sSL -o dotnet.tar.gz https://go.microsoft.com/fwlink/?LinkID=835021
-sudo mkdir -p /opt/dotnet && sudo tar zxf dotnet.tar.gz -C /opt/dotnet
-sudo ln -s /opt/dotnet/dotnet /usr/local/bin
-```
-
-**CentOS 7 x64**
-```sh
-sudo yum install libunwind libicu -y
-curl -sSL -o dotnet.tar.gz https://go.microsoft.com/fwlink/?LinkID=835019
-sudo mkdir -p /opt/dotnet && sudo tar zxf dotnet.tar.gz -C /opt/dotnet
-sudo ln -s /opt/dotnet/dotnet /usr/local/bin
-```
-
-#####Installing Opus Voice Codec and libsodium
-
-![img3](https://cdn.discordapp.com/attachments/251504306010849280/251505294654308353/libopus.gif)
-
-Ubuntu: 
-
-`sudo apt-get install libopus0 opus-tools libopus-dev libsodium-dev -y`
-
-CentOS: 
-
-`yum -y install opus opus-devel`
-
-#####Installing FFMPEG
-
-![img4](https://cdn.discordapp.com/attachments/251504306010849280/251505443111829505/ffmpeg.gif)
-
-Ubuntu:
-
-`apt-get install ffmpeg -y`
-
-Centos: 
-
-```sh
-yum -y install http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm epel-release
-yum -y install ffmpeg
-```
-
-**NOTE:** If you are running **UBUNTU 14.04**, you must run these first:
-
-```sh
-sudo add-apt-repository ppa:mc3man/trusty-media
-sudo apt-get update
-sudo apt-get dist-upgrade
-```
-
-**Before executing:** `sudo apt-get install ffmpeg`
-
-
-**NOTE:** If you are running **Debian 8 Jessie**, please, follow these steps:
-
-```sh
-sudo apt-get update
-echo "deb http://ftp.debian.org/debian jessie-backports main" | tee /etc/apt/sources.list.d/debian-backports.list
-sudo apt-get update && sudo apt-get install ffmpeg -y
-```
-
-#####Installing TMUX
-
-![img5](https://cdn.discordapp.com/attachments/251504306010849280/251505519758409728/tmux.gif)
-
-Ubuntu: 
-
-`sudo apt-get install tmux -y`
-
-Centos: 
-
-`yum -y install tmux`
-
-####Guide for Advance Users (Optional)
+#### Guide for Advance Users (Optional)
 
 **Skip this step if you are a Regular User or New to Linux.**
 
@@ -317,7 +209,7 @@ Centos:
 - It will then ask "File Name to Write" (rename), just hit `Enter` and Done.
 - You can now move to [Running NadekoBot](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#running-nadekobot)
 
-####Setting up SFTP
+#### Setting up SFTP
 
 - Open **WinSCP**
 - Click on **New Site** (top-left corner).
@@ -330,7 +222,7 @@ Centos:
 - It should show you the NadekoBot folder which was created by git earlier on the right-hand side window.
 - Open that folder, then open the `src` folder, followed by another `NadekoBot` folder and you should see `credentials.json` there.
 
-####Setting up credentials.json
+#### Setting up credentials.json
 
 - Copy the `credentials.json` to desktop
 - EDIT it as it is guided here: [Setting up credentials.json](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#setting-up-credentialsjson-file)
@@ -338,39 +230,5 @@ Centos:
 - **If** you already have Nadeko 1.0 setup and have `credentials.json` and `NadekoBot.db`, you can just copy and paste the `credentials.json` to `NadekoBot/src/NadekoBot` and `NadekoBot.db` to `NadekoBot/src/NadekoBot/bin/Release/netcoreapp1.0/data` using WinSCP.
 - **If** you have Nadeko 0.9x follow the [Upgrading Guide](http://nadekobot.readthedocs.io/en/latest/guides/Upgrading%20Guide/)
 
-####Setting up Music
 
-To set up Nadeko for music and Google API Keys, follow [Setting up NadekoBot for Music](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#setting-up-nadekobot-for-music)
-
-Once done, go back to **PuTTY**
-
-####Some more Info
-
-#####Info about tmux
-
-- If you want to **see the sessions** after logging back again, type `tmux ls`, and that will give you the list of sessions running.
-- If you want to **switch to/ see that session**, type `tmux a -t nadeko` (**nadeko** is the name of the session we created before so, replace **“nadeko”** with the session name you created.)
-- If you want to **kill** NadekoBot **session**, type `tmux kill-session -t nadeko`
-
-#####Alternative way to Install
-
-If the [Nadeko installer](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#getting-nadekobot) shows any kind error, check if you have the `linuxAIO.sh` file and make sure its not renamed or if you want to manually install the bot. Use the following command(s):
-
-![img6](https://cdn.discordapp.com/attachments/251504306010849280/251505587089571850/getting_nadeko.gif)
-
-`cd ~ && curl -L https://github.com/Kwoth/NadekoBot-BashScript/raw/master/nadeko_installer.sh | sh`
-
-**OR**
-
-```sh
-cd ~ && git clone -b dev --recursive --depth 1 https://github.com/Kwoth/NadekoBot.git
-cd ~/NadekoBot/discord.net/src/Discord.Net && dotnet restore && cd ../Discord.Net.Commands && dotnet restore && cd ../../../src/NadekoBot/ && dotnet restore && dotnet build --configuration Release
-```
-  
-If you are getting error using the above steps try:
-
-```sh
-cd ~/NadekoBot/discord.net && dotnet restore -s https://dotnet.myget.org/F/dotnet-core/api/v3/index.json && dotnet restore
-cd ~/NadekoBot/src/NadekoBot/ && dotnet restore && dotnet build --configuration Release
-```
 [img7]: https://cdn.discordapp.com/attachments/251504306010849280/251505766370902016/setting_up_credentials.gif
