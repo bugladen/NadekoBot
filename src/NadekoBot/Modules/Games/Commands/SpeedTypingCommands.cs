@@ -147,11 +147,11 @@ namespace NadekoBot.Modules.Games
         }
 
         [Group]
-        public class SpeedTypingCommands : ModuleBase
+        public class SpeedTypingCommands : NadekoSubmodule
         {
             public static List<TypingArticle> TypingArticles { get; } = new List<TypingArticle>();
 
-            private const string _typingArticlesPath = "data/typing_articles.json";
+            private const string _typingArticlesPath = "data/typing_articles2.json";
 
             static SpeedTypingCommands()
             {

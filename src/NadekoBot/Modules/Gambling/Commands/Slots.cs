@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using ImageSharp;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
@@ -143,11 +144,11 @@ namespace NadekoBot.Modules.Gambling
                         await ReplyErrorLocalized("min_bet_limit", 1 + CurrencySign).ConfigureAwait(false);
                         return;
                     }
-
-                    if (amount > 999)
+                    const int maxAmount = 9999;
+                    if (amount > maxAmount)
                     {
-                        GetText("slot_maxbet", 999 + CurrencySign);
-                        await ReplyErrorLocalized("max_bet_limit", 999 + CurrencySign).ConfigureAwait(false);
+                        GetText("slot_maxbet", maxAmount + CurrencySign);
+                        await ReplyErrorLocalized("max_bet_limit", maxAmount + CurrencySign).ConfigureAwait(false);
                         return;
                     }
 
@@ -163,82 +164,42 @@ namespace NadekoBot.Modules.Gambling
 
                         var result = SlotMachine.Pull();
                         int[] numbers = result.Numbers;
-                        using (var bgPixels = bgImage.Lock())
+
+                        for (int i = 0; i < 3; i++)
                         {
-                            for (int i = 0; i < 3; i++)
+                            using (var file = _images.SlotEmojis[numbers[i]].ToStream())
+                            using (var randomImage = new ImageSharp.Image(file))
                             {
-                                using (var file = _images.SlotEmojis[numbers[i]].ToStream())
-                                {
-                                    var randomImage = new ImageSharp.Image(file);
-                                    using (var toAdd = randomImage.Lock())
-                                    {
-                                        for (int j = 0; j < toAdd.Width; j++)
-                                        {
-                                            for (int k = 0; k < toAdd.Height; k++)
-                                            {
-                                                var x = 95 + 142 * i + j;
-                                                int y = 330 + k;
-                                                var toSet = toAdd[j, k];
-                                                if (toSet.A < _alphaCutOut)
-                                                    continue;
-                                                bgPixels[x, y] = toAdd[j, k];
-                                            }
-                                        }
-                                    }
-                                }
+                                bgImage.DrawImage(randomImage, 100, default(Size), new Point(95 + 142 * i, 330));
                             }
-
-                            var won = amount * result.Multiplier;
-                            var printWon = won;
-                            var n = 0;
-                            do
-                            {
-                                var digit = printWon % 10;
-                                using (var fs = NadekoBot.Images.SlotNumbers[digit].ToStream())
-                                {
-                                    var img = new ImageSharp.Image(fs);
-                                    using (var pixels = img.Lock())
-                                    {
-                                        for (int i = 0; i < pixels.Width; i++)
-                                        {
-                                            for (int j = 0; j < pixels.Height; j++)
-                                            {
-                                                if (pixels[i, j].A < _alphaCutOut)
-                                                    continue;
-                                                var x = 230 - n * 16 + i;
-                                                bgPixels[x, 462 + j] = pixels[i, j];
-                                            }
-                                        }
-                                    }
-                                }
-                                n++;
-                            } while ((printWon /= 10) != 0);
-
-                            var printAmount = amount;
-                            n = 0;
-                            do
-                            {
-                                var digit = printAmount % 10;
-                                using (var fs = _images.SlotNumbers[digit].ToStream())
-                                {
-                                    var img = new ImageSharp.Image(fs);
-                                    using (var pixels = img.Lock())
-                                    {
-                                        for (int i = 0; i < pixels.Width; i++)
-                                        {
-                                            for (int j = 0; j < pixels.Height; j++)
-                                            {
-                                                if (pixels[i, j].A < _alphaCutOut)
-                                                    continue;
-                                                var x = 395 - n * 16 + i;
-                                                bgPixels[x, 462 + j] = pixels[i, j];
-                                            }
-                                        }
-                                    }
-                                }
-                                n++;
-                            } while ((printAmount /= 10) != 0);
                         }
+
+                        var won = amount * result.Multiplier;
+                        var printWon = won;
+                        var n = 0;
+                        do
+                        {
+                            var digit = printWon % 10;
+                            using (var fs = NadekoBot.Images.SlotNumbers[digit].ToStream())
+                            using (var img = new ImageSharp.Image(fs))
+                            {
+                                bgImage.DrawImage(img, 100, default(Size), new Point(230 - n * 16, 462));
+                            }
+                            n++;
+                        } while ((printWon /= 10) != 0);
+
+                        var printAmount = amount;
+                        n = 0;
+                        do
+                        {
+                            var digit = printAmount % 10;
+                            using (var fs = _images.SlotNumbers[digit].ToStream())
+                            using (var img = new ImageSharp.Image(fs))
+                            { 
+                                bgImage.DrawImage(img, 100, default(Size), new Point(395 - n * 16, 462));
+                            }
+                            n++;
+                        } while ((printAmount /= 10) != 0);
 
                         var msg = GetText("better_luck");
                         if (result.Multiplier != 0)
@@ -262,7 +223,7 @@ namespace NadekoBot.Modules.Gambling
                 {
                     var _ = Task.Run(async () =>
                     {
-                        await Task.Delay(2000);
+                        await Task.Delay(1500);
                         _runningUsers.Remove(Context.User.Id);
                     });
                 }

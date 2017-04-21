@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using NadekoBot.Modules.Permissions;
 using System;
 
 namespace NadekoBot.Services.Database.Repositories.Impl
@@ -13,14 +12,25 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         {
         }
 
+        private List<WarningPunishment> DefaultWarnPunishments =>
+            new List<WarningPunishment>() {
+                new WarningPunishment() {
+                    Count = 3,
+                    Punishment = PunishmentAction.Kick
+                },
+                new WarningPunishment() {
+                    Count = 5,
+                    Punishment = PunishmentAction.Ban
+                }
+            };
+
         public IEnumerable<GuildConfig> GetAllGuildConfigs() =>
             _set.Include(gc => gc.LogSetting)
                     .ThenInclude(ls => ls.IgnoredChannels)
-                .Include(gc => gc.RootPermission)
-                    .ThenInclude(gc => gc.Previous)
-                .Include(gc => gc.RootPermission)
-                    .ThenInclude(gc => gc.Next)
                 .Include(gc => gc.MutedUsers)
+                .Include(gc => gc.CommandAliases)
+                .Include(gc => gc.UnmuteTimers)
+                .Include(gc => gc.VcRoleInfos)
                 .Include(gc => gc.GenerateCurrencyChannelIds)
                 .Include(gc => gc.FilterInvitesChannelIds)
                 .Include(gc => gc.FilterWordsChannelIds)
@@ -28,6 +38,8 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                 .Include(gc => gc.CommandCooldowns)
                 .Include(gc => gc.GuildRepeaters)
                 .Include(gc => gc.AntiRaidSetting)
+                .Include(gc => gc.SlowmodeIgnoredRoles)
+                .Include(gc => gc.SlowmodeIgnoredUsers)
                 .Include(gc => gc.AntiSpamSetting)
                     .ThenInclude(x => x.IgnoredChannels)
                 .ToList();
@@ -35,8 +47,9 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         /// <summary>
         /// Gets and creates if it doesn't exist a config for a guild.
         /// </summary>
-        /// <param name="guildId"></param>
-        /// <returns></returns>
+        /// <param name="guildId">For which guild</param>
+        /// <param name="includes">Use to manipulate the set however you want</param>
+        /// <returns>Config for the guild</returns>
         public GuildConfig For(ulong guildId, Func<DbSet<GuildConfig>, IQueryable<GuildConfig>> includes = null)
         {
             GuildConfig config;
@@ -44,15 +57,15 @@ namespace NadekoBot.Services.Database.Repositories.Impl
             if (includes == null)
             {
                 config = _set
-                                .Include(gc => gc.FollowedStreams)
-                                .Include(gc => gc.LogSetting)
-                                    .ThenInclude(ls => ls.IgnoredChannels)
-                                .Include(gc => gc.FilterInvitesChannelIds)
-                                .Include(gc => gc.FilterWordsChannelIds)
-                                .Include(gc => gc.FilteredWords)
-                                .Include(gc => gc.GenerateCurrencyChannelIds)
-                                .Include(gc => gc.CommandCooldowns)
-                                .FirstOrDefault(c => c.GuildId == guildId);
+                    .Include(gc => gc.FollowedStreams)
+                    .Include(gc => gc.LogSetting)
+                        .ThenInclude(ls => ls.IgnoredChannels)
+                    .Include(gc => gc.FilterInvitesChannelIds)
+                    .Include(gc => gc.FilterWordsChannelIds)
+                    .Include(gc => gc.FilteredWords)
+                    .Include(gc => gc.GenerateCurrencyChannelIds)
+                    .Include(gc => gc.CommandCooldowns)
+                    .FirstOrDefault(c => c.GuildId == guildId);
             }
             else
             {
@@ -65,50 +78,53 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                 _set.Add((config = new GuildConfig
                 {
                     GuildId = guildId,
-                    RootPermission = Permission.GetDefaultRoot(),
+                    Permissions = Permissionv2.GetDefaultPermlist,
+                    WarningsInitialized = true,
+                    WarnPunishments = DefaultWarnPunishments,
                 }));
                 _context.SaveChanges();
             }
+
+            if (!config.WarningsInitialized)
+            {
+                config.WarningsInitialized = true;
+                config.WarnPunishments = DefaultWarnPunishments;
+            }
+
             return config;
         }
 
         public GuildConfig LogSettingsFor(ulong guildId)
         {
-            return _set.Include(gc => gc.LogSetting)
+            var config = _set.Include(gc => gc.LogSetting)
                             .ThenInclude(gc => gc.IgnoredChannels)
                .FirstOrDefault();
-        }
-
-        public GuildConfig PermissionsFor(ulong guildId)
-        {
-            var query = _set.Include(gc => gc.RootPermission);
-
-            //todo this is possibly a disaster for performance
-            //What i could do instead is count the number of permissions in the permission table for this guild
-            // and make a for loop with those.
-            // or just select permissions for this guild and manually chain them
-            for (int i = 0; i < 60; i++)
-            {
-                query = query.ThenInclude(gc => gc.Next);
-            }
-
-            var config = query.FirstOrDefault(c => c.GuildId == guildId);
 
             if (config == null)
             {
                 _set.Add((config = new GuildConfig
                 {
                     GuildId = guildId,
-                    RootPermission = Permission.GetDefaultRoot(),
+                    Permissions = Permissionv2.GetDefaultPermlist,
+                    WarningsInitialized = true,
+                    WarnPunishments = DefaultWarnPunishments,
                 }));
                 _context.SaveChanges();
+            }
+
+            if (!config.WarningsInitialized)
+            {
+                config.WarningsInitialized = true;
+                config.WarnPunishments = DefaultWarnPunishments;
             }
             return config;
         }
 
-        public IEnumerable<GuildConfig> PermissionsForAll()
+        public IEnumerable<GuildConfig> OldPermissionsForAll()
         {
-            var query = _set.Include(gc => gc.RootPermission);
+            var query = _set
+                .Where(gc => gc.RootPermission != null)
+                .Include(gc => gc.RootPermission);
 
             //todo this is possibly a disaster for performance
             //What i could do instead is count the number of permissions in the permission table for this guild
@@ -122,19 +138,43 @@ namespace NadekoBot.Services.Database.Repositories.Impl
             return query.ToList();
         }
 
+        public IEnumerable<GuildConfig> Permissionsv2ForAll()
+        {
+            var query = _set
+                .Include(gc => gc.Permissions);
+
+            return query.ToList();
+        }
+
+        public GuildConfig GcWithPermissionsv2For(ulong guildId)
+        {
+            var config = _set
+                .Where(gc => gc.GuildId == guildId)
+                .Include(gc => gc.Permissions)
+                .FirstOrDefault();
+
+            if (config == null) // if there is no guildconfig, create new one
+            {
+                _set.Add((config = new GuildConfig
+                {
+                    GuildId = guildId,
+                    Permissions = Permissionv2.GetDefaultPermlist
+                }));
+                _context.SaveChanges();
+            }
+            else if (config.Permissions == null || !config.Permissions.Any()) // if no perms, add default ones
+            {
+                config.Permissions = Permissionv2.GetDefaultPermlist;
+                _context.SaveChanges();
+            }
+
+            return config;
+        }
+
         public IEnumerable<FollowedStream> GetAllFollowedStreams() =>
             _set.Include(gc => gc.FollowedStreams)
                 .SelectMany(gc => gc.FollowedStreams)
                 .ToList();
-
-        public GuildConfig SetNewRootPermission(ulong guildId, Permission p)
-        {
-            var data = PermissionsFor(guildId);
-
-            data.RootPermission.Prepend(p);
-            data.RootPermission = p;
-            return data;
-        }
 
         public void SetCleverbotEnabled(ulong id, bool cleverbotEnabled)
         {

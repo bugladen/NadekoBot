@@ -60,6 +60,9 @@ namespace NadekoBot
                 OkColor = new Color(Convert.ToUInt32(BotConfig.OkColor, 16));
                 ErrorColor = new Color(Convert.ToUInt32(BotConfig.ErrorColor, 16));
             }
+
+            //ImageSharp.Configuration.Default.AddImageFormat(new ImageSharp.Formats.PngFormat());
+            //ImageSharp.Configuration.Default.AddImageFormat(new ImageSharp.Formats.JpegFormat());
         }
 
         public async Task RunAsync(params string[] args)
@@ -107,7 +110,9 @@ namespace NadekoBot
             //setup typereaders
             CommandService.AddTypeReader<PermissionAction>(new PermissionActionTypeReader());
             CommandService.AddTypeReader<CommandInfo>(new CommandTypeReader());
+            CommandService.AddTypeReader<CommandOrCrInfo>(new CommandOrCrTypeReader());
             CommandService.AddTypeReader<ModuleInfo>(new ModuleTypeReader());
+            CommandService.AddTypeReader<ModuleOrCrInfo>(new ModuleOrCrTypeReader());
             CommandService.AddTypeReader<IGuild>(new GuildTypeReader());
 
 

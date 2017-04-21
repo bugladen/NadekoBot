@@ -77,10 +77,10 @@ namespace NadekoBot.Modules.Music.Classes
         public IVoiceChannel PlaybackVoiceChannel { get; private set; }
         public ITextChannel OutputTextChannel { get; set; }
 
-        private bool destroyed { get; set; } = false;
-        public bool RepeatSong { get; private set; } = false;
-        public bool RepeatPlaylist { get; private set; } = false;
-        public bool Autoplay { get; set; } = false;
+        private bool destroyed { get; set; }
+        public bool RepeatSong { get; private set; }
+        public bool RepeatPlaylist { get; private set; }
+        public bool Autoplay { get; set; }
         public uint MaxQueueSize { get; set; } = 0;
 
         private ConcurrentQueue<Action> actionQueue { get; } = new ConcurrentQueue<Action>();
@@ -163,7 +163,7 @@ namespace NadekoBot.Modules.Music.Classes
                         }
 
 
-                        if (RepeatPlaylist)
+                        if (RepeatPlaylist & !RepeatSong)
                             AddSong(CurrentSong, CurrentSong.QueuerName);
 
                         if (RepeatSong)

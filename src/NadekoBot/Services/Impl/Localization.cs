@@ -42,6 +42,8 @@ namespace NadekoBot.Services
                   CultureInfo cultureInfo = null;
                   try
                   {
+                      if (x.Value == null)
+                          return null;
                       cultureInfo = new CultureInfo(x.Value);
                   }
                   catch { }

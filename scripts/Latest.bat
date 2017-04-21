@@ -1,24 +1,25 @@
 @ECHO off
 TITLE Downloading Latest Build of NadekoBot...
 ::Setting convenient to read variables which don't delete the windows temp folder
-SET root=%~dp0
-CD /D %root%
-SET rootdir=%cd%
-SET build1=%root%NadekoInstall_Temp\NadekoBot\Discord.Net\src\Discord.Net.Core\
-SET build2=%root%NadekoInstall_Temp\NadekoBot\Discord.Net\src\Discord.Net.Rest\
-SET build3=%root%NadekoInstall_Temp\NadekoBot\Discord.Net\src\Discord.Net.WebSocket\
-SET build4=%root%NadekoInstall_Temp\NadekoBot\Discord.Net\src\Discord.Net.Commands\
-SET build5=%root%NadekoInstall_Temp\NadekoBot\src\NadekoBot\
-SET installtemp=%root%NadekoInstall_Temp\
+SET "root=%~dp0"
+CD /D "%root%"
+SET "rootdir=%cd%"
+SET "build1=%root%NadekoInstall_Temp\NadekoBot\Discord.Net\src\Discord.Net.Core\"
+SET "build2=%root%NadekoInstall_Temp\NadekoBot\Discord.Net\src\Discord.Net.Rest\"
+SET "build3=%root%NadekoInstall_Temp\NadekoBot\Discord.Net\src\Discord.Net.WebSocket\"
+SET "build4=%root%NadekoInstall_Temp\NadekoBot\Discord.Net\src\Discord.Net.Commands\"
+SET "build5=%root%NadekoInstall_Temp\NadekoBot\src\NadekoBot\"
+SET "installtemp=%root%NadekoInstall_Temp\"
 ::Deleting traces of last setup for the sake of clean folders, if by some miracle it still exists
-IF EXIST %installtemp% ( RMDIR %installtemp% /S /Q >nul 2>&1)
+IF EXIST "%installtemp%" ( RMDIR "%installtemp%" /S /Q >nul 2>&1)
+timeout /t 5
 ::Checks that both git and dotnet are installed
 dotnet --version >nul 2>&1 || GOTO :dotnet
 git --version >nul 2>&1 || GOTO :git
 ::Creates the install directory to work in and get the current directory because spaces ruins everything otherwise
 :start
-MKDIR NadekoInstall_Temp
-CD /D %installtemp%
+MKDIR "%root%NadekoInstall_Temp"
+CD /D "%installtemp%"
 ::Downloads the latest version of Nadeko
 ECHO Downloading Nadeko...
 ECHO.
@@ -28,28 +29,28 @@ TITLE Installing NadekoBot, please wait...
 ECHO.
 ECHO Installing Discord.Net(1/4)...
 ::Building Nadeko
-CD /D %build1%
+CD /D "%build1%"
 dotnet restore >nul 2>&1
 ECHO Installing Discord.Net(2/4)...
-CD /D %build2%
+CD /D "%build2%"
 dotnet restore >nul 2>&1
 ECHO Installing Discord.Net(3/4)...
-CD /D %build3%
+CD /D "%build3%"
 dotnet restore >nul 2>&1
 ECHO Installing Discord.Net(4/4)...
-CD /D %build4%
+CD /D "%build4%"
 dotnet restore >nul 2>&1
 ECHO.
 ECHO Discord.Net installation completed successfully...
 ECHO.
 ECHO Installing NadekoBot...
-CD /D %build5%
+CD /D "%build5%"
 dotnet restore >nul 2>&1
 dotnet build --configuration Release >nul 2>&1
 ECHO.
 ECHO NadekoBot installation completed successfully...
 ::Attempts to backup old files if they currently exist in the same folder as the batch file
-IF EXIST "%root%NadekoBot\" (GOTO :backupinstall)
+IF EXIST "%root%NadekoBot\" (GOTO :backupinstall) ELSE (GOTO :freshinstall)
 :freshinstall
 	::Moves the NadekoBot folder to keep things tidy
 	ECHO.
@@ -65,20 +66,23 @@ IF EXIST "%root%NadekoBot\" (GOTO :backupinstall)
 	ROBOCOPY "%root%NadekoBot" "%root%NadekoBot_Old" /MIR >nul 2>&1
 	IF %ERRORLEVEL% GEQ 8 (GOTO :copyerror)
 	ECHO.
-	ECHO Old files backed up to NadekoBot_Old
+	ECHO Old files backed up to NadekoBot_Old...
 	::Copies the credentials and database from the backed up data to the new folder
 	COPY "%root%NadekoBot_Old\src\NadekoBot\credentials.json" "%installtemp%NadekoBot\src\NadekoBot\credentials.json" >nul 2>&1
 	IF %ERRORLEVEL% GEQ 8 (GOTO :copyerror)
 	ECHO.
-	ECHO credentials.json copied to new folder
+	ECHO credentials.json copied...
 	ROBOCOPY "%root%NadekoBot_Old\src\NadekoBot\bin" "%installtemp%NadekoBot\src\NadekoBot\bin" /E >nul 2>&1
 	IF %ERRORLEVEL% GEQ 8 (GOTO :copyerror)
 	ECHO.
-	ECHO Old bin folder copied to new folder
+	ECHO bin folder copied...
+	RD /S /Q "%root%NadekoBot_Old\src\NadekoBot\data\musicdata"
+	ECHO.
+	ECHO music cache cleared...
 	ROBOCOPY "%root%NadekoBot_Old\src\NadekoBot\data" "%installtemp%NadekoBot\src\NadekoBot\data" /E >nul 2>&1
 	IF %ERRORLEVEL% GEQ 8 (GOTO :copyerror)
 	ECHO.
-	ECHO Old data folder copied to new folder
+	ECHO Old data folder copied...
 	::Moves the setup Nadeko folder
 	RMDIR "%root%NadekoBot\" /S /Q >nul 2>&1
 	ROBOCOPY "%root%NadekoInstall_Temp" "%rootdir%" /E /MOVE >nul 2>&1
@@ -103,7 +107,7 @@ IF EXIST "%root%NadekoBot\" (GOTO :backupinstall)
 :giterror
 	ECHO.
 	ECHO Git clone failed, trying again
-	RMDIR %installtemp% /S /Q >nul 2>&1
+	RMDIR "%installtemp%" /S /Q >nul 2>&1
 	GOTO :start
 :copyerror
 	::If at any point a copy error is encountered 
@@ -124,22 +128,39 @@ ECHO.
 ECHO Your System Architecture is 32bit...
 timeout /t 5
 ECHO.
-ECHO Downloading libsodium.dll and opus.dll...
+ECHO Getting 32bit libsodium.dll and opus.dll...
+IF EXIST "%root%NadekoBot\src\NadekoBot\_libs\32\libsodium.dll" (GOTO copysodium) ELSE (GOTO downloadsodium)
+:copysodium
+del "%root%NadekoBot\src\NadekoBot\libsodium.dll"
+copy "%root%NadekoBot\src\NadekoBot\_libs\32\libsodium.dll" "%root%NadekoBot\src\NadekoBot\libsodium.dll"
+ECHO libsodium.dll copied.
+ECHO.
+timeout /t 5
+IF EXIST "%root%NadekoBot\src\NadekoBot\_libs\32\opus.dll" (GOTO copyopus) ELSE (GOTO downloadopus)
+:downloadsodium
 SET "FILENAME=%~dp0\NadekoBot\src\NadekoBot\libsodium.dll"
-bitsadmin.exe /transfer "Downloading libsodium.dll" /priority high https://github.com/Kwoth/NadekoBot/raw/dev/src/NadekoBot/_libs/32/libsodium.dll "%FILENAME%"
+powershell -Command "Invoke-WebRequest https://github.com/Kwoth/NadekoBot/raw/dev/src/NadekoBot/_libs/32/libsodium.dll -OutFile '%FILENAME%'"
 ECHO libsodium.dll downloaded.
 ECHO.
 timeout /t 5
+IF EXIST "%root%NadekoBot\src\NadekoBot\_libs\32\opus.dll" (GOTO copyopus) ELSE (GOTO downloadopus)
+:copyopus
+del "%root%NadekoBot\src\NadekoBot\opus.dll"
+copy "%root%NadekoBot\src\NadekoBot\_libs\32\opus.dll" "%root%NadekoBot\src\NadekoBot\opus.dll"
+ECHO opus.dll copied.
+GOTO end
+:downloadopus
 SET "FILENAME=%~dp0\NadekoBot\src\NadekoBot\opus.dll"
-bitsadmin.exe /transfer "Downloading opus.dll" /priority high https://github.com/Kwoth/NadekoBot/raw/dev/src/NadekoBot/_libs/32/opus.dll "%FILENAME%"
+powershell -Command "Invoke-WebRequest https://github.com/Kwoth/NadekoBot/raw/dev/src/NadekoBot/_libs/32/opus.dll -OutFile '%FILENAME%'"
 ECHO opus.dll downloaded.
 GOTO end
 :end
 	::Normal execution of end of script
-	TITLE Installation complete!
+	TITLE NadekoBot Installation complete!
 	CD /D "%root%"
 	RMDIR /S /Q "%installtemp%" >nul 2>&1
 	ECHO.
-	ECHO Installation complete, press any key to close this window!
+	ECHO Installation complete!
+	ECHO.
 	timeout /t 5
 	del Latest.bat

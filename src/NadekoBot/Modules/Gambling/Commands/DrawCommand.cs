@@ -49,7 +49,7 @@ namespace NadekoBot.Modules.Gambling
                         images.Add(new Image(stream));
                 }
                 MemoryStream bitmapStream = new MemoryStream();
-                images.Merge().SaveAsPng(bitmapStream);
+                images.Merge().Save(bitmapStream);
                 bitmapStream.Position = 0;
                 var toSend = $"{Context.User.Mention}";
                 if (cardObjects.Count == 5)

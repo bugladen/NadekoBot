@@ -17,39 +17,50 @@ namespace NadekoBot.Modules.Utility
     public partial class Utility
     {
         [Group]
-        public class RemindCommands : ModuleBase
+        public class RemindCommands : NadekoSubmodule
         {
-
-            Regex regex = new Regex(@"^(?:(?<months>\d)mo)?(?:(?<weeks>\d)w)?(?:(?<days>\d{1,2})d)?(?:(?<hours>\d{1,2})h)?(?:(?<minutes>\d{1,2})m)?$",
+            readonly Regex _regex = new Regex(@"^(?:(?<months>\d)mo)?(?:(?<weeks>\d)w)?(?:(?<days>\d{1,2})d)?(?:(?<hours>\d{1,2})h)?(?:(?<minutes>\d{1,2})m)?$",
                                     RegexOptions.Compiled | RegexOptions.Multiline);
 
-            private static string RemindMessageFormat { get; }
+            private static string remindMessageFormat { get; }
 
-            private static IDictionary<string, Func<Reminder, string>> replacements = new Dictionary<string, Func<Reminder, string>>
+            private static readonly IDictionary<string, Func<Reminder, string>> _replacements = new Dictionary<string, Func<Reminder, string>>
             {
                 { "%message%" , (r) => r.Message },
                 { "%user%", (r) => $"<@!{r.UserId}>" },
                 { "%target%", (r) =>  r.IsPrivate ? "Direct Message" : $"<#{r.ChannelId}>"}
             };
-            private  static Logger _log { get; }
+
+            private new static readonly Logger _log;
+            private static readonly CancellationTokenSource cancelSource;
+            private static readonly CancellationToken cancelAllToken;
 
             static RemindCommands()
             {
                 _log = LogManager.GetCurrentClassLogger();
+
+                cancelSource = new CancellationTokenSource();
+                cancelAllToken = cancelSource.Token;
                 List<Reminder> reminders;
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     reminders = uow.Reminders.GetAll().ToList();
                 }
-                RemindMessageFormat = NadekoBot.BotConfig.RemindMessageFormat;
+                remindMessageFormat = NadekoBot.BotConfig.RemindMessageFormat;
 
                 foreach (var r in reminders)
                 {
-                    Task.Run(() => StartReminder(r));
+                    Task.Run(() => StartReminder(r, cancelAllToken));
                 }
             }
 
-            private static async Task StartReminder(Reminder r)
+            public static void Unload()
+            {
+                if (!cancelSource.IsCancellationRequested)
+                    cancelSource.Cancel();
+            }
+
+            private static async Task StartReminder(Reminder r, CancellationToken t)
             {
                 var now = DateTime.Now;
 
@@ -58,13 +69,16 @@ namespace NadekoBot.Modules.Utility
                 if (time.TotalMilliseconds > int.MaxValue)
                     return;
 
-                await Task.Delay(time);
+                await Task.Delay(time, t).ConfigureAwait(false);
                 try
                 {
-                    IMessageChannel ch = null;
+                    IMessageChannel ch;
                     if (r.IsPrivate)
                     {
-                        ch = await NadekoBot.Client.GetDMChannelAsync(r.ChannelId).ConfigureAwait(false);
+                        var user = NadekoBot.Client.GetGuild(r.ServerId).GetUser(r.ChannelId);
+                        if(user == null)
+                            return;
+                        ch = await user.CreateDMChannelAsync().ConfigureAwait(false);
                     }
                     else
                     {
@@ -74,7 +88,7 @@ namespace NadekoBot.Modules.Utility
                         return;
 
                     await ch.SendMessageAsync(
-                        replacements.Aggregate(RemindMessageFormat,
+                        _replacements.Aggregate(remindMessageFormat,
                             (cur, replace) => cur.Replace(replace.Key, replace.Value(r)))
                             .SanitizeMentions()
                             ).ConfigureAwait(false); //it works trust me
@@ -100,46 +114,35 @@ namespace NadekoBot.Modules.Utility
             [Priority(1)]
             public async Task Remind(MeOrHere meorhere, string timeStr, [Remainder] string message)
             {
-                IMessageChannel target;
-                if (meorhere == MeOrHere.Me)
-                {
-                    target = await ((IGuildUser)Context.User).CreateDMChannelAsync().ConfigureAwait(false);
-                }
-                else
-                {
-                    target = Context.Channel;
-                }
-                await Remind(target, timeStr, message).ConfigureAwait(false);
+                ulong target;
+                target = meorhere == MeOrHere.Me ? Context.User.Id : Context.Channel.Id;
+                await RemindInternal(target, meorhere == MeOrHere.Me, timeStr, message).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.ManageMessages)]
             [Priority(0)]
-            public async Task Remind(IMessageChannel ch, string timeStr, [Remainder] string message)
+            public Task Remind(ITextChannel channel, string timeStr, [Remainder] string message) =>
+                RemindInternal(channel.Id, false, timeStr, message);
+
+            public async Task RemindInternal(ulong targetId, bool isPrivate, string timeStr, [Remainder] string message)
             {
-                var channel = (ITextChannel)Context.Channel;
-
-                if (ch == null)
-                {
-                    await channel.SendErrorAsync($"{Context.User.Mention} Something went wrong (channel cannot be found) ;(").ConfigureAwait(false);
-                    return;
-                }
-
-                var m = regex.Match(timeStr);
+                var m = _regex.Match(timeStr);
 
                 if (m.Length == 0)
                 {
-                    await channel.SendErrorAsync("Not a valid time format. Type `-h .remind`").ConfigureAwait(false);
+                    await ReplyErrorLocalized("remind_invalid_format").ConfigureAwait(false);
                     return;
                 }
 
                 string output = "";
                 var namesAndValues = new Dictionary<string, int>();
 
-                foreach (var groupName in regex.GetGroupNames())
+                foreach (var groupName in _regex.GetGroupNames())
                 {
                     if (groupName == "0") continue;
-                    int value = 0;
+                    int value;
                     int.TryParse(m.Groups[groupName].Value, out value);
 
                     if (string.IsNullOrEmpty(m.Groups[groupName].Value))
@@ -147,18 +150,17 @@ namespace NadekoBot.Modules.Utility
                         namesAndValues[groupName] = 0;
                         continue;
                     }
-                    else if (value < 1 ||
+                    if (value < 1 ||
                         (groupName == "months" && value > 1) ||
                         (groupName == "weeks" && value > 4) ||
                         (groupName == "days" && value >= 7) ||
                         (groupName == "hours" && value > 23) ||
                         (groupName == "minutes" && value > 59))
                     {
-                        await channel.SendErrorAsync($"Invalid {groupName} value.").ConfigureAwait(false);
+                        await Context.Channel.SendErrorAsync($"Invalid {groupName} value.").ConfigureAwait(false);
                         return;
                     }
-                    else
-                        namesAndValues[groupName] = value;
+                    namesAndValues[groupName] = value;
                     output += m.Groups[groupName].Value + " " + groupName + " ";
                 }
                 var time = DateTime.Now + new TimeSpan(30 * namesAndValues["months"] +
@@ -170,12 +172,12 @@ namespace NadekoBot.Modules.Utility
 
                 var rem = new Reminder
                 {
-                    ChannelId = ch.Id,
-                    IsPrivate = ch is IDMChannel,
+                    ChannelId = targetId,
+                    IsPrivate = isPrivate,
                     When = time,
                     Message = message,
                     UserId = Context.User.Id,
-                    ServerId = channel.Guild.Id
+                    ServerId = Context.Guild.Id
                 };
 
                 using (var uow = DbHandler.UnitOfWork())
@@ -184,17 +186,26 @@ namespace NadekoBot.Modules.Utility
                     await uow.CompleteAsync();
                 }
 
-                try { await channel.SendConfirmAsync($"⏰ I will remind **\"{(ch is ITextChannel ? ((ITextChannel)ch).Name : Context.User.Username)}\"** to **\"{message.SanitizeMentions()}\"** in **{output}** `({time:d.M.yyyy.} at {time:HH:mm})`").ConfigureAwait(false); } catch { }
-                await StartReminder(rem);
+                try
+                {
+                    await Context.Channel.SendConfirmAsync(
+                        "⏰ " + GetText("remind",
+                            Format.Bold(!isPrivate ? $"<#{targetId}>" : Context.User.Username),
+                            Format.Bold(message.SanitizeMentions()),
+                            Format.Bold(output),
+                            time, time)).ConfigureAwait(false);
+                }
+                catch
+                {
+                    // ignored
+                }
+                await StartReminder(rem, cancelAllToken);
             }
             
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             [OwnerOnly]
             public async Task RemindTemplate([Remainder] string arg)
             {
-                var channel = (ITextChannel)Context.Channel;
-
                 if (string.IsNullOrWhiteSpace(arg))
                     return;
 
@@ -203,7 +214,8 @@ namespace NadekoBot.Modules.Utility
                     uow.BotConfig.GetOrCreate().RemindMessageFormat = arg.Trim();
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
-                await channel.SendConfirmAsync("🆗 New remind template set.");
+
+                await ReplyConfirmLocalized("remind_template").ConfigureAwait(false);
             }
         }
     }

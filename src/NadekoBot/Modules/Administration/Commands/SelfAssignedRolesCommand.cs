@@ -43,6 +43,10 @@ namespace NadekoBot.Modules.Administration
             {
                 IEnumerable<SelfAssignedRole> roles;
 
+                var guser = (IGuildUser)Context.User;
+                if (Context.User.Id != guser.Guild.OwnerId && guser.GetRoles().Max(x => x.Position) <= role.Position)
+                    return;
+
                 string msg;
                 var error = false;
                 using (var uow = DbHandler.UnitOfWork())
@@ -75,6 +79,10 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.ManageRoles)]
             public async Task Rsar([Remainder] IRole role)
             {
+                var guser = (IGuildUser)Context.User;
+                if (Context.User.Id != guser.Guild.OwnerId && guser.GetRoles().Max(x => x.Position) <= role.Position)
+                    return;
+
                 bool success;
                 using (var uow = DbHandler.UnitOfWork())
                 {
@@ -150,11 +158,11 @@ namespace NadekoBot.Modules.Administration
                 var guildUser = (IGuildUser)Context.User;
 
                 GuildConfig conf;
-                IEnumerable<SelfAssignedRole> roles;
+                SelfAssignedRole[] roles;
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     conf = uow.GuildConfigs.For(Context.Guild.Id, set => set);
-                    roles = uow.SelfAssignedRoles.GetFromGuild(Context.Guild.Id);
+                    roles = uow.SelfAssignedRoles.GetFromGuild(Context.Guild.Id).ToArray();
                 }
                 if (roles.FirstOrDefault(r=>r.RoleId == role.Id) == null)
                 {
@@ -167,14 +175,21 @@ namespace NadekoBot.Modules.Administration
                     return;
                 }
 
+                var roleIds = roles.Select(x => x.RoleId).ToArray();
                 if (conf.ExclusiveSelfAssignedRoles)
                 {
-                    var sameRoleId = guildUser.RoleIds.FirstOrDefault(r => roles.Select(sar => sar.RoleId).Contains(r));
-                    var sameRole = Context.Guild.GetRole(sameRoleId);
+                    var sameRoleId = guildUser.RoleIds.FirstOrDefault(r => roleIds.Contains(r));
+                    
                     if (sameRoleId != default(ulong))
                     {
-                        await ReplyErrorLocalized("self_assign_already_excl", Format.Bold(sameRole?.Name)).ConfigureAwait(false);
-                        return;
+                        var sameRole = Context.Guild.GetRole(sameRoleId);
+                        if (sameRole != null)
+                        {
+                            await guildUser.RemoveRolesAsync(sameRole).ConfigureAwait(false);
+                            await Task.Delay(500).ConfigureAwait(false);
+                        }
+                        //await ReplyErrorLocalized("self_assign_already_excl", Format.Bold(sameRole?.Name)).ConfigureAwait(false);
+                        //return;
                     }
                 }
                 try

@@ -135,7 +135,7 @@ namespace NadekoBot.Modules.ClashOfClans
 
         public static string Localize(this ClashWar cw, string key)
         {
-            return NadekoModule.GetTextStatic(key,
+            return NadekoTopLevelModule.GetTextStatic(key,
                 NadekoBot.Localization.GetCultureInfo(cw.Channel?.GuildId),
                 typeof(ClashOfClans).Name.ToLowerInvariant());
         }

@@ -43,7 +43,7 @@ namespace NadekoBot.Modules.Gambling
                 switch (e)
                 {
                     case CurrencyEvent.FlowerReaction:
-                        await FlowerReactionEvent(Context).ConfigureAwait(false);
+                        await FlowerReactionEvent(Context, arg).ConfigureAwait(false);
                         break;
                     case CurrencyEvent.SneakyGameStatus:
                         await SneakyGameStatusEvent(Context, arg).ConfigureAwait(false);
@@ -115,23 +115,26 @@ namespace NadekoBot.Modules.Gambling
                 return Task.Delay(0);
             }
 
-            public async Task FlowerReactionEvent(CommandContext context)
+            public async Task FlowerReactionEvent(CommandContext context, int amount)
             {
+                if (amount <= 0)
+                    amount = 100;
+
                 var title = GetText("flowerreaction_title");
-                var desc = GetText("flowerreaction_desc", "🌸", Format.Bold(100.ToString()) + CurrencySign);
+                var desc = GetText("flowerreaction_desc", "🌸", Format.Bold(amount.ToString()) + CurrencySign);
                 var footer = GetText("flowerreaction_footer", 24);
                 var msg = await context.Channel.SendConfirmAsync(title,
                         desc, footer: footer)
                     .ConfigureAwait(false);
 
-                await new FlowerReactionEvent().Start(msg, context);
+                await new FlowerReactionEvent().Start(msg, context, amount);
             }
         }
     }
 
     public abstract class CurrencyEvent
     {
-        public abstract Task Start(IUserMessage msg, CommandContext channel);
+        public abstract Task Start(IUserMessage msg, CommandContext channel, int amount);
     }
 
     public class FlowerReactionEvent : CurrencyEvent
@@ -172,7 +175,7 @@ namespace NadekoBot.Modules.Gambling
             return Task.CompletedTask;
         }
 
-        public override async Task Start(IUserMessage umsg, CommandContext context)
+        public override async Task Start(IUserMessage umsg, CommandContext context, int amount)
         {
             msg = umsg;
             NadekoBot.Client.MessageDeleted += MessageDeletedEventHandler;
@@ -193,7 +196,7 @@ namespace NadekoBot.Modules.Gambling
                 {
                     if (r.Emoji.Name == "🌸" && r.User.IsSpecified && ((DateTime.UtcNow - r.User.Value.CreatedAt).TotalDays > 5) && _flowerReactionAwardedUsers.Add(r.User.Value.Id))
                     {
-                        await CurrencyHandler.AddCurrencyAsync(r.User.Value, "Flower Reaction Event", 100, false)
+                        await CurrencyHandler.AddCurrencyAsync(r.User.Value, "Flower Reaction Event", amount, false)
                             .ConfigureAwait(false);
                     }
                 }

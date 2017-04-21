@@ -20,13 +20,17 @@ namespace NadekoBot.Modules.Games.Trivia
 
         public string Category { get; set; }
         public string Question { get; set; }
+        public string ImageUrl { get; set; }
+        public string AnswerImageUrl { get; set; }
         public string Answer { get; set; }
 
-        public TriviaQuestion(string q, string a, string c)
+        public TriviaQuestion(string q, string a, string c, string img = null, string answerImage = null)
         {
             this.Question = q;
             this.Answer = a;
             this.Category = c;
+            this.ImageUrl = img;
+            this.AnswerImageUrl = answerImage ?? img;
         }
 
         public string GetHint() => Scramble(Answer);

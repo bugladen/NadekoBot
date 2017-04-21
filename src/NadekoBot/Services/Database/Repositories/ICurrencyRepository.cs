@@ -8,6 +8,6 @@ namespace NadekoBot.Services.Database.Repositories
         Currency GetOrCreate(ulong userId);
         long GetUserCurrency(ulong userId);
         bool TryUpdateState(ulong userId, long change);
-        IEnumerable<Currency> GetTopRichest(int count);
+        IEnumerable<Currency> GetTopRichest(int count, int skip);
     }
 }

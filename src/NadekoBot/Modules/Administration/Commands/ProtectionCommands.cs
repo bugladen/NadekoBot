@@ -46,15 +46,17 @@ namespace NadekoBot.Modules.Administration
                 LastMessage = msg.ToUpperInvariant();
             }
 
-            public void ApplyNextMessage(string message)
+            public void ApplyNextMessage(IUserMessage message)
             {
-                var upperMsg = message.ToUpperInvariant();
-                if (upperMsg == LastMessage)
-                    Count++;
-                else
+                var upperMsg = message.Content.ToUpperInvariant();
+                if (upperMsg != LastMessage || (string.IsNullOrWhiteSpace(upperMsg) && message.Attachments.Any()))
                 {
                     LastMessage = upperMsg;
                     Count = 0;
+                }
+                else
+                {
+                    Count++;
                 }
             }
         }
@@ -113,7 +115,7 @@ namespace NadekoBot.Modules.Administration
                             var stats = spamSettings.UserStats.AddOrUpdate(msg.Author.Id, new UserSpamStats(msg.Content),
                                 (id, old) =>
                                 {
-                                    old.ApplyNextMessage(msg.Content); return old;
+                                    old.ApplyNextMessage(msg); return old;
                                 });
 
                             if (stats.Count >= spamSettings.AntiSpamSettings.MessageThreshold)
@@ -186,6 +188,13 @@ namespace NadekoBot.Modules.Administration
                             catch (Exception ex) { _log.Warn(ex, "I can't apply punishement"); }
                             break;
                         case PunishmentAction.Kick:
+                            try
+                            {
+                                await gu.KickAsync().ConfigureAwait(false);
+                            }
+                            catch (Exception ex) { _log.Warn(ex, "I can't apply punishement"); }
+                            break;
+                        case PunishmentAction.Softban:
                             try
                             {
                                 await gu.Guild.AddBanAsync(gu, 7).ConfigureAwait(false);

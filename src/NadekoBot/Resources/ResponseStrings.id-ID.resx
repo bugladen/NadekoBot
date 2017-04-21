@@ -1,0 +1,2411 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="clashofclans_base_already_claimed" xml:space="preserve">
+    <value>Markas itu telah diklaim atau dihancurkan.</value>
+  </data>
+  <data name="clashofclans_base_already_destroyed" xml:space="preserve">
+    <value>Markas itu telah dihancurkan.</value>
+  </data>
+  <data name="clashofclans_base_already_unclaimed" xml:space="preserve">
+    <value>Markas itu belum diklaim.</value>
+  </data>
+  <data name="clashofclans_base_destroyed" xml:space="preserve">
+    <value>**DIHANCURKAN** markas #{0} di sebuah perang melawan {1}</value>
+  </data>
+  <data name="clashofclans_base_unclaimed" xml:space="preserve">
+    <value>{0} telah **MEMBATALKAN KLAIM** markas #{1} di sebuah perang melawan {2}</value>
+  </data>
+  <data name="clashofclans_claimed_base" xml:space="preserve">
+    <value>{0} Telah mengklaim sebuah markas #{1} di perang melawan {2}</value>
+  </data>
+  <data name="clashofclans_claimed_other" xml:space="preserve">
+    <value>@{0} Anda telah mengklaim markas #{1}. Anda tidak bisa mengklaim lagi.</value>
+  </data>
+  <data name="clashofclans_claim_expired" xml:space="preserve">
+    <value>Klaim dari @{0} di sebuah perang melawan {1} telah kadaluarsa.</value>
+  </data>
+  <data name="clashofclans_enemy" xml:space="preserve">
+    <value>Musuh</value>
+  </data>
+  <data name="clashofclans_info_about_war" xml:space="preserve">
+    <value>Info tentang perang melawan {0}</value>
+  </data>
+  <data name="clashofclans_invalid_base_number" xml:space="preserve">
+    <value>Jumlah markas yang salah.</value>
+  </data>
+  <data name="clashofclans_invalid_size" xml:space="preserve">
+    <value>Bukan ukuran perang yang benar.</value>
+  </data>
+  <data name="clashofclans_list_active_wars" xml:space="preserve">
+    <value>Daftar perang aktif.</value>
+  </data>
+  <data name="clashofclans_not_claimed" xml:space="preserve">
+    <value>Tidak diklaim.</value>
+  </data>
+  <data name="clashofclans_not_partic" xml:space="preserve">
+    <value>Anda tidak berpartisipasi di perang itu.</value>
+  </data>
+  <data name="clashofclans_not_partic_or_destroyed" xml:space="preserve">
+    <value>@{0} Antara anda tidak berpartisipasi di perang itu, atau markas itu telah dihancurkan.</value>
+  </data>
+  <data name="clashofclans_no_active_wars" xml:space="preserve">
+    <value>Tidak ada perang aktif.</value>
+  </data>
+  <data name="clashofclans_size" xml:space="preserve">
+    <value>Ukuran</value>
+  </data>
+  <data name="clashofclans_war_already_started" xml:space="preserve">
+    <value>Perang melawan {0} telah dimulai.</value>
+  </data>
+  <data name="clashofclans_war_created" xml:space="preserve">
+    <value>Telah membuat perang melawan {0}.</value>
+  </data>
+  <data name="clashofclans_war_ended" xml:space="preserve">
+    <value>Perang melawan {0} telah selesai.</value>
+  </data>
+  <data name="clashofclans_war_not_exist" xml:space="preserve">
+    <value>Perang itu tidak ada.</value>
+  </data>
+  <data name="clashofclans_war_started" xml:space="preserve">
+    <value>Perang melawan {0} mulai!</value>
+  </data>
+  <data name="customreactions_all_stats_cleared" xml:space="preserve">
+    <value>Semua reaksi kustom telah dibersihkan.</value>
+  </data>
+  <data name="customreactions_deleted" xml:space="preserve">
+    <value>Reaksi kustom telah dihapus.</value>
+  </data>
+  <data name="customreactions_insuff_perms" xml:space="preserve">
+    <value>Izin anda kurang. Dibutuhkan kepemilikan Bot untuk reaksi kostum global, dan Administrator untuk reaksi kustom server.</value>
+  </data>
+  <data name="customreactions_list_all" xml:space="preserve">
+    <value>Daftar dari semua reaksi kustom.</value>
+  </data>
+  <data name="customreactions_name" xml:space="preserve">
+    <value>Reaksi kustom.</value>
+  </data>
+  <data name="customreactions_new_cust_react" xml:space="preserve">
+    <value>Reaksi kustom baru</value>
+  </data>
+  <data name="customreactions_no_found" xml:space="preserve">
+    <value>Tidak ada reaksi kustom yang ditemukan.</value>
+  </data>
+  <data name="customreactions_no_found_id" xml:space="preserve">
+    <value>Tidak ada reaksi kustom ditemukan dengan id itu.</value>
+  </data>
+  <data name="customreactions_response" xml:space="preserve">
+    <value>Tanggapan.</value>
+  </data>
+  <data name="customreactions_stats" xml:space="preserve">
+    <value>Status reaksi kustom</value>
+  </data>
+  <data name="customreactions_stats_cleared" xml:space="preserve">
+    <value>Status dibersihkan untuk reaksi kustom {0}.</value>
+  </data>
+  <data name="customreactions_stats_not_found" xml:space="preserve">
+    <value>Tidak ada data untuk aksi itu, aksi tidak dilakukan.</value>
+  </data>
+  <data name="customreactions_trigger" xml:space="preserve">
+    <value>Aksi</value>
+  </data>
+  <data name="nsfw_autohentai_stopped" xml:space="preserve">
+    <value>Autohentai berhenti.</value>
+  </data>
+  <data name="nsfw_not_found" xml:space="preserve">
+    <value>Tidak ada hasil yang ditemukan.</value>
+  </data>
+  <data name="pokemon_already_fainted" xml:space="preserve">
+    <value>{0} sudah pingsan.</value>
+  </data>
+  <data name="pokemon_already_full" xml:space="preserve">
+    <value>{0} sudah memiliki HP penuh.</value>
+  </data>
+  <data name="pokemon_already_that_type" xml:space="preserve">
+    <value>Tipe anda sudah {0}</value>
+  </data>
+  <data name="pokemon_attack" xml:space="preserve">
+    <value>Digunakan {0}{1} di {2}{3} untuk {4} HP.</value>
+    <comment>Kwoth used punch:type_icon: on Sanity:type_icon: for 50 damage.</comment>
+  </data>
+  <data name="pokemon_cant_attack_again" xml:space="preserve">
+    <value>Anda tidak bisa menyerang lagi tanpa serangan balik!</value>
+  </data>
+  <data name="pokemon_cant_attack_yourself" xml:space="preserve">
+    <value>Anda tidak bisa menyerang diri sendiri.</value>
+  </data>
+  <data name="pokemon_fainted" xml:space="preserve">
+    <value>{0} telah pingsan!</value>
+  </data>
+  <data name="pokemon_healed" xml:space="preserve">
+    <value>{0} disembuhkan dengan satu {1}</value>
+  </data>
+  <data name="pokemon_hp_remaining" xml:space="preserve">
+    <value>{0} memiliki {1} HP tersisa.</value>
+  </data>
+  <data name="pokemon_invalid_move" xml:space="preserve">
+    <value>Anda tidak bisa menggunakan {0}. Ketik &apos;{1}ml&apos; untuk melihat daftar gerakan yang anda bisa gunakan.</value>
+  </data>
+  <data name="pokemon_moves" xml:space="preserve">
+    <value>Daftar gerakan untuk tipe {0}</value>
+  </data>
+  <data name="pokemon_not_effective" xml:space="preserve">
+    <value>Itu tidak efektif.</value>
+  </data>
+  <data name="pokemon_no_currency" xml:space="preserve">
+    <value>Anda tidak memiliki cukup {0}</value>
+  </data>
+  <data name="pokemon_revive_other" xml:space="preserve">
+    <value>{0} Dihidupkan dengan satu {1}</value>
+  </data>
+  <data name="pokemon_revive_yourself" xml:space="preserve">
+    <value>Anda menghidupkan diri sendiri dengan satu {0}</value>
+  </data>
+  <data name="pokemon_settype_success" xml:space="preserve">
+    <value>Tipe anda telah diganti ke {0} untuk sebuah {1}</value>
+  </data>
+  <data name="pokemon_somewhat_effective" xml:space="preserve">
+    <value>Itu cukup efektif.</value>
+  </data>
+  <data name="pokemon_super_effective" xml:space="preserve">
+    <value>Itu sangatlah efektif!</value>
+  </data>
+  <data name="pokemon_too_many_moves" xml:space="preserve">
+    <value>Anda menggunakan terlalu banyak gerakan, jadi anda tidak bisa bergerak!</value>
+  </data>
+  <data name="pokemon_type_of_user" xml:space="preserve">
+    <value>Tipe dari {0} adalah {1}.</value>
+  </data>
+  <data name="pokemon_user_not_found" xml:space="preserve">
+    <value>Pengguna tidak ditemukan.</value>
+  </data>
+  <data name="pokemon_you_fainted" xml:space="preserve">
+    <value>Anda pingsan, jadi anda tidak bisa bergerak!</value>
+  </data>
+  <data name="administration_aar_disabled" xml:space="preserve">
+    <value>**Penetapan role otomatis** ketika user bergabung sekarang telah **non aktif**.</value>
+  </data>
+  <data name="administration_aar_enabled" xml:space="preserve">
+    <value>**Penetapan role otomatis** ketika user bergabung sekarang telah **aktif**.</value>
+  </data>
+  <data name="administration_attachments" xml:space="preserve">
+    <value>Lampiran</value>
+  </data>
+  <data name="administration_avatar_changed" xml:space="preserve">
+    <value>Avatar diubah.</value>
+  </data>
+  <data name="administration_bandm" xml:space="preserve">
+    <value>Anda telah diban dari server {0}. 
+Alasan: {1}</value>
+  </data>
+  <data name="administration_banned_pl" xml:space="preserve">
+    <value>&apos;banned&apos;</value>
+    <comment>PLURAL</comment>
+  </data>
+  <data name="administration_banned_user" xml:space="preserve">
+    <value>Pengguna &apos;banned&apos;</value>
+  </data>
+  <data name="administration_bot_name" xml:space="preserve">
+    <value>Nama bot diubah ke {0}</value>
+  </data>
+  <data name="administration_bot_status" xml:space="preserve">
+    <value>Status bot diubah ke {0}.</value>
+  </data>
+  <data name="administration_byedel_off" xml:space="preserve">
+    <value>Penghapusan otomatis dari pesan &apos;bye&apos; telah dimatikan.</value>
+  </data>
+  <data name="administration_byedel_on" xml:space="preserve">
+    <value>Pesan &apos;bye&apos; akan dihapus setelah {0} detik.</value>
+  </data>
+  <data name="administration_byemsg_cur" xml:space="preserve">
+    <value>Pesan &apos;bye&apos; sekarang: {0}</value>
+  </data>
+  <data name="administration_byemsg_enable" xml:space="preserve">
+    <value>Nyalakan pesan &apos;bye&apos; dengan menggunakan {0}</value>
+  </data>
+  <data name="administration_byemsg_new" xml:space="preserve">
+    <value>Pesan tinggal baru tersetel.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="administration_bye_off" xml:space="preserve">
+    <value>Pengumuman tinggal dimatikan.</value>
+  </data>
+  <data name="administration_bye_on" xml:space="preserve">
+    <value>Pengumuman tinggal dinyalakan di channel ini.</value>
+  </data>
+  <data name="administration_ch_name_change" xml:space="preserve">
+    <value>Nama Channel telah diubah.</value>
+  </data>
+  <data name="administration_ch_old_name" xml:space="preserve">
+    <value>Nama lama.</value>
+  </data>
+  <data name="administration_ch_topic_change" xml:space="preserve">
+    <value>Topik channel diubah.</value>
+  </data>
+  <data name="administration_cleaned_up" xml:space="preserve">
+    <value>Dibersihkan.</value>
+  </data>
+  <data name="administration_content" xml:space="preserve">
+    <value>Konten</value>
+  </data>
+  <data name="administration_cr" xml:space="preserve">
+    <value>Berhasil membuat peran {0}.</value>
+  </data>
+  <data name="administration_createtextchan" xml:space="preserve">
+    <value>Channel teks {0} telah dibuat.</value>
+  </data>
+  <data name="administration_createvoich" xml:space="preserve">
+    <value>Channel suara {0} telah dibuat.</value>
+  </data>
+  <data name="administration_deafen" xml:space="preserve">
+    <value>Penulian berhasil.</value>
+  </data>
+  <data name="administration_deleted_server" xml:space="preserve">
+    <value>Server {0} dihapus</value>
+  </data>
+  <data name="administration_delmsg_off" xml:space="preserve">
+    <value>Penghapusan otomatis telah diberhentikan karena invokasi pemerintah yang berhasil.</value>
+  </data>
+  <data name="administration_delmsg_on" xml:space="preserve">
+    <value>Sekarang akan secara otomatis menghapus invokasi perintah yang sukses.</value>
+  </data>
+  <data name="administration_deltextchan" xml:space="preserve">
+    <value>Channel teks {0} dihapus.</value>
+  </data>
+  <data name="administration_delvoich" xml:space="preserve">
+    <value>Channel suara {0} dihapus.</value>
+  </data>
+  <data name="administration_dm_from" xml:space="preserve">
+    <value>Pesan dari</value>
+  </data>
+  <data name="administration_donadd" xml:space="preserve">
+    <value>Berhasil menambahkan donatur baru. Jumlah donasi dari user ini: {0} 👑</value>
+  </data>
+  <data name="administration_donators" xml:space="preserve">
+    <value>Terima kasih untuk orang yang terdaftar dibawah untuk menciptakan proyek ini!</value>
+  </data>
+  <data name="administration_fwall_start" xml:space="preserve">
+    <value>Saya akan meneruskan DM kepada semua pemilik.</value>
+  </data>
+  <data name="administration_fwall_stop" xml:space="preserve">
+    <value>Saya akan meneruskan DM hanya ke pemilik pertama.</value>
+  </data>
+  <data name="administration_fwdm_start" xml:space="preserve">
+    <value>Saya akan meneruskan DM mulai dari sekarang.</value>
+  </data>
+  <data name="administration_fwdm_stop" xml:space="preserve">
+    <value>Saya akan berhenti meneruskan DM mulai dari sekarang.</value>
+  </data>
+  <data name="administration_greetdel_off" xml:space="preserve">
+    <value>Penghapusan pesan sapaan otomatis telah dinonaktifkan.</value>
+  </data>
+  <data name="administration_greetdel_on" xml:space="preserve">
+    <value>Pesan pesan sapaan akan dihapus setelah {0} detik.</value>
+  </data>
+  <data name="administration_greetdmmsg_cur" xml:space="preserve">
+    <value>Pesan sapa DM sekarang: {0}</value>
+  </data>
+  <data name="administration_greetdmmsg_enable" xml:space="preserve">
+    <value>Aktifkan pesan sapa DM dengan mengetik {0}</value>
+  </data>
+  <data name="administration_greetdmmsg_new" xml:space="preserve">
+    <value>Pesan sapa DM baru telah diset.</value>
+  </data>
+  <data name="administration_greetdm_off" xml:space="preserve">
+    <value>Pengumuman sapa DM dinonaktifkan.</value>
+  </data>
+  <data name="administration_greetdm_on" xml:space="preserve">
+    <value>Pengumuman sapa DM diaktifkan.</value>
+  </data>
+  <data name="administration_greetmsg_cur" xml:space="preserve">
+    <value>Pesan sapa sekarang: {0}</value>
+  </data>
+  <data name="administration_greetmsg_enable" xml:space="preserve">
+    <value>Aktifkan pesan sapa dengan mengetik {0}</value>
+  </data>
+  <data name="administration_greetmsg_new" xml:space="preserve">
+    <value>Pesan sapa baru telah diset.</value>
+  </data>
+  <data name="administration_greet_off" xml:space="preserve">
+    <value>Pengumuman sapa dinonaktifkan.</value>
+  </data>
+  <data name="administration_greet_on" xml:space="preserve">
+    <value>Pengumuman sapa diaktifkan di channel ini.</value>
+  </data>
+  <data name="administration_hierarchy" xml:space="preserve">
+    <value>Anda tidak bisa menggunakkan perintah ini pada pengguna dengan peran yang lebih tinggi atau setara dengan anda di dalam hierarki peran.</value>
+  </data>
+  <data name="administration_images_loaded" xml:space="preserve">
+    <value>Gambar ditampilkan setelah {0} detik!</value>
+  </data>
+  <data name="administration_invalid_format" xml:space="preserve">
+    <value>Format input tidak valid.</value>
+  </data>
+  <data name="administration_invalid_params" xml:space="preserve">
+    <value>Parameter tidak valid.</value>
+  </data>
+  <data name="administration_joined" xml:space="preserve">
+    <value>{0} telah bergabung {1}</value>
+  </data>
+  <data name="administration_kickdm" xml:space="preserve">
+    <value>Anda telah dikeluarkan dari server (0}.
+Alasan: {1}</value>
+  </data>
+  <data name="administration_kicked_user" xml:space="preserve">
+    <value>Pengguna dikeluarkan</value>
+  </data>
+  <data name="administration_lang_list" xml:space="preserve">
+    <value>Daftar bahasa-bahasa</value>
+  </data>
+  <data name="administration_lang_set" xml:space="preserve">
+    <value>Bahasa server anda sekarang adalah {0} - {1}</value>
+  </data>
+  <data name="administration_lang_set_bot" xml:space="preserve">
+    <value>Bahasa asli bot sekarang adalah {0} - {1}</value>
+  </data>
+  <data name="administration_lang_set_bot_show" xml:space="preserve">
+    <value>Bahasa bot di set ke {0} - {1}</value>
+  </data>
+  <data name="administration_lang_set_fail" xml:space="preserve">
+    <value>Gagal mengatur bahasa. Kunjungi bantuan untuk perintah ini.</value>
+  </data>
+  <data name="administration_lang_set_show" xml:space="preserve">
+    <value>Bahasa perintah ini sekarang di set ke {0} - {1}</value>
+  </data>
+  <data name="administration_left" xml:space="preserve">
+    <value>{0} telah pergi {1}</value>
+  </data>
+  <data name="administration_left_server" xml:space="preserve">
+    <value>Meninggalkan server {0}</value>
+  </data>
+  <data name="administration_log" xml:space="preserve">
+    <value>Mencatat {0} event di channel ini.</value>
+  </data>
+  <data name="administration_log_all" xml:space="preserve">
+    <value>Mencatat semua event di channel ini.</value>
+  </data>
+  <data name="administration_log_disabled" xml:space="preserve">
+    <value>Pencatatan dinonaktifkan.</value>
+  </data>
+  <data name="administration_log_events" xml:space="preserve">
+    <value>Event - event catatan yang anda dapat berlangganan:</value>
+  </data>
+  <data name="administration_log_ignore" xml:space="preserve">
+    <value>Pencatatan akan mengabaikan {0}</value>
+  </data>
+  <data name="administration_log_not_ignore" xml:space="preserve">
+    <value>Pencatatatn tidak akan mengabaikan {0}</value>
+  </data>
+  <data name="administration_log_stop" xml:space="preserve">
+    <value>Berhenti mencatat event {0}.</value>
+  </data>
+  <data name="administration_menrole" xml:space="preserve">
+    <value>{0} telah menyebut peran - peran berikut</value>
+  </data>
+  <data name="administration_message_from_bo" xml:space="preserve">
+    <value>Pesan dari {0} `[Pemilik Bot]`:</value>
+  </data>
+  <data name="administration_message_sent" xml:space="preserve">
+    <value>Pesan terkirim.</value>
+  </data>
+  <data name="administration_moved" xml:space="preserve">
+    <value>{0} telah pindah dari {1} ke {2}</value>
+  </data>
+  <data name="administration_msg_del" xml:space="preserve">
+    <value>Pesan dihapus dalam #{0}</value>
+  </data>
+  <data name="administration_msg_update" xml:space="preserve">
+    <value>Pesan diperbarui dalam #{0}</value>
+  </data>
+  <data name="administration_muted_pl" xml:space="preserve">
+    <value>Didiamkan.</value>
+    <comment>PLURAL (users have been muted)</comment>
+  </data>
+  <data name="administration_muted_sn" xml:space="preserve">
+    <value>Didiamkan.</value>
+    <comment>singular &quot;User muted.&quot;</comment>
+  </data>
+  <data name="administration_mute_error" xml:space="preserve">
+    <value>Kemungkinan besar saya tidak punya izin yang dibutuhkan untuk itu.</value>
+  </data>
+  <data name="administration_mute_role_set" xml:space="preserve">
+    <value>Peran diam baru telah diset</value>
+  </data>
+  <data name="administration_need_admin" xml:space="preserve">
+    <value>Saya butuh izin **Administrasi** untuk melakukan itu.</value>
+  </data>
+  <data name="administration_new_msg" xml:space="preserve">
+    <value>Pesan baru</value>
+  </data>
+  <data name="administration_new_nick" xml:space="preserve">
+    <value>Nama panggilan baru</value>
+  </data>
+  <data name="administration_new_topic" xml:space="preserve">
+    <value>Topik baru</value>
+  </data>
+  <data name="administration_nick_change" xml:space="preserve">
+    <value>Nama panggilan diubah</value>
+  </data>
+  <data name="administration_no_server" xml:space="preserve">
+    <value>Tidak dapat menemukan server itu</value>
+  </data>
+  <data name="administration_no_shard_id" xml:space="preserve">
+    <value>Tidak ada potongan dengan ID itu ditemukan.</value>
+  </data>
+  <data name="administration_old_msg" xml:space="preserve">
+    <value>Pesan lama</value>
+  </data>
+  <data name="administration_old_nick" xml:space="preserve">
+    <value>Nama panggilan lama</value>
+  </data>
+  <data name="administration_old_topic" xml:space="preserve">
+    <value>Topik lama</value>
+  </data>
+  <data name="administration_perms" xml:space="preserve">
+    <value>Error. Kemungkinan besar saya tidak punya izin yang cukup.</value>
+  </data>
+  <data name="administration_perms_reset" xml:space="preserve">
+    <value>Izin untuk server ini telah diatur ulang.</value>
+  </data>
+  <data name="administration_prot_active" xml:space="preserve">
+    <value>Perlindungan aktif</value>
+  </data>
+  <data name="administration_prot_disable" xml:space="preserve">
+    <value>{0} telah **dinonaktifkan** pada server ini.</value>
+  </data>
+  <data name="administration_prot_enable" xml:space="preserve">
+    <value>{0} diaktifkan</value>
+  </data>
+  <data name="administration_prot_error" xml:space="preserve">
+    <value>Error. Saya butuh izin ManageRoles</value>
+  </data>
+  <data name="administration_prot_none" xml:space="preserve">
+    <value>Tidak ada perlindungan diaktifkan.</value>
+  </data>
+  <data name="administration_raid_cnt" xml:space="preserve">
+    <value>Batas user harus diantara {0} dan {1}.</value>
+  </data>
+  <data name="administration_raid_stats" xml:space="preserve">
+    <value>Jika {0} atau lebih user bergabung dalam {1} detik, Saya akan {2} mereka.</value>
+  </data>
+  <data name="administration_raid_time" xml:space="preserve">
+    <value>Waktu harus berada diantara {0} dan {1} detik.</value>
+  </data>
+  <data name="administration_rar" xml:space="preserve">
+    <value>Berhasil menghapus semua peran dari user {0}</value>
+  </data>
+  <data name="administration_rar_err" xml:space="preserve">
+    <value>Gagal menghapus peran. Saya tidak punya izin.</value>
+  </data>
+  <data name="administration_rc" xml:space="preserve">
+    <value>Warna dari peran {0} telah diubah.</value>
+  </data>
+  <data name="administration_rc_not_exist" xml:space="preserve">
+    <value>Peran itu tidak ada.</value>
+  </data>
+  <data name="administration_rc_params" xml:space="preserve">
+    <value>Parameter yang ditentukan tidak valid.</value>
+  </data>
+  <data name="administration_rc_perms" xml:space="preserve">
+    <value>Error disebabkan warna tidak valid atau tidak punya izin.</value>
+  </data>
+  <data name="administration_remrole" xml:space="preserve">
+    <value>Berhasil menghapus peran {0} dari user {1}</value>
+  </data>
+  <data name="administration_remrole_err" xml:space="preserve">
+    <value>Gagal menghapus peran. Saya tidak punya izin.</value>
+  </data>
+  <data name="administration_renrole" xml:space="preserve">
+    <value>Nama peran diubah.</value>
+  </data>
+  <data name="administration_renrole_err" xml:space="preserve">
+    <value>Gagal merubah nama peran. Saya tidak punya izin.</value>
+  </data>
+  <data name="administration_renrole_perms" xml:space="preserve">
+    <value>Anda tidak dapat mengedit peran yang lebih tinggi daripada peran tertinggi anda.</value>
+  </data>
+  <data name="administration_reprm" xml:space="preserve">
+    <value>Pesan yang diputar: {0} telah dihapus</value>
+  </data>
+  <data name="administration_role_added" xml:space="preserve">
+    <value>Peran {0} telah ditambahkan ke daftar.</value>
+  </data>
+  <data name="administration_role_clean" xml:space="preserve">
+    <value>{0} tidak ditemukan. Telah dibersihkan.</value>
+  </data>
+  <data name="administration_role_in_list" xml:space="preserve">
+    <value>Peran {0} sudah ada di dalam daftar.</value>
+  </data>
+  <data name="administration_ropl_added" xml:space="preserve">
+    <value>Ditambahkan.</value>
+  </data>
+  <data name="administration_ropl_disabled" xml:space="preserve">
+    <value>Status bermain berotasi dinonaktifkan.</value>
+  </data>
+  <data name="administration_ropl_enabled" xml:space="preserve">
+    <value>Status bermain berotasi diaktifkan</value>
+  </data>
+  <data name="administration_ropl_list" xml:space="preserve">
+    <value>Ini adalah daftar status-status yang berotasi:
+{0}</value>
+  </data>
+  <data name="administration_ropl_not_set" xml:space="preserve">
+    <value>Tidak ada status bermain berotasi yang diset.</value>
+  </data>
+  <data name="administration_self_assign_already" xml:space="preserve">
+    <value>Anda sudah memiliki {0} peran.</value>
+  </data>
+  <data name="administration_self_assign_already_excl" xml:space="preserve">
+    <value>Anda sudah memiliki {0} peran eksklusif yang ditetapkan sendiri.</value>
+  </data>
+  <data name="administration_self_assign_excl" xml:space="preserve">
+    <value>Peran yang ditetapkan sendiri sekarang eksklusif!</value>
+  </data>
+  <data name="administration_self_assign_list" xml:space="preserve">
+    <value>Ada {0} peran yang ditetapkan sendiri</value>
+  </data>
+  <data name="administration_self_assign_not" xml:space="preserve">
+    <value>Peran itu tidak dapat ditetapkan sendiri.</value>
+  </data>
+  <data name="administration_self_assign_not_have" xml:space="preserve">
+    <value>Anda tidak memiliki {0} peran.</value>
+  </data>
+  <data name="administration_self_assign_no_excl" xml:space="preserve">
+    <value>Peran yang ditetapkan sendiri sekarang tidak eksklusif!</value>
+  </data>
+  <data name="administration_self_assign_perms" xml:space="preserve">
+    <value>Saya tidak dapat menambahkan peran itu pada anda. &apos;Saya tidak dapat menambahkan peran kepada pemilik atau peran lain yang lebih tinggi daripada peran saya di dalam hierarki peran.&apos;</value>
+  </data>
+  <data name="administration_self_assign_rem" xml:space="preserve">
+    <value>{0} telah dihapus dari daftar peran yang dapat ditetapkan sendiri.</value>
+  </data>
+  <data name="administration_self_assign_remove" xml:space="preserve">
+    <value>Anda tidak lagi memiliki peran {0}.</value>
+  </data>
+  <data name="administration_self_assign_success" xml:space="preserve">
+    <value>Anda sekarang memiliki peran {0}.</value>
+  </data>
+  <data name="administration_setrole" xml:space="preserve">
+    <value>Berhasil menambahkan peran {0} ke user {1}</value>
+  </data>
+  <data name="administration_setrole_err" xml:space="preserve">
+    <value>Gagal menambahkan peran. Saya tidak punya izin.</value>
+  </data>
+  <data name="administration_set_avatar" xml:space="preserve">
+    <value>Avatar baru telah diset!</value>
+  </data>
+  <data name="administration_set_channel_name" xml:space="preserve">
+    <value>Nama channel baru telah diset.</value>
+  </data>
+  <data name="administration_set_game" xml:space="preserve">
+    <value>Permainan baru telah diset!</value>
+  </data>
+  <data name="administration_set_stream" xml:space="preserve">
+    <value>Aliran baru telah diset!</value>
+  </data>
+  <data name="administration_set_topic" xml:space="preserve">
+    <value>Topik channel baru telah diset!</value>
+  </data>
+  <data name="administration_shard_reconnected" xml:space="preserve">
+    <value>Potongan {0} telah tersambung ulang.</value>
+  </data>
+  <data name="administration_shard_reconnecting" xml:space="preserve">
+    <value>Potongan {0} sedang menyambung ulang.</value>
+  </data>
+  <data name="administration_shutting_down" xml:space="preserve">
+    <value>Mematikan</value>
+  </data>
+  <data name="administration_slowmode_desc" xml:space="preserve">
+    <value>User tidak dapat mengirim lebih dari {0} pesan setiap {1} detik.</value>
+  </data>
+  <data name="administration_slowmode_disabled" xml:space="preserve">
+    <value>Mode lambat dimatikan.</value>
+  </data>
+  <data name="administration_slowmode_init" xml:space="preserve">
+    <value>Mode lambat dinyalakan.</value>
+  </data>
+  <data name="administration_soft_banned_pl" xml:space="preserve">
+    <value>Ban halus (Dikeluarkan)</value>
+    <comment>PLURAL
+Fuzzy</comment>
+  </data>
+  <data name="administration_spam_ignore" xml:space="preserve">
+    <value>{0} akan mengabaikan channel ini.</value>
+  </data>
+  <data name="administration_spam_not_ignore" xml:space="preserve">
+    <value>{0} tidak lagi akan mengabaikan channel ini.</value>
+  </data>
+  <data name="administration_spam_stats" xml:space="preserve">
+    <value>Jika user memposting {0} pesan yang sama secara berurutan, Saya akan {1} mereka.
+    __IgnoredChannels__: {2} </value>
+  </data>
+  <data name="administration_text_chan_created" xml:space="preserve">
+    <value>Channel teks telah dibuat.</value>
+  </data>
+  <data name="administration_text_chan_destroyed" xml:space="preserve">
+    <value>Channel teks telah dihancurkan.</value>
+  </data>
+  <data name="administration_undeafen" xml:space="preserve">
+    <value>penulian nonaktif.</value>
+  </data>
+  <data name="administration_unmuted_sn" xml:space="preserve">
+    <value>Non-bisukan</value>
+    <comment>singular</comment>
+  </data>
+  <data name="administration_username" xml:space="preserve">
+    <value>Nama pengguna</value>
+  </data>
+  <data name="administration_username_changed" xml:space="preserve">
+    <value>Nama pengguna telah diubah</value>
+  </data>
+  <data name="administration_users" xml:space="preserve">
+    <value>Para pengguna</value>
+  </data>
+  <data name="administration_user_banned" xml:space="preserve">
+    <value>Pengguna dilarang</value>
+  </data>
+  <data name="administration_user_chat_mute" xml:space="preserve">
+    <value>{0} telah **didiamkan** dari chatting.</value>
+  </data>
+  <data name="administration_user_chat_unmute" xml:space="preserve">
+    <value>{0} telah **tidak didiamkan** dari chatting.</value>
+  </data>
+  <data name="administration_user_joined" xml:space="preserve">
+    <value>User bergabung</value>
+  </data>
+  <data name="administration_user_left" xml:space="preserve">
+    <value>User pergi</value>
+  </data>
+  <data name="administration_user_muted" xml:space="preserve">
+    <value>{0} telah **didiamkan** dari chat teks dan suara</value>
+  </data>
+  <data name="administration_user_role_add" xml:space="preserve">
+    <value>Peran pengguna telah ditambahkan</value>
+  </data>
+  <data name="administration_user_role_rem" xml:space="preserve">
+    <value>Peran pengguna telah dihapuskan</value>
+  </data>
+  <data name="administration_user_status_change" xml:space="preserve">
+    <value>{0} sekarang adalah {1}</value>
+  </data>
+  <data name="administration_user_unmuted" xml:space="preserve">
+    <value>{0} telah **tidak didiamkan** dari chat teks dan suara.</value>
+  </data>
+  <data name="administration_user_vjoined" xml:space="preserve">
+    <value>{0} telah bergabung di channel suara  {1} .</value>
+  </data>
+  <data name="administration_user_vleft" xml:space="preserve">
+    <value>{0} telah meninggalkan channel suara {1}.</value>
+  </data>
+  <data name="administration_user_vmoved" xml:space="preserve">
+    <value>{0} berpindah dari channel suara {1} ke {2}.</value>
+  </data>
+  <data name="administration_user_voice_mute" xml:space="preserve">
+    <value>{0} telah **dibisukan**</value>
+  </data>
+  <data name="administration_user_voice_unmute" xml:space="preserve">
+    <value>{0} telah di **voice non-bisukan**.</value>
+  </data>
+  <data name="administration_voice_chan_created" xml:space="preserve">
+    <value>Channel suara telah dibuat</value>
+  </data>
+  <data name="administration_voice_chan_destroyed" xml:space="preserve">
+    <value>Channel suara telah dihancurkan</value>
+  </data>
+  <data name="administration_vt_disabled" xml:space="preserve">
+    <value>Fitur suara + teks dinonaktifkan.</value>
+  </data>
+  <data name="administration_vt_enabled" xml:space="preserve">
+    <value>Fitur suara + teks diaktfikan.</value>
+  </data>
+  <data name="administration_vt_exit" xml:space="preserve">
+    <value>Saya tidak memiliki izin **mengatur peran** dan/atau **mengatur channel**, jadi saya tidak dapat menjalankan &apos;suara+teks&apos; di server {0}.</value>
+  </data>
+  <data name="administration_vt_no_admin" xml:space="preserve">
+    <value>Anda mengaktifkan/menonaktifkan fitur ini dan **Saya tidak punya izin administrator**. Ini dapat menyebabkan beberapa isu, dan anda harus membersihkan sendiri channel-channel teks setelahnya.</value>
+  </data>
+  <data name="administration_vt_perms" xml:space="preserve">
+    <value>Saya membutuhkan setidaknya izin **mengatur peran** dan **mengatur channel** untuk mengaktifkan fitur ini. (lebih memilih izin administrasi)</value>
+  </data>
+  <data name="administration_xmuted_text" xml:space="preserve">
+    <value>User {0} dari chat teks</value>
+  </data>
+  <data name="administration_xmuted_text_and_voice" xml:space="preserve">
+    <value>User {0} dari chat teks dan suara</value>
+  </data>
+  <data name="administration_xmuted_voice" xml:space="preserve">
+    <value>Pengguna {0} dari chat suara</value>
+  </data>
+  <data name="administration_sbdm" xml:space="preserve">
+    <value>Anda telah diban halus dari server {0}.
+Alasan: {1}</value>
+  </data>
+  <data name="administration_user_unbanned" xml:space="preserve">
+    <value>Pengguna telah di unban</value>
+  </data>
+  <data name="administration_migration_done" xml:space="preserve">
+    <value>Migrasi selesai!</value>
+  </data>
+  <data name="adminsitration_migration_error" xml:space="preserve">
+    <value>Error ketika migrasi, cek konsol bot untuk informasi lebih lanjut.</value>
+  </data>
+  <data name="administration_presence_updates" xml:space="preserve">
+    <value>Pembaharuan kehadiran</value>
+  </data>
+  <data name="administration_sb_user" xml:space="preserve">
+    <value>Pengguna diban halus</value>
+  </data>
+  <data name="gambling_awarded" xml:space="preserve">
+    <value>Telah menyerahkan {0} ke {1}</value>
+  </data>
+  <data name="gambling_better_luck" xml:space="preserve">
+    <value>Semoga lebih beruntung lain kali ^_^</value>
+  </data>
+  <data name="gambling_br_win" xml:space="preserve">
+    <value>Selamat! Kamu memenangkan {0} karena hasil diatas {1}</value>
+  </data>
+  <data name="gambling_deck_reshuffled" xml:space="preserve">
+    <value>Deck telah dikocok ulang.</value>
+  </data>
+  <data name="gambling_flipped" xml:space="preserve">
+    <value>Terlemparkan {0}.</value>
+    <comment>User flipped tails.</comment>
+  </data>
+  <data name="gambling_flip_guess" xml:space="preserve">
+    <value>Anda berhasil menebaknya! Anda memenangkan {0}</value>
+  </data>
+  <data name="gambling_flip_invalid" xml:space="preserve">
+    <value>Angka tidak valid tertera. Anda dapat meleparkan 1 sampai {0} koin.</value>
+  </data>
+  <data name="gambling_flowerreaction_desc" xml:space="preserve">
+    <value>Tambahkan reaksi {0} pada pesan ini untuk mendapatkan {1}␣</value>
+  </data>
+  <data name="gambling_flowerreaction_footer" xml:space="preserve">
+    <value>Event ini akan aktif selama {0} jam.</value>
+  </data>
+  <data name="gambling_flowerreaction_title" xml:space="preserve">
+    <value>Event reaksi bunga telah dimulai!</value>
+  </data>
+  <data name="gambling_gifted" xml:space="preserve">
+    <value>Telah menghadiahi {0} ke {1}</value>
+    <comment>X has gifted 15 flowers to Y</comment>
+  </data>
+  <data name="gambling_has" xml:space="preserve">
+    <value>{0} memiliki {1}</value>
+    <comment>X has Y flowers</comment>
+  </data>
+  <data name="gambling_heads" xml:space="preserve">
+    <value>Kepala</value>
+  </data>
+  <data name="gambling_leaderboard" xml:space="preserve">
+    <value>Leaderboard</value>
+  </data>
+  <data name="gambling_mass_award" xml:space="preserve">
+    <value>Diserahkan {0} sampai {1} pengguna dari peran {2}.</value>
+  </data>
+  <data name="gambling_max_bet_limit" xml:space="preserve">
+    <value>Anda tidak bisa bertaruh lebih dari {0}</value>
+  </data>
+  <data name="gambling_min_bet_limit" xml:space="preserve">
+    <value>Anda tidak bisa bertaruh kurang dari {0}</value>
+  </data>
+  <data name="gambling_not_enough" xml:space="preserve">
+    <value>Anda tidak memiliki cukup {0}</value>
+  </data>
+  <data name="gambling_no_more_cards" xml:space="preserve">
+    <value>Tidak ada lagi kartu di dalam deck.</value>
+  </data>
+  <data name="gambling_raffled_user" xml:space="preserve">
+    <value>Pengguna yang diundi</value>
+  </data>
+  <data name="gambling_roll" xml:space="preserve">
+    <value>Kamu mendapatkan {0}.</value>
+  </data>
+  <data name="gambling_slot_bet" xml:space="preserve">
+    <value>Bertaruh</value>
+  </data>
+  <data name="gambling_slot_jackpot" xml:space="preserve">
+    <value>WOAAHHHHHH!!! Selamat!!! x{0} </value>
+  </data>
+  <data name="gambling_slot_single" xml:space="preserve">
+    <value>Sebuah {0}, x{1}</value>
+  </data>
+  <data name="gambling_slot_three" xml:space="preserve">
+    <value>Wow! Beruntung! Three of a kind! x{0}</value>
+  </data>
+  <data name="gambling_slot_two" xml:space="preserve">
+    <value>Good job! Dua {0} - bertaruh x{1}</value>
+  </data>
+  <data name="gambling_slot_won" xml:space="preserve">
+    <value>Menang</value>
+  </data>
+  <data name="gambling_sneakygamestatus_desc" xml:space="preserve">
+    <value>User harus mengetikkan kode rahasia untuk mendapatkan {0}.
+Berlangsung selama {1} detik. Jangan bilang bilang. Shhh.</value>
+  </data>
+  <data name="gambling_sneakygamestatus_end" xml:space="preserve">
+    <value>Event SneakyGame berakhir. {0} pengguna telah menerima hadiah.</value>
+  </data>
+  <data name="gambling_sneakygamestatus_title" xml:space="preserve">
+    <value>Event SneakyGameStatus telah dimulai</value>
+  </data>
+  <data name="gambling_tails" xml:space="preserve">
+    <value>Ekor</value>
+  </data>
+  <data name="gambling_take" xml:space="preserve">
+    <value>berhasil mengambil {0} dari {1}</value>
+  </data>
+  <data name="gambling_take_fail" xml:space="preserve">
+    <value>tidak dapat mengambil {0} dari{1} karena user itu tidak memiliki {2} sebanyak itu!</value>
+  </data>
+  <data name="help_back_to_toc" xml:space="preserve">
+    <value>Kembali ke ToC</value>
+  </data>
+  <data name="help_bot_owner_only" xml:space="preserve">
+    <value>Hanya untuk pemilik bot</value>
+  </data>
+  <data name="help_channel_permission" xml:space="preserve">
+    <value>Memerlukan izin {0} channel.</value>
+  </data>
+  <data name="help_cmdlist_donate" xml:space="preserve">
+    <value>Anda dapat mendukung project ini di patreon: &lt;{0}&gt; atau paypal: &lt;{1}&gt;</value>
+  </data>
+  <data name="help_cmd_and_alias" xml:space="preserve">
+    <value>Daftar perintah dan alias</value>
+  </data>
+  <data name="help_commandlist_regen" xml:space="preserve">
+    <value>Daftar perintah telah dibuat ulang.</value>
+  </data>
+  <data name="help_commands_instr" xml:space="preserve">
+    <value>Ketik &apos;{0}h CommandName&apos; untuk melihat bantuan untuk perintah tersebut. Contoh &apos;{0}h &gt;8ball&apos;</value>
+  </data>
+  <data name="help_command_not_found" xml:space="preserve">
+    <value>Saya tidak dapat menemukan perintah itu. Tolong verifikasi perintah itu ada sebelum mencoba lagi.</value>
+  </data>
+  <data name="help_desc" xml:space="preserve">
+    <value>Deskripsi</value>
+  </data>
+  <data name="help_donate" xml:space="preserve">
+    <value>Anda dapat mendukung projek NadekoBot di
+Patreon &lt;{0}&gt; atau
+Paypal &lt;{1}&gt;
+Jangan lupa untuk meninggalkan nama atau ID Discord anda di dalam pesan.
+
+**Terima kasih**♥️ </value>
+  </data>
+  <data name="help_guide" xml:space="preserve">
+    <value>**Daftar perintah**: &lt;{0}&gt;
+**Panduan dan dokumentasi hosting dapat ditemukan disini**: &lt;{1}&gt;</value>
+  </data>
+  <data name="help_list_of_commands" xml:space="preserve">
+    <value>Daftar perintah</value>
+  </data>
+  <data name="help_list_of_modules" xml:space="preserve">
+    <value>Daftar modul</value>
+  </data>
+  <data name="help_modules_footer" xml:space="preserve">
+    <value>Ketik &apos;{0}cmds ModuleName&apos; untuk mendapatkan daftar perintah di dalam modul tersebut. Contoh &apos;{0}cmds games&apos;</value>
+  </data>
+  <data name="help_module_not_found" xml:space="preserve">
+    <value>Modul tersebut tidak ada.</value>
+  </data>
+  <data name="help_server_permission" xml:space="preserve">
+    <value>Memerlukan izin {0} server.</value>
+  </data>
+  <data name="help_table_of_contents" xml:space="preserve">
+    <value>Daftar isi</value>
+  </data>
+  <data name="help_usage" xml:space="preserve">
+    <value>Penggunaan</value>
+  </data>
+  <data name="nsfw_autohentai_started" xml:space="preserve">
+    <value>Autohentai dimulai. Posting ulang setiap {0} detik dengan satu dari tanda berikut:
+{1}</value>
+  </data>
+  <data name="nsfw_tag" xml:space="preserve">
+    <value>Tanda</value>
+  </data>
+  <data name="gambling_animal_race" xml:space="preserve">
+    <value>Balap hewan</value>
+  </data>
+  <data name="gambling_animal_race_failed" xml:space="preserve">
+    <value>Gagal memulai karena tidak cukup peserta.</value>
+  </data>
+  <data name="gambling_animal_race_full" xml:space="preserve">
+    <value>Balapan penuh!! Segera memulai.</value>
+  </data>
+  <data name="gambling_animal_race_join" xml:space="preserve">
+    <value>{0} bergabung sebagai seekor {1}</value>
+  </data>
+  <data name="gambling_animal_race_join_bet" xml:space="preserve">
+    <value>{0} bergabung sebagai seekor {1} dan bertaruh {2}!</value>
+  </data>
+  <data name="gambling_animal_race_join_instr" xml:space="preserve">
+    <value>Ketik {0}jr untuk mengikuti balapan.</value>
+  </data>
+  <data name="gambling_animal_race_starting" xml:space="preserve">
+    <value>Dimulai dalam 20 detik atau ketika telah penuh.</value>
+  </data>
+  <data name="gambling_animal_race_starting_with_x" xml:space="preserve">
+    <value>Memulai dengan {0} peserta.</value>
+  </data>
+  <data name="gambling_animal_race_won" xml:space="preserve">
+    <value>{0} sebagai {1} Memenangkan balapan!</value>
+  </data>
+  <data name="gambling_animal_race_won_money" xml:space="preserve">
+    <value>{0} sebagai {1} Memenangkan balapan dan {2}!</value>
+  </data>
+  <data name="gambling_dice_invalid_number" xml:space="preserve">
+    <value>Angka tidak valid. Anda dapat melemparkan {0}-{1} dadu bersamaan.</value>
+  </data>
+  <data name="gambling_dice_rolled" xml:space="preserve">
+    <value>mendapatkan {0}</value>
+    <comment>Someone rolled 35</comment>
+  </data>
+  <data name="gambling_dice_rolled_num" xml:space="preserve">
+    <value>Dadu yang dilemparkan: {0}</value>
+    <comment>Dice Rolled: 5</comment>
+  </data>
+  <data name="gambling_race_failed_starting" xml:space="preserve">
+    <value>Gagal memulai balapan. Balapan lain mungkin sedang berlangsung.</value>
+  </data>
+  <data name="gambling_race_not_exist" xml:space="preserve">
+    <value>Tidak ada balapan di server ini</value>
+  </data>
+  <data name="gambling_second_larger_than_first" xml:space="preserve">
+    <value>Angka kedua harus lebih besar daripada angka pertama.</value>
+  </data>
+  <data name="gambling_changes_of_heart" xml:space="preserve">
+    <value>Perubahan hati</value>
+  </data>
+  <data name="gambling_claimed_by" xml:space="preserve">
+    <value>Diklaim oleh</value>
+  </data>
+  <data name="gambling_divorces" xml:space="preserve">
+    <value>Perceraian</value>
+  </data>
+  <data name="gambling_likes" xml:space="preserve">
+    <value>Suka</value>
+  </data>
+  <data name="gambling_price" xml:space="preserve">
+    <value>Harga</value>
+  </data>
+  <data name="gambling_waifus_none" xml:space="preserve">
+    <value>Tidak ada waifu yang belum diklaim.</value>
+  </data>
+  <data name="gambling_waifus_top_waifus" xml:space="preserve">
+    <value>Top Waifu</value>
+  </data>
+  <data name="gambling_waifu_affinity_already" xml:space="preserve">
+    <value>Afinitas anda sudah ditetapkan ke waifu tersebut atau anda sedang mencoba menghilangkan afinitas tanpa mempunyainya.</value>
+  </data>
+  <data name="gambling_waifu_affinity_changed" xml:space="preserve">
+    <value>Mengubah afinitas mereka dari {0} ke {1}
+
+*Ini dapat ditanyakan moralitasnya.* 🤔</value>
+    <comment>Make sure to get the formatting right, and leave the thinking emoji</comment>
+  </data>
+  <data name="gambling_waifu_affinity_cooldown" xml:space="preserve">
+    <value>Anda harus menunggu {0} jam dan {1} menit untuk mengubah afinitas anda lagi.</value>
+  </data>
+  <data name="gambling_waifu_affinity_reset" xml:space="preserve">
+    <value>Afinitas anda telah diulang. Anda tidak lagi memiliki seseorang yang anda sukai.</value>
+  </data>
+  <data name="gambling_waifu_affinity_set" xml:space="preserve">
+    <value>ingin menjadi waifu si {0}. Aww &lt;3</value>
+  </data>
+  <data name="gambling_waifu_claimed" xml:space="preserve">
+    <value>mengklaim {0} sebagai waifu dia seharga {1}!</value>
+  </data>
+  <data name="gambling_waifu_divorced_like" xml:space="preserve">
+    <value>Kamu telah menceraikan waifu yang menyukaimu. Kamu monster tanpa hati.
+{0} menerima {1} sebagai kompensasi.</value>
+  </data>
+  <data name="gambling_waifu_egomaniac" xml:space="preserve">
+    <value>Anda tidak bisa merubah afinitas ke diri sendiri, anda egois.</value>
+  </data>
+  <data name="gambling_waifu_fulfilled" xml:space="preserve">
+    <value>🎉 Cinta mereka dipenuhi! 🎉
+Nilai {0} sekarang adalah {1}!</value>
+  </data>
+  <data name="gambling_waifu_isnt_cheap" xml:space="preserve">
+    <value>Tidak ada waifu semurah itu. Anda harus membayar setidaknya {0} untuk mendapatkan waifu, meskipun harga mereka lebih rendah.</value>
+  </data>
+  <data name="gambling_waifu_not_enough" xml:space="preserve">
+    <value>Anda harus membayar {0} atau lebih untuk mengklaim waifu tersebut!</value>
+  </data>
+  <data name="gambling_waifu_not_yours" xml:space="preserve">
+    <value>Waifu itu bukan milikmu.</value>
+  </data>
+  <data name="gambling_waifu_not_yourself" xml:space="preserve">
+    <value>Anda tidak bisa mengklaim diri sendiri.</value>
+  </data>
+  <data name="gambling_waifu_recent_divorce" xml:space="preserve">
+    <value>Anda baru saja bercerai. Anda harus menunggu {0} jam dan {1} menit untuk bercerai lagi.</value>
+  </data>
+  <data name="gambling_nobody" xml:space="preserve">
+    <value>Tidak seorangpun</value>
+  </data>
+  <data name="gambling_waifu_divorced_notlike" xml:space="preserve">
+    <value>Anda telah menceraikan waifu yang tidak menyukaimu. Anda menerima {0} kembali.</value>
+  </data>
+  <data name="games_8ball" xml:space="preserve">
+    <value>8ball</value>
+  </data>
+  <data name="games_acrophobia" xml:space="preserve">
+    <value>Acrophobia</value>
+  </data>
+  <data name="games_acro_ended_no_sub" xml:space="preserve">
+    <value>Permainan selesai tanpa pengajuan.</value>
+  </data>
+  <data name="games_acro_no_votes_cast" xml:space="preserve">
+    <value>Tidak ada pilihan dikirim. Permainan selesai tanpa adanya pemenang.</value>
+  </data>
+  <data name="games_acro_nym_was" xml:space="preserve">
+    <value>Akronim adalah {0}.</value>
+  </data>
+  <data name="games_acro_running" xml:space="preserve">
+    <value>Permainan Acrophobia sudah berlangsung di channel ini.</value>
+  </data>
+  <data name="games_acro_started" xml:space="preserve">
+    <value>Permainan dimulai. Buat sebuah kalimat dengan akronim berikut: {0}.</value>
+  </data>
+  <data name="games_acro_started_footer" xml:space="preserve">
+    <value>Anda memiliki {0} detik untuk mengirimkan pengajuan.</value>
+  </data>
+  <data name="games_acro_submit" xml:space="preserve">
+    <value>{0} mengirim kalimat mereka. (total {1})</value>
+  </data>
+  <data name="games_acro_vote" xml:space="preserve">
+    <value>Pilih dengan mengetik nomor dari pengajuan.</value>
+  </data>
+  <data name="games_acro_vote_cast" xml:space="preserve">
+    <value>{0} mengirimkan pilihan mereka!</value>
+  </data>
+  <data name="games_acro_winner" xml:space="preserve">
+    <value>Pemenangnya adalah {0} dengan {1} poin.</value>
+  </data>
+  <data name="games_acro_winner_only" xml:space="preserve">
+    <value>{0} adalah pemenang karena merupakan satu-satunya pengguna yang mengajukan submisi!</value>
+  </data>
+  <data name="games_question" xml:space="preserve">
+    <value>Pertanyaan</value>
+  </data>
+  <data name="games_rps_draw" xml:space="preserve">
+    <value>Sebuah seri! Keduanya memilih {0}</value>
+  </data>
+  <data name="games_rps_win" xml:space="preserve">
+    <value>{0} menang! {1} mengalahkan {2}</value>
+  </data>
+  <data name="games_submissions_closed" xml:space="preserve">
+    <value>Waktu pengajuan selesai.</value>
+  </data>
+  <data name="gambling_animal_race_already_started" xml:space="preserve">
+    <value>Animal Race telah berlangsung.</value>
+  </data>
+  <data name="gambling_total_average" xml:space="preserve">
+    <value>Total: {0} Rata - rata: {0}</value>
+  </data>
+  <data name="games_category" xml:space="preserve">
+    <value>Kategori</value>
+  </data>
+  <data name="games_cleverbot_disabled" xml:space="preserve">
+    <value>Cleverbot dinonaktifkan di server ini.</value>
+  </data>
+  <data name="games_cleverbot_enabled" xml:space="preserve">
+    <value>Cleverbot diaktifkan di server ini</value>
+  </data>
+  <data name="games_curgen_disabled" xml:space="preserve">
+    <value>Pembuatan mata uang telah dinonaktifkan di channel ini.</value>
+  </data>
+  <data name="games_curgen_enabled" xml:space="preserve">
+    <value>Pembuatan mata uang telah diaktifkan di channel ini.</value>
+  </data>
+  <data name="games_curgen_pl" xml:space="preserve">
+    <value>{0} acak {1} telah muncul!</value>
+    <comment>plural</comment>
+  </data>
+  <data name="games_curgen_sn" xml:space="preserve">
+    <value>Sebuah {0} muncul!</value>
+  </data>
+  <data name="games_failed_loading_question" xml:space="preserve">
+    <value>Gagal memuat pertanyaan</value>
+  </data>
+  <data name="games_game_started" xml:space="preserve">
+    <value>Permainan dimulai</value>
+  </data>
+  <data name="games_hangman_game_started" xml:space="preserve">
+    <value>Permainan Hangman dimulai</value>
+  </data>
+  <data name="games_hangman_running" xml:space="preserve">
+    <value>Permainan Hangman telah berlangsung di channel ini</value>
+  </data>
+  <data name="games_hangman_start_errored" xml:space="preserve">
+    <value>Ada kesalahan saat memulai Hangman</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="games_hangman_types" xml:space="preserve">
+    <value>Daftar dari &quot;{0}hangman&quot; tipe istilah:</value>
+  </data>
+  <data name="games_leaderboard" xml:space="preserve">
+    <value>Leaderboard</value>
+  </data>
+  <data name="games_not_enough" xml:space="preserve">
+    <value>Anda tidak punya cukup {0}</value>
+  </data>
+  <data name="games_no_results" xml:space="preserve">
+    <value>Tidak ada hasil</value>
+  </data>
+  <data name="games_picked" xml:space="preserve">
+    <value>memilih {0}</value>
+    <comment>Kwoth picked 5*</comment>
+  </data>
+  <data name="games_planted" xml:space="preserve">
+    <value>{0} menanam {1}</value>
+    <comment>Kwoth planted 5*</comment>
+  </data>
+  <data name="games_trivia_already_running" xml:space="preserve">
+    <value>Permainan trivia sedang berlangsung di server ini.</value>
+  </data>
+  <data name="games_trivia_game" xml:space="preserve">
+    <value>Permainan Trivia</value>
+  </data>
+  <data name="games_trivia_guess" xml:space="preserve">
+    <value>{0} menebaknya! Jawabannya adalah: {1}</value>
+  </data>
+  <data name="games_trivia_none" xml:space="preserve">
+    <value>Tidak ada trivia yang sedang berlangsung di server ini.</value>
+  </data>
+  <data name="games_trivia_points" xml:space="preserve">
+    <value>{0} memiliki {1} poin</value>
+  </data>
+  <data name="games_trivia_stopping" xml:space="preserve">
+    <value>Berhenti setelah pertanyaan ini.</value>
+  </data>
+  <data name="games_trivia_times_up" xml:space="preserve">
+    <value>Waktu habis! Jawaban yang benar adalah {0}</value>
+  </data>
+  <data name="games_trivia_win" xml:space="preserve">
+    <value>{0} berhasil menebaknya dan memenangkan permainan! Jawabannya adalah: {1}</value>
+  </data>
+  <data name="games_ttt_against_yourself" xml:space="preserve">
+    <value>Anda tidak bisa bermain melawan diri sendiri.</value>
+  </data>
+  <data name="games_ttt_already_running" xml:space="preserve">
+    <value>Permainan TicTacToe sedang berlangsung di channel ini.</value>
+  </data>
+  <data name="games_ttt_a_draw" xml:space="preserve">
+    <value>Sebuah seri!</value>
+  </data>
+  <data name="games_ttt_created" xml:space="preserve">
+    <value>telah membuat permainan TicTacToe.</value>
+  </data>
+  <data name="games_ttt_has_won" xml:space="preserve">
+    <value>{0} telah menang!</value>
+  </data>
+  <data name="games_ttt_matched_three" xml:space="preserve">
+    <value>Mendapat tiga.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="games_ttt_no_moves" xml:space="preserve">
+    <value>TIdak ada jalan tersisa!</value>
+  </data>
+  <data name="games_ttt_time_expired" xml:space="preserve">
+    <value>Waktu habis!</value>
+  </data>
+  <data name="games_ttt_users_move" xml:space="preserve">
+    <value>Giliran {0}</value>
+  </data>
+  <data name="games_vs" xml:space="preserve">
+    <value>{0} vs {1}</value>
+  </data>
+  <data name="music_attempting_to_queue" xml:space="preserve">
+    <value>Mencoba untuk mengantri {0} lagu...</value>
+  </data>
+  <data name="music_autoplay_disabled" xml:space="preserve">
+    <value>Autoplay dimatikan.</value>
+  </data>
+  <data name="music_autoplay_enabled" xml:space="preserve">
+    <value>Autoplay diaktifkan.</value>
+  </data>
+  <data name="music_defvol_set" xml:space="preserve">
+    <value>Volume awal di set ke {0}%</value>
+  </data>
+  <data name="music_dir_queue_complete" xml:space="preserve">
+    <value>Antrian direktori selesai.</value>
+  </data>
+  <data name="music_fairplay" xml:space="preserve">
+    <value>fairplay</value>
+  </data>
+  <data name="music_finished_song" xml:space="preserve">
+    <value>Lagu selesai</value>
+  </data>
+  <data name="music_fp_disabled" xml:space="preserve">
+    <value>Fair play dimatikan.</value>
+  </data>
+  <data name="music_fp_enabled" xml:space="preserve">
+    <value>Fair play diaktifkan.</value>
+  </data>
+  <data name="music_from_position" xml:space="preserve">
+    <value>Dari posisi</value>
+  </data>
+  <data name="music_id" xml:space="preserve">
+    <value>id</value>
+  </data>
+  <data name="music_invalid_input" xml:space="preserve">
+    <value>Input tidak valid.</value>
+  </data>
+  <data name="music_max_playtime_none" xml:space="preserve">
+    <value>Sekarang, waktu bermain maksimal tidak memiliki batas.</value>
+  </data>
+  <data name="music_max_playtime_set" xml:space="preserve">
+    <value>Batas waktu bermain di set ke {0} detik.</value>
+  </data>
+  <data name="music_max_queue_unlimited" xml:space="preserve">
+    <value>Antrian maks untuk musik di set ke tidak terbatas.</value>
+  </data>
+  <data name="music_max_queue_x" xml:space="preserve">
+    <value>Antrian maks untuk musik di set ke {0} lagu.</value>
+  </data>
+  <data name="music_must_be_in_voice" xml:space="preserve">
+    <value>Anda harus berada di dalam channel suara di server ini.</value>
+  </data>
+  <data name="music_name" xml:space="preserve">
+    <value>Nama</value>
+  </data>
+  <data name="music_now_playing" xml:space="preserve">
+    <value>Sekarang memutar</value>
+  </data>
+  <data name="music_no_player" xml:space="preserve">
+    <value>Tidak ada pemutar musik yang aktif.</value>
+  </data>
+  <data name="music_no_search_results" xml:space="preserve">
+    <value>Tidak ada hasil pencarian.</value>
+  </data>
+  <data name="music_paused" xml:space="preserve">
+    <value>Pemutaran musik berhenti sebentar.</value>
+  </data>
+  <data name="music_player_queue" xml:space="preserve">
+    <value>Antrian pemutar musik - Halaman {0}/{1}</value>
+  </data>
+  <data name="music_playing_song" xml:space="preserve">
+    <value>Memutar lagu</value>
+  </data>
+  <data name="music_playlists" xml:space="preserve">
+    <value>`#{0}` - **{1}** oleh *{2}* ({3} lagu)</value>
+  </data>
+  <data name="music_playlists_page" xml:space="preserve">
+    <value>Halaman {1} playlist yang tersimpan</value>
+  </data>
+  <data name="music_playlist_deleted" xml:space="preserve">
+    <value>Playlist dihapus</value>
+  </data>
+  <data name="music_playlist_delete_fail" xml:space="preserve">
+    <value>Gagal untuk menghapus playlist. Playlist tidak ditemukan, atau anda bukan pemilik playlist tersebut.</value>
+  </data>
+  <data name="music_playlist_id_not_found" xml:space="preserve">
+    <value>Playlist dengan ID tersebut tidak ditemukan.</value>
+  </data>
+  <data name="music_playlist_queue_complete" xml:space="preserve">
+    <value>Antrian playlist selesai.</value>
+  </data>
+  <data name="music_playlist_saved" xml:space="preserve">
+    <value>Playlist disimpan</value>
+  </data>
+  <data name="music_play_limit" xml:space="preserve">
+    <value>Batasan milik {0}</value>
+  </data>
+  <data name="music_queue" xml:space="preserve">
+    <value>Antrian</value>
+  </data>
+  <data name="music_queued_song" xml:space="preserve">
+    <value>Antrian lagu</value>
+  </data>
+  <data name="music_queue_cleared" xml:space="preserve">
+    <value>Antrian lagu dibersihkan</value>
+  </data>
+  <data name="music_queue_full" xml:space="preserve">
+    <value>Antrian penuh pada {0}/{0}.</value>
+  </data>
+  <data name="music_removed_song" xml:space="preserve">
+    <value>Menghapus lagu</value>
+    <comment>context: &quot;removed song #5&quot;</comment>
+  </data>
+  <data name="music_repeating_cur_song" xml:space="preserve">
+    <value>Mengulang lagu yang diputar saat ini</value>
+  </data>
+  <data name="music_repeating_playlist" xml:space="preserve">
+    <value>Mengulang playlist</value>
+  </data>
+  <data name="music_repeating_track" xml:space="preserve">
+    <value>Musik diulang</value>
+  </data>
+  <data name="music_repeating_track_stopped" xml:space="preserve">
+    <value>Pengulangan musik diberhentikan.</value>
+  </data>
+  <data name="music_resumed" xml:space="preserve">
+    <value>Pemutaran kembali lagu dilanjutkan.</value>
+  </data>
+  <data name="music_rpl_disabled" xml:space="preserve">
+    <value>Pengulangan playlist dibatalkan.</value>
+  </data>
+  <data name="music_rpl_enabled" xml:space="preserve">
+    <value>Pengulangan playlist diaktifkan</value>
+  </data>
+  <data name="music_set_music_channel" xml:space="preserve">
+    <value>Sekarang saya akan mengeluarkan lagu yang sedang diputar, yang telah diputar, yang dihentikan dan menghapus lagu-lagu di channel ini.</value>
+  </data>
+  <data name="music_skipped_to" xml:space="preserve">
+    <value>Lewat ke `{0}:{1}`</value>
+  </data>
+  <data name="music_songs_shuffled" xml:space="preserve">
+    <value>Lagu diacak</value>
+  </data>
+  <data name="music_song_moved" xml:space="preserve">
+    <value>Lagu dipindahkan</value>
+  </data>
+  <data name="music_time_format" xml:space="preserve">
+    <value>{0}jam {1}menit {2}detik</value>
+  </data>
+  <data name="music_to_position" xml:space="preserve">
+    <value>Pada posisi</value>
+  </data>
+  <data name="music_unlimited" xml:space="preserve">
+    <value>tidak terbatas</value>
+  </data>
+  <data name="music_volume_input_invalid" xml:space="preserve">
+    <value>Volume harus di antara 0 dan 100</value>
+  </data>
+  <data name="music_volume_set" xml:space="preserve">
+    <value>Volume diset pada {0}%</value>
+  </data>
+  <data name="permissions_acm_disable" xml:space="preserve">
+    <value>Menonaktifkan pemakaian dari SEMUA MODUL pada channel {0}.</value>
+  </data>
+  <data name="permissions_acm_enable" xml:space="preserve">
+    <value>Mengaktifkan pemakaian dari SEMUA MODUL pada channel {0}.</value>
+  </data>
+  <data name="permissions_allowed" xml:space="preserve">
+    <value>Diizinkan</value>
+  </data>
+  <data name="permissions_arm_disable" xml:space="preserve">
+    <value>Menonaktifkan pemakaian dari SEMUA MODUL untuk peran {0}.</value>
+  </data>
+  <data name="permissions_arm_enable" xml:space="preserve">
+    <value>Mengaktifkan pemakaian dari SEMUA MODUL untuk peran {0}.</value>
+  </data>
+  <data name="permissions_asm_disable" xml:space="preserve">
+    <value>Menonaktifkan pemakaian dari SEMUA MODUL di server ini.</value>
+  </data>
+  <data name="permissions_asm_enable" xml:space="preserve">
+    <value>Mengaktifkan pemakaian dari SEMUA MODUL di server ini.</value>
+  </data>
+  <data name="permissions_aum_disable" xml:space="preserve">
+    <value>Menonaktifkan pemakaian dari SEMUA MODUL untuk pengguna {0}.</value>
+  </data>
+  <data name="permissions_aum_enable" xml:space="preserve">
+    <value>Mengaktifkan pemakaian dari SEMUA MODUL untuk pengguna {0}.</value>
+  </data>
+  <data name="permissions_blacklisted" xml:space="preserve">
+    <value>Mendaftarhitamkan {0} dengan ID {1}</value>
+  </data>
+  <data name="permissions_cmdcd_add" xml:space="preserve">
+    <value>Perintah {0} sekarang memiliki jeda selama {1} detik.</value>
+  </data>
+  <data name="permissions_cmdcd_cleared" xml:space="preserve">
+    <value>Perintah {0} sekarang tidak memiliki jeda dan semua jeda yang ada telah dibersihkan.</value>
+  </data>
+  <data name="permissions_cmdcd_none" xml:space="preserve">
+    <value>Tidak ada perintah jeda yang ditentukan.</value>
+  </data>
+  <data name="permissions_command_costs" xml:space="preserve">
+    <value>Harga perintah</value>
+  </data>
+  <data name="permissions_cx_disable" xml:space="preserve">
+    <value>Menonaktifkan pemakaian pada {0} {1} pada channel {2}.</value>
+  </data>
+  <data name="permissions_cx_enable" xml:space="preserve">
+    <value>Mengaktifkan pemakaian pada {0} {1} pada channel {2}.</value>
+  </data>
+  <data name="permissions_denied" xml:space="preserve">
+    <value>Ditolak</value>
+  </data>
+  <data name="permissions_filter_word_add" xml:space="preserve">
+    <value>Menambahkan kata {0} pada daftar saringan kata.</value>
+  </data>
+  <data name="permissions_filter_word_list" xml:space="preserve">
+    <value>Daftar saringan kata-kata</value>
+  </data>
+  <data name="permissions_filter_word_remove" xml:space="preserve">
+    <value>Mencabut kata {0} dari daftar saringan kata-kata.</value>
+  </data>
+  <data name="permissions_invalid_second_param_between" xml:space="preserve">
+    <value>Parameter kedua salah (Harus nomor diantara {0} dan {1})</value>
+  </data>
+  <data name="permissions_invite_filter_channel_off" xml:space="preserve">
+    <value>Penyaringan undangan dinonaktifkan di channel ini.</value>
+  </data>
+  <data name="permissions_invite_filter_channel_on" xml:space="preserve">
+    <value>Penyaringan undangan diaktifkan di server ini.</value>
+  </data>
+  <data name="permissions_invite_filter_server_off" xml:space="preserve">
+    <value>Penyaringan undangan dinonaktifkan di server ini.</value>
+  </data>
+  <data name="permissions_invite_filter_server_on" xml:space="preserve">
+    <value>Penyaringan undangan diaktifkan di server ini.</value>
+  </data>
+  <data name="permissions_moved_permission" xml:space="preserve">
+    <value>Memindakan izin {0} dari #{1} kepada #{2}</value>
+  </data>
+  <data name="permissions_not_found" xml:space="preserve">
+    <value>Tidak dapat menemukan izin pada indeks #{0}</value>
+  </data>
+  <data name="permissions_no_costs" xml:space="preserve">
+    <value>Tidak ada biaya di set.</value>
+  </data>
+  <data name="permissions_of_command" xml:space="preserve">
+    <value>perintah</value>
+    <comment>Gen (of command)</comment>
+  </data>
+  <data name="permissions_of_module" xml:space="preserve">
+    <value>modul</value>
+    <comment>Gen. (of module)</comment>
+  </data>
+  <data name="permissions_page" xml:space="preserve">
+    <value>Halaman perizinan {0}</value>
+  </data>
+  <data name="permissions_permrole" xml:space="preserve">
+    <value>Peran izin sekarang adalah {0}</value>
+  </data>
+  <data name="permissions_permrole_changed" xml:space="preserve">
+    <value>Pengguna memerlukan {0} peran untuk dapat merubah izin.</value>
+  </data>
+  <data name="permissions_perm_out_of_range" xml:space="preserve">
+    <value>Izin tidak ditemukan dalam indeks tersebut.</value>
+  </data>
+  <data name="permissions_removed" xml:space="preserve">
+    <value>Mencabut izin #{0} - {1}</value>
+  </data>
+  <data name="permissions_rx_disable" xml:space="preserve">
+    <value>Menonaktifkan pemakaian pada {0} {1} untuk peran {2}.</value>
+  </data>
+  <data name="permissions_rx_enable" xml:space="preserve">
+    <value>Mengaktifkan pemakaian pada {0} {1} untuk peran {2}.</value>
+  </data>
+  <data name="permissions_sec" xml:space="preserve">
+    <value>sec.</value>
+    <comment>Short of seconds.</comment>
+  </data>
+  <data name="permissions_sx_disable" xml:space="preserve">
+    <value>Menonaktifkan pemakaian dari {0} {1} pada server ini.</value>
+  </data>
+  <data name="permissions_sx_enable" xml:space="preserve">
+    <value>Mengaktifkan pemakaian dari {0} {1} pada server ini.</value>
+  </data>
+  <data name="permissions_unblacklisted" xml:space="preserve">
+    <value>Menghapus {0} dengan ID {1} dari daftar hitam</value>
+  </data>
+  <data name="permissions_uneditable" xml:space="preserve">
+    <value>tidak dapat diganti</value>
+  </data>
+  <data name="permissions_ux_disable" xml:space="preserve">
+    <value>Menonaktifkan pemakaian dari {0} {1} untuk {2} pengguna.</value>
+  </data>
+  <data name="permissions_ux_enable" xml:space="preserve">
+    <value>Mengaktifkan pemakaian dari {0} {1} untuk {2} pengguna.</value>
+  </data>
+  <data name="permissions_verbose_false" xml:space="preserve">
+    <value>Saya tidak akan lagi memperlihatkan izin peringatan.</value>
+  </data>
+  <data name="permissions_verbose_true" xml:space="preserve">
+    <value>Sekarang saya akan memperlihatkan izin peringatan.</value>
+  </data>
+  <data name="permissions_word_filter_channel_off" xml:space="preserve">
+    <value>Penyaringan kata pada channel ini dinonaktifkan.</value>
+  </data>
+  <data name="permissions_word_filter_channel_on" xml:space="preserve">
+    <value>Penyaringan kata pada channel ini diaktifkan.</value>
+  </data>
+  <data name="permissions_word_filter_server_off" xml:space="preserve">
+    <value>Penyaringan kata pada server ini dinonaktifkan.</value>
+  </data>
+  <data name="permissions_word_filter_server_on" xml:space="preserve">
+    <value>Penyaringan kata pada server ini diaktifkan.</value>
+  </data>
+  <data name="searches_abilities" xml:space="preserve">
+    <value>Kemampuan</value>
+  </data>
+  <data name="searches_anime_no_fav" xml:space="preserve">
+    <value>Belum ada anime favorit</value>
+  </data>
+  <data name="searches_atl_ad_started" xml:space="preserve">
+    <value>Memulai terjemahan otomatis dari pesan di channel ini. Pesan pengguna akan otomatis dihapus.</value>
+  </data>
+  <data name="searches_atl_removed" xml:space="preserve">
+    <value>Terjemahan bahasa otomatis anda telah dicabut.</value>
+  </data>
+  <data name="searches_atl_set" xml:space="preserve">
+    <value>Terjemahan bahasa otomatis anda telah diset pada {0}&gt;{1}</value>
+  </data>
+  <data name="searches_atl_started" xml:space="preserve">
+    <value>Memulai terjemahan otomatis dari pesan-pesan di channel ini.</value>
+  </data>
+  <data name="searches_atl_stopped" xml:space="preserve">
+    <value>Menghentikan terjemahan otomatis dari pesan-pesan di channel ini.</value>
+  </data>
+  <data name="searches_bad_input_format" xml:space="preserve">
+    <value>Format input buruk, atau terjadi kesalahan.</value>
+  </data>
+  <data name="searches_card_not_found" xml:space="preserve">
+    <value>Tidak dapat menemukan kartu tersebut.</value>
+  </data>
+  <data name="searches_catfact" xml:space="preserve">
+    <value>fakta</value>
+  </data>
+  <data name="searches_chapters" xml:space="preserve">
+    <value>Bab</value>
+  </data>
+  <data name="searches_comic_number" xml:space="preserve">
+    <value>Komik #</value>
+  </data>
+  <data name="searches_compet_loses" xml:space="preserve">
+    <value>Kekalahan kompetitif</value>
+  </data>
+  <data name="searches_compet_played" xml:space="preserve">
+    <value>Kompetitif yang dimainkan</value>
+  </data>
+  <data name="searches_compet_rank" xml:space="preserve">
+    <value>Tingkat kompetitif</value>
+  </data>
+  <data name="searches_compet_wins" xml:space="preserve">
+    <value>Kemenangan kompetitif</value>
+  </data>
+  <data name="searches_completed" xml:space="preserve">
+    <value>Selesai</value>
+  </data>
+  <data name="searches_condition" xml:space="preserve">
+    <value>Kondisi</value>
+  </data>
+  <data name="searches_cost" xml:space="preserve">
+    <value>Biaya</value>
+  </data>
+  <data name="searches_date" xml:space="preserve">
+    <value>Tanggal</value>
+  </data>
+  <data name="searches_define" xml:space="preserve">
+    <value>Jelaskan:</value>
+  </data>
+  <data name="searches_dropped" xml:space="preserve">
+    <value>Terjatuh.</value>
+  </data>
+  <data name="searches_episodes" xml:space="preserve">
+    <value>Episode</value>
+  </data>
+  <data name="searches_error_occured" xml:space="preserve">
+    <value>Kesalahan terjadi.</value>
+  </data>
+  <data name="searches_example" xml:space="preserve">
+    <value>Contoh</value>
+  </data>
+  <data name="searches_failed_finding_anime" xml:space="preserve">
+    <value>Gagal menemukan animu tersebut</value>
+  </data>
+  <data name="searches_failed_finding_manga" xml:space="preserve">
+    <value>Gagal menemukan mango tersebut</value>
+  </data>
+  <data name="searches_genres" xml:space="preserve">
+    <value>Aliran</value>
+  </data>
+  <data name="searches_hashtag_error" xml:space="preserve">
+    <value>Gagal menemukan definisi dari label tersebut.</value>
+  </data>
+  <data name="searches_height_weight" xml:space="preserve">
+    <value>Tinggi/Berat</value>
+  </data>
+  <data name="searches_height_weight_val" xml:space="preserve">
+    <value>{0}m/{1}kg</value>
+  </data>
+  <data name="searches_humidity" xml:space="preserve">
+    <value>Kelembaban</value>
+  </data>
+  <data name="searches_image_search_for" xml:space="preserve">
+    <value>Pencarian gambar untuk:</value>
+  </data>
+  <data name="searches_imdb_fail" xml:space="preserve">
+    <value>Gagal untuk menemukan film tersebut.</value>
+  </data>
+  <data name="searches_invalid_lang" xml:space="preserve">
+    <value>Kesalahan sumber atau target bahasa.</value>
+  </data>
+  <data name="searches_jokes_not_loaded" xml:space="preserve">
+    <value>Candaan tidak dimuat.</value>
+  </data>
+  <data name="searches_latlong" xml:space="preserve">
+    <value>Lintang/Bujur</value>
+  </data>
+  <data name="searches_level" xml:space="preserve">
+    <value>Tingkat</value>
+  </data>
+  <data name="searches_list_of_place_tags" xml:space="preserve">
+    <value>Daftar dari {0}tempat yang ditandai</value>
+    <comment>Don&apos;t translate {0}place</comment>
+  </data>
+  <data name="searches_location" xml:space="preserve">
+    <value>Lokasi</value>
+  </data>
+  <data name="searches_magicitems_not_loaded" xml:space="preserve">
+    <value>Barang barang sihir tidak dimuat.</value>
+  </data>
+  <data name="searches_mal_profile" xml:space="preserve">
+    <value>Profil MAL {0}</value>
+  </data>
+  <data name="searches_mashape_api_missing" xml:space="preserve">
+    <value>Pemilik Bot tidak menentukan MashapeApiKey. Anda tidak dapat menggunakan fungsi ini.</value>
+  </data>
+  <data name="searches_min_max" xml:space="preserve">
+    <value>Min/Maks</value>
+  </data>
+  <data name="searches_no_channel_found" xml:space="preserve">
+    <value>Channel tidak ditemukan.</value>
+  </data>
+  <data name="searches_no_results" xml:space="preserve">
+    <value>Hasil tidak ditemukan.</value>
+  </data>
+  <data name="searches_on_hold" xml:space="preserve">
+    <value>Tertahan</value>
+  </data>
+  <data name="searches_original_url" xml:space="preserve">
+    <value>url asli</value>
+  </data>
+  <data name="searches_osu_api_key" xml:space="preserve">
+    <value>Sebuah osu! API key diperlukan.</value>
+  </data>
+  <data name="searches_osu_failed" xml:space="preserve">
+    <value>Gagal mengambil tanda osu!</value>
+  </data>
+  <data name="searches_over_x" xml:space="preserve">
+    <value>Ditemukan diantara {0} gambar. Memperlihatkan acak {0}.</value>
+  </data>
+  <data name="searches_ow_user_not_found" xml:space="preserve">
+    <value>Pengguna tidak ditemukan! Silahkan cek daerah dan BattleTag sebelum mencoba lagi.</value>
+  </data>
+  <data name="searches_plan_to_watch" xml:space="preserve">
+    <value>Rencana untuk menonton</value>
+  </data>
+  <data name="searches_platform" xml:space="preserve">
+    <value>Peron</value>
+  </data>
+  <data name="searches_pokemon_ability_none" xml:space="preserve">
+    <value>Kemampuan tidak ditemukan.</value>
+  </data>
+  <data name="searches_pokemon_none" xml:space="preserve">
+    <value>Pokemon tidak ditemukan.</value>
+  </data>
+  <data name="searches_profile_link" xml:space="preserve">
+    <value>Tautan profil:</value>
+  </data>
+  <data name="searches_quality" xml:space="preserve">
+    <value>Kualitas</value>
+  </data>
+  <data name="searches_quick_playtime" xml:space="preserve">
+    <value>Waktu bermain cepat</value>
+  </data>
+  <data name="searches_quick_wins" xml:space="preserve">
+    <value>Kemenangan cepat</value>
+  </data>
+  <data name="searches_rating" xml:space="preserve">
+    <value>Penilaian</value>
+  </data>
+  <data name="searches_score" xml:space="preserve">
+    <value>Skor:</value>
+  </data>
+  <data name="searches_search_for" xml:space="preserve">
+    <value>Pencarian untuk:</value>
+  </data>
+  <data name="searches_shorten_fail" xml:space="preserve">
+    <value>Gagal untuk mempersingkat url tersebut.</value>
+  </data>
+  <data name="searches_short_url" xml:space="preserve">
+    <value>Url pendek</value>
+  </data>
+  <data name="searches_something_went_wrong" xml:space="preserve">
+    <value>Ada sesuatu yang salah.</value>
+  </data>
+  <data name="searches_specify_search_params" xml:space="preserve">
+    <value>Harap menentukan parameter pencarian.</value>
+  </data>
+  <data name="searches_status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="searches_store_url" xml:space="preserve">
+    <value>Menyimpan url</value>
+  </data>
+  <data name="searches_streamer_offline" xml:space="preserve">
+    <value>Streamer {0} sedang offline.</value>
+  </data>
+  <data name="searches_streamer_online" xml:space="preserve">
+    <value>Streamer {0} online dengan {1} penonton.</value>
+  </data>
+  <data name="searches_streams_following" xml:space="preserve">
+    <value>Anda mengikuti {0} stream di server ini.</value>
+  </data>
+  <data name="searches_streams_none" xml:space="preserve">
+    <value>Anda tidak mengikuti stream di server ini.</value>
+  </data>
+  <data name="searches_stream_no" xml:space="preserve">
+    <value>Stream tidak ditemukan.</value>
+  </data>
+  <data name="searches_stream_not_exist" xml:space="preserve">
+    <value>Stream mungkin tidak ada.</value>
+  </data>
+  <data name="searches_stream_removed" xml:space="preserve">
+    <value>Menghilangkan {0} stream ({1}) dari notifikasi.</value>
+  </data>
+  <data name="searches_stream_tracked" xml:space="preserve">
+    <value>Saya akan memberitahu channel ini saat status berubah.</value>
+  </data>
+  <data name="searches_sunrise" xml:space="preserve">
+    <value>Matahari terbit</value>
+  </data>
+  <data name="searches_sunset" xml:space="preserve">
+    <value>Matahari terbenam</value>
+  </data>
+  <data name="searches_temperature" xml:space="preserve">
+    <value>Temperatur</value>
+  </data>
+  <data name="searches_title" xml:space="preserve">
+    <value>Judul:</value>
+  </data>
+  <data name="searches_top_3_fav_anime" xml:space="preserve">
+    <value>Top 3 favorit anime:</value>
+  </data>
+  <data name="searches_translation" xml:space="preserve">
+    <value>Terjemahan:</value>
+  </data>
+  <data name="searches_types" xml:space="preserve">
+    <value>Tipe</value>
+  </data>
+  <data name="searches_ud_error" xml:space="preserve">
+    <value>Gagal menemukan definisi untuk istilah tersebut</value>
+  </data>
+  <data name="searches_url" xml:space="preserve">
+    <value>Url</value>
+  </data>
+  <data name="searches_viewers" xml:space="preserve">
+    <value>Penonton</value>
+  </data>
+  <data name="searches_watching" xml:space="preserve">
+    <value>Menonton</value>
+  </data>
+  <data name="searches_wikia_error" xml:space="preserve">
+    <value>Gagal menemukan istilah tersebut dalam wikia yang ditentukan.</value>
+  </data>
+  <data name="searches_wikia_input_error" xml:space="preserve">
+    <value>Harap memasukkan target wikia, diikuti dengan pertanyaan pencarian.</value>
+  </data>
+  <data name="searches_wiki_page_not_found" xml:space="preserve">
+    <value>Halaman tidak ditemukan.</value>
+  </data>
+  <data name="searches_wind_speed" xml:space="preserve">
+    <value>Kecepatan angin</value>
+  </data>
+  <data name="searches_x_most_banned_champs" xml:space="preserve">
+    <value>{0} champion paling sering di ban</value>
+  </data>
+  <data name="searches_yodify_error" xml:space="preserve">
+    <value>Gagal menyodifikasi kalimat anda.</value>
+  </data>
+  <data name="utiliity_joined" xml:space="preserve">
+    <value>Bergabung</value>
+  </data>
+  <data name="utility_activity_line" xml:space="preserve">
+    <value>`{0}.` {1} [{2:F2}/s] - {3} total</value>
+    <comment>/s and total need to be localized to fit the context -
+`1.`</comment>
+  </data>
+  <data name="utility_activity_page" xml:space="preserve">
+    <value>Halaman aktifitas #{0}</value>
+  </data>
+  <data name="utility_activity_users_total" xml:space="preserve">
+    <value>{0} total pengguna.</value>
+  </data>
+  <data name="utility_author" xml:space="preserve">
+    <value>Penulis</value>
+  </data>
+  <data name="utility_botid" xml:space="preserve">
+    <value>ID Bot</value>
+  </data>
+  <data name="utility_calcops" xml:space="preserve">
+    <value>Daftar fungsi di perintah {0)calc</value>
+  </data>
+  <data name="utility_channelid" xml:space="preserve">
+    <value>{0} dari channel ini adalah {1}</value>
+  </data>
+  <data name="utility_channel_topic" xml:space="preserve">
+    <value>Topik channel</value>
+  </data>
+  <data name="utility_commands_ran" xml:space="preserve">
+    <value>Perintah dijalankan</value>
+  </data>
+  <data name="utility_convert" xml:space="preserve">
+    <value>{0} {1} sama dengan {2} {3}</value>
+  </data>
+  <data name="utility_convertlist" xml:space="preserve">
+    <value>Satuan yang dapat digunakan oleh converter</value>
+  </data>
+  <data name="utility_convert_not_found" xml:space="preserve">
+    <value>Tidak bisa mengubah {0} menjadi {1}: satuan tidak ditemukan</value>
+  </data>
+  <data name="utility_convert_type_error" xml:space="preserve">
+    <value>Tidak dapat mengubah {0} ke {1}: tipe untuk tidak sama</value>
+  </data>
+  <data name="utility_created_at" xml:space="preserve">
+    <value>Dibuat di</value>
+  </data>
+  <data name="utility_csc_join" xml:space="preserve">
+    <value>Mengikuti saluran silang server.</value>
+  </data>
+  <data name="utility_csc_leave" xml:space="preserve">
+    <value>Saluran silang server ditinggalkan.</value>
+  </data>
+  <data name="utility_csc_token" xml:space="preserve">
+    <value>Ini adalah token CSC anda</value>
+  </data>
+  <data name="utility_custom_emojis" xml:space="preserve">
+    <value>emoji kustom</value>
+  </data>
+  <data name="utility_error" xml:space="preserve">
+    <value>Kesalahan</value>
+  </data>
+  <data name="utility_features" xml:space="preserve">
+    <value>Ciri - ciri</value>
+  </data>
+  <data name="utility_id" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="utility_index_out_of_range" xml:space="preserve">
+    <value>Indeks di luar jarak.</value>
+  </data>
+  <data name="utility_inrole_list" xml:space="preserve">
+    <value>Daftar pengguna pada peran {0}</value>
+  </data>
+  <data name="utility_inrole_not_allowed" xml:space="preserve">
+    <value>Anda tidak diizinkan untuk menggunakan perintah ini pada peran dengan banyak pengguna di dalamnya untuk mencegah penyalahgunaan.</value>
+  </data>
+  <data name="utility_invalid_value" xml:space="preserve">
+    <value>Nilai {0} salah.</value>
+    <comment>Invalid months value/ Invalid hours value</comment>
+  </data>
+  <data name="utility_joined_discord" xml:space="preserve">
+    <value>Bergabung Discord</value>
+  </data>
+  <data name="utility_joined_server" xml:space="preserve">
+    <value>Bergabung server</value>
+  </data>
+  <data name="utility_listservers" xml:space="preserve">
+    <value>ID: {0}
+Anggota: {1}
+ID Pemilik: {2}</value>
+  </data>
+  <data name="utility_listservers_none" xml:space="preserve">
+    <value>Server tidak ditemukan di halaman tersebut.</value>
+  </data>
+  <data name="utility_list_of_repeaters" xml:space="preserve">
+    <value>Daftar dari pengulangan</value>
+  </data>
+  <data name="utility_members" xml:space="preserve">
+    <value>Anggota</value>
+  </data>
+  <data name="utility_memory" xml:space="preserve">
+    <value>Memori</value>
+  </data>
+  <data name="utility_messages" xml:space="preserve">
+    <value>Pesan</value>
+  </data>
+  <data name="utility_message_repeater" xml:space="preserve">
+    <value>Pengulang pesan</value>
+  </data>
+  <data name="utility_name" xml:space="preserve">
+    <value>Nama</value>
+  </data>
+  <data name="utility_nickname" xml:space="preserve">
+    <value>Nama panggilan</value>
+  </data>
+  <data name="utility_nobody_playing_game" xml:space="preserve">
+    <value>Tidak seorangpun memainkan game tersebut</value>
+  </data>
+  <data name="utility_no_active_repeaters" xml:space="preserve">
+    <value>Tidak ada pengulangan aktif.</value>
+  </data>
+  <data name="utility_no_roles_on_page" xml:space="preserve">
+    <value>Tidak ada peran di halaman ini.</value>
+  </data>
+  <data name="utility_no_shards_on_page" xml:space="preserve">
+    <value>Tidak ada pecahan di halaman ini.</value>
+  </data>
+  <data name="utility_no_topic_set" xml:space="preserve">
+    <value>Tidak ada topik yang ditentukan</value>
+  </data>
+  <data name="utility_owner" xml:space="preserve">
+    <value>Pemilik</value>
+  </data>
+  <data name="utility_owner_ids" xml:space="preserve">
+    <value>IDs pemilik</value>
+  </data>
+  <data name="utility_presence" xml:space="preserve">
+    <value>Kehadiran</value>
+  </data>
+  <data name="utility_presence_txt" xml:space="preserve">
+    <value>{0} Servers
+{1} Channel Teks
+{2} Channel Suara</value>
+  </data>
+  <data name="utility_quotes_deleted" xml:space="preserve">
+    <value>Menghapus semua kutipan dengan {0} kata kunci.</value>
+  </data>
+  <data name="utility_quotes_page" xml:space="preserve">
+    <value>Halaman {0} dari kutipan</value>
+  </data>
+  <data name="utility_quotes_page_none" xml:space="preserve">
+    <value>Tidak ada kutipan pada halaman ini.</value>
+  </data>
+  <data name="utility_quotes_remove_none" xml:space="preserve">
+    <value>Tidak ditemukan kutipan yang dapat anda hapus.</value>
+  </data>
+  <data name="utility_quote_added" xml:space="preserve">
+    <value>Kutipan ditambahkan</value>
+  </data>
+  <data name="utility_quote_deleted" xml:space="preserve">
+    <value>Kutipan #{0} dihapus.</value>
+  </data>
+  <data name="utility_region" xml:space="preserve">
+    <value>Wilayah</value>
+  </data>
+  <data name="utility_registered_on" xml:space="preserve">
+    <value>Terdaftar pada</value>
+  </data>
+  <data name="utility_remind" xml:space="preserve">
+    <value>Saya akan mengigatakn {0} untuk {1} dalam {2} &apos;({3:d:M.yyyy.} saat {4:HH:mm}</value>
+  </data>
+  <data name="utility_remind_invalid_format" xml:space="preserve">
+    <value>Bukan format waktu yang benar. Silakan periksa daftar perintah.</value>
+  </data>
+  <data name="utility_remind_template" xml:space="preserve">
+    <value>Template mengingatkan baru disetel.</value>
+  </data>
+  <data name="utility_repeater" xml:space="preserve">
+    <value>Mengulang {0} setiap {1} hari, {2} jam dan {3} menit.</value>
+  </data>
+  <data name="utility_repeaters_list" xml:space="preserve">
+    <value>Daftar pemutaran.</value>
+  </data>
+  <data name="utility_repeaters_none" xml:space="preserve">
+    <value>Tidak ada pemutaran di server ini.</value>
+  </data>
+  <data name="utility_repeater_stopped" xml:space="preserve">
+    <value>#{0} berhenti.</value>
+  </data>
+  <data name="utility_repeat_invoke_none" xml:space="preserve">
+    <value>Tidak ada pesan mengulang ditemukan di server ini.</value>
+  </data>
+  <data name="utility_result" xml:space="preserve">
+    <value>Hasil</value>
+  </data>
+  <data name="utility_roles" xml:space="preserve">
+    <value>Peran</value>
+  </data>
+  <data name="utility_roles_all_page" xml:space="preserve">
+    <value>Halaman #{0} dari semua peran di server ini:</value>
+  </data>
+  <data name="utility_roles_page" xml:space="preserve">
+    <value>Halaman #{0} dari peran untuk {1}</value>
+  </data>
+  <data name="utility_rrc_no_colors" xml:space="preserve">
+    <value>Tidak ada warna di format benar. Gunakan &apos;#00ff00&apos; sebagai contoh.</value>
+  </data>
+  <data name="utility_rrc_start" xml:space="preserve">
+    <value>Memulai pemutaran di peran {0}.</value>
+  </data>
+  <data name="utility_rrc_stop" xml:space="preserve">
+    <value>Memberhentikan warna memutar untuk peran {0}</value>
+  </data>
+  <data name="utility_serverid" xml:space="preserve">
+    <value>{0} pada server ini adalah {1}</value>
+  </data>
+  <data name="utility_server_info" xml:space="preserve">
+    <value>Info server</value>
+  </data>
+  <data name="utility_shard" xml:space="preserve">
+    <value>Pecahan</value>
+  </data>
+  <data name="utility_shard_stats" xml:space="preserve">
+    <value>Statistik pecahan</value>
+  </data>
+  <data name="utility_shard_stats_txt" xml:space="preserve">
+    <value>Pecahan **#{0}** sedang di dalam keadaan {1} di {2} server.</value>
+  </data>
+  <data name="utility_showemojis" xml:space="preserve">
+    <value>**Nama:** {0} **Tautan:** {1}</value>
+  </data>
+  <data name="utility_showemojis_none" xml:space="preserve">
+    <value>Emojis khusus tidak ditemukan.</value>
+  </data>
+  <data name="utility_stats_songs" xml:space="preserve">
+    <value>Memainkan {0} lagu, {1} menunggu</value>
+  </data>
+  <data name="utility_text_channels" xml:space="preserve">
+    <value>Channel teks</value>
+  </data>
+  <data name="utility_togtub_room_link" xml:space="preserve">
+    <value>Ini adalah tautan untuk ruangan anda:</value>
+  </data>
+  <data name="utility_uptime" xml:space="preserve">
+    <value>Uptime</value>
+  </data>
+  <data name="utility_userid" xml:space="preserve">
+    <value>{0} dari pengguna {1} adalah {2}</value>
+    <comment>Id of the user kwoth#1234 is 123123123123</comment>
+  </data>
+  <data name="utility_users" xml:space="preserve">
+    <value>Pengguna</value>
+  </data>
+  <data name="utility_voice_channels" xml:space="preserve">
+    <value>Channel suara</value>
+  </data>
+  <data name="gambling_animal_race_already_in" xml:space="preserve">
+    <value>Anda telah bergabung pada perlombaan ini!</value>
+  </data>
+  <data name="games_current_poll_results" xml:space="preserve">
+    <value>Hasil pemilihan saat ini</value>
+  </data>
+  <data name="games_no_votes_cast" xml:space="preserve">
+    <value>Tidak ada suara terkirim.</value>
+  </data>
+  <data name="games_poll_already_running" xml:space="preserve">
+    <value>Pemilihan telah dimulai di server ini.</value>
+  </data>
+  <data name="games_poll_created" xml:space="preserve">
+    <value>📃 {0} telah membuat pemilihan yang memerlukan perhatian anda:</value>
+  </data>
+  <data name="games_poll_result" xml:space="preserve">
+    <value>&apos;{0}.&apos; {1} dengan {2} suara.</value>
+  </data>
+  <data name="games_poll_voted" xml:space="preserve">
+    <value>{0} memilih.</value>
+    <comment>Kwoth voted.</comment>
+  </data>
+  <data name="games_poll_vote_private" xml:space="preserve">
+    <value>Kirim saya pesan pribadi dengan angka yang sesuai dari jawaban.</value>
+  </data>
+  <data name="games_poll_vote_public" xml:space="preserve">
+    <value>Kirim pesan dengan menggunakan nomor dari jawaban.</value>
+  </data>
+  <data name="games_thanks_for_voting" xml:space="preserve">
+    <value>Terima kasih telah memilih, {0}</value>
+  </data>
+  <data name="games_x_votes_cast" xml:space="preserve">
+    <value>{0} total suara dikirim.</value>
+  </data>
+  <data name="games_pick_pl" xml:space="preserve">
+    <value>Mengambil barang tersebut dengan mengetik `{0}ambil`</value>
+  </data>
+  <data name="games_pick_sn" xml:space="preserve">
+    <value>Ambil dengan mengetik &apos;{0}pick&apos;</value>
+  </data>
+  <data name="gambling_no_users_found" xml:space="preserve">
+    <value>Pengguna tidak ditemukan.</value>
+  </data>
+  <data name="gambling_page" xml:space="preserve">
+    <value>halaman {0}</value>
+  </data>
+  <data name="administration_must_be_in_voice" xml:space="preserve">
+    <value>Anda harus berada pada channel suara di server ini.</value>
+  </data>
+  <data name="administration_no_vcroles" xml:space="preserve">
+    <value>Tidak ada peran untuk saluran suara.</value>
+  </data>
+  <data name="administration_user_muted_time" xml:space="preserve">
+    <value>{0} telah **dibisukan** dari teks dan saluran suara selama {1} menit.</value>
+  </data>
+  <data name="administration_vcrole_added" xml:space="preserve">
+    <value>Pengguna yang bergabung {0} channel suara akan mendapatkan peran {1}.</value>
+  </data>
+  <data name="administration_vcrole_removed" xml:space="preserve">
+    <value>Pengguna yang bergabung {0} channel suara tidak lagi mendapatkan peran.</value>
+  </data>
+  <data name="administration_vc_role_list" xml:space="preserve">
+    <value>Peran channel suara</value>
+  </data>
+  <data name="customreactions_crad_disabled" xml:space="preserve">
+    <value>Mereaksi reaksi kustom menggunakan pesan dengan id {0} tidak akan dihapus secara otomatis.</value>
+  </data>
+  <data name="customreactions_crad_enabled" xml:space="preserve">
+    <value>Mereaksikan reaksi kustom menggunakan pesan dengan id {0} akan dihapus secara otomatis.</value>
+  </data>
+  <data name="customreactions_crdm_disabled" xml:space="preserve">
+    <value>Pesan respon untuk reaksi kustom dengan id {0} tidak akan dikirim sebagai DM.</value>
+  </data>
+  <data name="customreactions_crdm_enabled" xml:space="preserve">
+    <value>Pesan respon untuk reaksi kustom dengan id {0} akan dikirim sebagai DM.</value>
+  </data>
+  <data name="utility_aliases_none" xml:space="preserve">
+    <value>Alias tidak ditemukan</value>
+  </data>
+  <data name="utility_alias_added" xml:space="preserve">
+    <value>Mengetik {0} sekarang akan menjadi alias dari {1}.</value>
+  </data>
+  <data name="utility_alias_list" xml:space="preserve">
+    <value>Daftar alias</value>
+  </data>
+  <data name="utility_alias_removed" xml:space="preserve">
+    <value>Perintah {0} sekarang tidak memiliki alias.</value>
+  </data>
+  <data name="utility_alias_remove_fail" xml:space="preserve">
+    <value>Perintah {0} tidak mempunyai alias.</value>
+  </data>
+  <data name="searches_compet_playtime" xml:space="preserve">
+    <value>Waktu bermain kompetitif</value>
+  </data>
+  <data name="administration_channel" xml:space="preserve">
+    <value>Saluran</value>
+  </data>
+  <data name="administration_command_text" xml:space="preserve">
+    <value>Teks perintah</value>
+  </data>
+  <data name="administration_kicked_pl" xml:space="preserve">
+    <value>Ditendang</value>
+    <comment>PLURAL</comment>
+  </data>
+  <data name="administration_moderator" xml:space="preserve">
+    <value>Moderator</value>
+  </data>
+  <data name="administration_page" xml:space="preserve">
+    <value>Halaman {0}</value>
+  </data>
+  <data name="administration_reason" xml:space="preserve">
+    <value>Alasan</value>
+  </data>
+  <data name="administration_scadd" xml:space="preserve">
+    <value>Perintah startup ditambahkan.</value>
+  </data>
+  <data name="administration_scrm" xml:space="preserve">
+    <value>Penghilangan perintah startup sukses.</value>
+  </data>
+  <data name="administration_scrm_fail" xml:space="preserve">
+    <value>Perintah startup tidak ditemukan.</value>
+  </data>
+  <data name="administration_server" xml:space="preserve">
+    <value>Server</value>
+  </data>
+  <data name="administration_startcmdlist_none" xml:space="preserve">
+    <value>Tidak ada perintah startup dihalaman ini.</value>
+  </data>
+  <data name="administration_startcmds_cleared" xml:space="preserve">
+    <value>Membersihkan semua perintah startup.</value>
+  </data>
+  <data name="administration_unbanned_user" xml:space="preserve">
+    <value>Pengguna {0} telah dinonlarangkan.</value>
+  </data>
+  <data name="administration_user_not_found" xml:space="preserve">
+    <value>Pengguna tidak ditemukan</value>
+  </data>
+  <data name="administration_user_warned" xml:space="preserve">
+    <value>Pengguna {0} telah diperingatkan.</value>
+  </data>
+  <data name="administration_user_warned_and_punished" xml:space="preserve">
+    <value>Pengguna {0} telah diperingatkan dan hukuman {1} diberikan.</value>
+  </data>
+  <data name="administration_warned_on" xml:space="preserve">
+    <value>Diperingatkan di server {0}</value>
+  </data>
+  <data name="administration_warned_on_by" xml:space="preserve">
+    <value>Di {0} saat {1} oleh {2}</value>
+  </data>
+  <data name="administration_warnings_cleared" xml:space="preserve">
+    <value>Semua peringatan telah dibersihkan untuk {0}.</value>
+  </data>
+  <data name="administration_warnings_none" xml:space="preserve">
+    <value>Tidak ada peringatan dihalaman ini.</value>
+  </data>
+  <data name="administration_warnlog_for" xml:space="preserve">
+    <value>Berkas peringatan untuk {0}</value>
+  </data>
+  <data name="administration_warnpl_none" xml:space="preserve">
+    <value>Tidak ada hukuman ditetapkan.</value>
+  </data>
+  <data name="administration_warn_cleared_by" xml:space="preserve">
+    <value>Dibersihkan oleh {0}</value>
+  </data>
+  <data name="administration_warn_punish_list" xml:space="preserve">
+    <value>Daftar peringatan hukum</value>
+  </data>
+  <data name="administration_warn_punish_rem" xml:space="preserve">
+    <value>Mempunyai {0} peringatan tidak akan memulai hukuman.</value>
+  </data>
+  <data name="administration_warn_punish_set" xml:space="preserve">
+    <value>Saya akan menambahkan hukuman {0} untuk pengguna dengan {1} peringatan.</value>
+  </data>
+  <data name="administration_slowmodewl_role_start" xml:space="preserve">
+    <value>Slowmode akan mengabaikan peran {0}.</value>
+  </data>
+  <data name="administration_slowmodewl_role_stop" xml:space="preserve">
+    <value>Slowmode tidak akan lagi mengabaikan peran {0}</value>
+  </data>
+  <data name="administration_slowmodewl_user_start" xml:space="preserve">
+    <value>Slowmode akan mengabaikan pengguna {0}</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="administration_slowmodewl_user_stop" xml:space="preserve">
+    <value>Slowmode tidak akan lagi mengabaikan pengguna {0}.</value>
+  </data>
+  <data name="utility_clpa_fail" xml:space="preserve">
+    <value>Gagal untuk mengambil hadiah karena salah satu dari alasan ini:</value>
+  </data>
+  <data name="utility_clpa_fail_already" xml:space="preserve">
+    <value>Mungkin anda telah mendapatkan hadiah anda untuk bulan ini. Anda hanya bisa mendapatkan hadiah sekali sebulan kecuali anda menambahkan jumlah janji anda.</value>
+  </data>
+  <data name="utility_clpa_fail_already_title" xml:space="preserve">
+    <value>Telah dihadiahkan</value>
+  </data>
+  <data name="utility_clpa_fail_conn" xml:space="preserve">
+    <value>Akun DIscord anda mungkin tidak terkoneksi ke Patreon. Jika anda tidak yakin artinya, atau tidak tahu cara menghubungkannya ` anda harus pergi ke [Halaman pengaturan akun Patreon] (https://patreon.com/settings/account) dan menekan tombol &apos;Connect to Discord&apos;.</value>
+  </data>
+  <data name="utility_clpa_fail_conn_title" xml:space="preserve">
+    <value>Akun Discord tidak terhubung</value>
+  </data>
+  <data name="utility_clpa_fail_sup" xml:space="preserve">
+    <value>Untuk berhak mendapatkan hadiah, anda harus mendukung  proyek di Patreon. </value>
+  </data>
+  <data name="utility_clpa_fail_sup_title" xml:space="preserve">
+    <value>Tidak mendukung.</value>
+  </data>
+  <data name="utility_clpa_fail_wait" xml:space="preserve">
+    <value>Anda harus menunggu beberapa jam setelah memohon, jika anda tidak, cobalah nanti lagi.</value>
+  </data>
+  <data name="utility_clpa_fail_wait_title" xml:space="preserve">
+    <value>Tunggulah sebentar.</value>
+  </data>
+  <data name="utility_clpa_success" xml:space="preserve">
+    <value>Anda telah menerima {0}. Terima kasih untuk mendukung proyek ini!</value>
+  </data>
+  <data name="utility_clpa_too_early" xml:space="preserve">
+    <value>Hadiah bisa diambil saat atau setelah tanggal 5 dari setiap bulan.</value>
+  </data>
+
+</root>

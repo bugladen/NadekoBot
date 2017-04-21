@@ -11,13 +11,29 @@ using NLog;
 using System.Diagnostics;
 using Discord.WebSocket;
 using System;
-using Newtonsoft.Json;
 using NadekoBot.DataStructures;
 
 namespace NadekoBot.Modules.CustomReactions
 {
+    public static class CustomReactionExtensions
+    {
+        public static async Task<IUserMessage> Send(this CustomReaction cr, IUserMessage context)
+        {
+            var channel = cr.DmResponse ? await context.Author.CreateDMChannelAsync() : context.Channel;
+            
+            CustomReactions.ReactionStats.AddOrUpdate(cr.Trigger, 1, (k, old) => ++old);
+
+            CREmbed crembed;
+            if (CREmbed.TryParse(cr.Response, out crembed))
+            {
+                return await channel.EmbedAsync(crembed.ToEmbed(), crembed.PlainText ?? "");
+            }
+            return await channel.SendMessageAsync(cr.ResponseWithContext(context).SanitizeMentions());
+        }
+    }
+
     [NadekoModule("CustomReactions", ".")]
-    public class CustomReactions : NadekoModule
+    public class CustomReactions : NadekoTopLevelModule
     {
         private static CustomReaction[] _globalReactions = new CustomReaction[] { };
         public static CustomReaction[] GlobalReactions => _globalReactions;
@@ -25,7 +41,7 @@ namespace NadekoBot.Modules.CustomReactions
 
         public static ConcurrentDictionary<string, uint> ReactionStats { get; } = new ConcurrentDictionary<string, uint>();
 
-        private static new readonly Logger _log;
+        private new static readonly Logger _log;
 
         static CustomReactions()
         {
@@ -43,11 +59,11 @@ namespace NadekoBot.Modules.CustomReactions
 
         public void ClearStats() => ReactionStats.Clear();
 
-        public static async Task<bool> TryExecuteCustomReaction(SocketUserMessage umsg)
+        public static CustomReaction TryGetCustomReaction(IUserMessage umsg)
         {
             var channel = umsg.Channel as SocketTextChannel;
             if (channel == null)
-                return false;
+                return null;
 
             var content = umsg.Content.Trim().ToLowerInvariant();
             CustomReaction[] reactions;
@@ -70,26 +86,9 @@ namespace NadekoBot.Modules.CustomReactions
                     var reaction = rs[new NadekoRandom().Next(0, rs.Length)];
                     if (reaction != null)
                     {
-                        if (reaction.Response != "-")
-                        {
-                            CREmbed crembed;
-                            if (CREmbed.TryParse(reaction.Response, out crembed))
-                            {
-                                try { await channel.EmbedAsync(crembed.ToEmbed(), crembed.PlainText ?? "").ConfigureAwait(false); }
-                                catch (Exception ex)
-                                {
-                                    _log.Warn("Sending CREmbed failed");
-                                    _log.Warn(ex);
-                                }
-                            }
-                            else
-                            {
-                                try { await channel.SendMessageAsync(reaction.ResponseWithContext(umsg)).ConfigureAwait(false); } catch { }
-                            }
-                        }
-
-                        ReactionStats.AddOrUpdate(reaction.Trigger, 1, (k, old) => ++old);
-                        return true;
+                        if (reaction.Response == "-")
+                            return null;
+                        return reaction;
                     }
                 }
             }
@@ -103,29 +102,10 @@ namespace NadekoBot.Modules.CustomReactions
                 return ((hasTarget && content.StartsWith(trigger + " ")) || content == trigger);
             }).ToArray();
             if (grs.Length == 0)
-                return false;
+                return null;
             var greaction = grs[new NadekoRandom().Next(0, grs.Length)];
 
-            if (greaction != null)
-            {
-                CREmbed crembed;
-                if (CREmbed.TryParse(greaction.Response, out crembed))
-                {
-                    try { await channel.EmbedAsync(crembed.ToEmbed(), crembed.PlainText ?? "").ConfigureAwait(false); }
-                    catch (Exception ex)
-                    {
-                        _log.Warn("Sending CREmbed failed");
-                        _log.Warn(ex);
-                    }
-                }
-                else
-                {
-                    try { await channel.SendMessageAsync(greaction.ResponseWithContext(umsg)).ConfigureAwait(false); } catch { }
-                }
-                ReactionStats.AddOrUpdate(greaction.Trigger, 1, (k, old) => ++old);
-                return true;
-            }
-            return false;
+            return greaction;
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -208,7 +188,19 @@ namespace NadekoBot.Modules.CustomReactions
                     .WithDescription(string.Join("\n", customReactions.OrderBy(cr => cr.Trigger)
                                                     .Skip((curPage - 1) * 20)
                                                     .Take(20)
-                                                    .Select(cr => $"`#{cr.Id}`  `{GetText("trigger")}:` {cr.Trigger}"))), lastPage)
+                                                    .Select(cr =>
+                                                    {
+                                                        var str = $"`#{cr.Id}` {cr.Trigger}";
+                                                        if (cr.AutoDeleteTrigger)
+                                                        {
+                                                            str = "🗑" + str;
+                                                        }
+                                                        if (cr.DmResponse)
+                                                        {
+                                                            str = "📪" + str;
+                                                        }
+                                                        return str;
+                                                    }))), lastPage)
                                 .ConfigureAwait(false);
         }
 
@@ -356,6 +348,108 @@ namespace NadekoBot.Modules.CustomReactions
             else
             {
                 await ReplyErrorLocalized("no_found_id").ConfigureAwait(false);
+            }
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        public async Task CrDm(int id)
+        {
+            if ((Context.Guild == null && !NadekoBot.Credentials.IsOwner(Context.User)) || 
+                (Context.Guild != null && !((IGuildUser)Context.User).GuildPermissions.Administrator))
+            {
+                await ReplyErrorLocalized("insuff_perms").ConfigureAwait(false);
+                return;
+            }
+
+            CustomReaction[] reactions = new CustomReaction[0];
+
+            if (Context.Guild == null)
+                reactions = GlobalReactions;
+            else
+            {
+                GuildReactions.TryGetValue(Context.Guild.Id, out reactions);
+            }
+            if (reactions.Any())
+            {
+                var reaction = reactions.FirstOrDefault(x => x.Id == id);
+
+                if (reaction == null)
+                {
+                    await ReplyErrorLocalized("no_found_id").ConfigureAwait(false);
+                    return;
+                }
+
+                var setValue = reaction.DmResponse = !reaction.DmResponse;
+
+                using (var uow = DbHandler.UnitOfWork())
+                {
+                    uow.CustomReactions.Get(id).DmResponse = setValue;
+                    uow.Complete();
+                }
+
+                if (setValue)
+                {
+                    await ReplyConfirmLocalized("crdm_enabled", Format.Code(reaction.Id.ToString())).ConfigureAwait(false);
+                }
+                else
+                {
+                    await ReplyConfirmLocalized("crdm_disabled", Format.Code(reaction.Id.ToString())).ConfigureAwait(false);
+                }
+            }
+            else
+            {
+                await ReplyErrorLocalized("no_found").ConfigureAwait(false);
+            }
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        public async Task CrAd(int id)
+        {
+            if ((Context.Guild == null && !NadekoBot.Credentials.IsOwner(Context.User)) ||
+                (Context.Guild != null && !((IGuildUser)Context.User).GuildPermissions.Administrator))
+            {
+                await ReplyErrorLocalized("insuff_perms").ConfigureAwait(false);
+                return;
+            }
+
+            CustomReaction[] reactions = new CustomReaction[0];
+
+            if (Context.Guild == null)
+                reactions = GlobalReactions;
+            else
+            {
+                GuildReactions.TryGetValue(Context.Guild.Id, out reactions);
+            }
+            if (reactions.Any())
+            {
+                var reaction = reactions.FirstOrDefault(x => x.Id == id);
+
+                if (reaction == null)
+                {
+                    await ReplyErrorLocalized("no_found_id").ConfigureAwait(false);
+                    return;
+                }
+
+                var setValue = reaction.AutoDeleteTrigger = !reaction.AutoDeleteTrigger;
+
+                using (var uow = DbHandler.UnitOfWork())
+                {
+                    uow.CustomReactions.Get(id).AutoDeleteTrigger = setValue;
+                    uow.Complete();
+                }
+
+                if (setValue)
+                {
+                    await ReplyConfirmLocalized("crad_enabled", Format.Code(reaction.Id.ToString())).ConfigureAwait(false);
+                }
+                else
+                {
+                    await ReplyConfirmLocalized("crad_disabled", Format.Code(reaction.Id.ToString())).ConfigureAwait(false);
+                }
+            }
+            else
+            {
+                await ReplyErrorLocalized("no_found").ConfigureAwait(false);
             }
         }
 

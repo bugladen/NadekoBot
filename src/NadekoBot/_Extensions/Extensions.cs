@@ -21,8 +21,18 @@ namespace NadekoBot.Extensions
         private const string arrow_left = "⬅";
         private const string arrow_right = "➡";
 
+        public static string ToBase64(this string plainText)
+        {
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+            return Convert.ToBase64String(plainTextBytes);
+        }
+
         public static Stream ToStream(this IEnumerable<byte> bytes, bool canWrite = false)
-            => new MemoryStream(bytes as byte[] ?? bytes.ToArray(), canWrite);
+        {
+            var ms = new MemoryStream(bytes as byte[] ?? bytes.ToArray(), canWrite);
+            ms.Seek(0, SeekOrigin.Begin);
+            return ms;
+        }
 
         /// <summary>
         /// danny kamisama
@@ -83,9 +93,9 @@ namespace NadekoBot.Extensions
         private static EmbedBuilder AddPaginatedFooter(this EmbedBuilder embed, int curPage, int? lastPage)
         {
             if (lastPage != null)
-                return embed.WithFooter(efb => efb.WithText($"page {curPage} / {lastPage}"));
+                return embed.WithFooter(efb => efb.WithText($"{curPage} / {lastPage}"));
             else
-                return embed.WithFooter(efb => efb.WithText($"page {curPage}"));
+                return embed.WithFooter(efb => efb.WithText(curPage.ToString()));
         }
 
         public static ReactionEventWrapper OnReaction(this IUserMessage msg, Action<SocketReaction> reactionAdded, Action<SocketReaction> reactionRemoved = null)
@@ -183,7 +193,7 @@ namespace NadekoBot.Extensions
         public static string SanitizeMentions(this string str) =>
             str.Replace("@everyone", "@everyοne").Replace("@here", "@һere");
 
-        public static double UnixTimestamp(this DateTime dt) => dt.ToUniversalTime().Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+        public static double UnixTimestamp(this DateTime dt) => dt.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0)).TotalSeconds;
 
         public static async Task<IUserMessage> SendMessageAsync(this IUser user, string message, bool isTTS = false) =>
             await (await user.CreateDMChannelAsync().ConfigureAwait(false)).SendMessageAsync(message, isTTS).ConfigureAwait(false);
@@ -273,6 +283,15 @@ namespace NadekoBot.Extensions
                 }
                 return list;
             }
+        }
+    
+        /// <summary>
+        /// Easy use of fast, efficient case-insensitive Contains check with StringComparison Member Types 
+        /// CurrentCulture, CurrentCultureIgnoreCase, InvariantCulture, InvariantCultureIgnoreCase, Ordinal, OrdinalIgnoreCase
+        /// </summary>    
+        public static bool ContainsNoCase(this string str, string contains, StringComparison compare)
+        {
+            return str.IndexOf(contains, compare) >= 0;
         }
 
         public static string TrimTo(this string str, int maxLength, bool hideDots = false)
@@ -398,22 +417,15 @@ namespace NadekoBot.Extensions
 
         public static ImageSharp.Image Merge(this IEnumerable<ImageSharp.Image> images)
         {
-            var imgList = images.ToList();
+            var imgs = images.ToArray();
 
-            var canvas = new ImageSharp.Image(imgList.Sum(img => img.Width), imgList.Max(img => img.Height));
+            var canvas = new ImageSharp.Image(imgs.Sum(img => img.Width), imgs.Max(img => img.Height));
 
-            var canvasPixels = canvas.Lock();
-            int offsetX = 0;
-            foreach (var img in imgList.Select(img => img.Lock()))
+            var xOffset = 0;
+            for (int i = 0; i < imgs.Length; i++)
             {
-                for (int i = 0; i < img.Width; i++)
-                {
-                    for (int j = 0; j < img.Height; j++)
-                    {
-                        canvasPixels[i + offsetX, j] = img[i, j];
-                    }
-                }
-                offsetX += img.Width;
+                canvas.DrawImage(imgs[i], 100, default(Size), new Point(xOffset, 0));
+                xOffset += imgs[i].Bounds.Width;
             }
 
             return canvas;
@@ -422,7 +434,7 @@ namespace NadekoBot.Extensions
         public static Stream ToStream(this ImageSharp.Image img)
         {
             var imageStream = new MemoryStream();
-            img.SaveAsPng(imageStream);
+            img.Save(imageStream);
             imageStream.Position = 0;
             return imageStream;
         }

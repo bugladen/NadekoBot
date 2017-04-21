@@ -12,7 +12,7 @@ using System.Collections.Generic;
 namespace NadekoBot.Modules.Gambling
 {
     [NadekoModule("Gambling", "$")]
-    public partial class Gambling : NadekoModule
+    public partial class Gambling : NadekoTopLevelModule
     {
         public static string CurrencyName { get; set; }
         public static string CurrencyPluralName { get; set; }
@@ -49,8 +49,10 @@ namespace NadekoBot.Modules.Gambling
         [Priority(0)]
         public async Task Cash([Remainder] IUser user = null)
         {
-            user = user ?? Context.User;
-            await ReplyConfirmLocalized("has", Format.Bold(user.ToString()), $"{GetCurrency(user.Id)} {CurrencySign}").ConfigureAwait(false);
+            if(user == null)
+                await ConfirmLocalized("has", Format.Bold(Context.User.ToString()), $"{GetCurrency(Context.User.Id)} {CurrencySign}").ConfigureAwait(false);
+            else
+                await ReplyConfirmLocalized("has", Format.Bold(user.ToString()), $"{GetCurrency(user.Id)} {CurrencySign}").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -238,25 +240,33 @@ namespace NadekoBot.Modules.Gambling
                         (int) (amount * NadekoBot.BotConfig.Betroll100Multiplier), false).ConfigureAwait(false);
                 }
             }
-            Console.WriteLine("started sending");
             await Context.Channel.SendConfirmAsync(str).ConfigureAwait(false);
-            Console.WriteLine("done sending");
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task Leaderboard()
+        public async Task Leaderboard(int page = 1)
         {
+            if (page < 1)
+                return;
+
             List<Currency> richest;
             using (var uow = DbHandler.UnitOfWork())
             {
-                richest = uow.Currency.GetTopRichest(9).ToList();
+                richest = uow.Currency.GetTopRichest(9, 9 * (page - 1)).ToList();
             }
-            if (!richest.Any())
-                return;
 
             var embed = new EmbedBuilder()
                 .WithOkColor()
-                .WithTitle(NadekoBot.BotConfig.CurrencySign + " " + GetText("leaderboard"));
+                .WithTitle(NadekoBot.BotConfig.CurrencySign +
+                           " " + GetText("leaderboard"))
+                .WithFooter(efb => efb.WithText(GetText("page", page)));
+
+            if (!richest.Any())
+            {
+                embed.WithDescription(GetText("no_users_found"));
+                await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                return;
+            }
 
             for (var i = 0; i < richest.Count; i++)
             {
@@ -267,7 +277,7 @@ namespace NadekoBot.Modules.Gambling
                     : usr.Username?.TrimTo(20, true);
 
                 var j = i;
-                embed.AddField(efb => efb.WithName("#" + (j + 1) + " " + usrStr)
+                embed.AddField(efb => efb.WithName("#" + (9 * (page - 1) + j + 1) + " " + usrStr)
                                          .WithValue(x.Amount.ToString() + " " + NadekoBot.BotConfig.CurrencySign)
                                          .WithIsInline(true));
             }

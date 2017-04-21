@@ -1,0 +1,2409 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="clashofclans_base_already_claimed" xml:space="preserve">
+    <value>Die basis is al veroverd of vernietigd.</value>
+  </data>
+  <data name="clashofclans_base_already_destroyed" xml:space="preserve">
+    <value>Die basis is al vernietigd.</value>
+  </data>
+  <data name="clashofclans_base_already_unclaimed" xml:space="preserve">
+    <value>Die basis is nog niet veroverd.</value>
+  </data>
+  <data name="clashofclans_base_destroyed" xml:space="preserve">
+    <value>**VERNIETIGD** basis #{0} in een oorlog tegen {1}</value>
+  </data>
+  <data name="clashofclans_base_unclaimed" xml:space="preserve">
+    <value>{0} heeft **ONOVERWONNEN** basis #{1} in een oorlog tegen {2}</value>
+  </data>
+  <data name="clashofclans_claimed_base" xml:space="preserve">
+    <value>{0} heeft basis #{1} overwonnen in een oorlog tegen {2}</value>
+  </data>
+  <data name="clashofclans_claimed_other" xml:space="preserve">
+    <value>@{0} Je hebt al basis  #{1} overwonnen. Je kunt er niet nog een nemen.</value>
+  </data>
+  <data name="clashofclans_claim_expired" xml:space="preserve">
+    <value>De aanvraag van @{0} voor een oorlog tegen {1} is niet meer geldig.</value>
+  </data>
+  <data name="clashofclans_enemy" xml:space="preserve">
+    <value>Vijand</value>
+  </data>
+  <data name="clashofclans_info_about_war" xml:space="preserve">
+    <value>Informatie over de oorlog tegen {0}</value>
+  </data>
+  <data name="clashofclans_invalid_base_number" xml:space="preserve">
+    <value>Ongeldige basis nummer</value>
+  </data>
+  <data name="clashofclans_invalid_size" xml:space="preserve">
+    <value>Ongeldig oorlogsformaat.</value>
+  </data>
+  <data name="clashofclans_list_active_wars" xml:space="preserve">
+    <value>Lijst van actieve oorlogen</value>
+  </data>
+  <data name="clashofclans_not_claimed" xml:space="preserve">
+    <value>Niet veroverd.</value>
+  </data>
+  <data name="clashofclans_not_partic" xml:space="preserve">
+    <value>Jij doet niet mee aan die oorlog.</value>
+  </data>
+  <data name="clashofclans_not_partic_or_destroyed" xml:space="preserve">
+    <value>@{0} Je doet niet mee aan die oorlog, of die basis is al vernietigd.</value>
+  </data>
+  <data name="clashofclans_no_active_wars" xml:space="preserve">
+    <value>Geen actieve oorlogen</value>
+  </data>
+  <data name="clashofclans_size" xml:space="preserve">
+    <value>Grootte.</value>
+  </data>
+  <data name="clashofclans_war_already_started" xml:space="preserve">
+    <value>Oorlog tegen {0} is al begonnen.</value>
+  </data>
+  <data name="clashofclans_war_created" xml:space="preserve">
+    <value>Oorlog tegen {0} gecreëerd</value>
+  </data>
+  <data name="clashofclans_war_ended" xml:space="preserve">
+    <value>De oorlog tegen {0} is beëindigd.</value>
+  </data>
+  <data name="clashofclans_war_not_exist" xml:space="preserve">
+    <value>Die oorlog bestaat niet.</value>
+  </data>
+  <data name="clashofclans_war_started" xml:space="preserve">
+    <value>De oorlog tegen {0} is begonnen!</value>
+  </data>
+  <data name="customreactions_all_stats_cleared" xml:space="preserve">
+    <value>Alle speciale reactie statistieken zijn verwijderd.</value>
+  </data>
+  <data name="customreactions_deleted" xml:space="preserve">
+    <value>Speciale Reactie verwijderd.</value>
+  </data>
+  <data name="customreactions_insuff_perms" xml:space="preserve">
+    <value>Onvoldoende rechten. Bot Eigendom is nodig voor globale speciale reacties, en Administrator voor speciale server-reacties.</value>
+  </data>
+  <data name="customreactions_list_all" xml:space="preserve">
+    <value>Lijst van alle zelf gemaakte reacties</value>
+  </data>
+  <data name="customreactions_name" xml:space="preserve">
+    <value>Speciale Reacties</value>
+  </data>
+  <data name="customreactions_new_cust_react" xml:space="preserve">
+    <value>Nieuwe Speciale Reacties</value>
+  </data>
+  <data name="customreactions_no_found" xml:space="preserve">
+    <value>Geen aangepaste reacties gevonden.</value>
+  </data>
+  <data name="customreactions_no_found_id" xml:space="preserve">
+    <value>Geen speciale reacties gevonden met dat ID.</value>
+  </data>
+  <data name="customreactions_response" xml:space="preserve">
+    <value>Antwoord</value>
+  </data>
+  <data name="customreactions_stats" xml:space="preserve">
+    <value>Speciale Reactie Statistieken</value>
+  </data>
+  <data name="customreactions_stats_cleared" xml:space="preserve">
+    <value>Statistieken verwijderd voor {0} speciale reactie.</value>
+  </data>
+  <data name="customreactions_stats_not_found" xml:space="preserve">
+    <value>Geen statistieken voor die trekker gevonden, geen actie genomen.</value>
+  </data>
+  <data name="customreactions_trigger" xml:space="preserve">
+    <value>Trigger</value>
+  </data>
+  <data name="nsfw_autohentai_stopped" xml:space="preserve">
+    <value>Autohentai gestopt.</value>
+  </data>
+  <data name="nsfw_not_found" xml:space="preserve">
+    <value>Geen resultaten gevonden.</value>
+  </data>
+  <data name="pokemon_already_fainted" xml:space="preserve">
+    <value>{0} is al flauw gevallen.</value>
+  </data>
+  <data name="pokemon_already_full" xml:space="preserve">
+    <value>{0} heeft al vol HP.</value>
+  </data>
+  <data name="pokemon_already_that_type" xml:space="preserve">
+    <value>Jouw element is al {0}</value>
+  </data>
+  <data name="pokemon_attack" xml:space="preserve">
+    <value>heeft {0}{1} op {2}{3} gebruikt voor {4} schade.</value>
+    <comment>Kwoth used punch:type_icon: on Sanity:type_icon: for 50 damage.</comment>
+  </data>
+  <data name="pokemon_cant_attack_again" xml:space="preserve">
+    <value>Je kan niet opnieuw aanvallen zonder vergelding!</value>
+  </data>
+  <data name="pokemon_cant_attack_yourself" xml:space="preserve">
+    <value>Je kunt je zelf niet aanvallen.</value>
+  </data>
+  <data name="pokemon_fainted" xml:space="preserve">
+    <value>{0} is verslagen!</value>
+  </data>
+  <data name="pokemon_healed" xml:space="preserve">
+    <value>heeft {0} genezen met een {1}</value>
+  </data>
+  <data name="pokemon_hp_remaining" xml:space="preserve">
+    <value>{0} heeft nog {1} HP over.</value>
+  </data>
+  <data name="pokemon_invalid_move" xml:space="preserve">
+    <value>Je kan {0} niet gebruiken. Typ `{1}ml` om een lijst te bekijken van de aanvallen die jij kunt gebruiken</value>
+  </data>
+  <data name="pokemon_moves" xml:space="preserve">
+    <value>Aanvallijst voor {0} element</value>
+  </data>
+  <data name="pokemon_not_effective" xml:space="preserve">
+    <value>Het is niet effectief.</value>
+  </data>
+  <data name="pokemon_no_currency" xml:space="preserve">
+    <value>Je hebt niet genoeg {0}</value>
+  </data>
+  <data name="pokemon_revive_other" xml:space="preserve">
+    <value>heeft {0} herstelt met een {1}</value>
+  </data>
+  <data name="pokemon_revive_yourself" xml:space="preserve">
+    <value>Je kunt jezelf herstellen met een {0}</value>
+  </data>
+  <data name="pokemon_settype_success" xml:space="preserve">
+    <value>Je element is veranderd van {0} naar {1}</value>
+  </data>
+  <data name="pokemon_somewhat_effective" xml:space="preserve">
+    <value>Het is een beetje effectief.</value>
+  </data>
+  <data name="pokemon_super_effective" xml:space="preserve">
+    <value>Het is super effectief!</value>
+  </data>
+  <data name="pokemon_too_many_moves" xml:space="preserve">
+    <value>Je hebt te veel acties achter elkaar gedaan, dus je kan niet bewegen!</value>
+  </data>
+  <data name="pokemon_type_of_user" xml:space="preserve">
+    <value>Element van {0} is {1}</value>
+  </data>
+  <data name="pokemon_user_not_found" xml:space="preserve">
+    <value>Gebruiker niet gevonden.</value>
+  </data>
+  <data name="pokemon_you_fainted" xml:space="preserve">
+    <value>Je bent flauwgevallen, dus je kunt niet bewegen!</value>
+  </data>
+  <data name="administration_aar_disabled" xml:space="preserve">
+    <value>**Auto aanwijzing van rollen** op gebruiker is nu **uitgeschakeld**.</value>
+  </data>
+  <data name="administration_aar_enabled" xml:space="preserve">
+    <value>**Auto aanwijzing van rollen** op gebruiker is nu **ingeschakeld**.</value>
+  </data>
+  <data name="administration_attachments" xml:space="preserve">
+    <value>Bijlagen</value>
+  </data>
+  <data name="administration_avatar_changed" xml:space="preserve">
+    <value>Avatar veranderd</value>
+  </data>
+  <data name="administration_bandm" xml:space="preserve">
+    <value>Je bent verbannen van {0} server. Reden: {1}</value>
+  </data>
+  <data name="administration_banned_pl" xml:space="preserve">
+    <value>verbannen</value>
+    <comment>PLURAL</comment>
+  </data>
+  <data name="administration_banned_user" xml:space="preserve">
+    <value>Gebruiker verbannen</value>
+  </data>
+  <data name="administration_bot_name" xml:space="preserve">
+    <value>Botnaam is veranderd naar {0}</value>
+  </data>
+  <data name="administration_bot_status" xml:space="preserve">
+    <value>Botstatus is veranderd naar {0}</value>
+  </data>
+  <data name="administration_byedel_off" xml:space="preserve">
+    <value>Automatische verwijdering van de afscheidsberichten is uitgeschakeld.</value>
+  </data>
+  <data name="administration_byedel_on" xml:space="preserve">
+    <value>Afscheidsberichten zullen worden verwijderd na {0} seconden.</value>
+  </data>
+  <data name="administration_byemsg_cur" xml:space="preserve">
+    <value>Momenteel is het afscheidsbericht: {0}</value>
+  </data>
+  <data name="administration_byemsg_enable" xml:space="preserve">
+    <value>Schakel de afscheidsbericht in door {0} te typen.</value>
+  </data>
+  <data name="administration_byemsg_new" xml:space="preserve">
+    <value>Nieuw afscheidsbericht is geplaatst.</value>
+  </data>
+  <data name="administration_bye_off" xml:space="preserve">
+    <value>Afscheidsbericht uitgeschakeld.</value>
+  </data>
+  <data name="administration_bye_on" xml:space="preserve">
+    <value>Afscheidsbericht ingeschakeld op dit kanaal.</value>
+  </data>
+  <data name="administration_ch_name_change" xml:space="preserve">
+    <value>Kanaalnaam is veranderd.</value>
+  </data>
+  <data name="administration_ch_old_name" xml:space="preserve">
+    <value>Oude naam</value>
+  </data>
+  <data name="administration_ch_topic_change" xml:space="preserve">
+    <value>Kanaalonderwerp is veranderd</value>
+  </data>
+  <data name="administration_cleaned_up" xml:space="preserve">
+    <value>Opgeruimd.</value>
+  </data>
+  <data name="administration_content" xml:space="preserve">
+    <value>Inhoud</value>
+  </data>
+  <data name="administration_cr" xml:space="preserve">
+    <value>Met success een nieuwe rol gecreëerd.</value>
+  </data>
+  <data name="administration_createtextchan" xml:space="preserve">
+    <value>Tekst-kanaal {0} gecreëerd.</value>
+  </data>
+  <data name="administration_createvoich" xml:space="preserve">
+    <value>Voice-kanaal {0} gecreëerd.</value>
+  </data>
+  <data name="administration_deafen" xml:space="preserve">
+    <value>Dempen succesvol.</value>
+  </data>
+  <data name="administration_deleted_server" xml:space="preserve">
+    <value>Server verwijderd {0}</value>
+  </data>
+  <data name="administration_delmsg_off" xml:space="preserve">
+    <value>Succesvol aangeroepen commando&apos;s worden niet automatisch verwijderd.</value>
+  </data>
+  <data name="administration_delmsg_on" xml:space="preserve">
+    <value>Succesvol aangeroepen commando&apos;s worden nu automatisch verwijderd.</value>
+  </data>
+  <data name="administration_deltextchan" xml:space="preserve">
+    <value>Tekst-kanaal {0} verwijderd.</value>
+  </data>
+  <data name="administration_delvoich" xml:space="preserve">
+    <value>Voice-kanaal {0} verwijderd.</value>
+  </data>
+  <data name="administration_dm_from" xml:space="preserve">
+    <value>Privé-bericht van</value>
+  </data>
+  <data name="administration_donadd" xml:space="preserve">
+    <value>Met succes een nieuwe donateur toegevoegd. Totaal gedoneerde bedrag van deze gebruiker: {0}</value>
+  </data>
+  <data name="administration_donators" xml:space="preserve">
+    <value>Dank aan de mensen hieronder voor het waarmaken van dit project!</value>
+  </data>
+  <data name="administration_fwall_start" xml:space="preserve">
+    <value>Ik zal alle eigenaren privé-berichten doorsturen.</value>
+  </data>
+  <data name="administration_fwall_stop" xml:space="preserve">
+    <value>Ik zal alleen privé-berichten doorsturen naar de eerste eigenaar.</value>
+  </data>
+  <data name="administration_fwdm_start" xml:space="preserve">
+    <value>Ik zal privé-berichten doorsturen vanaf nu.</value>
+  </data>
+  <data name="administration_fwdm_stop" xml:space="preserve">
+    <value>Ik stop vanaf nu met het doorsturen van privé berichten.</value>
+  </data>
+  <data name="administration_greetdel_off" xml:space="preserve">
+    <value>Automatisch verwijderen van begroetings-berichten uitgeschakeld.</value>
+  </data>
+  <data name="administration_greetdel_on" xml:space="preserve">
+    <value>Begroetings-berichten zullen worden verwijderd na {0} seconden.</value>
+  </data>
+  <data name="administration_greetdmmsg_cur" xml:space="preserve">
+    <value>Momenteel is het privé begroetings-bericht: {0}</value>
+  </data>
+  <data name="administration_greetdmmsg_enable" xml:space="preserve">
+    <value>Schakel DM begroetingen in door {0} in te typen</value>
+  </data>
+  <data name="administration_greetdmmsg_new" xml:space="preserve">
+    <value>Nieuwe DM begroeting ingesteld.</value>
+  </data>
+  <data name="administration_greetdm_off" xml:space="preserve">
+    <value>DM begroetingen uitgeschakeld.</value>
+  </data>
+  <data name="administration_greetdm_on" xml:space="preserve">
+    <value>DM begroetingen ingeschakeld.</value>
+  </data>
+  <data name="administration_greetmsg_cur" xml:space="preserve">
+    <value>Huidige begroeting: {0}</value>
+  </data>
+  <data name="administration_greetmsg_enable" xml:space="preserve">
+    <value>Schakel begroetingen in door {0} in te typen</value>
+  </data>
+  <data name="administration_greetmsg_new" xml:space="preserve">
+    <value>Nieuwe begroeting ingesteld.</value>
+  </data>
+  <data name="administration_greet_off" xml:space="preserve">
+    <value>Begroetingen uitgeschakeld.</value>
+  </data>
+  <data name="administration_greet_on" xml:space="preserve">
+    <value>Begroetingen uitschakeld op dit kanaal.</value>
+  </data>
+  <data name="administration_hierarchy" xml:space="preserve">
+    <value>Je kunt geen commando gebruiken op gebruikers met een hogere of eenzelfde rol als die van jouw in de rollenhiërarchie.</value>
+  </data>
+  <data name="administration_images_loaded" xml:space="preserve">
+    <value>Afbeeldingen geladen na {0} seconden!</value>
+  </data>
+  <data name="administration_invalid_format" xml:space="preserve">
+    <value>Ongeldig invoerformaat.</value>
+  </data>
+  <data name="administration_invalid_params" xml:space="preserve">
+    <value>Ongeldige parameters.</value>
+  </data>
+  <data name="administration_joined" xml:space="preserve">
+    <value>{0} heeft {1} toegetreden</value>
+  </data>
+  <data name="administration_kickdm" xml:space="preserve">
+    <value>Je bent gekickt van {0}.
+Reden: {1}</value>
+  </data>
+  <data name="administration_kicked_user" xml:space="preserve">
+    <value>Gebruiker gekickt.</value>
+  </data>
+  <data name="administration_lang_list" xml:space="preserve">
+    <value>Lijst van talen
+{0}</value>
+  </data>
+  <data name="administration_lang_set" xml:space="preserve">
+    <value>Je server&apos;s landinstelling is nu {0} - {1}</value>
+  </data>
+  <data name="administration_lang_set_bot" xml:space="preserve">
+    <value>De bot zijn standaard landinstelling is nu {0} - {1}</value>
+  </data>
+  <data name="administration_lang_set_bot_show" xml:space="preserve">
+    <value>Taal van de bot is nu {0} - {1}</value>
+  </data>
+  <data name="administration_lang_set_fail" xml:space="preserve">
+    <value>Instellen van landsinstelling mislukt. Ga naar de hulp voor dit commando.</value>
+  </data>
+  <data name="administration_lang_set_show" xml:space="preserve">
+    <value>De taal van de server is nu {0} - {1}</value>
+  </data>
+  <data name="administration_left" xml:space="preserve">
+    <value>{0} heeft {1} verlaten</value>
+  </data>
+  <data name="administration_left_server" xml:space="preserve">
+    <value>{0} verlaten</value>
+  </data>
+  <data name="administration_log" xml:space="preserve">
+    <value>Gebeurtenis {0} wordt gelogd in dit kanaal.</value>
+  </data>
+  <data name="administration_log_all" xml:space="preserve">
+    <value>Alle gebeurtenissen worden gelogd in dit kanaal.</value>
+  </data>
+  <data name="administration_log_disabled" xml:space="preserve">
+    <value>Logging uitgeschakeld.</value>
+  </data>
+  <data name="administration_log_events" xml:space="preserve">
+    <value>Log-gebeurtenissen waar je op kan abonneren:</value>
+  </data>
+  <data name="administration_log_ignore" xml:space="preserve">
+    <value>Logging zal {0} negeren</value>
+  </data>
+  <data name="administration_log_not_ignore" xml:space="preserve">
+    <value>Logging zal {0} niet negeren</value>
+  </data>
+  <data name="administration_log_stop" xml:space="preserve">
+    <value>Gestopt met het loggen van {0}.</value>
+  </data>
+  <data name="administration_menrole" xml:space="preserve">
+    <value>{0} heeft een melding geplaatst op de volgende rollen</value>
+  </data>
+  <data name="administration_message_from_bo" xml:space="preserve">
+    <value>Bericht van {0} `[Bot Eigenaar]`:</value>
+  </data>
+  <data name="administration_message_sent" xml:space="preserve">
+    <value>Bericht verstuurd.</value>
+  </data>
+  <data name="administration_moved" xml:space="preserve">
+    <value>{0} verplaats van {1} naar {2}</value>
+  </data>
+  <data name="administration_msg_del" xml:space="preserve">
+    <value>Bericht in #{0} verwijderd</value>
+  </data>
+  <data name="administration_msg_update" xml:space="preserve">
+    <value>Bericht in #{0} bijgewerkt</value>
+  </data>
+  <data name="administration_muted_pl" xml:space="preserve">
+    <value>gemute</value>
+    <comment>PLURAL (users have been muted)</comment>
+  </data>
+  <data name="administration_muted_sn" xml:space="preserve">
+    <value>gemute</value>
+    <comment>singular &quot;User muted.&quot;</comment>
+  </data>
+  <data name="administration_mute_error" xml:space="preserve">
+    <value>Ik heb de benodigde rechten daarvoor waarschijnlijk niet.</value>
+  </data>
+  <data name="administration_mute_role_set" xml:space="preserve">
+    <value>Nieuwe demp rol geplaatst.</value>
+  </data>
+  <data name="administration_need_admin" xml:space="preserve">
+    <value>Ik heb **administrator** rechten daar voor nodig.</value>
+  </data>
+  <data name="administration_new_msg" xml:space="preserve">
+    <value>Nieuw bericht</value>
+  </data>
+  <data name="administration_new_nick" xml:space="preserve">
+    <value>Nieuwe bijnaam</value>
+  </data>
+  <data name="administration_new_topic" xml:space="preserve">
+    <value>Nieuw onderwerp</value>
+  </data>
+  <data name="administration_nick_change" xml:space="preserve">
+    <value>Bijnaam veranderd</value>
+  </data>
+  <data name="administration_no_server" xml:space="preserve">
+    <value>Kan de server niet vinden</value>
+  </data>
+  <data name="administration_no_shard_id" xml:space="preserve">
+    <value>Geen shard gevonden met dat ID.</value>
+  </data>
+  <data name="administration_old_msg" xml:space="preserve">
+    <value>Oud bericht</value>
+  </data>
+  <data name="administration_old_nick" xml:space="preserve">
+    <value>Oude bijnaam</value>
+  </data>
+  <data name="administration_old_topic" xml:space="preserve">
+    <value>Oud onderwerp</value>
+  </data>
+  <data name="administration_perms" xml:space="preserve">
+    <value>Error. Hoogst waarschijnlijk heb ik geen voldoende rechten.</value>
+  </data>
+  <data name="administration_perms_reset" xml:space="preserve">
+    <value>De rechten op deze server zijn gereset.</value>
+  </data>
+  <data name="administration_prot_active" xml:space="preserve">
+    <value>Actieve beschermingen.</value>
+  </data>
+  <data name="administration_prot_disable" xml:space="preserve">
+    <value>{0} is nu ** uitgeschakeld** op deze server.</value>
+  </data>
+  <data name="administration_prot_enable" xml:space="preserve">
+    <value>{0} Ingeschakeld</value>
+  </data>
+  <data name="administration_prot_error" xml:space="preserve">
+    <value>Error. ik heb Beheer Rollen rechten nodig</value>
+  </data>
+  <data name="administration_prot_none" xml:space="preserve">
+    <value>Geen bescherming ingeschakeld.</value>
+  </data>
+  <data name="administration_raid_cnt" xml:space="preserve">
+    <value>Gebruikersdrempel moet tussen {0} en {1} zijn.</value>
+  </data>
+  <data name="administration_raid_stats" xml:space="preserve">
+    <value>Als {0} of meerdere gebruikers binnen {1} seconden toetreden, zal ik ze {2}.</value>
+  </data>
+  <data name="administration_raid_time" xml:space="preserve">
+    <value>Aangegeven tijd hoort binnen {0} en {1} seconden te vallen.</value>
+  </data>
+  <data name="administration_rar" xml:space="preserve">
+    <value>Met succes alle rollen van gebruiker {0} verwijderd.</value>
+  </data>
+  <data name="administration_rar_err" xml:space="preserve">
+    <value>Het verwijderen van de rollen is mislukt. Ik heb onvoldoende rechten.</value>
+  </data>
+  <data name="administration_rc" xml:space="preserve">
+    <value>De kleur van de rol {0} is veranderd.</value>
+  </data>
+  <data name="administration_rc_not_exist" xml:space="preserve">
+    <value>Die rol bestaat niet.</value>
+  </data>
+  <data name="administration_rc_params" xml:space="preserve">
+    <value>De aangegeven parameters zijn ongeldig.</value>
+  </data>
+  <data name="administration_rc_perms" xml:space="preserve">
+    <value>Error opgekomen vanwege ongeldige kleur of onvoldoende rechten.</value>
+  </data>
+  <data name="administration_remrole" xml:space="preserve">
+    <value>Met sucess rol {0} verwijderd van gebruiker {1}.</value>
+  </data>
+  <data name="administration_remrole_err" xml:space="preserve">
+    <value>Mislukt om rol te verwijderen. Ik heb onvoldoende rechten.</value>
+  </data>
+  <data name="administration_renrole" xml:space="preserve">
+    <value>Naam van de rol veranderd.</value>
+  </data>
+  <data name="administration_renrole_err" xml:space="preserve">
+    <value>Naam van de rol veranderen mislukt. Ik heb onvoldoende rechten.</value>
+  </data>
+  <data name="administration_renrole_perms" xml:space="preserve">
+    <value>Je kan geen rollen bijwerken die hoger zijn dan je hoogste rol.</value>
+  </data>
+  <data name="administration_reprm" xml:space="preserve">
+    <value>Spelende bericht verwijderd: {0}</value>
+  </data>
+  <data name="administration_role_added" xml:space="preserve">
+    <value>Rol {0} is toegevoegd aan de lijst.</value>
+  </data>
+  <data name="administration_role_clean" xml:space="preserve">
+    <value>{0} niet gevonden. Klaar met opruimen.</value>
+  </data>
+  <data name="administration_role_in_list" xml:space="preserve">
+    <value>Rol {0} staat al in de lijst.</value>
+  </data>
+  <data name="administration_ropl_added" xml:space="preserve">
+    <value>Toegevoegd.</value>
+  </data>
+  <data name="administration_ropl_disabled" xml:space="preserve">
+    <value>Routerende speelstatus uitgeschakeld.</value>
+  </data>
+  <data name="administration_ropl_enabled" xml:space="preserve">
+    <value>Routerende speelstatus ingeschakeld.</value>
+  </data>
+  <data name="administration_ropl_list" xml:space="preserve">
+    <value>Hier is een lijst met routerende statussen:
+{0}</value>
+  </data>
+  <data name="administration_ropl_not_set" xml:space="preserve">
+    <value>Nog geen routerende speelstatussen ingesteld.</value>
+  </data>
+  <data name="administration_self_assign_already" xml:space="preserve">
+    <value>Je hebt rol {0} al.</value>
+  </data>
+  <data name="administration_self_assign_already_excl" xml:space="preserve">
+    <value>Je hebt {0} exclusieve zelf-toegewezen rol al.</value>
+  </data>
+  <data name="administration_self_assign_excl" xml:space="preserve">
+    <value>Zelf toegewezen rollen zijn nu exclusief!</value>
+  </data>
+  <data name="administration_self_assign_list" xml:space="preserve">
+    <value>Er zijn {0} zelf toewijsbare rollen</value>
+  </data>
+  <data name="administration_self_assign_not" xml:space="preserve">
+    <value>Deze rol is niet zelf-toewijsbaar.</value>
+  </data>
+  <data name="administration_self_assign_not_have" xml:space="preserve">
+    <value>Je hebt rol {0} niet.</value>
+  </data>
+  <data name="administration_self_assign_no_excl" xml:space="preserve">
+    <value>Zelf-toegewezen rollen zijn nu niet exclusief!</value>
+  </data>
+  <data name="administration_self_assign_perms" xml:space="preserve">
+    <value>Ik kan deze rol niet aan je toevoegen. `Ik kan geen rollen toevoegen aan eigenaren of andere rollen die boven mij staan in de rol-hiërarchie.`</value>
+  </data>
+  <data name="administration_self_assign_rem" xml:space="preserve">
+    <value>{0} is verwijderd van de lijst met zelf toewijsbare rollen.</value>
+  </data>
+  <data name="administration_self_assign_remove" xml:space="preserve">
+    <value>Je hebt de {0} rol niet meer.</value>
+  </data>
+  <data name="administration_self_assign_success" xml:space="preserve">
+    <value>Je hebt nu de {0} rol.</value>
+  </data>
+  <data name="administration_setrole" xml:space="preserve">
+    <value>Succesvol de rol {0} toegevoegd aan gebruiker {1}</value>
+  </data>
+  <data name="administration_setrole_err" xml:space="preserve">
+    <value>Fout bij het toevoegen van de rol. Ik heb onvoldoende rechten.</value>
+  </data>
+  <data name="administration_set_avatar" xml:space="preserve">
+    <value>Nieuwe avatar ingesteld!</value>
+  </data>
+  <data name="administration_set_channel_name" xml:space="preserve">
+    <value>Nieuwe kanaalnaam ingesteld.</value>
+  </data>
+  <data name="administration_set_game" xml:space="preserve">
+    <value>Nieuwe game ingesteld!</value>
+  </data>
+  <data name="administration_set_stream" xml:space="preserve">
+    <value>Nieuwe stream ingesteld!</value>
+  </data>
+  <data name="administration_set_topic" xml:space="preserve">
+    <value>Nieuwe kanaalonderwerp ingesteld.</value>
+  </data>
+  <data name="administration_shard_reconnected" xml:space="preserve">
+    <value>Shard {0} opnieuw verbonden.</value>
+  </data>
+  <data name="administration_shard_reconnecting" xml:space="preserve">
+    <value>Shard {0} is opnieuw aan het verbinden.</value>
+  </data>
+  <data name="administration_shutting_down" xml:space="preserve">
+    <value>Aan het afsluiten</value>
+  </data>
+  <data name="administration_slowmode_desc" xml:space="preserve">
+    <value>Gebruikers kunnen niet meer dan {0} berichten sturen per {1} seconden.</value>
+  </data>
+  <data name="administration_slowmode_disabled" xml:space="preserve">
+    <value>Langzame modus uitgezet.</value>
+  </data>
+  <data name="administration_slowmode_init" xml:space="preserve">
+    <value>Langzame modus gestart.</value>
+  </data>
+  <data name="administration_soft_banned_pl" xml:space="preserve">
+    <value>soft-verbannen (gekickt)</value>
+    <comment>PLURAL
+Fuzzy</comment>
+  </data>
+  <data name="administration_spam_ignore" xml:space="preserve">
+    <value>{0} zal dit kanaal negeren.</value>
+  </data>
+  <data name="administration_spam_not_ignore" xml:space="preserve">
+    <value>{0} zal dit kanaal niet langer negeren.</value>
+  </data>
+  <data name="administration_spam_stats" xml:space="preserve">
+    <value>Als een gebruiker {0} gelijke berichten plaatst, zal ik ze {1}.
+__IgnoredChannels__: {2}</value>
+  </data>
+  <data name="administration_text_chan_created" xml:space="preserve">
+    <value>Tekst-kanaal aangemaakt.</value>
+  </data>
+  <data name="administration_text_chan_destroyed" xml:space="preserve">
+    <value>Tekst-kanaal verwijderd.</value>
+  </data>
+  <data name="administration_undeafen" xml:space="preserve">
+    <value>Doof maken ontdoen succesvol</value>
+  </data>
+  <data name="administration_unmuted_sn" xml:space="preserve">
+    <value>Geünmute</value>
+    <comment>singular</comment>
+  </data>
+  <data name="administration_username" xml:space="preserve">
+    <value>Gebruikersnaam</value>
+  </data>
+  <data name="administration_username_changed" xml:space="preserve">
+    <value>Gebruikersnaam veranderd</value>
+  </data>
+  <data name="administration_users" xml:space="preserve">
+    <value>Gebruikers</value>
+  </data>
+  <data name="administration_user_banned" xml:space="preserve">
+    <value>Gebruiker verbannen</value>
+  </data>
+  <data name="administration_user_chat_mute" xml:space="preserve">
+    <value>{0} is **gedempt** van het chatten.</value>
+  </data>
+  <data name="administration_user_chat_unmute" xml:space="preserve">
+    <value>{0} is **ongedempt** van het chatten.</value>
+  </data>
+  <data name="administration_user_joined" xml:space="preserve">
+    <value>Gebruiker is toegetreden</value>
+  </data>
+  <data name="administration_user_left" xml:space="preserve">
+    <value>Gebruiker is weggegaan</value>
+  </data>
+  <data name="administration_user_muted" xml:space="preserve">
+    <value>{0} is **gedempt** van het tekst- en voice-kanaal.</value>
+  </data>
+  <data name="administration_user_role_add" xml:space="preserve">
+    <value>Rol van gebruiker toegevoegd</value>
+  </data>
+  <data name="administration_user_role_rem" xml:space="preserve">
+    <value>Rol van gebruiker verwijderd</value>
+  </data>
+  <data name="administration_user_status_change" xml:space="preserve">
+    <value>{0} is nu {1}</value>
+  </data>
+  <data name="administration_user_unmuted" xml:space="preserve">
+    <value>{0} is **ongedempt** van het tekst- en voice-kanaal.</value>
+  </data>
+  <data name="administration_user_vjoined" xml:space="preserve">
+    <value>{0} is {1} voice-kanaal toegetreden.</value>
+  </data>
+  <data name="administration_user_vleft" xml:space="preserve">
+    <value>{0} heeft {1} voice-kanaal verlaten.</value>
+  </data>
+  <data name="administration_user_vmoved" xml:space="preserve">
+    <value>{0} heeft {1} naar {2} voice-kanaal verplaatst.</value>
+  </data>
+  <data name="administration_user_voice_mute" xml:space="preserve">
+    <value>{0} is **spraak gemute**.</value>
+  </data>
+  <data name="administration_user_voice_unmute" xml:space="preserve">
+    <value>{0} is **spraak geünmute**.</value>
+  </data>
+  <data name="administration_voice_chan_created" xml:space="preserve">
+    <value>Voice-kanaal gemaakt</value>
+  </data>
+  <data name="administration_voice_chan_destroyed" xml:space="preserve">
+    <value>Voice-kanaal verwijderd</value>
+  </data>
+  <data name="administration_vt_disabled" xml:space="preserve">
+    <value>Spraak + tekst mogelijkheid uitgezet.</value>
+  </data>
+  <data name="administration_vt_enabled" xml:space="preserve">
+    <value>Spraak + tekst mogelijkheid aangezet.</value>
+  </data>
+  <data name="administration_vt_exit" xml:space="preserve">
+    <value>Ik heb geen **Rol Beheer** en/of **Kanaal Beheer** toestemmingen, dus ik kan geen `stem+text` gebruiken op de {0} server.</value>
+  </data>
+  <data name="administration_vt_no_admin" xml:space="preserve">
+    <value>Deze eigenschap wordt door jou ingeschakeld/uitgeschakeld maar **Ik heb geen ADMINISTRATIEVE toestemmingen**. Hierdoor kunnen er mogelijk problemen ontstaan, en je zal daarna de tekst-kanalen zelf moeten opruimen.</value>
+  </data>
+  <data name="administration_vt_perms" xml:space="preserve">
+    <value>Ik heb tenminste **Rol Beheering** en **Kanaal Beheering** toestemmingen nodig om deze eigenschap in te schakelen. (Gelieve administratieve rechten)</value>
+  </data>
+  <data name="administration_xmuted_text" xml:space="preserve">
+    <value>Gebruiker {0} van tekstkanaal</value>
+  </data>
+  <data name="administration_xmuted_text_and_voice" xml:space="preserve">
+    <value>Gebruiker {0} van tekst- en spraakkanaal</value>
+  </data>
+  <data name="administration_xmuted_voice" xml:space="preserve">
+    <value>Gebruiker {0} van spraakkanaal</value>
+  </data>
+  <data name="administration_sbdm" xml:space="preserve">
+    <value>Je bent soft-gebant van {0} server.
+Reden: {1}</value>
+  </data>
+  <data name="administration_user_unbanned" xml:space="preserve">
+    <value>Gebruiker niet meer verbannen</value>
+  </data>
+  <data name="administration_migration_done" xml:space="preserve">
+    <value>Migratie klaar!</value>
+  </data>
+  <data name="adminsitration_migration_error" xml:space="preserve">
+    <value>Fout tijdens het migreren, kijk in de bot zijn console voor meer informatie.</value>
+  </data>
+  <data name="administration_presence_updates" xml:space="preserve">
+    <value>Aanwezigheid updates</value>
+  </data>
+  <data name="administration_sb_user" xml:space="preserve">
+    <value>Gebruiker soft-gebant</value>
+  </data>
+  <data name="gambling_awarded" xml:space="preserve">
+    <value>heeft {0} aan {1} gegeven</value>
+  </data>
+  <data name="gambling_better_luck" xml:space="preserve">
+    <value>Volgende keer beter ^_^</value>
+  </data>
+  <data name="gambling_br_win" xml:space="preserve">
+    <value>Gefeliciteerd! Je hebt {0} gewonnen voor het rollen boven de {1}</value>
+  </data>
+  <data name="gambling_deck_reshuffled" xml:space="preserve">
+    <value>Dek herschud.</value>
+  </data>
+  <data name="gambling_flipped" xml:space="preserve">
+    <value>heeft de munt op {0} gegooid</value>
+    <comment>User flipped tails.</comment>
+  </data>
+  <data name="gambling_flip_guess" xml:space="preserve">
+    <value>Je hebt het goed gegokt! Je hebt {0} gewonnen</value>
+  </data>
+  <data name="gambling_flip_invalid" xml:space="preserve">
+    <value>Ongeldig nummer opgegeven. Je kan 1 tot {0} munten opgooien</value>
+  </data>
+  <data name="gambling_flowerreaction_desc" xml:space="preserve">
+    <value>Voeg een {0} reactie toe aan dit bericht om {0} te krijgen</value>
+  </data>
+  <data name="gambling_flowerreaction_footer" xml:space="preserve">
+    <value>Dit evenement blijft actief voor {0} uur.</value>
+  </data>
+  <data name="gambling_flowerreaction_title" xml:space="preserve">
+    <value>Bloemen reactie evenement gestart!</value>
+  </data>
+  <data name="gambling_gifted" xml:space="preserve">
+    <value>heeft {0} aan {1} cadeau gegeven</value>
+    <comment>X has gifted 15 flowers to Y</comment>
+  </data>
+  <data name="gambling_has" xml:space="preserve">
+    <value>{0} heeft {1}</value>
+    <comment>X has Y flowers</comment>
+  </data>
+  <data name="gambling_heads" xml:space="preserve">
+    <value>Kop</value>
+  </data>
+  <data name="gambling_leaderboard" xml:space="preserve">
+    <value>Scoreboard</value>
+  </data>
+  <data name="gambling_mass_award" xml:space="preserve">
+    <value>{0} heeft {1} gebruikers beloont met {2} rol.</value>
+  </data>
+  <data name="gambling_max_bet_limit" xml:space="preserve">
+    <value>Je kan niet meer dan {0} wedden</value>
+  </data>
+  <data name="gambling_min_bet_limit" xml:space="preserve">
+    <value>Je kan niet minder dan {0} wedden</value>
+  </data>
+  <data name="gambling_not_enough" xml:space="preserve">
+    <value>Je hebt niet genoeg {0}</value>
+  </data>
+  <data name="gambling_no_more_cards" xml:space="preserve">
+    <value>Geen kaarten meer in het dek.</value>
+  </data>
+  <data name="gambling_raffled_user" xml:space="preserve">
+    <value>Verlootte gebruiker</value>
+  </data>
+  <data name="gambling_roll" xml:space="preserve">
+    <value>Je hebt {0} gerold.</value>
+  </data>
+  <data name="gambling_slot_bet" xml:space="preserve">
+    <value>Inzet</value>
+  </data>
+  <data name="gambling_slot_jackpot" xml:space="preserve">
+    <value>WOAAHHHHHH!!! Gefeliciteerd!!! x{0}</value>
+  </data>
+  <data name="gambling_slot_single" xml:space="preserve">
+    <value>Een enkele {0}, x{1}</value>
+  </data>
+  <data name="gambling_slot_three" xml:space="preserve">
+    <value>Wow! Wat een geluk! Three of a kind! x{0}</value>
+  </data>
+  <data name="gambling_slot_two" xml:space="preserve">
+    <value>Goed gedaan! Twee {0} - wed x{1}</value>
+  </data>
+  <data name="gambling_slot_won" xml:space="preserve">
+    <value>Gewonnen</value>
+  </data>
+  <data name="gambling_sneakygamestatus_desc" xml:space="preserve">
+    <value>Gebruikers moeten een geheime code in typen om {0} te krijgen.
+Duurt {1} seconden. Vertel het aan niemand. Shhh.</value>
+  </data>
+  <data name="gambling_sneakygamestatus_end" xml:space="preserve">
+    <value>SneakyGame evenement geeindigt. {0} gebruikers hebben een beloning ontvangen.</value>
+  </data>
+  <data name="gambling_sneakygamestatus_title" xml:space="preserve">
+    <value>SneakyGameStatus evenement gestart.</value>
+  </data>
+  <data name="gambling_tails" xml:space="preserve">
+    <value>Munt</value>
+  </data>
+  <data name="gambling_take" xml:space="preserve">
+    <value>succesvol {0} van {1} genomen</value>
+  </data>
+  <data name="gambling_take_fail" xml:space="preserve">
+    <value>kon niet {0} van {1} nemen omdat de gebruiker niet zoveel {2} heeft!</value>
+  </data>
+  <data name="help_back_to_toc" xml:space="preserve">
+    <value>Terug naar de inhoudsopgave</value>
+  </data>
+  <data name="help_bot_owner_only" xml:space="preserve">
+    <value>Alleen voor Bot-eigenaren</value>
+  </data>
+  <data name="help_channel_permission" xml:space="preserve">
+    <value>Heeft {0} kanaal rechten nodig.</value>
+  </data>
+  <data name="help_cmdlist_donate" xml:space="preserve">
+    <value>Je kan het project steunen op Patreon: &lt;{0}&gt; of PayPal: &lt;{1}&gt;</value>
+  </data>
+  <data name="help_cmd_and_alias" xml:space="preserve">
+    <value>Commando&apos;s en aliassen</value>
+  </data>
+  <data name="help_commandlist_regen" xml:space="preserve">
+    <value>Commandolijst gegenereerd.</value>
+  </data>
+  <data name="help_commands_instr" xml:space="preserve">
+    <value>Typ `{0}h CommandoNaam` om de uitleg te zien voor dat specifieke commando. b.v `{0}h &gt;8bal`</value>
+  </data>
+  <data name="help_command_not_found" xml:space="preserve">
+    <value>Ik kan het commando niet vinden. Verifieer of dit commando echt bestaat voordat je het opnieuw probeert.</value>
+  </data>
+  <data name="help_desc" xml:space="preserve">
+    <value>Beschrijving</value>
+  </data>
+  <data name="help_donate" xml:space="preserve">
+    <value>Je kan het NadekoBot project steunen op
+Patreon &lt;{0}&gt; of
+PayPal &lt;{1}&gt;
+Vergeet niet je discord naam en id in het bericht te zetten.
+
+**Hartelijk bedankt** ♥️</value>
+  </data>
+  <data name="help_guide" xml:space="preserve">
+    <value>**Lijst met commando&apos;s**: &lt;{0}&gt;
+**Hosting tutorials en documenten kunnen hier gevonden worden**: &lt;{1}&gt;</value>
+  </data>
+  <data name="help_list_of_commands" xml:space="preserve">
+    <value>Lijst met commando&apos;s</value>
+  </data>
+  <data name="help_list_of_modules" xml:space="preserve">
+    <value>Lijst met modules</value>
+  </data>
+  <data name="help_modules_footer" xml:space="preserve">
+    <value>Typ `{0}cmds ModuleNaam` om een lijst van commando&apos;s te krijgen voor die module. bv `{0}cmds games`</value>
+  </data>
+  <data name="help_module_not_found" xml:space="preserve">
+    <value>Deze module bestaat niet.</value>
+  </data>
+  <data name="help_server_permission" xml:space="preserve">
+    <value>Heeft {0} server rechten nodig.</value>
+  </data>
+  <data name="help_table_of_contents" xml:space="preserve">
+    <value>Inhoudsopgave</value>
+  </data>
+  <data name="help_usage" xml:space="preserve">
+    <value>Gebruik</value>
+  </data>
+  <data name="nsfw_autohentai_started" xml:space="preserve">
+    <value>Autohentai gestart. Er wordt elke {0} seconden een foto geplaatst met de volgende labels:
+{1}</value>
+  </data>
+  <data name="nsfw_tag" xml:space="preserve">
+    <value>Label</value>
+  </data>
+  <data name="gambling_animal_race" xml:space="preserve">
+    <value>Dierenrace</value>
+  </data>
+  <data name="gambling_animal_race_failed" xml:space="preserve">
+    <value>Gefaald om te starten omdat er niet genoeg deelnemers zijn.</value>
+  </data>
+  <data name="gambling_animal_race_full" xml:space="preserve">
+    <value>De race is vol! De race wordt onmiddellijk gestart.</value>
+  </data>
+  <data name="gambling_animal_race_join" xml:space="preserve">
+    <value>{0} doet mee als een {1}</value>
+  </data>
+  <data name="gambling_animal_race_join_bet" xml:space="preserve">
+    <value>{0} doet mee als een {1} en wed {2}!</value>
+  </data>
+  <data name="gambling_animal_race_join_instr" xml:space="preserve">
+    <value>Typ {0}jr om mee te doen met de race.</value>
+  </data>
+  <data name="gambling_animal_race_starting" xml:space="preserve">
+    <value>De race zal met 20 seconden beginnen of wanneer de kamer is vol.</value>
+  </data>
+  <data name="gambling_animal_race_starting_with_x" xml:space="preserve">
+    <value>De race zal beginnen bij {0} deelnemers.</value>
+  </data>
+  <data name="gambling_animal_race_won" xml:space="preserve">
+    <value>{0} heeft de race gewonnen als {1}!</value>
+  </data>
+  <data name="gambling_animal_race_won_money" xml:space="preserve">
+    <value>{0} heeft de race gewonnen als {1} en {2}!</value>
+  </data>
+  <data name="gambling_dice_invalid_number" xml:space="preserve">
+    <value>Ongeldig nummer ingevoerd. Je kan de dobbelsteen van {0}-{1} rollen.</value>
+  </data>
+  <data name="gambling_dice_rolled" xml:space="preserve">
+    <value>heeft {0} gerold.</value>
+    <comment>Someone rolled 35</comment>
+  </data>
+  <data name="gambling_dice_rolled_num" xml:space="preserve">
+    <value>Dobbelsteen gerold: {0}</value>
+    <comment>Dice Rolled: 5</comment>
+  </data>
+  <data name="gambling_race_failed_starting" xml:space="preserve">
+    <value>Starten van de race is mislukt. Een andere race is waarschijnlijk bezig.</value>
+  </data>
+  <data name="gambling_race_not_exist" xml:space="preserve">
+    <value>Er bestaat geen enkele race op deze server</value>
+  </data>
+  <data name="gambling_second_larger_than_first" xml:space="preserve">
+    <value>Het tweede nummer moet hoger zijn dan het eerste nummer.</value>
+  </data>
+  <data name="gambling_changes_of_heart" xml:space="preserve">
+    <value>Ommezwaai</value>
+  </data>
+  <data name="gambling_claimed_by" xml:space="preserve">
+    <value>Opgeëist door</value>
+  </data>
+  <data name="gambling_divorces" xml:space="preserve">
+    <value>Scheidingen</value>
+  </data>
+  <data name="gambling_likes" xml:space="preserve">
+    <value>Likes</value>
+  </data>
+  <data name="gambling_price" xml:space="preserve">
+    <value>Prijs</value>
+  </data>
+  <data name="gambling_waifus_none" xml:space="preserve">
+    <value>Er zijn nog geen waifus geclaimed.</value>
+  </data>
+  <data name="gambling_waifus_top_waifus" xml:space="preserve">
+    <value>Top Waifus</value>
+  </data>
+  <data name="gambling_waifu_affinity_already" xml:space="preserve">
+    <value>Jouw affiniteit is al ingesteld op een waifu, of je probeert om je affiniteit weg te halen terwijl je geen hebt.</value>
+  </data>
+  <data name="gambling_waifu_affinity_changed" xml:space="preserve">
+    <value>Affiniteit veranderd van {0} naar {1}
+
+*Dit is moreel gezien twijfelachtig.*🤔</value>
+    <comment>Make sure to get the formatting right, and leave the thinking emoji</comment>
+  </data>
+  <data name="gambling_waifu_affinity_cooldown" xml:space="preserve">
+    <value>Je moet {0} uren en {1} minuten wachten om je affiniteit weer te veranderen.</value>
+  </data>
+  <data name="gambling_waifu_affinity_reset" xml:space="preserve">
+    <value>Je affiniteit is gereset. Je hebt geen persoon meer die je leuk vindt.</value>
+  </data>
+  <data name="gambling_waifu_affinity_set" xml:space="preserve">
+    <value>wil {0}&apos;s waifu zijn. Aww &lt;3</value>
+  </data>
+  <data name="gambling_waifu_claimed" xml:space="preserve">
+    <value>heeft {0} geclaimed als hun waifu voor {1}!</value>
+  </data>
+  <data name="gambling_waifu_divorced_like" xml:space="preserve">
+    <value>Je bent gescheiden met een waifu die jou leuk vindt. Jij harteloos monster.
+{0} ontvangen {1} als compensatie.</value>
+  </data>
+  <data name="gambling_waifu_egomaniac" xml:space="preserve">
+    <value>Je kunt geen affiniteit voor jezelf instellen, jij opgeblazen egoist.</value>
+  </data>
+  <data name="gambling_waifu_fulfilled" xml:space="preserve">
+    <value>🎉Hun liefde overvloeit! 🎉
+{0}&apos;s nieuwe waarde is {1}!</value>
+  </data>
+  <data name="gambling_waifu_isnt_cheap" xml:space="preserve">
+    <value>Geen enkele waifu is zo goedkoop. Je moet tenminste {0} betalen om een waifu te krijgen, ook al is hun echte waarde lager.</value>
+  </data>
+  <data name="gambling_waifu_not_enough" xml:space="preserve">
+    <value>Je moet tenminste {0} betalen om die waifu te nemen!</value>
+  </data>
+  <data name="gambling_waifu_not_yours" xml:space="preserve">
+    <value>Die waifu is niet van jou.</value>
+  </data>
+  <data name="gambling_waifu_not_yourself" xml:space="preserve">
+    <value>Je kunt jezelf niet als waifu nemen.</value>
+  </data>
+  <data name="gambling_waifu_recent_divorce" xml:space="preserve">
+    <value>Je bent kort geleden gescheiden. Je moet {0} uren en {1} minuten wachten om weer te scheiden.</value>
+  </data>
+  <data name="gambling_nobody" xml:space="preserve">
+    <value>Niemand</value>
+  </data>
+  <data name="gambling_waifu_divorced_notlike" xml:space="preserve">
+    <value>Je bent gescheiden met een waifu die jou niet leuk vindt. Je krijgt {0} terug.</value>
+  </data>
+  <data name="games_8ball" xml:space="preserve">
+    <value>8ball</value>
+  </data>
+  <data name="games_acrophobia" xml:space="preserve">
+    <value>Acrophobie</value>
+  </data>
+  <data name="games_acro_ended_no_sub" xml:space="preserve">
+    <value>Spel afgelopen zonder inzendingen.</value>
+  </data>
+  <data name="games_acro_no_votes_cast" xml:space="preserve">
+    <value>Geen stemmen ingestuurd. Spel beëindigd zonder winnaar.</value>
+  </data>
+  <data name="games_acro_nym_was" xml:space="preserve">
+    <value>Afkorting was {0}</value>
+  </data>
+  <data name="games_acro_running" xml:space="preserve">
+    <value>Acrophobie spel is al bezig in dit kanaal.</value>
+  </data>
+  <data name="games_acro_started" xml:space="preserve">
+    <value>Game is gestart: maak een zin met de volgende afkorting: {0}.</value>
+  </data>
+  <data name="games_acro_started_footer" xml:space="preserve">
+    <value>Je hebt {0} seconden om een inzending te maken.</value>
+  </data>
+  <data name="games_acro_submit" xml:space="preserve">
+    <value>{0} heeft een zin ingezonden. ({1} in totaal)</value>
+  </data>
+  <data name="games_acro_vote" xml:space="preserve">
+    <value>Stem door het nummer van een inzending te typen</value>
+  </data>
+  <data name="games_acro_vote_cast" xml:space="preserve">
+    <value>{0} heeft gestemd!</value>
+  </data>
+  <data name="games_acro_winner" xml:space="preserve">
+    <value>De winnaar is {0} met {1} punten.</value>
+  </data>
+  <data name="games_acro_winner_only" xml:space="preserve">
+    <value>{0} is de winnaar doordat deze als enige een inzending heeft gemaakt!</value>
+  </data>
+  <data name="games_question" xml:space="preserve">
+    <value>Vraag</value>
+  </data>
+  <data name="games_rps_draw" xml:space="preserve">
+    <value>Het is gelijkspel! Beiden hebben {0} gekozen</value>
+  </data>
+  <data name="games_rps_win" xml:space="preserve">
+    <value>{0} heeft gewonnen! {1} verslaat {2}</value>
+  </data>
+  <data name="games_submissions_closed" xml:space="preserve">
+    <value>Inzendingen gesloten.</value>
+  </data>
+  <data name="gambling_animal_race_already_started" xml:space="preserve">
+    <value>Dierenrace is al bezig.</value>
+  </data>
+  <data name="gambling_total_average" xml:space="preserve">
+    <value>Totaal: {0} Gemiddeld: {1}</value>
+  </data>
+  <data name="games_category" xml:space="preserve">
+    <value>Categorie</value>
+  </data>
+  <data name="games_cleverbot_disabled" xml:space="preserve">
+    <value>Cleverbot is uitgeschakeld op deze server.</value>
+  </data>
+  <data name="games_cleverbot_enabled" xml:space="preserve">
+    <value>Cleverbot is ingeschakeld op deze server.</value>
+  </data>
+  <data name="games_curgen_disabled" xml:space="preserve">
+    <value>Valuta generatie is uitgeschakeld op dit kanaal.</value>
+  </data>
+  <data name="games_curgen_enabled" xml:space="preserve">
+    <value>Valuta generatie is ingeschakeld op dit kanaal.</value>
+  </data>
+  <data name="games_curgen_pl" xml:space="preserve">
+    <value>{0} willekeurige {1} zijn verschenen!</value>
+    <comment>plural</comment>
+  </data>
+  <data name="games_curgen_sn" xml:space="preserve">
+    <value>Een willekeurige {0} is verschenen!</value>
+  </data>
+  <data name="games_failed_loading_question" xml:space="preserve">
+    <value>Het laden van de vraag is gefaald.</value>
+  </data>
+  <data name="games_game_started" xml:space="preserve">
+    <value>Spel gestart.</value>
+  </data>
+  <data name="games_hangman_game_started" xml:space="preserve">
+    <value>Galgje potje gestart</value>
+  </data>
+  <data name="games_hangman_running" xml:space="preserve">
+    <value>Er is al een potje galgje aan de gang in dit kanaal.</value>
+  </data>
+  <data name="games_hangman_start_errored" xml:space="preserve">
+    <value>Galgje kon niet opstarten vanwege een fout.</value>
+  </data>
+  <data name="games_hangman_types" xml:space="preserve">
+    <value>Lijst van &quot;{0}galgje&quot; term types:</value>
+  </data>
+  <data name="games_leaderboard" xml:space="preserve">
+    <value>Scoreboard</value>
+  </data>
+  <data name="games_not_enough" xml:space="preserve">
+    <value>Je hebt niet genoeg {0}</value>
+  </data>
+  <data name="games_no_results" xml:space="preserve">
+    <value>Geen resultaten</value>
+  </data>
+  <data name="games_picked" xml:space="preserve">
+    <value>{0} geplukt</value>
+    <comment>Kwoth picked 5*</comment>
+  </data>
+  <data name="games_planted" xml:space="preserve">
+    <value>{0} heeft {1} geplant</value>
+    <comment>Kwoth planted 5*</comment>
+  </data>
+  <data name="games_trivia_already_running" xml:space="preserve">
+    <value>Trivia spel is al bezig in deze server.</value>
+  </data>
+  <data name="games_trivia_game" xml:space="preserve">
+    <value>Trivia spel</value>
+  </data>
+  <data name="games_trivia_guess" xml:space="preserve">
+    <value>{0} heeft &apos;t geraden! Het antwoord was: {1}</value>
+  </data>
+  <data name="games_trivia_none" xml:space="preserve">
+    <value>Trivia is niet bezig op deze server.</value>
+  </data>
+  <data name="games_trivia_points" xml:space="preserve">
+    <value>{0} heeft {1} punten</value>
+  </data>
+  <data name="games_trivia_stopping" xml:space="preserve">
+    <value>Er wordt gestopt na deze vraag.</value>
+  </data>
+  <data name="games_trivia_times_up" xml:space="preserve">
+    <value>De tijd is om! Het goede antwoord was {0}</value>
+  </data>
+  <data name="games_trivia_win" xml:space="preserve">
+    <value>{0} heeft het antwoord geraden en wint het spel! Het antwoord was: {1}</value>
+  </data>
+  <data name="games_ttt_against_yourself" xml:space="preserve">
+    <value>Je kan niet tegen jezelf spelen.</value>
+  </data>
+  <data name="games_ttt_already_running" xml:space="preserve">
+    <value>Boter-Kaas-en-Eieren spel is al bezig in dit kanaal.</value>
+  </data>
+  <data name="games_ttt_a_draw" xml:space="preserve">
+    <value>Gelijkspel!</value>
+  </data>
+  <data name="games_ttt_created" xml:space="preserve">
+    <value>heeft een Boter-Kaas-en-Eieren sessie aangemaakt.</value>
+  </data>
+  <data name="games_ttt_has_won" xml:space="preserve">
+    <value>{0} heeft gewonnen!</value>
+  </data>
+  <data name="games_ttt_matched_three" xml:space="preserve">
+    <value>Drie op een rij</value>
+  </data>
+  <data name="games_ttt_no_moves" xml:space="preserve">
+    <value>Geen zetten over!</value>
+  </data>
+  <data name="games_ttt_time_expired" xml:space="preserve">
+    <value>Tijd voorbij!</value>
+  </data>
+  <data name="games_ttt_users_move" xml:space="preserve">
+    <value>{0}&apos;s beurt</value>
+  </data>
+  <data name="games_vs" xml:space="preserve">
+    <value>{0} tegen {1}</value>
+  </data>
+  <data name="music_attempting_to_queue" xml:space="preserve">
+    <value>Aan het proberen om {0} tracks in de wachtrij te zetten...</value>
+  </data>
+  <data name="music_autoplay_disabled" xml:space="preserve">
+    <value>Autoplay uitgezet.</value>
+  </data>
+  <data name="music_autoplay_enabled" xml:space="preserve">
+    <value>Autoplay aangezet.</value>
+  </data>
+  <data name="music_defvol_set" xml:space="preserve">
+    <value>Standaardvolume op {0}% gezet</value>
+  </data>
+  <data name="music_dir_queue_complete" xml:space="preserve">
+    <value>Map afspeellijst geladen/compleet.</value>
+  </data>
+  <data name="music_fairplay" xml:space="preserve">
+    <value>fairplay</value>
+  </data>
+  <data name="music_finished_song" xml:space="preserve">
+    <value>Track afgelopen:</value>
+  </data>
+  <data name="music_fp_disabled" xml:space="preserve">
+    <value>Fairplay uitgeschakeld.</value>
+  </data>
+  <data name="music_fp_enabled" xml:space="preserve">
+    <value>Fairplay ingeschakeld.</value>
+  </data>
+  <data name="music_from_position" xml:space="preserve">
+    <value>Van positie</value>
+  </data>
+  <data name="music_id" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="music_invalid_input" xml:space="preserve">
+    <value>Ongeldige invoer.</value>
+  </data>
+  <data name="music_max_playtime_none" xml:space="preserve">
+    <value>Maximale speeltijd heeft geen limiet meer.</value>
+  </data>
+  <data name="music_max_playtime_set" xml:space="preserve">
+    <value>Maximale speeltijd op {0} seconden gezet.</value>
+  </data>
+  <data name="music_max_queue_unlimited" xml:space="preserve">
+    <value>Maximale muziek wachtrij heeft geen limiet meer.</value>
+  </data>
+  <data name="music_max_queue_x" xml:space="preserve">
+    <value>Maximale muziek wachtrij is nu {0} tracks.</value>
+  </data>
+  <data name="music_must_be_in_voice" xml:space="preserve">
+    <value>Je moet in het spraakkanaal van de server zijn.</value>
+  </data>
+  <data name="music_name" xml:space="preserve">
+    <value>Naam</value>
+  </data>
+  <data name="music_now_playing" xml:space="preserve">
+    <value>Nu aan het spelen</value>
+  </data>
+  <data name="music_no_player" xml:space="preserve">
+    <value>Geen actieve muziek speler.</value>
+  </data>
+  <data name="music_no_search_results" xml:space="preserve">
+    <value>Geen zoekresultaten.</value>
+  </data>
+  <data name="music_paused" xml:space="preserve">
+    <value>Muziek gepauzeerd.</value>
+  </data>
+  <data name="music_player_queue" xml:space="preserve">
+    <value>Speler afspeellijst - Pagina {0}/{1}</value>
+  </data>
+  <data name="music_playing_song" xml:space="preserve">
+    <value>Track speelt af</value>
+  </data>
+  <data name="music_playlists" xml:space="preserve">
+    <value>`#{0}` - **{1}** van *{2}* ({3} tracks) </value>
+  </data>
+  <data name="music_playlists_page" xml:space="preserve">
+    <value>Pagina {0} van opgeslagen afspeellijsten
+</value>
+  </data>
+  <data name="music_playlist_deleted" xml:space="preserve">
+    <value>Afspeellijst verwijderd.</value>
+  </data>
+  <data name="music_playlist_delete_fail" xml:space="preserve">
+    <value>Fout bij het verwijderen van de afspeellijst. De afspeellijst bestaat niet of jij bent niet de eigenaar.</value>
+  </data>
+  <data name="music_playlist_id_not_found" xml:space="preserve">
+    <value>Afspeellijst met dat ID bestaat niet.</value>
+  </data>
+  <data name="music_playlist_queue_complete" xml:space="preserve">
+    <value>Afspeellijst wachtrij afgerond.</value>
+  </data>
+  <data name="music_playlist_saved" xml:space="preserve">
+    <value>Afspeellijst opgeslagen</value>
+  </data>
+  <data name="music_play_limit" xml:space="preserve">
+    <value>{0}s limiet</value>
+  </data>
+  <data name="music_queue" xml:space="preserve">
+    <value>Wachtrij</value>
+  </data>
+  <data name="music_queued_song" xml:space="preserve">
+    <value>Nummer toegevoegd
+</value>
+  </data>
+  <data name="music_queue_cleared" xml:space="preserve">
+    <value>Muziek wachtrij leeggemaakt.</value>
+  </data>
+  <data name="music_queue_full" xml:space="preserve">
+    <value>Wachtrij is vol op {0}/{0}.</value>
+  </data>
+  <data name="music_removed_song" xml:space="preserve">
+    <value>Track verwijderd:</value>
+    <comment>context: &quot;removed song #5&quot;</comment>
+  </data>
+  <data name="music_repeating_cur_song" xml:space="preserve">
+    <value>Huidige track word herhaald</value>
+  </data>
+  <data name="music_repeating_playlist" xml:space="preserve">
+    <value>Afspeellijst wordt herhaald</value>
+  </data>
+  <data name="music_repeating_track" xml:space="preserve">
+    <value>Nummer wordt herhaald</value>
+  </data>
+  <data name="music_repeating_track_stopped" xml:space="preserve">
+    <value>Huidige nummerherhaling gestopt.</value>
+  </data>
+  <data name="music_resumed" xml:space="preserve">
+    <value>Nummer word hervat.</value>
+  </data>
+  <data name="music_rpl_disabled" xml:space="preserve">
+    <value>Herhalende afspeellijst uitgeschakeld.</value>
+  </data>
+  <data name="music_rpl_enabled" xml:space="preserve">
+    <value>Herhalende afspeellijst ingeschakeld.</value>
+  </data>
+  <data name="music_set_music_channel" xml:space="preserve">
+    <value>Tracks die worden afgespeeld, aflopen, gepauzeerd worden en worden verwijderd laat ik in dit kanaal zien.</value>
+  </data>
+  <data name="music_skipped_to" xml:space="preserve">
+    <value>Overslaan naar `{0}:{1}`</value>
+  </data>
+  <data name="music_songs_shuffled" xml:space="preserve">
+    <value>Tracks geschud</value>
+  </data>
+  <data name="music_song_moved" xml:space="preserve">
+    <value>Track verzet</value>
+  </data>
+  <data name="music_time_format" xml:space="preserve">
+    <value>{0}u {1}m {2}s</value>
+  </data>
+  <data name="music_to_position" xml:space="preserve">
+    <value>Naar positie</value>
+  </data>
+  <data name="music_unlimited" xml:space="preserve">
+    <value>ongelimiteerd</value>
+  </data>
+  <data name="music_volume_input_invalid" xml:space="preserve">
+    <value>Volume moet tussen 0 en 100 zijn</value>
+  </data>
+  <data name="music_volume_set" xml:space="preserve">
+    <value>Volume op {0}% gezet</value>
+  </data>
+  <data name="permissions_acm_disable" xml:space="preserve">
+    <value>ALLE MODULES zijn uitgeschakeld op kanaal {0}.</value>
+  </data>
+  <data name="permissions_acm_enable" xml:space="preserve">
+    <value>ALLE MODULES zijn ingeschakeld op kanaal {0}.</value>
+  </data>
+  <data name="permissions_allowed" xml:space="preserve">
+    <value>Toegestaan</value>
+  </data>
+  <data name="permissions_arm_disable" xml:space="preserve">
+    <value>ALLE MODULES zijn uitgeschakeld voor deze rol {0}.</value>
+  </data>
+  <data name="permissions_arm_enable" xml:space="preserve">
+    <value>ALLE MODULES zijn ingeschakeld voor deze rol{0}.</value>
+  </data>
+  <data name="permissions_asm_disable" xml:space="preserve">
+    <value>ALLE MODULES zijn uitgeschakeld op deze server.</value>
+  </data>
+  <data name="permissions_asm_enable" xml:space="preserve">
+    <value>ALLE MODULES zijn ingeschakeld op deze server.</value>
+  </data>
+  <data name="permissions_aum_disable" xml:space="preserve">
+    <value>ALLE MODULES zijn uitgeschakeld voor deze gebruiker{0}.</value>
+  </data>
+  <data name="permissions_aum_enable" xml:space="preserve">
+    <value>ALLE MODULES zijn ingeschakeld voor deze gebruiker{0}.</value>
+  </data>
+  <data name="permissions_blacklisted" xml:space="preserve">
+    <value>Blacklisted {0} met ID {1}</value>
+  </data>
+  <data name="permissions_cmdcd_add" xml:space="preserve">
+    <value>Commando {0} heeft nu een {1} seconden cooldown.</value>
+  </data>
+  <data name="permissions_cmdcd_cleared" xml:space="preserve">
+    <value>Commando {0} heeft geen cooldown meer, en alle bestaande cooldowns zijn weggehaald.</value>
+  </data>
+  <data name="permissions_cmdcd_none" xml:space="preserve">
+    <value>Geen commando cooldowns ingesteld.</value>
+  </data>
+  <data name="permissions_command_costs" xml:space="preserve">
+    <value>Command kosten</value>
+  </data>
+  <data name="permissions_cx_disable" xml:space="preserve">
+    <value>Gebruik van {0} {1} uitgeschakeld in kanaal {2}.</value>
+  </data>
+  <data name="permissions_cx_enable" xml:space="preserve">
+    <value>Gebruik van {0} {1} ingeschakeld in kanaal {2}.</value>
+  </data>
+  <data name="permissions_denied" xml:space="preserve">
+    <value>Geweigerd</value>
+  </data>
+  <data name="permissions_filter_word_add" xml:space="preserve">
+    <value>Woord {0} toegevoegd aan de lijst met gefilterde woorden.</value>
+  </data>
+  <data name="permissions_filter_word_list" xml:space="preserve">
+    <value>Lijst van gefilterde woorden</value>
+  </data>
+  <data name="permissions_filter_word_remove" xml:space="preserve">
+    <value>Woord {0} verwijderd van de lijst met gefilterde woorden.</value>
+  </data>
+  <data name="permissions_invalid_second_param_between" xml:space="preserve">
+    <value>Ongeldige tweede parameter (moet een nummer zijn tussen {0} en {1}).</value>
+  </data>
+  <data name="permissions_invite_filter_channel_off" xml:space="preserve">
+    <value>Uitnodigingfilter uitgeschakeld in dit kanaal.</value>
+  </data>
+  <data name="permissions_invite_filter_channel_on" xml:space="preserve">
+    <value>Uitnodigingfilter ingeschakeld in dit kanaal.</value>
+  </data>
+  <data name="permissions_invite_filter_server_off" xml:space="preserve">
+    <value>Uitnodigingfilter uitgeschakeld in deze server.</value>
+  </data>
+  <data name="permissions_invite_filter_server_on" xml:space="preserve">
+    <value>Uitnodigingfilter ingeschakeld in deze server.</value>
+  </data>
+  <data name="permissions_moved_permission" xml:space="preserve">
+    <value>Toestemming {0} verplaatst van #{1} naar #{2}</value>
+  </data>
+  <data name="permissions_not_found" xml:space="preserve">
+    <value>Kan de toestemming niet vinden in inhoudsopgave #{0}</value>
+  </data>
+  <data name="permissions_no_costs" xml:space="preserve">
+    <value>Geen kosten ingesteld.</value>
+  </data>
+  <data name="permissions_of_command" xml:space="preserve">
+    <value>commando</value>
+    <comment>Gen (of command)</comment>
+  </data>
+  <data name="permissions_of_module" xml:space="preserve">
+    <value>module</value>
+    <comment>Gen. (of module)</comment>
+  </data>
+  <data name="permissions_page" xml:space="preserve">
+    <value>Rechten pagina {0}</value>
+  </data>
+  <data name="permissions_permrole" xml:space="preserve">
+    <value>Actuele toestemmingsrol is {0}.</value>
+  </data>
+  <data name="permissions_permrole_changed" xml:space="preserve">
+    <value>Gebruiker heeft nu {0} rol om toestemmingen te veranderen.</value>
+  </data>
+  <data name="permissions_perm_out_of_range" xml:space="preserve">
+    <value>Geen toestemming gevonden in de inhoudsopgave.</value>
+  </data>
+  <data name="permissions_removed" xml:space="preserve">
+    <value>Verwijderd toestemming #{0} - {1}</value>
+  </data>
+  <data name="permissions_rx_disable" xml:space="preserve">
+    <value>Gebruik van {0} {1} uitgeschakeld voor rol {2}.</value>
+  </data>
+  <data name="permissions_rx_enable" xml:space="preserve">
+    <value>Gebruik van {0} {1} ingeschakeld voor rol {2}.</value>
+  </data>
+  <data name="permissions_sec" xml:space="preserve">
+    <value>sec.</value>
+    <comment>Short of seconds.</comment>
+  </data>
+  <data name="permissions_sx_disable" xml:space="preserve">
+    <value>Gebruik van {0} {1} uitgeschakeld op deze server.</value>
+  </data>
+  <data name="permissions_sx_enable" xml:space="preserve">
+    <value>Gebruik van {0} {1} ingeschakeld op deze server.</value>
+  </data>
+  <data name="permissions_unblacklisted" xml:space="preserve">
+    <value>Unblacklisted {0} met ID {1} </value>
+  </data>
+  <data name="permissions_uneditable" xml:space="preserve">
+    <value>Niet veranderbaar</value>
+  </data>
+  <data name="permissions_ux_disable" xml:space="preserve">
+    <value>Uitgeschakelde gebruik van {0} {1} voor gebruiker {2}.</value>
+  </data>
+  <data name="permissions_ux_enable" xml:space="preserve">
+    <value>Ingeschakelde gebruik van {0} {1} voor gebruiker {2}.</value>
+  </data>
+  <data name="permissions_verbose_false" xml:space="preserve">
+    <value>Ik zal geen permissiewaarschuwingen meer weergeven.</value>
+  </data>
+  <data name="permissions_verbose_true" xml:space="preserve">
+    <value>Ik zal permissiewaarschuwingen weergeven.</value>
+  </data>
+  <data name="permissions_word_filter_channel_off" xml:space="preserve">
+    <value>Woordfilter gedeactiveerd in dit kanaal.</value>
+  </data>
+  <data name="permissions_word_filter_channel_on" xml:space="preserve">
+    <value>Woordfilter geactiveerd in dit kanaal.</value>
+  </data>
+  <data name="permissions_word_filter_server_off" xml:space="preserve">
+    <value>Woordfilter gedeactiveerd in deze server.</value>
+  </data>
+  <data name="permissions_word_filter_server_on" xml:space="preserve">
+    <value>Woordfilter geactiveerd in deze server.</value>
+  </data>
+  <data name="searches_abilities" xml:space="preserve">
+    <value>Begaafdheid</value>
+  </data>
+  <data name="searches_anime_no_fav" xml:space="preserve">
+    <value>Nog geen favoriete anime</value>
+  </data>
+  <data name="searches_atl_ad_started" xml:space="preserve">
+    <value>Gestart met het automatisch vertalen van berichten op dit kanaal. Berichten van gebruikers worden automatisch verwijderd.</value>
+  </data>
+  <data name="searches_atl_removed" xml:space="preserve">
+    <value>Jouw automatisch translatie taal is verwijderd.</value>
+  </data>
+  <data name="searches_atl_set" xml:space="preserve">
+    <value>Jouw automatisch translatie taal is aangepast naar {0}&gt;{1}</value>
+  </data>
+  <data name="searches_atl_started" xml:space="preserve">
+    <value>Gestart met het automatisch vertalen van berichten op dit kanaal.</value>
+  </data>
+  <data name="searches_atl_stopped" xml:space="preserve">
+    <value>Gestopt met het automatisch vertalen van berichten op dit kanaal.</value>
+  </data>
+  <data name="searches_bad_input_format" xml:space="preserve">
+    <value>Verkeerde invoer formaat, of ging er iets mis.</value>
+  </data>
+  <data name="searches_card_not_found" xml:space="preserve">
+    <value>Gekozen kaart is niet gevonden.</value>
+  </data>
+  <data name="searches_catfact" xml:space="preserve">
+    <value>feit</value>
+  </data>
+  <data name="searches_chapters" xml:space="preserve">
+    <value>hoofdstukken</value>
+  </data>
+  <data name="searches_comic_number" xml:space="preserve">
+    <value>Stripboek #</value>
+  </data>
+  <data name="searches_compet_loses" xml:space="preserve">
+    <value>Competitief verloren</value>
+  </data>
+  <data name="searches_compet_played" xml:space="preserve">
+    <value>Competitief gespeeld</value>
+  </data>
+  <data name="searches_compet_rank" xml:space="preserve">
+    <value>Competitief rang</value>
+  </data>
+  <data name="searches_compet_wins" xml:space="preserve">
+    <value>Competitief Gewonnen</value>
+  </data>
+  <data name="searches_completed" xml:space="preserve">
+    <value>Voltooid</value>
+  </data>
+  <data name="searches_condition" xml:space="preserve">
+    <value>Conditie</value>
+  </data>
+  <data name="searches_cost" xml:space="preserve">
+    <value>Kost</value>
+  </data>
+  <data name="searches_date" xml:space="preserve">
+    <value>Datum</value>
+  </data>
+  <data name="searches_define" xml:space="preserve">
+    <value>Definiëren:</value>
+  </data>
+  <data name="searches_dropped" xml:space="preserve">
+    <value>Laten vallen</value>
+  </data>
+  <data name="searches_episodes" xml:space="preserve">
+    <value>Afleveringen</value>
+  </data>
+  <data name="searches_error_occured" xml:space="preserve">
+    <value>Fout opgedaagd.</value>
+  </data>
+  <data name="searches_example" xml:space="preserve">
+    <value>Voorbeeld</value>
+  </data>
+  <data name="searches_failed_finding_anime" xml:space="preserve">
+    <value>Kon die animu niet vinden.</value>
+  </data>
+  <data name="searches_failed_finding_manga" xml:space="preserve">
+    <value>Kon die mango niet vinden.</value>
+  </data>
+  <data name="searches_genres" xml:space="preserve">
+    <value>Genres</value>
+  </data>
+  <data name="searches_hashtag_error" xml:space="preserve">
+    <value>Definitie vinden voor de label is mislukt.</value>
+  </data>
+  <data name="searches_height_weight" xml:space="preserve">
+    <value>Lengte/Gewicht</value>
+  </data>
+  <data name="searches_height_weight_val" xml:space="preserve">
+    <value>{0}m/{1}kg </value>
+  </data>
+  <data name="searches_humidity" xml:space="preserve">
+    <value>Vochtigheid</value>
+  </data>
+  <data name="searches_image_search_for" xml:space="preserve">
+    <value>Afbeelding zoekopdracht voor:</value>
+  </data>
+  <data name="searches_imdb_fail" xml:space="preserve">
+    <value>Mislukt in het vinden van die film.</value>
+  </data>
+  <data name="searches_invalid_lang" xml:space="preserve">
+    <value>Invalide taal -bron of -doel.</value>
+  </data>
+  <data name="searches_jokes_not_loaded" xml:space="preserve">
+    <value>Grapjes niet geladen.</value>
+  </data>
+  <data name="searches_latlong" xml:space="preserve">
+    <value>Lengte- en breedtegraad</value>
+  </data>
+  <data name="searches_level" xml:space="preserve">
+    <value>Niveau</value>
+  </data>
+  <data name="searches_list_of_place_tags" xml:space="preserve">
+    <value>Lijst van {0}plaats labels</value>
+    <comment>Don&apos;t translate {0}place</comment>
+  </data>
+  <data name="searches_location" xml:space="preserve">
+    <value>Lokatie</value>
+  </data>
+  <data name="searches_magicitems_not_loaded" xml:space="preserve">
+    <value>Magische Items niet geladen.</value>
+  </data>
+  <data name="searches_mal_profile" xml:space="preserve">
+    <value>{0}&apos;s MAL profiel</value>
+  </data>
+  <data name="searches_mashape_api_missing" xml:space="preserve">
+    <value>Je kunt deze functie niet gebruiken. Bot eigenaar heeft MashapeApiKey niet gedefinieërd.</value>
+  </data>
+  <data name="searches_min_max" xml:space="preserve">
+    <value>Minimaal/Maximaal</value>
+  </data>
+  <data name="searches_no_channel_found" xml:space="preserve">
+    <value>Geen kanaal gevonden.</value>
+  </data>
+  <data name="searches_no_results" xml:space="preserve">
+    <value>Geen resultaten gevonden.</value>
+  </data>
+  <data name="searches_on_hold" xml:space="preserve">
+    <value>On-hold</value>
+  </data>
+  <data name="searches_original_url" xml:space="preserve">
+    <value>Originele URL</value>
+  </data>
+  <data name="searches_osu_api_key" xml:space="preserve">
+    <value>Een osu! API sleutel is vereist.</value>
+  </data>
+  <data name="searches_osu_failed" xml:space="preserve">
+    <value>Kon het osu! handtekening niet ontvangen.</value>
+  </data>
+  <data name="searches_over_x" xml:space="preserve">
+    <value>Meer dan {0} afbeeldingen gevonden. Willekeurig Resultaat {0}.</value>
+  </data>
+  <data name="searches_ow_user_not_found" xml:space="preserve">
+    <value>Gebruiker niet gevonden! Check de Regio en de BattleTag voordat je het opnieuw probeert.</value>
+  </data>
+  <data name="searches_plan_to_watch" xml:space="preserve">
+    <value>Van plan om te bekijken.</value>
+  </data>
+  <data name="searches_platform" xml:space="preserve">
+    <value>Platform</value>
+  </data>
+  <data name="searches_pokemon_ability_none" xml:space="preserve">
+    <value>Geen talent gevonden.</value>
+  </data>
+  <data name="searches_pokemon_none" xml:space="preserve">
+    <value>Geen Pokémon gevonden.</value>
+  </data>
+  <data name="searches_profile_link" xml:space="preserve">
+    <value>Profiel link:</value>
+  </data>
+  <data name="searches_quality" xml:space="preserve">
+    <value>Kwaliteit:</value>
+  </data>
+  <data name="searches_quick_playtime" xml:space="preserve">
+    <value>Snel kijktijd</value>
+  </data>
+  <data name="searches_quick_wins" xml:space="preserve">
+    <value>Snelle overwinningen.</value>
+  </data>
+  <data name="searches_rating" xml:space="preserve">
+    <value>Beoordeling</value>
+  </data>
+  <data name="searches_score" xml:space="preserve">
+    <value>Score:</value>
+  </data>
+  <data name="searches_search_for" xml:space="preserve">
+    <value>Zoekopdracht voor:</value>
+  </data>
+  <data name="searches_shorten_fail" xml:space="preserve">
+    <value>Fout bij het inkorten van de URL.</value>
+  </data>
+  <data name="searches_short_url" xml:space="preserve">
+    <value>Korte URL</value>
+  </data>
+  <data name="searches_something_went_wrong" xml:space="preserve">
+    <value>Er is iets mis gegaan.</value>
+  </data>
+  <data name="searches_specify_search_params" xml:space="preserve">
+    <value>Specificeer zoek parameters alsjeblieft. </value>
+  </data>
+  <data name="searches_status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="searches_store_url" xml:space="preserve">
+    <value>Winkel URL</value>
+  </data>
+  <data name="searches_streamer_offline" xml:space="preserve">
+    <value>Streamer {0} is offline.</value>
+  </data>
+  <data name="searches_streamer_online" xml:space="preserve">
+    <value>Streamer {0} is online met {1} kijkers.</value>
+  </data>
+  <data name="searches_streams_following" xml:space="preserve">
+    <value>Je volgt {0} streams op deze server.</value>
+  </data>
+  <data name="searches_streams_none" xml:space="preserve">
+    <value>Je volgt geen streams op deze server.</value>
+  </data>
+  <data name="searches_stream_no" xml:space="preserve">
+    <value>Stream niet gevonden.</value>
+  </data>
+  <data name="searches_stream_not_exist" xml:space="preserve">
+    <value>Stream bestaat mogelijk niet.</value>
+  </data>
+  <data name="searches_stream_removed" xml:space="preserve">
+    <value>Verwijderd {0}&apos;s stream ({1}) van notificaties. </value>
+  </data>
+  <data name="searches_stream_tracked" xml:space="preserve">
+    <value>Ik zal dit kanaal op de hoogte houden wanneer de status verandert.</value>
+  </data>
+  <data name="searches_sunrise" xml:space="preserve">
+    <value>Zon&apos;s opgang</value>
+  </data>
+  <data name="searches_sunset" xml:space="preserve">
+    <value>Zon&apos;s ondergang</value>
+  </data>
+  <data name="searches_temperature" xml:space="preserve">
+    <value>Temperatuur</value>
+  </data>
+  <data name="searches_title" xml:space="preserve">
+    <value>Titel:</value>
+  </data>
+  <data name="searches_top_3_fav_anime" xml:space="preserve">
+    <value>Top 3 favoriete anime:</value>
+  </data>
+  <data name="searches_translation" xml:space="preserve">
+    <value>Vertaling:</value>
+  </data>
+  <data name="searches_types" xml:space="preserve">
+    <value>Types</value>
+  </data>
+  <data name="searches_ud_error" xml:space="preserve">
+    <value>Fout bij het opzoeken van definitie voor die term.</value>
+  </data>
+  <data name="searches_url" xml:space="preserve">
+    <value>Url</value>
+  </data>
+  <data name="searches_viewers" xml:space="preserve">
+    <value>Kijkers</value>
+  </data>
+  <data name="searches_watching" xml:space="preserve">
+    <value>Kijken/Bekijken &lt;-- ga even na welke correct is.!!!</value>
+  </data>
+  <data name="searches_wikia_error" xml:space="preserve">
+    <value>Mislukt met het vinden van de term op de gespecificeerde Wikia.</value>
+  </data>
+  <data name="searches_wikia_input_error" xml:space="preserve">
+    <value>Vul een Wikia doel in alsjeblieft, gevolgd door een zoek query.</value>
+  </data>
+  <data name="searches_wiki_page_not_found" xml:space="preserve">
+    <value>Pagina niet gevonden</value>
+  </data>
+  <data name="searches_wind_speed" xml:space="preserve">
+    <value>Wind snelheid</value>
+  </data>
+  <data name="searches_x_most_banned_champs" xml:space="preserve">
+    <value>De {0} meest verbannen kampioenen.</value>
+  </data>
+  <data name="searches_yodify_error" xml:space="preserve">
+    <value>Het yodifying van jou zin is mislukt.</value>
+  </data>
+  <data name="utiliity_joined" xml:space="preserve">
+    <value>Aangesloten</value>
+  </data>
+  <data name="utility_activity_line" xml:space="preserve">
+    <value>`{0}.` {1} [{2:F2}/s] - {3} totaal </value>
+    <comment>/s and total need to be localized to fit the context -
+`1.`</comment>
+  </data>
+  <data name="utility_activity_page" xml:space="preserve">
+    <value>Activiteit pagina #{0}</value>
+  </data>
+  <data name="utility_activity_users_total" xml:space="preserve">
+    <value>{0} gebruikers totaal.</value>
+  </data>
+  <data name="utility_author" xml:space="preserve">
+    <value>Auteur</value>
+  </data>
+  <data name="utility_botid" xml:space="preserve">
+    <value>Bot ID</value>
+  </data>
+  <data name="utility_calcops" xml:space="preserve">
+    <value>Lijst van functies in {0}calc commando </value>
+  </data>
+  <data name="utility_channelid" xml:space="preserve">
+    <value>{0} van dit kanaal is {1}</value>
+  </data>
+  <data name="utility_channel_topic" xml:space="preserve">
+    <value>Kanaal onderwerp</value>
+  </data>
+  <data name="utility_commands_ran" xml:space="preserve">
+    <value>Commando&apos;s uitgevoerd</value>
+  </data>
+  <data name="utility_convert" xml:space="preserve">
+    <value>{0} {1} is gelijk aan {2} {3}</value>
+  </data>
+  <data name="utility_convertlist" xml:space="preserve">
+    <value>Eenheden die gebruikt kunnen worden door de omvormer</value>
+  </data>
+  <data name="utility_convert_not_found" xml:space="preserve">
+    <value>Kan {0} niet naar {1} omvormen: Eenheden niet gevonden</value>
+  </data>
+  <data name="utility_convert_type_error" xml:space="preserve">
+    <value>Kan {0} niet naar {1} omvormen: Type eenheden zijn niet gelijk</value>
+  </data>
+  <data name="utility_created_at" xml:space="preserve">
+    <value>Gemaakt op</value>
+  </data>
+  <data name="utility_csc_join" xml:space="preserve">
+    <value>Aangesloten cross server kanaal.</value>
+  </data>
+  <data name="utility_csc_leave" xml:space="preserve">
+    <value>Verbroken cross server kanaal.</value>
+  </data>
+  <data name="utility_csc_token" xml:space="preserve">
+    <value>Dit is je CSC token</value>
+  </data>
+  <data name="utility_custom_emojis" xml:space="preserve">
+    <value>Speciale emojis</value>
+  </data>
+  <data name="utility_error" xml:space="preserve">
+    <value>Fout</value>
+  </data>
+  <data name="utility_features" xml:space="preserve">
+    <value>Kenmerken</value>
+  </data>
+  <data name="utility_id" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="utility_index_out_of_range" xml:space="preserve">
+    <value>Index buiten bereik.</value>
+  </data>
+  <data name="utility_inrole_list" xml:space="preserve">
+    <value>Lijst van gebruikers met rol {0}</value>
+  </data>
+  <data name="utility_inrole_not_allowed" xml:space="preserve">
+    <value>Om misbruik te voorkomen ben je niet gemachtigd om dit commando te gebruiken op rollen met veel gebruikers.</value>
+  </data>
+  <data name="utility_invalid_value" xml:space="preserve">
+    <value>Ongeldige {0} waarde.</value>
+    <comment>Invalid months value/ Invalid hours value</comment>
+  </data>
+  <data name="utility_joined_discord" xml:space="preserve">
+    <value>Bij Discord aangesloten</value>
+  </data>
+  <data name="utility_joined_server" xml:space="preserve">
+    <value>Bij server aangesloten</value>
+  </data>
+  <data name="utility_listservers" xml:space="preserve">
+    <value>ID: {0}
+Leden: {1}
+Eigenaar ID: {2}</value>
+  </data>
+  <data name="utility_listservers_none" xml:space="preserve">
+    <value>Geen servers gevonden op die pagina.</value>
+  </data>
+  <data name="utility_list_of_repeaters" xml:space="preserve">
+    <value>Lijst van de repeater</value>
+  </data>
+  <data name="utility_members" xml:space="preserve">
+    <value>Leden</value>
+  </data>
+  <data name="utility_memory" xml:space="preserve">
+    <value>Geheugen</value>
+  </data>
+  <data name="utility_messages" xml:space="preserve">
+    <value>Berichten</value>
+  </data>
+  <data name="utility_message_repeater" xml:space="preserve">
+    <value>Bericht repeater</value>
+  </data>
+  <data name="utility_name" xml:space="preserve">
+    <value>Naam</value>
+  </data>
+  <data name="utility_nickname" xml:space="preserve">
+    <value>Roepnaam</value>
+  </data>
+  <data name="utility_nobody_playing_game" xml:space="preserve">
+    <value>Niemand speelt dat spel.</value>
+  </data>
+  <data name="utility_no_active_repeaters" xml:space="preserve">
+    <value>Geen actieve herhaling</value>
+  </data>
+  <data name="utility_no_roles_on_page" xml:space="preserve">
+    <value>Geen rollen op deze pagina.</value>
+  </data>
+  <data name="utility_no_shards_on_page" xml:space="preserve">
+    <value>Geen shards op deze pagina.</value>
+  </data>
+  <data name="utility_no_topic_set" xml:space="preserve">
+    <value>Geen onderwerp ingesteld.</value>
+  </data>
+  <data name="utility_owner" xml:space="preserve">
+    <value>Eigenaar</value>
+  </data>
+  <data name="utility_owner_ids" xml:space="preserve">
+    <value>Eigenaar IDs</value>
+  </data>
+  <data name="utility_presence" xml:space="preserve">
+    <value>Aanwezigheid</value>
+  </data>
+  <data name="utility_presence_txt" xml:space="preserve">
+    <value>{0} Servers
+{1} Tekst Kanalen
+{2} Spraak Kanalen</value>
+  </data>
+  <data name="utility_quotes_deleted" xml:space="preserve">
+    <value>Verwijder alle citaten met het trefwoord {0}</value>
+  </data>
+  <data name="utility_quotes_page" xml:space="preserve">
+    <value>Pagina {0} met citaten</value>
+  </data>
+  <data name="utility_quotes_page_none" xml:space="preserve">
+    <value>Geen citaten op deze pagina.</value>
+  </data>
+  <data name="utility_quotes_remove_none" xml:space="preserve">
+    <value>Geen verwijderbare citaten gevonden</value>
+  </data>
+  <data name="utility_quote_added" xml:space="preserve">
+    <value>Citaat toegevoegd</value>
+  </data>
+  <data name="utility_quote_deleted" xml:space="preserve">
+    <value>Citaat #{0} verwijderd.</value>
+  </data>
+  <data name="utility_region" xml:space="preserve">
+    <value>Regio</value>
+  </data>
+  <data name="utility_registered_on" xml:space="preserve">
+    <value>Geregistreerd op</value>
+  </data>
+  <data name="utility_remind" xml:space="preserve">
+    <value>Ik zal {0} herinneren om {1} in {2} `({3:d.M.yyyy.} op {4:HH:mm})`</value>
+  </data>
+  <data name="utility_remind_invalid_format" xml:space="preserve">
+    <value>Incorrecte tijd formaat. Controleer de commandolijst.</value>
+  </data>
+  <data name="utility_remind_template" xml:space="preserve">
+    <value>Nieuwe herinnering sjabloon.</value>
+  </data>
+  <data name="utility_repeater" xml:space="preserve">
+    <value>Herhalen van {0} elke {1} dagen, {2} uren en {3} minuten.</value>
+  </data>
+  <data name="utility_repeaters_list" xml:space="preserve">
+    <value>Lijst van repeaters</value>
+  </data>
+  <data name="utility_repeaters_none" xml:space="preserve">
+    <value>Geen repeaters actief op deze server.</value>
+  </data>
+  <data name="utility_repeater_stopped" xml:space="preserve">
+    <value>#{0} gestopt.</value>
+  </data>
+  <data name="utility_repeat_invoke_none" xml:space="preserve">
+    <value>Geen herhalende berichten gevonden op deze server.</value>
+  </data>
+  <data name="utility_result" xml:space="preserve">
+    <value>Resultaat</value>
+  </data>
+  <data name="utility_roles" xml:space="preserve">
+    <value>Rollen</value>
+  </data>
+  <data name="utility_roles_all_page" xml:space="preserve">
+    <value>Pagina #{0} van alle rollen op deze server:</value>
+  </data>
+  <data name="utility_roles_page" xml:space="preserve">
+    <value>Pagina #{0} van kleuren voor {1} </value>
+  </data>
+  <data name="utility_rrc_no_colors" xml:space="preserve">
+    <value>Kleuren staan niet in de correcte format. Gebruik #00ff00` als voorbeeld.</value>
+  </data>
+  <data name="utility_rrc_start" xml:space="preserve">
+    <value>Begonnen met het routeren van kleuren voor de rol {0}</value>
+  </data>
+  <data name="utility_rrc_stop" xml:space="preserve">
+    <value>Gestopt met het routeren van kleuren voor de rol {0}</value>
+  </data>
+  <data name="utility_serverid" xml:space="preserve">
+    <value>{0} van deze server is {1}</value>
+  </data>
+  <data name="utility_server_info" xml:space="preserve">
+    <value>Server Informatie</value>
+  </data>
+  <data name="utility_shard" xml:space="preserve">
+    <value>Shard</value>
+  </data>
+  <data name="utility_shard_stats" xml:space="preserve">
+    <value>Shard Statestieken</value>
+  </data>
+  <data name="utility_shard_stats_txt" xml:space="preserve">
+    <value>Shard **#{0}** is in {1} status met {2} servers</value>
+  </data>
+  <data name="utility_showemojis" xml:space="preserve">
+    <value>*Naam:** {0} **Link:** {1}</value>
+  </data>
+  <data name="utility_showemojis_none" xml:space="preserve">
+    <value>Geen speciale emojis gevonden.</value>
+  </data>
+  <data name="utility_stats_songs" xml:space="preserve">
+    <value>{0} tracks aan het spelen, {1} in de wachtrij</value>
+  </data>
+  <data name="utility_text_channels" xml:space="preserve">
+    <value>Tekst Kanalen</value>
+  </data>
+  <data name="utility_togtub_room_link" xml:space="preserve">
+    <value>Hier is de link naar je sessie:</value>
+  </data>
+  <data name="utility_uptime" xml:space="preserve">
+    <value>Uptime</value>
+  </data>
+  <data name="utility_userid" xml:space="preserve">
+    <value>{0} van de gebruker {1} is {2}</value>
+    <comment>Id of the user kwoth#1234 is 123123123123</comment>
+  </data>
+  <data name="utility_users" xml:space="preserve">
+    <value>Gebruikers</value>
+  </data>
+  <data name="utility_voice_channels" xml:space="preserve">
+    <value>Spraak Kanalen</value>
+  </data>
+  <data name="gambling_animal_race_already_in" xml:space="preserve">
+    <value>Je maakt al deel uit van deze race!</value>
+  </data>
+  <data name="games_current_poll_results" xml:space="preserve">
+    <value>Huidige poll resultaten</value>
+  </data>
+  <data name="games_no_votes_cast" xml:space="preserve">
+    <value>Geen stemmen ingediend.</value>
+  </data>
+  <data name="games_poll_already_running" xml:space="preserve">
+    <value>Poll is al actief op deze server.</value>
+  </data>
+  <data name="games_poll_created" xml:space="preserve">
+    <value>📃 {0} heeft een poll gecreëerd dat vraagt om uw aandacht: </value>
+  </data>
+  <data name="games_poll_result" xml:space="preserve">
+    <value>`{0}.` {1} met {2} stemmen. </value>
+  </data>
+  <data name="games_poll_voted" xml:space="preserve">
+    <value>{0} gestemd.</value>
+    <comment>Kwoth voted.</comment>
+  </data>
+  <data name="games_poll_vote_private" xml:space="preserve">
+    <value>Stuur mij een privé bericht met het overeenkomende nummer van het antwoord.</value>
+  </data>
+  <data name="games_poll_vote_public" xml:space="preserve">
+    <value>Stuur een bericht hier met de overeenkomende nummer van het antwoord.</value>
+  </data>
+  <data name="games_thanks_for_voting" xml:space="preserve">
+    <value>Bedankt voor het stemmen, {0}</value>
+  </data>
+  <data name="games_x_votes_cast" xml:space="preserve">
+    <value>Totaal aantal stemmen: {0}.</value>
+  </data>
+  <data name="games_pick_pl" xml:space="preserve">
+    <value>Raap hun op door te typen `{0}pick`</value>
+  </data>
+  <data name="games_pick_sn" xml:space="preserve">
+    <value>Raap het op door te typen `{0}pick` </value>
+  </data>
+  <data name="gambling_no_users_found" xml:space="preserve">
+    <value>Geen gebruiker gevonden.</value>
+  </data>
+  <data name="gambling_page" xml:space="preserve">
+    <value>pagina {0}</value>
+  </data>
+  <data name="administration_must_be_in_voice" xml:space="preserve">
+    <value>U moet zich in een spreekkanaal bevinden op deze server.</value>
+  </data>
+  <data name="administration_no_vcroles" xml:space="preserve">
+    <value>Er zijn geen spreekkanaal rollen.</value>
+  </data>
+  <data name="administration_user_muted_time" xml:space="preserve">
+    <value>{0} is **gedempt** van text en spreek chat voor {1} minuten. </value>
+  </data>
+  <data name="administration_vcrole_added" xml:space="preserve">
+    <value>Gebruikers die aansluiten op {0} geluid kanaal krijgen {1} rol.</value>
+  </data>
+  <data name="administration_vcrole_removed" xml:space="preserve">
+    <value>Gebruiker dat aansloot {0} geluid kanaal krijgt niet langer meer een rol.</value>
+  </data>
+  <data name="administration_vc_role_list" xml:space="preserve">
+    <value>Spreekkanaal rollen</value>
+  </data>
+  <data name="customreactions_crad_disabled" xml:space="preserve">
+    <value>Bericht triggering met aangepaste reactie id {0} wordt niet automatisch gedeletet.</value>
+  </data>
+  <data name="customreactions_crad_enabled" xml:space="preserve">
+    <value>Bericht triggering met aangepaste reactie id {0} wordt automatisch gedeletet.</value>
+  </data>
+  <data name="customreactions_crdm_disabled" xml:space="preserve">
+    <value>Response-bericht van aangepaste reactie met id {0} wordt niet privé verstuurd.</value>
+  </data>
+  <data name="customreactions_crdm_enabled" xml:space="preserve">
+    <value>Response-bericht van aangepaste reactie met id {0} wordt verstuurd als privé bericht.</value>
+  </data>
+  <data name="utility_aliases_none" xml:space="preserve">
+    <value>Geen alias gevonden.</value>
+  </data>
+  <data name="utility_alias_added" xml:space="preserve">
+    <value>Trigger {0} heeft nu de alias {1}.</value>
+  </data>
+  <data name="utility_alias_list" xml:space="preserve">
+    <value>Lijst van aliassen</value>
+  </data>
+  <data name="utility_alias_removed" xml:space="preserve">
+    <value>Trigger {0} heeft geen alias meer.</value>
+  </data>
+  <data name="utility_alias_remove_fail" xml:space="preserve">
+    <value>Trigger {0} had geen alias</value>
+  </data>
+  <data name="searches_compet_playtime" xml:space="preserve">
+    <value>Competitieve speeltijd</value>
+  </data>
+  <data name="administration_channel" xml:space="preserve">
+    <value>Kanaal</value>
+  </data>
+  <data name="administration_command_text" xml:space="preserve">
+    <value>Tekst commando</value>
+  </data>
+  <data name="administration_kicked_pl" xml:space="preserve">
+    <value>Geschopt</value>
+    <comment>PLURAL</comment>
+  </data>
+  <data name="administration_moderator" xml:space="preserve">
+    <value>Toezichthouder</value>
+  </data>
+  <data name="administration_page" xml:space="preserve">
+    <value>Pagina {0}</value>
+  </data>
+  <data name="administration_reason" xml:space="preserve">
+    <value>Reden</value>
+  </data>
+  <data name="administration_scadd" xml:space="preserve">
+    <value>Nieuw startup commando toegevoegd.</value>
+  </data>
+  <data name="administration_scrm" xml:space="preserve">
+    <value>Startup commando succesvol toegevoegd.</value>
+  </data>
+  <data name="administration_scrm_fail" xml:space="preserve">
+    <value>Startup commando niet gevonden.</value>
+  </data>
+  <data name="administration_server" xml:space="preserve">
+    <value>Server</value>
+  </data>
+  <data name="administration_startcmdlist_none" xml:space="preserve">
+    <value>Geen startup commando&apos;s op deze pagina.</value>
+  </data>
+  <data name="administration_startcmds_cleared" xml:space="preserve">
+    <value>Verwijder alle startup commando&apos;s.</value>
+  </data>
+  <data name="administration_unbanned_user" xml:space="preserve">
+    <value>Gebruiker {0} is unbanned.</value>
+  </data>
+  <data name="administration_user_not_found" xml:space="preserve">
+    <value>Gebruiker niet gevonden.</value>
+  </data>
+  <data name="administration_user_warned" xml:space="preserve">
+    <value>Gebruiker {0} is gewaarschuwd.</value>
+  </data>
+  <data name="administration_user_warned_and_punished" xml:space="preserve">
+    <value>Gebruiker {0} is gewaarschuwd en {1) straf is uitgevoerd.</value>
+  </data>
+  <data name="administration_warned_on" xml:space="preserve">
+    <value>Gewaarschuwd op {0} server</value>
+  </data>
+  <data name="administration_warned_on_by" xml:space="preserve">
+    <value>op {0} tussen {1} bij (2}</value>
+  </data>
+  <data name="administration_warnings_cleared" xml:space="preserve">
+    <value>Alle waarschuwingen zijn verwijdert van {0}.</value>
+  </data>
+  <data name="administration_warnings_none" xml:space="preserve">
+    <value>Geen waarschuwingen op deze pagina.</value>
+  </data>
+  <data name="administration_warnlog_for" xml:space="preserve">
+    <value>Waarschuwings logboek van {0}</value>
+  </data>
+  <data name="administration_warnpl_none" xml:space="preserve">
+    <value>Geen straffen geconfigureerd.</value>
+  </data>
+  <data name="administration_warn_cleared_by" xml:space="preserve">
+    <value>Verwijdert door {0}</value>
+  </data>
+  <data name="administration_warn_punish_list" xml:space="preserve">
+    <value>waarschuwing straffen lijst</value>
+  </data>
+  <data name="administration_warn_punish_rem" xml:space="preserve">
+    <value>Bij {0} waarschuwingen treed niet langer meer een straf.</value>
+  </data>
+  <data name="administration_warn_punish_set" xml:space="preserve">
+    <value>Ik pas {0} straf toe aan de gebruikers met {1} waarschuwingen.</value>
+  </data>
+  <data name="administration_slowmodewl_role_start" xml:space="preserve">
+    <value>Slowmotion modus word genegeerd voor {0} rol.</value>
+  </data>
+  <data name="administration_slowmodewl_role_stop" xml:space="preserve">
+    <value>Slowmotion wordt niet langer genegeerd door {0} rol.</value>
+  </data>
+  <data name="administration_slowmodewl_user_start" xml:space="preserve">
+    <value>Slowmotion modus wordt genegeerd door gebruiker {0}.</value>
+  </data>
+  <data name="administration_slowmodewl_user_stop" xml:space="preserve">
+    <value>Slowmotion modus wordt niet langer genegeerd door genegeerde gebruiker {0}.</value>
+  </data>
+  <data name="utility_clpa_fail" xml:space="preserve">
+    <value>Mislukt om beloningen te claimen door een van de volgende redenen:</value>
+  </data>
+  <data name="utility_clpa_fail_already" xml:space="preserve">
+    <value>Misschien heb je al je beloningen gekregen deze maand. Je krijgt beloningen maar een keer per maand tenzij je je </value>
+  </data>
+  <data name="utility_clpa_fail_already_title" xml:space="preserve">
+    <value>Al beloond</value>
+  </data>
+  <data name="utility_clpa_fail_conn" xml:space="preserve">
+    <value>Jouw discord account is nog niet verbonden met Patreon. Als je onzeker bent wat dit betekend, of niet weet hoe je dit moet doen - ga dan naar [Patreon account settings page](https://patreon.com/settings/account) en click dan op &apos;Verbind met discord&apos;.</value>
+  </data>
+  <data name="utility_clpa_fail_conn_title" xml:space="preserve">
+    <value>Discord account nog niet verbonden</value>
+  </data>
+  <data name="utility_clpa_fail_sup" xml:space="preserve">
+    <value>Om in aanmerking te komen voor de beloning, moet je eerst een donatie doen voor het project bij patreon. Je kunt (0} commando gebruiken om de link te krijgen.</value>
+  </data>
+  <data name="utility_clpa_fail_sup_title" xml:space="preserve">
+    <value>Niet ondersteund</value>
+  </data>
+  <data name="utility_clpa_fail_wait" xml:space="preserve">
+    <value>Je moet een aantal uren wachten na het plaatsen van je donatie, als je het nog niet hebt gedaan, probeer later dan opnieuw.</value>
+  </data>
+  <data name="utility_clpa_fail_wait_title" xml:space="preserve">
+    <value>Wacht nog even</value>
+  </data>
+  <data name="utility_clpa_success" xml:space="preserve">
+    <value>Je ontvangt {0} Hartelijk bedankt voor het steunen van het project!</value>
+  </data>
+  <data name="utility_clpa_too_early" xml:space="preserve">
+    <value>Beloningen kunnen worden geclaimd op of na elke 5de van de maand.</value>
+  </data>
+
+</root>

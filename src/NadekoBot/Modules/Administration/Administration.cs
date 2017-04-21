@@ -12,11 +12,12 @@ using NadekoBot.Services.Database.Models;
 using static NadekoBot.Modules.Permissions.Permissions;
 using System.Collections.Concurrent;
 using NLog;
+using NadekoBot.Modules.Permissions;
 
 namespace NadekoBot.Modules.Administration
 {
     [NadekoModule("Administration", ".")]
-    public partial class Administration : NadekoModule
+    public partial class Administration : NadekoTopLevelModule
     {
         private static ConcurrentHashSet<ulong> deleteMessagesOnCommand { get; }
 
@@ -31,7 +32,7 @@ namespace NadekoBot.Modules.Administration
 
         }
 
-        private static Task DelMsgOnCmd_Handler(SocketUserMessage msg, CommandInfo cmd)
+        private static Task DelMsgOnCmd_Handler(IUserMessage msg, CommandInfo cmd)
         {
             var _ = Task.Run(async () =>
             {
@@ -56,22 +57,31 @@ namespace NadekoBot.Modules.Administration
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task ResetPermissions()
         {
-            var channel = (ITextChannel)Context.Channel;
             using (var uow = DbHandler.UnitOfWork())
             {
-                var config = uow.GuildConfigs.PermissionsFor(Context.Guild.Id);
-                config.RootPermission = Permission.GetDefaultRoot();
-                var toAdd = new PermissionCache()
-                {
-                    RootPermission = config.RootPermission,
-                    PermRole = config.PermissionRole,
-                    Verbose = config.VerbosePermissions,
-                };
-                Cache.AddOrUpdate(channel.Guild.Id,
-                    toAdd, (id, old) => toAdd);
+                var config = uow.GuildConfigs.GcWithPermissionsv2For(Context.Guild.Id);
+                config.Permissions = Permissionv2.GetDefaultPermlist;
                 await uow.CompleteAsync();
+                UpdateCache(config);
             }
             await ReplyConfirmLocalized("perms_reset").ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [OwnerOnly]
+        public async Task ResetGlobalPermissions()
+        {
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                var gc = uow.BotConfig.GetOrCreate();
+                gc.BlockedCommands.Clear();
+                gc.BlockedModules.Clear();
+
+                GlobalPermissionCommands.BlockedCommands.Clear();
+                GlobalPermissionCommands.BlockedModules.Clear();
+                await uow.CompleteAsync();
+            }
+            await ReplyConfirmLocalized("global_perms_reset").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -106,6 +116,10 @@ namespace NadekoBot.Modules.Administration
         [RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task Setrole(IGuildUser usr, [Remainder] IRole role)
         {
+            var guser = (IGuildUser)Context.User;
+            var maxRole = guser.GetRoles().Max(x => x.Position);
+            if (maxRole < role.Position || maxRole <= usr.GetRoles().Max(x => x.Position))
+                return;
             try
             {
                 await usr.AddRolesAsync(role).ConfigureAwait(false);
@@ -125,6 +139,9 @@ namespace NadekoBot.Modules.Administration
         [RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task Removerole(IGuildUser usr, [Remainder] IRole role)
         {
+            var guser = (IGuildUser)Context.User;
+            if (Context.User.Id != guser.Guild.OwnerId && guser.GetRoles().Max(x => x.Position) <= usr.GetRoles().Max(x => x.Position))
+                return;
             try
             {
                 await usr.RemoveRolesAsync(role).ConfigureAwait(false);
@@ -142,6 +159,9 @@ namespace NadekoBot.Modules.Administration
         [RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task RenameRole(IRole roleToEdit, string newname)
         {
+            var guser = (IGuildUser)Context.User;
+            if (Context.User.Id != guser.Guild.OwnerId && guser.GetRoles().Max(x => x.Position) <= roleToEdit.Position)
+                return;
             try
             {
                 if (roleToEdit.Position > (await Context.Guild.GetCurrentUserAsync().ConfigureAwait(false)).GetRoles().Max(r => r.Position))
@@ -164,9 +184,15 @@ namespace NadekoBot.Modules.Administration
         [RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task RemoveAllRoles([Remainder] IGuildUser user)
         {
+            var guser = (IGuildUser)Context.User;
+
+            var userRoles = user.GetRoles();
+            if (guser.Id != Context.Guild.OwnerId && 
+                (user.Id == Context.Guild.OwnerId || guser.GetRoles().Max(x => x.Position) <= userRoles.Max(x => x.Position)))
+                return;
             try
             {
-                await user.RemoveRolesAsync(user.GetRoles()).ConfigureAwait(false);
+                await user.RemoveRolesAsync(userRoles).ConfigureAwait(false);
                 await ReplyConfirmLocalized("rar", Format.Bold(user.ToString())).ConfigureAwait(false);
             }
             catch
@@ -186,6 +212,19 @@ namespace NadekoBot.Modules.Administration
 
             var r = await Context.Guild.CreateRoleAsync(roleName).ConfigureAwait(false);
             await ReplyConfirmLocalized("cr", Format.Bold(r.Name)).ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [RequireUserPermission(GuildPermission.ManageRoles)]
+        [RequireBotPermission(GuildPermission.ManageRoles)]
+        public async Task RoleHoist(string roleSearchName, PermissionAction targetState)
+        {
+            var roleName = roleSearchName.ToUpperInvariant();
+            var role = Context.Guild.Roles.FirstOrDefault(r => r.Name.ToUpperInvariant() == roleName);
+
+            await role.ModifyAsync(r => r.Hoist = targetState.Value).ConfigureAwait(false);
+            await ReplyConfirmLocalized("rh", Format.Bold(role.Name), Format.Bold(targetState.Value.ToString())).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -223,101 +262,6 @@ namespace NadekoBot.Modules.Administration
             {
                 await ReplyErrorLocalized("rc_perms").ConfigureAwait(false);
             }
-        }
-
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.BanMembers)]
-        [RequireBotPermission(GuildPermission.BanMembers)]
-        public async Task Ban(IGuildUser user, [Remainder] string msg = null)
-        {
-            if (Context.User.Id != user.Guild.OwnerId && (user.GetRoles().Select(r => r.Position).Max() >= ((IGuildUser)Context.User).GetRoles().Select(r => r.Position).Max()))
-            {
-                await ReplyErrorLocalized("hierarchy").ConfigureAwait(false);
-                return;
-            }
-            if (!string.IsNullOrWhiteSpace(msg))
-            {
-                try
-                {
-                    await user.SendErrorAsync(GetText("bandm", Format.Bold(Context.Guild.Name), msg));
-                }
-                catch
-                {
-                    // ignored
-                }
-            }
-
-            await Context.Guild.AddBanAsync(user, 7).ConfigureAwait(false);
-            await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                    .WithTitle("⛔️ " + GetText("banned_user"))
-                    .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
-                    .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true)))
-                .ConfigureAwait(false);
-        }
-
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.KickMembers)]
-        [RequireUserPermission(GuildPermission.ManageMessages)]
-        [RequireBotPermission(GuildPermission.BanMembers)]
-        public async Task Softban(IGuildUser user, [Remainder] string msg = null)
-        {
-            if (Context.User.Id != user.Guild.OwnerId && user.GetRoles().Select(r => r.Position).Max() >= ((IGuildUser)Context.User).GetRoles().Select(r => r.Position).Max())
-            {
-                await ReplyErrorLocalized("hierarchy").ConfigureAwait(false);
-                return;
-            }
-
-            if (!string.IsNullOrWhiteSpace(msg))
-            {
-                try
-                {
-                    await user.SendErrorAsync(GetText("sbdm", Format.Bold(Context.Guild.Name), msg));
-                }
-                catch
-                {
-                    // ignored
-                }
-            }
-
-            await Context.Guild.AddBanAsync(user, 7).ConfigureAwait(false);
-            try { await Context.Guild.RemoveBanAsync(user).ConfigureAwait(false); }
-            catch { await Context.Guild.RemoveBanAsync(user).ConfigureAwait(false); }
-            
-            await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                    .WithTitle("☣ " + GetText("sb_user"))
-                    .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
-                    .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true)))
-                .ConfigureAwait(false);
-        }
-
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.KickMembers)]
-        [RequireBotPermission(GuildPermission.KickMembers)]
-        public async Task Kick(IGuildUser user, [Remainder] string msg = null)
-        {
-            if (Context.Message.Author.Id != user.Guild.OwnerId && user.GetRoles().Select(r => r.Position).Max() >= ((IGuildUser)Context.User).GetRoles().Select(r => r.Position).Max())
-            {
-                await ReplyErrorLocalized("hierarchy").ConfigureAwait(false);
-                return;
-            }
-            if (!string.IsNullOrWhiteSpace(msg))
-            {
-                try
-                {
-                    await user.SendErrorAsync(GetText("kickdm", Format.Bold(Context.Guild.Name), msg));
-                }
-                catch { }
-            }
-
-            await user.KickAsync().ConfigureAwait(false);
-            await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                    .WithTitle(GetText("kicked_user"))
-                    .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
-                    .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true)))
-                .ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -440,6 +384,7 @@ namespace NadekoBot.Modules.Administration
             var enumerable = (await Context.Channel.GetMessagesAsync().Flatten()).AsEnumerable();
             enumerable = enumerable.Where(x => x.Author.Id == user.Id);
             await Context.Channel.DeleteMessagesAsync(enumerable).ConfigureAwait(false);
+            Context.Message.DeleteAfter(3);
         }
 
         // prune x
@@ -447,14 +392,18 @@ namespace NadekoBot.Modules.Administration
         [RequireContext(ContextType.Guild)]
         [RequireUserPermission(ChannelPermission.ManageMessages)]
         [RequireBotPermission(GuildPermission.ManageMessages)]
+        [Priority(0)]
         public async Task Prune(int count)
         {
             if (count < 1)
                 return;
-            count += 1;
             await Context.Message.DeleteAsync().ConfigureAwait(false);
-            int limit = (count < 100) ? count : 100;
+            int limit = (count < 100) ? count + 1 : 100;
             var enumerable = (await Context.Channel.GetMessagesAsync(limit: limit).Flatten().ConfigureAwait(false));
+            if (enumerable.FirstOrDefault()?.Id == Context.Message.Id)
+                enumerable = enumerable.Skip(1).ToArray();
+            else
+                enumerable = enumerable.Take(count);
             await Context.Channel.DeleteMessagesAsync(enumerable).ConfigureAwait(false);
         }
 
@@ -463,6 +412,7 @@ namespace NadekoBot.Modules.Administration
         [RequireContext(ContextType.Guild)]
         [RequireUserPermission(ChannelPermission.ManageMessages)]
         [RequireBotPermission(GuildPermission.ManageMessages)]
+        [Priority(1)]
         public async Task Prune(IGuildUser user, int count = 100)
         {
             if (count < 1)
@@ -474,6 +424,8 @@ namespace NadekoBot.Modules.Administration
             int limit = (count < 100) ? count : 100;
             var enumerable = (await Context.Channel.GetMessagesAsync(limit: limit).Flatten()).Where(m => m.Author == user);
             await Context.Channel.DeleteMessagesAsync(enumerable).ConfigureAwait(false);
+
+            Context.Message.DeleteAfter(3);
         }
 
         [NadekoCommand, Usage, Description, Aliases]

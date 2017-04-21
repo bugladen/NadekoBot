@@ -16,10 +16,30 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class LocalizationCommands : NadekoSubmodule
         {
+            //Română, România
+            //Bahasa Indonesia, Indonesia
             private ImmutableDictionary<string, string> supportedLocales { get; } = new Dictionary<string, string>()
             {
-                {"en-US", "English, United States" },
-                {"sr-cyrl-rs", "Serbian, Cyrillic" }
+                //{"ar", "العربية" },
+                {"zh-TW", "繁體中文, 台灣" },
+                {"zh-CN", "简体中文, 中华人民共和国"},
+                {"nl-NL", "Nederlands, Nederland"},
+                {"en-US", "English, United States"},
+                {"fr-FR", "Français, France"},
+                {"de-DE", "Deutsch, Deutschland"},
+                {"he-IL", "עברית, ישראל"},
+                {"id-ID", "Bahasa Indonesia, Indonesia" },
+                {"it-IT", "Italiano, Italia" },
+                //{"ja-JP", "日本語, 日本"},
+                {"ko-KR", "한국어, 대한민국" },
+                {"nb-NO", "Norsk, Norge"},
+                {"pl-PL", "Polski, Polska" },
+                {"pt-BR", "Português Brasileiro, Brasil"},
+                {"ru-RU", "Русский, Россия"},
+                {"sr-Cyrl-RS", "Српски, Србија"},
+                {"es-ES", "Español, España"},
+                {"sv-SE", "Svenska, Sverige"},
+                {"tr-TR", "Türkçe, Türkiye"}
             }.ToImmutableDictionary();
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -91,12 +111,12 @@ namespace NadekoBot.Modules.Administration
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [OwnerOnly]
             public async Task LanguagesList()
             {
-                await ReplyConfirmLocalized("lang_list",
-                        string.Join("\n", supportedLocales.Select(x => $"{Format.Code(x.Key)} => {x.Value}")))
-                    .ConfigureAwait(false);
+                await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                    .WithTitle(GetText("lang_list"))
+                    .WithDescription(string.Join("\n",
+                        supportedLocales.Select(x => $"{Format.Code(x.Key), -10} => {x.Value}"))));
             }
         }
     }
