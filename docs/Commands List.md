@@ -274,7 +274,6 @@ Commands and aliases | Description | Usage
 `~rule34` | Shows a random image from rule34.xx with a given tag. Tag is optional but preferred. (multiple tags are appended with +)  | `~rule34 yuri+kissing`
 `~danbooru` | Shows a random hentai image from danbooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +)  | `~danbooru yuri+kissing`
 `~gelbooru` | Shows a random hentai image from gelbooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +)  | `~gelbooru yuri+kissing`
-`~cp` | We all know where this will lead you to.  | `~cp`
 `~boobs` | Real adult content.  | `~boobs`
 `~butts` `~ass` `~butt` | Real adult content.  | `~butts` or `~ass`
 
