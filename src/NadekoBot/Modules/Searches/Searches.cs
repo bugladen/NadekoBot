@@ -581,10 +581,11 @@ namespace NadekoBot.Modules.Searches
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task Revav([Remainder] IUser usr = null)
+        [RequireContext(ContextType.Guild)]
+        public async Task Revav([Remainder] IGuildUser usr = null)
         {
             if (usr == null)
-                usr = Context.User;
+                usr = (IGuildUser)Context.User;
             await Context.Channel.SendConfirmAsync($"https://images.google.com/searchbyimage?image_url={usr.RealAvatarUrl()}").ConfigureAwait(false);
         }
 
@@ -633,7 +634,8 @@ namespace NadekoBot.Modules.Searches
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task Videocall(params IUser[] users)
+        [RequireContext(ContextType.Guild)]
+        public async Task Videocall(params IGuildUser[] users)
         {
             var allUsrs = users.Append(Context.User);
             var allUsrsArray = allUsrs.ToArray();
