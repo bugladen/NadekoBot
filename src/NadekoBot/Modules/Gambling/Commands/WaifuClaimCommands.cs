@@ -188,7 +188,7 @@ namespace NadekoBot.Modules.Gambling
             private static readonly TimeSpan _divorceLimit = TimeSpan.FromHours(6);
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Divorce([Remainder]IUser target)
+            public async Task Divorce([Remainder]IGuildUser target)
             {
                 if (target.Id == Context.User.Id)
                     return;
@@ -264,7 +264,7 @@ namespace NadekoBot.Modules.Gambling
             private static readonly TimeSpan _affinityLimit = TimeSpan.FromMinutes(30);
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task WaifuClaimerAffinity([Remainder]IUser u = null)
+            public async Task WaifuClaimerAffinity([Remainder]IGuildUser u = null)
             {
                 if (u?.Id == Context.User.Id)
                 {
@@ -389,10 +389,10 @@ namespace NadekoBot.Modules.Gambling
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task WaifuInfo([Remainder]IUser target = null)
+            public async Task WaifuInfo([Remainder]IGuildUser target = null)
             {
                 if (target == null)
-                    target = Context.User;
+                    target = (IGuildUser)Context.User;
                 WaifuInfo w;
                 IList<WaifuInfo> claims;
                 int divorces;
