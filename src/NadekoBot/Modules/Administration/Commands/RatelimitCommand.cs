@@ -144,7 +144,7 @@ namespace NadekoBot.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
             [Priority(1)]
-            public async Task SlowmodeWhitelist(IUser user)
+            public async Task SlowmodeWhitelist(IGuildUser user)
             {
                 var siu = new SlowmodeIgnoredUser
                 {
