@@ -6,14 +6,15 @@
 - Soundcloud Account (if you want soundcloud support)
 - Text Editor (TextWrangler, or equivalent) or outside editor such as [Atom][Atom]
 
-####Installing Homebrew
+#### Installing Homebrew
 
 ```/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"```
 
 Run `brew update` to fetch the latest package data.  
 
-####Installing dependencies
+#### Installing dependencies
 ```
+brew install wget
 brew install git
 brew install ffmpeg
 brew update && brew upgrade ffmpeg
@@ -26,7 +27,7 @@ brew install libsodium
 brew install tmux
 ```
 
-####Installing .NET Core SDK
+#### Installing .NET Core SDK
 
 - `ln -s /usr/local/opt/openssl/lib/libcrypto.1.0.0.dylib /usr/local/lib/`
 - `ln -s /usr/local/opt/openssl/lib/libssl.1.0.0.dylib /usr/local/lib/`
@@ -34,7 +35,7 @@ brew install tmux
 - Open the `.pkg` file you downloaded and install it.
 - `ln -s /usr/local/share/dotnet/dotnet /usr/local/bin`
 
-####Check your `FFMPEG`
+#### Check your `FFMPEG`
 
 **In case your `FFMPEG` wasnt installed properly (Optional)**
 
@@ -45,7 +46,7 @@ brew install tmux
 - `brew doctor` (Check your Homebrew installation for common issues)
 - Then try `brew install ffmpeg` again.
 
-####Installing xcode-select
+#### Installing xcode-select
 
 Xcode command line tools. You will do this in Terminal.app by running the following command line:
 
@@ -53,7 +54,7 @@ Xcode command line tools. You will do this in Terminal.app by running the follow
 
 A dialog box will open asking if you want to install `xcode-select`. Select install and finish the installation.
 
-####Downloading and building Nadeko
+#### Downloading and building Nadeko
 
 Use the following command to get and run `linuxAIO.sh`:		
 (Remember **DO NOT** rename the file `linuxAIO.sh`)
@@ -69,7 +70,7 @@ Choose either `1` or `2` then press `enter` key.
 Once Installation is completed you should see the options again.	
 Next, choose `5` to exit. 
 
-####Creating and Inviting bot
+#### Creating and Inviting bot
 
 - Read here how to [create a DiscordBot application](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#creating-discordbot-application)
 - [Visual Invite Guide](http://discord.kongslien.net/guide.html) *NOTE: Client ID is your Bot ID*
@@ -79,17 +80,17 @@ Next, choose `5` to exit.
 - Go to the newly created link and pick the server we created, and click `Authorize`.
 - The bot should have been added to your server.
  
-####Setting up Credentials.json file
+#### Setting up Credentials.json file
 - Open up the `NadekoBot` folder, which should be in your home directory, then `NadekoBot` folder then `src` folder and then the additonal `NadekoBot` folder.
 - EDIT it as it is guided here: [Setting up credentials.json](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#setting-up-credentialsjson-file)
 - **If** you already have Nadeko 1.0 setup and have `credentials.json` and `NadekoBot.db`, you can just copy and paste the `credentials.json` to `NadekoBot/src/NadekoBot` and `NadekoBot.db` to `NadekoBot/src/NadekoBot/bin/Release/netcoreapp1.0/data`.
 - **If** you have Nadeko 0.9x follow the [Upgrading Guide](http://nadekobot.readthedocs.io/en/latest/guides/Upgrading%20Guide/)
 
-####Setting NadekoBot Music
+#### Setting NadekoBot Music
 
 For Music Setup and API keys check [Setting up NadekoBot for Music](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#setting-up-nadekobot-for-music) and [JSON Explanations](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/).
 
-####Running NadekoBot
+#### Running NadekoBot
 
 - Using tmux
 
@@ -123,7 +124,7 @@ Choose `4` To Run the bot with Auto Restart.
 Now time to move bot to background and to do that, press CTRL+B+D (this will detach the nadeko session using TMUX)	
 If you used Screen press CTRL+A+D (this will detach the nadeko screen) 
 
-####Updating Nadeko
+#### Updating Nadeko
 
 - Connect to the terminal.
 - `tmux kill-session -t nadeko` [(don't forget to replace **nadeko** in the command to what ever you named your bot's session)](http://nadekobot.readthedocs.io/en/latest/guides/OSX%20Guide/#some-more-info)
@@ -134,7 +135,7 @@ If you used Screen press CTRL+A+D (this will detach the nadeko screen)
 - Choose either `3` or `4` to run the bot again with **normally** or **auto restart** respectively.
 - Done. You can close terminal now.
 
-####Some more Info
+#### Some more Info
 
 **TMUX**
 
@@ -148,7 +149,7 @@ If you used Screen press CTRL+A+D (this will detach the nadeko screen)
 - If you want to switch to/ see that screen, type `screen -r nadeko` (nadeko is the name of the screen we created before so, replace `nadeko` with the screen name you created.)
 - If you want to kill the NadekoBot screen, type `screen -X -S nadeko quit`
 
-####Alternative Method to Install Nadeko
+#### Alternative Method to Install Nadeko
 
 **METHOD I**
 

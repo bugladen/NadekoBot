@@ -213,12 +213,6 @@ namespace NadekoBot.Modules.NSFW
             => InternalDapiCommand(tag, Searches.Searches.DapiSearchType.Gelbooru);
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task Cp()
-        {
-            await Context.Channel.SendMessageAsync("http://i.imgur.com/MZkY1md.jpg").ConfigureAwait(false);
-        }
-
-        [NadekoCommand, Usage, Description, Aliases]
         public async Task Boobs()
         {
             try
