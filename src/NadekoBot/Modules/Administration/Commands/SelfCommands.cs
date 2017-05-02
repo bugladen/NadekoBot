@@ -41,22 +41,7 @@ namespace NadekoBot.Modules.Administration
 
                     foreach (var cmd in NadekoBot.BotConfig.StartupCommands)
                     {
-                        if (cmd.GuildId != null)
-                        {
-                            var guild = NadekoBot.Client.GetGuild(cmd.GuildId.Value);
-                            var channel = guild?.GetChannel(cmd.ChannelId) as SocketTextChannel;
-                            if (channel == null)
-                                continue;
-
-                            try
-                            {
-                                IUserMessage msg = await channel.SendMessageAsync(cmd.CommandText).ConfigureAwait(false);
-                                msg = (IUserMessage)await channel.GetMessageAsync(msg.Id).ConfigureAwait(false);
-                                await NadekoBot.CommandHandler.TryRunCommand(guild, channel, msg).ConfigureAwait(false);
-                                //msg.DeleteAfter(5);
-                            }
-                            catch { }
-                        }
+                        await NadekoBot.CommandHandler.ExecuteExternal(cmd.GuildId, cmd.ChannelId, cmd.CommandText);
                         await Task.Delay(400).ConfigureAwait(false);
                     }
                 });

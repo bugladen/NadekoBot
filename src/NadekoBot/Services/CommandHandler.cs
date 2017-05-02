@@ -55,6 +55,27 @@ namespace NadekoBot.Services
                 UsersOnShortCooldown.Clear();
             }, null, GlobalCommandsCooldown, GlobalCommandsCooldown);
         }
+
+        public async Task ExecuteExternal(ulong? guildId, ulong channelId, string commandText)
+        {
+                if (guildId != null)
+                {
+                    var guild = NadekoBot.Client.GetGuild(guildId.Value);
+                    var channel = guild?.GetChannel(channelId) as SocketTextChannel;
+                    if (channel == null)
+                        return;
+
+                    try
+                    {
+                        IUserMessage msg = await channel.SendMessageAsync(commandText).ConfigureAwait(false);
+                        msg = (IUserMessage)await channel.GetMessageAsync(msg.Id).ConfigureAwait(false);
+                        await TryRunCommand(guild, channel, msg).ConfigureAwait(false);
+                        //msg.DeleteAfter(5);
+                    }
+                    catch { }
+                }
+        }
+
         public Task StartHandling()
         {
             var _ = Task.Run(async () =>
