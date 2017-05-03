@@ -3403,10 +3403,10 @@
     <value>rolehoist rh</value>
   </data>
   <data name="rolehoist_desc" xml:space="preserve">
-    <value>Toggles if this role is displayed in the sidebar or not</value>
+    <value>Toggles whether this role is displayed in the sidebar or not.</value>
   </data>
   <data name="rolehoist_usage" xml:space="preserve">
-    <value>`{0}rh Guests true` or `{0}rh "Space Wizards" true</value>
+    <value>`{0}rh Guests` or `{0}rh "Space Wizards"</value>
   </data>
   <data name="buy_cmd" xml:space="preserve">
     <value>buy</value>

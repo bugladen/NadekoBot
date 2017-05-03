@@ -58,22 +58,25 @@ namespace NadekoBot.Services
 
         public async Task ExecuteExternal(ulong? guildId, ulong channelId, string commandText)
         {
-                if (guildId != null)
+            if (guildId != null)
+            {
+                var guild = NadekoBot.Client.GetGuild(guildId.Value);
+                var channel = guild?.GetChannel(channelId) as SocketTextChannel;
+                if (channel == null)
                 {
-                    var guild = NadekoBot.Client.GetGuild(guildId.Value);
-                    var channel = guild?.GetChannel(channelId) as SocketTextChannel;
-                    if (channel == null)
-                        return;
-
-                    try
-                    {
-                        IUserMessage msg = await channel.SendMessageAsync(commandText).ConfigureAwait(false);
-                        msg = (IUserMessage)await channel.GetMessageAsync(msg.Id).ConfigureAwait(false);
-                        await TryRunCommand(guild, channel, msg).ConfigureAwait(false);
-                        //msg.DeleteAfter(5);
-                    }
-                    catch { }
+                    _log.Warn("Channel for external execution not found.");
+                    return;
                 }
+
+                try
+                {
+                    IUserMessage msg = await channel.SendMessageAsync(commandText).ConfigureAwait(false);
+                    msg = (IUserMessage)await channel.GetMessageAsync(msg.Id).ConfigureAwait(false);
+                    await TryRunCommand(guild, channel, msg).ConfigureAwait(false);
+                    //msg.DeleteAfter(5);
+                }
+                catch { }
+            }
         }
 
         public Task StartHandling()

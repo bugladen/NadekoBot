@@ -218,13 +218,10 @@ namespace NadekoBot.Modules.Administration
         [RequireContext(ContextType.Guild)]
         [RequireUserPermission(GuildPermission.ManageRoles)]
         [RequireBotPermission(GuildPermission.ManageRoles)]
-        public async Task RoleHoist(string roleSearchName, PermissionAction targetState)
+        public async Task RoleHoist(IRole role)
         {
-            var roleName = roleSearchName.ToUpperInvariant();
-            var role = Context.Guild.Roles.FirstOrDefault(r => r.Name.ToUpperInvariant() == roleName);
-
-            await role.ModifyAsync(r => r.Hoist = targetState.Value).ConfigureAwait(false);
-            await ReplyConfirmLocalized("rh", Format.Bold(role.Name), Format.Bold(targetState.Value.ToString())).ConfigureAwait(false);
+            await role.ModifyAsync(r => r.Hoist = !role.IsHoisted).ConfigureAwait(false);
+            await ReplyConfirmLocalized("rh", Format.Bold(role.Name), Format.Bold(role.IsHoisted.ToString())).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
