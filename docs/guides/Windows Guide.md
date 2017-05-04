@@ -41,7 +41,7 @@ ________________________________________________________________________________
 - If you mess up the setup of `credentials.json`, rename `credentials_example.json` to `credentials.json`.
 - Open the file with [Notepad++][Notepad++].
 - In there you will see fields such as `Token`, `ClientId`, `BotId` and `OwnerIDs`.
-- In your [applications page][DiscordApp] (the window you were asked to keep open earlier), under the `Bot User` section, you will see `Token:click to reveal`, click to reveal the token.
+- In your [applications page][DiscordApp] (the window you were asked to keep open earlier), under the `Bot User` section, you will see `Token:click to reveal`, click to reveal the token. (Note: Make sure that you actually use a Token and not a Client Secret! It is in the **App Bot User** tab.)
 - Copy your bot's token, and on the `"Token"` line of your `credentials.json`, paste your bot token between the quotation marks.
 - Copy the `Client ID` on the page and replace the `12312123` part of the `ClientId` line with it.
 - Again, copy the same `Client ID` and replace the `null` part of the `BotId` line with it.
