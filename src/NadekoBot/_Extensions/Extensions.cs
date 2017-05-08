@@ -27,6 +27,9 @@ namespace NadekoBot.Extensions
             return Convert.ToBase64String(plainTextBytes);
         }
 
+        public static string RealSummary(this CommandInfo cmd) => string.Format(cmd.Summary, cmd.Module.GetTopLevelModule().Prefix);
+        public static string RealRemarks(this CommandInfo cmd) => string.Format(cmd.Remarks, cmd.Module.GetTopLevelModule().Prefix);
+
         public static Stream ToStream(this IEnumerable<byte> bytes, bool canWrite = false)
         {
             var ms = new MemoryStream(bytes as byte[] ?? bytes.ToArray(), canWrite);

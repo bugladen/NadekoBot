@@ -34,6 +34,9 @@
     <None Update="data\**\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="_strings\**">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="data\musicdata\**\*">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
