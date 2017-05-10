@@ -46,6 +46,10 @@ namespace NadekoBot
         public static ImmutableArray<GuildConfig> AllGuildConfigs { get; }
         public static BotConfig BotConfig { get; }
 
+        //services
+        //todo DI in the future
+        public static GreetSettingsService GreetSettingsService { get; private set; }
+
         static NadekoBot()
         {
             SetupLogger();
@@ -58,6 +62,8 @@ namespace NadekoBot
                 OkColor = new Color(Convert.ToUInt32(BotConfig.OkColor, 16));
                 ErrorColor = new Color(Convert.ToUInt32(BotConfig.ErrorColor, 16));
             }
+
+            GreetSettingsService = new GreetSettingsService();
 
             //ImageSharp.Configuration.Default.AddImageFormat(new ImageSharp.Formats.PngFormat());
             //ImageSharp.Configuration.Default.AddImageFormat(new ImageSharp.Formats.JpegFormat());
