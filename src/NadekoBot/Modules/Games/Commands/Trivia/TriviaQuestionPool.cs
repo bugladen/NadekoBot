@@ -52,8 +52,8 @@ namespace NadekoBot.Modules.Games.Trivia
                 return new TriviaQuestion("Who's That Pokémon?", 
                     map[num].ToTitleCase(),
                     "Pokemon",
-                    $@"http://nadekobot.xyz/images/pokemon/shadows/{num}.png",
-                    $@"http://nadekobot.xyz/images/pokemon/real/{num}.png");
+                    $@"http://nadekobot.me/images/pokemon/shadows/{num}.png",
+                    $@"http://nadekobot.me/images/pokemon/real/{num}.png");
             }
             TriviaQuestion randomQuestion;
             while (exclude.Contains(randomQuestion = pool[rng.Next(0, pool.Length)])) ;
