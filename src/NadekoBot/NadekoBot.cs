@@ -65,7 +65,9 @@ namespace NadekoBot
                 ErrorColor = new Color(Convert.ToUInt32(BotConfig.ErrorColor, 16));
             }
 
+            Google = new GoogleApiService();
             GreetSettingsService = new GreetSettingsService();
+            MusicService = new MusicService(Google);
 
             //ImageSharp.Configuration.Default.AddImageFormat(new ImageSharp.Formats.PngFormat());
             //ImageSharp.Configuration.Default.AddImageFormat(new ImageSharp.Formats.JpegFormat());
@@ -101,7 +103,6 @@ namespace NadekoBot
                 CaseSensitiveCommands = false,
                 DefaultRunMode = RunMode.Sync
             });
-            Google = new GoogleApiService();
             CommandHandler = new CommandHandler(Client, CommandService);
             Stats = new StatsService(Client, CommandHandler);
             Images = await ImagesService.Create().ConfigureAwait(false);
