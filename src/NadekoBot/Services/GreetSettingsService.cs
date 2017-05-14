@@ -1,4 +1,5 @@
 ﻿using NadekoBot.Extensions;
+using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
 using System;
 using System.Collections.Concurrent;
@@ -34,6 +35,41 @@ namespace NadekoBot.Services
 
             GuildConfigsCache.TryAdd(guildId, settings);
             return settings;
+        }
+
+        public async Task<bool> SetSettings(ulong guildId, GreetSettings settings)
+        {
+            if (settings.AutoDeleteByeMessagesTimer > 600 ||
+                settings.AutoDeleteByeMessagesTimer < 0 ||
+                settings.AutoDeleteGreetMessagesTimer > 600 ||
+                settings.AutoDeleteGreetMessagesTimer < 0)
+            {
+                return false;
+            }
+
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                var conf = uow.GuildConfigs.For(guildId, set => set);
+                conf.DmGreetMessageText = settings.DmGreetMessageText?.SanitizeMentions();
+                conf.ChannelGreetMessageText = settings.ChannelGreetMessageText?.SanitizeMentions();
+                conf.ChannelByeMessageText = settings.ChannelByeMessageText?.SanitizeMentions();
+
+                conf.AutoDeleteGreetMessagesTimer = settings.AutoDeleteGreetMessagesTimer;
+                conf.AutoDeleteGreetMessages = settings.AutoDeleteGreetMessagesTimer > 0;
+
+                conf.AutoDeleteByeMessagesTimer = settings.AutoDeleteByeMessagesTimer;
+                conf.AutoDeleteByeMessages = settings.AutoDeleteByeMessagesTimer > 0;
+
+                conf.GreetMessageChannelId = settings.GreetMessageChannelId;
+                conf.ByeMessageChannelId = settings.ByeMessageChannelId;
+
+                conf.SendChannelGreetMessage = settings.SendChannelGreetMessage;
+                conf.SendChannelByeMessage = settings.SendChannelByeMessage;
+
+                await uow.CompleteAsync().ConfigureAwait(false);
+            }
+
+            return true;
         }
 
         public async Task<bool> SetGreet(ulong guildId, ulong channelId, bool? value = null)

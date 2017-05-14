@@ -11,7 +11,6 @@ using NLog;
 
 namespace NadekoBot.Modules.Music.Classes
 {
-
     public enum MusicType
     {
         Radio,

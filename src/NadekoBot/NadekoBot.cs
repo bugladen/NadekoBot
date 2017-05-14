@@ -18,6 +18,7 @@ using System.Diagnostics;
 using NadekoBot.Modules.Music;
 using NadekoBot.Services.Database.Models;
 using System.Threading;
+using NadekoBot.Services.Music;
 
 namespace NadekoBot
 {
@@ -49,6 +50,7 @@ namespace NadekoBot
         //services
         //todo DI in the future
         public static GreetSettingsService GreetSettingsService { get; private set; }
+        public static MusicService MusicService { get; private set; }
 
         static NadekoBot()
         {

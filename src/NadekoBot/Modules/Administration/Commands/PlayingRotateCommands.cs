@@ -76,10 +76,10 @@ namespace NadekoBot.Modules.Administration
                     { "%servers%", () => NadekoBot.Client.Guilds.Count.ToString()},
                     { "%users%", () => NadekoBot.Client.Guilds.Sum(s => s.Users.Count).ToString()},
                     { "%playing%", () => {
-                            var cnt = Music.Music.MusicPlayers.Count(kvp => kvp.Value.CurrentSong != null);
+                            var cnt = NadekoBot.MusicService.MusicPlayers.Count(kvp => kvp.Value.CurrentSong != null);
                             if (cnt != 1) return cnt.ToString();
                             try {
-                                var mp = Music.Music.MusicPlayers.FirstOrDefault();
+                                var mp = NadekoBot.MusicService.MusicPlayers.FirstOrDefault();
                                 return mp.Value.CurrentSong.SongInfo.Title;
                             }
                             catch {
@@ -87,7 +87,7 @@ namespace NadekoBot.Modules.Administration
                             }
                         }
                     },
-                    { "%queued%", () => Music.Music.MusicPlayers.Sum(kvp => kvp.Value.Playlist.Count).ToString()},
+                    { "%queued%", () => NadekoBot.MusicService.MusicPlayers.Sum(kvp => kvp.Value.Playlist.Count).ToString()},
                     { "%time%", () => DateTime.Now.ToString("HH:mm " + TimeZoneInfo.Local.StandardName.GetInitials()) },
                     { "%shardcount%", () => NadekoBot.Client.Shards.Count.ToString() },
                 };
