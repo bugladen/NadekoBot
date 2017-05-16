@@ -65,6 +65,9 @@ namespace NadekoBot.Modules.Permissions
 
             private async Task Blacklist(AddRemove action, ulong id, BlacklistType type)
             {
+                if(action == AddRemove.Add && NadekoBot.Credentials.OwnerIds.Contains(id))
+                    return;
+
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     if (action == AddRemove.Add)
