@@ -73,7 +73,7 @@ namespace NadekoBot.Modules.Administration
                             await guild.AddBanAsync(user).ConfigureAwait(false);
                             break;
                         case PunishmentAction.Softban:
-                            await guild.AddBanAsync(user).ConfigureAwait(false);
+                            await guild.AddBanAsync(user, 7).ConfigureAwait(false);
                             try
                             {
                                 await guild.RemoveBanAsync(user).ConfigureAwait(false);
