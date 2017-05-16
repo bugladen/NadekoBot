@@ -41,7 +41,7 @@ namespace NadekoBot.Modules.Administration
                     var channel = msg.Channel as SocketTextChannel;
                     if (channel == null)
                         return;
-                    if (deleteMessagesOnCommand.Contains(channel.Guild.Id) && cmd.Name != "prune")
+                    if (deleteMessagesOnCommand.Contains(channel.Guild.Id) && cmd.Name != "prune" && cmd.Name != "pick")
                         await msg.DeleteAsync().ConfigureAwait(false);
                 }
                 catch (Exception ex)
