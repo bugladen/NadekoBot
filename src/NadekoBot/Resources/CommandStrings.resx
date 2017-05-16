@@ -2038,7 +2038,7 @@
     <value>chucknorris cn</value>
   </data>
   <data name="chucknorris_desc" xml:space="preserve">
-    <value>Shows a random Chuck Norris joke from &lt;http://tambal.azurewebsites.net/joke/random&gt;</value>
+    <value>Shows a random Chuck Norris joke from &lt;http://api.icndb.com/jokes/random/&gt;</value>
   </data>
   <data name="chucknorris_usage" xml:space="preserve">
     <value>`{0}cn`</value>
@@ -3406,7 +3406,7 @@
     <value>Toggles if this role is displayed in the sidebar or not</value>
   </data>
   <data name="rolehoist_usage" xml:space="preserve">
-    <value>`{0}rh Guests true` or `{0}rh "Space Wizards" true</value>
+    <value>`{0}rh Guests true` or `{0}rh "Space Wizards" true`</value>
   </data>
   <data name="buy_cmd" xml:space="preserve">
     <value>buy</value>

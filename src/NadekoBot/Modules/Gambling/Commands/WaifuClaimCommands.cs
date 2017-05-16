@@ -173,6 +173,8 @@ namespace NadekoBot.Modules.Gambling
                     amount + CurrencySign);
                 if (w.Affinity?.UserId == Context.User.Id)
                     msg += "\n" + GetText("waifu_fulfilled", target, w.Price + CurrencySign);
+                else
+                    msg = " " + msg;
                 await Context.Channel.SendConfirmAsync(Context.User.Mention + msg).ConfigureAwait(false);
             }
 
