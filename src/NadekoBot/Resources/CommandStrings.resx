@@ -3388,7 +3388,7 @@
     <value>shoprem shoprm</value>
   </data>
   <data name="shopremove_desc" xml:space="preserve">
-    <value>Removes an item from the shop by its color.</value>
+    <value>Removes an item from the shop by its ID.</value>
   </data>
   <data name="shop_cmd" xml:space="preserve">
     <value>shop</value>
