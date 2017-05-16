@@ -2105,6 +2105,9 @@ Owner ID: {2}</value>
   <data name="utility_remind" xml:space="preserve">
     <value>I will remind {0} to {1} in {2} `({3:d.M.yyyy.} at {4:HH:mm})`</value>
   </data>
+  <data name="utility_cant_read_or_send" xml:space="preserve">
+    <value>You can't read from or send messages to that channel.</value>
+  </data>
   <data name="utility_remind_invalid_format" xml:space="preserve">
     <value>Not a valid time format. Check the commandlist.</value>
   </data>
