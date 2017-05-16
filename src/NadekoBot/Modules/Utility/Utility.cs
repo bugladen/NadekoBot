@@ -503,7 +503,6 @@ namespace NadekoBot.Modules.Utility
                 await JsonConvert.SerializeObject(grouping, Formatting.Indented).ToStream().ConfigureAwait(false), title, title).ConfigureAwait(false);
         }
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         public async Task Ping()
         {
             var sw = Stopwatch.StartNew();
