@@ -188,9 +188,15 @@ namespace NadekoBot.Modules.Gambling
             private static readonly TimeSpan _divorceLimit = TimeSpan.FromHours(6);
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Divorce([Remainder]IUser target)
+            [Priority(1)]
+            public Task Divorce([Remainder]IUser target) => Divorce(target.Id);
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [Priority(0)]
+            public async Task Divorce([Remainder]ulong targetId)
             {
-                if (target.Id == Context.User.Id)
+                if (targetId == Context.User.Id)
                     return;
 
                 DivorceResult result;
@@ -199,7 +205,7 @@ namespace NadekoBot.Modules.Gambling
                 WaifuInfo w = null;
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    w = uow.Waifus.ByWaifuUserId(target.Id);
+                    w = uow.Waifus.ByWaifuUserId(targetId);
                     var now = DateTime.UtcNow;
                     if (w?.Claimer == null || w.Claimer.UserId != Context.User.Id)
                         result = DivorceResult.NotYourWife;
