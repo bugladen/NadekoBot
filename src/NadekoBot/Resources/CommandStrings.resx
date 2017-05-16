@@ -418,7 +418,7 @@
     <value>iamnot iamn</value>
   </data>
   <data name="iamnot_desc" xml:space="preserve">
-    <value>Removes a role to you that you choose. Role must be on a list of self-assignable roles.</value>
+    <value>Removes a specified role from you. Role must be on a list of self-assignable roles.</value>
   </data>
   <data name="iamnot_usage" xml:space="preserve">
     <value>`{0}iamn Gamer`</value>
