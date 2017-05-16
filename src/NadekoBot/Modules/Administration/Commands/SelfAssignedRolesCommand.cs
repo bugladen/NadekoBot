@@ -108,7 +108,6 @@ namespace NadekoBot.Modules.Administration
                 using (var uow = DbHandler.UnitOfWork())
                 {
                     var roleModels = uow.SelfAssignedRoles.GetFromGuild(Context.Guild.Id).ToList();
-                    roleCnt = roleModels.Count;
                     msg.AppendLine();
                     
                     foreach (var roleModel in roleModels)
@@ -116,11 +115,13 @@ namespace NadekoBot.Modules.Administration
                         var role = Context.Guild.Roles.FirstOrDefault(r => r.Id == roleModel.RoleId);
                         if (role == null)
                         {
+                            toRemove.Add(roleModel);
                             uow.SelfAssignedRoles.Remove(roleModel);
                         }
                         else
                         {
                             msg.Append($"**{role.Name}**, ");
+                            roleCnt++;
                         }
                     }
                     foreach (var role in toRemove)
