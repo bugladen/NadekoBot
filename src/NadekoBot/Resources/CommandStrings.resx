@@ -3442,19 +3442,19 @@
     <value>globalcommand gcmd</value>
   </data>
   <data name="gcmd_desc" xml:space="preserve">
-    <value>Enables or disables a command from use on all servers.</value>
+    <value>Toggles whether a command can be used on any server.</value>
   </data>
   <data name="gcmd_usage" xml:space="preserve">
-    <value>`{0}gcmd  `</value>
+    <value>`{0}gcmd .stats`</value>
   </data>
   <data name="gmod_cmd" xml:space="preserve">
     <value>globalmodule gmod</value>
   </data>
   <data name="gmod_desc" xml:space="preserve">
-    <value>Enable or disable a module from use on all servers.</value>
+    <value>Toggles whether a module can be used on any server.</value>
   </data>
   <data name="gmod_usage" xml:space="preserve">
-    <value>`{0}gmod nsfw disable`</value>
+    <value>`{0}gmod nsfw`</value>
   </data>
   <data name="lgp_cmd" xml:space="preserve">
     <value>listglobalperms lgp</value>
