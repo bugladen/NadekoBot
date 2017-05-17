@@ -341,7 +341,6 @@ Alasan: {1}</value>
   </data>
   <data name="administration_byemsg_new" xml:space="preserve">
     <value>Pesan tinggal baru tersetel.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_bye_off" xml:space="preserve">
     <value>Pengumuman tinggal dimatikan.</value>
@@ -624,6 +623,7 @@ Alasan: {1}</value>
   </data>
   <data name="administration_rc_perms" xml:space="preserve">
     <value>Error disebabkan warna tidak valid atau tidak punya izin.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_remrole" xml:space="preserve">
     <value>Berhasil menghapus peran {0} dari user {1}</value>
@@ -645,6 +645,7 @@ Alasan: {1}</value>
   </data>
   <data name="administration_role_added" xml:space="preserve">
     <value>Peran {0} telah ditambahkan ke daftar.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_role_clean" xml:space="preserve">
     <value>{0} tidak ditemukan. Telah dibersihkan.</value>
@@ -742,8 +743,7 @@ Alasan: {1}</value>
   </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
     <value>Ban halus (Dikeluarkan)</value>
-    <comment>PLURAL
-Fuzzy</comment>
+    <comment>PLURAL</comment>
   </data>
   <data name="administration_spam_ignore" xml:space="preserve">
     <value>{0} akan mengabaikan channel ini.</value>
@@ -842,6 +842,7 @@ Fuzzy</comment>
   </data>
   <data name="administration_vt_perms" xml:space="preserve">
     <value>Saya membutuhkan setidaknya izin **mengatur peran** dan **mengatur channel** untuk mengaktifkan fitur ini. (lebih memilih izin administrasi)</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_xmuted_text" xml:space="preserve">
     <value>User {0} dari chat teks</value>
@@ -1258,7 +1259,6 @@ Nilai {0} sekarang adalah {1}!</value>
   </data>
   <data name="games_hangman_start_errored" xml:space="preserve">
     <value>Ada kesalahan saat memulai Hangman</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="games_hangman_types" xml:space="preserve">
     <value>Daftar dari &quot;{0}hangman&quot; tipe istilah:</value>
@@ -1321,7 +1321,6 @@ Nilai {0} sekarang adalah {1}!</value>
   </data>
   <data name="games_ttt_matched_three" xml:space="preserve">
     <value>Mendapat tiga.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="games_ttt_no_moves" xml:space="preserve">
     <value>TIdak ada jalan tersisa!</value>
@@ -1719,6 +1718,7 @@ Nilai {0} sekarang adalah {1}!</value>
   </data>
   <data name="searches_error_occured" xml:space="preserve">
     <value>Kesalahan terjadi.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_example" xml:space="preserve">
     <value>Contoh</value>
@@ -2084,6 +2084,7 @@ ID Pemilik: {2}</value>
   </data>
   <data name="utility_quotes_page_none" xml:space="preserve">
     <value>Tidak ada kutipan pada halaman ini.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_quotes_remove_none" xml:space="preserve">
     <value>Tidak ditemukan kutipan yang dapat anda hapus.</value>
@@ -2369,7 +2370,6 @@ ID Pemilik: {2}</value>
   </data>
   <data name="administration_slowmodewl_user_start" xml:space="preserve">
     <value>Slowmode akan mengabaikan pengguna {0}</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_slowmodewl_user_stop" xml:space="preserve">
     <value>Slowmode tidak akan lagi mengabaikan pengguna {0}.</value>
@@ -2406,6 +2406,122 @@ ID Pemilik: {2}</value>
   </data>
   <data name="utility_clpa_too_early" xml:space="preserve">
     <value>Hadiah bisa diambil saat atau setelah tanggal 5 dari setiap bulan.</value>
+  </data>
+  <data name="searches_time" xml:space="preserve">
+    <value>Waktu di {0} adalah {1} - {2}</value>
+    <comment>Time in London, UK is 15:30 - Time Zone Name</comment>
+  </data>
+  <data name="administration_rh" xml:space="preserve">
+    <value>Tersetel gambaran peran guild {0} ke {1}.</value>
+  </data>
+  <data name="gambling_name" xml:space="preserve">
+    <value>Nama</value>
+  </data>
+  <data name="gambling_shop" xml:space="preserve">
+    <value>Toko</value>
+  </data>
+  <data name="gambling_shop_item_add" xml:space="preserve">
+    <value>Barang toko ditambahkan</value>
+  </data>
+  <data name="gambling_shop_none" xml:space="preserve">
+    <value>Tidak ada barang toko ditemukan di halaman ini.</value>
+  </data>
+  <data name="gambling_shop_role" xml:space="preserve">
+    <value>Anda akan mendapat peran {0}</value>
+  </data>
+  <data name="gambling_type" xml:space="preserve">
+    <value>Tipe</value>
+  </data>
+  <data name="utility_clpa_next_update" xml:space="preserve">
+    <value>Update selanjutnya dalam {0}</value>
+    <comment>Next update in 05:30</comment>
+  </data>
+  <data name="administration_global_perms_reset" xml:space="preserve">
+    <value>Ijin global telah diulang.</value>
+  </data>
+  <data name="administration_gvc_disabled" xml:space="preserve">
+    <value>Fitur channel suara permainan telah dinonaktifkan di server ini. </value>
+  </data>
+  <data name="administration_gvc_enabled" xml:space="preserve">
+    <value>{0} sekarang adalah saluran suara permainan.</value>
+  </data>
+  <data name="administration_not_in_voice" xml:space="preserve">
+    <value>Anda tidak ada di saluran suara server ini.</value>
+  </data>
+  <data name="gambling_item" xml:space="preserve">
+    <value>Barang</value>
+  </data>
+  <data name="gambling_out_of_stock" xml:space="preserve">
+    <value>Stok habis.</value>
+  </data>
+  <data name="gambling_random_unique_item" xml:space="preserve">
+    <value>Barang unik acak.</value>
+  </data>
+  <data name="gambling_shop_buy_error" xml:space="preserve">
+    <value>Error saat memberikan barang. Dana telah dikembalikan.</value>
+  </data>
+  <data name="gambling_shop_item_not_found" xml:space="preserve">
+    <value>Tidak ada barang ditemukan pada indeks tersebut.</value>
+  </data>
+  <data name="gambling_shop_item_purchase" xml:space="preserve">
+    <value>Pembelian barang berhasil</value>
+  </data>
+  <data name="gambling_shop_item_rm" xml:space="preserve">
+    <value>Barang toko dihilangkan</value>
+  </data>
+  <data name="gambling_shop_item_wrong_type" xml:space="preserve">
+    <value>Toko itu tidak mendukung penambahan barang.</value>
+  </data>
+  <data name="gambling_shop_list_item_added" xml:space="preserve">
+    <value>Barang berhasil ditambahkan.</value>
+  </data>
+  <data name="gambling_shop_list_item_not_unique" xml:space="preserve">
+    <value>Barang itu sudah ditambahkan.</value>
+  </data>
+  <data name="gambling_shop_purchase" xml:space="preserve">
+    <value>Pembelian di {0} server</value>
+  </data>
+  <data name="gambling_shop_role_not_found" xml:space="preserve">
+    <value>Peran yang dijual tidak ada lagi.</value>
+  </data>
+  <data name="gambling_shop_role_purchase" xml:space="preserve">
+    <value>Anda telah berhasil membeli {0} peran.</value>
+  </data>
+  <data name="gambling_shop_role_purchase_error" xml:space="preserve">
+    <value>Error saat menambahkan peran. Pembelian anda telah dikembalikan.</value>
+  </data>
+  <data name="gambling_unique_items_left" xml:space="preserve">
+    <value>{0} barang unik tersisa.</value>
+  </data>
+  <data name="permissions_blocked_commands" xml:space="preserve">
+    <value>Perintah yang dilarang</value>
+  </data>
+  <data name="permissions_blocked_modules" xml:space="preserve">
+    <value>Modul yang dilarang</value>
+  </data>
+  <data name="permissions_gcmd_add" xml:space="preserve">
+    <value>Perintah {0} telah dinonaktifkan di semua server.</value>
+  </data>
+  <data name="permissions_gcmd_remove" xml:space="preserve">
+    <value>Perintah {0} telah diaktifkan di semua server.</value>
+  </data>
+  <data name="permissions_gmod_add" xml:space="preserve">
+    <value>Modul {0} telah dinonaktifkan di semua server.</value>
+  </data>
+  <data name="permissions_gmod_remove" xml:space="preserve">
+    <value>Modul {0} telah diaktifkan di semua server.</value>
+  </data>
+  <data name="permissions_lgp_none" xml:space="preserve">
+    <value>Tidak ada modul atau perintah yang di larang.</value>
+  </data>
+  <data name="gambling_animal_race_no_race" xml:space="preserve">
+    <value>Balapan hewan ini penuh!</value>
+  </data>
+  <data name="utility_cant_read_or_send" xml:space="preserve">
+    <value>Anda tidak bisa membaca atau mengirim ke channel itu.</value>
+  </data>
+  <data name="utility_quotes_notfound" xml:space="preserve">
+    <value></value>
   </data>
 
 </root>
