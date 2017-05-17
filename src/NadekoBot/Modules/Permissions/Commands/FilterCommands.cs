@@ -190,7 +190,7 @@ namespace NadekoBot.Modules.Permissions
                 {
                     var config = uow.GuildConfigs.For(channel.Guild.Id, set => set.Include(gc => gc.FilteredWords));
 
-                    removed = config.FilteredWords.RemoveWhere(fw => fw.Word == word);
+                    removed = config.FilteredWords.RemoveWhere(fw => fw.Word.Trim().ToLowerInvariant() == word);
 
                     if (removed == 0)
                         config.FilteredWords.Add(new Services.Database.Models.FilteredWord() { Word = word });

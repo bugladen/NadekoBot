@@ -41,7 +41,7 @@ namespace NadekoBot.Modules.Administration
                     var channel = msg.Channel as SocketTextChannel;
                     if (channel == null)
                         return;
-                    if (deleteMessagesOnCommand.Contains(channel.Guild.Id) && cmd.Name != "prune")
+                    if (deleteMessagesOnCommand.Contains(channel.Guild.Id) && cmd.Name != "prune" && cmd.Name != "pick")
                         await msg.DeleteAsync().ConfigureAwait(false);
                 }
                 catch (Exception ex)
@@ -118,7 +118,7 @@ namespace NadekoBot.Modules.Administration
         {
             var guser = (IGuildUser)Context.User;
             var maxRole = guser.GetRoles().Max(x => x.Position);
-            if (maxRole < role.Position || maxRole <= usr.GetRoles().Max(x => x.Position))
+            if ((Context.User.Id != Context.Guild.OwnerId) && (maxRole < role.Position || maxRole <= usr.GetRoles().Max(x => x.Position)))
                 return;
             try
             {
@@ -378,12 +378,14 @@ namespace NadekoBot.Modules.Administration
         {
             var user = await Context.Guild.GetCurrentUserAsync().ConfigureAwait(false);
 
-            var enumerable = (await Context.Channel.GetMessagesAsync().Flatten()).AsEnumerable();
-            enumerable = enumerable.Where(x => x.Author.Id == user.Id);
+            var enumerable = (await Context.Channel.GetMessagesAsync().Flatten())
+                .Where(x => x.Author.Id == user.Id && DateTime.Now - x.CreatedAt < twoWeeks);
             await Context.Channel.DeleteMessagesAsync(enumerable).ConfigureAwait(false);
             Context.Message.DeleteAfter(3);
         }
 
+
+        private TimeSpan twoWeeks => TimeSpan.FromDays(14);
         // prune x
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
@@ -396,7 +398,8 @@ namespace NadekoBot.Modules.Administration
                 return;
             await Context.Message.DeleteAsync().ConfigureAwait(false);
             int limit = (count < 100) ? count + 1 : 100;
-            var enumerable = (await Context.Channel.GetMessagesAsync(limit: limit).Flatten().ConfigureAwait(false));
+            var enumerable = (await Context.Channel.GetMessagesAsync(limit: limit).Flatten().ConfigureAwait(false))
+                .Where(x => DateTime.Now - x.CreatedAt < twoWeeks);
             if (enumerable.FirstOrDefault()?.Id == Context.Message.Id)
                 enumerable = enumerable.Skip(1).ToArray();
             else
@@ -419,7 +422,8 @@ namespace NadekoBot.Modules.Administration
                 count += 1;
 
             int limit = (count < 100) ? count : 100;
-            var enumerable = (await Context.Channel.GetMessagesAsync(limit: limit).Flatten()).Where(m => m.Author == user);
+            var enumerable = (await Context.Channel.GetMessagesAsync(limit: limit).Flatten())
+                .Where(m => m.Author == user && DateTime.Now - m.CreatedAt < twoWeeks);
             await Context.Channel.DeleteMessagesAsync(enumerable).ConfigureAwait(false);
 
             Context.Message.DeleteAfter(3);
@@ -434,7 +438,9 @@ namespace NadekoBot.Modules.Administration
             foreach (var role in roles)
             {
                 send += $"\n**{role.Name}**\n";
-                send += string.Join(", ", (await Context.Guild.GetUsersAsync()).Where(u => u.GetRoles().Contains(role)).Take(50).Select(u => u.Mention));
+                send += string.Join(", ", (await Context.Guild.GetUsersAsync())
+                    .Where(u => u.GetRoles().Contains(role))
+                    .Take(50).Select(u => u.Mention));
             }
 
             while (send.Length > 2000)

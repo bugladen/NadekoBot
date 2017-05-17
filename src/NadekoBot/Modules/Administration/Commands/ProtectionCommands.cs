@@ -10,6 +10,8 @@ using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Threading;
+using System.Collections.Generic;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -35,29 +37,50 @@ namespace NadekoBot.Modules.Administration
                 = new ConcurrentDictionary<ulong, UserSpamStats>();
         }
 
-        public class UserSpamStats
+        public class UserSpamStats : IDisposable
         {
-            public int Count { get; set; }
+            public int Count => timers.Count;
             public string LastMessage { get; set; }
 
-            public UserSpamStats(string msg)
-            {
-                Count = 1;
-                LastMessage = msg.ToUpperInvariant();
-            }
+            private ConcurrentQueue<Timer> timers { get; }
 
+            public UserSpamStats(IUserMessage msg)
+            {
+                LastMessage = msg.Content.ToUpperInvariant();
+                timers = new ConcurrentQueue<Timer>();
+
+                ApplyNextMessage(msg);
+            }
+            
+            private readonly object applyLock = new object();
             public void ApplyNextMessage(IUserMessage message)
             {
-                var upperMsg = message.Content.ToUpperInvariant();
-                if (upperMsg != LastMessage || (string.IsNullOrWhiteSpace(upperMsg) && message.Attachments.Any()))
-                {
-                    LastMessage = upperMsg;
-                    Count = 0;
+                lock(applyLock){
+                    var upperMsg = message.Content.ToUpperInvariant();
+                    if (upperMsg != LastMessage || (string.IsNullOrWhiteSpace(upperMsg) && message.Attachments.Any()))
+                    {
+                        LastMessage = upperMsg;
+                        //todo c#7
+                        Timer old;
+                        while(timers.TryDequeue(out old))
+                            old.Change(Timeout.Infinite, Timeout.Infinite);
+                    }    
+                    var t = new Timer((_) => {
+                        //todo c#7
+                        Timer __;
+                        if(timers.TryDequeue(out __))
+                            __.Change(Timeout.Infinite, Timeout.Infinite);
+                    }, null, TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(30));
+                    timers.Enqueue(t);
                 }
-                else
-                {
-                    Count++;
-                }
+            }
+
+            public void Dispose()
+            {
+                //todo c#7
+                Timer old;
+                while(timers.TryDequeue(out old))
+                    old.Change(Timeout.Infinite, Timeout.Infinite);
             }
         }
 
@@ -112,7 +135,7 @@ namespace NadekoBot.Modules.Administration
                                 }))
                                 return;
 
-                            var stats = spamSettings.UserStats.AddOrUpdate(msg.Author.Id, new UserSpamStats(msg.Content),
+                            var stats = spamSettings.UserStats.AddOrUpdate(msg.Author.Id, (id) => new UserSpamStats(msg),
                                 (id, old) =>
                                 {
                                     old.ApplyNextMessage(msg); return old;
@@ -122,6 +145,7 @@ namespace NadekoBot.Modules.Administration
                             {
                                 if (spamSettings.UserStats.TryRemove(msg.Author.Id, out stats))
                                 {
+                                    stats.Dispose();
                                     await PunishUsers(spamSettings.AntiSpamSettings.Action, ProtectionType.Spamming, (IGuildUser)msg.Author)
                                         .ConfigureAwait(false);
                                 }
@@ -317,6 +341,7 @@ namespace NadekoBot.Modules.Administration
                 AntiSpamStats throwaway;
                 if (_antiSpamGuilds.TryRemove(Context.Guild.Id, out throwaway))
                 {
+                    throwaway.UserStats.ForEach(x => x.Value.Dispose());
                     using (var uow = DbHandler.UnitOfWork())
                     {
                         var gc = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(x => x.AntiSpamSetting)

@@ -26,7 +26,7 @@ Commands and aliases | Description | Usage
 `.renamerole` `.renr` | Renames a role. The role you are renaming must be lower than bot's highest role. **Requires ManageRoles server permission.** | `.renr "First role" SecondRole`
 `.removeallroles` `.rar` | Removes all roles from a mentioned user. **Requires ManageRoles server permission.** | `.rar @User`
 `.createrole` `.cr` | Creates a role with a given name. **Requires ManageRoles server permission.** | `.cr Awesome Role`
-`.rolehoist` `.rh` | Toggles if this role is displayed in the sidebar or not **Requires ManageRoles server permission.** | `.rh Guests true` or `.rh "Space Wizards" true
+`.rolehoist` `.rh` | Toggles if this role is displayed in the sidebar or not **Requires ManageRoles server permission.** | `.rh Guests true` or `.rh "Space Wizards" true`
 `.rolecolor` `.rc` | Set a role's color to the hex or 0-255 rgb color value provided. **Requires ManageRoles server permission.** | `.rc Admin 255 200 100` or `.rc Admin ffba55`
 `.deafen` `.deaf` | Deafens mentioned user or users. **Requires DeafenMembers server permission.** | `.deaf "@Someguy"` or `.deaf "@Someguy" "@Someguy"`
 `.undeafen` `.undef` | Undeafens mentioned user or users. **Requires DeafenMembers server permission.** | `.undef "@Someguy"` or `.undef "@Someguy" "@Someguy"`
@@ -73,7 +73,7 @@ Commands and aliases | Description | Usage
 `.lsar` | Lists all self-assignable roles.  | `.lsar`
 `.togglexclsar` `.tesar` | Toggles whether the self-assigned roles are exclusive. (So that any person can have only one of the self assignable roles) **Requires ManageRoles server permission.** | `.tesar`
 `.iam` | Adds a role to you that you choose. Role must be on a list of self-assignable roles.  | `.iam Gamer`
-`.iamnot` `.iamn` | Removes a role to you that you choose. Role must be on a list of self-assignable roles.  | `.iamn Gamer`
+`.iamnot` `.iamn` | Removes a specified role from you. Role must be on a list of self-assignable roles.  | `.iamn Gamer`
 `.scadd` | Adds a command to the list of commands which will be executed automatically in the current channel, in the order they were added in, by the bot when it startups up. **Bot owner only** | `.scadd .stats`
 `.sclist` | Lists all startup commands in the order they will be executed in. **Bot owner only** | `.sclist`
 `.wait` | Used only as a startup command. Waits a certain number of miliseconds before continuing the execution of the following startup commands. **Bot owner only** | `.wait 3000`
@@ -94,11 +94,11 @@ Commands and aliases | Description | Usage
 `.reloadimages` | Reloads images bot is using. Safe to use even when bot is being used heavily. **Bot owner only** | `.reloadimages`
 `.greetdel` `.grdel` | Sets the time it takes (in seconds) for greet messages to be auto-deleted. Set it to 0 to disable automatic deletion. **Requires ManageServer server permission.** | `.greetdel 0` or `.greetdel 30`
 `.greet` | Toggles anouncements on the current channel when someone joins the server. **Requires ManageServer server permission.** | `.greet`
-`.greetmsg` | Sets a new join announcement message which will be shown in the server's channel. Type `%user%` if you want to mention the new member. Using it with no message will show the current greet message. You can use embed json from <http://nadekobot.xyz/embedbuilder/> instead of a regular text, if you want the message to be embedded. **Requires ManageServer server permission.** | `.greetmsg Welcome, %user%.`
+`.greetmsg` | Sets a new join announcement message which will be shown in the server's channel. Type `%user%` if you want to mention the new member. Using it with no message will show the current greet message. You can use embed json from <http://nadekobot.me/embedbuilder/> instead of a regular text, if you want the message to be embedded. **Requires ManageServer server permission.** | `.greetmsg Welcome, %user%.`
 `.greetdm` | Toggles whether the greet messages will be sent in a DM (This is separate from greet - you can have both, any or neither enabled). **Requires ManageServer server permission.** | `.greetdm`
-`.greetdmmsg` | Sets a new join announcement message which will be sent to the user who joined. Type `%user%` if you want to mention the new member. Using it with no message will show the current DM greet message. You can use embed json from <http://nadekobot.xyz/embedbuilder/> instead of a regular text, if you want the message to be embedded. **Requires ManageServer server permission.** | `.greetdmmsg Welcome to the server, %user%`.
+`.greetdmmsg` | Sets a new join announcement message which will be sent to the user who joined. Type `%user%` if you want to mention the new member. Using it with no message will show the current DM greet message. You can use embed json from <http://nadekobot.me/embedbuilder/> instead of a regular text, if you want the message to be embedded. **Requires ManageServer server permission.** | `.greetdmmsg Welcome to the server, %user%`.
 `.bye` | Toggles anouncements on the current channel when someone leaves the server. **Requires ManageServer server permission.** | `.bye`
-`.byemsg` | Sets a new leave announcement message. Type `%user%` if you want to show the name the user who left. Type `%id%` to show id. Using this command with no message will show the current bye message. You can use embed json from <http://nadekobot.xyz/embedbuilder/> instead of a regular text, if you want the message to be embedded. **Requires ManageServer server permission.** | `.byemsg %user% has left.`
+`.byemsg` | Sets a new leave announcement message. Type `%user%` if you want to show the name the user who left. Type `%id%` to show id. Using this command with no message will show the current bye message. You can use embed json from <http://nadekobot.me/embedbuilder/> instead of a regular text, if you want the message to be embedded. **Requires ManageServer server permission.** | `.byemsg %user% has left.`
 `.byedel` | Sets the time it takes (in seconds) for bye messages to be auto-deleted. Set it to `0` to disable automatic deletion. **Requires ManageServer server permission.** | `.byedel 0` or `.byedel 30`
 `.warn` | Warns a user. **Requires BanMembers server permission.** | `.warn @b1nzy Very rude person`
 `.warnlog` | See a list of warnings of a certain user. **Requires BanMembers server permission.** | `.warnlog @b1nzy`
@@ -170,7 +170,7 @@ Commands and aliases | Description | Usage
 `$buy` | Buys an item from the shop on a given index. If buying items, make sure that the bot can DM you.  | `$buy 2`
 `$shopadd` | Adds an item to the shop by specifying type price and name. Available types are role and list. **Requires Administrator server permission.** | `$shopadd role 1000 Rich`
 `$shoplistadd` | Adds an item to the list of items for sale in the shop entry given the index. You usually want to run this command in the secret channel, so that the unique items are not leaked. **Requires Administrator server permission.** | `$shoplistadd 1 Uni-que-Steam-Key`
-`$shoprem` `$shoprm` | Removes an item from the shop by its color. **Requires Administrator server permission.** | `$shoprm 1`
+`$shoprem` `$shoprm` | Removes an item from the shop by its ID. **Requires Administrator server permission.** | `$shoprm 1`
 `$slotstats` | Shows the total stats of the slot command for this bot's session. **Bot owner only** | `$slotstats`
 `$slottest` | Tests to see how much slots payout for X number of plays. **Bot owner only** | `$slottest 1000`
 `$slot` | Play Nadeko slots. Max bet is 9999. 1.5 second cooldown per user.  | `$slot 5`
@@ -311,8 +311,8 @@ Commands and aliases | Description | Usage
 `;fw` | Adds or removes (if it exists) a word from the list of filtered words. Use`;sfw` or `;cfw` to toggle filtering.  | `;fw poop`
 `;lstfilterwords` `;lfw` | Shows a list of filtered words.  | `;lfw`
 `;listglobalperms` `;lgp` | Lists global permissions set by the bot owner. **Bot owner only** | `;lgp`
-`;globalmodule` `;gmod` | Enable or disable a module from use on all servers. **Bot owner only** | `;gmod nsfw disable`
-`;globalcommand` `;gcmd` | Enables or disables a command from use on all servers. **Bot owner only** | `;gcmd  `
+`;globalmodule` `;gmod` | Toggles whether a module can be used on any server. **Bot owner only** | `;gmod nsfw`
+`;globalcommand` `;gcmd` | Toggles whether a command can be used on any server. **Bot owner only** | `;gcmd .stats`
 
 ###### [Back to ToC](#table-of-contents)
 
@@ -362,7 +362,7 @@ Commands and aliases | Description | Usage
 `~manga` `~mang` `~mq` | Queries anilist for a manga and shows the first result.  | `~mq Shingeki no kyojin`
 `~yomama` `~ym` | Shows a random joke from <http://api.yomomma.info/>  | `~ym`
 `~randjoke` `~rj` | Shows a random joke from <http://tambal.azurewebsites.net/joke/random>  | `~rj`
-`~chucknorris` `~cn` | Shows a random Chuck Norris joke from <http://tambal.azurewebsites.net/joke/random>  | `~cn`
+`~chucknorris` `~cn` | Shows a random Chuck Norris joke from <http://api.icndb.com/jokes/random/>  | `~cn`
 `~wowjoke` | Get one of Kwoth's penultimate WoW jokes.  | `~wowjoke`
 `~magicitem` `~mi` | Shows a random magic item from <https://1d4chan.org/wiki/List_of_/tg/%27s_magic_items>  | `~mi`
 `~memelist` | Pulls a list of memes you can use with `~memegen` from http://memegen.link/templates/  | `~memelist`

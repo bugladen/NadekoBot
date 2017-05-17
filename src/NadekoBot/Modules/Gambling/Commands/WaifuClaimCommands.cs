@@ -173,6 +173,8 @@ namespace NadekoBot.Modules.Gambling
                     amount + CurrencySign);
                 if (w.Affinity?.UserId == Context.User.Id)
                     msg += "\n" + GetText("waifu_fulfilled", target, w.Price + CurrencySign);
+                else
+                    msg = " " + msg;
                 await Context.Channel.SendConfirmAsync(Context.User.Mention + msg).ConfigureAwait(false);
             }
 
@@ -188,9 +190,15 @@ namespace NadekoBot.Modules.Gambling
             private static readonly TimeSpan _divorceLimit = TimeSpan.FromHours(6);
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Divorce([Remainder]IGuildUser target)
+            [Priority(1)]
+            public Task Divorce([Remainder]IGuildUser target) => Divorce(target.Id);
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [Priority(0)]
+            public async Task Divorce([Remainder]ulong targetId)
             {
-                if (target.Id == Context.User.Id)
+                if (targetId == Context.User.Id)
                     return;
 
                 DivorceResult result;
@@ -199,7 +207,7 @@ namespace NadekoBot.Modules.Gambling
                 WaifuInfo w = null;
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    w = uow.Waifus.ByWaifuUserId(target.Id);
+                    w = uow.Waifus.ByWaifuUserId(targetId);
                     var now = DateTime.UtcNow;
                     if (w?.Claimer == null || w.Claimer.UserId != Context.User.Id)
                         result = DivorceResult.NotYourWife;

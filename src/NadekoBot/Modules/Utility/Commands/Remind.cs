@@ -123,8 +123,19 @@ namespace NadekoBot.Modules.Utility
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
             [Priority(0)]
-            public Task Remind(ITextChannel channel, string timeStr, [Remainder] string message) =>
-                RemindInternal(channel.Id, false, timeStr, message);
+            public async Task Remind(ITextChannel channel, string timeStr, [Remainder] string message)
+            {
+                var perms = ((IGuildUser)Context.User).GetPermissions((ITextChannel)channel);
+                if (!perms.SendMessages || !perms.ReadMessages)
+                {
+                    await ReplyErrorLocalized("cant_read_or_send").ConfigureAwait(false);
+                    return;
+                }
+                else
+                {
+                    var _ = RemindInternal(channel.Id, false, timeStr, message).ConfigureAwait(false);
+                }
+            }
 
             public async Task RemindInternal(ulong targetId, bool isPrivate, string timeStr, [Remainder] string message)
             {

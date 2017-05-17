@@ -73,7 +73,7 @@ namespace NadekoBot.Modules.Administration
                             await guild.AddBanAsync(user).ConfigureAwait(false);
                             break;
                         case PunishmentAction.Softban:
-                            await guild.AddBanAsync(user).ConfigureAwait(false);
+                            await guild.AddBanAsync(user, 7).ConfigureAwait(false);
                             try
                             {
                                 await guild.RemoveBanAsync(user).ConfigureAwait(false);
@@ -214,25 +214,15 @@ namespace NadekoBot.Modules.Administration
 
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    var ps = uow.GuildConfigs.For(Context.Guild.Id).WarnPunishments;
-                    var p = ps.FirstOrDefault(x => x.Count == number);
+                    var ps = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(x => x.WarnPunishments)).WarnPunishments;
+                    ps.RemoveAll(x => x.Count == number);
 
-                    if (p == null)
+                    ps.Add(new WarningPunishment()
                     {
-                        ps.Add(new WarningPunishment()
-                        {
-                            Count = number,
-                            Punishment = punish,
-                            Time = time,
-                        });
-                    }
-                    else
-                    {
-                        p.Count = number;
-                        p.Punishment = punish;
-                        p.Time = time;
-                        uow._context.Update(p);
-                    }
+                        Count = number,
+                        Punishment = punish,
+                        Time = time,
+                    });
                     uow.Complete();
                 }
 

@@ -26,7 +26,11 @@ namespace NadekoBot.Modules.Music.Classes
     {
         public SongInfo SongInfo { get; }
         public MusicPlayer MusicPlayer { get; set; }
-        public string QueuerName { get; set; }
+
+        private string _queuerName;
+        public string QueuerName { get{
+            return Discord.Format.Sanitize(_queuerName);
+        } set { _queuerName = value; } }
 
         public TimeSpan TotalTime { get; set; } = TimeSpan.Zero;
         public TimeSpan CurrentTime => TimeSpan.FromSeconds(BytesSent / (float)_frameBytes / (1000 / (float)_milliseconds));

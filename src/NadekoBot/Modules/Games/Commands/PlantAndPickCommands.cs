@@ -82,9 +82,9 @@ namespace NadekoBot.Modules.Games
                                 var prefix = NadekoBot.ModulePrefixes[typeof(Games).Name];
                                 var toSend = dropAmount == 1 
                                     ? GetLocalText(channel, "curgen_sn", NadekoBot.BotConfig.CurrencySign) 
-                                        + GetLocalText(channel, "pick_sn", prefix)
+                                        + " " + GetLocalText(channel, "pick_sn", prefix)
                                     : GetLocalText(channel, "curgen_pl", dropAmount, NadekoBot.BotConfig.CurrencySign)
-                                        + GetLocalText(channel, "pick_pl", prefix);
+                                        + " " + GetLocalText(channel, "pick_pl", prefix);
                                 var file = GetRandomCurrencyImage();
                                 using (var fileStream = file.Value.ToStream())
                                 {
