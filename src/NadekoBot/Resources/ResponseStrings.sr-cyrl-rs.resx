@@ -468,12 +468,10 @@ Reason: {1}</value>
   </data>
   <data name="administration_kicked_user" xml:space="preserve">
     <value>Кикован корисник</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_lang_list" xml:space="preserve">
     <value>List Of Languages
 {0}</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_lang_set" xml:space="preserve">
     <value>Your server&apos;s locale is now {0} - {1}</value>
@@ -483,14 +481,12 @@ Reason: {1}</value>
   </data>
   <data name="administration_lang_set_bot_show" xml:space="preserve">
     <value>Bot&apos;s language is set to {0} - {0}</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_lang_set_fail" xml:space="preserve">
     <value>Failed setting locale. Revisit this command&apos;s help.</value>
   </data>
   <data name="administration_lang_set_show" xml:space="preserve">
     <value>This server&apos;s language is set to {0} - {0}</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_left" xml:space="preserve">
     <value>{0} has left {1}</value>
@@ -533,11 +529,9 @@ Reason: {1}</value>
   </data>
   <data name="administration_msg_del" xml:space="preserve">
     <value>Message Deleted in #{0}</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_msg_update" xml:space="preserve">
     <value>Message Updated in #{0}</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_muted_pl" xml:space="preserve">
     <value>Muted</value>
@@ -558,19 +552,15 @@ Reason: {1}</value>
   </data>
   <data name="administration_new_msg" xml:space="preserve">
     <value>New Message</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_new_nick" xml:space="preserve">
     <value>New Nickname</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_new_topic" xml:space="preserve">
     <value>New Topic</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_nick_change" xml:space="preserve">
     <value>Nickname Changed</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_no_server" xml:space="preserve">
     <value>Can&apos;t find that server</value>
@@ -634,6 +624,7 @@ Reason: {1}</value>
   </data>
   <data name="administration_rc_perms" xml:space="preserve">
     <value>Error occured due to invalid color or insufficient permissions.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_remrole" xml:space="preserve">
     <value>Successfully removed role {0} from user {1}</value>
@@ -655,6 +646,7 @@ Reason: {1}</value>
   </data>
   <data name="administration_role_added" xml:space="preserve">
     <value>Role {0} as been added to the list.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_role_clean" xml:space="preserve">
     <value>{0} not found.Cleaned up.</value>
@@ -752,8 +744,7 @@ Reason: {1}</value>
   </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
     <value>soft-banned (kicked)</value>
-    <comment>PLURAL
-Fuzzy</comment>
+    <comment>PLURAL</comment>
   </data>
   <data name="administration_spam_ignore" xml:space="preserve">
     <value>{0} will ignore this channel.</value>
@@ -770,7 +761,6 @@ Fuzzy</comment>
   </data>
   <data name="administration_text_chan_destroyed" xml:space="preserve">
     <value>Text Channel Destroyed </value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_undeafen" xml:space="preserve">
     <value>Undeafen successful.</value>
@@ -784,14 +774,12 @@ Fuzzy</comment>
   </data>
   <data name="administration_username_changed" xml:space="preserve">
     <value>Username Changed</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_users" xml:space="preserve">
     <value>Users</value>
   </data>
   <data name="administration_user_banned" xml:space="preserve">
     <value>User Banned</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_chat_mute" xml:space="preserve">
     <value>{0} has been **muted** from chatting.</value>
@@ -801,22 +789,18 @@ Fuzzy</comment>
   </data>
   <data name="administration_user_joined" xml:space="preserve">
     <value>User Joined</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_left" xml:space="preserve">
     <value>User Left</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_muted" xml:space="preserve">
     <value>{0} has been **muted** from text and voice chat.</value>
   </data>
   <data name="administration_user_role_add" xml:space="preserve">
     <value>User&apos;s Role Added</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_role_rem" xml:space="preserve">
     <value>User&apos;s  Role Removed</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_status_change" xml:space="preserve">
     <value>{0} is now {1}</value>
@@ -841,11 +825,9 @@ Fuzzy</comment>
   </data>
   <data name="administration_voice_chan_created" xml:space="preserve">
     <value>Voice Channel Destroyed</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_voice_chan_destroyed" xml:space="preserve">
     <value>Voice Channel Destroyed</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_vt_disabled" xml:space="preserve">
     <value>Disabled voice + text feature.</value>
@@ -861,6 +843,7 @@ Fuzzy</comment>
   </data>
   <data name="administration_vt_perms" xml:space="preserve">
     <value>I require atleast **manage roles** and **manage channels** permissions to enable this feature. (preffered Administration permission)</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_xmuted_text" xml:space="preserve">
     <value>User {0} from text chat</value>
@@ -877,7 +860,6 @@ Reason: {1}</value>
   </data>
   <data name="administration_user_unbanned" xml:space="preserve">
     <value>User Unbanned</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_migration_done" xml:space="preserve">
     <value>Migration done!</value>
@@ -887,11 +869,9 @@ Reason: {1}</value>
   </data>
   <data name="administration_presence_updates" xml:space="preserve">
     <value>Presence Updates</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_sb_user" xml:space="preserve">
     <value>User Soft-Banned</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_awarded" xml:space="preserve">
     <value>has awarded {0} to {1}</value>
@@ -934,7 +914,6 @@ Reason: {1}</value>
   </data>
   <data name="gambling_heads" xml:space="preserve">
     <value>Heads</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_leaderboard" xml:space="preserve">
     <value>Leaderboard</value>
@@ -956,7 +935,6 @@ Reason: {1}</value>
   </data>
   <data name="gambling_raffled_user" xml:space="preserve">
     <value>Raffled User</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_roll" xml:space="preserve">
     <value>You rolled {0}.</value>
@@ -991,7 +969,6 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="gambling_tails" xml:space="preserve">
     <value>Tails</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_take" xml:space="preserve">
     <value>successfully took {0} from {1}</value>
@@ -1004,7 +981,6 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="help_bot_owner_only" xml:space="preserve">
     <value>Само Власник Бота</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="help_channel_permission" xml:space="preserve">
     <value>Захтева {0} дозволу на каналу.</value>
@@ -1014,11 +990,9 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="help_cmd_and_alias" xml:space="preserve">
     <value>Команде и псеудоними</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="help_commandlist_regen" xml:space="preserve">
     <value>Листа команди је обновљена.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="help_commands_instr" xml:space="preserve">
     <value>Укуцај `{0}h ИмеКоманде` да видиш помоћ за ту команду. нпр. `{0}h &gt;8ball`</value>
@@ -1040,15 +1014,12 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   <data name="help_guide" xml:space="preserve">
     <value>**List of Commands**: &lt;{0}&gt;
 **Hosting Guides and docs can be found here**: &lt;{1}&gt;</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="help_list_of_commands" xml:space="preserve">
     <value>Листа Команди</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="help_list_of_modules" xml:space="preserve">
     <value>Листа Модула</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="help_modules_footer" xml:space="preserve">
     <value>Укуцај `{0}cmds ИмеМодула` да видиш листу свих команди у том модулу. нпр `{0}cmds games`</value>
@@ -1061,7 +1032,6 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="help_table_of_contents" xml:space="preserve">
     <value>Садржај</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="help_usage" xml:space="preserve">
     <value>Упутство</value>
@@ -1075,7 +1045,6 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="gambling_animal_race" xml:space="preserve">
     <value>Трка Животиња</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_animal_race_failed" xml:space="preserve">
     <value>Започињање трке није успело јер нема довољно учесника.</value>
@@ -1106,7 +1075,6 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="gambling_dice_invalid_number" xml:space="preserve">
     <value>Неисправан број. Можете бацити {0}-{1} коцкица у исто време.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_dice_rolled" xml:space="preserve">
     <value>је добио {0}</value>
@@ -1127,11 +1095,9 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="gambling_changes_of_heart" xml:space="preserve">
     <value>Промена Осећања</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_claimed_by" xml:space="preserve">
     <value>Присвојена од стране</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_divorces" xml:space="preserve">
     <value>Развода</value>
@@ -1750,6 +1716,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="searches_error_occured" xml:space="preserve">
     <value>Дошло је до грешке.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_example" xml:space="preserve">
     <value>Пример</value>
@@ -2020,7 +1987,6 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="utility_custom_emojis" xml:space="preserve">
     <value>Емотикони по Мери</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="utility_error" xml:space="preserve">
     <value>Грешка</value>
@@ -2036,11 +2002,9 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="utility_inrole_list" xml:space="preserve">
     <value>Ево је листа корисника у тим ролама:</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="utility_inrole_not_allowed" xml:space="preserve">
     <value>није ти дозвољено да користиш ову команду на ролама са пуно корисника да би се спречила злоупотреба.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="utility_invalid_value" xml:space="preserve">
     <value>Нетачна вредност {0}.</value>
@@ -2051,20 +2015,17 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="utility_joined_server" xml:space="preserve">
     <value>Ушао на сервер</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="utility_listservers" xml:space="preserve">
     <value>ИД: {0}
 Чланова; {1}
 Ид Власника; {2}</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="utility_listservers_none" xml:space="preserve">
     <value>Нема сервера на овој страници.</value>
   </data>
   <data name="utility_list_of_repeaters" xml:space="preserve">
     <value>Листа Понављача</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="utility_members" xml:space="preserve">
     <value>Чланова</value>
@@ -2077,7 +2038,6 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="utility_message_repeater" xml:space="preserve">
     <value>Понављач Порука</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="utility_name" xml:space="preserve">
     <value>Име</value>
@@ -2122,6 +2082,7 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="utility_quotes_page_none" xml:space="preserve">
     <value>Нема цитата на овој страни.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_quotes_remove_none" xml:space="preserve">
     <value>Није нађен цитат који можеш да обришеш.</value>
@@ -2131,14 +2092,12 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="utility_quote_deleted" xml:space="preserve">
     <value>Обрисана насумишна </value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="utility_region" xml:space="preserve">
     <value>Регион</value>
   </data>
   <data name="utility_registered_on" xml:space="preserve">
     <value>Регистрован</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="utility_remind" xml:space="preserve">
     <value>Подсетићу {0} да {1} у {2} `({3:d.M.yyyy.} at {4:HH:mm})` </value>
@@ -2154,7 +2113,6 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="utility_repeaters_list" xml:space="preserve">
     <value>Листа понављача</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="utility_repeaters_none" xml:space="preserve">
     <value>Нема понављача на овом серверу.</value>
@@ -2191,14 +2149,12 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="utility_server_info" xml:space="preserve">
     <value>Инфо Сервера</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="utility_shard" xml:space="preserve">
     <value>Шард</value>
   </data>
   <data name="utility_shard_stats" xml:space="preserve">
     <value>Статови Шардова</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="utility_shard_stats_txt" xml:space="preserve">
     <value>Шард **#{0}** је у {1} стању са {2} сервера.</value>
@@ -2214,7 +2170,6 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="utility_text_channels" xml:space="preserve">
     <value>Текст Канали</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="utility_togtub_room_link" xml:space="preserve">
     <value>Ево га твој линк ка соби:</value>
@@ -2231,7 +2186,6 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="utility_voice_channels" xml:space="preserve">
     <value>Говорни канал</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_animal_race_already_in" xml:space="preserve">
     <value>Већ си у овој трци!</value>
@@ -2292,163 +2246,279 @@ Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
     <value>Корисници који уђу у говорни канал {0} ће добити ролу {1}.</value>
   </data>
   <data name="administration_vcrole_removed" xml:space="preserve">
-    <value></value>
+    <value>Корисници који се придруже {0} говорни канал више неће добити улогу.</value>
   </data>
   <data name="administration_vc_role_list" xml:space="preserve">
-    <value></value>
+    <value>Воице канала улоге</value>
   </data>
   <data name="customreactions_crad_disabled" xml:space="preserve">
-    <value></value>
+    <value>Порука ов прилагођене реакцију са ИД {0} неће бити аутоматски обрисан.</value>
   </data>
   <data name="customreactions_crad_enabled" xml:space="preserve">
-    <value></value>
+    <value>Порука ов прилагођене реакцију са ИД {0} ће се аутоматски бришу.</value>
   </data>
   <data name="customreactions_crdm_disabled" xml:space="preserve">
-    <value></value>
+    <value>Одговор порука за прилагођену реакције са ИД {0} неће бити послата као директна порука</value>
   </data>
   <data name="customreactions_crdm_enabled" xml:space="preserve">
-    <value></value>
+    <value>Одговор порука за прилагођену реакције са ИД {0} ће бити послат као ДМ.</value>
   </data>
   <data name="utility_aliases_none" xml:space="preserve">
-    <value></value>
+    <value>Но звани нашао</value>
   </data>
   <data name="utility_alias_added" xml:space="preserve">
-    <value></value>
+    <value>куцање {0} ће сада бити алиас {1}.</value>
   </data>
   <data name="utility_alias_list" xml:space="preserve">
-    <value></value>
+    <value>Листа псеудонимима</value>
   </data>
   <data name="utility_alias_removed" xml:space="preserve">
-    <value></value>
+    <value>Окидач {0} више нема псеудоним.</value>
   </data>
   <data name="utility_alias_remove_fail" xml:space="preserve">
-    <value></value>
+    <value>Окидач {0} није имао псеудоним.</value>
   </data>
   <data name="searches_compet_playtime" xml:space="preserve">
-    <value></value>
+    <value>конкурентна време за игру</value>
   </data>
   <data name="administration_channel" xml:space="preserve">
-    <value></value>
+    <value>канал</value>
   </data>
   <data name="administration_command_text" xml:space="preserve">
-    <value></value>
+    <value>команда Текст</value>
   </data>
   <data name="administration_kicked_pl" xml:space="preserve">
-    <value></value>
+    <value>шутирали</value>
     <comment>PLURAL</comment>
   </data>
   <data name="administration_moderator" xml:space="preserve">
-    <value></value>
+    <value>модератор</value>
   </data>
   <data name="administration_page" xml:space="preserve">
-    <value></value>
+    <value>страница {0}</value>
   </data>
   <data name="administration_reason" xml:space="preserve">
-    <value></value>
+    <value>Разлог</value>
   </data>
   <data name="administration_scadd" xml:space="preserve">
-    <value></value>
+    <value>Нова покретање команда додаје.</value>
   </data>
   <data name="administration_scrm" xml:space="preserve">
-    <value></value>
+    <value>Стартуп команда успешно уклоњен.</value>
   </data>
   <data name="administration_scrm_fail" xml:space="preserve">
-    <value></value>
+    <value>Стартуп цомманд нот фоунд.</value>
   </data>
   <data name="administration_server" xml:space="preserve">
-    <value></value>
+    <value>Сервер</value>
   </data>
   <data name="administration_startcmdlist_none" xml:space="preserve">
-    <value></value>
+    <value>Без почетних команде на овој страници.</value>
   </data>
   <data name="administration_startcmds_cleared" xml:space="preserve">
-    <value></value>
+    <value>Очишћена све покретање команде.</value>
   </data>
   <data name="administration_unbanned_user" xml:space="preserve">
-    <value></value>
+    <value>Корисник {0} је скинут бан.</value>
   </data>
   <data name="administration_user_not_found" xml:space="preserve">
-    <value></value>
+    <value>Корисник није пронађен.</value>
   </data>
   <data name="administration_user_warned" xml:space="preserve">
-    <value></value>
+    <value>Корисник {0} је упозорио.</value>
   </data>
   <data name="administration_user_warned_and_punished" xml:space="preserve">
-    <value></value>
+    <value>Корисник {0} је упозорио и {1} казна је примењен.</value>
   </data>
   <data name="administration_warned_on" xml:space="preserve">
-    <value></value>
+    <value>Упозорио на {0} сервера</value>
   </data>
   <data name="administration_warned_on_by" xml:space="preserve">
-    <value></value>
+    <value>{0} у {1} ​​до {2}</value>
   </data>
   <data name="administration_warnings_cleared" xml:space="preserve">
-    <value></value>
+    <value>Сва упозорења су дозволу за {0}.</value>
   </data>
   <data name="administration_warnings_none" xml:space="preserve">
-    <value></value>
+    <value>Без упозорења на овој страници.</value>
   </data>
   <data name="administration_warnlog_for" xml:space="preserve">
-    <value></value>
+    <value>Упозорење за {0}</value>
   </data>
   <data name="administration_warnpl_none" xml:space="preserve">
-    <value></value>
+    <value>Нема казне сет.</value>
   </data>
   <data name="administration_warn_cleared_by" xml:space="preserve">
-    <value></value>
+    <value>избацила {0}</value>
   </data>
   <data name="administration_warn_punish_list" xml:space="preserve">
-    <value></value>
+    <value>Упозорење листу казну</value>
   </data>
   <data name="administration_warn_punish_rem" xml:space="preserve">
-    <value></value>
+    <value>Имајући {0} упозорења не ће активирати казну.</value>
   </data>
   <data name="administration_warn_punish_set" xml:space="preserve">
-    <value></value>
+    <value>Ја ће се односити {0} казну за кориснике са {1} упозорења.</value>
   </data>
   <data name="administration_slowmodewl_role_start" xml:space="preserve">
-    <value></value>
+    <value>Споро режим ће сада игнорисати {0} улогу.</value>
   </data>
   <data name="administration_slowmodewl_role_stop" xml:space="preserve">
-    <value></value>
+    <value>Словмоде више неће игнорисати {0} улогу.</value>
   </data>
   <data name="administration_slowmodewl_user_start" xml:space="preserve">
-    <value></value>
+    <value>Споро режим неће игнорисати корисника {0}.</value>
   </data>
   <data name="administration_slowmodewl_user_stop" xml:space="preserve">
-    <value></value>
+    <value>Споро режим више неће игнорисати корисника {0}.</value>
   </data>
   <data name="utility_clpa_fail" xml:space="preserve">
-    <value></value>
+    <value>Фаилед тврдећи награде због једног од следећих разлога:</value>
   </data>
   <data name="utility_clpa_fail_already" xml:space="preserve">
-    <value></value>
+    <value>Можда сте већ добили награду за овај месец. Можете примати награде само једном месечно ако не повећате заклетву.</value>
   </data>
   <data name="utility_clpa_fail_already_title" xml:space="preserve">
-    <value></value>
+    <value>već награђени</value>
   </data>
   <data name="utility_clpa_fail_conn" xml:space="preserve">
-    <value></value>
+    <value>Ваш неслога рачун не може бити прикључен на Патреон. Ако нисте сигурни шта то значи, или не знају како да се повеже - морате да идете у [Патреон Подешавања налога] (https://patreon.com/settings/account) и кликните на &quot;Цоннецт то неслогу &apos;дугме .</value>
   </data>
   <data name="utility_clpa_fail_conn_title" xml:space="preserve">
-    <value></value>
+    <value>Неслога рачун није повезан</value>
   </data>
   <data name="utility_clpa_fail_sup" xml:space="preserve">
-    <value></value>
+    <value>Да би се остварило право на награду, морате подржати пројекат на патреон. Можете да користите {0} наредбу да добије везу.</value>
   </data>
   <data name="utility_clpa_fail_sup_title" xml:space="preserve">
-    <value></value>
+    <value>не подржава</value>
   </data>
   <data name="utility_clpa_fail_wait" xml:space="preserve">
-    <value></value>
+    <value>Мораћете да сачекате неколико сати након што своју заклетву, ако нисте, покушајте поново касније.</value>
   </data>
   <data name="utility_clpa_fail_wait_title" xml:space="preserve">
-    <value></value>
+    <value>Сачекајте мало времена</value>
   </data>
   <data name="utility_clpa_success" xml:space="preserve">
-    <value></value>
+    <value>Сте примили {0} Хвала на подршци пројекту!</value>
   </data>
   <data name="utility_clpa_too_early" xml:space="preserve">
+    <value>Награде може тврдити или после 5. у месецу.</value>
+  </data>
+  <data name="searches_time" xml:space="preserve">
+    <value>Тиме ин {0} је {1} - {2}</value>
+    <comment>Time in London, UK is 15:30 - Time Zone Name</comment>
+  </data>
+  <data name="administration_rh" xml:space="preserve">
+    <value>Подесите приказ клански улоге {0} до {1}.</value>
+  </data>
+  <data name="gambling_name" xml:space="preserve">
+    <value>име</value>
+  </data>
+  <data name="gambling_shop" xml:space="preserve">
+    <value>продавница</value>
+  </data>
+  <data name="gambling_shop_item_add" xml:space="preserve">
+    <value>Схоп ставка је додата</value>
+  </data>
+  <data name="gambling_shop_none" xml:space="preserve">
+    <value>Но схоп ставки на овој страници.</value>
+  </data>
+  <data name="gambling_shop_role" xml:space="preserve">
+    <value>Добићете {0} улогу.</value>
+  </data>
+  <data name="gambling_type" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="utility_clpa_next_update" xml:space="preserve">
+    <value>Следеће ажурирање у {0}</value>
+    <comment>Next update in 05:30</comment>
+  </data>
+  <data name="administration_global_perms_reset" xml:space="preserve">
+    <value>Глобални дозволе су ресет.</value>
+  </data>
+  <data name="administration_gvc_disabled" xml:space="preserve">
+    <value>Игра карактеристика Глас канал је онемогућен на овом серверу.</value>
+  </data>
+  <data name="administration_gvc_enabled" xml:space="preserve">
+    <value>{0} је игра Глас канал сада.</value>
+  </data>
+  <data name="administration_not_in_voice" xml:space="preserve">
+    <value>Нисте у говорног канала на овом серверу.</value>
+  </data>
+  <data name="gambling_item" xml:space="preserve">
+    <value>ставка</value>
+  </data>
+  <data name="gambling_out_of_stock" xml:space="preserve">
+    <value>Нема на залихи.</value>
+  </data>
+  <data name="gambling_random_unique_item" xml:space="preserve">
+    <value>Рандом уникат.</value>
+  </data>
+  <data name="gambling_shop_buy_error" xml:space="preserve">
+    <value>Еррор ДМинг ставку. Си враћен.</value>
+  </data>
+  <data name="gambling_shop_item_not_found" xml:space="preserve">
+    <value>Ниједан предмет на том индексу фоунд.</value>
+  </data>
+  <data name="gambling_shop_item_purchase" xml:space="preserve">
+    <value>Тачка куповина успешна.</value>
+  </data>
+  <data name="gambling_shop_item_rm" xml:space="preserve">
+    <value>Схоп ставка уклоњена</value>
+  </data>
+  <data name="gambling_shop_item_wrong_type" xml:space="preserve">
+    <value>То радња унос не подржава ставка додавање.</value>
+  </data>
+  <data name="gambling_shop_list_item_added" xml:space="preserve">
+    <value>Ставка успешно додат.</value>
+  </data>
+  <data name="gambling_shop_list_item_not_unique" xml:space="preserve">
+    <value>Та ставка је већ додат.</value>
+  </data>
+  <data name="gambling_shop_purchase" xml:space="preserve">
+    <value>Куповина на {0} сервера</value>
+  </data>
+  <data name="gambling_shop_role_not_found" xml:space="preserve">
+    <value>Улога која се продаје више не постоји.</value>
+  </data>
+  <data name="gambling_shop_role_purchase" xml:space="preserve">
+    <value>Успешно сте купили {0} улогу.</value>
+  </data>
+  <data name="gambling_shop_role_purchase_error" xml:space="preserve">
+    <value>Еррор додељивања улога. Ваша куповина је враћен.</value>
+  </data>
+  <data name="gambling_unique_items_left" xml:space="preserve">
+    <value>{0} уникати лево.</value>
+  </data>
+  <data name="permissions_blocked_commands" xml:space="preserve">
+    <value>Блокирани Команде</value>
+  </data>
+  <data name="permissions_blocked_modules" xml:space="preserve">
+    <value>Блокирани Модули</value>
+  </data>
+  <data name="permissions_gcmd_add" xml:space="preserve">
+    <value>Команда {0} је онемогућена на свим серверима.</value>
+  </data>
+  <data name="permissions_gcmd_remove" xml:space="preserve">
+    <value>Команда {0} је омогућено на свим серверима.</value>
+  </data>
+  <data name="permissions_gmod_add" xml:space="preserve">
+    <value>Модул {0} је онемогућена на свим серверима.</value>
+  </data>
+  <data name="permissions_gmod_remove" xml:space="preserve">
+    <value>Модул {0} је омогућено на свим серверима.</value>
+  </data>
+  <data name="permissions_lgp_none" xml:space="preserve">
+    <value>Нема блокираних команди или модула.</value>
+  </data>
+  <data name="gambling_animal_race_no_race" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_cant_read_or_send" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_quotes_notfound" xml:space="preserve">
     <value></value>
   </data>
 

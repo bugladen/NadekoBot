@@ -624,6 +624,7 @@ Razón: {1}</value>
   </data>
   <data name="administration_rc_perms" xml:space="preserve">
     <value>Error debido a un color no válido o insuficiencia de permisos.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_remrole" xml:space="preserve">
     <value>He removido satisfactoriamente el rol {0} del usuario {1}.</value>
@@ -645,10 +646,10 @@ Razón: {1}</value>
   </data>
   <data name="administration_role_added" xml:space="preserve">
     <value>El rol {0} ha sido añadido a la lista.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_role_clean" xml:space="preserve">
     <value>No encontré {0}.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_role_in_list" xml:space="preserve">
     <value>El rol {0} ya está en la lista.</value>
@@ -742,8 +743,7 @@ Razón: {1}</value>
   </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
     <value>advertidos (expulsado)</value>
-    <comment>PLURAL
-Fuzzy</comment>
+    <comment>PLURAL</comment>
   </data>
   <data name="administration_spam_ignore" xml:space="preserve">
     <value>{0} ignorará este canal.</value>
@@ -842,6 +842,7 @@ __CanalesIgnorados__: {2}</value>
   </data>
   <data name="administration_vt_perms" xml:space="preserve">
     <value>Necesito permisos para **administrar roles** y **administrar canales** para hacer esto. De preferencia permisos de Administración.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_xmuted_text" xml:space="preserve">
     <value>Usuario {0} de chat.</value>
@@ -917,7 +918,7 @@ Razón: {1}</value>
     <value>Marcador</value>
   </data>
   <data name="gambling_mass_award" xml:space="preserve">
-    <value>Enviados {0} a {1} usuarios en el rol {2}.</value>
+    <value>Se han enviado {0} a {1} usuarios en el rol {2}.</value>
   </data>
   <data name="gambling_max_bet_limit" xml:space="preserve">
     <value>No puedes apostar más de {0}</value>
@@ -1188,7 +1189,7 @@ No olvides dejar tu usuario de Discord o ID en el mensaje.
     <value>Tienes {0} segundos para enviar tu oración.</value>
   </data>
   <data name="games_acro_submit" xml:space="preserve">
-    <value>{0} enviaron sus oraciones. ({1} en total)</value>
+    <value>{0} envió su oración. ({1} en total)</value>
   </data>
   <data name="games_acro_vote" xml:space="preserve">
     <value>Vota escribiendo el número correspondiente.</value>
@@ -1715,6 +1716,7 @@ No olvides dejar tu usuario de Discord o ID en el mensaje.
   </data>
   <data name="searches_error_occured" xml:space="preserve">
     <value>Ocurrió un error.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_example" xml:space="preserve">
     <value>Ejemplo</value>
@@ -2079,7 +2081,8 @@ IDs de dueños: {2}</value>
     <value>Página {0} de citas</value>
   </data>
   <data name="utility_quotes_page_none" xml:space="preserve">
-    <value>No hay citas en esta página</value>
+    <value>No se encontraron citas que coincidan con la ID especificada.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_quotes_remove_none" xml:space="preserve">
     <value>No hay citas que puedas remover</value>
@@ -2334,7 +2337,7 @@ IDs de dueños: {2}</value>
     <value>El {0} a las {1} por {2}</value>
   </data>
   <data name="administration_warnings_cleared" xml:space="preserve">
-    <value>Todas las advertencias han sido reiniciadas por {0}.</value>
+    <value>Todas las advertencias han sido reiniciadas para {0}.</value>
   </data>
   <data name="administration_warnings_none" xml:space="preserve">
     <value>No hay advertencias en esta página.</value>
@@ -2355,7 +2358,7 @@ IDs de dueños: {2}</value>
     <value>Tener {0} advertencias ya no ejecutará un castigo.</value>
   </data>
   <data name="administration_warn_punish_set" xml:space="preserve">
-    <value>Aplicaré el castigo {0} a los usuarios con {1} advertecias.</value>
+    <value>Aplicaré el castigo {0} a los usuarios con {1} advertencias.</value>
   </data>
   <data name="administration_slowmodewl_role_start" xml:space="preserve">
     <value>El modo lento ahora ignorará el rol {0}.</value>
@@ -2401,6 +2404,122 @@ IDs de dueños: {2}</value>
   </data>
   <data name="utility_clpa_too_early" xml:space="preserve">
     <value>Las recompensas pueden ser reclamadas el día 5 de cada mes.</value>
+  </data>
+  <data name="searches_time" xml:space="preserve">
+    <value>El tiempo en {0} es {1} - {2}.</value>
+    <comment>Time in London, UK is 15:30 - Time Zone Name</comment>
+  </data>
+  <data name="administration_rh" xml:space="preserve">
+    <value>Configura la exposición del rol de gremio {0} a {1}.</value>
+  </data>
+  <data name="gambling_name" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="gambling_shop" xml:space="preserve">
+    <value>Tienda</value>
+  </data>
+  <data name="gambling_shop_item_add" xml:space="preserve">
+    <value>Objeto añadido</value>
+  </data>
+  <data name="gambling_shop_none" xml:space="preserve">
+    <value>No hay objetos en esta página.</value>
+  </data>
+  <data name="gambling_shop_role" xml:space="preserve">
+    <value>Obtendrás el rol {0}.</value>
+  </data>
+  <data name="gambling_type" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="utility_clpa_next_update" xml:space="preserve">
+    <value>Próxima actualización en {0}</value>
+    <comment>Next update in 05:30</comment>
+  </data>
+  <data name="administration_global_perms_reset" xml:space="preserve">
+    <value>Los permisos globales han sido reiniciados.</value>
+  </data>
+  <data name="administration_gvc_disabled" xml:space="preserve">
+    <value>El canal de juego por voz ha sido desactivado.</value>
+  </data>
+  <data name="administration_gvc_enabled" xml:space="preserve">
+    <value>{0} ahora es un canal de juego por voz.</value>
+  </data>
+  <data name="administration_not_in_voice" xml:space="preserve">
+    <value>No estás en un canal de voz en este servidor.</value>
+  </data>
+  <data name="gambling_item" xml:space="preserve">
+    <value>Objeto</value>
+  </data>
+  <data name="gambling_out_of_stock" xml:space="preserve">
+    <value>No disponible</value>
+  </data>
+  <data name="gambling_random_unique_item" xml:space="preserve">
+    <value>Objeto aleatorio único</value>
+  </data>
+  <data name="gambling_shop_buy_error" xml:space="preserve">
+    <value>Error enviando el mensaje privado. Se te ha reembolsado.</value>
+  </data>
+  <data name="gambling_shop_item_not_found" xml:space="preserve">
+    <value>No se encontró ningún objeto.</value>
+  </data>
+  <data name="gambling_shop_item_purchase" xml:space="preserve">
+    <value>Compra satisfactoria.</value>
+  </data>
+  <data name="gambling_shop_item_rm" xml:space="preserve">
+    <value>Objeto removido.</value>
+  </data>
+  <data name="gambling_shop_item_wrong_type" xml:space="preserve">
+    <value>No se admite ese tipo de objeto.</value>
+  </data>
+  <data name="gambling_shop_list_item_added" xml:space="preserve">
+    <value>Objeto añadido satisfactoriamente.</value>
+  </data>
+  <data name="gambling_shop_list_item_not_unique" xml:space="preserve">
+    <value>Ese objeto ya ha sido añadido.</value>
+  </data>
+  <data name="gambling_shop_purchase" xml:space="preserve">
+    <value>Compra en el servidor {0}</value>
+  </data>
+  <data name="gambling_shop_role_not_found" xml:space="preserve">
+    <value>El rol que está siendo vendido no existe.</value>
+  </data>
+  <data name="gambling_shop_role_purchase" xml:space="preserve">
+    <value>Has comprado satisfactoriamente el rol {0}</value>
+  </data>
+  <data name="gambling_shop_role_purchase_error" xml:space="preserve">
+    <value>Error asignando el rol. Has recibido un reembolso.</value>
+  </data>
+  <data name="gambling_unique_items_left" xml:space="preserve">
+    <value>{0} objetos únicos restantes.</value>
+  </data>
+  <data name="permissions_blocked_commands" xml:space="preserve">
+    <value>Comandos bloqueados</value>
+  </data>
+  <data name="permissions_blocked_modules" xml:space="preserve">
+    <value>Módulos bloqueados</value>
+  </data>
+  <data name="permissions_gcmd_add" xml:space="preserve">
+    <value>El comando {0} ha sido desactivado en todos los servidores.</value>
+  </data>
+  <data name="permissions_gcmd_remove" xml:space="preserve">
+    <value>El comando {0} ha sido activado en todos los servidores.</value>
+  </data>
+  <data name="permissions_gmod_add" xml:space="preserve">
+    <value>El módulo {0} ha sido desactivado en todos los servidores.</value>
+  </data>
+  <data name="permissions_gmod_remove" xml:space="preserve">
+    <value>El módulo {0} ha sido activado en todos los servidores.</value>
+  </data>
+  <data name="permissions_lgp_none" xml:space="preserve">
+    <value>No hay comandos o módulos bloqueados.</value>
+  </data>
+  <data name="gambling_animal_race_no_race" xml:space="preserve">
+    <value>¡Esta carrera de animales está llena!</value>
+  </data>
+  <data name="utility_cant_read_or_send" xml:space="preserve">
+    <value>No puedes leer ni enviar mensajes a ese canal.</value>
+  </data>
+  <data name="utility_quotes_notfound" xml:space="preserve">
+    <value></value>
   </data>
 
 </root>

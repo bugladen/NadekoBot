@@ -622,7 +622,7 @@ Reason: {1}</value>
     <value>The parameters specified are invalid.</value>
   </data>
   <data name="administration_rc_perms" xml:space="preserve">
-    <value>Error occured due to invalid color or insufficient permissions.</value>
+    <value>Error occurred due to invalid color or insufficient permissions.</value>
   </data>
   <data name="administration_remrole" xml:space="preserve">
     <value>Successfully removed role {0} from user {1}</value>
@@ -839,7 +839,7 @@ Reason: {1}</value>
     <value>You are enabling/disabling this feature and **I do not have ADMINISTRATOR permissions**. This may cause some issues, and you will have to clean up text channels yourself afterwards.</value>
   </data>
   <data name="administration_vt_perms" xml:space="preserve">
-    <value>I require atleast **manage roles** and **manage channels** permissions to enable this feature. (preffered Administration permission)</value>
+    <value>I require at least **manage roles** and **manage channels** permissions to enable this feature. (prefferred Administration permission)</value>
   </data>
   <data name="administration_xmuted_text" xml:space="preserve">
     <value>User {0} from text chat</value>
@@ -1714,7 +1714,7 @@ Don&apos;t forget to leave your discord name or id in the message.
     <value>Episodes</value>
   </data>
   <data name="searches_error_occured" xml:space="preserve">
-    <value>Error occured.</value>
+    <value>Error occurred.</value>
   </data>
   <data name="searches_example" xml:space="preserve">
     <value>Example</value>
@@ -2079,7 +2079,7 @@ Owner ID: {2}</value>
     <value>Page {0} of quotes</value>
   </data>
   <data name="utility_quotes_page_none" xml:space="preserve">
-    <value>No quotes on this page.</value>
+    <value>No quotes found on that page.</value>
   </data>
   <data name="utility_quotes_remove_none" xml:space="preserve">
     <value>No quotes found which you can remove.</value>
@@ -2401,6 +2401,122 @@ Owner ID: {2}</value>
   </data>
   <data name="utility_clpa_too_early" xml:space="preserve">
     <value>Rewards can be claimed on or after 5th of each month.</value>
+  </data>
+  <data name="searches_time" xml:space="preserve">
+    <value>Time in {0} is {1} - {2}</value>
+    <comment>Time in London, UK is 15:30 - Time Zone Name</comment>
+  </data>
+  <data name="administration_rh" xml:space="preserve">
+    <value>Set the display of guild role {0} to {1}.</value>
+  </data>
+  <data name="gambling_name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="gambling_shop" xml:space="preserve">
+    <value>Shop</value>
+  </data>
+  <data name="gambling_shop_item_add" xml:space="preserve">
+    <value>Shop item added</value>
+  </data>
+  <data name="gambling_shop_none" xml:space="preserve">
+    <value>No shop items found on this page.</value>
+  </data>
+  <data name="gambling_shop_role" xml:space="preserve">
+    <value>You will get {0} role.</value>
+  </data>
+  <data name="gambling_type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="utility_clpa_next_update" xml:space="preserve">
+    <value>Next update in {0}</value>
+    <comment>Next update in 05:30</comment>
+  </data>
+  <data name="administration_global_perms_reset" xml:space="preserve">
+    <value>Global permissions have been reset.</value>
+  </data>
+  <data name="administration_gvc_disabled" xml:space="preserve">
+    <value>Game Voice Channel feature has been disabled on this server.</value>
+  </data>
+  <data name="administration_gvc_enabled" xml:space="preserve">
+    <value>{0} is a Game Voice Channel now.</value>
+  </data>
+  <data name="administration_not_in_voice" xml:space="preserve">
+    <value>You are not in a voice channel on this server.</value>
+  </data>
+  <data name="gambling_item" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="gambling_out_of_stock" xml:space="preserve">
+    <value>Out of stock.</value>
+  </data>
+  <data name="gambling_random_unique_item" xml:space="preserve">
+    <value>Random unique item.</value>
+  </data>
+  <data name="gambling_shop_buy_error" xml:space="preserve">
+    <value>Error DMing item. You&apos;ve been refunded.</value>
+  </data>
+  <data name="gambling_shop_item_not_found" xml:space="preserve">
+    <value>No item on that index found.</value>
+  </data>
+  <data name="gambling_shop_item_purchase" xml:space="preserve">
+    <value>Item purchase successful.</value>
+  </data>
+  <data name="gambling_shop_item_rm" xml:space="preserve">
+    <value>Shop item removed</value>
+  </data>
+  <data name="gambling_shop_item_wrong_type" xml:space="preserve">
+    <value>That shop entry does not support item adding.</value>
+  </data>
+  <data name="gambling_shop_list_item_added" xml:space="preserve">
+    <value>Item successfully added.</value>
+  </data>
+  <data name="gambling_shop_list_item_not_unique" xml:space="preserve">
+    <value>That item is already added.</value>
+  </data>
+  <data name="gambling_shop_purchase" xml:space="preserve">
+    <value>Purchase on {0} server</value>
+  </data>
+  <data name="gambling_shop_role_not_found" xml:space="preserve">
+    <value>Role which is being sold no longer exists.</value>
+  </data>
+  <data name="gambling_shop_role_purchase" xml:space="preserve">
+    <value>You&apos;ve successfully purchased {0} role.</value>
+  </data>
+  <data name="gambling_shop_role_purchase_error" xml:space="preserve">
+    <value>Error assigning role. Your purchase has been refunded.</value>
+  </data>
+  <data name="gambling_unique_items_left" xml:space="preserve">
+    <value>{0} unique items left.</value>
+  </data>
+  <data name="permissions_blocked_commands" xml:space="preserve">
+    <value>Blocked Commands</value>
+  </data>
+  <data name="permissions_blocked_modules" xml:space="preserve">
+    <value>Blocked Modules</value>
+  </data>
+  <data name="permissions_gcmd_add" xml:space="preserve">
+    <value>Command {0} has been disabled on all servers.</value>
+  </data>
+  <data name="permissions_gcmd_remove" xml:space="preserve">
+    <value>Command {0} has been enabled on all servers.</value>
+  </data>
+  <data name="permissions_gmod_add" xml:space="preserve">
+    <value>Module {0} has been disabled on all servers.</value>
+  </data>
+  <data name="permissions_gmod_remove" xml:space="preserve">
+    <value>Module {0} has been enabled on all servers.</value>
+  </data>
+  <data name="permissions_lgp_none" xml:space="preserve">
+    <value>No blocked commands or modules.</value>
+  </data>
+  <data name="gambling_animal_race_no_race" xml:space="preserve">
+    <value>This Animal Race is full!</value>
+  </data>
+  <data name="utility_cant_read_or_send" xml:space="preserve">
+    <value>You can&apos;t read from or send messages to that channel.</value>
+  </data>
+  <data name="utility_quotes_notfound" xml:space="preserve">
+    <value>No quotes found matching the quote ID specified.</value>
   </data>
 
 </root>

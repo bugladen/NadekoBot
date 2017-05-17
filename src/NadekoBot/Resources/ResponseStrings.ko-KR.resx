@@ -299,10 +299,10 @@
     <value>당신은 기절해서 움직일 수 없습니다!</value>
   </data>
   <data name="administration_aar_disabled" xml:space="preserve">
-    <value>**자동 할당 역할**에 대한 사용자의 참여가 **비활성화**되었습니다.</value>
+    <value>서버에 입장한 사용자의 **자동 역할 할당**이 **비활성화**되었습니다.</value>
   </data>
   <data name="administration_aar_enabled" xml:space="preserve">
-    <value>**자동 할당 역할**에 대한 사용자의 참여가 **활성화**되었습니다.</value>
+    <value>서버에 입장한 사용자의 **자동 역할 할당**이 **활성화**되었습니다.</value>
   </data>
   <data name="administration_attachments" xml:space="preserve">
     <value>첨부파일</value>
@@ -374,7 +374,6 @@
   </data>
   <data name="administration_deafen" xml:space="preserve">
     <value>음소거되었습니다.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_deleted_server" xml:space="preserve">
     <value>{0} 서버를 삭제하였습니다.</value>
@@ -625,6 +624,7 @@
   </data>
   <data name="administration_rc_perms" xml:space="preserve">
     <value>유효하지 않은 색이거나 권한이 부족해서 오류가 발생했습니다.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_remrole" xml:space="preserve">
     <value>{1}의 {0} 역할을 성공적으로 제거했습니다.</value>
@@ -646,6 +646,7 @@
   </data>
   <data name="administration_role_added" xml:space="preserve">
     <value>{0} 역할을 리스트에 추가했습니다.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_role_clean" xml:space="preserve">
     <value>{0}을(를) 찾을 수 없기때문에 삭제했습니다.</value>
@@ -685,7 +686,7 @@
     <value>그 역할은 자신이 적용 할 수 없습니다.</value>
   </data>
   <data name="administration_self_assign_not_have" xml:space="preserve">
-    <value>당신은 {0} 역할이 없습니다.</value>
+    <value>당신은 {0} 역할이 아닙니다.</value>
   </data>
   <data name="administration_self_assign_no_excl" xml:space="preserve">
     <value>자가 배정 역할은 이제 복수 선택 할 수 있습니다!</value>
@@ -844,6 +845,7 @@
   </data>
   <data name="administration_vt_perms" xml:space="preserve">
     <value>이 기능을 활성화시키기 위해서는 **역할 관리**과 **채널 관리** 권한이 필요합니다.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_xmuted_text" xml:space="preserve">
     <value>사용자가 텍스트 채팅으로부터 {0} 되었습니다.</value>
@@ -935,7 +937,6 @@
   </data>
   <data name="gambling_raffled_user" xml:space="preserve">
     <value>래플 결과</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_roll" xml:space="preserve">
     <value>{0} 를 굴렸습니다.</value>
@@ -954,7 +955,6 @@
   </data>
   <data name="gambling_slot_two" xml:space="preserve">
     <value>잘했습니다! {0} 두 개를 맞추셨습니다! - x{1}</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_slot_won" xml:space="preserve">
     <value>얻은 액수</value>
@@ -1327,7 +1327,6 @@ Discord 닉네임이나 ID를 메시지에 남겨 두는 것을 잊지 마세요
   </data>
   <data name="games_ttt_matched_three" xml:space="preserve">
     <value>3개 일치</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="games_ttt_no_moves" xml:space="preserve">
     <value>더 이상 움직일 수 없습니다!</value>
@@ -1529,7 +1528,7 @@ Discord 닉네임이나 ID를 메시지에 남겨 두는 것을 잊지 마세요
     <value>{0} 사용자에 대한 모든 모듈의 사용을 활성화합니다.</value>
   </data>
   <data name="permissions_blacklisted" xml:space="preserve">
-    <value>{0} (ID {1})님을 블랙리스트했습니다</value>
+    <value>{0} (ID {1})님을 블랙리스트 목록에 추가했습니다</value>
   </data>
   <data name="permissions_cmdcd_add" xml:space="preserve">
     <value>명령어 {0}은(는) 이제 {1}초 재사용 대기시간이 있습니다.</value>
@@ -1625,7 +1624,7 @@ Discord 닉네임이나 ID를 메시지에 남겨 두는 것을 잊지 마세요
     <value>이 서버에서 {0} {1}의 사용을 활성화했습니다.</value>
   </data>
   <data name="permissions_unblacklisted" xml:space="preserve">
-    <value>{0} (ID {1} )님을 블랙리스트에서 해제하였습니다.</value>
+    <value>{0} (ID {1} )님을 블랙리스트 목록에서 삭제하였습니다.</value>
   </data>
   <data name="permissions_uneditable" xml:space="preserve">
     <value>수정불가</value>
@@ -1725,6 +1724,7 @@ Discord 닉네임이나 ID를 메시지에 남겨 두는 것을 잊지 마세요
   </data>
   <data name="searches_error_occured" xml:space="preserve">
     <value>오류가 발생했습니다.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_example" xml:space="preserve">
     <value>예시</value>
@@ -1982,7 +1982,7 @@ Discord 닉네임이나 ID를 메시지에 남겨 두는 것을 잊지 마세요
     <value>단위의 종류가 같지 않기때문에 {0}을(를) {1}(으)로 변환 할 수 없습니다.</value>
   </data>
   <data name="utility_created_at" xml:space="preserve">
-    <value>작성 시간</value>
+    <value>생성 시간</value>
   </data>
   <data name="utility_csc_join" xml:space="preserve">
     <value>크로스 서버 채널에 입장했습니다.</value>
@@ -2089,7 +2089,8 @@ Discord 닉네임이나 ID를 메시지에 남겨 두는 것을 잊지 마세요
     <value>인용구 페이지 {0}</value>
   </data>
   <data name="utility_quotes_page_none" xml:space="preserve">
-    <value>이 페이지에 인용구가 없습니다.</value>
+    <value>해당 ID에 일치하는 인용구를 찾을 수 없습니다.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_quotes_remove_none" xml:space="preserve">
     <value>삭제 할 수 있는 인용구를 찾지못했습니다.</value>
@@ -2338,7 +2339,7 @@ Discord 닉네임이나 ID를 메시지에 남겨 두는 것을 잊지 마세요
     <value>사용자 {0}님이 경고를 받았고, {1} 처벌이 적용되었습니다.</value>
   </data>
   <data name="administration_warned_on" xml:space="preserve">
-    <value>{0} 서버에 경고했습니다.</value>
+    <value>{0} 서버에서 경고를 받았습니다.</value>
   </data>
   <data name="administration_warned_on_by" xml:space="preserve">
     <value>{0} {1}에 {2}이(가)</value>
@@ -2412,6 +2413,122 @@ Discord 닉네임이나 ID를 메시지에 남겨 두는 것을 잊지 마세요
   </data>
   <data name="utility_clpa_too_early" xml:space="preserve">
     <value>보상은 매 달 5일에 요구 할 수 있습니다.</value>
+  </data>
+  <data name="searches_time" xml:space="preserve">
+    <value>{0}의 시간은 {1} - {2} 입니다.</value>
+    <comment>Time in London, UK is 15:30 - Time Zone Name</comment>
+  </data>
+  <data name="administration_rh" xml:space="preserve">
+    <value>표시되는 길드 역할을 {0}에서 {1}(으)로 설정했습니다.</value>
+  </data>
+  <data name="gambling_name" xml:space="preserve">
+    <value>이름</value>
+  </data>
+  <data name="gambling_shop" xml:space="preserve">
+    <value>상점</value>
+  </data>
+  <data name="gambling_shop_item_add" xml:space="preserve">
+    <value>상점 아이템이 추가되었습니다.</value>
+  </data>
+  <data name="gambling_shop_none" xml:space="preserve">
+    <value>이 페이지에서 상점 아이템을 찾을 수 없습니다.</value>
+  </data>
+  <data name="gambling_shop_role" xml:space="preserve">
+    <value>당신은 {0} 역할을 얻게 될 것 입니다.</value>
+  </data>
+  <data name="gambling_type" xml:space="preserve">
+    <value>종류</value>
+  </data>
+  <data name="utility_clpa_next_update" xml:space="preserve">
+    <value>다음 업데이트는 {0}에 됩니다.</value>
+    <comment>Next update in 05:30</comment>
+  </data>
+  <data name="administration_global_perms_reset" xml:space="preserve">
+    <value>글로벌 권한이 리셋되었습니다.</value>
+  </data>
+  <data name="administration_gvc_disabled" xml:space="preserve">
+    <value>이 서버에서 게임 음성 채널 기능이 비활성화되었습니다.</value>
+  </data>
+  <data name="administration_gvc_enabled" xml:space="preserve">
+    <value>이제 {0}이(가) 게임 음성 채널입니다.</value>
+  </data>
+  <data name="administration_not_in_voice" xml:space="preserve">
+    <value>당신은 이 서버의 음성 채널에 있지 않습니다.</value>
+  </data>
+  <data name="gambling_item" xml:space="preserve">
+    <value>아이템</value>
+  </data>
+  <data name="gambling_out_of_stock" xml:space="preserve">
+    <value>품절되었습니다.</value>
+  </data>
+  <data name="gambling_random_unique_item" xml:space="preserve">
+    <value>램덤 희귀 아이템</value>
+  </data>
+  <data name="gambling_shop_buy_error" xml:space="preserve">
+    <value>아이템 DM에 오류가 발생하여서 환불되었습니다.</value>
+  </data>
+  <data name="gambling_shop_item_not_found" xml:space="preserve">
+    <value>해당 색인에 대한 아이템을 찾을 수 없습니다.</value>
+  </data>
+  <data name="gambling_shop_item_purchase" xml:space="preserve">
+    <value>아이템 결제가 완료되었습니다.</value>
+  </data>
+  <data name="gambling_shop_item_rm" xml:space="preserve">
+    <value>상점 아이템이 삭제되었습니다.</value>
+  </data>
+  <data name="gambling_shop_item_wrong_type" xml:space="preserve">
+    <value>해당 상점 품목은 아이템 추가를 지원하지 않습니다.</value>
+  </data>
+  <data name="gambling_shop_list_item_added" xml:space="preserve">
+    <value>아이템이 성공적으로 추가되었습니다.</value>
+  </data>
+  <data name="gambling_shop_list_item_not_unique" xml:space="preserve">
+    <value>그 아이템은 이미 추가되었습니다.</value>
+  </data>
+  <data name="gambling_shop_purchase" xml:space="preserve">
+    <value>{0} 서버에서 구매했습니다</value>
+  </data>
+  <data name="gambling_shop_role_not_found" xml:space="preserve">
+    <value>판매된 역할이 더 이상 존재하지 않습니다.</value>
+  </data>
+  <data name="gambling_shop_role_purchase" xml:space="preserve">
+    <value>성공적으로 {0} 역할을 구매하였습니다.</value>
+  </data>
+  <data name="gambling_shop_role_purchase_error" xml:space="preserve">
+    <value>역할 지정에 오류가 발생해서 환불되었습니다.</value>
+  </data>
+  <data name="gambling_unique_items_left" xml:space="preserve">
+    <value>{0}개의 희귀한 아이템이 남았습니다.</value>
+  </data>
+  <data name="permissions_blocked_commands" xml:space="preserve">
+    <value>차단된 명령어</value>
+  </data>
+  <data name="permissions_blocked_modules" xml:space="preserve">
+    <value>차단된 모듈</value>
+  </data>
+  <data name="permissions_gcmd_add" xml:space="preserve">
+    <value>모든 서버에서 {0} 명령어가 비활성화되었습니다.</value>
+  </data>
+  <data name="permissions_gcmd_remove" xml:space="preserve">
+    <value>모든 서버에서 {0} 명령어가 활성화되었습니다.</value>
+  </data>
+  <data name="permissions_gmod_add" xml:space="preserve">
+    <value>모든 서버에서 {0} 모듈이 비활성화되었습니다.</value>
+  </data>
+  <data name="permissions_gmod_remove" xml:space="preserve">
+    <value>모든 서버에서 {0} 모듈이 활성화되었습니다.</value>
+  </data>
+  <data name="permissions_lgp_none" xml:space="preserve">
+    <value>차단된 명령어나 모듈이 없습니다.</value>
+  </data>
+  <data name="gambling_animal_race_no_race" xml:space="preserve">
+    <value>이 동물 레이스는 찼습니다!</value>
+  </data>
+  <data name="utility_cant_read_or_send" xml:space="preserve">
+    <value>당신은 그 채널에서 메시지를 보내거나 볼 수 없습니다.</value>
+  </data>
+  <data name="utility_quotes_notfound" xml:space="preserve">
+    <value></value>
   </data>
 
 </root>

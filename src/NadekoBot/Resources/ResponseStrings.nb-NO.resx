@@ -140,7 +140,6 @@
   </data>
   <data name="clashofclans_claim_expired" xml:space="preserve">
     <value>Krav fra @{0} for en krig mot {1} har utløpt.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_enemy" xml:space="preserve">
     <value>Fiende</value>
@@ -153,11 +152,9 @@
   </data>
   <data name="clashofclans_invalid_size" xml:space="preserve">
     <value>Ikke en gyldig krigstørrelse</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_list_active_wars" xml:space="preserve">
     <value>Liste over aktive kriger</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_not_claimed" xml:space="preserve">
     <value>ikke hevdet</value>
@@ -170,7 +167,6 @@
   </data>
   <data name="clashofclans_no_active_wars" xml:space="preserve">
     <value>Ingen aktive kriger.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_size" xml:space="preserve">
     <value>Størrelse</value>
@@ -210,7 +206,6 @@
   </data>
   <data name="customreactions_no_found" xml:space="preserve">
     <value>Ingen tilpasset reaksjon funnet.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="customreactions_no_found_id" xml:space="preserve">
     <value>Ingen tilpasset reaksjon funnet med den ID&apos;en.</value>
@@ -474,11 +469,9 @@ Grunn: {1}</value>
   </data>
   <data name="administration_kicked_user" xml:space="preserve">
     <value>Bruker sparket</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_lang_list" xml:space="preserve">
     <value>Liste over språk {0}</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_lang_set" xml:space="preserve">
     <value>Din servers&apos; lokasjon er nå {0} - {1}</value>
@@ -536,11 +529,9 @@ Grunn: {1}</value>
   </data>
   <data name="administration_msg_del" xml:space="preserve">
     <value>Melding slettet i #{0}</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_msg_update" xml:space="preserve">
     <value>Melding oppdatert i #{0}</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_muted_pl" xml:space="preserve">
     <value>Dempet</value>
@@ -561,19 +552,15 @@ Grunn: {1}</value>
   </data>
   <data name="administration_new_msg" xml:space="preserve">
     <value>Ny Melding</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_new_nick" xml:space="preserve">
     <value>Nytt kallenavn</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_new_topic" xml:space="preserve">
     <value>Nytt emne</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_nick_change" xml:space="preserve">
     <value>Kallenavn endret.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_no_server" xml:space="preserve">
     <value>Kan ikke finne den serveren</value>
@@ -583,15 +570,12 @@ Grunn: {1}</value>
   </data>
   <data name="administration_old_msg" xml:space="preserve">
     <value>Gammel melding</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_old_nick" xml:space="preserve">
     <value>Gammelt kallenavn</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_old_topic" xml:space="preserve">
     <value>Gammelt emne</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_perms" xml:space="preserve">
     <value>Feil. Mest sansynlig har jeg ikke tilstrekkelige tillatelser.</value>
@@ -601,7 +585,6 @@ Grunn: {1}</value>
   </data>
   <data name="administration_prot_active" xml:space="preserve">
     <value>Aktive Beskyttelser</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_prot_disable" xml:space="preserve">
     <value>{0} har blitt **deaktivert** på denne serveren.</value>
@@ -614,7 +597,6 @@ Grunn: {1}</value>
   </data>
   <data name="administration_prot_none" xml:space="preserve">
     <value>Ingen beskyttelser aktivert</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_raid_cnt" xml:space="preserve">
     <value>Bruker terskelen må være mellom {0} og {1}</value>
@@ -642,6 +624,7 @@ Grunn: {1}</value>
   </data>
   <data name="administration_rc_perms" xml:space="preserve">
     <value>En feil oppstod, grunnet ugyldig fargekode, eller ikke tilstrekkelig med tillatelser.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_remrole" xml:space="preserve">
     <value>Fjernet rollen {0} fra {1}</value>
@@ -663,6 +646,7 @@ Grunn: {1}</value>
   </data>
   <data name="administration_role_added" xml:space="preserve">
     <value>Roller {0} er lagt til i listen</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_role_clean" xml:space="preserve">
     <value>{0} ikke funnet. Renset opp.</value>
@@ -761,8 +745,7 @@ Grunn: {1}</value>
   </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
     <value>soft-banned (sparket)</value>
-    <comment>PLURAL
-Fuzzy</comment>
+    <comment>PLURAL</comment>
   </data>
   <data name="administration_spam_ignore" xml:space="preserve">
     <value>{0} vil nå ignorere denne kanalen.</value>
@@ -776,11 +759,9 @@ __IgnoredChannels__: {2}</value>
   </data>
   <data name="administration_text_chan_created" xml:space="preserve">
     <value>Tekstkanal opprettet</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_text_chan_destroyed" xml:space="preserve">
     <value>Tekstkanal fjernet</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_undeafen" xml:space="preserve">
     <value>Demping fjernet</value>
@@ -794,14 +775,12 @@ __IgnoredChannels__: {2}</value>
   </data>
   <data name="administration_username_changed" xml:space="preserve">
     <value>Brukernavn endret</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_users" xml:space="preserve">
     <value>Brukere</value>
   </data>
   <data name="administration_user_banned" xml:space="preserve">
     <value>Bruker utestengt</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_chat_mute" xml:space="preserve">
     <value>{0} har blit **dempet** fra å chatte.</value>
@@ -811,22 +790,18 @@ __IgnoredChannels__: {2}</value>
   </data>
   <data name="administration_user_joined" xml:space="preserve">
     <value>Bruker ble med i samtalen.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_left" xml:space="preserve">
     <value>Bruker Forlatt.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_muted" xml:space="preserve">
     <value>{0} har blitt **dempet** fra tekst og talekanaler.</value>
   </data>
   <data name="administration_user_role_add" xml:space="preserve">
     <value>Brukerrolle lagt til</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_role_rem" xml:space="preserve">
     <value>Brukerrolle fjernet</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_status_change" xml:space="preserve">
     <value>{0} er nå {1}</value>
@@ -851,11 +826,9 @@ __IgnoredChannels__: {2}</value>
   </data>
   <data name="administration_voice_chan_created" xml:space="preserve">
     <value>Talekanal laget</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_voice_chan_destroyed" xml:space="preserve">
     <value>Talekanal fjernet</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_vt_disabled" xml:space="preserve">
     <value>Deaktivert tale + tekst funksjon.</value>
@@ -871,6 +844,7 @@ __IgnoredChannels__: {2}</value>
   </data>
   <data name="administration_vt_perms" xml:space="preserve">
     <value>Jeg trenger **Behandle roller** og **Administrer kanaler** tillatelser for å aktivere denne egenskapen. (Administrator er foretrukket)</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_xmuted_text" xml:space="preserve">
     <value>Bruker {0} fra tekst-chat</value>
@@ -941,7 +915,6 @@ Grunn: {1}</value>
   </data>
   <data name="gambling_heads" xml:space="preserve">
     <value>Mynt</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_leaderboard" xml:space="preserve">
     <value>Resultattavle</value>
@@ -997,7 +970,6 @@ Varer i {1} sekunder. Ikke si det til noen. Shhh.</value>
   </data>
   <data name="gambling_tails" xml:space="preserve">
     <value>Kron</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_take" xml:space="preserve">
     <value>vellykket i og ta {0} fra {1}</value>
@@ -1010,7 +982,6 @@ Varer i {1} sekunder. Ikke si det til noen. Shhh.</value>
   </data>
   <data name="help_bot_owner_only" xml:space="preserve">
     <value>Kun boteier</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="help_channel_permission" xml:space="preserve">
     <value>Krever {0} kanal tillatelse.</value>
@@ -1047,11 +1018,9 @@ Ikke glem å skrive Discord navnet eller ID i meldingen.
   </data>
   <data name="help_list_of_commands" xml:space="preserve">
     <value>Liste av kommandoer</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="help_list_of_modules" xml:space="preserve">
     <value>Liste av moduler</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="help_modules_footer" xml:space="preserve">
     <value>Skriv &apos;{0}cmds ModulNavn&apos; for og få en liste av kommandoer i den modulen. f.eks &apos;{0}cmds spill&apos;</value>
@@ -1064,7 +1033,6 @@ Ikke glem å skrive Discord navnet eller ID i meldingen.
   </data>
   <data name="help_table_of_contents" xml:space="preserve">
     <value>Innholdsfortegnelse</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="help_usage" xml:space="preserve">
     <value>Bruk</value>
@@ -1127,11 +1095,9 @@ Ikke glem å skrive Discord navnet eller ID i meldingen.
   </data>
   <data name="gambling_changes_of_heart" xml:space="preserve">
     <value>Ombestemmelser</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_claimed_by" xml:space="preserve">
     <value>Hevdet av</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_divorces" xml:space="preserve">
     <value>Skilsmisser</value>
@@ -1251,7 +1217,6 @@ Ikke glem å skrive Discord navnet eller ID i meldingen.
   </data>
   <data name="games_submissions_closed" xml:space="preserve">
     <value>Innleveringer avluttet.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_animal_race_already_started" xml:space="preserve">
     <value>Veddeløp med dyr er allerede igang.</value>
@@ -1276,19 +1241,16 @@ Ikke glem å skrive Discord navnet eller ID i meldingen.
   </data>
   <data name="games_curgen_pl" xml:space="preserve">
     <value>{0} tilfeldig {1} dukket opp! Plukk dem opp ved og skrive&apos;{2}pick&apos;</value>
-    <comment>plural
-Fuzzy</comment>
+    <comment>plural</comment>
   </data>
   <data name="games_curgen_sn" xml:space="preserve">
-    <value>En tilfeldig {0} dukket opp! Plukk den opp ved og skrive &apos;{1}pick&apos;</value>
-    <comment>Fuzzy</comment>
+    <value>En tilfeldig {0} dukket opp!</value>
   </data>
   <data name="games_failed_loading_question" xml:space="preserve">
     <value>Kunne ikke laste inn spørsmål.</value>
   </data>
   <data name="games_game_started" xml:space="preserve">
     <value>Spill startet</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="games_hangman_game_started" xml:space="preserve">
     <value>Hangman spill startet</value>
@@ -1357,18 +1319,15 @@ Fuzzy</comment>
   </data>
   <data name="games_ttt_has_won" xml:space="preserve">
     <value>{0} har vunnet!</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="games_ttt_matched_three" xml:space="preserve">
     <value>Matchet tre</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="games_ttt_no_moves" xml:space="preserve">
     <value>Ingen bevegelser igjen!</value>
   </data>
   <data name="games_ttt_time_expired" xml:space="preserve">
     <value>Tiden er ute!</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="games_ttt_users_move" xml:space="preserve">
     <value>{0} sin tur</value>
@@ -1396,7 +1355,6 @@ Fuzzy</comment>
   </data>
   <data name="music_finished_song" xml:space="preserve">
     <value>Sang ferdig</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="music_fp_disabled" xml:space="preserve">
     <value>Rettferdig avspilling deaktivert</value>
@@ -1433,7 +1391,6 @@ Fuzzy</comment>
   </data>
   <data name="music_now_playing" xml:space="preserve">
     <value>Spiller</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="music_no_player" xml:space="preserve">
     <value>Ingen aktive musikkspillere.</value>
@@ -1446,18 +1403,15 @@ Fuzzy</comment>
   </data>
   <data name="music_player_queue" xml:space="preserve">
     <value>Spilleliste - Side {0}/{1}</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="music_playing_song" xml:space="preserve">
     <value>Spiller sang</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="music_playlists" xml:space="preserve">
     <value>#{0}` - **{1}** av *{2}* ({3} sanger)</value>
   </data>
   <data name="music_playlists_page" xml:space="preserve">
     <value>Side {0} av lagrede spillelister</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="music_playlist_deleted" xml:space="preserve">
     <value>Spilleliste slettet.</value>
@@ -1473,7 +1427,6 @@ Fuzzy</comment>
   </data>
   <data name="music_playlist_saved" xml:space="preserve">
     <value>Spilleliste lagret</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="music_play_limit" xml:space="preserve">
     <value>{0}s grense</value>
@@ -1483,7 +1436,6 @@ Fuzzy</comment>
   </data>
   <data name="music_queued_song" xml:space="preserve">
     <value>Sang i kø</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="music_queue_cleared" xml:space="preserve">
     <value>Musikk-kø tømt.</value>
@@ -1527,7 +1479,6 @@ Fuzzy</comment>
   </data>
   <data name="music_song_moved" xml:space="preserve">
     <value>Sang flyttet</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="music_time_format" xml:space="preserve">
     <value>{0}t {1}m {2}s</value>
@@ -1546,11 +1497,9 @@ Fuzzy</comment>
   </data>
   <data name="permissions_acm_disable" xml:space="preserve">
     <value>Deaktivert bruk av ALLE MODULER i kanalen {0}.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_acm_enable" xml:space="preserve">
     <value>Aktivert bruk av ALLE MODULER i kanalen {0}.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_allowed" xml:space="preserve">
     <value>Tillatt</value>
@@ -1770,6 +1719,7 @@ Fuzzy</comment>
   </data>
   <data name="searches_error_occured" xml:space="preserve">
     <value>Feil oppsto.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_example" xml:space="preserve">
     <value>Eksempel</value>
@@ -1821,7 +1771,7 @@ Fuzzy</comment>
     <value>Plassering</value>
   </data>
   <data name="searches_magicitems_not_loaded" xml:space="preserve">
-    <value>Magiske ting ble ikke lastet</value>
+    <value>Magiske gjenstander ble ikke lastet</value>
   </data>
   <data name="searches_mal_profile" xml:space="preserve">
     <value>{0} sin MAL profil</value>
@@ -2055,7 +2005,6 @@ Fuzzy</comment>
   </data>
   <data name="utility_inrole_list" xml:space="preserve">
     <value>Her er en liste over brukere i disse rollene:</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="utility_inrole_not_allowed" xml:space="preserve">
     <value>Du har ikke lov til å bruke denne kommandoen på roller med mange brukere i dem for å hindre misbruk.</value>
@@ -2136,6 +2085,7 @@ Eier ID: {2}</value>
   </data>
   <data name="utility_quotes_page_none" xml:space="preserve">
     <value>Det er ingen sitater på denne siden.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_quotes_remove_none" xml:space="preserve">
     <value>Ingen sitater funnet som du kan fjerne.</value>
@@ -2145,7 +2095,6 @@ Eier ID: {2}</value>
   </data>
   <data name="utility_quote_deleted" xml:space="preserve">
     <value>Sitat #{0} slettet.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="utility_region" xml:space="preserve">
     <value>Region</value>
@@ -2459,6 +2408,122 @@ Eier ID: {2}</value>
   </data>
   <data name="utility_clpa_too_early" xml:space="preserve">
     <value>Belønninger kan bare hevdes fra og med den 5. dagen i måneden.</value>
+  </data>
+  <data name="searches_time" xml:space="preserve">
+    <value>Tiden i {0} er {1} - {2}</value>
+    <comment>Time in London, UK is 15:30 - Time Zone Name</comment>
+  </data>
+  <data name="administration_rh" xml:space="preserve">
+    <value>Sett visning av rollen {0} til {1}.</value>
+  </data>
+  <data name="gambling_name" xml:space="preserve">
+    <value>Navn</value>
+  </data>
+  <data name="gambling_shop" xml:space="preserve">
+    <value>Butikk</value>
+  </data>
+  <data name="gambling_shop_item_add" xml:space="preserve">
+    <value>Gjenstand lagt til</value>
+  </data>
+  <data name="gambling_shop_none" xml:space="preserve">
+    <value>Ingen enheter funnet på denne siden.</value>
+  </data>
+  <data name="gambling_shop_role" xml:space="preserve">
+    <value>Du får rollen {0}</value>
+  </data>
+  <data name="gambling_type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="utility_clpa_next_update" xml:space="preserve">
+    <value>Neste oppdatering om {0}</value>
+    <comment>Next update in 05:30</comment>
+  </data>
+  <data name="administration_global_perms_reset" xml:space="preserve">
+    <value>Globale tillatelser er nullstilt</value>
+  </data>
+  <data name="administration_gvc_disabled" xml:space="preserve">
+    <value>Funksjonen &apos;Talekanal for spill&apos; er slått av.</value>
+  </data>
+  <data name="administration_gvc_enabled" xml:space="preserve">
+    <value>{0} er nå &apos;talekanal for spill&apos;.</value>
+  </data>
+  <data name="administration_not_in_voice" xml:space="preserve">
+    <value>Du er ikke i en talekanal på denne serveren.</value>
+  </data>
+  <data name="gambling_item" xml:space="preserve">
+    <value>Gjenstand</value>
+  </data>
+  <data name="gambling_out_of_stock" xml:space="preserve">
+    <value>Tomt.</value>
+  </data>
+  <data name="gambling_random_unique_item" xml:space="preserve">
+    <value>Tilfeldig unik gjenstand.</value>
+  </data>
+  <data name="gambling_shop_buy_error" xml:space="preserve">
+    <value>Kunne ikke sende deg gjenstanden. Valuta refundert.</value>
+  </data>
+  <data name="gambling_shop_item_not_found" xml:space="preserve">
+    <value>Ingen gjenstand funnet på angitt plass.</value>
+  </data>
+  <data name="gambling_shop_item_purchase" xml:space="preserve">
+    <value>Kjøp av gjenstand er gjennomført.</value>
+  </data>
+  <data name="gambling_shop_item_rm" xml:space="preserve">
+    <value>Gjenstand fjernet fra butikk.</value>
+  </data>
+  <data name="gambling_shop_item_wrong_type" xml:space="preserve">
+    <value>Kan ikke legge til den typen gjenstand på den plasseringen.</value>
+  </data>
+  <data name="gambling_shop_list_item_added" xml:space="preserve">
+    <value>Enhet lagt til.</value>
+  </data>
+  <data name="gambling_shop_list_item_not_unique" xml:space="preserve">
+    <value>Den gjenstanden er allerede lagt til</value>
+  </data>
+  <data name="gambling_shop_purchase" xml:space="preserve">
+    <value>Kjøp på server {0}</value>
+  </data>
+  <data name="gambling_shop_role_not_found" xml:space="preserve">
+    <value>Rollen som blir solgt eksisterer ikke lenger.</value>
+  </data>
+  <data name="gambling_shop_role_purchase" xml:space="preserve">
+    <value>Du har kjøp rollen {0}</value>
+  </data>
+  <data name="gambling_shop_role_purchase_error" xml:space="preserve">
+    <value>Kunne ikke gi deg rollen. Kjøp kansellert og valuta refundert.</value>
+  </data>
+  <data name="gambling_unique_items_left" xml:space="preserve">
+    <value>{0} unike gjenstander igjen</value>
+  </data>
+  <data name="permissions_blocked_commands" xml:space="preserve">
+    <value>Blokkerte kommandoer</value>
+  </data>
+  <data name="permissions_blocked_modules" xml:space="preserve">
+    <value>Blokkerte moduler</value>
+  </data>
+  <data name="permissions_gcmd_add" xml:space="preserve">
+    <value>Kommandoen {0} er nå blokkert på alle servere.</value>
+  </data>
+  <data name="permissions_gcmd_remove" xml:space="preserve">
+    <value>Kommandoen {0} er nå tilgjengelig på alle servere.</value>
+  </data>
+  <data name="permissions_gmod_add" xml:space="preserve">
+    <value>Modulen {0} er nå blokkert på alle servere.</value>
+  </data>
+  <data name="permissions_gmod_remove" xml:space="preserve">
+    <value>Modulen {0} er nå tilgjengelig på alle servere.</value>
+  </data>
+  <data name="permissions_lgp_none" xml:space="preserve">
+    <value>Ingen blokkerte kommandoer eller moduler.</value>
+  </data>
+  <data name="gambling_animal_race_no_race" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_cant_read_or_send" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_quotes_notfound" xml:space="preserve">
+    <value></value>
   </data>
 
 </root>

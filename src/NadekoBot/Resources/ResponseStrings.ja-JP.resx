@@ -132,7 +132,6 @@
   <data name="clashofclans_base_unclaimed" xml:space="preserve">
     <value>{0}は{2}との戦いで、未請求の塩基番号{1}を持っています
 </value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_claimed_base" xml:space="preserve">
     <value>{0}は{2}との戦いで塩基番号{1}を主張しました
@@ -143,15 +142,14 @@
 </value>
   </data>
   <data name="clashofclans_claim_expired" xml:space="preserve">
-    <value>{1}との戦争で@ {0}からの申し立てが終了しました。
-</value>
+    <value>{1}との対戦で@{0}の要求が失効しました。</value>
     <comment>The English wording is wrong.</comment>
   </data>
   <data name="clashofclans_enemy" xml:space="preserve">
     <value>敵</value>
   </data>
   <data name="clashofclans_info_about_war" xml:space="preserve">
-    <value>{0} との戦争に関する情報</value>
+    <value>{0} との対戦に関する情報</value>
   </data>
   <data name="clashofclans_invalid_base_number" xml:space="preserve">
     <value>無効な城の番号
@@ -191,16 +189,13 @@
 </value>
   </data>
   <data name="clashofclans_war_ended" xml:space="preserve">
-    <value>{0}に対する戦争は終わった。
-</value>
+    <value>{0}との対戦が終わりました。</value>
   </data>
   <data name="clashofclans_war_not_exist" xml:space="preserve">
-    <value>その戦争は存在しない。
-</value>
+    <value>そのッ対戦は存在しません。</value>
   </data>
   <data name="clashofclans_war_started" xml:space="preserve">
-    <value>戦争{0}が始まった！
-</value>
+    <value>{0}との対戦が始まりました！</value>
   </data>
   <data name="customreactions_all_stats_cleared" xml:space="preserve">
     <value>すべてのカスタム反応がクリアされました。
@@ -229,7 +224,6 @@
   <data name="customreactions_no_found" xml:space="preserve">
     <value>カスタムリアクションが見つかりませんでした。
 </value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="customreactions_no_found_id" xml:space="preserve">
     <value>その識別情報でカスタム反応が見つかりませんでした。
@@ -276,8 +270,7 @@
   <data name="pokemon_attack" xml:space="preserve">
     <value>{4}ダメージのために{2} {3}に{0} {1}を使用しました。
 </value>
-    <comment>Kwoth used punch:type_icon: on Sanity:type_icon: for 50 damage.
-Fuzzy</comment>
+    <comment>Kwoth used punch:type_icon: on Sanity:type_icon: for 50 damage.</comment>
   </data>
   <data name="pokemon_cant_attack_again" xml:space="preserve">
     <value>あなたは報復せずに再び攻撃することはできません！
@@ -376,7 +369,6 @@ Fuzzy</comment>
   </data>
   <data name="administration_banned_user" xml:space="preserve">
     <value>ユーザーはＢＡＮＮＥＤ</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_bot_name" xml:space="preserve">
     <value>ボット名が{0}に変更されました
@@ -554,12 +546,10 @@ Fuzzy</comment>
   </data>
   <data name="administration_kicked_user" xml:space="preserve">
     <value>ユーザーが蹴った</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_lang_list" xml:space="preserve">
     <value>言語一覧
 {0}</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_lang_set" xml:space="preserve">
     <value>サーバーのロケールが{0}  -  {1}になりました
@@ -630,7 +620,6 @@ Fuzzy</comment>
   </data>
   <data name="administration_msg_update" xml:space="preserve">
     <value>＃{0}で更新されたメッセージ</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_muted_pl" xml:space="preserve">
     <value>ミュート中</value>
@@ -654,20 +643,16 @@ Fuzzy</comment>
   </data>
   <data name="administration_new_msg" xml:space="preserve">
     <value>新しいメッセージ</value>
-    <comment>Is this： make a new message or、 there is a new message?
-Fuzzy</comment>
+    <comment>Is this： make a new message or、 there is a new message?</comment>
   </data>
   <data name="administration_new_nick" xml:space="preserve">
     <value>新しいニックネーム</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_new_topic" xml:space="preserve">
     <value>新しいトピック</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_nick_change" xml:space="preserve">
     <value>ニックネームが変更されました</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_no_server" xml:space="preserve">
     <value>そのサーバーを見つけることができません
@@ -679,15 +664,12 @@ Fuzzy</comment>
   </data>
   <data name="administration_old_msg" xml:space="preserve">
     <value>古いメッセージ</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_old_nick" xml:space="preserve">
     <value>古いニックネーム</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_old_topic" xml:space="preserve">
     <value>古いトピック</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_perms" xml:space="preserve">
     <value>エラー。ほとんどの場合、十分な権限がありません。
@@ -751,7 +733,8 @@ Fuzzy</comment>
   <data name="administration_rc_perms" xml:space="preserve">
     <value>無効な色または権限が不十分なためにエラーが発生しました。
 </value>
-    <comment>TYPO, &quot;Occured&quot; should be &apos;Occurred&apos;</comment>
+    <comment>TYPO, &quot;Occured&quot; should be &apos;Occurred&apos;
+Fuzzy</comment>
   </data>
   <data name="administration_remrole" xml:space="preserve">
     <value>ユーザー{1}からロール{0}を削除しました
@@ -779,7 +762,8 @@ Fuzzy</comment>
   <data name="administration_role_added" xml:space="preserve">
     <value>ロール{0}がリストに追加されました。
 </value>
-    <comment>TYPO. &quot;as&quot; should be &apos;has&apos;</comment>
+    <comment>TYPO. &quot;as&quot; should be &apos;has&apos;
+Fuzzy</comment>
   </data>
   <data name="administration_role_clean" xml:space="preserve">
     <value>{0}は見つかりませんでした。
@@ -905,8 +889,7 @@ Fuzzy</comment>
   </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
     <value>ソフトバン（キック）</value>
-    <comment>PLURAL
-Fuzzy</comment>
+    <comment>PLURAL</comment>
   </data>
   <data name="administration_spam_ignore" xml:space="preserve">
     <value>{0}はこのチャンネルを無視します。</value>
@@ -1023,7 +1006,8 @@ Fuzzy</comment>
   <data name="administration_vt_perms" xml:space="preserve">
     <value>この機能を有効にするには、少なくとも**役割を管理する**と**チャネルを管理する**権限が必要です。 （管理権限が必要です）
 </value>
-    <comment>TYPO &gt; &quot;atleast&quot; isn&apos;t a word. It&apos;s &apos;At least&apos;</comment>
+    <comment>TYPO &gt; &quot;atleast&quot; isn&apos;t a word. It&apos;s &apos;At least&apos;
+Fuzzy</comment>
   </data>
   <data name="administration_xmuted_text" xml:space="preserve">
     <value>テキストチャットのユーザー{0}
@@ -1044,7 +1028,6 @@ Fuzzy</comment>
   <data name="administration_user_unbanned" xml:space="preserve">
     <value>Since I&apos;m using &quot;exiled&quot; for banned. need to rethink a new word.. so just leave this one alone
 </value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_migration_done" xml:space="preserve">
     <value>移行が完了しました！
@@ -1059,7 +1042,6 @@ Fuzzy</comment>
   </data>
   <data name="administration_sb_user" xml:space="preserve">
     <value>ユーザはソフトバン</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_awarded" xml:space="preserve">
     <value>{0}から{1}に授与されました
@@ -1498,7 +1480,7 @@ Paypal &lt;{1}&gt;
     <value>このチャンネルでは現在の世代は使えるようになりました。</value>
   </data>
   <data name="games_curgen_pl" xml:space="preserve">
-    <value></value>
+    <value>{0}ランダム{1}が登場しました！</value>
     <comment>plural</comment>
   </data>
   <data name="games_curgen_sn" xml:space="preserve">
@@ -1520,7 +1502,7 @@ Paypal &lt;{1}&gt;
     <value>ハングマンのスタート時にエラーが起きました。</value>
   </data>
   <data name="games_hangman_types" xml:space="preserve">
-    <value></value>
+    <value>「{0}ハングマン」用語の種類のリスト：</value>
   </data>
   <data name="games_leaderboard" xml:space="preserve">
     <value>リーダーボード</value>
@@ -1536,7 +1518,7 @@ Paypal &lt;{1}&gt;
     <comment>Kwoth picked 5*</comment>
   </data>
   <data name="games_planted" xml:space="preserve">
-    <value></value>
+    <value>{0}植え付け済み{1}</value>
     <comment>Kwoth planted 5*</comment>
   </data>
   <data name="games_trivia_already_running" xml:space="preserve">
@@ -1546,10 +1528,10 @@ Paypal &lt;{1}&gt;
     <value>Trivia game</value>
   </data>
   <data name="games_trivia_guess" xml:space="preserve">
-    <value></value>
+    <value>{0} そのとおり！答えは: {1}</value>
   </data>
   <data name="games_trivia_none" xml:space="preserve">
-    <value></value>
+    <value>Triviaはこのサーバーでは動いてません。</value>
   </data>
   <data name="games_trivia_points" xml:space="preserve">
     <value>{0} は {1} ポイント持っています。</value>
@@ -1561,7 +1543,7 @@ Paypal &lt;{1}&gt;
     <value>時間切れです。正解は {0} です。</value>
   </data>
   <data name="games_trivia_win" xml:space="preserve">
-    <value></value>
+    <value>{0} そのとおり。ゲームに勝った！答えは: {1}</value>
   </data>
   <data name="games_ttt_against_yourself" xml:space="preserve">
     <value>あなた自身とはゲームできません。</value>
@@ -1573,7 +1555,7 @@ Paypal &lt;{1}&gt;
     <value>引き分け</value>
   </data>
   <data name="games_ttt_created" xml:space="preserve">
-    <value></value>
+    <value>Tic Tac Toeのゲームが作られました。</value>
   </data>
   <data name="games_ttt_has_won" xml:space="preserve">
     <value>{0} の勝ち！</value>
@@ -1582,16 +1564,16 @@ Paypal &lt;{1}&gt;
     <value>三回戦</value>
   </data>
   <data name="games_ttt_no_moves" xml:space="preserve">
-    <value></value>
+    <value>移動は残されてません。</value>
   </data>
   <data name="games_ttt_time_expired" xml:space="preserve">
-    <value></value>
+    <value>時間は満了しました。</value>
   </data>
   <data name="games_ttt_users_move" xml:space="preserve">
-    <value></value>
+    <value>{0} の移動</value>
   </data>
   <data name="games_vs" xml:space="preserve">
-    <value></value>
+    <value>{0}対{1}</value>
   </data>
   <data name="music_attempting_to_queue" xml:space="preserve">
     <value>キューに {0} 曲を適用しています。</value>
@@ -1613,7 +1595,6 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="music_finished_song" xml:space="preserve">
     <value>曲が終わった</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="music_fp_disabled" xml:space="preserve">
     <value>フェアプレイは無効です。</value>
@@ -1650,7 +1631,6 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="music_now_playing" xml:space="preserve">
     <value>プレイ中</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="music_no_player" xml:space="preserve">
     <value>アクティブな音楽再生がありません。</value>
@@ -1757,13 +1737,13 @@ Paypal &lt;{1}&gt;
     <value>音量を {0}% にセット</value>
   </data>
   <data name="permissions_acm_disable" xml:space="preserve">
-    <value></value>
+    <value>{0} チャンネルのすべてのモジュールが無効。</value>
   </data>
   <data name="permissions_acm_enable" xml:space="preserve">
-    <value></value>
+    <value>{0} チャンネルの全てもモジュールは有効です。</value>
   </data>
   <data name="permissions_allowed" xml:space="preserve">
-    <value></value>
+    <value>許可</value>
   </data>
   <data name="permissions_arm_disable" xml:space="preserve">
     <value>役割  {0}　のすべてのモジュールの使用は無効になりました。</value>
@@ -1787,50 +1767,50 @@ Paypal &lt;{1}&gt;
     <value>{0} (ID {1})をブラックリストに登録しました。</value>
   </data>
   <data name="permissions_cmdcd_add" xml:space="preserve">
-    <value></value>
+    <value>コマンド{0}の再使用待機時間は{1}秒に設定しました。</value>
     <comment>Cooldown?</comment>
   </data>
   <data name="permissions_cmdcd_cleared" xml:space="preserve">
-    <value></value>
+    <value>{0} コマンドは今クールダウンして、すべてのクールダウンはクリアになりました。</value>
   </data>
   <data name="permissions_cmdcd_none" xml:space="preserve">
-    <value></value>
+    <value>コマンドに再使用待機時間が設定していません。</value>
   </data>
   <data name="permissions_command_costs" xml:space="preserve">
-    <value></value>
+    <value>コマンドコスト</value>
   </data>
   <data name="permissions_cx_disable" xml:space="preserve">
-    <value></value>
+    <value>{2} チャンネルの  {0} {1} の使用は無効です。</value>
   </data>
   <data name="permissions_cx_enable" xml:space="preserve">
-    <value></value>
+    <value>{2} チャンネルの  {0} {1} の使用は有効です。</value>
   </data>
   <data name="permissions_denied" xml:space="preserve">
-    <value></value>
+    <value>無効</value>
   </data>
   <data name="permissions_filter_word_add" xml:space="preserve">
-    <value></value>
+    <value>フィルターされた語句のリストに {0} を加えました。</value>
   </data>
   <data name="permissions_filter_word_list" xml:space="preserve">
-    <value></value>
+    <value>フィルターされた言葉のリスト</value>
   </data>
   <data name="permissions_filter_word_remove" xml:space="preserve">
-    <value></value>
+    <value>フィルターされた語句のリストから {0} を削除しました。</value>
   </data>
   <data name="permissions_invalid_second_param_between" xml:space="preserve">
     <value></value>
   </data>
   <data name="permissions_invite_filter_channel_off" xml:space="preserve">
-    <value></value>
+    <value>このチェンネルの招待フィルタは無効です。</value>
   </data>
   <data name="permissions_invite_filter_channel_on" xml:space="preserve">
-    <value></value>
+    <value>このサーバの招待フィルタは有効です。</value>
   </data>
   <data name="permissions_invite_filter_server_off" xml:space="preserve">
-    <value></value>
+    <value>このサーバの招待フィルタは無効です。</value>
   </data>
   <data name="permissions_invite_filter_server_on" xml:space="preserve">
-    <value></value>
+    <value>このサーバの招待フィルタは有効です</value>
   </data>
   <data name="permissions_moved_permission" xml:space="preserve">
     <value></value>
@@ -1839,36 +1819,36 @@ Paypal &lt;{1}&gt;
     <value></value>
   </data>
   <data name="permissions_no_costs" xml:space="preserve">
-    <value></value>
+    <value>コストはセットされてない。</value>
   </data>
   <data name="permissions_of_command" xml:space="preserve">
-    <value></value>
+    <value>コマンド</value>
     <comment>Gen (of command)</comment>
   </data>
   <data name="permissions_of_module" xml:space="preserve">
-    <value></value>
+    <value>モジュール</value>
     <comment>Gen. (of module)</comment>
   </data>
   <data name="permissions_page" xml:space="preserve">
-    <value></value>
+    <value>許可ページ</value>
   </data>
   <data name="permissions_permrole" xml:space="preserve">
-    <value></value>
+    <value>現在、役割りは、 {0} です。</value>
   </data>
   <data name="permissions_permrole_changed" xml:space="preserve">
-    <value></value>
+    <value>権限の編集には、{0} 役割りが必要です。</value>
   </data>
   <data name="permissions_perm_out_of_range" xml:space="preserve">
-    <value></value>
+    <value>そのインディックスには権限が見当たりません。</value>
   </data>
   <data name="permissions_removed" xml:space="preserve">
-    <value></value>
+    <value>権限を移動 #{0} - {1}</value>
   </data>
   <data name="permissions_rx_disable" xml:space="preserve">
-    <value></value>
+    <value>{2} 役割り {0} {1} の使用不可</value>
   </data>
   <data name="permissions_rx_enable" xml:space="preserve">
-    <value></value>
+    <value>{2} 役割り {0} {1} の使用可</value>
   </data>
   <data name="permissions_sec" xml:space="preserve">
     <value>秒</value>
@@ -1896,37 +1876,37 @@ Paypal &lt;{1}&gt;
     <value></value>
   </data>
   <data name="permissions_verbose_true" xml:space="preserve">
-    <value></value>
+    <value>権限の警告を示します。</value>
   </data>
   <data name="permissions_word_filter_channel_off" xml:space="preserve">
-    <value></value>
+    <value>ワードのフィルタリングはこのチャンネルでは無効です。</value>
   </data>
   <data name="permissions_word_filter_channel_on" xml:space="preserve">
-    <value></value>
+    <value>ワードのフィルタリングはこのチャンネルでは有効です。</value>
   </data>
   <data name="permissions_word_filter_server_off" xml:space="preserve">
-    <value></value>
+    <value>ワードのフィルタリングはこのサーバでは無効です。</value>
   </data>
   <data name="permissions_word_filter_server_on" xml:space="preserve">
-    <value></value>
+    <value>ワードのフィルタリングはこのチャンネルでは有効です。</value>
   </data>
   <data name="searches_abilities" xml:space="preserve">
-    <value></value>
+    <value>能力</value>
   </data>
   <data name="searches_anime_no_fav" xml:space="preserve">
-    <value></value>
+    <value>好きなアニメは、まだありません。</value>
   </data>
   <data name="searches_atl_ad_started" xml:space="preserve">
-    <value></value>
+    <value>このチャンネルの自動翻訳を開始。ユーザのメッセージは自動的に削除されます。</value>
   </data>
   <data name="searches_atl_removed" xml:space="preserve">
-    <value></value>
+    <value>あなたの自動翻訳言語は削除されました。</value>
   </data>
   <data name="searches_atl_set" xml:space="preserve">
-    <value></value>
+    <value>あなたの自動翻訳言語は、 {0}&gt;{1} にセットされました。</value>
   </data>
   <data name="searches_atl_started" xml:space="preserve">
-    <value></value>
+    <value>このチャンネルでのメッセージ自動翻訳を開始。</value>
   </data>
   <data name="searches_atl_stopped" xml:space="preserve">
     <value></value>
@@ -1959,7 +1939,7 @@ Paypal &lt;{1}&gt;
     <value></value>
   </data>
   <data name="searches_completed" xml:space="preserve">
-    <value></value>
+    <value>完了</value>
   </data>
   <data name="searches_condition" xml:space="preserve">
     <value></value>
@@ -1968,7 +1948,7 @@ Paypal &lt;{1}&gt;
     <value></value>
   </data>
   <data name="searches_date" xml:space="preserve">
-    <value></value>
+    <value>年月日</value>
   </data>
   <data name="searches_define" xml:space="preserve">
     <value></value>
@@ -1983,7 +1963,7 @@ Paypal &lt;{1}&gt;
     <value></value>
   </data>
   <data name="searches_example" xml:space="preserve">
-    <value></value>
+    <value>例</value>
   </data>
   <data name="searches_failed_finding_anime" xml:space="preserve">
     <value></value>
@@ -1992,19 +1972,19 @@ Paypal &lt;{1}&gt;
     <value></value>
   </data>
   <data name="searches_genres" xml:space="preserve">
-    <value></value>
+    <value>ジャンル</value>
   </data>
   <data name="searches_hashtag_error" xml:space="preserve">
     <value></value>
   </data>
   <data name="searches_height_weight" xml:space="preserve">
-    <value></value>
+    <value>身長／体重</value>
   </data>
   <data name="searches_height_weight_val" xml:space="preserve">
-    <value></value>
+    <value>{0}㍍／{1}㌔</value>
   </data>
   <data name="searches_humidity" xml:space="preserve">
-    <value></value>
+    <value>湿度</value>
   </data>
   <data name="searches_image_search_for" xml:space="preserve">
     <value></value>
@@ -2044,7 +2024,7 @@ Paypal &lt;{1}&gt;
     <value>最低／最高</value>
   </data>
   <data name="searches_no_channel_found" xml:space="preserve">
-    <value></value>
+    <value>チャンネルが見つかりませんでした。</value>
   </data>
   <data name="searches_no_results" xml:space="preserve">
     <value></value>
@@ -2054,7 +2034,6 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="searches_original_url" xml:space="preserve">
     <value>元のURL</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="searches_osu_api_key" xml:space="preserve">
     <value></value>
@@ -2072,7 +2051,7 @@ Paypal &lt;{1}&gt;
     <value></value>
   </data>
   <data name="searches_platform" xml:space="preserve">
-    <value></value>
+    <value>プラットホーム</value>
   </data>
   <data name="searches_pokemon_ability_none" xml:space="preserve">
     <value></value>
@@ -2082,7 +2061,6 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="searches_profile_link" xml:space="preserve">
     <value>プロファイルへのリンク</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="searches_quality" xml:space="preserve">
     <value></value>
@@ -2101,13 +2079,12 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="searches_search_for" xml:space="preserve">
     <value>検索:</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="searches_shorten_fail" xml:space="preserve">
     <value></value>
   </data>
   <data name="searches_short_url" xml:space="preserve">
-    <value></value>
+    <value>略したURL</value>
   </data>
   <data name="searches_something_went_wrong" xml:space="preserve">
     <value></value>
@@ -2116,13 +2093,13 @@ Paypal &lt;{1}&gt;
     <value></value>
   </data>
   <data name="searches_status" xml:space="preserve">
-    <value></value>
+    <value>ステータス</value>
   </data>
   <data name="searches_store_url" xml:space="preserve">
     <value></value>
   </data>
   <data name="searches_streamer_offline" xml:space="preserve">
-    <value></value>
+    <value>配信者{0}がオフライン</value>
   </data>
   <data name="searches_streamer_online" xml:space="preserve">
     <value></value>
@@ -2176,7 +2153,7 @@ Paypal &lt;{1}&gt;
     <value></value>
   </data>
   <data name="searches_watching" xml:space="preserve">
-    <value></value>
+    <value>観覧中</value>
   </data>
   <data name="searches_wikia_error" xml:space="preserve">
     <value></value>
@@ -2256,13 +2233,13 @@ Paypal &lt;{1}&gt;
     <value></value>
   </data>
   <data name="utility_error" xml:space="preserve">
-    <value></value>
+    <value>エラー</value>
   </data>
   <data name="utility_features" xml:space="preserve">
     <value></value>
   </data>
   <data name="utility_id" xml:space="preserve">
-    <value></value>
+    <value>ID</value>
   </data>
   <data name="utility_index_out_of_range" xml:space="preserve">
     <value></value>
@@ -2291,7 +2268,6 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="utility_list_of_repeaters" xml:space="preserve">
     <value>中継器一覧</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="utility_members" xml:space="preserve">
     <value>メンバー</value>
@@ -2309,7 +2285,7 @@ Paypal &lt;{1}&gt;
     <value>名前</value>
   </data>
   <data name="utility_nickname" xml:space="preserve">
-    <value></value>
+    <value>ハンドル名</value>
   </data>
   <data name="utility_nobody_playing_game" xml:space="preserve">
     <value></value>
@@ -2336,25 +2312,28 @@ Paypal &lt;{1}&gt;
     <value></value>
   </data>
   <data name="utility_presence_txt" xml:space="preserve">
-    <value></value>
+    <value>サーバーが{0}件
+テキストチャンネルが{1}件
+ヴォイスチャンネルが{2}件</value>
   </data>
   <data name="utility_quotes_deleted" xml:space="preserve">
-    <value></value>
+    <value>{0}というキーワードのクオートを全て削除しました。</value>
   </data>
   <data name="utility_quotes_page" xml:space="preserve">
-    <value></value>
+    <value>クオートのページ{0}</value>
   </data>
   <data name="utility_quotes_page_none" xml:space="preserve">
-    <value></value>
+    <value>このページにはクオートがありません。</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_quotes_remove_none" xml:space="preserve">
-    <value></value>
+    <value>削除できるクオートが見つかりません</value>
   </data>
   <data name="utility_quote_added" xml:space="preserve">
-    <value></value>
+    <value>クオートを追加しました</value>
   </data>
   <data name="utility_quote_deleted" xml:space="preserve">
-    <value></value>
+    <value>{0}番目のクオートを削除しました</value>
   </data>
   <data name="utility_region" xml:space="preserve">
     <value>地域</value>
@@ -2408,10 +2387,10 @@ Paypal &lt;{1}&gt;
     <value></value>
   </data>
   <data name="utility_serverid" xml:space="preserve">
-    <value></value>
+    <value>このサーバーの{0}は{1}です。</value>
   </data>
   <data name="utility_server_info" xml:space="preserve">
-    <value></value>
+    <value>サーバー情報</value>
   </data>
   <data name="utility_shard" xml:space="preserve">
     <value></value>
@@ -2432,13 +2411,13 @@ Paypal &lt;{1}&gt;
     <value></value>
   </data>
   <data name="utility_text_channels" xml:space="preserve">
-    <value></value>
+    <value>テキストチャンネル</value>
   </data>
   <data name="utility_togtub_room_link" xml:space="preserve">
     <value></value>
   </data>
   <data name="utility_uptime" xml:space="preserve">
-    <value></value>
+    <value>稼働時間</value>
   </data>
   <data name="utility_userid" xml:space="preserve">
     <value>{1}の{0}は{2}</value>
@@ -2448,13 +2427,13 @@ Paypal &lt;{1}&gt;
     <value>利用者</value>
   </data>
   <data name="utility_voice_channels" xml:space="preserve">
-    <value></value>
+    <value>ヴォイスチャンネル</value>
   </data>
   <data name="gambling_animal_race_already_in" xml:space="preserve">
-    <value></value>
+    <value>このレースにもう参加しています！</value>
   </data>
   <data name="games_current_poll_results" xml:space="preserve">
-    <value></value>
+    <value>現在の調査結果</value>
   </data>
   <data name="games_no_votes_cast" xml:space="preserve">
     <value></value>
@@ -2494,7 +2473,7 @@ Paypal &lt;{1}&gt;
     <value></value>
   </data>
   <data name="gambling_page" xml:space="preserve">
-    <value></value>
+    <value>{0}ページ</value>
   </data>
   <data name="administration_must_be_in_voice" xml:space="preserve">
     <value></value>
@@ -2545,7 +2524,7 @@ Paypal &lt;{1}&gt;
     <value></value>
   </data>
   <data name="administration_channel" xml:space="preserve">
-    <value></value>
+    <value>チャンネル</value>
   </data>
   <data name="administration_command_text" xml:space="preserve">
     <value></value>
@@ -2561,7 +2540,7 @@ Paypal &lt;{1}&gt;
     <value></value>
   </data>
   <data name="administration_reason" xml:space="preserve">
-    <value></value>
+    <value>理由</value>
   </data>
   <data name="administration_scadd" xml:space="preserve">
     <value></value>
@@ -2573,7 +2552,7 @@ Paypal &lt;{1}&gt;
     <value></value>
   </data>
   <data name="administration_server" xml:space="preserve">
-    <value></value>
+    <value>サーバー</value>
   </data>
   <data name="administration_startcmdlist_none" xml:space="preserve">
     <value></value>
@@ -2666,6 +2645,122 @@ Paypal &lt;{1}&gt;
     <value></value>
   </data>
   <data name="utility_clpa_too_early" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="searches_time" xml:space="preserve">
+    <value></value>
+    <comment>Time in London, UK is 15:30 - Time Zone Name</comment>
+  </data>
+  <data name="administration_rh" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="gambling_name" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="gambling_shop" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="gambling_shop_item_add" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="gambling_shop_none" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="gambling_shop_role" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="gambling_type" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_clpa_next_update" xml:space="preserve">
+    <value></value>
+    <comment>Next update in 05:30</comment>
+  </data>
+  <data name="administration_global_perms_reset" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_gvc_disabled" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_gvc_enabled" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="administration_not_in_voice" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="gambling_item" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="gambling_out_of_stock" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="gambling_random_unique_item" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="gambling_shop_buy_error" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="gambling_shop_item_not_found" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="gambling_shop_item_purchase" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="gambling_shop_item_rm" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="gambling_shop_item_wrong_type" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="gambling_shop_list_item_added" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="gambling_shop_list_item_not_unique" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="gambling_shop_purchase" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="gambling_shop_role_not_found" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="gambling_shop_role_purchase" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="gambling_shop_role_purchase_error" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="gambling_unique_items_left" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="permissions_blocked_commands" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="permissions_blocked_modules" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="permissions_gcmd_add" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="permissions_gcmd_remove" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="permissions_gmod_add" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="permissions_gmod_remove" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="permissions_lgp_none" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="gambling_animal_race_no_race" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_cant_read_or_send" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_quotes_notfound" xml:space="preserve">
     <value></value>
   </data>
 

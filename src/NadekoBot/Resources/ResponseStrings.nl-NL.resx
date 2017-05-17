@@ -623,6 +623,7 @@ Reden: {1}</value>
   </data>
   <data name="administration_rc_perms" xml:space="preserve">
     <value>Error opgekomen vanwege ongeldige kleur of onvoldoende rechten.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_remrole" xml:space="preserve">
     <value>Met sucess rol {0} verwijderd van gebruiker {1}.</value>
@@ -644,6 +645,7 @@ Reden: {1}</value>
   </data>
   <data name="administration_role_added" xml:space="preserve">
     <value>Rol {0} is toegevoegd aan de lijst.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_role_clean" xml:space="preserve">
     <value>{0} niet gevonden. Klaar met opruimen.</value>
@@ -741,8 +743,7 @@ Reden: {1}</value>
   </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
     <value>soft-verbannen (gekickt)</value>
-    <comment>PLURAL
-Fuzzy</comment>
+    <comment>PLURAL</comment>
   </data>
   <data name="administration_spam_ignore" xml:space="preserve">
     <value>{0} zal dit kanaal negeren.</value>
@@ -841,6 +842,7 @@ __IgnoredChannels__: {2}</value>
   </data>
   <data name="administration_vt_perms" xml:space="preserve">
     <value>Ik heb tenminste **Rol Beheering** en **Kanaal Beheering** toestemmingen nodig om deze eigenschap in te schakelen. (Gelieve administratieve rechten)</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_xmuted_text" xml:space="preserve">
     <value>Gebruiker {0} van tekstkanaal</value>
@@ -1718,6 +1720,7 @@ Vergeet niet je discord naam en id in het bericht te zetten.
   </data>
   <data name="searches_error_occured" xml:space="preserve">
     <value>Fout opgedaagd.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_example" xml:space="preserve">
     <value>Voorbeeld</value>
@@ -2083,6 +2086,7 @@ Eigenaar ID: {2}</value>
   </data>
   <data name="utility_quotes_page_none" xml:space="preserve">
     <value>Geen citaten op deze pagina.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_quotes_remove_none" xml:space="preserve">
     <value>Geen verwijderbare citaten gevonden</value>
@@ -2404,6 +2408,122 @@ Eigenaar ID: {2}</value>
   </data>
   <data name="utility_clpa_too_early" xml:space="preserve">
     <value>Beloningen kunnen worden geclaimd op of na elke 5de van de maand.</value>
+  </data>
+  <data name="searches_time" xml:space="preserve">
+    <value>Tijd in {0} is {1} - {2}</value>
+    <comment>Time in London, UK is 15:30 - Time Zone Name</comment>
+  </data>
+  <data name="administration_rh" xml:space="preserve">
+    <value>Zet de display van de guild role {0} naar {1}.</value>
+  </data>
+  <data name="gambling_name" xml:space="preserve">
+    <value>Naam</value>
+  </data>
+  <data name="gambling_shop" xml:space="preserve">
+    <value>Winkel</value>
+  </data>
+  <data name="gambling_shop_item_add" xml:space="preserve">
+    <value>Winkelartikel toegevoegd</value>
+  </data>
+  <data name="gambling_shop_none" xml:space="preserve">
+    <value>Geen winkel items gevonden op deze pagina.</value>
+  </data>
+  <data name="gambling_shop_role" xml:space="preserve">
+    <value>Je krijgt {0} rol.</value>
+  </data>
+  <data name="gambling_type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="utility_clpa_next_update" xml:space="preserve">
+    <value>Volgende update in {0}</value>
+    <comment>Next update in 05:30</comment>
+  </data>
+  <data name="administration_global_perms_reset" xml:space="preserve">
+    <value>Globale machtigingen zijn teruggezet.</value>
+  </data>
+  <data name="administration_gvc_disabled" xml:space="preserve">
+    <value>Game Voice kanaal-functie is uitgeschakeld op deze server.</value>
+  </data>
+  <data name="administration_gvc_enabled" xml:space="preserve">
+    <value>{0} is een Game Voice Kanaal nu.</value>
+  </data>
+  <data name="administration_not_in_voice" xml:space="preserve">
+    <value>Je zit niet in een spraak kanaal in deze server.</value>
+  </data>
+  <data name="gambling_item" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="gambling_out_of_stock" xml:space="preserve">
+    <value>Niet op voorraad.</value>
+  </data>
+  <data name="gambling_random_unique_item" xml:space="preserve">
+    <value>Random uniek item.</value>
+  </data>
+  <data name="gambling_shop_buy_error" xml:space="preserve">
+    <value>Error DMing item. Je bent terugbetaald.</value>
+  </data>
+  <data name="gambling_shop_item_not_found" xml:space="preserve">
+    <value>Geen artikel gevonden in die index.</value>
+  </data>
+  <data name="gambling_shop_item_purchase" xml:space="preserve">
+    <value>Artikel succesvol gekocht.</value>
+  </data>
+  <data name="gambling_shop_item_rm" xml:space="preserve">
+    <value>Winkelartikel verwijderd</value>
+  </data>
+  <data name="gambling_shop_item_wrong_type" xml:space="preserve">
+    <value>Die winkel toegang ondersteund artikel toevoegen niet.</value>
+  </data>
+  <data name="gambling_shop_list_item_added" xml:space="preserve">
+    <value>Winkelartikel succesvol toegevoegd.</value>
+  </data>
+  <data name="gambling_shop_list_item_not_unique" xml:space="preserve">
+    <value>That artikel is al toegevoegd.</value>
+  </data>
+  <data name="gambling_shop_purchase" xml:space="preserve">
+    <value>Gekocht in {0} server</value>
+  </data>
+  <data name="gambling_shop_role_not_found" xml:space="preserve">
+    <value>Rol dat momenteel wordt verkocht bestaat niet meer.</value>
+  </data>
+  <data name="gambling_shop_role_purchase" xml:space="preserve">
+    <value>Je hebt succesvol gekocht {0} rol.</value>
+  </data>
+  <data name="gambling_shop_role_purchase_error" xml:space="preserve">
+    <value>Error toewijzen rol. Je aankoop is terugbetaald.</value>
+  </data>
+  <data name="gambling_unique_items_left" xml:space="preserve">
+    <value>{0} unieke artikelen over.</value>
+  </data>
+  <data name="permissions_blocked_commands" xml:space="preserve">
+    <value>Geblokkeerde Commando&apos;s</value>
+  </data>
+  <data name="permissions_blocked_modules" xml:space="preserve">
+    <value>Geblokkeerde Modules</value>
+  </data>
+  <data name="permissions_gcmd_add" xml:space="preserve">
+    <value>Commando {0} is uitgeschakeld op alle servers.</value>
+  </data>
+  <data name="permissions_gcmd_remove" xml:space="preserve">
+    <value>Commando {0} is ingeschakeld op alle servers.</value>
+  </data>
+  <data name="permissions_gmod_add" xml:space="preserve">
+    <value>Module {0} is uitgezet op alle servers.</value>
+  </data>
+  <data name="permissions_gmod_remove" xml:space="preserve">
+    <value>Module {0} is aangezet op alle servers.</value>
+  </data>
+  <data name="permissions_lgp_none" xml:space="preserve">
+    <value>Geen geblokkeerde commando&apos;s of modules. </value>
+  </data>
+  <data name="gambling_animal_race_no_race" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_cant_read_or_send" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_quotes_notfound" xml:space="preserve">
+    <value></value>
   </data>
 
 </root>

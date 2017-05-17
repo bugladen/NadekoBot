@@ -127,7 +127,7 @@
     <value>Ta baza nie jest zdobyta.</value>
   </data>
   <data name="clashofclans_base_destroyed" xml:space="preserve">
-    <value>**ZNISZCZONO** bazę #{1} w wojnie przeciwko {1}</value>
+    <value>**ZNISZCZONO** bazę #{0} w wojnie przeciwko {1}</value>
   </data>
   <data name="clashofclans_base_unclaimed" xml:space="preserve">
     <value>{0} **POZBYŁ SIĘ** bazy #{1} w wojnie przeciwko {2}</value>
@@ -139,8 +139,7 @@
     <value>@{0} Już zdobyłeś bazę #{1}. Nie możesz zdobyć nowej. </value>
   </data>
   <data name="clashofclans_claim_expired" xml:space="preserve">
-    <value>Wypowiedzenie wojny od @{0} przeciwko {1} wygasło. </value>
-    <comment>Fuzzy</comment>
+    <value>Wypowiedzenie wojny od @{0} przeciwko {1} straciło ważność.</value>
   </data>
   <data name="clashofclans_enemy" xml:space="preserve">
     <value>Wróg</value>
@@ -153,11 +152,9 @@
   </data>
   <data name="clashofclans_invalid_size" xml:space="preserve">
     <value>Nieprawidłowy rozmiar wojny.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_list_active_wars" xml:space="preserve">
-    <value>Lista aktualnych wojen</value>
-    <comment>Fuzzy</comment>
+    <value>Lista aktywnych wojen</value>
   </data>
   <data name="clashofclans_not_claimed" xml:space="preserve">
     <value>niezdobyta</value>
@@ -166,11 +163,10 @@
     <value>Nie uczestniczysz w tej wojnie.</value>
   </data>
   <data name="clashofclans_not_partic_or_destroyed" xml:space="preserve">
-    <value>@{0} nie uczestniczysz w tej wojnie albo ta baza została już zniszczona.</value>
+    <value>@{0} Nie uczestniczysz w tej wojnie albo ta baza została już zniszczona.</value>
   </data>
   <data name="clashofclans_no_active_wars" xml:space="preserve">
-    <value>Brak aktywnych wojen.</value>
-    <comment>Fuzzy</comment>
+    <value>Brak aktywnej wojny.</value>
   </data>
   <data name="clashofclans_size" xml:space="preserve">
     <value>Rozmiar</value>
@@ -188,19 +184,19 @@
     <value>Ta wojna nie istnieje.</value>
   </data>
   <data name="clashofclans_war_started" xml:space="preserve">
-    <value>Wojna przeciwko {o} zaczęła się!</value>
+    <value>Wojna przeciwko {0} zaczęła się!</value>
   </data>
   <data name="customreactions_all_stats_cleared" xml:space="preserve">
     <value>Wszystkie statystyki niestandardowych reakcji zostały wyczyszczone.</value>
   </data>
   <data name="customreactions_deleted" xml:space="preserve">
-    <value>Własne reakcje zostały usunięte</value>
+    <value>Niestandardowe reakcje zostały usunięte</value>
   </data>
   <data name="customreactions_insuff_perms" xml:space="preserve">
-    <value>Niewystarczające uprawnienia. Wymagane są uprawnienia właściciela dla globalnych niestandardowych reakcji oraz uprawnienia administratora dla niestandardowych reakcji na serwerze.</value>
+    <value>Brak wystarczających uprawnień. Wymagane są uprawnienia właściciela dla globalnych niestandardowych reakcji lub uprawnienia administratora dla serwerowych niestandardowych reakcji.</value>
   </data>
   <data name="customreactions_list_all" xml:space="preserve">
-    <value>Lista własnych reakcji</value>
+    <value>Lista wszystkich niestandardowych reakcji</value>
   </data>
   <data name="customreactions_name" xml:space="preserve">
     <value>Niestandardowe reakcje</value>
@@ -209,10 +205,10 @@
     <value>Nowe niestandardowe reakcje</value>
   </data>
   <data name="customreactions_no_found" xml:space="preserve">
-    <value>Niestandardowe reakcje nie zostały znalezione.</value>
+    <value>Nie znaleziono żadnych niestandardowych reakcji</value>
   </data>
   <data name="customreactions_no_found_id" xml:space="preserve">
-    <value>Niestandardowe reakcje z tym ID nie zostały znalezione.</value>
+    <value>Nie znaleziono żadnej niestandardowej reakcji o tym ID</value>
   </data>
   <data name="customreactions_response" xml:space="preserve">
     <value>Odpowiedź</value>
@@ -221,13 +217,13 @@
     <value>Statystyki niestandardowych reakcji</value>
   </data>
   <data name="customreactions_stats_cleared" xml:space="preserve">
-    <value>Statystyki wyczyszczone dla {0} niestandardowych reakcji.</value>
+    <value>Statystyki zostały wyczyszczone dla {0} niestandardowych reakcji.</value>
   </data>
   <data name="customreactions_stats_not_found" xml:space="preserve">
-    <value></value>
+    <value>Nie znaleziono statystyk dla tej reakcji, nie podjęto żadnego działania.</value>
   </data>
   <data name="customreactions_trigger" xml:space="preserve">
-    <value></value>
+    <value>Słowo klucz</value>
   </data>
   <data name="nsfw_autohentai_stopped" xml:space="preserve">
     <value>Zatrzymano autohentai.</value>
@@ -245,11 +241,11 @@
     <value>Twoim typem jest już {0}</value>
   </data>
   <data name="pokemon_attack" xml:space="preserve">
-    <value>użyto {0}{1} na {2}{3} zadając {4} obrażeń.</value>
+    <value>zaatakował {2}{3} ruchem {0}{1} zadając {4} obrażeń.</value>
     <comment>Kwoth used punch:type_icon: on Sanity:type_icon: for 50 damage.</comment>
   </data>
   <data name="pokemon_cant_attack_again" xml:space="preserve">
-    <value>Nie możesz znowu zaatakować bez odwetu!</value>
+    <value>Nie możesz zaatakować bez odwetu!</value>
   </data>
   <data name="pokemon_cant_attack_yourself" xml:space="preserve">
     <value>Nie możesz zaatakować sam siebie.</value>
@@ -258,10 +254,10 @@
     <value>{0} zemdlał!</value>
   </data>
   <data name="pokemon_healed" xml:space="preserve">
-    <value>wyleczono {0} używając {1}</value>
+    <value>wyleczył {0} zużywając jednego {1}</value>
   </data>
   <data name="pokemon_hp_remaining" xml:space="preserve">
-    <value>{0} zostało {1} HP.</value>
+    <value>{0} ma teraz {1} HP.</value>
   </data>
   <data name="pokemon_invalid_move" xml:space="preserve">
     <value>Nie możesz użyć {0}. Napisz `{1}ml` by zobaczyć listę wszystkich ruchów które możesz użyć.</value>
@@ -270,43 +266,43 @@
     <value>Lista ruchów dla typu {0}</value>
   </data>
   <data name="pokemon_not_effective" xml:space="preserve">
-    <value>To nie jest efektywne.</value>
+    <value>To nie jest skuteczne.</value>
   </data>
   <data name="pokemon_no_currency" xml:space="preserve">
     <value>Nie masz wystarczająco {0}</value>
   </data>
   <data name="pokemon_revive_other" xml:space="preserve">
-    <value>Ożywiono {0}, używając {1}</value>
+    <value>uleczył {0} zużywając jednego {1}</value>
   </data>
   <data name="pokemon_revive_yourself" xml:space="preserve">
-    <value>Ożywiłeś siebie, używając {0}</value>
+    <value>Uleczyłeś się zużywając jednego {0}</value>
   </data>
   <data name="pokemon_settype_success" xml:space="preserve">
-    <value>Twój typ został zmieniony z {0} na {1}</value>
+    <value>Twój typ został zmieniony na {0} na jednego {0}</value>
   </data>
   <data name="pokemon_somewhat_effective" xml:space="preserve">
-    <value>To trochę efektywne.</value>
+    <value>Ten atak jest trochę efektywny.</value>
   </data>
   <data name="pokemon_super_effective" xml:space="preserve">
-    <value>To bardzo efektywne!</value>
+    <value>Ten atak jest superefektywny!</value>
   </data>
   <data name="pokemon_too_many_moves" xml:space="preserve">
-    <value>Użyłeś za dużo ruchów, więc nie możesz się ruszyć!</value>
+    <value>Zaatakowałeś zbyt dużo razy pod rząd, więc nie możesz więcej atakować!</value>
   </data>
   <data name="pokemon_type_of_user" xml:space="preserve">
-    <value>Typem {0} jest {1}</value>
+    <value>{0} ma typ {1}</value>
   </data>
   <data name="pokemon_user_not_found" xml:space="preserve">
     <value>Nie znaleziono użytkownika.</value>
   </data>
   <data name="pokemon_you_fainted" xml:space="preserve">
-    <value>Zemdlałeś, więc nie jesteś w stanie się ruszyć!</value>
+    <value>Zemdlałeś, więc nie jesteś w stanie atakować!</value>
   </data>
   <data name="administration_aar_disabled" xml:space="preserve">
     <value>**Automatyczne przydzielanie ról** dla nowych użytkowników jest teraz **wyłączone**.</value>
   </data>
   <data name="administration_aar_enabled" xml:space="preserve">
-    <value>**Automatycznie przydzielanie ról** dla nowych użytkowników jest teraz **włączone*.</value>
+    <value>**Automatycznie przydzielanie ról** dla nowych użytkowników jest teraz **włączone**.</value>
   </data>
   <data name="administration_attachments" xml:space="preserve">
     <value>Załączniki</value>
@@ -323,7 +319,7 @@ Powód: {1}</value>
     <comment>PLURAL</comment>
   </data>
   <data name="administration_banned_user" xml:space="preserve">
-    <value>Użytkownik zabanowany</value>
+    <value>Użytkownik został zbanowany</value>
   </data>
   <data name="administration_bot_name" xml:space="preserve">
     <value>Nazwa bota została zmieniona na: {0}</value>
@@ -341,7 +337,7 @@ Powód: {1}</value>
     <value>Obecna wiadomość pożegnalna: {0}</value>
   </data>
   <data name="administration_byemsg_enable" xml:space="preserve">
-    <value>Włącz wiadomości pożegnalne, pisząc {0}</value>
+    <value>Włącz wiadomości pożegnalne wpisując {0}</value>
   </data>
   <data name="administration_byemsg_new" xml:space="preserve">
     <value>Nowa wiadomość pożegnalna ustawiona.</value>
@@ -383,10 +379,10 @@ Powód: {1}</value>
     <value>Usunięto serwer {0}</value>
   </data>
   <data name="administration_delmsg_off" xml:space="preserve">
-    <value>Zatrzymano automatyczne usuwanie potwierdzeń o udanych użyciach komend.</value>
+    <value>Automatyczne usuwanie potwierdzeń o udanych użyciach komend zostało wyłączone.</value>
   </data>
   <data name="administration_delmsg_on" xml:space="preserve">
-    <value>Rozpoczęto usuwanie potwierdzeń o udanych użyciach komend.</value>
+    <value>Automatyczne usuwanie potwierdzeń o udanych użyciach komend zostało włączone.</value>
   </data>
   <data name="administration_deltextchan" xml:space="preserve">
     <value>Kanał tekstowy {0} został usunięty.</value>
@@ -416,8 +412,7 @@ Powód: {1}</value>
     <value>Od teraz nie będę wysyłać prywatnych wiadomości.</value>
   </data>
   <data name="administration_greetdel_off" xml:space="preserve">
-    <value>Automatyczne usuwanie wiadomości powitalnych zostało wyłączone.
-</value>
+    <value>Automatyczne usuwanie wiadomości powitalnych zostało wyłączone.</value>
   </data>
   <data name="administration_greetdel_on" xml:space="preserve">
     <value>Wiadomości powitalne będą usuwane po {0} sekundach.</value>
@@ -432,10 +427,10 @@ Powód: {1}</value>
     <value>Nowa prywatna wiadomość powitalna została ustawiona.</value>
   </data>
   <data name="administration_greetdm_off" xml:space="preserve">
-    <value>Prywatne ogłoszenie powitalne zostało włączone</value>
+    <value>Prywatne wiadomości powitalne zostały wyłączone.</value>
   </data>
   <data name="administration_greetdm_on" xml:space="preserve">
-    <value>Prywatne ogłoszenie powitalne zostało wyłączone</value>
+    <value>Prywatne wiadomości powitalne zostały włączone.</value>
   </data>
   <data name="administration_greetmsg_cur" xml:space="preserve">
     <value>Aktualna wiadomość powitalna: {0}</value>
@@ -459,7 +454,7 @@ Powód: {1}</value>
     <value>Obrazki załadowane po {0} sekundach.</value>
   </data>
   <data name="administration_invalid_format" xml:space="preserve">
-    <value>Niepoprawny format zmiennej.</value>
+    <value>Niepoprawny format wejściowy.</value>
   </data>
   <data name="administration_invalid_params" xml:space="preserve">
     <value>Niepoprawne parametry.</value>
@@ -473,57 +468,54 @@ Powód: {1}</value>
   </data>
   <data name="administration_kicked_user" xml:space="preserve">
     <value>Użytkownik wyrzucony</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_lang_list" xml:space="preserve">
     <value>Lista języków</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_lang_set" xml:space="preserve">
-    <value>Twojego servra lokal jest teraz {0} - {1}</value>
+    <value>Język twojego serwera to teraz {0} - {1}</value>
   </data>
   <data name="administration_lang_set_bot" xml:space="preserve">
-    <value></value>
+    <value>Domyślny język bota to teraz {0} - {1}</value>
   </data>
   <data name="administration_lang_set_bot_show" xml:space="preserve">
-    <value>Język bota ustawiony na {0} - {1}</value>
+    <value>Język bota jest ustawiony na {0} - {1}</value>
   </data>
   <data name="administration_lang_set_fail" xml:space="preserve">
-    <value></value>
+    <value>Błąd ustawiania języka. Sprawdź pomoc dotyczącą tej komendy.</value>
   </data>
   <data name="administration_lang_set_show" xml:space="preserve">
-    <value>Język serwera został zmieniony na {0} - {1}</value>
+    <value>Język serwera jest ustawiony na {0} - {1}</value>
   </data>
   <data name="administration_left" xml:space="preserve">
     <value>{0} opuścił {1}</value>
   </data>
   <data name="administration_left_server" xml:space="preserve">
-    <value>Opuścił serwer {0}</value>
+    <value>Opuszczono serwer {0}</value>
   </data>
   <data name="administration_log" xml:space="preserve">
-    <value>Logowanie wydarzenia {0} na tym kanale.</value>
-    <comment>Fuzzy</comment>
+    <value>Logging wydarzenia {0} na tym kanale.</value>
   </data>
   <data name="administration_log_all" xml:space="preserve">
-    <value>Logowanie wszystkich wydarzeń na tym kanale.</value>
+    <value>Logging wszystkich wydarzeń na tym kanale.</value>
   </data>
   <data name="administration_log_disabled" xml:space="preserve">
-    <value>Logowanie wyłączone.</value>
+    <value>Logging wyłączony.</value>
   </data>
   <data name="administration_log_events" xml:space="preserve">
-    <value></value>
+    <value>Wydarzenia o których możesz być powiadamiany:</value>
   </data>
   <data name="administration_log_ignore" xml:space="preserve">
-    <value>Logowanie będzie ignorowało {0}</value>
+    <value>Logging będzie ignorował {0}</value>
   </data>
   <data name="administration_log_not_ignore" xml:space="preserve">
-    <value>Logowanie nie będzie ignorowało {0}</value>
+    <value>Logging nie będzie ignorował {0}</value>
   </data>
   <data name="administration_log_stop" xml:space="preserve">
-    <value>Logowanie wydarzenia {1} zatrzymane.</value>
+    <value>Logging wydarzenia {1} został zatrzymany.</value>
   </data>
   <data name="administration_menrole" xml:space="preserve">
-    <value></value>
+    <value>{0} otagował następujące role</value>
   </data>
   <data name="administration_message_from_bo" xml:space="preserve">
     <value>Wiadomość od {0} `[Właściciel bota]`:</value>
@@ -541,7 +533,7 @@ Powód: {1}</value>
     <value>Wiadomość zaktualizowana w #{0}</value>
   </data>
   <data name="administration_muted_pl" xml:space="preserve">
-    <value>Wyciszony</value>
+    <value>Wyciszeni</value>
     <comment>PLURAL (users have been muted)</comment>
   </data>
   <data name="administration_muted_sn" xml:space="preserve">
@@ -549,50 +541,43 @@ Powód: {1}</value>
     <comment>singular &quot;User muted.&quot;</comment>
   </data>
   <data name="administration_mute_error" xml:space="preserve">
-    <value>Nie mam wystarczających uprawnień aby to zrobić.</value>
+    <value>Najprawdopodobniej nie mam do tego wymaganych uprawnień.</value>
   </data>
   <data name="administration_mute_role_set" xml:space="preserve">
     <value>Nowa wyciszająca rola ustawiona.</value>
   </data>
   <data name="administration_need_admin" xml:space="preserve">
-    <value>Potrzebuję uprawnień **administratora* żeby to zrobić.</value>
+    <value>Potrzebuję uprawnień **administratora** żeby to zrobić.</value>
   </data>
   <data name="administration_new_msg" xml:space="preserve">
     <value>Nowa wiadomość</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_new_nick" xml:space="preserve">
     <value>Nowy pseudonim</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_new_topic" xml:space="preserve">
     <value>Nowy temat</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_nick_change" xml:space="preserve">
     <value>Pseudonim zmieniony</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_no_server" xml:space="preserve">
-    <value>Serwer nie został znaleziony.</value>
+    <value>Nie mogę znaleść tego serwera</value>
   </data>
   <data name="administration_no_shard_id" xml:space="preserve">
     <value>Żaden shard z tym ID nie został znaleziony.</value>
   </data>
   <data name="administration_old_msg" xml:space="preserve">
     <value>Stara wiadomość</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_old_nick" xml:space="preserve">
     <value>Stary pseudonim</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_old_topic" xml:space="preserve">
     <value>Stary temat</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_perms" xml:space="preserve">
-    <value>Wystąpił błąd. Najwyraźniej nie mam wystarczających uprawnień.</value>
+    <value>Wystąpił błąd. Najprawdopodobniej nie mam wystarczających uprawnień.</value>
   </data>
   <data name="administration_perms_reset" xml:space="preserve">
     <value>Uprawnienia tego serwera zostały zresetowane.</value>
@@ -604,16 +589,16 @@ Powód: {1}</value>
     <value>{0} został **wyłączony** na tym serwerze.</value>
   </data>
   <data name="administration_prot_enable" xml:space="preserve">
-    <value>{0} włączone</value>
+    <value>{0} włączony</value>
   </data>
   <data name="administration_prot_error" xml:space="preserve">
-    <value>Wystąpił błąd. Potrzebuję uprawnień zarządzania rolami</value>
+    <value>Wystąpił błąd. Potrzebuję uprawnień do zarządzania rolami</value>
   </data>
   <data name="administration_prot_none" xml:space="preserve">
     <value>Żadne zabezpieczenie nie jest aktywne.</value>
   </data>
   <data name="administration_raid_cnt" xml:space="preserve">
-    <value></value>
+    <value>Liczba użytkowników musi być w zakresie od {0} do {1}.</value>
   </data>
   <data name="administration_raid_stats" xml:space="preserve">
     <value>Jeśli {0} lub więcej użytkowników dołączy w ciągu {1} sekund, {2} ich.</value>
@@ -638,12 +623,13 @@ Powód: {1}</value>
   </data>
   <data name="administration_rc_perms" xml:space="preserve">
     <value>Wystąpił błąd w związku z błędnym kolorem albo niewystarczającymi uprawnieniami.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_remrole" xml:space="preserve">
     <value>Z powodzeniem usunięto rolę {0} użytkownikowi {1}</value>
   </data>
   <data name="administration_remrole_err" xml:space="preserve">
-    <value>Wystąpił błąd przy usunięciu roli. Masz niewystarczające uprawnienia.</value>
+    <value>Wystąpił błąd przy usunięciu roli. Nie mam wystarczających uprawnień.</value>
   </data>
   <data name="administration_renrole" xml:space="preserve">
     <value>Nazwa roli została zmieniona.</value>
@@ -655,13 +641,14 @@ Powód: {1}</value>
     <value>Nie możesz edytować ról wyższych od twojej.</value>
   </data>
   <data name="administration_reprm" xml:space="preserve">
-    <value></value>
+    <value>Usunięto odtwarzaną wiadomość: {0}</value>
   </data>
   <data name="administration_role_added" xml:space="preserve">
     <value>Rola {0} została dodana do listy.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_role_clean" xml:space="preserve">
-    <value></value>
+    <value>Nie znaleziono {0}. Wyczyszczono.</value>
   </data>
   <data name="administration_role_in_list" xml:space="preserve">
     <value>Rola {0} jest już na liście.</value>
@@ -670,25 +657,26 @@ Powód: {1}</value>
     <value>Dodano.</value>
   </data>
   <data name="administration_ropl_disabled" xml:space="preserve">
-    <value></value>
+    <value>Rotowanie statusów zostało wyłączone.</value>
   </data>
   <data name="administration_ropl_enabled" xml:space="preserve">
-    <value></value>
+    <value>Rotowanie statusów zostało włączone.</value>
   </data>
   <data name="administration_ropl_list" xml:space="preserve">
-    <value></value>
+    <value>Oto lista rotujących statusów:
+{0}</value>
   </data>
   <data name="administration_ropl_not_set" xml:space="preserve">
-    <value></value>
+    <value>Nie ustawiono rotujących statusów.</value>
   </data>
   <data name="administration_self_assign_already" xml:space="preserve">
     <value>Masz już rolę {0}.</value>
   </data>
   <data name="administration_self_assign_already_excl" xml:space="preserve">
-    <value></value>
+    <value>Możesz mieć tylko jedną rolę przypisywaną samodzielnie naraz, teraz masz {0}.</value>
   </data>
   <data name="administration_self_assign_excl" xml:space="preserve">
-    <value>Role, które można nadawać sobie samemu, są teraz ekskluzywne.</value>
+    <value>Można teraz mieć tylko jedną rolę przypisywaną samodzielnie!</value>
   </data>
   <data name="administration_self_assign_list" xml:space="preserve">
     <value>Istnieje {0} ról, które możesz sam sobie nadać.</value>
@@ -697,19 +685,19 @@ Powód: {1}</value>
     <value>Tej roli nie możesz nadać sobie sam.</value>
   </data>
   <data name="administration_self_assign_not_have" xml:space="preserve">
-    <value>Nie posiadasz roli {0}</value>
+    <value>Nie posiadasz roli {0}.</value>
   </data>
   <data name="administration_self_assign_no_excl" xml:space="preserve">
-    <value>Role, które można nadawać sobie samemu, nie są już ekskluzywne.</value>
+    <value>Można teraz mieć więcej niż jedną rolę przypisywaną samodzielnie!</value>
   </data>
   <data name="administration_self_assign_perms" xml:space="preserve">
-    <value>Nie jestem w stanie nadać ci tej roli. `Nie mogę nadawać ról wyższych niż moja.`</value>
+    <value>Nie jestem w stanie nadać ci tej roli. `Nie mogę nadawać ról właścicielom oraz osobom wyższych w hierarchii niż ja.`</value>
   </data>
   <data name="administration_self_assign_rem" xml:space="preserve">
     <value>Rola {0} została usunięta z listy ról, które użytkownik może sobie nadać sam.</value>
   </data>
   <data name="administration_self_assign_remove" xml:space="preserve">
-    <value>Nie masz więcej roli {0}</value>
+    <value>Nie masz już roli {0}.</value>
   </data>
   <data name="administration_self_assign_success" xml:space="preserve">
     <value>Masz teraz rolę {0}.</value>
@@ -736,7 +724,7 @@ Powód: {1}</value>
     <value>Nowy temat kanału ustawiony.</value>
   </data>
   <data name="administration_shard_reconnected" xml:space="preserve">
-    <value>Shard {0} połączony ponownie.</value>
+    <value>Shard {0} połączył się ponownie.</value>
   </data>
   <data name="administration_shard_reconnecting" xml:space="preserve">
     <value>Shard {0} łączy się ponownie.</value>
@@ -745,7 +733,7 @@ Powód: {1}</value>
     <value>Wyłączanie.</value>
   </data>
   <data name="administration_slowmode_desc" xml:space="preserve">
-    <value>Użytkownik nie może wysłać więcej niż {1} wiadomości na {1} sekund.</value>
+    <value>Użytkownicy nie mogą wysyłać więcej niż {0} wiadomości na {1} sekund.</value>
   </data>
   <data name="administration_slowmode_disabled" xml:space="preserve">
     <value>Slow mode wyłączony.</value>
@@ -754,9 +742,8 @@ Powód: {1}</value>
     <value>Slow mode włączony</value>
   </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
-    <value>lekko zbanowany (wyrzucony)</value>
-    <comment>PLURAL
-Fuzzy</comment>
+    <value>tymczasowo zablokowani</value>
+    <comment>PLURAL</comment>
   </data>
   <data name="administration_spam_ignore" xml:space="preserve">
     <value>{0} będzie ignorował ten kanał.</value>
@@ -766,7 +753,7 @@ Fuzzy</comment>
   </data>
   <data name="administration_spam_stats" xml:space="preserve">
     <value>Jeśli użytkownik napisze {0} takich samych wiadomości pod rząd, {0} go.
- __IgnorowaneKanały__: {2}</value>
+ __Ignorowane Kanały__: {2}</value>
   </data>
   <data name="administration_text_chan_created" xml:space="preserve">
     <value>Kanał tekstowy został stworzony.</value>
@@ -775,10 +762,10 @@ Fuzzy</comment>
     <value>Kanał tekstowy został usunięty.</value>
   </data>
   <data name="administration_undeafen" xml:space="preserve">
-    <value>wyciszenie wyłączone</value>
+    <value>Wyciszenie wyłączone</value>
   </data>
   <data name="administration_unmuted_sn" xml:space="preserve">
-    <value>Odciszony</value>
+    <value>Wyciszenie wyłączone</value>
     <comment>singular</comment>
   </data>
   <data name="administration_username" xml:space="preserve">
@@ -786,20 +773,18 @@ Fuzzy</comment>
   </data>
   <data name="administration_username_changed" xml:space="preserve">
     <value>Nazwa użytkownika została zmieniona</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_users" xml:space="preserve">
     <value>Użytkownicy</value>
   </data>
   <data name="administration_user_banned" xml:space="preserve">
     <value>Użytkownik zbanowany</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_chat_mute" xml:space="preserve">
-    <value>{0} został **wyciszony** z chatowania. </value>
+    <value>{0} został **wyciszony** z chatowania.</value>
   </data>
   <data name="administration_user_chat_unmute" xml:space="preserve">
-    <value>{0} został **odciszony** z chatowania. </value>
+    <value>{0} został **odciszony** z chatowania.</value>
   </data>
   <data name="administration_user_joined" xml:space="preserve">
     <value>Użytkownik dołączył</value>
@@ -838,12 +823,10 @@ Fuzzy</comment>
     <value>{0} został **odciszony z chatu głosowego**.</value>
   </data>
   <data name="administration_voice_chan_created" xml:space="preserve">
-    <value>Kanał głosowy został stworzony</value>
-    <comment>Fuzzy</comment>
+    <value>Kanał głosowy stworzony</value>
   </data>
   <data name="administration_voice_chan_destroyed" xml:space="preserve">
-    <value>Kanał głosowy został usunięty</value>
-    <comment>Fuzzy</comment>
+    <value>Kanał głosowy usunięty</value>
   </data>
   <data name="administration_vt_disabled" xml:space="preserve">
     <value>Wyłączono funkcję głos + tekst.</value>
@@ -855,10 +838,11 @@ Fuzzy</comment>
     <value>Nie mam uprawnień: **zarządzanie rolami** i **zarządzanie kanałami**, więc nie mogę uruchomić funkcji `głos+tekst` na serwerze {0}.</value>
   </data>
   <data name="administration_vt_no_admin" xml:space="preserve">
-    <value>Włączasz/Wyłączasz tą funkcję i **Nie mam uprawnień ADMINISTRATORA**. Może to spowodować problemy i będziesz musiał czyścić kanały tekstowe sam.</value>
+    <value>Włączasz/Wyłączasz tą funkcję a ja **nie mam uprawnień ADMINISTRATORA**. Może to spowodować problemy i będziesz musiał czyścić kanały tekstowe sam.</value>
   </data>
   <data name="administration_vt_perms" xml:space="preserve">
-    <value>By włączyć tą funkcję, muszę posiadać uprawnienia: **zarządzanie rolami** i **zarządzanie kanałami**. (Preferowane uprawnienia administratora)</value>
+    <value>By włączyć tą funkcję, muszę posiadać uprawnienia: **zarządzanie rolami** i **zarządzanie kanałami**. (Zalecane uprawnienia administratora)</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_xmuted_text" xml:space="preserve">
     <value>Użytkownik {0} z tekstowego czatu</value>
@@ -875,7 +859,6 @@ Powód: {1}</value>
   </data>
   <data name="administration_user_unbanned" xml:space="preserve">
     <value>Użytkownik został odbanowany</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_migration_done" xml:space="preserve">
     <value>Migracja zakończona!</value>
@@ -884,11 +867,10 @@ Powód: {1}</value>
     <value>Błąd podczas migracji, sprawdz konsole bota po więcej informacji.</value>
   </data>
   <data name="administration_presence_updates" xml:space="preserve">
-    <value></value>
+    <value>Aktualizacje obecności</value>
   </data>
   <data name="administration_sb_user" xml:space="preserve">
     <value>Użytkownik tymczasowo zablokowany</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_awarded" xml:space="preserve">
     <value>nagrodził {0} {1}</value>
@@ -931,7 +913,6 @@ Powód: {1}</value>
   </data>
   <data name="gambling_heads" xml:space="preserve">
     <value>Orzeł</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_leaderboard" xml:space="preserve">
     <value>Ranking</value>
@@ -987,7 +968,6 @@ Trwa {0} sekund. Nie nikomu. Ciiii.</value>
   </data>
   <data name="gambling_tails" xml:space="preserve">
     <value>Reszka</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_take" xml:space="preserve">
     <value>z powodzeniem wziął {0} od {1}</value>
@@ -1033,17 +1013,15 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
   <data name="help_guide" xml:space="preserve">
     <value>**Lista komend**:&lt;{0}&gt;
 **Poradniki hostowania i dokumenty znajdziesz tutaj**:&lt;{1}&gt;</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="help_list_of_commands" xml:space="preserve">
     <value>Lista komend</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="help_list_of_modules" xml:space="preserve">
     <value>Lista modułów</value>
   </data>
   <data name="help_modules_footer" xml:space="preserve">
-    <value></value>
+    <value>Napisz `{0}cmds NazwaModułu` aby dostać listę komend w tym module, na przykład `{0}cmds games`</value>
   </data>
   <data name="help_module_not_found" xml:space="preserve">
     <value>Ten moduł nie istnieje.</value>
@@ -1065,7 +1043,6 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
   </data>
   <data name="gambling_animal_race" xml:space="preserve">
     <value>Wyścig zwierzaków</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_animal_race_failed" xml:space="preserve">
     <value>Nie udało się zacząć wyścigu, ponieważ nie wzięła w nim udziału wystarczająca ilość osób.</value>
@@ -1116,7 +1093,6 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
   </data>
   <data name="gambling_changes_of_heart" xml:space="preserve">
     <value>Zmiany serca</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_claimed_by" xml:space="preserve">
     <value>Zdobyta przez</value>
@@ -1137,7 +1113,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value>Ranking</value>
   </data>
   <data name="gambling_waifu_affinity_already" xml:space="preserve">
-    <value></value>
+    <value>Twoje zamiłowanie jest już ustawione do tego waifu albo próbujesz usunąć twoje zamiłowanie kiedy nie masz takiego.</value>
   </data>
   <data name="gambling_waifu_affinity_changed" xml:space="preserve">
     <value>lubi teraz {0} zamiast {1}.
@@ -1149,7 +1125,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
     <value>Musisz poczekać {0} godzin i {1} minut aby zmienić swój obiekt westchnień.</value>
   </data>
   <data name="gambling_waifu_affinity_reset" xml:space="preserve">
-    <value></value>
+    <value>Twoje zamiłowanie jest zresetowane. Nie ma już osoby którą lubisz.</value>
   </data>
   <data name="gambling_waifu_affinity_set" xml:space="preserve">
     <value>chce być zdobyta przez {0}. Aww &lt;3</value>
@@ -1162,7 +1138,7 @@ Nie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomoś
 {0} odtrzymał {1} jako rekompensatę.</value>
   </data>
   <data name="gambling_waifu_egomaniac" xml:space="preserve">
-    <value></value>
+    <value>nie możesz ustawić zamiłowania do samego siebie, ty egomaniaku.</value>
   </data>
   <data name="gambling_waifu_fulfilled" xml:space="preserve">
     <value>🎉 To prawdziwa miłość! 🎉 
@@ -1193,7 +1169,7 @@ Nowa wartość {0} to {1}!</value>
     <value>Kula nr. 8</value>
   </data>
   <data name="games_acrophobia" xml:space="preserve">
-    <value></value>
+    <value>Lęk wysokości</value>
   </data>
   <data name="games_acro_ended_no_sub" xml:space="preserve">
     <value>Gra zakończona bez żadnych zgłoszeń.</value>
@@ -1203,10 +1179,10 @@ Nowa wartość {0} to {1}!</value>
     <value>Brak głosów. Gra zakończyła się bez zwycięzcy.</value>
   </data>
   <data name="games_acro_nym_was" xml:space="preserve">
-    <value>Akronim to {0}.</value>
+    <value>Akronimem był {0}.</value>
   </data>
   <data name="games_acro_running" xml:space="preserve">
-    <value></value>
+    <value>Gra w akrofobię już trwa na tym kanale</value>
   </data>
   <data name="games_acro_started" xml:space="preserve">
     <value>Gra rozpoczęta. Stwórz zdanie z podanym akronimem: {0}.</value>
@@ -1263,7 +1239,7 @@ Nowa wartość {0} to {1}!</value>
     <value>Generowanie przychodów zostało włączone na tym kanale.</value>
   </data>
   <data name="games_curgen_pl" xml:space="preserve">
-    <value></value>
+    <value>Pojawiło się {0} losowych {1}</value>
     <comment>plural</comment>
   </data>
   <data name="games_curgen_sn" xml:space="preserve">
@@ -1285,7 +1261,7 @@ Nowa wartość {0} to {1}!</value>
     <value>Rozpoczynanie gry w wisielca nie powiodło się.</value>
   </data>
   <data name="games_hangman_types" xml:space="preserve">
-    <value></value>
+    <value>Lista kategorii &quot;{0}hangman&quot;</value>
   </data>
   <data name="games_leaderboard" xml:space="preserve">
     <value>Ranking</value>
@@ -1301,7 +1277,7 @@ Nowa wartość {0} to {1}!</value>
     <comment>Kwoth picked 5*</comment>
   </data>
   <data name="games_planted" xml:space="preserve">
-    <value>{0} zasadził {1]</value>
+    <value>{0} zasadził {1}</value>
     <comment>Kwoth planted 5*</comment>
   </data>
   <data name="games_trivia_already_running" xml:space="preserve">
@@ -1344,7 +1320,7 @@ Nowa wartość {0} to {1}!</value>
     <value>{0} wygrał!</value>
   </data>
   <data name="games_ttt_matched_three" xml:space="preserve">
-    <value></value>
+    <value>Wygrana</value>
   </data>
   <data name="games_ttt_no_moves" xml:space="preserve">
     <value>Brak ruchów!</value>
@@ -1371,7 +1347,7 @@ Nowa wartość {0} to {1}!</value>
     <value>Domyślna głośność ustawiona na {0}%</value>
   </data>
   <data name="music_dir_queue_complete" xml:space="preserve">
-    <value></value>
+    <value>Koniec playlisty</value>
   </data>
   <data name="music_fairplay" xml:space="preserve">
     <value>fairplay</value>
@@ -1425,7 +1401,7 @@ Nowa wartość {0} to {1}!</value>
     <value>Odtwarzanie muzyki wstrzymane.</value>
   </data>
   <data name="music_player_queue" xml:space="preserve">
-    <value></value>
+    <value>Playlista odtwarzacza - strona {0}/{1}</value>
   </data>
   <data name="music_playing_song" xml:space="preserve">
     <value>Gra utwór</value>
@@ -1492,7 +1468,7 @@ Nowa wartość {0} to {1}!</value>
     <value>Powtarzanie playlisty włączone.</value>
   </data>
   <data name="music_set_music_channel" xml:space="preserve">
-    <value></value>
+    <value>Teraz wypiszę odtwarzane, skończone, wstrzymane i usunięte piosenki na tym kanale</value>
   </data>
   <data name="music_skipped_to" xml:space="preserve">
     <value>Przewinięto do `{0}:{1}`</value>
@@ -1582,10 +1558,10 @@ Nowa wartość {0} to {1}!</value>
     <value>Błędny drugi parametr. (Musi być to liczba od {0} do {1})</value>
   </data>
   <data name="permissions_invite_filter_channel_off" xml:space="preserve">
-    <value></value>
+    <value>Filtrowanie zaproszeń zostało zablokowane na tym serwerze.</value>
   </data>
   <data name="permissions_invite_filter_channel_on" xml:space="preserve">
-    <value></value>
+    <value>Filtrowanie zaproszeń zostało odblokowane na tym serwerze.</value>
   </data>
   <data name="permissions_invite_filter_server_off" xml:space="preserve">
     <value>Filtrowanie zaproszeń na tym serwerze wyłączone.</value>
@@ -1600,7 +1576,7 @@ Nowa wartość {0} to {1}!</value>
     <value>Nie znaleziono uprawnień w indeksie  #{0}</value>
   </data>
   <data name="permissions_no_costs" xml:space="preserve">
-    <value></value>
+    <value>Brak ustawionych kosztów</value>
   </data>
   <data name="permissions_of_command" xml:space="preserve">
     <value>komenda</value>
@@ -1736,13 +1712,13 @@ Nowa wartość {0} to {1}!</value>
   </data>
   <data name="searches_dropped" xml:space="preserve">
     <value>Porzucone</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="searches_episodes" xml:space="preserve">
     <value>Odcinki</value>
   </data>
   <data name="searches_error_occured" xml:space="preserve">
     <value>Wystąpił błąd.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_example" xml:space="preserve">
     <value>Przykład</value>
@@ -1775,13 +1751,13 @@ Nowa wartość {0} to {1}!</value>
     <value>Wyszukiwanie tego filmu nie powiodło się.</value>
   </data>
   <data name="searches_invalid_lang" xml:space="preserve">
-    <value></value>
+    <value>Błędny język źródłowy lub docelowy</value>
   </data>
   <data name="searches_jokes_not_loaded" xml:space="preserve">
     <value>Żarty nie zostały załadowane.</value>
   </data>
   <data name="searches_latlong" xml:space="preserve">
-    <value></value>
+    <value>Szerokość/Wysokość geograficzna</value>
   </data>
   <data name="searches_level" xml:space="preserve">
     <value>Poziom</value>
@@ -1848,7 +1824,7 @@ Nowa wartość {0} to {1}!</value>
     <value>Jakość:</value>
   </data>
   <data name="searches_quick_playtime" xml:space="preserve">
-    <value></value>
+    <value>Sumaryczny czas gry szybkiej</value>
   </data>
   <data name="searches_quick_wins" xml:space="preserve">
     <value>Szybkie wygrane</value>
@@ -1942,7 +1918,7 @@ Nowa wartość {0} to {1}!</value>
     <value>Nie znaleziono tego terminu na konkretnej wikii.</value>
   </data>
   <data name="searches_wikia_input_error" xml:space="preserve">
-    <value></value>
+    <value>Proszę wpisać wikię oraz zapytanie wyszukiwania</value>
   </data>
   <data name="searches_wiki_page_not_found" xml:space="preserve">
     <value>Strona nie została znaleziona.</value>
@@ -1960,7 +1936,7 @@ Nowa wartość {0} to {1}!</value>
     <value>Dołączył</value>
   </data>
   <data name="utility_activity_line" xml:space="preserve">
-    <value></value>
+    <value>`{0}. {1} [{2: F2} / s] - {3} ogółem</value>
     <comment>/s and total need to be localized to fit the context -
 `1.`</comment>
   </data>
@@ -1977,7 +1953,7 @@ Nowa wartość {0} to {1}!</value>
     <value>ID bota</value>
   </data>
   <data name="utility_calcops" xml:space="preserve">
-    <value></value>
+    <value>Lista funkcji komendy {0}calc</value>
   </data>
   <data name="utility_channelid" xml:space="preserve">
     <value>{0} tego kanału to {1}</value>
@@ -1986,7 +1962,7 @@ Nowa wartość {0} to {1}!</value>
     <value>Temat kanału</value>
   </data>
   <data name="utility_commands_ran" xml:space="preserve">
-    <value></value>
+    <value>Ilość uruchomionych komend</value>
   </data>
   <data name="utility_convert" xml:space="preserve">
     <value>{0} {1} wynosi {2} {3}</value>
@@ -1998,16 +1974,16 @@ Nowa wartość {0} to {1}!</value>
     <value>Nie można przekonwertować {0} na {1}: nie znaleziono jednostki</value>
   </data>
   <data name="utility_convert_type_error" xml:space="preserve">
-    <value></value>
+    <value>Nie mogę przeliczyć {0} na {1}: rodzaje jednostek są różne</value>
   </data>
   <data name="utility_created_at" xml:space="preserve">
     <value>Stworzono w</value>
   </data>
   <data name="utility_csc_join" xml:space="preserve">
-    <value></value>
+    <value>Dołączyłeś do międzyserwerowego kanału.</value>
   </data>
   <data name="utility_csc_leave" xml:space="preserve">
-    <value></value>
+    <value>Opuściłeś międzyserwerowy kanał.</value>
   </data>
   <data name="utility_csc_token" xml:space="preserve">
     <value>To jest twój token CSC</value>
@@ -2025,16 +2001,16 @@ Nowa wartość {0} to {1}!</value>
     <value>ID</value>
   </data>
   <data name="utility_index_out_of_range" xml:space="preserve">
-    <value></value>
+    <value>Indeks poza zakresem</value>
   </data>
   <data name="utility_inrole_list" xml:space="preserve">
     <value>Lista użytkowników w roli {0}</value>
   </data>
   <data name="utility_inrole_not_allowed" xml:space="preserve">
-    <value></value>
+    <value>Używanie tej komendy nie jest dozwolone na rolach z dużą ilością użytkowników aby uniknąć nadużywania jej</value>
   </data>
   <data name="utility_invalid_value" xml:space="preserve">
-    <value></value>
+    <value>Niepoprawna wartość {0}</value>
     <comment>Invalid months value/ Invalid hours value</comment>
   </data>
   <data name="utility_joined_discord" xml:space="preserve">
@@ -2052,7 +2028,8 @@ ID właściciela: {2}</value>
     <value>Nie znaleziono serwerów na tej stronie.</value>
   </data>
   <data name="utility_list_of_repeaters" xml:space="preserve">
-    <value></value>
+    <value>Lista powtarzanych wiadomości</value>
+    <comment>Shouldn&apos;t it be &quot;List of repeaters&quot;? Also, what is the context?</comment>
   </data>
   <data name="utility_members" xml:space="preserve">
     <value>Członkowie</value>
@@ -2064,7 +2041,7 @@ ID właściciela: {2}</value>
     <value>Wiadomości</value>
   </data>
   <data name="utility_message_repeater" xml:space="preserve">
-    <value></value>
+    <value>Powtarzanie wiadomości</value>
   </data>
   <data name="utility_name" xml:space="preserve">
     <value>Imię</value>
@@ -2076,7 +2053,7 @@ ID właściciela: {2}</value>
     <value>Nikt nie gra w tą grę.</value>
   </data>
   <data name="utility_no_active_repeaters" xml:space="preserve">
-    <value></value>
+    <value>Brak aktywnych powtarzanych wiadomości</value>
   </data>
   <data name="utility_no_roles_on_page" xml:space="preserve">
     <value>Brak roli na tej stronie.</value>
@@ -2108,7 +2085,8 @@ ID właściciela: {2}</value>
     <value>{0} strona cytatów</value>
   </data>
   <data name="utility_quotes_page_none" xml:space="preserve">
-    <value>Brak cytatów ona tej stronie.</value>
+    <value>Brak cytatów podanego ID tej stronie.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_quotes_remove_none" xml:space="preserve">
     <value>Nie znaleziono żadnych cytatów które możesz usunąć.</value>
@@ -2129,25 +2107,25 @@ ID właściciela: {2}</value>
     <value>Przypomnę {0} dla {2} `({3:d.M.yyyy.} o {4:HH:mm})`</value>
   </data>
   <data name="utility_remind_invalid_format" xml:space="preserve">
-    <value></value>
+    <value>Błędny format czasu. Sprawdź listę komend.</value>
   </data>
   <data name="utility_remind_template" xml:space="preserve">
-    <value></value>
+    <value>Ustawiono nowy wzór przypomnienia</value>
   </data>
   <data name="utility_repeater" xml:space="preserve">
     <value>Powtarzanie {0} co {1} dni, {2} godzin i {3} minut.</value>
   </data>
   <data name="utility_repeaters_list" xml:space="preserve">
-    <value></value>
+    <value>Lista powtarzanych wiadomości</value>
   </data>
   <data name="utility_repeaters_none" xml:space="preserve">
-    <value></value>
+    <value>Brak aktywnych powtarzanych wiadomości na serwerze</value>
   </data>
   <data name="utility_repeater_stopped" xml:space="preserve">
     <value>#{0} zatrzymany.</value>
   </data>
   <data name="utility_repeat_invoke_none" xml:space="preserve">
-    <value></value>
+    <value>Brak powtarzanych wiadomości na serwerze</value>
   </data>
   <data name="utility_result" xml:space="preserve">
     <value>Wynik</value>
@@ -2180,10 +2158,10 @@ ID właściciela: {2}</value>
     <value>Shard</value>
   </data>
   <data name="utility_shard_stats" xml:space="preserve">
-    <value>Statystyki odłamka</value>
+    <value>Statystyki shardu</value>
   </data>
   <data name="utility_shard_stats_txt" xml:space="preserve">
-    <value></value>
+    <value>Shard **#{0}** jest w stanie {1} z {2} serwerami</value>
   </data>
   <data name="utility_showemojis" xml:space="preserve">
     <value>**Nazwa:** {0} **Link:** {1}</value>
@@ -2204,7 +2182,7 @@ ID właściciela: {2}</value>
     <value>Czas działania</value>
   </data>
   <data name="utility_userid" xml:space="preserve">
-    <value></value>
+    <value>{0} użytkownika {1} to {2}</value>
     <comment>Id of the user kwoth#1234 is 123123123123</comment>
   </data>
   <data name="utility_users" xml:space="preserve">
@@ -2217,13 +2195,13 @@ ID właściciela: {2}</value>
     <value>Już dołączyłeś do tego wyścigu!</value>
   </data>
   <data name="games_current_poll_results" xml:space="preserve">
-    <value></value>
+    <value>Aktualny status ankiety</value>
   </data>
   <data name="games_no_votes_cast" xml:space="preserve">
     <value>Nie ma oddanych głosów.</value>
   </data>
   <data name="games_poll_already_running" xml:space="preserve">
-    <value>Ankieta już istnieje na tym serwerze.</value>
+    <value>Ankieta aktualnie trwa na tym serwerze.</value>
   </data>
   <data name="games_poll_created" xml:space="preserve">
     <value>📃 {0} stworzył ankietę, która wymaga twojej uwagi:</value>
@@ -2232,14 +2210,14 @@ ID właściciela: {2}</value>
     <value>`{0}.` {1} z {2} głosami.</value>
   </data>
   <data name="games_poll_voted" xml:space="preserve">
-    <value>{0} głosów.</value>
+    <value>{0} zagłosował.</value>
     <comment>Kwoth voted.</comment>
   </data>
   <data name="games_poll_vote_private" xml:space="preserve">
-    <value></value>
+    <value>Napisz do mnie prywatną wiadomość z numerem odpowiedzi</value>
   </data>
   <data name="games_poll_vote_public" xml:space="preserve">
-    <value></value>
+    <value>Wyślij tutaj wiadomość z numerem odpowiedzi</value>
   </data>
   <data name="games_thanks_for_voting" xml:space="preserve">
     <value>Dziękuję za oddany głos, {0}</value>
@@ -2278,10 +2256,10 @@ ID właściciela: {2}</value>
     <value>Uprawnienia kanału głosowego</value>
   </data>
   <data name="customreactions_crad_disabled" xml:space="preserve">
-    <value></value>
+    <value>Wiadomość wywołująca niestandardową reakcje z id {0} nie będzie automatycznie usuwana.</value>
   </data>
   <data name="customreactions_crad_enabled" xml:space="preserve">
-    <value></value>
+    <value>Wiadomość wywołująca niestandardową reakcje z id {0} będzie automatycznie usuwana.</value>
   </data>
   <data name="customreactions_crdm_disabled" xml:space="preserve">
     <value>Odpowiedź na niestandardową reakcję z id {0} będzie wysłana jako wiadomość prywatna.</value>
@@ -2290,31 +2268,31 @@ ID właściciela: {2}</value>
     <value>Odpowiedź na niestandardową reakcję z id {0} będzie wysłana jako wiadomość prywatna.</value>
   </data>
   <data name="utility_aliases_none" xml:space="preserve">
-    <value></value>
+    <value>Pseudonim nie znaleziony</value>
   </data>
   <data name="utility_alias_added" xml:space="preserve">
-    <value></value>
+    <value>{0} będzie teraz skrótem dla {1}</value>
   </data>
   <data name="utility_alias_list" xml:space="preserve">
     <value>Lista pseudonimów</value>
   </data>
   <data name="utility_alias_removed" xml:space="preserve">
-    <value></value>
+    <value>Słowo klucz {0} nie będzie już miało aliasu</value>
   </data>
   <data name="utility_alias_remove_fail" xml:space="preserve">
-    <value></value>
+    <value>Slowo klucz {0} nie miało aliasu.</value>
   </data>
   <data name="searches_compet_playtime" xml:space="preserve">
-    <value></value>
+    <value>Konkurencyjna gra.</value>
   </data>
   <data name="administration_channel" xml:space="preserve">
     <value>Kanał</value>
   </data>
   <data name="administration_command_text" xml:space="preserve">
-    <value></value>
+    <value>Tekst polecenia</value>
   </data>
   <data name="administration_kicked_pl" xml:space="preserve">
-    <value>Wyrzucony</value>
+    <value>Wyrzuceni</value>
     <comment>PLURAL</comment>
   </data>
   <data name="administration_moderator" xml:space="preserve">
@@ -2327,22 +2305,22 @@ ID właściciela: {2}</value>
     <value>Powód</value>
   </data>
   <data name="administration_scadd" xml:space="preserve">
-    <value></value>
+    <value>Komenda wykonywana podczas uruchomienia została dodana</value>
   </data>
   <data name="administration_scrm" xml:space="preserve">
-    <value></value>
+    <value>Komenda wykonywana podczas uruchomienia została usunięta</value>
   </data>
   <data name="administration_scrm_fail" xml:space="preserve">
-    <value></value>
+    <value>Komenda nieznaleziona na liście wykonywanej podczas uruchomienia</value>
   </data>
   <data name="administration_server" xml:space="preserve">
     <value>Serwer</value>
   </data>
   <data name="administration_startcmdlist_none" xml:space="preserve">
-    <value></value>
+    <value>Brak komend na tej stronie</value>
   </data>
   <data name="administration_startcmds_cleared" xml:space="preserve">
-    <value></value>
+    <value>Usunięto wszystkie komendy wykonywane podczas uruchomienia</value>
   </data>
   <data name="administration_unbanned_user" xml:space="preserve">
     <value>Użytkownik {0} został odbanowany.</value>
@@ -2354,81 +2332,199 @@ ID właściciela: {2}</value>
     <value>Użytkownik {0} został ostrzeżony.</value>
   </data>
   <data name="administration_user_warned_and_punished" xml:space="preserve">
-    <value></value>
+    <value>Użytkownik {0} został ostrzeżony i kara {1} została nałożona</value>
   </data>
   <data name="administration_warned_on" xml:space="preserve">
-    <value></value>
+    <value>Ostrzeżono na serwerze {0}</value>
   </data>
   <data name="administration_warned_on_by" xml:space="preserve">
     <value>Dnia {0} o godzinie {1} przez {2}</value>
   </data>
   <data name="administration_warnings_cleared" xml:space="preserve">
-    <value></value>
+    <value>Wszystkie ostrzeżenia użytkownika {0} zostały usunięte</value>
   </data>
   <data name="administration_warnings_none" xml:space="preserve">
-    <value></value>
+    <value>Brak ostrzeżeń na tej stronie</value>
   </data>
   <data name="administration_warnlog_for" xml:space="preserve">
-    <value></value>
+    <value>Lista ostrzeżeń dla {0}</value>
   </data>
   <data name="administration_warnpl_none" xml:space="preserve">
-    <value></value>
+    <value>Brak ustawionych kar</value>
   </data>
   <data name="administration_warn_cleared_by" xml:space="preserve">
-    <value></value>
+    <value>wyczyszczone przez {0}</value>
   </data>
   <data name="administration_warn_punish_list" xml:space="preserve">
-    <value></value>
+    <value>Lista kar za ostrzeżenia</value>
   </data>
   <data name="administration_warn_punish_rem" xml:space="preserve">
-    <value></value>
+    <value>Na użytkowników z {0} ostrzeżeniami już nie będzie nakładana kara.</value>
   </data>
   <data name="administration_warn_punish_set" xml:space="preserve">
-    <value></value>
+    <value>Nałożę karę {0} na użytkowników z {1} ostrzeżeniami</value>
   </data>
   <data name="administration_slowmodewl_role_start" xml:space="preserve">
-    <value></value>
+    <value>Tryb powolny nie będzie dotyczył rolii {0}.</value>
   </data>
   <data name="administration_slowmodewl_role_stop" xml:space="preserve">
-    <value></value>
+    <value>Tryb powolny już nie będzie dotyczyć rolii {0}.</value>
   </data>
   <data name="administration_slowmodewl_user_start" xml:space="preserve">
-    <value></value>
+    <value>Tryb powolny nie będzie dotyczył użytkownika {0}.</value>
   </data>
   <data name="administration_slowmodewl_user_stop" xml:space="preserve">
-    <value></value>
+    <value>Tryb powolny już nie będzie dotyczyć użytkownika {0}.</value>
+    <comment>Jak przetłumaczyć &quot;slowmode&quot;? &quot;Tryb spowolniony&quot; to taka trochę denerwująca kalka językowa...</comment>
   </data>
   <data name="utility_clpa_fail" xml:space="preserve">
-    <value></value>
+    <value>Błąd odbioru nagrody z jednego z następujących powodów</value>
   </data>
   <data name="utility_clpa_fail_already" xml:space="preserve">
-    <value></value>
+    <value>Możliwe że już odebrałeś swoją nagrodę w tym miesiącu. Możesz odbierać nagrody tylko raz na miesiąc, chyba że powiększysz swoją darowiznę</value>
   </data>
   <data name="utility_clpa_fail_already_title" xml:space="preserve">
-    <value></value>
+    <value>Już wynagrodzony
+</value>
   </data>
   <data name="utility_clpa_fail_conn" xml:space="preserve">
-    <value></value>
+    <value>Twoje konto Discord może nie być połączone z Patreon&apos;em. Jeśli nie jesteś pewien co to oznacza lub nie wiesz jak je połączyć - otwórz [stonę z ustawieniami konta Patreon](https://patreon.com/settings/account) i kliknij przycisk &quot;Connect to discord&quot; (połącz z Discord).</value>
   </data>
   <data name="utility_clpa_fail_conn_title" xml:space="preserve">
-    <value></value>
+    <value>Konto Discord nie połączone z Patreon</value>
   </data>
   <data name="utility_clpa_fail_sup" xml:space="preserve">
-    <value></value>
+    <value>Aby móc odebrać nagrodę musisz wesprzeć projekt Nadeko na Parteon. Możesz użyć komendy {0} żeby dostać link.</value>
   </data>
   <data name="utility_clpa_fail_sup_title" xml:space="preserve">
-    <value></value>
+    <value>Nie wspierasz</value>
   </data>
   <data name="utility_clpa_fail_wait" xml:space="preserve">
-    <value></value>
+    <value>Musisz poczekać kilka godzin po ofiarowaniu darowizny, jeśli tego nie zrobiłeś/aś, spróbuj ponownie później.</value>
   </data>
   <data name="utility_clpa_fail_wait_title" xml:space="preserve">
-    <value></value>
+    <value>Poczekaj chwilę</value>
   </data>
   <data name="utility_clpa_success" xml:space="preserve">
     <value>Otrzymałeś {0}. Dziękujemy, że wspierasz projekt!</value>
   </data>
   <data name="utility_clpa_too_early" xml:space="preserve">
+    <value>Nagrody mogą zostać odebrane piątego dnia każdego miesiąca lub później</value>
+  </data>
+  <data name="searches_time" xml:space="preserve">
+    <value>W {0} jest teraz {1} - {2}</value>
+    <comment>Time in London, UK is 15:30 - Time Zone Name</comment>
+  </data>
+  <data name="administration_rh" xml:space="preserve">
+    <value>Ustawiono wyświetlanie roli gildii {0} na {1}.</value>
+  </data>
+  <data name="gambling_name" xml:space="preserve">
+    <value>Imię</value>
+  </data>
+  <data name="gambling_shop" xml:space="preserve">
+    <value>Sklep</value>
+  </data>
+  <data name="gambling_shop_item_add" xml:space="preserve">
+    <value>Przedmiot dodany do sklepu</value>
+  </data>
+  <data name="gambling_shop_none" xml:space="preserve">
+    <value>Brak przedmiotów na tej stronie sklepu</value>
+  </data>
+  <data name="gambling_shop_role" xml:space="preserve">
+    <value>Dostaniesz rolę {0}.</value>
+  </data>
+  <data name="gambling_type" xml:space="preserve">
+    <value>Typ</value>
+  </data>
+  <data name="utility_clpa_next_update" xml:space="preserve">
+    <value>Następna aktualizacja za {0}</value>
+    <comment>Next update in 05:30</comment>
+  </data>
+  <data name="administration_global_perms_reset" xml:space="preserve">
+    <value>Uprawnienia globalne zostały zresetowane</value>
+  </data>
+  <data name="administration_gvc_disabled" xml:space="preserve">
+    <value>Opcja Czatu Głosowego gry została wyłączona na tym serwerze.</value>
+  </data>
+  <data name="administration_gvc_enabled" xml:space="preserve">
+    <value>{0} jest teraz Grą w Czacie głosowym.</value>
+  </data>
+  <data name="administration_not_in_voice" xml:space="preserve">
+    <value>Nie jesteś w kanale głosowym na tym serwerze</value>
+  </data>
+  <data name="gambling_item" xml:space="preserve">
+    <value>Przedmiot</value>
+  </data>
+  <data name="gambling_out_of_stock" xml:space="preserve">
+    <value>Brak w magazynie</value>
+  </data>
+  <data name="gambling_random_unique_item" xml:space="preserve">
+    <value>Losowy unikatowy przedmiot</value>
+  </data>
+  <data name="gambling_shop_buy_error" xml:space="preserve">
+    <value>Błąd przesyłania przedmiotu. Twoje pieniądze zostały zwrócone</value>
+  </data>
+  <data name="gambling_shop_item_not_found" xml:space="preserve">
+    <value>Brak przedmiotów o danym indeksie</value>
+  </data>
+  <data name="gambling_shop_item_purchase" xml:space="preserve">
+    <value>Zakup przedmiotu zakończony sukcesem</value>
+  </data>
+  <data name="gambling_shop_item_rm" xml:space="preserve">
+    <value>Przedmiot usunięty ze sklepu</value>
+  </data>
+  <data name="gambling_shop_item_wrong_type" xml:space="preserve">
+    <value>Ten wpis nie obsługuje dodawania przedmiotów</value>
+  </data>
+  <data name="gambling_shop_list_item_added" xml:space="preserve">
+    <value>Przedmiot zarejestrowany.</value>
+  </data>
+  <data name="gambling_shop_list_item_not_unique" xml:space="preserve">
+    <value>Ten przedmiot jest już zarejestrowany.</value>
+  </data>
+  <data name="gambling_shop_purchase" xml:space="preserve">
+    <value>Zakup na serwerze &quot;{0}&quot;</value>
+  </data>
+  <data name="gambling_shop_role_not_found" xml:space="preserve">
+    <value>Rola którą próbujesz kupić już nie istnieje.</value>
+  </data>
+  <data name="gambling_shop_role_purchase" xml:space="preserve">
+    <value>Zakupiono role &quot;{0}&quot;.</value>
+  </data>
+  <data name="gambling_shop_role_purchase_error" xml:space="preserve">
+    <value>Błąd podczas przypisywania roli. Twój zakup został zwrócony.</value>
+  </data>
+  <data name="gambling_unique_items_left" xml:space="preserve">
+    <value>Zostało {0} unikatowych przedmiotów.</value>
+  </data>
+  <data name="permissions_blocked_commands" xml:space="preserve">
+    <value>Zablokowane komendy.</value>
+  </data>
+  <data name="permissions_blocked_modules" xml:space="preserve">
+    <value>Zablokowane moduły.</value>
+  </data>
+  <data name="permissions_gcmd_add" xml:space="preserve">
+    <value>Komenda {0} została wyłączona na wszystkich serwerach.</value>
+  </data>
+  <data name="permissions_gcmd_remove" xml:space="preserve">
+    <value>Komenda {0} została włączona na wszystkich serwerach</value>
+  </data>
+  <data name="permissions_gmod_add" xml:space="preserve">
+    <value>Moduł {0} został wyłączony na wszystkich serwerach</value>
+  </data>
+  <data name="permissions_gmod_remove" xml:space="preserve">
+    <value>Moduł {0} został włączony na wszystkich serwerach</value>
+  </data>
+  <data name="permissions_lgp_none" xml:space="preserve">
+    <value>Brak zablokowanych komend i modułów</value>
+  </data>
+  <data name="gambling_animal_race_no_race" xml:space="preserve">
+    <value>Ten wyścig zwierzaków jest pełny!</value>
+  </data>
+  <data name="utility_cant_read_or_send" xml:space="preserve">
+    <value>Nie możesz czytać ani wysyłać wiadomości na tym kanale.</value>
+  </data>
+  <data name="utility_quotes_notfound" xml:space="preserve">
     <value></value>
   </data>
 

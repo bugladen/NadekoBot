@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -136,7 +136,7 @@
     <value>{0} claimed a base #{1} in a war against {2}</value>
   </data>
   <data name="clashofclans_claimed_other" xml:space="preserve">
-    <value>@{0} You already claimed base #{1}. You can't claim a new one.</value>
+    <value>@{0} You already claimed base #{1}. You can&apos;t claim a new one.</value>
   </data>
   <data name="clashofclans_claim_expired" xml:space="preserve">
     <value>Claim from @{0} in a war against {1} has expired.</value>
@@ -245,10 +245,10 @@
     <comment>Kwoth used punch:type_icon: on Sanity:type_icon: for 50 damage.</comment>
   </data>
   <data name="pokemon_cant_attack_again" xml:space="preserve">
-    <value>You can't attack again without retaliation!</value>
+    <value>You can&apos;t attack again without retaliation!</value>
   </data>
   <data name="pokemon_cant_attack_yourself" xml:space="preserve">
-    <value>You can't attack yourself.</value>
+    <value>You can&apos;t attack yourself.</value>
   </data>
   <data name="pokemon_fainted" xml:space="preserve">
     <value>{0} has fainted!</value>
@@ -260,16 +260,16 @@
     <value>{0} has {1} HP remaining.</value>
   </data>
   <data name="pokemon_invalid_move" xml:space="preserve">
-    <value>You can't use {0}. Type `{1}ml` to see a list of moves you can use.</value>
+    <value>You can&apos;t use {0}. Type `{1}ml` to see a list of moves you can use.</value>
   </data>
   <data name="pokemon_moves" xml:space="preserve">
     <value>Movelist for {0} type</value>
   </data>
   <data name="pokemon_not_effective" xml:space="preserve">
-    <value>It's not effective.</value>
+    <value>It&apos;s not effective.</value>
   </data>
   <data name="pokemon_no_currency" xml:space="preserve">
-    <value>You don't have enough {0}</value>
+    <value>You don&apos;t have enough {0}</value>
   </data>
   <data name="pokemon_revive_other" xml:space="preserve">
     <value>revived {0} with one {1}</value>
@@ -281,13 +281,13 @@
     <value>Your type has been changed to {0} for a {1}</value>
   </data>
   <data name="pokemon_somewhat_effective" xml:space="preserve">
-    <value>It's somewhat effective.</value>
+    <value>It&apos;s somewhat effective.</value>
   </data>
   <data name="pokemon_super_effective" xml:space="preserve">
-    <value>It's super effective!</value>
+    <value>It&apos;s super effective!</value>
   </data>
   <data name="pokemon_too_many_moves" xml:space="preserve">
-    <value>You used too many moves in a row, so you can't move!</value>
+    <value>You used too many moves in a row, so you can&apos;t move!</value>
   </data>
   <data name="pokemon_type_of_user" xml:space="preserve">
     <value>Type of {0} is {1}</value>
@@ -448,7 +448,7 @@ Reason: {1}</value>
     <value>Greet announcements enabled on this channel.</value>
   </data>
   <data name="administration_hierarchy" xml:space="preserve">
-    <value>You can't use this command on users with a role higher or equal to yours in the role hierarchy.</value>
+    <value>You can&apos;t use this command on users with a role higher or equal to yours in the role hierarchy.</value>
   </data>
   <data name="administration_images_loaded" xml:space="preserve">
     <value>Images loaded after {0} seconds!</value>
@@ -473,19 +473,19 @@ Reason: {1}</value>
     <value>List of languages</value>
   </data>
   <data name="administration_lang_set" xml:space="preserve">
-    <value>Your server's locale is now {0} - {1}</value>
+    <value>Your server&apos;s locale is now {0} - {1}</value>
   </data>
   <data name="administration_lang_set_bot" xml:space="preserve">
-    <value>Bot's default locale is now {0} - {1}</value>
+    <value>Bot&apos;s default locale is now {0} - {1}</value>
   </data>
   <data name="administration_lang_set_bot_show" xml:space="preserve">
-    <value>Bot's language is set to {0} - {1}</value>
+    <value>Bot&apos;s language is set to {0} - {1}</value>
   </data>
   <data name="administration_lang_set_fail" xml:space="preserve">
-    <value>Failed setting locale. Revisit this command's help.</value>
+    <value>Failed setting locale. Revisit this command&apos;s help.</value>
   </data>
   <data name="administration_lang_set_show" xml:space="preserve">
-    <value>This server's language is set to {0} - {1}</value>
+    <value>This server&apos;s language is set to {0} - {1}</value>
   </data>
   <data name="administration_left" xml:space="preserve">
     <value>{0} has left {1}</value>
@@ -538,10 +538,10 @@ Reason: {1}</value>
   </data>
   <data name="administration_muted_sn" xml:space="preserve">
     <value>Muted</value>
-    <comment>singular "User muted."</comment>
+    <comment>singular &quot;User muted.&quot;</comment>
   </data>
   <data name="administration_mute_error" xml:space="preserve">
-    <value>I don't have the permission necessary for that most likely.</value>
+    <value>I don&apos;t have the permission necessary for that most likely.</value>
   </data>
   <data name="administration_mute_role_set" xml:space="preserve">
     <value>New mute role set.</value>
@@ -562,7 +562,7 @@ Reason: {1}</value>
     <value>Nickname changed</value>
   </data>
   <data name="administration_no_server" xml:space="preserve">
-    <value>Can't find that server</value>
+    <value>Can&apos;t find that server</value>
   </data>
   <data name="administration_no_shard_id" xml:space="preserve">
     <value>No shard with that ID found.</value>
@@ -577,7 +577,7 @@ Reason: {1}</value>
     <value>Old topic</value>
   </data>
   <data name="administration_perms" xml:space="preserve">
-    <value>Error. Most likely I don't have sufficient permissions.</value>
+    <value>Error. Most likely I don&apos;t have sufficient permissions.</value>
   </data>
   <data name="administration_perms_reset" xml:space="preserve">
     <value>Permissions for this server are reset.</value>
@@ -622,7 +622,7 @@ Reason: {1}</value>
     <value>The parameters specified are invalid.</value>
   </data>
   <data name="administration_rc_perms" xml:space="preserve">
-    <value>Error occured due to invalid color or insufficient permissions.</value>
+    <value>Error occurred due to invalid color or insufficient permissions.</value>
   </data>
   <data name="administration_remrole" xml:space="preserve">
     <value>Successfully removed role {0} from user {1}</value>
@@ -637,7 +637,7 @@ Reason: {1}</value>
     <value>Failed to rename role. I have insufficient permissions.</value>
   </data>
   <data name="administration_renrole_perms" xml:space="preserve">
-    <value>You can't edit roles higher than your highest role.</value>
+    <value>You can&apos;t edit roles higher than your highest role.</value>
   </data>
   <data name="administration_reprm" xml:space="preserve">
     <value>Removed the playing message: {0}</value>
@@ -683,13 +683,13 @@ Reason: {1}</value>
     <value>That role is not self-assignable.</value>
   </data>
   <data name="administration_self_assign_not_have" xml:space="preserve">
-    <value>You don't have {0} role.</value>
+    <value>You don&apos;t have {0} role.</value>
   </data>
   <data name="administration_self_assign_no_excl" xml:space="preserve">
     <value>Self assigned roles are now not exclusive!</value>
   </data>
   <data name="administration_self_assign_perms" xml:space="preserve">
-    <value>I am unable to add that role to you. `I can't add roles to owners or other roles higher than my role in the role hierarchy.`</value>
+    <value>I am unable to add that role to you. `I can&apos;t add roles to owners or other roles higher than my role in the role hierarchy.`</value>
   </data>
   <data name="administration_self_assign_rem" xml:space="preserve">
     <value>{0} has been removed from the list of self-assignable roles.</value>
@@ -731,7 +731,7 @@ Reason: {1}</value>
     <value>Shutting down</value>
   </data>
   <data name="administration_slowmode_desc" xml:space="preserve">
-    <value>Users can't send more than {0} messages every {1} seconds.</value>
+    <value>Users can&apos;t send more than {0} messages every {1} seconds.</value>
   </data>
   <data name="administration_slowmode_disabled" xml:space="preserve">
     <value>Slow mode disabled.</value>
@@ -794,10 +794,10 @@ Reason: {1}</value>
     <value>{0} has been **muted** from text and voice chat.</value>
   </data>
   <data name="administration_user_role_add" xml:space="preserve">
-    <value>User's role added</value>
+    <value>User&apos;s role added</value>
   </data>
   <data name="administration_user_role_rem" xml:space="preserve">
-    <value>User's  role removed</value>
+    <value>User&apos;s  role removed</value>
   </data>
   <data name="administration_user_status_change" xml:space="preserve">
     <value>{0} is now {1}</value>
@@ -833,13 +833,13 @@ Reason: {1}</value>
     <value>Enabled voice + text feature.</value>
   </data>
   <data name="administration_vt_exit" xml:space="preserve">
-    <value>I don't have **manage roles** and/or **manage channels** permission, so I cannot run `voice+text` on {0} server.</value>
+    <value>I don&apos;t have **manage roles** and/or **manage channels** permission, so I cannot run `voice+text` on {0} server.</value>
   </data>
   <data name="administration_vt_no_admin" xml:space="preserve">
     <value>You are enabling/disabling this feature and **I do not have ADMINISTRATOR permissions**. This may cause some issues, and you will have to clean up text channels yourself afterwards.</value>
   </data>
   <data name="administration_vt_perms" xml:space="preserve">
-    <value>I require atleast **manage roles** and **manage channels** permissions to enable this feature. (preffered Administration permission)</value>
+    <value>I require at least **manage roles** and **manage channels** permissions to enable this feature. (prefferred Administration permission)</value>
   </data>
   <data name="administration_xmuted_text" xml:space="preserve">
     <value>User {0} from text chat</value>
@@ -861,7 +861,7 @@ Reason: {1}</value>
     <value>Migration done!</value>
   </data>
   <data name="adminsitration_migration_error" xml:space="preserve">
-    <value>Error while migrating, check bot's console for more information.</value>
+    <value>Error while migrating, check bot&apos;s console for more information.</value>
   </data>
   <data name="administration_presence_updates" xml:space="preserve">
     <value>Presence updates</value>
@@ -918,13 +918,13 @@ Reason: {1}</value>
     <value>Awarded {0} to {1} users from {2} role.</value>
   </data>
   <data name="gambling_max_bet_limit" xml:space="preserve">
-    <value>You can't bet more than {0}</value>
+    <value>You can&apos;t bet more than {0}</value>
   </data>
   <data name="gambling_min_bet_limit" xml:space="preserve">
-    <value>You can't bet less than {0}</value>
+    <value>You can&apos;t bet less than {0}</value>
   </data>
   <data name="gambling_not_enough" xml:space="preserve">
-    <value>You don't have enough {0}</value>
+    <value>You don&apos;t have enough {0}</value>
   </data>
   <data name="gambling_no_more_cards" xml:space="preserve">
     <value>No more cards in the deck.</value>
@@ -955,7 +955,7 @@ Reason: {1}</value>
   </data>
   <data name="gambling_sneakygamestatus_desc" xml:space="preserve">
     <value>Users must type a secret code to get {0}.
-Lasts {1} seconds. Don't tell anyone. Shhh.</value>
+Lasts {1} seconds. Don&apos;t tell anyone. Shhh.</value>
   </data>
   <data name="gambling_sneakygamestatus_end" xml:space="preserve">
     <value>SneakyGame event ended. {0} users received the reward.</value>
@@ -970,7 +970,7 @@ Lasts {1} seconds. Don't tell anyone. Shhh.</value>
     <value>successfully took {0} from {1}</value>
   </data>
   <data name="gambling_take_fail" xml:space="preserve">
-    <value>was unable to take {0} from{1} because the user doesn't have that much {2}!</value>
+    <value>was unable to take {0} from{1} because the user doesn&apos;t have that much {2}!</value>
   </data>
   <data name="help_back_to_toc" xml:space="preserve">
     <value>Back to ToC</value>
@@ -994,7 +994,7 @@ Lasts {1} seconds. Don't tell anyone. Shhh.</value>
     <value>Type `{0}h CommandName` to see the help for that specified command. e.g. `{0}h &gt;8ball`</value>
   </data>
   <data name="help_command_not_found" xml:space="preserve">
-    <value>I can't find that command. Please verify that the command exists before trying again.</value>
+    <value>I can&apos;t find that command. Please verify that the command exists before trying again.</value>
   </data>
   <data name="help_desc" xml:space="preserve">
     <value>Description</value>
@@ -1003,7 +1003,7 @@ Lasts {1} seconds. Don't tell anyone. Shhh.</value>
     <value>You can support the NadekoBot project on 
 Patreon &lt;{0}&gt; or
 Paypal &lt;{1}&gt;
-Don't forget to leave your discord name or id in the message.
+Don&apos;t forget to leave your discord name or id in the message.
 
 **Thank you** ♥️</value>
   </data>
@@ -1101,9 +1101,6 @@ Don't forget to leave your discord name or id in the message.
   <data name="gambling_likes" xml:space="preserve">
     <value>Likes</value>
   </data>
-  <data name="gambling_nobody" xml:space="preserve">
-    <value>Nobody</value>
-  </data>
   <data name="gambling_price" xml:space="preserve">
     <value>Price</value>
   </data>
@@ -1114,7 +1111,7 @@ Don't forget to leave your discord name or id in the message.
     <value>Top Waifus</value>
   </data>
   <data name="gambling_waifu_affinity_already" xml:space="preserve">
-    <value>your affinity is already set to that waifu or you're trying to remove your affinity while not having one.</value>
+    <value>your affinity is already set to that waifu or you&apos;re trying to remove your affinity while not having one.</value>
   </data>
   <data name="gambling_waifu_affinity_changed" xml:space="preserve">
     <value>changed their affinity from {0} to {1}.
@@ -1129,7 +1126,7 @@ Don't forget to leave your discord name or id in the message.
     <value>Your affinity is reset. You no longer have a person you like.</value>
   </data>
   <data name="gambling_waifu_affinity_set" xml:space="preserve">
-    <value>wants to be {0}'s waifu. Aww &lt;3</value>
+    <value>wants to be {0}&apos;s waifu. Aww &lt;3</value>
   </data>
   <data name="gambling_waifu_claimed" xml:space="preserve">
     <value>claimed {0} as their waifu for {1}!</value>
@@ -1138,15 +1135,12 @@ Don't forget to leave your discord name or id in the message.
     <value>You have divorced a waifu who likes you. You heartless monster.
 {0} received {1} as a compensation.</value>
   </data>
-  <data name="gambling_waifu_divorced_notlike" xml:space="preserve">
-    <value>You have divorced a waifu who doesn't like you. You received {0} back.</value>
-  </data>
   <data name="gambling_waifu_egomaniac" xml:space="preserve">
-    <value>you can't set affinity to yourself, you egomaniac.</value>
+    <value>you can&apos;t set affinity to yourself, you egomaniac.</value>
   </data>
   <data name="gambling_waifu_fulfilled" xml:space="preserve">
     <value>🎉 Their love is fulfilled! 🎉
-{0}'s new value is {1}!</value>
+{0}&apos;s new value is {1}!</value>
   </data>
   <data name="gambling_waifu_isnt_cheap" xml:space="preserve">
     <value>No waifu is that cheap. You must pay at least {0} to get a waifu, even if their actual value is lower.</value>
@@ -1158,10 +1152,16 @@ Don't forget to leave your discord name or id in the message.
     <value>That waifu is not yours.</value>
   </data>
   <data name="gambling_waifu_not_yourself" xml:space="preserve">
-    <value>You can't claim yourself.</value>
+    <value>You can&apos;t claim yourself.</value>
   </data>
   <data name="gambling_waifu_recent_divorce" xml:space="preserve">
     <value>You divorced recently. You must wait {0} hours and {1} minutes to divorce again.</value>
+  </data>
+  <data name="gambling_nobody" xml:space="preserve">
+    <value>Nobody</value>
+  </data>
+  <data name="gambling_waifu_divorced_notlike" xml:space="preserve">
+    <value>You have divorced a waifu who doesn&apos;t like you. You received {0} back.</value>
   </data>
   <data name="games_8ball" xml:space="preserve">
     <value>8ball</value>
@@ -1206,7 +1206,7 @@ Don't forget to leave your discord name or id in the message.
     <value>Question</value>
   </data>
   <data name="games_rps_draw" xml:space="preserve">
-    <value>It's a draw! Both picked {0}</value>
+    <value>It&apos;s a draw! Both picked {0}</value>
   </data>
   <data name="games_rps_win" xml:space="preserve">
     <value>{0} won! {1} beats {2}</value>
@@ -1216,12 +1216,6 @@ Don't forget to leave your discord name or id in the message.
   </data>
   <data name="gambling_animal_race_already_started" xml:space="preserve">
     <value>Animal Race is already running.</value>
-  </data>
-  <data name="gambling_animal_race_already_in" xml:space="preserve">
-    <value>You've already joined this race!</value>
-  </data>
-  <data name="gambling_animal_race_no_race" xml:space="preserve">
-    <value>This Animal Race is full!</value>
   </data>
   <data name="gambling_total_average" xml:space="preserve">
     <value>Total: {0} Average: {1}</value>
@@ -1264,13 +1258,13 @@ Don't forget to leave your discord name or id in the message.
     <value>Starting hangman errored.</value>
   </data>
   <data name="games_hangman_types" xml:space="preserve">
-    <value>List of "{0}hangman" term types:</value>
+    <value>List of &quot;{0}hangman&quot; term types:</value>
   </data>
   <data name="games_leaderboard" xml:space="preserve">
     <value>Leaderboard</value>
   </data>
   <data name="games_not_enough" xml:space="preserve">
-    <value>You don't have enough {0}</value>
+    <value>You don&apos;t have enough {0}</value>
   </data>
   <data name="games_no_results" xml:space="preserve">
     <value>No results</value>
@@ -1302,13 +1296,13 @@ Don't forget to leave your discord name or id in the message.
     <value>Stopping after this question.</value>
   </data>
   <data name="games_trivia_times_up" xml:space="preserve">
-    <value>Time's up! The correct answer was {0}</value>
+    <value>Time&apos;s up! The correct answer was {0}</value>
   </data>
   <data name="games_trivia_win" xml:space="preserve">
     <value>{0} guessed it and WON the game! The answer was: {1}</value>
   </data>
   <data name="games_ttt_against_yourself" xml:space="preserve">
-    <value>You can't play against yourself.</value>
+    <value>You can&apos;t play against yourself.</value>
   </data>
   <data name="games_ttt_already_running" xml:space="preserve">
     <value>TicTacToe Game is already running in this channel.</value>
@@ -1332,7 +1326,7 @@ Don't forget to leave your discord name or id in the message.
     <value>Time expired!</value>
   </data>
   <data name="games_ttt_users_move" xml:space="preserve">
-    <value>{0}'s move</value>
+    <value>{0}&apos;s move</value>
   </data>
   <data name="games_vs" xml:space="preserve">
     <value>{0} vs {1}</value>
@@ -1419,10 +1413,10 @@ Don't forget to leave your discord name or id in the message.
     <value>Playlist deleted.</value>
   </data>
   <data name="music_playlist_delete_fail" xml:space="preserve">
-    <value>Failed to delete that playlist. It either doesn't exist, or you are not its author.</value>
+    <value>Failed to delete that playlist. It either doesn&apos;t exist, or you are not its author.</value>
   </data>
   <data name="music_playlist_id_not_found" xml:space="preserve">
-    <value>Playlist with that ID doesn't exist.</value>
+    <value>Playlist with that ID doesn&apos;t exist.</value>
   </data>
   <data name="music_playlist_queue_complete" xml:space="preserve">
     <value>Playlist queue complete.</value>
@@ -1447,7 +1441,7 @@ Don't forget to leave your discord name or id in the message.
   </data>
   <data name="music_removed_song" xml:space="preserve">
     <value>Removed song</value>
-    <comment>context: "removed song #5"</comment>
+    <comment>context: &quot;removed song #5&quot;</comment>
   </data>
   <data name="music_repeating_cur_song" xml:space="preserve">
     <value>Repeating current song</value>
@@ -1576,14 +1570,14 @@ Don't forget to leave your discord name or id in the message.
     <value>Moved permission {0} from #{1} to #{2}</value>
   </data>
   <data name="permissions_not_found" xml:space="preserve">
-    <value>Can't find permission at index #{0}</value>
+    <value>Can&apos;t find permission at index #{0}</value>
   </data>
   <data name="permissions_no_costs" xml:space="preserve">
     <value>No costs set.</value>
   </data>
   <data name="permissions_of_command" xml:space="preserve">
     <value>command</value>
-    <comment>Gen. (of command)</comment>
+    <comment>Gen (of command)</comment>
   </data>
   <data name="permissions_of_module" xml:space="preserve">
     <value>module</value>
@@ -1675,7 +1669,7 @@ Don't forget to leave your discord name or id in the message.
     <value>Bad input format, or something went wrong.</value>
   </data>
   <data name="searches_card_not_found" xml:space="preserve">
-    <value>Couldn't find that card.</value>
+    <value>Couldn&apos;t find that card.</value>
   </data>
   <data name="searches_catfact" xml:space="preserve">
     <value>fact</value>
@@ -1720,7 +1714,7 @@ Don't forget to leave your discord name or id in the message.
     <value>Episodes</value>
   </data>
   <data name="searches_error_occured" xml:space="preserve">
-    <value>Error occured.</value>
+    <value>Error occurred.</value>
   </data>
   <data name="searches_example" xml:space="preserve">
     <value>Example</value>
@@ -1766,7 +1760,7 @@ Don't forget to leave your discord name or id in the message.
   </data>
   <data name="searches_list_of_place_tags" xml:space="preserve">
     <value>List of {0}place tags</value>
-    <comment>Don't translate {0}place</comment>
+    <comment>Don&apos;t translate {0}place</comment>
   </data>
   <data name="searches_location" xml:space="preserve">
     <value>Location</value>
@@ -1775,10 +1769,10 @@ Don't forget to leave your discord name or id in the message.
     <value>Magic Items not loaded.</value>
   </data>
   <data name="searches_mal_profile" xml:space="preserve">
-    <value>{0}'s MAL profile</value>
+    <value>{0}&apos;s MAL profile</value>
   </data>
   <data name="searches_mashape_api_missing" xml:space="preserve">
-    <value>Bot owner didn't specify MashapeApiKey. You can't use this functionality.</value>
+    <value>Bot owner didn&apos;t specify MashapeApiKey. You can&apos;t use this functionality.</value>
   </data>
   <data name="searches_min_max" xml:space="preserve">
     <value>Min/Max</value>
@@ -1874,10 +1868,10 @@ Don't forget to leave your discord name or id in the message.
     <value>No such stream.</value>
   </data>
   <data name="searches_stream_not_exist" xml:space="preserve">
-    <value>Stream probably doesn't exist.</value>
+    <value>Stream probably doesn&apos;t exist.</value>
   </data>
   <data name="searches_stream_removed" xml:space="preserve">
-    <value>Removed {0}'s stream ({1}) from notifications.</value>
+    <value>Removed {0}&apos;s stream ({1}) from notifications.</value>
   </data>
   <data name="searches_stream_tracked" xml:space="preserve">
     <value>I will notify this channel when status changes.</value>
@@ -1939,7 +1933,7 @@ Don't forget to leave your discord name or id in the message.
   <data name="utility_activity_line" xml:space="preserve">
     <value>`{0}.` {1} [{2:F2}/s] - {3} total</value>
     <comment>/s and total need to be localized to fit the context -
-`1.` </comment>
+`1.`</comment>
   </data>
   <data name="utility_activity_page" xml:space="preserve">
     <value>Activity page #{0}</value>
@@ -2087,9 +2081,6 @@ Owner ID: {2}</value>
   <data name="utility_quotes_page_none" xml:space="preserve">
     <value>No quotes found on that page.</value>
   </data>
-  <data name="utility_quotes_notfound" xml:space="preserve">
-    <value>No quotes found matching the quote ID specified.</value>
-  </data>
   <data name="utility_quotes_remove_none" xml:space="preserve">
     <value>No quotes found which you can remove.</value>
   </data>
@@ -2107,9 +2098,6 @@ Owner ID: {2}</value>
   </data>
   <data name="utility_remind" xml:space="preserve">
     <value>I will remind {0} to {1} in {2} `({3:d.M.yyyy.} at {4:HH:mm})`</value>
-  </data>
-  <data name="utility_cant_read_or_send" xml:space="preserve">
-    <value>You can't read from or send messages to that channel.</value>
   </data>
   <data name="utility_remind_invalid_format" xml:space="preserve">
     <value>Not a valid time format. Check the commandlist.</value>
@@ -2148,7 +2136,7 @@ Owner ID: {2}</value>
     <value>No colors are in the correct format. Use `#00ff00` for example.</value>
   </data>
   <data name="utility_rrc_start" xml:space="preserve">
-    <value>Started rotating {0} role's color.</value>
+    <value>Started rotating {0} role&apos;s color.</value>
   </data>
   <data name="utility_rrc_stop" xml:space="preserve">
     <value>Stopped rotating colors for the {0} role</value>
@@ -2195,6 +2183,9 @@ Owner ID: {2}</value>
   </data>
   <data name="utility_voice_channels" xml:space="preserve">
     <value>Voice channels</value>
+  </data>
+  <data name="gambling_animal_race_already_in" xml:space="preserve">
+    <value>You&apos;ve already joined this race!</value>
   </data>
   <data name="games_current_poll_results" xml:space="preserve">
     <value>Current poll results</value>
@@ -2258,13 +2249,13 @@ Owner ID: {2}</value>
     <value>Voice channel roles</value>
   </data>
   <data name="customreactions_crad_disabled" xml:space="preserve">
-    <value>Message triggering the custom reaction with id {0} won't get automatically deleted.</value>
+    <value>Message triggering the custom reaction with id {0} won&apos;t get automatically deleted.</value>
   </data>
   <data name="customreactions_crad_enabled" xml:space="preserve">
     <value>Message triggering the custom reaction with id {0} will get automatically deleted.</value>
   </data>
   <data name="customreactions_crdm_disabled" xml:space="preserve">
-    <value>Response message for the custom reaction with id {0} won't be sent as a DM.</value>
+    <value>Response message for the custom reaction with id {0} won&apos;t be sent as a DM.</value>
   </data>
   <data name="customreactions_crdm_enabled" xml:space="preserve">
     <value>Response message for the custom reaction with id {0} will be sent as a DM.</value>
@@ -2282,7 +2273,7 @@ Owner ID: {2}</value>
     <value>Trigger {0} no longer has an alias.</value>
   </data>
   <data name="utility_alias_remove_fail" xml:space="preserve">
-    <value>Trigger {0} didn't have an alias.</value>
+    <value>Trigger {0} didn&apos;t have an alias.</value>
   </data>
   <data name="searches_compet_playtime" xml:space="preserve">
     <value>Competitive playtime</value>
@@ -2382,13 +2373,13 @@ Owner ID: {2}</value>
     <value>Failed claiming rewards due to one of the following reasons:</value>
   </data>
   <data name="utility_clpa_fail_already" xml:space="preserve">
-    <value>Maybe you've already received your reward for this month. You can receive rewards only once a month unless you increase your pledge.</value>
+    <value>Maybe you&apos;ve already received your reward for this month. You can receive rewards only once a month unless you increase your pledge.</value>
   </data>
   <data name="utility_clpa_fail_already_title" xml:space="preserve">
     <value>Already rewarded</value>
   </data>
   <data name="utility_clpa_fail_conn" xml:space="preserve">
-    <value>Your discord account might not be connected to Patreon. If you are unsure what that means, or don't know how to connect it - you have to go to [Patreon account settings page](https://patreon.com/settings/account) and click 'Connect to discord' button.</value>
+    <value>Your discord account might not be connected to Patreon. If you are unsure what that means, or don&apos;t know how to connect it - you have to go to [Patreon account settings page](https://patreon.com/settings/account) and click &apos;Connect to discord&apos; button.</value>
   </data>
   <data name="utility_clpa_fail_conn_title" xml:space="preserve">
     <value>Discord account not connected</value>
@@ -2400,13 +2391,13 @@ Owner ID: {2}</value>
     <value>Not supporting</value>
   </data>
   <data name="utility_clpa_fail_wait" xml:space="preserve">
-    <value>You have to wait a few hours after making your pledge, if you didn't, try again later.</value>
+    <value>You have to wait a few hours after making your pledge, if you didn&apos;t, try again later.</value>
   </data>
   <data name="utility_clpa_fail_wait_title" xml:space="preserve">
     <value>Wait some time</value>
   </data>
   <data name="utility_clpa_success" xml:space="preserve">
-    <value>You've received {0} Thanks for supporting the project!</value>
+    <value>You&apos;ve received {0} Thanks for supporting the project!</value>
   </data>
   <data name="utility_clpa_too_early" xml:space="preserve">
     <value>Rewards can be claimed on or after 5th of each month.</value>
@@ -2462,7 +2453,7 @@ Owner ID: {2}</value>
     <value>Random unique item.</value>
   </data>
   <data name="gambling_shop_buy_error" xml:space="preserve">
-    <value>Error DMing item. You've been refunded.</value>
+    <value>Error DMing item. You&apos;ve been refunded.</value>
   </data>
   <data name="gambling_shop_item_not_found" xml:space="preserve">
     <value>No item on that index found.</value>
@@ -2489,7 +2480,7 @@ Owner ID: {2}</value>
     <value>Role which is being sold no longer exists.</value>
   </data>
   <data name="gambling_shop_role_purchase" xml:space="preserve">
-    <value>You've successfully purchased {0} role.</value>
+    <value>You&apos;ve successfully purchased {0} role.</value>
   </data>
   <data name="gambling_shop_role_purchase_error" xml:space="preserve">
     <value>Error assigning role. Your purchase has been refunded.</value>
@@ -2518,4 +2509,14 @@ Owner ID: {2}</value>
   <data name="permissions_lgp_none" xml:space="preserve">
     <value>No blocked commands or modules.</value>
   </data>
+  <data name="gambling_animal_race_no_race" xml:space="preserve">
+    <value>This Animal Race is full!</value>
+  </data>
+  <data name="utility_cant_read_or_send" xml:space="preserve">
+    <value>You can&apos;t read from or send messages to that channel.</value>
+  </data>
+  <data name="utility_quotes_notfound" xml:space="preserve">
+    <value>No quotes found matching the quote ID specified.</value>
+  </data>
+
 </root>

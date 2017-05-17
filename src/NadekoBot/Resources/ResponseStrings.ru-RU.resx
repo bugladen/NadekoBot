@@ -193,7 +193,7 @@
     <value>Настраиваемая реакция удалена</value>
   </data>
   <data name="customreactions_insuff_perms" xml:space="preserve">
-    <value>Недостаточно прав. Необходимо иметь права владельца бота для глобальных настраиваемых реакций, и права Администратора для реакций по серверу.</value>
+    <value>Недостаточно разрешений. Необходимо иметь разрешение владельца бота для глобальных настраиваемых реакций, и разрешение Администратора для реакций по серверу.</value>
   </data>
   <data name="customreactions_list_all" xml:space="preserve">
     <value>Список всех настраиваемых реакций</value>
@@ -540,7 +540,7 @@
     <comment>singular &quot;User muted.&quot;</comment>
   </data>
   <data name="administration_mute_error" xml:space="preserve">
-    <value>Похоже, у меня нет необходимых прав.</value>
+    <value>Похоже, у меня нет необходимых разрешений.</value>
   </data>
   <data name="administration_mute_role_set" xml:space="preserve">
     <value>Новая роль заглушения установлена.</value>
@@ -579,7 +579,7 @@
     <value>Ошибка. Скорее всего мне не хватает прав.</value>
   </data>
   <data name="administration_perms_reset" xml:space="preserve">
-    <value>Права для этого сервера были сброшены.</value>
+    <value>Разрешения для этого сервера были сброшены.</value>
   </data>
   <data name="administration_prot_active" xml:space="preserve">
     <value>Активные защиты от рейдов</value>
@@ -622,6 +622,7 @@
   </data>
   <data name="administration_rc_perms" xml:space="preserve">
     <value>Возникла ошибка из-за недействительного цвета или недостаточных разрешений.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_remrole" xml:space="preserve">
     <value>Успешно убрана роль {0} пользователя {1}.</value>
@@ -640,11 +641,11 @@
   </data>
   <data name="administration_reprm" xml:space="preserve">
     <value>Удалено повторяющееся сообщение: {0}</value>
-    <comment>What does it mean?
-Fuzzy</comment>
+    <comment>What does it mean?</comment>
   </data>
   <data name="administration_role_added" xml:space="preserve">
-    <value>Роль {0} добавлена в лист.</value>
+    <value>Роль {0} добавлена в список.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_role_clean" xml:space="preserve">
     <value>Роль {0} не найдена. Чат очищен.</value>
@@ -706,7 +707,7 @@ Fuzzy</comment>
     <value>Успешно добавлена роль {0} пользователю {1}</value>
   </data>
   <data name="administration_setrole_err" xml:space="preserve">
-    <value>Не удалось добавить роль. Недостаточно прав.</value>
+    <value>Не удалось добавить роль. Недостаточно разрешений.</value>
   </data>
   <data name="administration_set_avatar" xml:space="preserve">
     <value>Новый аватар установлен!</value>
@@ -743,8 +744,7 @@ Fuzzy</comment>
   </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
     <value>выгнаны</value>
-    <comment>PLURAL
-Fuzzy</comment>
+    <comment>PLURAL</comment>
   </data>
   <data name="administration_spam_ignore" xml:space="preserve">
     <value>{0} будет игнорировать данный канал.</value>
@@ -843,6 +843,7 @@ Fuzzy</comment>
   </data>
   <data name="administration_vt_perms" xml:space="preserve">
     <value>Для этого свойства требуются как минимум разрешения **управление ролями** и **управление каналами**. (Рекомендуется разрешение Администратор)</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_xmuted_text" xml:space="preserve">
     <value>Пользователь {0} в текстовом чате</value>
@@ -933,7 +934,6 @@ Fuzzy</comment>
   </data>
   <data name="gambling_raffled_user" xml:space="preserve">
     <value>Победитель лотереи</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_roll" xml:space="preserve">
     <value>Вам выпало {0}.</value>
@@ -988,7 +988,6 @@ Fuzzy</comment>
   </data>
   <data name="help_cmd_and_alias" xml:space="preserve">
     <value>Команды и альтернативные имена команд</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="help_commandlist_regen" xml:space="preserve">
     <value>Список команд создан.</value>
@@ -1094,7 +1093,6 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="gambling_changes_of_heart" xml:space="preserve">
     <value>Изменения в чувствах</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_claimed_by" xml:space="preserve">
     <value>Является мужем</value>
@@ -1357,12 +1355,10 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="music_fp_disabled" xml:space="preserve">
     <value>Отключено честное воспроизведение.</value>
-    <comment>&quot;Честное воспроизведение&quot; не подойдет?
-Fuzzy</comment>
+    <comment>&quot;Честное воспроизведение&quot; не подойдет?</comment>
   </data>
   <data name="music_fp_enabled" xml:space="preserve">
     <value>Включено честное воспроизведение.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="music_from_position" xml:space="preserve">
     <value>С момента</value>
@@ -1532,7 +1528,6 @@ Fuzzy</comment>
   </data>
   <data name="permissions_cmdcd_cleared" xml:space="preserve">
     <value>У команды {0} больше нет времени перезарядки и все существующие перезарядки были сброшены.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_cmdcd_none" xml:space="preserve">
     <value>У команды не установлено время перезарядки.</value>
@@ -1574,13 +1569,13 @@ Fuzzy</comment>
     <value>Включена фильтрация приглашений в этом сервере.</value>
   </data>
   <data name="permissions_moved_permission" xml:space="preserve">
-    <value>Передано право {0} с #{1} to #{2}</value>
+    <value>Передано разрешение {0} с #{1} в #{2}</value>
   </data>
   <data name="permissions_not_found" xml:space="preserve">
-    <value>Не найдено право с номером #{0}</value>
+    <value>Не найдено разрешение с номером #{0}</value>
   </data>
   <data name="permissions_no_costs" xml:space="preserve">
-    <value>Стоимостой не установлено</value>
+    <value>Стоимости не установлены.</value>
   </data>
   <data name="permissions_of_command" xml:space="preserve">
     <value>команда</value>
@@ -1591,19 +1586,19 @@ Fuzzy</comment>
     <comment>Gen. (of module)</comment>
   </data>
   <data name="permissions_page" xml:space="preserve">
-    <value>Страница прав {0}</value>
+    <value>Страница разрешений {0}</value>
   </data>
   <data name="permissions_permrole" xml:space="preserve">
-    <value>Текущая роль прав — {0}</value>
+    <value>Текущая роль разрешений — {0}</value>
   </data>
   <data name="permissions_permrole_changed" xml:space="preserve">
-    <value>Пользователям требуется роль {0} для редактирования прав.</value>
+    <value>Пользователям требуется роль {0} для редактирования разрешений.</value>
   </data>
   <data name="permissions_perm_out_of_range" xml:space="preserve">
-    <value>Не найдено прав с таким номером.</value>
+    <value>Не найдено разрешения с таким номером.</value>
   </data>
   <data name="permissions_removed" xml:space="preserve">
-    <value>Удалены права #{0} - {1}</value>
+    <value>удалил разрешение #{0} - {1}</value>
   </data>
   <data name="permissions_rx_disable" xml:space="preserve">
     <value>Отключено использование {0} {1} для роли {2}.</value>
@@ -1634,10 +1629,10 @@ Fuzzy</comment>
     <value>Включено использование {0} {1} для пользователя {2}.</value>
   </data>
   <data name="permissions_verbose_false" xml:space="preserve">
-    <value>Оповещения о правах больше не будут показываться в чате.</value>
+    <value>Оповещения о разрешениях больше не будут показываться в чате.</value>
   </data>
   <data name="permissions_verbose_true" xml:space="preserve">
-    <value>Оповещения о правах будут показываться в чате.</value>
+    <value>Оповещения о разрешениях будут показываться в чате.</value>
   </data>
   <data name="permissions_word_filter_channel_off" xml:space="preserve">
     <value>В данном канале отключена фильтрация слов.</value>
@@ -1721,7 +1716,8 @@ Fuzzy</comment>
     <value>Эпизоды</value>
   </data>
   <data name="searches_error_occured" xml:space="preserve">
-    <value>Произошла ошибка</value>
+    <value>Произошла ошибка.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_example" xml:space="preserve">
     <value>Образец</value>
@@ -2087,7 +2083,8 @@ ID Владельца: {2}</value>
     <value>Страница {0} цитат</value>
   </data>
   <data name="utility_quotes_page_none" xml:space="preserve">
-    <value>На этой странице нет цитат.</value>
+    <value>Не найдено цитат на этой странице.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_quotes_remove_none" xml:space="preserve">
     <value>Не найдено цитат, пригодных для удаления.</value>
@@ -2258,40 +2255,31 @@ ID Владельца: {2}</value>
   </data>
   <data name="customreactions_crad_disabled" xml:space="preserve">
     <value>Сообщение, инициирующее настраиваемую реакцию с номером {0}, не будет автоматически удалено.</value>
-    <comment>Изменил &quot;ИД&quot; на &quot;номером&quot;
-Fuzzy</comment>
+    <comment>Изменил &quot;ИД&quot; на &quot;номером&quot;</comment>
   </data>
   <data name="customreactions_crad_enabled" xml:space="preserve">
     <value>Сообщение, инициирующее настраиваемую реакцию с номером {0}, будет автоматически удалено.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="customreactions_crdm_disabled" xml:space="preserve">
     <value>Ответное сообщение для настраиваемой реакции с номером {0} не будет отправлено в ЛС.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="customreactions_crdm_enabled" xml:space="preserve">
     <value>Ответное сообщение для настраиваемой реакции с номером {0} будет отправлено в ЛС.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="utility_aliases_none" xml:space="preserve">
     <value>Альтернативная команда не найдена</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="utility_alias_added" xml:space="preserve">
     <value>{0} теперь будет альтернативной командой для {1}.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="utility_alias_list" xml:space="preserve">
     <value>Список альтернативных команд</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="utility_alias_removed" xml:space="preserve">
     <value>У триггера {0} больше нет альтернативных команд.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="utility_alias_remove_fail" xml:space="preserve">
     <value>У триггера {0} не было альтернативных команд.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="searches_compet_playtime" xml:space="preserve">
     <value>Время в игре</value>
@@ -2317,26 +2305,21 @@ Fuzzy</comment>
   </data>
   <data name="administration_scadd" xml:space="preserve">
     <value>Новая команда автозапуска добавлена.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_scrm" xml:space="preserve">
     <value>Новая команда автозапуска успешно удалена.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_scrm_fail" xml:space="preserve">
     <value>Команда автозапуска не найдена.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_server" xml:space="preserve">
     <value>Сервер</value>
   </data>
   <data name="administration_startcmdlist_none" xml:space="preserve">
     <value>Не найдено команд автозапуска на этой странице.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_startcmds_cleared" xml:space="preserve">
     <value>Удалены все команды автозапуска.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_unbanned_user" xml:space="preserve">
     <value>Пользователь {0} был разбанен.</value>
@@ -2346,18 +2329,15 @@ Fuzzy</comment>
   </data>
   <data name="administration_user_warned" xml:space="preserve">
     <value>Пользователь {0} получил предупреждение.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_user_warned_and_punished" xml:space="preserve">
     <value>Пользователь {0} получил предупреждение и наказание {1} было применено.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_warned_on" xml:space="preserve">
     <value>Предупреждение было вынесено на сервере {0}</value>
   </data>
   <data name="administration_warned_on_by" xml:space="preserve">
     <value>{0} в {1} пользователем {2}</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_warnings_cleared" xml:space="preserve">
     <value>Все предупреждения были удалены для пользователя {0}.</value>
@@ -2367,26 +2347,21 @@ Fuzzy</comment>
   </data>
   <data name="administration_warnlog_for" xml:space="preserve">
     <value>Регистрация предупреждений для пользователя {0}</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_warnpl_none" xml:space="preserve">
     <value>Наказания не выставлены.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_warn_cleared_by" xml:space="preserve">
     <value>очищен пользователем {0}</value>
   </data>
   <data name="administration_warn_punish_list" xml:space="preserve">
     <value>Список наказаний для предупреждений</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_warn_punish_rem" xml:space="preserve">
     <value>Наказание больше не будет применено после {0} предупреждений.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_warn_punish_set" xml:space="preserve">
     <value>Для пользователей с {1} предупреждениями будет применено наказание {0}.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="administration_slowmodewl_role_start" xml:space="preserve">
     <value>Медленный режим больше не распространяется на роль {0}.</value>
@@ -2432,6 +2407,125 @@ Fuzzy</comment>
   </data>
   <data name="utility_clpa_too_early" xml:space="preserve">
     <value>Награды могут быть получены только начиная с 5-го числа месяца.</value>
+  </data>
+  <data name="searches_time" xml:space="preserve">
+    <value>Время в {0} сейчас {1} - {2}</value>
+    <comment>Time in London, UK is 15:30 - Time Zone Name</comment>
+  </data>
+  <data name="administration_rh" xml:space="preserve">
+    <value>Изменено отображение роли {0}, отображаемой отдельно от участников онлайн, на {1}.</value>
+  </data>
+  <data name="gambling_name" xml:space="preserve">
+    <value>Название</value>
+  </data>
+  <data name="gambling_shop" xml:space="preserve">
+    <value>Магазин</value>
+  </data>
+  <data name="gambling_shop_item_add" xml:space="preserve">
+    <value>Предмет для покупки был добавлен</value>
+  </data>
+  <data name="gambling_shop_none" xml:space="preserve">
+    <value>На этой странице нет предметов для покупки.</value>
+  </data>
+  <data name="gambling_shop_role" xml:space="preserve">
+    <value>Вы получите роль {0}</value>
+  </data>
+  <data name="gambling_type" xml:space="preserve">
+    <value>Вид</value>
+  </data>
+  <data name="utility_clpa_next_update" xml:space="preserve">
+    <value>Следующее обновление в {0}</value>
+    <comment>Next update in 05:30</comment>
+  </data>
+  <data name="administration_global_perms_reset" xml:space="preserve">
+    <value>Глобальные разрешения были сброшены.</value>
+  </data>
+  <data name="administration_gvc_disabled" xml:space="preserve">
+    <value>Функция Игрового Голосового Канала отключена на этом сервере.</value>
+  </data>
+  <data name="administration_gvc_enabled" xml:space="preserve">
+    <value>{0} теперь является Игровым Голосовом Каналом.</value>
+  </data>
+  <data name="administration_not_in_voice" xml:space="preserve">
+    <value>Вы не находитесь в голосовом канале на этом сервере.</value>
+  </data>
+  <data name="gambling_item" xml:space="preserve">
+    <value>Предмет</value>
+  </data>
+  <data name="gambling_out_of_stock" xml:space="preserve">
+    <value>Закончились.</value>
+    <comment>Is it plural?</comment>
+  </data>
+  <data name="gambling_random_unique_item" xml:space="preserve">
+    <value>Случайный уникальный предмет.</value>
+  </data>
+  <data name="gambling_shop_buy_error" xml:space="preserve">
+    <value>Ошибка при отправке сообщения в ЛС. Ваши деньги возвращены.</value>
+  </data>
+  <data name="gambling_shop_item_not_found" xml:space="preserve">
+    <value>Ни одного предмета с этим номером не было найдено.</value>
+  </data>
+  <data name="gambling_shop_item_purchase" xml:space="preserve">
+    <value>Покупка предмета прошла успешно.</value>
+  </data>
+  <data name="gambling_shop_item_rm" xml:space="preserve">
+    <value>Предмет для покупки был удален</value>
+  </data>
+  <data name="gambling_shop_item_wrong_type" xml:space="preserve">
+    <value>Этот отдел магазина не поддерживает добавление предметов.</value>
+    <comment>Перевел как смог, оставляю на вас, ребят</comment>
+  </data>
+  <data name="gambling_shop_list_item_added" xml:space="preserve">
+    <value>Предмет успешно добавлен.</value>
+  </data>
+  <data name="gambling_shop_list_item_not_unique" xml:space="preserve">
+    <value>Этот предмет уже был добавлен.</value>
+  </data>
+  <data name="gambling_shop_purchase" xml:space="preserve">
+    <value>Покупка на {0} сервере</value>
+    <comment>Used noun, correct me if I&apos;m wrong</comment>
+  </data>
+  <data name="gambling_shop_role_not_found" xml:space="preserve">
+    <value>Роль, которая была продана, больше не существует.</value>
+  </data>
+  <data name="gambling_shop_role_purchase" xml:space="preserve">
+    <value>Вы успешно купили роль {0}.</value>
+  </data>
+  <data name="gambling_shop_role_purchase_error" xml:space="preserve">
+    <value>Ошибка при выдаче роли. Ваша покупка была сброшена.</value>
+  </data>
+  <data name="gambling_unique_items_left" xml:space="preserve">
+    <value>Осталось {0} уникальных предметов.</value>
+  </data>
+  <data name="permissions_blocked_commands" xml:space="preserve">
+    <value>Заблокированные Команды</value>
+  </data>
+  <data name="permissions_blocked_modules" xml:space="preserve">
+    <value>Заблокированные Модули</value>
+  </data>
+  <data name="permissions_gcmd_add" xml:space="preserve">
+    <value>Команда {0} была отключена на всех серверах.</value>
+  </data>
+  <data name="permissions_gcmd_remove" xml:space="preserve">
+    <value>Команда {0} была включена на всех серверах.</value>
+  </data>
+  <data name="permissions_gmod_add" xml:space="preserve">
+    <value>Модуль {0} был отключен на всех серверах.</value>
+  </data>
+  <data name="permissions_gmod_remove" xml:space="preserve">
+    <value>Модуль {0} был включен на всех серверах.</value>
+  </data>
+  <data name="permissions_lgp_none" xml:space="preserve">
+    <value>Нет заблокированных команд или модулей.</value>
+  </data>
+  <data name="gambling_animal_race_no_race" xml:space="preserve">
+    <value>В этой гонке не осталось мест!</value>
+  </data>
+  <data name="utility_cant_read_or_send" xml:space="preserve">
+    <value>Вы не можете читать или отправлять сообщения в этом канале.</value>
+  </data>
+  <data name="utility_quotes_notfound" xml:space="preserve">
+    <value>Не найдено цитат с таким номером.</value>
   </data>
 
 </root>
