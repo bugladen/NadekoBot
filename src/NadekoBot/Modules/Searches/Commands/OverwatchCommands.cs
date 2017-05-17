@@ -15,61 +15,67 @@ namespace NadekoBot.Modules.Searches
         [Group]
         public class OverwatchCommands : NadekoSubmodule
         {
+            public enum Region
+            {
+                Eu,
+                Us,
+                Kr
+            }
+
             [NadekoCommand, Usage, Description, Aliases]
-            public async Task Overwatch(string region, [Remainder] string query = null)
+            public async Task Overwatch(Region region, [Remainder] string query = null)
             {
                 if (string.IsNullOrWhiteSpace(query))
                     return;
                 var battletag = query.Replace("#", "-");
 
                 await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
-                try
+                var model = (await GetProfile(region, battletag))?.Stats;
+
+                if (model != null)
                 {
-                    await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
-                    var model = await GetProfile(region, battletag);
-
-                    var rankimg = model.Competitive.rank_img;
-                    var rank = model.Competitive.rank;
-
-                    if (string.IsNullOrWhiteSpace(rank))
+                    if (model.Competitive == null)
                     {
+                        var qp = model.Quickplay;
                         var embed = new EmbedBuilder()
-                            .WithAuthor(eau => eau.WithName($"{model.username}")
+                            .WithAuthor(eau => eau.WithName(query)
                             .WithUrl($"https://www.overbuff.com/players/pc/{battletag}")
-                            .WithIconUrl($"{model.avatar}"))
-                            .WithThumbnailUrl("https://cdn.discordapp.com/attachments/155726317222887425/255653487512256512/YZ4w2ey.png")
-                            .AddField(fb => fb.WithName(GetText("level")).WithValue($"{model.level}").WithIsInline(true))
-                            .AddField(fb => fb.WithName(GetText("quick_wins")).WithValue($"{model.Games.Quick.wins}").WithIsInline(true))
+                            .WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/255653487512256512/YZ4w2ey.png"))
+                            .WithThumbnailUrl(qp.OverallStats.avatar)
+                            .AddField(fb => fb.WithName(GetText("level")).WithValue(qp.OverallStats.level.ToString()).WithIsInline(true))
+                            .AddField(fb => fb.WithName(GetText("quick_wins")).WithValue(qp.OverallStats.wins.ToString()).WithIsInline(true))
                             .AddField(fb => fb.WithName(GetText("compet_rank")).WithValue("0").WithIsInline(true))
-                            .AddField(fb => fb.WithName(GetText("quick_playtime")).WithValue($"{model.Playtime.quick}").WithIsInline(true))
+                            .AddField(fb => fb.WithName(GetText("quick_playtime")).WithValue($"{qp.GameStats.timePlayed}hrs").WithIsInline(true))
                             .WithOkColor();
                         await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
                     }
                     else
                     {
+                        var qp = model.Quickplay;
+                        var compet = model.Competitive;
                         var embed = new EmbedBuilder()
-                            .WithAuthor(eau => eau.WithName($"{model.username}")
-                            .WithUrl($"https://www.overbuff.com/players/pc/{battletag}")
-                            .WithIconUrl($"{model.avatar}"))
-                            .WithThumbnailUrl(rankimg)
-                            .AddField(fb => fb.WithName(GetText("level")).WithValue($"{model.level}").WithIsInline(true))
-                            .AddField(fb => fb.WithName(GetText("quick_wins")).WithValue($"{model.Games.Quick.wins}").WithIsInline(true))
-                            .AddField(fb => fb.WithName(GetText("compet_wins")).WithValue($"{model.Games.Competitive.wins}").WithIsInline(true))
-                            .AddField(fb => fb.WithName(GetText("compet_loses")).WithValue($"{model.Games.Competitive.lost}").WithIsInline(true))
-                            .AddField(fb => fb.WithName(GetText("compet_played")).WithValue($"{model.Games.Competitive.played}").WithIsInline(true))
-                            .AddField(fb => fb.WithName(GetText("compet_rank")).WithValue(rank).WithIsInline(true))
-                            .AddField(fb => fb.WithName(GetText("compet_playtime")).WithValue($"{model.Playtime.competitive}").WithIsInline(true))
-                            .AddField(fb => fb.WithName(GetText("quick_playtime")).WithValue($"{model.Playtime.quick}").WithIsInline(true))
+                            .WithAuthor(eau => eau.WithName(query)
+                                .WithUrl($"https://www.overbuff.com/players/pc/{battletag}")
+                                .WithIconUrl(compet.OverallStats.rank_image))
+                            .WithThumbnailUrl(compet.OverallStats.avatar)
+                            .AddField(fb => fb.WithName(GetText("level")).WithValue((compet.OverallStats.level + (compet.OverallStats.prestige * 100)).ToString()).WithIsInline(true))
+                            .AddField(fb => fb.WithName(GetText("quick_wins")).WithValue(qp.OverallStats.wins.ToString()).WithIsInline(true))
+                            .AddField(fb => fb.WithName(GetText("compet_wins")).WithValue(compet.OverallStats.wins.ToString()).WithIsInline(true))
+                            .AddField(fb => fb.WithName(GetText("compet_loses")).WithValue(compet.OverallStats.losses.ToString()).WithIsInline(true))
+                            .AddField(fb => fb.WithName(GetText("compet_played")).WithValue(compet.OverallStats.games.ToString()).WithIsInline(true))
+                            .AddField(fb => fb.WithName(GetText("compet_rank")).WithValue(compet.OverallStats.comprank.ToString()).WithIsInline(true))
+                            .AddField(fb => fb.WithName(GetText("compet_playtime")).WithValue(compet.GameStats.timePlayed + "hrs").WithIsInline(true))
+                            .AddField(fb => fb.WithName(GetText("quick_playtime")).WithValue(qp.GameStats.timePlayed.ToString("F1") + "hrs").WithIsInline(true))
                             .WithColor(NadekoBot.OkColor);
                         await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
                     }
                 }
-                catch
+                else
                 {
                     await ReplyErrorLocalized("ow_user_not_found").ConfigureAwait(false);
                 }
             }
-            public async Task<OverwatchApiModel.OverwatchPlayer.Data> GetProfile(string region, string battletag)
+            public async Task<OverwatchApiModel.OverwatchPlayer> GetProfile(Region region, string battletag)
             {
                 try
                 {
@@ -78,11 +84,20 @@ namespace NadekoBot.Modules.Searches
                         handler.ServerCertificateCustomValidationCallback = (x, y, z, e) => true;
                         using (var http = new HttpClient(handler))
                         {
-                            var url =
-                                await http.GetStringAsync(
-                                    $"https://api.lootbox.eu/pc/{region.ToLower()}/{battletag}/profile");
-                            var model = JsonConvert.DeserializeObject<OverwatchApiModel.OverwatchPlayer>(url);
-                            return model.data;
+                            http.AddFakeHeaders();
+                            var url = $"https://owapi.nadekobot.me/api/v3/u/{battletag}/stats";
+                            System.Console.WriteLine(url);
+                            var res = await http.GetStringAsync($"https://owapi.nadekobot.me/api/v3/u/{battletag}/stats");
+                            var model = JsonConvert.DeserializeObject<OverwatchApiModel.OverwatchResponse>(res);
+                            switch (region)
+                            {
+                                case Region.Eu:
+                                    return model.Eu;
+                                case Region.Kr:
+                                    return model.Kr;
+                                default:
+                                    return model.Us;
+                            }
                         }
                     }
                 }
