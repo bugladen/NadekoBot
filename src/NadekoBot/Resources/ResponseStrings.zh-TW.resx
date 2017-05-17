@@ -626,6 +626,7 @@
   </data>
   <data name="administration_rc_perms" xml:space="preserve">
     <value>無效的色碼或是權限不足引起錯誤。</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_remrole" xml:space="preserve">
     <value>成功的移除了 {1} 的 {0} 身分組。</value>
@@ -647,6 +648,7 @@
   </data>
   <data name="administration_role_added" xml:space="preserve">
     <value>身分組 {0} 已新增至清單。</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_role_clean" xml:space="preserve">
     <value>{0} 未找到。已清理。</value>
@@ -843,6 +845,7 @@
   </data>
   <data name="administration_vt_perms" xml:space="preserve">
     <value>我至少需要**管理身份組**和**管理頻道**權限才能使用此功能。(建議給我管理員權限)</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_xmuted_text" xml:space="preserve">
     <value>使用者被 {0} 文字聊天</value>
@@ -1107,7 +1110,7 @@ Paypal &lt;{1}&gt;
     <value>暗戀著</value>
   </data>
   <data name="gambling_price" xml:space="preserve">
-    <value>贖身價格</value>
+    <value>價格</value>
   </data>
   <data name="gambling_waifus_none" xml:space="preserve">
     <value>還沒有任何人擄獲任何對象。</value>
@@ -1614,10 +1617,10 @@ Paypal &lt;{1}&gt;
     <comment>Short of seconds.</comment>
   </data>
   <data name="permissions_sx_disable" xml:space="preserve">
-    <value>禁止在此服务器上執行{0} {1}。</value>
+    <value>在此伺服器上停用 {0} {1}。</value>
   </data>
   <data name="permissions_sx_enable" xml:space="preserve">
-    <value>開放在此服务器上執行{0} {1}。</value>
+    <value>在此伺服器上啟用 {0} {1}。</value>
   </data>
   <data name="permissions_unblacklisted" xml:space="preserve">
     <value>從 {0} 黑名單上移除 ID {1}</value>
@@ -1720,6 +1723,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="searches_error_occured" xml:space="preserve">
     <value>錯誤發生。</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_example" xml:space="preserve">
     <value>範例</value>
@@ -2086,6 +2090,7 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="utility_quotes_page_none" xml:space="preserve">
     <value>此頁沒有引句</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_quotes_remove_none" xml:space="preserve">
     <value>找不到您可以刪除的引句</value>
@@ -2407,6 +2412,122 @@ Paypal &lt;{1}&gt;
   </data>
   <data name="utility_clpa_too_early" xml:space="preserve">
     <value>獎勵可於每月5日之後領取。</value>
+  </data>
+  <data name="searches_time" xml:space="preserve">
+    <value>{0} 現在的時間為 {1} - {2}</value>
+    <comment>Time in London, UK is 15:30 - Time Zone Name</comment>
+  </data>
+  <data name="administration_rh" xml:space="preserve">
+    <value>設定顯示{0}的身分組為{1}</value>
+  </data>
+  <data name="gambling_name" xml:space="preserve">
+    <value>姓名</value>
+  </data>
+  <data name="gambling_shop" xml:space="preserve">
+    <value>商店</value>
+  </data>
+  <data name="gambling_shop_item_add" xml:space="preserve">
+    <value>商品以新增</value>
+  </data>
+  <data name="gambling_shop_none" xml:space="preserve">
+    <value>此頁面找不到商品</value>
+  </data>
+  <data name="gambling_shop_role" xml:space="preserve">
+    <value>您將會獲得{0}身分組。</value>
+  </data>
+  <data name="gambling_type" xml:space="preserve">
+    <value>類型</value>
+  </data>
+  <data name="utility_clpa_next_update" xml:space="preserve">
+    <value>下次更新於{0}</value>
+    <comment>Next update in 05:30</comment>
+  </data>
+  <data name="administration_global_perms_reset" xml:space="preserve">
+    <value>全域權限已重置。</value>
+  </data>
+  <data name="administration_gvc_disabled" xml:space="preserve">
+    <value>遊戲語音頻道功能在此伺服器上停用。</value>
+  </data>
+  <data name="administration_gvc_enabled" xml:space="preserve">
+    <value>{0}現在是一個遊戲語音頻道了。</value>
+  </data>
+  <data name="administration_not_in_voice" xml:space="preserve">
+    <value>你並沒有在此伺服器上的語音頻道。</value>
+  </data>
+  <data name="gambling_item" xml:space="preserve">
+    <value>物品</value>
+  </data>
+  <data name="gambling_out_of_stock" xml:space="preserve">
+    <value>缺貨中</value>
+  </data>
+  <data name="gambling_random_unique_item" xml:space="preserve">
+    <value>隨機獨特物品</value>
+  </data>
+  <data name="gambling_shop_buy_error" xml:space="preserve">
+    <value>私訊物品失敗。您已獲得退款。</value>
+  </data>
+  <data name="gambling_shop_item_not_found" xml:space="preserve">
+    <value>找不到該索引的道具。</value>
+  </data>
+  <data name="gambling_shop_item_purchase" xml:space="preserve">
+    <value>成功購買物品。</value>
+  </data>
+  <data name="gambling_shop_item_rm" xml:space="preserve">
+    <value>商品已移除。</value>
+  </data>
+  <data name="gambling_shop_item_wrong_type" xml:space="preserve">
+    <value>那個商店並不支援新增商品功能。</value>
+  </data>
+  <data name="gambling_shop_list_item_added" xml:space="preserve">
+    <value>商品已新增。</value>
+  </data>
+  <data name="gambling_shop_list_item_not_unique" xml:space="preserve">
+    <value>該商品已存在。</value>
+  </data>
+  <data name="gambling_shop_purchase" xml:space="preserve">
+    <value>在伺服器 {0} 上購買</value>
+  </data>
+  <data name="gambling_shop_role_not_found" xml:space="preserve">
+    <value>該販售中的身分組已不存在。</value>
+  </data>
+  <data name="gambling_shop_role_purchase" xml:space="preserve">
+    <value>您已經成功購買了 {0} 身分組。</value>
+  </data>
+  <data name="gambling_shop_role_purchase_error" xml:space="preserve">
+    <value>指派身分組失敗。您已獲得退款。</value>
+  </data>
+  <data name="gambling_unique_items_left" xml:space="preserve">
+    <value>還剩餘 {0} 物品。</value>
+  </data>
+  <data name="permissions_blocked_commands" xml:space="preserve">
+    <value>阻擋的指令</value>
+  </data>
+  <data name="permissions_blocked_modules" xml:space="preserve">
+    <value>阻擋的模組</value>
+  </data>
+  <data name="permissions_gcmd_add" xml:space="preserve">
+    <value>{0} 指令已在所有伺服器上停用。</value>
+  </data>
+  <data name="permissions_gcmd_remove" xml:space="preserve">
+    <value>{0} 指令已在所有伺服器上啟用。</value>
+  </data>
+  <data name="permissions_gmod_add" xml:space="preserve">
+    <value>{0} 模組已在所有伺服器上停用。</value>
+  </data>
+  <data name="permissions_gmod_remove" xml:space="preserve">
+    <value>{0} 模組已在所有伺服器上啟用。</value>
+  </data>
+  <data name="permissions_lgp_none" xml:space="preserve">
+    <value>沒有任何阻擋的指令或模組。</value>
+  </data>
+  <data name="gambling_animal_race_no_race" xml:space="preserve">
+    <value>這場動物賽跑已經額滿了!</value>
+  </data>
+  <data name="utility_cant_read_or_send" xml:space="preserve">
+    <value>你無法在這個頻道讀取或發送訊息。</value>
+  </data>
+  <data name="utility_quotes_notfound" xml:space="preserve">
+    <value></value>
   </data>
 
 </root>
