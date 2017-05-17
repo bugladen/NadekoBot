@@ -139,19 +139,19 @@
     <value>@{0} אתה כבר תפסת את בסיס #{1}. אינך יכול לתפוס אחד חדש</value>
   </data>
   <data name="clashofclans_claim_expired" xml:space="preserve">
-    <value></value>
+    <value>התפיסה מ- @{0} במלחמה נגד {1} פגה.</value>
   </data>
   <data name="clashofclans_enemy" xml:space="preserve">
     <value>אויב</value>
   </data>
   <data name="clashofclans_info_about_war" xml:space="preserve">
-    <value>מידע על המלחה נגד {0}</value>
+    <value>מידע על המלחמה נגד {0}</value>
   </data>
   <data name="clashofclans_invalid_base_number" xml:space="preserve">
     <value>מספר בסיס שגוי</value>
   </data>
   <data name="clashofclans_invalid_size" xml:space="preserve">
-    <value>לא גודל מלחמה נכון.</value>
+    <value>גודל המלחמה לא נכון.</value>
   </data>
   <data name="clashofclans_list_active_wars" xml:space="preserve">
     <value>רשימת מלחמות פעילות</value>
@@ -160,19 +160,19 @@
     <value>לא תפוס</value>
   </data>
   <data name="clashofclans_not_partic" xml:space="preserve">
-    <value>אתה לא משתתף במלחמה הזאת</value>
+    <value>אתה לא משתתף במלחמה זאת</value>
   </data>
   <data name="clashofclans_not_partic_or_destroyed" xml:space="preserve">
-    <value>@{0} אתה כנראה לא משתתף במלחמה הזאת או הבסיס הזה כבר הושמד.</value>
+    <value>@{0} אתה כנראה לא משתתף במלחמה זאת או הבסיס הזה כבר הושמד.</value>
   </data>
   <data name="clashofclans_no_active_wars" xml:space="preserve">
     <value>אין מלחמות פעילות.</value>
   </data>
   <data name="clashofclans_size" xml:space="preserve">
-    <value>גודל</value>
+    <value>גודל.</value>
   </data>
   <data name="clashofclans_war_already_started" xml:space="preserve">
-    <value>המלחה נגד {0} כבר התחילה.</value>
+    <value>המלחמה נגד {0} כבר התחילה.</value>
   </data>
   <data name="clashofclans_war_created" xml:space="preserve">
     <value>מלחמה נגד {0} נוצרה.</value>
@@ -187,7 +187,7 @@
     <value>מלחמה נגד {0} התחילה!</value>
   </data>
   <data name="customreactions_all_stats_cleared" xml:space="preserve">
-    <value>כל הסטטיסטיקה של התגובות מתאם נמחקו.</value>
+    <value>כל הסטטיסטיקות של התגובות המותאמות נמחקו.</value>
   </data>
   <data name="customreactions_deleted" xml:space="preserve">
     <value>תגובות מתאם נמחקו</value>
@@ -217,13 +217,13 @@
     <value>נתוני תגובות מותאמות</value>
   </data>
   <data name="customreactions_stats_cleared" xml:space="preserve">
-    <value></value>
+    <value>הסטטיסטוקות נמחקו ל{0} תגובות מתאם</value>
   </data>
   <data name="customreactions_stats_not_found" xml:space="preserve">
-    <value></value>
+    <value>לא נמצאו נתונים סטטיסטיים עבור גורם פעולה זה, לא בוצעה פעולה כלשהי</value>
   </data>
   <data name="customreactions_trigger" xml:space="preserve">
-    <value></value>
+    <value>הדק</value>
   </data>
   <data name="nsfw_autohentai_stopped" xml:space="preserve">
     <value>אוטוהנטאי הפסיק</value>
@@ -251,7 +251,7 @@
     <value>אתה לא יכול לתקוף את עצמך.</value>
   </data>
   <data name="pokemon_fainted" xml:space="preserve">
-    <value>{0} נתעלף.</value>
+    <value>{0} התעלף.</value>
   </data>
   <data name="pokemon_healed" xml:space="preserve">
     <value>{0} רופה עם {1} אחד.</value>
@@ -379,10 +379,10 @@
     <value>השרת {0} נמחק</value>
   </data>
   <data name="administration_delmsg_off" xml:space="preserve">
-    <value></value>
+    <value>הפסקת המחיקה האוטומטית של הפניות פקודות מוצלחות.</value>
   </data>
   <data name="administration_delmsg_on" xml:space="preserve">
-    <value></value>
+    <value>עכשיו באופן אוטומטי מחיקת פקודות הפקודה מוצלחת.</value>
   </data>
   <data name="administration_deltextchan" xml:space="preserve">
     <value>ערוץ טקסט {0} נמחק.</value>
@@ -415,31 +415,31 @@
     <value>מחיקה אוטומטית של הודאות ברכה הופסקה.</value>
   </data>
   <data name="administration_greetdel_on" xml:space="preserve">
-    <value>הודאות </value>
+    <value>הודעות ברכה יימחקו לאחר {0} שניות.</value>
   </data>
   <data name="administration_greetdmmsg_cur" xml:space="preserve">
     <value>הודאה פרטית נוכחית: {0}</value>
   </data>
   <data name="administration_greetdmmsg_enable" xml:space="preserve">
-    <value></value>
+    <value>אפשר הודעות הודעה ישירה על ידי הקלדת {0}</value>
   </data>
   <data name="administration_greetdmmsg_new" xml:space="preserve">
-    <value></value>
+    <value>הודעה ישירה חדשה ברכה הודעה הודעה.</value>
   </data>
   <data name="administration_greetdm_off" xml:space="preserve">
-    <value></value>
+    <value> ברכה הודעות להודעות ישירות נכים.</value>
   </data>
   <data name="administration_greetdm_on" xml:space="preserve">
-    <value></value>
+    <value>ברכה הודעות להודעות ישירות מאופשרים.</value>
   </data>
   <data name="administration_greetmsg_cur" xml:space="preserve">
-    <value></value>
+    <value>הודעת ברכה נוכחית: {0}</value>
   </data>
   <data name="administration_greetmsg_enable" xml:space="preserve">
-    <value></value>
+    <value>הפעל הודעות בברכה על ידי הקלדת {0}</value>
   </data>
   <data name="administration_greetmsg_new" xml:space="preserve">
-    <value></value>
+    <value>הודעה חדשה לברכה.</value>
   </data>
   <data name="administration_greet_off" xml:space="preserve">
     <value>הודאות ברכה בוטלו.</value>
@@ -473,16 +473,16 @@
     <value>רשימה של כל השפות</value>
   </data>
   <data name="administration_lang_set" xml:space="preserve">
-    <value></value>
+    <value>אזור השרת שלך הוא כעת {0} - {1}</value>
   </data>
   <data name="administration_lang_set_bot" xml:space="preserve">
-    <value></value>
+    <value>אזור ברירת המחדל של בוט הוא כעת {0} - {1}</value>
   </data>
   <data name="administration_lang_set_bot_show" xml:space="preserve">
     <value>שפת הבוט שונתה מ{0} ל{1}.</value>
   </data>
   <data name="administration_lang_set_fail" xml:space="preserve">
-    <value></value>
+    <value>הגדרת האזור נכשלה. חזור על העזרה של פקודה זו.</value>
   </data>
   <data name="administration_lang_set_show" xml:space="preserve">
     <value>שפת שרת זה מוגדרת כ- {0} - {1}</value>
@@ -515,7 +515,7 @@
     <value>הרישום לאירוע {0} נפסק.</value>
   </data>
   <data name="administration_menrole" xml:space="preserve">
-    <value></value>
+    <value>{0} הזכיר אזכור של התפקידים הבאים</value>
   </data>
   <data name="administration_message_from_bo" xml:space="preserve">
     <value>הודעה מ{0} ׳[מנהל הבוט]׳</value>
@@ -565,7 +565,7 @@
     <value>לא ניתן למצוא את השרת</value>
   </data>
   <data name="administration_no_shard_id" xml:space="preserve">
-    <value></value>
+    <value>לא נמצא שבר עם מזהה זה.</value>
   </data>
   <data name="administration_old_msg" xml:space="preserve">
     <value>הודעה ישנה</value>
@@ -623,6 +623,7 @@
   </data>
   <data name="administration_rc_perms" xml:space="preserve">
     <value>השגייה התרחשה בגלל צבע לא נכון או חוסר הרשאות.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_remrole" xml:space="preserve">
     <value>התפקיד {0} הוסר בהצלחה ממשתמש {0}</value>
@@ -644,6 +645,7 @@
   </data>
   <data name="administration_role_added" xml:space="preserve">
     <value>תפקיד {0} הוסף לרשימה.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_role_clean" xml:space="preserve">
     <value>{0} לא נמצא. נוקה.</value>
@@ -670,28 +672,28 @@
     <value>יש לך כבר {0} תפקיד.</value>
   </data>
   <data name="administration_self_assign_already_excl" xml:space="preserve">
-    <value></value>
+    <value>כבר יש לך {0} תפקיד ייחודי המוקצה באופן עצמאי.</value>
   </data>
   <data name="administration_self_assign_excl" xml:space="preserve">
-    <value></value>
+    <value>תפקידי הקצאה עצמית הם עכשיו בלעדי!</value>
   </data>
   <data name="administration_self_assign_list" xml:space="preserve">
-    <value></value>
+    <value>יש {0} תפקידים הניתנים להקצאה עצמית</value>
   </data>
   <data name="administration_self_assign_not" xml:space="preserve">
-    <value></value>
+    <value>תפקיד זה אינו ניתן לשינוי עצמי.</value>
   </data>
   <data name="administration_self_assign_not_have" xml:space="preserve">
     <value>אין לך {0} תפקיד.</value>
   </data>
   <data name="administration_self_assign_no_excl" xml:space="preserve">
-    <value></value>
+    <value>תפקידי הקצאה עצמית אינם עכשיו בלעדיים!</value>
   </data>
   <data name="administration_self_assign_perms" xml:space="preserve">
-    <value></value>
+    <value>אני לא יכול להוסיף לך את התפקיד הזה. `אני לא יכול להוסיף תפקידים לבעלים או לתפקידים אחרים מעבר לתפקיד שלי בהיררכיה של התפקיד`</value>
   </data>
   <data name="administration_self_assign_rem" xml:space="preserve">
-    <value></value>
+    <value>{0} הוסר מרשימת תפקידי ההקצאה העצמית.</value>
   </data>
   <data name="administration_self_assign_remove" xml:space="preserve">
     <value>אין לך את התפקיד {0}.</value>
@@ -700,10 +702,10 @@
     <value>יש לך את התפקיד {0}.</value>
   </data>
   <data name="administration_setrole" xml:space="preserve">
-    <value></value>
+    <value>נוסף בהצלחה תפקיד {0} למשתמש {1}</value>
   </data>
   <data name="administration_setrole_err" xml:space="preserve">
-    <value></value>
+    <value>הוספת התפקיד נכשלה. אין לי הרשאות מספיקות.</value>
   </data>
   <data name="administration_set_avatar" xml:space="preserve">
     <value>תמונת הפרופיל הוספה.</value>
@@ -715,19 +717,19 @@
     <value>משחק חדש נוצר.</value>
   </data>
   <data name="administration_set_stream" xml:space="preserve">
-    <value></value>
+    <value>סטרים חדש מוגדר!</value>
   </data>
   <data name="administration_set_topic" xml:space="preserve">
-    <value></value>
+    <value>נושא חדש לערוץ מוגדר.</value>
   </data>
   <data name="administration_shard_reconnected" xml:space="preserve">
-    <value></value>
+    <value>חרס {0} התחבר מחדש</value>
   </data>
   <data name="administration_shard_reconnecting" xml:space="preserve">
-    <value></value>
+    <value>חרד {0} מתחבר מחדש.</value>
   </data>
   <data name="administration_shutting_down" xml:space="preserve">
-    <value>קורס</value>
+    <value>מכבה</value>
   </data>
   <data name="administration_slowmode_desc" xml:space="preserve">
     <value>משתמשים לא יכולים לשלוח יותר מ{0} הודאות כל {1} שניות.</value>
@@ -740,8 +742,7 @@
   </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
     <value>הסרה קלה (גורש)</value>
-    <comment>PLURAL
-Fuzzy</comment>
+    <comment>PLURAL</comment>
   </data>
   <data name="administration_spam_ignore" xml:space="preserve">
     <value>{0} יתעלם מערוץ זה.</value>
@@ -750,7 +751,8 @@ Fuzzy</comment>
     <value>{0} לא יתעלם מערוץ זה.</value>
   </data>
   <data name="administration_spam_stats" xml:space="preserve">
-    <value></value>
+    <value>אם משתמש מפרסם {0} אותן הודעות בשורה, אני {1} אותם.
+{2} :___IgnoredChannels___</value>
   </data>
   <data name="administration_text_chan_created" xml:space="preserve">
     <value>ערוץ כתב נוצר.</value>
@@ -759,10 +761,10 @@ Fuzzy</comment>
     <value>ערוץ כתב הושמד.</value>
   </data>
   <data name="administration_undeafen" xml:space="preserve">
-    <value></value>
+    <value>ונחירש מוצלח.</value>
   </data>
   <data name="administration_unmuted_sn" xml:space="preserve">
-    <value></value>
+    <value>ונלהשתיק מוצלח.</value>
     <comment>singular</comment>
   </data>
   <data name="administration_username" xml:space="preserve">
@@ -778,10 +780,10 @@ Fuzzy</comment>
     <value>משתמש מורחק</value>
   </data>
   <data name="administration_user_chat_mute" xml:space="preserve">
-    <value></value>
+    <value>{0} **הושתק** מלשוחח.</value>
   </data>
   <data name="administration_user_chat_unmute" xml:space="preserve">
-    <value></value>
+    <value>{0} **ונהושתק** מלשוחח.</value>
   </data>
   <data name="administration_user_joined" xml:space="preserve">
     <value>משתמש הצתרף</value>
@@ -790,7 +792,7 @@ Fuzzy</comment>
     <value>משתמש עזב </value>
   </data>
   <data name="administration_user_muted" xml:space="preserve">
-    <value></value>
+    <value>{0} **הושתק** מהטקסט והצ&apos;אט הקולי.</value>
   </data>
   <data name="administration_user_role_add" xml:space="preserve">
     <value>התפקיד של המשתמש הוסף.</value>
@@ -802,7 +804,7 @@ Fuzzy</comment>
     <value>{0} עכשיו {1}</value>
   </data>
   <data name="administration_user_unmuted" xml:space="preserve">
-    <value></value>
+    <value>{0} **ונהושתק** מהטקסט והצ&apos;אט הקולי.</value>
   </data>
   <data name="administration_user_vjoined" xml:space="preserve">
     <value>{0} הצטרף ל{1} ערוץ קול.</value>
@@ -814,10 +816,10 @@ Fuzzy</comment>
     <value>{0} עבר מ{1} ל{2} ערוץ קול.</value>
   </data>
   <data name="administration_user_voice_mute" xml:space="preserve">
-    <value></value>
+    <value>{0} **הושתק מהצ&apos;אט הקולי**.</value>
   </data>
   <data name="administration_user_voice_unmute" xml:space="preserve">
-    <value></value>
+    <value>{0} **ונהושתק מהצ&apos;אט הקולי**.</value>
   </data>
   <data name="administration_voice_chan_created" xml:space="preserve">
     <value>ערוץ קול הוצר</value>
@@ -839,6 +841,7 @@ Fuzzy</comment>
   </data>
   <data name="administration_vt_perms" xml:space="preserve">
     <value>אני חייב לפחות **נהל תפקידים** ו**נהל ערוצים** הרשאות כדי לאפשר את התכונה הזאת. (רשות של מנהל מועדפת)</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_xmuted_text" xml:space="preserve">
     <value>משתמש {0} מטקסט צ׳אט</value>
@@ -847,13 +850,14 @@ Fuzzy</comment>
     <value>משתמש {0} מטקסט וקול צ׳אט</value>
   </data>
   <data name="administration_xmuted_voice" xml:space="preserve">
-    <value>משתמש {0} מערוץ קול.</value>
+    <value>משתמש {0} מערוץ קול</value>
   </data>
   <data name="administration_sbdm" xml:space="preserve">
-    <value></value>
+    <value>אתה קיבלת איסור רך מהסרבר {0}.
+סיבה: {1}</value>
   </data>
   <data name="administration_user_unbanned" xml:space="preserve">
-    <value></value>
+    <value>משתמש ונאסר</value>
   </data>
   <data name="administration_migration_done" xml:space="preserve">
     <value>נדידה גמורה!</value>
@@ -867,7 +871,7 @@ Fuzzy</comment>
     <value>עדכון נוכחות</value>
   </data>
   <data name="administration_sb_user" xml:space="preserve">
-    <value></value>
+    <value>משתמש קיבל איסור רך.</value>
   </data>
   <data name="gambling_awarded" xml:space="preserve">
     <value>העניק {0} ל{1}</value>
@@ -990,17 +994,17 @@ Fuzzy</comment>
     <value>רשימת הפיקוד התחדשה.</value>
   </data>
   <data name="help_commands_instr" xml:space="preserve">
-    <value></value>
+    <value>כתוב `{0}h שם פקודה` כדי לראות עזרה לפקודה הספציפית הזאת. כמו `{0}&gt;8ball`</value>
   </data>
   <data name="help_command_not_found" xml:space="preserve">
     <value>אני לא יכול למצוא את הפקודה הזאת. בבקשה תוודא שהפקודה הזאת נמצאת לפני שתנסה שוב.</value>
   </data>
   <data name="help_desc" xml:space="preserve">
-    <value>תאור</value>
+    <value>תיאור</value>
   </data>
   <data name="help_donate" xml:space="preserve">
-    <value>אתה יכול למתוח את הנאדקובוט פרוייקט על Patreon &lt;{0}&gt; או Paypal &lt;{1}&gt;
-אל תשכח להשאיר את השם של הדיסקורד שלך או הזהוי בהודעה.
+    <value>את/אתה יכולים למתוח את הפרויקט נאדקונוט ב &lt;{Patreon &lt;{0 או
+&lt;{Paypal &lt;{1
 
 **תודה** ♥️</value>
   </data>
@@ -1015,7 +1019,7 @@ Fuzzy</comment>
     <value>רשימה של מודולים</value>
   </data>
   <data name="help_modules_footer" xml:space="preserve">
-    <value></value>
+    <value>כתוב `{0}cmds שם המודול` כדי לקבל הרשמה של פקודות במודול זה. כמו `{0}cmds games`</value>
   </data>
   <data name="help_module_not_found" xml:space="preserve">
     <value>המודול הזה לא קיים.</value>
@@ -1447,271 +1451,272 @@ Fuzzy</comment>
     <value>חוזרים על הפלייליסט</value>
   </data>
   <data name="music_repeating_track" xml:space="preserve">
-    <value></value>
+    <value>מסלול חוזר</value>
   </data>
   <data name="music_repeating_track_stopped" xml:space="preserve">
-    <value></value>
+    <value>הרצועה הנוכחית נעצרה.</value>
   </data>
   <data name="music_resumed" xml:space="preserve">
-    <value></value>
+    <value>השמעת מוסיקה התחדשה.</value>
   </data>
   <data name="music_rpl_disabled" xml:space="preserve">
-    <value></value>
+    <value>הפלייליסט החוזר הושבת.</value>
   </data>
   <data name="music_rpl_enabled" xml:space="preserve">
-    <value></value>
+    <value>הפעלת הפלייליסט חזרה.</value>
   </data>
   <data name="music_set_music_channel" xml:space="preserve">
-    <value></value>
+    <value>כעת אשמע את הפלט, השלים, השהה והסרתי שירים בערוץ זה.</value>
   </data>
   <data name="music_skipped_to" xml:space="preserve">
-    <value></value>
+    <value>דלג ל `{0}:{1}`</value>
   </data>
   <data name="music_songs_shuffled" xml:space="preserve">
-    <value></value>
+    <value>שירים דשדשו</value>
   </data>
   <data name="music_song_moved" xml:space="preserve">
-    <value></value>
+    <value>השיר זז</value>
   </data>
   <data name="music_time_format" xml:space="preserve">
-    <value></value>
+    <value>{0} שעות {1} דקות {2} שניות</value>
   </data>
   <data name="music_to_position" xml:space="preserve">
-    <value></value>
+    <value>למקום</value>
   </data>
   <data name="music_unlimited" xml:space="preserve">
-    <value></value>
+    <value>ללא הגבלה</value>
   </data>
   <data name="music_volume_input_invalid" xml:space="preserve">
-    <value></value>
+    <value>עוצמת הקול חייבת להיות בין 0 ל -100</value>
   </data>
   <data name="music_volume_set" xml:space="preserve">
-    <value></value>
+    <value>עוצמת הקול מוגדרת ל- {0}%</value>
   </data>
   <data name="permissions_acm_disable" xml:space="preserve">
-    <value></value>
+    <value>שימוש מושבת בכל המודולים בערוץ {0}.</value>
   </data>
   <data name="permissions_acm_enable" xml:space="preserve">
-    <value></value>
+    <value>שימוש מופעל בכל המודולים בערוץ {0}.</value>
   </data>
   <data name="permissions_allowed" xml:space="preserve">
     <value>מותר</value>
   </data>
   <data name="permissions_arm_disable" xml:space="preserve">
-    <value></value>
+    <value>שימוש מושבת בכל המודולים לתפקיד {0}.</value>
   </data>
   <data name="permissions_arm_enable" xml:space="preserve">
-    <value></value>
+    <value>שימוש מאופשר בכל המודולים לתפקיד {0}.</value>
   </data>
   <data name="permissions_asm_disable" xml:space="preserve">
-    <value></value>
+    <value>שימוש מושבת בכל המודולים בשרת זה.</value>
   </data>
   <data name="permissions_asm_enable" xml:space="preserve">
-    <value></value>
+    <value>שימוש מופעל של כל המודולים בשרת זה.</value>
   </data>
   <data name="permissions_aum_disable" xml:space="preserve">
-    <value></value>
+    <value>שימוש מושבת בכל המודולים עבור משתמש {0}.</value>
   </data>
   <data name="permissions_aum_enable" xml:space="preserve">
-    <value></value>
+    <value>שימוש מאופשר בכל המודולים עבור משתמש {0}.</value>
   </data>
   <data name="permissions_blacklisted" xml:space="preserve">
-    <value></value>
+    <value>ברשימה השחורה {0} עם מזהה {1}</value>
   </data>
   <data name="permissions_cmdcd_add" xml:space="preserve">
-    <value></value>
+    <value>לפקודה {0} יש עכשיו תירגע של {1}.</value>
   </data>
   <data name="permissions_cmdcd_cleared" xml:space="preserve">
-    <value></value>
+    <value>הפקודה {0} אינה מכוסה כעת, וכל הקולות הקיימים נמחקו.</value>
   </data>
   <data name="permissions_cmdcd_none" xml:space="preserve">
-    <value></value>
+    <value>לא מוגדר שום תירגעות לפקודה זאת.</value>
   </data>
   <data name="permissions_command_costs" xml:space="preserve">
-    <value></value>
+    <value>עלויות פיקוד</value>
   </data>
   <data name="permissions_cx_disable" xml:space="preserve">
-    <value></value>
+    <value>שימוש מושבת ב- {0} {1} בערוץ {2}.</value>
   </data>
   <data name="permissions_cx_enable" xml:space="preserve">
-    <value></value>
+    <value>שימוש מופעל של {0} {1} בערוץ {2}.</value>
   </data>
   <data name="permissions_denied" xml:space="preserve">
     <value>נשלל</value>
   </data>
   <data name="permissions_filter_word_add" xml:space="preserve">
-    <value></value>
+    <value>מילה נוספת {0} לרשימת המילים המסוננות.</value>
   </data>
   <data name="permissions_filter_word_list" xml:space="preserve">
-    <value></value>
+    <value>רשימת מילים מסוננות</value>
   </data>
   <data name="permissions_filter_word_remove" xml:space="preserve">
-    <value></value>
+    <value>המילה הוסרה {0} מרשימת המילים המסוננות.</value>
   </data>
   <data name="permissions_invalid_second_param_between" xml:space="preserve">
-    <value></value>
+    <value>פרמטר שני לא חוקי. (חייב להיות מספר בין {0} לבין {1})</value>
   </data>
   <data name="permissions_invite_filter_channel_off" xml:space="preserve">
-    <value></value>
+    <value>הזמן את הסינון מושבת בערוץ זה.</value>
   </data>
   <data name="permissions_invite_filter_channel_on" xml:space="preserve">
-    <value></value>
+    <value>הזמנת סינון מופעלת בערוץ זה.</value>
   </data>
   <data name="permissions_invite_filter_server_off" xml:space="preserve">
-    <value></value>
+    <value>הזמנת סינון מושבתת בשרת זה.</value>
   </data>
   <data name="permissions_invite_filter_server_on" xml:space="preserve">
-    <value></value>
+    <value>הזמנת סינון מופעלת בשרת זה.</value>
   </data>
   <data name="permissions_moved_permission" xml:space="preserve">
-    <value></value>
+    <value>האישור הועבר {0} מ- # {1} ל- # {2}</value>
   </data>
   <data name="permissions_not_found" xml:space="preserve">
-    <value></value>
+    <value>לא ניתן למצוא הרשאה באינדקס # {0}</value>
   </data>
   <data name="permissions_no_costs" xml:space="preserve">
-    <value></value>
+    <value>לא הוגדרו עלויות.</value>
   </data>
   <data name="permissions_of_command" xml:space="preserve">
-    <value></value>
+    <value>פקודה</value>
     <comment>Gen (of command)</comment>
   </data>
   <data name="permissions_of_module" xml:space="preserve">
-    <value></value>
+    <value>מודול</value>
     <comment>Gen. (of module)</comment>
   </data>
   <data name="permissions_page" xml:space="preserve">
-    <value></value>
+    <value>דף הרשאות {0}</value>
   </data>
   <data name="permissions_permrole" xml:space="preserve">
-    <value></value>
+    <value>תפקיד ההרשאות הנוכחיות הוא {0}.</value>
   </data>
   <data name="permissions_permrole_changed" xml:space="preserve">
-    <value></value>
+    <value>משתמשים דורשים כעת תפקיד {0} כדי לערוך הרשאות.</value>
   </data>
   <data name="permissions_perm_out_of_range" xml:space="preserve">
-    <value></value>
+    <value>לא נמצאה הרשאה במדד זה.</value>
   </data>
   <data name="permissions_removed" xml:space="preserve">
-    <value></value>
+    <value>אישור שהוסר # {0} - {1}</value>
   </data>
   <data name="permissions_rx_disable" xml:space="preserve">
-    <value></value>
+    <value>שימוש מושבת בתפקוד {0} {1} עבור {2}.</value>
   </data>
   <data name="permissions_rx_enable" xml:space="preserve">
-    <value></value>
+    <value>שימוש מופעל בתפקיד {0} {1} עבור {2}.</value>
   </data>
   <data name="permissions_sec" xml:space="preserve">
-    <value></value>
+    <value>דקה.</value>
     <comment>Short of seconds.</comment>
   </data>
   <data name="permissions_sx_disable" xml:space="preserve">
-    <value></value>
+    <value>שימוש מושבת של {0} {1} בשרת זה.</value>
   </data>
   <data name="permissions_sx_enable" xml:space="preserve">
-    <value></value>
+    <value>שימוש מופעל של {0} {1} בשרת זה.</value>
   </data>
   <data name="permissions_unblacklisted" xml:space="preserve">
-    <value></value>
+    <value>הסר את הרשימה {0} עם קוד זיהוי {1}</value>
   </data>
   <data name="permissions_uneditable" xml:space="preserve">
-    <value></value>
+    <value>לא ניתן לשינוי</value>
   </data>
   <data name="permissions_ux_disable" xml:space="preserve">
-    <value></value>
+    <value>שימוש מושבת של {0} {1} עבור משתמש {2}.</value>
   </data>
   <data name="permissions_ux_enable" xml:space="preserve">
-    <value></value>
+    <value>שימוש מופעל של {0} {1} עבור {2} משתמש.</value>
   </data>
   <data name="permissions_verbose_false" xml:space="preserve">
-    <value></value>
+    <value>לא אראה עוד אזהרות.</value>
   </data>
   <data name="permissions_verbose_true" xml:space="preserve">
-    <value></value>
+    <value>כעת אראה אזהרות.</value>
   </data>
   <data name="permissions_word_filter_channel_off" xml:space="preserve">
-    <value></value>
+    <value>סינון המילים הושבת בערוץ זה.</value>
   </data>
   <data name="permissions_word_filter_channel_on" xml:space="preserve">
-    <value></value>
+    <value>סינון מילים מופעל בערוץ זה.</value>
   </data>
   <data name="permissions_word_filter_server_off" xml:space="preserve">
-    <value></value>
+    <value>סינון מילים מושבת בשרת זה.</value>
   </data>
   <data name="permissions_word_filter_server_on" xml:space="preserve">
-    <value></value>
+    <value>סינון מילים מופעל בשרת זה.</value>
   </data>
   <data name="searches_abilities" xml:space="preserve">
-    <value></value>
+    <value>יכולות</value>
   </data>
   <data name="searches_anime_no_fav" xml:space="preserve">
-    <value></value>
+    <value>אין עדיין אנימה מועדפת</value>
   </data>
   <data name="searches_atl_ad_started" xml:space="preserve">
-    <value></value>
+    <value>התחיל תרגום אוטומטי של הודעות בערוץ זה. הודעות המשתמש יימחקו אוטומטית.</value>
   </data>
   <data name="searches_atl_removed" xml:space="preserve">
     <value>הפרוש המידי שלך לשפה זאת הוסרה.</value>
   </data>
   <data name="searches_atl_set" xml:space="preserve">
-    <value></value>
+    <value>שפת התרגום האוטומטית שלך הוגדרה ל- {0}&gt;{1}</value>
   </data>
   <data name="searches_atl_started" xml:space="preserve">
-    <value></value>
+    <value>התחיל תרגום אוטומטי של הודעות בערוץ זה.</value>
   </data>
   <data name="searches_atl_stopped" xml:space="preserve">
-    <value></value>
+    <value>הפסק תרגום אוטומטי של הודעות בערוץ זה.</value>
   </data>
   <data name="searches_bad_input_format" xml:space="preserve">
-    <value></value>
+    <value>תבנית קלט גרועה, או שמשהו השתבש.</value>
   </data>
   <data name="searches_card_not_found" xml:space="preserve">
-    <value></value>
+    <value>לא הצלחתי למצוא את הכרטיס.</value>
   </data>
   <data name="searches_catfact" xml:space="preserve">
-    <value></value>
+    <value>עובדה</value>
   </data>
   <data name="searches_chapters" xml:space="preserve">
-    <value></value>
+    <value>פרקים</value>
   </data>
   <data name="searches_comic_number" xml:space="preserve">
-    <value></value>
+    <value>קומיקס #</value>
   </data>
   <data name="searches_compet_loses" xml:space="preserve">
-    <value></value>
+    <value>הפסדים תחרותיים</value>
   </data>
   <data name="searches_compet_played" xml:space="preserve">
-    <value></value>
+    <value>תחרותי שיחק</value>
   </data>
   <data name="searches_compet_rank" xml:space="preserve">
-    <value></value>
+    <value>דרגה תחרותית</value>
   </data>
   <data name="searches_compet_wins" xml:space="preserve">
-    <value></value>
+    <value>זכייה תחרותית</value>
   </data>
   <data name="searches_completed" xml:space="preserve">
-    <value></value>
+    <value>הושלם</value>
   </data>
   <data name="searches_condition" xml:space="preserve">
-    <value></value>
+    <value>מצב</value>
   </data>
   <data name="searches_cost" xml:space="preserve">
-    <value></value>
+    <value>עלות</value>
   </data>
   <data name="searches_date" xml:space="preserve">
-    <value></value>
+    <value>תאריך</value>
   </data>
   <data name="searches_define" xml:space="preserve">
-    <value></value>
+    <value>להגדיר:</value>
   </data>
   <data name="searches_dropped" xml:space="preserve">
-    <value></value>
+    <value>הפיל</value>
   </data>
   <data name="searches_episodes" xml:space="preserve">
-    <value></value>
+    <value>פרקים</value>
   </data>
   <data name="searches_error_occured" xml:space="preserve">
     <value>שגיעה נוצרה</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_example" xml:space="preserve">
     <value>דוגמה</value>
@@ -1726,7 +1731,7 @@ Fuzzy</comment>
     <value>ג&apos;אנר</value>
   </data>
   <data name="searches_hashtag_error" xml:space="preserve">
-    <value></value>
+    <value>כשל בהגדרת הגדרה עבור תג זה.</value>
   </data>
   <data name="searches_height_weight" xml:space="preserve">
     <value>גובה/משקל</value>
@@ -1750,13 +1755,13 @@ Fuzzy</comment>
     <value>בדיחה לא הועלתה.</value>
   </data>
   <data name="searches_latlong" xml:space="preserve">
-    <value></value>
+    <value>קווי אורך/רוחב</value>
   </data>
   <data name="searches_level" xml:space="preserve">
     <value>רמה</value>
   </data>
   <data name="searches_list_of_place_tags" xml:space="preserve">
-    <value></value>
+    <value>רשימת תגי</value>
     <comment>Don&apos;t translate {0}place</comment>
   </data>
   <data name="searches_location" xml:space="preserve">
@@ -1766,16 +1771,18 @@ Fuzzy</comment>
     <value>חפץ הקסם לא הועלה.</value>
   </data>
   <data name="searches_mal_profile" xml:space="preserve">
-    <value></value>
+    <value>פרופיל MAL של {0}</value>
+    <comment>I don&apos;t know what MAL is, so I put it as MAL.</comment>
   </data>
   <data name="searches_mashape_api_missing" xml:space="preserve">
-    <value></value>
+    <value>בעל בוט לא ציין את MashapeApiKey. לא ניתן להשתמש בפונקציונליות זו.</value>
+    <comment>I do not know how to translate &quot;MashapeApiKey&quot;.</comment>
   </data>
   <data name="searches_min_max" xml:space="preserve">
     <value>הכי פחות/הרבה</value>
   </data>
   <data name="searches_no_channel_found" xml:space="preserve">
-    <value></value>
+    <value>לא נמצא ערוץ.</value>
   </data>
   <data name="searches_no_results" xml:space="preserve">
     <value>אין תוצעות</value>
@@ -1787,16 +1794,16 @@ Fuzzy</comment>
     <value>הקישור המקורי</value>
   </data>
   <data name="searches_osu_api_key" xml:space="preserve">
-    <value></value>
+    <value>נדרש מפתח איפיאיי של אוסו!</value>
   </data>
   <data name="searches_osu_failed" xml:space="preserve">
-    <value></value>
+    <value>נכשל אחזור חתימה של אוסו!</value>
   </data>
   <data name="searches_over_x" xml:space="preserve">
-    <value></value>
+    <value>נמצאו מעל {0} תמונות. מציג אקראי {0}.</value>
   </data>
   <data name="searches_ow_user_not_found" xml:space="preserve">
-    <value></value>
+    <value>המשתמש לא נמצא! בדוק את האזור ואת בתלתאג לפני שתנסה שוב.</value>
   </data>
   <data name="searches_plan_to_watch" xml:space="preserve">
     <value>מתקבן לראות</value>
@@ -1817,7 +1824,7 @@ Fuzzy</comment>
     <value>איכות:</value>
   </data>
   <data name="searches_quick_playtime" xml:space="preserve">
-    <value></value>
+    <value>זמן משחק מהיר</value>
   </data>
   <data name="searches_quick_wins" xml:space="preserve">
     <value>ניצחונות מהירים</value>
@@ -1841,37 +1848,37 @@ Fuzzy</comment>
     <value>משהו השתבש</value>
   </data>
   <data name="searches_specify_search_params" xml:space="preserve">
-    <value></value>
+    <value>ציין פרמטרים לחיפוש.</value>
   </data>
   <data name="searches_status" xml:space="preserve">
-    <value></value>
+    <value>סטטוס</value>
   </data>
   <data name="searches_store_url" xml:space="preserve">
     <value>קישור החנות</value>
   </data>
   <data name="searches_streamer_offline" xml:space="preserve">
-    <value></value>
+    <value>סטרימר {0} לא מחובר.</value>
   </data>
   <data name="searches_streamer_online" xml:space="preserve">
-    <value></value>
+    <value>סטרימר {0} מחובר עם {1} צפיעות</value>
   </data>
   <data name="searches_streams_following" xml:space="preserve">
-    <value></value>
+    <value>אתה עוקב אחר {0} זרמים בשרת זה.</value>
   </data>
   <data name="searches_streams_none" xml:space="preserve">
-    <value></value>
+    <value>אתה לא עוקב אחר כל סטרימים בשרת זה.</value>
   </data>
   <data name="searches_stream_no" xml:space="preserve">
-    <value></value>
+    <value>אין סטרים כזה.</value>
   </data>
   <data name="searches_stream_not_exist" xml:space="preserve">
-    <value></value>
+    <value>נראה שהסטרים אינו קיים.</value>
   </data>
   <data name="searches_stream_removed" xml:space="preserve">
-    <value></value>
+    <value>הוסר סטרים של {0}: ({1}) מההודעות.</value>
   </data>
   <data name="searches_stream_tracked" xml:space="preserve">
-    <value></value>
+    <value>אני נודיע לערוץ זה כאשר שינויים בסטטוס.</value>
   </data>
   <data name="searches_sunrise" xml:space="preserve">
     <value>זריחה</value>
@@ -1883,7 +1890,7 @@ Fuzzy</comment>
     <value>טמפרטורה</value>
   </data>
   <data name="searches_title" xml:space="preserve">
-    <value></value>
+    <value>כותרת:</value>
   </data>
   <data name="searches_top_3_fav_anime" xml:space="preserve">
     <value>שלושת האנימות הטובות ביותר:</value>
@@ -1907,10 +1914,10 @@ Fuzzy</comment>
     <value>צופה</value>
   </data>
   <data name="searches_wikia_error" xml:space="preserve">
-    <value></value>
+    <value>נכשל למצוא את המונח הזה על הוויקיה שצוין.</value>
   </data>
   <data name="searches_wikia_input_error" xml:space="preserve">
-    <value></value>
+    <value>הזן וויקיע יעד, ואחריו שאילתת חיפוש.</value>
   </data>
   <data name="searches_wiki_page_not_found" xml:space="preserve">
     <value>העמוד לא נמצא</value>
@@ -1919,24 +1926,24 @@ Fuzzy</comment>
     <value>מהירות הרוח</value>
   </data>
   <data name="searches_x_most_banned_champs" xml:space="preserve">
-    <value></value>
+    <value>{0} האלופים האסורים ביותר</value>
   </data>
   <data name="searches_yodify_error" xml:space="preserve">
-    <value></value>
+    <value>נכשלה ביודעת את המשפט שלך.</value>
   </data>
   <data name="utiliity_joined" xml:space="preserve">
     <value>הצתרף</value>
   </data>
   <data name="utility_activity_line" xml:space="preserve">
-    <value></value>
+    <value>`{0}.` {1} [{2:F2}/s] - {3} סה&quot;כ</value>
     <comment>/s and total need to be localized to fit the context -
 `1.`</comment>
   </data>
   <data name="utility_activity_page" xml:space="preserve">
-    <value></value>
+    <value>דף פעילות מס #{0}</value>
   </data>
   <data name="utility_activity_users_total" xml:space="preserve">
-    <value></value>
+    <value>{0} משתמשים סה&quot;כ</value>
   </data>
   <data name="utility_author" xml:space="preserve">
     <value>יוצר</value>
@@ -1945,82 +1952,84 @@ Fuzzy</comment>
     <value>מס&apos; זהות של הבוט</value>
   </data>
   <data name="utility_calcops" xml:space="preserve">
-    <value></value>
+    <value>רשימת פונקציות בפקודה {0}calc</value>
+    <comment>I am gonna leave {0}calc as it is.</comment>
   </data>
   <data name="utility_channelid" xml:space="preserve">
-    <value></value>
+    <value>{0} של הערוץ הזה הוא {1}</value>
   </data>
   <data name="utility_channel_topic" xml:space="preserve">
-    <value></value>
+    <value>נושא הערוץ</value>
   </data>
   <data name="utility_commands_ran" xml:space="preserve">
-    <value></value>
+    <value>פקודות רצו</value>
   </data>
   <data name="utility_convert" xml:space="preserve">
-    <value></value>
+    <value>{0} {1} שווה ל {2} {3}</value>
   </data>
   <data name="utility_convertlist" xml:space="preserve">
-    <value></value>
+    <value>יחידות אשר ניתן להשתמש בהם על ידי ממיר</value>
   </data>
   <data name="utility_convert_not_found" xml:space="preserve">
-    <value></value>
+    <value>לא ניתן להמיר את {0} ל- {1}: יחידות לא נמצאות</value>
   </data>
   <data name="utility_convert_type_error" xml:space="preserve">
-    <value></value>
+    <value>לא ניתן להמיר {0} ל- {1}: סוגי יחידות אינם שווים</value>
   </data>
   <data name="utility_created_at" xml:space="preserve">
-    <value></value>
+    <value>נוצר ב</value>
   </data>
   <data name="utility_csc_join" xml:space="preserve">
-    <value></value>
+    <value>הצטרף לערוץ השרתים הצולבים.</value>
   </data>
   <data name="utility_csc_leave" xml:space="preserve">
-    <value></value>
+    <value>שמאל לחצות ערוץ השרת.</value>
   </data>
   <data name="utility_csc_token" xml:space="preserve">
-    <value></value>
+    <value>זה אסימון CSC שלך</value>
+    <comment>Don&apos;t know what CSC is. :P</comment>
   </data>
   <data name="utility_custom_emojis" xml:space="preserve">
-    <value></value>
+    <value>אימו&apos;זי מותאם אישית</value>
   </data>
   <data name="utility_error" xml:space="preserve">
-    <value></value>
+    <value>שגיאה</value>
   </data>
   <data name="utility_features" xml:space="preserve">
-    <value></value>
+    <value>מאפיינים</value>
   </data>
   <data name="utility_id" xml:space="preserve">
-    <value></value>
+    <value>זהות</value>
   </data>
   <data name="utility_index_out_of_range" xml:space="preserve">
-    <value></value>
+    <value>אינדקס מחוץ לטווח.</value>
   </data>
   <data name="utility_inrole_list" xml:space="preserve">
-    <value></value>
+    <value>רשימת המשתמשים בתפקיד {0}</value>
   </data>
   <data name="utility_inrole_not_allowed" xml:space="preserve">
-    <value></value>
+    <value>אינך רשאי להשתמש בפקודה זו על תפקידים עם הרבה משתמשים בהם כדי למנוע התעללות.</value>
   </data>
   <data name="utility_invalid_value" xml:space="preserve">
-    <value></value>
+    <value>ערך {0} לא חוקי.</value>
     <comment>Invalid months value/ Invalid hours value</comment>
   </data>
   <data name="utility_joined_discord" xml:space="preserve">
-    <value></value>
+    <value>הצטרף לדיסקורד</value>
   </data>
   <data name="utility_joined_server" xml:space="preserve">
-    <value></value>
+    <value>הצטרף לסרבר</value>
   </data>
   <data name="utility_listservers" xml:space="preserve">
     <value>מס&apos; זהות: {0}
 משתמשים: {1}
-בעלי המס&apos; זהות: {2}</value>
+מס&apos; זהות של הבעל: {2}</value>
   </data>
   <data name="utility_listservers_none" xml:space="preserve">
-    <value></value>
+    <value>לא נמצאו שרתים בדף זה.</value>
   </data>
   <data name="utility_list_of_repeaters" xml:space="preserve">
-    <value></value>
+    <value>רשימת רפיטר</value>
   </data>
   <data name="utility_members" xml:space="preserve">
     <value>משתמשים</value>
@@ -2032,7 +2041,7 @@ Fuzzy</comment>
     <value>הודאות</value>
   </data>
   <data name="utility_message_repeater" xml:space="preserve">
-    <value></value>
+    <value>משדר הודעות</value>
   </data>
   <data name="utility_name" xml:space="preserve">
     <value>שם</value>
@@ -2044,16 +2053,16 @@ Fuzzy</comment>
     <value>אף אחד לא משחק במשחק הזה</value>
   </data>
   <data name="utility_no_active_repeaters" xml:space="preserve">
-    <value></value>
+    <value>אין מחזורים פעילים.</value>
   </data>
   <data name="utility_no_roles_on_page" xml:space="preserve">
-    <value></value>
+    <value>אין תפקידים בדף זה.</value>
   </data>
   <data name="utility_no_shards_on_page" xml:space="preserve">
-    <value></value>
+    <value>אין שברים בדף זה.</value>
   </data>
   <data name="utility_no_topic_set" xml:space="preserve">
-    <value></value>
+    <value>נושא לא הוגדר.</value>
   </data>
   <data name="utility_owner" xml:space="preserve">
     <value>בעלים</value>
@@ -2062,10 +2071,12 @@ Fuzzy</comment>
     <value>מס&apos; זהות של הבעלים</value>
   </data>
   <data name="utility_presence" xml:space="preserve">
-    <value></value>
+    <value>נוכחות</value>
   </data>
   <data name="utility_presence_txt" xml:space="preserve">
-    <value></value>
+    <value>{0} סרברים
+{1} ערוצי טקסט
+{2} ערוצים קוליים</value>
   </data>
   <data name="utility_quotes_deleted" xml:space="preserve">
     <value>מחק את כל הציטוטים עם {0} מילות המפתח.</value>
@@ -2075,149 +2086,152 @@ Fuzzy</comment>
   </data>
   <data name="utility_quotes_page_none" xml:space="preserve">
     <value>אין ציטוטים בעמוד זה.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_quotes_remove_none" xml:space="preserve">
-    <value></value>
+    <value>לא נמצאו הצעות מחיר שניתן להסיר.</value>
   </data>
   <data name="utility_quote_added" xml:space="preserve">
-    <value></value>
+    <value>ציטוט נוסף</value>
   </data>
   <data name="utility_quote_deleted" xml:space="preserve">
-    <value></value>
+    <value>ציטוט # {0} נמחק.</value>
   </data>
   <data name="utility_region" xml:space="preserve">
-    <value></value>
+    <value>אזור</value>
   </data>
   <data name="utility_registered_on" xml:space="preserve">
-    <value></value>
+    <value>רשום בתאריך</value>
   </data>
   <data name="utility_remind" xml:space="preserve">
-    <value></value>
+    <value>אני יזכיר {0} ל {1} ב {2} `(3:יום.חודש.שנה.} ב {4:שעה:דקה})`</value>
   </data>
   <data name="utility_remind_invalid_format" xml:space="preserve">
-    <value></value>
+    <value>לא פורמט זמן חוקי. בדוק את רשימת הפקודות.</value>
   </data>
   <data name="utility_remind_template" xml:space="preserve">
-    <value></value>
+    <value>הגדר תבנית חדשה של תזכורות.</value>
   </data>
   <data name="utility_repeater" xml:space="preserve">
-    <value></value>
+    <value>חוזרת על {0} כל {1} ימים, {2} שעה ו {3} דקות.</value>
   </data>
   <data name="utility_repeaters_list" xml:space="preserve">
-    <value></value>
+    <value>רשימה של ממסרים</value>
   </data>
   <data name="utility_repeaters_none" xml:space="preserve">
-    <value></value>
+    <value>אין רצים הפועלים בשרת זה.</value>
   </data>
   <data name="utility_repeater_stopped" xml:space="preserve">
-    <value></value>
+    <value>#{0} הפסיק.</value>
   </data>
   <data name="utility_repeat_invoke_none" xml:space="preserve">
-    <value></value>
+    <value>לא נמצאו הודעות חוזרות בשרת זה.</value>
   </data>
   <data name="utility_result" xml:space="preserve">
-    <value></value>
+    <value>תוצאה</value>
   </data>
   <data name="utility_roles" xml:space="preserve">
-    <value></value>
+    <value>תפקידים</value>
   </data>
   <data name="utility_roles_all_page" xml:space="preserve">
-    <value></value>
+    <value>דף # {0} של כל התפקידים בשרת זה:</value>
   </data>
   <data name="utility_roles_page" xml:space="preserve">
-    <value></value>
+    <value>דף # {0} של תפקידים עבור {1}</value>
   </data>
   <data name="utility_rrc_no_colors" xml:space="preserve">
-    <value></value>
+    <value>אין צבעים בפורמט הנכון. השתמש ב- &apos;# 00ff00` לדוגמה.</value>
+    <comment>Keeping the 00ff00 on that one.</comment>
   </data>
   <data name="utility_rrc_start" xml:space="preserve">
-    <value></value>
+    <value>התחל לסובב את הצבע של התפקיד.</value>
   </data>
   <data name="utility_rrc_stop" xml:space="preserve">
-    <value></value>
+    <value>עצרנו צבעים מסתובבים לתפקיד {0}</value>
   </data>
   <data name="utility_serverid" xml:space="preserve">
-    <value></value>
+    <value>{0} של שרת זה הוא {1}</value>
   </data>
   <data name="utility_server_info" xml:space="preserve">
-    <value></value>
+    <value>פרטי הסרבר</value>
   </data>
   <data name="utility_shard" xml:space="preserve">
-    <value></value>
+    <value>חרס</value>
   </data>
   <data name="utility_shard_stats" xml:space="preserve">
-    <value></value>
+    <value>סטטיסטוקות של החרס</value>
   </data>
   <data name="utility_shard_stats_txt" xml:space="preserve">
-    <value></value>
+    <value>חרס **#{0}** במצב {1} עם {2} סרברים</value>
   </data>
   <data name="utility_showemojis" xml:space="preserve">
-    <value></value>
+    <value>** שם: ** {0} ** קישור: ** {1}</value>
   </data>
   <data name="utility_showemojis_none" xml:space="preserve">
-    <value></value>
+    <value>לא נמצאו אמוג&apos;ים מיוחדים.</value>
   </data>
   <data name="utility_stats_songs" xml:space="preserve">
-    <value></value>
+    <value>מנגן {0} שירים, {1} בתור.</value>
   </data>
   <data name="utility_text_channels" xml:space="preserve">
-    <value></value>
+    <value>ערוצי טקסט</value>
   </data>
   <data name="utility_togtub_room_link" xml:space="preserve">
-    <value></value>
+    <value>הנה קישור לחדר שלך:</value>
   </data>
   <data name="utility_uptime" xml:space="preserve">
-    <value></value>
+    <value>זמן פתוח</value>
   </data>
   <data name="utility_userid" xml:space="preserve">
-    <value>{0} של המשתמש {1} הינו {2}</value>
+    <value>{0} של המשתמש {1} הוא {2}</value>
     <comment>Id of the user kwoth#1234 is 123123123123</comment>
   </data>
   <data name="utility_users" xml:space="preserve">
     <value>משתמשים</value>
   </data>
   <data name="utility_voice_channels" xml:space="preserve">
-    <value></value>
+    <value>ערוצי קול</value>
   </data>
   <data name="gambling_animal_race_already_in" xml:space="preserve">
-    <value>אתה כבר חלק מהמרוץ הזה.</value>
+    <value>אתה כבר חלק מהמרוץ הזה!</value>
   </data>
   <data name="games_current_poll_results" xml:space="preserve">
-    <value></value>
+    <value>תוצאות סקר שוטפות</value>
   </data>
   <data name="games_no_votes_cast" xml:space="preserve">
-    <value></value>
+    <value>לא הוטלו הצבעות.</value>
   </data>
   <data name="games_poll_already_running" xml:space="preserve">
-    <value></value>
+    <value>סקר כבר פועל על השרת הזה</value>
   </data>
   <data name="games_poll_created" xml:space="preserve">
-    <value></value>
+    <value>📃 {0} יצרה סקר הדורש את תשומת לבך:</value>
   </data>
   <data name="games_poll_result" xml:space="preserve">
-    <value></value>
+    <value>&apos;{0}.&apos; {1} עם {2} הצבעות.</value>
   </data>
   <data name="games_poll_voted" xml:space="preserve">
     <value>{0} הצביע.</value>
     <comment>Kwoth voted.</comment>
   </data>
   <data name="games_poll_vote_private" xml:space="preserve">
-    <value></value>
+    <value>פרטי הודעה לי עם המספר המתאים של התשובה.</value>
   </data>
   <data name="games_poll_vote_public" xml:space="preserve">
-    <value></value>
+    <value>שלח הודעה כאן עם המספר המתאים של התשובה.</value>
   </data>
   <data name="games_thanks_for_voting" xml:space="preserve">
     <value>תודה שהצבעתת {0}</value>
   </data>
   <data name="games_x_votes_cast" xml:space="preserve">
-    <value></value>
+    <value>{0} סה&quot;כ הצבעות שהועברו.</value>
   </data>
   <data name="games_pick_pl" xml:space="preserve">
     <value>בחר אותם על ידי הקלדת `{0}בחר`</value>
   </data>
   <data name="games_pick_sn" xml:space="preserve">
-    <value></value>
+    <value>בחר אותו על ידי הקלדת `{0} pick`</value>
+    <comment>I will keep the pick there.</comment>
   </data>
   <data name="gambling_no_users_found" xml:space="preserve">
     <value>משתמש לא נמצא.</value>
@@ -2229,172 +2243,288 @@ Fuzzy</comment>
     <value>אתה חייב להיות בערוץ קול.</value>
   </data>
   <data name="administration_no_vcroles" xml:space="preserve">
-    <value></value>
+    <value>אין תפקידי ערוץ קול.</value>
   </data>
   <data name="administration_user_muted_time" xml:space="preserve">
-    <value></value>
+    <value>{0} הושתק ** מהטקסט והצ&apos;אט הקולי למשך {1} דקות.</value>
   </data>
   <data name="administration_vcrole_added" xml:space="preserve">
-    <value></value>
+    <value>משתמשים שיצטרפו לערוץ הקולי {0} יקבלו {1} תפקיד.</value>
   </data>
   <data name="administration_vcrole_removed" xml:space="preserve">
-    <value></value>
+    <value>משתמשים שיצטרפו לערוץ הקולי {0} לא יקבלו עוד תפקיד.</value>
   </data>
   <data name="administration_vc_role_list" xml:space="preserve">
-    <value></value>
+    <value>תפקידי ערוצים קוליים</value>
   </data>
   <data name="customreactions_crad_disabled" xml:space="preserve">
-    <value></value>
+    <value>ההודעה שתפעיל את התגובה המותאמת אישית עם מזהה {0} לא תימחק אוטומטית.</value>
   </data>
   <data name="customreactions_crad_enabled" xml:space="preserve">
-    <value></value>
+    <value>ההודעה שתפעיל את התגובה המותאמת אישית עם מזהה {0} תימחק אוטומטית.</value>
   </data>
   <data name="customreactions_crdm_disabled" xml:space="preserve">
-    <value></value>
+    <value>הודעת התגובה עבור התגובה המותאמת אישית עם id {0} לא תישלח כהודעה ישירה</value>
   </data>
   <data name="customreactions_crdm_enabled" xml:space="preserve">
-    <value></value>
+    <value>הודעת תגובה עבור התגובה המותאמת אישית עם id {0} תישלח כהודעה ישירה.</value>
   </data>
   <data name="utility_aliases_none" xml:space="preserve">
-    <value></value>
+    <value>לא נמצא כינוי</value>
   </data>
   <data name="utility_alias_added" xml:space="preserve">
-    <value></value>
+    <value>ההקלדה {0} תהיה כעת כינוי של {1}.</value>
   </data>
   <data name="utility_alias_list" xml:space="preserve">
-    <value></value>
+    <value>רשימת כינויים</value>
   </data>
   <data name="utility_alias_removed" xml:space="preserve">
-    <value></value>
+    <value>למפעיל {0} אין עוד כינוי.</value>
   </data>
   <data name="utility_alias_remove_fail" xml:space="preserve">
-    <value></value>
+    <value>למפעיל {0} לא היה כינוי.</value>
   </data>
   <data name="searches_compet_playtime" xml:space="preserve">
-    <value></value>
+    <value>זמן תחרותי</value>
   </data>
   <data name="administration_channel" xml:space="preserve">
-    <value></value>
+    <value>ערוץ</value>
   </data>
   <data name="administration_command_text" xml:space="preserve">
-    <value></value>
+    <value>טקסט פיקוד</value>
   </data>
   <data name="administration_kicked_pl" xml:space="preserve">
-    <value></value>
+    <value>בעט</value>
     <comment>PLURAL</comment>
   </data>
   <data name="administration_moderator" xml:space="preserve">
-    <value></value>
+    <value>מנחה</value>
   </data>
   <data name="administration_page" xml:space="preserve">
-    <value></value>
+    <value>דף {0}</value>
   </data>
   <data name="administration_reason" xml:space="preserve">
-    <value></value>
+    <value>סיבה</value>
   </data>
   <data name="administration_scadd" xml:space="preserve">
-    <value></value>
+    <value>נוספה פקודת הפעלה חדשה.</value>
   </data>
   <data name="administration_scrm" xml:space="preserve">
-    <value></value>
+    <value>פקודת האתחול הוסרה בהצלחה.</value>
   </data>
   <data name="administration_scrm_fail" xml:space="preserve">
-    <value></value>
+    <value>פקודת האתחול לא נמצאה.</value>
   </data>
   <data name="administration_server" xml:space="preserve">
-    <value></value>
+    <value>סרבר</value>
   </data>
   <data name="administration_startcmdlist_none" xml:space="preserve">
-    <value></value>
+    <value>אין פקודות הפעלה בדף זה.</value>
   </data>
   <data name="administration_startcmds_cleared" xml:space="preserve">
-    <value></value>
+    <value>נקה את כל פקודות ההפעלה.</value>
   </data>
   <data name="administration_unbanned_user" xml:space="preserve">
-    <value></value>
+    <value>המשתמש {0} קיבל אנבאן</value>
   </data>
   <data name="administration_user_not_found" xml:space="preserve">
-    <value></value>
+    <value>המשתמש לא נמצא.</value>
   </data>
   <data name="administration_user_warned" xml:space="preserve">
-    <value></value>
+    <value>המשתמש {0} הזהיר.</value>
   </data>
   <data name="administration_user_warned_and_punished" xml:space="preserve">
-    <value></value>
+    <value>המשתמש {0} הזהיר והפעלת {1} עונש.</value>
   </data>
   <data name="administration_warned_on" xml:space="preserve">
-    <value></value>
+    <value>מזהים בשרת {0}</value>
   </data>
   <data name="administration_warned_on_by" xml:space="preserve">
-    <value></value>
+    <value>ב- {0} ב- {1} עד {2}</value>
   </data>
   <data name="administration_warnings_cleared" xml:space="preserve">
-    <value></value>
+    <value>כל ההתראות נמחקו עבור {0}.</value>
   </data>
   <data name="administration_warnings_none" xml:space="preserve">
-    <value></value>
+    <value>אין אזהרה בדף זה.</value>
   </data>
   <data name="administration_warnlog_for" xml:space="preserve">
-    <value></value>
+    <value>אזהרה עבור {0}</value>
   </data>
   <data name="administration_warnpl_none" xml:space="preserve">
-    <value></value>
+    <value>לא נקבעו עונשים.</value>
   </data>
   <data name="administration_warn_cleared_by" xml:space="preserve">
-    <value></value>
+    <value>נמחק על ידי {0}</value>
   </data>
   <data name="administration_warn_punish_list" xml:space="preserve">
-    <value></value>
+    <value>רשימת עונשים אזהרה</value>
   </data>
   <data name="administration_warn_punish_rem" xml:space="preserve">
-    <value></value>
+    <value>לאחר {0} אזהרות לא יגרור עוד עונש.</value>
   </data>
   <data name="administration_warn_punish_set" xml:space="preserve">
-    <value></value>
+    <value>אני אשים עונש {0} למשתמשים עם אזהרות {1}.</value>
   </data>
   <data name="administration_slowmodewl_role_start" xml:space="preserve">
-    <value></value>
+    <value>סלואומאוד יתעלם כעת מתפקיד {0}.</value>
   </data>
   <data name="administration_slowmodewl_role_stop" xml:space="preserve">
-    <value></value>
+    <value>סלואומאוד לא יתעלם עוד מהתפקיד {0}.</value>
   </data>
   <data name="administration_slowmodewl_user_start" xml:space="preserve">
-    <value></value>
+    <value>סלואומאוד יתעלם כעת מהמשתמש {0}.</value>
   </data>
   <data name="administration_slowmodewl_user_stop" xml:space="preserve">
-    <value></value>
+    <value>סלואומאוד לא יתעלם עוד מהמשתמש {0}.</value>
   </data>
   <data name="utility_clpa_fail" xml:space="preserve">
-    <value></value>
+    <value>כשל בטענה לתגמולים בשל אחת מהסיבות הבאות:</value>
   </data>
   <data name="utility_clpa_fail_already" xml:space="preserve">
-    <value></value>
+    <value>אולי כבר קיבלת את הפרס שלך לחודש זה. אתה יכול לקבל תגמולים רק פעם בחודש, אלא אם תגדיל את ההתחייבות שלך.</value>
   </data>
   <data name="utility_clpa_fail_already_title" xml:space="preserve">
-    <value></value>
+    <value>כבר מתוגמל</value>
   </data>
   <data name="utility_clpa_fail_conn" xml:space="preserve">
-    <value></value>
+    <value>ייתכן שחשבון הדיסקורד שלך אינו מחובר לפטריון. אם אינך בטוח מה פירוש הדבר, או אינך יודע כיצד לחבר אותו - עליך לעבור אל [דף הגדרות החשבון של Patreon] (https://patreon.com/settings/account) ולחץ על הלחצן &apos;התחבר לדיסק&apos; .</value>
   </data>
   <data name="utility_clpa_fail_conn_title" xml:space="preserve">
-    <value></value>
+    <value>חשבון דיסקורד אינו מחובר</value>
   </data>
   <data name="utility_clpa_fail_sup" xml:space="preserve">
-    <value></value>
+    <value>כדי להיות זכאי לתגמל, עליך לתמוך בפרויקט על patreon. ניתן להשתמש בפקודה {0} כדי לקבל את הקישור.</value>
   </data>
   <data name="utility_clpa_fail_sup_title" xml:space="preserve">
-    <value></value>
+    <value>לא תומך</value>
   </data>
   <data name="utility_clpa_fail_wait" xml:space="preserve">
-    <value></value>
+    <value>אתה צריך לחכות כמה שעות לאחר ביצוע התחייבות שלך, אם לא, נסה שוב מאוחר יותר.</value>
   </data>
   <data name="utility_clpa_fail_wait_title" xml:space="preserve">
-    <value></value>
+    <value>חכה קצת</value>
   </data>
   <data name="utility_clpa_success" xml:space="preserve">
-    <value></value>
+    <value>קיבלת {0} תודה על תמיכתך בפרויקט!</value>
   </data>
   <data name="utility_clpa_too_early" xml:space="preserve">
+    <value>תגמולים יכולים להיות טענה על או לאחר 5 של כל חודש.</value>
+  </data>
+  <data name="searches_time" xml:space="preserve">
+    <value>הזמן ב {0} הוא {1} - {2}</value>
+    <comment>Time in London, UK is 15:30 - Time Zone Name</comment>
+  </data>
+  <data name="administration_rh" xml:space="preserve">
+    <value>הגדר את התצוגה של תפקיד הגילדה {0} ל- {1}.</value>
+  </data>
+  <data name="gambling_name" xml:space="preserve">
+    <value>שם</value>
+  </data>
+  <data name="gambling_shop" xml:space="preserve">
+    <value>חנות</value>
+  </data>
+  <data name="gambling_shop_item_add" xml:space="preserve">
+    <value>פריט חנות נוסף</value>
+  </data>
+  <data name="gambling_shop_none" xml:space="preserve">
+    <value>לא נמצאו פריטים בדף זה.</value>
+  </data>
+  <data name="gambling_shop_role" xml:space="preserve">
+    <value>אתה תקבל {0} תפקיד.</value>
+  </data>
+  <data name="gambling_type" xml:space="preserve">
+    <value>סוג</value>
+  </data>
+  <data name="utility_clpa_next_update" xml:space="preserve">
+    <value>העדכון הבא ב- {0}</value>
+    <comment>Next update in 05:30</comment>
+  </data>
+  <data name="administration_global_perms_reset" xml:space="preserve">
+    <value>הרשאות גלובליות אופסו.</value>
+  </data>
+  <data name="administration_gvc_disabled" xml:space="preserve">
+    <value>התכונה &apos;ערוץ קול&apos; של המשחק הושבתה בשרת זה.</value>
+  </data>
+  <data name="administration_gvc_enabled" xml:space="preserve">
+    <value>{0} הוא ערוץ קול של משחקים כעת.</value>
+  </data>
+  <data name="administration_not_in_voice" xml:space="preserve">
+    <value>אינך נמצא בערוץ קול בשרת זה.</value>
+  </data>
+  <data name="gambling_item" xml:space="preserve">
+    <value>פריט</value>
+  </data>
+  <data name="gambling_out_of_stock" xml:space="preserve">
+    <value>אזל במלאי.</value>
+  </data>
+  <data name="gambling_random_unique_item" xml:space="preserve">
+    <value>פריט ייחודי אקראי.</value>
+  </data>
+  <data name="gambling_shop_buy_error" xml:space="preserve">
+    <value>שגיאה בפריט העברת הודעות ישיר. קיבלנו החזר כספי.</value>
+  </data>
+  <data name="gambling_shop_item_not_found" xml:space="preserve">
+    <value>לא נמצא פריט במדד זה.</value>
+  </data>
+  <data name="gambling_shop_item_purchase" xml:space="preserve">
+    <value>הפריט רכש בהצלחה.</value>
+  </data>
+  <data name="gambling_shop_item_rm" xml:space="preserve">
+    <value>פריט חנות הוסר</value>
+  </data>
+  <data name="gambling_shop_item_wrong_type" xml:space="preserve">
+    <value>ערך חנות זה אינו תומך בהוספת פריטים.</value>
+  </data>
+  <data name="gambling_shop_list_item_added" xml:space="preserve">
+    <value>הפריט נוסף בהצלחה.</value>
+  </data>
+  <data name="gambling_shop_list_item_not_unique" xml:space="preserve">
+    <value>פריט זה כבר נוסף.</value>
+  </data>
+  <data name="gambling_shop_purchase" xml:space="preserve">
+    <value>רכישה בסרבר {0}</value>
+  </data>
+  <data name="gambling_shop_role_not_found" xml:space="preserve">
+    <value>התפקיד שנמכר כבר לא קיים.</value>
+  </data>
+  <data name="gambling_shop_role_purchase" xml:space="preserve">
+    <value>רכשת בהצלחה את תפקיד {0}.</value>
+  </data>
+  <data name="gambling_shop_role_purchase_error" xml:space="preserve">
+    <value>שגיאה בהקצאת תפקיד. הרכישה שלך הוחזרה.</value>
+  </data>
+  <data name="gambling_unique_items_left" xml:space="preserve">
+    <value>נותרו {0} פריטים ייחודיים.</value>
+  </data>
+  <data name="permissions_blocked_commands" xml:space="preserve">
+    <value>פקודות חסומות</value>
+  </data>
+  <data name="permissions_blocked_modules" xml:space="preserve">
+    <value>מודולים חסומים</value>
+  </data>
+  <data name="permissions_gcmd_add" xml:space="preserve">
+    <value>הפקודה {0} הושבתה בכל השרתים.</value>
+  </data>
+  <data name="permissions_gcmd_remove" xml:space="preserve">
+    <value>הפקודה {0} הופעלה בכל השרתים.</value>
+  </data>
+  <data name="permissions_gmod_add" xml:space="preserve">
+    <value>מודול {0} הושבת בכל השרתים.</value>
+  </data>
+  <data name="permissions_gmod_remove" xml:space="preserve">
+    <value>מודול {0} הופעל בכל השרתים.</value>
+  </data>
+  <data name="permissions_lgp_none" xml:space="preserve">
+    <value>אין פקודות או מודולים חסומים.</value>
+  </data>
+  <data name="gambling_animal_race_no_race" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_cant_read_or_send" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_quotes_notfound" xml:space="preserve">
     <value></value>
   </data>
 
