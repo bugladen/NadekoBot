@@ -623,6 +623,7 @@ Sebep: {1}</value>
   </data>
   <data name="administration_rc_perms" xml:space="preserve">
     <value>Renk geçersiz veya yetersiz izinler nedeniyle hata oluştu.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_remrole" xml:space="preserve">
     <value>{1} kullanıcısının sahip olduğu {0} rolü başarı ile alındı.</value>
@@ -644,6 +645,7 @@ Sebep: {1}</value>
   </data>
   <data name="administration_role_added" xml:space="preserve">
     <value>Rol {0}, listeye eklendi.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_role_clean" xml:space="preserve">
     <value>{0} bulunamadı. Temizlendi.</value>
@@ -741,8 +743,7 @@ Sebep: {1}</value>
   </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
     <value>Hafif bir şekilde yasaklandılar (atıldılar)</value>
-    <comment>PLURAL
-Fuzzy</comment>
+    <comment>PLURAL</comment>
   </data>
   <data name="administration_spam_ignore" xml:space="preserve">
     <value>{0} bu kanalı yoksayacak.</value>
@@ -841,6 +842,7 @@ __Yok Sayılan Kanallar__:  {2}</value>
   </data>
   <data name="administration_vt_perms" xml:space="preserve">
     <value>Bu özelliği etkinleştirmek için en azından **rolleri yönetmek** ve **kanal izinlerini yönetmek** zorundayım.(Tercih edilen Yönetim izni)</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_xmuted_text" xml:space="preserve">
     <value>Metin sohbetinde {0} kullanıcı</value>
@@ -1239,12 +1241,10 @@ Sebep: {1}</value>
   </data>
   <data name="games_curgen_pl" xml:space="preserve">
     <value>{0} rastgele {1} ortaya çıktı!</value>
-    <comment>plural
-Fuzzy</comment>
+    <comment>plural</comment>
   </data>
   <data name="games_curgen_sn" xml:space="preserve">
     <value>Rastgele bir {0} ortaya çıktı!</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="games_failed_loading_question" xml:space="preserve">
     <value>Bir soru yüklenemedi.</value>
@@ -1719,6 +1719,7 @@ Fuzzy</comment>
   </data>
   <data name="searches_error_occured" xml:space="preserve">
     <value>Hata oluştu.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_example" xml:space="preserve">
     <value>Örnek</value>
@@ -2084,6 +2085,7 @@ Kurucu Kimliği: {2}</value>
   </data>
   <data name="utility_quotes_page_none" xml:space="preserve">
     <value>Bu sayfada alıntı yok.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_quotes_remove_none" xml:space="preserve">
     <value>Kaldırabileceğiniz alıntı bulunamadı.</value>
@@ -2405,6 +2407,122 @@ Kurucu Kimliği: {2}</value>
   </data>
   <data name="utility_clpa_too_early" xml:space="preserve">
     <value>Ödüller, her ayın 5&apos;inde veya sonrasında talep edilebilir.</value>
+  </data>
+  <data name="searches_time" xml:space="preserve">
+    <value>{0} &apos;daki zaman {1} - {2}</value>
+    <comment>Time in London, UK is 15:30 - Time Zone Name</comment>
+  </data>
+  <data name="administration_rh" xml:space="preserve">
+    <value>Lonca rolü {0} görüntüsünü {1} ayarlayın</value>
+  </data>
+  <data name="gambling_name" xml:space="preserve">
+    <value>İsim</value>
+  </data>
+  <data name="gambling_shop" xml:space="preserve">
+    <value>Market</value>
+  </data>
+  <data name="gambling_shop_item_add" xml:space="preserve">
+    <value>Markete eşya eklendi</value>
+  </data>
+  <data name="gambling_shop_none" xml:space="preserve">
+    <value>Bu sayfada market eşyası bulunamadı</value>
+  </data>
+  <data name="gambling_shop_role" xml:space="preserve">
+    <value>{0} rol alacaksınız.</value>
+  </data>
+  <data name="gambling_type" xml:space="preserve">
+    <value>Tip</value>
+  </data>
+  <data name="utility_clpa_next_update" xml:space="preserve">
+    <value>{0} &apos;da sonraki güncelleme</value>
+    <comment>Next update in 05:30</comment>
+  </data>
+  <data name="administration_global_perms_reset" xml:space="preserve">
+    <value>Genel izinler sıfırlandı.</value>
+  </data>
+  <data name="administration_gvc_disabled" xml:space="preserve">
+    <value>Oyun Ses Kanalı özelliği bu sunucuda devre dışı bırakıldı.</value>
+  </data>
+  <data name="administration_gvc_enabled" xml:space="preserve">
+    <value>{0} şimdi bir Oyun Sesli Kanal.</value>
+  </data>
+  <data name="administration_not_in_voice" xml:space="preserve">
+    <value>Bu sunucuda sesli kanalda değilsiniz.</value>
+  </data>
+  <data name="gambling_item" xml:space="preserve">
+    <value>eşya</value>
+  </data>
+  <data name="gambling_out_of_stock" xml:space="preserve">
+    <value>Stoklar tükendi</value>
+  </data>
+  <data name="gambling_random_unique_item" xml:space="preserve">
+    <value>Rastgele eşsiz öğe.</value>
+  </data>
+  <data name="gambling_shop_buy_error" xml:space="preserve">
+    <value>Direkt Mesajlaşma öğesinde hata. Satın aldığınız eşyanın para iadesi yapıldı.</value>
+  </data>
+  <data name="gambling_shop_item_not_found" xml:space="preserve">
+    <value>Bu dizinde hiçbir öğe bulunamadı.</value>
+  </data>
+  <data name="gambling_shop_item_purchase" xml:space="preserve">
+    <value>Eşya satın alımı başarılı.</value>
+  </data>
+  <data name="gambling_shop_item_rm" xml:space="preserve">
+    <value>Market eşyası kaldırıldı</value>
+  </data>
+  <data name="gambling_shop_item_wrong_type" xml:space="preserve">
+    <value>Dükkan girişi öğe eklemeyi desteklemez.</value>
+  </data>
+  <data name="gambling_shop_list_item_added" xml:space="preserve">
+    <value>Eşya başarıyla eklendi.</value>
+  </data>
+  <data name="gambling_shop_list_item_not_unique" xml:space="preserve">
+    <value>Bu eşya zaten ekli</value>
+  </data>
+  <data name="gambling_shop_purchase" xml:space="preserve">
+    <value>{0} sunucusunda satın alma</value>
+  </data>
+  <data name="gambling_shop_role_not_found" xml:space="preserve">
+    <value>Satılan rol artık yok.</value>
+  </data>
+  <data name="gambling_shop_role_purchase" xml:space="preserve">
+    <value>{0} rolünü başarıyla satın aldınız.</value>
+  </data>
+  <data name="gambling_shop_role_purchase_error" xml:space="preserve">
+    <value>Rol atama hatası. Satın aldığınız eşyanın para iadesi yapıldı.</value>
+  </data>
+  <data name="gambling_unique_items_left" xml:space="preserve">
+    <value>{0} eşsiz öğe kaldı.</value>
+  </data>
+  <data name="permissions_blocked_commands" xml:space="preserve">
+    <value>Engellenen Komutlar</value>
+  </data>
+  <data name="permissions_blocked_modules" xml:space="preserve">
+    <value>Engellenen Modüller</value>
+  </data>
+  <data name="permissions_gcmd_add" xml:space="preserve">
+    <value>{0} komutu tüm sunucularda devre dışı bırakıldı.</value>
+  </data>
+  <data name="permissions_gcmd_remove" xml:space="preserve">
+    <value>{0} komutu tüm sunucularda etkinleştirildi.</value>
+  </data>
+  <data name="permissions_gmod_add" xml:space="preserve">
+    <value>{0} modülü tüm sunucularda devre dışı bırakıldı.</value>
+  </data>
+  <data name="permissions_gmod_remove" xml:space="preserve">
+    <value>{0} modülü tüm sunucularda etkinleştirildi. </value>
+  </data>
+  <data name="permissions_lgp_none" xml:space="preserve">
+    <value>Bloke edilmiş komut veya modül yok.</value>
+  </data>
+  <data name="gambling_animal_race_no_race" xml:space="preserve">
+    <value>Bu Hayvan Yarışı dolu!</value>
+  </data>
+  <data name="utility_cant_read_or_send" xml:space="preserve">
+    <value>Bu kanalda mesaj okuyamaz veya bu kanala mesaj gönderemezsiniz.</value>
+  </data>
+  <data name="utility_quotes_notfound" xml:space="preserve">
+    <value></value>
   </data>
 
 </root>
