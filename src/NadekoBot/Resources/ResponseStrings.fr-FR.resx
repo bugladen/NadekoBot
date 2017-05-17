@@ -167,7 +167,6 @@
   </data>
   <data name="clashofclans_no_active_wars" xml:space="preserve">
     <value>Aucune guerre en cours.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="clashofclans_size" xml:space="preserve">
     <value>Taille</value>
@@ -626,6 +625,7 @@ Raison: {1}</value>
   </data>
   <data name="administration_rc_perms" xml:space="preserve">
     <value>Erreur due à un manque de permissions ou à une couleur invalide.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_remrole" xml:space="preserve">
     <value>L&apos;utilisateur {1} n&apos;a plus le rôle {0}.</value>
@@ -647,6 +647,7 @@ Raison: {1}</value>
   </data>
   <data name="administration_role_added" xml:space="preserve">
     <value>Le rôle {0} a été ajouté à la liste.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_role_clean" xml:space="preserve">
     <value>{0} introuvable. Nettoyé.</value>
@@ -747,9 +748,8 @@ Raison: {1}</value>
     <value>Mode ralenti activé</value>
   </data>
   <data name="administration_soft_banned_pl" xml:space="preserve">
-    <value>expulsés (kick)</value>
-    <comment>PLURAL
-Fuzzy</comment>
+    <value>expulsés</value>
+    <comment>PLURAL</comment>
   </data>
   <data name="administration_spam_ignore" xml:space="preserve">
     <value>{0} ignorera ce Salon.</value>
@@ -844,10 +844,11 @@ Fuzzy</comment>
     <value>Je n&apos;ai pas la permission **Gérer les rôles** et/ou **Gérer les salons**, je ne peux donc pas utiliser `voice+text` sur le serveur {0}.</value>
   </data>
   <data name="administration_vt_no_admin" xml:space="preserve">
-    <value>Vous activez/désactivez cette fonctionnalité et **je n&apos;ai pas la permission ADMINISTRATEUR**. Cela pourrait causer des dysfonctionnements, et vous devrez nettoyer les salons textuels vous-même après ça.</value>
+    <value>Vous activez/désactivez cette fonctionnalité et **je n&apos;ai pas la permission ADMINISTRATEUR**. Cela pourrait causer des dysfonctionnements, et vous devrez nettoyer les salons textuels vous-même après cela.</value>
   </data>
   <data name="administration_vt_perms" xml:space="preserve">
     <value>Je nécessite au minimum les rôles **Gérer les rôles** et **Gérer les salons** pour activer cette fonctionnalité. (Permission Administrateur de préférence)</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="administration_xmuted_text" xml:space="preserve">
     <value>Utilisateur {0} depuis un salon textuel.</value>
@@ -1101,12 +1102,10 @@ N&apos;oubliez pas de mettre votre nom discord ou ID dans le message.
   </data>
   <data name="gambling_changes_of_heart" xml:space="preserve">
     <value>Changements d&apos;avis</value>
-    <comment>La plus proche traduction pour cette expression serait &quot;Changement d&apos;avis&quot;
-Fuzzy</comment>
+    <comment>La plus proche traduction pour cette expression serait &quot;Changement d&apos;avis&quot;</comment>
   </data>
   <data name="gambling_claimed_by" xml:space="preserve">
     <value>Revendiquée par</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_divorces" xml:space="preserve">
     <value>Divorces</value>
@@ -1225,7 +1224,6 @@ La nouvelle valeur de {0} est {1} !</value>
   </data>
   <data name="games_submissions_closed" xml:space="preserve">
     <value>Soumissions fermées.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="gambling_animal_race_already_started" xml:space="preserve">
     <value>Une course d&apos;animaux est déjà en cours.</value>
@@ -1550,11 +1548,9 @@ La nouvelle valeur de {0} est {1} !</value>
   </data>
   <data name="permissions_cx_disable" xml:space="preserve">
     <value>Désactivation: {1} {0} sur le salon {2}.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_cx_enable" xml:space="preserve">
     <value>Activation: {1} {0} sur le salon {2}.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="permissions_denied" xml:space="preserve">
     <value>Refusé</value>
@@ -1733,6 +1729,7 @@ La nouvelle valeur de {0} est {1} !</value>
   </data>
   <data name="searches_error_occured" xml:space="preserve">
     <value>Une erreur s&apos;est produite.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="searches_example" xml:space="preserve">
     <value>Exemple</value>
@@ -2023,7 +2020,6 @@ La nouvelle valeur de {0} est {1} !</value>
   </data>
   <data name="utility_inrole_not_allowed" xml:space="preserve">
     <value>Vous ne pouvez pas utiliser cette commande sur les rôles associés à beaucoup d&apos;utilisateurs afin d&apos;éviter les abus.</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="utility_invalid_value" xml:space="preserve">
     <value>Valeur {0} invalide.</value>
@@ -2101,7 +2097,8 @@ ID du propriétaire: {2}</value>
     <value>Page {0} des citations</value>
   </data>
   <data name="utility_quotes_page_none" xml:space="preserve">
-    <value>Aucune citation sur cette page.</value>
+    <value>Aucune citation correspondant à l&apos;ID spécifié n&apos;a été trouvée.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="utility_quotes_remove_none" xml:space="preserve">
     <value>Aucune citation que vous puissiez supprimer n&apos;a été trouvé.</value>
@@ -2381,7 +2378,7 @@ ID du propriétaire: {2}</value>
     <value>Avoir {0} avertissements ne déclenche plus de punition.</value>
   </data>
   <data name="administration_warn_punish_set" xml:space="preserve">
-    <value>J&apos;appliquerai seulement la punition {0} aux utilisateurs ayant {1} avertissements.</value>
+    <value>J&apos;appliquerai la punition {0} aux utilisateurs ayant {1} avertissements.</value>
   </data>
   <data name="administration_slowmodewl_role_start" xml:space="preserve">
     <value>Le mode lent ignorera le rôle {0}.</value>
@@ -2402,31 +2399,149 @@ ID du propriétaire: {2}</value>
     <value>Vous avez peut-être déjà reçu votre récompense mensuelle. Vous ne pouvez recevoir qu&apos;une récompense mensuelle sauf si vous augmentez votre engagement.</value>
   </data>
   <data name="utility_clpa_fail_already_title" xml:space="preserve">
-    <value>Déjà récompensé.</value>
+    <value>Déjà récompensé</value>
   </data>
   <data name="utility_clpa_fail_conn" xml:space="preserve">
-    <value>Votre compte Discord n&apos;est peut-être pas connecté à Patreon. Si vous n&apos;êtes pas sur de ce que ça veut dire, ou ne savez pas comment le connecter, vous devez aller à la [Page de configuration du compte Patreon](https://patreon.com/settings/account) et cliquer sur &apos;Connect to discord&apos;.</value>
+    <value>Votre compte Discord n&apos;est peut-être pas connecté à Patreon. Si vous n&apos;êtes pas sur de ce que cela signifie, ou ne savez pas comment le faire, rendez-vous sur la [page de configuration de votre compte Patreon](https://patreon.com/settings/account) et cliquez sur &apos;Connect to discord&apos;.</value>
   </data>
   <data name="utility_clpa_fail_conn_title" xml:space="preserve">
-    <value>Le compte Discord n&apos;est pas connecté</value>
+    <value>Compte Discord non connecté</value>
   </data>
   <data name="utility_clpa_fail_sup" xml:space="preserve">
     <value>Pour être éligible à la récompense, vous devez supporter le projet sur Patreon. Vous pouvez utiliser la commande {0} afin d&apos;avoir le lien.</value>
   </data>
   <data name="utility_clpa_fail_sup_title" xml:space="preserve">
-    <value>Ne supporte pas.</value>
+    <value>Pas un Patreon</value>
   </data>
   <data name="utility_clpa_fail_wait" xml:space="preserve">
-    <value>Vous devez attendre quelques heures après avoir fait votre engagement, si ce n&apos;est pas le cas, réessayez plus tard.</value>
+    <value>Vous devez attendre quelques heures après avoir fait votre engagement. Si ce n&apos;est pas le cas, réessayez plus tard.</value>
   </data>
   <data name="utility_clpa_fail_wait_title" xml:space="preserve">
-    <value>Attendez quelque temps</value>
+    <value>Veuillez patienter</value>
   </data>
   <data name="utility_clpa_success" xml:space="preserve">
     <value>Vous avez reçu {0}. Merci de supporter le projet!</value>
   </data>
   <data name="utility_clpa_too_early" xml:space="preserve">
     <value>Les récompenses peuvent être réclamés le 5e du mois ou après.</value>
+  </data>
+  <data name="searches_time" xml:space="preserve">
+    <value>Heure locale de {0}: {1} - {2}</value>
+    <comment>Time in London, UK is 15:30 - Time Zone Name</comment>
+  </data>
+  <data name="administration_rh" xml:space="preserve">
+    <value>Affichage du rôle {0} de manière séparée: {1}.</value>
+  </data>
+  <data name="gambling_name" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="gambling_shop" xml:space="preserve">
+    <value>Magasin</value>
+  </data>
+  <data name="gambling_shop_item_add" xml:space="preserve">
+    <value>Objet ajouté au magasin</value>
+  </data>
+  <data name="gambling_shop_none" xml:space="preserve">
+    <value>Aucun objet trouvé sur cette page du magasin.</value>
+    <comment>ou sinon &quot;Aucun objet en vente trouvé sur cette page.&quot;</comment>
+  </data>
+  <data name="gambling_shop_role" xml:space="preserve">
+    <value>Vous recevrez le rôle {0}.</value>
+  </data>
+  <data name="gambling_type" xml:space="preserve">
+    <value>Type</value>
+    <comment>Pokémon type ?</comment>
+  </data>
+  <data name="utility_clpa_next_update" xml:space="preserve">
+    <value>Prochaine mise à jour dans {0}</value>
+    <comment>Next update in 05:30</comment>
+  </data>
+  <data name="administration_global_perms_reset" xml:space="preserve">
+    <value>Permissions globales réinitialisées.</value>
+  </data>
+  <data name="administration_gvc_disabled" xml:space="preserve">
+    <value>Les salons vocaux de jeux ont été désactivés sur ce serveur.</value>
+  </data>
+  <data name="administration_gvc_enabled" xml:space="preserve">
+    <value>{0} est maintenant un salon vocal de jeu.</value>
+  </data>
+  <data name="administration_not_in_voice" xml:space="preserve">
+    <value>Vous n&apos;êtes pas connectés à un salon vocal sur ce serveur.</value>
+  </data>
+  <data name="gambling_item" xml:space="preserve">
+    <value>Objet</value>
+  </data>
+  <data name="gambling_out_of_stock" xml:space="preserve">
+    <value>Rupture de stock.</value>
+  </data>
+  <data name="gambling_random_unique_item" xml:space="preserve">
+    <value>Objet unique aléatoire</value>
+  </data>
+  <data name="gambling_shop_buy_error" xml:space="preserve">
+    <value>Erreur dans l&apos;envoi de l&apos;objet par MP. Vous avez été remboursé.</value>
+  </data>
+  <data name="gambling_shop_item_not_found" xml:space="preserve">
+    <value>Aucun objet correspondant à ce numéro n&apos;a été trouvé.</value>
+  </data>
+  <data name="gambling_shop_item_purchase" xml:space="preserve">
+    <value>Achat effectué avec succès.</value>
+  </data>
+  <data name="gambling_shop_item_rm" xml:space="preserve">
+    <value>Objet retiré du magasin</value>
+  </data>
+  <data name="gambling_shop_item_wrong_type" xml:space="preserve">
+    <value>Ce type de magasin ne supporte pas l&apos;ajout d&apos;objets.</value>
+  </data>
+  <data name="gambling_shop_list_item_added" xml:space="preserve">
+    <value>Objet ajouté avec succès.</value>
+  </data>
+  <data name="gambling_shop_list_item_not_unique" xml:space="preserve">
+    <value>Objet déjà ajouté au magasin.</value>
+  </data>
+  <data name="gambling_shop_purchase" xml:space="preserve">
+    <value>Achat sur le serveur {0}</value>
+  </data>
+  <data name="gambling_shop_role_not_found" xml:space="preserve">
+    <value>Le rôle en vente n&apos;existe plus.</value>
+  </data>
+  <data name="gambling_shop_role_purchase" xml:space="preserve">
+    <value>Vous avez acheté le rôle {0} avec succès.</value>
+  </data>
+  <data name="gambling_shop_role_purchase_error" xml:space="preserve">
+    <value>Erreur lors de l&apos;affectation du rôle. Vous avez été remboursé.</value>
+  </data>
+  <data name="gambling_unique_items_left" xml:space="preserve">
+    <value>{0} objets uniques restants.</value>
+  </data>
+  <data name="permissions_blocked_commands" xml:space="preserve">
+    <value>Commandes bloquées</value>
+  </data>
+  <data name="permissions_blocked_modules" xml:space="preserve">
+    <value>Modules bloqués</value>
+  </data>
+  <data name="permissions_gcmd_add" xml:space="preserve">
+    <value>La commande {0} a été désactivée sur tous les serveurs.</value>
+  </data>
+  <data name="permissions_gcmd_remove" xml:space="preserve">
+    <value>La commande {0} a été activée sur tous les serveurs.</value>
+  </data>
+  <data name="permissions_gmod_add" xml:space="preserve">
+    <value>Le module {0} a été désactivé sur tous les serveurs.</value>
+  </data>
+  <data name="permissions_gmod_remove" xml:space="preserve">
+    <value>Le module {0} a été activé sur tous les serveurs.</value>
+  </data>
+  <data name="permissions_lgp_none" xml:space="preserve">
+    <value>Aucune commande ou module n&apos;est bloqué.</value>
+  </data>
+  <data name="gambling_animal_race_no_race" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_cant_read_or_send" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="utility_quotes_notfound" xml:space="preserve">
+    <value></value>
   </data>
 
 </root>
