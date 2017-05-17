@@ -15,7 +15,7 @@ namespace NadekoBot.Modules.Games.Hangman
 {
     public class HangmanTermPool
     {
-        const string termsPath = "data/hangman2.json";
+        const string termsPath = "data/hangman3.json";
         public static IReadOnlyDictionary<string, HangmanObject[]> data { get; }
         static HangmanTermPool()
         {

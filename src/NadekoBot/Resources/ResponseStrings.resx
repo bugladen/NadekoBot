@@ -2085,6 +2085,9 @@ Owner ID: {2}</value>
     <value>Page {0} of quotes</value>
   </data>
   <data name="utility_quotes_page_none" xml:space="preserve">
+    <value>No quotes found on that page.</value>
+  </data>
+  <data name="utility_quotes_notfound" xml:space="preserve">
     <value>No quotes found matching the quote ID specified.</value>
   </data>
   <data name="utility_quotes_remove_none" xml:space="preserve">
