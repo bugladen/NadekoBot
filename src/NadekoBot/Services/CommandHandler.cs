@@ -17,6 +17,8 @@ using NadekoBot.Modules.Games;
 using System.Collections.Concurrent;
 using System.Threading;
 using NadekoBot.DataStructures;
+using System.Diagnostics;
+using System.Collections.Immutable;
 
 namespace NadekoBot.Services
 {
@@ -34,7 +36,7 @@ namespace NadekoBot.Services
         private readonly CommandService _commandService;
         private readonly Logger _log;
 
-        private List<IDMChannel> ownerChannels { get; set; } = new List<IDMChannel>();
+        private ImmutableArray<AsyncLazy<IDMChannel>> ownerChannels { get; set; } = new ImmutableArray<AsyncLazy<IDMChannel>>();
 
         public event Func<IUserMessage, CommandInfo, Task> CommandExecuted = delegate { return Task.CompletedTask; };
 
@@ -60,28 +62,15 @@ namespace NadekoBot.Services
             var _ = Task.Run(async () =>
             {
                 await Task.Delay(5000).ConfigureAwait(false);
-                ownerChannels = (await Task.WhenAll(_client.GetGuilds().SelectMany(g => g.Users)
-                        .Where(u => NadekoBot.Credentials.OwnerIds.Contains(u.Id))
-                        .Distinct(new GuildUserComparer())
-                        .Select(async u =>
-                        {
-                            try
-                            {
-                                return await u.CreateDMChannelAsync();
-                            }
-                            catch
-                            {
-                                return null;
-                            }
-                        })))
-                    .Where(ch => ch != null)
-                    .OrderBy(x => NadekoBot.Credentials.OwnerIds.IndexOf(x.Id))
-                    .ToList();
+
+                _client.GetGuilds().SelectMany(g => g.Users);
+
+                LoadOwnerChannels();
 
                 if (!ownerChannels.Any())
                     _log.Warn("No owner channels created! Make sure you've specified correct OwnerId in the credentials.json file.");
                 else
-                    _log.Info($"Created {ownerChannels.Count} out of {NadekoBot.Credentials.OwnerIds.Length} owner message channels.");
+                    _log.Info($"Created {ownerChannels.Length} out of {NadekoBot.Credentials.OwnerIds.Length} owner message channels.");
             });
 
             _client.MessageReceived += MessageReceivedHandler;
@@ -109,6 +98,36 @@ namespace NadekoBot.Services
             return Task.CompletedTask;
         }
 
+        private void LoadOwnerChannels()
+        {
+            var hs = new HashSet<ulong>(NadekoBot.Credentials.OwnerIds);
+            var channels = new Dictionary<ulong, AsyncLazy<IDMChannel>>();
+
+            foreach (var s in _client.Shards)
+            {
+                if(hs.Count == 0)
+                    break;
+                    foreach (var g in s.Guilds)
+                    {
+                        if(hs.Count == 0)
+                            break;
+
+                        foreach (var u in g.Users)
+                        {
+                            if(hs.Remove(u.Id))
+                            {
+                                channels.Add(u.Id, new AsyncLazy<IDMChannel>(async () => await u.CreateDMChannelAsync()));
+                                if(hs.Count == 0)   
+                                        break;
+                            }
+                        }
+                    }
+            }
+
+            ownerChannels = channels.OrderBy(x => NadekoBot.Credentials.OwnerIds.IndexOf(x.Key))
+                    .Select(x => x.Value)
+                    .ToImmutableArray();
+        }
         private async Task<bool> TryRunCleverbot(IUserMessage usrMsg, SocketGuild guild)
         {
             if (guild == null)
