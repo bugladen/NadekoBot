@@ -36,10 +36,7 @@ namespace NadekoBot.Modules.Games
 
             static PlantPickCommands()
             {
-
-#if !GLOBAL_NADEKO
                 NadekoBot.Client.MessageReceived += PotentialFlowerGeneration;
-#endif
                 generationChannels = new ConcurrentHashSet<ulong>(NadekoBot.AllGuildConfigs
                     .SelectMany(c => c.GenerateCurrencyChannelIds.Select(obj => obj.ChannelId)));
             }
