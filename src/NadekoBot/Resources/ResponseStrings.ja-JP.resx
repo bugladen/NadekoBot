@@ -1798,7 +1798,8 @@ Paypal &lt;{1}&gt;
     <value>フィルターされた語句のリストから {0} を削除しました。</value>
   </data>
   <data name="permissions_invalid_second_param_between" xml:space="preserve">
-    <value></value>
+    <value>第2パラメータが無効です（{0}から{1}までの数字である必要があります）
+</value>
   </data>
   <data name="permissions_invite_filter_channel_off" xml:space="preserve">
     <value>このチェンネルの招待フィルタは無効です。</value>
@@ -1813,10 +1814,12 @@ Paypal &lt;{1}&gt;
     <value>このサーバの招待フィルタは有効です</value>
   </data>
   <data name="permissions_moved_permission" xml:space="preserve">
-    <value></value>
+    <value>アクセス許可{0}を＃{1}から＃{2}に移動しました
+</value>
   </data>
   <data name="permissions_not_found" xml:space="preserve">
-    <value></value>
+    <value>インデックス＃{0}でパーミッションを見つけることができません
+</value>
   </data>
   <data name="permissions_no_costs" xml:space="preserve">
     <value>コストはセットされてない。</value>
@@ -1855,25 +1858,31 @@ Paypal &lt;{1}&gt;
     <comment>Short of seconds.</comment>
   </data>
   <data name="permissions_sx_disable" xml:space="preserve">
-    <value></value>
+    <value>このサーバーで{0} {1}の使用が無効です。
+</value>
   </data>
   <data name="permissions_sx_enable" xml:space="preserve">
-    <value></value>
+    <value>このサーバーで{0} {1}の使用を有効にしました。
+</value>
   </data>
   <data name="permissions_unblacklisted" xml:space="preserve">
-    <value></value>
+    <value>ID {1}の{BL}を解除しました
+</value>
   </data>
   <data name="permissions_uneditable" xml:space="preserve">
     <value>編集不可能</value>
   </data>
   <data name="permissions_ux_disable" xml:space="preserve">
-    <value></value>
+    <value>{2}ユーザーの{0} {1}の使用が無効です。
+</value>
   </data>
   <data name="permissions_ux_enable" xml:space="preserve">
-    <value></value>
+    <value>{2}ユーザーの{0} {1}の使用を有効にしました。
+</value>
   </data>
   <data name="permissions_verbose_false" xml:space="preserve">
-    <value></value>
+    <value>私はもはや許可の警告を表示しません。
+</value>
   </data>
   <data name="permissions_verbose_true" xml:space="preserve">
     <value>権限の警告を示します。</value>
@@ -1909,73 +1918,91 @@ Paypal &lt;{1}&gt;
     <value>このチャンネルでのメッセージ自動翻訳を開始。</value>
   </data>
   <data name="searches_atl_stopped" xml:space="preserve">
-    <value></value>
+    <value>このチャンネルのメッセージの自動翻訳を停止しました。
+</value>
   </data>
   <data name="searches_bad_input_format" xml:space="preserve">
-    <value></value>
+    <value>入力形式が正しくないか、何かが間違っていました。
+</value>
   </data>
   <data name="searches_card_not_found" xml:space="preserve">
-    <value></value>
+    <value>そのカードを見つけることができませんでした。
+</value>
   </data>
   <data name="searches_catfact" xml:space="preserve">
-    <value></value>
+    <value>事実</value>
   </data>
   <data name="searches_chapters" xml:space="preserve">
-    <value></value>
+    <value>章
+</value>
   </data>
   <data name="searches_comic_number" xml:space="preserve">
-    <value></value>
+    <value>コミック＃
+</value>
   </data>
   <data name="searches_compet_loses" xml:space="preserve">
-    <value></value>
+    <value>競争的損失
+</value>
   </data>
   <data name="searches_compet_played" xml:space="preserve">
-    <value></value>
+    <value>競争の激しさ
+</value>
   </data>
   <data name="searches_compet_rank" xml:space="preserve">
-    <value></value>
+    <value>競争力のあるランク
+</value>
   </data>
   <data name="searches_compet_wins" xml:space="preserve">
-    <value></value>
+    <value>競争優位
+</value>
   </data>
   <data name="searches_completed" xml:space="preserve">
     <value>完了</value>
   </data>
   <data name="searches_condition" xml:space="preserve">
-    <value></value>
+    <value>調子
+</value>
   </data>
   <data name="searches_cost" xml:space="preserve">
-    <value></value>
+    <value>費用
+</value>
   </data>
   <data name="searches_date" xml:space="preserve">
     <value>年月日</value>
   </data>
   <data name="searches_define" xml:space="preserve">
-    <value></value>
+    <value>明確する
+</value>
   </data>
   <data name="searches_dropped" xml:space="preserve">
-    <value></value>
+    <value>落ちた
+</value>
   </data>
   <data name="searches_episodes" xml:space="preserve">
-    <value></value>
+    <value>エピソード
+</value>
   </data>
   <data name="searches_error_occured" xml:space="preserve">
-    <value></value>
+    <value>エラーが発生しました。
+</value>
   </data>
   <data name="searches_example" xml:space="preserve">
     <value>例</value>
   </data>
   <data name="searches_failed_finding_anime" xml:space="preserve">
-    <value></value>
+    <value>そのアニマルを見つけることができませんでした。
+</value>
   </data>
   <data name="searches_failed_finding_manga" xml:space="preserve">
-    <value></value>
+    <value>そのマンゴーを見つけることができませんでした。
+</value>
   </data>
   <data name="searches_genres" xml:space="preserve">
     <value>ジャンル</value>
   </data>
   <data name="searches_hashtag_error" xml:space="preserve">
-    <value></value>
+    <value>そのタグの定義を見つけることができませんでした。
+</value>
   </data>
   <data name="searches_height_weight" xml:space="preserve">
     <value>身長／体重</value>
@@ -1987,38 +2014,49 @@ Paypal &lt;{1}&gt;
     <value>湿度</value>
   </data>
   <data name="searches_image_search_for" xml:space="preserve">
-    <value></value>
+    <value>イメージ検索：
+</value>
   </data>
   <data name="searches_imdb_fail" xml:space="preserve">
-    <value></value>
+    <value>その映画を見つけることができませんでした。
+</value>
   </data>
   <data name="searches_invalid_lang" xml:space="preserve">
-    <value></value>
+    <value>ソースまたはターゲット言語が無効です。
+</value>
   </data>
   <data name="searches_jokes_not_loaded" xml:space="preserve">
-    <value></value>
+    <value>ジョークはロードされません。
+</value>
   </data>
   <data name="searches_latlong" xml:space="preserve">
-    <value></value>
+    <value>緯度/経度
+</value>
   </data>
   <data name="searches_level" xml:space="preserve">
-    <value></value>
+    <value>レベル
+</value>
   </data>
   <data name="searches_list_of_place_tags" xml:space="preserve">
-    <value></value>
+    <value>{0}プレースタグのリスト
+</value>
     <comment>Don&apos;t translate {0}place</comment>
   </data>
   <data name="searches_location" xml:space="preserve">
-    <value></value>
+    <value>ロケーション
+</value>
   </data>
   <data name="searches_magicitems_not_loaded" xml:space="preserve">
-    <value></value>
+    <value>マジックアイテムが読み込まれません。
+</value>
   </data>
   <data name="searches_mal_profile" xml:space="preserve">
-    <value></value>
+    <value>{0}のMALプロファイル
+</value>
   </data>
   <data name="searches_mashape_api_missing" xml:space="preserve">
-    <value></value>
+    <value>ボットの所有者がMashapeApiKeyを指定していませんでした。この機能は使用できません。
+</value>
   </data>
   <data name="searches_min_max" xml:space="preserve">
     <value>最低／最高</value>
@@ -2027,52 +2065,65 @@ Paypal &lt;{1}&gt;
     <value>チャンネルが見つかりませんでした。</value>
   </data>
   <data name="searches_no_results" xml:space="preserve">
-    <value></value>
+    <value>結果が見つかりません。
+</value>
   </data>
   <data name="searches_on_hold" xml:space="preserve">
-    <value></value>
+    <value>保留
+</value>
   </data>
   <data name="searches_original_url" xml:space="preserve">
     <value>元のURL</value>
   </data>
   <data name="searches_osu_api_key" xml:space="preserve">
-    <value></value>
+    <value>おお！ APIキーが必要です。
+</value>
   </data>
   <data name="searches_osu_failed" xml:space="preserve">
-    <value></value>
+    <value>osu！を取得できませんでした。署名。
+</value>
   </data>
   <data name="searches_over_x" xml:space="preserve">
-    <value></value>
+    <value>{0}枚の画像で見つかりました。ランダム{0}を表示しています。
+</value>
   </data>
   <data name="searches_ow_user_not_found" xml:space="preserve">
-    <value></value>
+    <value>ユーザーが見つかりません！再試行する前に、地域と戦闘タグを確認してください。
+</value>
   </data>
   <data name="searches_plan_to_watch" xml:space="preserve">
-    <value></value>
+    <value>見る計画
+</value>
   </data>
   <data name="searches_platform" xml:space="preserve">
     <value>プラットホーム</value>
   </data>
   <data name="searches_pokemon_ability_none" xml:space="preserve">
-    <value></value>
+    <value>能力が見つかりませんでした。
+</value>
   </data>
   <data name="searches_pokemon_none" xml:space="preserve">
-    <value></value>
+    <value>ポケモンは見つかりませんでした。
+</value>
   </data>
   <data name="searches_profile_link" xml:space="preserve">
     <value>プロファイルへのリンク</value>
   </data>
   <data name="searches_quality" xml:space="preserve">
-    <value></value>
+    <value>品質：
+</value>
   </data>
   <data name="searches_quick_playtime" xml:space="preserve">
-    <value></value>
+    <value>クイックプレイタイム
+</value>
   </data>
   <data name="searches_quick_wins" xml:space="preserve">
-    <value></value>
+    <value>速い勝利
+</value>
   </data>
   <data name="searches_rating" xml:space="preserve">
-    <value></value>
+    <value>評価
+</value>
   </data>
   <data name="searches_score" xml:space="preserve">
     <value>スコア:</value>
@@ -2081,190 +2132,246 @@ Paypal &lt;{1}&gt;
     <value>検索:</value>
   </data>
   <data name="searches_shorten_fail" xml:space="preserve">
-    <value></value>
+    <value>そのURLを短縮できませんでした。
+</value>
   </data>
   <data name="searches_short_url" xml:space="preserve">
     <value>略したURL</value>
   </data>
   <data name="searches_something_went_wrong" xml:space="preserve">
-    <value></value>
+    <value>何かが間違っていた。
+</value>
   </data>
   <data name="searches_specify_search_params" xml:space="preserve">
-    <value></value>
+    <value>検索パラメータを指定してください。
+</value>
   </data>
   <data name="searches_status" xml:space="preserve">
     <value>ステータス</value>
   </data>
   <data name="searches_store_url" xml:space="preserve">
-    <value></value>
+    <value>ストアURL
+</value>
   </data>
   <data name="searches_streamer_offline" xml:space="preserve">
     <value>配信者{0}がオフライン</value>
   </data>
   <data name="searches_streamer_online" xml:space="preserve">
-    <value></value>
+    <value>ストリーマー{0}は視聴者{1}とオンラインです。
+</value>
   </data>
   <data name="searches_streams_following" xml:space="preserve">
-    <value></value>
+    <value>このサーバーの{0}ストリームに従っています。
+</value>
   </data>
   <data name="searches_streams_none" xml:space="preserve">
-    <value></value>
+    <value>このサーバー上のストリームをフォローしていません。
+</value>
   </data>
   <data name="searches_stream_no" xml:space="preserve">
-    <value></value>
+    <value>そのようなストリームはありません。
+</value>
   </data>
   <data name="searches_stream_not_exist" xml:space="preserve">
-    <value></value>
+    <value>ストリームはおそらく存在しません。
+</value>
   </data>
   <data name="searches_stream_removed" xml:space="preserve">
-    <value></value>
+    <value>通知から{0}のストリーム（{1}）を削除しました。
+</value>
   </data>
   <data name="searches_stream_tracked" xml:space="preserve">
-    <value></value>
+    <value>状態が変わると私はこのチャンネルに通知します。
+</value>
   </data>
   <data name="searches_sunrise" xml:space="preserve">
-    <value></value>
+    <value>日の出
+</value>
   </data>
   <data name="searches_sunset" xml:space="preserve">
-    <value></value>
+    <value>日没
+</value>
   </data>
   <data name="searches_temperature" xml:space="preserve">
-    <value></value>
+    <value>温度
+</value>
   </data>
   <data name="searches_title" xml:space="preserve">
-    <value></value>
+    <value>タイトル：
+</value>
   </data>
   <data name="searches_top_3_fav_anime" xml:space="preserve">
-    <value></value>
+    <value>トップ3のお気に入りのアニメ：
+</value>
   </data>
   <data name="searches_translation" xml:space="preserve">
-    <value></value>
+    <value>翻訳：
+</value>
   </data>
   <data name="searches_types" xml:space="preserve">
-    <value></value>
+    <value>タイプ
+</value>
   </data>
   <data name="searches_ud_error" xml:space="preserve">
-    <value></value>
+    <value>その用語の定義を見つけることができませんでした。
+</value>
   </data>
   <data name="searches_url" xml:space="preserve">
-    <value></value>
+    <value>URL
+</value>
   </data>
   <data name="searches_viewers" xml:space="preserve">
-    <value></value>
+    <value>ビューア
+</value>
   </data>
   <data name="searches_watching" xml:space="preserve">
     <value>観覧中</value>
   </data>
   <data name="searches_wikia_error" xml:space="preserve">
-    <value></value>
+    <value>指定されたウィキアでその用語を見つけることができませんでした。
+</value>
   </data>
   <data name="searches_wikia_input_error" xml:space="preserve">
-    <value></value>
+    <value>ターゲットウィキアを入力し、検索クエリを入力してください。
+</value>
   </data>
   <data name="searches_wiki_page_not_found" xml:space="preserve">
-    <value></value>
+    <value>ページが見つかりません。
+</value>
   </data>
   <data name="searches_wind_speed" xml:space="preserve">
-    <value></value>
+    <value>風速
+</value>
   </data>
   <data name="searches_x_most_banned_champs" xml:space="preserve">
-    <value></value>
+    <value>{0}が最も禁止されているチャンピオン
+</value>
   </data>
   <data name="searches_yodify_error" xml:space="preserve">
-    <value></value>
+    <value>あなたの文章を訂正することができませんでした。
+</value>
   </data>
   <data name="utiliity_joined" xml:space="preserve">
-    <value></value>
+    <value>参加した
+</value>
   </data>
   <data name="utility_activity_line" xml:space="preserve">
-    <value></value>
+    <value>`{0} .` {1} [{2：F2} / s]  -  {3}合計
+</value>
     <comment>/s and total need to be localized to fit the context -
 `1.`</comment>
   </data>
   <data name="utility_activity_page" xml:space="preserve">
-    <value></value>
+    <value>活動ページ＃{0}
+</value>
   </data>
   <data name="utility_activity_users_total" xml:space="preserve">
-    <value></value>
+    <value>{0}ユーザーの合計です。
+</value>
   </data>
   <data name="utility_author" xml:space="preserve">
-    <value></value>
+    <value>著者
+</value>
   </data>
   <data name="utility_botid" xml:space="preserve">
-    <value></value>
+    <value>ボットID
+</value>
   </data>
   <data name="utility_calcops" xml:space="preserve">
-    <value></value>
+    <value>{0} calcコマンドの関数リスト
+</value>
   </data>
   <data name="utility_channelid" xml:space="preserve">
-    <value></value>
+    <value>このチャンネルの{0}は{1}です
+</value>
   </data>
   <data name="utility_channel_topic" xml:space="preserve">
-    <value></value>
+    <value>チャンネルトピック
+</value>
   </data>
   <data name="utility_commands_ran" xml:space="preserve">
-    <value></value>
+    <value>コマンドが実行されました
+</value>
   </data>
   <data name="utility_convert" xml:space="preserve">
-    <value></value>
+    <value>{0} {1}は{2}に等しい{3}
+</value>
   </data>
   <data name="utility_convertlist" xml:space="preserve">
-    <value></value>
+    <value>コンバータで使用できるユニット
+</value>
   </data>
   <data name="utility_convert_not_found" xml:space="preserve">
-    <value></value>
+    <value>{0}から{1}に変換できません：ユニットが見つかりません
+</value>
   </data>
   <data name="utility_convert_type_error" xml:space="preserve">
-    <value></value>
+    <value>{0}から{1}に変換できません：ユニットのタイプが等しくない
+</value>
   </data>
   <data name="utility_created_at" xml:space="preserve">
-    <value></value>
+    <value>作成日
+</value>
   </data>
   <data name="utility_csc_join" xml:space="preserve">
-    <value></value>
+    <value>結合されたクロスサーバチャネル。
+</value>
   </data>
   <data name="utility_csc_leave" xml:space="preserve">
-    <value></value>
+    <value>左クロスサーバチャネル。
+</value>
   </data>
   <data name="utility_csc_token" xml:space="preserve">
-    <value></value>
+    <value>これはあなたのCSCトークンです
+</value>
   </data>
   <data name="utility_custom_emojis" xml:space="preserve">
-    <value></value>
+    <value>カスタム絵文字
+</value>
   </data>
   <data name="utility_error" xml:space="preserve">
     <value>エラー</value>
   </data>
   <data name="utility_features" xml:space="preserve">
-    <value></value>
+    <value>特徴</value>
   </data>
   <data name="utility_id" xml:space="preserve">
     <value>ID</value>
   </data>
   <data name="utility_index_out_of_range" xml:space="preserve">
-    <value></value>
+    <value>インデックスが範囲外です。
+</value>
   </data>
   <data name="utility_inrole_list" xml:space="preserve">
-    <value></value>
+    <value>{0}ロールのユーザのリスト
+</value>
   </data>
   <data name="utility_inrole_not_allowed" xml:space="preserve">
-    <value></value>
+    <value>悪用を防ぐために、多数のユーザーがいるロールでこのコマンドを使用することはできません。
+</value>
   </data>
   <data name="utility_invalid_value" xml:space="preserve">
-    <value></value>
+    <value>{0}値が無効です。
+</value>
     <comment>Invalid months value/ Invalid hours value</comment>
   </data>
   <data name="utility_joined_discord" xml:space="preserve">
-    <value></value>
+    <value>合併した不和
+</value>
   </data>
   <data name="utility_joined_server" xml:space="preserve">
-    <value></value>
+    <value>結合されたサーバー
+</value>
   </data>
   <data name="utility_listservers" xml:space="preserve">
-    <value></value>
+    <value>
+ID：{0}
+メンバー：{1}
+オーナーID：{2}</value>
   </data>
   <data name="utility_listservers_none" xml:space="preserve">
-    <value></value>
+    <value>そのページにサーバーが見つかりません。
+</value>
   </data>
   <data name="utility_list_of_repeaters" xml:space="preserve">
     <value>中継器一覧</value>
@@ -2273,13 +2380,15 @@ Paypal &lt;{1}&gt;
     <value>メンバー</value>
   </data>
   <data name="utility_memory" xml:space="preserve">
-    <value></value>
+    <value>メモリ
+</value>
   </data>
   <data name="utility_messages" xml:space="preserve">
     <value>メッセージ</value>
   </data>
   <data name="utility_message_repeater" xml:space="preserve">
-    <value></value>
+    <value>メッセージリピータ
+</value>
   </data>
   <data name="utility_name" xml:space="preserve">
     <value>名前</value>
@@ -2288,19 +2397,24 @@ Paypal &lt;{1}&gt;
     <value>ハンドル名</value>
   </data>
   <data name="utility_nobody_playing_game" xml:space="preserve">
-    <value></value>
+    <value>誰もそのゲームをプレイしていません。
+</value>
   </data>
   <data name="utility_no_active_repeaters" xml:space="preserve">
-    <value></value>
+    <value>アクティブなリピータはありません。
+</value>
   </data>
   <data name="utility_no_roles_on_page" xml:space="preserve">
-    <value></value>
+    <value>このページにはロールはありません。
+</value>
   </data>
   <data name="utility_no_shards_on_page" xml:space="preserve">
-    <value></value>
+    <value>このページには破片はありません。
+</value>
   </data>
   <data name="utility_no_topic_set" xml:space="preserve">
-    <value></value>
+    <value>トピックセットはありません。
+</value>
   </data>
   <data name="utility_owner" xml:space="preserve">
     <value>オーナー</value>
@@ -2309,7 +2423,8 @@ Paypal &lt;{1}&gt;
     <value>オーナーのID</value>
   </data>
   <data name="utility_presence" xml:space="preserve">
-    <value></value>
+    <value>プレゼンス
+</value>
   </data>
   <data name="utility_presence_txt" xml:space="preserve">
     <value>サーバーが{0}件
@@ -2339,31 +2454,40 @@ Paypal &lt;{1}&gt;
     <value>地域</value>
   </data>
   <data name="utility_registered_on" xml:space="preserve">
-    <value></value>
+    <value>登録者
+</value>
   </data>
   <data name="utility_remind" xml:space="preserve">
-    <value></value>
+    <value>私は{2}（{3：d.M.yyyy。} {4：HH：mm}で{0}から{1}
+</value>
   </data>
   <data name="utility_remind_invalid_format" xml:space="preserve">
-    <value></value>
+    <value>有効な時刻形式ではありません。コマンドリストを確認してください。
+</value>
   </data>
   <data name="utility_remind_template" xml:space="preserve">
-    <value></value>
+    <value>新しいリマインダーテンプレートセット。
+</value>
   </data>
   <data name="utility_repeater" xml:space="preserve">
-    <value></value>
+    <value>{0}を{1}日、{2}時間、{3}分ごとに繰り返します。
+</value>
   </data>
   <data name="utility_repeaters_list" xml:space="preserve">
-    <value></value>
+    <value>リピータのリスト
+</value>
   </data>
   <data name="utility_repeaters_none" xml:space="preserve">
-    <value></value>
+    <value>このサーバー上で実行されているリピーターはありません。
+</value>
   </data>
   <data name="utility_repeater_stopped" xml:space="preserve">
-    <value></value>
+    <value>＃{0}は停止しました。
+</value>
   </data>
   <data name="utility_repeat_invoke_none" xml:space="preserve">
-    <value></value>
+    <value>このサーバーで繰り返しメッセージが見つかりません。
+</value>
   </data>
   <data name="utility_result" xml:space="preserve">
     <value>結果</value>
@@ -2375,16 +2499,20 @@ Paypal &lt;{1}&gt;
     <value>このサーバーにある役割一覧のページ{0}</value>
   </data>
   <data name="utility_roles_page" xml:space="preserve">
-    <value></value>
+    <value>{1}のロールのページ番号{0}
+</value>
   </data>
   <data name="utility_rrc_no_colors" xml:space="preserve">
-    <value></value>
+    <value>正しい色の色はありません。たとえば、＃00ff00を使用します。
+</value>
   </data>
   <data name="utility_rrc_start" xml:space="preserve">
-    <value></value>
+    <value>ロール{0}のロールを開始しました。
+</value>
   </data>
   <data name="utility_rrc_stop" xml:space="preserve">
-    <value></value>
+    <value>{0}ロールの回転カラーが停止しました
+</value>
   </data>
   <data name="utility_serverid" xml:space="preserve">
     <value>このサーバーの{0}は{1}です。</value>
@@ -2393,28 +2521,35 @@ Paypal &lt;{1}&gt;
     <value>サーバー情報</value>
   </data>
   <data name="utility_shard" xml:space="preserve">
-    <value></value>
+    <value>シャード
+</value>
   </data>
   <data name="utility_shard_stats" xml:space="preserve">
-    <value></value>
+    <value>シャード統計
+</value>
   </data>
   <data name="utility_shard_stats_txt" xml:space="preserve">
-    <value></value>
+    <value>シャード**＃{0} **は{2}個のサーバーで{1}状態にあります
+</value>
   </data>
   <data name="utility_showemojis" xml:space="preserve">
-    <value></value>
+    <value>**名前：** {0} **リンク：** {1}
+</value>
   </data>
   <data name="utility_showemojis_none" xml:space="preserve">
-    <value></value>
+    <value>特別な絵文字は見つかりませんでした。
+</value>
   </data>
   <data name="utility_stats_songs" xml:space="preserve">
-    <value></value>
+    <value>{0}の曲を再生しています。{1}がキューに入っています。
+</value>
   </data>
   <data name="utility_text_channels" xml:space="preserve">
     <value>テキストチャンネル</value>
   </data>
   <data name="utility_togtub_room_link" xml:space="preserve">
-    <value></value>
+    <value>あなたの部屋のリンクはここにあります：
+</value>
   </data>
   <data name="utility_uptime" xml:space="preserve">
     <value>稼働時間</value>
@@ -2436,332 +2571,436 @@ Paypal &lt;{1}&gt;
     <value>現在の調査結果</value>
   </data>
   <data name="games_no_votes_cast" xml:space="preserve">
-    <value></value>
+    <value>投票は行われません。
+</value>
   </data>
   <data name="games_poll_already_running" xml:space="preserve">
-    <value></value>
+    <value>ポーリングは既にこのサーバー上で実行されています。
+</value>
   </data>
   <data name="games_poll_created" xml:space="preserve">
-    <value></value>
+    <value>📃{0}さんがあなたの注意を必要とする投票を作成しました：
+</value>
   </data>
   <data name="games_poll_result" xml:space="preserve">
-    <value></value>
+    <value>{2}投票で{0}。{1}。
+</value>
   </data>
   <data name="games_poll_voted" xml:space="preserve">
-    <value></value>
+    <value>{0}が投票しました。
+</value>
     <comment>Kwoth voted.</comment>
   </data>
   <data name="games_poll_vote_private" xml:space="preserve">
-    <value></value>
+    <value>プライベートメッセージ私には、答えの対応する番号が記されています。
+</value>
   </data>
   <data name="games_poll_vote_public" xml:space="preserve">
-    <value></value>
+    <value>対応する回答の番号とともにメッセージをここに送ってください。
+</value>
   </data>
   <data name="games_thanks_for_voting" xml:space="preserve">
-    <value></value>
+    <value>投票していただきありがとうございます。{0}
+</value>
   </data>
   <data name="games_x_votes_cast" xml:space="preserve">
-    <value></value>
+    <value>{0}総投票数。
+</value>
   </data>
   <data name="games_pick_pl" xml:space="preserve">
-    <value></value>
+    <value>それらをピックアップするには、 `{0} pick`
+</value>
   </data>
   <data name="games_pick_sn" xml:space="preserve">
-    <value></value>
+    <value>`{0} pick`と打つことでピックアップします
+</value>
   </data>
   <data name="gambling_no_users_found" xml:space="preserve">
-    <value></value>
+    <value>ユーザーは見つかりませんでした。
+</value>
   </data>
   <data name="gambling_page" xml:space="preserve">
     <value>{0}ページ</value>
   </data>
   <data name="administration_must_be_in_voice" xml:space="preserve">
-    <value></value>
+    <value>このサーバーの音声チャネルにいなければなりません。
+</value>
   </data>
   <data name="administration_no_vcroles" xml:space="preserve">
-    <value></value>
+    <value>音声チャネルの役割はありません。
+</value>
   </data>
   <data name="administration_user_muted_time" xml:space="preserve">
-    <value></value>
+    <value>{0}は{1}分間テキストと音声チャットから**ミュートされました**。
+</value>
   </data>
   <data name="administration_vcrole_added" xml:space="preserve">
-    <value></value>
+    <value>{0}音声チャネルに参加するユーザは、{1}ロールを取得します。
+</value>
   </data>
   <data name="administration_vcrole_removed" xml:space="preserve">
-    <value></value>
+    <value>{0}音声チャネルに参加するユーザーは、もはや役割を果たすことはありません。
+</value>
   </data>
   <data name="administration_vc_role_list" xml:space="preserve">
-    <value></value>
+    <value>音声チャネルの役割
+</value>
   </data>
   <data name="customreactions_crad_disabled" xml:space="preserve">
-    <value></value>
+    <value>ID {0}のカスタム反応を引き起こすメッセージは自動的に削除されません。
+</value>
   </data>
   <data name="customreactions_crad_enabled" xml:space="preserve">
-    <value></value>
+    <value>ID {0}のカスタム反応を引き起こすメッセージは自動的に削除されます。
+</value>
   </data>
   <data name="customreactions_crdm_disabled" xml:space="preserve">
-    <value></value>
+    <value>id {0}のカスタム反応の応答メッセージは、DMとして送信されません。
+</value>
   </data>
   <data name="customreactions_crdm_enabled" xml:space="preserve">
-    <value></value>
+    <value>id {0}のカスタム反応の応答メッセージがDMとして送信されます。
+</value>
   </data>
   <data name="utility_aliases_none" xml:space="preserve">
-    <value></value>
+    <value>エイリアスが見つかりません
+</value>
   </data>
   <data name="utility_alias_added" xml:space="preserve">
-    <value></value>
+    <value>{0}を入力すると、{1}のエイリアスになります。
+</value>
   </data>
   <data name="utility_alias_list" xml:space="preserve">
-    <value></value>
+    <value>エイリアスのリスト
+</value>
   </data>
   <data name="utility_alias_removed" xml:space="preserve">
-    <value></value>
+    <value>トリガ{0}にエイリアスがありません。
+</value>
   </data>
   <data name="utility_alias_remove_fail" xml:space="preserve">
-    <value></value>
+    <value>トリガ{0}にエイリアスがありませんでした。
+</value>
   </data>
   <data name="searches_compet_playtime" xml:space="preserve">
-    <value></value>
+    <value>競争力のあるプレイタイム
+</value>
   </data>
   <data name="administration_channel" xml:space="preserve">
     <value>チャンネル</value>
   </data>
   <data name="administration_command_text" xml:space="preserve">
-    <value></value>
+    <value>コマンドテキスト
+</value>
   </data>
   <data name="administration_kicked_pl" xml:space="preserve">
-    <value></value>
+    <value>キックド
+</value>
     <comment>PLURAL</comment>
   </data>
   <data name="administration_moderator" xml:space="preserve">
-    <value></value>
+    <value>モデレータ
+</value>
   </data>
   <data name="administration_page" xml:space="preserve">
-    <value></value>
+    <value>ページ{0}
+</value>
   </data>
   <data name="administration_reason" xml:space="preserve">
     <value>理由</value>
   </data>
   <data name="administration_scadd" xml:space="preserve">
-    <value></value>
+    <value>新しい起動コマンドが追加されました。
+</value>
   </data>
   <data name="administration_scrm" xml:space="preserve">
-    <value></value>
+    <value>起動コマンドが正常に削除されました。
+</value>
   </data>
   <data name="administration_scrm_fail" xml:space="preserve">
-    <value></value>
+    <value>起動コマンドが見つかりません。
+</value>
   </data>
   <data name="administration_server" xml:space="preserve">
     <value>サーバー</value>
   </data>
   <data name="administration_startcmdlist_none" xml:space="preserve">
-    <value></value>
+    <value>このページには起動コマンドはありません。
+</value>
   </data>
   <data name="administration_startcmds_cleared" xml:space="preserve">
-    <value></value>
+    <value>すべての起動コマンドをクリアしました。
+</value>
   </data>
   <data name="administration_unbanned_user" xml:space="preserve">
-    <value></value>
+    <value>ユーザー{0}はブロックされていません。
+</value>
   </data>
   <data name="administration_user_not_found" xml:space="preserve">
-    <value></value>
+    <value>ユーザーが見つかりません。
+</value>
   </data>
   <data name="administration_user_warned" xml:space="preserve">
-    <value></value>
+    <value>ユーザー{0}は警告されました。
+</value>
   </data>
   <data name="administration_user_warned_and_punished" xml:space="preserve">
-    <value></value>
+    <value>ユーザー{0}に警告があり、{1}罰が適用されました。
+</value>
   </data>
   <data name="administration_warned_on" xml:space="preserve">
-    <value></value>
+    <value>{0}サーバーで警告されました
+</value>
   </data>
   <data name="administration_warned_on_by" xml:space="preserve">
-    <value></value>
+    <value>{1}の{0}で{2}
+</value>
   </data>
   <data name="administration_warnings_cleared" xml:space="preserve">
-    <value></value>
+    <value>すべての警告は{0}でクリアされています。
+</value>
   </data>
   <data name="administration_warnings_none" xml:space="preserve">
-    <value></value>
+    <value>このページでは警告は表示されません。
+</value>
   </data>
   <data name="administration_warnlog_for" xml:space="preserve">
-    <value></value>
+    <value>{0}の警告
+</value>
   </data>
   <data name="administration_warnpl_none" xml:space="preserve">
-    <value></value>
+    <value>罰は設定されていません。
+</value>
   </data>
   <data name="administration_warn_cleared_by" xml:space="preserve">
-    <value></value>
+    <value>{0}でクリアされました
+</value>
   </data>
   <data name="administration_warn_punish_list" xml:space="preserve">
-    <value></value>
+    <value>警告罰リスト
+</value>
   </data>
   <data name="administration_warn_punish_rem" xml:space="preserve">
-    <value></value>
+    <value>{0}の警告があれば、もはや罰を引き起こさないでしょう。
+</value>
   </data>
   <data name="administration_warn_punish_set" xml:space="preserve">
-    <value></value>
+    <value>{1}警告のあるユーザーに{0}罰を適用します。
+</value>
   </data>
   <data name="administration_slowmodewl_role_start" xml:space="preserve">
-    <value></value>
+    <value>低速モードでは{0}ロールは無視されるようになりました。
+</value>
   </data>
   <data name="administration_slowmodewl_role_stop" xml:space="preserve">
-    <value></value>
+    <value>低速モードでは{0}の役割は無視されなくなりました。
+</value>
   </data>
   <data name="administration_slowmodewl_user_start" xml:space="preserve">
-    <value></value>
+    <value>低速モードではユーザー{0}は無視されるようになりました。
+</value>
   </data>
   <data name="administration_slowmodewl_user_stop" xml:space="preserve">
-    <value></value>
+    <value>低速モードではユーザー{0}を無視しなくなりました。
+</value>
   </data>
   <data name="utility_clpa_fail" xml:space="preserve">
-    <value></value>
+    <value>次のいずれかの理由により報酬を請求できませんでした：
+</value>
   </data>
   <data name="utility_clpa_fail_already" xml:space="preserve">
-    <value></value>
+    <value>多分あなたは今月のあなたの報酬を受け取ったでしょう。誓約を増やさない限り、報酬は月に一度しか受け取られません。
+</value>
   </data>
   <data name="utility_clpa_fail_already_title" xml:space="preserve">
-    <value></value>
+    <value>既に報われた
+</value>
   </data>
   <data name="utility_clpa_fail_conn" xml:space="preserve">
-    <value></value>
+    <value>あなたの不和のアカウントはパトリオンに接続されていない可能性があります。それが何であるかわからない場合や接続方法がわからない場合は、[Patreonのアカウント設定ページ]（https：//patreon.com/settings/account）に移動し、[接続する]ボタンをクリックする必要があります。
+</value>
   </data>
   <data name="utility_clpa_fail_conn_title" xml:space="preserve">
-    <value></value>
+    <value>不一致のアカウントが接続されていない
+</value>
   </data>
   <data name="utility_clpa_fail_sup" xml:space="preserve">
-    <value></value>
+    <value>報酬を受けるには、パトロンでプロジェクトをサポートする必要があります。 {0}コマンドを使用してリンクを取得できます。
+</value>
   </data>
   <data name="utility_clpa_fail_sup_title" xml:space="preserve">
-    <value></value>
+    <value>サポートしていない
+</value>
   </data>
   <data name="utility_clpa_fail_wait" xml:space="preserve">
-    <value></value>
+    <value>誓約をしてから数時間待つ必要があります。しなかったら、後でやり直してください。
+</value>
   </data>
   <data name="utility_clpa_fail_wait_title" xml:space="preserve">
-    <value></value>
+    <value>しばらくお待ちください
+</value>
   </data>
   <data name="utility_clpa_success" xml:space="preserve">
-    <value></value>
+    <value>あなたは{0}を受け取りました。プロジェクトをサポートしてくれてありがとう！
+</value>
   </data>
   <data name="utility_clpa_too_early" xml:space="preserve">
-    <value></value>
+    <value>報酬は毎月5日以降に請求することができます。
+</value>
   </data>
   <data name="searches_time" xml:space="preserve">
-    <value></value>
+    <value>{0}の時刻は{1}  -  {2}です
+</value>
     <comment>Time in London, UK is 15:30 - Time Zone Name</comment>
   </data>
   <data name="administration_rh" xml:space="preserve">
-    <value></value>
+    <value>ギルドロール{0}の表示を{1}に設定します。
+</value>
   </data>
   <data name="gambling_name" xml:space="preserve">
-    <value></value>
+    <value>名
+</value>
   </data>
   <data name="gambling_shop" xml:space="preserve">
-    <value></value>
+    <value>ショップ
+</value>
   </data>
   <data name="gambling_shop_item_add" xml:space="preserve">
-    <value></value>
+    <value>ショップアイテムが追加されました
+</value>
   </data>
   <data name="gambling_shop_none" xml:space="preserve">
-    <value></value>
+    <value>このページにはショップアイテムはありません。
+</value>
   </data>
   <data name="gambling_shop_role" xml:space="preserve">
-    <value></value>
+    <value>あなたは{0}ロールを取得します。
+</value>
   </data>
   <data name="gambling_type" xml:space="preserve">
-    <value></value>
+    <value>タイプ
+</value>
   </data>
   <data name="utility_clpa_next_update" xml:space="preserve">
-    <value></value>
+    <value>{0}の次の更新
+</value>
     <comment>Next update in 05:30</comment>
   </data>
   <data name="administration_global_perms_reset" xml:space="preserve">
-    <value></value>
+    <value>グローバル権限がリセットされました。
+</value>
   </data>
   <data name="administration_gvc_disabled" xml:space="preserve">
-    <value></value>
+    <value>このサーバーでGame Voice Channel機能が無効になっています。
+</value>
   </data>
   <data name="administration_gvc_enabled" xml:space="preserve">
-    <value></value>
+    <value>{0}はゲーム音声チャンネルです。
+</value>
   </data>
   <data name="administration_not_in_voice" xml:space="preserve">
-    <value></value>
+    <value>あなたはこのサーバー上の音声チャネルにいません。
+</value>
   </data>
   <data name="gambling_item" xml:space="preserve">
-    <value></value>
+    <value>項目
+</value>
   </data>
   <data name="gambling_out_of_stock" xml:space="preserve">
-    <value></value>
+    <value>在庫切れ。
+</value>
   </data>
   <data name="gambling_random_unique_item" xml:space="preserve">
-    <value></value>
+    <value>ランダムユニークアイテム。
+</value>
   </data>
   <data name="gambling_shop_buy_error" xml:space="preserve">
-    <value></value>
+    <value>エラーDMing項目。あなたは払い戻されました。
+</value>
   </data>
   <data name="gambling_shop_item_not_found" xml:space="preserve">
-    <value></value>
+    <value>その索引の項目が見つかりませんでした。
+</value>
   </data>
   <data name="gambling_shop_item_purchase" xml:space="preserve">
-    <value></value>
+    <value>商品の購入に成功しました。
+</value>
   </data>
   <data name="gambling_shop_item_rm" xml:space="preserve">
-    <value></value>
+    <value>ショップアイテムが削除されました
+</value>
   </data>
   <data name="gambling_shop_item_wrong_type" xml:space="preserve">
-    <value></value>
+    <value>そのショップエントリはアイテム追加をサポートしていません。
+</value>
   </data>
   <data name="gambling_shop_list_item_added" xml:space="preserve">
-    <value></value>
+    <value>アイテムが正常に追加されました。
+</value>
   </data>
   <data name="gambling_shop_list_item_not_unique" xml:space="preserve">
-    <value></value>
+    <value>その項目は既に追加されています。
+</value>
   </data>
   <data name="gambling_shop_purchase" xml:space="preserve">
-    <value></value>
+    <value>{0}サーバーで購入
+</value>
   </data>
   <data name="gambling_shop_role_not_found" xml:space="preserve">
-    <value></value>
+    <value>販売されている役割はもはや存在しません。
+</value>
   </data>
   <data name="gambling_shop_role_purchase" xml:space="preserve">
-    <value></value>
+    <value>{0}ロールを購入しました。
+</value>
   </data>
   <data name="gambling_shop_role_purchase_error" xml:space="preserve">
-    <value></value>
+    <value>ロールの割り当て中にエラーが発生しました。購入は払い戻されました。
+</value>
   </data>
   <data name="gambling_unique_items_left" xml:space="preserve">
-    <value></value>
+    <value>{0}個のアイテムが残っています。
+</value>
   </data>
   <data name="permissions_blocked_commands" xml:space="preserve">
-    <value></value>
+    <value>ブロックされたコマンド
+</value>
   </data>
   <data name="permissions_blocked_modules" xml:space="preserve">
-    <value></value>
+    <value>ブロックされたモジュール
+</value>
   </data>
   <data name="permissions_gcmd_add" xml:space="preserve">
-    <value></value>
+    <value>コマンド{0}はすべてのサーバーで無効になっています。
+</value>
   </data>
   <data name="permissions_gcmd_remove" xml:space="preserve">
-    <value></value>
+    <value>すべてのサーバーでコマンド{0}が有効になっています。
+</value>
   </data>
   <data name="permissions_gmod_add" xml:space="preserve">
-    <value></value>
+    <value>モジュール{0}はすべてのサーバーで無効になっています。
+</value>
   </data>
   <data name="permissions_gmod_remove" xml:space="preserve">
-    <value></value>
+    <value>モジュール{0}はすべてのサーバーで有効になっています。
+</value>
   </data>
   <data name="permissions_lgp_none" xml:space="preserve">
-    <value></value>
+    <value>ブロックされたコマンドやモジュールはありません。
+</value>
   </data>
   <data name="gambling_animal_race_no_race" xml:space="preserve">
-    <value></value>
+    <value>この動物レースはいっぱいです！
+</value>
   </data>
   <data name="utility_cant_read_or_send" xml:space="preserve">
-    <value></value>
+    <value>そのチャンネルへのメッセージの読み込みや送信はできません。
+</value>
   </data>
   <data name="utility_quotes_notfound" xml:space="preserve">
-    <value></value>
+    <value>指定された見積もりIDに一致する見積もりは見つかりませんでした。
+</value>
   </data>
 
 </root>
