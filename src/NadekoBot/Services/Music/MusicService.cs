@@ -1,24 +1,28 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using NadekoBot.Modules.Music.Classes;
 using Discord;
 using NadekoBot.Extensions;
 using NadekoBot.Modules;
+using NadekoBot.Services.Impl;
 
 namespace NadekoBot.Services.Music
 {
     public class MusicService
     {
         private readonly IGoogleApiService _google;
+        private readonly NadekoStrings _strings;
+        private readonly ILocalization _localization;
+        private GoogleApiService google;
+
         public ConcurrentDictionary<ulong, MusicPlayer> MusicPlayers { get; } = new ConcurrentDictionary<ulong, MusicPlayer>();
 
-        public MusicService(IGoogleApiService google)
+        public MusicService(IGoogleApiService google, NadekoStrings strings, ILocalization localization)
         {
             _google = google;
+            _strings = strings;
+            _localization = localization;
         }
 
         public MusicPlayer GetPlayer(ulong guildId)
@@ -30,7 +34,7 @@ namespace NadekoBot.Services.Music
         public MusicPlayer GetOrCreatePlayer(ulong guildId, IVoiceChannel voiceCh, ITextChannel textCh)
         {
             string GetText(string text, params object[] replacements) =>
-                NadekoTopLevelModule.GetTextStatic(text, NadekoBot.Localization.GetCultureInfo(textCh.Guild), nameof(Modules.Music.Music).ToLowerInvariant(), replacements);
+                _strings.GetText(text, _localization.GetCultureInfo(textCh.Guild), "Music".ToLowerInvariant(), replacements);
 
             return MusicPlayers.GetOrAdd(guildId, server =>
             {
@@ -40,7 +44,7 @@ namespace NadekoBot.Services.Music
                     //todo move to cached variable
                     vol = uow.GuildConfigs.For(guildId, set => set).DefaultMusicVolume;
                 }
-                var mp = new MusicPlayer(voiceCh, textCh, vol);
+                var mp = new MusicPlayer(voiceCh, textCh, vol, _google);
                 IUserMessage playingMessage = null;
                 IUserMessage lastFinishedMessage = null;
                 mp.OnCompleted += async (s, song) =>
@@ -64,7 +68,7 @@ namespace NadekoBot.Services.Music
 
                         if (mp.Autoplay && mp.Playlist.Count == 0 && song.SongInfo.ProviderType == MusicType.Normal)
                         {
-                            var relatedVideos = (await NadekoBot.Google.GetRelatedVideosAsync(song.SongInfo.Query, 4)).ToList();
+                            var relatedVideos = (await _google.GetRelatedVideosAsync(song.SongInfo.Query, 4)).ToList();
                             if (relatedVideos.Count > 0)
                                 await QueueSong(await textCh.Guild.GetCurrentUserAsync(),
                                     textCh,
@@ -148,7 +152,7 @@ namespace NadekoBot.Services.Music
         public async Task QueueSong(IGuildUser queuer, ITextChannel textCh, IVoiceChannel voiceCh, string query, bool silent = false, MusicType musicType = MusicType.Normal)
         {
             string GetText(string text, params object[] replacements) => 
-                NadekoTopLevelModule.GetTextStatic(text, NadekoBot.Localization.GetCultureInfo(textCh.Guild), nameof(Modules.Music.Music).ToLowerInvariant(), replacements);
+                _strings.GetText(text, _localization.GetCultureInfo(textCh.Guild), "Music".ToLowerInvariant(), replacements);
 
             if (voiceCh == null || voiceCh.Guild != textCh.Guild)
             {

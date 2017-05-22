@@ -18,8 +18,8 @@ namespace NadekoBot.Extensions
 {
     public static class Extensions
     {
-        private const string arrow_left = "⬅";
-        private const string arrow_right = "➡";
+        private static readonly IEmote arrow_left = Emote.Parse("⬅");
+        private static readonly IEmote arrow_right = Emote.Parse("➡");
 
         public static string ToBase64(this string plainText)
         {
@@ -27,8 +27,8 @@ namespace NadekoBot.Extensions
             return Convert.ToBase64String(plainTextBytes);
         }
 
-        public static string RealSummary(this CommandInfo cmd) => string.Format(cmd.Summary, cmd.Module.GetTopLevelModule().Prefix);
-        public static string RealRemarks(this CommandInfo cmd) => string.Format(cmd.Remarks, cmd.Module.GetTopLevelModule().Prefix);
+        public static string RealSummary(this CommandInfo cmd) => string.Format(cmd.Summary, ".");
+        public static string RealRemarks(this CommandInfo cmd) => string.Format(cmd.Remarks, ".");
 
         public static Stream ToStream(this IEnumerable<byte> bytes, bool canWrite = false)
         {
@@ -40,7 +40,7 @@ namespace NadekoBot.Extensions
         /// <summary>
         /// danny kamisama
         /// </summary>
-        public static async Task SendPaginatedConfirmAsync(this IMessageChannel channel, int currentPage, Func<int, EmbedBuilder> pageFunc, int? lastPage = null, bool addPaginatedFooter = true)
+        public static async Task SendPaginatedConfirmAsync(this IMessageChannel channel, DiscordShardedClient client, int currentPage, Func<int, EmbedBuilder> pageFunc, int? lastPage = null, bool addPaginatedFooter = true)
         {
             lastPage += 1;
             var embed = pageFunc(currentPage);
@@ -53,7 +53,8 @@ namespace NadekoBot.Extensions
             if (currentPage >= lastPage && lastPage == 1)
                 return;
 
-            await msg.AddReactionAsync(arrow_left).ConfigureAwait(false);
+            
+            await msg.AddReactionAsync( arrow_left).ConfigureAwait(false);
             await msg.AddReactionAsync(arrow_right).ConfigureAwait(false);
 
             await Task.Delay(2000).ConfigureAwait(false);
@@ -62,7 +63,7 @@ namespace NadekoBot.Extensions
             {
                 try
                 {
-                    if (r.Emoji.Name == arrow_left)
+                    if (r.Emote.Name == arrow_left.Name)
                     {
                         if (currentPage == 1)
                             return;
@@ -71,7 +72,7 @@ namespace NadekoBot.Extensions
                             toSend.AddPaginatedFooter(currentPage, lastPage);
                         await msg.ModifyAsync(x => x.Embed = toSend.Build()).ConfigureAwait(false);
                     }
-                    else if (r.Emoji.Name == arrow_right)
+                    else if (r.Emote.Name == arrow_right.Name)
                     {
                         if (lastPage == null || lastPage > currentPage)
                         {
@@ -85,7 +86,7 @@ namespace NadekoBot.Extensions
                 catch (Exception ex) { Console.WriteLine(ex); }
             };
 
-            using (msg.OnReaction(changePage, changePage))
+            using (msg.OnReaction(client, changePage, changePage))
             {
                 await Task.Delay(30000).ConfigureAwait(false);
             }
@@ -101,12 +102,12 @@ namespace NadekoBot.Extensions
                 return embed.WithFooter(efb => efb.WithText(curPage.ToString()));
         }
 
-        public static ReactionEventWrapper OnReaction(this IUserMessage msg, Action<SocketReaction> reactionAdded, Action<SocketReaction> reactionRemoved = null)
+        public static ReactionEventWrapper OnReaction(this IUserMessage msg, DiscordShardedClient client, Action<SocketReaction> reactionAdded, Action<SocketReaction> reactionRemoved = null)
         {
             if (reactionRemoved == null)
                 reactionRemoved = delegate { };
 
-            var wrap = new ReactionEventWrapper(msg);
+            var wrap = new ReactionEventWrapper(client, msg);
             wrap.OnReactionAdded += reactionAdded;
             wrap.OnReactionRemoved += reactionRemoved;
             return wrap;
@@ -140,8 +141,6 @@ namespace NadekoBot.Extensions
             });
             return msg;
         }
-
-        public static string GetPrefix(this ModuleInfo module) => NadekoBot.ModulePrefixes[module.GetTopLevelModule().Name];
 
         public static ModuleInfo GetTopLevelModule(this ModuleInfo module)
         {
@@ -220,9 +219,6 @@ namespace NadekoBot.Extensions
 
         public static async Task<IUserMessage> SendFileAsync(this IUser user, Stream fileStream, string fileName, string caption = null, bool isTTS = false) =>
             await (await user.CreateDMChannelAsync().ConfigureAwait(false)).SendFileAsync(fileStream, fileName, caption, isTTS).ConfigureAwait(false);
-
-        public static bool IsAuthor(this IUserMessage msg) =>
-            NadekoBot.Client.CurrentUser.Id == msg.Author.Id;
 
         public static IEnumerable<IUser> Members(this IRole role) =>
             role.Guild.GetUsersAsync().GetAwaiter().GetResult().Where(u => u.RoleIds.Contains(role.Id)) ?? Enumerable.Empty<IUser>();

@@ -8,16 +8,11 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NLog;
+using NadekoBot.Services.Music;
+using NadekoBot.Services;
 
-namespace NadekoBot.Modules.Music.Classes
+namespace NadekoBot.Services.Music
 {
-    public enum MusicType
-    {
-        Radio,
-        Normal,
-        Local,
-        Soundcloud
-    }
 
     public enum StreamState
     {
@@ -29,6 +24,7 @@ namespace NadekoBot.Modules.Music.Classes
 
     public class MusicPlayer
     {
+        public const string MusicDataPath = "data/musicdata";
         private IAudioClient AudioClient { get; set; }
 
         /// <summary>
@@ -58,6 +54,7 @@ namespace NadekoBot.Modules.Music.Classes
 
         private readonly List<Song> _playlist = new List<Song>();
         private readonly Logger _log;
+        private readonly IGoogleApiService _google;
 
         public IReadOnlyCollection<Song> Playlist => _playlist;
 
@@ -88,9 +85,10 @@ namespace NadekoBot.Modules.Music.Classes
 
         public event Action<Song, int> SongRemoved = delegate { };
 
-        public MusicPlayer(IVoiceChannel startingVoiceChannel, ITextChannel outputChannel, float? defaultVolume)
+        public MusicPlayer(IVoiceChannel startingVoiceChannel, ITextChannel outputChannel, float? defaultVolume, IGoogleApiService google)
         {
             _log = LogManager.GetCurrentClassLogger();
+            _google = google;
 
             OutputTextChannel = outputChannel;
             Volume = defaultVolume ?? 1.0f;
@@ -324,7 +322,7 @@ namespace NadekoBot.Modules.Music.Classes
             var ids = toUpdate.Select(s => s.SongInfo.Query.Substring(s.SongInfo.Query.LastIndexOf("?v=") + 3))
                               .Distinct();
 
-            var durations = await NadekoBot.Google.GetVideoDurationsAsync(ids);
+            var durations = await _google.GetVideoDurationsAsync(ids);
 
             toUpdate.ForEach(s =>
             {
@@ -337,7 +335,6 @@ namespace NadekoBot.Modules.Music.Classes
                     }
                 }
             });
-
         }
 
         public void Destroy()

@@ -15,13 +15,14 @@ namespace NadekoBot.Services.Discord
         public event Action<SocketReaction> OnReactionRemoved = delegate { };
         public event Action OnReactionsCleared = delegate { };
 
-        public ReactionEventWrapper(IUserMessage msg)
+        public ReactionEventWrapper(DiscordShardedClient client, IUserMessage msg)
         {
             Message = msg ?? throw new ArgumentNullException(nameof(msg));
+            _client = client;
 
-            NadekoBot.Client.ReactionAdded += Discord_ReactionAdded;
-            NadekoBot.Client.ReactionRemoved += Discord_ReactionRemoved;
-            NadekoBot.Client.ReactionsCleared += Discord_ReactionsCleared;
+            _client.ReactionAdded += Discord_ReactionAdded;
+            _client.ReactionRemoved += Discord_ReactionRemoved;
+            _client.ReactionsCleared += Discord_ReactionsCleared;
         }
 
         private Task Discord_ReactionsCleared(Cacheable<IUserMessage, ulong> msg, ISocketMessageChannel channel)
@@ -62,15 +63,17 @@ namespace NadekoBot.Services.Discord
 
         public void UnsubAll()
         {
-            NadekoBot.Client.ReactionAdded -= Discord_ReactionAdded;
-            NadekoBot.Client.ReactionRemoved -= Discord_ReactionRemoved;
-            NadekoBot.Client.ReactionsCleared -= Discord_ReactionsCleared;
+            _client.ReactionAdded -= Discord_ReactionAdded;
+            _client.ReactionRemoved -= Discord_ReactionRemoved;
+            _client.ReactionsCleared -= Discord_ReactionsCleared;
             OnReactionAdded = null;
             OnReactionRemoved = null;
             OnReactionsCleared = null;
         }
 
         private bool disposing = false;
+        private readonly DiscordShardedClient _client;
+
         public void Dispose()
         {
             if (disposing)

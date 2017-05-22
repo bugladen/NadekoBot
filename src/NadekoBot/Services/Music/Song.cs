@@ -9,8 +9,9 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Net;
+using Discord;
 
-namespace NadekoBot.Modules.Music.Classes
+namespace NadekoBot.Services.Music
 {
     public class SongInfo
     {
@@ -29,7 +30,7 @@ namespace NadekoBot.Modules.Music.Classes
 
         private string _queuerName;
         public string QueuerName { get{
-            return Discord.Format.Sanitize(_queuerName);
+            return Format.Sanitize(_queuerName);
         } set { _queuerName = value; } }
 
         public TimeSpan TotalTime { get; set; } = TimeSpan.Zero;
@@ -143,7 +144,7 @@ namespace NadekoBot.Modules.Music.Classes
         public async Task Play(IAudioClient voiceClient, CancellationToken cancelToken)
         {
             BytesSent = (ulong) SkipTo * 3840 * 50;
-            var filename = Path.Combine(Music.MusicDataPath, DateTime.Now.UnixTimestamp().ToString());
+            var filename = Path.Combine(MusicPlayer.MusicDataPath, DateTime.Now.UnixTimestamp().ToString());
 
             var inStream = new SongBuffer(MusicPlayer, filename, SongInfo, SkipTo, _frameBytes * 100);
             var bufferTask = inStream.BufferSong(cancelToken).ConfigureAwait(false);

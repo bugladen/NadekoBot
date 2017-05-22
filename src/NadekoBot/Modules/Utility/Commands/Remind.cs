@@ -19,89 +19,13 @@ namespace NadekoBot.Modules.Utility
         [Group]
         public class RemindCommands : NadekoSubmodule
         {
-            readonly Regex _regex = new Regex(@"^(?:(?<months>\d)mo)?(?:(?<weeks>\d)w)?(?:(?<days>\d{1,2})d)?(?:(?<hours>\d{1,2})h)?(?:(?<minutes>\d{1,2})m)?$",
-                                    RegexOptions.Compiled | RegexOptions.Multiline);
+            private readonly UtilityService _service;
+            private readonly DbHandler _db;
 
-            private static string remindMessageFormat { get; }
-
-            private static readonly IDictionary<string, Func<Reminder, string>> _replacements = new Dictionary<string, Func<Reminder, string>>
+            public RemindCommands(UtilityService service, DbHandler db)
             {
-                { "%message%" , (r) => r.Message },
-                { "%user%", (r) => $"<@!{r.UserId}>" },
-                { "%target%", (r) =>  r.IsPrivate ? "Direct Message" : $"<#{r.ChannelId}>"}
-            };
-
-            private new static readonly Logger _log;
-            private static readonly CancellationTokenSource cancelSource;
-            private static readonly CancellationToken cancelAllToken;
-
-            static RemindCommands()
-            {
-                _log = LogManager.GetCurrentClassLogger();
-
-                cancelSource = new CancellationTokenSource();
-                cancelAllToken = cancelSource.Token;
-                List<Reminder> reminders;
-                using (var uow = DbHandler.UnitOfWork())
-                {
-                    reminders = uow.Reminders.GetAll().ToList();
-                }
-                remindMessageFormat = NadekoBot.BotConfig.RemindMessageFormat;
-
-                foreach (var r in reminders)
-                {
-                    Task.Run(() => StartReminder(r, cancelAllToken));
-                }
-            }
-
-            public static void Unload()
-            {
-                if (!cancelSource.IsCancellationRequested)
-                    cancelSource.Cancel();
-            }
-
-            private static async Task StartReminder(Reminder r, CancellationToken t)
-            {
-                var now = DateTime.Now;
-
-                var time = r.When - now;
-
-                if (time.TotalMilliseconds > int.MaxValue)
-                    return;
-
-                await Task.Delay(time, t).ConfigureAwait(false);
-                try
-                {
-                    IMessageChannel ch;
-                    if (r.IsPrivate)
-                    {
-                        var user = NadekoBot.Client.GetGuild(r.ServerId).GetUser(r.ChannelId);
-                        if(user == null)
-                            return;
-                        ch = await user.CreateDMChannelAsync().ConfigureAwait(false);
-                    }
-                    else
-                    {
-                        ch = NadekoBot.Client.GetGuild(r.ServerId)?.GetTextChannel(r.ChannelId);
-                    }
-                    if (ch == null)
-                        return;
-
-                    await ch.SendMessageAsync(
-                        _replacements.Aggregate(remindMessageFormat,
-                            (cur, replace) => cur.Replace(replace.Key, replace.Value(r)))
-                            .SanitizeMentions()
-                            ).ConfigureAwait(false); //it works trust me
-                }
-                catch (Exception ex) { _log.Warn(ex); }
-                finally
-                {
-                    using (var uow = DbHandler.UnitOfWork())
-                    {
-                        uow.Reminders.Remove(r);
-                        await uow.CompleteAsync();
-                    }
-                }
+                _service = service;
+                _db = db;
             }
 
             public enum MeOrHere
@@ -139,7 +63,7 @@ namespace NadekoBot.Modules.Utility
 
             public async Task RemindInternal(ulong targetId, bool isPrivate, string timeStr, [Remainder] string message)
             {
-                var m = _regex.Match(timeStr);
+                var m = _service.Remind.Regex.Match(timeStr);
 
                 if (m.Length == 0)
                 {
@@ -150,7 +74,7 @@ namespace NadekoBot.Modules.Utility
                 string output = "";
                 var namesAndValues = new Dictionary<string, int>();
 
-                foreach (var groupName in _regex.GetGroupNames())
+                foreach (var groupName in _service.Remind.Regex.GetGroupNames())
                 {
                     if (groupName == "0") continue;
                     int value;
@@ -191,7 +115,7 @@ namespace NadekoBot.Modules.Utility
                     ServerId = Context.Guild.Id
                 };
 
-                using (var uow = DbHandler.UnitOfWork())
+                using (var uow = _db.UnitOfWork)
                 {
                     uow.Reminders.Add(rem);
                     await uow.CompleteAsync();
@@ -210,7 +134,7 @@ namespace NadekoBot.Modules.Utility
                 {
                     // ignored
                 }
-                await StartReminder(rem, cancelAllToken);
+                await _service.Remind.StartReminder(rem);
             }
             
             [NadekoCommand, Usage, Description, Aliases]
@@ -220,7 +144,7 @@ namespace NadekoBot.Modules.Utility
                 if (string.IsNullOrWhiteSpace(arg))
                     return;
 
-                using (var uow = DbHandler.UnitOfWork())
+                using (var uow = _db.UnitOfWork)
                 {
                     uow.BotConfig.GetOrCreate().RemindMessageFormat = arg.Trim();
                     await uow.CompleteAsync().ConfigureAwait(false);

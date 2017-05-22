@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NLog;
 using VideoLibrary;
 
-namespace NadekoBot.Modules.Music.Classes
+namespace NadekoBot.Services.Music
 {
     public static class SongHandler
     {
@@ -49,6 +47,7 @@ namespace NadekoBot.Modules.Music.Classes
                         })
                         { TotalTime = TimeSpan.MaxValue };
                 }
+                var sc = SoundCloud.GetInstance(_creds);
                 if (SoundCloud.Default.IsSoundCloudLink(query))
                 {
                     var svideo = await SoundCloud.Default.ResolveVideoAsync(query).ConfigureAwait(false);

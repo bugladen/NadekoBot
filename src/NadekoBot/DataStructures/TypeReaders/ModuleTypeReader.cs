@@ -1,5 +1,6 @@
 ﻿using Discord.Commands;
 using NadekoBot.Extensions;
+using NadekoBot.Services;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,10 +8,17 @@ namespace NadekoBot.TypeReaders
 {
     public class ModuleTypeReader : TypeReader
     {
+        private readonly CommandService _cmds;
+
+        public ModuleTypeReader(CommandService cmds)
+        {
+            _cmds = cmds;
+        }
+
         public override Task<TypeReaderResult> Read(ICommandContext context, string input)
         {
             input = input.ToUpperInvariant();
-            var module = NadekoBot.CommandService.Modules.GroupBy(m => m.GetTopLevelModule()).FirstOrDefault(m => m.Key.Name.ToUpperInvariant() == input)?.Key;
+            var module = _cmds.Modules.GroupBy(m => m.GetTopLevelModule()).FirstOrDefault(m => m.Key.Name.ToUpperInvariant() == input)?.Key;
             if (module == null)
                 return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "No such module found."));
 
@@ -20,10 +28,17 @@ namespace NadekoBot.TypeReaders
 
     public class ModuleOrCrTypeReader : TypeReader
     {
+        private readonly CommandService _cmds;
+
+        public ModuleOrCrTypeReader(CommandService cmds)
+        {
+            _cmds = cmds;
+        }
+
         public override Task<TypeReaderResult> Read(ICommandContext context, string input)
         {
             input = input.ToLowerInvariant();
-            var module = NadekoBot.CommandService.Modules.GroupBy(m => m.GetTopLevelModule()).FirstOrDefault(m => m.Key.Name.ToLowerInvariant() == input)?.Key;
+            var module = _cmds.Modules.GroupBy(m => m.GetTopLevelModule()).FirstOrDefault(m => m.Key.Name.ToLowerInvariant() == input)?.Key;
             if (module == null && input != "actualcustomreactions")
                 return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "No such module found."));
 

@@ -17,6 +17,13 @@ namespace NadekoBot.Modules.Utility
         [Group]
         public class QuoteCommands : NadekoSubmodule
         {
+            private readonly DbHandler _db;
+
+            public QuoteCommands(DbHandler db)
+            {
+                _db = db;
+            }
+
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task ListQuotes(int page = 1)
@@ -27,7 +34,7 @@ namespace NadekoBot.Modules.Utility
                     return;
 
                 IEnumerable<Quote> quotes;
-                using (var uow = DbHandler.UnitOfWork())
+                using (var uow = _db.UnitOfWork)
                 {
                     quotes = uow.Quotes.GetGroup(Context.Guild.Id, page * 16, 16);
                 }
@@ -50,7 +57,7 @@ namespace NadekoBot.Modules.Utility
                 keyword = keyword.ToUpperInvariant();
 
                 Quote quote;
-                using (var uow = DbHandler.UnitOfWork())
+                using (var uow = _db.UnitOfWork)
                 {
                     quote =
                         await uow.Quotes.GetRandomQuoteByKeywordAsync(Context.Guild.Id, keyword).ConfigureAwait(false);
@@ -87,7 +94,7 @@ namespace NadekoBot.Modules.Utility
                 keyword = keyword.ToUpperInvariant();
 
                 Quote keywordquote;
-                using (var uow = DbHandler.UnitOfWork())
+                using (var uow = _db.UnitOfWork)
                 {
                     keywordquote =
                         await uow.Quotes.SearchQuoteKeywordTextAsync(Context.Guild.Id, keyword, text)
@@ -108,7 +115,7 @@ namespace NadekoBot.Modules.Utility
                 if (id < 0)
                     return;
                 
-                using (var uow = DbHandler.UnitOfWork())
+                using (var uow = _db.UnitOfWork)
                 { 
                     var qfromid = uow.Quotes.Get(id);
                     CREmbed crembed;
@@ -146,7 +153,7 @@ namespace NadekoBot.Modules.Utility
 
                 keyword = keyword.ToUpperInvariant();
 
-                using (var uow = DbHandler.UnitOfWork())
+                using (var uow = _db.UnitOfWork)
                 {
                     uow.Quotes.Add(new Quote
                     {
@@ -169,7 +176,7 @@ namespace NadekoBot.Modules.Utility
                 
                 var success = false;
                 string response;
-                using (var uow = DbHandler.UnitOfWork())
+                using (var uow = _db.UnitOfWork)
                 {
                     var q = uow.Quotes.Get(id);
 
@@ -201,7 +208,7 @@ namespace NadekoBot.Modules.Utility
 
                 keyword = keyword.ToUpperInvariant();
 
-                using (var uow = DbHandler.UnitOfWork())
+                using (var uow = _db.UnitOfWork)
                 {
                     uow.Quotes.RemoveAllByKeyword(Context.Guild.Id, keyword.ToUpperInvariant());
 

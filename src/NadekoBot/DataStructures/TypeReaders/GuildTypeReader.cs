@@ -1,4 +1,5 @@
 ﻿using Discord.Commands;
+using Discord.WebSocket;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -6,10 +7,16 @@ namespace NadekoBot.TypeReaders
 {
     public class GuildTypeReader : TypeReader
     {
+        private readonly DiscordShardedClient _client;
+
+        public GuildTypeReader(DiscordShardedClient client)
+        {
+            _client = client;
+        }
         public override Task<TypeReaderResult> Read(ICommandContext context, string input)
         {
             input = input.Trim().ToLowerInvariant();
-            var guilds = NadekoBot.Client.Guilds;
+            var guilds = _client.Guilds;
             var guild = guilds.FirstOrDefault(g => g.Id.ToString().Trim().ToLowerInvariant() == input) ?? //by id
                         guilds.FirstOrDefault(g => g.Name.Trim().ToLowerInvariant() == input); //by name
 

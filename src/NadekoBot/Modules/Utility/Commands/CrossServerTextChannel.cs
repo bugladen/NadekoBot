@@ -15,59 +15,12 @@ namespace NadekoBot.Modules.Utility
         [Group]
         public class CrossServerTextChannel : NadekoSubmodule
         {
-            static CrossServerTextChannel()
+            private readonly UtilityService _service;
+
+            public CrossServerTextChannel(UtilityService service)
             {
-                NadekoBot.Client.MessageReceived += Client_MessageReceived;
+                _service = service;
             }
-
-            public static void Unload()
-            {
-                NadekoBot.Client.MessageReceived -= Client_MessageReceived;
-            }
-
-            private static async Task Client_MessageReceived(Discord.WebSocket.SocketMessage imsg)
-            {
-                try
-                {
-                    if (imsg.Author.IsBot)
-                        return;
-                    var msg = imsg as IUserMessage;
-                    if (msg == null)
-                        return;
-                    var channel = imsg.Channel as ITextChannel;
-                    if (channel == null)
-                        return;
-                    if (msg.Author.Id == NadekoBot.Client.CurrentUser.Id) return;
-                    foreach (var subscriber in Subscribers)
-                    {
-                        var set = subscriber.Value;
-                        if (!set.Contains(channel))
-                            continue;
-                        foreach (var chan in set.Except(new[] { channel }))
-                        {
-                            try
-                            {
-                                await chan.SendMessageAsync(GetMessage(channel, (IGuildUser)msg.Author,
-                                    msg)).ConfigureAwait(false);
-                            }
-                            catch
-                            {
-                                // ignored
-                            }
-                        }
-                    }
-                }
-                catch
-                {
-                    // ignored
-                }
-            }
-
-            private static string GetMessage(ITextChannel channel, IGuildUser user, IUserMessage message) =>
-                $"**{channel.Guild.Name} | {channel.Name}** `{user.Username}`: " + message.Content.SanitizeMentions();
-
-            public static readonly ConcurrentDictionary<int, ConcurrentHashSet<ITextChannel>> Subscribers =
-                new ConcurrentDictionary<int, ConcurrentHashSet<ITextChannel>>();
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
@@ -76,7 +29,7 @@ namespace NadekoBot.Modules.Utility
             {
                 var token = new NadekoRandom().Next();
                 var set = new ConcurrentHashSet<ITextChannel>();
-                if (Subscribers.TryAdd(token, set))
+                if (_service.Subscribers.TryAdd(token, set))
                 {
                     set.Add((ITextChannel) Context.Channel);
                     await ((IGuildUser) Context.User).SendConfirmAsync(GetText("csc_token"), token.ToString())
@@ -90,7 +43,7 @@ namespace NadekoBot.Modules.Utility
             public async Task Jcsc(int token)
             {
                 ConcurrentHashSet<ITextChannel> set;
-                if (!Subscribers.TryGetValue(token, out set))
+                if (!_service.Subscribers.TryGetValue(token, out set))
                     return;
                 set.Add((ITextChannel) Context.Channel);
                 await ReplyConfirmLocalized("csc_join").ConfigureAwait(false);
@@ -101,7 +54,7 @@ namespace NadekoBot.Modules.Utility
             [RequireUserPermission(GuildPermission.ManageGuild)]
             public async Task Lcsc()
             {
-                foreach (var subscriber in Subscribers)
+                foreach (var subscriber in _service.Subscribers)
                 {
                     subscriber.Value.TryRemove((ITextChannel) Context.Channel);
                 }

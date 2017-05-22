@@ -1,7 +1,9 @@
 using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
+using NadekoBot.Services;
 using System;
 using System.Linq;
 using System.Text;
@@ -14,6 +16,17 @@ namespace NadekoBot.Modules.Utility
         [Group]
         public class InfoCommands : NadekoSubmodule
         {
+            private readonly DiscordShardedClient _client;
+            private readonly IStatsService _stats;
+            private readonly CommandHandler _ch;
+
+            public InfoCommands(DiscordShardedClient client, IStatsService stats, CommandHandler ch)
+            {
+                _client = client;
+                _stats = stats;
+                _ch = ch;
+            }
+
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task ServerInfo(string guildName = null)
@@ -24,7 +37,7 @@ namespace NadekoBot.Modules.Utility
                 if (string.IsNullOrWhiteSpace(guildName))
                     guild = channel.Guild;
                 else
-                    guild = NadekoBot.Client.Guilds.FirstOrDefault(g => g.Name.ToUpperInvariant() == guildName.ToUpperInvariant());
+                    guild = _client.Guilds.FirstOrDefault(g => g.Name.ToUpperInvariant() == guildName.ToUpperInvariant());
                 if (guild == null)
                     return;
                 var ownername = await guild.GetUserAsync(guild.OwnerId);
@@ -50,9 +63,9 @@ namespace NadekoBot.Modules.Utility
                     .AddField(fb => fb.WithName(GetText("features")).WithValue(features).WithIsInline(true))
                     .WithImageUrl(guild.IconUrl)
                     .WithColor(NadekoBot.OkColor);
-                if (guild.Emojis.Any())
+                if (guild.Emotes.Any())
                 {
-                    embed.AddField(fb => fb.WithName(GetText("custom_emojis") + $"({guild.Emojis.Count})").WithValue(string.Join(" ", guild.Emojis.Shuffle().Take(20).Select(e => $"{e.Name} <:{e.Name}:{e.Id}>"))));
+                    embed.AddField(fb => fb.WithName(GetText("custom_emojis") + $"({guild.Emotes.Count})").WithValue(string.Join(" ", guild.Emotes.Shuffle().Take(20).Select(e => $"{e.Name} <:{e.Name}:{e.Id}>"))));
                 }
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
@@ -101,36 +114,36 @@ namespace NadekoBot.Modules.Utility
                     embed.WithThumbnailUrl(user.RealAvatarUrl());
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
-        }
 
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        [OwnerOnly]
-        public async Task Activity(int page = 1)
-        {
-            const int activityPerPage = 15;
-            page -= 1;
-
-            if (page < 0)
-                return;
-
-            int startCount = page * activityPerPage;
-
-            StringBuilder str = new StringBuilder();
-            foreach (var kvp in NadekoBot.CommandHandler.UserMessagesSent.OrderByDescending(kvp => kvp.Value).Skip(page*activityPerPage).Take(activityPerPage))
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [OwnerOnly]
+            public async Task Activity(int page = 1)
             {
-                str.AppendLine(GetText("activity_line", 
-                    ++startCount, 
-                    Format.Bold(kvp.Key.ToString()),
-                    kvp.Value / NadekoBot.Stats.GetUptime().TotalSeconds, kvp.Value));
-            }
+                const int activityPerPage = 15;
+                page -= 1;
 
-            await Context.Channel.EmbedAsync(new EmbedBuilder()
-                .WithTitle(GetText("activity_page", page + 1))
-                .WithOkColor()
-                .WithFooter(efb => efb.WithText(GetText("activity_users_total",
-                    NadekoBot.CommandHandler.UserMessagesSent.Count)))
-                .WithDescription(str.ToString()));
+                if (page < 0)
+                    return;
+
+                int startCount = page * activityPerPage;
+
+                StringBuilder str = new StringBuilder();
+                foreach (var kvp in _ch.UserMessagesSent.OrderByDescending(kvp => kvp.Value).Skip(page * activityPerPage).Take(activityPerPage))
+                {
+                    str.AppendLine(GetText("activity_line",
+                        ++startCount,
+                        Format.Bold(kvp.Key.ToString()),
+                        kvp.Value / _stats.GetUptime().TotalSeconds, kvp.Value));
+                }
+
+                await Context.Channel.EmbedAsync(new EmbedBuilder()
+                    .WithTitle(GetText("activity_page", page + 1))
+                    .WithOkColor()
+                    .WithFooter(efb => efb.WithText(GetText("activity_users_total",
+                        _ch.UserMessagesSent.Count)))
+                    .WithDescription(str.ToString()));
+            }
         }
     }
 }

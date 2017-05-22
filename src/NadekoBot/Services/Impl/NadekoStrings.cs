@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using NLog;
 using System.Diagnostics;
 using Newtonsoft.Json;
+using System;
 
 namespace NadekoBot.Services
 {
@@ -15,6 +16,10 @@ namespace NadekoBot.Services
 
         private readonly ImmutableDictionary<string, ImmutableDictionary<string, string>> responseStrings;
         private readonly Logger _log;
+        /// <summary>
+        /// Used as failsafe in case response key doesn't exist in the selected or default language.
+        /// </summary>
+        private readonly CultureInfo _usCultureInfo = new CultureInfo("en-US");
 
         public NadekoStrings()
         {
@@ -44,13 +49,42 @@ namespace NadekoBot.Services
             return fileName.Substring(dotIndex, secondDotINdex - dotIndex);
         }
 
-        public string GetString(string text, CultureInfo cultureInfo)
+        private string GetString(string text, CultureInfo cultureInfo)
         {
             if (!responseStrings.TryGetValue(cultureInfo.Name.ToLowerInvariant(), out ImmutableDictionary<string, string> strings))
                 return null;
 
             strings.TryGetValue(text, out string val);
             return val;
+        }
+
+        public string GetText(string key, CultureInfo cultureInfo, string lowerModuleTypeName)
+        {
+            var text = GetString(lowerModuleTypeName + "_" + key, cultureInfo);
+
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                LogManager.GetCurrentClassLogger().Warn(lowerModuleTypeName + "_" + key + " key is missing from " + cultureInfo + " response strings. PLEASE REPORT THIS.");
+                text = GetString(lowerModuleTypeName + "_" + key, _usCultureInfo) ?? $"Error: dkey {lowerModuleTypeName + "_" + key} not found!";
+                if (string.IsNullOrWhiteSpace(text))
+                    return "I can't tell you if the command is executed, because there was an error printing out the response. Key '" +
+                        lowerModuleTypeName + "_" + key + "' " + "is missing from resources. Please report this.";
+            }
+            return text;
+        }
+
+        public string GetText(string key, CultureInfo cultureInfo, string lowerModuleTypeName,
+            params object[] replacements)
+        {
+            try
+            {
+                return string.Format(GetText(key, cultureInfo, lowerModuleTypeName), replacements);
+            }
+            catch (FormatException)
+            {
+                return "I can't tell you if the command is executed, because there was an error printing out the response. Key '" +
+                       lowerModuleTypeName + "_" + key + "' " + "is not properly formatted. Please report this.";
+            }
         }
     }
 }

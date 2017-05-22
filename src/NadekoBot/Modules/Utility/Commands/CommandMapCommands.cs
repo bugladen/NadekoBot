@@ -1,48 +1,32 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using Microsoft.EntityFrameworkCore;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
-using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System;
 
 namespace NadekoBot.Modules.Utility
 {
     public partial class Utility
     {
-        public class CommandAliasEqualityComparer : IEqualityComparer<CommandAlias>
-        {
-            public bool Equals(CommandAlias x, CommandAlias y) => x.Trigger == y.Trigger;
-
-            public int GetHashCode(CommandAlias obj) => obj.Trigger.GetHashCode();
-        }
-
         [Group]
         public class CommandMapCommands : NadekoSubmodule
         {
-            //guildId, (trigger, mapping)
-            public static ConcurrentDictionary<ulong, ConcurrentDictionary<string, string>> AliasMaps { get; } = new ConcurrentDictionary<ulong, ConcurrentDictionary<string, string>>();
+            private readonly UtilityService _service;
+            private readonly DbHandler _db;
+            private readonly DiscordShardedClient _client;
 
-            static CommandMapCommands()
+            public CommandMapCommands(UtilityService service, DbHandler db, DiscordShardedClient client)
             {
-                var eq = new CommandAliasEqualityComparer();
-                AliasMaps = new ConcurrentDictionary<ulong, ConcurrentDictionary<string, string>>(
-                    NadekoBot.AllGuildConfigs.ToDictionary(
-                        x => x.GuildId,
-                        x => new ConcurrentDictionary<string, string>(x.CommandAliases
-                            .Distinct(eq)
-                            .ToDictionary(ca => ca.Trigger, ca => ca.Mapping))));
-            }
-
-            public static void Unload()
-            {
-                AliasMaps.Clear();
+                _service = service;
+                _db = db;
+                _client = client;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -61,14 +45,14 @@ namespace NadekoBot.Modules.Utility
                 {
                     ConcurrentDictionary<string, string> maps;
                     string throwaway;
-                    if (!AliasMaps.TryGetValue(Context.Guild.Id, out maps) ||
+                    if (!_service.AliasMaps.TryGetValue(Context.Guild.Id, out maps) ||
                         !maps.TryRemove(trigger, out throwaway))
                     {
                         await ReplyErrorLocalized("alias_remove_fail", Format.Code(trigger)).ConfigureAwait(false);
                         return;
                     }
 
-                    using (var uow = DbHandler.UnitOfWork())
+                    using (var uow = _db.UnitOfWork)
                     {
                         var config = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(x => x.CommandAliases));
                         var toAdd = new CommandAlias()
@@ -83,9 +67,9 @@ namespace NadekoBot.Modules.Utility
                     await ReplyConfirmLocalized("alias_removed", Format.Code(trigger)).ConfigureAwait(false);
                     return;
                 }
-                AliasMaps.AddOrUpdate(Context.Guild.Id, (_) =>
+                _service.AliasMaps.AddOrUpdate(Context.Guild.Id, (_) =>
                 {
-                    using (var uow = DbHandler.UnitOfWork())
+                    using (var uow = _db.UnitOfWork)
                     {
                         var config = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(x => x.CommandAliases));
                         config.CommandAliases.Add(new CommandAlias()
@@ -100,7 +84,7 @@ namespace NadekoBot.Modules.Utility
                     });
                 }, (_, map) =>
                 {
-                    using (var uow = DbHandler.UnitOfWork())
+                    using (var uow = _db.UnitOfWork)
                     {
                         var config = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(x => x.CommandAliases));
                         var toAdd = new CommandAlias()
@@ -131,7 +115,7 @@ namespace NadekoBot.Modules.Utility
                     return;
 
                 ConcurrentDictionary<string, string> maps;
-                if (!AliasMaps.TryGetValue(Context.Guild.Id, out maps) || !maps.Any())
+                if (!_service.AliasMaps.TryGetValue(Context.Guild.Id, out maps) || !maps.Any())
                 {
                     await ReplyErrorLocalized("aliases_none").ConfigureAwait(false);
                     return;
@@ -139,7 +123,7 @@ namespace NadekoBot.Modules.Utility
 
                 var arr = maps.ToArray();
 
-                await Context.Channel.SendPaginatedConfirmAsync(page + 1, (curPage) =>
+                await Context.Channel.SendPaginatedConfirmAsync(_client, page + 1, (curPage) =>
                 {
                     return new EmbedBuilder().WithOkColor()
                     .WithTitle(GetText("alias_list"))

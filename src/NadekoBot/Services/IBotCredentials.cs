@@ -14,8 +14,10 @@ namespace NadekoBot.Services
         string MashapeKey { get; }
         string LoLApiKey { get; }
         string PatreonAccessToken { get; }
+        string CarbonKey { get; }
 
         DBConfig Db { get; }
+        string SoundCloudClientId { get; set; }
 
         bool IsOwner(IUser u);
     }

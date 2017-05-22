@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NadekoBot.Modules.Music.Classes
+namespace NadekoBot.Services.Music
 {
     class PlaylistFullException : Exception
     {

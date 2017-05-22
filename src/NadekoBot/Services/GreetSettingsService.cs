@@ -12,11 +12,14 @@ namespace NadekoBot.Services
 {
     public class GreetSettingsService
     {
-        public ConcurrentDictionary<ulong, GreetSettings> GuildConfigsCache { get; }
+        private readonly DbHandler _db;
 
-        public GreetSettingsService()
+        public readonly ConcurrentDictionary<ulong, GreetSettings> GuildConfigsCache;
+
+        public GreetSettingsService(IEnumerable<GuildConfig> guildConfigs, DbHandler db)
         {
-            GuildConfigsCache = new ConcurrentDictionary<ulong, GreetSettings>(NadekoBot.AllGuildConfigs.ToDictionary(g => g.GuildId, GreetSettings.Create));
+            _db = db;
+            GuildConfigsCache = new ConcurrentDictionary<ulong, GreetSettings>(guildConfigs.ToDictionary(g => g.GuildId, GreetSettings.Create));
         }
 
         public GreetSettings GetOrAddSettingsForGuild(ulong guildId)
@@ -27,7 +30,7 @@ namespace NadekoBot.Services
             if (settings != null)
                 return settings;
 
-            using (var uow = DbHandler.UnitOfWork())
+            using (var uow = _db.UnitOfWork)
             {
                 var gc = uow.GuildConfigs.For(guildId, set => set);
                 settings = GreetSettings.Create(gc);
@@ -47,7 +50,7 @@ namespace NadekoBot.Services
                 return false;
             }
 
-            using (var uow = DbHandler.UnitOfWork())
+            using (var uow = _db.UnitOfWork)
             {
                 var conf = uow.GuildConfigs.For(guildId, set => set);
                 conf.DmGreetMessageText = settings.DmGreetMessageText?.SanitizeMentions();
@@ -78,7 +81,7 @@ namespace NadekoBot.Services
         public async Task<bool> SetGreet(ulong guildId, ulong channelId, bool? value = null)
         {
             bool enabled;
-            using (var uow = DbHandler.UnitOfWork())
+            using (var uow = _db.UnitOfWork)
             {
                 var conf = uow.GuildConfigs.For(guildId, set => set);
                 enabled = conf.SendChannelGreetMessage = value ?? !conf.SendChannelGreetMessage;
@@ -100,7 +103,7 @@ namespace NadekoBot.Services
                 throw new ArgumentNullException(nameof(message));
 
             bool greetMsgEnabled;
-            using (var uow = DbHandler.UnitOfWork())
+            using (var uow = _db.UnitOfWork)
             {
                 var conf = uow.GuildConfigs.For(guildId, set => set);
                 conf.ChannelGreetMessageText = message;
@@ -117,7 +120,7 @@ namespace NadekoBot.Services
         public async Task<bool> SetGreetDm(ulong guildId, bool? value = null)
         {
             bool enabled;
-            using (var uow = DbHandler.UnitOfWork())
+            using (var uow = _db.UnitOfWork)
             {
                 var conf = uow.GuildConfigs.For(guildId, set => set);
                 enabled = conf.SendDmGreetMessage = value ?? !conf.SendDmGreetMessage;
@@ -138,7 +141,7 @@ namespace NadekoBot.Services
                 throw new ArgumentNullException(nameof(message));
 
             bool greetMsgEnabled;
-            using (var uow = DbHandler.UnitOfWork())
+            using (var uow = _db.UnitOfWork)
             {
                 var conf = uow.GuildConfigs.For(guildId);
                 conf.DmGreetMessageText = message;
@@ -155,7 +158,7 @@ namespace NadekoBot.Services
         public async Task<bool> SetBye(ulong guildId, ulong channelId, bool? value = null)
         {
             bool enabled;
-            using (var uow = DbHandler.UnitOfWork())
+            using (var uow = _db.UnitOfWork)
             {
                 var conf = uow.GuildConfigs.For(guildId, set => set);
                 enabled = conf.SendChannelByeMessage = value ?? !conf.SendChannelByeMessage;
@@ -177,7 +180,7 @@ namespace NadekoBot.Services
                 throw new ArgumentNullException(nameof(message));
 
             bool byeMsgEnabled;
-            using (var uow = DbHandler.UnitOfWork())
+            using (var uow = _db.UnitOfWork)
             {
                 var conf = uow.GuildConfigs.For(guildId, set => set);
                 conf.ChannelByeMessageText = message;
@@ -196,7 +199,7 @@ namespace NadekoBot.Services
             if (timer < 0 || timer > 600)
                 return;
 
-            using (var uow = DbHandler.UnitOfWork())
+            using (var uow = _db.UnitOfWork)
             {
                 var conf = uow.GuildConfigs.For(guildId, set => set);
                 conf.AutoDeleteByeMessagesTimer = timer;

@@ -23,12 +23,14 @@ namespace NadekoBot.Services.Impl
         
         private Logger _log { get; }
 
-        public GoogleApiService()
+        public GoogleApiService(IBotCredentials creds)
         {
+            _creds = creds;
+
             var bcs = new BaseClientService.Initializer
             {
                 ApplicationName = "Nadeko Bot",
-                ApiKey = NadekoBot.Credentials.GoogleApiKey,
+                ApiKey = _creds.GoogleApiKey,
             };
 
             _log = LogManager.GetCurrentClassLogger();
@@ -59,6 +61,7 @@ namespace NadekoBot.Services.Impl
         }
 
         private readonly Regex YtVideoIdRegex = new Regex(@"(?:youtube\.com\/\S*(?:(?:\/e(?:mbed))?\/|watch\?(?:\S*?&?v\=))|youtu\.be\/)(?<id>[a-zA-Z0-9_-]{6,11})", RegexOptions.Compiled);
+        private readonly IBotCredentials _creds;
 
         public async Task<IEnumerable<string>> GetRelatedVideosAsync(string id, int count = 1)
         {
@@ -110,7 +113,7 @@ namespace NadekoBot.Services.Impl
             if (string.IsNullOrWhiteSpace(url))
                 throw new ArgumentNullException(nameof(url));
 
-            if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.GoogleApiKey))
+            if (string.IsNullOrWhiteSpace(_creds.GoogleApiKey))
                 return url;
 
             try

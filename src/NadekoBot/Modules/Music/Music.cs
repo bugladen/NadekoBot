@@ -23,8 +23,6 @@ namespace NadekoBot.Modules.Music
     [DontAutoLoad]
     public class Music : NadekoTopLevelModule 
     {
-        public const string MusicDataPath = "data/musicdata";
-
         private static MusicService music;
 
         static Music()

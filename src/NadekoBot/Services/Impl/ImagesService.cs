@@ -44,19 +44,13 @@ namespace NadekoBot.Services.Impl
         public ImmutableArray<byte> WifeMatrix { get; private set; }
         public ImmutableArray<byte> RategirlDot { get; private set; }
 
-        private ImagesService()
+        public ImagesService()
         {
             _log = LogManager.GetCurrentClassLogger();
+            this.Reload();
         }
 
-        public static async Task<IImagesService> Create()
-        {
-            var srvc = new ImagesService();
-            await srvc.Reload().ConfigureAwait(false);
-            return srvc;
-        }
-
-        public Task<TimeSpan> Reload() => Task.Run(() =>
+        public TimeSpan Reload()
         {
             try
             {
@@ -101,6 +95,6 @@ namespace NadekoBot.Services.Impl
                 _log.Error(ex);
                 throw;
             }
-        });
+        }
     }
 }

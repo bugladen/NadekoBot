@@ -15,6 +15,7 @@ namespace NadekoBot.Services.Impl
     public class StatsService : IStatsService
     {
         private readonly DiscordShardedClient _client;
+        private readonly IBotCredentials _creds;
         private readonly DateTime _started;
 
         public const string BotVersion = "1.4";
@@ -36,10 +37,10 @@ namespace NadekoBot.Services.Impl
 
         private readonly Timer _carbonitexTimer;
 
-        public StatsService(DiscordShardedClient client, CommandHandler cmdHandler)
+        public StatsService(DiscordShardedClient client, CommandHandler cmdHandler, IBotCredentials creds)
         {
-
             _client = client;
+            _creds = creds;
 
             _started = DateTime.Now;
             _client.MessageReceived += _ => Task.FromResult(Interlocked.Increment(ref _messageCounter));
@@ -117,7 +118,7 @@ namespace NadekoBot.Services.Impl
 
             _carbonitexTimer = new Timer(async (state) =>
             {
-                if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.CarbonKey))
+                if (string.IsNullOrWhiteSpace(_creds.CarbonKey))
                     return;
                 try
                 {
@@ -126,7 +127,7 @@ namespace NadekoBot.Services.Impl
                         using (var content = new FormUrlEncodedContent(
                             new Dictionary<string, string> {
                                 { "servercount", _client.Guilds.Count.ToString() },
-                                { "key", NadekoBot.Credentials.CarbonKey }}))
+                                { "key", _creds.CarbonKey }}))
                         {
                             content.Headers.Clear();
                             content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
@@ -158,7 +159,7 @@ namespace NadekoBot.Services.Impl
 Author: [{Author}] | Library: [{Library}]
 Bot Version: [{BotVersion}]
 Bot ID: {curUser.Id}
-Owner ID(s): {string.Join(", ", NadekoBot.Credentials.OwnerIds)}
+Owner ID(s): {string.Join(", ", _creds.OwnerIds)}
 Uptime: {GetUptimeString()}
 Servers: {_client.Guilds.Count} | TextChannels: {TextChannels} | VoiceChannels: {VoiceChannels}
 Commands Ran this session: {CommandsRan}

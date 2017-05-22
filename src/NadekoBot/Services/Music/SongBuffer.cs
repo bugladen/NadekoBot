@@ -6,7 +6,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules.Music.Classes
+namespace NadekoBot.Services.Music
 {
     /// <summary>
     /// Create a buffer for a song file. It will create multiples files to ensure, that radio don't fill up disk space.

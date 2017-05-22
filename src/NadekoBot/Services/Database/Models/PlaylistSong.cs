@@ -1,6 +1,4 @@
-﻿using NadekoBot.Modules.Music.Classes;
-
-namespace NadekoBot.Services.Database.Models
+﻿namespace NadekoBot.Services.Database.Models
 {
     public class PlaylistSong : DbEntity
     {
@@ -9,5 +7,13 @@ namespace NadekoBot.Services.Database.Models
         public string Title { get; set; }
         public string Uri { get; set; }
         public string Query { get; set; }
+    }
+
+    public enum MusicType
+    {
+        Radio,
+        Normal,
+        Local,
+        Soundcloud
     }
 }
