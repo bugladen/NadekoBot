@@ -17,97 +17,12 @@ namespace NadekoBot.Modules.CustomReactions
 {
     public static class CustomReactionExtensions
     {
-        public static async Task<IUserMessage> Send(this CustomReaction cr, IUserMessage context)
-        {
-            var channel = cr.DmResponse ? await context.Author.CreateDMChannelAsync() : context.Channel;
-            
-            CustomReactions.ReactionStats.AddOrUpdate(cr.Trigger, 1, (k, old) => ++old);
-
-            CREmbed crembed;
-            if (CREmbed.TryParse(cr.Response, out crembed))
-            {
-                return await channel.EmbedAsync(crembed.ToEmbed(), crembed.PlainText ?? "");
-            }
-            return await channel.SendMessageAsync(cr.ResponseWithContext(context).SanitizeMentions());
-        }
+        
     }
 
     [NadekoModule("CustomReactions", ".")]
     public class CustomReactions : NadekoTopLevelModule
     {
-        private static CustomReaction[] _globalReactions = new CustomReaction[] { };
-        public static CustomReaction[] GlobalReactions => _globalReactions;
-        public static ConcurrentDictionary<ulong, CustomReaction[]> GuildReactions { get; } = new ConcurrentDictionary<ulong, CustomReaction[]>();
-
-        public static ConcurrentDictionary<string, uint> ReactionStats { get; } = new ConcurrentDictionary<string, uint>();
-
-        private new static readonly Logger _log;
-
-        static CustomReactions()
-        {
-            _log = LogManager.GetCurrentClassLogger();
-            var sw = Stopwatch.StartNew();
-            using (var uow = DbHandler.UnitOfWork())
-            {
-                var items = uow.CustomReactions.GetAll();
-                GuildReactions = new ConcurrentDictionary<ulong, CustomReaction[]>(items.Where(g => g.GuildId != null && g.GuildId != 0).GroupBy(k => k.GuildId.Value).ToDictionary(g => g.Key, g => g.ToArray()));
-                _globalReactions = items.Where(g => g.GuildId == null || g.GuildId == 0).ToArray();
-            }
-            sw.Stop();
-            _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
-        }
-
-        public void ClearStats() => ReactionStats.Clear();
-
-        public static CustomReaction TryGetCustomReaction(IUserMessage umsg)
-        {
-            var channel = umsg.Channel as SocketTextChannel;
-            if (channel == null)
-                return null;
-
-            var content = umsg.Content.Trim().ToLowerInvariant();
-            CustomReaction[] reactions;
-
-            GuildReactions.TryGetValue(channel.Guild.Id, out reactions);
-            if (reactions != null && reactions.Any())
-            {
-                var rs = reactions.Where(cr =>
-                {
-                    if (cr == null)
-                        return false;
-
-                    var hasTarget = cr.Response.ToLowerInvariant().Contains("%target%");
-                    var trigger = cr.TriggerWithContext(umsg).Trim().ToLowerInvariant();
-                    return ((hasTarget && content.StartsWith(trigger + " ")) || content == trigger);
-                }).ToArray();
-
-                if (rs.Length != 0)
-                {
-                    var reaction = rs[new NadekoRandom().Next(0, rs.Length)];
-                    if (reaction != null)
-                    {
-                        if (reaction.Response == "-")
-                            return null;
-                        return reaction;
-                    }
-                }
-            }
-
-            var grs = GlobalReactions.Where(cr =>
-            {
-                if (cr == null)
-                    return false;
-                var hasTarget = cr.Response.ToLowerInvariant().Contains("%target%");
-                var trigger = cr.TriggerWithContext(umsg).Trim().ToLowerInvariant();
-                return ((hasTarget && content.StartsWith(trigger + " ")) || content == trigger);
-            }).ToArray();
-            if (grs.Length == 0)
-                return null;
-            var greaction = grs[new NadekoRandom().Next(0, grs.Length)];
-
-            return greaction;
-        }
-
         [NadekoCommand, Usage, Description, Aliases]
         public async Task AddCustReact(string key, [Remainder] string message)
         {
@@ -131,7 +46,7 @@ namespace NadekoBot.Modules.CustomReactions
                 Response = message,
             };
 
-            using (var uow = DbHandler.UnitOfWork())
+            using (var uow = _db.UnitOfWork)
             {
                 uow.CustomReactions.Add(cr);
 
@@ -309,7 +224,7 @@ namespace NadekoBot.Modules.CustomReactions
 
             var success = false;
             CustomReaction toDelete;
-            using (var uow = DbHandler.UnitOfWork())
+            using (var uow = _db.UnitOfWork)
             {
                 toDelete = uow.CustomReactions.Get(id);
                 if (toDelete == null) //not found
@@ -381,7 +296,7 @@ namespace NadekoBot.Modules.CustomReactions
 
                 var setValue = reaction.DmResponse = !reaction.DmResponse;
 
-                using (var uow = DbHandler.UnitOfWork())
+                using (var uow = _db.UnitOfWork)
                 {
                     uow.CustomReactions.Get(id).DmResponse = setValue;
                     uow.Complete();
@@ -432,7 +347,7 @@ namespace NadekoBot.Modules.CustomReactions
 
                 var setValue = reaction.AutoDeleteTrigger = !reaction.AutoDeleteTrigger;
 
-                using (var uow = DbHandler.UnitOfWork())
+                using (var uow = _db.UnitOfWork)
                 {
                     uow.CustomReactions.Get(id).AutoDeleteTrigger = setValue;
                     uow.Complete();

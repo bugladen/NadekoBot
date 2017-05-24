@@ -1,13 +1,12 @@
 ﻿using Discord;
-using Discord.WebSocket;
+using NadekoBot.DataStructures;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.CustomReactions
 {
@@ -103,5 +102,19 @@ namespace NadekoBot.Modules.CustomReactions
 
         public static string ResponseWithContext(this CustomReaction cr, IUserMessage ctx)
             => cr.Response.ResolveResponseString(ctx, cr.Trigger.ResolveTriggerString(ctx));
+
+        public static async Task<IUserMessage> Send(this CustomReaction cr, IUserMessage context)
+        {
+            var channel = cr.DmResponse ? await context.Author.CreateDMChannelAsync() : context.Channel;
+
+            CustomReactions.ReactionStats.AddOrUpdate(cr.Trigger, 1, (k, old) => ++old);
+
+            CREmbed crembed;
+            if (CREmbed.TryParse(cr.Response, out crembed))
+            {
+                return await channel.EmbedAsync(crembed.ToEmbed(), crembed.PlainText ?? "");
+            }
+            return await channel.SendMessageAsync(cr.ResponseWithContext(context).SanitizeMentions());
+        }
     }
 }

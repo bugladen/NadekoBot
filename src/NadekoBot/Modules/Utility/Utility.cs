@@ -20,7 +20,6 @@ using System.Diagnostics;
 
 namespace NadekoBot.Modules.Utility
 {
-    [NadekoModule("Utility")]
     public partial class Utility : NadekoTopLevelModule
     {
         private static ConcurrentDictionary<ulong, Timer> _rotatingRoleColors = new ConcurrentDictionary<ulong, Timer>();

@@ -29,35 +29,26 @@
   <ItemGroup>
     <Compile Remove="data\**\*;credentials.json;credentials_example.json" />
     <Compile Remove="Modules\Administration\**" />
-    <Compile Remove="Modules\ClashOfClans\**" />
     <Compile Remove="Modules\CustomReactions\**" />
     <Compile Remove="Modules\Gambling\**" />
     <Compile Remove="Modules\Games\**" />
-    <Compile Remove="Modules\Help\**" />
-    <Compile Remove="Modules\Music\**" />
+    <Compile Remove="Modules\NSFW\**" />
     <Compile Remove="Modules\Permissions\**" />
     <Compile Remove="Modules\Searches\**" />
-    <Compile Remove="Services\Music\**" />
     <EmbeddedResource Remove="Modules\Administration\**" />
-    <EmbeddedResource Remove="Modules\ClashOfClans\**" />
     <EmbeddedResource Remove="Modules\CustomReactions\**" />
     <EmbeddedResource Remove="Modules\Gambling\**" />
     <EmbeddedResource Remove="Modules\Games\**" />
-    <EmbeddedResource Remove="Modules\Help\**" />
-    <EmbeddedResource Remove="Modules\Music\**" />
+    <EmbeddedResource Remove="Modules\NSFW\**" />
     <EmbeddedResource Remove="Modules\Permissions\**" />
     <EmbeddedResource Remove="Modules\Searches\**" />
-    <EmbeddedResource Remove="Services\Music\**" />
     <None Remove="Modules\Administration\**" />
-    <None Remove="Modules\ClashOfClans\**" />
     <None Remove="Modules\CustomReactions\**" />
     <None Remove="Modules\Gambling\**" />
     <None Remove="Modules\Games\**" />
-    <None Remove="Modules\Help\**" />
-    <None Remove="Modules\Music\**" />
+    <None Remove="Modules\NSFW\**" />
     <None Remove="Modules\Permissions\**" />
     <None Remove="Modules\Searches\**" />
-    <None Remove="Services\Music\**" />
     <None Update="libsodium.dll;opus.dll;libsodium.so;libopus.so">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -104,5 +95,9 @@
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Modules\Music\Classes\" />
   </ItemGroup>
 </Project>

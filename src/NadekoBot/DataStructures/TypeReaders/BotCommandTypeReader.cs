@@ -15,6 +15,11 @@ namespace NadekoBot.TypeReaders
         public override Task<TypeReaderResult> Read(ICommandContext context, string input)
         {
             input = input.ToUpperInvariant();
+            if (!input.StartsWith(NadekoBot.Prefix.ToUpperInvariant()))
+                return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "No such command found."));
+
+            input = input.Substring(NadekoBot.Prefix.Length);
+
             var cmd = _cmds.Commands.FirstOrDefault(c => 
                 c.Aliases.Select(a => a.ToUpperInvariant()).Contains(input));
             if (cmd == null)

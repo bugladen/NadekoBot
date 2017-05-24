@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Net;
 using Discord;
+using NadekoBot.Services.Database.Models;
 
 namespace NadekoBot.Services.Music
 {
@@ -144,7 +145,7 @@ namespace NadekoBot.Services.Music
         public async Task Play(IAudioClient voiceClient, CancellationToken cancelToken)
         {
             BytesSent = (ulong) SkipTo * 3840 * 50;
-            var filename = Path.Combine(MusicPlayer.MusicDataPath, DateTime.Now.UnixTimestamp().ToString());
+            var filename = Path.Combine(MusicService.MusicDataPath, DateTime.Now.UnixTimestamp().ToString());
 
             var inStream = new SongBuffer(MusicPlayer, filename, SongInfo, SkipTo, _frameBytes * 100);
             var bufferTask = inStream.BufferSong(cancelToken).ConfigureAwait(false);

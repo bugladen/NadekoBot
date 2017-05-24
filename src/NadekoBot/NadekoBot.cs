@@ -18,6 +18,8 @@ using NadekoBot.Services.Database.Models;
 using System.Threading;
 using NadekoBot.Modules.Utility;
 using NadekoBot.Services.Searches;
+using NadekoBot.Services.ClashOfClans;
+using NadekoBot.Services.Music;
 
 namespace NadekoBot
 {
@@ -75,7 +77,6 @@ namespace NadekoBot
             var greetSettingsService = new GreetSettingsService(AllGuildConfigs, db);
 
             var localization = new Localization(BotConfig.Locale, AllGuildConfigs.ToDictionary(x => x.GuildId, x => x.Locale), db);
-            //var musicService = new MusicService(google, strings, localization);
 
             var commandService = new CommandService(new CommandServiceConfig()
             {
@@ -89,9 +90,15 @@ namespace NadekoBot
 
             var images = new ImagesService();
 
+            var currencyHandler = new CurrencyHandler(BotConfig, db);
+
+            var soundcloud = new SoundCloudApiService(credentials);
+
             //module services
             var utilityService = new UtilityService(AllGuildConfigs, Client, BotConfig, db);
             var searchesService = new SearchesService();
+            var clashService = new ClashOfClansService(Client, db, localization, strings);
+            var musicService = new MusicService(google, strings, localization, db, soundcloud, credentials);
 
             //initialize Services
             Services = new NServiceProvider.ServiceProviderBuilder() //todo all Adds should be interfaces
@@ -105,12 +112,15 @@ namespace NadekoBot
                 .Add<NadekoStrings>(strings)
                 .Add<DiscordShardedClient>(Client)
                 .Add<GreetSettingsService>(greetSettingsService)
-                //.Add(musicService)
+                .Add<BotConfig>(BotConfig)
+                .Add<CurrencyHandler>(currencyHandler)
+                .Add(musicService)
                 .Add<CommandHandler>(commandHandler)
                 .Add<DbHandler>(db)
                 //modules
                 .Add<UtilityService>(utilityService)
                 .Add<SearchesService>(searchesService)
+                .Add<ClashOfClansService>(clashService)
                 .Build();
 
             commandHandler.AddServices(Services);

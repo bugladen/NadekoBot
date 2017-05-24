@@ -17,7 +17,6 @@ namespace NadekoBot.Modules
         public readonly string ModuleTypeName;
         public readonly string LowerModuleTypeName;
 
-
         //todo :thinking:
         public NadekoStrings _strings { get; set; }
         public ILocalization _localization { get; set; }

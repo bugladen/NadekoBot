@@ -6,16 +6,11 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Services.Music
 {
-    public class SoundCloud
+    public class SoundCloudApiService
     {
         private readonly IBotCredentials _creds;
 
-        //todo make a service
-        private static SoundCloud _instance = null;
-        public static SoundCloud GetInstance(IBotCredentials creds) => _instance ?? (_instance = new SoundCloud(creds));
-
-        static SoundCloud() { }
-        public SoundCloud(IBotCredentials creds)
+        public SoundCloudApiService(IBotCredentials creds)
         {
             _creds = creds;
         }
@@ -36,7 +31,7 @@ namespace NadekoBot.Services.Music
             }
                 
 
-            var responseObj = Newtonsoft.Json.JsonConvert.DeserializeObject<SoundCloudVideo>(response);
+            var responseObj = JsonConvert.DeserializeObject<SoundCloudVideo>(response);
             if (responseObj?.Kind != "track")
                 throw new InvalidOperationException("Url is either not a track, or it doesn't exist.");
 
@@ -84,7 +79,7 @@ namespace NadekoBot.Services.Music
     }
     public class SoundCloudUser
     {
-        [Newtonsoft.Json.JsonProperty("username")]
+        [JsonProperty("username")]
         public string Name { get; set; }
     }
     /*

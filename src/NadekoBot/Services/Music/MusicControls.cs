@@ -8,12 +8,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NLog;
-using NadekoBot.Services.Music;
-using NadekoBot.Services;
+using NadekoBot.Services.Database.Models;
 
 namespace NadekoBot.Services.Music
 {
-
     public enum StreamState
     {
         Resolving,
@@ -24,7 +22,6 @@ namespace NadekoBot.Services.Music
 
     public class MusicPlayer
     {
-        public const string MusicDataPath = "data/musicdata";
         private IAudioClient AudioClient { get; set; }
 
         /// <summary>

@@ -15,7 +15,6 @@ using NadekoBot.Services.Searches;
 
 namespace NadekoBot.Modules.NSFW
 {
-    [NadekoModule("NSFW")]
     public class NSFW : NadekoTopLevelModule
     {
         private static readonly ConcurrentDictionary<ulong, Timer> _autoHentaiTimers = new ConcurrentDictionary<ulong, Timer>();
