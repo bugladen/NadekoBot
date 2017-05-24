@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Discord;
 using NLog;
 using Discord.Commands;
-using Discord.Net;
 using NadekoBot.Extensions;
 using System.Collections.Concurrent;
 using System.Threading;
@@ -469,7 +468,7 @@ namespace NadekoBot.Services
             var commands = searchResult.Commands;
             for (int i = commands.Count - 1; i >= 0; i--)
             {
-                var preconditionResult = await commands[i].CheckPreconditionsAsync(context).ConfigureAwait(false);
+                var preconditionResult = await commands[i].CheckPreconditionsAsync(context, serviceProvider).ConfigureAwait(false);
                 if (!preconditionResult.IsSuccess)
                 {
                     if (commands.Count == 1)

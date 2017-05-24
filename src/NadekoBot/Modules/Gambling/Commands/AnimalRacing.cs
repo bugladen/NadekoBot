@@ -4,6 +4,7 @@ using Discord.WebSocket;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
+using NadekoBot.Services.Database.Models;
 using NLog;
 using System;
 using System.Collections.Concurrent;
@@ -19,13 +20,26 @@ namespace NadekoBot.Modules.Gambling
         [Group]
         public class AnimalRacing : NadekoSubmodule
         {
+            private readonly BotConfig _bc;
+            private readonly CurrencyHandler _ch;
+            private readonly DiscordShardedClient _client;
+            
+
             public static ConcurrentDictionary<ulong, AnimalRace> AnimalRaces { get; } = new ConcurrentDictionary<ulong, AnimalRace>();
+
+            public AnimalRacing(BotConfig bc, CurrencyHandler ch, DiscordShardedClient client)
+            {
+                _bc = bc;
+                _ch = ch;
+                _client = client;
+            }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Race()
             {
-                var ar = new AnimalRace(Context.Guild.Id, (ITextChannel)Context.Channel, Prefix);
+                var ar = new AnimalRace(Context.Guild.Id, (ITextChannel)Context.Channel, Prefix, 
+                    _bc, _ch, _client,_localization, _strings);
 
                 if (ar.Fail)
                     await ReplyErrorLocalized("race_failed_starting").ConfigureAwait(false);
@@ -49,6 +63,8 @@ namespace NadekoBot.Modules.Gambling
                 await ar.JoinRace(Context.User as IGuildUser, amount);
             }
 
+            //todo needs to be completely isolated, shouldn't use any services in the constructor,
+            //then move the rest either to the module itself, or the service
             public class AnimalRace
             {
 
@@ -64,21 +80,35 @@ namespace NadekoBot.Modules.Gambling
                 private readonly Logger _log;
 
                 private readonly ITextChannel _raceChannel;
+                private readonly BotConfig _bc;
+                private readonly CurrencyHandler _ch;
+                private readonly DiscordShardedClient _client;
+                private readonly ILocalization _localization;
+                private readonly NadekoStrings _strings;
+
                 public bool Started { get; private set; }
 
-                public AnimalRace(ulong serverId, ITextChannel ch, string prefix)
+                public AnimalRace(ulong serverId, ITextChannel channel, string prefix, BotConfig bc,
+                    CurrencyHandler ch, DiscordShardedClient client, ILocalization localization,
+                    NadekoStrings strings)
                 {
                     _prefix = prefix;
+                    _bc = bc;
+                    _ch = ch;
                     _log = LogManager.GetCurrentClassLogger();
                     _serverId = serverId;
-                    _raceChannel = ch;
+                    _raceChannel = channel;
+                    _client = client;
+                    _localization = localization;
+                    _strings = strings;
+
                     if (!AnimalRaces.TryAdd(serverId, this))
                     {
                         Fail = true;
                         return;
                     }
                     
-                    animals = new ConcurrentQueue<string>(NadekoBot.BotConfig.RaceAnimals.Select(ra => ra.Icon).Shuffle());
+                    animals = new ConcurrentQueue<string>(_bc.RaceAnimals.Select(ra => ra.Icon).Shuffle());
 
 
                     var cancelSource = new CancellationTokenSource();
@@ -114,7 +144,7 @@ namespace NadekoBot.Modules.Gambling
                                 var p = _participants.FirstOrDefault();
 
                                 if (p != null && p.AmountBet > 0)
-                                    await CurrencyHandler.AddCurrencyAsync(p.User, "BetRace", p.AmountBet, false).ConfigureAwait(false);
+                                    await _ch.AddCurrencyAsync(p.User, "BetRace", p.AmountBet, false).ConfigureAwait(false);
                                 End();
                                 return;
                             }
@@ -139,7 +169,7 @@ namespace NadekoBot.Modules.Gambling
                     var place = 1;
                     try
                     {
-                        NadekoBot.Client.MessageReceived += Client_MessageReceived;
+                        _client.MessageReceived += Client_MessageReceived;
 
                         while (!_participants.All(p => p.Total >= 60))
                         {
@@ -193,7 +223,7 @@ namespace NadekoBot.Modules.Gambling
                     }
                     finally
                     {
-                        NadekoBot.Client.MessageReceived -= Client_MessageReceived;
+                        _client.MessageReceived -= Client_MessageReceived;
                     }
 
                     if (winner != null)
@@ -202,11 +232,11 @@ namespace NadekoBot.Modules.Gambling
                         {
                             var wonAmount = winner.AmountBet * (_participants.Count - 1);
 
-                            await CurrencyHandler.AddCurrencyAsync(winner.User, "Won a Race", wonAmount, true)
+                            await _ch.AddCurrencyAsync(winner.User, "Won a Race", wonAmount, true)
                                 .ConfigureAwait(false);
                             await _raceChannel.SendConfirmAsync(GetText("animal_race"),
                                     Format.Bold(GetText("animal_race_won_money", winner.User.Mention,
-                                        winner.Animal, wonAmount + CurrencySign)))
+                                        winner.Animal, wonAmount + _bc.CurrencySign)))
                                 .ConfigureAwait(false);
                         }
                         else
@@ -223,7 +253,7 @@ namespace NadekoBot.Modules.Gambling
                     var msg = imsg as SocketUserMessage;
                     if (msg == null)
                         return Task.CompletedTask;
-                    if (msg.IsAuthor() || !(imsg.Channel is ITextChannel) || imsg.Channel != _raceChannel)
+                    if ((msg.Author.Id == _client.CurrentUser.Id) || !(imsg.Channel is ITextChannel) || imsg.Channel != _raceChannel)
                         return Task.CompletedTask;
                     _messagesSinceGameStarted++;
                     return Task.CompletedTask;
@@ -257,28 +287,28 @@ namespace NadekoBot.Modules.Gambling
                         return;
                     }
                     if (amount > 0)
-                        if (!await CurrencyHandler.RemoveCurrencyAsync(u, "BetRace", amount, false).ConfigureAwait(false))
+                        if (!await _ch.RemoveCurrencyAsync(u, "BetRace", amount, false).ConfigureAwait(false))
                         {
-                            await _raceChannel.SendErrorAsync(GetText("not_enough", CurrencySign)).ConfigureAwait(false);
+                            await _raceChannel.SendErrorAsync(GetText("not_enough", _bc.CurrencySign)).ConfigureAwait(false);
                             return;
                         }
                     _participants.Add(p);
                     string confStr;
                     if (amount > 0)
-                        confStr = GetText("animal_race_join_bet", u.Mention, p.Animal, amount + CurrencySign);
+                        confStr = GetText("animal_race_join_bet", u.Mention, p.Animal, amount + _bc.CurrencySign);
                     else
                         confStr = GetText("animal_race_join", u.Mention, p.Animal);
                     await _raceChannel.SendConfirmAsync(GetText("animal_race"), Format.Bold(confStr)).ConfigureAwait(false);
                 }
 
                 private string GetText(string text)
-                    => NadekoTopLevelModule.GetTextStatic(text,
-                        NadekoBot.Localization.GetCultureInfo(_raceChannel.Guild),
+                    => _strings.GetText(text,
+                        _localization.GetCultureInfo(_raceChannel.Guild),
                         typeof(Gambling).Name.ToLowerInvariant());
 
                 private string GetText(string text, params object[] replacements)
-                    => NadekoTopLevelModule.GetTextStatic(text,
-                        NadekoBot.Localization.GetCultureInfo(_raceChannel.Guild),
+                    => _strings.GetText(text,
+                        _localization.GetCultureInfo(_raceChannel.Guild),
                         typeof(Gambling).Name.ToLowerInvariant(),
                         replacements);
             }

@@ -4,6 +4,7 @@ using ImageSharp;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
+using NadekoBot.Services.Database.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,9 @@ namespace NadekoBot.Modules.Gambling
             private static int _totalBet;
             private static int _totalPaidOut;
 
+            private static readonly HashSet<ulong> _runningUsers = new HashSet<ulong>();
+            private readonly BotConfig _bc;
+
             private const int _alphaCutOut = byte.MaxValue / 3;
 
             //here is a payout chart
@@ -28,10 +32,13 @@ namespace NadekoBot.Modules.Gambling
             //thanks to judge for helping me with this
 
             private readonly IImagesService _images;
+            private readonly CurrencyHandler _ch;
 
-            public Slots()
+            public Slots(IImagesService images, BotConfig bc, CurrencyHandler ch)
             {
-                _images = NadekoBot.Images;
+                _images = images;
+                _bc = bc;
+                _ch = ch;
             }
 
             public class SlotMachine
@@ -130,8 +137,6 @@ namespace NadekoBot.Modules.Gambling
                     footer: $"Total Bet: {tests * bet} | Payout: {payout * bet} | {payout * 1.0f / tests * 100}%");
             }
 
-            private static readonly HashSet<ulong> _runningUsers = new HashSet<ulong>();
-
             [NadekoCommand, Usage, Description, Aliases]
             public async Task Slot(int amount = 0)
             {
@@ -141,24 +146,24 @@ namespace NadekoBot.Modules.Gambling
                 {
                     if (amount < 1)
                     {
-                        await ReplyErrorLocalized("min_bet_limit", 1 + CurrencySign).ConfigureAwait(false);
+                        await ReplyErrorLocalized("min_bet_limit", 1 + _bc.CurrencySign).ConfigureAwait(false);
                         return;
                     }
                     const int maxAmount = 9999;
                     if (amount > maxAmount)
                     {
-                        GetText("slot_maxbet", maxAmount + CurrencySign);
-                        await ReplyErrorLocalized("max_bet_limit", maxAmount + CurrencySign).ConfigureAwait(false);
+                        GetText("slot_maxbet", maxAmount + _bc.CurrencySign);
+                        await ReplyErrorLocalized("max_bet_limit", maxAmount + _bc.CurrencySign).ConfigureAwait(false);
                         return;
                     }
 
-                    if (!await CurrencyHandler.RemoveCurrencyAsync(Context.User, "Slot Machine", amount, false))
+                    if (!await _ch.RemoveCurrencyAsync(Context.User, "Slot Machine", amount, false))
                     {
-                        await ReplyErrorLocalized("not_enough", CurrencySign).ConfigureAwait(false);
+                        await ReplyErrorLocalized("not_enough", _bc.CurrencySign).ConfigureAwait(false);
                         return;
                     }
                     Interlocked.Add(ref _totalBet, amount);
-                    using (var bgFileStream = NadekoBot.Images.SlotBackground.ToStream())
+                    using (var bgFileStream = _images.SlotBackground.ToStream())
                     {
                         var bgImage = new ImageSharp.Image(bgFileStream);
 
@@ -180,7 +185,7 @@ namespace NadekoBot.Modules.Gambling
                         do
                         {
                             var digit = printWon % 10;
-                            using (var fs = NadekoBot.Images.SlotNumbers[digit].ToStream())
+                            using (var fs = _images.SlotNumbers[digit].ToStream())
                             using (var img = new ImageSharp.Image(fs))
                             {
                                 bgImage.DrawImage(img, 100, default(Size), new Point(230 - n * 16, 462));
@@ -204,19 +209,19 @@ namespace NadekoBot.Modules.Gambling
                         var msg = GetText("better_luck");
                         if (result.Multiplier != 0)
                         {
-                            await CurrencyHandler.AddCurrencyAsync(Context.User, $"Slot Machine x{result.Multiplier}", amount * result.Multiplier, false);
+                            await _ch.AddCurrencyAsync(Context.User, $"Slot Machine x{result.Multiplier}", amount * result.Multiplier, false);
                             Interlocked.Add(ref _totalPaidOut, amount * result.Multiplier);
                             if (result.Multiplier == 1)
-                                msg = GetText("slot_single", CurrencySign, 1);
+                                msg = GetText("slot_single", _bc.CurrencySign, 1);
                             else if (result.Multiplier == 4)
-                                msg = GetText("slot_two", CurrencySign, 4);
+                                msg = GetText("slot_two", _bc.CurrencySign, 4);
                             else if (result.Multiplier == 10)
                                 msg = GetText("slot_three", 10);
                             else if (result.Multiplier == 30)
                                 msg = GetText("slot_jackpot", 30);
                         }
 
-                        await Context.Channel.SendFileAsync(bgImage.ToStream(), "result.png", Context.User.Mention + " " + msg + $"\n`{GetText("slot_bet")}:`{amount} `{GetText("slot_won")}:` {amount * result.Multiplier}{NadekoBot.BotConfig.CurrencySign}").ConfigureAwait(false);
+                        await Context.Channel.SendFileAsync(bgImage.ToStream(), "result.png", Context.User.Mention + " " + msg + $"\n`{GetText("slot_bet")}:`{amount} `{GetText("slot_won")}:` {amount * result.Multiplier}{_bc.CurrencySign}").ConfigureAwait(false);
                     }
                 }
                 finally

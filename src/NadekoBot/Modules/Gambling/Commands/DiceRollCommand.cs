@@ -22,6 +22,13 @@ namespace NadekoBot.Modules.Gambling
             private Regex fudgeRegex { get; } = new Regex(@"^(?<n1>\d+)d(?:F|f)$", RegexOptions.Compiled);
 
             private readonly char[] _fateRolls = { '-', ' ', '+' };
+            private readonly IImagesService _images;
+
+            public DriceRollCommands(IImagesService images)
+            {
+                _images = images;
+            }
+
 
             [NadekoCommand, Usage, Description, Aliases]
             public async Task Roll()
@@ -212,7 +219,7 @@ namespace NadekoBot.Modules.Gambling
 
                 if (num == 10)
                 {
-                    var images = NadekoBot.Images.Dice;
+                    var images = _images.Dice;
                     using (var imgOneStream = images[1].Value.ToStream())
                     using (var imgZeroStream = images[0].Value.ToStream())
                     {
@@ -222,7 +229,7 @@ namespace NadekoBot.Modules.Gambling
                         return new[] { imgOne, imgZero }.Merge();
                     }
                 }
-                using (var die = NadekoBot.Images.Dice[num].Value.ToStream())
+                using (var die = _images.Dice[num].Value.ToStream())
                 {
                     return new Image(die);
                 }

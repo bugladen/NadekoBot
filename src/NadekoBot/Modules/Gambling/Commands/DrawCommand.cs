@@ -18,7 +18,6 @@ namespace NadekoBot.Modules.Gambling
         public class DrawCommands : NadekoSubmodule
         {
             private static readonly ConcurrentDictionary<IGuild, Cards> _allDecks = new ConcurrentDictionary<IGuild, Cards>();
-
             private const string _cardsPath = "data/images/cards";
 
             [NadekoCommand, Usage, Description, Aliases]

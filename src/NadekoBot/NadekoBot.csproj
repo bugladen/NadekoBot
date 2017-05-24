@@ -30,25 +30,27 @@
     <Compile Remove="data\**\*;credentials.json;credentials_example.json" />
     <Compile Remove="Modules\Administration\**" />
     <Compile Remove="Modules\CustomReactions\**" />
-    <Compile Remove="Modules\Gambling\**" />
     <Compile Remove="Modules\Games\**" />
     <Compile Remove="Modules\NSFW\**" />
     <Compile Remove="Modules\Permissions\**" />
     <Compile Remove="Modules\Searches\**" />
+    <Compile Remove="Services\CustomReactions\**" />
     <EmbeddedResource Remove="Modules\Administration\**" />
     <EmbeddedResource Remove="Modules\CustomReactions\**" />
-    <EmbeddedResource Remove="Modules\Gambling\**" />
     <EmbeddedResource Remove="Modules\Games\**" />
     <EmbeddedResource Remove="Modules\NSFW\**" />
     <EmbeddedResource Remove="Modules\Permissions\**" />
     <EmbeddedResource Remove="Modules\Searches\**" />
+    <EmbeddedResource Remove="Services\CustomReactions\**" />
     <None Remove="Modules\Administration\**" />
     <None Remove="Modules\CustomReactions\**" />
-    <None Remove="Modules\Gambling\**" />
     <None Remove="Modules\Games\**" />
     <None Remove="Modules\NSFW\**" />
     <None Remove="Modules\Permissions\**" />
     <None Remove="Modules\Searches\**" />
+    <None Remove="Services\CustomReactions\**" />
+    <Compile Remove="Modules\Gambling\Commands\Lucky7Commands.cs" />
+    <Compile Remove="Modules\Gambling\Commands\WaifuClaimCommands.cs" />
     <None Update="libsodium.dll;opus.dll;libsodium.so;libopus.so">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

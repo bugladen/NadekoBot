@@ -4,8 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using NadekoBot.Extensions;
-using NadekoBot.Modules;
-using NadekoBot.Services.Impl;
 using NadekoBot.Services.Database.Models;
 using System.Text.RegularExpressions;
 using NLog;
@@ -22,7 +20,6 @@ namespace NadekoBot.Services.Music
         private readonly IGoogleApiService _google;
         private readonly NadekoStrings _strings;
         private readonly ILocalization _localization;
-        private GoogleApiService google;
         private readonly DbHandler _db;
         private readonly Logger _log;
         private readonly SoundCloudApiService _sc;

@@ -12,9 +12,8 @@ namespace NadekoBot.Attributes
         public override Task<PreconditionResult> CheckPermissions(ICommandContext context, CommandInfo executingCommand, IServiceProvider services)
         {
             var creds = (IBotCredentials)services.GetService(typeof(IBotCredentials));
-            var client = (IDiscordClient)services.GetService(typeof(IDiscordClient));
 
-            return Task.FromResult((creds.IsOwner(context.User) || client.CurrentUser.Id == context.User.Id ? PreconditionResult.FromSuccess() : PreconditionResult.FromError("Not owner")));
+            return Task.FromResult((creds.IsOwner(context.User) || context.Client.CurrentUser.Id == context.User.Id ? PreconditionResult.FromSuccess() : PreconditionResult.FromError("Not owner")));
         }
     }
 }
