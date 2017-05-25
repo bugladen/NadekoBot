@@ -38,14 +38,14 @@ namespace NadekoBot.Modules.Gambling
                     {
                         using (var heads = _images.Heads.ToStream())
                         {
-                            await Context.Channel.SendFileAsync(heads, "heads.jpg", Context.User.Mention + " " + GetText("flipped", Format.Bold(GetText("heads"))) + ".").ConfigureAwait(false);
+                            await Context.Channel.SendFileAsync(heads, "heads.jpg", Context.User.Mention + " " + GetText("flipped", Format.Bold(GetText("heads")))).ConfigureAwait(false);
                         }
                     }
                     else
                     {
                         using (var tails = _images.Tails.ToStream())
                         {
-                            await Context.Channel.SendFileAsync(tails, "tails.jpg", Context.User.Mention + " " + GetText("flipped", Format.Bold(GetText("tails"))) + ".").ConfigureAwait(false);
+                            await Context.Channel.SendFileAsync(tails, "tails.jpg", Context.User.Mention + " " + GetText("flipped", Format.Bold(GetText("tails")))).ConfigureAwait(false);
                         }
                     }
                     return;

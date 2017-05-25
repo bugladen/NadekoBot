@@ -1,4 +1,5 @@
 ﻿using Discord;
+using Discord.WebSocket;
 using NadekoBot.DataStructures;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
@@ -8,7 +9,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules.CustomReactions
+namespace NadekoBot.Services.CustomReactions
 {
     public static class Extensions
     {
@@ -17,11 +18,11 @@ namespace NadekoBot.Modules.CustomReactions
             {"%target%", (ctx, trigger) => { return ctx.Content.Substring(trigger.Length).Trim().SanitizeMentions(); } }
         };
 
-        public static Dictionary<string, Func<IUserMessage, string>> placeholders = new Dictionary<string, Func<IUserMessage, string>>()
+        public static Dictionary<string, Func<IUserMessage, DiscordShardedClient, string>> placeholders = new Dictionary<string, Func<IUserMessage, DiscordShardedClient, string>>()
         {
-            {"%mention%", (ctx) => { return $"<@{NadekoBot.Client.CurrentUser.Id}>"; } },
-            {"%user%", (ctx) => { return ctx.Author.Mention; } },
-            {"%rnduser%", (ctx) => {
+            {"%mention%", (ctx, client) => { return $"<@{client.CurrentUser.Id}>"; } },
+            {"%user%", (ctx, client) => { return ctx.Author.Mention; } },
+            {"%rnduser%", (ctx, client) => {
                 //var ch = ctx.Channel as ITextChannel;
                 //if(ch == null)
                 //    return "";
@@ -69,20 +70,20 @@ namespace NadekoBot.Modules.CustomReactions
             } }
         };
 
-        private static string ResolveTriggerString(this string str, IUserMessage ctx)
+        private static string ResolveTriggerString(this string str, IUserMessage ctx, DiscordShardedClient client)
         {
             foreach (var ph in placeholders)
             {
-                str = str.ToLowerInvariant().Replace(ph.Key, ph.Value(ctx));
+                str = str.ToLowerInvariant().Replace(ph.Key, ph.Value(ctx, client));
             }
             return str;
         }
 
-        private static string ResolveResponseString(this string str, IUserMessage ctx, string resolvedTrigger)
+        private static string ResolveResponseString(this string str, IUserMessage ctx, DiscordShardedClient client, string resolvedTrigger)
         {
             foreach (var ph in placeholders)
             {
-                str = str.Replace(ph.Key.ToLowerInvariant(), ph.Value(ctx));
+                str = str.Replace(ph.Key.ToLowerInvariant(), ph.Value(ctx, client));
             }
 
             foreach (var ph in responsePlaceholders)
@@ -97,24 +98,23 @@ namespace NadekoBot.Modules.CustomReactions
             return str;
         }
 
-        public static string TriggerWithContext(this CustomReaction cr, IUserMessage ctx)
-            => cr.Trigger.ResolveTriggerString(ctx);
+        public static string TriggerWithContext(this CustomReaction cr, IUserMessage ctx, DiscordShardedClient client)
+            => cr.Trigger.ResolveTriggerString(ctx, client);
 
-        public static string ResponseWithContext(this CustomReaction cr, IUserMessage ctx)
-            => cr.Response.ResolveResponseString(ctx, cr.Trigger.ResolveTriggerString(ctx));
+        public static string ResponseWithContext(this CustomReaction cr, IUserMessage ctx, DiscordShardedClient client)
+            => cr.Response.ResolveResponseString(ctx, client, cr.Trigger.ResolveTriggerString(ctx, client));
 
-        public static async Task<IUserMessage> Send(this CustomReaction cr, IUserMessage context)
+        public static async Task<IUserMessage> Send(this CustomReaction cr, IUserMessage context, DiscordShardedClient client, CustomReactionsService crs)
         {
             var channel = cr.DmResponse ? await context.Author.CreateDMChannelAsync() : context.Channel;
 
-            CustomReactions.ReactionStats.AddOrUpdate(cr.Trigger, 1, (k, old) => ++old);
+            crs.ReactionStats.AddOrUpdate(cr.Trigger, 1, (k, old) => ++old);
 
-            CREmbed crembed;
-            if (CREmbed.TryParse(cr.Response, out crembed))
+            if (CREmbed.TryParse(cr.Response, out CREmbed crembed))
             {
                 return await channel.EmbedAsync(crembed.ToEmbed(), crembed.PlainText ?? "");
             }
-            return await channel.SendMessageAsync(cr.ResponseWithContext(context).SanitizeMentions());
+            return await channel.SendMessageAsync(cr.ResponseWithContext(context, client).SanitizeMentions());
         }
     }
 }

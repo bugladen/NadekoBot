@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NadekoBot.DataStructures
+namespace NadekoBot.Services.Permissions
 {
     public class OldPermissionCache
     {

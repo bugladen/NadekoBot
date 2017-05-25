@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using NadekoBot.Services.Database.Models;
+using NadekoBot.DataStructures;
 
-namespace NadekoBot.DataStructures
+namespace NadekoBot.Services.Permissions
 {
     public class PermissionsCollection<T> : IndexedCollection<T> where T : IIndexed
     {

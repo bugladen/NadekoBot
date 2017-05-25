@@ -20,6 +20,7 @@ using NadekoBot.Modules.Utility;
 using NadekoBot.Services.Searches;
 using NadekoBot.Services.ClashOfClans;
 using NadekoBot.Services.Music;
+using NadekoBot.Services.CustomReactions;
 
 namespace NadekoBot
 {
@@ -99,6 +100,7 @@ namespace NadekoBot
             var searchesService = new SearchesService();
             var clashService = new ClashOfClansService(Client, db, localization, strings);
             var musicService = new MusicService(google, strings, localization, db, soundcloud, credentials);
+            var crService = new CustomReactionsService(db, Client);
 
             //initialize Services
             Services = new NServiceProvider.ServiceProviderBuilder() //todo all Adds should be interfaces
@@ -111,16 +113,17 @@ namespace NadekoBot
                 .Add<CommandService>(commandService)
                 .Add<NadekoStrings>(strings)
                 .Add<DiscordShardedClient>(Client)
-                .Add<GreetSettingsService>(greetSettingsService)
                 .Add<BotConfig>(BotConfig)
                 .Add<CurrencyHandler>(currencyHandler)
-                .Add(musicService)
                 .Add<CommandHandler>(commandHandler)
                 .Add<DbHandler>(db)
                 //modules
                 .Add<UtilityService>(utilityService)
                 .Add<SearchesService>(searchesService)
                 .Add<ClashOfClansService>(clashService)
+                .Add<MusicService>(musicService)
+                .Add<GreetSettingsService>(greetSettingsService)
+                .Add<CustomReactionsService>(crService)
                 .Build();
 
             commandHandler.AddServices(Services);

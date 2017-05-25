@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Services
 {
-    public interface INServiceProvider : IServiceProvider
+    public interface INServiceProvider : IServiceProvider, IEnumerable<object>
     {
         T GetService<T>();
     }
@@ -49,5 +50,9 @@ namespace NadekoBot.Services
             _services.TryGetValue(serviceType, out var toReturn);
             return toReturn;
         }
+
+        IEnumerator IEnumerable.GetEnumerator() => _services.Values.GetEnumerator();
+
+        public IEnumerator<object> GetEnumerator() => _services.Values.GetEnumerator();
     }
 }
