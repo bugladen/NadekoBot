@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace NadekoBot.Modules.Pokemon
+namespace NadekoBot.Services.Pokemon
 {
-    class PokeStats
+    public class PokeStats
     {
         //Health left
         public int Hp { get; set; } = 500;

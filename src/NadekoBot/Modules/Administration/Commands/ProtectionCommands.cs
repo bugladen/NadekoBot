@@ -5,246 +5,27 @@ using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
-using NLog;
 using System;
-using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Threading;
-using System.Collections.Generic;
+using NadekoBot.Services.Administration;
 
 namespace NadekoBot.Modules.Administration
 {
     public partial class Administration
     {
-        public enum ProtectionType
-        {
-            Raiding,
-            Spamming,
-        }
-
-        public class AntiRaidStats
-        {
-            public AntiRaidSetting AntiRaidSettings { get; set; }
-            public int UsersCount { get; set; }
-            public ConcurrentHashSet<IGuildUser> RaidUsers { get; set; } = new ConcurrentHashSet<IGuildUser>();
-        }
-
-        public class AntiSpamStats
-        {
-            public AntiSpamSetting AntiSpamSettings { get; set; }
-            public ConcurrentDictionary<ulong, UserSpamStats> UserStats { get; set; }
-                = new ConcurrentDictionary<ulong, UserSpamStats>();
-        }
-
-        public class UserSpamStats : IDisposable
-        {
-            public int Count => timers.Count;
-            public string LastMessage { get; set; }
-
-            private ConcurrentQueue<Timer> timers { get; }
-
-            public UserSpamStats(IUserMessage msg)
-            {
-                LastMessage = msg.Content.ToUpperInvariant();
-                timers = new ConcurrentQueue<Timer>();
-
-                ApplyNextMessage(msg);
-            }
-            
-            private readonly object applyLock = new object();
-            public void ApplyNextMessage(IUserMessage message)
-            {
-                lock(applyLock){
-                    var upperMsg = message.Content.ToUpperInvariant();
-                    if (upperMsg != LastMessage || (string.IsNullOrWhiteSpace(upperMsg) && message.Attachments.Any()))
-                    {
-                        LastMessage = upperMsg;
-                        //todo c#7
-                        Timer old;
-                        while(timers.TryDequeue(out old))
-                            old.Change(Timeout.Infinite, Timeout.Infinite);
-                    }    
-                    var t = new Timer((_) => {
-                        //todo c#7
-                        Timer __;
-                        if(timers.TryDequeue(out __))
-                            __.Change(Timeout.Infinite, Timeout.Infinite);
-                    }, null, TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(30));
-                    timers.Enqueue(t);
-                }
-            }
-
-            public void Dispose()
-            {
-                //todo c#7
-                Timer old;
-                while(timers.TryDequeue(out old))
-                    old.Change(Timeout.Infinite, Timeout.Infinite);
-            }
-        }
-
         [Group]
         public class ProtectionCommands : NadekoSubmodule
         {
-            private static readonly ConcurrentDictionary<ulong, AntiRaidStats> _antiRaidGuilds =
-                    new ConcurrentDictionary<ulong, AntiRaidStats>();
-            // guildId | (userId|messages)
-            private static readonly ConcurrentDictionary<ulong, AntiSpamStats> _antiSpamGuilds =
-                    new ConcurrentDictionary<ulong, AntiSpamStats>();
+            private readonly ProtectionService _service;
+            private readonly MuteService _mute;
+            private readonly DbHandler _db;
 
-            private new static readonly Logger _log;
-
-            static ProtectionCommands()
+            public ProtectionCommands(ProtectionService service, MuteService mute, DbHandler db)
             {
-                _log = LogManager.GetCurrentClassLogger();
-
-                foreach (var gc in NadekoBot.AllGuildConfigs)
-                {
-                    var raid = gc.AntiRaidSetting;
-                    var spam = gc.AntiSpamSetting;
-
-                    if (raid != null)
-                    {
-                        var raidStats = new AntiRaidStats() { AntiRaidSettings = raid };
-                        _antiRaidGuilds.TryAdd(gc.GuildId, raidStats);
-                    }
-
-                    if (spam != null)
-                        _antiSpamGuilds.TryAdd(gc.GuildId, new AntiSpamStats() { AntiSpamSettings = spam });
-                }
-
-                NadekoBot.Client.MessageReceived += (imsg) =>
-                {
-                    var msg = imsg as IUserMessage;
-                    if (msg == null || msg.Author.IsBot)
-                        return Task.CompletedTask;
-
-                    var channel = msg.Channel as ITextChannel;
-                    if (channel == null)
-                        return Task.CompletedTask;
-                    var _ = Task.Run(async () =>
-                    {
-                        try
-                        {
-                            AntiSpamStats spamSettings;
-                            if (!_antiSpamGuilds.TryGetValue(channel.Guild.Id, out spamSettings) ||
-                                spamSettings.AntiSpamSettings.IgnoredChannels.Contains(new AntiSpamIgnore()
-                                {
-                                    ChannelId = channel.Id
-                                }))
-                                return;
-
-                            var stats = spamSettings.UserStats.AddOrUpdate(msg.Author.Id, (id) => new UserSpamStats(msg),
-                                (id, old) =>
-                                {
-                                    old.ApplyNextMessage(msg); return old;
-                                });
-
-                            if (stats.Count >= spamSettings.AntiSpamSettings.MessageThreshold)
-                            {
-                                if (spamSettings.UserStats.TryRemove(msg.Author.Id, out stats))
-                                {
-                                    stats.Dispose();
-                                    await PunishUsers(spamSettings.AntiSpamSettings.Action, ProtectionType.Spamming, (IGuildUser)msg.Author)
-                                        .ConfigureAwait(false);
-                                }
-                            }
-                        }
-                        catch
-                        {
-                            // ignored
-                        }
-                    });
-                    return Task.CompletedTask;
-                };
-
-                NadekoBot.Client.UserJoined += (usr) =>
-                {
-                    if (usr.IsBot)
-                        return Task.CompletedTask;
-                    AntiRaidStats settings;
-                    if (!_antiRaidGuilds.TryGetValue(usr.Guild.Id, out settings))
-                        return Task.CompletedTask;
-                    if (!settings.RaidUsers.Add(usr))
-                        return Task.CompletedTask;
-
-                    var _ = Task.Run(async () =>
-                    {
-                        try
-                        {
-                            ++settings.UsersCount;
-
-                            if (settings.UsersCount >= settings.AntiRaidSettings.UserThreshold)
-                            {
-                                var users = settings.RaidUsers.ToArray();
-                                settings.RaidUsers.Clear();
-
-                                await PunishUsers(settings.AntiRaidSettings.Action, ProtectionType.Raiding, users).ConfigureAwait(false);
-                            }
-                            await Task.Delay(1000 * settings.AntiRaidSettings.Seconds).ConfigureAwait(false);
-
-                            settings.RaidUsers.TryRemove(usr);
-                            --settings.UsersCount;
-
-                        }
-                        catch
-                        {
-                            // ignored
-                        }
-                    });
-                    return Task.CompletedTask;
-                };
-            }
-
-            private static async Task PunishUsers(PunishmentAction action, ProtectionType pt, params IGuildUser[] gus)
-            {
-                _log.Info($"[{pt}] - Punishing [{gus.Length}] users with [{action}] in {gus[0].Guild.Name} guild");
-                foreach (var gu in gus)
-                {
-                    switch (action)
-                    {
-                        case PunishmentAction.Mute:
-                            try
-                            {
-                                await MuteCommands.MuteUser(gu).ConfigureAwait(false);
-                            }
-                            catch (Exception ex) { _log.Warn(ex, "I can't apply punishement"); }
-                            break;
-                        case PunishmentAction.Kick:
-                            try
-                            {
-                                await gu.KickAsync().ConfigureAwait(false);
-                            }
-                            catch (Exception ex) { _log.Warn(ex, "I can't apply punishement"); }
-                            break;
-                        case PunishmentAction.Softban:
-                            try
-                            {
-                                await gu.Guild.AddBanAsync(gu, 7).ConfigureAwait(false);
-                                try
-                                {
-                                    await gu.Guild.RemoveBanAsync(gu).ConfigureAwait(false);
-                                }
-                                catch
-                                {
-                                    await gu.Guild.RemoveBanAsync(gu).ConfigureAwait(false);
-                                    // try it twice, really don't want to ban user if 
-                                    // only kick has been specified as the punishement
-                                }
-                            }
-                            catch (Exception ex) { _log.Warn(ex, "I can't apply punishment"); }
-                            break;
-                        case PunishmentAction.Ban:
-                            try
-                            {
-                                await gu.Guild.AddBanAsync(gu, 7).ConfigureAwait(false);
-                            }
-                            catch (Exception ex) { _log.Warn(ex, "I can't apply punishment"); }
-                            break;
-                    }
-                }
-                await LogCommands.TriggeredAntiProtection(gus, action, pt).ConfigureAwait(false);
+                _service = service;
+                _mute = mute;
+                _db = db;
             }
 
             private string GetAntiSpamString(AntiSpamStats stats)
@@ -282,9 +63,9 @@ namespace NadekoBot.Modules.Administration
                 }
 
                 AntiRaidStats throwaway;
-                if (_antiRaidGuilds.TryRemove(Context.Guild.Id, out throwaway))
+                if (_service.AntiRaidGuilds.TryRemove(Context.Guild.Id, out throwaway))
                 {
-                    using (var uow = DbHandler.UnitOfWork())
+                    using (var uow = _db.UnitOfWork)
                     {
                         var gc = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(x => x.AntiRaidSetting));
 
@@ -297,7 +78,7 @@ namespace NadekoBot.Modules.Administration
 
                 try
                 {
-                    await MuteCommands.GetMuteRole(Context.Guild).ConfigureAwait(false);
+                    await _mute.GetMuteRole(Context.Guild).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
@@ -316,9 +97,9 @@ namespace NadekoBot.Modules.Administration
                     }
                 };
 
-                _antiRaidGuilds.AddOrUpdate(Context.Guild.Id, stats, (key, old) => stats);
+                _service.AntiRaidGuilds.AddOrUpdate(Context.Guild.Id, stats, (key, old) => stats);
 
-                using (var uow = DbHandler.UnitOfWork())
+                using (var uow = _db.UnitOfWork)
                 {
                     var gc = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(x => x.AntiRaidSetting));
 
@@ -339,10 +120,10 @@ namespace NadekoBot.Modules.Administration
                     return;
 
                 AntiSpamStats throwaway;
-                if (_antiSpamGuilds.TryRemove(Context.Guild.Id, out throwaway))
+                if (_service.AntiSpamGuilds.TryRemove(Context.Guild.Id, out throwaway))
                 {
                     throwaway.UserStats.ForEach(x => x.Value.Dispose());
-                    using (var uow = DbHandler.UnitOfWork())
+                    using (var uow = _db.UnitOfWork)
                     {
                         var gc = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(x => x.AntiSpamSetting)
                             .ThenInclude(x => x.IgnoredChannels));
@@ -356,7 +137,7 @@ namespace NadekoBot.Modules.Administration
 
                 try
                 {
-                    await MuteCommands.GetMuteRole(Context.Guild).ConfigureAwait(false);
+                    await _mute.GetMuteRole(Context.Guild).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
@@ -374,9 +155,9 @@ namespace NadekoBot.Modules.Administration
                     }
                 };
 
-                _antiSpamGuilds.AddOrUpdate(Context.Guild.Id, stats, (key, old) => stats);
+                _service.AntiSpamGuilds.AddOrUpdate(Context.Guild.Id, stats, (key, old) => stats);
 
-                using (var uow = DbHandler.UnitOfWork())
+                using (var uow = _db.UnitOfWork)
                 {
                     var gc = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(x => x.AntiSpamSetting));
 
@@ -398,7 +179,7 @@ namespace NadekoBot.Modules.Administration
                     ChannelId = channel.Id
                 };
                 bool added;
-                using (var uow = DbHandler.UnitOfWork())
+                using (var uow = _db.UnitOfWork)
                 {
                     var gc = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(x => x.AntiSpamSetting).ThenInclude(x => x.IgnoredChannels));
                     var spam = gc.AntiSpamSetting;
@@ -410,7 +191,7 @@ namespace NadekoBot.Modules.Administration
                     if (spam.IgnoredChannels.Add(obj))
                     {
                         AntiSpamStats temp;
-                        if (_antiSpamGuilds.TryGetValue(Context.Guild.Id, out temp))
+                        if (_service.AntiSpamGuilds.TryGetValue(Context.Guild.Id, out temp))
                             temp.AntiSpamSettings.IgnoredChannels.Add(obj);
                         added = true;
                     }
@@ -418,7 +199,7 @@ namespace NadekoBot.Modules.Administration
                     {
                         spam.IgnoredChannels.Remove(obj);
                         AntiSpamStats temp;
-                        if (_antiSpamGuilds.TryGetValue(Context.Guild.Id, out temp))
+                        if (_service.AntiSpamGuilds.TryGetValue(Context.Guild.Id, out temp))
                             temp.AntiSpamSettings.IgnoredChannels.Remove(obj);
                         added = false;
                     }
@@ -437,10 +218,10 @@ namespace NadekoBot.Modules.Administration
             public async Task AntiList()
             {
                 AntiSpamStats spam;
-                _antiSpamGuilds.TryGetValue(Context.Guild.Id, out spam);
+                _service.AntiSpamGuilds.TryGetValue(Context.Guild.Id, out spam);
 
                 AntiRaidStats raid;
-                _antiRaidGuilds.TryGetValue(Context.Guild.Id, out raid);
+                _service.AntiRaidGuilds.TryGetValue(Context.Guild.Id, out raid);
 
                 if (spam == null && raid == null)
                 {

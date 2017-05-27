@@ -97,8 +97,12 @@ namespace NadekoBot
             var soundcloud = new SoundCloudApiService(credentials);
 
             //module services
+            //todo 90 - Make this automatic
             var utilityService = new UtilityService(AllGuildConfigs, Client, BotConfig, db);
+#region Searches
             var searchesService = new SearchesService(Client, google, db);
+            var streamNotificationService = new StreamNotificationService(db, Client, strings);
+#endregion
             var clashService = new ClashOfClansService(Client, db, localization, strings);
             var musicService = new MusicService(google, strings, localization, db, soundcloud, credentials);
             var crService = new CustomReactionsService(db, Client);
@@ -108,11 +112,16 @@ namespace NadekoBot
             var selfService = new SelfService(this, commandHandler, db, BotConfig);
             var vcRoleService = new VcRoleService(Client, AllGuildConfigs);
             var vPlusTService = new VplusTService(Client, AllGuildConfigs, strings, db);
+            var muteService = new MuteService(Client, AllGuildConfigs, db);
+            var ratelimitService = new RatelimitService(Client, AllGuildConfigs);
+            var protectionService = new ProtectionService(Client, AllGuildConfigs, muteService);
+            var playingRotateService = new PlayingRotateService(Client, BotConfig, musicService);
+            var gameVcService = new GameVoiceChannelService(Client, db, AllGuildConfigs);
+            var autoAssignRoleService = new AutoAssignRoleService(Client, AllGuildConfigs);
 #endregion
 
-
             //initialize Services
-            Services = new NServiceProvider.ServiceProviderBuilder() //todo all Adds should be interfaces
+            Services = new NServiceProvider.ServiceProviderBuilder()
                 .Add<ILocalization>(localization)
                 .Add<IStatsService>(stats)
                 .Add<IImagesService>(images)
@@ -129,14 +138,22 @@ namespace NadekoBot
                 //modules
                 .Add<UtilityService>(utilityService)
                 .Add<SearchesService>(searchesService)
+                    .Add(streamNotificationService)
                 .Add<ClashOfClansService>(clashService)
                 .Add<MusicService>(musicService)
                 .Add<GreetSettingsService>(greetSettingsService)
                 .Add<CustomReactionsService>(crService)
                 .Add<GamesService>(gamesService)
-                .Add(selfService)
-                .Add(vcRoleService)
-                .Add(vPlusTService)
+                .Add<AdministrationService>(administrationService)
+                    .Add(selfService)
+                    .Add(vcRoleService)
+                    .Add(vPlusTService)
+                    .Add(muteService)
+                    .Add(ratelimitService)
+                    .Add(playingRotateService)
+                    .Add(gameVcService)
+                    .Add(autoAssignRoleService)
+                    .Add(protectionService)
                 .Build();
 
             commandHandler.AddServices(Services);

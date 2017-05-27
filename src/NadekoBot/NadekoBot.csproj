@@ -39,7 +39,17 @@
     <None Remove="Modules\Permissions\**" />
     <Compile Remove="Modules\Gambling\Commands\Lucky7Commands.cs" />
     <Compile Include="Modules\Administration\Administration.cs" />
+    <Compile Include="Modules\Administration\Commands\AutoAssignRoleCommands.cs" />
+    <Compile Include="Modules\Administration\Commands\GameChannelCommands.cs" />
+    <Compile Include="Modules\Administration\Commands\LocalizationCommands.cs" />
+    <Compile Include="Modules\Administration\Commands\Migration.cs" />
+    <Compile Include="Modules\Administration\Commands\Migration\0_9..cs" />
+    <Compile Include="Modules\Administration\Commands\Migration\MigrationException.cs" />
     <Compile Include="Modules\Administration\Commands\MuteCommands.cs" />
+    <Compile Include="Modules\Administration\Commands\PlayingRotateCommands.cs" />
+    <Compile Include="Modules\Administration\Commands\ProtectionCommands.cs" />
+    <Compile Include="Modules\Administration\Commands\RatelimitCommand.cs" />
+    <Compile Include="Modules\Administration\Commands\SelfAssignedRolesCommand.cs" />
     <Compile Include="Modules\Administration\Commands\SelfCommands.cs" />
     <Compile Include="Modules\Administration\Commands\ServerGreetCommands.cs" />
     <Compile Include="Modules\Administration\Commands\UserPunishCommands.cs" />
@@ -61,7 +71,7 @@
 
   <ItemGroup>
     <PackageReference Include="AngleSharp" Version="0.9.9" />
-    <PackageReference Include="Discord.Net" Version="1.0.0-rc3-00743" />
+    <PackageReference Include="Discord.Net" Version="1.0.0-rc3-00746" />
     <PackageReference Include="libvideo" Version="1.0.1" />
     <PackageReference Include="CoreCLR-NCalc" Version="2.1.2" />
     <PackageReference Include="Google.Apis.Urlshortener.v1" Version="1.19.0.138" />

@@ -35,11 +35,11 @@ namespace NadekoBot.Modules.Administration
 
             static LogCommands()
             {
-                Client = NadekoBot.Client;
+                Client = _client;
                 _log = LogManager.GetCurrentClassLogger();
                 var sw = Stopwatch.StartNew();
 
-                GuildLogSettings = new ConcurrentDictionary<ulong, LogSetting>(NadekoBot.AllGuildConfigs
+                GuildLogSettings = new ConcurrentDictionary<ulong, LogSetting>(gcs
                     .ToDictionary(g => g.GuildId, g => g.LogSetting));
 
                 _timerReference = new Timer(async (state) =>
@@ -136,7 +136,7 @@ namespace NadekoBot.Modules.Administration
 
                     await logChannel.EmbedAsync(embed).ConfigureAwait(false);
 
-                    //var guildsMemberOf = NadekoBot.Client.GetGuilds().Where(g => g.Users.Select(u => u.Id).Contains(before.Id)).ToList();
+                    //var guildsMemberOf = _client.GetGuilds().Where(g => g.Users.Select(u => u.Id).Contains(before.Id)).ToList();
                     //foreach (var g in guildsMemberOf)
                     //{
                     //    LogSetting logSetting;
@@ -840,7 +840,7 @@ namespace NadekoBot.Modules.Administration
 
             private static void UnsetLogSetting(ulong guildId, LogType logChannelType)
             {
-                using (var uow = DbHandler.UnitOfWork())
+                using (var uow = _db.UnitOfWork)
                 {
                     var newLogSetting = uow.GuildConfigs.LogSettingsFor(guildId).LogSetting;
                     switch (logChannelType)
@@ -910,7 +910,7 @@ namespace NadekoBot.Modules.Administration
             {
                 var channel = (ITextChannel)Context.Channel;
                 LogSetting logSetting;
-                using (var uow = DbHandler.UnitOfWork())
+                using (var uow = _db.UnitOfWork)
                 {
                     logSetting = uow.GuildConfigs.LogSettingsFor(channel.Guild.Id).LogSetting;
                     GuildLogSettings.AddOrUpdate(channel.Guild.Id, (id) => logSetting, (id, old) => logSetting);
@@ -946,7 +946,7 @@ namespace NadekoBot.Modules.Administration
             {
                 var channel = (ITextChannel)Context.Channel;
                 int removed;
-                using (var uow = DbHandler.UnitOfWork())
+                using (var uow = _db.UnitOfWork)
                 {
                     var config = uow.GuildConfigs.LogSettingsFor(channel.Guild.Id);
                     LogSetting logSetting = GuildLogSettings.GetOrAdd(channel.Guild.Id, (id) => config.LogSetting);
@@ -986,7 +986,7 @@ namespace NadekoBot.Modules.Administration
             {
                 var channel = (ITextChannel)Context.Channel;
                 ulong? channelId = null;
-                using (var uow = DbHandler.UnitOfWork())
+                using (var uow = _db.UnitOfWork)
                 {
                     var logSetting = uow.GuildConfigs.LogSettingsFor(channel.Guild.Id).LogSetting;
                     GuildLogSettings.AddOrUpdate(channel.Guild.Id, (id) => logSetting, (id, old) => logSetting);

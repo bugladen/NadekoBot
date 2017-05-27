@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace NadekoBot.Modules.Pokemon
+namespace NadekoBot.Services.Pokemon
 {
     public class PokemonType
     {

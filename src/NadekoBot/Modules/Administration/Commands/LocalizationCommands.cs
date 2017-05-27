@@ -18,7 +18,7 @@ namespace NadekoBot.Modules.Administration
         {
             //Română, România
             //Bahasa Indonesia, Indonesia
-            private ImmutableDictionary<string, string> supportedLocales { get; } = new Dictionary<string, string>()
+            private static ImmutableDictionary<string, string> supportedLocales { get; } = new Dictionary<string, string>()
             {
                 //{"ar", "العربية" },
                 {"zh-TW", "繁體中文, 台灣" },
@@ -46,7 +46,7 @@ namespace NadekoBot.Modules.Administration
             [RequireContext(ContextType.Guild)]
             public async Task LanguageSet()
             {
-                var cul = NadekoBot.Localization.GetCultureInfo(Context.Guild);
+                var cul = _localization.GetCultureInfo(Context.Guild);
                 await ReplyConfirmLocalized("lang_set_show", Format.Bold(cul.ToString()), Format.Bold(cul.NativeName))
                     .ConfigureAwait(false);
             }
@@ -61,13 +61,13 @@ namespace NadekoBot.Modules.Administration
                     CultureInfo ci;
                     if (name.Trim().ToLowerInvariant() == "default")
                     {
-                        NadekoBot.Localization.RemoveGuildCulture(Context.Guild);
-                        ci = NadekoBot.Localization.DefaultCultureInfo;
+                        _localization.RemoveGuildCulture(Context.Guild);
+                        ci = _localization.DefaultCultureInfo;
                     }
                     else
                     {
                         ci = new CultureInfo(name);
-                        NadekoBot.Localization.SetGuildCulture(Context.Guild, ci);
+                        _localization.SetGuildCulture(Context.Guild, ci);
                     }
 
                     await ReplyConfirmLocalized("lang_set", Format.Bold(ci.ToString()), Format.Bold(ci.NativeName)).ConfigureAwait(false);
@@ -81,7 +81,7 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             public async Task LanguageSetDefault()
             {
-                var cul = NadekoBot.Localization.DefaultCultureInfo;
+                var cul = _localization.DefaultCultureInfo;
                 await ReplyConfirmLocalized("lang_set_bot_show", cul, cul.NativeName).ConfigureAwait(false);
             }
 
@@ -94,13 +94,13 @@ namespace NadekoBot.Modules.Administration
                     CultureInfo ci;
                     if (name.Trim().ToLowerInvariant() == "default")
                     {
-                        NadekoBot.Localization.ResetDefaultCulture();
-                        ci = NadekoBot.Localization.DefaultCultureInfo;
+                        _localization.ResetDefaultCulture();
+                        ci = _localization.DefaultCultureInfo;
                     }
                     else
                     {
                         ci = new CultureInfo(name);
-                        NadekoBot.Localization.SetDefaultCulture(ci);
+                        _localization.SetDefaultCulture(ci);
                     }
                     await ReplyConfirmLocalized("lang_set_bot", Format.Bold(ci.ToString()), Format.Bold(ci.NativeName)).ConfigureAwait(false);
                 }

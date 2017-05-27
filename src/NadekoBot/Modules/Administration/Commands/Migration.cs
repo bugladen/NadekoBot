@@ -8,7 +8,6 @@ using NadekoBot.Attributes;
 using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
 using Newtonsoft.Json;
-using NLog;
 using NadekoBot.Modules.Administration.Commands.Migration;
 using System.Collections.Concurrent;
 using NadekoBot.Extensions;
@@ -23,12 +22,11 @@ namespace NadekoBot.Modules.Administration
         public class Migration : NadekoSubmodule
         {
             private const int CURRENT_VERSION = 1;
+            private readonly DbHandler _db;
 
-            private new static readonly Logger _log;
-
-            static Migration()
+            public Migration(DbHandler db)
             {
-                _log = LogManager.GetCurrentClassLogger();
+                _db = db;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -36,7 +34,7 @@ namespace NadekoBot.Modules.Administration
             public async Task MigrateData()
             {
                 var version = 0;
-                using (var uow = DbHandler.UnitOfWork())
+                using (var uow = _db.UnitOfWork)
                 {
                     version = uow.BotConfig.GetOrCreate().MigrationVersion;
                 }
@@ -62,7 +60,7 @@ namespace NadekoBot.Modules.Administration
 
             private void Migrate0_9To1_0()
             {
-                using (var uow = DbHandler.UnitOfWork())
+                using (var uow = _db.UnitOfWork)
                 {
                     var botConfig = uow.BotConfig.GetOrCreate();
                     MigrateConfig0_9(uow, botConfig);

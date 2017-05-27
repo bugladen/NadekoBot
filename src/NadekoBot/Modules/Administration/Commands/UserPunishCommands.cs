@@ -25,7 +25,6 @@ namespace NadekoBot.Modules.Administration
             public UserPunishCommands(DbHandler db, MuteService muteService)
             {
                 _db = db;
-
                 _muteService = muteService;
             }
 
