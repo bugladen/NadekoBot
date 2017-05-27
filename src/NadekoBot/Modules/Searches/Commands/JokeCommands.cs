@@ -1,14 +1,9 @@
 ﻿using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
-using NadekoBot.Modules.Searches.Models;
 using NadekoBot.Services;
 using NadekoBot.Services.Searches;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using NLog;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;

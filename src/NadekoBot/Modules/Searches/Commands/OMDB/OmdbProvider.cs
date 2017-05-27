@@ -1,5 +1,4 @@
 ﻿using Discord;
-using Discord.API;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
 using Newtonsoft.Json;

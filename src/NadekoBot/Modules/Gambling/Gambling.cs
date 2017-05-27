@@ -1,5 +1,4 @@
-﻿using System;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;

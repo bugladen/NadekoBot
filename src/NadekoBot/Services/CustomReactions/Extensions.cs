@@ -2,7 +2,6 @@
 using Discord.WebSocket;
 using NadekoBot.DataStructures;
 using NadekoBot.Extensions;
-using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
 using System;
 using System.Collections.Generic;

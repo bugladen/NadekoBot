@@ -6,7 +6,6 @@ using NadekoBot.Attributes;
 using NadekoBot.DataStructures;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
-using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
 using System;
 using System.Collections.Generic;

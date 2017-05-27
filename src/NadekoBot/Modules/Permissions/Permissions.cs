@@ -6,169 +6,34 @@ using Discord.Commands;
 using NadekoBot.Services;
 using Discord;
 using NadekoBot.Services.Database.Models;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Discord.WebSocket;
-using System.Diagnostics;
-using Microsoft.EntityFrameworkCore;
-using NadekoBot.DataStructures;
 using NadekoBot.TypeReaders;
-using NLog;
+using NadekoBot.Services.Permissions;
 
 namespace NadekoBot.Modules.Permissions
 {
-    [NadekoModule("Permissions", ";")]
     public partial class Permissions : NadekoTopLevelModule
     {
-        //guildid, root permission
-        public static ConcurrentDictionary<ulong, PermissionCache> Cache { get; } =
-            new ConcurrentDictionary<ulong, PermissionCache>();
+        private readonly DbHandler _db;
+        private readonly PermissionsService _service;
 
-        static Permissions()
+        public Permissions(PermissionsService service, DbHandler db)
         {
-            var log = LogManager.GetCurrentClassLogger();
-            var sw = Stopwatch.StartNew();
-
-            TryMigratePermissions();
-
-            using (var uow = DbHandler.UnitOfWork())
-            {
-                foreach (var x in uow.GuildConfigs.Permissionsv2ForAll())
-                {
-                    Cache.TryAdd(x.GuildId, new PermissionCache()
-                    {
-                        Verbose = x.VerbosePermissions,
-                        PermRole = x.PermissionRole,
-                        Permissions = new PermissionsCollection<Permissionv2>(x.Permissions)
-                    });
-                }
-            }
-
-            sw.Stop();
-            log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
-        }
-
-        public static PermissionCache GetCache(ulong guildId)
-        {
-            PermissionCache pc;
-            if (!Permissions.Cache.TryGetValue(guildId, out pc))
-            {
-                using (var uow = DbHandler.UnitOfWork())
-                {
-                    var config = uow.GuildConfigs.For(guildId,
-                        set => set.Include(x => x.Permissions));
-                    Permissions.UpdateCache(config);
-                }
-                Permissions.Cache.TryGetValue(guildId, out pc);
-                if (pc == null)
-                    throw new Exception("Cache is null.");
-            }
-            return pc;
-        }
-
-        private static void TryMigratePermissions()
-        {
-            var log = LogManager.GetCurrentClassLogger();
-            using (var uow = DbHandler.UnitOfWork())
-            {
-                var oldCache = new ConcurrentDictionary<ulong, OldPermissionCache>(uow.GuildConfigs
-                    .OldPermissionsForAll()
-                    .Where(x => x.RootPermission != null) // there is a check inside already, but just in case
-                    .ToDictionary(k => k.GuildId,
-                        v => new OldPermissionCache()
-                        {
-                            RootPermission = v.RootPermission,
-                            Verbose = v.VerbosePermissions,
-                            PermRole = v.PermissionRole
-                        }));
-
-                if (oldCache.Any())
-                {
-                    log.Info("Old permissions found. Performing one-time migration to v2.");
-                    var i = 0;
-                    foreach (var oc in oldCache)
-                    {
-                        if (i % 3 == 0)
-                            log.Info("Migrating Permissions #" + i + " - GuildId: " + oc.Key);
-                        i++;
-                        var gc = uow.GuildConfigs.GcWithPermissionsv2For(oc.Key);
-
-                        var oldPerms = oc.Value.RootPermission.AsEnumerable().Reverse().ToList();
-                        uow._context.Set<Permission>().RemoveRange(oldPerms);
-                        gc.RootPermission = null;
-                        if (oldPerms.Count > 2)
-                        {
-
-                            var newPerms = oldPerms.Take(oldPerms.Count - 1)
-                                .Select(x => x.Tov2())
-                                .ToList();
-
-                            var allowPerm = Permissionv2.AllowAllPerm;
-                            var firstPerm = newPerms[0];
-                            if (allowPerm.State != firstPerm.State ||
-                                allowPerm.PrimaryTarget != firstPerm.PrimaryTarget ||
-                                allowPerm.SecondaryTarget != firstPerm.SecondaryTarget ||
-                                allowPerm.PrimaryTargetId != firstPerm.PrimaryTargetId ||
-                                allowPerm.SecondaryTargetName != firstPerm.SecondaryTargetName)
-                                newPerms.Insert(0, Permissionv2.AllowAllPerm);
-                            Cache.TryAdd(oc.Key, new PermissionCache
-                            {
-                                Permissions = new PermissionsCollection<Permissionv2>(newPerms),
-                                Verbose = gc.VerbosePermissions,
-                                PermRole = gc.PermissionRole,
-                            });
-                            gc.Permissions = newPerms;
-                        }
-                    }
-                    log.Info("Permission migration to v2 is done.");
-                    uow.Complete();
-                }
-            }
-        }
-
-        private static async Task AddPermissions(ulong guildId, params Permissionv2[] perms)
-        {
-            using (var uow = DbHandler.UnitOfWork())
-            {
-                var config = uow.GuildConfigs.GcWithPermissionsv2For(guildId);
-                //var orderedPerms = new PermissionsCollection<Permissionv2>(config.Permissions);
-                var max = config.Permissions.Max(x => x.Index); //have to set its index to be the highest
-                foreach (var perm in perms)
-                {
-                    perm.Index = ++max;
-                    config.Permissions.Add(perm);
-                }
-                await uow.CompleteAsync().ConfigureAwait(false);
-                UpdateCache(config);
-            }
-        }
-
-        public static void UpdateCache(GuildConfig config)
-        {
-            Cache.AddOrUpdate(config.GuildId, new PermissionCache()
-            {
-                Permissions = new PermissionsCollection<Permissionv2>(config.Permissions),
-                PermRole = config.PermissionRole,
-                Verbose = config.VerbosePermissions
-            }, (id, old) =>
-            {
-                old.Permissions = new PermissionsCollection<Permissionv2>(config.Permissions);
-                old.PermRole = config.PermissionRole;
-                old.Verbose = config.VerbosePermissions;
-                return old;
-            });
+            _db = db;
+            _service = service;
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Verbose(PermissionAction action)
         {
-            using (var uow = DbHandler.UnitOfWork())
+            using (var uow = _db.UnitOfWork)
             {
                 var config = uow.GuildConfigs.GcWithPermissionsv2For(Context.Guild.Id);
                 config.VerbosePermissions = action.Value;
                 await uow.CompleteAsync().ConfigureAwait(false);
-                UpdateCache(config);
+                _service.UpdateCache(config);
             }
             if (action.Value)
             {
@@ -187,7 +52,7 @@ namespace NadekoBot.Modules.Permissions
             if (role != null && role == role.Guild.EveryoneRole)
                 return;
 
-            using (var uow = DbHandler.UnitOfWork())
+            using (var uow = _db.UnitOfWork)
             {
                 var config = uow.GuildConfigs.GcWithPermissionsv2For(Context.Guild.Id);
                 if (role == null)
@@ -197,7 +62,7 @@ namespace NadekoBot.Modules.Permissions
                 }
                 config.PermissionRole = role.Name.Trim();
                 await uow.CompleteAsync().ConfigureAwait(false);
-                UpdateCache(config);
+                _service.UpdateCache(config);
             }
 
             await ReplyConfirmLocalized("permrole_changed", Format.Bold(role.Name)).ConfigureAwait(false);
@@ -210,10 +75,9 @@ namespace NadekoBot.Modules.Permissions
             if (page < 1)
                 return;
 
-            PermissionCache permCache;
             IList<Permissionv2> perms;
 
-            if (Cache.TryGetValue(Context.Guild.Id, out permCache))
+            if (_service.Cache.TryGetValue(Context.Guild.Id, out var permCache))
             {
                 perms = permCache.Permissions.Source.ToList();
             }
@@ -249,7 +113,7 @@ namespace NadekoBot.Modules.Permissions
             try
             {
                 Permissionv2 p;
-                using (var uow = DbHandler.UnitOfWork())
+                using (var uow = _db.UnitOfWork)
                 {
                     var config = uow.GuildConfigs.GcWithPermissionsv2For(Context.Guild.Id);
                     var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
@@ -257,7 +121,7 @@ namespace NadekoBot.Modules.Permissions
                     permsCol.RemoveAt(index);
                     uow._context.Remove(p);
                     await uow.CompleteAsync().ConfigureAwait(false);
-                    UpdateCache(config);
+                    _service.UpdateCache(config);
                 }
                 await ReplyConfirmLocalized("removed",
                     index + 1,
@@ -280,7 +144,7 @@ namespace NadekoBot.Modules.Permissions
                 try
                 {
                     Permissionv2 fromPerm;
-                    using (var uow = DbHandler.UnitOfWork())
+                    using (var uow = _db.UnitOfWork)
                     {
                         var config = uow.GuildConfigs.GcWithPermissionsv2For(Context.Guild.Id);
                         var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
@@ -304,7 +168,7 @@ namespace NadekoBot.Modules.Permissions
                         permsCol.RemoveAt(from);
                         permsCol.Insert(to, fromPerm);
                         await uow.CompleteAsync().ConfigureAwait(false);
-                        UpdateCache(config);
+                        _service.UpdateCache(config);
                     }
                     await ReplyConfirmLocalized("moved_permission",
                             Format.Code(fromPerm.GetCommand((SocketGuild) Context.Guild)),
@@ -324,7 +188,7 @@ namespace NadekoBot.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task SrvrCmd(CommandOrCrInfo command, PermissionAction action)
         {
-            await AddPermissions(Context.Guild.Id, new Permissionv2
+            await _service.AddPermissions(Context.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.Server,
                 PrimaryTargetId = 0,
@@ -351,7 +215,7 @@ namespace NadekoBot.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task SrvrMdl(ModuleOrCrInfo module, PermissionAction action)
         {
-            await AddPermissions(Context.Guild.Id, new Permissionv2
+            await _service.AddPermissions(Context.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.Server,
                 PrimaryTargetId = 0,
@@ -378,7 +242,7 @@ namespace NadekoBot.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task UsrCmd(CommandOrCrInfo command, PermissionAction action, [Remainder] IGuildUser user)
         {
-            await AddPermissions(Context.Guild.Id, new Permissionv2
+            await _service.AddPermissions(Context.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.User,
                 PrimaryTargetId = user.Id,
@@ -407,7 +271,7 @@ namespace NadekoBot.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task UsrMdl(ModuleOrCrInfo module, PermissionAction action, [Remainder] IGuildUser user)
         {
-            await AddPermissions(Context.Guild.Id, new Permissionv2
+            await _service.AddPermissions(Context.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.User,
                 PrimaryTargetId = user.Id,
@@ -439,7 +303,7 @@ namespace NadekoBot.Modules.Permissions
             if (role == role.Guild.EveryoneRole)
                 return;
 
-            await AddPermissions(Context.Guild.Id, new Permissionv2
+            await _service.AddPermissions(Context.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.Role,
                 PrimaryTargetId = role.Id,
@@ -471,7 +335,7 @@ namespace NadekoBot.Modules.Permissions
             if (role == role.Guild.EveryoneRole)
                 return;
 
-            await AddPermissions(Context.Guild.Id, new Permissionv2
+            await _service.AddPermissions(Context.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.Role,
                 PrimaryTargetId = role.Id,
@@ -501,7 +365,7 @@ namespace NadekoBot.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task ChnlCmd(CommandOrCrInfo command, PermissionAction action, [Remainder] ITextChannel chnl)
         {
-            await AddPermissions(Context.Guild.Id, new Permissionv2
+            await _service.AddPermissions(Context.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.Channel,
                 PrimaryTargetId = chnl.Id,
@@ -530,7 +394,7 @@ namespace NadekoBot.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task ChnlMdl(ModuleOrCrInfo module, PermissionAction action, [Remainder] ITextChannel chnl)
         {
-            await AddPermissions(Context.Guild.Id, new Permissionv2
+            await _service.AddPermissions(Context.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.Channel,
                 PrimaryTargetId = chnl.Id,
@@ -559,7 +423,7 @@ namespace NadekoBot.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task AllChnlMdls(PermissionAction action, [Remainder] ITextChannel chnl)
         {
-            await AddPermissions(Context.Guild.Id, new Permissionv2
+            await _service.AddPermissions(Context.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.Channel,
                 PrimaryTargetId = chnl.Id,
@@ -587,7 +451,7 @@ namespace NadekoBot.Modules.Permissions
             if (role == role.Guild.EveryoneRole)
                 return;
 
-            await AddPermissions(Context.Guild.Id, new Permissionv2
+            await _service.AddPermissions(Context.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.Role,
                 PrimaryTargetId = role.Id,
@@ -612,7 +476,7 @@ namespace NadekoBot.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task AllUsrMdls(PermissionAction action, [Remainder] IUser user)
         {
-            await AddPermissions(Context.Guild.Id, new Permissionv2
+            await _service.AddPermissions(Context.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.User,
                 PrimaryTargetId = user.Id,
@@ -655,7 +519,7 @@ namespace NadekoBot.Modules.Permissions
                 State = true,
             };
 
-            await AddPermissions(Context.Guild.Id,
+            await _service.AddPermissions(Context.Guild.Id,
                 newPerm,
                 allowUser);
 

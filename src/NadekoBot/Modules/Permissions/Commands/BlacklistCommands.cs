@@ -1,14 +1,13 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
-using NadekoBot.Extensions;
 using NadekoBot.Modules.Games.Trivia;
 using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
+using NadekoBot.Services.Permissions;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
-using static NadekoBot.Services.Database.Models.BlacklistItem;
 
 namespace NadekoBot.Modules.Permissions
 {
@@ -23,19 +22,19 @@ namespace NadekoBot.Modules.Permissions
         [Group]
         public class BlacklistCommands : NadekoSubmodule
         {
-            public static ConcurrentHashSet<ulong> BlacklistedUsers { get; set; }
-            public static ConcurrentHashSet<ulong> BlacklistedGuilds { get; set; }
-            public static ConcurrentHashSet<ulong> BlacklistedChannels { get; set; }
+            private readonly BlacklistService _bs;
+            private readonly DbHandler _db;
+            private readonly IBotCredentials _creds;
 
-            static BlacklistCommands()
+            private ConcurrentHashSet<ulong> BlacklistedUsers => _bs.BlacklistedUsers;
+            private ConcurrentHashSet<ulong> BlacklistedGuilds => _bs.BlacklistedGuilds;
+            private ConcurrentHashSet<ulong> BlacklistedChannels => _bs.BlacklistedChannels;
+
+            public BlacklistCommands(BlacklistService bs, DbHandler db, IBotCredentials creds)
             {
-                using (var uow = DbHandler.UnitOfWork())
-                {
-                    var blacklist = uow.BotConfig.GetOrCreate().Blacklist;
-                    BlacklistedUsers = new ConcurrentHashSet<ulong>(blacklist.Where(bi => bi.Type == BlacklistType.User).Select(c => c.ItemId));
-                    BlacklistedGuilds = new ConcurrentHashSet<ulong>(blacklist.Where(bi => bi.Type == BlacklistType.Server).Select(c => c.ItemId));
-                    BlacklistedChannels = new ConcurrentHashSet<ulong>(blacklist.Where(bi => bi.Type == BlacklistType.Channel).Select(c => c.ItemId));
-                }
+                _bs = bs;
+                _db = db;
+                _creds = creds;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -65,10 +64,10 @@ namespace NadekoBot.Modules.Permissions
 
             private async Task Blacklist(AddRemove action, ulong id, BlacklistType type)
             {
-                if(action == AddRemove.Add && NadekoBot.Credentials.OwnerIds.Contains(id))
+                if(action == AddRemove.Add && _creds.OwnerIds.Contains(id))
                     return;
 
-                using (var uow = DbHandler.UnitOfWork())
+                using (var uow = _db.UnitOfWork)
                 {
                     if (action == AddRemove.Add)
                     {

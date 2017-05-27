@@ -5,6 +5,7 @@ using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
+using NadekoBot.Services.Permissions;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,24 +14,23 @@ namespace NadekoBot.Modules.Permissions
 {
     public partial class Permissions
     {
-
-        public class ActiveCooldown
-        {
-            public string Command { get; set; }
-            public ulong UserId { get; set; }
-        }
-
         [Group]
         public class CmdCdsCommands : NadekoSubmodule
         {
-            public static ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>> CommandCooldowns { get; }
-            private static ConcurrentDictionary<ulong, ConcurrentHashSet<ActiveCooldown>> activeCooldowns { get; } = new ConcurrentDictionary<ulong, ConcurrentHashSet<ActiveCooldown>>();
+            private readonly DbHandler _db;
+            private readonly CmdCdService _service;
 
-            static CmdCdsCommands()
+            private ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>> CommandCooldowns 
+                => _service.CommandCooldowns;
+            private ConcurrentDictionary<ulong, ConcurrentHashSet<ActiveCooldown>> ActiveCooldowns
+                => _service.ActiveCooldowns;
+
+            public CmdCdsCommands(CmdCdService service, DbHandler db)
             {
-                var configs = NadekoBot.AllGuildConfigs;
-                CommandCooldowns = new ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>>(configs.ToDictionary(k => k.GuildId, v => new ConcurrentHashSet<CommandCooldown>(v.CommandCooldowns)));
+                _service = service;
+                _db = db;
             }
+            
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task CmdCooldown(CommandInfo command, int secs)
@@ -42,7 +42,7 @@ namespace NadekoBot.Modules.Permissions
                     return;
                 }
 
-                using (var uow = DbHandler.UnitOfWork())
+                using (var uow = _db.UnitOfWork)
                 {
                     var config = uow.GuildConfigs.For(channel.Guild.Id, set => set.Include(gc => gc.CommandCooldowns));
                     var localSet = CommandCooldowns.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<CommandCooldown>());
@@ -63,7 +63,7 @@ namespace NadekoBot.Modules.Permissions
                 }
                 if (secs == 0)
                 {
-                    var activeCds = activeCooldowns.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<ActiveCooldown>());
+                    var activeCds = ActiveCooldowns.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<ActiveCooldown>());
                     activeCds.RemoveWhere(ac => ac.Command == command.Aliases.First().ToLowerInvariant());
                     await ReplyConfirmLocalized("cmdcd_cleared", 
                         Format.Bold(command.Aliases.First())).ConfigureAwait(false);
@@ -89,15 +89,15 @@ namespace NadekoBot.Modules.Permissions
                     await channel.SendTableAsync("", localSet.Select(c => c.CommandName + ": " + c.Seconds + GetText("sec")), s => $"{s,-30}", 2).ConfigureAwait(false);
             }
 
-            public static bool HasCooldown(CommandInfo cmd, IGuild guild, IUser user)
+            public bool HasCooldown(CommandInfo cmd, IGuild guild, IUser user)
             {
                 if (guild == null)
                     return false;
-                var cmdcds = CmdCdsCommands.CommandCooldowns.GetOrAdd(guild.Id, new ConcurrentHashSet<CommandCooldown>());
+                var cmdcds = CommandCooldowns.GetOrAdd(guild.Id, new ConcurrentHashSet<CommandCooldown>());
                 CommandCooldown cdRule;
                 if ((cdRule = cmdcds.FirstOrDefault(cc => cc.CommandName == cmd.Aliases.First().ToLowerInvariant())) != null)
                 {
-                    var activeCdsForGuild = activeCooldowns.GetOrAdd(guild.Id, new ConcurrentHashSet<ActiveCooldown>());
+                    var activeCdsForGuild = ActiveCooldowns.GetOrAdd(guild.Id, new ConcurrentHashSet<ActiveCooldown>());
                     if (activeCdsForGuild.FirstOrDefault(ac => ac.UserId == user.Id && ac.Command == cmd.Aliases.First().ToLowerInvariant()) != null)
                     {
                         return true;

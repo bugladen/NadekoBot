@@ -1,5 +1,4 @@
-﻿using System;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Attributes;
@@ -9,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ImageSharp.Processing;
 using NadekoBot.Services;
 
 namespace NadekoBot.Modules.Games

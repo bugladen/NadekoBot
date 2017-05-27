@@ -1,13 +1,8 @@
 ﻿using Discord;
-using Discord.Commands;
-using NadekoBot.Extensions;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Threading.Tasks;
-using System;
-using NadekoBot.Services.Database;
 using NLog;
 
 namespace NadekoBot.Services

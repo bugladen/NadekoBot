@@ -1,12 +1,10 @@
 ﻿using Discord;
-using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Services.Database.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NadekoBot.Modules.Permissions
+namespace NadekoBot.Services.Permissions
 {
     public static class PermissionExtensions
     {
@@ -118,7 +116,7 @@ namespace NadekoBot.Modules.Permissions
                     break;
             }
 
-            return NadekoBot.ModulePrefixes[typeof(Permissions).Name] + com;
+            return NadekoBot.Prefix + com;
         }
 
         public static IEnumerable<Permission> AsEnumerable(this Permission perm)

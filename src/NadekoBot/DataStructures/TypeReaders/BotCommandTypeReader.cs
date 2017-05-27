@@ -1,4 +1,5 @@
 ﻿using Discord.Commands;
+using NadekoBot.Services.CustomReactions;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -29,37 +30,43 @@ namespace NadekoBot.TypeReaders
         }
     }
 
-    //public class CommandOrCrTypeReader : CommandTypeReader
-    //{
-    //    public override async Task<TypeReaderResult> Read(ICommandContext context, string input)
-    //    {
-    //        input = input.ToUpperInvariant();
-            
-    //        if (CustomReactions.GlobalReactions.Any(x => x.Trigger.ToUpperInvariant() == input))
-    //        {
-    //            return TypeReaderResult.FromSuccess(new CommandOrCrInfo(input));
-    //        }
-    //        var guild = context.Guild;
-    //        if (guild != null)
-    //        {
-    //            CustomReaction[] crs;
-    //            if (CustomReactions.GuildReactions.TryGetValue(guild.Id, out crs))
-    //            {
-    //                if (crs.Any(x => x.Trigger.ToUpperInvariant() == input))
-    //                {
-    //                    return TypeReaderResult.FromSuccess(new CommandOrCrInfo(input));
-    //                }
-    //            }
-    //        }
+    public class CommandOrCrTypeReader : CommandTypeReader
+    {
+        private readonly CustomReactionsService _crs;
 
-    //        var cmd = await base.Read(context, input);
-    //        if (cmd.IsSuccess)
-    //        {
-    //            return TypeReaderResult.FromSuccess(new CommandOrCrInfo(((CommandInfo)cmd.Values.First().Value).Aliases.First()));
-    //        }
-    //        return TypeReaderResult.FromError(CommandError.ParseFailed, "No such command or cr found.");
-    //    }
-    //}
+        public CommandOrCrTypeReader(CustomReactionsService crs, CommandService cmds) : base(cmds)
+        {
+            _crs = crs;
+        }
+
+        public override async Task<TypeReaderResult> Read(ICommandContext context, string input)
+        {
+            input = input.ToUpperInvariant();
+
+            if (_crs.GlobalReactions.Any(x => x.Trigger.ToUpperInvariant() == input))
+            {
+                return TypeReaderResult.FromSuccess(new CommandOrCrInfo(input));
+            }
+            var guild = context.Guild;
+            if (guild != null)
+            {
+                if (_crs.GuildReactions.TryGetValue(guild.Id, out var crs))
+                {
+                    if (crs.Concat(_crs.GlobalReactions).Any(x => x.Trigger.ToUpperInvariant() == input))
+                    {
+                        return TypeReaderResult.FromSuccess(new CommandOrCrInfo(input));
+                    }
+                }
+            }
+
+            var cmd = await base.Read(context, input);
+            if (cmd.IsSuccess)
+            {
+                return TypeReaderResult.FromSuccess(new CommandOrCrInfo(((CommandInfo)cmd.Values.First().Value).Aliases.First()));
+            }
+            return TypeReaderResult.FromError(CommandError.ParseFailed, "No such command or cr found.");
+        }
+    }
 
     public class CommandOrCrInfo
     {

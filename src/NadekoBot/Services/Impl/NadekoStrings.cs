@@ -2,12 +2,10 @@
 using System.Collections.Immutable;
 using System.Globalization;
 using System.IO;
-using System.Xml.Linq;
 using NLog;
 using System.Diagnostics;
 using Newtonsoft.Json;
 using System;
-using Discord;
 
 namespace NadekoBot.Services
 {

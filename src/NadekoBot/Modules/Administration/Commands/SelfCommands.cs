@@ -12,9 +12,6 @@ using Discord.WebSocket;
 using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Immutable;
-using NadekoBot.DataStructures;
-using NLog;
 using NadekoBot.Services.Administration;
 
 namespace NadekoBot.Modules.Administration

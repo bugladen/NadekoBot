@@ -30,13 +30,10 @@
     <Compile Remove="data\**\*;credentials.json;credentials_example.json" />
     <Compile Remove="Modules\Administration\**" />
     <Compile Remove="Modules\NSFW\**" />
-    <Compile Remove="Modules\Permissions\**" />
     <EmbeddedResource Remove="Modules\Administration\**" />
     <EmbeddedResource Remove="Modules\NSFW\**" />
-    <EmbeddedResource Remove="Modules\Permissions\**" />
     <None Remove="Modules\Administration\**" />
     <None Remove="Modules\NSFW\**" />
-    <None Remove="Modules\Permissions\**" />
     <Compile Remove="Modules\Gambling\Commands\Lucky7Commands.cs" />
     <Compile Include="Modules\Administration\Administration.cs" />
     <Compile Include="Modules\Administration\Commands\AutoAssignRoleCommands.cs" />

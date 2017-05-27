@@ -1,6 +1,5 @@
 ﻿using Discord.Commands;
 using NadekoBot.Extensions;
-using NadekoBot.Services;
 using System.Linq;
 using System.Threading.Tasks;
 

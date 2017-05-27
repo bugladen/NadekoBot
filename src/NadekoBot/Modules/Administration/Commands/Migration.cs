@@ -400,9 +400,9 @@ namespace NadekoBot.Modules.Administration
                 });
 
                 //Blacklist
-                var blacklist = new HashSet<BlacklistItem>(oldConfig.ServerBlacklist.Select(server => new BlacklistItem() { ItemId = server, Type = BlacklistItem.BlacklistType.Server }));
-                blacklist.AddRange(oldConfig.ChannelBlacklist.Select(channel => new BlacklistItem() { ItemId = channel, Type = BlacklistItem.BlacklistType.Channel }));
-                blacklist.AddRange(oldConfig.UserBlacklist.Select(user => new BlacklistItem() { ItemId = user, Type = BlacklistItem.BlacklistType.User }));
+                var blacklist = new HashSet<BlacklistItem>(oldConfig.ServerBlacklist.Select(server => new BlacklistItem() { ItemId = server, Type = BlacklistType.Server }));
+                blacklist.AddRange(oldConfig.ChannelBlacklist.Select(channel => new BlacklistItem() { ItemId = channel, Type = BlacklistType.Channel }));
+                blacklist.AddRange(oldConfig.UserBlacklist.Select(user => new BlacklistItem() { ItemId = user, Type = BlacklistType.User }));
                 botConfig.Blacklist = blacklist;
 
                 //Eightball

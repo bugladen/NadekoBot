@@ -357,7 +357,6 @@ namespace NadekoBot.Modules.Music
             var cancelSource = new CancellationTokenSource();
 
             var gusr = (IGuildUser)Context.User;
-            //todo use grouping
             while (ids.Any() && !cancelSource.IsCancellationRequested)
             {
                 var tasks = Task.WhenAll(ids.Take(5).Select(async id =>

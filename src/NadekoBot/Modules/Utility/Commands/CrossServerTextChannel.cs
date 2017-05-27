@@ -3,9 +3,8 @@ using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
-using System;
+using NadekoBot.Services.Utility;
 using System.Collections.Concurrent;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Utility

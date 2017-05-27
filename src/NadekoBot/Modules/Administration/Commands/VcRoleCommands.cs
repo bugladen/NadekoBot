@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Linq;
 using Discord;
 using Discord.Commands;
@@ -32,7 +31,7 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.ManageRoles)]
             [RequireUserPermission(GuildPermission.ManageChannels)]
             [RequireBotPermission(GuildPermission.ManageRoles)]
-            // todo wait for the fix [RequireBotPermission(GuildPermission.ManageChannels)]
+            //todo discord.net [RequireBotPermission(GuildPermission.ManageChannels)]
             [RequireContext(ContextType.Guild)]
             public async Task VcRole([Remainder]IRole role = null)
             {

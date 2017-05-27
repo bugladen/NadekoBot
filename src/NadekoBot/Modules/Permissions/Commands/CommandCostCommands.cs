@@ -1,16 +1,6 @@
-﻿using Discord;
-using Discord.Commands;
-using NadekoBot.Attributes;
-using NadekoBot.Extensions;
-using NadekoBot.Services;
-using NadekoBot.Services.Database;
-using NadekoBot.Services.Database.Models;
-using System;
+﻿using Discord.Commands;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Permissions
 {
@@ -67,7 +57,7 @@ namespace NadekoBot.Modules.Permissions
             //        Cost = cost
             //    };
 
-            //    using (var uow = DbHandler.UnitOfWork())
+            //    using (var uow = _db.UnitOfWork)
             //    {
             //        var bc = uow.BotConfig.GetOrCreate();
                     

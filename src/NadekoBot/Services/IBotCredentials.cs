@@ -1,5 +1,4 @@
 ﻿using Discord;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 
 namespace NadekoBot.Services

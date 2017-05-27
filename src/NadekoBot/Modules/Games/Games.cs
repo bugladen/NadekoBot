@@ -4,16 +4,7 @@ using NadekoBot.Services;
 using System.Threading.Tasks;
 using NadekoBot.Attributes;
 using System;
-using System.Collections.Concurrent;
-using System.Linq;
-using System.Collections.Immutable;
-using System.IO;
-using System.Threading;
 using NadekoBot.Extensions;
-using System.Net.Http;
-using ImageSharp;
-using NadekoBot.DataStructures;
-using NLog;
 using NadekoBot.Services.Games;
 
 namespace NadekoBot.Modules.Games

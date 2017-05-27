@@ -104,13 +104,13 @@ Nadeko Support Server: https://discord.gg/nadekobot";
     {
         public ulong ItemId { get; set; }
         public BlacklistType Type { get; set; }
+    }
 
-        public enum BlacklistType
-        {
-            Server,
-            Channel,
-            User
-        }
+    public enum BlacklistType
+    {
+        Server,
+        Channel,
+        User
     }
 
     public class EightBallResponse : DbEntity

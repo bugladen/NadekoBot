@@ -4,12 +4,10 @@ using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
-using NLog;
+using NadekoBot.Services.Utility;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Utility
@@ -19,10 +17,10 @@ namespace NadekoBot.Modules.Utility
         [Group]
         public class RemindCommands : NadekoSubmodule
         {
-            private readonly UtilityService _service;
+            private readonly RemindService _service;
             private readonly DbHandler _db;
 
-            public RemindCommands(UtilityService service, DbHandler db)
+            public RemindCommands(RemindService service, DbHandler db)
             {
                 _service = service;
                 _db = db;
@@ -63,7 +61,7 @@ namespace NadekoBot.Modules.Utility
 
             public async Task RemindInternal(ulong targetId, bool isPrivate, string timeStr, [Remainder] string message)
             {
-                var m = _service.Remind.Regex.Match(timeStr);
+                var m = _service.Regex.Match(timeStr);
 
                 if (m.Length == 0)
                 {
@@ -74,7 +72,7 @@ namespace NadekoBot.Modules.Utility
                 string output = "";
                 var namesAndValues = new Dictionary<string, int>();
 
-                foreach (var groupName in _service.Remind.Regex.GetGroupNames())
+                foreach (var groupName in _service.Regex.GetGroupNames())
                 {
                     if (groupName == "0") continue;
                     int value;
@@ -134,7 +132,7 @@ namespace NadekoBot.Modules.Utility
                 {
                     // ignored
                 }
-                await _service.Remind.StartReminder(rem);
+                await _service.StartReminder(rem);
             }
             
             [NadekoCommand, Usage, Description, Aliases]

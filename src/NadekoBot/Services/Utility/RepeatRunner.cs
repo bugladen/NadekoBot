@@ -1,18 +1,14 @@
 ﻿using Discord;
 using Discord.Net;
 using Discord.WebSocket;
-using Microsoft.Extensions.Logging;
 using NadekoBot.Extensions;
 using NadekoBot.Services.Database.Models;
 using NLog;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules.Utility.Models
+namespace NadekoBot.Services.Utility
 {
     public class RepeatRunner
     {

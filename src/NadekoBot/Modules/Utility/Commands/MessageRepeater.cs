@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Discord.WebSocket;
-using NadekoBot.Modules.Utility.Models;
+using NadekoBot.Services.Utility;
 
 namespace NadekoBot.Modules.Utility
 {
@@ -20,11 +20,11 @@ namespace NadekoBot.Modules.Utility
         [Group]
         public class RepeatCommands : NadekoSubmodule
         {
-            private readonly UtilityService _service;
+            private readonly MessageRepeaterService _service;
             private readonly DiscordShardedClient _client;
             private readonly DbHandler _db;
 
-            public RepeatCommands(UtilityService service, DiscordShardedClient client, DbHandler db)
+            public RepeatCommands(MessageRepeaterService service, DiscordShardedClient client, DbHandler db)
             {
                 _service = service;
                 _client = client;

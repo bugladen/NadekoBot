@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using ImageSharp;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Gambling.Models;

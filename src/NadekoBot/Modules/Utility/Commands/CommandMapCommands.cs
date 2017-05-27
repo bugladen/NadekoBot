@@ -6,6 +6,7 @@ using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
+using NadekoBot.Services.Utility;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;

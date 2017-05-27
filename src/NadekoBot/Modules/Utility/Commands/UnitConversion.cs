@@ -2,6 +2,7 @@
 using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
+using NadekoBot.Services.Utility;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,9 +14,9 @@ namespace NadekoBot.Modules.Utility
         [Group]
         public class UnitConverterCommands : NadekoSubmodule
         {
-            private readonly UtilityService _service;
+            private readonly ConverterService _service;
 
-            public UnitConverterCommands(UtilityService service)
+            public UnitConverterCommands(ConverterService service)
             {
                 _service = service;
             }
@@ -23,7 +24,7 @@ namespace NadekoBot.Modules.Utility
             [NadekoCommand, Usage, Description, Aliases]
             public async Task ConvertList()
             {
-                var res = _service.Converter.Units.GroupBy(x => x.UnitType)
+                var res = _service.Units.GroupBy(x => x.UnitType)
                                .Aggregate(new EmbedBuilder().WithTitle(GetText("convertlist"))
                                                             .WithColor(NadekoBot.OkColor),
                                           (embed, g) => embed.AddField(efb =>
@@ -35,8 +36,8 @@ namespace NadekoBot.Modules.Utility
             [NadekoCommand, Usage, Description, Aliases]
             public async Task Convert(string origin, string target, decimal value)
             {
-                var originUnit = _service.Converter.Units.Find(x => x.Triggers.Select(y => y.ToLowerInvariant()).Contains(origin.ToLowerInvariant()));
-                var targetUnit = _service.Converter.Units.Find(x => x.Triggers.Select(y => y.ToLowerInvariant()).Contains(target.ToLowerInvariant()));
+                var originUnit = _service.Units.Find(x => x.Triggers.Select(y => y.ToLowerInvariant()).Contains(origin.ToLowerInvariant()));
+                var targetUnit = _service.Units.Find(x => x.Triggers.Select(y => y.ToLowerInvariant()).Contains(target.ToLowerInvariant()));
                 if (originUnit == null || targetUnit == null)
                 {
                     await ReplyErrorLocalized("convert_not_found", Format.Bold(origin), Format.Bold(target)).ConfigureAwait(false);

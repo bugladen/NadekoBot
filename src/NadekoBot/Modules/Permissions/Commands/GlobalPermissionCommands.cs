@@ -1,16 +1,11 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
-using NadekoBot.DataStructures;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
-using NadekoBot.Services.Database;
+using NadekoBot.Services.Permissions;
 using NadekoBot.TypeReaders;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Permissions
@@ -20,20 +15,20 @@ namespace NadekoBot.Modules.Permissions
         [Group]
         public class GlobalPermissionCommands : NadekoSubmodule
         {
-            public static readonly ConcurrentHashSet<string> BlockedModules;
-            public static readonly ConcurrentHashSet<string> BlockedCommands;
+            private GlobalPermissionService _service;
+            private readonly DbHandler _db;
 
-            static GlobalPermissionCommands()
+            public GlobalPermissionCommands(GlobalPermissionService service, DbHandler db)
             {
-                BlockedModules = new ConcurrentHashSet<string>(NadekoBot.BotConfig.BlockedModules.Select(x => x.Name));
-                BlockedCommands = new ConcurrentHashSet<string>(NadekoBot.BotConfig.BlockedCommands.Select(x => x.Name));
+                _service = service;
+                _db = db;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public async Task Lgp()
             {
-                if (!BlockedModules.Any() && !BlockedCommands.Any())
+                if (!_service.BlockedModules.Any() && !_service.BlockedCommands.Any())
                 {
                     await ReplyErrorLocalized("lgp_none").ConfigureAwait(false);
                     return;
@@ -41,11 +36,11 @@ namespace NadekoBot.Modules.Permissions
 
                 var embed = new EmbedBuilder().WithOkColor();
 
-                if (BlockedModules.Any())
-                    embed.AddField(efb => efb.WithName(GetText("blocked_modules")).WithValue(string.Join("\n", BlockedModules)).WithIsInline(false));
+                if (_service.BlockedModules.Any())
+                    embed.AddField(efb => efb.WithName(GetText("blocked_modules")).WithValue(string.Join("\n", _service.BlockedModules)).WithIsInline(false));
 
-                if (BlockedCommands.Any())
-                    embed.AddField(efb => efb.WithName(GetText("blocked_commands")).WithValue(string.Join("\n", BlockedCommands)).WithIsInline(false));
+                if (_service.BlockedCommands.Any())
+                    embed.AddField(efb => efb.WithName(GetText("blocked_commands")).WithValue(string.Join("\n", _service.BlockedCommands)).WithIsInline(false));
 
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
@@ -55,9 +50,9 @@ namespace NadekoBot.Modules.Permissions
             public async Task Gmod(ModuleOrCrInfo module)
             {
                 var moduleName = module.Name.ToLowerInvariant();
-                if (BlockedModules.Add(moduleName))
+                if (_service.BlockedModules.Add(moduleName))
                 {
-                    using (var uow = DbHandler.UnitOfWork())
+                    using (var uow = _db.UnitOfWork)
                     {
                         var bc = uow.BotConfig.GetOrCreate();
                         bc.BlockedModules.Add(new Services.Database.Models.BlockedCmdOrMdl
@@ -69,9 +64,9 @@ namespace NadekoBot.Modules.Permissions
                     await ReplyConfirmLocalized("gmod_add", Format.Bold(module.Name)).ConfigureAwait(false);
                     return;
                 }
-                else if (BlockedModules.TryRemove(moduleName))
+                else if (_service.BlockedModules.TryRemove(moduleName))
                 {
-                    using (var uow = DbHandler.UnitOfWork())
+                    using (var uow = _db.UnitOfWork)
                     {
                         var bc = uow.BotConfig.GetOrCreate();
                         bc.BlockedModules.RemoveWhere(x => x.Name == moduleName);
@@ -87,9 +82,9 @@ namespace NadekoBot.Modules.Permissions
             public async Task Gcmd(CommandOrCrInfo cmd)
             {
                 var commandName = cmd.Name.ToLowerInvariant();
-                if (BlockedCommands.Add(commandName))
+                if (_service.BlockedCommands.Add(commandName))
                 {
-                    using (var uow = DbHandler.UnitOfWork())
+                    using (var uow = _db.UnitOfWork)
                     {
                         var bc = uow.BotConfig.GetOrCreate();
                         bc.BlockedCommands.Add(new Services.Database.Models.BlockedCmdOrMdl
@@ -101,9 +96,9 @@ namespace NadekoBot.Modules.Permissions
                     await ReplyConfirmLocalized("gcmd_add", Format.Bold(cmd.Name)).ConfigureAwait(false);
                     return;
                 }
-                else if (BlockedCommands.TryRemove(commandName))
+                else if (_service.BlockedCommands.TryRemove(commandName))
                 {
-                    using (var uow = DbHandler.UnitOfWork())
+                    using (var uow = _db.UnitOfWork)
                     {
                         var bc = uow.BotConfig.GetOrCreate();
                         bc.BlockedCommands.RemoveWhere(x => x.Name == commandName);

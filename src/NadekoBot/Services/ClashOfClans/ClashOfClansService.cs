@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.WebSocket;
-using NadekoBot.DataStructures.ModuleBehaviors;
 using NadekoBot.Extensions;
 using NadekoBot.Services.Database.Models;
 using System;
@@ -13,8 +12,8 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Services.ClashOfClans
 {
-    // todo, just made this compile, it's a complete mess. A lot of the things here should actually be in the actual module. 
-    // service should just handle the state, module should print out what happened, so everything that has to do with strings
+    // todo 99 rewrite, just made this compile, it's a complete mess. A lot of the things here should actually be in the actual module. 
+    // service should just handle the state, module should print out what happened, so anything that has to do with strings
     // shouldn't be here
     public class ClashOfClansService
     {

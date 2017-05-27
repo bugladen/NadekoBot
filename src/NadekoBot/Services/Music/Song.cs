@@ -3,7 +3,6 @@ using NadekoBot.Extensions;
 using NLog;
 using System;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;

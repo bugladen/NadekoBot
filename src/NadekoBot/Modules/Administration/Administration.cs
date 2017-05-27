@@ -24,38 +24,6 @@ namespace NadekoBot.Modules.Administration
             _admin = admin;
         }
 
-        ////todo permissions
-        //[NadekoCommand, Usage, Description, Aliases]
-        //[RequireContext(ContextType.Guild)]
-        //[RequireUserPermission(GuildPermission.Administrator)]
-        //public async Task ResetPermissions()
-        //{
-        //    using (var uow = _db.UnitOfWork)
-        //    {
-        //        var config = uow.GuildConfigs.GcWithPermissionsv2For(Context.Guild.Id);
-        //        config.Permissions = Permissionv2.GetDefaultPermlist;
-        //        await uow.CompleteAsync();
-        //        UpdateCache(config);
-        //    }
-        //    await ReplyConfirmLocalized("perms_reset").ConfigureAwait(false);
-        //}
-        //[NadekoCommand, Usage, Description, Aliases]
-        //[OwnerOnly]
-        //public async Task ResetGlobalPermissions()
-        //{
-        //    using (var uow = _db.UnitOfWork)
-        //    {
-        //        var gc = uow.BotConfig.GetOrCreate();
-        //        gc.BlockedCommands.Clear();
-        //        gc.BlockedModules.Clear();
-
-        //        GlobalPermissionCommands.BlockedCommands.Clear();
-        //        GlobalPermissionCommands.BlockedModules.Clear();
-        //        await uow.CompleteAsync();
-        //    }
-        //    await ReplyConfirmLocalized("global_perms_reset").ConfigureAwait(false);
-        //}
-
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [RequireUserPermission(GuildPermission.Administrator)]

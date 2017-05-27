@@ -3,7 +3,6 @@ using Discord;
 using System.Linq;
 using System.Threading.Tasks;
 using NadekoBot.Services;
-using System.Threading;
 using System.Collections.Generic;
 using NadekoBot.Services.Database.Models;
 using NadekoBot.Attributes;
