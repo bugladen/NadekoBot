@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
-using System.Text;
 using System.Net.Http;
 using NadekoBot.Services;
 using System.Threading.Tasks;
@@ -17,18 +16,27 @@ using NadekoBot.Modules.Searches.Commands.Models;
 using AngleSharp;
 using AngleSharp.Dom.Html;
 using AngleSharp.Dom;
-using System.Xml;
 using Configuration = AngleSharp.Configuration;
 using NadekoBot.Attributes;
 using Discord.Commands;
-using ImageSharp.Processing.Processors;
 using ImageSharp;
+using NadekoBot.Services.Searches;
 
 namespace NadekoBot.Modules.Searches
 {
-    [NadekoModule("Searches", "~")]
     public partial class Searches : NadekoTopLevelModule
     {
+        private readonly IBotCredentials _creds;
+        private readonly IGoogleApiService _google;
+        private readonly SearchesService _searches;
+
+        public Searches(IBotCredentials creds, IGoogleApiService google, SearchesService searches)
+        {
+            _creds = creds;
+            _google = google;
+            _searches = searches;
+        }
+
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Weather([Remainder] string query)
         {
@@ -59,16 +67,16 @@ namespace NadekoBot.Modules.Searches
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Time([Remainder] string arg)
         {
-            if (string.IsNullOrWhiteSpace(arg) || string.IsNullOrWhiteSpace(NadekoBot.Credentials.GoogleApiKey))
+            if (string.IsNullOrWhiteSpace(arg) || string.IsNullOrWhiteSpace(_creds.GoogleApiKey))
                 return;
 
             using (var http = new HttpClient())
             {
-                var res = await http.GetStringAsync($"https://maps.googleapis.com/maps/api/geocode/json?address={arg}&key={NadekoBot.Credentials.GoogleApiKey}").ConfigureAwait(false);
+                var res = await http.GetStringAsync($"https://maps.googleapis.com/maps/api/geocode/json?address={arg}&key={_creds.GoogleApiKey}").ConfigureAwait(false);
                 var obj = JsonConvert.DeserializeObject<GeolocationResult>(res);
 
                 var currentSeconds = DateTime.UtcNow.UnixTimestamp();
-                var timeRes = await http.GetStringAsync($"https://maps.googleapis.com/maps/api/timezone/json?location={obj.results[0].Geometry.Location.Lat},{obj.results[0].Geometry.Location.Lng}&timestamp={currentSeconds}&key={NadekoBot.Credentials.GoogleApiKey}").ConfigureAwait(false);
+                var timeRes = await http.GetStringAsync($"https://maps.googleapis.com/maps/api/timezone/json?location={obj.results[0].Geometry.Location.Lat},{obj.results[0].Geometry.Location.Lng}&timestamp={currentSeconds}&key={_creds.GoogleApiKey}").ConfigureAwait(false);
                 var timeObj = JsonConvert.DeserializeObject<TimeZoneResult>(timeRes);
 
                 var time = DateTime.UtcNow.AddSeconds(timeObj.DstOffset + timeObj.RawOffset);
@@ -81,7 +89,7 @@ namespace NadekoBot.Modules.Searches
         public async Task Youtube([Remainder] string query = null)
         {
             if (!await ValidateQuery(Context.Channel, query).ConfigureAwait(false)) return;
-            var result = (await NadekoBot.Google.GetVideosByKeywordsAsync(query, 1)).FirstOrDefault();
+            var result = (await _google.GetVideosByKeywordsAsync(query, 1)).FirstOrDefault();
             if (string.IsNullOrWhiteSpace(result))
             {
                 await ReplyErrorLocalized("no_results").ConfigureAwait(false);
@@ -97,7 +105,7 @@ namespace NadekoBot.Modules.Searches
             if (!(await ValidateQuery(Context.Channel, query).ConfigureAwait(false))) return;
             await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
 
-            var movie = await OmdbProvider.FindMovie(query);
+            var movie = await OmdbProvider.FindMovie(query, _google);
             if (movie == null)
             {
                 await ReplyErrorLocalized("imdb_fail").ConfigureAwait(false);
@@ -137,7 +145,7 @@ namespace NadekoBot.Modules.Searches
 
             try
             {
-                var res = await NadekoBot.Google.GetImageAsync(terms).ConfigureAwait(false);
+                var res = await _google.GetImageAsync(terms).ConfigureAwait(false);
                 var embed = new EmbedBuilder()
                     .WithOkColor()
                     .WithAuthor(eab => eab.WithName(GetText("image_search_for") + " " + terms.TrimTo(50))
@@ -189,7 +197,7 @@ namespace NadekoBot.Modules.Searches
             terms = WebUtility.UrlEncode(terms).Replace(' ', '+');
             try
             {
-                var res = await NadekoBot.Google.GetImageAsync(terms, new NadekoRandom().Next(0, 50)).ConfigureAwait(false);
+                var res = await _google.GetImageAsync(terms, new NadekoRandom().Next(0, 50)).ConfigureAwait(false);
                 var embed = new EmbedBuilder()
                     .WithOkColor()
                     .WithAuthor(eab => eab.WithName(GetText("image_search_for") + " " + terms.TrimTo(50))
@@ -239,7 +247,7 @@ namespace NadekoBot.Modules.Searches
             if (string.IsNullOrWhiteSpace(ffs))
                 return;
 
-            await Context.Channel.SendConfirmAsync("<" + await NadekoBot.Google.ShortenUrl($"http://lmgtfy.com/?q={ Uri.EscapeUriString(ffs) }") + ">")
+            await Context.Channel.SendConfirmAsync("<" + await _google.ShortenUrl($"http://lmgtfy.com/?q={ Uri.EscapeUriString(ffs) }") + ">")
                            .ConfigureAwait(false);
         }
 
@@ -249,7 +257,7 @@ namespace NadekoBot.Modules.Searches
             if (string.IsNullOrWhiteSpace(arg))
                 return;
 
-            var shortened = await NadekoBot.Google.ShortenUrl(arg).ConfigureAwait(false);
+            var shortened = await _google.ShortenUrl(arg).ConfigureAwait(false);
 
             if (shortened == arg)
             {
@@ -315,7 +323,7 @@ namespace NadekoBot.Modules.Searches
                 .WithFooter(efb => efb.WithText(totalResults));
 
             var desc = await Task.WhenAll(results.Select(async res =>
-                    $"[{Format.Bold(res?.Title)}]({(await NadekoBot.Google.ShortenUrl(res?.Link))})\n{res?.Text}\n\n"))
+                    $"[{Format.Bold(res?.Title)}]({(await _google.ShortenUrl(res?.Link))})\n{res?.Text}\n\n"))
                 .ConfigureAwait(false);
             await Context.Channel.EmbedAsync(embed.WithDescription(string.Concat(desc))).ConfigureAwait(false);
         }
@@ -339,7 +347,7 @@ namespace NadekoBot.Modules.Searches
                     if (items == null || items.Length == 0)
                         throw new KeyNotFoundException("Cannot find a card by that name");
                     var item = items[new NadekoRandom().Next(0, items.Length)];
-                    var storeUrl = await NadekoBot.Google.ShortenUrl(item["store_url"].ToString());
+                    var storeUrl = await _google.ShortenUrl(item["store_url"].ToString());
                     var cost = item["cost"].ToString();
                     var desc = item["text"].ToString();
                     var types = string.Join(",\n", item["types"].ToObject<string[]>());
@@ -351,7 +359,7 @@ namespace NadekoBot.Modules.Searches
                                     .AddField(efb => efb.WithName(GetText("store_url")).WithValue(storeUrl).WithIsInline(true))
                                     .AddField(efb => efb.WithName(GetText("cost")).WithValue(cost).WithIsInline(true))
                                     .AddField(efb => efb.WithName(GetText("types")).WithValue(types).WithIsInline(true));
-                    //.AddField(efb => efb.WithName("Store Url").WithValue(await NadekoBot.Google.ShortenUrl(items[0]["store_url"].ToString())).WithIsInline(true));
+                    //.AddField(efb => efb.WithName("Store Url").WithValue(await _google.ShortenUrl(items[0]["store_url"].ToString())).WithIsInline(true));
 
                     await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
                 }
@@ -369,7 +377,7 @@ namespace NadekoBot.Modules.Searches
             if (string.IsNullOrWhiteSpace(arg))
                 return;
 
-            if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.MashapeKey))
+            if (string.IsNullOrWhiteSpace(_creds.MashapeKey))
             {
                 await ReplyErrorLocalized("mashape_api_missing").ConfigureAwait(false);
                 return;
@@ -379,7 +387,7 @@ namespace NadekoBot.Modules.Searches
             using (var http = new HttpClient())
             {
                 http.DefaultRequestHeaders.Clear();
-                http.DefaultRequestHeaders.Add("X-Mashape-Key", NadekoBot.Credentials.MashapeKey);
+                http.DefaultRequestHeaders.Add("X-Mashape-Key", _creds.MashapeKey);
                 var response = await http.GetStringAsync($"https://omgvamp-hearthstone-v1.p.mashape.com/cards/search/{Uri.EscapeUriString(arg)}")
                     .ConfigureAwait(false);
                 try
@@ -422,7 +430,7 @@ namespace NadekoBot.Modules.Searches
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Yodify([Remainder] string query = null)
         {
-            if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.MashapeKey))
+            if (string.IsNullOrWhiteSpace(_creds.MashapeKey))
             {
                 await ReplyErrorLocalized("mashape_api_missing").ConfigureAwait(false);
                 return;
@@ -435,7 +443,7 @@ namespace NadekoBot.Modules.Searches
             using (var http = new HttpClient())
             {
                 http.DefaultRequestHeaders.Clear();
-                http.DefaultRequestHeaders.Add("X-Mashape-Key", NadekoBot.Credentials.MashapeKey);
+                http.DefaultRequestHeaders.Add("X-Mashape-Key", _creds.MashapeKey);
                 http.DefaultRequestHeaders.Add("Accept", "text/plain");
                 var res = await http.GetStringAsync($"https://yoda.p.mashape.com/yoda?sentence={Uri.EscapeUriString(query)}").ConfigureAwait(false);
                 try
@@ -457,7 +465,7 @@ namespace NadekoBot.Modules.Searches
         [NadekoCommand, Usage, Description, Aliases]
         public async Task UrbanDict([Remainder] string query = null)
         {
-            if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.MashapeKey))
+            if (string.IsNullOrWhiteSpace(_creds.MashapeKey))
             {
                 await ReplyErrorLocalized("mashape_api_missing").ConfigureAwait(false);
                 return;
@@ -531,7 +539,7 @@ namespace NadekoBot.Modules.Searches
             if (string.IsNullOrWhiteSpace(query))
                 return;
 
-            if (string.IsNullOrWhiteSpace(NadekoBot.Credentials.MashapeKey))
+            if (string.IsNullOrWhiteSpace(_creds.MashapeKey))
             {
                 await ReplyErrorLocalized("mashape_api_missing").ConfigureAwait(false);
                 return;
@@ -542,7 +550,7 @@ namespace NadekoBot.Modules.Searches
             using (var http = new HttpClient())
             {
                 http.DefaultRequestHeaders.Clear();
-                http.DefaultRequestHeaders.Add("X-Mashape-Key", NadekoBot.Credentials.MashapeKey);
+                http.DefaultRequestHeaders.Add("X-Mashape-Key", _creds.MashapeKey);
                 res = await http.GetStringAsync($"https://tagdef.p.mashape.com/one.{Uri.EscapeUriString(query)}.json").ConfigureAwait(false);
             }
 
@@ -655,7 +663,7 @@ namespace NadekoBot.Modules.Searches
                 usr = (IGuildUser)Context.User;
 
             var avatarUrl = usr.RealAvatarUrl();
-            var shortenedAvatarUrl = await NadekoBot.Google.ShortenUrl(avatarUrl).ConfigureAwait(false);
+            var shortenedAvatarUrl = await _google.ShortenUrl(avatarUrl).ConfigureAwait(false);
             await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                 .AddField(efb => efb.WithName("Username").WithValue(usr.ToString()).WithIsInline(false))
                 .AddField(efb => efb.WithName("Avatar Url").WithValue(shortenedAvatarUrl).WithIsInline(false))
@@ -682,7 +690,7 @@ namespace NadekoBot.Modules.Searches
                     var found = items["items"][0];
                     var response = $@"`{GetText("title")}` {found["title"]}
 `{GetText("quality")}` {found["quality"]}
-`{GetText("url")}:` {await NadekoBot.Google.ShortenUrl(found["url"].ToString()).ConfigureAwait(false)}";
+`{GetText("url")}:` {await _google.ShortenUrl(found["url"].ToString()).ConfigureAwait(false)}";
                     await Context.Channel.SendMessageAsync(response).ConfigureAwait(false);
                 }
                 catch
@@ -769,7 +777,7 @@ namespace NadekoBot.Modules.Searches
 
             tag = tag?.Trim() ?? "";
 
-            var url = await InternalDapiSearch(tag, type).ConfigureAwait(false);
+            var url = await _searches.DapiSearch(tag, type).ConfigureAwait(false);
 
             if (url == null)
                 await channel.SendErrorAsync(umsg.Author.Mention + " " + GetText("no_results"));

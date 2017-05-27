@@ -17,7 +17,8 @@ namespace NadekoBot.Services
         string CarbonKey { get; }
 
         DBConfig Db { get; }
-        string SoundCloudClientId { get; set; }
+        string SoundCloudClientId { get; }
+        string OsuApiKey { get; }
 
         bool IsOwner(IUser u);
     }

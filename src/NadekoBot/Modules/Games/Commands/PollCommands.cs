@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ImageSharp.Processing;
+using NadekoBot.Services;
 
 namespace NadekoBot.Modules.Games
 {
@@ -19,6 +20,12 @@ namespace NadekoBot.Modules.Games
         public class PollCommands : NadekoSubmodule
         {
             public static ConcurrentDictionary<ulong, Poll> ActivePolls = new ConcurrentDictionary<ulong, Poll>();
+            private readonly DiscordShardedClient _client;
+
+            public PollCommands(DiscordShardedClient client)
+            {
+                _client = client;
+            }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireUserPermission(GuildPermission.ManageMessages)]
@@ -54,7 +61,7 @@ namespace NadekoBot.Modules.Games
                 if (data.Length < 3)
                     return;
 
-                var poll = new Poll(Context.Message, data[0], data.Skip(1), isPublic: isPublic);
+                var poll = new Poll(_client, _strings, Context.Message, data[0], data.Skip(1), isPublic: isPublic);
                 if (ActivePolls.TryAdd(channel.Guild.Id, poll))
                 {
                     await poll.StartPoll().ConfigureAwait(false);
@@ -83,10 +90,16 @@ namespace NadekoBot.Modules.Games
             private string[] answers { get; }
             private readonly ConcurrentDictionary<ulong, int> _participants = new ConcurrentDictionary<ulong, int>();
             private readonly string _question;
+            private readonly DiscordShardedClient _client;
+            private readonly NadekoStrings _strings;
+
             public bool IsPublic { get; }
 
-            public Poll(IUserMessage umsg, string question, IEnumerable<string> enumerable, bool isPublic = false)
+            public Poll(DiscordShardedClient client, NadekoStrings strings, IUserMessage umsg, string question, IEnumerable<string> enumerable, bool isPublic = false)
             {
+                _client = client;
+                _strings = strings;
+
                 _originalMessage = umsg;
                 _guild = ((ITextChannel)umsg.Channel).Guild;
                 _question = question;
@@ -134,7 +147,7 @@ namespace NadekoBot.Modules.Games
 
             public async Task StartPoll()
             {
-                NadekoBot.Client.MessageReceived += Vote;
+                _client.MessageReceived += Vote;
                 var msgToSend = GetText("poll_created", Format.Bold(_originalMessage.Author.Username)) + "\n\n" + Format.Bold(_question) + "\n";
                 var num = 1;
                 msgToSend = answers.Aggregate(msgToSend, (current, answ) => current + $"`{num++}.` **{answ}**\n");
@@ -147,7 +160,7 @@ namespace NadekoBot.Modules.Games
 
             public async Task StopPoll()
             {
-                NadekoBot.Client.MessageReceived -= Vote;
+                _client.MessageReceived -= Vote;
                 await _originalMessage.Channel.EmbedAsync(GetStats("POLL CLOSED")).ConfigureAwait(false);
             }
 
@@ -205,8 +218,8 @@ namespace NadekoBot.Modules.Games
             }
 
             private string GetText(string key, params object[] replacements)
-                => NadekoTopLevelModule.GetTextStatic(key,
-                    NadekoBot.Localization.GetCultureInfo(_guild.Id),
+                => _strings.GetText(key,
+                    _guild.Id,
                     typeof(Games).Name.ToLowerInvariant(),
                     replacements);
         }

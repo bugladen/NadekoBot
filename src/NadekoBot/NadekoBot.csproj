@@ -29,21 +29,22 @@
   <ItemGroup>
     <Compile Remove="data\**\*;credentials.json;credentials_example.json" />
     <Compile Remove="Modules\Administration\**" />
-    <Compile Remove="Modules\Games\**" />
     <Compile Remove="Modules\NSFW\**" />
     <Compile Remove="Modules\Permissions\**" />
-    <Compile Remove="Modules\Searches\**" />
     <EmbeddedResource Remove="Modules\Administration\**" />
-    <EmbeddedResource Remove="Modules\Games\**" />
     <EmbeddedResource Remove="Modules\NSFW\**" />
     <EmbeddedResource Remove="Modules\Permissions\**" />
-    <EmbeddedResource Remove="Modules\Searches\**" />
     <None Remove="Modules\Administration\**" />
-    <None Remove="Modules\Games\**" />
     <None Remove="Modules\NSFW\**" />
     <None Remove="Modules\Permissions\**" />
-    <None Remove="Modules\Searches\**" />
     <Compile Remove="Modules\Gambling\Commands\Lucky7Commands.cs" />
+    <Compile Include="Modules\Administration\Administration.cs" />
+    <Compile Include="Modules\Administration\Commands\MuteCommands.cs" />
+    <Compile Include="Modules\Administration\Commands\SelfCommands.cs" />
+    <Compile Include="Modules\Administration\Commands\ServerGreetCommands.cs" />
+    <Compile Include="Modules\Administration\Commands\UserPunishCommands.cs" />
+    <Compile Include="Modules\Administration\Commands\VcRoleCommands.cs" />
+    <Compile Include="Modules\Administration\Commands\VoicePlusTextCommands.cs" />
     <None Update="libsodium.dll;opus.dll;libsodium.so;libopus.so">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

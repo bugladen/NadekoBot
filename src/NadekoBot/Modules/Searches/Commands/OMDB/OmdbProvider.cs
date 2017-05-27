@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.API;
 using NadekoBot.Extensions;
+using NadekoBot.Services;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
@@ -12,7 +13,7 @@ namespace NadekoBot.Modules.Searches.Commands.OMDB
     {
         private const string queryUrl =  "http://www.omdbapi.com/?t={0}&y=&plot=full&r=json";
 
-        public static async Task<OmdbMovie> FindMovie(string name)
+        public static async Task<OmdbMovie> FindMovie(string name, IGoogleApiService google)
         {
             using (var http = new HttpClient())
             {
@@ -20,7 +21,7 @@ namespace NadekoBot.Modules.Searches.Commands.OMDB
                 var movie = JsonConvert.DeserializeObject<OmdbMovie>(res);
                 if (movie?.Title == null)
                     return null;
-                movie.Poster = await NadekoBot.Google.ShortenUrl(movie.Poster);
+                movie.Poster = await google.ShortenUrl(movie.Poster);
                 return movie;
             }
         }

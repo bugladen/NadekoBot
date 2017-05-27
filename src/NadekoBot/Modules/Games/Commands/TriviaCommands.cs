@@ -1,8 +1,11 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Games.Trivia;
+using NadekoBot.Services;
+using NadekoBot.Services.Database.Models;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 
@@ -14,7 +17,18 @@ namespace NadekoBot.Modules.Games
         [Group]
         public class TriviaCommands : NadekoSubmodule
         {
+            private readonly CurrencyHandler _ch;
+            private readonly DiscordShardedClient _client;
+            private readonly BotConfig _bc;
+
             public static ConcurrentDictionary<ulong, TriviaGame> RunningTrivias { get; } = new ConcurrentDictionary<ulong, TriviaGame>();
+
+            public TriviaCommands(DiscordShardedClient client, BotConfig bc, CurrencyHandler ch)
+            {
+                _ch = ch;
+                _client = client;
+                _bc = bc;
+            }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
@@ -35,7 +49,7 @@ namespace NadekoBot.Modules.Games
                 var showHints = !additionalArgs.Contains("nohint");
                 var isPokemon = additionalArgs.Contains("pokemon");
 
-                var trivia = new TriviaGame(channel.Guild, channel, showHints, winReq, isPokemon);
+                var trivia = new TriviaGame(_strings, _client, _bc, _ch, channel.Guild, channel, showHints, winReq, isPokemon);
                 if (RunningTrivias.TryAdd(channel.Guild.Id, trivia))
                 {
                     try

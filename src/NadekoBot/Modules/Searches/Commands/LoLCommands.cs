@@ -22,7 +22,7 @@ namespace NadekoBot.Modules.Searches
                 obj["name"].GetHashCode();
         }
 
-        private static string[] trashTalk { get; } = { "Better ban your counters. You are going to carry the game anyway.",
+        private static readonly string[] trashTalk = { "Better ban your counters. You are going to carry the game anyway.",
                                                 "Go with the flow. Don't think. Just ban one of these.",
                                                 "DONT READ BELOW! Ban Urgot mid OP 100%. Im smurf Diamond 1.",
                                                 "Ask your teammates what would they like to play, and ban that.",
@@ -40,7 +40,7 @@ namespace NadekoBot.Modules.Searches
                 using (var http = new HttpClient())
                 {
                     var data = JObject.Parse(await http.GetStringAsync($"http://api.champion.gg/stats/champs/mostBanned?" +
-                                                    $"api_key={NadekoBot.Credentials.LoLApiKey}&page=1&" +
+                                                    $"api_key={_creds.LoLApiKey}&page=1&" +
                                                     $"limit={showCount}")
                                                     .ConfigureAwait(false))["data"] as JArray;
                     var dataList = data.Distinct(new ChampionNameComparer()).Take(showCount).ToList();
@@ -127,7 +127,7 @@ namespace NadekoBot.Modules.Searches
 //                                  await e.Channel.SendFile("champ.png", champ.ImageStream).ConfigureAwait(false);
 //                                  return;
 //                              }
-//                          var allData = JArray.Parse(await Classes.http.GetStringAsync($"http://api.champion.gg/champion/{name}?api_key={NadekoBot.Credentials.LOLAPIKey}").ConfigureAwait(false));
+//                          var allData = JArray.Parse(await Classes.http.GetStringAsync($"http://api.champion.gg/champion/{name}?api_key={_creds.LOLAPIKey}").ConfigureAwait(false));
 //                          JToken data = null;
 //                          if (role != null)
 //                          {
@@ -168,7 +168,7 @@ namespace NadekoBot.Modules.Searches
 //                                  roles[i] = ">" + roles[i] + "<";
 //                          }
 //                          var general = JArray.Parse(await http.GetStringAsync($"http://api.champion.gg/stats/" +
-//                                                                                               $"champs/{name}?api_key={NadekoBot.Credentials.LOLAPIKey}")
+//                                                                                               $"champs/{name}?api_key={_creds.LOLAPIKey}")
 //                                                                                                .ConfigureAwait(false))
 //                                              .FirstOrDefault(jt => jt["role"].ToString() == role)?["general"];
 //                          if (general == null)

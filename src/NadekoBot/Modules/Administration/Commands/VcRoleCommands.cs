@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
+using NadekoBot.Services.Administration;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -18,86 +19,13 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class VcRoleCommands : NadekoSubmodule
         {
-            private static ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, IRole>> VcRoles { get; }
+            private readonly VcRoleService _service;
+            private readonly DbHandler _db;
 
-            static VcRoleCommands()
+            public VcRoleCommands(VcRoleService service, DbHandler db)
             {
-                NadekoBot.Client.UserVoiceStateUpdated += ClientOnUserVoiceStateUpdated;
-                VcRoles = new ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, IRole>>();
-                foreach (var gconf in NadekoBot.AllGuildConfigs)
-                {
-                    var g = NadekoBot.Client.GetGuild(gconf.GuildId);
-                    if (g == null)
-                        continue; //todo delete everything from db if guild doesn't exist?
-
-                    var infos = new ConcurrentDictionary<ulong, IRole>();
-                    VcRoles.TryAdd(gconf.GuildId, infos);
-                    foreach (var ri in gconf.VcRoleInfos)
-                    {
-                        var role = g.GetRole(ri.RoleId);
-                        if (role == null)
-                            continue; //todo remove this entry from db
-
-                        infos.TryAdd(ri.VoiceChannelId, role);
-                    }
-                }
-            }
-
-            private static Task ClientOnUserVoiceStateUpdated(SocketUser usr, SocketVoiceState oldState,
-                SocketVoiceState newState)
-            {
-
-                var gusr = usr as SocketGuildUser;
-                if (gusr == null)
-                    return Task.CompletedTask;
-
-                var oldVc = oldState.VoiceChannel;
-                var newVc = newState.VoiceChannel;
-                var _ = Task.Run(async () =>
-                {
-                    try
-                    {
-                        if (oldVc != newVc)
-                        {
-                            ulong guildId;
-                            guildId = newVc?.Guild.Id ?? oldVc.Guild.Id;
-
-                            if (VcRoles.TryGetValue(guildId, out ConcurrentDictionary<ulong, IRole> guildVcRoles))
-                            {
-                                //remove old
-                                if (oldVc != null && guildVcRoles.TryGetValue(oldVc.Id, out IRole role))
-                                {
-                                    if (gusr.Roles.Contains(role))
-                                    {
-                                        try
-                                        {
-                                            await gusr.RemoveRoleAsync(role).ConfigureAwait(false);
-                                            await Task.Delay(500).ConfigureAwait(false);
-                                        }
-                                        catch
-                                        {
-                                            await Task.Delay(200).ConfigureAwait(false);
-                                            await gusr.RemoveRoleAsync(role).ConfigureAwait(false);
-                                            await Task.Delay(500).ConfigureAwait(false);
-                                        }
-                                    }
-                                }
-                                //add new
-                                if (newVc != null && guildVcRoles.TryGetValue(newVc.Id, out role))
-                                {
-                                    if (!gusr.Roles.Contains(role))
-                                        await gusr.AddRoleAsync(role).ConfigureAwait(false);
-                                }
-
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Administration._log.Warn(ex);
-                    }
-                });
-                return Task.CompletedTask;
+                _service = service;
+                _db = db;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -118,14 +46,14 @@ namespace NadekoBot.Modules.Administration
                     return;
                 }
 
-                var guildVcRoles = VcRoles.GetOrAdd(user.GuildId, new ConcurrentDictionary<ulong, IRole>());
+                var guildVcRoles = _service.VcRoles.GetOrAdd(user.GuildId, new ConcurrentDictionary<ulong, IRole>());
 
                 if (role == null)
                 {
                     if (guildVcRoles.TryRemove(vc.Id, out role))
                     {
                         await ReplyConfirmLocalized("vcrole_removed", Format.Bold(vc.Name)).ConfigureAwait(false);
-                        using (var uow = DbHandler.UnitOfWork())
+                        using (var uow = _db.UnitOfWork)
                         {
                             var conf = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(x => x.VcRoleInfos));
                             conf.VcRoleInfos.RemoveWhere(x => x.VoiceChannelId == vc.Id);
@@ -136,7 +64,7 @@ namespace NadekoBot.Modules.Administration
                 else
                 {
                     guildVcRoles.AddOrUpdate(vc.Id, role, (key, old) => role);
-                    using (var uow = DbHandler.UnitOfWork())
+                    using (var uow = _db.UnitOfWork)
                     {
                         var conf = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(x => x.VcRoleInfos));
                         conf.VcRoleInfos.RemoveWhere(x => x.VoiceChannelId == vc.Id); // remove old one
@@ -157,7 +85,7 @@ namespace NadekoBot.Modules.Administration
             {
                 var guild = (SocketGuild) Context.Guild;
                 string text;
-                if (VcRoles.TryGetValue(Context.Guild.Id, out ConcurrentDictionary<ulong, IRole> roles))
+                if (_service.VcRoles.TryGetValue(Context.Guild.Id, out ConcurrentDictionary<ulong, IRole> roles))
                 {
                     if (!roles.Any())
                     {

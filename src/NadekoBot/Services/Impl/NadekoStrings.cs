@@ -7,6 +7,7 @@ using NLog;
 using System.Diagnostics;
 using Newtonsoft.Json;
 using System;
+using Discord;
 
 namespace NadekoBot.Services
 {
@@ -20,10 +21,13 @@ namespace NadekoBot.Services
         /// Used as failsafe in case response key doesn't exist in the selected or default language.
         /// </summary>
         private readonly CultureInfo _usCultureInfo = new CultureInfo("en-US");
+        private readonly ILocalization _localization;
 
-        public NadekoStrings()
+        public NadekoStrings(ILocalization loc)
         {
             _log = LogManager.GetCurrentClassLogger();
+            _localization = loc;
+
             var sw = Stopwatch.StartNew();
             var allLangsDict = new Dictionary<string, ImmutableDictionary<string, string>>(); // lang:(name:value)
             foreach (var file in Directory.GetFiles(stringsPath))
@@ -57,6 +61,9 @@ namespace NadekoBot.Services
             strings.TryGetValue(text, out string val);
             return val;
         }
+
+        public string GetText(string key, ulong guildId, string lowerModuleTypeName, params object[] replacements) =>
+            GetText(key, _localization.GetCultureInfo(guildId), lowerModuleTypeName);
 
         public string GetText(string key, CultureInfo cultureInfo, string lowerModuleTypeName)
         {

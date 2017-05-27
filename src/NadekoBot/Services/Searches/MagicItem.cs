@@ -1,6 +1,6 @@
-﻿namespace NadekoBot.Modules.Searches.Models
+﻿namespace NadekoBot.Services.Searches
 {
-    class MagicItem
+    public class MagicItem
     {
         public string Name { get; set; }
         public string Description { get; set; }

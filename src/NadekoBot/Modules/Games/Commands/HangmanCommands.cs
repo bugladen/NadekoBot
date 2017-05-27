@@ -6,6 +6,7 @@ using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using NadekoBot.Modules.Games.Hangman;
 using Discord;
+using Discord.WebSocket;
 
 namespace NadekoBot.Modules.Games
 {
@@ -14,6 +15,13 @@ namespace NadekoBot.Modules.Games
         [Group]
         public class HangmanCommands : NadekoSubmodule
         {
+            private readonly DiscordShardedClient _client;
+
+            public HangmanCommands(DiscordShardedClient client)
+            {
+                _client = client;
+            }
+
             //channelId, game
             public static ConcurrentDictionary<ulong, HangmanGame> HangmanGames { get; } = new ConcurrentDictionary<ulong, HangmanGame>();
             [NadekoCommand, Usage, Description, Aliases]
@@ -25,7 +33,7 @@ namespace NadekoBot.Modules.Games
             [NadekoCommand, Usage, Description, Aliases]
             public async Task Hangman([Remainder]string type = "All")
             {
-                var hm = new HangmanGame(Context.Channel, type);
+                var hm = new HangmanGame(_client, Context.Channel, type);
 
                 if (!HangmanGames.TryAdd(Context.Channel.Id, hm))
                 {
@@ -35,8 +43,7 @@ namespace NadekoBot.Modules.Games
 
                 hm.OnEnded += g =>
                 {
-                    HangmanGame throwaway;
-                    HangmanGames.TryRemove(g.GameChannel.Id, out throwaway);
+                    HangmanGames.TryRemove(g.GameChannel.Id, out HangmanGame throwaway);
                 };
                 try
                 {
@@ -45,8 +52,7 @@ namespace NadekoBot.Modules.Games
                 catch (Exception ex)
                 {
                     try { await Context.Channel.SendErrorAsync(GetText("hangman_start_errored") + " " + ex.Message).ConfigureAwait(false); } catch { }
-                    HangmanGame throwaway;
-                    HangmanGames.TryRemove(Context.Channel.Id, out throwaway);
+                    HangmanGames.TryRemove(Context.Channel.Id, out HangmanGame throwaway);
                     throwaway.Dispose();
                     return;
                 }

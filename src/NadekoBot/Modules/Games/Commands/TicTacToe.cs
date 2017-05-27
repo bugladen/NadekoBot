@@ -1,8 +1,9 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
-using NLog;
+using NadekoBot.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,6 +21,12 @@ namespace NadekoBot.Modules.Games
             private static readonly Dictionary<ulong, TicTacToe> _games = new Dictionary<ulong, TicTacToe>();
 
             private readonly SemaphoreSlim _sem = new SemaphoreSlim(1, 1);
+            private readonly DiscordShardedClient _client;
+
+            public TicTacToeCommands(DiscordShardedClient client)
+            {
+                _client = client;
+            }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
@@ -39,7 +46,7 @@ namespace NadekoBot.Modules.Games
                         });
                         return;
                     }
-                    game = new TicTacToe(channel, (IGuildUser)Context.User);
+                    game = new TicTacToe(_strings, _client, channel, (IGuildUser)Context.User);
                     _games.Add(channel.Id, game);
                     await ReplyConfirmLocalized("ttt_created").ConfigureAwait(false);
 
@@ -79,10 +86,15 @@ namespace NadekoBot.Modules.Games
 
             private IUserMessage _previousMessage;
             private Timer _timeoutTimer;
+            private readonly NadekoStrings _strings;
+            private readonly DiscordShardedClient _client;
 
-            public TicTacToe(ITextChannel channel, IGuildUser firstUser)
+            public TicTacToe(NadekoStrings strings, DiscordShardedClient client, ITextChannel channel, IGuildUser firstUser)
             {
                 _channel = channel;
+                _strings = strings;
+                _client = client;
+
                 _users = new[] { firstUser, null };
                 _state = new int?[,] {
                     { null, null, null },
@@ -95,8 +107,8 @@ namespace NadekoBot.Modules.Games
             }
 
             private string GetText(string key, params object[] replacements) =>
-                NadekoTopLevelModule.GetTextStatic(key,
-                    NadekoBot.Localization.GetCultureInfo(_channel.GuildId),
+                _strings.GetText(key,
+                    _channel.GuildId,
                     typeof(Games).Name.ToLowerInvariant(),
                     replacements);
 
@@ -206,7 +218,7 @@ namespace NadekoBot.Modules.Games
                     }
                 }, null, 15000, Timeout.Infinite);
 
-                NadekoBot.Client.MessageReceived += Client_MessageReceived;
+                _client.MessageReceived += Client_MessageReceived;
 
 
                 _previousMessage = await _channel.EmbedAsync(GetEmbed(GetText("game_started"))).ConfigureAwait(false);
@@ -283,14 +295,14 @@ namespace NadekoBot.Modules.Games
                             {
                                 reason = GetText("ttt_matched_three");
                                 _winner = _users[_curUserIndex];
-                                NadekoBot.Client.MessageReceived -= Client_MessageReceived;
+                                _client.MessageReceived -= Client_MessageReceived;
                                 OnEnded?.Invoke(this);
                             }
                             else if (IsDraw())
                             {
                                 reason = GetText("ttt_a_draw");
                                 _phase = Phase.Ended;
-                                NadekoBot.Client.MessageReceived -= Client_MessageReceived;
+                                _client.MessageReceived -= Client_MessageReceived;
                                 OnEnded?.Invoke(this);
                             }
                             

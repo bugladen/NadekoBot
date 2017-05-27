@@ -1,4 +1,4 @@
-﻿namespace NadekoBot.Modules.Games.Commands.Models
+﻿namespace NadekoBot.Services.Games
 {
     public class TypingArticle
     {

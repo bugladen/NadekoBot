@@ -19,7 +19,7 @@ namespace NadekoBot.Services
             var optionsBuilder = new DbContextOptionsBuilder();
             optionsBuilder.UseSqlite(creds.Db.ConnectionString);
             options = optionsBuilder.Options;
-            //switch (NadekoBot.Credentials.Db.Type.ToUpperInvariant())
+            //switch (_creds.Db.Type.ToUpperInvariant())
             //{
             //    case "SQLITE":
             //        dbType = typeof(NadekoSqliteContext);

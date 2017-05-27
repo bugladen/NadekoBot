@@ -56,6 +56,7 @@ namespace NadekoBot.Modules.Games.Hangman
     public class HangmanGame: IDisposable
     {
         private readonly Logger _log;
+        private readonly DiscordShardedClient _client;
 
         public IMessageChannel GameChannel { get; }
         public HashSet<char> Guesses { get; } = new HashSet<char>();
@@ -81,9 +82,11 @@ namespace NadekoBot.Modules.Games.Hangman
 
         public event Action<HangmanGame> OnEnded;
 
-        public HangmanGame(IMessageChannel channel, string type)
+        public HangmanGame(DiscordShardedClient client, IMessageChannel channel, string type)
         {
             _log = LogManager.GetCurrentClassLogger();
+            _client = client;
+
             this.GameChannel = channel;
             this.TermType = type.ToTitleCase();
         }
@@ -95,12 +98,12 @@ namespace NadekoBot.Modules.Games.Hangman
             if (this.Term == null)
                 throw new KeyNotFoundException("Can't find a term with that type. Use hangmanlist command.");
             // start listening for answers when game starts
-            NadekoBot.Client.MessageReceived += PotentialGuess;
+            _client.MessageReceived += PotentialGuess;
         }
 
         public async Task End()
         {
-            NadekoBot.Client.MessageReceived -= PotentialGuess;
+            _client.MessageReceived -= PotentialGuess;
             OnEnded(this);
             var toSend = "Game ended. You **" + (Errors >= MaxErrors ? "LOSE" : "WIN") + "**!\n" + GetHangman();
             var embed = new EmbedBuilder().WithTitle("Hangman Game")
@@ -199,7 +202,7 @@ namespace NadekoBot.Modules.Games.Hangman
 
         public void Dispose()
         {
-            NadekoBot.Client.MessageReceived -= PotentialGuess;
+            _client.MessageReceived -= PotentialGuess;
             OnEnded = null;
         }
     }

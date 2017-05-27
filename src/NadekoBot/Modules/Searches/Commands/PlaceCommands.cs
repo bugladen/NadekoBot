@@ -29,7 +29,7 @@ namespace NadekoBot.Modules.Searches
             [NadekoCommand, Usage, Description, Aliases]
             public async Task Placelist()
             {
-                await Context.Channel.SendConfirmAsync(GetText("list_of_place_tags", NadekoBot.ModulePrefixes[typeof(Searches).Name]), 
+                await Context.Channel.SendConfirmAsync(GetText("list_of_place_tags", NadekoBot.Prefix), 
                     typesStr)
                              .ConfigureAwait(false);
             }
