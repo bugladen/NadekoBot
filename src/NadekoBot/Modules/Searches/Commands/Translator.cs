@@ -59,7 +59,7 @@ namespace NadekoBot.Modules.Searches
                     return;
                 }
                 
-                if (_searches.TranslatedChannels.TryRemove(channel.Id, out var throwaway))
+                if (_searches.TranslatedChannels.TryRemove(channel.Id, out _))
                 {
                     await ReplyConfirmLocalized("atl_stopped").ConfigureAwait(false);
                     return;

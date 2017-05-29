@@ -27,7 +27,7 @@ namespace NadekoBot.Services.Utility
             Repeater = repeater;
             Channel = channel;
 
-            //todo @.@ fix all of this
+            //todo 40 @.@ fix all of this
             Guild = client.GetGuild(repeater.GuildId);
             if (Guild != null)
                 Task.Run(Run);

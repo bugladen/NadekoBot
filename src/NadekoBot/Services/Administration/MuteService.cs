@@ -26,9 +26,9 @@ namespace NadekoBot.Services.Administration
 
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
         private readonly DiscordShardedClient _client;
-        private readonly DbHandler _db;
+        private readonly DbService _db;
 
-        public MuteService(DiscordShardedClient client, IEnumerable<GuildConfig> gcs, DbHandler db)
+        public MuteService(DiscordShardedClient client, IEnumerable<GuildConfig> gcs, DbService db)
         {
             _client = client;
             _db = db;

@@ -64,6 +64,7 @@ Nadeko Support Server: https://discord.gg/nadekobot";
         public List<StartupCommand> StartupCommands { get; set; }
         public HashSet<BlockedCmdOrMdl> BlockedCommands { get; set; }
         public HashSet<BlockedCmdOrMdl> BlockedModules { get; set; }
+        public int PermissionVersion { get; set; } = 1;
     }
 
     public class BlockedCmdOrMdl : DbEntity

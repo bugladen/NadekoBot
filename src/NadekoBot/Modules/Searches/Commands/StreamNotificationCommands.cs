@@ -17,10 +17,10 @@ namespace NadekoBot.Modules.Searches
         [Group]
         public class StreamNotificationCommands : NadekoSubmodule
         {
-            private readonly DbHandler _db;
+            private readonly DbService _db;
             private readonly StreamNotificationService _service;
 
-            public StreamNotificationCommands(DbHandler db, StreamNotificationService service)
+            public StreamNotificationCommands(DbService db, StreamNotificationService service)
             {
                 _db = db;
                 _service = service;

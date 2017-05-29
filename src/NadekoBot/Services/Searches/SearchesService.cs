@@ -17,7 +17,7 @@ namespace NadekoBot.Services.Searches
     {
         private readonly DiscordShardedClient _client;
         private readonly IGoogleApiService _google;
-        private readonly DbHandler _db;
+        private readonly DbService _db;
         private readonly Logger _log;
 
         public ConcurrentDictionary<ulong, bool> TranslatedChannels { get; } = new ConcurrentDictionary<ulong, bool>();
@@ -31,7 +31,7 @@ namespace NadekoBot.Services.Searches
         public List<WoWJoke> WowJokes { get; } = new List<WoWJoke>();
         public List<MagicItem> MagicItems { get; } = new List<MagicItem>();
 
-        public SearchesService(DiscordShardedClient client, IGoogleApiService google, DbHandler db)
+        public SearchesService(DiscordShardedClient client, IGoogleApiService google, DbService db)
         {
             _client = client;
             _google = google;

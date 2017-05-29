@@ -19,9 +19,9 @@ namespace NadekoBot.Modules.Administration
         {
             private readonly ProtectionService _service;
             private readonly MuteService _mute;
-            private readonly DbHandler _db;
+            private readonly DbService _db;
 
-            public ProtectionCommands(ProtectionService service, MuteService mute, DbHandler db)
+            public ProtectionCommands(ProtectionService service, MuteService mute, DbService db)
             {
                 _service = service;
                 _mute = mute;

@@ -15,10 +15,10 @@ namespace NadekoBot.Services.Administration
         public readonly ConcurrentHashSet<ulong> GameVoiceChannels = new ConcurrentHashSet<ulong>();
 
         private readonly Logger _log;
-        private readonly DbHandler _db;
+        private readonly DbService _db;
         private readonly DiscordShardedClient _client;
 
-        public GameVoiceChannelService(DiscordShardedClient client, DbHandler db, IEnumerable<GuildConfig> gcs)
+        public GameVoiceChannelService(DiscordShardedClient client, DbService db, IEnumerable<GuildConfig> gcs)
         {
             _log = LogManager.GetCurrentClassLogger();
             _db = db;

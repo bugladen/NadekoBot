@@ -220,8 +220,8 @@ namespace NadekoBot.Modules.Gambling
                 if (num == 10)
                 {
                     var images = _images.Dice;
-                    using (var imgOneStream = images[1].Value.ToStream())
-                    using (var imgZeroStream = images[0].Value.ToStream())
+                    using (var imgOneStream = images[1].ToStream())
+                    using (var imgZeroStream = images[0].ToStream())
                     {
                         Image imgOne = new Image(imgOneStream);
                         Image imgZero = new Image(imgZeroStream);
@@ -229,7 +229,7 @@ namespace NadekoBot.Modules.Gambling
                         return new[] { imgOne, imgZero }.Merge();
                     }
                 }
-                using (var die = _images.Dice[num].Value.ToStream())
+                using (var die = _images.Dice[num].ToStream())
                 {
                     return new Image(die);
                 }

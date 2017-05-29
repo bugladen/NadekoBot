@@ -10,7 +10,7 @@ namespace NadekoBot.Services.Administration
 {
     public class Ratelimiter
     {
-        private readonly RatelimitService _svc;
+        private readonly SlowmodeService _svc;
 
         public class RatelimitedUser
         {
@@ -22,7 +22,7 @@ namespace NadekoBot.Services.Administration
         public int MaxMessages { get; set; }
         public int PerSeconds { get; set; }
 
-        public Ratelimiter(RatelimitService svc)
+        public Ratelimiter(SlowmodeService svc)
         {
             _svc = svc;
         }

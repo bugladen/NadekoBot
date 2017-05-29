@@ -17,15 +17,15 @@ namespace NadekoBot.Modules.Games
         [Group]
         public class TriviaCommands : NadekoSubmodule
         {
-            private readonly CurrencyHandler _ch;
+            private readonly CurrencyService _cs;
             private readonly DiscordShardedClient _client;
             private readonly BotConfig _bc;
 
             public static ConcurrentDictionary<ulong, TriviaGame> RunningTrivias { get; } = new ConcurrentDictionary<ulong, TriviaGame>();
 
-            public TriviaCommands(DiscordShardedClient client, BotConfig bc, CurrencyHandler ch)
+            public TriviaCommands(DiscordShardedClient client, BotConfig bc, CurrencyService cs)
             {
-                _ch = ch;
+                _cs = cs;
                 _client = client;
                 _bc = bc;
             }
@@ -49,7 +49,7 @@ namespace NadekoBot.Modules.Games
                 var showHints = !additionalArgs.Contains("nohint");
                 var isPokemon = additionalArgs.Contains("pokemon");
 
-                var trivia = new TriviaGame(_strings, _client, _bc, _ch, channel.Guild, channel, showHints, winReq, isPokemon);
+                var trivia = new TriviaGame(_strings, _client, _bc, _cs, channel.Guild, channel, showHints, winReq, isPokemon);
                 if (RunningTrivias.TryAdd(channel.Guild.Id, trivia))
                 {
                     try

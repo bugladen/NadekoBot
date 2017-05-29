@@ -1,4 +1,4 @@
-﻿namespace NadekoBot.Modules.Utility.Models
+﻿namespace NadekoBot.Services.Utility.Patreon
 {
     public class Attributes
     {

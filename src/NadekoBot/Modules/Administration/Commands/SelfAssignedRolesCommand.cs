@@ -18,9 +18,9 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class SelfAssignedRolesCommands : NadekoSubmodule
         {
-            private readonly DbHandler _db;
+            private readonly DbService _db;
 
-            public SelfAssignedRolesCommands(DbHandler db)
+            public SelfAssignedRolesCommands(DbService db)
             {
                 _db = db;
             }

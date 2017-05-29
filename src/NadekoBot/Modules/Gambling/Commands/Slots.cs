@@ -32,13 +32,13 @@ namespace NadekoBot.Modules.Gambling
             //thanks to judge for helping me with this
 
             private readonly IImagesService _images;
-            private readonly CurrencyHandler _ch;
+            private readonly CurrencyService _cs;
 
-            public Slots(IImagesService images, BotConfig bc, CurrencyHandler ch)
+            public Slots(IImagesService images, BotConfig bc, CurrencyService cs)
             {
                 _images = images;
                 _bc = bc;
-                _ch = ch;
+                _cs = cs;
             }
 
             public class SlotMachine
@@ -157,7 +157,7 @@ namespace NadekoBot.Modules.Gambling
                         return;
                     }
 
-                    if (!await _ch.RemoveCurrencyAsync(Context.User, "Slot Machine", amount, false))
+                    if (!await _cs.RemoveAsync(Context.User, "Slot Machine", amount, false))
                     {
                         await ReplyErrorLocalized("not_enough", _bc.CurrencySign).ConfigureAwait(false);
                         return;
@@ -209,7 +209,7 @@ namespace NadekoBot.Modules.Gambling
                         var msg = GetText("better_luck");
                         if (result.Multiplier != 0)
                         {
-                            await _ch.AddCurrencyAsync(Context.User, $"Slot Machine x{result.Multiplier}", amount * result.Multiplier, false);
+                            await _cs.AddAsync(Context.User, $"Slot Machine x{result.Multiplier}", amount * result.Multiplier, false);
                             Interlocked.Add(ref _totalPaidOut, amount * result.Multiplier);
                             if (result.Multiplier == 1)
                                 msg = GetText("slot_single", _bc.CurrencySign, 1);

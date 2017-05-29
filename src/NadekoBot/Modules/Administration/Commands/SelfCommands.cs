@@ -21,14 +21,14 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class SelfCommands : NadekoSubmodule
         {
-            private readonly DbHandler _db;
+            private readonly DbService _db;
 
             private static readonly object _locker = new object();
             private readonly SelfService _service;
             private readonly DiscordShardedClient _client;
             private readonly IImagesService _images;
 
-            public SelfCommands(DbHandler db, SelfService service, DiscordShardedClient client,
+            public SelfCommands(DbService db, SelfService service, DiscordShardedClient client,
                 IImagesService images)
             {
                 _db = db;
@@ -203,64 +203,6 @@ namespace NadekoBot.Modules.Administration
                     await ReplyConfirmLocalized("fwall_stop").ConfigureAwait(false);
 
             }
-
-            //todo dm forwarding
-            //public async Task HandleDmForwarding(IUserMessage msg, ImmutableArray<AsyncLazy<IDMChannel>> ownerChannels)
-            //{
-            //    if (_service.ForwardDMs && ownerChannels.Length > 0)
-            //    {
-            //        var title = _strings.GetText("dm_from",
-            //                        NadekoBot.Localization.DefaultCultureInfo,
-            //                        typeof(Administration).Name.ToLowerInvariant()) +
-            //                    $" [{msg.Author}]({msg.Author.Id})";
-
-            //        var attachamentsTxt = GetTextStatic("attachments",
-            //            NadekoBot.Localization.DefaultCultureInfo,
-            //            typeof(Administration).Name.ToLowerInvariant());
-
-            //        var toSend = msg.Content;
-
-            //        if (msg.Attachments.Count > 0)
-            //        {
-            //            toSend += $"\n\n{Format.Code(attachamentsTxt)}:\n" +
-            //                      string.Join("\n", msg.Attachments.Select(a => a.ProxyUrl));
-            //        }
-
-            //        if (_service.ForwardDMsToAllOwners)
-            //        {
-            //            var allOwnerChannels = await Task.WhenAll(ownerChannels
-            //                .Select(x => x.Value))
-            //                .ConfigureAwait(false);
-
-            //            foreach (var ownerCh in allOwnerChannels.Where(ch => ch.Recipient.Id != msg.Author.Id))
-            //            {
-            //                try
-            //                {
-            //                    await ownerCh.SendConfirmAsync(title, toSend).ConfigureAwait(false);
-            //                }
-            //                catch
-            //                {
-            //                    _log.Warn("Can't contact owner with id {0}", ownerCh.Recipient.Id);
-            //                }
-            //            }
-            //        }
-            //        else
-            //        {
-            //                var firstOwnerChannel = await ownerChannels[0];
-            //                if (firstOwnerChannel.Recipient.Id != msg.Author.Id)
-            //                {
-            //                    try
-            //                    {
-            //                        await firstOwnerChannel.SendConfirmAsync(title, toSend).ConfigureAwait(false);
-            //                    }
-            //                    catch
-            //                    {
-            //                        // ignored
-            //                    }
-            //                }
-            //            }
-            //        }
-            //    }
             
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]

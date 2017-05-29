@@ -19,11 +19,11 @@ namespace NadekoBot.Services.Searches
         private bool firstStreamNotifPass { get; set; } = true;
         private readonly ConcurrentDictionary<string, StreamStatus> _cachedStatuses = new ConcurrentDictionary<string, StreamStatus>();
 
-        private readonly DbHandler _db;
+        private readonly DbService _db;
         private readonly DiscordShardedClient _client;
         private readonly NadekoStrings _strings;
 
-        public StreamNotificationService(DbHandler db, DiscordShardedClient client, NadekoStrings strings)
+        public StreamNotificationService(DbService db, DiscordShardedClient client, NadekoStrings strings)
         {
             _db = db;
             _client = client;

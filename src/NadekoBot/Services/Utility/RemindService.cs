@@ -31,9 +31,9 @@ namespace NadekoBot.Services.Utility
         private readonly CancellationToken cancelAllToken;
         private readonly BotConfig _config;
         private readonly DiscordShardedClient _client;
-        private readonly DbHandler _db;
+        private readonly DbService _db;
 
-        public RemindService(DiscordShardedClient client, BotConfig config, DbHandler db)
+        public RemindService(DiscordShardedClient client, BotConfig config, DbService db)
         {
             _config = config;
             _client = client;

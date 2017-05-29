@@ -1,14 +1,18 @@
-﻿using NadekoBot.Services.Database.Models;
+﻿using NadekoBot.DataStructures.ModuleBehaviors;
+using NadekoBot.Services.Database.Models;
 using System.Collections.Concurrent;
 using System.Linq;
+using Discord;
+using Discord.WebSocket;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Services.Permissions
 {
-    public class BlacklistService
+    public class BlacklistService : IEarlyBlocker
     {
-        public ConcurrentHashSet<ulong> BlacklistedUsers { get; set; }
-        public ConcurrentHashSet<ulong> BlacklistedGuilds { get; set; }
-        public ConcurrentHashSet<ulong> BlacklistedChannels { get; set; }
+        public ConcurrentHashSet<ulong> BlacklistedUsers { get; }
+        public ConcurrentHashSet<ulong> BlacklistedGuilds { get; }
+        public ConcurrentHashSet<ulong> BlacklistedChannels { get; }
 
         public BlacklistService(BotConfig bc)
         {
@@ -17,5 +21,10 @@ namespace NadekoBot.Services.Permissions
             BlacklistedGuilds = new ConcurrentHashSet<ulong>(blacklist.Where(bi => bi.Type == BlacklistType.Server).Select(c => c.ItemId));
             BlacklistedChannels = new ConcurrentHashSet<ulong>(blacklist.Where(bi => bi.Type == BlacklistType.Channel).Select(c => c.ItemId));
         }
+
+        public Task<bool> TryBlockEarly(DiscordShardedClient client, IGuild guild, IUserMessage usrMsg)
+            => Task.FromResult((guild != null && BlacklistedGuilds.Contains(guild.Id)) ||
+            BlacklistedChannels.Contains(usrMsg.Channel.Id) ||
+            BlacklistedUsers.Contains(usrMsg.Author.Id));
     }
 }

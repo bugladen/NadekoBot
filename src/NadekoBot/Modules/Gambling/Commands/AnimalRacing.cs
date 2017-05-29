@@ -21,16 +21,16 @@ namespace NadekoBot.Modules.Gambling
         public class AnimalRacing : NadekoSubmodule
         {
             private readonly BotConfig _bc;
-            private readonly CurrencyHandler _ch;
+            private readonly CurrencyService _cs;
             private readonly DiscordShardedClient _client;
             
 
             public static ConcurrentDictionary<ulong, AnimalRace> AnimalRaces { get; } = new ConcurrentDictionary<ulong, AnimalRace>();
 
-            public AnimalRacing(BotConfig bc, CurrencyHandler ch, DiscordShardedClient client)
+            public AnimalRacing(BotConfig bc, CurrencyService cs, DiscordShardedClient client)
             {
                 _bc = bc;
-                _ch = ch;
+                _cs = cs;
                 _client = client;
             }
 
@@ -39,7 +39,7 @@ namespace NadekoBot.Modules.Gambling
             public async Task Race()
             {
                 var ar = new AnimalRace(Context.Guild.Id, (ITextChannel)Context.Channel, Prefix, 
-                    _bc, _ch, _client,_localization, _strings);
+                    _bc, _cs, _client,_localization, _strings);
 
                 if (ar.Fail)
                     await ReplyErrorLocalized("race_failed_starting").ConfigureAwait(false);
@@ -63,7 +63,7 @@ namespace NadekoBot.Modules.Gambling
                 await ar.JoinRace(Context.User as IGuildUser, amount);
             }
 
-            //todo needs to be completely isolated, shouldn't use any services in the constructor,
+            //todo 85 needs to be completely isolated, shouldn't use any services in the constructor,
             //then move the rest either to the module itself, or the service
             public class AnimalRace
             {
@@ -81,7 +81,7 @@ namespace NadekoBot.Modules.Gambling
 
                 private readonly ITextChannel _raceChannel;
                 private readonly BotConfig _bc;
-                private readonly CurrencyHandler _ch;
+                private readonly CurrencyService _cs;
                 private readonly DiscordShardedClient _client;
                 private readonly ILocalization _localization;
                 private readonly NadekoStrings _strings;
@@ -89,12 +89,12 @@ namespace NadekoBot.Modules.Gambling
                 public bool Started { get; private set; }
 
                 public AnimalRace(ulong serverId, ITextChannel channel, string prefix, BotConfig bc,
-                    CurrencyHandler ch, DiscordShardedClient client, ILocalization localization,
+                    CurrencyService cs, DiscordShardedClient client, ILocalization localization,
                     NadekoStrings strings)
                 {
                     _prefix = prefix;
                     _bc = bc;
-                    _ch = ch;
+                    _cs = cs;
                     _log = LogManager.GetCurrentClassLogger();
                     _serverId = serverId;
                     _raceChannel = channel;
@@ -144,7 +144,7 @@ namespace NadekoBot.Modules.Gambling
                                 var p = _participants.FirstOrDefault();
 
                                 if (p != null && p.AmountBet > 0)
-                                    await _ch.AddCurrencyAsync(p.User, "BetRace", p.AmountBet, false).ConfigureAwait(false);
+                                    await _cs.AddAsync(p.User, "BetRace", p.AmountBet, false).ConfigureAwait(false);
                                 End();
                                 return;
                             }
@@ -232,7 +232,7 @@ namespace NadekoBot.Modules.Gambling
                         {
                             var wonAmount = winner.AmountBet * (_participants.Count - 1);
 
-                            await _ch.AddCurrencyAsync(winner.User, "Won a Race", wonAmount, true)
+                            await _cs.AddAsync(winner.User, "Won a Race", wonAmount, true)
                                 .ConfigureAwait(false);
                             await _raceChannel.SendConfirmAsync(GetText("animal_race"),
                                     Format.Bold(GetText("animal_race_won_money", winner.User.Mention,
@@ -287,7 +287,7 @@ namespace NadekoBot.Modules.Gambling
                         return;
                     }
                     if (amount > 0)
-                        if (!await _ch.RemoveCurrencyAsync(u, "BetRace", amount, false).ConfigureAwait(false))
+                        if (!await _cs.RemoveAsync(u, "BetRace", amount, false).ConfigureAwait(false))
                         {
                             await _raceChannel.SendErrorAsync(GetText("not_enough", _bc.CurrencySign)).ConfigureAwait(false);
                             return;

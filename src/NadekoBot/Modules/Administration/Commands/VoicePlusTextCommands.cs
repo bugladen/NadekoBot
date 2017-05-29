@@ -18,9 +18,9 @@ namespace NadekoBot.Modules.Administration
         public class VoicePlusTextCommands : NadekoSubmodule
         {
             private readonly VplusTService _service;
-            private readonly DbHandler _db;
+            private readonly DbService _db;
 
-            public VoicePlusTextCommands(VplusTService service, DbHandler db)
+            public VoicePlusTextCommands(VplusTService service, DbService db)
             {
                 _service = service;
                 _db = db;

@@ -19,9 +19,9 @@ namespace NadekoBot.Modules.Administration
         public class VcRoleCommands : NadekoSubmodule
         {
             private readonly VcRoleService _service;
-            private readonly DbHandler _db;
+            private readonly DbService _db;
 
-            public VcRoleCommands(VcRoleService service, DbHandler db)
+            public VcRoleCommands(VcRoleService service, DbService db)
             {
                 _service = service;
                 _db = db;
@@ -31,7 +31,7 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.ManageRoles)]
             [RequireUserPermission(GuildPermission.ManageChannels)]
             [RequireBotPermission(GuildPermission.ManageRoles)]
-            //todo discord.net [RequireBotPermission(GuildPermission.ManageChannels)]
+            //todo 999 discord.net [RequireBotPermission(GuildPermission.ManageChannels)]
             [RequireContext(ContextType.Guild)]
             public async Task VcRole([Remainder]IRole role = null)
             {

@@ -15,10 +15,10 @@ namespace NadekoBot.Modules.Permissions
         [Group]
         public class FilterCommands : NadekoSubmodule
         {
-            private readonly DbHandler _db;
+            private readonly DbService _db;
             private readonly FilterService _service;
 
-            public FilterCommands(FilterService service, DbHandler db)
+            public FilterCommands(FilterService service, DbService db)
             {
                 _service = service;
                 _db = db;

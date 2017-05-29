@@ -65,7 +65,7 @@ namespace NadekoBot.Modules.Games
             Voting
         }
 
-        //todo Isolate, this shouldn't print or anything like that.
+        //todo 85 Isolate, this shouldn't print or anything like that.
         public class AcrophobiaGame
         {
             private readonly ITextChannel _channel;

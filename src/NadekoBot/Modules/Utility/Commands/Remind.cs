@@ -18,9 +18,9 @@ namespace NadekoBot.Modules.Utility
         public class RemindCommands : NadekoSubmodule
         {
             private readonly RemindService _service;
-            private readonly DbHandler _db;
+            private readonly DbService _db;
 
-            public RemindCommands(RemindService service, DbHandler db)
+            public RemindCommands(RemindService service, DbService db)
             {
                 _service = service;
                 _db = db;

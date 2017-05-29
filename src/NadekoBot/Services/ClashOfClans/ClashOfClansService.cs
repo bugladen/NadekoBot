@@ -18,14 +18,14 @@ namespace NadekoBot.Services.ClashOfClans
     public class ClashOfClansService
     {
         private readonly DiscordShardedClient _client;
-        private readonly DbHandler _db;
+        private readonly DbService _db;
         private readonly ILocalization _localization;
         private readonly NadekoStrings _strings;
         private readonly Timer checkWarTimer;
 
         public ConcurrentDictionary<ulong, List<ClashWar>> ClashWars { get; set; }
 
-        public ClashOfClansService(DiscordShardedClient client, DbHandler db, ILocalization localization, NadekoStrings strings)
+        public ClashOfClansService(DiscordShardedClient client, DbService db, ILocalization localization, NadekoStrings strings)
         {
             _client = client;
             _db = db;

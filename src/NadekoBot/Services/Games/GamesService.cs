@@ -28,8 +28,6 @@ namespace NadekoBot.Services.Games
         private readonly IImagesService _images;
         private readonly Logger _log;
 
-        public ConcurrentDictionary<ulong, Lazy<ChatterBotSession>> CleverbotGuilds { get; }
-
         public readonly string TypingArticlesPath = "data/typing_articles2.json";
         public List<TypingArticle> TypingArticles { get; } = new List<TypingArticle>();
 
@@ -52,11 +50,6 @@ namespace NadekoBot.Services.Games
 
             }, null, TimeSpan.FromDays(1), TimeSpan.FromDays(1));
 
-            //cleverbot
-            CleverbotGuilds = new ConcurrentDictionary<ulong, Lazy<ChatterBotSession>>(
-                    gcs.Where(gc => gc.CleverbotEnabled)
-                        .ToDictionary(gc => gc.GuildId, gc => new Lazy<ChatterBotSession>(() => new ChatterBotSession(gc.GuildId), true)));
-
             //plantpick
             client.MessageReceived += PotentialFlowerGeneration;
             GenerationChannels = new ConcurrentHashSet<ulong>(gcs
@@ -73,55 +66,15 @@ namespace NadekoBot.Services.Games
             }
         }
 
-
-        public string PrepareMessage(IUserMessage msg, out ChatterBotSession cleverbot)
+        public void AddTypingArticle(IUser user, string text)
         {
-            var channel = msg.Channel as ITextChannel;
-            cleverbot = null;
-
-            if (channel == null)
-                return null;
-
-            Lazy<ChatterBotSession> lazyCleverbot;
-            if (!CleverbotGuilds.TryGetValue(channel.Guild.Id, out lazyCleverbot))
-                return null;
-
-            cleverbot = lazyCleverbot.Value;
-
-            var nadekoId = _client.CurrentUser.Id;
-            var normalMention = $"<@{nadekoId}> ";
-            var nickMention = $"<@!{nadekoId}> ";
-            string message;
-            if (msg.Content.StartsWith(normalMention))
+            TypingArticles.Add(new TypingArticle
             {
-                message = msg.Content.Substring(normalMention.Length).Trim();
-            }
-            else if (msg.Content.StartsWith(nickMention))
-            {
-                message = msg.Content.Substring(nickMention.Length).Trim();
-            }
-            else
-            {
-                return null;
-            }
+                Title = $"Text added on {DateTime.UtcNow} by {user}",
+                Text = text.SanitizeMentions(),
+            });
 
-            return message;
-        }
-
-        public async Task<bool> TryAsk(ChatterBotSession cleverbot, ITextChannel channel, string message)
-        {
-            await channel.TriggerTypingAsync().ConfigureAwait(false);
-
-            var response = await cleverbot.Think(message).ConfigureAwait(false);
-            try
-            {
-                await channel.SendConfirmAsync(response.SanitizeMentions()).ConfigureAwait(false);
-            }
-            catch
-            {
-                await channel.SendConfirmAsync(response.SanitizeMentions()).ConfigureAwait(false); // try twice :\
-            }
-            return true;
+            File.WriteAllText(TypingArticlesPath, JsonConvert.SerializeObject(TypingArticles));
         }
 
         public ConcurrentHashSet<ulong> GenerationChannels { get; }
@@ -129,8 +82,10 @@ namespace NadekoBot.Services.Games
         public ConcurrentDictionary<ulong, List<IUserMessage>> PlantedFlowers { get; } = new ConcurrentDictionary<ulong, List<IUserMessage>>();
         //channelId/last generation
         public ConcurrentDictionary<ulong, DateTime> LastGenerations { get; } = new ConcurrentDictionary<ulong, DateTime>();
+
+        private ConcurrentDictionary<ulong, object> _locks { get; } = new ConcurrentDictionary<ulong, object>();
         
-        public KeyValuePair<string, ImmutableArray<byte>> GetRandomCurrencyImage()
+        public (string Name, ImmutableArray<byte> Data) GetRandomCurrencyImage()
         {
             var rng = new NadekoRandom();
             return _images.Currency[rng.Next(0, _images.Currency.Length)];
@@ -139,68 +94,61 @@ namespace NadekoBot.Services.Games
         private string GetText(ITextChannel ch, string key, params object[] rep)
             => _strings.GetText(key, ch.GuildId, "Games".ToLowerInvariant(), rep);
 
-        private Task PotentialFlowerGeneration(SocketMessage imsg)
+        private async Task PotentialFlowerGeneration(SocketMessage imsg)
         {
             var msg = imsg as SocketUserMessage;
             if (msg == null || msg.Author.IsBot)
-                return Task.CompletedTask;
+                return;
 
             var channel = imsg.Channel as ITextChannel;
             if (channel == null)
-                return Task.CompletedTask;
+                return;
 
             if (!GenerationChannels.Contains(channel.Id))
-                return Task.CompletedTask;
-
-            var _ = Task.Run(async () =>
+                return;
+            
+            try
             {
-                try
+                var lastGeneration = LastGenerations.GetOrAdd(channel.Id, DateTime.MinValue);
+                var rng = new NadekoRandom();
+
+                if (DateTime.Now - TimeSpan.FromSeconds(_bc.CurrencyGenerationCooldown) < lastGeneration) //recently generated in this channel, don't generate again
+                    return;
+
+                var num = rng.Next(1, 101) + _bc.CurrencyGenerationChance * 100;
+                if (num > 100 && LastGenerations.TryUpdate(channel.Id, DateTime.Now, lastGeneration))
                 {
-                    var lastGeneration = LastGenerations.GetOrAdd(channel.Id, DateTime.MinValue);
-                    var rng = new NadekoRandom();
+                    var dropAmount = _bc.CurrencyDropAmount;
 
-                    //todo i'm stupid :rofl: wtg kwoth. real async programming :100: :ok_hand: :100: :100: :thumbsup:
-                    if (DateTime.Now - TimeSpan.FromSeconds(_bc.CurrencyGenerationCooldown) < lastGeneration) //recently generated in this channel, don't generate again
-                        return;
-
-                    var num = rng.Next(1, 101) + _bc.CurrencyGenerationChance * 100;
-
-                    if (num > 100)
+                    if (dropAmount > 0)
                     {
-                        LastGenerations.AddOrUpdate(channel.Id, DateTime.Now, (id, old) => DateTime.Now);
-
-                        var dropAmount = _bc.CurrencyDropAmount;
-
-                        if (dropAmount > 0)
+                        var msgs = new IUserMessage[dropAmount];
+                        var prefix = NadekoBot.Prefix;
+                        var toSend = dropAmount == 1
+                            ? GetText(channel, "curgen_sn", _bc.CurrencySign)
+                                + " " + GetText(channel, "pick_sn", prefix)
+                            : GetText(channel, "curgen_pl", dropAmount, _bc.CurrencySign)
+                                + " " + GetText(channel, "pick_pl", prefix);
+                        var file = GetRandomCurrencyImage();
+                        using (var fileStream = file.Data.ToStream())
                         {
-                            var msgs = new IUserMessage[dropAmount];
-                            var prefix = NadekoBot.Prefix;
-                            var toSend = dropAmount == 1
-                                ? GetText(channel, "curgen_sn", _bc.CurrencySign)
-                                    + " " + GetText(channel, "pick_sn", prefix)
-                                : GetText(channel, "curgen_pl", dropAmount, _bc.CurrencySign)
-                                    + " " + GetText(channel, "pick_pl", prefix);
-                            var file = GetRandomCurrencyImage();
-                            using (var fileStream = file.Value.ToStream())
-                            {
-                                var sent = await channel.SendFileAsync(
-                                    fileStream,
-                                    file.Key,
-                                    toSend).ConfigureAwait(false);
+                            var sent = await channel.SendFileAsync(
+                                fileStream,
+                                file.Name,
+                                toSend).ConfigureAwait(false);
 
-                                msgs[0] = sent;
-                            }
-
-                            PlantedFlowers.AddOrUpdate(channel.Id, msgs.ToList(), (id, old) => { old.AddRange(msgs); return old; });
+                            msgs[0] = sent;
                         }
+
+                        PlantedFlowers.AddOrUpdate(channel.Id, msgs.ToList(), (id, old) => { old.AddRange(msgs); return old; });
                     }
                 }
-                catch (Exception ex)
-                {
-                    LogManager.GetCurrentClassLogger().Warn(ex);
-                }
-            });
-            return Task.CompletedTask;
+            }
+            catch (Exception ex)
+            {
+                LogManager.GetCurrentClassLogger().Warn(ex);
+            }
+            return;
         }
     }
 }

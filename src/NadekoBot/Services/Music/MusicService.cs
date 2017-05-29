@@ -10,6 +10,7 @@ using NLog;
 using System.IO;
 using VideoLibrary;
 using System.Net.Http;
+using System.Collections.Generic;
 
 namespace NadekoBot.Services.Music
 {
@@ -20,16 +21,17 @@ namespace NadekoBot.Services.Music
         private readonly IGoogleApiService _google;
         private readonly NadekoStrings _strings;
         private readonly ILocalization _localization;
-        private readonly DbHandler _db;
+        private readonly DbService _db;
         private readonly Logger _log;
         private readonly SoundCloudApiService _sc;
         private readonly IBotCredentials _creds;
+        private readonly ConcurrentDictionary<ulong, float> _defaultVolumes;
 
         public ConcurrentDictionary<ulong, MusicPlayer> MusicPlayers { get; } = new ConcurrentDictionary<ulong, MusicPlayer>();
 
         public MusicService(IGoogleApiService google, 
-            NadekoStrings strings, ILocalization localization, DbHandler db, 
-            SoundCloudApiService sc, IBotCredentials creds)
+            NadekoStrings strings, ILocalization localization, DbService db, 
+            SoundCloudApiService sc, IBotCredentials creds, IEnumerable<GuildConfig> gcs)
         {
             _google = google;
             _strings = strings;
@@ -40,6 +42,8 @@ namespace NadekoBot.Services.Music
             _log = LogManager.GetCurrentClassLogger();
 
             try { Directory.Delete(MusicDataPath, true); } catch { }
+
+            _defaultVolumes = new ConcurrentDictionary<ulong, float>(gcs.ToDictionary(x => x.GuildId, x => x.DefaultMusicVolume));
 
             Directory.CreateDirectory(MusicDataPath);
         }
@@ -57,12 +61,14 @@ namespace NadekoBot.Services.Music
 
             return MusicPlayers.GetOrAdd(guildId, server =>
             {
-                float vol;// SpecificConfigurations.Default.Of(server.Id).DefaultMusicVolume;
-                using (var uow = _db.UnitOfWork)
+                var vol = _defaultVolumes.GetOrAdd(guildId, (id) =>
                 {
-                    //todo move to cached variable
-                    vol = uow.GuildConfigs.For(guildId, set => set).DefaultMusicVolume;
-                }
+                    using (var uow = _db.UnitOfWork)
+                    {
+                        return uow.GuildConfigs.For(guildId, set => set).DefaultMusicVolume;
+                    }
+                });
+                
                 var mp = new MusicPlayer(voiceCh, textCh, vol, _google);
                 IUserMessage playingMessage = null;
                 IUserMessage lastFinishedMessage = null;

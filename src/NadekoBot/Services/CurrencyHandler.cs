@@ -7,20 +7,20 @@ using NadekoBot.Services.Database;
 
 namespace NadekoBot.Services
 {
-    public class CurrencyHandler
+    public class CurrencyService
     {
         private readonly BotConfig _config;
-        private readonly DbHandler _db;
+        private readonly DbService _db;
 
-        public CurrencyHandler(BotConfig config, DbHandler db)
+        public CurrencyService(BotConfig config, DbService db)
         {
             _config = config;
             _db = db;
         }
 
-        public async Task<bool> RemoveCurrencyAsync(IUser author, string reason, long amount, bool sendMessage)
+        public async Task<bool> RemoveAsync(IUser author, string reason, long amount, bool sendMessage)
         {
-            var success = await RemoveCurrencyAsync(author.Id, reason, amount);
+            var success = await RemoveAsync(author.Id, reason, amount);
 
             if (success && sendMessage)
                 try { await author.SendErrorAsync($"`You lost:` {amount} {_config.CurrencySign}\n`Reason:` {reason}").ConfigureAwait(false); } catch { }
@@ -28,12 +28,11 @@ namespace NadekoBot.Services
             return success;
         }
 
-        public async Task<bool> RemoveCurrencyAsync(ulong authorId, string reason, long amount, IUnitOfWork uow = null)
+        public async Task<bool> RemoveAsync(ulong authorId, string reason, long amount, IUnitOfWork uow = null)
         {
             if (amount < 0)
                 throw new ArgumentNullException(nameof(amount));
-
-
+            
             if (uow == null)
             {
                 using (uow = _db.UnitOfWork)
@@ -61,15 +60,15 @@ namespace NadekoBot.Services
             return true;
         }
 
-        public async Task AddCurrencyAsync(IUser author, string reason, long amount, bool sendMessage)
+        public async Task AddAsync(IUser author, string reason, long amount, bool sendMessage)
         {
-            await AddCurrencyAsync(author.Id, reason, amount);
+            await AddAsync(author.Id, reason, amount);
 
             if (sendMessage)
                 try { await author.SendConfirmAsync($"`You received:` {amount} {_config.CurrencySign}\n`Reason:` {reason}").ConfigureAwait(false); } catch { }
         }
 
-        public async Task AddCurrencyAsync(ulong receiverId, string reason, long amount, IUnitOfWork uow = null)
+        public async Task AddAsync(ulong receiverId, string reason, long amount, IUnitOfWork uow = null)
         {
             if (amount < 0)
                 throw new ArgumentNullException(nameof(amount));

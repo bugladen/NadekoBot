@@ -15,10 +15,10 @@ namespace NadekoBot.Modules.Permissions
 {
     public partial class Permissions : NadekoTopLevelModule
     {
-        private readonly DbHandler _db;
+        private readonly DbService _db;
         private readonly PermissionsService _service;
 
-        public Permissions(PermissionsService service, DbHandler db)
+        public Permissions(PermissionsService service, DbService db)
         {
             _db = db;
             _service = service;

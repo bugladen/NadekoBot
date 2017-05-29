@@ -13,20 +13,25 @@ namespace NadekoBot.Services.Administration
     public class VcRoleService
     {
         private readonly Logger _log;
+        private readonly DbService _db;
+        private readonly DiscordShardedClient _client;
 
         public ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, IRole>> VcRoles { get; }
 
-        public VcRoleService(DiscordShardedClient client, IEnumerable<GuildConfig> gcs)
+        public VcRoleService(DiscordShardedClient client, IEnumerable<GuildConfig> gcs, DbService db)
         {
             _log = LogManager.GetCurrentClassLogger();
+            _db = db;
+            _client = client;
 
-            client.UserVoiceStateUpdated += ClientOnUserVoiceStateUpdated;
+            _client.UserVoiceStateUpdated += ClientOnUserVoiceStateUpdated;
             VcRoles = new ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, IRole>>();
+            var missingRoles = new List<VcRoleInfo>();
             foreach (var gconf in gcs)
             {
-                var g = client.GetGuild(gconf.GuildId);
+                var g = _client.GetGuild(gconf.GuildId);
                 if (g == null)
-                    continue; //todo delete everything from db if guild doesn't exist?
+                    continue;
 
                 var infos = new ConcurrentDictionary<ulong, IRole>();
                 VcRoles.TryAdd(gconf.GuildId, infos);
@@ -34,11 +39,21 @@ namespace NadekoBot.Services.Administration
                 {
                     var role = g.GetRole(ri.RoleId);
                     if (role == null)
-                        continue; //todo remove this entry from db
+                    {
+                        missingRoles.Add(ri);
+                        continue;
+                    }
 
                     infos.TryAdd(ri.VoiceChannelId, role);
                 }
             }
+            if(missingRoles.Any())
+                using (var uow = _db.UnitOfWork)
+                {
+                    _log.Warn($"Removing {missingRoles.Count} missing roles from {nameof(VcRoleService)}");
+                    uow._context.RemoveRange(missingRoles);
+                    uow.Complete();
+                }
         }
 
         private Task ClientOnUserVoiceStateUpdated(SocketUser usr, SocketVoiceState oldState,

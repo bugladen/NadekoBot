@@ -13,10 +13,10 @@ namespace NadekoBot.Modules.Games
         [Group]
         public class CleverBotCommands : NadekoSubmodule
         {
-            private readonly DbHandler _db;
-            private readonly GamesService _games;
+            private readonly DbService _db;
+            private readonly ChatterBotService _games;
 
-            public CleverBotCommands(DbHandler db, GamesService games)
+            public CleverBotCommands(DbService db, ChatterBotService games)
             {
                 _db = db;
                 _games = games;
@@ -29,7 +29,7 @@ namespace NadekoBot.Modules.Games
             {
                 var channel = (ITextChannel)Context.Channel;
 
-                if (_games.CleverbotGuilds.TryRemove(channel.Guild.Id, out Lazy<ChatterBotSession> throwaway))
+                if (_games.ChatterBotGuilds.TryRemove(channel.Guild.Id, out Lazy<ChatterBotSession> throwaway))
                 {
                     using (var uow = _db.UnitOfWork)
                     {
@@ -40,7 +40,7 @@ namespace NadekoBot.Modules.Games
                     return;
                 }
 
-                _games.CleverbotGuilds.TryAdd(channel.Guild.Id, new Lazy<ChatterBotSession>(() => new ChatterBotSession(Context.Guild.Id), true));
+                _games.ChatterBotGuilds.TryAdd(channel.Guild.Id, new Lazy<ChatterBotSession>(() => new ChatterBotSession(Context.Guild.Id), true));
 
                 using (var uow = _db.UnitOfWork)
                 {

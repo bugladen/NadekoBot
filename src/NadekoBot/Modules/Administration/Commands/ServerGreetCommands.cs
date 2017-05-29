@@ -14,9 +14,9 @@ namespace NadekoBot.Modules.Administration
         public class ServerGreetCommands : NadekoSubmodule
         {
             private readonly GreetSettingsService _greetService;
-            private readonly DbHandler _db;
+            private readonly DbService _db;
 
-            public ServerGreetCommands(GreetSettingsService greetService, DbHandler db)
+            public ServerGreetCommands(GreetSettingsService greetService, DbService db)
             {
                 _greetService = greetService;
                 _db = db;

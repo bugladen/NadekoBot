@@ -6,7 +6,6 @@ using NadekoBot.Extensions;
 using NadekoBot.Modules.Games.Models;
 using NadekoBot.Services.Games;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
@@ -71,15 +70,10 @@ namespace NadekoBot.Modules.Games
             public async Task Typeadd([Remainder] string text)
             {
                 var channel = (ITextChannel)Context.Channel;
+                if (string.IsNullOrWhiteSpace(text))
+                    return;
 
-                _games.TypingArticles.Add(new TypingArticle
-                {
-                    Title = $"Text added on {DateTime.UtcNow} by {Context.User}",
-                    Text = text.SanitizeMentions(),
-                });
-
-                //todo move this to service
-                File.WriteAllText(_games.TypingArticlesPath, JsonConvert.SerializeObject(_games.TypingArticles));
+                _games.AddTypingArticle(Context.User, text);                
 
                 await channel.SendConfirmAsync("Added new article for typing game.").ConfigureAwait(false);
             }

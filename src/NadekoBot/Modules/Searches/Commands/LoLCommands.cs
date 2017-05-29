@@ -9,7 +9,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-//todo drawing
+//todo 50 drawing
 namespace NadekoBot.Modules.Searches
 {
     public partial class Searches

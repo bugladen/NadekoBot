@@ -15,16 +15,16 @@ namespace NadekoBot.Modules.Pokemon
     public class Pokemon : NadekoTopLevelModule
     {
         private readonly PokemonService _service;
-        private readonly DbHandler _db;
+        private readonly DbService _db;
         private readonly BotConfig _bc;
-        private readonly CurrencyHandler _ch;
+        private readonly CurrencyService _cs;
 
-        public Pokemon(PokemonService pokemonService, DbHandler db, BotConfig bc, CurrencyHandler ch)
+        public Pokemon(PokemonService pokemonService, DbService db, BotConfig bc, CurrencyService cs)
         {
             _service = pokemonService;
             _db = db;
             _bc = bc;
-            _ch = ch;
+            _cs = cs;
         }
 
         private int GetDamage(PokemonType usertype, PokemonType targetType)
@@ -229,7 +229,7 @@ namespace NadekoBot.Modules.Pokemon
                 var target = (targetUser.Id == user.Id) ? "yourself" : targetUser.Mention;
                 if (amount > 0)
                 {
-                    if (!await _ch.RemoveCurrencyAsync(user, $"Poke-Heal {target}", amount, true).ConfigureAwait(false))
+                    if (!await _cs.RemoveAsync(user, $"Poke-Heal {target}", amount, true).ConfigureAwait(false))
                     {
                         await ReplyErrorLocalized("no_currency", _bc.CurrencySign).ConfigureAwait(false);
                         return;
@@ -295,7 +295,7 @@ namespace NadekoBot.Modules.Pokemon
             var amount = 1;
             if (amount > 0)
             {
-                if (!await _ch.RemoveCurrencyAsync(user, $"{user} change type to {typeTargeted}", amount, true).ConfigureAwait(false))
+                if (!await _cs.RemoveAsync(user, $"{user} change type to {typeTargeted}", amount, true).ConfigureAwait(false))
                 {
                     await ReplyErrorLocalized("no_currency", _bc.CurrencySign).ConfigureAwait(false);
                     return;

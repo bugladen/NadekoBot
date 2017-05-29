@@ -3,17 +3,15 @@ using NadekoBot.Services.Database;
 
 namespace NadekoBot.Services
 {
-    public class DbHandler
+    public class DbService
     {
         private readonly DbContextOptions options;
 
-        private string connectionString { get; }
+        private readonly string _connectionString;
 
-        static DbHandler() { }
-
-        public DbHandler(IBotCredentials creds)
+        public DbService(IBotCredentials creds)
         {
-            connectionString = creds.Db.ConnectionString;
+            _connectionString = creds.Db.ConnectionString;
             var optionsBuilder = new DbContextOptionsBuilder();
             optionsBuilder.UseSqlite(creds.Db.ConnectionString);
             options = optionsBuilder.Options;

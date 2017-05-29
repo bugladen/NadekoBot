@@ -24,6 +24,7 @@ using NadekoBot.Services.Games;
 using NadekoBot.Services.Administration;
 using NadekoBot.Services.Permissions;
 using NadekoBot.Services.Utility;
+using NadekoBot.Services.Help;
 
 namespace NadekoBot
 {
@@ -45,7 +46,7 @@ namespace NadekoBot
 
         public ImmutableArray<GuildConfig> AllGuildConfigs { get; }
         public BotConfig BotConfig { get; }
-        public DbHandler Db { get; }
+        public DbService Db { get; }
         public CommandService CommandService { get; }
 
         public DiscordShardedClient Client { get; }
@@ -60,7 +61,7 @@ namespace NadekoBot
             _log = LogManager.GetCurrentClassLogger();
 
             Credentials = new BotCredentials();
-            Db = new DbHandler(Credentials);
+            Db = new DbService(Credentials);
 
             using (var uow = Db.UnitOfWork)
             {
@@ -99,7 +100,7 @@ namespace NadekoBot
             var commandHandler = new CommandHandler(Client, CommandService, Credentials, this);
             var stats = new StatsService(Client, commandHandler, Credentials);
             var images = new ImagesService();
-            var currencyHandler = new CurrencyHandler(BotConfig, Db);
+            var currencyHandler = new CurrencyService(BotConfig, Db);
 
             //module services
             //todo 90 - autodiscover, DI, and add instead of manual like this
@@ -109,27 +110,36 @@ namespace NadekoBot
             var repeaterService = new MessageRepeaterService(Client, AllGuildConfigs);
             var converterService = new ConverterService(Db);
             #endregion
+
             #region Searches
             var searchesService = new SearchesService(Client, googleApiService, Db);
             var streamNotificationService = new StreamNotificationService(Db, Client, strings);
             #endregion
+
             var clashService = new ClashOfClansService(Client, Db, localization, strings);
-            var musicService = new MusicService(googleApiService, strings, localization, Db, soundcloudApiService, Credentials);
+            var musicService = new MusicService(googleApiService, strings, localization, Db, soundcloudApiService, Credentials, AllGuildConfigs);
             var crService = new CustomReactionsService(Db, Client);
+            var helpService = new HelpService(BotConfig);
+
+            #region Games
             var gamesService = new GamesService(Client, BotConfig, AllGuildConfigs, strings, images);
+            var chatterBotService = new ChatterBotService(Client, AllGuildConfigs);
+            var pollService = new PollService(Client, strings);
+            #endregion
+
             #region administration
             var administrationService = new AdministrationService(AllGuildConfigs, commandHandler);
             var greetSettingsService = new GreetSettingsService(Client, AllGuildConfigs, Db);
-            var selfService = new SelfService(this, commandHandler, Db, BotConfig);
-            var vcRoleService = new VcRoleService(Client, AllGuildConfigs);
+            var selfService = new SelfService(Client, this, commandHandler, Db, BotConfig, localization, strings, Credentials);
+            var vcRoleService = new VcRoleService(Client, AllGuildConfigs, Db);
             var vPlusTService = new VplusTService(Client, AllGuildConfigs, strings, Db);
             var muteService = new MuteService(Client, AllGuildConfigs, Db);
-            var ratelimitService = new RatelimitService(Client, AllGuildConfigs);
+            var ratelimitService = new SlowmodeService(AllGuildConfigs);
             var protectionService = new ProtectionService(Client, AllGuildConfigs, muteService);
             var playingRotateService = new PlayingRotateService(Client, BotConfig, musicService);
             var gameVcService = new GameVoiceChannelService(Client, Db, AllGuildConfigs);
             var autoAssignRoleService = new AutoAssignRoleService(Client, AllGuildConfigs);
-            var permissionsService = new PermissionsService(Db);
+            var permissionsService = new PermissionsService(Db, BotConfig);
             var blacklistService = new BlacklistService(BotConfig);
             var cmdcdsService = new CmdCdService(AllGuildConfigs);
             var filterService = new FilterService(AllGuildConfigs);
@@ -148,9 +158,9 @@ namespace NadekoBot
                 .Add<NadekoStrings>(strings)
                 .Add<DiscordShardedClient>(Client)
                 .Add<BotConfig>(BotConfig)
-                .Add<CurrencyHandler>(currencyHandler)
+                .Add<CurrencyService>(currencyHandler)
                 .Add<CommandHandler>(commandHandler)
-                .Add<DbHandler>(Db)
+                .Add<DbService>(Db)
                 //modules
                 .Add<UtilityService>(utilityService)
                     .Add(remindService)
@@ -162,7 +172,10 @@ namespace NadekoBot
                 .Add<MusicService>(musicService)
                 .Add<GreetSettingsService>(greetSettingsService)
                 .Add<CustomReactionsService>(crService)
+                .Add<HelpService>(helpService)
                 .Add<GamesService>(gamesService)
+                    .Add(chatterBotService)
+                    .Add(pollService)
                 .Add<AdministrationService>(administrationService)
                     .Add(selfService)
                     .Add(vcRoleService)
@@ -228,9 +241,13 @@ namespace NadekoBot
             await commandHandler.StartHandling().ConfigureAwait(false);
 
             var _ = await CommandService.AddModulesAsync(this.GetType().GetTypeInfo().Assembly);
-#if !GLOBAL_NADEKO
-            //todo uncomment this
-            //await CommandService.AddModuleAsync<Music>().ConfigureAwait(false);
+#if GLOBAL_NADEKO
+            //unload modules which are not available on the public bot
+            CommandService
+                .Modules
+                .ToArray()
+                .Where(x => x.Preconditions.Any(y => y.GetType() == typeof(NoPublicBot)))
+                .ForEach(x => CommandService.RemoveModuleAsync(x));
 #endif
             Ready = true;
             _log.Info(await stats.Print().ConfigureAwait(false));

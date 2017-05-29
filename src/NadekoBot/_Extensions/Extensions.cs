@@ -21,8 +21,8 @@ namespace NadekoBot.Extensions
         public static bool IsAuthor(this IMessage msg, IDiscordClient client) =>
             msg.Author?.Id == client.CurrentUser.Id;
 
-        private static readonly IEmote arrow_left = Emote.Parse("⬅");
-        private static readonly IEmote arrow_right = Emote.Parse("➡");
+        private static readonly IEmote arrow_left = new Emoji("⬅");
+        private static readonly IEmote arrow_right = new Emoji("➡");
 
         public static string ToBase64(this string plainText)
         {

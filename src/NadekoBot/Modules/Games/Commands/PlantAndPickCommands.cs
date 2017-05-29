@@ -24,16 +24,16 @@ namespace NadekoBot.Modules.Games
         [Group]
         public class PlantPickCommands : NadekoSubmodule
         {
-            private readonly CurrencyHandler _ch;
+            private readonly CurrencyService _cs;
             private readonly BotConfig _bc;
             private readonly GamesService _games;
-            private readonly DbHandler _db;
+            private readonly DbService _db;
 
-            public PlantPickCommands(BotConfig bc, CurrencyHandler ch, GamesService games,
-                DbHandler db)
+            public PlantPickCommands(BotConfig bc, CurrencyService cs, GamesService games,
+                DbService db)
             {
                 _bc = bc;
-                _ch = ch;
+                _cs = cs;
                 _games = games;
                 _db = db;
             }
@@ -54,7 +54,7 @@ namespace NadekoBot.Modules.Games
 
                 await Task.WhenAll(msgs.Where(m => m != null).Select(toDelete => toDelete.DeleteAsync())).ConfigureAwait(false);
 
-                await _ch.AddCurrencyAsync((IGuildUser)Context.User, $"Picked {_bc.CurrencyPluralName}", msgs.Count, false).ConfigureAwait(false);
+                await _cs.AddAsync((IGuildUser)Context.User, $"Picked {_bc.CurrencyPluralName}", msgs.Count, false).ConfigureAwait(false);
                 var msg = await ReplyConfirmLocalized("picked", msgs.Count + _bc.CurrencySign)
                     .ConfigureAwait(false);
                 msg.DeleteAfter(10);
@@ -67,7 +67,7 @@ namespace NadekoBot.Modules.Games
                 if (amount < 1)
                     return;
 
-                var removed = await _ch.RemoveCurrencyAsync((IGuildUser)Context.User, $"Planted a {_bc.CurrencyName}", amount, false).ConfigureAwait(false);
+                var removed = await _cs.RemoveAsync((IGuildUser)Context.User, $"Planted a {_bc.CurrencyName}", amount, false).ConfigureAwait(false);
                 if (!removed)
                 {
                     await ReplyErrorLocalized("not_enough", _bc.CurrencySign).ConfigureAwait(false);
@@ -88,9 +88,9 @@ namespace NadekoBot.Modules.Games
                     msgToSend += " " + GetText("pick_sn", Prefix);
 
                 IUserMessage msg;
-                using (var toSend = imgData.Value.ToStream())
+                using (var toSend = imgData.Data.ToStream())
                 {
-                    msg = await Context.Channel.SendFileAsync(toSend, imgData.Key, msgToSend).ConfigureAwait(false);
+                    msg = await Context.Channel.SendFileAsync(toSend, imgData.Name, msgToSend).ConfigureAwait(false);
                 }
 
                 var msgs = new IUserMessage[amount];

@@ -18,13 +18,13 @@ namespace NadekoBot.Modules.Utility
         {
             private readonly DiscordShardedClient _client;
             private readonly IStatsService _stats;
-            private readonly CommandHandler _ch;
+            private readonly CommandHandler _cmdHandler;
 
             public InfoCommands(DiscordShardedClient client, IStatsService stats, CommandHandler ch)
             {
                 _client = client;
                 _stats = stats;
-                _ch = ch;
+                _cmdHandler = ch;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -129,7 +129,7 @@ namespace NadekoBot.Modules.Utility
                 int startCount = page * activityPerPage;
 
                 StringBuilder str = new StringBuilder();
-                foreach (var kvp in _ch.UserMessagesSent.OrderByDescending(kvp => kvp.Value).Skip(page * activityPerPage).Take(activityPerPage))
+                foreach (var kvp in _cmdHandler.UserMessagesSent.OrderByDescending(kvp => kvp.Value).Skip(page * activityPerPage).Take(activityPerPage))
                 {
                     str.AppendLine(GetText("activity_line",
                         ++startCount,
@@ -141,7 +141,7 @@ namespace NadekoBot.Modules.Utility
                     .WithTitle(GetText("activity_page", page + 1))
                     .WithOkColor()
                     .WithFooter(efb => efb.WithText(GetText("activity_users_total",
-                        _ch.UserMessagesSent.Count)))
+                        _cmdHandler.UserMessagesSent.Count)))
                     .WithDescription(str.ToString()));
             }
         }

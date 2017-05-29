@@ -22,11 +22,11 @@ namespace NadekoBot.Services.Administration
         private readonly ConcurrentDictionary<ulong, SemaphoreSlim> _guildLockObjects = new ConcurrentDictionary<ulong, SemaphoreSlim>();
         private readonly DiscordShardedClient _client;
         private readonly NadekoStrings _strings;
-        private readonly DbHandler _db;
+        private readonly DbService _db;
         private readonly Logger _log;
 
         public VplusTService(DiscordShardedClient client, IEnumerable<GuildConfig> gcs, NadekoStrings strings,
-            DbHandler db)
+            DbService db)
         {
             _client = client;
             _strings = strings;

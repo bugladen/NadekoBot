@@ -14,10 +14,10 @@ namespace NadekoBot.Modules.Permissions.Commands
         public class ResetPermissionsCommands : NadekoSubmodule
         {
             private readonly PermissionsService _service;
-            private readonly DbHandler _db;
+            private readonly DbService _db;
             private readonly GlobalPermissionService _globalPerms;
 
-            public ResetPermissionsCommands(PermissionsService service, GlobalPermissionService globalPerms, DbHandler db)
+            public ResetPermissionsCommands(PermissionsService service, GlobalPermissionService globalPerms, DbService db)
             {
                 _service = service;
                 _db = db;
@@ -29,7 +29,7 @@ namespace NadekoBot.Modules.Permissions.Commands
             [RequireUserPermission(GuildPermission.Administrator)]
             public async Task ResetPermissions()
             {
-                //todo 80 move to service
+                //todo 50 move to service
                 using (var uow = _db.UnitOfWork)
                 {
                     var config = uow.GuildConfigs.GcWithPermissionsv2For(Context.Guild.Id);
@@ -44,7 +44,7 @@ namespace NadekoBot.Modules.Permissions.Commands
             [OwnerOnly]
             public async Task ResetGlobalPermissions()
             {
-                //todo 80 move to service
+                //todo 50 move to service
                 using (var uow = _db.UnitOfWork)
                 {
                     var gc = uow.BotConfig.GetOrCreate();

@@ -10,13 +10,13 @@ namespace NadekoBot.Services
     public class Localization : ILocalization
     {
         private readonly Logger _log;
-        private readonly DbHandler _db;
+        private readonly DbService _db;
 
         public ConcurrentDictionary<ulong, CultureInfo> GuildCultureInfos { get; }
         public CultureInfo DefaultCultureInfo { get; private set; } = CultureInfo.CurrentCulture;
 
         private Localization() { }
-        public Localization(string defaultCulture, IDictionary<ulong, string> cultureInfoNames, DbHandler db)
+        public Localization(string defaultCulture, IDictionary<ulong, string> cultureInfoNames, DbService db)
         {
             _log = LogManager.GetCurrentClassLogger();
             _db = db;

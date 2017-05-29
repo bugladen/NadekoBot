@@ -29,11 +29,8 @@
   <ItemGroup>
     <Compile Remove="data\**\*;credentials.json;credentials_example.json" />
     <Compile Remove="Modules\Administration\**" />
-    <Compile Remove="Modules\NSFW\**" />
     <EmbeddedResource Remove="Modules\Administration\**" />
-    <EmbeddedResource Remove="Modules\NSFW\**" />
     <None Remove="Modules\Administration\**" />
-    <None Remove="Modules\NSFW\**" />
     <Compile Remove="Modules\Gambling\Commands\Lucky7Commands.cs" />
     <Compile Include="Modules\Administration\Administration.cs" />
     <Compile Include="Modules\Administration\Commands\AutoAssignRoleCommands.cs" />
@@ -87,6 +84,7 @@
     <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
     <PackageReference Include="NLog" Version="5.0.0-beta03" />
+    <PackageReference Include="System.ValueTuple" Version="4.4.0-preview1-25305-02" />
     <PackageReference Include="System.Xml.XPath" Version="4.3.0" />
   </ItemGroup>
 
@@ -102,5 +100,6 @@
 
   <ItemGroup>
     <Folder Include="Modules\Music\Classes\" />
+    <Folder Include="Modules\Utility\Models\" />
   </ItemGroup>
 </Project>

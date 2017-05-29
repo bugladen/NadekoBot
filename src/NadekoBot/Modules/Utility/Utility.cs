@@ -494,7 +494,6 @@ namespace NadekoBot.Services.Utility
                             }
                             else if (s.Embeds.Any())
                             {
-                                //todo probably just go through all properties and check if they are set, if they are, add them
                                 msg += "EMBEDS: " + string.Join("\n--------\n", s.Embeds.Select(x => $"Description: {x.Description}"));
                             }
                         }

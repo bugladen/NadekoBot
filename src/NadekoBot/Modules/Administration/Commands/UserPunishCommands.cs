@@ -19,10 +19,10 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class UserPunishCommands : NadekoSubmodule
         {
-            private readonly DbHandler _db;
+            private readonly DbService _db;
             private readonly MuteService _muteService;
 
-            public UserPunishCommands(DbHandler db, MuteService muteService)
+            public UserPunishCommands(DbService db, MuteService muteService)
             {
                 _db = db;
                 _muteService = muteService;

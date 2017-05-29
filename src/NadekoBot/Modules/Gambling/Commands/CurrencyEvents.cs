@@ -36,13 +36,13 @@ namespace NadekoBot.Modules.Gambling
             private string _secretCode = string.Empty;
             private readonly DiscordShardedClient _client;
             private readonly BotConfig _bc;
-            private readonly CurrencyHandler _ch;
+            private readonly CurrencyService _cs;
 
-            public CurrencyEvents(DiscordShardedClient client, BotConfig bc, CurrencyHandler ch)
+            public CurrencyEvents(DiscordShardedClient client, BotConfig bc, CurrencyService cs)
             {
                 _client = client;
                 _bc = bc;
-                _ch = ch;
+                _cs = cs;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -111,7 +111,7 @@ namespace NadekoBot.Modules.Gambling
                 {
                     var _ = Task.Run(async () =>
                     {
-                        await _ch.AddCurrencyAsync(arg.Author, "Sneaky Game Event", 100, false)
+                        await _cs.AddAsync(arg.Author, "Sneaky Game Event", 100, false)
                             .ConfigureAwait(false);
 
                         try { await arg.DeleteAsync(new RequestOptions() { RetryMode = RetryMode.AlwaysFail }).ConfigureAwait(false); }
@@ -137,7 +137,7 @@ namespace NadekoBot.Modules.Gambling
                         desc, footer: footer)
                     .ConfigureAwait(false);
 
-                await new FlowerReactionEvent(_client, _ch).Start(msg, context, amount);
+                await new FlowerReactionEvent(_client, _cs).Start(msg, context, amount);
             }
         }
     }
@@ -152,18 +152,18 @@ namespace NadekoBot.Modules.Gambling
         private readonly ConcurrentHashSet<ulong> _flowerReactionAwardedUsers = new ConcurrentHashSet<ulong>();
         private readonly Logger _log;
         private readonly DiscordShardedClient _client;
-        private readonly CurrencyHandler _ch;
+        private readonly CurrencyService _cs;
 
         private IUserMessage StartingMessage { get; set; }
 
         private CancellationTokenSource Source { get; }
         private CancellationToken CancelToken { get; }
 
-        public FlowerReactionEvent(DiscordShardedClient client, CurrencyHandler ch)
+        public FlowerReactionEvent(DiscordShardedClient client, CurrencyService cs)
         {
             _log = LogManager.GetCurrentClassLogger();
             _client = client;
-            _ch = ch;
+            _cs = cs;
             Source = new CancellationTokenSource();
             CancelToken = Source.Token;
         }
@@ -210,7 +210,7 @@ namespace NadekoBot.Modules.Gambling
                 {
                     if (r.Emote.Name == "🌸" && r.User.IsSpecified && ((DateTime.UtcNow - r.User.Value.CreatedAt).TotalDays > 5) && _flowerReactionAwardedUsers.Add(r.User.Value.Id))
                     {
-                        await _ch.AddCurrencyAsync(r.User.Value, "Flower Reaction Event", amount, false)
+                        await _cs.AddAsync(r.User.Value, "Flower Reaction Event", amount, false)
                             .ConfigureAwait(false);
                     }
                 }

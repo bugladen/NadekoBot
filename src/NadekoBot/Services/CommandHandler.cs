@@ -87,20 +87,6 @@ namespace NadekoBot.Services
 
         public Task StartHandling()
         {
-            var _ = Task.Run(async () =>
-            {
-                await Task.Delay(5000).ConfigureAwait(false);
-
-                _client.Guilds.SelectMany(g => g.Users);
-
-                LoadOwnerChannels();
-
-                if (!ownerChannels.Any())
-                    _log.Warn("No owner channels created! Make sure you've specified correct OwnerId in the credentials.json file.");
-                else
-                    _log.Info($"Created {ownerChannels.Length} out of {_creds.OwnerIds.Length} owner message channels.");
-            });
-
             _client.MessageReceived += MessageReceivedHandler;
             _client.MessageUpdated += (oldmsg, newMsg, channel) =>
             {
@@ -125,80 +111,6 @@ namespace NadekoBot.Services
             };
             return Task.CompletedTask;
         }
-
-        private void LoadOwnerChannels()
-        {
-            var hs = new HashSet<ulong>(_creds.OwnerIds);
-            var channels = new Dictionary<ulong, AsyncLazy<IDMChannel>>();
-
-            foreach (var s in _client.Shards)
-            {
-                if(hs.Count == 0)
-                    break;
-                    foreach (var g in s.Guilds)
-                    {
-                        if(hs.Count == 0)
-                            break;
-
-                        foreach (var u in g.Users)
-                        {
-                            if(hs.Remove(u.Id))
-                            {
-                                channels.Add(u.Id, new AsyncLazy<IDMChannel>(async () => await u.CreateDMChannelAsync()));
-                                if(hs.Count == 0)   
-                                        break;
-                            }
-                        }
-                    }
-            }
-
-            ownerChannels = channels.OrderBy(x => _creds.OwnerIds.IndexOf(x.Key))
-                    .Select(x => x.Value)
-                    .ToImmutableArray();
-        }
-        ////todo cleverbot
-        //private async Task<bool> TryRunCleverbot(IUserMessage usrMsg, SocketGuild guild)
-        //{
-        //    if (guild == null)
-        //        return false;
-        //    try
-        //    {
-        //        var message = Games.CleverBotCommands.PrepareMessage(usrMsg, out Games.ChatterBotSession cbs);
-        //        if (message == null || cbs == null)
-        //            return false;
-
-        //        PermissionCache pc = Permissions.GetCache(guild.Id);
-        //        if (!pc.Permissions.CheckPermissions(usrMsg,
-        //            NadekoBot.Prefix + "cleverbot",
-        //            typeof(Games).Name,
-        //            out int index))
-        //        {
-        //            //todo print in guild actually
-        //            var returnMsg =
-        //                $"Permission number #{index + 1} **{pc.Permissions[index].GetCommand(guild)}** is preventing this action.";
-        //            _log.Info(returnMsg);
-        //            return true;
-        //        }
-
-        //        var cleverbotExecuted = await Games.CleverBotCommands.TryAsk(cbs, (ITextChannel)usrMsg.Channel, message).ConfigureAwait(false);
-        //        if (cleverbotExecuted)
-        //        {
-        //            _log.Info($@"CleverBot Executed
-        //Server: {guild.Name} [{guild.Id}]
-        //Channel: {usrMsg.Channel?.Name} [{usrMsg.Channel?.Id}]
-        //UserId: {usrMsg.Author} [{usrMsg.Author.Id}]
-        //Message: {usrMsg.Content}");
-        //            return true;
-        //        }
-        //    }
-        //    catch (Exception ex) { _log.Warn(ex, "Error in cleverbot"); }
-        //    return false;
-        //}
-        ////todo blacklisting
-        //private bool IsBlacklisted(IGuild guild, IUserMessage usrMsg) =>
-        //    (guild != null && BlacklistCommands.BlacklistedGuilds.Contains(guild.Id)) ||
-        //    BlacklistCommands.BlacklistedChannels.Contains(usrMsg.Channel.Id) ||
-        //    BlacklistCommands.BlacklistedUsers.Contains(usrMsg.Author.Id);
 
         private const float _oneThousandth = 1.0f / 1000;
 
@@ -233,165 +145,65 @@ namespace NadekoBot.Services
                         //exec.Result.ErrorReason // {4}
                         );
         }
-        ////todo invite filtering
-        //private async Task<bool> InviteFiltered(IGuild guild, IUserMessage usrMsg)
-        //{
-        //    if ((Permissions.FilterCommands.InviteFilteringChannels.Contains(usrMsg.Channel.Id) ||
-        //        Permissions.FilterCommands.InviteFilteringServers.Contains(guild.Id)) &&
-        //            usrMsg.Content.IsDiscordInvite())
-        //    {
-        //        try
-        //        {
-        //            await usrMsg.DeleteAsync().ConfigureAwait(false);
-        //            return true;
-        //        }
-        //        catch (HttpException ex)
-        //        {
-        //            _log.Warn("I do not have permission to filter invites in channel with id " + usrMsg.Channel.Id, ex);
-        //            return true;
-        //        }
-        //    }
-        //    return false;
-        //}
 
-        ////todo word filtering
-        //private async Task<bool> WordFiltered(IGuild guild, IUserMessage usrMsg)
-        //{
-        //    var filteredChannelWords = Permissions.FilterCommands.FilteredWordsForChannel(usrMsg.Channel.Id, guild.Id) ?? new ConcurrentHashSet<string>();
-        //    var filteredServerWords = Permissions.FilterCommands.FilteredWordsForServer(guild.Id) ?? new ConcurrentHashSet<string>();
-        //    var wordsInMessage = usrMsg.Content.ToLowerInvariant().Split(' ');
-        //    if (filteredChannelWords.Count != 0 || filteredServerWords.Count != 0)
-        //    {
-        //        foreach (var word in wordsInMessage)
-        //        {
-        //            if (filteredChannelWords.Contains(word) ||
-        //                filteredServerWords.Contains(word))
-        //            {
-        //                try
-        //                {
-        //                    await usrMsg.DeleteAsync().ConfigureAwait(false);
-        //                }
-        //                catch (HttpException ex)
-        //                {
-        //                    _log.Warn("I do not have permission to filter words in channel with id " + usrMsg.Channel.Id, ex);
-        //                }
-        //                return true;
-        //            }
-        //        }
-        //    }
-        //    return false;
-        //}
-
-        private Task MessageReceivedHandler(SocketMessage msg)
+        private async Task MessageReceivedHandler(SocketMessage msg)
         {
-            var _ = Task.Run(async () =>
+            await Task.Yield();
+            try
             {
-                try
-                {
-                    if (msg.Author.IsBot || !_bot.Ready) //no bots, wait until bot connected and initialized
-                        return;
+                if (msg.Author.IsBot || !_bot.Ready) //no bots, wait until bot connected and initialized
+                    return;
 
-                    var usrMsg = msg as SocketUserMessage;
-                    if (usrMsg == null) //has to be an user message, not system/other messages.
-                        return;
-
-                    if (usrMsg.Author.Id == 193022505026453504)
-                        return;
+                if (!(msg is SocketUserMessage usrMsg))
+                    return;
 #if !GLOBAL_NADEKO
-                    // track how many messagges each user is sending
-                    UserMessagesSent.AddOrUpdate(usrMsg.Author.Id, 1, (key, old) => ++old);
+                // track how many messagges each user is sending
+                UserMessagesSent.AddOrUpdate(usrMsg.Author.Id, 1, (key, old) => ++old);
 #endif
 
-                    var channel = msg.Channel as SocketTextChannel;
-                    var guild = channel?.Guild;
+                var channel = msg.Channel as ISocketMessageChannel;
+                var guild = (msg.Channel as SocketTextChannel)?.Guild;
 
-                    await TryRunCommand(guild, channel, usrMsg);
-                }
-                catch (Exception ex)
+                await TryRunCommand(guild, channel, usrMsg);
+            }
+            catch (Exception ex)
+            {
+                _log.Warn("Error in CommandHandler");
+                _log.Warn(ex);
+                if (ex.InnerException != null)
                 {
-                    _log.Warn("Error in CommandHandler");
-                    _log.Warn(ex);
-                    if (ex.InnerException != null)
-                    {
-                        _log.Warn("Inner Exception of the error in CommandHandler");
-                        _log.Warn(ex.InnerException);
-                    }
+                    _log.Warn("Inner Exception of the error in CommandHandler");
+                    _log.Warn(ex.InnerException);
                 }
-            });
-            return Task.CompletedTask;
+            }
         }
 
-        public async Task TryRunCommand(SocketGuild guild, ITextChannel channel, IUserMessage usrMsg)
+        public async Task TryRunCommand(SocketGuild guild, ISocketMessageChannel channel, IUserMessage usrMsg)
         {
             var execTime = Environment.TickCount;
 
             foreach (var svc in _services)
             {
-                if (svc is IBlockingExecutor _executor && 
-                    await _executor.TryExecute(_client, guild, usrMsg))
+                if (svc is IEarlyBlocker blocker &&
+                    await blocker.TryBlockEarly(_client, guild, usrMsg).ConfigureAwait(false))
+                {
+                    _log.Info("Blocked User: [{0}] Message: [{1}] Service: [{2}]", usrMsg.Author, usrMsg.Content, svc.GetType().Name);
+                    return;
+                }
+            }
+
+            var exec2 = Environment.TickCount - execTime;
+            
+
+            foreach (var svc in _services)
+            {
+                if (svc is IEarlyBlockingExecutor exec && 
+                    await exec.TryExecuteEarly(_client, guild, usrMsg).ConfigureAwait(false))
                 {
                     _log.Info("User [{0}] executed [{1}] in [{2}]", usrMsg.Author, usrMsg.Content, svc.GetType().Name);
                     return;
                 }
             }
-
-
-            ////todo word and invite filtering
-            //if (guild != null && guild.OwnerId != usrMsg.Author.Id)
-            //{
-            //    if (await InviteFiltered(guild, usrMsg).ConfigureAwait(false))
-            //        return;
-
-            //    if (await WordFiltered(guild, usrMsg).ConfigureAwait(false))
-            //        return;
-            //}
-
-            ////todo blacklisting
-            //if (IsBlacklisted(guild, usrMsg))
-            //    return;
-            
-            //var cleverBotRan = await Task.Run(() => TryRunCleverbot(usrMsg, guild)).ConfigureAwait(false);
-            //if (cleverBotRan)
-            //    return;
-
-            var exec2 = Environment.TickCount - execTime;
-
-            ////todo custom reactions
-            //// maybe this message is a custom reaction
-            //// todo log custom reaction executions. return struct with info
-            //var cr = await Task.Run(() => CustomReactions.TryGetCustomReaction(usrMsg)).ConfigureAwait(false);
-            //if (cr != null) //if it was, don't execute the command
-            //{
-            //    try
-            //    {
-            //        if (guild != null)
-            //        {
-            //            PermissionCache pc = Permissions.GetCache(guild.Id);
-
-            //            if (!pc.Permissions.CheckPermissions(usrMsg, cr.Trigger, "ActualCustomReactions",
-            //                out int index))
-            //            {
-            //                //todo print in guild actually
-            //                var returnMsg =
-            //                    $"Permission number #{index + 1} **{pc.Permissions[index].GetCommand(guild)}** is preventing this action.";
-            //                _log.Info(returnMsg);
-            //                return;
-            //            }
-            //        }
-            //        await cr.Send(usrMsg).ConfigureAwait(false);
-
-            //        if (cr.AutoDeleteTrigger)
-            //        {
-            //            try { await usrMsg.DeleteAsync().ConfigureAwait(false); } catch { }
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        _log.Warn("Sending CREmbed failed");
-            //        _log.Warn(ex);
-            //    }
-            //    return;
-            //}
 
             var exec3 = Environment.TickCount - execTime;
 
@@ -436,13 +248,13 @@ namespace NadekoBot.Services
                 var exec = await Task.Run(() => ExecuteCommandAsync(new CommandContext(_client, usrMsg), NadekoBot.Prefix.Length, _services, MultiMatchHandling.Best)).ConfigureAwait(false);
                 execTime = Environment.TickCount - execTime;
 
-                ////todo permissions
-                //if (exec.Result.IsSuccess)
-                //{
+                ////todo commandHandler
+                if (exec)
+                {
                 //    await CommandExecuted(usrMsg, exec.CommandInfo).ConfigureAwait(false);
-                //    await LogSuccessfulExecution(usrMsg, exec, channel, exec2, exec3, execTime).ConfigureAwait(false);
-                //    return;
-                //}
+                    await LogSuccessfulExecution(usrMsg, exec, channel as ITextChannel, exec2, exec3, execTime).ConfigureAwait(false);
+                    return;
+                }
                 //else if (!exec.Result.IsSuccess && exec.Result.Error != CommandError.UnknownCommand)
                 //{
                 //    LogErroredExecution(usrMsg, exec, channel, exec2, exec3, execTime);
@@ -453,20 +265,20 @@ namespace NadekoBot.Services
                 //    }
                 //    return;
                 //}
+
+                if (exec)
+                    return;
+
             }
 
-            if (usrMsg.Channel is IPrivateChannel)
+            foreach (var svc in _services)
             {
-                // rofl, gotta do this to prevent dm help message being sent to 
-                // users who are voting on private polls (sending a number in a DM)
-                if (int.TryParse(usrMsg.Content, out int vote)) return;
-
-                ////todo help
-                //await usrMsg.Channel.SendMessageAsync(Help.DMHelpString).ConfigureAwait(false);
-
-                ////todo selfcommands
-                //await SelfCommands.HandleDmForwarding(usrMsg, ownerChannels).ConfigureAwait(false);
+                if (svc is ILateExecutor exec)
+                {
+                    await exec.LateExecute(_client, guild, usrMsg).ConfigureAwait(false);
+                }
             }
+
         }
 
         public Task<bool> ExecuteCommandAsync(CommandContext context, int argPos, IServiceProvider serviceProvider, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
@@ -540,16 +352,16 @@ namespace NadekoBot.Services
                     //    }
                     //}
 
-                    ////////future
-                    //////int price;
-                    //////if (Permissions.CommandCostCommands.CommandCosts.TryGetValue(cmd.Aliases.First().Trim().ToLowerInvariant(), out price) && price > 0)
-                    //////{
-                    //////    var success = await _ch.RemoveCurrencyAsync(context.User.Id, $"Running {cmd.Name} command.", price).ConfigureAwait(false);
-                    //////    if (!success)
-                    //////    {
-                    //////        return new ExecuteCommandResult(cmd, pc, SearchResult.FromError(CommandError.Exception, $"Insufficient funds. You need {price}{NadekoBot.BotConfig.CurrencySign} to run this command."));
-                    //////    }
-                    //////}
+                    //////future
+                    ////int price;
+                    ////if (Permissions.CommandCostCommands.CommandCosts.TryGetValue(cmd.Aliases.First().Trim().ToLowerInvariant(), out price) && price > 0)
+                    ////{
+                    ////    var success = await _cs.RemoveCurrencyAsync(context.User.Id, $"Running {cmd.Name} command.", price).ConfigureAwait(false);
+                    ////    if (!success)
+                    ////    {
+                    ////        return new ExecuteCommandResult(cmd, pc, SearchResult.FromError(CommandError.Exception, $"Insufficient funds. You need {price}{NadekoBot.BotConfig.CurrencySign} to run this command."));
+                    ////    }
+                    ////}
                 }
 
                 ////todo perms
@@ -564,12 +376,19 @@ namespace NadekoBot.Services
                 // GlobalCommandsCooldown constant (miliseconds)
                 if (!UsersOnShortCooldown.Add(context.Message.Author.Id))
                     return false;
-                    //return SearchResult.FromError(CommandError.Exception, "You are on a global cooldown.");
+                //return SearchResult.FromError(CommandError.Exception, "You are on a global cooldown.");
 
-                ////todo cmdcds
-                //if (CmdCdsCommands.HasCooldown(cmd, context.Guild, context.User))
-                //    return new ExecuteCommandResult(cmd, null, SearchResult.FromError(CommandError.Exception, "That command is on a cooldown for you."));
-                
+                var commandName = cmd.Aliases.First();
+                foreach (var svc in _services)
+                {
+                    if (svc is ILateBlocker exec &&
+                        await exec.TryBlockLate(_client, context.Message, context.Guild, context.Channel, context.User, cmd.Module.GetTopLevelModule().Name, commandName).ConfigureAwait(false))
+                    {
+                        _log.Info("Late blocking User [{0}] Command: [{1}] in [{2}]", context.User, commandName, svc.GetType().Name);
+                        return false;
+                    }
+                }
+
                 await commands[i].ExecuteAsync(context, parseResult, serviceProvider);
                 return true;
             }

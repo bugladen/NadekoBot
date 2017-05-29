@@ -15,11 +15,11 @@ namespace NadekoBot.Modules.CustomReactions
     public class CustomReactions : NadekoTopLevelModule
     {
         private readonly IBotCredentials _creds;
-        private readonly DbHandler _db;
+        private readonly DbService _db;
         private readonly CustomReactionsService _crs;
         private readonly DiscordShardedClient _client;
 
-        public CustomReactions(IBotCredentials creds, DbHandler db, CustomReactionsService crs,
+        public CustomReactions(IBotCredentials creds, DbService db, CustomReactionsService crs,
             DiscordShardedClient client)
         {
             _creds = creds;
@@ -239,7 +239,7 @@ namespace NadekoBot.Modules.CustomReactions
                     if ((toDelete.GuildId == null || toDelete.GuildId == 0) && Context.Guild == null)
                     {
                         uow.CustomReactions.Remove(toDelete);
-                        //todo i can dramatically improve performance of this, if Ids are ordered.
+                        //todo 91 i can dramatically improve performance of this, if Ids are ordered.
                         _crs.GlobalReactions = _crs.GlobalReactions.Where(cr => cr?.Id != toDelete.Id).ToArray();
                         success = true;
                     }

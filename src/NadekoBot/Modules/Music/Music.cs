@@ -14,19 +14,21 @@ using System.Collections.Generic;
 using NadekoBot.Services.Database.Models;
 using System.Threading;
 using NadekoBot.Services.Music;
+using NadekoBot.DataStructures;
 
 namespace NadekoBot.Modules.Music
 {
+    [NoPublicBot]
     public class Music : NadekoTopLevelModule 
     {
         private static MusicService _music;
         private readonly DiscordShardedClient _client;
         private readonly IBotCredentials _creds;
         private readonly IGoogleApiService _google;
-        private readonly DbHandler _db;
+        private readonly DbService _db;
 
         public Music(DiscordShardedClient client, IBotCredentials creds, IGoogleApiService google,
-            DbHandler db, MusicService music)
+            DbService db, MusicService music)
         {
             _client = client;
             _creds = creds;

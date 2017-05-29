@@ -23,14 +23,14 @@ namespace NadekoBot.Modules.Permissions
         public class BlacklistCommands : NadekoSubmodule
         {
             private readonly BlacklistService _bs;
-            private readonly DbHandler _db;
+            private readonly DbService _db;
             private readonly IBotCredentials _creds;
 
             private ConcurrentHashSet<ulong> BlacklistedUsers => _bs.BlacklistedUsers;
             private ConcurrentHashSet<ulong> BlacklistedGuilds => _bs.BlacklistedGuilds;
             private ConcurrentHashSet<ulong> BlacklistedChannels => _bs.BlacklistedChannels;
 
-            public BlacklistCommands(BlacklistService bs, DbHandler db, IBotCredentials creds)
+            public BlacklistCommands(BlacklistService bs, DbService db, IBotCredentials creds)
             {
                 _bs = bs;
                 _db = db;

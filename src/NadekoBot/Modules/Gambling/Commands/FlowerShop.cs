@@ -20,8 +20,8 @@ namespace NadekoBot.Modules.Gambling
         public class FlowerShop : NadekoSubmodule
         {
             private readonly BotConfig _bc;
-            private readonly DbHandler _db;
-            private readonly CurrencyHandler _ch;
+            private readonly DbService _db;
+            private readonly CurrencyService _cs;
             private readonly DiscordShardedClient _client;
 
             public enum Role
@@ -34,11 +34,11 @@ namespace NadekoBot.Modules.Gambling
                 List
             }
 
-            public FlowerShop(BotConfig bc, DbHandler db, CurrencyHandler ch, DiscordShardedClient client)
+            public FlowerShop(BotConfig bc, DbService db, CurrencyService cs, DiscordShardedClient client)
             {
                 _db = db;
                 _bc = bc;
-                _ch = ch;
+                _cs = cs;
                 _client = client;
             }
 
@@ -111,7 +111,7 @@ namespace NadekoBot.Modules.Gambling
                         return;
                     }
 
-                    if (await _ch.RemoveCurrencyAsync(Context.User.Id, $"Shop purchase - {entry.Type}", entry.Price))
+                    if (await _cs.RemoveAsync(Context.User.Id, $"Shop purchase - {entry.Type}", entry.Price))
                     {
                         try
                         {
@@ -120,11 +120,11 @@ namespace NadekoBot.Modules.Gambling
                         catch (Exception ex)
                         {
                             _log.Warn(ex);
-                            await _ch.AddCurrencyAsync(Context.User.Id, $"Shop error refund", entry.Price);
+                            await _cs.AddAsync(Context.User.Id, $"Shop error refund", entry.Price);
                             await ReplyErrorLocalized("shop_role_purchase_error").ConfigureAwait(false);
                             return;
                         }
-                        await _ch.AddCurrencyAsync(entry.AuthorId, $"Shop sell item - {entry.Type}", GetProfitAmount(entry.Price));
+                        await _cs.AddAsync(entry.AuthorId, $"Shop sell item - {entry.Type}", GetProfitAmount(entry.Price));
                         await ReplyConfirmLocalized("shop_role_purchase", Format.Bold(role.Name)).ConfigureAwait(false);
                         return;
                     }
@@ -144,7 +144,7 @@ namespace NadekoBot.Modules.Gambling
 
                     var item = entry.Items.ToArray()[new NadekoRandom().Next(0, entry.Items.Count)];
 
-                    if (await _ch.RemoveCurrencyAsync(Context.User.Id, $"Shop purchase - {entry.Type}", entry.Price))
+                    if (await _cs.RemoveAsync(Context.User.Id, $"Shop purchase - {entry.Type}", entry.Price))
                     {
                         int removed;
                         using (var uow = _db.UnitOfWork)
@@ -163,7 +163,7 @@ namespace NadekoBot.Modules.Gambling
                                 .AddField(efb => efb.WithName(GetText("name")).WithValue(entry.Name).WithIsInline(true)))
                                 .ConfigureAwait(false);
 
-                            await _ch.AddCurrencyAsync(entry.AuthorId,
+                            await _cs.AddAsync(entry.AuthorId,
                                     $"Shop sell item - {entry.Name}",
                                     GetProfitAmount(entry.Price)).ConfigureAwait(false);
                         }
@@ -174,7 +174,7 @@ namespace NadekoBot.Modules.Gambling
                                 uow._context.Set<ShopEntryItem>().Add(item);
                                 uow.Complete();
 
-                                await _ch.AddCurrencyAsync(Context.User.Id, 
+                                await _cs.AddAsync(Context.User.Id, 
                                     $"Shop error refund - {entry.Name}", 
                                     entry.Price, 
                                     uow).ConfigureAwait(false);

@@ -17,9 +17,9 @@ namespace NadekoBot.Modules.Utility
         [Group]
         public class QuoteCommands : NadekoSubmodule
         {
-            private readonly DbHandler _db;
+            private readonly DbService _db;
 
-            public QuoteCommands(DbHandler db)
+            public QuoteCommands(DbService db)
             {
                 _db = db;
             }

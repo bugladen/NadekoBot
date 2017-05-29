@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 
-namespace NadekoBot.Modules.Utility.Models
+namespace NadekoBot.Services.Utility.Patreon
 {
     public class PatreonData
     {

@@ -126,10 +126,6 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                 .Where(gc => gc.RootPermission != null)
                 .Include(gc => gc.RootPermission);
 
-            //todo this is possibly a disaster for performance
-            //What i could do instead is count the number of permissions in the permission table for this guild
-            // and make a for loop with those.
-            // or just select permissions for this guild and manually chain them
             for (int i = 0; i < 60; i++)
             {
                 query = query.ThenInclude(gc => gc.Next);

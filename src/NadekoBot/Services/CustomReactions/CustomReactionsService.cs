@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Services.CustomReactions
 {
-    public class CustomReactionsService : IBlockingExecutor
+    public class CustomReactionsService : IEarlyBlockingExecutor
     {
         public CustomReaction[] GlobalReactions = new CustomReaction[] { };
         public ConcurrentDictionary<ulong, CustomReaction[]> GuildReactions { get; } = new ConcurrentDictionary<ulong, CustomReaction[]>();
@@ -19,10 +19,10 @@ namespace NadekoBot.Services.CustomReactions
         public ConcurrentDictionary<string, uint> ReactionStats { get; } = new ConcurrentDictionary<string, uint>();
 
         private readonly Logger _log;
-        private readonly DbHandler _db;
+        private readonly DbService _db;
         private readonly DiscordShardedClient _client;
 
-        public CustomReactionsService(DbHandler db, DiscordShardedClient client)
+        public CustomReactionsService(DbService db, DiscordShardedClient client)
         {
             _log = LogManager.GetCurrentClassLogger();
             _db = db;
@@ -90,16 +90,15 @@ namespace NadekoBot.Services.CustomReactions
             return greaction;
         }
 
-        public async Task<bool> TryExecute(DiscordShardedClient client, IGuild guild, IUserMessage msg)
+        public async Task<bool> TryExecuteEarly(DiscordShardedClient client, IGuild guild, IUserMessage msg)
         {
-            //todo custom reactions
             // maybe this message is a custom reaction
-            // todo log custom reaction executions. return struct with info
             var cr = await Task.Run(() => TryGetCustomReaction(msg)).ConfigureAwait(false);
-            if (cr != null) //if it was, don't execute the command
+            if (cr != null)
             {
                 try
                 {
+                    //todo permissions
                     //if (guild != null)
                     //{
                     //    PermissionCache pc = Permissions.GetCache(guild.Id);
@@ -107,7 +106,6 @@ namespace NadekoBot.Services.CustomReactions
                     //    if (!pc.Permissions.CheckPermissions(usrMsg, cr.Trigger, "ActualCustomReactions",
                     //        out int index))
                     //    {
-                    //        //todo print in guild actually
                     //        var returnMsg =
                     //            $"Permission number #{index + 1} **{pc.Permissions[index].GetCommand(guild)}** is preventing this action.";
                     //        _log.Info(returnMsg);

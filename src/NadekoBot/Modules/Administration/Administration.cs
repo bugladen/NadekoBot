@@ -15,10 +15,10 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration : NadekoTopLevelModule
     {
         private IGuild _nadekoSupportServer;
-        private readonly DbHandler _db;
+        private readonly DbService _db;
         private readonly AdministrationService _admin;
 
-        public Administration(DbHandler db, AdministrationService admin)
+        public Administration(DbService db, AdministrationService admin)
         {
             _db = db;
             _admin = admin;

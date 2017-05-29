@@ -16,9 +16,9 @@ namespace NadekoBot.Modules.Permissions
         public class GlobalPermissionCommands : NadekoSubmodule
         {
             private GlobalPermissionService _service;
-            private readonly DbHandler _db;
+            private readonly DbService _db;
 
-            public GlobalPermissionCommands(GlobalPermissionService service, DbHandler db)
+            public GlobalPermissionCommands(GlobalPermissionService service, DbService db)
             {
                 _service = service;
                 _db = db;

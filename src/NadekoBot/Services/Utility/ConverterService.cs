@@ -17,9 +17,9 @@ namespace NadekoBot.Services.Utility
         private readonly Logger _log;
         private Timer _timer;
         private readonly TimeSpan _updateInterval = new TimeSpan(12, 0, 0);
-        private readonly DbHandler _db;
+        private readonly DbService _db;
 
-        public ConverterService(DbHandler db)
+        public ConverterService(DbService db)
         {
             _log = LogManager.GetCurrentClassLogger();
             _db = db;

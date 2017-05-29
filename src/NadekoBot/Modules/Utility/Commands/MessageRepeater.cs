@@ -22,9 +22,9 @@ namespace NadekoBot.Modules.Utility
         {
             private readonly MessageRepeaterService _service;
             private readonly DiscordShardedClient _client;
-            private readonly DbHandler _db;
+            private readonly DbService _db;
 
-            public RepeatCommands(MessageRepeaterService service, DiscordShardedClient client, DbHandler db)
+            public RepeatCommands(MessageRepeaterService service, DiscordShardedClient client, DbService db)
             {
                 _service = service;
                 _client = client;
