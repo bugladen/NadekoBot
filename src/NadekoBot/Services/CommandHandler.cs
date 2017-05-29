@@ -88,27 +88,6 @@ namespace NadekoBot.Services
         public Task StartHandling()
         {
             _client.MessageReceived += MessageReceivedHandler;
-            _client.MessageUpdated += (oldmsg, newMsg, channel) =>
-            {
-                var ignore = Task.Run(() =>
-                {
-                    try
-                    {
-                        var usrMsg = newMsg as SocketUserMessage;
-                        var guild = (usrMsg?.Channel as ITextChannel)?.Guild;
-                        ////todo invite filtering
-                        //if (guild != null && !await InviteFiltered(guild, usrMsg).ConfigureAwait(false))
-                        //    await WordFiltered(guild, usrMsg).ConfigureAwait(false);
-
-                    }
-                    catch (Exception ex)
-                    {
-                        _log.Warn(ex);
-                    }
-                    return Task.CompletedTask;
-                });
-                return Task.CompletedTask;
-            };
             return Task.CompletedTask;
         }
 
@@ -182,18 +161,20 @@ namespace NadekoBot.Services
         {
             var execTime = Environment.TickCount;
 
+            //its nice to have early blockers and early blocking executors separate, but
+            //i could also have one interface with priorities, and just put early blockers on
+            //highest priority. :thinking:
             foreach (var svc in _services)
             {
                 if (svc is IEarlyBlocker blocker &&
-                    await blocker.TryBlockEarly(_client, guild, usrMsg).ConfigureAwait(false))
+                    await blocker.TryBlockEarly(guild, usrMsg).ConfigureAwait(false))
                 {
                     _log.Info("Blocked User: [{0}] Message: [{1}] Service: [{2}]", usrMsg.Author, usrMsg.Content, svc.GetType().Name);
                     return;
                 }
             }
 
-            var exec2 = Environment.TickCount - execTime;
-            
+            var exec2 = Environment.TickCount - execTime;            
 
             foreach (var svc in _services)
             {
@@ -208,44 +189,21 @@ namespace NadekoBot.Services
             var exec3 = Environment.TickCount - execTime;
 
             string messageContent = usrMsg.Content;
-            ////todo alias mapping
-            //        if (guild != null)
-            //        {
-            //            if (Modules.Utility.Utility.CommandMapCommands.AliasMaps.TryGetValue(guild.Id, out ConcurrentDictionary<string, string> maps))
-            //            {
-
-            //                var keys = maps.Keys
-            //                    .OrderByDescending(x => x.Length);
-
-            //                var lowerMessageContent = messageContent.ToLowerInvariant();
-            //                foreach (var k in keys)
-            //                {
-            //                    string newMessageContent;
-            //                    if (lowerMessageContent.StartsWith(k + " "))
-            //                        newMessageContent = maps[k] + messageContent.Substring(k.Length, messageContent.Length - k.Length);
-            //                    else if (lowerMessageContent == k)
-            //                        newMessageContent = maps[k];
-            //                    else
-            //                        continue;
-
-            //                    _log.Info(@"--Mapping Command--
-            //GuildId: {0}
-            //Trigger: {1}
-            //Mapping: {2}", guild.Id, messageContent, newMessageContent);
-            //                    var oldMessageContent = messageContent;
-            //                    messageContent = newMessageContent;
-
-            //                    try { await usrMsg.Channel.SendConfirmAsync($"{oldMessageContent} => {newMessageContent}").ConfigureAwait(false); } catch { }
-            //                    break;
-            //                }
-            //            }
-            //        }
-
+            foreach (var svc in _services)
+            {
+                string newContent;
+                if (svc is IInputTransformer exec && 
+                    (newContent = await exec.TransformInput(guild, usrMsg.Channel, usrMsg.Author, messageContent).ConfigureAwait(false)) != messageContent.ToLowerInvariant())
+                {
+                    messageContent = newContent;
+                    break;
+                }
+            }
 
             // execute the command and measure the time it took
             if (messageContent.StartsWith(NadekoBot.Prefix))
             {
-                var exec = await Task.Run(() => ExecuteCommandAsync(new CommandContext(_client, usrMsg), NadekoBot.Prefix.Length, _services, MultiMatchHandling.Best)).ConfigureAwait(false);
+                var exec = await Task.Run(() => ExecuteCommandAsync(new CommandContext(_client, usrMsg), messageContent, NadekoBot.Prefix.Length, _services, MultiMatchHandling.Best)).ConfigureAwait(false);
                 execTime = Environment.TickCount - execTime;
 
                 ////todo commandHandler
@@ -281,8 +239,8 @@ namespace NadekoBot.Services
 
         }
 
-        public Task<bool> ExecuteCommandAsync(CommandContext context, int argPos, IServiceProvider serviceProvider, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
-            => ExecuteCommand(context, context.Message.Content.Substring(argPos), serviceProvider, multiMatchHandling);
+        public Task<bool> ExecuteCommandAsync(CommandContext context, string input, int argPos, IServiceProvider serviceProvider, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
+            => ExecuteCommand(context, input.Substring(argPos), serviceProvider, multiMatchHandling);
 
 
         public async Task<bool> ExecuteCommand(CommandContext context, string input, IServiceProvider serviceProvider, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
@@ -333,25 +291,6 @@ namespace NadekoBot.Services
                 var module = cmd.Module.GetTopLevelModule();
                 if (context.Guild != null)
                 {
-
-                    ////todo perms
-                    //PermissionCache pc = Permissions.GetCache(context.Guild.Id);
-                    //if (!resetCommand && !pc.Permissions.CheckPermissions(context.Message, cmd.Aliases.First(), module.Name, out int index))
-                    //{
-                    //    var returnMsg = $"Permission number #{index + 1} **{pc.Permissions[index].GetCommand((SocketGuild)context.Guild)}** is preventing this action.";
-                    //    return new ExecuteCommandResult(cmd, pc, SearchResult.FromError(CommandError.Exception, returnMsg));
-                    //}
-
-
-                    //if (module.Name == typeof(Permissions).Name)
-                    //{
-                    //    var guildUser = (IGuildUser)context.User;
-                    //    if (!guildUser.GetRoles().Any(r => r.Name.Trim().ToLowerInvariant() == pc.PermRole.Trim().ToLowerInvariant()) && guildUser.Id != guildUser.Guild.OwnerId)
-                    //    {
-                    //        return new ExecuteCommandResult(cmd, pc, SearchResult.FromError(CommandError.Exception, $"You need the **{pc.PermRole}** role in order to use permission commands."));
-                    //    }
-                    //}
-
                     //////future
                     ////int price;
                     ////if (Permissions.CommandCostCommands.CommandCosts.TryGetValue(cmd.Aliases.First().Trim().ToLowerInvariant(), out price) && price > 0)
@@ -363,14 +302,6 @@ namespace NadekoBot.Services
                     ////    }
                     ////}
                 }
-
-                ////todo perms
-                //if (cmd.Name != "resetglobalperms" && 
-                //    (GlobalPermissionCommands.BlockedCommands.Contains(cmd.Aliases.First().ToLowerInvariant()) ||
-                //    GlobalPermissionCommands.BlockedModules.Contains(module.Name.ToLowerInvariant())))
-                //{
-                //    return new ExecuteCommandResult(cmd, null, SearchResult.FromError(CommandError.Exception, $"Command or module is blocked globally by the bot owner."));
-                //}
 
                 // Bot will ignore commands which are ran more often than what specified by
                 // GlobalCommandsCooldown constant (miliseconds)

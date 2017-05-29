@@ -41,7 +41,7 @@ namespace NadekoBot.Services.Permissions
             return words;
         }
 
-        public FilterService(IEnumerable<GuildConfig> gcs)
+        public FilterService(DiscordShardedClient _client, IEnumerable<GuildConfig> gcs)
         {
             _log = LogManager.GetCurrentClassLogger();
 
@@ -56,14 +56,21 @@ namespace NadekoBot.Services.Permissions
             WordFilteringServers = new ConcurrentHashSet<ulong>(serverFiltering.Select(gc => gc.GuildId));
 
             WordFilteringChannels = new ConcurrentHashSet<ulong>(gcs.SelectMany(gc => gc.FilterWordsChannelIds.Select(fwci => fwci.ChannelId)));
-        }
-        //todo ignore guild admin
-        public async Task<bool> TryBlockEarly(DiscordShardedClient client, IGuild guild, IUserMessage msg)
-            => await FilterInvites(client, guild, msg) || await FilterWords(client, guild, msg);
 
-        public async Task<bool> FilterWords(DiscordShardedClient client, IGuild guild, IUserMessage usrMsg)
+            _client.MessageUpdated += (oldData, newMsg, channel) 
+                => FilterInvites((channel as ITextChannel)?.Guild, newMsg as IUserMessage);
+        }
+
+        public async Task<bool> TryBlockEarly(IGuild guild, IUserMessage msg)
+            =>  !(msg.Author is IGuildUser gu) //it's never filtered outside of guilds, and never block administrators
+                ? false
+                : gu.GuildPermissions.Administrator && (await FilterInvites(guild, msg) || await FilterWords(guild, msg));
+
+        public async Task<bool> FilterWords(IGuild guild, IUserMessage usrMsg)
         {
             if (guild is null)
+                return false;
+            if (usrMsg is null)
                 return false;
 
             var filteredChannelWords = FilteredWordsForChannel(usrMsg.Channel.Id, guild.Id) ?? new ConcurrentHashSet<string>();
@@ -91,9 +98,11 @@ namespace NadekoBot.Services.Permissions
             return false;
         }
 
-        public async Task<bool> FilterInvites(DiscordShardedClient client, IGuild guild, IUserMessage usrMsg)
+        public async Task<bool> FilterInvites(IGuild guild, IUserMessage usrMsg)
         {
             if (guild is null)
+                return false;
+            if (usrMsg is null)
                 return false;
 
             if ((InviteFilteringChannels.Contains(usrMsg.Channel.Id) ||

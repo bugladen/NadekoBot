@@ -95,7 +95,7 @@ namespace NadekoBot.Services.Games
                 //    "Games".ToLowerInvariant(),
                 //    out int index))
                 //{
-                //    //todo print in guild actually
+                //    //todo 46 print in guild actually
                 //    var returnMsg =
                 //        $"Permission number #{index + 1} **{pc.Permissions[index].GetCommand(guild)}** is preventing this action.";
                 //    _log.Info(returnMsg);

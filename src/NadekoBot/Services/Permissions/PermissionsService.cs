@@ -169,26 +169,27 @@ namespace NadekoBot.Services.Permissions
 
                 return false;
             }
-
-            var resetCommand = commandName == "resetperms";
-
-            //todo perms
-            PermissionCache pc = GetCache(guild.Id);
-            if (!resetCommand && !pc.Permissions.CheckPermissions(msg, commandName, moduleName, out int index))
+            else
             {
-                var returnMsg = $"Permission number #{index + 1} **{pc.Permissions[index].GetCommand((SocketGuild)guild)}** is preventing this action.";
-                return true;
-                //return new ExecuteCommandResult(cmd, pc, SearchResult.FromError(CommandError.Exception, returnMsg));
-            }
+                var resetCommand = commandName == "resetperms";
 
-
-            if (moduleName == "Permissions")
-            {
-                var roles = (user as SocketGuildUser)?.Roles ?? ((IGuildUser)user).RoleIds.Select(x => guild.GetRole(x)).Where(x => x != null);
-                if (!roles.Any(r => r.Name.Trim().ToLowerInvariant() == pc.PermRole.Trim().ToLowerInvariant()) && user.Id != ((IGuildUser)user).Guild.OwnerId)
+                PermissionCache pc = GetCache(guild.Id);
+                if (!resetCommand && !pc.Permissions.CheckPermissions(msg, commandName, moduleName, out int index))
                 {
+                    var returnMsg = $"Permission number #{index + 1} **{pc.Permissions[index].GetCommand((SocketGuild)guild)}** is preventing this action.";
                     return true;
-                    //return new ExecuteCommandResult(cmd, pc, SearchResult.FromError(CommandError.Exception, $"You need the **{pc.PermRole}** role in order to use permission commands."));
+                    //return new ExecuteCommandResult(cmd, pc, SearchResult.FromError(CommandError.Exception, returnMsg));
+                }
+
+
+                if (moduleName == "Permissions")
+                {
+                    var roles = (user as SocketGuildUser)?.Roles ?? ((IGuildUser)user).RoleIds.Select(x => guild.GetRole(x)).Where(x => x != null);
+                    if (!roles.Any(r => r.Name.Trim().ToLowerInvariant() == pc.PermRole.Trim().ToLowerInvariant()) && user.Id != ((IGuildUser)user).Guild.OwnerId)
+                    {
+                        return true;
+                        //return new ExecuteCommandResult(cmd, pc, SearchResult.FromError(CommandError.Exception, $"You need the **{pc.PermRole}** role in order to use permission commands."));
+                    }
                 }
             }
 

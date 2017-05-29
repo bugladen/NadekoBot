@@ -9,6 +9,6 @@ namespace NadekoBot.DataStructures.ModuleBehaviors
     /// </summary>
     public interface IEarlyBlocker
     {
-        Task<bool> TryBlockEarly(DiscordShardedClient client, IGuild guild, IUserMessage msg);
+        Task<bool> TryBlockEarly(IGuild guild, IUserMessage msg);
     }
 }

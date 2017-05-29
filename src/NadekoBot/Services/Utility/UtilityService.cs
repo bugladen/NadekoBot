@@ -9,21 +9,14 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Services.Utility
 {
-    public class UtilityService
+    public class CrossServerTextService
     {
-        public ConcurrentDictionary<ulong, ConcurrentDictionary<string, string>> AliasMaps { get; } = new ConcurrentDictionary<ulong, ConcurrentDictionary<string, string>>();
+        public readonly ConcurrentDictionary<int, ConcurrentHashSet<ITextChannel>> Subscribers =
+            new ConcurrentDictionary<int, ConcurrentHashSet<ITextChannel>>();
+        private DiscordShardedClient _client;
 
-        public UtilityService(IEnumerable<GuildConfig> guildConfigs, DiscordShardedClient client)
+        public CrossServerTextService(IEnumerable<GuildConfig> guildConfigs, DiscordShardedClient client)
         {
-            //commandmap
-            AliasMaps = new ConcurrentDictionary<ulong, ConcurrentDictionary<string, string>>(
-                    guildConfigs.ToDictionary(
-                        x => x.GuildId,
-                        x => new ConcurrentDictionary<string, string>(x.CommandAliases
-                            .Distinct(new CommandAliasEqualityComparer())
-                            .ToDictionary(ca => ca.Trigger, ca => ca.Mapping))));
-
-            //cross server
             _client = client;
             _client.MessageReceived += Client_MessageReceived;
         }
@@ -68,16 +61,5 @@ namespace NadekoBot.Services.Utility
 
         private string GetMessage(ITextChannel channel, IGuildUser user, IUserMessage message) =>
             $"**{channel.Guild.Name} | {channel.Name}** `{user.Username}`: " + message.Content.SanitizeMentions();
-
-        public readonly ConcurrentDictionary<int, ConcurrentHashSet<ITextChannel>> Subscribers =
-            new ConcurrentDictionary<int, ConcurrentHashSet<ITextChannel>>();
-        private DiscordShardedClient _client;
-    }
-
-    public class CommandAliasEqualityComparer : IEqualityComparer<CommandAlias>
-    {
-        public bool Equals(CommandAlias x, CommandAlias y) => x.Trigger == y.Trigger;
-
-        public int GetHashCode(CommandAlias obj) => obj.Trigger.GetHashCode();
     }
 }
