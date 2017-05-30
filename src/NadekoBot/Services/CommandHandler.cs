@@ -14,6 +14,7 @@ using System.Collections.Immutable;
 using NadekoBot.DataStructures.ModuleBehaviors;
 using NadekoBot.Services.Database.Models;
 using NadekoBot.Services;
+using System.IO;
 
 namespace NadekoBot.Services
 {
@@ -356,8 +357,11 @@ namespace NadekoBot.Services
                 }
 
                 var execResult = await commands[i].ExecuteAsync(context, parseResult, serviceProvider);
-                if (execResult.Exception != null) //todo temp, to not be blind
+                if (execResult.Exception != null)
+                {
+                    File.AppendAllText($"./Command Errors {DateTime.Now:yyyy-MM-dd}.txt", execResult.Exception.ToString() + "\n\n\n\n");
                     _log.Warn(execResult.Exception);
+                }
                 return (true, null);
             }
 
