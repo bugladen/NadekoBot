@@ -26,14 +26,12 @@ namespace NadekoBot.Modules.Utility
         private static ConcurrentDictionary<ulong, Timer> _rotatingRoleColors = new ConcurrentDictionary<ulong, Timer>();
         private readonly DiscordShardedClient _client;
         private readonly IStatsService _stats;
-        //private readonly MusicService _music;
         private readonly IBotCredentials _creds;
 
         public Utility(DiscordShardedClient client, IStatsService stats, IBotCredentials creds)
         {
             _client = client;
             _stats = stats;
-            //_music = music;
             _creds = creds;
         }
 

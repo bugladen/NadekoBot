@@ -135,7 +135,7 @@ namespace NadekoBot
             var vcRoleService = new VcRoleService(Client, AllGuildConfigs, Db);
             var vPlusTService = new VplusTService(Client, AllGuildConfigs, strings, Db);
             var muteService = new MuteService(Client, AllGuildConfigs, Db);
-            var ratelimitService = new SlowmodeService(AllGuildConfigs);
+            var ratelimitService = new SlowmodeService(Client, AllGuildConfigs);
             var protectionService = new ProtectionService(Client, AllGuildConfigs, muteService);
             var playingRotateService = new PlayingRotateService(Client, BotConfig, musicService);
             var gameVcService = new GameVoiceChannelService(Client, Db, AllGuildConfigs);

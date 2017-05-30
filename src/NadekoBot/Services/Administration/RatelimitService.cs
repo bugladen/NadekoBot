@@ -19,10 +19,12 @@ namespace NadekoBot.Services.Administration
         public ConcurrentDictionary<ulong, HashSet<ulong>> IgnoredUsers = new ConcurrentDictionary<ulong, HashSet<ulong>>();
 
         private readonly Logger _log;
+        private readonly DiscordShardedClient _client;
 
-        public SlowmodeService(IEnumerable<GuildConfig> gcs)
+        public SlowmodeService(DiscordShardedClient client, IEnumerable<GuildConfig> gcs)
         {
             _log = LogManager.GetCurrentClassLogger();
+            _client = client;
 
             IgnoredRoles = new ConcurrentDictionary<ulong, HashSet<ulong>>(
                 gcs.ToDictionary(x => x.GuildId,
@@ -33,7 +35,7 @@ namespace NadekoBot.Services.Administration
                                  x => new HashSet<ulong>(x.SlowmodeIgnoredUsers.Select(y => y.UserId))));
         }
 
-        public async Task<bool> TryBlockEarly(DiscordShardedClient client, IGuild guild, IUserMessage usrMsg)
+        public async Task<bool> TryBlockEarly(IGuild guild, IUserMessage usrMsg)
         {
             if (guild == null)
                 return false;
@@ -41,7 +43,7 @@ namespace NadekoBot.Services.Administration
             {
                 var channel = usrMsg?.Channel as SocketTextChannel;
 
-                if (channel == null || usrMsg == null || usrMsg.IsAuthor(client))
+                if (channel == null || usrMsg == null || usrMsg.IsAuthor(_client))
                     return false;
                 if (!RatelimitingChannels.TryGetValue(channel.Id, out Ratelimiter limiter))
                     return false;
