@@ -65,7 +65,7 @@ namespace NadekoBot.Modules.Utility
                     return;
                 }
                 var rem = (_patreon.Interval - (DateTime.UtcNow - _patreon.LastUpdate));
-                var helpcmd = Format.Code(NadekoBot.Prefix + "donate");
+                var helpcmd = Format.Code(Prefix + "donate");
                 await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                     .WithDescription(GetText("clpa_fail"))
                     .AddField(efb => efb.WithName(GetText("clpa_fail_already_title")).WithValue(GetText("clpa_fail_already")))

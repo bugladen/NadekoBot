@@ -2,6 +2,7 @@
 using Discord.Commands;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
+using NadekoBot.Services.Administration;
 using NLog;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -12,19 +13,21 @@ namespace NadekoBot.Modules
     {
         protected readonly Logger _log;
         protected CultureInfo _cultureInfo;
-        public readonly string Prefix;
+        
         public readonly string ModuleTypeName;
         public readonly string LowerModuleTypeName;
         
         public NadekoStrings _strings { get; set; }
+        public CommandHandler _cmdHandler { get; set; }
         public ILocalization _localization { get; set; }
+
+        public string Prefix => _cmdHandler.GetPrefix(Context.Guild);
 
         protected NadekoTopLevelModule(bool isTopLevelModule = true)
         {
             //if it's top level module
             ModuleTypeName = isTopLevelModule ? this.GetType().Name : this.GetType().DeclaringType.Name;
             LowerModuleTypeName = ModuleTypeName.ToLowerInvariant();
-            Prefix = NadekoBot.Prefix;
             _log = LogManager.GetCurrentClassLogger();
         }
 

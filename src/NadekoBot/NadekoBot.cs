@@ -41,9 +41,6 @@ namespace NadekoBot
         public static Color OkColor { get; private set; }
         public static Color ErrorColor { get; private set; }
 
-        //todo placeholder, will be guild-based
-        public static string Prefix { get; } = ".";
-
         public ImmutableArray<GuildConfig> AllGuildConfigs { get; }
         public BotConfig BotConfig { get; }
         public DbService Db { get; }
@@ -97,7 +94,7 @@ namespace NadekoBot
             var soundcloudApiService = new SoundCloudApiService(Credentials);
             var localization = new Localization(BotConfig.Locale, AllGuildConfigs.ToDictionary(x => x.GuildId, x => x.Locale), Db);
             var strings = new NadekoStrings(localization);
-            var commandHandler = new CommandHandler(Client, CommandService, Credentials, this);
+            var commandHandler = new CommandHandler(Client, Db, BotConfig, AllGuildConfigs, CommandService, Credentials, this);
             var stats = new StatsService(Client, commandHandler, Credentials);
             var images = new ImagesService();
             var currencyHandler = new CurrencyService(BotConfig, Db);
@@ -112,6 +109,14 @@ namespace NadekoBot
             var commandMapService = new CommandMapService(AllGuildConfigs);
             #endregion
 
+            #region permissions
+            var permissionsService = new PermissionService(Db, BotConfig);
+            var blacklistService = new BlacklistService(BotConfig);
+            var cmdcdsService = new CmdCdService(AllGuildConfigs);
+            var filterService = new FilterService(Client, AllGuildConfigs);
+            var globalPermsService = new GlobalPermissionService(BotConfig);
+            #endregion
+
             #region Searches
             var searchesService = new SearchesService(Client, googleApiService, Db);
             var streamNotificationService = new StreamNotificationService(Db, Client, strings);
@@ -119,12 +124,12 @@ namespace NadekoBot
 
             var clashService = new ClashOfClansService(Client, Db, localization, strings);
             var musicService = new MusicService(googleApiService, strings, localization, Db, soundcloudApiService, Credentials, AllGuildConfigs);
-            var crService = new CustomReactionsService(Db, Client);
+            var crService = new CustomReactionsService(permissionsService, Db, Client);
             var helpService = new HelpService(BotConfig);
 
             #region Games
-            var gamesService = new GamesService(Client, BotConfig, AllGuildConfigs, strings, images);
-            var chatterBotService = new ChatterBotService(Client, AllGuildConfigs);
+            var gamesService = new GamesService(Client, BotConfig, AllGuildConfigs, strings, images, commandHandler);
+            var chatterBotService = new ChatterBotService(Client, permissionsService, AllGuildConfigs);
             var pollService = new PollService(Client, strings);
             #endregion
 
@@ -140,12 +145,8 @@ namespace NadekoBot
             var playingRotateService = new PlayingRotateService(Client, BotConfig, musicService);
             var gameVcService = new GameVoiceChannelService(Client, Db, AllGuildConfigs);
             var autoAssignRoleService = new AutoAssignRoleService(Client, AllGuildConfigs);
-            var permissionsService = new PermissionsService(Db, BotConfig);
-            var blacklistService = new BlacklistService(BotConfig);
-            var cmdcdsService = new CmdCdService(AllGuildConfigs);
-            var filterService = new FilterService(Client, AllGuildConfigs);
-            var globalPermsService = new GlobalPermissionService(BotConfig);
             #endregion
+
 
             //initialize Services
             Services = new NServiceProvider.ServiceProviderBuilder()
@@ -188,7 +189,7 @@ namespace NadekoBot
                     .Add(gameVcService)
                     .Add(autoAssignRoleService)
                     .Add(protectionService)
-                .Add<PermissionsService>(permissionsService)
+                .Add<PermissionService>(permissionsService)
                     .Add(blacklistService)
                     .Add(cmdcdsService)
                     .Add(filterService)
@@ -199,8 +200,8 @@ namespace NadekoBot
 
             //setup typereaders
             CommandService.AddTypeReader<PermissionAction>(new PermissionActionTypeReader());
-            CommandService.AddTypeReader<CommandInfo>(new CommandTypeReader(CommandService));
-            CommandService.AddTypeReader<CommandOrCrInfo>(new CommandOrCrTypeReader(crService, CommandService));
+            CommandService.AddTypeReader<CommandInfo>(new CommandTypeReader(CommandService, commandHandler));
+            CommandService.AddTypeReader<CommandOrCrInfo>(new CommandOrCrTypeReader(crService, CommandService, commandHandler));
             CommandService.AddTypeReader<ModuleInfo>(new ModuleTypeReader(CommandService));
             CommandService.AddTypeReader<ModuleOrCrInfo>(new ModuleOrCrTypeReader(CommandService));
             CommandService.AddTypeReader<IGuild>(new GuildTypeReader(Client));

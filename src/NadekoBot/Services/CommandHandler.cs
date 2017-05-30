@@ -12,6 +12,8 @@ using System.Threading;
 using NadekoBot.DataStructures;
 using System.Collections.Immutable;
 using NadekoBot.DataStructures.ModuleBehaviors;
+using NadekoBot.Services.Database.Models;
+using NadekoBot.Services;
 
 namespace NadekoBot.Services
 {
@@ -31,6 +33,8 @@ namespace NadekoBot.Services
         private readonly IBotCredentials _creds;
         private readonly NadekoBot _bot;
         private INServiceProvider _services;
+        public string DefaultPrefix { get; private set; }
+        private ConcurrentDictionary<ulong, string> _prefixes { get; } = new ConcurrentDictionary<ulong, string>();
 
         private ImmutableArray<AsyncLazy<IDMChannel>> ownerChannels { get; set; } = new ImmutableArray<AsyncLazy<IDMChannel>>();
 
@@ -42,12 +46,13 @@ namespace NadekoBot.Services
         public ConcurrentHashSet<ulong> UsersOnShortCooldown { get; } = new ConcurrentHashSet<ulong>();
         private readonly Timer _clearUsersOnShortCooldown;
 
-        public CommandHandler(DiscordShardedClient client, CommandService commandService, IBotCredentials credentials, NadekoBot bot)
+        public CommandHandler(DiscordShardedClient client, DbService db, BotConfig bc, IEnumerable<GuildConfig> gcs, CommandService commandService, IBotCredentials credentials, NadekoBot bot)
         {
             _client = client;
             _commandService = commandService;
             _creds = credentials;
             _bot = bot;
+            _db = db;
 
             _log = LogManager.GetCurrentClassLogger();
 
@@ -55,7 +60,59 @@ namespace NadekoBot.Services
             {
                 UsersOnShortCooldown.Clear();
             }, null, GlobalCommandsCooldown, GlobalCommandsCooldown);
+
+            DefaultPrefix = bc.DefaultPrefix;
+            _prefixes = gcs
+                .Where(x => x.Prefix != null)
+                .ToDictionary(x => x.GuildId, x => x.Prefix)
+                .ToConcurrent();
         }
+
+        public string GetPrefix(IGuild guild) => GetPrefix(guild?.Id);
+
+        public string GetPrefix(ulong? id)
+        {
+            if (id == null || !_prefixes.TryGetValue(id.Value, out var prefix))
+                return DefaultPrefix;
+
+            return prefix;
+        }
+
+        public string SetDefaultPrefix(string prefix)
+        {
+            if (string.IsNullOrWhiteSpace(prefix))
+                throw new ArgumentNullException(nameof(prefix));
+
+            prefix = prefix.ToLowerInvariant();
+
+            using (var uow = _db.UnitOfWork)
+            {
+                uow.BotConfig.GetOrCreate(set => set).DefaultPrefix = prefix;
+                uow.Complete();
+            }
+
+            return DefaultPrefix = prefix;
+        }
+        public string SetPrefix(IGuild guild, string prefix)
+        {
+            if (string.IsNullOrWhiteSpace(prefix))
+                throw new ArgumentNullException(nameof(prefix));
+            if (guild == null)
+                throw new ArgumentNullException(nameof(guild));
+
+            prefix = prefix.ToLowerInvariant();
+
+            using (var uow = _db.UnitOfWork)
+            {
+                var gc = uow.GuildConfigs.For(guild.Id, set => set);
+                gc.Prefix = prefix;
+                uow.Complete();
+            }
+            _prefixes.AddOrUpdate(guild.Id, prefix, (key, old) => prefix);
+
+            return prefix;
+        }
+
 
         public void AddServices(INServiceProvider services)
         {
@@ -87,13 +144,14 @@ namespace NadekoBot.Services
 
         public Task StartHandling()
         {
-            _client.MessageReceived += MessageReceivedHandler;
+            _client.MessageReceived += (msg) => { var _ = Task.Run(() => MessageReceivedHandler(msg)); return Task.CompletedTask; };
             return Task.CompletedTask;
         }
 
         private const float _oneThousandth = 1.0f / 1000;
+        private readonly DbService _db;
 
-        private Task LogSuccessfulExecution(IUserMessage usrMsg, bool exec, ITextChannel channel, params int[] execPoints)
+        private Task LogSuccessfulExecution(IUserMessage usrMsg, ITextChannel channel, params int[] execPoints)
         {
             _log.Info("Command Executed after " + string.Join("/", execPoints.Select(x => x * _oneThousandth)) + "s\n\t" +
                         "User: {0}\n\t" +
@@ -108,7 +166,7 @@ namespace NadekoBot.Services
             return Task.CompletedTask;
         }
 
-        private void LogErroredExecution(IUserMessage usrMsg, bool exec, ITextChannel channel, params int[] execPoints)
+        private void LogErroredExecution(string errorMessage, IUserMessage usrMsg, ITextChannel channel, params int[] execPoints)
         {
             _log.Warn("Command Errored after " + string.Join("/", execPoints.Select(x => x * _oneThousandth)) + "s\n\t" +
                         "User: {0}\n\t" +
@@ -120,7 +178,7 @@ namespace NadekoBot.Services
                         (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]"), // {1}
                         (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), // {2}
                         usrMsg.Content,// {3}
-                        exec
+                        errorMessage
                         //exec.Result.ErrorReason // {4}
                         );
         }
@@ -199,33 +257,25 @@ namespace NadekoBot.Services
                     break;
                 }
             }
-
+            var prefix = GetPrefix(guild.Id);
             // execute the command and measure the time it took
-            if (messageContent.StartsWith(NadekoBot.Prefix))
+            if (messageContent.StartsWith(prefix))
             {
-                var exec = await Task.Run(() => ExecuteCommandAsync(new CommandContext(_client, usrMsg), messageContent, NadekoBot.Prefix.Length, _services, MultiMatchHandling.Best)).ConfigureAwait(false);
+                var result = await ExecuteCommandAsync(new CommandContext(_client, usrMsg), messageContent, prefix.Length, _services, MultiMatchHandling.Best);
                 execTime = Environment.TickCount - execTime;
-
-                ////todo commandHandler
-                if (exec)
+                
+                if (result.Success)
                 {
-                //    await CommandExecuted(usrMsg, exec.CommandInfo).ConfigureAwait(false);
-                    await LogSuccessfulExecution(usrMsg, exec, channel as ITextChannel, exec2, exec3, execTime).ConfigureAwait(false);
+                    //    await CommandExecuted(usrMsg, exec.CommandInfo).ConfigureAwait(false);
+                    await LogSuccessfulExecution(usrMsg, channel as ITextChannel, exec2, exec3, execTime).ConfigureAwait(false);
                     return;
                 }
-                //else if (!exec.Result.IsSuccess && exec.Result.Error != CommandError.UnknownCommand)
-                //{
-                //    LogErroredExecution(usrMsg, exec, channel, exec2, exec3, execTime);
-                //    if (guild != null && exec.CommandInfo != null && exec.Result.Error == CommandError.Exception)
-                //    {
-                //        if (exec.PermissionCache != null && exec.PermissionCache.Verbose)
-                //            try { await usrMsg.Channel.SendMessageAsync("⚠️ " + exec.Result.ErrorReason).ConfigureAwait(false); } catch { }
-                //    }
-                //    return;
-                //}
-
-                if (exec)
-                    return;
+                else if (result.Error != null)
+                {
+                    //todo 80 should have log levels and it should return some kind of result, 
+                    // instead of tuple with the type of thing that went wrong, like before
+                    LogErroredExecution(result.Error, usrMsg,  channel as ITextChannel, exec2, exec3, execTime);
+                }
 
             }
 
@@ -239,15 +289,15 @@ namespace NadekoBot.Services
 
         }
 
-        public Task<bool> ExecuteCommandAsync(CommandContext context, string input, int argPos, IServiceProvider serviceProvider, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
+        public Task<(bool Success, string Error)> ExecuteCommandAsync(CommandContext context, string input, int argPos, IServiceProvider serviceProvider, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
             => ExecuteCommand(context, input.Substring(argPos), serviceProvider, multiMatchHandling);
 
 
-        public async Task<bool> ExecuteCommand(CommandContext context, string input, IServiceProvider serviceProvider, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
+        public async Task<(bool Success, string Error)> ExecuteCommand(CommandContext context, string input, IServiceProvider serviceProvider, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
         {
             var searchResult = _commandService.Search(context, input);
             if (!searchResult.IsSuccess)
-                return false;
+                return (false, null);
 
             var commands = searchResult.Commands;
             for (int i = commands.Count - 1; i >= 0; i--)
@@ -256,7 +306,7 @@ namespace NadekoBot.Services
                 if (!preconditionResult.IsSuccess)
                 {
                     if (commands.Count == 1)
-                        return false;
+                        return (false, null);
                     else
                         continue;
                 }
@@ -280,33 +330,18 @@ namespace NadekoBot.Services
                     if (!parseResult.IsSuccess)
                     {
                         if (commands.Count == 1)
-                            return false;
+                            return (false, null);
                         else
                             continue;
                     }
                 }
 
                 var cmd = commands[i].Command;
-                var resetCommand = cmd.Name == "resetperms";
-                var module = cmd.Module.GetTopLevelModule();
-                if (context.Guild != null)
-                {
-                    //////future
-                    ////int price;
-                    ////if (Permissions.CommandCostCommands.CommandCosts.TryGetValue(cmd.Aliases.First().Trim().ToLowerInvariant(), out price) && price > 0)
-                    ////{
-                    ////    var success = await _cs.RemoveCurrencyAsync(context.User.Id, $"Running {cmd.Name} command.", price).ConfigureAwait(false);
-                    ////    if (!success)
-                    ////    {
-                    ////        return new ExecuteCommandResult(cmd, pc, SearchResult.FromError(CommandError.Exception, $"Insufficient funds. You need {price}{NadekoBot.BotConfig.CurrencySign} to run this command."));
-                    ////    }
-                    ////}
-                }
 
                 // Bot will ignore commands which are ran more often than what specified by
                 // GlobalCommandsCooldown constant (miliseconds)
                 if (!UsersOnShortCooldown.Add(context.Message.Author.Id))
-                    return false;
+                    return (false, null);
                 //return SearchResult.FromError(CommandError.Exception, "You are on a global cooldown.");
 
                 var commandName = cmd.Aliases.First();
@@ -316,15 +351,17 @@ namespace NadekoBot.Services
                         await exec.TryBlockLate(_client, context.Message, context.Guild, context.Channel, context.User, cmd.Module.GetTopLevelModule().Name, commandName).ConfigureAwait(false))
                     {
                         _log.Info("Late blocking User [{0}] Command: [{1}] in [{2}]", context.User, commandName, svc.GetType().Name);
-                        return false;
+                        return (false, null);
                     }
                 }
 
-                await commands[i].ExecuteAsync(context, parseResult, serviceProvider);
-                return true;
+                var execResult = await commands[i].ExecuteAsync(context, parseResult, serviceProvider);
+                if (execResult.Exception != null) //todo temp, to not be blind
+                    _log.Warn(execResult.Exception);
+                return (true, null);
             }
 
-            return false;
+            return (false, null);
             //return new ExecuteCommandResult(null, null, SearchResult.FromError(CommandError.UnknownCommand, "This input does not match any overload."));
         }
     }

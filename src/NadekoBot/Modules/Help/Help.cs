@@ -10,6 +10,7 @@ using System.IO;
 using System.Text;
 using System.Collections.Generic;
 using NadekoBot.Services.Database.Models;
+using NadekoBot.Services.Permissions;
 
 namespace NadekoBot.Modules.Help
 {
@@ -20,15 +21,17 @@ namespace NadekoBot.Modules.Help
         private readonly IBotCredentials _creds;
         private readonly BotConfig _config;
         private readonly CommandService _cmds;
+        private readonly GlobalPermissionService _perms;
 
-        public string HelpString => String.Format(_config.HelpString, _creds.ClientId, NadekoBot.Prefix);
+        public string HelpString => String.Format(_config.HelpString, _creds.ClientId, Prefix);
         public string DMHelpString => _config.DMHelpString;
 
-        public Help(IBotCredentials creds, BotConfig config, CommandService cmds)
+        public Help(IBotCredentials creds, GlobalPermissionService perms, BotConfig config, CommandService cmds)
         {
             _creds = creds;
             _config = config;
             _cmds = cmds;
+            _perms = perms;
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -39,8 +42,7 @@ namespace NadekoBot.Modules.Help
                 .WithTitle(GetText("list_of_modules"))
                 .WithDescription(string.Join("\n",
                                      _cmds.Modules.GroupBy(m => m.GetTopLevelModule())
-                                        //todo perms
-                                         //.Where(m => !Permissions.Permissions.GlobalPermissionCommands.BlockedModules.Contains(m.Key.Name.ToLowerInvariant()))
+                                         .Where(m => !_perms.BlockedModules.Contains(m.Key.Name.ToLowerInvariant()))
                                          .Select(m => "• " + m.Key.Name)
                                          .OrderBy(s => s)));
             await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
@@ -55,8 +57,7 @@ namespace NadekoBot.Modules.Help
             if (string.IsNullOrWhiteSpace(module))
                 return;
             var cmds = _cmds.Commands.Where(c => c.Module.GetTopLevelModule().Name.ToUpperInvariant().StartsWith(module))
-                                                    //todo perms
-                                                  //.Where(c => !Permissions.Permissions.GlobalPermissionCommands.BlockedCommands.Contains(c.Aliases.First().ToLowerInvariant()))
+                                                .Where(c => !_perms.BlockedCommands.Contains(c.Aliases.First().ToLowerInvariant()))
                                                   .OrderBy(c => c.Aliases.First())
                                                   .Distinct(new CommandTextEqualityComparer())
                                                   .AsEnumerable();
@@ -154,8 +155,8 @@ namespace NadekoBot.Modules.Help
                     lastModule = module.Name;
                 }
                 helpstr.AppendLine($"{string.Join(" ", com.Aliases.Select(a => "`" + a + "`"))} |" +
-                                   $" {string.Format(com.Summary, NadekoBot.Prefix)} {GetCommandRequirements(com)} |" +
-                                   $" {string.Format(com.Remarks, NadekoBot.Prefix)}");
+                                   $" {string.Format(com.Summary, Prefix)} {GetCommandRequirements(com)} |" +
+                                   $" {string.Format(com.Remarks, Prefix)}");
             }
             File.WriteAllText("../../docs/Commands List.md", helpstr.ToString());
             await ReplyConfirmLocalized("commandlist_regen").ConfigureAwait(false);

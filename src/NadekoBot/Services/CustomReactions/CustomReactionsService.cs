@@ -9,6 +9,7 @@ using System.Linq;
 using System;
 using System.Threading.Tasks;
 using NadekoBot.Services.Permissions;
+using NadekoBot.Extensions;
 
 namespace NadekoBot.Services.CustomReactions
 {
@@ -22,9 +23,9 @@ namespace NadekoBot.Services.CustomReactions
         private readonly Logger _log;
         private readonly DbService _db;
         private readonly DiscordShardedClient _client;
-        private readonly PermissionsService _perms;
+        private readonly PermissionService _perms;
 
-        public CustomReactionsService(PermissionsService perms, DbService db, DiscordShardedClient client)
+        public CustomReactionsService(PermissionService perms, DbService db, DiscordShardedClient client)
         {
             _log = LogManager.GetCurrentClassLogger();
             _db = db;
@@ -100,16 +101,18 @@ namespace NadekoBot.Services.CustomReactions
             {
                 try
                 {
-                    //todo permissions
                     if (guild is SocketGuild sg)
                     {
-                        PermissionCache pc = _perms.GetCache(guild.Id);
-
+                        var pc = _perms.GetCache(guild.Id);
                         if (!pc.Permissions.CheckPermissions(msg, cr.Trigger, "ActualCustomReactions",
                             out int index))
                         {
-                            var returnMsg = $"Permission number #{index + 1} **{pc.Permissions[index].GetCommand(sg)}** is preventing this action.";
-                            _log.Info(returnMsg);
+                            if (pc.Verbose)
+                            {
+                                var returnMsg = $"Permission number #{index + 1} **{pc.Permissions[index].GetCommand(sg)}** is preventing this action.";
+                                try { await msg.Channel.SendErrorAsync(returnMsg).ConfigureAwait(false); } catch { }
+                                _log.Info(returnMsg);
+                            }
                             return true;
                         }
                     }

@@ -6,6 +6,9 @@ namespace NadekoBot.Services.Database.Models
     public class GuildConfig : DbEntity
     {
         public ulong GuildId { get; set; }
+
+        public string Prefix { get; set; } = null;
+
         public bool DeleteMessageOnCommand { get; set; }
         public ulong AutoAssignRoleId { get; set; }
         //greet stuff

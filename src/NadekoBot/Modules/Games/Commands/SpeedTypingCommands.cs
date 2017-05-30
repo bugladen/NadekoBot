@@ -34,7 +34,7 @@ namespace NadekoBot.Modules.Games
             {
                 var channel = (ITextChannel)Context.Channel;
 
-                var game = RunningContests.GetOrAdd(channel.Guild.Id, id => new TypingGame(_games, _client, channel));
+                var game = RunningContests.GetOrAdd(channel.Guild.Id, id => new TypingGame(_games, _client, channel, Prefix));
 
                 if (game.IsActive)
                 {

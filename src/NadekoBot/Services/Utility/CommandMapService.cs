@@ -35,8 +35,7 @@ namespace NadekoBot.Services.Utility
 
             if (guild == null || string.IsNullOrWhiteSpace(input))
                 return input;
-
-            //todo alias mapping
+            
             if (guild != null)
             {
                 input = input.ToLowerInvariant();

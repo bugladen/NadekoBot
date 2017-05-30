@@ -22,14 +22,16 @@ namespace NadekoBot.Modules.Games.Models
         private readonly List<ulong> finishedUserIds;
         private readonly DiscordShardedClient _client;
         private readonly GamesService _games;
+        private readonly string _prefix;
 
         private Logger _log { get; }
 
-        public TypingGame(GamesService games, DiscordShardedClient client, ITextChannel channel)
+        public TypingGame(GamesService games, DiscordShardedClient client, ITextChannel channel, string prefix) //kek@prefix
         {
             _log = LogManager.GetCurrentClassLogger();
             _games = games;
             _client = client;
+            _prefix = prefix;
 
             this.Channel = channel;
             IsActive = false;
@@ -96,7 +98,7 @@ namespace NadekoBot.Modules.Games.Models
             if (_games.TypingArticles.Any())
                 return _games.TypingArticles[new NadekoRandom().Next(0, _games.TypingArticles.Count)].Text;
             else
-                return $"No typing articles found. Use {NadekoBot.Prefix}typeadd command to add a new article for typing.";
+                return $"No typing articles found. Use {_prefix}typeadd command to add a new article for typing.";
 
         }
 

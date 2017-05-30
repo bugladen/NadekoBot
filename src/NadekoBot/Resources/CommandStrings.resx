@@ -3474,4 +3474,22 @@
   <data name="resetglobalpermissions_usage" xml:space="preserve">
     <value>`{0}resetglobalperms`</value>
   </data>
+  <data name="prefix_cmd" xml:space="preserve">
+    <value>prefix</value>
+  </data>
+  <data name="prefix_usage" xml:space="preserve">
+    <value>`{0}prefix +`</value>
+  </data>
+  <data name="prefix_desc" xml:space="preserve">
+    <value>Sets this server's prefix for all bot commands. Provide no arguments to see the current server prefix.</value>
+  </data>
+  <data name="defprefix_cmd" xml:space="preserve">
+    <value>defprefix</value>
+  </data>
+  <data name="defprefix_usage" xml:space="preserve">
+    <value>`{0}defprefix +`</value>
+  </data>
+  <data name="defprefix_desc" xml:space="preserve">
+    <value>Sets bot's default prefix for all bot commands. Provide no arguments to see the current default prefix. This will not change this server's current prefix.</value>
+  </data>
 </root>

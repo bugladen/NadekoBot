@@ -13,11 +13,11 @@ namespace NadekoBot.Modules.Permissions.Commands
         [Group]
         public class ResetPermissionsCommands : NadekoSubmodule
         {
-            private readonly PermissionsService _service;
+            private readonly PermissionService _service;
             private readonly DbService _db;
             private readonly GlobalPermissionService _globalPerms;
 
-            public ResetPermissionsCommands(PermissionsService service, GlobalPermissionService globalPerms, DbService db)
+            public ResetPermissionsCommands(PermissionService service, GlobalPermissionService globalPerms, DbService db)
             {
                 _service = service;
                 _db = db;

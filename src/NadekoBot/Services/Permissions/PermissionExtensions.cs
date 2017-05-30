@@ -116,7 +116,7 @@ namespace NadekoBot.Services.Permissions
                     break;
             }
 
-            return NadekoBot.Prefix + com;
+            return "." + com;
         }
 
         public static IEnumerable<Permission> AsEnumerable(this Permission perm)

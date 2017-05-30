@@ -41,6 +41,7 @@
     <Compile Include="Modules\Administration\Commands\Migration\MigrationException.cs" />
     <Compile Include="Modules\Administration\Commands\MuteCommands.cs" />
     <Compile Include="Modules\Administration\Commands\PlayingRotateCommands.cs" />
+    <Compile Include="Modules\Administration\Commands\PrefixCommands.cs" />
     <Compile Include="Modules\Administration\Commands\ProtectionCommands.cs" />
     <Compile Include="Modules\Administration\Commands\RatelimitCommand.cs" />
     <Compile Include="Modules\Administration\Commands\SelfAssignedRolesCommand.cs" />

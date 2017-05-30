@@ -1,4 +1,5 @@
 ﻿using Discord.Commands;
+using NadekoBot.Services;
 using NadekoBot.Services.CustomReactions;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,18 +9,22 @@ namespace NadekoBot.TypeReaders
     public class CommandTypeReader : TypeReader
     {
         private readonly CommandService _cmds;
+        private readonly CommandHandler _cmdHandler;
 
-        public CommandTypeReader(CommandService cmds)
+        public CommandTypeReader(CommandService cmds, CommandHandler cmdHandler)
         {
             _cmds = cmds;
+            _cmdHandler = cmdHandler;
         }
+
         public override Task<TypeReaderResult> Read(ICommandContext context, string input)
         {
             input = input.ToUpperInvariant();
-            if (!input.StartsWith(NadekoBot.Prefix.ToUpperInvariant()))
+            var prefix = _cmdHandler.GetPrefix(context.Guild);
+            if (!input.StartsWith(prefix.ToUpperInvariant()))
                 return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "No such command found."));
 
-            input = input.Substring(NadekoBot.Prefix.Length);
+            input = input.Substring(prefix.Length);
 
             var cmd = _cmds.Commands.FirstOrDefault(c => 
                 c.Aliases.Select(a => a.ToUpperInvariant()).Contains(input));
@@ -34,7 +39,7 @@ namespace NadekoBot.TypeReaders
     {
         private readonly CustomReactionsService _crs;
 
-        public CommandOrCrTypeReader(CustomReactionsService crs, CommandService cmds) : base(cmds)
+        public CommandOrCrTypeReader(CustomReactionsService crs, CommandService cmds, CommandHandler cmdHandler) : base(cmds, cmdHandler)
         {
             _crs = crs;
         }
@@ -62,7 +67,7 @@ namespace NadekoBot.TypeReaders
             var cmd = await base.Read(context, input);
             if (cmd.IsSuccess)
             {
-                return TypeReaderResult.FromSuccess(new CommandOrCrInfo(((CommandInfo)cmd.Values.First().Value).Aliases.First()));
+                return TypeReaderResult.FromSuccess(new CommandOrCrInfo(((CommandInfo)cmd.Values.First().Value).Name));
             }
             return TypeReaderResult.FromError(CommandError.ParseFailed, "No such command or cr found.");
         }

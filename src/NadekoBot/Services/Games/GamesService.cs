@@ -29,15 +29,18 @@ namespace NadekoBot.Services.Games
         private readonly Logger _log;
 
         public readonly string TypingArticlesPath = "data/typing_articles2.json";
+        private readonly CommandHandler _cmdHandler;
+
         public List<TypingArticle> TypingArticles { get; } = new List<TypingArticle>();
 
         public GamesService(DiscordShardedClient client, BotConfig bc, IEnumerable<GuildConfig> gcs, 
-            NadekoStrings strings, IImagesService images)
+            NadekoStrings strings, IImagesService images, CommandHandler cmdHandler)
         {
             _bc = bc;
             _client = client;
             _strings = strings;
             _images = images;
+            _cmdHandler = cmdHandler;
             _log = LogManager.GetCurrentClassLogger();
 
             //8ball
@@ -123,7 +126,7 @@ namespace NadekoBot.Services.Games
                     if (dropAmount > 0)
                     {
                         var msgs = new IUserMessage[dropAmount];
-                        var prefix = NadekoBot.Prefix;
+                        var prefix = _cmdHandler.GetPrefix(channel.Guild.Id);
                         var toSend = dropAmount == 1
                             ? GetText(channel, "curgen_sn", _bc.CurrencySign)
                                 + " " + GetText(channel, "pick_sn", prefix)

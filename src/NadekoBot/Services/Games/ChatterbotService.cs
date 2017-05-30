@@ -3,6 +3,7 @@ using Discord.WebSocket;
 using NadekoBot.DataStructures.ModuleBehaviors;
 using NadekoBot.Extensions;
 using NadekoBot.Services.Database.Models;
+using NadekoBot.Services.Permissions;
 using NLog;
 using System;
 using System.Collections.Concurrent;
@@ -16,13 +17,15 @@ namespace NadekoBot.Services.Games
     {
         private readonly DiscordShardedClient _client;
         private readonly Logger _log;
+        private readonly PermissionService _perms;
 
         public ConcurrentDictionary<ulong, Lazy<ChatterBotSession>> ChatterBotGuilds { get; }
 
-        public ChatterBotService(DiscordShardedClient client, IEnumerable<GuildConfig> gcs)
+        public ChatterBotService(DiscordShardedClient client, PermissionService perms, IEnumerable<GuildConfig> gcs)
         {
             _client = client;
             _log = LogManager.GetCurrentClassLogger();
+            _perms = perms;
 
             ChatterBotGuilds = new ConcurrentDictionary<ulong, Lazy<ChatterBotSession>>(
                     gcs.Where(gc => gc.CleverbotEnabled)
@@ -80,27 +83,29 @@ namespace NadekoBot.Services.Games
 
         public async Task<bool> TryExecuteEarly(DiscordShardedClient client, IGuild guild, IUserMessage usrMsg)
         {
-            if (guild == null)
+            if (!(guild is SocketGuild sg))
                 return false;
             try
             {
                 var message = PrepareMessage(usrMsg, out ChatterBotSession cbs);
                 if (message == null || cbs == null)
                     return false;
-
-                //todo permissions
-                //PermissionCache pc = Permissions.GetCache(guild.Id);
-                //if (!pc.Permissions.CheckPermissions(usrMsg,
-                //    NadekoBot.Prefix + "cleverbot",
-                //    "Games".ToLowerInvariant(),
-                //    out int index))
-                //{
-                //    //todo 46 print in guild actually
-                //    var returnMsg =
-                //        $"Permission number #{index + 1} **{pc.Permissions[index].GetCommand(guild)}** is preventing this action.";
-                //    _log.Info(returnMsg);
-                //    return true;
-                //}
+                
+                var pc = _perms.GetCache(guild.Id);
+                if (!pc.Permissions.CheckPermissions(usrMsg,
+                    "cleverbot",
+                    "Games".ToLowerInvariant(),
+                    out int index))
+                {
+                    if (pc.Verbose)
+                    {
+                        //todo move this to permissions, prefix is always "." as a placeholder, fix that when you move it
+                        var returnMsg = $"Permission number #{index + 1} **{pc.Permissions[index].GetCommand(sg)}** is preventing this action.";
+                        try { await usrMsg.Channel.SendErrorAsync(returnMsg).ConfigureAwait(false); } catch { }
+                        _log.Info(returnMsg);
+                    }
+                    return true;
+                }
 
                 var cleverbotExecuted = await TryAsk(cbs, (ITextChannel)usrMsg.Channel, message).ConfigureAwait(false);
                 if (cleverbotExecuted)

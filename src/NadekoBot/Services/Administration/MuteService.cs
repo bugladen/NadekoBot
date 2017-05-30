@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using Microsoft.EntityFrameworkCore;
+using NadekoBot.Extensions;
 using NadekoBot.Services.Database.Models;
 using NLog;
 using System;
@@ -33,9 +34,10 @@ namespace NadekoBot.Services.Administration
             _client = client;
             _db = db;
 
-            GuildMuteRoles = new ConcurrentDictionary<ulong, string>(gcs
+            GuildMuteRoles = gcs
                     .Where(c => !string.IsNullOrWhiteSpace(c.MuteRoleName))
-                    .ToDictionary(c => c.GuildId, c => c.MuteRoleName));
+                    .ToDictionary(c => c.GuildId, c => c.MuteRoleName)
+                    .ToConcurrent();
 
             MutedUsers = new ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>>(gcs.ToDictionary(
                 k => k.GuildId,
