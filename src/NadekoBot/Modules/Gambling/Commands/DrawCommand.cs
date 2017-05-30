@@ -23,10 +23,12 @@ namespace NadekoBot.Modules.Gambling
             [RequireContext(ContextType.Guild)]
             public async Task Draw(int num = 1)
             {
+                if (num < 1)
+                    num = 1;
                 var cards = _allDecks.GetOrAdd(Context.Guild, (s) => new Cards());
                 var images = new List<Image>();
                 var cardObjects = new List<Cards.Card>();
-                if (num > 5) num = 5;
+                if (num > 10) num = 10;
                 for (var i = 0; i < num; i++)
                 {
                     if (cards.CardPool.Count == 0 && i != 0)

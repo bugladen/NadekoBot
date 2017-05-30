@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System;
 using System.Threading.Tasks;
+using NadekoBot.Services.Permissions;
 
 namespace NadekoBot.Services.CustomReactions
 {
@@ -21,12 +22,14 @@ namespace NadekoBot.Services.CustomReactions
         private readonly Logger _log;
         private readonly DbService _db;
         private readonly DiscordShardedClient _client;
+        private readonly PermissionsService _perms;
 
-        public CustomReactionsService(DbService db, DiscordShardedClient client)
+        public CustomReactionsService(PermissionsService perms, DbService db, DiscordShardedClient client)
         {
             _log = LogManager.GetCurrentClassLogger();
             _db = db;
             _client = client;
+            _perms = perms;
 
             var sw = Stopwatch.StartNew();
             using (var uow = _db.UnitOfWork)
@@ -48,32 +51,31 @@ namespace NadekoBot.Services.CustomReactions
                 return null;
 
             var content = umsg.Content.Trim().ToLowerInvariant();
-            CustomReaction[] reactions;
 
-            GuildReactions.TryGetValue(channel.Guild.Id, out reactions);
-            if (reactions != null && reactions.Any())
-            {
-                var rs = reactions.Where(cr =>
+            if (GuildReactions.TryGetValue(channel.Guild.Id, out CustomReaction[] reactions))
+                if (reactions != null && reactions.Any())
                 {
-                    if (cr == null)
-                        return false;
-
-                    var hasTarget = cr.Response.ToLowerInvariant().Contains("%target%");
-                    var trigger = cr.TriggerWithContext(umsg, _client).Trim().ToLowerInvariant();
-                    return ((hasTarget && content.StartsWith(trigger + " ")) || content == trigger);
-                }).ToArray();
-
-                if (rs.Length != 0)
-                {
-                    var reaction = rs[new NadekoRandom().Next(0, rs.Length)];
-                    if (reaction != null)
+                    var rs = reactions.Where(cr =>
                     {
-                        if (reaction.Response == "-")
-                            return null;
-                        return reaction;
+                        if (cr == null)
+                            return false;
+
+                        var hasTarget = cr.Response.ToLowerInvariant().Contains("%target%");
+                        var trigger = cr.TriggerWithContext(umsg, _client).Trim().ToLowerInvariant();
+                        return ((hasTarget && content.StartsWith(trigger + " ")) || content == trigger);
+                    }).ToArray();
+
+                    if (rs.Length != 0)
+                    {
+                        var reaction = rs[new NadekoRandom().Next(0, rs.Length)];
+                        if (reaction != null)
+                        {
+                            if (reaction.Response == "-")
+                                return null;
+                            return reaction;
+                        }
                     }
                 }
-            }
 
             var grs = GlobalReactions.Where(cr =>
             {
@@ -99,19 +101,18 @@ namespace NadekoBot.Services.CustomReactions
                 try
                 {
                     //todo permissions
-                    //if (guild != null)
-                    //{
-                    //    PermissionCache pc = Permissions.GetCache(guild.Id);
+                    if (guild is SocketGuild sg)
+                    {
+                        PermissionCache pc = _perms.GetCache(guild.Id);
 
-                    //    if (!pc.Permissions.CheckPermissions(usrMsg, cr.Trigger, "ActualCustomReactions",
-                    //        out int index))
-                    //    {
-                    //        var returnMsg =
-                    //            $"Permission number #{index + 1} **{pc.Permissions[index].GetCommand(guild)}** is preventing this action.";
-                    //        _log.Info(returnMsg);
-                    //        return;
-                    //    }
-                    //}
+                        if (!pc.Permissions.CheckPermissions(msg, cr.Trigger, "ActualCustomReactions",
+                            out int index))
+                        {
+                            var returnMsg = $"Permission number #{index + 1} **{pc.Permissions[index].GetCommand(sg)}** is preventing this action.";
+                            _log.Info(returnMsg);
+                            return true;
+                        }
+                    }
                     await cr.Send(msg, _client, this).ConfigureAwait(false);
 
                     if (cr.AutoDeleteTrigger)
