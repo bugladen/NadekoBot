@@ -45,6 +45,13 @@ namespace NadekoBot
         public BotConfig BotConfig { get; }
         public DbService Db { get; }
         public CommandService CommandService { get; }
+        public CommandHandler CommandHandler { get; private set; }
+        public Localization Localization { get; }
+        public NadekoStrings Strings { get; }
+        public StatsService Stats { get; }
+        public ImagesService Images { get; }
+        public CurrencyService Currency { get; }
+        public GoogleApiService GoogleApi { get; }
 
         public DiscordShardedClient Client { get; }
         public bool Ready { get; private set; }
@@ -56,7 +63,7 @@ namespace NadekoBot
         {
             SetupLogger();
             _log = LogManager.GetCurrentClassLogger();
-
+            
             Credentials = new BotCredentials();
             Db = new DbService(Credentials);
 
@@ -83,6 +90,15 @@ namespace NadekoBot
                 DefaultRunMode = RunMode.Sync,
             });
 
+            //foundation services
+            Localization = new Localization(BotConfig.Locale, AllGuildConfigs.ToDictionary(x => x.GuildId, x => x.Locale), Db);
+            Strings = new NadekoStrings(Localization);
+            CommandHandler = new CommandHandler(Client, Db, BotConfig, AllGuildConfigs, CommandService, Credentials, this);
+            Stats = new StatsService(Client, CommandHandler, Credentials);
+            Images = new ImagesService();
+            Currency = new CurrencyService(BotConfig, Db);
+            GoogleApi = new GoogleApiService(Credentials);
+
 #if GLOBAL_NADEKO
             Client.Log += Client_Log;
 #endif
@@ -90,14 +106,7 @@ namespace NadekoBot
 
         private void AddServices()
         {
-            var googleApiService = new GoogleApiService(Credentials);
             var soundcloudApiService = new SoundCloudApiService(Credentials);
-            var localization = new Localization(BotConfig.Locale, AllGuildConfigs.ToDictionary(x => x.GuildId, x => x.Locale), Db);
-            var strings = new NadekoStrings(localization);
-            var commandHandler = new CommandHandler(Client, Db, BotConfig, AllGuildConfigs, CommandService, Credentials, this);
-            var stats = new StatsService(Client, commandHandler, Credentials);
-            var images = new ImagesService();
-            var currencyService = new CurrencyService(BotConfig, Db);
 
             //module services
             //todo 90 - autodiscover, DI, and add instead of manual like this
@@ -107,11 +116,11 @@ namespace NadekoBot
             var repeaterService = new MessageRepeaterService(Client, AllGuildConfigs);
             var converterService = new ConverterService(Db);
             var commandMapService = new CommandMapService(AllGuildConfigs);
-            var patreonRewardsService = new PatreonRewardsService(Credentials, Db, currencyService);
+            var patreonRewardsService = new PatreonRewardsService(Credentials, Db, Currency);
             #endregion
 
             #region permissions
-            var permissionsService = new PermissionService(Db, BotConfig, commandHandler);
+            var permissionsService = new PermissionService(Db, BotConfig, CommandHandler);
             var blacklistService = new BlacklistService(BotConfig);
             var cmdcdsService = new CmdCdService(AllGuildConfigs);
             var filterService = new FilterService(Client, AllGuildConfigs);
@@ -119,51 +128,51 @@ namespace NadekoBot
             #endregion
 
             #region Searches
-            var searchesService = new SearchesService(Client, googleApiService, Db);
-            var streamNotificationService = new StreamNotificationService(Db, Client, strings);
+            var searchesService = new SearchesService(Client, GoogleApi, Db);
+            var streamNotificationService = new StreamNotificationService(Db, Client, Strings);
             #endregion
 
-            var clashService = new ClashOfClansService(Client, Db, localization, strings);
-            var musicService = new MusicService(googleApiService, strings, localization, Db, soundcloudApiService, Credentials, AllGuildConfigs);
-            var crService = new CustomReactionsService(permissionsService, Db, Client, commandHandler);
+            var clashService = new ClashOfClansService(Client, Db, Localization, Strings);
+            var musicService = new MusicService(GoogleApi, Strings, Localization, Db, soundcloudApiService, Credentials, AllGuildConfigs);
+            var crService = new CustomReactionsService(permissionsService, Db, Client, CommandHandler);
             var helpService = new HelpService(BotConfig);
 
             #region Games
-            var gamesService = new GamesService(Client, BotConfig, AllGuildConfigs, strings, images, commandHandler);
-            var chatterBotService = new ChatterBotService(Client, permissionsService, AllGuildConfigs, commandHandler);
-            var pollService = new PollService(Client, strings);
+            var gamesService = new GamesService(Client, BotConfig, AllGuildConfigs, Strings, Images, CommandHandler);
+            var chatterBotService = new ChatterBotService(Client, permissionsService, AllGuildConfigs, CommandHandler);
+            var pollService = new PollService(Client, Strings);
             #endregion
 
             #region administration
-            var administrationService = new AdministrationService(AllGuildConfigs, commandHandler);
+            var administrationService = new AdministrationService(AllGuildConfigs, CommandHandler);
             var greetSettingsService = new GreetSettingsService(Client, AllGuildConfigs, Db);
-            var selfService = new SelfService(Client, this, commandHandler, Db, BotConfig, localization, strings, Credentials);
+            var selfService = new SelfService(Client, this, CommandHandler, Db, BotConfig, Localization, Strings, Credentials);
             var vcRoleService = new VcRoleService(Client, AllGuildConfigs, Db);
-            var vPlusTService = new VplusTService(Client, AllGuildConfigs, strings, Db);
+            var vPlusTService = new VplusTService(Client, AllGuildConfigs, Strings, Db);
             var muteService = new MuteService(Client, AllGuildConfigs, Db);
             var ratelimitService = new SlowmodeService(Client, AllGuildConfigs);
             var protectionService = new ProtectionService(Client, AllGuildConfigs, muteService);
             var playingRotateService = new PlayingRotateService(Client, BotConfig, musicService);
             var gameVcService = new GameVoiceChannelService(Client, Db, AllGuildConfigs);
             var autoAssignRoleService = new AutoAssignRoleService(Client, AllGuildConfigs);
-            var logCommandService = new LogCommandService(Client, strings, AllGuildConfigs, Db, muteService, protectionService);
+            var logCommandService = new LogCommandService(Client, Strings, AllGuildConfigs, Db, muteService, protectionService);
             #endregion
 
 
             //initialize Services
             Services = new NServiceProvider.ServiceProviderBuilder()
-                .Add<ILocalization>(localization)
-                .Add<IStatsService>(stats)
-                .Add<IImagesService>(images)
-                .Add<IGoogleApiService>(googleApiService)
-                .Add<IStatsService>(stats)
+                .Add<ILocalization>(Localization)
+                .Add<IStatsService>(Stats)
+                .Add<IImagesService>(Images)
+                .Add<IGoogleApiService>(GoogleApi)
+                .Add<IStatsService>(Stats)
                 .Add<IBotCredentials>(Credentials)
                 .Add<CommandService>(CommandService)
-                .Add<NadekoStrings>(strings)
+                .Add<NadekoStrings>(Strings)
                 .Add<DiscordShardedClient>(Client)
                 .Add<BotConfig>(BotConfig)
-                .Add<CurrencyService>(currencyService)
-                .Add<CommandHandler>(commandHandler)
+                .Add<CurrencyService>(Currency)
+                .Add<CommandHandler>(CommandHandler)
                 .Add<DbService>(Db)
                 //modules
                     .Add(crossServerTextService)
@@ -199,12 +208,12 @@ namespace NadekoBot
                     .Add(globalPermsService)
                 .Build();
 
-            commandHandler.AddServices(Services);
+            CommandHandler.AddServices(Services);
 
             //setup typereaders
             CommandService.AddTypeReader<PermissionAction>(new PermissionActionTypeReader());
-            CommandService.AddTypeReader<CommandInfo>(new CommandTypeReader(CommandService, commandHandler));
-            CommandService.AddTypeReader<CommandOrCrInfo>(new CommandOrCrTypeReader(crService, CommandService, commandHandler));
+            CommandService.AddTypeReader<CommandInfo>(new CommandTypeReader(CommandService, CommandHandler));
+            CommandService.AddTypeReader<CommandOrCrInfo>(new CommandOrCrTypeReader(crService, CommandService, CommandHandler));
             CommandService.AddTypeReader<ModuleInfo>(new ModuleTypeReader(CommandService));
             CommandService.AddTypeReader<ModuleOrCrInfo>(new ModuleOrCrTypeReader(CommandService));
             CommandService.AddTypeReader<IGuild>(new GuildTypeReader(Client));
