@@ -24,13 +24,16 @@ namespace NadekoBot.Services.CustomReactions
         private readonly DbService _db;
         private readonly DiscordShardedClient _client;
         private readonly PermissionService _perms;
+        private readonly CommandHandler _cmd;
 
-        public CustomReactionsService(PermissionService perms, DbService db, DiscordShardedClient client)
+        public CustomReactionsService(PermissionService perms, DbService db, 
+            DiscordShardedClient client, CommandHandler cmd)
         {
             _log = LogManager.GetCurrentClassLogger();
             _db = db;
             _client = client;
             _perms = perms;
+            _cmd = cmd;
 
             var sw = Stopwatch.StartNew();
             using (var uow = _db.UnitOfWork)
@@ -109,7 +112,7 @@ namespace NadekoBot.Services.CustomReactions
                         {
                             if (pc.Verbose)
                             {
-                                var returnMsg = $"Permission number #{index + 1} **{pc.Permissions[index].GetCommand(sg)}** is preventing this action.";
+                                var returnMsg = $"Permission number #{index + 1} **{pc.Permissions[index].GetCommand(_cmd.GetPrefix(guild), sg)}** is preventing this action.";
                                 try { await msg.Channel.SendErrorAsync(returnMsg).ConfigureAwait(false); } catch { }
                                 _log.Info(returnMsg);
                             }

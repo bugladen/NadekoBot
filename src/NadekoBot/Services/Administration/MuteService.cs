@@ -13,6 +13,13 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Services.Administration
 {
+    public enum MuteType
+    {
+        Voice,
+        Chat,
+        All
+    }
+
     public class MuteService
     {
         public ConcurrentDictionary<ulong, string> GuildMuteRoles { get; }
@@ -266,12 +273,5 @@ namespace NadekoBot.Services.Administration
                 uow.Complete();
             }
         }
-    }
-
-    public enum MuteType
-    {
-        Voice,
-        Chat,
-        All
     }
 }

@@ -97,7 +97,7 @@ namespace NadekoBot
             var commandHandler = new CommandHandler(Client, Db, BotConfig, AllGuildConfigs, CommandService, Credentials, this);
             var stats = new StatsService(Client, commandHandler, Credentials);
             var images = new ImagesService();
-            var currencyHandler = new CurrencyService(BotConfig, Db);
+            var currencyService = new CurrencyService(BotConfig, Db);
 
             //module services
             //todo 90 - autodiscover, DI, and add instead of manual like this
@@ -107,10 +107,11 @@ namespace NadekoBot
             var repeaterService = new MessageRepeaterService(Client, AllGuildConfigs);
             var converterService = new ConverterService(Db);
             var commandMapService = new CommandMapService(AllGuildConfigs);
+            var patreonRewardsService = new PatreonRewardsService(Credentials, Db, currencyService);
             #endregion
 
             #region permissions
-            var permissionsService = new PermissionService(Db, BotConfig);
+            var permissionsService = new PermissionService(Db, BotConfig, commandHandler);
             var blacklistService = new BlacklistService(BotConfig);
             var cmdcdsService = new CmdCdService(AllGuildConfigs);
             var filterService = new FilterService(Client, AllGuildConfigs);
@@ -124,12 +125,12 @@ namespace NadekoBot
 
             var clashService = new ClashOfClansService(Client, Db, localization, strings);
             var musicService = new MusicService(googleApiService, strings, localization, Db, soundcloudApiService, Credentials, AllGuildConfigs);
-            var crService = new CustomReactionsService(permissionsService, Db, Client);
+            var crService = new CustomReactionsService(permissionsService, Db, Client, commandHandler);
             var helpService = new HelpService(BotConfig);
 
             #region Games
             var gamesService = new GamesService(Client, BotConfig, AllGuildConfigs, strings, images, commandHandler);
-            var chatterBotService = new ChatterBotService(Client, permissionsService, AllGuildConfigs);
+            var chatterBotService = new ChatterBotService(Client, permissionsService, AllGuildConfigs, commandHandler);
             var pollService = new PollService(Client, strings);
             #endregion
 
@@ -145,6 +146,7 @@ namespace NadekoBot
             var playingRotateService = new PlayingRotateService(Client, BotConfig, musicService);
             var gameVcService = new GameVoiceChannelService(Client, Db, AllGuildConfigs);
             var autoAssignRoleService = new AutoAssignRoleService(Client, AllGuildConfigs);
+            var logCommandService = new LogCommandService(Client, strings, AllGuildConfigs, Db, muteService, protectionService);
             #endregion
 
 
@@ -160,7 +162,7 @@ namespace NadekoBot
                 .Add<NadekoStrings>(strings)
                 .Add<DiscordShardedClient>(Client)
                 .Add<BotConfig>(BotConfig)
-                .Add<CurrencyService>(currencyHandler)
+                .Add<CurrencyService>(currencyService)
                 .Add<CommandHandler>(commandHandler)
                 .Add<DbService>(Db)
                 //modules
@@ -189,6 +191,7 @@ namespace NadekoBot
                     .Add(gameVcService)
                     .Add(autoAssignRoleService)
                     .Add(protectionService)
+                    .Add(logCommandService)
                 .Add<PermissionService>(permissionsService)
                     .Add(blacklistService)
                     .Add(cmdcdsService)

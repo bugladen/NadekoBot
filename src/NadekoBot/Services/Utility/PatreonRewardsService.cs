@@ -28,7 +28,7 @@ namespace NadekoBot.Services.Utility
         private readonly DbService _db;
         private readonly CurrencyService _currency;
 
-        private PatreonRewardsService(IBotCredentials creds, DbService db, CurrencyService currency)
+        public PatreonRewardsService(IBotCredentials creds, DbService db, CurrencyService currency)
         {
             _creds = creds;
             _db = db;

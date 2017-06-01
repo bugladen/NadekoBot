@@ -101,8 +101,8 @@ namespace NadekoBot.Modules.Help
             if (alias != null)
                 str += string.Format(" **/ `{0}`**", Prefix + alias);
             var embed = new EmbedBuilder()
-                .AddField(fb => fb.WithName(str).WithValue($"{com.RealSummary()} {GetCommandRequirements(com)}").WithIsInline(true))
-                .AddField(fb => fb.WithName(GetText("usage")).WithValue(com.RealRemarks()).WithIsInline(false))
+                .AddField(fb => fb.WithName(str).WithValue($"{com.RealSummary(Prefix)} {GetCommandRequirements(com)}").WithIsInline(true))
+                .AddField(fb => fb.WithName(GetText("usage")).WithValue(com.RealRemarks(Prefix)).WithIsInline(false))
                 .WithColor(NadekoBot.OkColor);
             await channel.EmbedAsync(embed).ConfigureAwait(false);
         }

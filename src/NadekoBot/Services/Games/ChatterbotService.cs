@@ -18,14 +18,16 @@ namespace NadekoBot.Services.Games
         private readonly DiscordShardedClient _client;
         private readonly Logger _log;
         private readonly PermissionService _perms;
+        private readonly CommandHandler _cmd;
 
         public ConcurrentDictionary<ulong, Lazy<ChatterBotSession>> ChatterBotGuilds { get; }
 
-        public ChatterBotService(DiscordShardedClient client, PermissionService perms, IEnumerable<GuildConfig> gcs)
+        public ChatterBotService(DiscordShardedClient client, PermissionService perms, IEnumerable<GuildConfig> gcs, CommandHandler cmd)
         {
             _client = client;
             _log = LogManager.GetCurrentClassLogger();
             _perms = perms;
+            _cmd = cmd;
 
             ChatterBotGuilds = new ConcurrentDictionary<ulong, Lazy<ChatterBotSession>>(
                     gcs.Where(gc => gc.CleverbotEnabled)
@@ -99,8 +101,8 @@ namespace NadekoBot.Services.Games
                 {
                     if (pc.Verbose)
                     {
-                        //todo move this to permissions, prefix is always "." as a placeholder, fix that when you move it
-                        var returnMsg = $"Permission number #{index + 1} **{pc.Permissions[index].GetCommand(sg)}** is preventing this action.";
+                        //todo move this to permissions
+                        var returnMsg = $"Permission number #{index + 1} **{pc.Permissions[index].GetCommand(_cmd.GetPrefix(guild), sg)}** is preventing this action.";
                         try { await usrMsg.Channel.SendErrorAsync(returnMsg).ConfigureAwait(false); } catch { }
                         _log.Info(returnMsg);
                     }

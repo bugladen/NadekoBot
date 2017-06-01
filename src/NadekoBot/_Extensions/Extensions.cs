@@ -33,8 +33,8 @@ namespace NadekoBot.Extensions
             return Convert.ToBase64String(plainTextBytes);
         }
 
-        public static string RealSummary(this CommandInfo cmd) => string.Format(cmd.Summary, ".");
-        public static string RealRemarks(this CommandInfo cmd) => string.Format(cmd.Remarks, ".");
+        public static string RealSummary(this CommandInfo cmd, string prefix) => string.Format(cmd.Summary, prefix);
+        public static string RealRemarks(this CommandInfo cmd, string prefix) => string.Format(cmd.Remarks, prefix);
 
         public static Stream ToStream(this IEnumerable<byte> bytes, bool canWrite = false)
         {

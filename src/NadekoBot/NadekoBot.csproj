@@ -36,6 +36,7 @@
     <Compile Include="Modules\Administration\Commands\AutoAssignRoleCommands.cs" />
     <Compile Include="Modules\Administration\Commands\GameChannelCommands.cs" />
     <Compile Include="Modules\Administration\Commands\LocalizationCommands.cs" />
+    <Compile Include="Modules\Administration\Commands\LogCommand.cs" />
     <Compile Include="Modules\Administration\Commands\Migration.cs" />
     <Compile Include="Modules\Administration\Commands\Migration\0_9..cs" />
     <Compile Include="Modules\Administration\Commands\Migration\MigrationException.cs" />

@@ -94,7 +94,7 @@ namespace NadekoBot.Modules.Permissions
                                  .Select(p =>
                                  {
                                      var str =
-                                         $"`{p.Index + 1}.` {Format.Bold(p.GetCommand((SocketGuild) Context.Guild))}";
+                                         $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(Prefix, (SocketGuild) Context.Guild))}";
                                      if (p.Index == 0)
                                          str += $" [{GetText("uneditable")}]";
                                      return str;
@@ -125,7 +125,7 @@ namespace NadekoBot.Modules.Permissions
                 }
                 await ReplyConfirmLocalized("removed",
                     index + 1,
-                    Format.Code(p.GetCommand((SocketGuild) Context.Guild))).ConfigureAwait(false);
+                    Format.Code(p.GetCommand(Prefix, (SocketGuild) Context.Guild))).ConfigureAwait(false);
             }
             catch (IndexOutOfRangeException)
             {
@@ -171,7 +171,7 @@ namespace NadekoBot.Modules.Permissions
                         _service.UpdateCache(config);
                     }
                     await ReplyConfirmLocalized("moved_permission",
-                            Format.Code(fromPerm.GetCommand((SocketGuild) Context.Guild)),
+                            Format.Code(fromPerm.GetCommand(Prefix, (SocketGuild) Context.Guild)),
                             ++from,
                             ++to)
                         .ConfigureAwait(false);

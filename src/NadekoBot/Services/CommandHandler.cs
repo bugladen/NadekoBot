@@ -15,6 +15,7 @@ using NadekoBot.DataStructures.ModuleBehaviors;
 using NadekoBot.Services.Database.Models;
 using NadekoBot.Services;
 using System.IO;
+using Discord.Net;
 
 namespace NadekoBot.Services
 {
@@ -357,10 +358,17 @@ namespace NadekoBot.Services
                 }
 
                 var execResult = await commands[i].ExecuteAsync(context, parseResult, serviceProvider);
-                if (execResult.Exception != null)
+                if (execResult.Exception != null && (!(execResult.Exception is HttpException he) || he.DiscordCode != 50013))
                 {
-                    File.AppendAllText($"./Command Errors {DateTime.Now:yyyy-MM-dd}.txt", execResult.Exception.ToString() + "\n\n\n\n");
-                    _log.Warn(execResult.Exception);
+                    lock (errorLogLock)
+                    {
+                        var now = DateTime.Now;
+                        File.AppendAllText($"./Command Errors {now:yyyy-MM-dd}.txt",
+                            $"[{now:HH:mm-yyyy-MM-dd}]" + Environment.NewLine
+                            + execResult.Exception.ToString() + Environment.NewLine
+                            + "------" + Environment.NewLine);
+                        _log.Warn(execResult.Exception);
+                    }
                 }
                 return (true, null);
             }
@@ -368,5 +376,7 @@ namespace NadekoBot.Services
             return (false, null);
             //return new ExecuteCommandResult(null, null, SearchResult.FromError(CommandError.UnknownCommand, "This input does not match any overload."));
         }
+
+        private readonly object errorLogLock = new object();
     }
 }

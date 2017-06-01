@@ -17,15 +17,17 @@ namespace NadekoBot.Services.Permissions
     {
         private readonly DbService _db;
         private readonly Logger _log;
+        private readonly CommandHandler _cmd;
 
         //guildid, root permission
         public ConcurrentDictionary<ulong, PermissionCache> Cache { get; } =
             new ConcurrentDictionary<ulong, PermissionCache>();
 
-        public PermissionService(DbService db, BotConfig bc)
+        public PermissionService(DbService db, BotConfig bc, CommandHandler cmd)
         {
             _log = LogManager.GetCurrentClassLogger();
             _db = db;
+            _cmd = cmd;
 
             var sw = Stopwatch.StartNew();
             TryMigratePermissions(bc);
@@ -68,7 +70,8 @@ namespace NadekoBot.Services.Permissions
             var log = LogManager.GetCurrentClassLogger();
             using (var uow = _db.UnitOfWork)
             {
-                if (bc.PermissionVersion <= 1)
+                var _bc = uow.BotConfig.GetOrCreate();
+                if (_bc.PermissionVersion <= 1)
                 {
                     log.Info("Permission version is 1, upgrading to 2.");
                     var oldCache = new ConcurrentDictionary<ulong, OldPermissionCache>(uow.GuildConfigs
@@ -123,9 +126,27 @@ namespace NadekoBot.Services.Permissions
                         log.Info("Permission migration to v2 is done.");
                     }
 
-                    uow.BotConfig.GetOrCreate().PermissionVersion = 2;
-                    uow.Complete();
+                    _bc.PermissionVersion = 2;
                 }
+                if (_bc.PermissionVersion <= 2)
+                {
+                    var oldPrefixes = new[] { ".", ";", "!!", "!m", "!", "+", "-", "$", ">" };
+                    uow._context.Database.ExecuteSqlCommand(
+$@"UPDATE {nameof(Permissionv2)}
+SET secondaryTargetName=trim(substr(secondaryTargetName, 3))
+WHERE secondaryTargetName LIKE '!!%' OR secondaryTargetName LIKE '!m%';
+
+UPDATE {nameof(Permissionv2)}
+SET secondaryTargetName=substr(secondaryTargetName, 2)
+WHERE secondaryTargetName LIKE '.%' OR
+    secondaryTargetName LIKE '~%' OR
+    secondaryTargetName LIKE ';%' OR
+    secondaryTargetName LIKE '>%' OR
+    secondaryTargetName LIKE '-%' OR
+    secondaryTargetName LIKE '!%';");
+                    _bc.PermissionVersion = 3;
+                }
+                uow.Complete();
             }
         }
 
@@ -177,7 +198,7 @@ namespace NadekoBot.Services.Permissions
                 PermissionCache pc = GetCache(guild.Id);
                 if (!resetCommand && !pc.Permissions.CheckPermissions(msg, commandName, moduleName, out int index))
                 {
-                    var returnMsg = $"Permission number #{index + 1} **{pc.Permissions[index].GetCommand((SocketGuild)guild)}** is preventing this action.";
+                    var returnMsg = $"Permission number #{index + 1} **{pc.Permissions[index].GetCommand(_cmd.GetPrefix(guild), (SocketGuild)guild)}** is preventing this action.";
                     if (pc.Verbose)
                         try { await channel.SendErrorAsync(returnMsg).ConfigureAwait(false); } catch { }
                     return true;

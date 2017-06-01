@@ -68,7 +68,7 @@ namespace NadekoBot.Services.Permissions
             return null;
         }
 
-        public static string GetCommand(this Permissionv2 perm, SocketGuild guild = null)
+        public static string GetCommand(this Permissionv2 perm, string prefix, SocketGuild guild = null)
         {
             var com = "";
             switch (perm.PrimaryTarget)
@@ -99,7 +99,10 @@ namespace NadekoBot.Services.Permissions
                     com = "a" + com + "m";
                     break;
             }
-            com += " " + (perm.SecondaryTargetName != "*" ? perm.SecondaryTargetName + " " : "") + (perm.State ? "enable" : "disable") + " ";
+
+            var secName = perm.SecondaryTarget == SecondaryPermissionType.Command ?
+                prefix + perm.SecondaryTargetName : perm.SecondaryTargetName;
+            com += " " + (perm.SecondaryTargetName != "*" ? secName + " " : "") + (perm.State ? "enable" : "disable") + " ";
 
             switch (perm.PrimaryTarget)
             {
@@ -116,7 +119,7 @@ namespace NadekoBot.Services.Permissions
                     break;
             }
 
-            return "." + com;
+            return prefix + com;
         }
 
         public static IEnumerable<Permission> AsEnumerable(this Permission perm)

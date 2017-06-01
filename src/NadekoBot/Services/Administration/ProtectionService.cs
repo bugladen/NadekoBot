@@ -17,9 +17,8 @@ namespace NadekoBot.Services.Administration
         // guildId | (userId|messages)
         public readonly ConcurrentDictionary<ulong, AntiSpamStats> AntiSpamGuilds =
                 new ConcurrentDictionary<ulong, AntiSpamStats>();
-
-        //todo sub LogCommands to this
-        public event Func<IEnumerable<IGuildUser>, PunishmentAction, ProtectionType, Task> OnAntiProtectionTriggered = delegate { return Task.CompletedTask; };
+        
+        public event Func<PunishmentAction, ProtectionType, IGuildUser[], Task> OnAntiProtectionTriggered = delegate { return Task.CompletedTask; };
 
         private readonly Logger _log;
         private readonly DiscordShardedClient _client;
@@ -175,7 +174,7 @@ namespace NadekoBot.Services.Administration
                         break;
                 }
             }
-            await OnAntiProtectionTriggered(gus, action, pt).ConfigureAwait(false);
+            await OnAntiProtectionTriggered(action, pt, gus).ConfigureAwait(false);
         }
     }
 }
