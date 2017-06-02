@@ -18,6 +18,12 @@ namespace NadekoBot.Extensions
 {
     public static class Extensions
     {
+        public static void ThrowIfNull<T>(this T obj, string name) where T : class
+        {
+            if (obj == null)
+                throw new ArgumentNullException(nameof(name));
+        }
+
         public static ConcurrentDictionary<TKey, TValue> ToConcurrent<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dict)
             => new ConcurrentDictionary<TKey, TValue>(dict);
 

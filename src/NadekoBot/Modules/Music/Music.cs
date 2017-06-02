@@ -493,7 +493,7 @@ namespace NadekoBot.Modules.Music
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [Priority(0)]
-        public Task Remove(int num)
+        public Task SongRemove(int num)
         {
             MusicPlayer musicPlayer;
             if ((musicPlayer = _music.GetPlayer(Context.Guild.Id)) == null)
@@ -508,7 +508,7 @@ namespace NadekoBot.Modules.Music
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [Priority(1)]
-        public async Task Remove(string all)
+        public async Task SongRemove(string all)
         {
             if (all.Trim().ToUpperInvariant() != "ALL")
                 return;

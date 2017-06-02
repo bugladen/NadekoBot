@@ -25,6 +25,7 @@ using NadekoBot.Services.Administration;
 using NadekoBot.Services.Permissions;
 using NadekoBot.Services.Utility;
 using NadekoBot.Services.Help;
+using NadekoBot.Extensions;
 
 namespace NadekoBot
 {
@@ -256,6 +257,15 @@ namespace NadekoBot
             await commandHandler.StartHandling().ConfigureAwait(false);
 
             var _ = await CommandService.AddModulesAsync(this.GetType().GetTypeInfo().Assembly);
+
+            
+            //Console.WriteLine(string.Join(", ", CommandService.Commands
+            //    .Distinct(x => x.Name + x.Module.Name)
+            //    .SelectMany(x => x.Aliases)
+            //    .GroupBy(x => x)
+            //    .Where(x => x.Count() > 1)
+            //    .Select(x => x.Key + $"({x.Count()})")));
+
 #if GLOBAL_NADEKO
             //unload modules which are not available on the public bot
             CommandService

@@ -86,7 +86,7 @@ namespace NadekoBot.Modules.Utility
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task SearchQuote(string keyword, [Remainder] string text)
+            public async Task QuoteSearch(string keyword, [Remainder] string text)
             {
                 if (string.IsNullOrWhiteSpace(keyword) || string.IsNullOrWhiteSpace(text))
                     return;

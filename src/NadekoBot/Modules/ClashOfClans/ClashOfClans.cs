@@ -117,7 +117,7 @@ namespace NadekoBot.Modules.ClashOfClans
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Claim(int number, int baseNumber, [Remainder] string other_name = null)
+        public async Task BaseCall(int number, int baseNumber, [Remainder] string other_name = null)
         {
             var warsInfo = _service.GetWarInfo(Context.Guild, number);
             if (warsInfo == null || warsInfo.Item1.Count == 0)
@@ -144,21 +144,21 @@ namespace NadekoBot.Modules.ClashOfClans
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task ClaimFinish1(int number, int baseNumber = 0)
+        public async Task CallFinish1(int number, int baseNumber = 0)
         {
             await FinishClaim(number, baseNumber - 1, 1);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task ClaimFinish2(int number, int baseNumber = 0)
+        public async Task CallFinish2(int number, int baseNumber = 0)
         {
             await FinishClaim(number, baseNumber - 1, 2);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task ClaimFinish(int number, int baseNumber = 0)
+        public async Task CallFinish(int number, int baseNumber = 0)
         {
             await FinishClaim(number, baseNumber - 1);
         }

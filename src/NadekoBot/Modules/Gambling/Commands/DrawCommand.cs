@@ -60,7 +60,7 @@ namespace NadekoBot.Modules.Gambling
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task ShuffleDeck()
+            public async Task DeckShuffle()
             {
                 //var channel = (ITextChannel)Context.Channel;
 

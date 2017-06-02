@@ -667,7 +667,6 @@ namespace NadekoBot.Modules.Searches
             await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                 .AddField(efb => efb.WithName("Username").WithValue(usr.ToString()).WithIsInline(false))
                 .AddField(efb => efb.WithName("Avatar Url").WithValue(shortenedAvatarUrl).WithIsInline(false))
-                //.AddField(efb => efb.WithName("Avatar Id").WithValue(usr.AvatarId).WithIsInline(false))
                 .WithThumbnailUrl(avatarUrl), Context.User.Mention).ConfigureAwait(false);
         }
 
