@@ -18,53 +18,37 @@
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
+    <ApplicationIcon>nadeko_icon.ico</ApplicationIcon>
+    <RuntimeIdentifiers>win7-x64;ubuntu.14.04-x64;osx.10.10-x64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Version)' == '' ">
-    <VersionPrefix Condition=" '$(VersionPrefix)' == '' ">1.4.0</VersionPrefix>
+    <VersionPrefix Condition=" '$(VersionPrefix)' == '' ">1.4.1</VersionPrefix>
     <Version Condition=" '$(VersionSuffix)' != '' ">$(VersionPrefix).$(VersionSuffix)</Version>
     <Version Condition=" '$(Version)' == '' ">$(VersionPrefix)</Version>
   </PropertyGroup>
   
   <ItemGroup>
-    <Compile Remove="data\**\*;credentials.json;credentials_example.json" />
-    <Compile Remove="Modules\Administration\**" />
-    <EmbeddedResource Remove="Modules\Administration\**" />
-    <None Remove="Modules\Administration\**" />
-    <Compile Remove="Modules\Gambling\Commands\Lucky7Commands.cs" />
-    <Compile Include="Modules\Administration\Administration.cs" />
-    <Compile Include="Modules\Administration\Commands\AutoAssignRoleCommands.cs" />
-    <Compile Include="Modules\Administration\Commands\GameChannelCommands.cs" />
-    <Compile Include="Modules\Administration\Commands\LocalizationCommands.cs" />
-    <Compile Include="Modules\Administration\Commands\LogCommand.cs" />
-    <Compile Include="Modules\Administration\Commands\Migration.cs" />
-    <Compile Include="Modules\Administration\Commands\Migration\0_9..cs" />
-    <Compile Include="Modules\Administration\Commands\Migration\MigrationException.cs" />
-    <Compile Include="Modules\Administration\Commands\MuteCommands.cs" />
-    <Compile Include="Modules\Administration\Commands\PlayingRotateCommands.cs" />
-    <Compile Include="Modules\Administration\Commands\PrefixCommands.cs" />
-    <Compile Include="Modules\Administration\Commands\ProtectionCommands.cs" />
-    <Compile Include="Modules\Administration\Commands\RatelimitCommand.cs" />
-    <Compile Include="Modules\Administration\Commands\SelfAssignedRolesCommand.cs" />
-    <Compile Include="Modules\Administration\Commands\SelfCommands.cs" />
-    <Compile Include="Modules\Administration\Commands\ServerGreetCommands.cs" />
-    <Compile Include="Modules\Administration\Commands\UserPunishCommands.cs" />
-    <Compile Include="Modules\Administration\Commands\VcRoleCommands.cs" />
-    <Compile Include="Modules\Administration\Commands\VoicePlusTextCommands.cs" />
+    <Compile Remove="data\**\*;credentials.json" />
+    <None Update="credentials_example.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="_strings\**">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="libsodium.dll;opus.dll;libsodium.so;libopus.so">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="nadeko_icon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="data\**\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="_strings\**">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="data\musicdata\**\*">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="AngleSharp" Version="0.9.9" />
     <PackageReference Include="Discord.Net" Version="1.0.0-rc3-00746" />
