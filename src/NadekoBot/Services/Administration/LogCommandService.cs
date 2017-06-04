@@ -41,8 +41,6 @@ namespace NadekoBot.Services.Administration
             _mute = mute;
             _prot = prot;
 
-            var sw = Stopwatch.StartNew();
-
             GuildLogSettings = gcs
                 .ToDictionary(g => g.GuildId, g => g.LogSetting)
                 .ToConcurrent();
@@ -68,9 +66,6 @@ namespace NadekoBot.Services.Administration
                     _log.Warn(ex);
                 }
             }, null, TimeSpan.FromSeconds(15), TimeSpan.FromSeconds(15));
-
-            sw.Stop();
-            _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
 
             //_client.MessageReceived += _client_MessageReceived;
             _client.MessageUpdated += _client_MessageUpdated;

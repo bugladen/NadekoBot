@@ -25,6 +25,7 @@ using NadekoBot.Services.Administration;
 using NadekoBot.Services.Permissions;
 using NadekoBot.Services.Utility;
 using NadekoBot.Services.Help;
+using System.IO;
 
 namespace NadekoBot
 {
@@ -63,6 +64,7 @@ namespace NadekoBot
         {
             SetupLogger();
             _log = LogManager.GetCurrentClassLogger();
+            TerribleElevatedPermissionCheck();
             
             Credentials = new BotCredentials();
             Db = new DbService(Credentials);
@@ -244,11 +246,11 @@ namespace NadekoBot
 
             await LoginAsync(Credentials.Token).ConfigureAwait(false);
 
-            _log.Info("Loading serveices...");
+            _log.Info("Loading services...");
             AddServices();
 
             sw.Stop();
-            _log.Info("Connected in " + sw.Elapsed.TotalSeconds.ToString("F2"));
+            _log.Info($"Connected in {sw.Elapsed.TotalSeconds:F2} s");
 
             var stats = Services.GetService<IStatsService>();
             stats.Initialize();
@@ -293,6 +295,21 @@ namespace NadekoBot
         {
             await RunAsync(args).ConfigureAwait(false);
             await Task.Delay(-1).ConfigureAwait(false);
+        }
+
+        private void TerribleElevatedPermissionCheck()
+        {
+            try
+            {
+                File.WriteAllText("test", "test");
+                File.Delete("test");
+            }
+            catch
+            {
+                _log.Error("You must run the application as an ADMINISTRATOR.");
+                Console.ReadKey();
+                Environment.Exit(2);
+            }
         }
 
         private static void SetupLogger()
