@@ -25,7 +25,6 @@ using NadekoBot.Services.Administration;
 using NadekoBot.Services.Permissions;
 using NadekoBot.Services.Utility;
 using NadekoBot.Services.Help;
-using NadekoBot.Extensions;
 
 namespace NadekoBot
 {
@@ -222,6 +221,7 @@ namespace NadekoBot
 
         private async Task LoginAsync(string token)
         {
+            _log.Info("Logging in...");
             //connect
             await Client.LoginAsync(TokenType.Bot, token).ConfigureAwait(false);
             await Client.StartAsync().ConfigureAwait(false);
@@ -231,6 +231,7 @@ namespace NadekoBot
             foreach (var s in Client.Shards)
                 s.Ready += () => Task.FromResult(Interlocked.Increment(ref readyCount));
 
+            _log.Info("Waiting for all shards to connect...");
             while (readyCount < Client.Shards.Count)
                 await Task.Delay(100).ConfigureAwait(false);
         }
@@ -243,6 +244,7 @@ namespace NadekoBot
 
             await LoginAsync(Credentials.Token).ConfigureAwait(false);
 
+            _log.Info("Loading serveices...");
             AddServices();
 
             sw.Stop();

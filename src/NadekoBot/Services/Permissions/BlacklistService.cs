@@ -3,7 +3,6 @@ using NadekoBot.Services.Database.Models;
 using System.Collections.Concurrent;
 using System.Linq;
 using Discord;
-using Discord.WebSocket;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Services.Permissions

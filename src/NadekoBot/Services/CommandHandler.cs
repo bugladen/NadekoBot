@@ -13,7 +13,6 @@ using NadekoBot.DataStructures;
 using System.Collections.Immutable;
 using NadekoBot.DataStructures.ModuleBehaviors;
 using NadekoBot.Services.Database.Models;
-using NadekoBot.Services;
 using System.IO;
 using Discord.Net;
 

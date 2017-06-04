@@ -1,5 +1,4 @@
 ﻿using Discord;
-using Discord.WebSocket;
 using System.Threading.Tasks;
 
 namespace NadekoBot.DataStructures.ModuleBehaviors

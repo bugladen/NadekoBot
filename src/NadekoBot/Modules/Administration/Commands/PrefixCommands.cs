@@ -1,8 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
-using NadekoBot.Services;
-using NadekoBot.Services.Administration;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Administration

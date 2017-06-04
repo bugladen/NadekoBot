@@ -2,7 +2,6 @@
 using Discord.Commands;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
-using NadekoBot.Services.Administration;
 using NLog;
 using System.Globalization;
 using System.Threading.Tasks;
