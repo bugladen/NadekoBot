@@ -21,42 +21,46 @@ namespace NadekoBot.Services.Utility
             _client.MessageReceived += Client_MessageReceived;
         }
 
-        private async Task Client_MessageReceived(SocketMessage imsg)
+        private Task Client_MessageReceived(SocketMessage imsg)
         {
-            try
-            {
-                if (imsg.Author.IsBot)
-                    return;
-                var msg = imsg as IUserMessage;
-                if (msg == null)
-                    return;
-                var channel = imsg.Channel as ITextChannel;
-                if (channel == null)
-                    return;
-                if (msg.Author.Id == _client.CurrentUser.Id) return;
-                foreach (var subscriber in Subscribers)
+            var _ = Task.Run(async () => {
+                try
                 {
-                    var set = subscriber.Value;
-                    if (!set.Contains(channel))
-                        continue;
-                    foreach (var chan in set.Except(new[] { channel }))
+                    if (imsg.Author.IsBot)
+                        return;
+                    var msg = imsg as IUserMessage;
+                    if (msg == null)
+                        return;
+                    var channel = imsg.Channel as ITextChannel;
+                    if (channel == null)
+                        return;
+                    if (msg.Author.Id == _client.CurrentUser.Id) return;
+                    foreach (var subscriber in Subscribers)
                     {
-                        try
+                        var set = subscriber.Value;
+                        if (!set.Contains(channel))
+                            continue;
+                        foreach (var chan in set.Except(new[] { channel }))
                         {
-                            await chan.SendMessageAsync(GetMessage(channel, (IGuildUser)msg.Author,
-                                msg)).ConfigureAwait(false);
-                        }
-                        catch
-                        {
-                            // ignored
+                            try
+                            {
+                                await chan.SendMessageAsync(GetMessage(channel, (IGuildUser)msg.Author,
+                                    msg)).ConfigureAwait(false);
+                            }
+                            catch
+                            {
+                                // ignored
+                            }
                         }
                     }
                 }
-            }
-            catch
-            {
-                // ignored
-            }
+                catch
+                {
+                    // ignored
+                }
+            });
+
+            return Task.CompletedTask;
         }
 
         private string GetMessage(ITextChannel channel, IGuildUser user, IUserMessage message) =>

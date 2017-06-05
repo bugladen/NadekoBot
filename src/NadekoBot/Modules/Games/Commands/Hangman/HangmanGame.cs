@@ -119,77 +119,81 @@ namespace NadekoBot.Modules.Games.Hangman
 
         private async Task PotentialGuess(SocketMessage msg)
         {
-            try
+            await Task.Yield();
+            var _ = Task.Run(async () =>
             {
-                if (!(msg is SocketUserMessage))
-                    return;
-
-                if (msg.Channel != GameChannel)
-                    return; // message's channel has to be the same as game's
-                if (msg.Content.Length == 1) // message must be 1 char long
+                try
                 {
-                    if (++MessagesSinceLastPost > 10)
+                    if (!(msg is SocketUserMessage))
+                        return;
+
+                    if (msg.Channel != GameChannel)
+                        return; // message's channel has to be the same as game's
+                    if (msg.Content.Length == 1) // message must be 1 char long
                     {
-                        MessagesSinceLastPost = 0;
-                        try
+                        if (++MessagesSinceLastPost > 10)
                         {
-                            await GameChannel.SendConfirmAsync("Hangman Game",
-                                ScrambledWord + "\n" + GetHangman(),
-                                footer: string.Join(" ", Guesses)).ConfigureAwait(false);
+                            MessagesSinceLastPost = 0;
+                            try
+                            {
+                                await GameChannel.SendConfirmAsync("Hangman Game",
+                                    ScrambledWord + "\n" + GetHangman(),
+                                    footer: string.Join(" ", Guesses)).ConfigureAwait(false);
+                            }
+                            catch { }
                         }
-                        catch { }
-                    }
 
-                    if (!(char.IsLetter(msg.Content[0]) || char.IsDigit(msg.Content[0])))// and a letter or a digit
-                        return;
+                        if (!(char.IsLetter(msg.Content[0]) || char.IsDigit(msg.Content[0])))// and a letter or a digit
+                            return;
 
-                    var guess = char.ToUpperInvariant(msg.Content[0]);
-                    if (Guesses.Contains(guess))
-                    {
-                        MessagesSinceLastPost = 0;
-                        ++Errors;
-                        if (Errors < MaxErrors)
-                            await GameChannel.SendErrorAsync("Hangman Game", $"{msg.Author} Letter `{guess}` has already been used.\n" + ScrambledWord + "\n" + GetHangman(),
-                                footer: string.Join(" ", Guesses)).ConfigureAwait(false);
-                        else
-                            await End().ConfigureAwait(false);
-                        return;
-                    }
-
-                    Guesses.Add(guess);
-
-                    if (Term.Word.ToUpperInvariant().Contains(guess))
-                    {
-                        if (GuessedAll)
+                        var guess = char.ToUpperInvariant(msg.Content[0]);
+                        if (Guesses.Contains(guess))
                         {
-                            try { await GameChannel.SendConfirmAsync("Hangman Game", $"{msg.Author} guessed a letter `{guess}`!").ConfigureAwait(false); } catch { }
-
-                            await End().ConfigureAwait(false);
+                            MessagesSinceLastPost = 0;
+                            ++Errors;
+                            if (Errors < MaxErrors)
+                                await GameChannel.SendErrorAsync("Hangman Game", $"{msg.Author} Letter `{guess}` has already been used.\n" + ScrambledWord + "\n" + GetHangman(),
+                                    footer: string.Join(" ", Guesses)).ConfigureAwait(false);
+                            else
+                                await End().ConfigureAwait(false);
                             return;
                         }
-                        MessagesSinceLastPost = 0;
-                        try
+
+                        Guesses.Add(guess);
+
+                        if (Term.Word.ToUpperInvariant().Contains(guess))
                         {
-                            await GameChannel.SendConfirmAsync("Hangman Game", $"{msg.Author} guessed a letter `{guess}`!\n" + ScrambledWord + "\n" + GetHangman(),
-                          footer: string.Join(" ", Guesses)).ConfigureAwait(false);
+                            if (GuessedAll)
+                            {
+                                try { await GameChannel.SendConfirmAsync("Hangman Game", $"{msg.Author} guessed a letter `{guess}`!").ConfigureAwait(false); } catch { }
+
+                                await End().ConfigureAwait(false);
+                                return;
+                            }
+                            MessagesSinceLastPost = 0;
+                            try
+                            {
+                                await GameChannel.SendConfirmAsync("Hangman Game", $"{msg.Author} guessed a letter `{guess}`!\n" + ScrambledWord + "\n" + GetHangman(),
+                              footer: string.Join(" ", Guesses)).ConfigureAwait(false);
+                            }
+                            catch { }
+
                         }
-                        catch { }
-
-                    }
-                    else
-                    {
-                        MessagesSinceLastPost = 0;
-                        ++Errors;
-                        if (Errors < MaxErrors)
-                            await GameChannel.SendErrorAsync("Hangman Game", $"{msg.Author} Letter `{guess}` does not exist.\n" + ScrambledWord + "\n" + GetHangman(),
-                                footer: string.Join(" ", Guesses)).ConfigureAwait(false);
                         else
-                            await End().ConfigureAwait(false);
-                    }
+                        {
+                            MessagesSinceLastPost = 0;
+                            ++Errors;
+                            if (Errors < MaxErrors)
+                                await GameChannel.SendErrorAsync("Hangman Game", $"{msg.Author} Letter `{guess}` does not exist.\n" + ScrambledWord + "\n" + GetHangman(),
+                                    footer: string.Join(" ", Guesses)).ConfigureAwait(false);
+                            else
+                                await End().ConfigureAwait(false);
+                        }
 
+                    }
                 }
-            }
-            catch (Exception ex) { _log.Warn(ex); }
+                catch (Exception ex) { _log.Warn(ex); }
+            });
         }
 
         public string GetHangman() => $@". ┌─────┐

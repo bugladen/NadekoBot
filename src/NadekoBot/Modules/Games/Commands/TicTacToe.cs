@@ -237,7 +237,7 @@ namespace NadekoBot.Modules.Games
                 return true;
             }
 
-            private Task Client_MessageReceived(Discord.WebSocket.SocketMessage msg)
+            private Task Client_MessageReceived(SocketMessage msg)
             {
                 var _ = Task.Run(async () =>
                 {

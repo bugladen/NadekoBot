@@ -132,6 +132,7 @@ namespace NadekoBot
             #region Searches
             var searchesService = new SearchesService(Client, GoogleApi, Db);
             var streamNotificationService = new StreamNotificationService(Db, Client, Strings);
+            var animeSearchService = new AnimeSearchService();
             #endregion
 
             var clashService = new ClashOfClansService(Client, Db, Localization, Strings);
@@ -184,6 +185,7 @@ namespace NadekoBot
                     .Add(converterService)
                 .Add<SearchesService>(searchesService)
                     .Add(streamNotificationService)
+                    .Add(animeSearchService)
                 .Add<ClashOfClansService>(clashService)
                 .Add<MusicService>(musicService)
                 .Add<GreetSettingsService>(greetSettingsService)

@@ -180,64 +180,68 @@ namespace NadekoBot.Modules.Games.Trivia
 
         private async Task PotentialGuess(SocketMessage imsg)
         {
-            try
+            await Task.Yield();
+            var _ = Task.Run(async () =>
             {
-                if (imsg.Author.IsBot)
-                    return;
-
-                var umsg = imsg as SocketUserMessage;
-
-                var textChannel = umsg?.Channel as ITextChannel;
-                if (textChannel == null || textChannel.Guild != Guild)
-                    return;
-
-                var guildUser = (IGuildUser)umsg.Author;
-
-                var guess = false;
-                await _guessLock.WaitAsync().ConfigureAwait(false);
                 try
                 {
-                    if (GameActive && CurrentQuestion.IsAnswerCorrect(umsg.Content) && !triviaCancelSource.IsCancellationRequested)
-                    {
-                        Users.AddOrUpdate(guildUser, 1, (gu, old) => ++old);
-                        guess = true;
-                    }
-                }
-                finally { _guessLock.Release(); }
-                if (!guess) return;
-                triviaCancelSource.Cancel();
+                    if (imsg.Author.IsBot)
+                        return;
 
+                    var umsg = imsg as SocketUserMessage;
 
-                if (Users[guildUser] == WinRequirement)
-                {
-                    ShouldStopGame = true;
+                    var textChannel = umsg?.Channel as ITextChannel;
+                    if (textChannel == null || textChannel.Guild != Guild)
+                        return;
+
+                    var guildUser = (IGuildUser)umsg.Author;
+
+                    var guess = false;
+                    await _guessLock.WaitAsync().ConfigureAwait(false);
                     try
                     {
-                        await Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                            .WithTitle(GetText("trivia_game"))
-                            .WithDescription(GetText("trivia_win",
-                                guildUser.Mention,
-                                Format.Bold(CurrentQuestion.Answer)))
-                            .WithImageUrl(CurrentQuestion.AnswerImageUrl))
-                            .ConfigureAwait(false);
+                        if (GameActive && CurrentQuestion.IsAnswerCorrect(umsg.Content) && !triviaCancelSource.IsCancellationRequested)
+                        {
+                            Users.AddOrUpdate(guildUser, 1, (gu, old) => ++old);
+                            guess = true;
+                        }
                     }
-                    catch
-                    {
-                        // ignored
-                    }
-                    var reward = _bc.TriviaCurrencyReward;
-                    if (reward > 0)
-                        await _cs.AddAsync(guildUser, "Won trivia", reward, true).ConfigureAwait(false);
-                    return;
-                }
+                    finally { _guessLock.Release(); }
+                    if (!guess) return;
+                    triviaCancelSource.Cancel();
 
-                await Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                    .WithTitle(GetText("trivia_game"))
-                    .WithDescription(GetText("trivia_guess", guildUser.Mention, Format.Bold(CurrentQuestion.Answer)))
-                    .WithImageUrl(CurrentQuestion.AnswerImageUrl))
-                    .ConfigureAwait(false);
-            }
-            catch (Exception ex) { _log.Warn(ex); }
+
+                    if (Users[guildUser] == WinRequirement)
+                    {
+                        ShouldStopGame = true;
+                        try
+                        {
+                            await Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                                .WithTitle(GetText("trivia_game"))
+                                .WithDescription(GetText("trivia_win",
+                                    guildUser.Mention,
+                                    Format.Bold(CurrentQuestion.Answer)))
+                                .WithImageUrl(CurrentQuestion.AnswerImageUrl))
+                                .ConfigureAwait(false);
+                        }
+                        catch
+                        {
+                            // ignored
+                        }
+                        var reward = _bc.TriviaCurrencyReward;
+                        if (reward > 0)
+                            await _cs.AddAsync(guildUser, "Won trivia", reward, true).ConfigureAwait(false);
+                        return;
+                    }
+
+                    await Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                        .WithTitle(GetText("trivia_game"))
+                        .WithDescription(GetText("trivia_guess", guildUser.Mention, Format.Bold(CurrentQuestion.Answer)))
+                        .WithImageUrl(CurrentQuestion.AnswerImageUrl))
+                        .ConfigureAwait(false);
+                }
+                catch (Exception ex) { _log.Warn(ex); }
+            });
         }
 
         public string GetLeaderboard()

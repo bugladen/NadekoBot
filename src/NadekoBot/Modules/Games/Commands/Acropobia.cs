@@ -186,101 +186,105 @@ $@"--
 
             private async Task PotentialAcro(SocketMessage arg)
             {
-                try
+                await Task.Yield();
+                var _ = Task.Run(async () =>
                 {
-                    var msg = arg as SocketUserMessage;
-                    if (msg == null || msg.Author.IsBot || msg.Channel.Id != _channel.Id)
-                        return;
-
-                    ++_spamCount;
-
-                    var guildUser = (IGuildUser)msg.Author;
-
-                    var input = msg.Content.ToUpperInvariant().Trim();
-
-                    if (phase == AcroPhase.Submitting)
+                    try
                     {
-                        if (_spamCount > 10)
-                        {
-                            _spamCount = 0;
-                            try { await _channel.EmbedAsync(GetEmbed()).ConfigureAwait(false); }
-                            catch { }
-                        }
-                        var inputWords = input.Split(' '); //get all words
-
-                        if (inputWords.Length != _startingLetters.Length) // number of words must be the same as the number of the starting letters
+                        var msg = arg as SocketUserMessage;
+                        if (msg == null || msg.Author.IsBot || msg.Channel.Id != _channel.Id)
                             return;
 
-                        for (int i = 0; i < _startingLetters.Length; i++)
-                        {
-                            var letter = _startingLetters[i];
+                        ++_spamCount;
 
-                            if (!inputWords[i].StartsWith(letter.ToString())) // all first letters must match
+                        var guildUser = (IGuildUser)msg.Author;
+
+                        var input = msg.Content.ToUpperInvariant().Trim();
+
+                        if (phase == AcroPhase.Submitting)
+                        {
+                            if (_spamCount > 10)
+                            {
+                                _spamCount = 0;
+                                try { await _channel.EmbedAsync(GetEmbed()).ConfigureAwait(false); }
+                                catch { }
+                            }
+                            var inputWords = input.Split(' '); //get all words
+
+                            if (inputWords.Length != _startingLetters.Length) // number of words must be the same as the number of the starting letters
                                 return;
-                        }
+
+                            for (int i = 0; i < _startingLetters.Length; i++)
+                            {
+                                var letter = _startingLetters[i];
+
+                                if (!inputWords[i].StartsWith(letter.ToString())) // all first letters must match
+                                    return;
+                            }
 
 
-                        if (!_usersWhoSubmitted.Add(guildUser.Id))
-                            return;
-                        //try adding it to the list of answers
-                        if (!_submissions.TryAdd(input, guildUser))
-                        {
-                            _usersWhoSubmitted.TryRemove(guildUser.Id);
-                            return;
-                        }
-
-                        // all good. valid input. answer recorded
-                        await _channel.SendConfirmAsync(GetText("acrophobia"),
-                            GetText("acro_submit", guildUser.Mention,
-                                _submissions.Count));
-                        try
-                        {
-                            await msg.DeleteAsync();
-                        }
-                        catch
-                        {
-                            await msg.DeleteAsync(); //try twice
-                        }
-                    }
-                    else if (phase == AcroPhase.Voting)
-                    {
-                        if (_spamCount > 10)
-                        {
-                            _spamCount = 0;
-                            try { await _channel.EmbedAsync(GetEmbed()).ConfigureAwait(false); }
-                            catch { }
-                        }
-
-                        //if (submissions.TryGetValue(input, out usr) && usr.Id != guildUser.Id)
-                        //{
-                        //    if (!usersWhoVoted.Add(guildUser.Id))
-                        //        return;
-                        //    votes.AddOrUpdate(input, 1, (key, old) => ++old);
-                        //    await channel.SendConfirmAsync("Acrophobia", $"{guildUser.Mention} cast their vote!").ConfigureAwait(false);
-                        //    await msg.DeleteAsync().ConfigureAwait(false);
-                        //    return;
-                        //}
-
-                        int num;
-                        if (int.TryParse(input, out num) && num > 0 && num <= _submissions.Count)
-                        {
-                            var kvp = _submissions.Skip(num - 1).First();
-                            var usr = kvp.Value;
-                            //can't vote for yourself, can't vote multiple times
-                            if (usr.Id == guildUser.Id || !_usersWhoVoted.Add(guildUser.Id))
+                            if (!_usersWhoSubmitted.Add(guildUser.Id))
                                 return;
-                            _votes.AddOrUpdate(kvp.Key, 1, (key, old) => ++old);
+                            //try adding it to the list of answers
+                            if (!_submissions.TryAdd(input, guildUser))
+                            {
+                                _usersWhoSubmitted.TryRemove(guildUser.Id);
+                                return;
+                            }
+
+                            // all good. valid input. answer recorded
                             await _channel.SendConfirmAsync(GetText("acrophobia"),
-                                GetText("acro_vote_cast", Format.Bold(guildUser.ToString()))).ConfigureAwait(false);
-                            await msg.DeleteAsync().ConfigureAwait(false);
+                                GetText("acro_submit", guildUser.Mention,
+                                    _submissions.Count));
+                            try
+                            {
+                                await msg.DeleteAsync();
+                            }
+                            catch
+                            {
+                                await msg.DeleteAsync(); //try twice
+                            }
                         }
+                        else if (phase == AcroPhase.Voting)
+                        {
+                            if (_spamCount > 10)
+                            {
+                                _spamCount = 0;
+                                try { await _channel.EmbedAsync(GetEmbed()).ConfigureAwait(false); }
+                                catch { }
+                            }
 
+                            //if (submissions.TryGetValue(input, out usr) && usr.Id != guildUser.Id)
+                            //{
+                            //    if (!usersWhoVoted.Add(guildUser.Id))
+                            //        return;
+                            //    votes.AddOrUpdate(input, 1, (key, old) => ++old);
+                            //    await channel.SendConfirmAsync("Acrophobia", $"{guildUser.Mention} cast their vote!").ConfigureAwait(false);
+                            //    await msg.DeleteAsync().ConfigureAwait(false);
+                            //    return;
+                            //}
+
+                            int num;
+                            if (int.TryParse(input, out num) && num > 0 && num <= _submissions.Count)
+                            {
+                                var kvp = _submissions.Skip(num - 1).First();
+                                var usr = kvp.Value;
+                                //can't vote for yourself, can't vote multiple times
+                                if (usr.Id == guildUser.Id || !_usersWhoVoted.Add(guildUser.Id))
+                                    return;
+                                _votes.AddOrUpdate(kvp.Key, 1, (key, old) => ++old);
+                                await _channel.SendConfirmAsync(GetText("acrophobia"),
+                                    GetText("acro_vote_cast", Format.Bold(guildUser.ToString()))).ConfigureAwait(false);
+                                await msg.DeleteAsync().ConfigureAwait(false);
+                            }
+
+                        }
                     }
-                }
-                catch (Exception ex)
-                {
-                    _log.Warn(ex);
-                }
+                    catch (Exception ex)
+                    {
+                        _log.Warn(ex);
+                    }
+                });
             }
 
             public async Task End()

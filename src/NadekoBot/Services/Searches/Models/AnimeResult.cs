@@ -1,6 +1,6 @@
 ﻿using NadekoBot.Extensions;
 
-namespace NadekoBot.Modules.Searches.Models
+namespace NadekoBot.Services.Searches
 {
     public class AnimeResult
     {

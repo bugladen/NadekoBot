@@ -71,20 +71,21 @@ namespace NadekoBot.Services.Administration
             _client.UserJoined += Client_UserJoined;
         }
 
-        private async Task Client_UserJoined(IGuildUser usr)
+        private Task Client_UserJoined(IGuildUser usr)
         {
             try
             {
                 MutedUsers.TryGetValue(usr.Guild.Id, out ConcurrentHashSet<ulong> muted);
 
                 if (muted == null || !muted.Contains(usr.Id))
-                    return;
-                await MuteUser(usr).ConfigureAwait(false);
+                    return Task.CompletedTask;
+                Task.Run(() => MuteUser(usr).ConfigureAwait(false));
             }
             catch (Exception ex)
             {
-                LogManager.GetCurrentClassLogger().Warn(ex);
+                _log.Warn(ex);
             }
+            return Task.CompletedTask;
         }
 
         public async Task MuteUser(IGuildUser usr, MuteType type = MuteType.All)

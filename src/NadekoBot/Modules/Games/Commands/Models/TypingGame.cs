@@ -109,38 +109,42 @@ namespace NadekoBot.Modules.Games.Models
 
         private async Task AnswerReceived(SocketMessage imsg)
         {
-            try
+            await Task.Yield();
+            var _ = Task.Run(async () =>
             {
-                if (imsg.Author.IsBot)
-                    return;
-                var msg = imsg as SocketUserMessage;
-                if (msg == null)
-                    return;
-
-                if (this.Channel == null || this.Channel.Id != msg.Channel.Id) return;
-
-                var guess = msg.Content;
-
-                var distance = CurrentSentence.LevenshteinDistance(guess);
-                var decision = Judge(distance, guess.Length);
-                if (decision && !finishedUserIds.Contains(msg.Author.Id))
+                try
                 {
-                    var elapsed = sw.Elapsed;
-                    var wpm = CurrentSentence.Length / WORD_VALUE / elapsed.TotalSeconds * 60;
-                    finishedUserIds.Add(msg.Author.Id);
-                    await this.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                        .WithTitle($"{msg.Author} finished the race!")
-                        .AddField(efb => efb.WithName("Place").WithValue($"#{finishedUserIds.Count}").WithIsInline(true))
-                        .AddField(efb => efb.WithName("WPM").WithValue($"{wpm:F1} *[{elapsed.TotalSeconds:F2}sec]*").WithIsInline(true))
-                        .AddField(efb => efb.WithName("Errors").WithValue(distance.ToString()).WithIsInline(true)))
-                            .ConfigureAwait(false);
-                    if (finishedUserIds.Count % 4 == 0)
+                    if (imsg.Author.IsBot)
+                        return;
+                    var msg = imsg as SocketUserMessage;
+                    if (msg == null)
+                        return;
+
+                    if (this.Channel == null || this.Channel.Id != msg.Channel.Id) return;
+
+                    var guess = msg.Content;
+
+                    var distance = CurrentSentence.LevenshteinDistance(guess);
+                    var decision = Judge(distance, guess.Length);
+                    if (decision && !finishedUserIds.Contains(msg.Author.Id))
                     {
-                        await this.Channel.SendConfirmAsync($":exclamation: A lot of people finished, here is the text for those still typing:\n\n**{Format.Sanitize(CurrentSentence.Replace(" ", " \x200B")).SanitizeMentions()}**").ConfigureAwait(false);
+                        var elapsed = sw.Elapsed;
+                        var wpm = CurrentSentence.Length / WORD_VALUE / elapsed.TotalSeconds * 60;
+                        finishedUserIds.Add(msg.Author.Id);
+                        await this.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                            .WithTitle($"{msg.Author} finished the race!")
+                            .AddField(efb => efb.WithName("Place").WithValue($"#{finishedUserIds.Count}").WithIsInline(true))
+                            .AddField(efb => efb.WithName("WPM").WithValue($"{wpm:F1} *[{elapsed.TotalSeconds:F2}sec]*").WithIsInline(true))
+                            .AddField(efb => efb.WithName("Errors").WithValue(distance.ToString()).WithIsInline(true)))
+                                .ConfigureAwait(false);
+                        if (finishedUserIds.Count % 4 == 0)
+                        {
+                            await this.Channel.SendConfirmAsync($":exclamation: A lot of people finished, here is the text for those still typing:\n\n**{Format.Sanitize(CurrentSentence.Replace(" ", " \x200B")).SanitizeMentions()}**").ConfigureAwait(false);
+                        }
                     }
                 }
-            }
-            catch (Exception ex) { _log.Warn(ex); }
+                catch (Exception ex) { _log.Warn(ex); }
+            });
         }
 
         private bool Judge(int errors, int textLength) => errors <= textLength / 25;

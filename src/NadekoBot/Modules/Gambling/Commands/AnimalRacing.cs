@@ -255,7 +255,7 @@ namespace NadekoBot.Modules.Gambling
                         return Task.CompletedTask;
                     if ((msg.Author.Id == _client.CurrentUser.Id) || !(imsg.Channel is ITextChannel) || imsg.Channel != _raceChannel)
                         return Task.CompletedTask;
-                    _messagesSinceGameStarted++;
+                    Interlocked.Increment(ref _messagesSinceGameStarted);
                     return Task.CompletedTask;
                 }
 

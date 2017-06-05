@@ -31,7 +31,7 @@ namespace NadekoBot.Services.Administration
         private readonly MuteService _mute;
         private readonly ProtectionService _prot;
 
-        public LogCommandService(DiscordShardedClient client, NadekoStrings strings, 
+        public LogCommandService(DiscordShardedClient client, NadekoStrings strings,
             IEnumerable<GuildConfig> gcs, DbService db, MuteService mute, ProtectionService prot)
         {
             _client = client;
@@ -96,664 +96,731 @@ namespace NadekoBot.Services.Administration
 
         private async Task _client_UserUpdated(SocketUser before, SocketUser uAfter)
         {
-            try
+            await Task.Yield();
+            var _ = Task.Run(async () =>
             {
-                var after = uAfter as SocketGuildUser;
-
-                if (after == null)
-                    return;
-
-                var g = after.Guild;
-
-                if (!GuildLogSettings.TryGetValue(g.Id, out LogSetting logSetting)
-                    || (logSetting.UserUpdatedId == null))
-                    return;
-
-                ITextChannel logChannel;
-                if ((logChannel = await TryGetLogChannel(g, logSetting, LogType.UserUpdated)) == null)
-                    return;
-
-                var embed = new EmbedBuilder();
-
-
-                if (before.Username != after.Username)
+                try
                 {
-                    embed.WithTitle("👥 " + GetText(g, "username_changed"))
-                        .WithDescription($"{before.Username}#{before.Discriminator} | {before.Id}")
-                        .AddField(fb => fb.WithName("Old Name").WithValue($"{before.Username}").WithIsInline(true))
-                        .AddField(fb => fb.WithName("New Name").WithValue($"{after.Username}").WithIsInline(true))
-                        .WithFooter(fb => fb.WithText(CurrentTime))
-                        .WithOkColor();
+                    var after = uAfter as SocketGuildUser;
+
+                    if (after == null)
+                        return;
+
+                    var g = after.Guild;
+
+                    if (!GuildLogSettings.TryGetValue(g.Id, out LogSetting logSetting)
+                        || (logSetting.UserUpdatedId == null))
+                        return;
+
+                    ITextChannel logChannel;
+                    if ((logChannel = await TryGetLogChannel(g, logSetting, LogType.UserUpdated)) == null)
+                        return;
+
+                    var embed = new EmbedBuilder();
+
+
+                    if (before.Username != after.Username)
+                    {
+                        embed.WithTitle("👥 " + GetText(g, "username_changed"))
+                            .WithDescription($"{before.Username}#{before.Discriminator} | {before.Id}")
+                            .AddField(fb => fb.WithName("Old Name").WithValue($"{before.Username}").WithIsInline(true))
+                            .AddField(fb => fb.WithName("New Name").WithValue($"{after.Username}").WithIsInline(true))
+                            .WithFooter(fb => fb.WithText(CurrentTime))
+                            .WithOkColor();
+                    }
+                    else if (before.AvatarId != after.AvatarId)
+                    {
+                        embed.WithTitle("👥" + GetText(g, "avatar_changed"))
+                            .WithDescription($"{before.Username}#{before.Discriminator} | {before.Id}")
+                            .WithThumbnailUrl(before.GetAvatarUrl())
+                            .WithImageUrl(after.GetAvatarUrl())
+                            .WithFooter(fb => fb.WithText(CurrentTime))
+                            .WithOkColor();
+                    }
+                    else
+                    {
+                        return;
+                    }
+
+                    await logChannel.EmbedAsync(embed).ConfigureAwait(false);
+
+                    //var guildsMemberOf = _client.GetGuilds().Where(g => g.Users.Select(u => u.Id).Contains(before.Id)).ToList();
+                    //foreach (var g in guildsMemberOf)
+                    //{
+                    //    LogSetting logSetting;
+                    //    if (!GuildLogSettings.TryGetValue(g.Id, out logSetting)
+                    //        || (logSetting.UserUpdatedId == null))
+                    //        return;
+
+                    //    ITextChannel logChannel;
+                    //    if ((logChannel = await TryGetLogChannel(g, logSetting, LogType.UserUpdated)) == null)
+                    //        return;
+
+                    //    try { await logChannel.SendMessageAsync(str).ConfigureAwait(false); } catch { }
+                    //}
                 }
-                else if (before.AvatarId != after.AvatarId)
+                catch
                 {
-                    embed.WithTitle("👥" + GetText(g, "avatar_changed"))
-                        .WithDescription($"{before.Username}#{before.Discriminator} | {before.Id}")
-                        .WithThumbnailUrl(before.GetAvatarUrl())
-                        .WithImageUrl(after.GetAvatarUrl())
-                        .WithFooter(fb => fb.WithText(CurrentTime))
-                        .WithOkColor();
+                    // ignored
                 }
-                else
-                {
-                    return;
-                }
-
-                await logChannel.EmbedAsync(embed).ConfigureAwait(false);
-
-                //var guildsMemberOf = _client.GetGuilds().Where(g => g.Users.Select(u => u.Id).Contains(before.Id)).ToList();
-                //foreach (var g in guildsMemberOf)
-                //{
-                //    LogSetting logSetting;
-                //    if (!GuildLogSettings.TryGetValue(g.Id, out logSetting)
-                //        || (logSetting.UserUpdatedId == null))
-                //        return;
-
-                //    ITextChannel logChannel;
-                //    if ((logChannel = await TryGetLogChannel(g, logSetting, LogType.UserUpdated)) == null)
-                //        return;
-
-                //    try { await logChannel.SendMessageAsync(str).ConfigureAwait(false); } catch { }
-                //}
-            }
-            catch
-            {
-                // ignored
-            }
+            });
         }
 
         private async Task _client_UserVoiceStateUpdated_TTS(SocketUser iusr, SocketVoiceState before, SocketVoiceState after)
         {
-            try
+            await Task.Yield();
+            var _ = Task.Run(async () =>
             {
-                var usr = iusr as IGuildUser;
-                if (usr == null)
-                    return;
-
-                var beforeVch = before.VoiceChannel;
-                var afterVch = after.VoiceChannel;
-
-                if (beforeVch == afterVch)
-                    return;
-
-                if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out LogSetting logSetting)
-                    || (logSetting.LogVoicePresenceTTSId == null))
-                    return;
-
-                ITextChannel logChannel;
-                if ((logChannel = await TryGetLogChannel(usr.Guild, logSetting, LogType.VoicePresenceTTS)) == null)
-                    return;
-
-                var str = "";
-                if (beforeVch?.Guild == afterVch?.Guild)
+                try
                 {
-                    str = GetText(logChannel.Guild, "moved", usr.Username, beforeVch?.Name, afterVch?.Name);
+                    var usr = iusr as IGuildUser;
+                    if (usr == null)
+                        return;
+
+                    var beforeVch = before.VoiceChannel;
+                    var afterVch = after.VoiceChannel;
+
+                    if (beforeVch == afterVch)
+                        return;
+
+                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out LogSetting logSetting)
+                        || (logSetting.LogVoicePresenceTTSId == null))
+                        return;
+
+                    ITextChannel logChannel;
+                    if ((logChannel = await TryGetLogChannel(usr.Guild, logSetting, LogType.VoicePresenceTTS)) == null)
+                        return;
+
+                    var str = "";
+                    if (beforeVch?.Guild == afterVch?.Guild)
+                    {
+                        str = GetText(logChannel.Guild, "moved", usr.Username, beforeVch?.Name, afterVch?.Name);
+                    }
+                    else if (beforeVch == null)
+                    {
+                        str = GetText(logChannel.Guild, "joined", usr.Username, afterVch.Name);
+                    }
+                    else if (afterVch == null)
+                    {
+                        str = GetText(logChannel.Guild, "left", usr.Username, beforeVch.Name);
+                    }
+                    var toDelete = await logChannel.SendMessageAsync(str, true).ConfigureAwait(false);
+                    toDelete.DeleteAfter(5);
                 }
-                else if (beforeVch == null)
+                catch
                 {
-                    str = GetText(logChannel.Guild, "joined", usr.Username, afterVch.Name);
+                    // ignored
                 }
-                else if (afterVch == null)
-                {
-                    str = GetText(logChannel.Guild, "left", usr.Username, beforeVch.Name);
-                }
-                var toDelete = await logChannel.SendMessageAsync(str, true).ConfigureAwait(false);
-                toDelete.DeleteAfter(5);
-            }
-            catch
-            {
-                // ignored
-            }
+            });
         }
 
         private async void MuteCommands_UserMuted(IGuildUser usr, MuteType muteType)
         {
-            try
+            await Task.Yield();
+            var _ = Task.Run(async () =>
             {
-                if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out LogSetting logSetting)
-                    || (logSetting.UserMutedId == null))
-                    return;
-
-                ITextChannel logChannel;
-                if ((logChannel = await TryGetLogChannel(usr.Guild, logSetting, LogType.UserMuted)) == null)
-                    return;
-                var mutes = "";
-                var mutedLocalized = GetText(logChannel.Guild, "muted_sn");
-                switch (muteType)
+                try
                 {
-                    case MuteType.Voice:
-                        mutes = "🔇 " + GetText(logChannel.Guild, "xmuted_voice", mutedLocalized);
-                        break;
-                    case MuteType.Chat:
-                        mutes = "🔇 " + GetText(logChannel.Guild, "xmuted_text", mutedLocalized);
-                        break;
-                    case MuteType.All:
-                        mutes = "🔇 " + GetText(logChannel.Guild, "xmuted_text_and_voice", mutedLocalized);
-                        break;
+                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out LogSetting logSetting)
+                        || (logSetting.UserMutedId == null))
+                        return;
+
+                    ITextChannel logChannel;
+                    if ((logChannel = await TryGetLogChannel(usr.Guild, logSetting, LogType.UserMuted)) == null)
+                        return;
+                    var mutes = "";
+                    var mutedLocalized = GetText(logChannel.Guild, "muted_sn");
+                    switch (muteType)
+                    {
+                        case MuteType.Voice:
+                            mutes = "🔇 " + GetText(logChannel.Guild, "xmuted_voice", mutedLocalized);
+                            break;
+                        case MuteType.Chat:
+                            mutes = "🔇 " + GetText(logChannel.Guild, "xmuted_text", mutedLocalized);
+                            break;
+                        case MuteType.All:
+                            mutes = "🔇 " + GetText(logChannel.Guild, "xmuted_text_and_voice", mutedLocalized);
+                            break;
+                    }
+
+                    var embed = new EmbedBuilder().WithAuthor(eab => eab.WithName(mutes))
+                            .WithTitle($"{usr.Username}#{usr.Discriminator} | {usr.Id}")
+                            .WithFooter(fb => fb.WithText(CurrentTime))
+                            .WithOkColor();
+
+                    await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                 }
-
-                var embed = new EmbedBuilder().WithAuthor(eab => eab.WithName(mutes))
-                        .WithTitle($"{usr.Username}#{usr.Discriminator} | {usr.Id}")
-                        .WithFooter(fb => fb.WithText(CurrentTime))
-                        .WithOkColor();
-
-                await logChannel.EmbedAsync(embed).ConfigureAwait(false);
-            }
-            catch
-            {
-                // ignored
-            }
+                catch
+                {
+                    // ignored
+                }
+            });
         }
 
         private async void MuteCommands_UserUnmuted(IGuildUser usr, MuteType muteType)
         {
-            try
+            await Task.Yield();
+            var _ = Task.Run(async () =>
             {
-                if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out LogSetting logSetting)
-                    || (logSetting.UserMutedId == null))
-                    return;
-
-                ITextChannel logChannel;
-                if ((logChannel = await TryGetLogChannel(usr.Guild, logSetting, LogType.UserMuted)) == null)
-                    return;
-
-                var mutes = "";
-                var unmutedLocalized = GetText(logChannel.Guild, "unmuted_sn");
-                switch (muteType)
+                try
                 {
-                    case MuteType.Voice:
-                        mutes = "🔊 " + GetText(logChannel.Guild, "xmuted_voice", unmutedLocalized);
-                        break;
-                    case MuteType.Chat:
-                        mutes = "🔊 " + GetText(logChannel.Guild, "xmuted_text", unmutedLocalized);
-                        break;
-                    case MuteType.All:
-                        mutes = "🔊 " + GetText(logChannel.Guild, "xmuted_text_and_voice", unmutedLocalized);
-                        break;
+                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out LogSetting logSetting)
+                        || (logSetting.UserMutedId == null))
+                        return;
+
+                    ITextChannel logChannel;
+                    if ((logChannel = await TryGetLogChannel(usr.Guild, logSetting, LogType.UserMuted)) == null)
+                        return;
+
+                    var mutes = "";
+                    var unmutedLocalized = GetText(logChannel.Guild, "unmuted_sn");
+                    switch (muteType)
+                    {
+                        case MuteType.Voice:
+                            mutes = "🔊 " + GetText(logChannel.Guild, "xmuted_voice", unmutedLocalized);
+                            break;
+                        case MuteType.Chat:
+                            mutes = "🔊 " + GetText(logChannel.Guild, "xmuted_text", unmutedLocalized);
+                            break;
+                        case MuteType.All:
+                            mutes = "🔊 " + GetText(logChannel.Guild, "xmuted_text_and_voice", unmutedLocalized);
+                            break;
+                    }
+
+                    var embed = new EmbedBuilder().WithAuthor(eab => eab.WithName(mutes))
+                            .WithTitle($"{usr.Username}#{usr.Discriminator} | {usr.Id}")
+                            .WithFooter(fb => fb.WithText($"{CurrentTime}"))
+                            .WithOkColor();
+
+                    await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                 }
-
-                var embed = new EmbedBuilder().WithAuthor(eab => eab.WithName(mutes))
-                        .WithTitle($"{usr.Username}#{usr.Discriminator} | {usr.Id}")
-                        .WithFooter(fb => fb.WithText($"{CurrentTime}"))
-                        .WithOkColor();
-
-                await logChannel.EmbedAsync(embed).ConfigureAwait(false);
-            }
-            catch
-            {
-                // ignored
-            }
+                catch
+                {
+                    // ignored
+                }
+            });
         }
 
         public async Task TriggeredAntiProtection(PunishmentAction action, ProtectionType protection, params IGuildUser[] users)
         {
-            try
+            await Task.Yield();
+            var _ = Task.Run(async () =>
             {
-                if (users.Length == 0)
-                    return;
-
-                if (!GuildLogSettings.TryGetValue(users.First().Guild.Id, out LogSetting logSetting)
-                    || (logSetting.LogOtherId == null))
-                    return;
-                ITextChannel logChannel;
-                if ((logChannel = await TryGetLogChannel(users.First().Guild, logSetting, LogType.Other)) == null)
-                    return;
-
-                var punishment = "";
-                switch (action)
+                try
                 {
-                    case PunishmentAction.Mute:
-                        punishment = "🔇 " + GetText(logChannel.Guild, "muted_pl").ToUpperInvariant();
-                        break;
-                    case PunishmentAction.Kick:
-                        punishment = "👢 " + GetText(logChannel.Guild, "kicked_pl").ToUpperInvariant();
-                        break;
-                    case PunishmentAction.Softban:
-                        punishment = "☣ " + GetText(logChannel.Guild, "soft_banned_pl").ToUpperInvariant();
-                        break;
-                    case PunishmentAction.Ban:
-                        punishment = "⛔️ " + GetText(logChannel.Guild, "banned_pl").ToUpperInvariant();
-                        break;
+                    if (users.Length == 0)
+                        return;
+
+                    if (!GuildLogSettings.TryGetValue(users.First().Guild.Id, out LogSetting logSetting)
+                        || (logSetting.LogOtherId == null))
+                        return;
+                    ITextChannel logChannel;
+                    if ((logChannel = await TryGetLogChannel(users.First().Guild, logSetting, LogType.Other)) == null)
+                        return;
+
+                    var punishment = "";
+                    switch (action)
+                    {
+                        case PunishmentAction.Mute:
+                            punishment = "🔇 " + GetText(logChannel.Guild, "muted_pl").ToUpperInvariant();
+                            break;
+                        case PunishmentAction.Kick:
+                            punishment = "👢 " + GetText(logChannel.Guild, "kicked_pl").ToUpperInvariant();
+                            break;
+                        case PunishmentAction.Softban:
+                            punishment = "☣ " + GetText(logChannel.Guild, "soft_banned_pl").ToUpperInvariant();
+                            break;
+                        case PunishmentAction.Ban:
+                            punishment = "⛔️ " + GetText(logChannel.Guild, "banned_pl").ToUpperInvariant();
+                            break;
+                    }
+
+                    var embed = new EmbedBuilder().WithAuthor(eab => eab.WithName($"🛡 Anti-{protection}"))
+                            .WithTitle(GetText(logChannel.Guild, "users") + " " + punishment)
+                            .WithDescription(string.Join("\n", users.Select(u => u.ToString())))
+                            .WithFooter(fb => fb.WithText($"{CurrentTime}"))
+                            .WithOkColor();
+
+                    await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                 }
-
-                var embed = new EmbedBuilder().WithAuthor(eab => eab.WithName($"🛡 Anti-{protection}"))
-                        .WithTitle(GetText(logChannel.Guild, "users") + " " + punishment)
-                        .WithDescription(string.Join("\n", users.Select(u => u.ToString())))
-                        .WithFooter(fb => fb.WithText($"{CurrentTime}"))
-                        .WithOkColor();
-
-                await logChannel.EmbedAsync(embed).ConfigureAwait(false);
-            }
-            catch
-            {
-                // ignored
-            }
+                catch
+                {
+                    // ignored
+                }
+            });
         }
 
         private async Task _client_GuildUserUpdated(SocketGuildUser before, SocketGuildUser after)
         {
-            try
+            await Task.Yield();
+            var _ = Task.Run(async () =>
             {
-                if (!GuildLogSettings.TryGetValue(before.Guild.Id, out LogSetting logSetting)
-                    || (logSetting.UserUpdatedId == null))
-                    return;
-
-                ITextChannel logChannel;
-                if ((logChannel = await TryGetLogChannel(before.Guild, logSetting, LogType.UserUpdated)) == null)
-                    return;
-                var embed = new EmbedBuilder().WithOkColor().WithFooter(efb => efb.WithText(CurrentTime))
-                    .WithTitle($"{before.Username}#{before.Discriminator} | {before.Id}");
-                if (before.Nickname != after.Nickname)
+                try
                 {
-                    embed.WithAuthor(eab => eab.WithName("👥 " + GetText(logChannel.Guild, "nick_change")))
+                    if (!GuildLogSettings.TryGetValue(before.Guild.Id, out LogSetting logSetting)
+                        || (logSetting.UserUpdatedId == null))
+                        return;
 
-                        .AddField(efb => efb.WithName(GetText(logChannel.Guild, "old_nick")).WithValue($"{before.Nickname}#{before.Discriminator}"))
-                        .AddField(efb => efb.WithName(GetText(logChannel.Guild, "new_nick")).WithValue($"{after.Nickname}#{after.Discriminator}"));
+                    ITextChannel logChannel;
+                    if ((logChannel = await TryGetLogChannel(before.Guild, logSetting, LogType.UserUpdated)) == null)
+                        return;
+                    var embed = new EmbedBuilder().WithOkColor().WithFooter(efb => efb.WithText(CurrentTime))
+                        .WithTitle($"{before.Username}#{before.Discriminator} | {before.Id}");
+                    if (before.Nickname != after.Nickname)
+                    {
+                        embed.WithAuthor(eab => eab.WithName("👥 " + GetText(logChannel.Guild, "nick_change")))
+
+                            .AddField(efb => efb.WithName(GetText(logChannel.Guild, "old_nick")).WithValue($"{before.Nickname}#{before.Discriminator}"))
+                            .AddField(efb => efb.WithName(GetText(logChannel.Guild, "new_nick")).WithValue($"{after.Nickname}#{after.Discriminator}"));
+                    }
+                    else if (!before.Roles.SequenceEqual(after.Roles))
+                    {
+                        if (before.Roles.Count < after.Roles.Count)
+                        {
+                            var diffRoles = after.Roles.Where(r => !before.Roles.Contains(r)).Select(r => r.Name);
+                            embed.WithAuthor(eab => eab.WithName("⚔ " + GetText(logChannel.Guild, "user_role_add")))
+                                .WithDescription(string.Join(", ", diffRoles).SanitizeMentions());
+                        }
+                        else if (before.Roles.Count > after.Roles.Count)
+                        {
+                            var diffRoles = before.Roles.Where(r => !after.Roles.Contains(r)).Select(r => r.Name);
+                            embed.WithAuthor(eab => eab.WithName("⚔ " + GetText(logChannel.Guild, "user_role_rem")))
+                                .WithDescription(string.Join(", ", diffRoles).SanitizeMentions());
+                        }
+                    }
+                    else
+                        return;
+                    await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                 }
-                else if (!before.Roles.SequenceEqual(after.Roles))
+                catch
                 {
-                    if (before.Roles.Count < after.Roles.Count)
-                    {
-                        var diffRoles = after.Roles.Where(r => !before.Roles.Contains(r)).Select(r => r.Name);
-                        embed.WithAuthor(eab => eab.WithName("⚔ " + GetText(logChannel.Guild, "user_role_add")))
-                            .WithDescription(string.Join(", ", diffRoles).SanitizeMentions());
-                    }
-                    else if (before.Roles.Count > after.Roles.Count)
-                    {
-                        var diffRoles = before.Roles.Where(r => !after.Roles.Contains(r)).Select(r => r.Name);
-                        embed.WithAuthor(eab => eab.WithName("⚔ " + GetText(logChannel.Guild, "user_role_rem")))
-                            .WithDescription(string.Join(", ", diffRoles).SanitizeMentions());
-                    }
+                    // ignored
                 }
-                else
-                    return;
-                await logChannel.EmbedAsync(embed).ConfigureAwait(false);
-            }
-            catch
-            {
-                // ignored
-            }
+            });
         }
 
         private async Task _client_ChannelUpdated(IChannel cbefore, IChannel cafter)
         {
-            try
+            await Task.Yield();
+            var _ = Task.Run(async () =>
             {
-                var before = cbefore as IGuildChannel;
-                if (before == null)
-                    return;
-                var after = (IGuildChannel)cafter;
-
-                if (!GuildLogSettings.TryGetValue(before.Guild.Id, out LogSetting logSetting)
-                    || (logSetting.ChannelUpdatedId == null)
-                    || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == after.Id))
-                    return;
-
-                ITextChannel logChannel;
-                if ((logChannel = await TryGetLogChannel(before.Guild, logSetting, LogType.ChannelUpdated)) == null)
-                    return;
-
-                var embed = new EmbedBuilder().WithOkColor().WithFooter(efb => efb.WithText(CurrentTime));
-
-                var beforeTextChannel = cbefore as ITextChannel;
-                var afterTextChannel = cafter as ITextChannel;
-
-                if (before.Name != after.Name)
+                try
                 {
-                    embed.WithTitle("ℹ️ " + GetText(logChannel.Guild, "ch_name_change"))
-                        .WithDescription($"{after} | {after.Id}")
-                        .AddField(efb => efb.WithName(GetText(logChannel.Guild, "ch_old_name")).WithValue(before.Name));
-                }
-                else if (beforeTextChannel?.Topic != afterTextChannel?.Topic)
-                {
-                    embed.WithTitle("ℹ️ " + GetText(logChannel.Guild, "ch_topic_change"))
-                        .WithDescription($"{after} | {after.Id}")
-                        .AddField(efb => efb.WithName(GetText(logChannel.Guild, "old_topic")).WithValue(beforeTextChannel?.Topic ?? "-"))
-                        .AddField(efb => efb.WithName(GetText(logChannel.Guild, "new_topic")).WithValue(afterTextChannel?.Topic ?? "-"));
-                }
-                else
-                    return;
+                    var before = cbefore as IGuildChannel;
+                    if (before == null)
+                        return;
+                    var after = (IGuildChannel)cafter;
 
-                await logChannel.EmbedAsync(embed).ConfigureAwait(false);
-            }
-            catch
-            {
-                // ignored
-            }
+                    if (!GuildLogSettings.TryGetValue(before.Guild.Id, out LogSetting logSetting)
+                        || (logSetting.ChannelUpdatedId == null)
+                        || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == after.Id))
+                        return;
+
+                    ITextChannel logChannel;
+                    if ((logChannel = await TryGetLogChannel(before.Guild, logSetting, LogType.ChannelUpdated)) == null)
+                        return;
+
+                    var embed = new EmbedBuilder().WithOkColor().WithFooter(efb => efb.WithText(CurrentTime));
+
+                    var beforeTextChannel = cbefore as ITextChannel;
+                    var afterTextChannel = cafter as ITextChannel;
+
+                    if (before.Name != after.Name)
+                    {
+                        embed.WithTitle("ℹ️ " + GetText(logChannel.Guild, "ch_name_change"))
+                            .WithDescription($"{after} | {after.Id}")
+                            .AddField(efb => efb.WithName(GetText(logChannel.Guild, "ch_old_name")).WithValue(before.Name));
+                    }
+                    else if (beforeTextChannel?.Topic != afterTextChannel?.Topic)
+                    {
+                        embed.WithTitle("ℹ️ " + GetText(logChannel.Guild, "ch_topic_change"))
+                            .WithDescription($"{after} | {after.Id}")
+                            .AddField(efb => efb.WithName(GetText(logChannel.Guild, "old_topic")).WithValue(beforeTextChannel?.Topic ?? "-"))
+                            .AddField(efb => efb.WithName(GetText(logChannel.Guild, "new_topic")).WithValue(afterTextChannel?.Topic ?? "-"));
+                    }
+                    else
+                        return;
+
+                    await logChannel.EmbedAsync(embed).ConfigureAwait(false);
+                }
+                catch
+                {
+                    // ignored
+                }
+            });
         }
 
         private async Task _client_ChannelDestroyed(IChannel ich)
         {
-            try
+            await Task.Yield();
+            var _ = Task.Run(async () =>
             {
-                var ch = ich as IGuildChannel;
-                if (ch == null)
-                    return;
-
-                if (!GuildLogSettings.TryGetValue(ch.Guild.Id, out LogSetting logSetting)
-                    || (logSetting.ChannelDestroyedId == null)
-                    || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == ch.Id))
-                    return;
-
-                ITextChannel logChannel;
-                if ((logChannel = await TryGetLogChannel(ch.Guild, logSetting, LogType.ChannelDestroyed)) == null)
-                    return;
-                string title;
-                if (ch is IVoiceChannel)
+                try
                 {
-                    title = GetText(logChannel.Guild, "voice_chan_destroyed");
+                    var ch = ich as IGuildChannel;
+                    if (ch == null)
+                        return;
+
+                    if (!GuildLogSettings.TryGetValue(ch.Guild.Id, out LogSetting logSetting)
+                        || (logSetting.ChannelDestroyedId == null)
+                        || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == ch.Id))
+                        return;
+
+                    ITextChannel logChannel;
+                    if ((logChannel = await TryGetLogChannel(ch.Guild, logSetting, LogType.ChannelDestroyed)) == null)
+                        return;
+                    string title;
+                    if (ch is IVoiceChannel)
+                    {
+                        title = GetText(logChannel.Guild, "voice_chan_destroyed");
+                    }
+                    else
+                        title = GetText(logChannel.Guild, "text_chan_destroyed");
+                    await logChannel.EmbedAsync(new EmbedBuilder()
+                        .WithOkColor()
+                        .WithTitle("🆕 " + title)
+                        .WithDescription($"{ch.Name} | {ch.Id}")
+                        .WithFooter(efb => efb.WithText(CurrentTime))).ConfigureAwait(false);
                 }
-                else
-                    title = GetText(logChannel.Guild, "text_chan_destroyed");
-                await logChannel.EmbedAsync(new EmbedBuilder()
-                    .WithOkColor()
-                    .WithTitle("🆕 " + title)
-                    .WithDescription($"{ch.Name} | {ch.Id}")
-                    .WithFooter(efb => efb.WithText(CurrentTime))).ConfigureAwait(false);
-            }
-            catch
-            {
-                // ignored
-            }
+                catch
+                {
+                    // ignored
+                }
+            });
         }
 
         private async Task _client_ChannelCreated(IChannel ich)
         {
-            try
+            await Task.Yield();
+            var _ = Task.Run(async () =>
             {
-                var ch = ich as IGuildChannel;
-                if (ch == null)
-                    return;
-
-                if (!GuildLogSettings.TryGetValue(ch.Guild.Id, out LogSetting logSetting)
-                    || (logSetting.ChannelCreatedId == null))
-                    return;
-
-                ITextChannel logChannel;
-                if ((logChannel = await TryGetLogChannel(ch.Guild, logSetting, LogType.ChannelCreated)) == null)
-                    return;
-                string title;
-                if (ch is IVoiceChannel)
+                try
                 {
-                    title = GetText(logChannel.Guild, "voice_chan_created");
+                    var ch = ich as IGuildChannel;
+                    if (ch == null)
+                        return;
+
+                    if (!GuildLogSettings.TryGetValue(ch.Guild.Id, out LogSetting logSetting)
+                        || (logSetting.ChannelCreatedId == null))
+                        return;
+
+                    ITextChannel logChannel;
+                    if ((logChannel = await TryGetLogChannel(ch.Guild, logSetting, LogType.ChannelCreated)) == null)
+                        return;
+                    string title;
+                    if (ch is IVoiceChannel)
+                    {
+                        title = GetText(logChannel.Guild, "voice_chan_created");
+                    }
+                    else
+                        title = GetText(logChannel.Guild, "text_chan_created");
+                    await logChannel.EmbedAsync(new EmbedBuilder()
+                        .WithOkColor()
+                        .WithTitle("🆕 " + title)
+                        .WithDescription($"{ch.Name} | {ch.Id}")
+                        .WithFooter(efb => efb.WithText(CurrentTime))).ConfigureAwait(false);
                 }
-                else
-                    title = GetText(logChannel.Guild, "text_chan_created");
-                await logChannel.EmbedAsync(new EmbedBuilder()
-                    .WithOkColor()
-                    .WithTitle("🆕 " + title)
-                    .WithDescription($"{ch.Name} | {ch.Id}")
-                    .WithFooter(efb => efb.WithText(CurrentTime))).ConfigureAwait(false);
-            }
-            catch (Exception ex) { _log.Warn(ex); }
+                catch (Exception ex) { _log.Warn(ex); }
+            });
         }
 
         private async Task _client_UserVoiceStateUpdated(SocketUser iusr, SocketVoiceState before, SocketVoiceState after)
         {
-            try
+            await Task.Yield();
+            var _ = Task.Run(async () =>
             {
-                var usr = iusr as IGuildUser;
-                if (usr == null)
-                    return;
-
-                var beforeVch = before.VoiceChannel;
-                var afterVch = after.VoiceChannel;
-
-                if (beforeVch == afterVch)
-                    return;
-
-                if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out LogSetting logSetting)
-                    || (logSetting.LogVoicePresenceId == null))
-                    return;
-
-                ITextChannel logChannel;
-                if ((logChannel = await TryGetLogChannel(usr.Guild, logSetting, LogType.VoicePresence)) == null)
-                    return;
-
-                string str = null;
-                if (beforeVch?.Guild == afterVch?.Guild)
+                try
                 {
-                    str = "🎙" + Format.Code(PrettyCurrentTime) + GetText(logChannel.Guild, "user_vmoved",
-                            "👤" + Format.Bold(usr.Username + "#" + usr.Discriminator),
-                            Format.Bold(beforeVch?.Name ?? ""), Format.Bold(afterVch?.Name ?? ""));
+                    var usr = iusr as IGuildUser;
+                    if (usr == null)
+                        return;
+
+                    var beforeVch = before.VoiceChannel;
+                    var afterVch = after.VoiceChannel;
+
+                    if (beforeVch == afterVch)
+                        return;
+
+                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out LogSetting logSetting)
+                        || (logSetting.LogVoicePresenceId == null))
+                        return;
+
+                    ITextChannel logChannel;
+                    if ((logChannel = await TryGetLogChannel(usr.Guild, logSetting, LogType.VoicePresence)) == null)
+                        return;
+
+                    string str = null;
+                    if (beforeVch?.Guild == afterVch?.Guild)
+                    {
+                        str = "🎙" + Format.Code(PrettyCurrentTime) + GetText(logChannel.Guild, "user_vmoved",
+                                "👤" + Format.Bold(usr.Username + "#" + usr.Discriminator),
+                                Format.Bold(beforeVch?.Name ?? ""), Format.Bold(afterVch?.Name ?? ""));
+                    }
+                    else if (beforeVch == null)
+                    {
+                        str = "🎙" + Format.Code(PrettyCurrentTime) + GetText(logChannel.Guild, "user_vjoined",
+                                "👤" + Format.Bold(usr.Username + "#" + usr.Discriminator),
+                                Format.Bold(afterVch.Name ?? ""));
+                    }
+                    else if (afterVch == null)
+                    {
+                        str = "🎙" + Format.Code(PrettyCurrentTime) + GetText(logChannel.Guild, "user_vleft",
+                                "👤" + Format.Bold(usr.Username + "#" + usr.Discriminator),
+                                Format.Bold(beforeVch.Name ?? ""));
+                    }
+                    if (str != null)
+                        PresenceUpdates.AddOrUpdate(logChannel, new List<string>() { str }, (id, list) => { list.Add(str); return list; });
                 }
-                else if (beforeVch == null)
+                catch
                 {
-                    str = "🎙" + Format.Code(PrettyCurrentTime) + GetText(logChannel.Guild, "user_vjoined",
-                            "👤" + Format.Bold(usr.Username + "#" + usr.Discriminator),
-                            Format.Bold(afterVch.Name ?? ""));
+                    // ignored
                 }
-                else if (afterVch == null)
-                {
-                    str = "🎙" + Format.Code(PrettyCurrentTime) + GetText(logChannel.Guild, "user_vleft",
-                            "👤" + Format.Bold(usr.Username + "#" + usr.Discriminator),
-                            Format.Bold(beforeVch.Name ?? ""));
-                }
-                if (str != null)
-                    PresenceUpdates.AddOrUpdate(logChannel, new List<string>() { str }, (id, list) => { list.Add(str); return list; });
-            }
-            catch
-            {
-                // ignored
-            }
+            });
         }
 
         private async Task _client_UserPresenceUpdated(Optional<SocketGuild> optGuild, SocketUser usr, SocketPresence before, SocketPresence after)
         {
-            try
+            await Task.Yield();
+            var _ = Task.Run(async () =>
             {
-                var guild = optGuild.GetValueOrDefault() ?? (usr as SocketGuildUser)?.Guild;
+                try
+                {
+                    var guild = optGuild.GetValueOrDefault() ?? (usr as SocketGuildUser)?.Guild;
 
-                if (guild == null)
-                    return;
+                    if (guild == null)
+                        return;
 
-                if (!GuildLogSettings.TryGetValue(guild.Id, out LogSetting logSetting)
-                    || (logSetting.LogUserPresenceId == null)
-                    || before.Status == after.Status)
-                    return;
+                    if (!GuildLogSettings.TryGetValue(guild.Id, out LogSetting logSetting)
+                        || (logSetting.LogUserPresenceId == null)
+                        || before.Status == after.Status)
+                        return;
 
-                ITextChannel logChannel;
-                if ((logChannel = await TryGetLogChannel(guild, logSetting, LogType.UserPresence)) == null)
-                    return;
-                string str = "";
-                if (before.Status != after.Status)
-                    str = "🎭" + Format.Code(PrettyCurrentTime) +
-                          GetText(logChannel.Guild, "user_status_change",
-                                "👤" + Format.Bold(usr.Username),
-                                Format.Bold(after.Status.ToString()));
+                    ITextChannel logChannel;
+                    if ((logChannel = await TryGetLogChannel(guild, logSetting, LogType.UserPresence)) == null)
+                        return;
+                    string str = "";
+                    if (before.Status != after.Status)
+                        str = "🎭" + Format.Code(PrettyCurrentTime) +
+                              GetText(logChannel.Guild, "user_status_change",
+                                    "👤" + Format.Bold(usr.Username),
+                                    Format.Bold(after.Status.ToString()));
 
-                //if (before.Game?.Name != after.Game?.Name)
-                //{
-                //    if (str != "")
-                //        str += "\n";
-                //    str += $"👾`{prettyCurrentTime}`👤__**{usr.Username}**__ is now playing **{after.Game?.Name}**.";
-                //}
+                    //if (before.Game?.Name != after.Game?.Name)
+                    //{
+                    //    if (str != "")
+                    //        str += "\n";
+                    //    str += $"👾`{prettyCurrentTime}`👤__**{usr.Username}**__ is now playing **{after.Game?.Name}**.";
+                    //}
 
-                PresenceUpdates.AddOrUpdate(logChannel, new List<string>() { str }, (id, list) => { list.Add(str); return list; });
-            }
-            catch
-            {
-                // ignored
-            }
+                    PresenceUpdates.AddOrUpdate(logChannel, new List<string>() { str }, (id, list) => { list.Add(str); return list; });
+                }
+                catch
+                {
+                    // ignored
+                }
+            });
         }
 
         private async Task _client_UserLeft(IGuildUser usr)
         {
-            try
+            await Task.Yield();
+            var _ = Task.Run(async () =>
             {
-                if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out LogSetting logSetting)
-                    || (logSetting.UserLeftId == null))
-                    return;
+                try
+                {
+                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out LogSetting logSetting)
+                        || (logSetting.UserLeftId == null))
+                        return;
 
-                ITextChannel logChannel;
-                if ((logChannel = await TryGetLogChannel(usr.Guild, logSetting, LogType.UserLeft)) == null)
-                    return;
+                    ITextChannel logChannel;
+                    if ((logChannel = await TryGetLogChannel(usr.Guild, logSetting, LogType.UserLeft)) == null)
+                        return;
 
-                await logChannel.EmbedAsync(new EmbedBuilder()
-                    .WithOkColor()
-                    .WithTitle("❌ " + GetText(logChannel.Guild, "user_left"))
-                    .WithThumbnailUrl(usr.GetAvatarUrl())
-                    .WithDescription(usr.ToString())
-                    .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))
-                    .WithFooter(efb => efb.WithText(CurrentTime))).ConfigureAwait(false);
-            }
-            catch
-            {
-                // ignored
-            }
+                    await logChannel.EmbedAsync(new EmbedBuilder()
+                        .WithOkColor()
+                        .WithTitle("❌ " + GetText(logChannel.Guild, "user_left"))
+                        .WithThumbnailUrl(usr.GetAvatarUrl())
+                        .WithDescription(usr.ToString())
+                        .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))
+                        .WithFooter(efb => efb.WithText(CurrentTime))).ConfigureAwait(false);
+                }
+                catch
+                {
+                    // ignored
+                }
+            });
         }
 
-        private async Task _client_UserJoined(IGuildUser usr)
+        private Task _client_UserJoined(IGuildUser usr)
         {
-            try
+            var _ = Task.Run(async () =>
             {
-                if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out LogSetting logSetting)
-                    || (logSetting.UserJoinedId == null))
-                    return;
+                try
+                {
+                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out LogSetting logSetting)
+                        || (logSetting.UserJoinedId == null))
+                        return;
 
-                ITextChannel logChannel;
-                if ((logChannel = await TryGetLogChannel(usr.Guild, logSetting, LogType.UserJoined)) == null)
-                    return;
+                    ITextChannel logChannel;
+                    if ((logChannel = await TryGetLogChannel(usr.Guild, logSetting, LogType.UserJoined)) == null)
+                        return;
 
-                await logChannel.EmbedAsync(new EmbedBuilder()
-                    .WithOkColor()
-                    .WithTitle("✅ " + GetText(logChannel.Guild, "user_joined"))
-                    .WithThumbnailUrl(usr.GetAvatarUrl())
-                    .WithDescription($"{usr}")
-                    .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))
-                    .WithFooter(efb => efb.WithText(CurrentTime))).ConfigureAwait(false);
-            }
-            catch (Exception ex) { _log.Warn(ex); }
+                    await logChannel.EmbedAsync(new EmbedBuilder()
+                        .WithOkColor()
+                        .WithTitle("✅ " + GetText(logChannel.Guild, "user_joined"))
+                        .WithThumbnailUrl(usr.GetAvatarUrl())
+                        .WithDescription($"{usr}")
+                        .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))
+                        .WithFooter(efb => efb.WithText(CurrentTime))).ConfigureAwait(false);
+                }
+                catch (Exception ex) { _log.Warn(ex); }
+            });
+            return Task.CompletedTask;
         }
 
         private async Task _client_UserUnbanned(IUser usr, IGuild guild)
         {
-            try
+            await Task.Yield();
+            var _ = Task.Run(async () =>
             {
-                if (!GuildLogSettings.TryGetValue(guild.Id, out LogSetting logSetting)
-                    || (logSetting.UserUnbannedId == null))
-                    return;
+                try
+                {
+                    if (!GuildLogSettings.TryGetValue(guild.Id, out LogSetting logSetting)
+                        || (logSetting.UserUnbannedId == null))
+                        return;
 
-                ITextChannel logChannel;
-                if ((logChannel = await TryGetLogChannel(guild, logSetting, LogType.UserUnbanned)) == null)
-                    return;
+                    ITextChannel logChannel;
+                    if ((logChannel = await TryGetLogChannel(guild, logSetting, LogType.UserUnbanned)) == null)
+                        return;
 
-                await logChannel.EmbedAsync(new EmbedBuilder()
-                    .WithOkColor()
-                    .WithTitle("♻️ " + GetText(logChannel.Guild, "user_unbanned"))
-                    .WithThumbnailUrl(usr.GetAvatarUrl())
-                    .WithDescription(usr.ToString())
-                    .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))
-                    .WithFooter(efb => efb.WithText(CurrentTime))).ConfigureAwait(false);
-            }
-            catch (Exception ex) { _log.Warn(ex); }
+                    await logChannel.EmbedAsync(new EmbedBuilder()
+                        .WithOkColor()
+                        .WithTitle("♻️ " + GetText(logChannel.Guild, "user_unbanned"))
+                        .WithThumbnailUrl(usr.GetAvatarUrl())
+                        .WithDescription(usr.ToString())
+                        .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))
+                        .WithFooter(efb => efb.WithText(CurrentTime))).ConfigureAwait(false);
+                }
+                catch (Exception ex) { _log.Warn(ex); }
+            });
         }
 
         private async Task _client_UserBanned(IUser usr, IGuild guild)
         {
-            try
+            await Task.Yield();
+            var _ = Task.Run(async () =>
             {
-                if (!GuildLogSettings.TryGetValue(guild.Id, out LogSetting logSetting)
-                    || (logSetting.UserBannedId == null))
-                    return;
+                try
+                {
+                    if (!GuildLogSettings.TryGetValue(guild.Id, out LogSetting logSetting)
+                        || (logSetting.UserBannedId == null))
+                        return;
 
-                ITextChannel logChannel;
-                if ((logChannel = await TryGetLogChannel(guild, logSetting, LogType.UserBanned)) == null)
-                    return;
-                await logChannel.EmbedAsync(new EmbedBuilder()
-                    .WithOkColor()
-                    .WithTitle("🚫 " + GetText(logChannel.Guild, "user_banned"))
-                    .WithThumbnailUrl(usr.GetAvatarUrl())
-                    .WithDescription(usr.ToString())
-                    .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))
-                    .WithFooter(efb => efb.WithText(CurrentTime))).ConfigureAwait(false);
-            }
-            catch (Exception ex) { _log.Warn(ex); }
+                    ITextChannel logChannel;
+                    if ((logChannel = await TryGetLogChannel(guild, logSetting, LogType.UserBanned)) == null)
+                        return;
+                    await logChannel.EmbedAsync(new EmbedBuilder()
+                        .WithOkColor()
+                        .WithTitle("🚫 " + GetText(logChannel.Guild, "user_banned"))
+                        .WithThumbnailUrl(usr.GetAvatarUrl())
+                        .WithDescription(usr.ToString())
+                        .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))
+                        .WithFooter(efb => efb.WithText(CurrentTime))).ConfigureAwait(false);
+                }
+                catch (Exception ex) { _log.Warn(ex); }
+            });
         }
 
         private async Task _client_MessageDeleted(Cacheable<IMessage, ulong> optMsg, ISocketMessageChannel ch)
         {
-
-            try
+            await Task.Yield();
+            var _ = Task.Run(async () =>
             {
-                var msg = (optMsg.HasValue ? optMsg.Value : null) as IUserMessage;
-                if (msg == null || msg.IsAuthor(_client))
-                    return;
+                try
+                {
+                    var msg = (optMsg.HasValue ? optMsg.Value : null) as IUserMessage;
+                    if (msg == null || msg.IsAuthor(_client))
+                        return;
 
-                var channel = ch as ITextChannel;
-                if (channel == null)
-                    return;
+                    var channel = ch as ITextChannel;
+                    if (channel == null)
+                        return;
 
-                if (!GuildLogSettings.TryGetValue(channel.Guild.Id, out LogSetting logSetting)
-                    || (logSetting.MessageDeletedId == null)
-                    || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == channel.Id))
-                    return;
+                    if (!GuildLogSettings.TryGetValue(channel.Guild.Id, out LogSetting logSetting)
+                        || (logSetting.MessageDeletedId == null)
+                        || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == channel.Id))
+                        return;
 
-                ITextChannel logChannel;
-                if ((logChannel = await TryGetLogChannel(channel.Guild, logSetting, LogType.MessageDeleted)) == null || logChannel.Id == msg.Id)
-                    return;
-                var embed = new EmbedBuilder()
-                    .WithOkColor()
-                    .WithTitle("🗑 " + GetText(logChannel.Guild, "msg_del", ((ITextChannel)msg.Channel).Name))
-                    .WithDescription(msg.Author.ToString())
-                    .AddField(efb => efb.WithName(GetText(logChannel.Guild, "content")).WithValue(string.IsNullOrWhiteSpace(msg.Content) ? "-" : msg.Resolve(userHandling: TagHandling.FullName)).WithIsInline(false))
-                    .AddField(efb => efb.WithName("Id").WithValue(msg.Id.ToString()).WithIsInline(false))
-                    .WithFooter(efb => efb.WithText(CurrentTime));
-                if (msg.Attachments.Any())
-                    embed.AddField(efb => efb.WithName(GetText(logChannel.Guild, "attachments")).WithValue(string.Join(", ", msg.Attachments.Select(a => a.Url))).WithIsInline(false));
+                    ITextChannel logChannel;
+                    if ((logChannel = await TryGetLogChannel(channel.Guild, logSetting, LogType.MessageDeleted)) == null || logChannel.Id == msg.Id)
+                        return;
+                    var embed = new EmbedBuilder()
+                        .WithOkColor()
+                        .WithTitle("🗑 " + GetText(logChannel.Guild, "msg_del", ((ITextChannel)msg.Channel).Name))
+                        .WithDescription(msg.Author.ToString())
+                        .AddField(efb => efb.WithName(GetText(logChannel.Guild, "content")).WithValue(string.IsNullOrWhiteSpace(msg.Content) ? "-" : msg.Resolve(userHandling: TagHandling.FullName)).WithIsInline(false))
+                        .AddField(efb => efb.WithName("Id").WithValue(msg.Id.ToString()).WithIsInline(false))
+                        .WithFooter(efb => efb.WithText(CurrentTime));
+                    if (msg.Attachments.Any())
+                        embed.AddField(efb => efb.WithName(GetText(logChannel.Guild, "attachments")).WithValue(string.Join(", ", msg.Attachments.Select(a => a.Url))).WithIsInline(false));
 
-                await logChannel.EmbedAsync(embed).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                _log.Warn(ex);
-                // ignored
-            }
+                    await logChannel.EmbedAsync(embed).ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    _log.Warn(ex);
+                    // ignored
+                }
+            });
         }
 
         private async Task _client_MessageUpdated(Cacheable<IMessage, ulong> optmsg, SocketMessage imsg2, ISocketMessageChannel ch)
         {
-            try
+            await Task.Yield();
+            var _ = Task.Run(async () =>
             {
-                var after = imsg2 as IUserMessage;
-                if (after == null || after.IsAuthor(_client))
-                    return;
+                try
+                {
+                    var after = imsg2 as IUserMessage;
+                    if (after == null || after.IsAuthor(_client))
+                        return;
 
-                var before = (optmsg.HasValue ? optmsg.Value : null) as IUserMessage;
-                if (before == null)
-                    return;
+                    var before = (optmsg.HasValue ? optmsg.Value : null) as IUserMessage;
+                    if (before == null)
+                        return;
 
-                var channel = ch as ITextChannel;
-                if (channel == null)
-                    return;
+                    var channel = ch as ITextChannel;
+                    if (channel == null)
+                        return;
 
-                if (before.Content == after.Content)
-                    return;
+                    if (before.Content == after.Content)
+                        return;
 
-                if (!GuildLogSettings.TryGetValue(channel.Guild.Id, out LogSetting logSetting)
-                    || (logSetting.MessageUpdatedId == null)
-                    || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == channel.Id))
-                    return;
+                    if (!GuildLogSettings.TryGetValue(channel.Guild.Id, out LogSetting logSetting)
+                        || (logSetting.MessageUpdatedId == null)
+                        || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == channel.Id))
+                        return;
 
-                ITextChannel logChannel;
-                if ((logChannel = await TryGetLogChannel(channel.Guild, logSetting, LogType.MessageUpdated)) == null || logChannel.Id == after.Channel.Id)
-                    return;
+                    ITextChannel logChannel;
+                    if ((logChannel = await TryGetLogChannel(channel.Guild, logSetting, LogType.MessageUpdated)) == null || logChannel.Id == after.Channel.Id)
+                        return;
 
-                var embed = new EmbedBuilder()
-                    .WithOkColor()
-                    .WithTitle("📝 " + GetText(logChannel.Guild, "msg_update", ((ITextChannel)after.Channel).Name))
-                    .WithDescription(after.Author.ToString())
-                    .AddField(efb => efb.WithName(GetText(logChannel.Guild, "old_msg")).WithValue(string.IsNullOrWhiteSpace(before.Content) ? "-" : before.Resolve(userHandling: TagHandling.FullName)).WithIsInline(false))
-                    .AddField(efb => efb.WithName(GetText(logChannel.Guild, "new_msg")).WithValue(string.IsNullOrWhiteSpace(after.Content) ? "-" : after.Resolve(userHandling: TagHandling.FullName)).WithIsInline(false))
-                    .AddField(efb => efb.WithName("Id").WithValue(after.Id.ToString()).WithIsInline(false))
-                    .WithFooter(efb => efb.WithText(CurrentTime));
+                    var embed = new EmbedBuilder()
+                        .WithOkColor()
+                        .WithTitle("📝 " + GetText(logChannel.Guild, "msg_update", ((ITextChannel)after.Channel).Name))
+                        .WithDescription(after.Author.ToString())
+                        .AddField(efb => efb.WithName(GetText(logChannel.Guild, "old_msg")).WithValue(string.IsNullOrWhiteSpace(before.Content) ? "-" : before.Resolve(userHandling: TagHandling.FullName)).WithIsInline(false))
+                        .AddField(efb => efb.WithName(GetText(logChannel.Guild, "new_msg")).WithValue(string.IsNullOrWhiteSpace(after.Content) ? "-" : after.Resolve(userHandling: TagHandling.FullName)).WithIsInline(false))
+                        .AddField(efb => efb.WithName("Id").WithValue(after.Id.ToString()).WithIsInline(false))
+                        .WithFooter(efb => efb.WithText(CurrentTime));
 
-                await logChannel.EmbedAsync(embed).ConfigureAwait(false);
-            }
-            catch
-            {
-                // ignored
-            }
+                    await logChannel.EmbedAsync(embed).ConfigureAwait(false);
+                }
+                catch
+                {
+                    // ignored
+                }
+            });
         }
 
         public enum LogType

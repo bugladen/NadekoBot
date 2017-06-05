@@ -5,6 +5,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Services.Administration
 {
@@ -25,21 +26,25 @@ namespace NadekoBot.Services.Administration
                 gcs.Where(x => x.AutoAssignRoleId != 0)
                     .ToDictionary(k => k.GuildId, v => v.AutoAssignRoleId));
 
-            _client.UserJoined += async (user) =>
+            _client.UserJoined += (user) =>
             {
-                try
+                var _ = Task.Run(async () =>
                 {
-                    AutoAssignedRoles.TryGetValue(user.Guild.Id, out ulong roleId);
+                    try
+                    {
+                        AutoAssignedRoles.TryGetValue(user.Guild.Id, out ulong roleId);
 
-                    if (roleId == 0)
-                        return;
+                        if (roleId == 0)
+                            return;
 
-                    var role = user.Guild.Roles.FirstOrDefault(r => r.Id == roleId);
+                        var role = user.Guild.Roles.FirstOrDefault(r => r.Id == roleId);
 
-                    if (role != null)
-                        await user.AddRoleAsync(role).ConfigureAwait(false);
-                }
-                catch (Exception ex) { _log.Warn(ex); }
+                        if (role != null)
+                            await user.AddRoleAsync(role).ConfigureAwait(false);
+                    }
+                    catch (Exception ex) { _log.Warn(ex); }
+                });
+                return Task.CompletedTask;
             };
         }
     }

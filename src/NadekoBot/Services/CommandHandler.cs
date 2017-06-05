@@ -258,7 +258,7 @@ namespace NadekoBot.Services
                     break;
                 }
             }
-            var prefix = GetPrefix(guild.Id);
+            var prefix = GetPrefix(guild?.Id);
             // execute the command and measure the time it took
             if (messageContent.StartsWith(prefix))
             {

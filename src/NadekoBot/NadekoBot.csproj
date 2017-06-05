@@ -31,6 +31,9 @@
   
   <ItemGroup>
     <Compile Remove="data\**\*;credentials.json" />
+    <Compile Remove="Modules\Utility\Models\**" />
+    <EmbeddedResource Remove="Modules\Utility\Models\**" />
+    <None Remove="Modules\Utility\Models\**" />
     <None Update="credentials_example.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -87,6 +90,5 @@
 
   <ItemGroup>
     <Folder Include="Modules\Music\Classes\" />
-    <Folder Include="Modules\Utility\Models\" />
   </ItemGroup>
 </Project>

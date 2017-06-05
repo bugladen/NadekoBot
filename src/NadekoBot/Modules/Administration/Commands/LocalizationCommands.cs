@@ -16,8 +16,6 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class LocalizationCommands : NadekoSubmodule
         {
-            //Română, România
-            //Bahasa Indonesia, Indonesia
             private static ImmutableDictionary<string, string> supportedLocales { get; } = new Dictionary<string, string>()
             {
                 {"ar", "العربية" },

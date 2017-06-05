@@ -99,6 +99,7 @@ namespace NadekoBot.Services.Games
 
         private async Task PotentialFlowerGeneration(SocketMessage imsg)
         {
+            await Task.Yield();
             var msg = imsg as SocketUserMessage;
             if (msg == null || msg.Author.IsBot)
                 return;
@@ -109,48 +110,51 @@ namespace NadekoBot.Services.Games
 
             if (!GenerationChannels.Contains(channel.Id))
                 return;
-            
-            try
+
+            var _ = Task.Run(async () =>
             {
-                var lastGeneration = LastGenerations.GetOrAdd(channel.Id, DateTime.MinValue);
-                var rng = new NadekoRandom();
-
-                if (DateTime.Now - TimeSpan.FromSeconds(_bc.CurrencyGenerationCooldown) < lastGeneration) //recently generated in this channel, don't generate again
-                    return;
-
-                var num = rng.Next(1, 101) + _bc.CurrencyGenerationChance * 100;
-                if (num > 100 && LastGenerations.TryUpdate(channel.Id, DateTime.Now, lastGeneration))
+                try
                 {
-                    var dropAmount = _bc.CurrencyDropAmount;
+                    var lastGeneration = LastGenerations.GetOrAdd(channel.Id, DateTime.MinValue);
+                    var rng = new NadekoRandom();
 
-                    if (dropAmount > 0)
+                    if (DateTime.Now - TimeSpan.FromSeconds(_bc.CurrencyGenerationCooldown) < lastGeneration) //recently generated in this channel, don't generate again
+                        return;
+
+                    var num = rng.Next(1, 101) + _bc.CurrencyGenerationChance * 100;
+                    if (num > 100 && LastGenerations.TryUpdate(channel.Id, DateTime.Now, lastGeneration))
                     {
-                        var msgs = new IUserMessage[dropAmount];
-                        var prefix = _cmdHandler.GetPrefix(channel.Guild.Id);
-                        var toSend = dropAmount == 1
-                            ? GetText(channel, "curgen_sn", _bc.CurrencySign)
-                                + " " + GetText(channel, "pick_sn", prefix)
-                            : GetText(channel, "curgen_pl", dropAmount, _bc.CurrencySign)
-                                + " " + GetText(channel, "pick_pl", prefix);
-                        var file = GetRandomCurrencyImage();
-                        using (var fileStream = file.Data.ToStream())
+                        var dropAmount = _bc.CurrencyDropAmount;
+
+                        if (dropAmount > 0)
                         {
-                            var sent = await channel.SendFileAsync(
-                                fileStream,
-                                file.Name,
-                                toSend).ConfigureAwait(false);
+                            var msgs = new IUserMessage[dropAmount];
+                            var prefix = _cmdHandler.GetPrefix(channel.Guild.Id);
+                            var toSend = dropAmount == 1
+                                ? GetText(channel, "curgen_sn", _bc.CurrencySign)
+                                    + " " + GetText(channel, "pick_sn", prefix)
+                                : GetText(channel, "curgen_pl", dropAmount, _bc.CurrencySign)
+                                    + " " + GetText(channel, "pick_pl", prefix);
+                            var file = GetRandomCurrencyImage();
+                            using (var fileStream = file.Data.ToStream())
+                            {
+                                var sent = await channel.SendFileAsync(
+                                    fileStream,
+                                    file.Name,
+                                    toSend).ConfigureAwait(false);
 
-                            msgs[0] = sent;
+                                msgs[0] = sent;
+                            }
+
+                            PlantedFlowers.AddOrUpdate(channel.Id, msgs.ToList(), (id, old) => { old.AddRange(msgs); return old; });
                         }
-
-                        PlantedFlowers.AddOrUpdate(channel.Id, msgs.ToList(), (id, old) => { old.AddRange(msgs); return old; });
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                LogManager.GetCurrentClassLogger().Warn(ex);
-            }
+                catch (Exception ex)
+                {
+                    LogManager.GetCurrentClassLogger().Warn(ex);
+                }
+            });
             return;
         }
     }
