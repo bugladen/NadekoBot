@@ -16,6 +16,7 @@ OutputBaseFilename=NadekoBot-setup-{#version}
 AppReadmeFile=http://nadekobot.readthedocs.io/en/1.4/Commands%20List/
 ArchitecturesInstallIn64BitMode=x64
 UsePreviousSetupType=no
+DisableWelcomePage=no
 
 [Files]
 ;install 
@@ -55,6 +56,9 @@ Root: "HKLM"; Subkey: "SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFla
 Root: "HKCU"; Subkey: "SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers"; \
     ValueType: String; ValueName: "{app}\{#sysfolder}\NadekoBot.exe"; ValueData: "RUNASADMIN"; \
     Flags: uninsdeletekeyifempty uninsdeletevalue;
+
+[Messages]
+WelcomeLabel2=IMPORTANT! READ BELOW!%n%nIt is recommended that you CLOSE any ANTI VIRUS before continuing.%n%nYou can only update v1.4 or newer.%n%nDo not select your old NadekoBot folder as an install path if it's not 1.4 or newer.
 
 ;ask the user if they want to delete all settings
 [Code]
