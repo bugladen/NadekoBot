@@ -29,10 +29,6 @@
     <Version Condition=" '$(Version)' == '' ">$(VersionPrefix)</Version>
   </PropertyGroup>
   
-  <PropertyGroup>
-    <PostBuildEvent>copy credentials_example.json credentials.json </PostBuildEvent>
-  </PropertyGroup>
-  
   <ItemGroup>
     <Compile Remove="data\**\*;credentials.json" />
     <None Update="credentials_example.json">
