@@ -61,7 +61,11 @@ namespace NadekoBot.Services.Impl
 
                 Token = data[nameof(Token)];
                 if (string.IsNullOrWhiteSpace(Token))
-                    throw new ArgumentNullException(nameof(Token), "Token is missing from credentials.json or Environment varibles.");
+                {
+                    _log.Error("Token is missing from credentials.json or Environment varibles. Add it and restart the program.");
+                    Console.ReadKey();
+                    Environment.Exit(3);
+                }
                 OwnerIds = data.GetSection("OwnerIds").GetChildren().Select(c => ulong.Parse(c.Value)).ToImmutableArray();
                 LoLApiKey = data[nameof(LoLApiKey)];
                 GoogleApiKey = data[nameof(GoogleApiKey)];
