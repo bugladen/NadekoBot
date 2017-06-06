@@ -57,8 +57,11 @@ namespace NadekoBot.Services.Permissions
 
             WordFilteringChannels = new ConcurrentHashSet<ulong>(gcs.SelectMany(gc => gc.FilterWordsChannelIds.Select(fwci => fwci.ChannelId)));
 
-            _client.MessageUpdated += (oldData, newMsg, channel) 
-                => FilterInvites((channel as ITextChannel)?.Guild, newMsg as IUserMessage);
+            _client.MessageUpdated += (oldData, newMsg, channel) =>
+            {
+                var _ = Task.Run(() => FilterInvites((channel as ITextChannel)?.Guild, newMsg as IUserMessage));
+                return Task.CompletedTask;
+            }
         }
 
         public async Task<bool> TryBlockEarly(IGuild guild, IUserMessage msg)

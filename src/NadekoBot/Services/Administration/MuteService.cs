@@ -79,7 +79,7 @@ namespace NadekoBot.Services.Administration
 
                 if (muted == null || !muted.Contains(usr.Id))
                     return Task.CompletedTask;
-                Task.Run(() => MuteUser(usr).ConfigureAwait(false));
+                var _ = Task.Run(() => MuteUser(usr).ConfigureAwait(false));
             }
             catch (Exception ex)
             {

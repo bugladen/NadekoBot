@@ -120,8 +120,8 @@ namespace NadekoBot.Extensions
                 reactionRemoved = delegate { };
 
             var wrap = new ReactionEventWrapper(client, msg);
-            wrap.OnReactionAdded += reactionAdded;
-            wrap.OnReactionRemoved += reactionRemoved;
+            wrap.OnReactionAdded += (r) => { var _ = Task.Run(() => reactionAdded(r)); };
+            wrap.OnReactionRemoved += (r) => { var _ = Task.Run(() => reactionRemoved(r)); };
             return wrap;
         }
 
