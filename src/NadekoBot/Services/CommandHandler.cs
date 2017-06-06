@@ -362,7 +362,7 @@ namespace NadekoBot.Services
                     lock (errorLogLock)
                     {
                         var now = DateTime.Now;
-                        File.AppendAllText($"./Command Errors {now:yyyy-MM-dd}.txt",
+                        File.AppendAllText($"./command_errors_{now:yyyy-MM-dd}.txt",
                             $"[{now:HH:mm-yyyy-MM-dd}]" + Environment.NewLine
                             + execResult.Exception.ToString() + Environment.NewLine
                             + "------" + Environment.NewLine);

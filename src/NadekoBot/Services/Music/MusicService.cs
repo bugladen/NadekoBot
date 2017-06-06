@@ -232,9 +232,10 @@ namespace NadekoBot.Services.Music
             }
         }
 
-        internal void DestroyPlayer(ulong id)
+        public void DestroyPlayer(ulong id)
         {
-            throw new NotImplementedException();
+            if (MusicPlayers.TryRemove(id, out var mp))
+                mp.Destroy();
         }
 
 

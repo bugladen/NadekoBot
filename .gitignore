@@ -1,5 +1,7 @@
 #Manually added files
 
+src/NadekoBot/Command Errors*.txt
+
 src/NadekoBot/credentials.json
 src/NadekoBot/data/NadekoBot.db
 src/NadekoBot/data/musicdata
