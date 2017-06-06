@@ -61,7 +61,7 @@ namespace NadekoBot.Services.Permissions
             {
                 var _ = Task.Run(() => FilterInvites((channel as ITextChannel)?.Guild, newMsg as IUserMessage));
                 return Task.CompletedTask;
-            }
+            };
         }
 
         public async Task<bool> TryBlockEarly(IGuild guild, IUserMessage msg)
