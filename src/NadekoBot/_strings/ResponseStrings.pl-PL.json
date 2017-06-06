@@ -644,7 +644,7 @@
     "utility_quote_deleted": "Usunięto cytat #{0}",
     "utility_region": "Region",
     "utility_registered_on": "Zarejestrowany",
-    "utility_remind": "Przypomnę {0} dla {2} `({3:d.M.yyyy.} o {4:HH:mm})`",
+    "utility_remind": "Przypomnę {0} dla {1} za {2} `({3:d.M.yyyy.} o {4:HH:mm})`",
     "utility_remind_invalid_format": "Błędny format czasu. Sprawdź listę komend.",
     "utility_remind_template": "Ustawiono nowy wzór przypomnienia",
     "utility_repeater": "Powtarzanie {0} co {1} dni, {2} godzin i {3} minut.",
