@@ -644,7 +644,7 @@
     "utility_quote_deleted": "Citat #{0} șters.",
     "utility_region": "Regiune",
     "utility_registered_on": "Înregistrat pe",
-    "utility_remind": "O să îi aduc aminte lui {0} să {2} `({3:d.M.yyyy.} at {4:HH:mm})`",
+    "utility_remind": "O să îi aduc aminte lui {0} a {1} să {2} `({3:d.M.yyyy.} at {4:HH:mm})`",
     "utility_remind_invalid_format": "Nu este un format de timp valid. Verificați lista de comenzi.",
     "utility_remind_template": "Setarea noului set de șabloane.",
     "utility_repeater": "Repetând {0} în fiecare {1} zi(le), {2} oră(e) și {3} minut(e).",
