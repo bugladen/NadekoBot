@@ -282,7 +282,7 @@
     "help_back_to_toc": "목차로 돌아가기",
     "help_bot_owner_only": "봇 소유자만 가능합니다.",
     "help_channel_permission": "{0} 채널의 권한이 필요합니다.",
-    "help_cmdlist_donate": "Patreon( <{0}> )이나 Paypal( <{1}> )을 통해서 프로젝트를 후원 할 수 있습니다.",
+    "help_cmdlist_donate": "Patreon ( <{0}> ) 이나 Paypal ( <{1}> ) 을 통해서 프로젝트를 후원 할 수 있습니다.",
     "help_cmd_and_alias": "명령어와 가명",
     "help_commandlist_regen": "명령어 목록이 재생성되었습니다.",
     "help_commands_instr": "`{0}h 명령어이름`을 입력해서 특정 명령어에 대한 도움말을 볼 수 있습니다.\n예시 : `{0}h >8ball`",
