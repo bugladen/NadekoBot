@@ -782,5 +782,9 @@
     "permissions_lgp_none": "Keine blockierten Befehle oder Module.",
     "gambling_animal_race_no_race": "Dieses Tierrennen ist voll!",
     "utility_cant_read_or_send": "Sie können keine Nachrichten von dem Kanal auslesen oder zu dem Kanal schreiben.",
-    "utility_quotes_notfound": "Keine Zitat mit der übergebenen ID gefunden."
+    "utility_quotes_notfound": "Keine Zitat mit der übergebenen ID gefunden.",
+    "administration_prefix_current": "Das Präfix des Servers ist {0}",
+    "administration_prefix_new": "Das Präfix auf diesem Server wurde von {0} zu {1} geändert",
+    "administration_defprefix_current": "Standard bot Präfix ist {0}",
+    "administration_defprefix_new": "Standard bot Präfix wurde von {0} zu {1} geändert"
 }
