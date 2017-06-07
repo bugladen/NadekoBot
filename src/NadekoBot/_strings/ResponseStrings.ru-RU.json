@@ -782,5 +782,9 @@
     "permissions_lgp_none": "Нет заблокированных команд или модулей.",
     "gambling_animal_race_no_race": "В этой гонке не осталось мест!",
     "utility_cant_read_or_send": "Вы не можете читать или отправлять сообщения в этом канале.",
-    "utility_quotes_notfound": "Не найдено цитат с таким номером."
+    "utility_quotes_notfound": "Не найдено цитат с таким номером.",
+    "administration_prefix_current": "Префикс для этого сервера — {0}",
+    "administration_prefix_new": "Префикс для этого сервера изменен с {0} на {1}",
+    "administration_defprefix_current": "Стандартный префикс для бота — {0}",
+    "administration_defprefix_new": "Стандартный префикс изменен с {0} на {1}"
 }

@@ -782,5 +782,9 @@
     "permissions_lgp_none": "Geen geblokkeerde commando's of modules. ",
     "gambling_animal_race_no_race": "Deze dieren race is vol!",
     "utility_cant_read_or_send": "Je kunt ontvangen en verzonden berichten niet lezen in dat kanaal.",
-    "utility_quotes_notfound": "Geen quotes gevonden met vergelijkbare quote ID."
+    "utility_quotes_notfound": "Geen quotes gevonden met vergelijkbare quote ID.",
+    "administration_prefix_current": "De Prefix op deze server is {0}",
+    "administration_prefix_new": "De prefix op deze server is aangepast van {0} naar {1}",
+    "administration_defprefix_current": "De default bot prefix is {0}",
+    "administration_defprefix_new": "Default bot prefix is aangepast van {0} naar {1}"
 }

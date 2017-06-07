@@ -782,5 +782,9 @@
     "permissions_lgp_none": "沒有任何阻擋的指令或模組。",
     "gambling_animal_race_no_race": "這場動物賽跑已經額滿了!",
     "utility_cant_read_or_send": "你無法在這個頻道讀取或發送訊息。",
-    "utility_quotes_notfound": "找不到與該引句ID相符的引句。"
+    "utility_quotes_notfound": "找不到與該引句ID相符的引句。",
+    "administration_prefix_current": "指令開頭於此伺服器為 {0}",
+    "administration_prefix_new": "變更此伺服器指令開頭從 {0} 至 {1}",
+    "administration_defprefix_current": "預設機器人指令開頭為 {0}",
+    "administration_defprefix_new": "變更預設機器人指令開頭從 {0} 至 {1}"
 }
