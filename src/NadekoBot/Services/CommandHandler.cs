@@ -38,7 +38,7 @@ namespace NadekoBot.Services
         private ConcurrentDictionary<ulong, string> _prefixes { get; } = new ConcurrentDictionary<ulong, string>();
 
         private ImmutableArray<AsyncLazy<IDMChannel>> ownerChannels { get; set; } = new ImmutableArray<AsyncLazy<IDMChannel>>();
-
+        
         public event Func<IUserMessage, CommandInfo, Task> CommandExecuted = delegate { return Task.CompletedTask; };
 
         //userid/msg count
@@ -267,8 +267,8 @@ namespace NadekoBot.Services
                 
                 if (result.Success)
                 {
-                    //    await CommandExecuted(usrMsg, exec.CommandInfo).ConfigureAwait(false);
                     await LogSuccessfulExecution(usrMsg, channel as ITextChannel, exec2, exec3, execTime).ConfigureAwait(false);
+                    await CommandExecuted(usrMsg, result.Info).ConfigureAwait(false);
                     return;
                 }
                 else if (result.Error != null)
@@ -290,15 +290,15 @@ namespace NadekoBot.Services
 
         }
 
-        public Task<(bool Success, string Error)> ExecuteCommandAsync(CommandContext context, string input, int argPos, IServiceProvider serviceProvider, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
+        public Task<(bool Success, string Error, CommandInfo Info)> ExecuteCommandAsync(CommandContext context, string input, int argPos, IServiceProvider serviceProvider, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
             => ExecuteCommand(context, input.Substring(argPos), serviceProvider, multiMatchHandling);
 
 
-        public async Task<(bool Success, string Error)> ExecuteCommand(CommandContext context, string input, IServiceProvider serviceProvider, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
+        public async Task<(bool Success, string Error, CommandInfo Info)> ExecuteCommand(CommandContext context, string input, IServiceProvider serviceProvider, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
         {
             var searchResult = _commandService.Search(context, input);
             if (!searchResult.IsSuccess)
-                return (false, null);
+                return (false, null, null);
 
             var commands = searchResult.Commands;
             for (int i = commands.Count - 1; i >= 0; i--)
@@ -307,7 +307,7 @@ namespace NadekoBot.Services
                 if (!preconditionResult.IsSuccess)
                 {
                     if (commands.Count == 1)
-                        return (false, null);
+                        return (false, null, null);
                     else
                         continue;
                 }
@@ -331,7 +331,7 @@ namespace NadekoBot.Services
                     if (!parseResult.IsSuccess)
                     {
                         if (commands.Count == 1)
-                            return (false, null);
+                            return (false, null, null);
                         else
                             continue;
                     }
@@ -342,7 +342,7 @@ namespace NadekoBot.Services
                 // Bot will ignore commands which are ran more often than what specified by
                 // GlobalCommandsCooldown constant (miliseconds)
                 if (!UsersOnShortCooldown.Add(context.Message.Author.Id))
-                    return (false, null);
+                    return (false, null, null);
                 //return SearchResult.FromError(CommandError.Exception, "You are on a global cooldown.");
 
                 var commandName = cmd.Aliases.First();
@@ -352,7 +352,7 @@ namespace NadekoBot.Services
                         await exec.TryBlockLate(_client, context.Message, context.Guild, context.Channel, context.User, cmd.Module.GetTopLevelModule().Name, commandName).ConfigureAwait(false))
                     {
                         _log.Info("Late blocking User [{0}] Command: [{1}] in [{2}]", context.User, commandName, svc.GetType().Name);
-                        return (false, null);
+                        return (false, null, null);
                     }
                 }
 
@@ -369,10 +369,10 @@ namespace NadekoBot.Services
                         _log.Warn(execResult.Exception);
                     }
                 }
-                return (true, null);
+                return (true, null, commands[i].Command);
             }
 
-            return (false, null);
+            return (false, null, null);
             //return new ExecuteCommandResult(null, null, SearchResult.FromError(CommandError.UnknownCommand, "This input does not match any overload."));
         }
 
