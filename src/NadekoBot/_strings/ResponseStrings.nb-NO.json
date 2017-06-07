@@ -782,5 +782,9 @@
     "permissions_lgp_none": "Ingen blokkerte kommandoer eller moduler.",
     "gambling_animal_race_no_race": "Det er ikke plass til flere spillere.",
     "utility_cant_read_or_send": "Du kan ikke lese eller sende meldinger i den kanalen.",
-    "utility_quotes_notfound": "Ingen sitater funnet med det ID nummeret."
+    "utility_quotes_notfound": "Ingen sitater funnet med det ID nummeret.",
+    "administration_prefix_current": "Denne serverens prefiks er {0}",
+    "administration_prefix_new": "Endret prefiks fra {0} til {1}",
+    "administration_defprefix_current": "Standard prefiks er {1}",
+    "administration_defprefix_new": "Endret standard prefiks fra {0} til {1}"
 }
