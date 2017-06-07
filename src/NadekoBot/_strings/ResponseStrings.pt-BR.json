@@ -782,5 +782,9 @@
     "permissions_lgp_none": "Não há comandos ou módulos bloqueados.",
     "gambling_animal_race_no_race": "Essa Corrida de Animais está cheia!",
     "utility_cant_read_or_send": "Você não pode ler ou escrever mensagens neste canal.",
-    "utility_quotes_notfound": "Nenhuma citação encontrada correspondendo ao ID especificado."
+    "utility_quotes_notfound": "Nenhuma citação encontrada correspondendo ao ID especificado.",
+    "administration_prefix_current": "Prefixo neste server é {0}",
+    "administration_prefix_new": "Prefixo neste server modificado de {0} para {1}",
+    "administration_defprefix_current": "Prefixo de bot padrão é {0}",
+    "administration_defprefix_new": "Prefixo de bot padrão modificado de {0} para {1}"
 }
