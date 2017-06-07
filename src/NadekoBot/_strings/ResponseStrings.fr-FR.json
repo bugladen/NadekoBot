@@ -782,5 +782,9 @@
     "permissions_lgp_none": "Aucune commande ou module n'est bloqué.",
     "gambling_animal_race_no_race": "Cette course d'animaux est complète!",
     "utility_cant_read_or_send": "Vous ne pouvez pas lire ou envoyer de messages à ce salon.",
-    "utility_quotes_notfound": "Aucune citation correspondant à l'ID spécifié n'a été trouvée."
+    "utility_quotes_notfound": "Aucune citation correspondant à l'ID spécifié n'a été trouvée.",
+    "administration_prefix_current": "Le préfixe sur ce serveur est {0}",
+    "administration_prefix_new": "Le préfixe sur ce serveur a changé de {0} à {1}",
+    "administration_defprefix_current": "Le préfixe par défaut du bot est {0}",
+    "administration_defprefix_new": "Le préfixe par défaut du bot a changé de {0} à {1}"
 }
