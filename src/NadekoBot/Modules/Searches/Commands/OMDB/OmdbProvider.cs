@@ -10,7 +10,7 @@ namespace NadekoBot.Modules.Searches.Commands.OMDB
 {
     public static class OmdbProvider
     {
-        private const string queryUrl =  "http://www.omdbapi.com/?t={0}&y=&plot=full&r=json";
+        private const string queryUrl =  "http://omdbapi.nadekobot.me/?t={0}&y=&plot=full&r=json";
 
         public static async Task<OmdbMovie> FindMovie(string name)
         {
