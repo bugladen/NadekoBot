@@ -1,17 +1,24 @@
 function GitHub-Release($versionNumber)
 {
     $ErrorActionPreference = "Stop"
-    $env:NADEKOBOT_INSTALL_VERSION=$versionNumber
-    
-    $draft = $TRUE
 
+    $nl = [Environment]::NewLine
+    $env:NADEKOBOT_INSTALL_VERSION=$versionNumber
+    $gitHubApiKey = $env:GITHUB_API_KEY
+    $commitId = git rev-parse HEAD
     $lastTag = git describe --tags --abbrev=0
     $tag = "$lastTag..HEAD"
-    $changelog = & 'git' 'log', $tag, '--oneline'
 
-    $gitHubApiKey = $env:GITHUB_API_KEY
+    $clArr = (& 'git' 'log', $tag, '--oneline')
+    $changelog = $clArr | where { "$_" -notlike "*(POEditor.com)*" -and "$_" -notlike "*Merge branch*" -and "$_" -notlike "*Merge pull request*" -and "$_" -notlike "^-*" -and "$_" -notlike "*Merge remote tracking*" }
+    $changelog = [string]::join([Environment]::NewLine, $changelog)
 
-    $commitId = git rev-parse HEAD
+    $cl2 = $clArr | where { "$_" -like "*Merge pull request*" }
+    $cl2 = [string]::join([Environment]::NewLine, $cl2)
+
+    $changelog = "## Changes$nl$changelog$nl ## Pull Requests Merged$nl$cl2"
+
+    Write-Host $changelog 
 
     # set-alias sz "$env:ProgramFiles\7-Zip\7z.exe" 
     # $source = "src\NadekoBot\bin\Release\PublishOutput\win7-x64" 
@@ -24,8 +31,8 @@ function GitHub-Release($versionNumber)
     $artifact = "NadekoBot-setup-$versionNumber.exe";
 
     $auth = 'Basic ' + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes($gitHubApiKey + ":x-oauth-basic"));
-
-    $result = GitHubMake-Release $versionNumber $commitId $TRUE $gitHubApiKey $auth ""
+    Write-Host $changelog
+    $result = GitHubMake-Release $versionNumber $commitId $TRUE $gitHubApiKey $auth "" "$changelog"
     $releaseId = $result | Select -ExpandProperty id
     $uploadUri = $result | Select -ExpandProperty upload_url
     $uploadUri = $uploadUri -creplace '\{\?name,label\}', "?name=$artifact"
@@ -49,22 +56,21 @@ function GitHub-Release($versionNumber)
     Write-Host 'Done 🎉'
 }
 
-function GitHubMake-Release($versionNumber, $commitId, $draft, $gitHubApiKey, $auth, $releaseId = "")
+function GitHubMake-Release($versionNumber, $commitId, $draft, $gitHubApiKey, $auth, $releaseId, $body)
 {
     $releaseId = If ($releaseId -eq "") {""} Else {"/" + $releaseId};
 
     Write-Host $versionNumber
     Write-Host $commitId
     Write-Host $draft
-    Write-Host $gitHubApiKey
     Write-Host $releaseId
-    Write-Host $auth
+    Write-Host $body
 
     $releaseData = @{
        tag_name = $versionNumber;
        target_commitish = $commitId;
        name = [string]::Format("NadekoBot v{0}", $versionNumber);
-       body = "test";
+       body = $body;
        draft = $draft;
        prerelease = $releaseId -ne "";
     }
