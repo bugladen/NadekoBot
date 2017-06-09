@@ -1,5 +1,5 @@
 #define sysfolder "system"
-#define version "1.41"
+#define version GetEnv('NADEKOBOT_INSTALL_VERSION')
 #define target "win7-x64"
 
 [Setup]
@@ -56,6 +56,12 @@ Root: "HKLM"; Subkey: "SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFla
 Root: "HKCU"; Subkey: "SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers"; \
     ValueType: String; ValueName: "{app}\{#sysfolder}\NadekoBot.exe"; ValueData: "RUNASADMIN"; \
     Flags: uninsdeletekeyifempty uninsdeletevalue;
+Root: "HKLM"; Subkey: "SOFTWARE\NadekoBot"; \
+    ValueType: String; ValueName: "InstallPath"; ValueData: "{app}\{#sysfolder}"; \
+    Flags: deletevalue uninsdeletekeyifempty uninsdeletevalue;
+Root: "HKLM"; Subkey: "SOFTWARE\NadekoBot"; \
+    ValueType: String; ValueName: "Version"; ValueData: "{#version}"; \
+    Flags: deletevalue uninsdeletekeyifempty uninsdeletevalue;
 
 [Messages]
 WelcomeLabel2=IMPORTANT! READ BELOW!%n%nIt is recommended that you CLOSE any ANTI VIRUS before continuing.%n%nYou can only update v1.4 or newer.%n%nDo not select your old NadekoBot folder as an install path if it's not 1.4 or newer.
