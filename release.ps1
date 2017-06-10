@@ -10,7 +10,7 @@ function GitHub-Release($versionNumber)
     $tag = "$lastTag..HEAD"
 
     $clArr = (& 'git' 'log', $tag, '--oneline')
-    $clArr = [array]::Reverse($clArr)
+    [array]::Reverse($clArr)
     $changelog = $clArr | where { "$_" -notlike "*(POEditor.com)*" -and "$_" -notlike "*Merge branch*" -and "$_" -notlike "*Merge pull request*" -and "$_" -notlike "^-*" -and "$_" -notlike "*Merge remote tracking*" }
     $changelog = [string]::join([Environment]::NewLine, $changelog)
 
