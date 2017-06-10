@@ -131,7 +131,14 @@ namespace NadekoBot.Services.Music
                         if (CurrentSong == null)
                             continue;
 
-                        if (AudioClient == null || AudioClient.ConnectionState == ConnectionState.Disconnected || AudioClient.ConnectionState == ConnectionState.Disconnecting)
+                        while (AudioClient?.ConnectionState == ConnectionState.Disconnecting || 
+                            AudioClient?.ConnectionState == ConnectionState.Connecting)
+                        {
+                            _log.Info("Waiting for Audio client");
+                            await Task.Delay(200).ConfigureAwait(false);
+                        }
+
+                        if (AudioClient == null || AudioClient.ConnectionState == ConnectionState.Disconnected)
                             AudioClient = await PlaybackVoiceChannel.ConnectAsync().ConfigureAwait(false);
 
                         var index = _playlist.IndexOf(CurrentSong);
