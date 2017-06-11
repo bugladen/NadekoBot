@@ -1174,10 +1174,19 @@
     <value>draw</value>
   </data>
   <data name="draw_desc" xml:space="preserve">
-    <value>Draws a card from the deck.If you supply number X, she draws up to 5 cards from the deck.</value>
+    <value>Draws a card from this server's deck. You can draw up to 10 cards by supplying a number of cards to draw.</value>
   </data>
   <data name="draw_usage" xml:space="preserve">
     <value>`{0}draw` or `{0}draw 5`</value>
+  </data>
+  <data name="drawnew_cmd" xml:space="preserve">
+    <value>drawnew</value>
+  </data>
+  <data name="drawnew_desc" xml:space="preserve">
+    <value>Draws a card from the NEW deck of cards. You can draw up to 10 cards by supplying a number of cards to draw.</value>
+  </data>
+  <data name="drawnew_usage" xml:space="preserve">
+    <value>`{0}drawnew` or `{0}drawnew 5`</value>
   </data>
   <data name="shuffleplaylist_cmd" xml:space="preserve">
     <value>playlistshuffle plsh</value>
