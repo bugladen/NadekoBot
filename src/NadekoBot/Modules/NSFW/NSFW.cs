@@ -59,7 +59,7 @@ namespace NadekoBot.Modules.NSFW
 
             await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                 .WithImageUrl(link)
-                .WithDescription($"{GetText("tag")}: " + tag))
+                .WithDescription($"[{GetText("tag")}: {tag}]({link})"))
                 .ConfigureAwait(false);
         }
 
@@ -297,7 +297,7 @@ namespace NadekoBot.Modules.NSFW
                 await ReplyErrorLocalized("not_found").ConfigureAwait(false);
             else
                 await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                    .WithDescription(Context.User + " " + tag)
+                    .WithDescription($"{Context.User} [{tag}]({url}) ")
                     .WithImageUrl(url)
                     .WithFooter(efb => efb.WithText(type.ToString()))).ConfigureAwait(false);
         }
