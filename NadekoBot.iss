@@ -92,7 +92,7 @@ end;
 
 procedure CurStepChanged(CurStep: TSetupStep);
 begin
-  if (CurStep = ssInstall) then
+  if (CurStep = ssPostInstall) then
   begin
     if FileExists(GetFileName('credentials_example.json')) and not FileExists(GetFileName('credentials.json')) then
       RenameFile(GetFileName('credentials_example.json'), GetFileName('credentials.json'));
