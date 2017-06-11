@@ -21,6 +21,7 @@ If you want to contribute, be sure to PR on the **[dev][dev]** branch.
 	- [Linux Guide](guides/Linux Guide.md)
 	- [OSX Guide](guides/OSX Guide.md)
 	- [Docker Guide](guides/Docker Guide.md)
+	- [From Source](guides/From Source.md)
 	- [Upgrading Guide](guides/Upgrading Guide.md)
 - Commands
 	- [Readme](Readme.md)
