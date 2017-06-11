@@ -15,11 +15,16 @@ function GitHub-Release($versionNumber)
     $changelog = [string]::join([Environment]::NewLine, $changelog)
 
     $cl2 = $clArr | where { "$_" -like "*Merge pull request*" }
-    $cl2 = [string]::join([Environment]::NewLine, $cl2)
-
-    $changelog = "## Changes$nl$changelog$nl ## Pull Requests Merged$nl$cl2"
+    $changelog = "## Changes$nl$changelog"
+    if ($cl2 -ne $null)
+    {
+      $cl2 = [string]::join([Environment]::NewLine, $cl2)
+      $changelog = $changelog + "$nl ## Pull Requests Merged$nl$cl2"
+    }
 
     Write-Host $changelog 
+
+    dotnet publish -c Release --runtime win7-x64
 
     # set-alias sz "$env:ProgramFiles\7-Zip\7z.exe" 
     # $source = "src\NadekoBot\bin\Release\PublishOutput\win7-x64" 
@@ -54,6 +59,7 @@ function GitHub-Release($versionNumber)
     $result = Invoke-RestMethod @uploadParams
     Write-Host 'Artifact upload finished.'
     $result = GitHubMake-Release $versionNumber $commitId $FALSE $gitHubApiKey $auth "$releaseId"
+    git pull
     Write-Host 'Done 🎉'
 }
 

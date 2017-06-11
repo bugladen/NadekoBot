@@ -1,5 +1,5 @@
 #define sysfolder "system"
-#define version GetEnv('NADEKOBOT_INSTALL_VERSION')
+#define version GetEnv("NADEKOBOT_INSTALL_VERSION")
 #define target "win7-x64"
 
 [Setup]
@@ -20,14 +20,14 @@ DisableWelcomePage=no
 
 [Files]
 ;install 
-Source: "src\NadekoBot\bin\Release\PublishOutput\{#target}\*"; DestDir: "{app}\{#sysfolder}"; Permissions: users-full; Flags: recursesubdirs onlyifdoesntexist ignoreversion createallsubdirs; Excludes: "*.pdb, *.db"
+Source: "src\NadekoBot\bin\Release\netcoreapp1.1\{#target}\publish\*"; DestDir: "{app}\{#sysfolder}"; Permissions: users-full; Flags: recursesubdirs onlyifdoesntexist ignoreversion createallsubdirs; Excludes: "*.pdb, *.db"
 ;rename credentials example to credentials, but don't overwrite if it exists
-Source: "src\NadekoBot\bin\Release\PublishOutput\{#target}\credentials_example.json"; DestName: "credentials.json"; DestDir: "{app}\{#sysfolder}"; Permissions: users-full; Flags: skipifsourcedoesntexist onlyifdoesntexist;
+;Source: "src\NadekoBot\bin\Release\netcoreapp1.1\{#target}\publish\credentials_example.json"; DestName: "credentials.json"; DestDir: "{app}\{#sysfolder}"; Permissions: users-full; Flags: skipifsourcedoesntexist onlyifdoesntexist;
 
 ;reinstall - i want to copy all files, but i don't want to overwrite any data files because users will lose their customization if they don't have a backup, 
 ;            and i don't want them to have to backup and then copy-merge into data folder themselves, or lose their currency images due to overwrite.
-Source: "src\NadekoBot\bin\Release\PublishOutput\{#target}\*"; DestDir: "{app}\{#sysfolder}"; Permissions: users-full; Flags: recursesubdirs onlyifdestfileexists createallsubdirs; Excludes: "*.pdb, *.db, data\*, credentials.json";
-Source: "src\NadekoBot\bin\Release\PublishOutput\{#target}\data\*"; DestDir: "{app}\{#sysfolder}\data"; Permissions: users-full; Flags: recursesubdirs onlyifdoesntexist createallsubdirs;
+Source: "src\NadekoBot\bin\Release\netcoreapp1.1\{#target}\publish\*"; DestDir: "{app}\{#sysfolder}"; Permissions: users-full; Flags: recursesubdirs ignoreversion onlyifdestfileexists createallsubdirs; Excludes: "*.pdb, *.db, data\*, credentials.json";
+Source: "src\NadekoBot\bin\Release\netcoreapp1.1\{#target}\publish\data\*"; DestDir: "{app}\{#sysfolder}\data"; Permissions: users-full; Flags: recursesubdirs onlyifdoesntexist createallsubdirs;
 
 ;readme   
 ;Source: "readme"; DestDir: "{app}"; Flags: isreadme
@@ -82,5 +82,19 @@ begin
     end else begin
       MsgBox(X + '\{#sysfolder}\data\NadekoBot.db doesn''t exist', mbConfirmation, MB_YESNO)
     end
+  end;
+end;
+
+function GetFileName(const AFileName: string): string;
+begin
+  Result := ExpandConstant('{app}\{#sysfolder}\' + AFileName);
+end;
+
+procedure CurStepChanged(CurStep: TSetupStep);
+begin
+  if (CurStep = ssInstall) then
+  begin
+    if FileExists(GetFileName('credentials_example.json')) and not FileExists(GetFileName('credentials.json')) then
+      RenameFile(GetFileName('credentials_example.json'), GetFileName('credentials.json'));
   end;
 end;
