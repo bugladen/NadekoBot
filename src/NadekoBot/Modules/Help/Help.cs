@@ -159,8 +159,8 @@ namespace NadekoBot.Modules.Help
         public async Task Guide()
         {
             await ConfirmLocalized("guide", 
-                "http://nadekobot.readthedocs.io/en/latest/Commands%20List/",
-                "http://nadekobot.readthedocs.io/en/latest/").ConfigureAwait(false);
+                "http://nadekobot.readthedocs.io/en/1.3x/Commands%20List/",
+                "http://nadekobot.readthedocs.io/en/1.3x/").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
