@@ -782,10 +782,11 @@ namespace NadekoBot.Modules.Searches
                 await channel.SendErrorAsync(umsg.Author.Mention + " " + GetText("no_results"));
             else
                 await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                    .WithDescription(umsg.Author.Mention + " " + tag)
+                    .WithDescription($"{umsg.Author.Mention} [{tag}]({url})")
                     .WithImageUrl(url)
                     .WithFooter(efb => efb.WithText(type.ToString()))).ConfigureAwait(false);
         }
+
         public async Task<bool> ValidateQuery(IMessageChannel ch, string query)
         {
             if (!string.IsNullOrWhiteSpace(query)) return true;
