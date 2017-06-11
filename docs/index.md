@@ -26,9 +26,10 @@ If you want to contribute, be sure to PR on the **[dev][dev]** branch.
 - Commands
 	- [Readme](Readme.md)
 	- [Commands List](Commands List.md)
-- [Permissions System](Permissions System.md)
-- [JSON Explanations](JSON Explanations.md)
-- [Custom Reactions](Custom Reactions.md)
+- Features Explained
+	- [Permissions System](Permissions System.md)
+	- [JSON Explanations](JSON Explanations.md)
+	- [Custom Reactions](Custom Reactions.md)
 - [Frequently Asked Questions](Frequently Asked Questions.md)
 - [Contribution Guide](Contribution Guide.md)
 - [Donate](Donate.md)

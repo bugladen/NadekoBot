@@ -1,8 +1,8 @@
 ## Setting Up NadekoBot on Windows
 
 #### Prerequisites 
-- 1) [Notepad++][Notepad++] (or some other decent text editor)
-- 2) Windows 8 or later
+- [Notepad++][Notepad++] (or some other decent text editor)
+- Windows 8 or later
 
 #### Guide 
 - Download and run the [NadekoBot Updater][Updater]
