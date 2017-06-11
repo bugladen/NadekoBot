@@ -702,6 +702,15 @@
   <data name="setname_usage" xml:space="preserve">
     <value>`{0}newnm BotName`</value>
   </data>
+  <data name="setnick_cmd" xml:space="preserve">
+    <value>setnick</value>
+  </data>
+  <data name="setnick_desc" xml:space="preserve">
+    <value>Changes the nickname of the bot on this server. You can also target other users to change their nickname.</value>
+  </data>
+  <data name="setnick_usage" xml:space="preserve">
+    <value>`{0}setnick BotNickname` or `{0}setnick @SomeUser New Nickname`</value>
+  </data>
   <data name="setavatar_cmd" xml:space="preserve">
     <value>setavatar setav</value>
   </data>
