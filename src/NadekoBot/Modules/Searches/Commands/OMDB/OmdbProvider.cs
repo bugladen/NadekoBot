@@ -40,7 +40,7 @@ namespace NadekoBot.Modules.Searches.Commands.OMDB
             new EmbedBuilder().WithOkColor()
                               .WithTitle(Title)
                               .WithUrl($"http://www.imdb.com/title/{ImdbId}/")
-                              .WithDescription(Plot)
+                              .WithDescription(Plot.TrimTo(1000))
                               .AddField(efb => efb.WithName("Rating").WithValue(ImdbRating).WithIsInline(true))
                               .AddField(efb => efb.WithName("Genre").WithValue(Genre).WithIsInline(true))
                               .AddField(efb => efb.WithName("Year").WithValue(Year).WithIsInline(true))
