@@ -32,6 +32,10 @@ Source: "src\NadekoBot\bin\Release\netcoreapp1.1\{#target}\publish\data\*"; Dest
 ;readme   
 ;Source: "readme"; DestDir: "{app}"; Flags: isreadme
 
+[Dirs]
+Name:"{app}\{#sysfolder}\data"; Permissions: everyone-modify
+Name:"{app}\{#sysfolder}"; Permissions: everyone-modify
+
 [Run]
 Filename: "http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/"; Flags: postinstall shellexec runasoriginaluser; Description: "Open setup guide"
 Filename: "{app}\{#sysfolder}\credentials.json"; Flags: postinstall shellexec runasoriginaluser; Description: "Open credentials file"
