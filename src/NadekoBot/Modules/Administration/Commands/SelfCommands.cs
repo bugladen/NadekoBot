@@ -203,7 +203,7 @@ namespace NadekoBot.Modules.Administration
                     await ReplyConfirmLocalized("fwall_stop").ConfigureAwait(false);
 
             }
-            
+
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public async Task ConnectShard(int shardid)
@@ -279,6 +279,30 @@ namespace NadekoBot.Modules.Administration
                 await _client.CurrentUser.ModifyAsync(u => u.Username = newName).ConfigureAwait(false);
 
                 await ReplyConfirmLocalized("bot_name", Format.Bold(newName)).ConfigureAwait(false);
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireUserPermission(GuildPermission.ManageNicknames)]
+            [Priority(1)]
+            public async Task SetNick([Remainder] string newNick = null)
+            {
+                if (string.IsNullOrWhiteSpace(newNick))
+                    return;
+                var curUser = await Context.Guild.GetCurrentUserAsync();
+                await curUser.ModifyAsync(u => u.Nickname = newNick).ConfigureAwait(false);
+
+                await ReplyConfirmLocalized("bot_nick", Format.Bold(newNick) ?? "-").ConfigureAwait(false);
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireBotPermission(GuildPermission.ManageNicknames)]
+            [RequireUserPermission(GuildPermission.ManageNicknames)]
+            [Priority(0)]
+            public async Task SetNick(IGuildUser gu, [Remainder] string newNick = null)
+            {
+                await gu.ModifyAsync(u => u.Nickname = newNick).ConfigureAwait(false);
+
+                await ReplyConfirmLocalized("user_nick", Format.Bold(gu.ToString()), Format.Bold(newNick) ?? "-").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
