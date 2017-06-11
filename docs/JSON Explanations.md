@@ -55,15 +55,11 @@ Additional options
   Most likely unnecessary to change until your bot is added to more than 2000 servers  
 [//]: # (- **Db** - Allows for advanced database configuration  )
 [//]: # (  - Leave this with the `null` value for standard operation - change this to `examples` to [This is only a comment so doesn't need proper detail])
-  
 
-Config.json
-===========
-`config.json` is now removed with the addition of `NadekoBot.db` so if you have Nadeko 0.9x follow the [upgrading guide](http://nadekobot.readthedocs.io/en/latest/guides/Upgrading%20Guide/) to upgrade your bot.
 
 DB files
 ========
-Nadeko uses few db files in order to open these database files `NadekoBot\src\NadekoBot\bin\Release\netcoreapp1.0\data\NadekoBot.db` (1.0) or `data\NadekoBot.sqlite` (0.9x) you will need [DB Browser for SQLite](http://sqlitebrowser.org/).
+Nadeko uses few db files in order to open these database files `NadekoBot\src\NadekoBot\bin\Release\netcoreapp1.0\data\NadekoBot.db` (1.X) you will need [DB Browser for SQLite](http://sqlitebrowser.org/).
 
 To make changes
 

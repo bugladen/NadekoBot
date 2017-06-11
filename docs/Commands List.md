@@ -25,7 +25,7 @@ Commands and aliases | Description | Usage
 `removeallroles` `rar` | Removes all roles from a mentioned user. **Requires ManageRoles server permission.** | `.rar @User`
 `createrole` `cr` | Creates a role with a given name. **Requires ManageRoles server permission.** | `.cr Awesome Role`
 `rolehoist` `rh` | Toggles whether this role is displayed in the sidebar or not. **Requires ManageRoles server permission.** | `.rh Guests` or `.rh "Space Wizards"`
-`rolecolor` `rc` | Set a role's color to the hex or 0-255 rgb color value provided. **Requires ManageRoles server permission.** | `.rc Admin 255 200 100` or `.rc Admin ffba55`
+`rolecolor` `roleclr` | Set a role's color to the hex or 0-255 rgb color value provided. **Requires ManageRoles server permission.** | `.roleclr Admin 255 200 100` or `.roleclr Admin ffba55`
 `deafen` `deaf` | Deafens mentioned user or users. **Requires DeafenMembers server permission.** | `.deaf "@Someguy"` or `.deaf "@Someguy" "@Someguy"`
 `undeafen` `undef` | Undeafens mentioned user or users. **Requires DeafenMembers server permission.** | `.undef "@Someguy"` or `.undef "@Someguy" "@Someguy"`
 `delvoichanl` `dvch` | Deletes a voice channel with a given name. **Requires ManageChannels server permission.** | `.dvch VoiceChannelName`
@@ -34,7 +34,7 @@ Commands and aliases | Description | Usage
 `creatxtchanl` `ctch` | Creates a new text channel with a given name. **Requires ManageChannels server permission.** | `.ctch TextChannelName`
 `settopic` `st` | Sets a topic on the current channel. **Requires ManageChannels server permission.** | `.st My new topic`
 `setchanlname` `schn` | Changes the name of the current channel. **Requires ManageChannels server permission.** | `.schn NewName`
-`prune` `clr` | `.prune` removes all Nadeko's messages in the last 100 messages. `.prune X` removes last `X` number of messages from the channel (up to 100). `.prune @Someone` removes all Someone's messages in the last 100 messages. `.prune @Someone X` removes last `X` number of 'Someone's' messages in the channel.  | `.prune` or `.prune 5` or `.prune @Someone` or `.prune @Someone X`
+`prune` `clear` | `.prune` removes all Nadeko's messages in the last 100 messages. `.prune X` removes last `X` number of messages from the channel (up to 100). `.prune @Someone` removes all Someone's messages in the last 100 messages. `.prune @Someone X` removes last `X` number of 'Someone's' messages in the channel.  | `.prune` or `.prune 5` or `.prune @Someone` or `.prune @Someone X`
 `mentionrole` `menro` | Mentions every person from the provided role or roles (separated by a ',') on this server. **Requires MentionEveryone server permission.** | `.menro RoleName`
 `donators` | List of the lovely people who donated to keep this project alive.  | `.donators`
 `donadd` | Add a donator to the database. **Bot owner only** | `.donadd Donate Amount`
@@ -122,12 +122,12 @@ Commands and aliases | Description | Usage
 `createwar` `cw` | Creates a new war by specifying a size (>10 and multiple of 5) and enemy clan name. **Requires ManageMessages server permission.** | `.cw 15 The Enemy Clan`
 `startwar` `sw` | Starts a war with a given number.  | `.sw 15`
 `listwar` `lw` | Shows the active war claims by a number. Shows all wars in a short way if no number is specified.  | `.lw [war_number]` or `.lw`
-`claim` `call` `c` | Claims a certain base from a certain war. You can supply a name in the third optional argument to claim in someone else's place.  | `.call [war_number] [base_number] [optional_other_name]`
-`claimfinish1` `cf1` | Finish your claim with 1 star if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else.  | `.cf1 1` or `.cf1 1 5`
-`claimfinish2` `cf2` | Finish your claim with 2 stars if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else.  | `.cf2 1` or `.cf2 1 5`
-`claimfinish` `cf` | Finish your claim with 3 stars if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else.  | `.cf 1` or `.cf 1 5`
+`basecall` | Claims a certain base from a certain war. You can supply a name in the third optional argument to claim in someone else's place.  | `.basecall [war_number] [base_number] [optional_other_name]`
+`callfinish1` `cf1` | Finish your claim with 1 star if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else.  | `.cf1 1` or `.cf1 1 5`
+`callfinish2` `cf2` | Finish your claim with 2 stars if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else.  | `.cf2 1` or `.cf2 1 5`
+`callfinish` `cf` | Finish your claim with 3 stars if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else.  | `.cf 1` or `.cf 1 5`
 `endwar` `ew` | Ends the war with a given index.  | `.ew [war_number]`
-`unclaim` `ucall` `uc` | Removes your claim from a certain war. Optional second argument denotes a person in whose place to unclaim  | `.uc [war_number] [optional_other_name]`
+`uncall` | Removes your claim from a certain war. Optional second argument denotes a person in whose place to unclaim  | `.uc [war_number] [optional_other_name]`
 
 ###### [Back to ToC](#table-of-contents)
 
@@ -150,10 +150,10 @@ Commands and aliases | Description | Usage
 Commands and aliases | Description | Usage
 ----------------|--------------|-------
 `raffle` | Prints a name and ID of a random user from the online list from the (optional) role.  | `.raffle` or `.raffle RoleName`
-`cash` `$$` | Check how much currency a person has. (Defaults to yourself)  | `.$$` or `.$$ @SomeGuy`
-`give` | Give someone a certain amount of currency.  | `.give 1 "@SomeGuy"`
+`$` `currency` `$$` `$$$` `cash` `cur` | Check how much currency a person has. (Defaults to yourself)  | `.$` or `.$ @SomeGuy`
+`give` | Give someone a certain amount of currency.  | `.give 1 @SomeGuy`
 `award` | Awards someone a certain amount of currency.  You can also specify a role name to award currency to all users in a role. **Bot owner only** | `.award 100 @person` or `.award 5 Role Of Gamblers`
-`take` | Takes a certain amount of currency from someone. **Bot owner only** | `.take 1 "@someguy"`
+`take` | Takes a certain amount of currency from someone. **Bot owner only** | `.take 1 @SomeGuy`
 `betroll` `br` | Bets a certain amount of currency and rolls a dice. Rolling over 66 yields x2 of your currency, over 90 - x4 and 100 x10.  | `.br 5`
 `leaderboard` `lb` | Displays the bot's currency leaderboard.  | `.lb`
 `race` | Starts a new animal race.  | `.race`
@@ -163,7 +163,7 @@ Commands and aliases | Description | Usage
 `rolluo` | Rolls `X` normal dice (up to 30) unordered. If you split 2 numbers with letter `d` (`xdy`) it will roll `X` dice from 1 to `y`.  | `.rolluo` or `.rolluo 7` or `.rolluo 3d5`
 `nroll` | Rolls in a given range.  | `.nroll 5` (rolls 0-5) or `.nroll 5-15`
 `draw` | Draws a card from the deck.If you supply number X, she draws up to 5 cards from the deck.  | `.draw` or `.draw 5`
-`shuffle` `sh` | Reshuffles all cards back into the deck.  | `.sh`
+`deckshuffle` `dsh` | Reshuffles all cards back into the deck.  | `.dsh`
 `flip` | Flips coin(s) - heads or tails, and shows an image.  | `.flip` or `.flip 3`
 `betflip` `bf` | Bet to guess will the result be heads or tails. Guessing awards you 1.95x the currency you've bet (rounded up). Multiplier can be changed by the bot owner.  | `.bf 5 heads` or `.bf 3 t`
 `shop` | Lists this server's administrators' shop. Paginated.  | `.shop` or `.shop 2`
@@ -240,12 +240,13 @@ Commands and aliases | Description | Usage
 `nowplaying` `np` | Shows the song that the bot is currently playing.  | `.np`
 `volume` `vol` | Sets the music playback volume (0-100%)  | `.vol 50`
 `defvol` `dv` | Sets the default music volume when music playback is started (0-100). Persists through restarts.  | `.dv 80`
+`playlistshuffle` `plsh` | Shuffles the current playlist.  | `.plsh`
 `playlist` `pl` | Queues up to 500 songs from a youtube playlist specified by a link, or keywords.  | `.pl playlist link or name`
 `soundcloudpl` `scpl` | Queue a Soundcloud playlist using a link.  | `.scpl soundcloudseturl`
 `localplaylst` `lopl` | Queues all songs from a directory. **Bot owner only** | `.lopl C:/music/classical`
 `radio` `ra` | Queues a radio stream from a link. It can be a direct mp3 radio stream, .m3u, .pls .asx or .xspf (Usage Video: <https://streamable.com/al54>)  | `.ra radio link here`
 `local` `lo` | Queues a local file by specifying a full path. **Bot owner only** | `.lo C:/music/mysong.mp3`
-`remove` `rm` | Remove a song by its # in the queue, or 'all' to remove whole queue.  | `.rm 5`
+`songremove` `srm` | songremove_desc  | songremove_usage
 `movesong` `ms` | Moves a song from one position to another.  | `.ms 5>3`
 `setmaxqueue` `smq` | Sets a maximum queue size. Supply 0 or no argument to have no limit.  | `.smq 50` or `.smq`
 `setmaxplaytime` `smp` | Sets a maximum number of seconds (>14) a song can run before being skipped automatically. Set 0 to have no limit.  | `.smp 0` or `.smp 270`
@@ -348,13 +349,13 @@ Commands and aliases | Description | Usage
 `define` `def` | Finds a definition of a word.  | `.def heresy`
 `#` | Searches Tagdef.com for a hashtag.  | `.# ff`
 `catfact` | Shows a random catfact from <http://catfacts-api.appspot.com/api/facts>  | `.catfact`
-`revav` | Returns a Google reverse image search for someone's avatar.  | `.revav "@SomeGuy"`
+`revav` | Returns a Google reverse image search for someone's avatar.  | `.revav @SomeGuy`
 `revimg` | Returns a Google reverse image search for an image from a link.  | `.revimg Image link`
 `safebooru` | Shows a random image from safebooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +)  | `.safebooru yuri+kissing`
 `wikipedia` `wiki` | Gives you back a wikipedia link  | `.wiki query`
-`color` `clr` | Shows you what color corresponds to that hex.  | `.clr 00ff00`
-`videocall` | Creates a private <http://www.appear.in> video call link for you and other mentioned people. The link is sent to mentioned people via a private message.  | `.videocall "@SomeGuy"`
-`avatar` `av` | Shows a mentioned person's avatar.  | `.av "@SomeGuy"`
+`color` | Shows you what color corresponds to that hex.  | `.color 00ff00`
+`videocall` | Creates a private <http://www.appear.in> video call link for you and other mentioned people. The link is sent to mentioned people via a private message.  | `.videocall "@the First" "@Xyz"`
+`avatar` `av` | Shows a mentioned person's avatar.  | `.av @SomeGuy`
 `wikia` | Gives you back a wikia link  | `.wikia mtg Vigilance` or `.wikia mlp Dashy`
 `mal` | Shows basic info from a MyAnimeList profile.  | `.mal straysocks`
 `anime` `ani` `aq` | Queries anilist for an anime and shows the first result.  | `.ani aquarion evol`
@@ -396,7 +397,7 @@ Commands and aliases | Description | Usage
 `whosplaying` `whpl` | Shows a list of users who are playing the specified game.  | `.whpl Overwatch`
 `inrole` | Lists every person from the specified role on this server. You can use role ID, role name.  | `.inrole Some Role`
 `checkmyperms` | Checks your user-specific permissions on this channel.  | `.checkmyperms`
-`userid` `uid` | Shows user ID.  | `.uid` or `.uid "@SomeGuy"`
+`userid` `uid` | Shows user ID.  | `.uid` or `.uid @SomeGuy`
 `channelid` `cid` | Shows current channel ID.  | `.cid`
 `serverid` `sid` | Shows current server ID.  | `.sid`
 `roles` | List roles on this server or a roles of a specific user if specified. Paginated, 20 roles per page.  | `.roles 2` or `.roles @Someone`
@@ -431,7 +432,7 @@ Commands and aliases | Description | Usage
 `qsearch` | Shows a random quote for a keyword that contains any text specified in the search.  | `.qsearch keyword text`
 `quoteid` `qid` | Displays the quote with the specified ID number. Quote ID numbers can be found by typing `.liqu [num]` where `[num]` is a number of a page which contains 15 quotes.  | `.qid 123456`
 `.` | Adds a new quote with the specified name and message.  | `.. sayhi Hi`
-`deletequote` `delq` | Deletes a quote with the specified ID. You have to be either server Administrator or the creator of the quote to delete it.  | `.delq 123456`
+`deletequote_cmd` | deletequote_desc  | deletequote_usage
 `delallq` `daq` | Deletes all quotes on a specified keyword. **Requires Administrator server permission.** | `.delallq kek`
 `remind` | Sends a message to you or a channel after certain amount of time. First argument is `me`/`here`/'channelname'. Second argument is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third argument is a (multiword) message.  | `.remind me 1d5h Do something` or `.remind #general 1m Start now!`
 `remindtemplate` | Sets message for when the remind is triggered.  Available placeholders are `%user%` - user who ran the command, `%message%` - Message specified in the remind, `%target%` - target channel of the remind. **Bot owner only** | `.remindtemplate %user%, do %message%!`
