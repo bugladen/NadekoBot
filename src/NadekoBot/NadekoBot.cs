@@ -26,6 +26,7 @@ using NadekoBot.Services.Permissions;
 using NadekoBot.Services.Utility;
 using NadekoBot.Services.Help;
 using System.IO;
+using NadekoBot.Services.Pokemon;
 
 namespace NadekoBot
 {
@@ -161,6 +162,10 @@ namespace NadekoBot
             var logCommandService = new LogCommandService(Client, Strings, AllGuildConfigs, Db, muteService, protectionService);
             #endregion
 
+            #region pokemon 
+            var pokemonService = new PokemonService();
+            #endregion
+
 
             //initialize Services
             Services = new NServiceProvider.ServiceProviderBuilder()
@@ -210,6 +215,7 @@ namespace NadekoBot
                     .Add(cmdcdsService)
                     .Add(filterService)
                     .Add(globalPermsService)
+                .Add<PokemonService>(pokemonService)
                 .Build();
 
             CommandHandler.AddServices(Services);
