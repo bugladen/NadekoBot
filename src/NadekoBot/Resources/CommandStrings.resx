@@ -3501,4 +3501,13 @@
   <data name="defprefix_desc" xml:space="preserve">
     <value>Sets bot's default prefix for all bot commands. Provide no arguments to see the current default prefix. This will not change this server's current prefix.</value>
   </data>
+  <data name="verboseerror_cmd" xml:space="preserve">
+    <value>verboseerror ve</value>
+  </data>
+  <data name="verboseerror_usage" xml:space="preserve">
+    <value>`{0}ve`</value>
+  </data>
+  <data name="verboseerror_desc" xml:space="preserve">
+    <value>Toggles whether the bot should print command errors when a command is incorrectly used.</value>
+  </data>
 </root>

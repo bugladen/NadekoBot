@@ -674,6 +674,8 @@
   "utility_uptime": "Uptime",
   "utility_userid": "{0} of the user {1} is {2}",
   "utility_users": "Users",
+  "utility_verbose_errors_enabled": "Incorrectly used commands will now show errors.",
+  "utility_verbose_errors_disabled": "Incorrectly used commands will no longer show errors.",
   "utility_voice_channels": "Voice channels",
   "gambling_animal_race_already_in": "You've already joined this race!",
   "games_current_poll_results": "Current poll results",

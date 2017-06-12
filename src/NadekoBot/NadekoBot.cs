@@ -111,6 +111,10 @@ namespace NadekoBot
         {
             var soundcloudApiService = new SoundCloudApiService(Credentials);
 
+            #region help
+            var helpService = new HelpService(BotConfig, CommandHandler, Strings);
+            #endregion
+
             //module services
             //todo 90 - autodiscover, DI, and add instead of manual like this
             #region utility
@@ -120,6 +124,7 @@ namespace NadekoBot
             var converterService = new ConverterService(Db);
             var commandMapService = new CommandMapService(AllGuildConfigs);
             var patreonRewardsService = new PatreonRewardsService(Credentials, Db, Currency);
+            var verboseErrorsService = new VerboseErrorsService(AllGuildConfigs, Db, CommandHandler, helpService);
             #endregion
 
             #region permissions
@@ -139,7 +144,6 @@ namespace NadekoBot
             var clashService = new ClashOfClansService(Client, Db, Localization, Strings);
             var musicService = new MusicService(GoogleApi, Strings, Localization, Db, soundcloudApiService, Credentials, AllGuildConfigs);
             var crService = new CustomReactionsService(permissionsService, Db, Client, CommandHandler);
-            var helpService = new HelpService(BotConfig);
 
             #region Games
             var gamesService = new GamesService(Client, BotConfig, AllGuildConfigs, Strings, Images, CommandHandler);
@@ -188,6 +192,7 @@ namespace NadekoBot
                     .Add(remindService)
                     .Add(repeaterService)
                     .Add(converterService)
+                    .Add(verboseErrorsService)
                 .Add<SearchesService>(searchesService)
                     .Add(streamNotificationService)
                     .Add(animeSearchService)

@@ -1,5 +1,7 @@
 #Manually added files
 
+command_errors*.txt
+
 src/NadekoBot/Command Errors*.txt
 
 src/NadekoBot/credentials.json

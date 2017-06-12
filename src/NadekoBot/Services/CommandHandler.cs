@@ -40,6 +40,7 @@ namespace NadekoBot.Services
         private ImmutableArray<AsyncLazy<IDMChannel>> ownerChannels { get; set; } = new ImmutableArray<AsyncLazy<IDMChannel>>();
         
         public event Func<IUserMessage, CommandInfo, Task> CommandExecuted = delegate { return Task.CompletedTask; };
+        public event Func<CommandInfo, ITextChannel, string, Task> CommandErrored = delegate { return Task.CompletedTask; };
 
         //userid/msg count
         public ConcurrentDictionary<ulong, uint> UserMessagesSent { get; } = new ConcurrentDictionary<ulong, uint>();
@@ -276,6 +277,8 @@ namespace NadekoBot.Services
                     //todo 80 should have log levels and it should return some kind of result, 
                     // instead of tuple with the type of thing that went wrong, like before
                     LogErroredExecution(result.Error, usrMsg,  channel as ITextChannel, exec2, exec3, execTime);
+                    if (guild != null)
+                        await CommandErrored(result.Info, channel as ITextChannel, result.Error);
                 }
 
             }
@@ -306,10 +309,7 @@ namespace NadekoBot.Services
                 var preconditionResult = await commands[i].CheckPreconditionsAsync(context, serviceProvider).ConfigureAwait(false);
                 if (!preconditionResult.IsSuccess)
                 {
-                    if (commands.Count == 1)
-                        return (false, null, null);
-                    else
-                        continue;
+                    return (false, preconditionResult.ErrorReason, commands[i].Command);
                 }
 
                 var parseResult = await commands[i].ParseAsync(context, searchResult, preconditionResult).ConfigureAwait(false);
@@ -331,7 +331,7 @@ namespace NadekoBot.Services
                     if (!parseResult.IsSuccess)
                     {
                         if (commands.Count == 1)
-                            return (false, null, null);
+                            return (false, parseResult.ErrorReason, commands[i].Command);
                         else
                             continue;
                     }
@@ -342,7 +342,7 @@ namespace NadekoBot.Services
                 // Bot will ignore commands which are ran more often than what specified by
                 // GlobalCommandsCooldown constant (miliseconds)
                 if (!UsersOnShortCooldown.Add(context.Message.Author.Id))
-                    return (false, null, null);
+                    return (false, null, commands[i].Command);
                 //return SearchResult.FromError(CommandError.Exception, "You are on a global cooldown.");
 
                 var commandName = cmd.Aliases.First();
@@ -352,7 +352,7 @@ namespace NadekoBot.Services
                         await exec.TryBlockLate(_client, context.Message, context.Guild, context.Channel, context.User, cmd.Module.GetTopLevelModule().Name, commandName).ConfigureAwait(false))
                     {
                         _log.Info("Late blocking User [{0}] Command: [{1}] in [{2}]", context.User, commandName, svc.GetType().Name);
-                        return (false, null, null);
+                        return (false, null, commands[i].Command);
                     }
                 }
 

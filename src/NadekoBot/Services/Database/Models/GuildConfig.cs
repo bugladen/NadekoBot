@@ -81,6 +81,7 @@ namespace NadekoBot.Services.Database.Models
 
         public List<ShopEntry> ShopEntries { get; set; }
         public ulong? GameVoiceChannel { get; set; } = null;
+        public bool VerboseErrors { get; set; } = false;
 
         //public List<ProtectionIgnoredChannel> ProtectionIgnoredChannels { get; set; } = new List<ProtectionIgnoredChannel>();
     }

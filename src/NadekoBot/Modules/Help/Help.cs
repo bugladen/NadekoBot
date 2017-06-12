@@ -11,6 +11,7 @@ using System.Text;
 using System.Collections.Generic;
 using NadekoBot.Services.Database.Models;
 using NadekoBot.Services.Permissions;
+using NadekoBot.Services.Help;
 
 namespace NadekoBot.Modules.Help
 {
@@ -22,16 +23,18 @@ namespace NadekoBot.Modules.Help
         private readonly BotConfig _config;
         private readonly CommandService _cmds;
         private readonly GlobalPermissionService _perms;
+        private readonly HelpService _h;
 
         public string HelpString => String.Format(_config.HelpString, _creds.ClientId, Prefix);
         public string DMHelpString => _config.DMHelpString;
 
-        public Help(IBotCredentials creds, GlobalPermissionService perms, BotConfig config, CommandService cmds)
+        public Help(IBotCredentials creds, GlobalPermissionService perms, BotConfig config, CommandService cmds, HelpService h)
         {
             _creds = creds;
             _config = config;
             _cmds = cmds;
             _perms = perms;
+            _h = h;
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -91,36 +94,15 @@ namespace NadekoBot.Modules.Help
                 return;
             }
 
-            if (com == null)
-            {
-                await ReplyErrorLocalized("command_not_found").ConfigureAwait(false);
-                return;
-            }
-            var str = string.Format("**`{0}`**", Prefix + com.Aliases.First());
-            var alias = com.Aliases.Skip(1).FirstOrDefault();
-            if (alias != null)
-                str += string.Format(" **/ `{0}`**", Prefix + alias);
-            var embed = new EmbedBuilder()
-                .AddField(fb => fb.WithName(str).WithValue($"{com.RealSummary(Prefix)} {GetCommandRequirements(com)}").WithIsInline(true))
-                .AddField(fb => fb.WithName(GetText("usage")).WithValue(com.RealRemarks(Prefix)).WithIsInline(false))
-                .WithColor(NadekoBot.OkColor);
+            //if (com == null)
+            //{
+            //    await ReplyErrorLocalized("command_not_found").ConfigureAwait(false);
+            //    return;
+            //}
+
+            var embed = _h.GetCommandHelp(com, Context.Guild);
             await channel.EmbedAsync(embed).ConfigureAwait(false);
         }
-
-        private string GetCommandRequirements(CommandInfo cmd) => 
-            string.Join(" ", cmd.Preconditions
-                  .Where(ca => ca is OwnerOnlyAttribute || ca is RequireUserPermissionAttribute)
-                  .Select(ca =>
-                  {
-                      if (ca is OwnerOnlyAttribute)
-                          return Format.Bold(GetText("bot_owner_only"));
-                      var cau = (RequireUserPermissionAttribute)ca;
-                      if (cau.GuildPermission != null)
-                          return Format.Bold(GetText("server_permission", cau.GuildPermission))
-                                       .Replace("Guild", "Server");
-                      return Format.Bold(GetText("channel_permission", cau.ChannelPermission))
-                                       .Replace("Guild", "Server");
-                  }));
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
@@ -155,7 +137,7 @@ namespace NadekoBot.Modules.Help
                     lastModule = module.Name;
                 }
                 helpstr.AppendLine($"{string.Join(" ", com.Aliases.Select(a => "`" + a + "`"))} |" +
-                                   $" {string.Format(com.Summary, Prefix)} {GetCommandRequirements(com)} |" +
+                                   $" {string.Format(com.Summary, Prefix)} {_h.GetCommandRequirements(com, Context.Guild)} |" +
                                    $" {string.Format(com.Remarks, Prefix)}");
             }
             File.WriteAllText("../../docs/Commands List.md", helpstr.ToString());
