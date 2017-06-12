@@ -8,11 +8,11 @@ Follow the respective guide for your operating system found here [Docker Engine 
 For this guide we will be using the folder /nadeko as our config root folder.
 
 ```bash
-docker create --name=nadeko -v /nadeko/data:/opt/NadekoBot/src/NadekoBot/bin/Release/netcoreapp1.0/data -v /nadeko/credentials.json:/opt/NadekoBot/src/NadekoBot/credentials.json uirel/nadeko
+docker create --name=nadeko -v /nadeko/:/root/nadeko uirel/nadeko:dev
 ```
 -If you are coming from a previous version of nadeko (the old docker) make sure your crednetials.json has been copied into this directory and is the only thing in this folder. 
 
--If you are making a fresh install, create your credentials.json from the following guide and palce it in the /nadeko folder [Nadeko JSON Guide](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/)
+-If you are making a fresh install, create your credentials.json from the following guide and place it in the /nadeko folder [Nadeko JSON Guide](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/)
 
 Next start the docker up with 
 
@@ -37,7 +37,7 @@ The following commands are required for the default options
 
 `docker stop nadeko; docker rm nadeko`
 
-`docker create --name=nadeko -v /nadeko/data:/opt/NadekoBot/src/NadekoBot/bin/Release/netcoreapp1.0/data -v /nadeko/credentials.json:/opt/NadekoBot/src/NadekoBot/credentials.json uirel/nadeko`
+`docker create --name=nadeko -v /nadeko/:/root/nadeko uirel/nadeko:dev`
 
 `docker start nadeko`
 
