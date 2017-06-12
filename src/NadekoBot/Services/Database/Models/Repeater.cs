@@ -8,6 +8,7 @@ namespace NadekoBot.Services.Database.Models
         public ulong ChannelId { get; set; }
         public string Message { get; set; }
         public TimeSpan Interval { get; set; }
+        //public TimeSpan? StartTimeOfDay { get; set; }
     }
 
     public class GuildRepeater : Repeater

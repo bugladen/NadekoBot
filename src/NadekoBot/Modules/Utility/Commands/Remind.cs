@@ -96,7 +96,7 @@ namespace NadekoBot.Modules.Utility
                     namesAndValues[groupName] = value;
                     output += m.Groups[groupName].Value + " " + groupName + " ";
                 }
-                var time = DateTime.Now + new TimeSpan(30 * namesAndValues["months"] +
+                var time = DateTime.UtcNow + new TimeSpan(30 * namesAndValues["months"] +
                                                         7 * namesAndValues["weeks"] +
                                                         namesAndValues["days"],
                                                         namesAndValues["hours"],

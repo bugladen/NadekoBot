@@ -41,7 +41,7 @@ namespace NadekoBot.Services.Impl
             _client = client;
             _creds = creds;
 
-            _started = DateTime.Now;
+            _started = DateTime.UtcNow;
             _client.MessageReceived += _ => Task.FromResult(Interlocked.Increment(ref _messageCounter));
             cmdHandler.CommandExecuted += (_, e) => Task.FromResult(Interlocked.Increment(ref _commandsRan));
 
@@ -166,7 +166,7 @@ Messages: {MessageCounter} [{MessagesPerSecond:F2}/sec] Heap: [{Heap} MB]");
         }
 
         public TimeSpan GetUptime() =>
-            DateTime.Now - _started;
+            DateTime.UtcNow - _started;
 
         public string GetUptimeString(string separator = ", ")
         {

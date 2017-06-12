@@ -118,11 +118,11 @@ namespace NadekoBot.Services.Games
                     var lastGeneration = LastGenerations.GetOrAdd(channel.Id, DateTime.MinValue);
                     var rng = new NadekoRandom();
 
-                    if (DateTime.Now - TimeSpan.FromSeconds(_bc.CurrencyGenerationCooldown) < lastGeneration) //recently generated in this channel, don't generate again
+                    if (DateTime.UtcNow - TimeSpan.FromSeconds(_bc.CurrencyGenerationCooldown) < lastGeneration) //recently generated in this channel, don't generate again
                         return;
 
                     var num = rng.Next(1, 101) + _bc.CurrencyGenerationChance * 100;
-                    if (num > 100 && LastGenerations.TryUpdate(channel.Id, DateTime.Now, lastGeneration))
+                    if (num > 100 && LastGenerations.TryUpdate(channel.Id, DateTime.UtcNow, lastGeneration))
                     {
                         var dropAmount = _bc.CurrencyDropAmount;
 

@@ -148,6 +148,56 @@ namespace NadekoBot.Modules.Utility
                         Format.Bold(rep.Repeater.Interval.Minutes.ToString()))).ConfigureAwait(false);
             }
 
+            //[NadekoCommand, Usage, Description, Aliases]
+            //[RequireContext(ContextType.Guild)]
+            //[RequireUserPermission(GuildPermission.ManageMessages)]
+            //[Priority(1)]
+            //public async Task Repeat(GuildTime gt, int minutes, [Remainder] string message)
+            //{
+            //    if (!_service.RepeaterReady)
+            //        return;
+            //    if (minutes < 1 || minutes > 10080)
+            //        return;
+
+            //    if (string.IsNullOrWhiteSpace(message))
+            //        return;
+
+            //    var toAdd = new GuildRepeater()
+            //    {
+            //        ChannelId = Context.Channel.Id,
+            //        GuildId = Context.Guild.Id,
+            //        Interval = TimeSpan.FromMinutes(minutes),
+            //        StartTimeOfDay = gt.BotTime,
+            //        Message = message
+            //    };
+
+            //    using (var uow = _db.UnitOfWork)
+            //    {
+            //        var gc = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(x => x.GuildRepeaters));
+
+            //        if (gc.GuildRepeaters.Count >= 5)
+            //            return;
+            //        gc.GuildRepeaters.Add(toAdd);
+
+            //        await uow.CompleteAsync().ConfigureAwait(false);
+            //    }
+
+            //    var rep = new RepeatRunner(_client, toAdd, (ITextChannel)Context.Channel);
+
+            //    _service.Repeaters.AddOrUpdate(Context.Guild.Id, new ConcurrentQueue<RepeatRunner>(new[] { rep }), (key, old) =>
+            //    {
+            //        old.Enqueue(rep);
+            //        return old;
+            //    });
+
+            //    await Context.Channel.SendConfirmAsync(
+            //        "🔁 " + GetText("repeater",
+            //            Format.Bold(((IGuildUser)Context.User).GuildPermissions.MentionEveryone ? rep.Repeater.Message : rep.Repeater.Message.SanitizeMentions()),
+            //            Format.Bold(rep.Repeater.Interval.Days.ToString()),
+            //            Format.Bold(rep.Repeater.Interval.Hours.ToString()),
+            //            Format.Bold(rep.Repeater.Interval.Minutes.ToString()))).ConfigureAwait(false);
+            //}
+
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]

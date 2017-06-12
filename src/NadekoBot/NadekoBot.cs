@@ -120,7 +120,7 @@ namespace NadekoBot
             #region utility
             var crossServerTextService = new CrossServerTextService(AllGuildConfigs, Client);
             var remindService = new RemindService(Client, BotConfig, Db);
-            var repeaterService = new MessageRepeaterService(Client, AllGuildConfigs);
+            var repeaterService = new MessageRepeaterService(this, Client, AllGuildConfigs);
             var converterService = new ConverterService(Db);
             var commandMapService = new CommandMapService(AllGuildConfigs);
             var patreonRewardsService = new PatreonRewardsService(Credentials, Db, Currency);
@@ -164,6 +164,7 @@ namespace NadekoBot
             var gameVcService = new GameVoiceChannelService(Client, Db, AllGuildConfigs);
             var autoAssignRoleService = new AutoAssignRoleService(Client, AllGuildConfigs);
             var logCommandService = new LogCommandService(Client, Strings, AllGuildConfigs, Db, muteService, protectionService);
+            var guildTimezoneService = new GuildTimezoneService(AllGuildConfigs, Db);
             #endregion
 
             #region pokemon 
@@ -215,6 +216,7 @@ namespace NadekoBot
                     .Add(autoAssignRoleService)
                     .Add(protectionService)
                     .Add(logCommandService)
+                    .Add(guildTimezoneService)
                 .Add<PermissionService>(permissionsService)
                     .Add(blacklistService)
                     .Add(cmdcdsService)
@@ -232,6 +234,7 @@ namespace NadekoBot
             CommandService.AddTypeReader<ModuleInfo>(new ModuleTypeReader(CommandService));
             CommandService.AddTypeReader<ModuleOrCrInfo>(new ModuleOrCrTypeReader(CommandService));
             CommandService.AddTypeReader<IGuild>(new GuildTypeReader(Client));
+            CommandService.AddTypeReader<GuildDateTime>(new GuildTypeReader(Client));
         }
 
         private async Task LoginAsync(string token)

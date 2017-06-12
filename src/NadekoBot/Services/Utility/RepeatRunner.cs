@@ -14,12 +14,11 @@ namespace NadekoBot.Services.Utility
     {
         private readonly Logger _log;
 
-        private CancellationTokenSource source { get; set; }
-        private CancellationToken token { get; set; }
         public Repeater Repeater { get; }
         public SocketGuild Guild { get; }
         public ITextChannel Channel { get; private set; }
         private IUserMessage oldMsg = null;
+        private Timer _t;
 
         public RepeatRunner(DiscordShardedClient client, Repeater repeater, ITextChannel channel = null)
         {
@@ -30,25 +29,24 @@ namespace NadekoBot.Services.Utility
             //todo 40 @.@ fix all of this
             Guild = client.GetGuild(repeater.GuildId);
             if (Guild != null)
-                Task.Run(Run);
+                Run();
         }
 
-        private async Task Run()
+        private void Run()
         {
-            source = new CancellationTokenSource();
-            token = source.Token;
-            try
-            {
-                while (!token.IsCancellationRequested)
-                {
-                    await Task.Delay(Repeater.Interval, token).ConfigureAwait(false);
+            TimeSpan initialInterval = Repeater.Interval;
 
-                    await Trigger().ConfigureAwait(false);
-                }
-            }
-            catch (OperationCanceledException)
-            {
-            }
+            //if (Repeater.StartTimeOfDay != null)
+            //{
+            //    if ((initialInterval = Repeater.StartTimeOfDay.Value - DateTime.UtcNow.TimeOfDay) < TimeSpan.Zero)
+            //        initialInterval += TimeSpan.FromDays(1);
+            //}
+            
+            _t = new Timer(async (_) => {
+
+                try { await Trigger().ConfigureAwait(false); } catch { }
+
+            }, null, initialInterval, Repeater.Interval);
         }
 
         public async Task Trigger()
@@ -93,13 +91,13 @@ namespace NadekoBot.Services.Utility
 
         public void Reset()
         {
-            source.Cancel();
-            var _ = Task.Run(Run);
+            Stop();
+            Run();
         }
 
         public void Stop()
         {
-            source.Cancel();
+            _t.Change(Timeout.Infinite, Timeout.Infinite);
         }
 
         public override string ToString() =>

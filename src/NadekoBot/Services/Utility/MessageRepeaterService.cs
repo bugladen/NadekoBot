@@ -15,15 +15,14 @@ namespace NadekoBot.Services.Utility
         public ConcurrentDictionary<ulong, ConcurrentQueue<RepeatRunner>> Repeaters { get; set; }
         public bool RepeaterReady { get; private set; }
 
-        public MessageRepeaterService(DiscordShardedClient client, IEnumerable<GuildConfig> gcs)
+        public MessageRepeaterService(NadekoBot bot, DiscordShardedClient client, IEnumerable<GuildConfig> gcs)
         {
+            System.Console.WriteLine(bot.Ready);
             var _ = Task.Run(async () =>
             {
-#if !GLOBAL_NADEKO
-                await Task.Delay(5000).ConfigureAwait(false);
-#else
-                    await Task.Delay(30000).ConfigureAwait(false);
-#endif
+                while (!bot.Ready)
+                    await Task.Delay(1000);
+
                 Repeaters = new ConcurrentDictionary<ulong, ConcurrentQueue<RepeatRunner>>(gcs
                     .ToDictionary(gc => gc.GuildId,
                         gc => new ConcurrentQueue<RepeatRunner>(gc.GuildRepeaters

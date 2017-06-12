@@ -83,7 +83,7 @@ namespace NadekoBot.Modules.Searches
 //                try
 //                {
 //                    CachedChampionImages = CachedChampionImages
-//                        .Where(kvp => DateTime.Now - kvp.Value.AddedAt > new TimeSpan(1, 0, 0))
+//                        .Where(kvp => DateTime.UtcNow - kvp.Value.AddedAt > new TimeSpan(1, 0, 0))
 //                        .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 //                }
 //                catch { }
@@ -303,7 +303,7 @@ namespace NadekoBot.Modules.Searches
 //                                              smallImgSize));
 //                              }
 //                          }
-//                          var cachedChamp = new CachedChampion { AddedAt = DateTime.Now, ImageStream = img.ToStream(System.Drawing.Imaging.ImageFormat.Png), Name = name.ToLower() + "_" + resolvedRole };
+//                          var cachedChamp = new CachedChampion { AddedAt = DateTime.UtcNow, ImageStream = img.ToStream(System.Drawing.Imaging.ImageFormat.Png), Name = name.ToLower() + "_" + resolvedRole };
 //                          CachedChampionImages.Add(cachedChamp.Name, cachedChamp);
 //                          await e.Channel.SendFile(data["title"] + "_stats.png", cachedChamp.ImageStream).ConfigureAwait(false);
 //                      }

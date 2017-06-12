@@ -1632,10 +1632,10 @@
   <data name="songremove_cmd" xml:space="preserve">
     <value>songremove srm</value>
   </data>
-  <data name="remove_desc" xml:space="preserve">
+  <data name="songremove_desc" xml:space="preserve">
     <value>Remove a song by its # in the queue, or 'all' to remove all songs from the queue.</value>
   </data>
-  <data name="remove_usage" xml:space="preserve">
+  <data name="songremove_usage" xml:space="preserve">
     <value>`{0}srm 5`</value>
   </data>
   <data name="movesong_cmd" xml:space="preserve">
