@@ -11,10 +11,11 @@
 
 
 **If you are running Dockerised Nadeko**
-- Shutdown your existing container **docker stop nadeko**
-- Move you credentials and other files to another folder
-- Delete your container **docker rm nadeko**
-- Create a new container **docker create --name=nadeko -v /nadeko/:/root/nadeko uirel/nadeko:dev**
-- Start the container **docker start nadeko** wait for it to complain about lacking credentials
-- Stop the container **docker stop nadeko** open the nadeko folder and replace the crednetials, database and other files with your copies
-- Restart the container **docker start nadeko**
+
+- Shutdown your existing container **docker stop nadeko**.
+- Move you credentials and other files to another folder.
+- Delete your container **docker rm nadeko**.
+- Create a new container **docker create --name=nadeko -v /nadeko/:/root/nadeko uirel/nadeko:dev**.
+- Start the container **docker start nadeko** wait for it to complain about lacking credentials.
+- Stop the container **docker stop nadeko** open the nadeko folder and replace the crednetials, database and other files with your copies.
+- Restart the container **docker start nadeko**.
