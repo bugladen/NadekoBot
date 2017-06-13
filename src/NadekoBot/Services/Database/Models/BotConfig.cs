@@ -28,6 +28,7 @@ namespace NadekoBot.Services.Database.Models
         public int MinimumBetAmount { get; set; } = 2;
         public float BetflipMultiplier { get; set; } = 1.95f;
         public int CurrencyDropAmount { get; set; } = 1;
+        public int? CurrencyDropAmountMax { get; set; } = null;
         public float Betroll67Multiplier { get; set; } = 2;
         public float Betroll91Multiplier { get; set; } = 4;
         public float Betroll100Multiplier { get; set; } = 10;

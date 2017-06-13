@@ -125,6 +125,10 @@ namespace NadekoBot.Services.Games
                     if (num > 100 && LastGenerations.TryUpdate(channel.Id, DateTime.UtcNow, lastGeneration))
                     {
                         var dropAmount = _bc.CurrencyDropAmount;
+                        var dropAmountMax = _bc.CurrencyDropAmountMax;
+
+                        if (dropAmountMax != null && dropAmountMax > dropAmount)
+                            dropAmount = new NadekoRandom().Next(dropAmount, dropAmountMax.Value + 1);
 
                         if (dropAmount > 0)
                         {
