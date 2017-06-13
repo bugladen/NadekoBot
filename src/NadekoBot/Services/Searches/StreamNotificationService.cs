@@ -28,10 +28,6 @@ namespace NadekoBot.Services.Searches
             _db = db;
             _client = client;
             _strings = strings;
-        }
-
-        public StreamNotificationService()
-        {
             _streamCheckTimer = new Timer(async (state) =>
             {
                 var oldCachedStatuses = new ConcurrentDictionary<string, StreamStatus>(_cachedStatuses);
