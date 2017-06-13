@@ -31,14 +31,17 @@ namespace NadekoBot.Modules.Administration
                 if (page < 0 || page > 20)
                     return;
 
-                var timezones = TimeZoneInfo.GetSystemTimeZones();
+                var timezones = TimeZoneInfo.GetSystemTimeZones()
+                    .OrderBy(x => x.BaseUtcOffset)
+                    .ToArray();
                 var timezonesPerPage = 20;
 
-                await Context.Channel.SendPaginatedConfirmAsync((DiscordShardedClient)Context.Client, page + 1, (curPage) => new EmbedBuilder()
-                    .WithOkColor()
-                    .WithTitle("Available Timezones")
-                    .WithDescription(string.Join("\n", timezones.Skip((curPage - 1) * timezonesPerPage).Take(timezonesPerPage).Select(x => $"`{x.Id,-25}` UTC{x.BaseUtcOffset:hhmm}"))),
-                    timezones.Count / timezonesPerPage);
+                await Context.Channel.SendPaginatedConfirmAsync((DiscordShardedClient)Context.Client, page + 1, 
+                    (curPage) => new EmbedBuilder()
+                        .WithOkColor()
+                        .WithTitle(GetText("timezones_available"))
+                        .WithDescription(string.Join("\n", timezones.Skip((curPage - 1) * timezonesPerPage).Take(timezonesPerPage).Select(x => $"`{x.Id,-25}` {(x.BaseUtcOffset < TimeSpan.Zero? "-" : "+")}{x.BaseUtcOffset:hhmm}"))),
+                    timezones.Length / timezonesPerPage);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -58,7 +61,7 @@ namespace NadekoBot.Modules.Administration
 
                 if (tz == null)
                 {
-                    await Context.Channel.SendErrorAsync("Timezone not found. You should specify one of the timezones listed in the 'timezones' command.").ConfigureAwait(false);
+                    await ReplyErrorLocalized("timezone_not_found").ConfigureAwait(false);
                     return;
                 }
 

@@ -274,10 +274,10 @@
     <value>repeat</value>
   </data>
   <data name="repeat_desc" xml:space="preserve">
-    <value>Repeat a message every `X` minutes in the current channel. You can have up to 5 repeating messages on the server in total.</value>
+    <value>Repeat a message every `X` minutes in the current channel. You can instead specify time of day for the message to be repeated at daily (make sure you've set your server's timezone). You can have up to 5 repeating messages on the server in total.</value>
   </data>
   <data name="repeat_usage" xml:space="preserve">
-    <value>`{0}repeat 5 Hello there`</value>
+    <value>`{0}repeat 5 Hello there` or `{0}repeat 17:30 tea time`</value>
   </data>
   <data name="rotateplaying_cmd" xml:space="preserve">
     <value>rotateplaying ropl</value>
@@ -3118,7 +3118,7 @@
     <value>timezones</value>
   </data>
   <data name="timezones_desc" xml:space="preserve">
-    <value>List of all timezones available on the system to be used with `{0}timezone`.</value>
+    <value>Lists all timezones available on the system to be used with `{0}timezone`.</value>
   </data>
   <data name="timezones_usage" xml:space="preserve">
     <value>`{0}timezones`</value>
@@ -3130,7 +3130,7 @@
     <value>Sets this guilds timezone. This affects bot's time output in this server (logs, etc..)</value>
   </data>
   <data name="timezone_usage" xml:space="preserve">
-    <value>`{0}timezone`</value>
+    <value>`{0}timezone` or `{0}timezone GMT Standard Time`</value>
   </data>
   <data name="languagesetdefault_cmd" xml:space="preserve">
     <value>langsetdefault langsetd</value>

@@ -17,36 +17,38 @@ namespace NadekoBot.Services.Utility
         public Repeater Repeater { get; }
         public SocketGuild Guild { get; }
         public ITextChannel Channel { get; private set; }
+        public TimeSpan InitialInterval { get; private set; }
+
         private IUserMessage oldMsg = null;
         private Timer _t;
 
-        public RepeatRunner(DiscordShardedClient client, Repeater repeater, ITextChannel channel = null)
+        public RepeatRunner(DiscordShardedClient client, Repeater repeater)
         {
             _log = LogManager.GetCurrentClassLogger();
             Repeater = repeater;
-            Channel = channel;
 
             //todo 40 @.@ fix all of this
             Guild = client.GetGuild(repeater.GuildId);
+
+            InitialInterval = Repeater.Interval;
+
             if (Guild != null)
                 Run();
         }
 
         private void Run()
         {
-            TimeSpan initialInterval = Repeater.Interval;
+            if (Repeater.StartTimeOfDay != null)
+            {
+                if ((InitialInterval = Repeater.StartTimeOfDay.Value - DateTime.UtcNow.TimeOfDay) < TimeSpan.Zero)
+                    InitialInterval += TimeSpan.FromDays(1);
+            }
 
-            //if (Repeater.StartTimeOfDay != null)
-            //{
-            //    if ((initialInterval = Repeater.StartTimeOfDay.Value - DateTime.UtcNow.TimeOfDay) < TimeSpan.Zero)
-            //        initialInterval += TimeSpan.FromDays(1);
-            //}
-            
             _t = new Timer(async (_) => {
 
                 try { await Trigger().ConfigureAwait(false); } catch { }
 
-            }, null, initialInterval, Repeater.Interval);
+            }, null, InitialInterval, Repeater.Interval);
         }
 
         public async Task Trigger()

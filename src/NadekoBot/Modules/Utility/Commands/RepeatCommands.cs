@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Discord.WebSocket;
 using NadekoBot.Services.Utility;
+using NadekoBot.TypeReaders;
 
 namespace NadekoBot.Modules.Utility
 {
@@ -132,7 +133,7 @@ namespace NadekoBot.Modules.Utility
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
 
-                var rep = new RepeatRunner(_client, toAdd, (ITextChannel) Context.Channel);
+                var rep = new RepeatRunner(_client, toAdd);
 
                 _service.Repeaters.AddOrUpdate(Context.Guild.Id, new ConcurrentQueue<RepeatRunner>(new[] {rep}), (key, old) =>
                 {
@@ -148,55 +149,57 @@ namespace NadekoBot.Modules.Utility
                         Format.Bold(rep.Repeater.Interval.Minutes.ToString()))).ConfigureAwait(false);
             }
 
-            //[NadekoCommand, Usage, Description, Aliases]
-            //[RequireContext(ContextType.Guild)]
-            //[RequireUserPermission(GuildPermission.ManageMessages)]
-            //[Priority(1)]
-            //public async Task Repeat(GuildTime gt, int minutes, [Remainder] string message)
-            //{
-            //    if (!_service.RepeaterReady)
-            //        return;
-            //    if (minutes < 1 || minutes > 10080)
-            //        return;
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.ManageMessages)]
+            [Priority(0)]
+            public async Task Repeat(GuildDateTime gt, [Remainder] string message)
+            {
+                if (!_service.RepeaterReady)
+                    return;
 
-            //    if (string.IsNullOrWhiteSpace(message))
-            //        return;
+                if (string.IsNullOrWhiteSpace(message))
+                    return;
 
-            //    var toAdd = new GuildRepeater()
-            //    {
-            //        ChannelId = Context.Channel.Id,
-            //        GuildId = Context.Guild.Id,
-            //        Interval = TimeSpan.FromMinutes(minutes),
-            //        StartTimeOfDay = gt.BotTime,
-            //        Message = message
-            //    };
+                var toAdd = new GuildRepeater()
+                {
+                    ChannelId = Context.Channel.Id,
+                    GuildId = Context.Guild.Id,
+                    Interval = TimeSpan.FromHours(24),
+                    StartTimeOfDay = gt.InputTimeUtc.TimeOfDay,
+                    Message = message
+                };
 
-            //    using (var uow = _db.UnitOfWork)
-            //    {
-            //        var gc = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(x => x.GuildRepeaters));
+                using (var uow = _db.UnitOfWork)
+                {
+                    var gc = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(x => x.GuildRepeaters));
 
-            //        if (gc.GuildRepeaters.Count >= 5)
-            //            return;
-            //        gc.GuildRepeaters.Add(toAdd);
+                    if (gc.GuildRepeaters.Count >= 5)
+                        return;
+                    gc.GuildRepeaters.Add(toAdd);
 
-            //        await uow.CompleteAsync().ConfigureAwait(false);
-            //    }
+                    await uow.CompleteAsync().ConfigureAwait(false);
+                }
 
-            //    var rep = new RepeatRunner(_client, toAdd, (ITextChannel)Context.Channel);
+                var rep = new RepeatRunner(_client, toAdd);
 
-            //    _service.Repeaters.AddOrUpdate(Context.Guild.Id, new ConcurrentQueue<RepeatRunner>(new[] { rep }), (key, old) =>
-            //    {
-            //        old.Enqueue(rep);
-            //        return old;
-            //    });
+                _service.Repeaters.AddOrUpdate(Context.Guild.Id, new ConcurrentQueue<RepeatRunner>(new[] { rep }), (key, old) =>
+                {
+                    old.Enqueue(rep);
+                    return old;
+                });
 
-            //    await Context.Channel.SendConfirmAsync(
-            //        "🔁 " + GetText("repeater",
-            //            Format.Bold(((IGuildUser)Context.User).GuildPermissions.MentionEveryone ? rep.Repeater.Message : rep.Repeater.Message.SanitizeMentions()),
-            //            Format.Bold(rep.Repeater.Interval.Days.ToString()),
-            //            Format.Bold(rep.Repeater.Interval.Hours.ToString()),
-            //            Format.Bold(rep.Repeater.Interval.Minutes.ToString()))).ConfigureAwait(false);
-            //}
+                var secondPart = GetText("repeater_initial",
+                    Format.Bold(rep.InitialInterval.Hours.ToString()),
+                    Format.Bold(rep.InitialInterval.Minutes.ToString()));
+
+                await Context.Channel.SendConfirmAsync(
+                    "🔁 " + GetText("repeater",
+                        Format.Bold(((IGuildUser)Context.User).GuildPermissions.MentionEveryone ? rep.Repeater.Message : rep.Repeater.Message.SanitizeMentions()),
+                        Format.Bold(rep.Repeater.Interval.Days.ToString()),
+                        Format.Bold(rep.Repeater.Interval.Hours.ToString()),
+                        Format.Bold(rep.Repeater.Interval.Minutes.ToString())) + " " + secondPart).ConfigureAwait(false);
+            }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]

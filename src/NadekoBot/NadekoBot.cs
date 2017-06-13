@@ -234,7 +234,7 @@ namespace NadekoBot
             CommandService.AddTypeReader<ModuleInfo>(new ModuleTypeReader(CommandService));
             CommandService.AddTypeReader<ModuleOrCrInfo>(new ModuleOrCrTypeReader(CommandService));
             CommandService.AddTypeReader<IGuild>(new GuildTypeReader(Client));
-            CommandService.AddTypeReader<GuildDateTime>(new GuildTypeReader(Client));
+            CommandService.AddTypeReader<GuildDateTime>(new GuildDateTimeTypeReader(guildTimezoneService));
         }
 
         private async Task LoginAsync(string token)
