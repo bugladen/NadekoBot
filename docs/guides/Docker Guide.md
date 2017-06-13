@@ -8,7 +8,7 @@ Follow the respective guide for your operating system found here [Docker Engine 
 For this guide we will be using the folder /nadeko as our config root folder.
 
 ```bash
-docker create --name=nadeko -v /nadeko/:/root/nadeko uirel/nadeko:dev
+docker create --name=nadeko -v /nadeko/:/root/nadeko uirel/nadeko:1.4
 ```
 -If you are coming from a previous version of nadeko (the old docker) make sure your crednetials.json has been copied into this directory and is the only thing in this folder. 
 
@@ -37,7 +37,7 @@ The following commands are required for the default options
 
 `docker stop nadeko; docker rm nadeko`
 
-`docker create --name=nadeko -v /nadeko/:/root/nadeko uirel/nadeko:dev`
+`docker create --name=nadeko -v /nadeko/:/root/nadeko uirel/nadeko:1.4`
 
 `docker start nadeko`
 
