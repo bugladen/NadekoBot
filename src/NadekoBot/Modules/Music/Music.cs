@@ -184,6 +184,44 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        public async Task QueueSearch([Remainder] string query)
+        {
+            var videos = (await _google.GetVideoInfosByKeywordAsync(query, 5))
+                .ToArray();
+
+            if (!videos.Any())
+            {
+                await ReplyErrorLocalized("song_not_found").ConfigureAwait(false);
+                return;
+            }
+
+            var msg = await Context.Channel.SendConfirmAsync(string.Join("\n", videos.Select((x, i) => $"`{i + 1}.`\n\t{Format.Bold(x.Name)}\n\t{x.Url}")));
+
+            try
+            {
+                var input = await GetUserInputAsync(Context.User.Id, Context.Channel.Id);
+                if (input == null
+                    || !int.TryParse(input, out var index)
+                    || (index -= 1) < 0
+                    || index >= videos.Length)
+                {
+                    try { await msg.DeleteAsync().ConfigureAwait(false); } catch { }
+                    return;
+                }
+
+                query = videos[index].Url;
+
+                await Queue(query).ConfigureAwait(false);
+            }
+            finally
+            {
+                try { await msg.DeleteAsync().ConfigureAwait(false); } catch { }
+            }
+            
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task SoundCloudQueue([Remainder] string query)
         {
             await _music.QueueSong(((IGuildUser)Context.User), (ITextChannel)Context.Channel, ((IGuildUser)Context.User).VoiceChannel, query, musicType: MusicType.Soundcloud).ConfigureAwait(false);

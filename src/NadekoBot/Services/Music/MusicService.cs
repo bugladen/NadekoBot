@@ -304,7 +304,7 @@ namespace NadekoBot.Services.Music
                     { TotalTime = TimeSpan.FromMilliseconds(svideo.Duration) };
                 }
 
-                var link = (await _google.GetVideosByKeywordsAsync(query).ConfigureAwait(false)).FirstOrDefault();
+                var link = (await _google.GetVideoLinksByKeywordAsync(query).ConfigureAwait(false)).FirstOrDefault();
                 if (string.IsNullOrWhiteSpace(link))
                     throw new OperationCanceledException("Not a valid youtube query.");
                 var allVideos = await Task.Run(async () => { try { return await YouTube.Default.GetAllVideosAsync(link).ConfigureAwait(false); } catch { return Enumerable.Empty<YouTubeVideo>(); } }).ConfigureAwait(false);

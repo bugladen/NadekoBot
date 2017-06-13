@@ -5,6 +5,8 @@ using NadekoBot.Services;
 using NLog;
 using System.Globalization;
 using System.Threading.Tasks;
+using System;
+using Discord.WebSocket;
 
 namespace NadekoBot.Modules
 {
@@ -83,6 +85,44 @@ namespace NadekoBot.Modules
         {
             var text = GetText(textKey, replacements);
             return Context.Channel.SendConfirmAsync(Context.User.Mention + " " + text);
+        }
+
+        // todo maybe make this generic and use
+        // TypeConverter typeConverter = TypeDescriptor.GetConverter(propType);
+        public async Task<string> GetUserInputAsync(ulong userId, ulong channelId)
+        {
+            var userInputTask = new TaskCompletionSource<string>();
+            var dsc = (DiscordShardedClient)Context.Client;
+            try
+            {
+                dsc.MessageReceived += MessageReceived;
+
+                if ((await Task.WhenAny(userInputTask.Task, Task.Delay(10000))) != userInputTask.Task)
+                {
+                    return null;
+                }
+
+                return await userInputTask.Task;
+            }
+            finally
+            {
+                dsc.MessageReceived -= MessageReceived;
+            }
+
+            Task MessageReceived(SocketMessage arg)
+            {
+                if (!(arg is SocketUserMessage userMsg) ||
+                    !(userMsg.Channel is ITextChannel chan) ||
+                    userMsg.Author.Id != userId ||
+                    userMsg.Channel.Id != channelId)
+                {
+                    return Task.CompletedTask;
+                }
+
+                userInputTask.SetResult(arg.Content);
+                userMsg.DeleteAfter(1);
+                return Task.CompletedTask;
+            }
         }
     }
 

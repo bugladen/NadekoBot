@@ -12,6 +12,7 @@ using Google.Apis.Customsearch.v1;
 using System.Net.Http;
 using System.Net;
 using Newtonsoft.Json.Linq;
+using NadekoBot.Extensions;
 
 namespace NadekoBot.Services.Impl
 {
@@ -86,7 +87,7 @@ namespace NadekoBot.Services.Impl
             return (await query.ExecuteAsync()).Items.Select(i => "http://www.youtube.com/watch?v=" + i.Id.VideoId);
         }
 
-        public async Task<IEnumerable<string>> GetVideosByKeywordsAsync(string keywords, int count = 1)
+        public async Task<IEnumerable<string>> GetVideoLinksByKeywordAsync(string keywords, int count = 1)
         {
             if (string.IsNullOrWhiteSpace(keywords))
                 throw new ArgumentNullException(nameof(keywords));
@@ -109,6 +110,21 @@ namespace NadekoBot.Services.Impl
             query.Q = keywords;
             query.Type = "video";
             return (await query.ExecuteAsync()).Items.Select(i => "http://www.youtube.com/watch?v=" + i.Id.VideoId);
+        }
+
+        public async Task<IEnumerable<(string Name, string Id, string Url)>> GetVideoInfosByKeywordAsync(string keywords, int count = 1)
+        {
+            if (string.IsNullOrWhiteSpace(keywords))
+                throw new ArgumentNullException(nameof(keywords));
+
+            if (count <= 0)
+                throw new ArgumentOutOfRangeException(nameof(count));
+
+            var query = yt.Search.List("snippet");
+            query.MaxResults = count;
+            query.Q = keywords;
+            query.Type = "video";
+            return (await query.ExecuteAsync()).Items.Select(i => (i.Snippet.Title.TrimTo(50), i.Id.VideoId, "http://www.youtube.com/watch?v=" + i.Id.VideoId));
         }
 
         public async Task<string> ShortenUrl(string url)

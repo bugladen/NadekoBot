@@ -23,7 +23,7 @@ namespace NadekoBot.Services.Utility
         private readonly SemaphoreSlim claimLockJustInCase = new SemaphoreSlim(1, 1);
         private readonly Logger _log;
 
-        public readonly TimeSpan Interval = TimeSpan.FromHours(1);
+        public readonly TimeSpan Interval = TimeSpan.FromMinutes(15);
         private IBotCredentials _creds;
         private readonly DbService _db;
         private readonly CurrencyService _currency;
