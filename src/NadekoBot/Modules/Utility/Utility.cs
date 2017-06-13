@@ -448,7 +448,7 @@ namespace NadekoBot.Modules.Utility
             if (page < 0)
                 return;
 
-            var guilds = await Task.Run(() => _client.Guilds.OrderBy(g => g.Name).Skip((page - 1) * 15).Take(15)).ConfigureAwait(false);
+            var guilds = await Task.Run(() => _client.Guilds.OrderBy(g => g.Name).Skip((page) * 15).Take(15)).ConfigureAwait(false);
 
             if (!guilds.Any())
             {
