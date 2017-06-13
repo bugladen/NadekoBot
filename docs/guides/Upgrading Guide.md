@@ -18,7 +18,7 @@
 - Stop the container **docker stop nadeko** open the nadeko folder and replace the credentials, database and other files with your copies.
 - Restart the container **docker start nadeko**.
 
-#### If you have NadekoBot 1.x on Linux or MacOS
+#### If you have NadekoBot 1.x on Linux or macOS
 
 - Backup the `NadekoBot.db` from `NadekoBot/src/NadekoBot/bin/Release/netcoreapp1.0/data`
 - Backup the `credentials.json` from `NadekoBot/src/NadekoBot/`

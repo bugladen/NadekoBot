@@ -1,4 +1,4 @@
-## Setting Up NadekoBot on OSX/ MacOS
+## Setting Up NadekoBot on OSX/ macOS
 
 #### Prerequisites 
 - [Homebrew][Homebrew]
