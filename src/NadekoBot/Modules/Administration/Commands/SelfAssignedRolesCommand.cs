@@ -109,12 +109,11 @@ namespace NadekoBot.Modules.Administration
             {
                 var toRemove = new ConcurrentHashSet<SelfAssignedRole>();
                 var removeMsg = new StringBuilder();
-                var msg = new StringBuilder();
+                var roles = new List<string>();
                 var roleCnt = 0;
                 using (var uow = _db.UnitOfWork)
                 {
                     var roleModels = uow.SelfAssignedRoles.GetFromGuild(Context.Guild.Id).ToList();
-                    msg.AppendLine();
                     
                     foreach (var roleModel in roleModels)
                     {
@@ -126,7 +125,7 @@ namespace NadekoBot.Modules.Administration
                         }
                         else
                         {
-                            msg.Append($"**{role.Name}**, ");
+                            roles.Add(Format.Bold(role.Name));
                             roleCnt++;
                         }
                     }
@@ -136,7 +135,7 @@ namespace NadekoBot.Modules.Administration
                     }
                     await uow.CompleteAsync();
                 }
-                await Context.Channel.SendConfirmAsync(GetText("self_assign_list", roleCnt), msg + "\n\n" + removeMsg).ConfigureAwait(false);
+                await Context.Channel.SendConfirmAsync(GetText("self_assign_list", roleCnt), "\n" + string.Join(", ", roles) + "\n\n" + removeMsg).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
