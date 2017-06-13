@@ -143,7 +143,7 @@ namespace NadekoBot.Modules.Help
                     helpstr.AppendLine("----------------|--------------|-------");
                     lastModule = module.Name;
                 }
-                helpstr.AppendLine($"{string.Join(" ", com.Aliases.Select(a => "`" + a + "`"))} |" +
+                helpstr.AppendLine($"{string.Join(" ", com.Aliases.Select(a => "`" + Prefix + a + "`"))} |" +
                                    $" {string.Format(com.Summary, Prefix)} {_h.GetCommandRequirements(com, Context.Guild)} |" +
                                    $" {string.Format(com.Remarks, Prefix)}");
             }
