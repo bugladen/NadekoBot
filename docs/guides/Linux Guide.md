@@ -72,7 +72,7 @@ Choose `1` to get the **most updated build of NadekoBot**
 
 and then press `enter` key.	
 
-Once installation is completed you should see the options again.
+When installation is complete, you will see the options again.
 
 Next, check out:
 ##### Part IV - Setting up credentials
