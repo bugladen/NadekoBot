@@ -359,12 +359,14 @@ namespace NadekoBot.Modules.Administration
             if (count < 1)
                 return;
 
+            if (count > 100)
+                count = 100;
+
             if (user.Id == Context.User.Id)
                 count += 1;
-
-            int limit = (count < 100) ? count : 100;
-            var enumerable = (await Context.Channel.GetMessagesAsync(limit: limit).Flatten())
-                .Where(m => m.Author == user && DateTime.UtcNow - m.CreatedAt < twoWeeks);
+            var enumerable = (await Context.Channel.GetMessagesAsync().Flatten())
+                .Where(m => m.Author.Id == user.Id && DateTime.UtcNow - m.CreatedAt < twoWeeks)
+                .Take(count);
             await Context.Channel.DeleteMessagesAsync(enumerable).ConfigureAwait(false);
 
             Context.Message.DeleteAfter(3);
