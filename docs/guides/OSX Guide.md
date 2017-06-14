@@ -2,8 +2,7 @@
 
 #### Prerequisites 
 - [Homebrew][Homebrew]
-- Google Account
-- Soundcloud Account (if you want soundcloud support)
+- [Google Account](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-your-api-keys)
 - Text Editor (TextWrangler, or equivalent) or outside editor such as [Atom][Atom]
 
 #### Installing Homebrew
@@ -70,54 +69,56 @@ Next, choose `6` to exit.
 
 #### Creating and Inviting bot
 
-- Read here how to [create a DiscordBot application](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#creating-discordbot-application)
-- [Visual Invite Guide](http://discord.kongslien.net/guide.html) *NOTE: Client ID is your Bot ID*
-- Copy your `Client ID` from your [applications page](https://discordapp.com/developers/applications/me).
-- Replace the `12345678` in this link `https://discordapp.com/oauth2/authorize?client_id=12345678&scope=bot&permissions=66186303` with your `Client ID`.
-- The link should now look like this: `https://discordapp.com/oauth2/authorize?client_id=**YOUR_CLENT_ID_HERE**&scope=bot&permissions=66186303`.
-- Go to the newly created link and pick the server we created, and click `Authorize`.
-- The bot should have been added to your server.
+- Read here [how to create a Discord Bot application and invite it.](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#creating-discord-bot-application)
  
 #### Setting up Credentials.json file
 - Open up the `NadekoBot` folder, which should be in your home directory, then `NadekoBot` folder then `src` folder and then the additonal `NadekoBot` folder.
-- EDIT it as it is guided here: [Setting up credentials.json](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#setting-up-credentialsjson-file)
-- **If** you already have Nadeko 1.0 setup and have `credentials.json` and `NadekoBot.db`, you can just copy and paste the `credentials.json` to `NadekoBot/src/NadekoBot` and `NadekoBot.db` to `NadekoBot/src/NadekoBot/bin/Release/netcoreapp1.0/data`.
-- **If** you have Nadeko 0.9x follow the [Upgrading Guide](http://nadekobot.readthedocs.io/en/latest/guides/Upgrading%20Guide/)
+- Edit the way its guided here: [Setting up credentials.json](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-credentialsjson-file)
+- **If** you already have Nadeko 1.x setup and have `credentials.json` and `NadekoBot.db`, you can just copy and paste the `credentials.json` to `NadekoBot/src/NadekoBot` and `NadekoBot.db` to `NadekoBot/src/NadekoBot/bin/Release/netcoreapp1.1/data`.			
+**Or** follow the [Upgrading Guide.](http://nadekobot.readthedocs.io/en/latest/guides/Upgrading%20Guide/)
 
 #### Setting NadekoBot Music
 
-For Music Setup and API keys check [Setting up NadekoBot for Music](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#setting-up-nadekobot-for-music) and [JSON Explanations](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/).
+For Music Setup and API keys check [Setting up NadekoBot for Music](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-your-api-keys) and [JSON Explanations](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/).
 
 #### Running NadekoBot
 
-- Using tmux
+**Create a new Session:**
 
-`tmux new -s nadeko`
-
-^this will create a new session named “nadeko”  
-`(you can replace “nadeko” with anything you prefer and remember its your session name)`.
-
-- Using Screen
+- Using Screen			
 
 `screen -S nadeko`
+ 
+- Using tmux			
 
-^this will create a new screen named “nadeko”  
-`(you can replace “nadeko” with anything you prefer and remember its your screen name)`.
+`tmux new -s nadeko`  
+  
+The above command will create a new session named **nadeko** *(you can replace “nadeko” with anything you prefer and remember its your session name)* so you can run the bot in background without having to keep the PuTTY running.
 
-- Start Nadeko using .NET Core:
+**Next, we need to run `linuxAIO.sh` in order to get the latest running scripts with patches:**
 
-`cd ~ && bash linuxAIO.sh`
+- `cd ~ && wget -N https://github.com/Kwoth/NadekoBot-BashScript/raw/1.4/linuxAIO.sh && bash linuxAIO.sh`
 
-From the options,
+**From the options,**
 
-Choose `2` To Run the bot normally.		
-**NOTE:** With option `2` (Running Normally), if you use `.die` [command](http://nadekobot.readthedocs.io/en/latest/Commands%20List/#administration) in discord. The bot will shut down and will stay offline untill you manually run it again. (best if you want to check the bot.)
+Choose `2` to **Run NadekoBot normally.**		
+**NOTE:** With option `2` (Running normally), if you use `.die` [command](http://nadekobot.readthedocs.io/en/latest/Commands%20List/#administration) in discord. The bot will shut down and will stay offline until you manually run it again. (best if you want to check the bot.)
 
-Choose `3` To Run the bot with Auto Restart.	
-**NOTE:** With option `3` (Running with Auto Restart), bot will auto run if you use `.die` [command](http://nadekobot.readthedocs.io/en/latest/Commands%20List/#administration) making the command `.die` to be used as restart.	
-**NOTE:** [To stop the bot you will have to kill the session.](http://nadekobot.readthedocs.io/en/latest/guides/OSX%20Guide/#some-more-info)
+Choose `3` to **Run NadekoBot with Auto Restart.**	
+**NOTE:** With option `3` (Running with Auto Restart), bot will auto run if you use `.die` [command](http://nadekobot.readthedocs.io/en/latest/Commands%20List/#administration) making the command `.die` to function as restart.	
 
-**Now check your Discord, the bot should be online**
+It will show you the following options: 
+```
+1. Run Auto Restart normally without Updating.
+2. Run Auto Restart and update NadekoBot.
+3. Exit
+```
+
+- With option `1. Run Auto Restart normally without Updating.` Bot will restart on `die` command and will not be downloading the latest build available.
+- With option `2. Run Auto Restart and update NadekoBot.` Bot will restart and download the latest build of bot available everytime `die` command is used.
+
+**Remember** that, while running with Auto Restart, you will need to [close the tmux session](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#restarting-nadeko) to stop the bot completely.
+
 
 Now time to move bot to background and to do that, press CTRL+B,D (this will detach the nadeko session using TMUX)	
 If you used Screen press CTRL+A+D (this will detach the nadeko screen) 
