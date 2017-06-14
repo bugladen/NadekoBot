@@ -29,7 +29,7 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                         .ToList();
         }
 
-        public IList<WaifuInfo> GetTop(int count)
+        public IList<WaifuInfo> GetTop(int count, int skip = 0)
         {
             if (count < 0)
                 throw new ArgumentOutOfRangeException(nameof(count));
@@ -40,6 +40,7 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                         .Include(wi => wi.Affinity)
                         .Include(wi => wi.Claimer)
                     .OrderByDescending(wi => wi.Price)
+                    .Skip(skip)
                     .Take(count)
                     .ToList();
         }

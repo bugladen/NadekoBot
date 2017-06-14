@@ -377,12 +377,17 @@ namespace NadekoBot.Modules.Gambling
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task WaifuLeaderboard()
+            public async Task WaifuLeaderboard(int page = 1)
             {
+                page--;
+
+                if (page < 0)
+                    return;
+
                 IList<WaifuInfo> waifus;
                 using (var uow = _db.UnitOfWork)
                 {
-                    waifus = uow.Waifus.GetTop(9);
+                    waifus = uow.Waifus.GetTop(9, page * 9);
                 }
 
                 if (waifus.Count == 0)
@@ -400,7 +405,7 @@ namespace NadekoBot.Modules.Gambling
                     var w = waifus[i];
 
                     var j = i;
-                    embed.AddField(efb => efb.WithName("#" + (j + 1) + " - " + w.Price + _bc.CurrencySign).WithValue(w.ToString()).WithIsInline(false));
+                    embed.AddField(efb => efb.WithName("#" + ((page * 9) + j + 1) + " - " + w.Price + _bc.CurrencySign).WithValue(w.ToString()).WithIsInline(false));
                 }
 
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
