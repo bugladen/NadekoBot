@@ -515,7 +515,10 @@ namespace NadekoBot.Modules.Searches
                 var sense = data.Results.FirstOrDefault(x => x.Senses?[0].Definition != null)?.Senses[0];
 
                 if (sense?.Definition == null)
+                {
+                    await ReplyErrorLocalized("define_unknown").ConfigureAwait(false);
                     return;
+                }
 
                 var definition = sense.Definition.ToString();
                 if (!(sense.Definition is string))
