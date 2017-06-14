@@ -16,7 +16,6 @@ If you do not see `credentials.json` you will need to rename `credentials_exampl
   "GoogleApiKey": "AIzaSyDSci1sdlWQOWNVj1vlXxxxxxbk0oWMEzM",
   "MashapeKey": "4UrKpcWXc2mshS8RKi00000y8Kf5p1Q8kI6jsn32bmd8oVWiY7",
   "OsuApiKey": "4c8c8fdff8e1234581725db27fd140a7d93320d6",
-  "SoundCloudClientId": "d0bd7760000002d15430f0dccb871117",
   "Db": null,
   "TotalShards": 1
 }
@@ -130,10 +129,6 @@ It should look like:
 ```json
 "GoogleApiKey": "AIzaSyDSci1sdlWQOWNVj1vlXxxxxxbk0oWMEzM",
 ```
-- **SoundCloudClientID** 
-	- **Optional** to queue soundloud songs from soundcloud links.
-	- You will need to request a new app [here](http://soundcloud.com/you/apps).
-    - Copy the Client ID you get in your email and then paste the Client ID into your `credentials.json` 
 - **MashapeKey** 
 	- Required for Urban Disctionary, Hashtag search, and Hearthstone cards.
 	- You need to create an account on their [api marketplace](https://market.mashape.com/), after that go to `market.mashape.com/YOURNAMEHERE/applications/default-application` and press **Get the keys** in the top right corner.
