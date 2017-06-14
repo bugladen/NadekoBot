@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
@@ -105,8 +106,11 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Lsar()
+            public async Task Lsar(int page = 1)
             {
+                if (--page < 0)
+                    return;
+
                 var toRemove = new ConcurrentHashSet<SelfAssignedRole>();
                 var removeMsg = new StringBuilder();
                 var roles = new List<string>();
@@ -131,11 +135,18 @@ namespace NadekoBot.Modules.Administration
                     }
                     foreach (var role in toRemove)
                     {
-                        removeMsg.AppendLine(GetText("role_clean", role.RoleId));
+                        roles.Add(GetText("role_clean", role.RoleId));
                     }
                     await uow.CompleteAsync();
                 }
-                await Context.Channel.SendConfirmAsync(GetText("self_assign_list", roleCnt), "\n" + string.Join(", ", roles) + "\n\n" + removeMsg).ConfigureAwait(false);
+
+                await Context.Channel.SendPaginatedConfirmAsync((DiscordShardedClient)Context.Client, page, (curPage) =>
+                {
+                    return new EmbedBuilder()
+                        .WithTitle(GetText("self_assign_list", roleCnt))
+                        .WithDescription(string.Join("\n", roles.Skip(curPage * 10).Take(10)))
+                        .WithOkColor();
+                }, roles.Count / 10);
             }
 
             [NadekoCommand, Usage, Description, Aliases]

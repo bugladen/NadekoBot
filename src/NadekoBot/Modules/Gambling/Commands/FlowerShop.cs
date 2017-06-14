@@ -46,9 +46,8 @@ namespace NadekoBot.Modules.Gambling
             [RequireContext(ContextType.Guild)]
             public async Task Shop(int page = 1)
             {
-                if (page <= 0)
+                if (--page < 0)
                     return;
-                page -= 1;
                 List<ShopEntry> entries;
                 using (var uow = _db.UnitOfWork)
                 {
@@ -57,9 +56,9 @@ namespace NadekoBot.Modules.Gambling
                                   .ThenInclude(x => x.Items)).ShopEntries);
                 }
 
-                await Context.Channel.SendPaginatedConfirmAsync(_client, page + 1, (curPage) =>
+                await Context.Channel.SendPaginatedConfirmAsync(_client, page, (curPage) =>
                 {
-                    var theseEntries = entries.Skip((curPage - 1) * 9).Take(9);
+                    var theseEntries = entries.Skip(curPage * 9).Take(9);
 
                     if (!theseEntries.Any())
                         return new EmbedBuilder().WithErrorColor()
