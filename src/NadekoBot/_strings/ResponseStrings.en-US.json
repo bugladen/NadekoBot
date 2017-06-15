@@ -534,6 +534,7 @@
   "searches_hashtag_error": "Failed finding a definition for that tag.",
   "searches_height_weight": "Height/Weight",
   "searches_height_weight_val": "{0}m/{1}kg",
+  "searches_hex_invalid":  "Invalid color specified.",
   "searches_humidity": "Humidity",
   "searches_image_search_for": "Image search for:",
   "searches_imdb_fail": "Failed to find that movie.",

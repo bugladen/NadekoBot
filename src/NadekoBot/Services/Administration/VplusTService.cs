@@ -93,16 +93,11 @@ namespace NadekoBot.Services.Administration
                             var beforeRoleName = GetRoleName(beforeVch);
                             var beforeRole = guild.Roles.FirstOrDefault(x => x.Name == beforeRoleName);
                             if (beforeRole != null)
-                                try
-                                {
-                                    _log.Info("Removing role " + beforeRoleName + " from user " + user.Username);
-                                    await user.RemoveRoleAsync(beforeRole).ConfigureAwait(false);
-                                    await Task.Delay(200).ConfigureAwait(false);
-                                }
-                                catch (Exception ex)
-                                {
-                                    _log.Warn(ex);
-                                }
+                            {
+                                _log.Info("Removing role " + beforeRoleName + " from user " + user.Username);
+                                await user.RemoveRoleAsync(beforeRole).ConfigureAwait(false);
+                                await Task.Delay(200).ConfigureAwait(false);
+                            }
                         }
                         var afterVch = after.VoiceChannel;
                         if (afterVch != null && guild.AFKChannel?.Id != afterVch.Id)
@@ -130,7 +125,7 @@ namespace NadekoBot.Services.Administration
                                         .ConfigureAwait(false);
                                 await Task.Delay(50).ConfigureAwait(false);
                             }
-                            _log.Warn("Adding role " + roleToAdd.Name + " to user " + user.Username);
+                            _log.Info("Adding role " + roleToAdd.Name + " to user " + user.Username);
                             await user.AddRoleAsync(roleToAdd).ConfigureAwait(false);
                         }
                     }

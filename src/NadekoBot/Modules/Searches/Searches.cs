@@ -637,9 +637,21 @@ namespace NadekoBot.Modules.Searches
             color = color?.Trim().Replace("#", "");
             if (string.IsNullOrWhiteSpace(color))
                 return;
+            ImageSharp.Color clr;
+            try
+            {
+                clr = ImageSharp.Color.FromHex(color);
+            }
+            catch
+            {
+                await ReplyErrorLocalized("hex_invalid").ConfigureAwait(false);
+                return;
+            }
+            
+
             var img = new ImageSharp.Image(50, 50);
 
-            img.BackgroundColor(ImageSharp.Color.FromHex(color));
+            img.BackgroundColor(clr);
 
             await Context.Channel.SendFileAsync(img.ToStream(), $"{color}.png").ConfigureAwait(false);
         }
