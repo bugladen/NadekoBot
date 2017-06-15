@@ -79,7 +79,6 @@ You will need the following for the next step:
 - **LoL Api Key** [(optional)](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-your-api-keys)
 - **Mashape Key** [(optional)](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-your-api-keys)
 - **Osu Api Key** [(optional)](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-your-api-keys)
-- **Sound Cloud Client Id** [(optional)](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-your-api-keys)
 
 Once you have acquired them, press `5` to **Set up credentials.json**
 
