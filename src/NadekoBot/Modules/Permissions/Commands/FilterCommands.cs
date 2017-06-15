@@ -1,11 +1,13 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using Microsoft.EntityFrameworkCore;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
 using NadekoBot.Services.Permissions;
 using System.Collections.Concurrent;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Permissions
@@ -181,14 +183,25 @@ namespace NadekoBot.Modules.Permissions
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task LstFilterWords()
+            public async Task LstFilterWords(int page = 1)
             {
+                page--;
+                if (page < 0)
+                    return;
+
                 var channel = (ITextChannel)Context.Channel;
 
-                _service.ServerFilteredWords.TryGetValue(channel.Guild.Id, out ConcurrentHashSet<string> filteredWords);
+                _service.ServerFilteredWords.TryGetValue(channel.Guild.Id, out var fwHash);
 
-                await channel.SendConfirmAsync(GetText("filter_word_list"), string.Join("\n", filteredWords))
-                        .ConfigureAwait(false);
+                var fws = fwHash.ToArray();
+
+                await channel.SendPaginatedConfirmAsync((DiscordShardedClient)Context.Client,
+                    page,
+                    (curPage) =>
+                        new EmbedBuilder()
+                            .WithTitle(GetText("filter_word_list"))
+                            .WithDescription(string.Join("\n", fws.Skip(curPage * 10).Take(10)))
+                , fws.Length / 10).ConfigureAwait(false);
             }
         }
     }
