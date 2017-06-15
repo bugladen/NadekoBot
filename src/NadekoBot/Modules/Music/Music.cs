@@ -431,7 +431,7 @@ namespace NadekoBot.Modules.Music
 
             using (var http = new HttpClient())
             {
-                var scvids = JObject.Parse(await http.GetStringAsync($"http://scapi.nadekobot.me/resolve?url={pl}").ConfigureAwait(false))["tracks"].ToObject<SoundCloudVideo[]>();
+                var scvids = JObject.Parse(await http.GetStringAsync($"https://scapi.nadekobot.me/resolve?url={pl}").ConfigureAwait(false))["tracks"].ToObject<SoundCloudVideo[]>();
                 await _music.QueueSong(((IGuildUser)Context.User), (ITextChannel)Context.Channel, ((IGuildUser)Context.User).VoiceChannel, scvids[0].TrackLink).ConfigureAwait(false);
 
                 MusicPlayer musicPlayer;

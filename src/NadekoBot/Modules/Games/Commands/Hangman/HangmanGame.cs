@@ -23,9 +23,9 @@ namespace NadekoBot.Modules.Games.Hangman
             {
                 data = JsonConvert.DeserializeObject<Dictionary<string, HangmanObject[]>>(File.ReadAllText(termsPath));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                
+                //ignored
             }
         }
 
