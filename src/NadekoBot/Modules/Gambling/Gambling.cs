@@ -53,7 +53,6 @@ namespace NadekoBot.Modules.Gambling
 
         [NadekoCommand, Usage, Description, Aliases]
         [Priority(0)]
-        [RequireContext(ContextType.Guild)]
         public async Task Cash([Remainder] IUser user = null)
         {
             if(user == null)
