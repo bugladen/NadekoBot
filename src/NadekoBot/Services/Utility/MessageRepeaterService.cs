@@ -17,7 +17,6 @@ namespace NadekoBot.Services.Utility
 
         public MessageRepeaterService(NadekoBot bot, DiscordShardedClient client, IEnumerable<GuildConfig> gcs)
         {
-            System.Console.WriteLine(bot.Ready);
             var _ = Task.Run(async () =>
             {
                 while (!bot.Ready)

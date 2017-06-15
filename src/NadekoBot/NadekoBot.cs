@@ -331,23 +331,16 @@ namespace NadekoBot
 
         private static void SetupLogger()
         {
-            try
+            var logConfig = new LoggingConfiguration();
+            var consoleTarget = new ColoredConsoleTarget()
             {
-                var logConfig = new LoggingConfiguration();
-                var consoleTarget = new ColoredConsoleTarget()
-                {
-                    Layout = @"${date:format=HH\:mm\:ss} ${logger} | ${message}"
-                };
-                logConfig.AddTarget("Console", consoleTarget);
+                Layout = @"${date:format=HH\:mm\:ss} ${logger} | ${message}"
+            };
+            logConfig.AddTarget("Console", consoleTarget);
 
-                logConfig.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, consoleTarget));
+            logConfig.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, consoleTarget));
 
-                LogManager.Configuration = logConfig;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
+            LogManager.Configuration = logConfig;
         }
     }
 }

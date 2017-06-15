@@ -27,7 +27,6 @@ namespace NadekoBot.Services.Music
             using (var http = new HttpClient())
             {
                 response = await http.GetStringAsync($"http://api.soundcloud.com/resolve?url={url}&client_id={_creds.SoundCloudClientId}").ConfigureAwait(false);
-
             }
                 
 

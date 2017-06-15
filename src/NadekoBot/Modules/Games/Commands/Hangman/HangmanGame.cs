@@ -25,7 +25,7 @@ namespace NadekoBot.Modules.Games.Hangman
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                
             }
         }
 
