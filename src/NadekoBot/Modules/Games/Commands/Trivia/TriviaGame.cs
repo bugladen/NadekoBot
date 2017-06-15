@@ -178,9 +178,8 @@ namespace NadekoBot.Modules.Games.Trivia
                 try { await Channel.SendConfirmAsync(GetText("trivia_game"), GetText("trivia_stopping")).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
         }
 
-        private async Task PotentialGuess(SocketMessage imsg)
+        private Task PotentialGuess(SocketMessage imsg)
         {
-            await Task.Yield();
             var _ = Task.Run(async () =>
             {
                 try
@@ -242,6 +241,7 @@ namespace NadekoBot.Modules.Games.Trivia
                 }
                 catch (Exception ex) { _log.Warn(ex); }
             });
+            return Task.CompletedTask;
         }
 
         public string GetLeaderboard()

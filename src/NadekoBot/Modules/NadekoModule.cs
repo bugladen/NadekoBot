@@ -14,10 +14,10 @@ namespace NadekoBot.Modules
     {
         protected readonly Logger _log;
         protected CultureInfo _cultureInfo;
-        
+
         public readonly string ModuleTypeName;
         public readonly string LowerModuleTypeName;
-        
+
         public NadekoStrings _strings { get; set; }
         public CommandHandler _cmdHandler { get; set; }
         public ILocalization _localization { get; set; }
@@ -34,7 +34,7 @@ namespace NadekoBot.Modules
 
         protected override void BeforeExecute()
         {
-            _cultureInfo =_localization.GetCultureInfo(Context.Guild?.Id);
+            _cultureInfo = _localization.GetCultureInfo(Context.Guild?.Id);
         }
 
         //public Task<IUserMessage> ReplyConfirmLocalized(string titleKey, string textKey, string url = null, string footer = null)
@@ -56,7 +56,7 @@ namespace NadekoBot.Modules
         //    var text = NadekoBot.ResponsesResourceManager.GetString(textKey, cultureInfo);
         //    return Context.Channel.SendErrorAsync(title, text, url, footer);
         //}
-        
+
         protected string GetText(string key) =>
             _strings.GetText(key, _cultureInfo, LowerModuleTypeName);
 
@@ -111,16 +111,20 @@ namespace NadekoBot.Modules
 
             Task MessageReceived(SocketMessage arg)
             {
-                if (!(arg is SocketUserMessage userMsg) ||
-                    !(userMsg.Channel is ITextChannel chan) ||
-                    userMsg.Author.Id != userId ||
-                    userMsg.Channel.Id != channelId)
+                var _ = Task.Run(() =>
                 {
-                    return Task.CompletedTask;
-                }
+                    if (!(arg is SocketUserMessage userMsg) ||
+                        !(userMsg.Channel is ITextChannel chan) ||
+                        userMsg.Author.Id != userId ||
+                        userMsg.Channel.Id != channelId)
+                    {
+                        return Task.CompletedTask;
+                    }
 
-                userInputTask.SetResult(arg.Content);
-                userMsg.DeleteAfter(1);
+                    userInputTask.SetResult(arg.Content);
+                    userMsg.DeleteAfter(1);
+                    return Task.CompletedTask;
+                });
                 return Task.CompletedTask;
             }
         }

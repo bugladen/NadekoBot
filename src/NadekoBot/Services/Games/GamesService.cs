@@ -97,19 +97,18 @@ namespace NadekoBot.Services.Games
         private string GetText(ITextChannel ch, string key, params object[] rep)
             => _strings.GetText(key, ch.GuildId, "Games".ToLowerInvariant(), rep);
 
-        private async Task PotentialFlowerGeneration(SocketMessage imsg)
+        private Task PotentialFlowerGeneration(SocketMessage imsg)
         {
-            await Task.Yield();
             var msg = imsg as SocketUserMessage;
             if (msg == null || msg.Author.IsBot)
-                return;
+                return Task.CompletedTask;
 
             var channel = imsg.Channel as ITextChannel;
             if (channel == null)
-                return;
+                return Task.CompletedTask;
 
             if (!GenerationChannels.Contains(channel.Id))
-                return;
+                return Task.CompletedTask;
 
             var _ = Task.Run(async () =>
             {
@@ -159,7 +158,7 @@ namespace NadekoBot.Services.Games
                     LogManager.GetCurrentClassLogger().Warn(ex);
                 }
             });
-            return;
+            return Task.CompletedTask;
         }
     }
 }

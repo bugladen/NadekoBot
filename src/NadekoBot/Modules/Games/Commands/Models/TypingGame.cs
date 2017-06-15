@@ -107,9 +107,8 @@ namespace NadekoBot.Modules.Games.Models
             _client.MessageReceived += AnswerReceived;
         }
 
-        private async Task AnswerReceived(SocketMessage imsg)
+        private Task AnswerReceived(SocketMessage imsg)
         {
-            await Task.Yield();
             var _ = Task.Run(async () =>
             {
                 try
@@ -145,6 +144,7 @@ namespace NadekoBot.Modules.Games.Models
                 }
                 catch (Exception ex) { _log.Warn(ex); }
             });
+            return Task.CompletedTask;
         }
 
         private bool Judge(int errors, int textLength) => errors <= textLength / 25;

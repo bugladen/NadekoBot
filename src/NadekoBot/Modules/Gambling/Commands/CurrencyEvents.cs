@@ -122,7 +122,7 @@ namespace NadekoBot.Modules.Gambling
                     });
                 }
 
-                return Task.Delay(0);
+                return Task.CompletedTask;
             }
 
             public async Task FlowerReactionEvent(ICommandContext context, int amount)

@@ -39,9 +39,8 @@ namespace NadekoBot.Services.Searches
             _log = LogManager.GetCurrentClassLogger();
 
             //translate commands
-            _client.MessageReceived += async (msg) =>
+            _client.MessageReceived += (msg) =>
             {
-                await Task.Yield();
                 var _ = Task.Run(async () =>
                 {
                     try
@@ -70,6 +69,7 @@ namespace NadekoBot.Services.Searches
                     }
                     catch { }
                 });
+                return Task.CompletedTask;
             };
 
             //pokemon commands
