@@ -1,9 +1,9 @@
 ## Setting up NadekoBot on Linux
 
-#### Setting up NadekoBot on Linux Digital Ocean Droplet
+**Setting up NadekoBot on Linux Digital Ocean Droplet**			
 If you want Nadeko to play music for you 24/7 without having to hosting it on your PC and want to keep it cheap, reliable and convenient as possible, you can try Nadeko on Linux Digital Ocean Droplet using the link [DigitalOcean](http://m.do.co/c/46b4d3d44795/) (and using this link will be supporting Nadeko and will give you **$10 credit**)
 
-#### Setting up NadekoBot
+**Setting up NadekoBot**			
 Assuming you have followed the link above to setup an account and Droplet with 64bit OS in Digital Ocean and got the `IP address and root password (in email)` to login, its time to get started.
 
 **Go through this whole guide before setting up Nadeko**
@@ -11,31 +11,21 @@ Assuming you have followed the link above to setup an account and Droplet with 6
 #### Prerequisites
 - Download [PuTTY](http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html)
 - Download [WinSCP](https://winscp.net/eng/download.php) *(optional)*
+- Create and Invite the bot.
+	- Read here how to [create a Discord Bot application and invite it.](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#creating-discord-bot-application)
 
 #### Starting up
 
 - **Open PuTTY.exe** that you downloaded before, and paste or enter your `IP address` and then click **Open**.
 If you entered your Droplets IP address correctly, it should show **login as:** in a newly opened window.
-- Now for **login as:**, type `root` and hit enter.
-- It should then, ask for password, type the `root password` you have received in your **email address registered with Digital Ocean**, then hit Enter.
+- Now for **login as:**, type `root` and press enter.
+- It should then, ask for password, type the `root password` you have received in your **email address registered with Digital Ocean**, then press Enter.
 
-*as you are running it for the first time, it will most likely to ask you to change your root password, for that, type the "password you received through email", hit Enter, enter a "new password", hit Enter and confirm that "new password" again.*
-**SAVE that new password somewhere safe, not just in your mind**. After you've done that, you are ready to write commands.
+If you are running your VPS/ droplet for the first time, it will most likely ask you to change your VPS root password, to do that, type the **password you received through email** it won't show any changes on the screen like `******` when password is being typed, press Enter once done. 			
+Type a **new password**, press Enter and type the **new password** again and you're done.			
+**Write down and save the new password somewhere safe.**				
+After you've done that, you are ready to use your VPS.
 
-**NOTE:** Copy the commands, and just paste them using **mouse single right-click.**
-
-#### Creating and Inviting bot
-
-- Read here how to [create a DiscordBot application](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#creating-discordbot-application)
-- [Visual Invite Guide](http://discord.kongslien.net/guide.html) **(Note: Client ID is your Bot ID)**
-- Copy your `Client ID` from your [applications page](https://discordapp.com/developers/applications/me).
-- Replace the **12345678** in this link: 	
-`https://discordapp.com/oauth2/authorize?client_id=`12345678`&scope=bot&permissions=66186303`		
- with your `Client ID`
-- The link should now look like this: 	
-`https://discordapp.com/oauth2/authorize?client_id=`**YOUR_CLENT_ID_HERE**`&scope=bot&permissions=66186303`
-- Go to the newly created link and pick the server we created, and click `Authorize`
-- The bot should have been added to your server.
 
 #### Getting NadekoBot
 ##### Part I - Downloading the installer
@@ -61,9 +51,8 @@ You should see these following options after using the above command:
 Welcome to NadekoBot Auto Prerequisites Installer.
 Would you like to continue?
 ```
-That will install all the prerequisites your system need to run NadekoBot.
-
-(Optional) **If** you want to install it manually, you can try finding it [here](https://github.com/Kwoth/NadekoBot-BashScript/blob/1.4/nadekoautoinstaller.sh)
+That will install all the prerequisites your system need to run NadekoBot.			
+(Optional) **If** you want to install it manually, you can try finding it [here.](https://github.com/Kwoth/NadekoBot-BashScript/blob/1.4/nadekoautoinstaller.sh)
 
 Once *prerequisites* finish installing,
 
@@ -77,21 +66,20 @@ When installation is complete, you will see the options again.
 Next, check out:
 ##### Part IV - Setting up credentials
 
-- [1. Setting up credentials.json](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#setting-up-credentialsjson)
-- [2. To Get the Google API](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#setting-up-nadekobot-for-music)
-- [3. JSON Explanations for other APIs](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/)
+- [1. Set up credentials.json](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-credentialsjson-file)
+- [2. Get the Google API](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-your-api-keys)
 
 You will need the following for the next step:
 ![botimg](https://cdn.discordapp.com/attachments/251504306010849280/276455844223123457/Capture.PNG)
 
-- **Bot's Client ID** and **Bot's ID** (both are same) [(*required)](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#setting-up-credentialsjson-file)
-- **Bot's Token** (not client secret) [(*required)](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#setting-up-credentialsjson-file)
-- Your **Discord userID** [(*required)](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#setting-up-credentialsjson-file)
-- **Google Api Key** [(optional)](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#setting-up-nadekobot-for-music)
-- **LoL Api Key** [(optional)](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/)
-- **Mashape Key** [(optional)](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/)
-- **Osu Api Key** [(optional)](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/)
-- **Sound Cloud Client Id** [(optional)](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/)
+- **Bot's Client ID** and **Bot's ID** (both are same) [(*required)](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-credentialsjson-file)
+- **Bot's Token** (not client secret) [(*required)](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-credentialsjson-file)
+- Your **Discord userID** [(*required)](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-credentialsjson-file)
+- **Google Api Key** [(optional)](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-your-api-keys)
+- **LoL Api Key** [(optional)](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-your-api-keys)
+- **Mashape Key** [(optional)](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-your-api-keys)
+- **Osu Api Key** [(optional)](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-your-api-keys)
+- **Sound Cloud Client Id** [(optional)](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-your-api-keys)
 
 Once you have acquired them, press `5` to **Set up credentials.json**
 
@@ -155,7 +143,7 @@ You can simply type `.die` in the server you have your NadekoBot to make her res
 
 **Restarting Nadeko with the Server:**
 
-Open **PuTTY** and login as you have before, type `reboot` and hit Enter.
+Open **PuTTY** and login as you have before, type `reboot` and press Enter.
 
 **Restarting Manually:**
 
@@ -174,38 +162,19 @@ Open **PuTTY** and login as you have before, type `reboot` and hit Enter.
 - Next, choose either `2` or `3` to run the bot again with **normally** or **auto restart** respectively.
 - Done.
 
-#### Setting up Music
+#### Additional Information
 
-To set up Nadeko for music and Google API Keys, follow [Setting up NadekoBot for Music](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#setting-up-nadekobot-for-music)
+##### Setting up Music
 
-Once done, go back to **PuTTY**
+To set up Nadeko for music and Google API Keys, follow [Setting up your API keys.][setup music]
 
-#### Some more Info
-
-##### Info about tmux
+##### tmux
 
 - If you want to **see the sessions** after logging back again, type `tmux ls`, and that will give you the list of sessions running.
 - If you want to **switch to/ see that session**, type `tmux a -t nadeko` (**nadeko** is the name of the session we created before so, replace **“nadeko”** with the session name you created.)
 - If you want to **kill** NadekoBot **session**, type `tmux kill-session -t nadeko`
 
-#### Guide for Advance Users (Optional)
-
-**Skip this step if you are a Regular User or New to Linux.**
-
-[![img7][img7]](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#getting-nadekobot)
-
-- Right after [Getting NadekoBot](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#getting-nadekobot)
-- `cd NadekoBot/src/NadekoBot/` (go to this folder)
-- `pico credentials.json` (open credentials.json to edit)
-- Insert your bot **Client ID, Bot ID** (should be same as your Client ID) **and Token** if you got it following [Creating and Inviting bot](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#creating-and-inviting-bot).
-- Insert your own ID in Owners ID follow: [Setting up credentials.json](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#setting-up-credentialsjson-file)
-- And Google API from [Setting up NadekoBot for Music](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#setting-up-nadekobot-for-music)
-- Once done, press `CTRL+X`
-- It will ask for "Save Modified Buffer?", press `Y` for yes
-- It will then ask "File Name to Write" (rename), just hit `Enter` and Done.
-- You can now move to [Running NadekoBot](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#running-nadekobot)
-
-#### Setting up SFTP
+##### Setting up SFTP
 
 - Open **WinSCP**
 - Click on **New Site** (top-left corner).
@@ -218,13 +187,16 @@ Once done, go back to **PuTTY**
 - It should show you the NadekoBot folder which was created by git earlier on the right-hand side window.
 - Open that folder, then open the `src` folder, followed by another `NadekoBot` folder and you should see `credentials.json` there.
 
-#### Setting up credentials.json
+##### Setting up credentials.json
 
 - Copy the `credentials.json` to desktop
-- EDIT it as it is guided here: [Setting up credentials.json](http://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#setting-up-credentialsjson-file)
+- EDIT it as it is guided here: [Setting up credentials.json][setup credentials]
 - Paste/put it back in the folder once done. `(Using WinSCP)`
-- **If** you already have Nadeko 1.3.x setup and have `credentials.json` and `NadekoBot.db`, you can just copy and paste the `credentials.json` to `NadekoBot/src/NadekoBot` and `NadekoBot.db` to `NadekoBot/src/NadekoBot/bin/Release/netcoreapp1.1/data` using WinSCP.
-- **If** you have Nadeko 0.9x follow the [Upgrading Guide](http://nadekobot.readthedocs.io/en/latest/guides/Upgrading%20Guide/)
+- **If** you already have Nadeko 1.3.x setup and have `credentials.json` and `NadekoBot.db`, you can just copy and paste the `credentials.json` to `NadekoBot/src/NadekoBot` and `NadekoBot.db` to `NadekoBot/src/NadekoBot/bin/Release/netcoreapp1.1/data` using WinSCP.			
+**Or** follow the [Upgrading Guide.][upgrading]
 
 
 [img7]: https://cdn.discordapp.com/attachments/251504306010849280/251505766370902016/setting_up_credentials.gif
+[setup credentials]: http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-credentialsjson-file
+[setup music]: http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-your-api-keys
+[upgrading]: http://nadekobot.readthedocs.io/en/latest/guides/Upgrading%20Guide/
