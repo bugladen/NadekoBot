@@ -6,7 +6,7 @@ using NadekoBot.Services.Database.Models;
 using NadekoBot.Services.Permissions;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules.Permissions.Commands
+namespace NadekoBot.Modules.Permissions
 {
     public partial class Permissions
     {

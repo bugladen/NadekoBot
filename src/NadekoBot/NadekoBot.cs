@@ -290,7 +290,7 @@ namespace NadekoBot
             //    .Select(x => x.Key + $"({x.Count()})")));
 
 //unload modules which are not available on the public bot
-#if GLOBAL_NADEKO
+#if GLOBAL_NADEKO   
             CommandService
                 .Modules
                 .ToArray()
