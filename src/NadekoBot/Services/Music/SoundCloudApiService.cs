@@ -26,7 +26,7 @@ namespace NadekoBot.Services.Music
 
             using (var http = new HttpClient())
             {
-                response = await http.GetStringAsync($"http://api.soundcloud.com/resolve?url={url}&client_id={_creds.SoundCloudClientId}").ConfigureAwait(false);
+                response = await http.GetStringAsync($"https://scapi.nadekobot.me/resolve?url={url}").ConfigureAwait(false);
             }
                 
 
@@ -50,7 +50,7 @@ namespace NadekoBot.Services.Music
             var response = "";
             using (var http = new HttpClient())
             {
-                response = await http.GetStringAsync($"http://api.soundcloud.com/tracks?q={Uri.EscapeDataString(query)}&client_id={_creds.SoundCloudClientId}").ConfigureAwait(false);
+                response = await http.GetStringAsync($"https://scapi.nadekobot.me/tracks?q={Uri.EscapeDataString(query)}").ConfigureAwait(false);
             }
 
             var responseObj = JsonConvert.DeserializeObject<SoundCloudVideo[]>(response).Where(s => s.Streamable).FirstOrDefault();
@@ -74,7 +74,13 @@ namespace NadekoBot.Services.Music
         [JsonProperty("permalink_url")]
         public string TrackLink { get; set; } = "";
         public string artwork_url { get; set; } = "";
-        public string GetStreamLink(IBotCredentials creds) => $"https://api.soundcloud.com/tracks/{Id}/stream?client_id={creds.SoundCloudClientId}";
+        public async Task<string> StreamLink()
+        {
+            using (var http = new HttpClient())
+            {
+                return await http.GetStringAsync($"http://scapi.nadekobot.me/stream/{Id}");
+            }
+        }
     }
     public class SoundCloudUser
     {

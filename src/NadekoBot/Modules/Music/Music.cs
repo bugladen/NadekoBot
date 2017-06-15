@@ -431,7 +431,7 @@ namespace NadekoBot.Modules.Music
 
             using (var http = new HttpClient())
             {
-                var scvids = JObject.Parse(await http.GetStringAsync($"http://api.soundcloud.com/resolve?url={pl}&client_id={_creds.SoundCloudClientId}").ConfigureAwait(false))["tracks"].ToObject<SoundCloudVideo[]>();
+                var scvids = JObject.Parse(await http.GetStringAsync($"http://scapi.nadekobot.me/resolve?url={pl}").ConfigureAwait(false))["tracks"].ToObject<SoundCloudVideo[]>();
                 await _music.QueueSong(((IGuildUser)Context.User), (ITextChannel)Context.Channel, ((IGuildUser)Context.User).VoiceChannel, scvids[0].TrackLink).ConfigureAwait(false);
 
                 MusicPlayer musicPlayer;
@@ -446,7 +446,7 @@ namespace NadekoBot.Modules.Music
                         {
                             Title = svideo.FullName,
                             Provider = "SoundCloud",
-                            Uri = svideo.GetStreamLink(_creds),
+                            Uri = await svideo.StreamLink(),
                             ProviderType = MusicType.Normal,
                             Query = svideo.TrackLink,
                         }), ((IGuildUser)Context.User).Username);
