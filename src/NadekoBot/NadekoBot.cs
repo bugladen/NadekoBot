@@ -194,6 +194,7 @@ namespace NadekoBot
                     .Add(repeaterService)
                     .Add(converterService)
                     .Add(verboseErrorsService)
+                    .Add(patreonRewardsService)
                 .Add<SearchesService>(searchesService)
                     .Add(streamNotificationService)
                     .Add(animeSearchService)
