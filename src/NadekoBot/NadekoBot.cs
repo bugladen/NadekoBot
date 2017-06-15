@@ -28,6 +28,7 @@ using NadekoBot.Services.Help;
 using System.IO;
 using NadekoBot.Services.Pokemon;
 using NadekoBot.DataStructures;
+using NadekoBot.Extensions;
 
 namespace NadekoBot
 {
