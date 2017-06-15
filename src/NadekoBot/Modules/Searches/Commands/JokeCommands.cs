@@ -1,4 +1,5 @@
-﻿using Discord.Commands;
+﻿using AngleSharp;
+using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
@@ -37,8 +38,17 @@ namespace NadekoBot.Modules.Searches
             {
                 using (var http = new HttpClient())
                 {
-                    var response = await http.GetStringAsync("http://tambal.azurewebsites.net/joke/random").ConfigureAwait(false);
-                    await Context.Channel.SendConfirmAsync(JObject.Parse(response)["joke"].ToString() + " 😆").ConfigureAwait(false);
+                    http.AddFakeHeaders();
+
+                    var config = Configuration.Default.WithDefaultLoader();
+                    var document = await BrowsingContext.New(config).OpenAsync("http://www.goodbadjokes.com/random");
+
+                    var html = document.QuerySelector(".post > .joke-content");
+
+                    var part1 = html.QuerySelector("dt").TextContent;
+                    var part2 = html.QuerySelector("dd").TextContent;
+
+                    await Context.Channel.SendConfirmAsync("", part1 + "\n\n" + part2, footer: document.BaseUri).ConfigureAwait(false);
                 }
             }
 
