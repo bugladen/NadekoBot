@@ -92,7 +92,7 @@ namespace NadekoBot
             CommandService = new CommandService(new CommandServiceConfig()
             {
                 CaseSensitiveCommands = false,
-                DefaultRunMode = RunMode.Sync,
+                DefaultRunMode = RunMode.Async,
             });
 
             //foundation services
@@ -127,6 +127,7 @@ namespace NadekoBot
             var commandMapService = new CommandMapService(AllGuildConfigs);
             var patreonRewardsService = new PatreonRewardsService(Credentials, Db, Currency);
             var verboseErrorsService = new VerboseErrorsService(AllGuildConfigs, Db, CommandHandler, helpService);
+            var pruneService = new PruneService();
             #endregion
 
             #region permissions
@@ -197,6 +198,7 @@ namespace NadekoBot
                     .Add(converterService)
                     .Add(verboseErrorsService)
                     .Add(patreonRewardsService)
+                    .Add(pruneService)
                 .Add<SearchesService>(searchesService)
                     .Add(streamNotificationService)
                     .Add(animeSearchService)

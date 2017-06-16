@@ -9,7 +9,6 @@ using NadekoBot.Services;
 using NadekoBot.Attributes;
 using NadekoBot.Services.Database.Models;
 using NadekoBot.Services.Administration;
-using Discord.WebSocket;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -309,67 +308,6 @@ namespace NadekoBot.Modules.Administration
             var channel = (ITextChannel)Context.Channel;
             await channel.ModifyAsync(c => c.Name = name).ConfigureAwait(false);
             await ReplyConfirmLocalized("set_channel_name").ConfigureAwait(false);
-        }
-
-
-        //delets her own messages, no perm required
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        public async Task Prune()
-        {
-            var user = await Context.Guild.GetCurrentUserAsync().ConfigureAwait(false);
-
-            var enumerable = (await Context.Channel.GetMessagesAsync().Flatten())
-                .Where(x => x.Author.Id == user.Id && DateTime.UtcNow - x.CreatedAt < twoWeeks);
-            await Context.Channel.DeleteMessagesAsync(enumerable).ConfigureAwait(false);
-            Context.Message.DeleteAfter(3);
-        }
-
-
-        private TimeSpan twoWeeks => TimeSpan.FromDays(14);
-        // prune x
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(ChannelPermission.ManageMessages)]
-        [RequireBotPermission(GuildPermission.ManageMessages)]
-        [Priority(0)]
-        public async Task Prune(int count)
-        {
-            if (count < 1)
-                return;
-            await Context.Message.DeleteAsync().ConfigureAwait(false);
-            int limit = (count < 100) ? count + 1 : 100;
-            var enumerable = (await Context.Channel.GetMessagesAsync(limit: limit).Flatten().ConfigureAwait(false))
-                .Where(x => DateTime.UtcNow - x.CreatedAt < twoWeeks);
-            if (enumerable.FirstOrDefault()?.Id == Context.Message.Id)
-                enumerable = enumerable.Skip(1).ToArray();
-            else
-                enumerable = enumerable.Take(count);
-            await Context.Channel.DeleteMessagesAsync(enumerable).ConfigureAwait(false);
-        }
-
-        //prune @user [x]
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(ChannelPermission.ManageMessages)]
-        [RequireBotPermission(GuildPermission.ManageMessages)]
-        [Priority(1)]
-        public async Task Prune(IGuildUser user, int count = 100)
-        {
-            if (count < 1)
-                return;
-
-            if (count > 100)
-                count = 100;
-
-            if (user.Id == Context.User.Id)
-                count += 1;
-            var enumerable = (await Context.Channel.GetMessagesAsync().Flatten())
-                .Where(m => m.Author.Id == user.Id && DateTime.UtcNow - m.CreatedAt < twoWeeks)
-                .Take(count);
-            await Context.Channel.DeleteMessagesAsync(enumerable).ConfigureAwait(false);
-
-            Context.Message.DeleteAfter(3);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
