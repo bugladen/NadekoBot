@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
+using NadekoBot.DataStructures;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Permissions;
 using NadekoBot.Services;
@@ -16,6 +17,7 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
+        [NoPublicBot]
         public class LogCommands : NadekoSubmodule
         {
             private readonly LogCommandService _lc;

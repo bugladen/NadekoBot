@@ -145,7 +145,7 @@ namespace NadekoBot
 
             var clashService = new ClashOfClansService(Client, Db, Localization, Strings);
             var musicService = new MusicService(GoogleApi, Strings, Localization, Db, soundcloudApiService, Credentials, AllGuildConfigs);
-            var crService = new CustomReactionsService(permissionsService, Db, Client, CommandHandler);
+            var crService = new CustomReactionsService(permissionsService, Db, Client, CommandHandler, BotConfig);
 
             #region Games
             var gamesService = new GamesService(Client, BotConfig, AllGuildConfigs, Strings, Images, CommandHandler);
