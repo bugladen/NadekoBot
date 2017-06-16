@@ -26,7 +26,7 @@ namespace NadekoBot.Modules.Administration
             [RequireContext(ContextType.Guild)]
             public async Task Timezones(int page = 1)
             {
-                page -= 1;
+                page--;
 
                 if (page < 0 || page > 20)
                     return;
@@ -36,11 +36,11 @@ namespace NadekoBot.Modules.Administration
                     .ToArray();
                 var timezonesPerPage = 20;
 
-                await Context.Channel.SendPaginatedConfirmAsync((DiscordShardedClient)Context.Client, page + 1, 
+                await Context.Channel.SendPaginatedConfirmAsync((DiscordShardedClient)Context.Client, page, 
                     (curPage) => new EmbedBuilder()
                         .WithOkColor()
                         .WithTitle(GetText("timezones_available"))
-                        .WithDescription(string.Join("\n", timezones.Skip((curPage - 1) * timezonesPerPage).Take(timezonesPerPage).Select(x => $"`{x.Id,-25}` {(x.BaseUtcOffset < TimeSpan.Zero? "-" : "+")}{x.BaseUtcOffset:hhmm}"))),
+                        .WithDescription(string.Join("\n", timezones.Skip(curPage * timezonesPerPage).Take(timezonesPerPage).Select(x => $"`{x.Id,-25}` {(x.BaseUtcOffset < TimeSpan.Zero? "-" : "+")}{x.BaseUtcOffset:hhmm}"))),
                     timezones.Length / timezonesPerPage);
             }
 

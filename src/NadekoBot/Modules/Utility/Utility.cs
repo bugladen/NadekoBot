@@ -356,7 +356,7 @@ namespace NadekoBot.Modules.Utility
         [NadekoCommand, Usage, Description, Aliases]
         public async Task ShardStats(int page = 1)
         {
-            if (page < 1)
+            if (--page < 0)
                 return;
 
             var status = string.Join(", ", _client.Shards.GroupBy(x => x.ConnectionState)
@@ -374,7 +374,7 @@ namespace NadekoBot.Modules.Utility
             await Context.Channel.SendPaginatedConfirmAsync(_client, page, (curPage) =>
             {
 
-                var str = string.Join("\n", allShardStrings.Skip(25 * (curPage - 1)).Take(25));
+                var str = string.Join("\n", allShardStrings.Skip(25 * curPage).Take(25));
 
                 if (string.IsNullOrWhiteSpace(str))
                     str = GetText("no_shards_on_page");

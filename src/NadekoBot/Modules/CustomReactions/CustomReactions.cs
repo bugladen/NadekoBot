@@ -87,7 +87,7 @@ namespace NadekoBot.Modules.CustomReactions
         [Priority(0)]
         public async Task ListCustReact(int page = 1)
         {
-            if (page < 1 || page > 1000)
+            if (--page < 0 || page > 999)
                 return;
             CustomReaction[] customReactions;
             if (Context.Guild == null)
@@ -106,7 +106,7 @@ namespace NadekoBot.Modules.CustomReactions
                 new EmbedBuilder().WithOkColor()
                     .WithTitle(GetText("name"))
                     .WithDescription(string.Join("\n", customReactions.OrderBy(cr => cr.Trigger)
-                                                    .Skip((curPage - 1) * 20)
+                                                    .Skip(curPage * 20)
                                                     .Take(20)
                                                     .Select(cr =>
                                                     {
@@ -161,7 +161,7 @@ namespace NadekoBot.Modules.CustomReactions
         [NadekoCommand, Usage, Description, Aliases]
         public async Task ListCustReactG(int page = 1)
         {
-            if (page < 1 || page > 10000)
+            if (--page < 0 || page > 9999)
                 return;
             CustomReaction[] customReactions;
             if (Context.Guild == null)
@@ -185,7 +185,7 @@ namespace NadekoBot.Modules.CustomReactions
                     new EmbedBuilder().WithOkColor()
                         .WithTitle(GetText("name"))
                         .WithDescription(string.Join("\r\n", ordered
-                                                         .Skip((curPage - 1) * 20)
+                                                         .Skip(curPage * 20)
                                                          .Take(20)
                                                          .Select(cr => $"**{cr.Key.Trim().ToLowerInvariant()}** `x{cr.Count()}`"))), lastPage)
                              .ConfigureAwait(false);
@@ -399,14 +399,14 @@ namespace NadekoBot.Modules.CustomReactions
         [NadekoCommand, Usage, Description, Aliases]
         public async Task CrStats(int page = 1)
         {
-            if (page < 1)
+            if (--page < 0)
                 return;
             var ordered = _crs.ReactionStats.OrderByDescending(x => x.Value).ToArray();
             if (!ordered.Any())
                 return;
             var lastPage = ordered.Length / 9;
             await Context.Channel.SendPaginatedConfirmAsync(_client, page,
-                (curPage) => ordered.Skip((curPage - 1) * 9)
+                (curPage) => ordered.Skip(curPage * 9)
                                     .Take(9)
                                     .Aggregate(new EmbedBuilder().WithOkColor().WithTitle(GetText("stats")),
                                             (agg, cur) => agg.AddField(efb => efb.WithName(cur.Key).WithValue(cur.Value.ToString()).WithIsInline(true))), lastPage)

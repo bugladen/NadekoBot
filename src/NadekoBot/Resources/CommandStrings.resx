@@ -3037,10 +3037,10 @@
     <value>waifus waifulb</value>
   </data>
   <data name="waifuleaderboard_desc" xml:space="preserve">
-    <value>Shows top 9 waifus.</value>
+    <value>Shows top 9 waifus. You can specify another page to show other waifus.</value>
   </data>
   <data name="waifuleaderboard_usage" xml:space="preserve">
-    <value>`{0}waifus`</value>
+    <value>`{0}waifus` or `{0}waifulb 3`</value>
   </data>
   <data name="divorce_cmd" xml:space="preserve">
     <value>divorce</value>

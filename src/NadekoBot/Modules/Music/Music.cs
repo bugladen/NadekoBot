@@ -244,7 +244,8 @@ namespace NadekoBot.Modules.Music
                 await ReplyErrorLocalized("no_player").ConfigureAwait(false);
                 return;
             }
-            if (page <= 0)
+
+            if (--page < 0)
                 return;
 
             try { await musicPlayer.UpdateSongDurationsAsync().ConfigureAwait(false); } catch { }
@@ -260,7 +261,7 @@ namespace NadekoBot.Modules.Music
             var lastPage = musicPlayer.Playlist.Count / itemsPerPage;
             Func<int, EmbedBuilder> printAction = curPage =>
             {
-                var startAt = itemsPerPage * (curPage - 1);
+                var startAt = itemsPerPage * curPage;
                 var number = 0 + startAt;
                 var desc = string.Join("\n", musicPlayer.Playlist
                         .Skip(startAt)
@@ -277,7 +278,7 @@ namespace NadekoBot.Modules.Music
 
 
                 var embed = new EmbedBuilder()
-                    .WithAuthor(eab => eab.WithName(GetText("player_queue", curPage, lastPage + 1))
+                    .WithAuthor(eab => eab.WithName(GetText("player_queue", curPage + 1, lastPage + 1))
                         .WithMusicIcon())
                     .WithDescription(desc)
                     .WithFooter(ef => ef.WithText($"{musicPlayer.PrettyVolume} | {musicPlayer.Playlist.Count} " +
