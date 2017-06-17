@@ -42,11 +42,11 @@ namespace NadekoBot.Modules.Administration
             [Priority(0)]
             public async Task Prune(int count)
             {
+                count++;
                 if (count < 1)
                     return;
                 if (count > 1000)
                     count = 1000;
-                await Context.Message.DeleteAsync().ConfigureAwait(false);
                 await _prune.PruneWhere((ITextChannel)Context.Channel, count, x => true).ConfigureAwait(false);
             }
 
@@ -58,6 +58,9 @@ namespace NadekoBot.Modules.Administration
             [Priority(1)]
             public async Task Prune(IGuildUser user, int count = 100)
             {
+                if (user.Id == Context.User.Id)
+                    count++;
+
                 if (count < 1)
                     return;
 
