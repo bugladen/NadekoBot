@@ -249,14 +249,12 @@ namespace NadekoBot
             await Client.LoginAsync(TokenType.Bot, token).ConfigureAwait(false);
             await Client.StartAsync().ConfigureAwait(false);
 
-            // wait for all shards to be ready
-            int readyCount = 0;
-            foreach (var s in Client.Shards)
-                s.Ready += () => Task.FromResult(Interlocked.Increment(ref readyCount));
-
             _log.Info("Waiting for all shards to connect...");
-            while (readyCount < Client.Shards.Count)
-                await Task.Delay(100).ConfigureAwait(false);
+            while (!Client.Shards.All(x => x.ConnectionState == ConnectionState.Connected))
+            {
+                _log.Info("Connecting... {0}/{1}", Client.Shards.Count(x => x.ConnectionState == ConnectionState.Connected), Client.Shards.Count);
+                await Task.Delay(1000).ConfigureAwait(false);
+            }
         }
 
         public async Task RunAsync(params string[] args)
