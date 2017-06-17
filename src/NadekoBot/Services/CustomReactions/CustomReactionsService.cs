@@ -25,15 +25,17 @@ namespace NadekoBot.Services.CustomReactions
         private readonly DiscordShardedClient _client;
         private readonly PermissionService _perms;
         private readonly CommandHandler _cmd;
+        private readonly BotConfig _bc;
 
         public CustomReactionsService(PermissionService perms, DbService db, 
-            DiscordShardedClient client, CommandHandler cmd)
+            DiscordShardedClient client, CommandHandler cmd, BotConfig bc)
         {
             _log = LogManager.GetCurrentClassLogger();
             _db = db;
             _client = client;
             _perms = perms;
             _cmd = cmd;
+            _bc = bc;
 
             var sw = Stopwatch.StartNew();
             using (var uow = _db.UnitOfWork)
@@ -66,7 +68,7 @@ namespace NadekoBot.Services.CustomReactions
 
                         var hasTarget = cr.Response.ToLowerInvariant().Contains("%target%");
                         var trigger = cr.TriggerWithContext(umsg, _client).Trim().ToLowerInvariant();
-                        return ((hasTarget && content.StartsWith(trigger + " ")) || content == trigger);
+                        return ((hasTarget && content.StartsWith(trigger + " ")) || (_bc.CustomReactionsStartWith && content.StartsWith(trigger + " "))  || content == trigger);
                     }).ToArray();
 
                     if (rs.Length != 0)
@@ -87,7 +89,7 @@ namespace NadekoBot.Services.CustomReactions
                     return false;
                 var hasTarget = cr.Response.ToLowerInvariant().Contains("%target%");
                 var trigger = cr.TriggerWithContext(umsg, _client).Trim().ToLowerInvariant();
-                return ((hasTarget && content.StartsWith(trigger + " ")) || content == trigger);
+                return ((hasTarget && content.StartsWith(trigger + " ")) || (_bc.CustomReactionsStartWith && content.StartsWith(trigger + " ")) || content == trigger);
             }).ToArray();
             if (grs.Length == 0)
                 return null;

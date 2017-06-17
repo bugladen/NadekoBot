@@ -216,7 +216,7 @@ namespace NadekoBot.Modules.Administration
                 catch (Exception ex)
                 {
                     await ReplyErrorLocalized("self_assign_perms").ConfigureAwait(false);
-                    Console.WriteLine(ex);
+                    _log.Info(ex);
                     return;
                 }
                 var msg = await ReplyConfirmLocalized("self_assign_success",Format.Bold(role.Name)).ConfigureAwait(false);

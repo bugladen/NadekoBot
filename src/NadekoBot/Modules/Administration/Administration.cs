@@ -70,7 +70,7 @@ namespace NadekoBot.Modules.Administration
             catch (Exception ex)
             {
                 await ReplyErrorLocalized("setrole_err").ConfigureAwait(false);
-                Console.WriteLine(ex.ToString());
+                _log.Info(ex);
             }
         }
 

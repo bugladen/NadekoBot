@@ -94,9 +94,8 @@ namespace NadekoBot.Services.Administration
         private string GetText(IGuild guild, string key, params object[] replacements) =>
             _strings.GetText(key, guild.Id, "Administration".ToLowerInvariant(), replacements);
 
-        private async Task _client_UserUpdated(SocketUser before, SocketUser uAfter)
+        private Task _client_UserUpdated(SocketUser before, SocketUser uAfter)
         {
-            await Task.Yield();
             var _ = Task.Run(async () =>
             {
                 try
@@ -164,11 +163,11 @@ namespace NadekoBot.Services.Administration
                     // ignored
                 }
             });
+            return Task.CompletedTask;
         }
 
-        private async Task _client_UserVoiceStateUpdated_TTS(SocketUser iusr, SocketVoiceState before, SocketVoiceState after)
+        private Task _client_UserVoiceStateUpdated_TTS(SocketUser iusr, SocketVoiceState before, SocketVoiceState after)
         {
-            await Task.Yield();
             var _ = Task.Run(async () =>
             {
                 try
@@ -212,11 +211,11 @@ namespace NadekoBot.Services.Administration
                     // ignored
                 }
             });
+            return Task.CompletedTask;
         }
 
-        private async void MuteCommands_UserMuted(IGuildUser usr, MuteType muteType)
+        private void MuteCommands_UserMuted(IGuildUser usr, MuteType muteType)
         {
-            await Task.Yield();
             var _ = Task.Run(async () =>
             {
                 try
@@ -257,9 +256,8 @@ namespace NadekoBot.Services.Administration
             });
         }
 
-        private async void MuteCommands_UserUnmuted(IGuildUser usr, MuteType muteType)
+        private void MuteCommands_UserUnmuted(IGuildUser usr, MuteType muteType)
         {
-            await Task.Yield();
             var _ = Task.Run(async () =>
             {
                 try
@@ -301,9 +299,8 @@ namespace NadekoBot.Services.Administration
             });
         }
 
-        public async Task TriggeredAntiProtection(PunishmentAction action, ProtectionType protection, params IGuildUser[] users)
+        public Task TriggeredAntiProtection(PunishmentAction action, ProtectionType protection, params IGuildUser[] users)
         {
-            await Task.Yield();
             var _ = Task.Run(async () =>
             {
                 try
@@ -348,11 +345,11 @@ namespace NadekoBot.Services.Administration
                     // ignored
                 }
             });
+            return Task.CompletedTask;
         }
 
-        private async Task _client_GuildUserUpdated(SocketGuildUser before, SocketGuildUser after)
+        private Task _client_GuildUserUpdated(SocketGuildUser before, SocketGuildUser after)
         {
-            await Task.Yield();
             var _ = Task.Run(async () =>
             {
                 try
@@ -397,11 +394,11 @@ namespace NadekoBot.Services.Administration
                     // ignored
                 }
             });
+            return Task.CompletedTask;
         }
 
-        private async Task _client_ChannelUpdated(IChannel cbefore, IChannel cafter)
+        private Task _client_ChannelUpdated(IChannel cbefore, IChannel cafter)
         {
-            await Task.Yield();
             var _ = Task.Run(async () =>
             {
                 try
@@ -448,11 +445,11 @@ namespace NadekoBot.Services.Administration
                     // ignored
                 }
             });
+            return Task.CompletedTask;
         }
 
-        private async Task _client_ChannelDestroyed(IChannel ich)
+        private Task _client_ChannelDestroyed(IChannel ich)
         {
-            await Task.Yield();
             var _ = Task.Run(async () =>
             {
                 try
@@ -487,11 +484,11 @@ namespace NadekoBot.Services.Administration
                     // ignored
                 }
             });
+            return Task.CompletedTask;
         }
 
-        private async Task _client_ChannelCreated(IChannel ich)
+        private Task _client_ChannelCreated(IChannel ich)
         {
-            await Task.Yield();
             var _ = Task.Run(async () =>
             {
                 try
@@ -522,11 +519,11 @@ namespace NadekoBot.Services.Administration
                 }
                 catch (Exception ex) { _log.Warn(ex); }
             });
+            return Task.CompletedTask;
         }
 
-        private async Task _client_UserVoiceStateUpdated(SocketUser iusr, SocketVoiceState before, SocketVoiceState after)
+        private Task _client_UserVoiceStateUpdated(SocketUser iusr, SocketVoiceState before, SocketVoiceState after)
         {
-            await Task.Yield();
             var _ = Task.Run(async () =>
             {
                 try
@@ -576,11 +573,11 @@ namespace NadekoBot.Services.Administration
                     // ignored
                 }
             });
+            return Task.CompletedTask;
         }
 
-        private async Task _client_UserPresenceUpdated(Optional<SocketGuild> optGuild, SocketUser usr, SocketPresence before, SocketPresence after)
+        private Task _client_UserPresenceUpdated(Optional<SocketGuild> optGuild, SocketUser usr, SocketPresence before, SocketPresence after)
         {
-            await Task.Yield();
             var _ = Task.Run(async () =>
             {
                 try
@@ -619,11 +616,11 @@ namespace NadekoBot.Services.Administration
                     // ignored
                 }
             });
+            return Task.CompletedTask;
         }
 
-        private async Task _client_UserLeft(IGuildUser usr)
+        private Task _client_UserLeft(IGuildUser usr)
         {
-            await Task.Yield();
             var _ = Task.Run(async () =>
             {
                 try
@@ -649,6 +646,7 @@ namespace NadekoBot.Services.Administration
                     // ignored
                 }
             });
+            return Task.CompletedTask;
         }
 
         private Task _client_UserJoined(IGuildUser usr)
@@ -678,9 +676,8 @@ namespace NadekoBot.Services.Administration
             return Task.CompletedTask;
         }
 
-        private async Task _client_UserUnbanned(IUser usr, IGuild guild)
+        private Task _client_UserUnbanned(IUser usr, IGuild guild)
         {
-            await Task.Yield();
             var _ = Task.Run(async () =>
             {
                 try
@@ -703,11 +700,11 @@ namespace NadekoBot.Services.Administration
                 }
                 catch (Exception ex) { _log.Warn(ex); }
             });
+            return Task.CompletedTask;
         }
 
-        private async Task _client_UserBanned(IUser usr, IGuild guild)
+        private Task _client_UserBanned(IUser usr, IGuild guild)
         {
-            await Task.Yield();
             var _ = Task.Run(async () =>
             {
                 try
@@ -729,11 +726,11 @@ namespace NadekoBot.Services.Administration
                 }
                 catch (Exception ex) { _log.Warn(ex); }
             });
+            return Task.CompletedTask;
         }
 
-        private async Task _client_MessageDeleted(Cacheable<IMessage, ulong> optMsg, ISocketMessageChannel ch)
+        private Task _client_MessageDeleted(Cacheable<IMessage, ulong> optMsg, ISocketMessageChannel ch)
         {
-            await Task.Yield();
             var _ = Task.Run(async () =>
             {
                 try
@@ -772,11 +769,11 @@ namespace NadekoBot.Services.Administration
                     // ignored
                 }
             });
+            return Task.CompletedTask;
         }
 
-        private async Task _client_MessageUpdated(Cacheable<IMessage, ulong> optmsg, SocketMessage imsg2, ISocketMessageChannel ch)
+        private Task _client_MessageUpdated(Cacheable<IMessage, ulong> optmsg, SocketMessage imsg2, ISocketMessageChannel ch)
         {
-            await Task.Yield();
             var _ = Task.Run(async () =>
             {
                 try
@@ -821,6 +818,7 @@ namespace NadekoBot.Services.Administration
                     // ignored
                 }
             });
+            return Task.CompletedTask;
         }
 
         public enum LogType

@@ -67,6 +67,7 @@ Nadeko Support Server: https://discord.gg/nadekobot";
         public HashSet<BlockedCmdOrMdl> BlockedModules { get; set; }
         public int PermissionVersion { get; set; } = 1;
         public string DefaultPrefix { get; set; } = ".";
+        public bool CustomReactionsStartWith { get; set; } = false;
     }
 
     public class BlockedCmdOrMdl : DbEntity

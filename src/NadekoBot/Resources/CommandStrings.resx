@@ -2779,7 +2779,7 @@
     <value>Shows a list of hangman term types.</value>
   </data>
   <data name="hangmanlist_usage" xml:space="preserve">
-    <value>`{0} hangmanlist`</value>
+    <value>`{0}hangmanlist`</value>
   </data>
   <data name="hangman_cmd" xml:space="preserve">
     <value>hangman</value>

@@ -181,7 +181,7 @@ Commands and aliases | Description | Usage
 `.claimwaifu` `.claim` | Claim a waifu for yourself by spending currency.  You must spend at least 10% more than her current value unless she set `.affinity` towards you.  | `.claim 50 @Himesama`
 `.divorce` | Releases your claim on a specific waifu. You will get some of the money you've spent back unless that waifu has an affinity towards you. 6 hours cooldown.  | `.divorce @CheatingSloot`
 `.affinity` | Sets your affinity towards someone you want to be claimed by. Setting affinity will reduce their `.claim` on you by 20%. You can leave second argument empty to clear your affinity. 30 minutes cooldown.  | `.affinity @MyHusband` or `.affinity`
-`.waifus` `.waifulb` | Shows top 9 waifus.  | `.waifus`
+`.waifus` `.waifulb` | Shows top 9 waifus. You can specify another page to show other waifus.  | `.waifus` or `.waifulb 3`
 `.waifuinfo` `.waifustats` | Shows waifu stats for a target person. Defaults to you if no user is provided.  | `.waifuinfo @MyCrush` or `.waifuinfo`
 
 ###### [Back to ToC](#table-of-contents)
@@ -197,7 +197,7 @@ Commands and aliases | Description | Usage
 `.linux` | Prints a customizable Linux interjection  | `.linux Spyware Windows`
 `.acrophobia` `.acro` | Starts an Acrophobia game. Second argument is optional round length in seconds. (default is 60)  | `.acro` or `.acro 30`
 `.cleverbot` | Toggles cleverbot session. When enabled, the bot will reply to messages starting with bot mention in the server. Custom reactions starting with %mention% won't work if cleverbot is enabled. **Requires ManageMessages server permission.** | `.cleverbot`
-`.hangmanlist` | Shows a list of hangman term types.  | `. hangmanlist`
+`.hangmanlist` | Shows a list of hangman term types.  | `.hangmanlist`
 `.hangman` | Starts a game of hangman in the channel. Use `.hangmanlist` to see a list of available term types. Defaults to 'all'.  | `.hangman` or `.hangman movies`
 `.pick` | Picks the currency planted in this channel. 60 seconds cooldown.  | `.pick`
 `.plant` | Spend an amount of currency to plant it in this channel. Default is 1. (If bot is restarted or crashes, the currency will be lost)  | `.plant` or `.plant 5`
@@ -239,6 +239,7 @@ Commands and aliases | Description | Usage
 `.pause` `.p` | Pauses or Unpauses the song.  | `.p`
 `.fairplay` `.fp` | Toggles fairplay. While enabled, the bot will prioritize songs from users who didn't have their song recently played instead of the song's position in the queue.  | `.fp`
 `.queue` `.q` `.yq` | Queue a song using keywords or a link. Bot will join your voice channel. **You must be in a voice channel**.  | `.q Dream Of Venice`
+`.queuesearch` `.qs` `.yqs` | Search for top 5 youtube song result using keywords, and type the index of the song to play that song. Bot will join your voice channel. **You must be in a voice channel**.  | `.qs Dream Of Venice`
 `.soundcloudqueue` `.sq` | Queue a soundcloud song using keywords. Bot will join your voice channel. **You must be in a voice channel**.  | `.sq Dream Of Venice`
 `.listqueue` `.lq` | Lists 15 currently queued songs per page. Default page is 1.  | `.lq` or `.lq 2`
 `.nowplaying` `.np` | Shows the song that the bot is currently playing.  | `.np`
@@ -317,6 +318,8 @@ Commands and aliases | Description | Usage
 `.listglobalperms` `.lgp` | Lists global permissions set by the bot owner. **Bot owner only** | `.lgp`
 `.globalmodule` `.gmod` | Toggles whether a module can be used on any server. **Bot owner only** | `.gmod nsfw`
 `.globalcommand` `.gcmd` | Toggles whether a command can be used on any server. **Bot owner only** | `.gcmd .stats`
+`.resetperms` | Resets the bot's permissions module on this server to the default value. **Requires Administrator server permission.** | `.resetperms`
+`.resetglobalperms` | Resets global permissions set by bot owner. **Bot owner only** | `.resetglobalperms`
 
 ###### [Back to ToC](#table-of-contents)
 
@@ -432,7 +435,7 @@ Commands and aliases | Description | Usage
 `.qsearch` | Shows a random quote for a keyword that contains any text specified in the search.  | `.qsearch keyword text`
 `.quoteid` `.qid` | Displays the quote with the specified ID number. Quote ID numbers can be found by typing `.liqu [num]` where `[num]` is a number of a page which contains 15 quotes.  | `.qid 123456`
 `..` | Adds a new quote with the specified name and message.  | `.. sayhi Hi`
-`.deletequote_cmd` | deletequote_desc  | deletequote_usage
+`.quotedel` `.qdel` | Deletes a quote with the specified ID. You have to be either server Administrator or the creator of the quote to delete it.  | `.qdel 123456`
 `.delallq` `.daq` | Deletes all quotes on a specified keyword. **Requires Administrator server permission.** | `.delallq kek`
 `.remind` | Sends a message to you or a channel after certain amount of time. First argument is `me`/`here`/'channelname'. Second argument is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third argument is a (multiword) message.  | `.remind me 1d5h Do something` or `.remind #general 1m Start now!`
 `.remindtemplate` | Sets message for when the remind is triggered.  Available placeholders are `%user%` - user who ran the command, `%message%` - Message specified in the remind, `%target%` - target channel of the remind. **Bot owner only** | `.remindtemplate %user%, do %message%!`

@@ -27,6 +27,8 @@ using NadekoBot.Services.Utility;
 using NadekoBot.Services.Help;
 using System.IO;
 using NadekoBot.Services.Pokemon;
+using NadekoBot.DataStructures;
+using NadekoBot.Extensions;
 
 namespace NadekoBot
 {
@@ -143,7 +145,7 @@ namespace NadekoBot
 
             var clashService = new ClashOfClansService(Client, Db, Localization, Strings);
             var musicService = new MusicService(GoogleApi, Strings, Localization, Db, soundcloudApiService, Credentials, AllGuildConfigs);
-            var crService = new CustomReactionsService(permissionsService, Db, Client, CommandHandler);
+            var crService = new CustomReactionsService(permissionsService, Db, Client, CommandHandler, BotConfig);
 
             #region Games
             var gamesService = new GamesService(Client, BotConfig, AllGuildConfigs, Strings, Images, CommandHandler);
@@ -194,6 +196,7 @@ namespace NadekoBot
                     .Add(repeaterService)
                     .Add(converterService)
                     .Add(verboseErrorsService)
+                    .Add(patreonRewardsService)
                 .Add<SearchesService>(searchesService)
                     .Add(streamNotificationService)
                     .Add(animeSearchService)
@@ -278,7 +281,7 @@ namespace NadekoBot
 
             var _ = await CommandService.AddModulesAsync(this.GetType().GetTypeInfo().Assembly);
 
-            
+
             //Console.WriteLine(string.Join(", ", CommandService.Commands
             //    .Distinct(x => x.Name + x.Module.Name)
             //    .SelectMany(x => x.Aliases)
@@ -286,8 +289,8 @@ namespace NadekoBot
             //    .Where(x => x.Count() > 1)
             //    .Select(x => x.Key + $"({x.Count()})")));
 
-#if GLOBAL_NADEKO
-            //unload modules which are not available on the public bot
+//unload modules which are not available on the public bot
+#if GLOBAL_NADEKO   
             CommandService
                 .Modules
                 .ToArray()
@@ -330,23 +333,16 @@ namespace NadekoBot
 
         private static void SetupLogger()
         {
-            try
+            var logConfig = new LoggingConfiguration();
+            var consoleTarget = new ColoredConsoleTarget()
             {
-                var logConfig = new LoggingConfiguration();
-                var consoleTarget = new ColoredConsoleTarget()
-                {
-                    Layout = @"${date:format=HH\:mm\:ss} ${logger} | ${message}"
-                };
-                logConfig.AddTarget("Console", consoleTarget);
+                Layout = @"${date:format=HH\:mm\:ss} ${logger} | ${message}"
+            };
+            logConfig.AddTarget("Console", consoleTarget);
 
-                logConfig.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, consoleTarget));
+            logConfig.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, consoleTarget));
 
-                LogManager.Configuration = logConfig;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
+            LogManager.Configuration = logConfig;
         }
     }
 }

@@ -47,20 +47,26 @@ namespace NadekoBot.Services.Impl
 
             _client.ChannelCreated += (c) =>
             {
-                if (c is ITextChannel)
-                    Interlocked.Increment(ref _textChannels);
-                else if (c is IVoiceChannel)
-                    Interlocked.Increment(ref _voiceChannels);
+                var _ = Task.Run(() =>
+                {
+                    if (c is ITextChannel)
+                        Interlocked.Increment(ref _textChannels);
+                    else if (c is IVoiceChannel)
+                        Interlocked.Increment(ref _voiceChannels);
+                });
 
                 return Task.CompletedTask;
             };
 
             _client.ChannelDestroyed += (c) =>
             {
-                if (c is ITextChannel)
-                    Interlocked.Decrement(ref _textChannels);
-                else if (c is IVoiceChannel)
-                    Interlocked.Decrement(ref _voiceChannels);
+                var _ = Task.Run(() =>
+                {
+                    if (c is ITextChannel)
+                        Interlocked.Decrement(ref _textChannels);
+                    else if (c is IVoiceChannel)
+                        Interlocked.Decrement(ref _voiceChannels);
+                });
 
                 return Task.CompletedTask;
             };

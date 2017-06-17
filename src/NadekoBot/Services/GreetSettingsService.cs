@@ -141,7 +141,7 @@ namespace NadekoBot.Services
                         if (channel != null)
                         {
                             CREmbed embedData;
-                            if (CREmbed.TryParse(conf.ChannelGreetMessageText, out embedData))
+                            if (CREmbed.TryParse(conf.DmGreetMessageText, out embedData))
                             {
                                 embedData.PlainText = embedData.PlainText?.Replace("%user%", user.ToString()).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);
                                 embedData.Description = embedData.Description?.Replace("%user%", user.ToString()).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);

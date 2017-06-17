@@ -250,12 +250,16 @@ namespace NadekoBot.Modules.Gambling
 
                 private Task Client_MessageReceived(SocketMessage imsg)
                 {
-                    var msg = imsg as SocketUserMessage;
-                    if (msg == null)
+                    var _ = Task.Run(() =>
+                    {
+                        var msg = imsg as SocketUserMessage;
+                        if (msg == null)
+                            return Task.CompletedTask;
+                        if ((msg.Author.Id == _client.CurrentUser.Id) || !(imsg.Channel is ITextChannel) || imsg.Channel != _raceChannel)
+                            return Task.CompletedTask;
+                        Interlocked.Increment(ref _messagesSinceGameStarted);
                         return Task.CompletedTask;
-                    if ((msg.Author.Id == _client.CurrentUser.Id) || !(imsg.Channel is ITextChannel) || imsg.Channel != _raceChannel)
-                        return Task.CompletedTask;
-                    Interlocked.Increment(ref _messagesSinceGameStarted);
+                    });
                     return Task.CompletedTask;
                 }
 

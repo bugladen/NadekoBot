@@ -184,9 +184,8 @@ $@"--
                 await End().ConfigureAwait(false);
             }
 
-            private async Task PotentialAcro(SocketMessage arg)
+            private Task PotentialAcro(SocketMessage arg)
             {
-                await Task.Yield();
                 var _ = Task.Run(async () =>
                 {
                     try
@@ -285,6 +284,7 @@ $@"--
                         _log.Warn(ex);
                     }
                 });
+                return Task.CompletedTask;
             }
 
             public async Task End()

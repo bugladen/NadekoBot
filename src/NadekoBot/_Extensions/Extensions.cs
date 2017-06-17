@@ -94,7 +94,10 @@ namespace NadekoBot.Extensions
                         }
                     }
                 }
-                catch (Exception ex) { Console.WriteLine(ex); }
+                catch (Exception)
+                {
+                    //ignored
+                }
             };
 
             using (msg.OnReaction(client, changePage, changePage))

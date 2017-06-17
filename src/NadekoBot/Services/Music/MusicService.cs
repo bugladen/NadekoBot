@@ -281,7 +281,7 @@ namespace NadekoBot.Services.Music
                     {
                         Title = svideo.FullName,
                         Provider = "SoundCloud",
-                        Uri = svideo.GetStreamLink(_creds),
+                        Uri = await svideo.StreamLink(),
                         ProviderType = musicType,
                         Query = svideo.TrackLink,
                         AlbumArt = svideo.artwork_url,
@@ -296,7 +296,7 @@ namespace NadekoBot.Services.Music
                     {
                         Title = svideo.FullName,
                         Provider = "SoundCloud",
-                        Uri = svideo.GetStreamLink(_creds),
+                        Uri = await svideo.StreamLink(),
                         ProviderType = MusicType.Soundcloud,
                         Query = svideo.TrackLink,
                         AlbumArt = svideo.artwork_url,

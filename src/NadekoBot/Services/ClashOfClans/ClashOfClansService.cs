@@ -128,7 +128,6 @@ namespace NadekoBot.Services.ClashOfClans
                         SequenceNumber = i,
                     });
                 }
-                Console.WriteLine(cw.Bases.Capacity);
                 uow.ClashOfClans.Add(cw);
                 await uow.CompleteAsync();
                 return cw;
