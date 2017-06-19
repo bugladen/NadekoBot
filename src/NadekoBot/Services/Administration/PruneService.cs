@@ -12,7 +12,7 @@ namespace NadekoBot.Services.Administration
     public class PruneService
     {
         //channelids where prunes are currently occuring
-        private ConcurrentHashSet<ulong> _pruningChannels = new ConcurrentHashSet<ulong>();
+        private ConcurrentHashSet<ulong> _pruningGuilds = new ConcurrentHashSet<ulong>();
         private readonly TimeSpan twoWeeks = TimeSpan.FromDays(14);
 
         public async Task PruneWhere(ITextChannel channel, int amount, Func<IMessage, bool> predicate)
@@ -21,14 +21,14 @@ namespace NadekoBot.Services.Administration
             if (amount <= 0)
                 throw new ArgumentOutOfRangeException(nameof(amount));
 
-            if (!_pruningChannels.Add(channel.Id))
+            if (!_pruningGuilds.Add(channel.GuildId))
                 return;
 
             try
             {
                 IMessage[] msgs;
                 IMessage lastMessage = null;
-                msgs = (await channel.GetMessagesAsync().Flatten()).Where(predicate).Take(amount).ToArray();
+                msgs = (await channel.GetMessagesAsync(50).Flatten()).Where(predicate).Take(amount).ToArray();
                 while (amount > 0 && msgs.Any())
                 {
                     lastMessage = msgs[msgs.Length - 1];
@@ -52,9 +52,9 @@ namespace NadekoBot.Services.Administration
 
                     //this isn't good, because this still work as if i want to remove only specific user's messages from the last
                     //100 messages, Maybe this needs to be reduced by msgs.Length instead of 100
-                    amount -= 100;
+                    amount -= 50;
                     if(amount > 0)
-                        msgs = (await channel.GetMessagesAsync(lastMessage, Direction.Before).Flatten()).Where(predicate).Take(amount).ToArray();
+                        msgs = (await channel.GetMessagesAsync(lastMessage, Direction.Before, 50).Flatten()).Where(predicate).Take(amount).ToArray();
                 }
             }
             catch
@@ -63,7 +63,7 @@ namespace NadekoBot.Services.Administration
             }
             finally
             {
-                _pruningChannels.TryRemove(channel.Id);
+                _pruningGuilds.TryRemove(channel.GuildId);
             }
         }
     }
