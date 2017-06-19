@@ -13,9 +13,9 @@ namespace NadekoBot.Services.Utility
     {
         public readonly ConcurrentDictionary<int, ConcurrentHashSet<ITextChannel>> Subscribers =
             new ConcurrentDictionary<int, ConcurrentHashSet<ITextChannel>>();
-        private DiscordShardedClient _client;
+        private DiscordSocketClient _client;
 
-        public CrossServerTextService(IEnumerable<GuildConfig> guildConfigs, DiscordShardedClient client)
+        public CrossServerTextService(IEnumerable<GuildConfig> guildConfigs, DiscordSocketClient client)
         {
             _client = client;
             _client.MessageReceived += Client_MessageReceived;

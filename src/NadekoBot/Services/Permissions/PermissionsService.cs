@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿
+using Microsoft.EntityFrameworkCore;
 using NadekoBot.DataStructures.ModuleBehaviors;
 using NadekoBot.Services.Database.Models;
 using NLog;
@@ -183,7 +184,7 @@ WHERE secondaryTargetName LIKE '.%' OR
             });
         }
 
-        public async Task<bool> TryBlockLate(DiscordShardedClient client, IUserMessage msg, IGuild guild, IMessageChannel channel, IUser user, string moduleName, string commandName)
+        public async Task<bool> TryBlockLate(DiscordSocketClient client, IUserMessage msg, IGuild guild, IMessageChannel channel, IUser user, string moduleName, string commandName)
         {
             await Task.Yield();
             if (guild == null)

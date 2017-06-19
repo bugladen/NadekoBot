@@ -18,12 +18,12 @@ namespace NadekoBot.Modules.Games
         public class TriviaCommands : NadekoSubmodule
         {
             private readonly CurrencyService _cs;
-            private readonly DiscordShardedClient _client;
+            private readonly DiscordSocketClient _client;
             private readonly BotConfig _bc;
 
             public static ConcurrentDictionary<ulong, TriviaGame> RunningTrivias { get; } = new ConcurrentDictionary<ulong, TriviaGame>();
 
-            public TriviaCommands(DiscordShardedClient client, BotConfig bc, CurrencyService cs)
+            public TriviaCommands(DiscordSocketClient client, BotConfig bc, CurrencyService cs)
             {
                 _cs = cs;
                 _client = client;

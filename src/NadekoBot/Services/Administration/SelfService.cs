@@ -23,11 +23,11 @@ namespace NadekoBot.Services.Administration
         private readonly Logger _log;
         private readonly ILocalization _localization;
         private readonly NadekoStrings _strings;
-        private readonly DiscordShardedClient _client;
+        private readonly DiscordSocketClient _client;
         private readonly IBotCredentials _creds;
         private ImmutableArray<AsyncLazy<IDMChannel>> ownerChannels = new ImmutableArray<AsyncLazy<IDMChannel>>();
 
-        public SelfService(DiscordShardedClient client, NadekoBot bot, CommandHandler cmdHandler, DbService db,
+        public SelfService(DiscordSocketClient client, NadekoBot bot, CommandHandler cmdHandler, DbService db,
             BotConfig bc, ILocalization localization, NadekoStrings strings, IBotCredentials creds)
         {
             _bot = bot;
@@ -69,10 +69,7 @@ namespace NadekoBot.Services.Administration
 
                 LoadOwnerChannels();
 
-                if (!ownerChannels.Any())
-                    _log.Warn("No owner channels created! Make sure you've specified correct OwnerId in the credentials.json file.");
-                else
-                    _log.Info($"Created {ownerChannels.Length} out of {_creds.OwnerIds.Length} owner message channels.");
+                
             });
         }
 
@@ -81,11 +78,9 @@ namespace NadekoBot.Services.Administration
             var hs = new HashSet<ulong>(_creds.OwnerIds);
             var channels = new Dictionary<ulong, AsyncLazy<IDMChannel>>();
 
-            foreach (var s in _client.Shards)
+            if (hs.Count > 0)
             {
-                if (hs.Count == 0)
-                    break;
-                foreach (var g in s.Guilds)
+                foreach (var g in _client.Guilds)
                 {
                     if (hs.Count == 0)
                         break;
@@ -101,14 +96,19 @@ namespace NadekoBot.Services.Administration
                     }
                 }
             }
-
+            
             ownerChannels = channels.OrderBy(x => _creds.OwnerIds.IndexOf(x.Key))
                     .Select(x => x.Value)
                     .ToImmutableArray();
+
+            if (!ownerChannels.Any())
+                _log.Warn("No owner channels created! Make sure you've specified correct OwnerId in the credentials.json file.");
+            else
+                _log.Info($"Created {ownerChannels.Length} out of {_creds.OwnerIds.Length} owner message channels.");
         }
 
         // forwards dms
-        public async Task LateExecute(DiscordShardedClient client, IGuild guild, IUserMessage msg)
+        public async Task LateExecute(DiscordSocketClient client, IGuild guild, IUserMessage msg)
         {
             if (msg.Channel is IDMChannel && ForwardDMs && ownerChannels.Length > 0)
             {

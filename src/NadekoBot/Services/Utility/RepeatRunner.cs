@@ -22,7 +22,7 @@ namespace NadekoBot.Services.Utility
         private IUserMessage oldMsg = null;
         private Timer _t;
 
-        public RepeatRunner(DiscordShardedClient client, Repeater repeater)
+        public RepeatRunner(DiscordSocketClient client, Repeater repeater)
         {
             _log = LogManager.GetCurrentClassLogger();
             Repeater = repeater;

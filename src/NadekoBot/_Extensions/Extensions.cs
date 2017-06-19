@@ -70,7 +70,7 @@ namespace NadekoBot.Extensions
         /// <summary>
         /// danny kamisama
         /// </summary>
-        public static async Task SendPaginatedConfirmAsync(this IMessageChannel channel, DiscordShardedClient client, int currentPage, Func<int, EmbedBuilder> pageFunc, int? lastPage = null, bool addPaginatedFooter = true)
+        public static async Task SendPaginatedConfirmAsync(this IMessageChannel channel, DiscordSocketClient client, int currentPage, Func<int, EmbedBuilder> pageFunc, int? lastPage = null, bool addPaginatedFooter = true)
         {
             var embed = pageFunc(currentPage);
 
@@ -134,7 +134,7 @@ namespace NadekoBot.Extensions
                 return embed.WithFooter(efb => efb.WithText(curPage.ToString()));
         }
 
-        public static ReactionEventWrapper OnReaction(this IUserMessage msg, DiscordShardedClient client, Action<SocketReaction> reactionAdded, Action<SocketReaction> reactionRemoved = null)
+        public static ReactionEventWrapper OnReaction(this IUserMessage msg, DiscordSocketClient client, Action<SocketReaction> reactionAdded, Action<SocketReaction> reactionRemoved = null)
         {
             if (reactionRemoved == null)
                 reactionRemoved = delegate { };

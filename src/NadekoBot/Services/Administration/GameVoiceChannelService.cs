@@ -16,9 +16,9 @@ namespace NadekoBot.Services.Administration
 
         private readonly Logger _log;
         private readonly DbService _db;
-        private readonly DiscordShardedClient _client;
+        private readonly DiscordSocketClient _client;
 
-        public GameVoiceChannelService(DiscordShardedClient client, DbService db, IEnumerable<GuildConfig> gcs)
+        public GameVoiceChannelService(DiscordSocketClient client, DbService db, IEnumerable<GuildConfig> gcs)
         {
             _log = LogManager.GetCurrentClassLogger();
             _db = db;

@@ -24,7 +24,7 @@ namespace NadekoBot.Services.Help
             _strings = strings;
         }
 
-        public async Task LateExecute(DiscordShardedClient client, IGuild guild, IUserMessage msg)
+        public async Task LateExecute(DiscordSocketClient client, IGuild guild, IUserMessage msg)
         {
             try
             {

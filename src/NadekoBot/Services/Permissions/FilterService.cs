@@ -41,7 +41,7 @@ namespace NadekoBot.Services.Permissions
             return words;
         }
 
-        public FilterService(DiscordShardedClient _client, IEnumerable<GuildConfig> gcs)
+        public FilterService(DiscordSocketClient _client, IEnumerable<GuildConfig> gcs)
         {
             _log = LogManager.GetCurrentClassLogger();
 

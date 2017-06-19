@@ -21,7 +21,7 @@ namespace NadekoBot.Services.Permissions
                                  v => new ConcurrentHashSet<CommandCooldown>(v.CommandCooldowns)));
         }
 
-        public Task<bool> TryBlockLate(DiscordShardedClient client, IUserMessage msg, IGuild guild, 
+        public Task<bool> TryBlockLate(DiscordSocketClient client, IUserMessage msg, IGuild guild, 
             IMessageChannel channel, IUser user, string moduleName, string commandName)
         {
             if (guild == null)

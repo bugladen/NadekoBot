@@ -56,7 +56,7 @@ namespace NadekoBot.Modules.Games.Hangman
     public class HangmanGame: IDisposable
     {
         private readonly Logger _log;
-        private readonly DiscordShardedClient _client;
+        private readonly DiscordSocketClient _client;
 
         public IMessageChannel GameChannel { get; }
         public HashSet<char> Guesses { get; } = new HashSet<char>();
@@ -82,7 +82,7 @@ namespace NadekoBot.Modules.Games.Hangman
 
         public event Action<HangmanGame> OnEnded;
 
-        public HangmanGame(DiscordShardedClient client, IMessageChannel channel, string type)
+        public HangmanGame(DiscordSocketClient client, IMessageChannel channel, string type)
         {
             _log = LogManager.GetCurrentClassLogger();
             _client = client;

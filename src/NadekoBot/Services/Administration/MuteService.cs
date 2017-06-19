@@ -33,10 +33,10 @@ namespace NadekoBot.Services.Administration
         private static readonly OverwritePermissions denyOverwrite = new OverwritePermissions(sendMessages: PermValue.Deny, attachFiles: PermValue.Deny);
 
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
-        private readonly DiscordShardedClient _client;
+        private readonly DiscordSocketClient _client;
         private readonly DbService _db;
 
-        public MuteService(DiscordShardedClient client, IEnumerable<GuildConfig> gcs, DbService db)
+        public MuteService(DiscordSocketClient client, IEnumerable<GuildConfig> gcs, DbService db)
         {
             _client = client;
             _db = db;

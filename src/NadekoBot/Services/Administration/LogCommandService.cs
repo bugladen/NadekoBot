@@ -16,7 +16,7 @@ namespace NadekoBot.Services.Administration
     public class LogCommandService
     {
 
-        private readonly DiscordShardedClient _client;
+        private readonly DiscordSocketClient _client;
         private readonly Logger _log;
 
         private string PrettyCurrentTime => $"【{DateTime.UtcNow:HH:mm:ss}】";
@@ -31,7 +31,7 @@ namespace NadekoBot.Services.Administration
         private readonly MuteService _mute;
         private readonly ProtectionService _prot;
 
-        public LogCommandService(DiscordShardedClient client, NadekoStrings strings,
+        public LogCommandService(DiscordSocketClient client, NadekoStrings strings,
             IEnumerable<GuildConfig> gcs, DbService db, MuteService mute, ProtectionService prot)
         {
             _client = client;
@@ -74,7 +74,7 @@ namespace NadekoBot.Services.Administration
             _client.UserUnbanned += _client_UserUnbanned;
             _client.UserJoined += _client_UserJoined;
             _client.UserLeft += _client_UserLeft;
-            _client.UserPresenceUpdated += _client_UserPresenceUpdated;
+            //_client.UserPresenceUpdated += _client_UserPresenceUpdated;
             _client.UserVoiceStateUpdated += _client_UserVoiceStateUpdated;
             _client.UserVoiceStateUpdated += _client_UserVoiceStateUpdated_TTS;
             _client.GuildMemberUpdated += _client_GuildUserUpdated;
@@ -576,48 +576,48 @@ namespace NadekoBot.Services.Administration
             return Task.CompletedTask;
         }
 
-        private Task _client_UserPresenceUpdated(Optional<SocketGuild> optGuild, SocketUser usr, SocketPresence before, SocketPresence after)
-        {
-            var _ = Task.Run(async () =>
-            {
-                try
-                {
-                    var guild = optGuild.GetValueOrDefault() ?? (usr as SocketGuildUser)?.Guild;
+        //private Task _client_UserPresenceUpdated(Optional<SocketGuild> optGuild, SocketUser usr, SocketPresence before, SocketPresence after)
+        //{
+        //    var _ = Task.Run(async () =>
+        //    {
+        //        try
+        //        {
+        //            var guild = optGuild.GetValueOrDefault() ?? (usr as SocketGuildUser)?.Guild;
 
-                    if (guild == null)
-                        return;
+        //            if (guild == null)
+        //                return;
 
-                    if (!GuildLogSettings.TryGetValue(guild.Id, out LogSetting logSetting)
-                        || (logSetting.LogUserPresenceId == null)
-                        || before.Status == after.Status)
-                        return;
+        //            if (!GuildLogSettings.TryGetValue(guild.Id, out LogSetting logSetting)
+        //                || (logSetting.LogUserPresenceId == null)
+        //                || before.Status == after.Status)
+        //                return;
 
-                    ITextChannel logChannel;
-                    if ((logChannel = await TryGetLogChannel(guild, logSetting, LogType.UserPresence)) == null)
-                        return;
-                    string str = "";
-                    if (before.Status != after.Status)
-                        str = "🎭" + Format.Code(PrettyCurrentTime) +
-                              GetText(logChannel.Guild, "user_status_change",
-                                    "👤" + Format.Bold(usr.Username),
-                                    Format.Bold(after.Status.ToString()));
+        //            ITextChannel logChannel;
+        //            if ((logChannel = await TryGetLogChannel(guild, logSetting, LogType.UserPresence)) == null)
+        //                return;
+        //            string str = "";
+        //            if (before.Status != after.Status)
+        //                str = "🎭" + Format.Code(PrettyCurrentTime) +
+        //                      GetText(logChannel.Guild, "user_status_change",
+        //                            "👤" + Format.Bold(usr.Username),
+        //                            Format.Bold(after.Status.ToString()));
 
-                    //if (before.Game?.Name != after.Game?.Name)
-                    //{
-                    //    if (str != "")
-                    //        str += "\n";
-                    //    str += $"👾`{prettyCurrentTime}`👤__**{usr.Username}**__ is now playing **{after.Game?.Name}**.";
-                    //}
+        //            //if (before.Game?.Name != after.Game?.Name)
+        //            //{
+        //            //    if (str != "")
+        //            //        str += "\n";
+        //            //    str += $"👾`{prettyCurrentTime}`👤__**{usr.Username}**__ is now playing **{after.Game?.Name}**.";
+        //            //}
 
-                    PresenceUpdates.AddOrUpdate(logChannel, new List<string>() { str }, (id, list) => { list.Add(str); return list; });
-                }
-                catch
-                {
-                    // ignored
-                }
-            });
-            return Task.CompletedTask;
-        }
+        //            PresenceUpdates.AddOrUpdate(logChannel, new List<string>() { str }, (id, list) => { list.Add(str); return list; });
+        //        }
+        //        catch
+        //        {
+        //            // ignored
+        //        }
+        //    });
+        //    return Task.CompletedTask;
+        //}
 
         private Task _client_UserLeft(IGuildUser usr)
         {

@@ -24,8 +24,10 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                 }
             };
 
-        public IEnumerable<GuildConfig> GetAllGuildConfigs() =>
-            _set.Include(gc => gc.LogSetting)
+        public IEnumerable<GuildConfig> GetAllGuildConfigs(List<long> availableGuilds) =>
+            _set
+                .Where(gc => availableGuilds.Contains((long)gc.GuildId))
+                .Include(gc => gc.LogSetting)
                     .ThenInclude(ls => ls.IgnoredChannels)
                 .Include(gc => gc.MutedUsers)
                 .Include(gc => gc.CommandAliases)

@@ -12,12 +12,12 @@ namespace NadekoBot.Services.Administration
     public class AutoAssignRoleService
     {
         private readonly Logger _log;
-        private readonly DiscordShardedClient _client;
+        private readonly DiscordSocketClient _client;
 
         //guildid/roleid
         public ConcurrentDictionary<ulong, ulong> AutoAssignedRoles { get; }
 
-        public AutoAssignRoleService(DiscordShardedClient client, IEnumerable<GuildConfig> gcs)
+        public AutoAssignRoleService(DiscordSocketClient client, IEnumerable<GuildConfig> gcs)
         {
             _log = LogManager.GetCurrentClassLogger();
             _client = client;

@@ -17,7 +17,7 @@ namespace NadekoBot.Services.Administration
         public List<PlayingStatus> RotatingStatusMessages { get; }
         public volatile bool RotatingStatuses;
         private readonly Timer _t;
-        private readonly DiscordShardedClient _client;
+        private readonly DiscordSocketClient _client;
         private readonly BotConfig _bc;
         private readonly MusicService _music;
         private readonly Logger _log;
@@ -27,7 +27,7 @@ namespace NadekoBot.Services.Administration
             public int Index { get; set; }
         }
 
-        public PlayingRotateService(DiscordShardedClient client, BotConfig bc, MusicService music)
+        public PlayingRotateService(DiscordSocketClient client, BotConfig bc, MusicService music)
         {
             _client = client;
             _bc = bc;
@@ -36,7 +36,7 @@ namespace NadekoBot.Services.Administration
 
             RotatingStatusMessages = _bc.RotatingStatusMessages;
             RotatingStatuses = _bc.RotatingStatuses;
-
+            
             _t = new Timer(async (objState) =>
             {
                 try
@@ -52,17 +52,12 @@ namespace NadekoBot.Services.Administration
                     var status = RotatingStatusMessages[state.Index++].Status;
                     if (string.IsNullOrWhiteSpace(status))
                         return;
-                    PlayingPlaceholders.ForEach(e => status = status.Replace(e.Key, e.Value(_client,_music)));
-                    var shards = _client.Shards;
-                    for (int i = 0; i < shards.Count; i++)
+                    PlayingPlaceholders.ForEach(e => status = status.Replace(e.Key, e.Value(_client, _music)));
+                    ShardSpecificPlaceholders.ForEach(e => status = status.Replace(e.Key, e.Value(client)));
+                    try { await client.SetGameAsync(status).ConfigureAwait(false); }
+                    catch (Exception ex)
                     {
-                        var curShard = shards.ElementAt(i);
-                        ShardSpecificPlaceholders.ForEach(e => status = status.Replace(e.Key, e.Value(curShard)));
-                        try { await shards.ElementAt(i).SetGameAsync(status).ConfigureAwait(false); }
-                        catch (Exception ex)
-                        {
-                            _log.Warn(ex);
-                        }
+                        _log.Warn(ex);
                     }
                 }
                 catch (Exception ex)
@@ -72,8 +67,8 @@ namespace NadekoBot.Services.Administration
             }, new TimerState(), TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1));
         }
 
-        public Dictionary<string, Func<DiscordShardedClient, MusicService, string>> PlayingPlaceholders { get; } =
-            new Dictionary<string, Func<DiscordShardedClient, MusicService, string>> {
+        public Dictionary<string, Func<DiscordSocketClient, MusicService, string>> PlayingPlaceholders { get; } =
+            new Dictionary<string, Func<DiscordSocketClient, MusicService, string>> {
                     { "%servers%", (c, ms) => c.Guilds.Count.ToString()},
                     { "%users%", (c, ms) => c.Guilds.Sum(s => s.Users.Count).ToString()},
                     { "%playing%", (c, ms) => {
@@ -90,7 +85,6 @@ namespace NadekoBot.Services.Administration
                     },
                     { "%queued%", (c, ms) => ms.MusicPlayers.Sum(kvp => kvp.Value.Playlist.Count).ToString()},
                     { "%time%", (c, ms) => DateTime.Now.ToString("HH:mm " + TimeZoneInfo.Local.StandardName.GetInitials()) },
-                    { "%shardcount%", (c, ms) => c.Shards.Count.ToString() },
             };
 
         public Dictionary<string, Func<DiscordSocketClient, string>> ShardSpecificPlaceholders { get; } =

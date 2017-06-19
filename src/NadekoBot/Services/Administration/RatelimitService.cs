@@ -19,9 +19,9 @@ namespace NadekoBot.Services.Administration
         public ConcurrentDictionary<ulong, HashSet<ulong>> IgnoredUsers = new ConcurrentDictionary<ulong, HashSet<ulong>>();
 
         private readonly Logger _log;
-        private readonly DiscordShardedClient _client;
+        private readonly DiscordSocketClient _client;
 
-        public SlowmodeService(DiscordShardedClient client, IEnumerable<GuildConfig> gcs)
+        public SlowmodeService(DiscordSocketClient client, IEnumerable<GuildConfig> gcs)
         {
             _log = LogManager.GetCurrentClassLogger();
             _client = client;

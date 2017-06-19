@@ -24,15 +24,17 @@ namespace NadekoBot.Modules.Utility
     public partial class Utility : NadekoTopLevelModule
     {
         private static ConcurrentDictionary<ulong, Timer> _rotatingRoleColors = new ConcurrentDictionary<ulong, Timer>();
-        private readonly DiscordShardedClient _client;
+        private readonly DiscordSocketClient _client;
         private readonly IStatsService _stats;
         private readonly IBotCredentials _creds;
+        private readonly NadekoBot _bot;
 
-        public Utility(DiscordShardedClient client, IStatsService stats, IBotCredentials creds)
+        public Utility(NadekoBot bot, DiscordSocketClient client, IStatsService stats, IBotCredentials creds)
         {
             _client = client;
             _stats = stats;
             _creds = creds;
+            _bot = bot;
         }
 
         //[NadekoCommand, Usage, Description, Aliases]
@@ -352,56 +354,56 @@ namespace NadekoBot.Modules.Utility
 
             await Context.Channel.SendConfirmAsync($"{Context.User.Mention} https://discord.gg/{invite.Code}");
         }
+        //todo 2 shard commands
+        //[NadekoCommand, Usage, Description, Aliases]
+        //public async Task ShardStats(int page = 1)
+        //{
+        //    if (--page < 0)
+        //        return;
 
-        [NadekoCommand, Usage, Description, Aliases]
-        public async Task ShardStats(int page = 1)
-        {
-            if (--page < 0)
-                return;
+        //    var status = string.Join(", ", _client.Shards.GroupBy(x => x.ConnectionState)
+        //        .Select(x => $"{x.Count()} {x.Key}")
+        //        .ToArray());
 
-            var status = string.Join(", ", _client.Shards.GroupBy(x => x.ConnectionState)
-                .Select(x => $"{x.Count()} {x.Key}")
-                .ToArray());
-
-            var allShardStrings = _client.Shards
-                .Select(x =>
-                    GetText("shard_stats_txt", x.ShardId.ToString(),
-                        Format.Bold(x.ConnectionState.ToString()), Format.Bold(x.Guilds.Count.ToString())))
-                .ToArray();
+        //    var allShardStrings = _client.Shards
+        //        .Select(x =>
+        //            GetText("shard_stats_txt", x.ShardId.ToString(),
+        //                Format.Bold(x.ConnectionState.ToString()), Format.Bold(x.Guilds.Count.ToString())))
+        //        .ToArray();
 
 
 
-            await Context.Channel.SendPaginatedConfirmAsync(_client, page, (curPage) =>
-            {
+        //    await Context.Channel.SendPaginatedConfirmAsync(_client, page, (curPage) =>
+        //    {
 
-                var str = string.Join("\n", allShardStrings.Skip(25 * curPage).Take(25));
+        //        var str = string.Join("\n", allShardStrings.Skip(25 * curPage).Take(25));
 
-                if (string.IsNullOrWhiteSpace(str))
-                    str = GetText("no_shards_on_page");
+        //        if (string.IsNullOrWhiteSpace(str))
+        //            str = GetText("no_shards_on_page");
 
-                return new EmbedBuilder()
-                    .WithAuthor(a => a.WithName(GetText("shard_stats")))
-                    .WithTitle(status)
-                    .WithOkColor()
-                    .WithDescription(str);
-            }, allShardStrings.Length / 25);
-        }
+        //        return new EmbedBuilder()
+        //            .WithAuthor(a => a.WithName(GetText("shard_stats")))
+        //            .WithTitle(status)
+        //            .WithOkColor()
+        //            .WithDescription(str);
+        //    }, allShardStrings.Length / 25);
+        //}
 
-        [NadekoCommand, Usage, Description, Aliases]
-        public async Task ShardId(IGuild guild)
-        {
-            var shardId = _client.GetShardIdFor(guild);
+        //[NadekoCommand, Usage, Description, Aliases]
+        //public async Task ShardId(IGuild guild)
+        //{
+        //    var shardId = _client.GetShardIdFor(guild);
 
-            await Context.Channel.SendConfirmAsync(shardId.ToString()).ConfigureAwait(false);
-        }
+        //    await Context.Channel.SendConfirmAsync(shardId.ToString()).ConfigureAwait(false);
+        //}
 
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Stats()
         {
-            var shardId = Context.Guild != null
-                ? _client.GetShardIdFor(Context.Guild)
-                : 0;
-
+            //var shardId = Context.Guild != null
+            //    ? _client.GetShardIdFor(Context.Guild)
+            //    : 0;
+            
             await Context.Channel.EmbedAsync(
                 new EmbedBuilder().WithOkColor()
                     .WithAuthor(eab => eab.WithName($"NadekoBot v{StatsService.BotVersion}")
@@ -409,7 +411,7 @@ namespace NadekoBot.Modules.Utility
                                           .WithIconUrl("https://cdn.discordapp.com/avatars/116275390695079945/b21045e778ef21c96d175400e779f0fb.jpg"))
                     .AddField(efb => efb.WithName(GetText("author")).WithValue(_stats.Author).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("botid")).WithValue(_client.CurrentUser.Id.ToString()).WithIsInline(true))
-                    .AddField(efb => efb.WithName(GetText("shard")).WithValue($"#{shardId} / {_client.Shards.Count}").WithIsInline(true))
+                    .AddField(efb => efb.WithName(GetText("shard")).WithValue($"#{_bot.ShardId} / {_creds.TotalShards}").WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("commands_ran")).WithValue(_stats.CommandsRan.ToString()).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("messages")).WithValue($"{_stats.MessageCounter} ({_stats.MessagesPerSecond:F2}/sec)").WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("memory")).WithValue($"{_stats.Heap} MB").WithIsInline(true))

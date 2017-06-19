@@ -15,14 +15,14 @@ namespace NadekoBot.Services.Games
 {
     public class ChatterBotService : IEarlyBlockingExecutor
     {
-        private readonly DiscordShardedClient _client;
+        private readonly DiscordSocketClient _client;
         private readonly Logger _log;
         private readonly PermissionService _perms;
         private readonly CommandHandler _cmd;
 
         public ConcurrentDictionary<ulong, Lazy<ChatterBotSession>> ChatterBotGuilds { get; }
 
-        public ChatterBotService(DiscordShardedClient client, PermissionService perms, IEnumerable<GuildConfig> gcs, CommandHandler cmd)
+        public ChatterBotService(DiscordSocketClient client, PermissionService perms, IEnumerable<GuildConfig> gcs, CommandHandler cmd)
         {
             _client = client;
             _log = LogManager.GetCurrentClassLogger();
@@ -83,7 +83,7 @@ namespace NadekoBot.Services.Games
             return true;
         }
 
-        public async Task<bool> TryExecuteEarly(DiscordShardedClient client, IGuild guild, IUserMessage usrMsg)
+        public async Task<bool> TryExecuteEarly(DiscordSocketClient client, IGuild guild, IUserMessage usrMsg)
         {
             if (!(guild is SocketGuild sg))
                 return false;

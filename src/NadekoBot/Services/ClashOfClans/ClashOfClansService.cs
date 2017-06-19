@@ -17,7 +17,7 @@ namespace NadekoBot.Services.ClashOfClans
     // shouldn't be here
     public class ClashOfClansService
     {
-        private readonly DiscordShardedClient _client;
+        private readonly DiscordSocketClient _client;
         private readonly DbService _db;
         private readonly ILocalization _localization;
         private readonly NadekoStrings _strings;
@@ -25,7 +25,7 @@ namespace NadekoBot.Services.ClashOfClans
 
         public ConcurrentDictionary<ulong, List<ClashWar>> ClashWars { get; set; }
 
-        public ClashOfClansService(DiscordShardedClient client, DbService db, ILocalization localization, NadekoStrings strings)
+        public ClashOfClansService(DiscordSocketClient client, DbService db, ILocalization localization, NadekoStrings strings)
         {
             _client = client;
             _db = db;

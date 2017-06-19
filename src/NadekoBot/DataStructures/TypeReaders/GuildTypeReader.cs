@@ -7,9 +7,9 @@ namespace NadekoBot.TypeReaders
 {
     public class GuildTypeReader : TypeReader
     {
-        private readonly DiscordShardedClient _client;
+        private readonly DiscordSocketClient _client;
 
-        public GuildTypeReader(DiscordShardedClient client)
+        public GuildTypeReader(DiscordSocketClient client)
         {
             _client = client;
         }

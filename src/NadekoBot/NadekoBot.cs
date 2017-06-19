@@ -27,8 +27,7 @@ using NadekoBot.Services.Utility;
 using NadekoBot.Services.Help;
 using System.IO;
 using NadekoBot.Services.Pokemon;
-using NadekoBot.DataStructures;
-using NadekoBot.Extensions;
+using NadekoBot.DataStructures.ShardCom;
 
 namespace NadekoBot
 {
@@ -45,47 +44,74 @@ namespace NadekoBot
         public static Color OkColor { get; private set; }
         public static Color ErrorColor { get; private set; }
 
-        public ImmutableArray<GuildConfig> AllGuildConfigs { get; }
+        public ImmutableArray<GuildConfig> AllGuildConfigs { get; private set; }
         public BotConfig BotConfig { get; }
         public DbService Db { get; }
         public CommandService CommandService { get; }
         public CommandHandler CommandHandler { get; private set; }
-        public Localization Localization { get; }
-        public NadekoStrings Strings { get; }
-        public StatsService Stats { get; }
+        public Localization Localization { get; private set; }
+        public NadekoStrings Strings { get; private set; }
+        public StatsService Stats { get; private set; }
         public ImagesService Images { get; }
         public CurrencyService Currency { get; }
         public GoogleApiService GoogleApi { get; }
 
-        public DiscordShardedClient Client { get; }
+        public DiscordSocketClient Client { get; }
         public bool Ready { get; private set; }
 
         public INServiceProvider Services { get; private set; }
         public BotCredentials Credentials { get; }
 
-        public NadekoBot()
+        private const string _mutexName = @"Global\nadeko_shards_lock";
+        private readonly Semaphore sem = new Semaphore(1, 1, _mutexName);
+        public int ShardId { get; }
+        private readonly Thread waitForParentKill;
+        private readonly ShardComClient _comClient = new ShardComClient();
+
+        public NadekoBot(int shardId, int parentProcessId)
         {
-            SetupLogger();
+            if (shardId < 0)
+                throw new ArgumentOutOfRangeException(nameof(shardId));
+
+            ShardId = shardId;
+
+            LogSetup.SetupLogger();
             _log = LogManager.GetCurrentClassLogger();
             TerribleElevatedPermissionCheck();
-            
+
+            waitForParentKill = new Thread(new ThreadStart(() =>
+            {
+                try
+                {
+                    var p = Process.GetProcessById(parentProcessId);
+                    if (p == null)
+                        return;
+                    p.WaitForExit();
+                }
+                finally
+                {
+                    Environment.Exit(10);
+                }
+            }));
+            waitForParentKill.Start();
+
             Credentials = new BotCredentials();
             Db = new DbService(Credentials);
 
             using (var uow = Db.UnitOfWork)
             {
-                AllGuildConfigs = uow.GuildConfigs.GetAllGuildConfigs().ToImmutableArray();
                 BotConfig = uow.BotConfig.GetOrCreate();
                 OkColor = new Color(Convert.ToUInt32(BotConfig.OkColor, 16));
                 ErrorColor = new Color(Convert.ToUInt32(BotConfig.ErrorColor, 16));
             }
             
-            Client = new DiscordShardedClient(new DiscordSocketConfig
+            Client = new DiscordSocketClient(new DiscordSocketConfig
             {
                 MessageCacheSize = 10,
                 LogLevel = LogSeverity.Warning,
-                TotalShards = Credentials.TotalShards,
                 ConnectionTimeout = int.MaxValue,
+                TotalShards = Credentials.TotalShards,
+                ShardId = shardId,
                 AlwaysDownloadUsers = false,
             });
 
@@ -96,21 +122,45 @@ namespace NadekoBot
             });
 
             //foundation services
-            Localization = new Localization(BotConfig.Locale, AllGuildConfigs.ToDictionary(x => x.GuildId, x => x.Locale), Db);
-            Strings = new NadekoStrings(Localization);
-            CommandHandler = new CommandHandler(Client, Db, BotConfig, AllGuildConfigs, CommandService, Credentials, this);
-            Stats = new StatsService(Client, CommandHandler, Credentials);
             Images = new ImagesService();
             Currency = new CurrencyService(BotConfig, Db);
             GoogleApi = new GoogleApiService(Credentials);
+
+            StartSendingData();
 
 #if GLOBAL_NADEKO
             Client.Log += Client_Log;
 #endif
         }
 
+        private void StartSendingData()
+        {
+            Task.Run(async () =>
+            {
+                while (true)
+                {
+                    await _comClient.Send(new ShardComMessage()
+                    {
+                        ConnectionState = Client.ConnectionState,
+                        Guilds = Client.ConnectionState == ConnectionState.Connected ? Client.Guilds.Count : 0,
+                        ShardId = Client.ShardId,
+                    });
+                    await Task.Delay(1000);
+                }
+            });
+        }
+
         private void AddServices()
         {
+            using (var uow = Db.UnitOfWork)
+            {
+                AllGuildConfigs = uow.GuildConfigs.GetAllGuildConfigs(Client.Guilds.Select(x => (long)x.Id).ToList()).ToImmutableArray();
+            }
+            Localization = new Localization(BotConfig.Locale, AllGuildConfigs.ToDictionary(x => x.GuildId, x => x.Locale), Db);
+            Strings = new NadekoStrings(Localization);
+            CommandHandler = new CommandHandler(Client, Db, BotConfig, AllGuildConfigs, CommandService, Credentials, this);
+            Stats = new StatsService(Client, CommandHandler, Credentials);
+
             var soundcloudApiService = new SoundCloudApiService(Credentials);
 
             #region help
@@ -185,7 +235,7 @@ namespace NadekoBot
                 .Add<IBotCredentials>(Credentials)
                 .Add<CommandService>(CommandService)
                 .Add<NadekoStrings>(Strings)
-                .Add<DiscordShardedClient>(Client)
+                .Add<DiscordSocketClient>(Client)
                 .Add<BotConfig>(BotConfig)
                 .Add<CurrencyService>(Currency)
                 .Add<CommandHandler>(CommandHandler)
@@ -242,19 +292,30 @@ namespace NadekoBot
             CommandService.AddTypeReader<GuildDateTime>(new GuildDateTimeTypeReader(guildTimezoneService));
         }
 
-        private async Task LoginAsync(string token)
+        private Task LoginAsync(string token)
         {
-            _log.Info("Logging in...");
             //connect
-            await Client.LoginAsync(TokenType.Bot, token).ConfigureAwait(false);
-            await Client.StartAsync().ConfigureAwait(false);
-
-            _log.Info("Waiting for all shards to connect...");
-            while (!Client.Shards.All(x => x.ConnectionState == ConnectionState.Connected))
+            try { sem.WaitOne(); } catch (AbandonedMutexException) { }
+            _log.Info("Shard {0} logging in ...", ShardId);
+            try
             {
-                _log.Info("Connecting... {0}/{1}", Client.Shards.Count(x => x.ConnectionState == ConnectionState.Connected), Client.Shards.Count);
-                await Task.Delay(1000).ConfigureAwait(false);
+                Client.LoginAsync(TokenType.Bot, token).GetAwaiter().GetResult();
+                Client.StartAsync().GetAwaiter().GetResult();
+                while (Client.ConnectionState != ConnectionState.Connected)
+                    Task.Delay(100).GetAwaiter().GetResult();
             }
+            finally
+            {
+                _log.Info("Shard {0} logged in ...", ShardId);
+                sem.Release();
+            }
+            return Task.CompletedTask;
+            //_log.Info("Waiting for all shards to connect...");
+            //while (!Client.Shards.All(x => x.ConnectionState == ConnectionState.Connected))
+            //{
+            //    _log.Info("Connecting... {0}/{1}", Client.Shards.Count(x => x.ConnectionState == ConnectionState.Connected), Client.Shards.Count);
+            //    await Task.Delay(1000).ConfigureAwait(false);
+            //}
         }
 
         public async Task RunAsync(params string[] args)
@@ -265,11 +326,11 @@ namespace NadekoBot
 
             await LoginAsync(Credentials.Token).ConfigureAwait(false);
 
-            _log.Info("Loading services...");
+            _log.Info($"Shard {ShardId} loading services...");
             AddServices();
 
             sw.Stop();
-            _log.Info($"Connected in {sw.Elapsed.TotalSeconds:F2} s");
+            _log.Info($"Shard {ShardId} connected in {sw.Elapsed.TotalSeconds:F2} s");
 
             var stats = Services.GetService<IStatsService>();
             stats.Initialize();
@@ -298,7 +359,8 @@ namespace NadekoBot
                 .ForEach(x => CommandService.RemoveModuleAsync(x));
 #endif
             Ready = true;
-            _log.Info(await stats.Print().ConfigureAwait(false));
+            _log.Info($"Shard {ShardId} ready.");
+            //_log.Info(await stats.Print().ConfigureAwait(false));
         }
 
         private Task Client_Log(LogMessage arg)
@@ -329,20 +391,6 @@ namespace NadekoBot
                 Console.ReadKey();
                 Environment.Exit(2);
             }
-        }
-
-        private static void SetupLogger()
-        {
-            var logConfig = new LoggingConfiguration();
-            var consoleTarget = new ColoredConsoleTarget()
-            {
-                Layout = @"${date:format=HH\:mm\:ss} ${logger} | ${message}"
-            };
-            logConfig.AddTarget("Console", consoleTarget);
-
-            logConfig.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, consoleTarget));
-
-            LogManager.Configuration = logConfig;
         }
     }
 }

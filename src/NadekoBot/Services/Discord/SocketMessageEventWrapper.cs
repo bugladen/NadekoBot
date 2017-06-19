@@ -12,7 +12,7 @@ namespace NadekoBot.Services.Discord
         public event Action<SocketReaction> OnReactionRemoved = delegate { };
         public event Action OnReactionsCleared = delegate { };
 
-        public ReactionEventWrapper(DiscordShardedClient client, IUserMessage msg)
+        public ReactionEventWrapper(DiscordSocketClient client, IUserMessage msg)
         {
             Message = msg ?? throw new ArgumentNullException(nameof(msg));
             _client = client;
@@ -69,7 +69,7 @@ namespace NadekoBot.Services.Discord
         }
 
         private bool disposing = false;
-        private readonly DiscordShardedClient _client;
+        private readonly DiscordSocketClient _client;
 
         public void Dispose()
         {

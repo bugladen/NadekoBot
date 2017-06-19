@@ -13,7 +13,7 @@ namespace NadekoBot.Services.Impl
 {
     public class StatsService : IStatsService
     {
-        private readonly DiscordShardedClient _client;
+        private readonly DiscordSocketClient _client;
         private readonly IBotCredentials _creds;
         private readonly DateTime _started;
 
@@ -36,7 +36,7 @@ namespace NadekoBot.Services.Impl
 
         private readonly Timer _carbonitexTimer;
 
-        public StatsService(DiscordShardedClient client, CommandHandler cmdHandler, IBotCredentials creds)
+        public StatsService(DiscordSocketClient client, CommandHandler cmdHandler, IBotCredentials creds)
         {
             _client = client;
             _creds = creds;
@@ -121,31 +121,32 @@ namespace NadekoBot.Services.Impl
                 return Task.CompletedTask;
             };
 
-            _carbonitexTimer = new Timer(async (state) =>
-            {
-                if (string.IsNullOrWhiteSpace(_creds.CarbonKey))
-                    return;
-                try
-                {
-                    using (var http = new HttpClient())
-                    {
-                        using (var content = new FormUrlEncodedContent(
-                            new Dictionary<string, string> {
-                                { "servercount", _client.Guilds.Count.ToString() },
-                                { "key", _creds.CarbonKey }}))
-                        {
-                            content.Headers.Clear();
-                            content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+            //todo carbonitex update
+            //_carbonitexTimer = new Timer(async (state) =>
+            //{
+            //    if (string.IsNullOrWhiteSpace(_creds.CarbonKey))
+            //        return;
+            //    try
+            //    {
+            //        using (var http = new HttpClient())
+            //        {
+            //            using (var content = new FormUrlEncodedContent(
+            //                new Dictionary<string, string> {
+            //                    { "servercount", _client.Guilds.Count.ToString() },
+            //                    { "key", _creds.CarbonKey }}))
+            //            {
+            //                content.Headers.Clear();
+            //                content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
 
-                            await http.PostAsync("https://www.carbonitex.net/discord/data/botdata.php", content).ConfigureAwait(false);
-                        }
-                    }
-                }
-                catch
-                {
-                    // ignored
-                }
-            }, null, TimeSpan.FromHours(1), TimeSpan.FromHours(1));
+            //                await http.PostAsync("https://www.carbonitex.net/discord/data/botdata.php", content).ConfigureAwait(false);
+            //            }
+            //        }
+            //    }
+            //    catch
+            //    {
+            //        // ignored
+            //    }
+            //}, null, TimeSpan.FromHours(1), TimeSpan.FromHours(1));
         }
 
         public void Initialize()
