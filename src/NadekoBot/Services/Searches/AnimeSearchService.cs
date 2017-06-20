@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Services.Searches
 {
+    //todo move to the website
     public class AnimeSearchService
     {
         private readonly Timer _anilistTokenRefresher;

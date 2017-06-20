@@ -65,7 +65,8 @@ namespace NadekoBot
         private const string _mutexName = @"Global\nadeko_shards_lock";
         private readonly Semaphore sem = new Semaphore(1, 1, _mutexName);
         public int ShardId { get; }
-        private readonly Thread waitForParentKill;
+        public ShardsCoordinator ShardCoord { get; private set; }
+
         private readonly ShardComClient _comClient = new ShardComClient();
 
         public NadekoBot(int shardId, int parentProcessId)
@@ -78,22 +79,6 @@ namespace NadekoBot
             LogSetup.SetupLogger();
             _log = LogManager.GetCurrentClassLogger();
             TerribleElevatedPermissionCheck();
-
-            waitForParentKill = new Thread(new ThreadStart(() =>
-            {
-                try
-                {
-                    var p = Process.GetProcessById(parentProcessId);
-                    if (p == null)
-                        return;
-                    p.WaitForExit();
-                }
-                finally
-                {
-                    Environment.Exit(10);
-                }
-            }));
-            waitForParentKill.Start();
 
             Credentials = new BotCredentials();
             Db = new DbService(Credentials);
@@ -120,13 +105,12 @@ namespace NadekoBot
                 CaseSensitiveCommands = false,
                 DefaultRunMode = RunMode.Async,
             });
-
-            //foundation services
+            
             Images = new ImagesService();
             Currency = new CurrencyService(BotConfig, Db);
             GoogleApi = new GoogleApiService(Credentials);
 
-            StartSendingData();
+            SetupShard(shardId, parentProcessId);
 
 #if GLOBAL_NADEKO
             Client.Log += Client_Log;
@@ -152,9 +136,10 @@ namespace NadekoBot
 
         private void AddServices()
         {
+            var startingGuildIdList = Client.Guilds.Select(x => (long)x.Id).ToList();
             using (var uow = Db.UnitOfWork)
             {
-                AllGuildConfigs = uow.GuildConfigs.GetAllGuildConfigs(Client.Guilds.Select(x => (long)x.Id).ToList()).ToImmutableArray();
+                AllGuildConfigs = uow.GuildConfigs.GetAllGuildConfigs(startingGuildIdList).ToImmutableArray();
             }
             Localization = new Localization(BotConfig.Locale, AllGuildConfigs.ToDictionary(x => x.GuildId, x => x.Locale), Db);
             Strings = new NadekoStrings(Localization);
@@ -170,8 +155,7 @@ namespace NadekoBot
             //module services
             //todo 90 - autodiscover, DI, and add instead of manual like this
             #region utility
-            var crossServerTextService = new CrossServerTextService(AllGuildConfigs, Client);
-            var remindService = new RemindService(Client, BotConfig, Db);
+            var remindService = new RemindService(Client, BotConfig, Db, startingGuildIdList);
             var repeaterService = new MessageRepeaterService(this, Client, AllGuildConfigs);
             var converterService = new ConverterService(Db);
             var commandMapService = new CommandMapService(AllGuildConfigs);
@@ -181,7 +165,7 @@ namespace NadekoBot
             #endregion
 
             #region permissions
-            var permissionsService = new PermissionService(Db, BotConfig, CommandHandler);
+            var permissionsService = new PermissionService(Client, Db, BotConfig, CommandHandler);
             var blacklistService = new BlacklistService(BotConfig);
             var cmdcdsService = new CmdCdService(AllGuildConfigs);
             var filterService = new FilterService(Client, AllGuildConfigs);
@@ -241,7 +225,6 @@ namespace NadekoBot
                 .Add<CommandHandler>(CommandHandler)
                 .Add<DbService>(Db)
                 //modules
-                    .Add(crossServerTextService)
                     .Add(commandMapService)
                     .Add(remindService)
                     .Add(repeaterService)
@@ -375,7 +358,10 @@ namespace NadekoBot
         public async Task RunAndBlockAsync(params string[] args)
         {
             await RunAsync(args).ConfigureAwait(false);
-            await Task.Delay(-1).ConfigureAwait(false);
+            if (ShardCoord != null)
+                await ShardCoord.RunAndBlockAsync();
+            else
+                await Task.Delay(-1).ConfigureAwait(false);
         }
 
         private void TerribleElevatedPermissionCheck()
@@ -390,6 +376,31 @@ namespace NadekoBot
                 _log.Error("You must run the application as an ADMINISTRATOR.");
                 Console.ReadKey();
                 Environment.Exit(2);
+            }
+        }
+
+        private void SetupShard(int shardId, int parentProcessId)
+        {
+            if (shardId != 0)
+            {
+                new Thread(new ThreadStart(() =>
+                {
+                    try
+                    {
+                        var p = Process.GetProcessById(parentProcessId);
+                        if (p == null)
+                            return;
+                        p.WaitForExit();
+                    }
+                    finally
+                    {
+                        Environment.Exit(10);
+                    }
+                })).Start();
+            }
+            else
+            {
+                ShardCoord = new ShardsCoordinator();
             }
         }
     }

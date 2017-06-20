@@ -1,8 +1,7 @@
 {
   "profiles": {
     "NadekoBot": {
-      "commandName": "Project",
-      "commandLineArgs": "main"
+      "commandName": "Project"
     }
   }
 }

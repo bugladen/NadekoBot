@@ -136,9 +136,10 @@ namespace NadekoBot.Services.Database.Repositories.Impl
             return query.ToList();
         }
 
-        public IEnumerable<GuildConfig> Permissionsv2ForAll()
+        public IEnumerable<GuildConfig> Permissionsv2ForAll(List<long> include)
         {
             var query = _set
+                .Where(x => include.Contains((long)x.GuildId))
                 .Include(gc => gc.Permissions);
 
             return query.ToList();
@@ -169,8 +170,10 @@ namespace NadekoBot.Services.Database.Repositories.Impl
             return config;
         }
 
-        public IEnumerable<FollowedStream> GetAllFollowedStreams() =>
-            _set.Include(gc => gc.FollowedStreams)
+        public IEnumerable<FollowedStream> GetAllFollowedStreams(List<long> included) =>
+            _set
+                .Where(gc => included.Contains((long)gc.GuildId))
+                .Include(gc => gc.FollowedStreams)
                 .SelectMany(gc => gc.FollowedStreams)
                 .ToList();
 

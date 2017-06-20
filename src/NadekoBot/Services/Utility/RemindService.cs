@@ -33,7 +33,7 @@ namespace NadekoBot.Services.Utility
         private readonly DiscordSocketClient _client;
         private readonly DbService _db;
 
-        public RemindService(DiscordSocketClient client, BotConfig config, DbService db)
+        public RemindService(DiscordSocketClient client, BotConfig config, DbService db, List<long> guilds)
         {
             _config = config;
             _client = client;
@@ -45,7 +45,7 @@ namespace NadekoBot.Services.Utility
             List<Reminder> reminders;
             using (var uow = _db.UnitOfWork)
             {
-                reminders = uow.Reminders.GetAll().ToList();
+                reminders = uow.Reminders.GetIncludedReminders(guilds).ToList();
             }
             RemindMessageFormat = _config.RemindMessageFormat;
 

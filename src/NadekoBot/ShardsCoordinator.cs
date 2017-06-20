@@ -39,10 +39,10 @@ namespace NadekoBot
             return Task.CompletedTask;
         }
 
-        public async Task RunAsync(params string[] args)
+        public async Task RunAsync()
         {
             var curProcessId = Process.GetCurrentProcess().Id;
-            for (int i = 0; i < Credentials.TotalShards; i++)
+            for (int i = 1; i < Credentials.TotalShards; i++)
             {
                 var p = Process.Start(new ProcessStartInfo()
                 {
@@ -56,11 +56,11 @@ namespace NadekoBot
             }
         }
 
-        public async Task RunAndBlockAsync(params string[] args)
+        public async Task RunAndBlockAsync()
         {
             try
             {
-                await RunAsync(args).ConfigureAwait(false);
+                await RunAsync().ConfigureAwait(false);
             }
             catch (Exception ex)
             {

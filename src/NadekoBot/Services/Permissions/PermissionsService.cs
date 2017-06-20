@@ -24,7 +24,7 @@ namespace NadekoBot.Services.Permissions
         public ConcurrentDictionary<ulong, PermissionCache> Cache { get; } =
             new ConcurrentDictionary<ulong, PermissionCache>();
 
-        public PermissionService(DbService db, BotConfig bc, CommandHandler cmd)
+        public PermissionService(DiscordSocketClient client, DbService db, BotConfig bc, CommandHandler cmd)
         {
             _log = LogManager.GetCurrentClassLogger();
             _db = db;
@@ -32,18 +32,23 @@ namespace NadekoBot.Services.Permissions
 
             var sw = Stopwatch.StartNew();
             TryMigratePermissions(bc);
-            using (var uow = _db.UnitOfWork)
+
+            client.Ready += delegate
             {
-                foreach (var x in uow.GuildConfigs.Permissionsv2ForAll())
+                using (var uow = _db.UnitOfWork)
                 {
-                    Cache.TryAdd(x.GuildId, new PermissionCache()
+                    foreach (var x in uow.GuildConfigs.Permissionsv2ForAll(client.Guilds.Select(x => (long)x.Id).ToList()))
                     {
-                        Verbose = x.VerbosePermissions,
-                        PermRole = x.PermissionRole,
-                        Permissions = new PermissionsCollection<Permissionv2>(x.Permissions)
-                    });
+                        Cache.TryAdd(x.GuildId, new PermissionCache()
+                        {
+                            Verbose = x.VerbosePermissions,
+                            PermRole = x.PermissionRole,
+                            Permissions = new PermissionsCollection<Permissionv2>(x.Permissions)
+                        });
+                    }
                 }
-            }
+                return Task.CompletedTask;
+            };
 
             sw.Stop();
             _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");

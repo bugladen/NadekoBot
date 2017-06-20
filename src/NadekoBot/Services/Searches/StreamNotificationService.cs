@@ -35,7 +35,7 @@ namespace NadekoBot.Services.Searches
                 IEnumerable<FollowedStream> streams;
                 using (var uow = _db.UnitOfWork)
                 {
-                    streams = uow.GuildConfigs.GetAllFollowedStreams();
+                    streams = uow.GuildConfigs.GetAllFollowedStreams(client.Guilds.Select(x => (long)x.Id).ToList());
                 }
 
                 await Task.WhenAll(streams.Select(async fs =>

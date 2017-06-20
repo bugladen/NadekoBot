@@ -12,9 +12,9 @@ namespace NadekoBot.Services.Database.Repositories
         GuildConfig LogSettingsFor(ulong guildId);
         IEnumerable<GuildConfig> OldPermissionsForAll();
         IEnumerable<GuildConfig> GetAllGuildConfigs(List<long> availableGuilds);
-        IEnumerable<FollowedStream> GetAllFollowedStreams();
+        IEnumerable<FollowedStream> GetAllFollowedStreams(List<long> included);
         void SetCleverbotEnabled(ulong id, bool cleverbotEnabled);
-        IEnumerable<GuildConfig> Permissionsv2ForAll();
+        IEnumerable<GuildConfig> Permissionsv2ForAll(List<long> include);
         GuildConfig GcWithPermissionsv2For(ulong guildId);
     }
 }
