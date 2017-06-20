@@ -19,8 +19,6 @@ namespace NadekoBot.Services.Music
         {
             if (string.IsNullOrWhiteSpace(url))
                 throw new ArgumentNullException(nameof(url));
-            if (string.IsNullOrWhiteSpace(_creds.SoundCloudClientId))
-                throw new ArgumentNullException(nameof(_creds.SoundCloudClientId));
 
             string response = "";
 
@@ -44,8 +42,6 @@ namespace NadekoBot.Services.Music
         {
             if (string.IsNullOrWhiteSpace(query))
                 throw new ArgumentNullException(nameof(query));
-            if (string.IsNullOrWhiteSpace(_creds.SoundCloudClientId))
-                throw new ArgumentNullException(nameof(_creds.SoundCloudClientId));
 
             var response = "";
             using (var http = new HttpClient())
