@@ -49,6 +49,11 @@ If you do not see `credentials.json` you will need to rename `credentials_exampl
 
 
 #### Setting up credentials.json file
+**For Windows** you can find `credentials.json` file in `NadekoBot\system` folder. 			
+e.g. `C:\Program Files\NadekoBot\system`			
+**For Linux** you can find `credentials.json` in `NadekoBot/src/NadekoBot` folder. 			
+e.g. `/root/NadekoBot/src/NadekoBot`			
+
 ![img3](http://i.imgur.com/QwKMnTG.gif)
 
 ##### Getting Bot's Token:
@@ -156,7 +161,7 @@ It should look like:
 ## DB files
 
 Nadeko saves all the settings and infomations in `NadekoBot.db` file here:		
-`NadekoBot\src\NadekoBot\bin\Release\netcoreapp1.1\data\NadekoBot.db` (macOS and Linux) 		
+`NadekoBot/src/NadekoBot/bin/Release/netcoreapp1.1/data/NadekoBot.db` (macOS and Linux) 		
 `NadekoBot\system\data` (Windows)		
 in order to open the database file you will need [DB Browser for SQLite](http://sqlitebrowser.org/).
 
