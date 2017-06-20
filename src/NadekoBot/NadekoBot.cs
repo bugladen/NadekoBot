@@ -103,7 +103,7 @@ namespace NadekoBot
             CommandService = new CommandService(new CommandServiceConfig()
             {
                 CaseSensitiveCommands = false,
-                DefaultRunMode = RunMode.Async,
+                DefaultRunMode = RunMode.Sync,
             });
             
             Images = new ImagesService();
