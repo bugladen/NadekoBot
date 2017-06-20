@@ -3,6 +3,7 @@
 #### Prerequisites 
 - [Notepad++][Notepad++] (or some other decent text editor)
 - Windows 8 or later
+- [.NET Core SDK (Command line / other)][.NET Core SDK]
 - [Create Discord Bot application](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#creating-discord-bot-application) and [Invite the bot to your server](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#inviting-your-bot-to-your-server). 
 
 #### Guide 
@@ -31,3 +32,4 @@
 [Notepad++]: https://notepad-plus-plus.org/
 [Invite Guide]: http://discord.kongslien.net/guide.html
 [Google Console]: https://console.developers.google.com
+[.NET Core SDK]: https://www.microsoft.com/net/core#windowscmd
