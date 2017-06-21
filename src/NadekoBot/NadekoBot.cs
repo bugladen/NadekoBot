@@ -28,6 +28,7 @@ using NadekoBot.Services.Help;
 using System.IO;
 using NadekoBot.Services.Pokemon;
 using NadekoBot.DataStructures.ShardCom;
+using NadekoBot.DataStructures;
 
 namespace NadekoBot
 {
@@ -335,13 +336,14 @@ namespace NadekoBot
             //    .Select(x => x.Key + $"({x.Count()})")));
 
 //unload modules which are not available on the public bot
-#if GLOBAL_NADEKO   
+#if GLOBAL_NADEKO
             CommandService
                 .Modules
                 .ToArray()
                 .Where(x => x.Preconditions.Any(y => y.GetType() == typeof(NoPublicBot)))
                 .ForEach(x => CommandService.RemoveModuleAsync(x));
 #endif
+
             Ready = true;
             _log.Info($"Shard {ShardId} ready.");
             //_log.Info(await stats.Print().ConfigureAwait(false));
