@@ -224,7 +224,7 @@ namespace NadekoBot
                 .Add<CurrencyService>(Currency)
                 .Add<CommandHandler>(CommandHandler)
                 .Add<DbService>(Db)
-                //modules
+                    //modules
                     .Add(commandMapService)
                     .Add(remindService)
                     .Add(repeaterService)
@@ -261,6 +261,7 @@ namespace NadekoBot
                     .Add(filterService)
                     .Add(globalPermsService)
                 .Add<PokemonService>(pokemonService)
+                .Add<NadekoBot>(this)
                 .Build();
 
             CommandHandler.AddServices(Services);
