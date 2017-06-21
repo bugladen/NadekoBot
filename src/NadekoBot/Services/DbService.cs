@@ -32,6 +32,7 @@ namespace NadekoBot.Services
         public NadekoContext GetDbContext()
         {
             var context = new NadekoContext(options);
+            context.Database.SetCommandTimeout(60);
             context.Database.Migrate();
             context.EnsureSeedData();
 

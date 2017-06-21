@@ -18,8 +18,9 @@ namespace NadekoBot.Services.Database
         public NadekoContext Create(DbContextFactoryOptions options)
         {
             var optionsBuilder = new DbContextOptionsBuilder();
-            optionsBuilder.UseSqlite("Filename=./data/NadekoBot.db;Default Command Timeout=60000;Busy Timeout=60000");
+            optionsBuilder.UseSqlite("Filename=./data/NadekoBot.db");
             var ctx = new NadekoContext(optionsBuilder.Options);
+            ctx.Database.SetCommandTimeout(60);
             return ctx;
         }
     }
