@@ -13,7 +13,7 @@ namespace NadekoBot
     {
         private readonly BotCredentials Credentials;
         private Process[] ShardProcesses;
-        private ShardComMessage[] Statuses;
+        public ShardComMessage[] Statuses { get; }
         private readonly Logger _log;
         private readonly ShardComServer _comServer;
 
@@ -35,7 +35,7 @@ namespace NadekoBot
         {
             Statuses[msg.ShardId] = msg;
             if (msg.ConnectionState == Discord.ConnectionState.Disconnected || msg.ConnectionState == Discord.ConnectionState.Disconnecting)
-                _log.Error("!!! SHARD {0} IS IN {1} STATE", msg.ShardId, msg.ConnectionState);
+                _log.Error("!!! SHARD {0} IS IN {1} STATE", msg.ShardId, msg.ConnectionState.ToString());
             return Task.CompletedTask;
         }
 
@@ -46,13 +46,10 @@ namespace NadekoBot
             {
                 var p = Process.Start(new ProcessStartInfo()
                 {
-                    FileName = "dotnet",
-                    Arguments = $"run -c Debug -- {i} {curProcessId}",
+                    FileName = Credentials.ShardRunCommand,
+                    Arguments = string.Format(Credentials.ShardRunArguments, i, curProcessId)
                 });
                 await Task.Delay(5000);
-
-                //Task.Run(() => { while (!p.HasExited) _log.Info($"S-{i}|" + p.StandardOutput.ReadLine()); });
-                //Task.Run(() => { while (!p.HasExited) _log.Error($"S-{i}|" + p.StandardError.ReadLine()); });
             }
         }
 

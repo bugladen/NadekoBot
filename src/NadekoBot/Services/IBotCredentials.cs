@@ -20,6 +20,8 @@ namespace NadekoBot.Services
 
         bool IsOwner(IUser u);
         int TotalShards { get; }
+        string ShardRunCommand { get; }
+        string ShardRunArguments { get; }
     }
 
     public class DBConfig

@@ -44,9 +44,14 @@ namespace NadekoBot.Modules.Games
 
                 await Context.Channel.EmbedAsync(poll.GetStats(GetText("current_poll_results")));
             }
-
+            //todo enable private polls, or completely remove them
             private async Task InternalStartPoll(string arg, bool isPublic = false)
             {
+                if (isPublic == false)
+                {
+                    await ReplyErrorLocalized($"Temporarily disabled. Use `{Prefix}ppoll`");
+                    return;
+                }
                 if(await _polls.StartPoll((ITextChannel)Context.Channel, Context.Message, arg, isPublic) == false)
                     await ReplyErrorLocalized("poll_already_running").ConfigureAwait(false);
             }
