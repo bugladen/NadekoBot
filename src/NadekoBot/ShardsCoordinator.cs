@@ -49,7 +49,7 @@ namespace NadekoBot
                     FileName = Credentials.ShardRunCommand,
                     Arguments = string.Format(Credentials.ShardRunArguments, i, curProcessId)
                 });
-                await Task.Delay(5000);
+                await Task.Delay(6500);
             }
         }
 
@@ -65,10 +65,10 @@ namespace NadekoBot
             }
             await Task.Run(() =>
             {
-                try
+                string input;
+                while ((input = Console.ReadLine()?.ToLowerInvariant()) != "quit")
                 {
-                    string input;
-                    while ((input = Console.ReadLine()?.ToLowerInvariant()) != "quit")
+                    try
                     {
                         switch (input)
                         {
@@ -84,10 +84,10 @@ namespace NadekoBot
                                 break;
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    _log.Warn(ex);
+                    catch (Exception ex)
+                    {
+                        _log.Warn(ex);
+                    }
                 }
             });
             foreach (var p in ShardProcesses)

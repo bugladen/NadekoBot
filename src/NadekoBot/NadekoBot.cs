@@ -292,7 +292,7 @@ namespace NadekoBot
             }
             finally
             {
-                _log.Info("Shard {0} logged in ...", ShardId);
+                _log.Info("Shard {0} logged in.", ShardId);
                 sem.Release();
             }
             return Task.CompletedTask;
@@ -306,6 +306,7 @@ namespace NadekoBot
 
         public async Task RunAsync(params string[] args)
         {
+            if(ShardId == 0)
             _log.Info("Starting NadekoBot v" + StatsService.BotVersion);
 
             var sw = Stopwatch.StartNew();
@@ -316,7 +317,7 @@ namespace NadekoBot
             AddServices();
 
             sw.Stop();
-            _log.Info($"Shard {ShardId} connected in {sw.Elapsed.TotalSeconds:F2} s");
+            _log.Info($"Shard {ShardId} connected in {sw.Elapsed.TotalSeconds:F2}s");
 
             var stats = Services.GetService<IStatsService>();
             stats.Initialize();
