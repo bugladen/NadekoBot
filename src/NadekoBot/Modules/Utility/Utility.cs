@@ -285,12 +285,14 @@ namespace NadekoBot.Modules.Utility
         {
             if (--page < 0)
                 return;
-
-            var status = string.Join(", ", _bot.ShardCoord.Statuses.GroupBy(x => x.ConnectionState)
+            var statuses = _bot.ShardCoord.Statuses.ToArray();
+            var status = string.Join(", ", statuses
+                .Where(x => x != null)
+                .GroupBy(x => x.ConnectionState)
                 .Select(x => $"{x.Count()} {x.Key}")
                 .ToArray());
 
-            var allShardStrings = _bot.ShardCoord.Statuses
+            var allShardStrings = statuses
                 .Select(x =>
                     GetText("shard_stats_txt", x.ShardId.ToString(),
                         Format.Bold(x.ConnectionState.ToString()), Format.Bold(x.Guilds.ToString())))

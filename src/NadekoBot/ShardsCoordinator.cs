@@ -65,21 +65,29 @@ namespace NadekoBot
             }
             await Task.Run(() =>
             {
-                string input;
-                while ((input = Console.ReadLine()?.ToLowerInvariant()) != "quit")
+                try
                 {
-                    switch (input)
+                    string input;
+                    while ((input = Console.ReadLine()?.ToLowerInvariant()) != "quit")
                     {
-                        case "ls":
-                            var groupStr = string.Join(",", Statuses
-                                .Where(x => x != null)
-                                .GroupBy(x => x.ConnectionState)
-                                .Select(x => x.Count() + " " + x.Key));
-                            _log.Info(string.Join("\n", Statuses.Select(x => $"Shard {x.ShardId} is in {x.ConnectionState.ToString()} state with {x.Guilds} servers")) + "\n" + groupStr);
-                            break;
-                        default:
-                            break;
+                        switch (input)
+                        {
+                            case "ls":
+                                var groupStr = string.Join(",", Statuses
+                                    .ToArray()
+                                    .Where(x => x != null)
+                                    .GroupBy(x => x.ConnectionState)
+                                    .Select(x => x.Count() + " " + x.Key));
+                                _log.Info(string.Join("\n", Statuses.Select(x => $"Shard {x.ShardId} is in {x.ConnectionState.ToString()} state with {x.Guilds} servers")) + "\n" + groupStr);
+                                break;
+                            default:
+                                break;
+                        }
                     }
+                }
+                catch (Exception ex)
+                {
+                    _log.Warn(ex);
                 }
             });
             foreach (var p in ShardProcesses)
