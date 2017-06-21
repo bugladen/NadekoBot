@@ -67,9 +67,8 @@ namespace NadekoBot.Services.Administration
 
                 _client.Guilds.SelectMany(g => g.Users);
 
-                LoadOwnerChannels();
-
-                
+                //todo load owner channels
+                //LoadOwnerChannels();                
             });
         }
 
