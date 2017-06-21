@@ -285,9 +285,10 @@ namespace NadekoBot.Modules.Utility
         {
             if (--page < 0)
                 return;
-            var statuses = _bot.ShardCoord.Statuses.ToArray();
+            var statuses = _bot.ShardCoord.Statuses.ToArray()
+                .Where(x => x != null);
+
             var status = string.Join(", ", statuses
-                .Where(x => x != null)
                 .GroupBy(x => x.ConnectionState)
                 .Select(x => $"{x.Count()} {x.Key}")
                 .ToArray());
