@@ -29,6 +29,7 @@ using System.IO;
 using NadekoBot.Services.Pokemon;
 using NadekoBot.DataStructures.ShardCom;
 using NadekoBot.DataStructures;
+using NadekoBot.Extensions;
 
 namespace NadekoBot
 {
