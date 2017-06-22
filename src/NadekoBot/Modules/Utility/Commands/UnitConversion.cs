@@ -6,7 +6,7 @@
 //using System;
 //using System.Linq;
 //using System.Threading.Tasks;
-
+////todo Rewrite
 //namespace NadekoBot.Modules.Utility
 //{
 //    public partial class Utility

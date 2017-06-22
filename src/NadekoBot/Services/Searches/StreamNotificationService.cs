@@ -1,6 +1,8 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using NadekoBot.Extensions;
+using NadekoBot.Services;
+using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
 using Newtonsoft.Json;
 using System;
@@ -73,7 +75,7 @@ namespace NadekoBot.Services.Searches
                 }));
 
                 firstStreamNotifPass = false;
-            }, null, TimeSpan.Zero, TimeSpan.FromSeconds(60));
+            }, null, TimeSpan.FromSeconds(60), TimeSpan.FromSeconds(60));
         }
 
         public async Task<StreamStatus> GetStreamStatus(FollowedStream stream, bool checkCache = true)

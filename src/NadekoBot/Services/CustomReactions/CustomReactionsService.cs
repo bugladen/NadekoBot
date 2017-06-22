@@ -10,6 +10,7 @@ using System;
 using System.Threading.Tasks;
 using NadekoBot.Services.Permissions;
 using NadekoBot.Extensions;
+using NadekoBot.Services.Database;
 
 namespace NadekoBot.Services.CustomReactions
 {
@@ -28,7 +29,7 @@ namespace NadekoBot.Services.CustomReactions
         private readonly BotConfig _bc;
 
         public CustomReactionsService(PermissionService perms, DbService db, 
-            DiscordSocketClient client, CommandHandler cmd, BotConfig bc)
+            DiscordSocketClient client, CommandHandler cmd, BotConfig bc, IUnitOfWork uow)
         {
             _log = LogManager.GetCurrentClassLogger();
             _db = db;
@@ -36,13 +37,10 @@ namespace NadekoBot.Services.CustomReactions
             _perms = perms;
             _cmd = cmd;
             _bc = bc;
-
-            using (var uow = _db.UnitOfWork)
-            {
-                var items = uow.CustomReactions.GetAll();
-                GuildReactions = new ConcurrentDictionary<ulong, CustomReaction[]>(items.Where(g => g.GuildId != null && g.GuildId != 0).GroupBy(k => k.GuildId.Value).ToDictionary(g => g.Key, g => g.ToArray()));
-                GlobalReactions = items.Where(g => g.GuildId == null || g.GuildId == 0).ToArray();
-            }
+            
+            var items = uow.CustomReactions.GetAll();
+            GuildReactions = new ConcurrentDictionary<ulong, CustomReaction[]>(items.Where(g => g.GuildId != null && g.GuildId != 0).GroupBy(k => k.GuildId.Value).ToDictionary(g => g.Key, g => g.ToArray()));
+            GlobalReactions = items.Where(g => g.GuildId == null || g.GuildId == 0).ToArray();
         }
 
         public void ClearStats() => ReactionStats.Clear();

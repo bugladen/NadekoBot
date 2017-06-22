@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using NadekoBot.Extensions;
+using NadekoBot.Services;
 
 namespace NadekoBot.Services.Permissions
 {
@@ -31,24 +32,21 @@ namespace NadekoBot.Services.Permissions
             _cmd = cmd;
 
             var sw = Stopwatch.StartNew();
-            TryMigratePermissions(bc);
+            if (client.ShardId == 0)
+                TryMigratePermissions(bc);
 
-            client.Ready += delegate
+            using (var uow = _db.UnitOfWork)
             {
-                using (var uow = _db.UnitOfWork)
+                foreach (var x in uow.GuildConfigs.Permissionsv2ForAll(client.Guilds.ToArray().Select(x => (long)x.Id).ToList()))
                 {
-                    foreach (var x in uow.GuildConfigs.Permissionsv2ForAll(client.Guilds.Select(x => (long)x.Id).ToList()))
+                    Cache.TryAdd(x.GuildId, new PermissionCache()
                     {
-                        Cache.TryAdd(x.GuildId, new PermissionCache()
-                        {
-                            Verbose = x.VerbosePermissions,
-                            PermRole = x.PermissionRole,
-                            Permissions = new PermissionsCollection<Permissionv2>(x.Permissions)
-                        });
-                    }
+                        Verbose = x.VerbosePermissions,
+                        PermRole = x.PermissionRole,
+                        Permissions = new PermissionsCollection<Permissionv2>(x.Permissions)
+                    });
                 }
-                return Task.CompletedTask;
-            };
+            }
 
             sw.Stop();
             _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
@@ -74,10 +72,9 @@ namespace NadekoBot.Services.Permissions
         private void TryMigratePermissions(BotConfig bc)
         {
             var log = LogManager.GetCurrentClassLogger();
-            using (var uow = _db.UnitOfWork)
+            if (bc.PermissionVersion <= 1)
             {
-                var _bc = uow.BotConfig.GetOrCreate();
-                if (_bc.PermissionVersion <= 1)
+                using (var uow = _db.UnitOfWork)
                 {
                     log.Info("Permission version is 1, upgrading to 2.");
                     var oldCache = new ConcurrentDictionary<ulong, OldPermissionCache>(uow.GuildConfigs
@@ -132,9 +129,13 @@ namespace NadekoBot.Services.Permissions
                         log.Info("Permission migration to v2 is done.");
                     }
 
-                    _bc.PermissionVersion = 2;
+                    bc.PermissionVersion = 2;
+                    uow.Complete();
                 }
-                if (_bc.PermissionVersion <= 2)
+            }
+            if (bc.PermissionVersion <= 2)
+            {
+                using (var uow = _db.UnitOfWork)
                 {
                     var oldPrefixes = new[] { ".", ";", "!!", "!m", "!", "+", "-", "$", ">" };
                     uow._context.Database.ExecuteSqlCommand(
@@ -150,9 +151,9 @@ WHERE secondaryTargetName LIKE '.%' OR
     secondaryTargetName LIKE '>%' OR
     secondaryTargetName LIKE '-%' OR
     secondaryTargetName LIKE '!%';");
-                    _bc.PermissionVersion = 3;
+                    bc.PermissionVersion = 3;
+                    uow.Complete();
                 }
-                uow.Complete();
             }
         }
 

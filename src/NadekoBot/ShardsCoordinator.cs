@@ -14,6 +14,10 @@ namespace NadekoBot
         private readonly BotCredentials Credentials;
         private Process[] ShardProcesses;
         public ShardComMessage[] Statuses { get; }
+        public int GuildCount => Statuses.ToArray()
+            .Where(x => x != null)
+            .Sum(x => x.Guilds);
+
         private readonly Logger _log;
         private readonly ShardComServer _comServer;
 

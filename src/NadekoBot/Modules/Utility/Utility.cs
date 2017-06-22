@@ -319,11 +319,7 @@ namespace NadekoBot.Modules.Utility
 
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Stats()
-        {
-            //var shardId = Context.Guild != null
-            //    ? _client.GetShardIdFor(Context.Guild)
-            //    : 0;
-            
+        {            
             await Context.Channel.EmbedAsync(
                 new EmbedBuilder().WithOkColor()
                     .WithAuthor(eab => eab.WithName($"NadekoBot v{StatsService.BotVersion}")
@@ -339,13 +335,7 @@ namespace NadekoBot.Modules.Utility
                     .AddField(efb => efb.WithName(GetText("uptime")).WithValue(_stats.GetUptimeString("\n")).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("presence")).WithValue(
                         GetText("presence_txt",
-                            _client.Guilds.Count, _stats.TextChannels, _stats.VoiceChannels)).WithIsInline(true))
-#if !GLOBAL_NADEKO
-                    //.WithFooter(efb => efb.WithText(GetText("stats_songs",
-                    //    _music.MusicPlayers.Count(mp => mp.Value.CurrentSong != null),
-                    //    _music.MusicPlayers.Sum(mp => mp.Value.Playlist.Count))))
-#endif
-                    );
+                            _stats.GuildCount, _stats.TextChannels, _stats.VoiceChannels)).WithIsInline(true)));
         }
 
         [NadekoCommand, Usage, Description, Aliases]

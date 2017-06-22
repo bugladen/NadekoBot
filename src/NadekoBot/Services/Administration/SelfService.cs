@@ -39,12 +39,8 @@ namespace NadekoBot.Services.Administration
             _client = client;
             _creds = creds;
 
-            using (var uow = _db.UnitOfWork)
-            {
-                var config = uow.BotConfig.GetOrCreate();
-                ForwardDMs = config.ForwardMessages;
-                ForwardDMsToAllOwners = config.ForwardToAllOwners;
-            }
+            ForwardDMs = bc.ForwardMessages;
+            ForwardDMsToAllOwners = bc.ForwardToAllOwners;
 
             var _ = Task.Run(async () =>
             {
