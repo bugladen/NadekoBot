@@ -89,7 +89,7 @@ namespace NadekoBot.Services.Impl
                                 ? "sqlite" 
                                 : dbSection["Type"], 
                             string.IsNullOrWhiteSpace(dbSection["ConnectionString"]) 
-                                ? "Filename=./data/NadekoBot.db" 
+                                ? "Filename=./data/NadekoBot.db"
                                 : dbSection["ConnectionString"]);
             }
             catch (Exception ex)

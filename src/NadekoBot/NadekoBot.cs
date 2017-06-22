@@ -159,7 +159,7 @@ namespace NadekoBot
             #region utility
             var remindService = new RemindService(Client, BotConfig, Db, startingGuildIdList);
             var repeaterService = new MessageRepeaterService(this, Client, AllGuildConfigs);
-            var converterService = new ConverterService(Db);
+            //var converterService = new ConverterService(Db);
             var commandMapService = new CommandMapService(AllGuildConfigs);
             var patreonRewardsService = new PatreonRewardsService(Credentials, Db, Currency);
             var verboseErrorsService = new VerboseErrorsService(AllGuildConfigs, Db, CommandHandler, helpService);
@@ -230,7 +230,7 @@ namespace NadekoBot
                     .Add(commandMapService)
                     .Add(remindService)
                     .Add(repeaterService)
-                    .Add(converterService)
+                    //.Add(converterService)
                     .Add(verboseErrorsService)
                     .Add(patreonRewardsService)
                     .Add(pruneService)
