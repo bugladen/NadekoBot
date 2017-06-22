@@ -33,7 +33,7 @@ namespace NadekoBot.Modules.Utility
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [Priority(1)]
+            [Priority(0)]
             public async Task Remind(MeOrHere meorhere, string timeStr, [Remainder] string message)
             {
                 ulong target;
@@ -44,7 +44,7 @@ namespace NadekoBot.Modules.Utility
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
-            [Priority(0)]
+            [Priority(1)]
             public async Task Remind(ITextChannel channel, string timeStr, [Remainder] string message)
             {
                 var perms = ((IGuildUser)Context.User).GetPermissions((ITextChannel)channel);

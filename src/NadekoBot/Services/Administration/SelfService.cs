@@ -72,39 +72,39 @@ namespace NadekoBot.Services.Administration
             });
         }
 
-        private void LoadOwnerChannels()
-        {
-            var hs = new HashSet<ulong>(_creds.OwnerIds);
-            var channels = new Dictionary<ulong, AsyncLazy<IDMChannel>>();
+        //private void LoadOwnerChannels()
+        //{
+        //    var hs = new HashSet<ulong>(_creds.OwnerIds);
+        //    var channels = new Dictionary<ulong, AsyncLazy<IDMChannel>>();
 
-            if (hs.Count > 0)
-            {
-                foreach (var g in _client.Guilds)
-                {
-                    if (hs.Count == 0)
-                        break;
+        //    if (hs.Count > 0)
+        //    {
+        //        foreach (var g in _client.Guilds)
+        //        {
+        //            if (hs.Count == 0)
+        //                break;
 
-                    foreach (var u in g.Users)
-                    {
-                        if (hs.Remove(u.Id))
-                        {
-                            channels.Add(u.Id, new AsyncLazy<IDMChannel>(async () => await u.CreateDMChannelAsync()));
-                            if (hs.Count == 0)
-                                break;
-                        }
-                    }
-                }
-            }
+        //            foreach (var u in g.Users)
+        //            {
+        //                if (hs.Remove(u.Id))
+        //                {
+        //                    channels.Add(u.Id, new AsyncLazy<IDMChannel>(async () => await u.CreateDMChannelAsync()));
+        //                    if (hs.Count == 0)
+        //                        break;
+        //                }
+        //            }
+        //        }
+        //    }
             
-            ownerChannels = channels.OrderBy(x => _creds.OwnerIds.IndexOf(x.Key))
-                    .Select(x => x.Value)
-                    .ToImmutableArray();
+        //    ownerChannels = channels.OrderBy(x => _creds.OwnerIds.IndexOf(x.Key))
+        //            .Select(x => x.Value)
+        //            .ToImmutableArray();
 
-            if (!ownerChannels.Any())
-                _log.Warn("No owner channels created! Make sure you've specified correct OwnerId in the credentials.json file.");
-            else
-                _log.Info($"Created {ownerChannels.Length} out of {_creds.OwnerIds.Length} owner message channels.");
-        }
+        //    if (!ownerChannels.Any())
+        //        _log.Warn("No owner channels created! Make sure you've specified correct OwnerId in the credentials.json file.");
+        //    else
+        //        _log.Info($"Created {ownerChannels.Length} out of {_creds.OwnerIds.Length} owner message channels.");
+        //}
 
         // forwards dms
         public async Task LateExecute(DiscordSocketClient client, IGuild guild, IUserMessage msg)

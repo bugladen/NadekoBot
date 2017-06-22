@@ -78,7 +78,10 @@ namespace NadekoBot
                                     .Where(x => x != null)
                                     .GroupBy(x => x.ConnectionState)
                                     .Select(x => x.Count() + " " + x.Key));
-                                _log.Info(string.Join("\n", Statuses.Select(x => $"Shard {x.ShardId} is in {x.ConnectionState.ToString()} state with {x.Guilds} servers")) + "\n" + groupStr);
+                                _log.Info(string.Join("\n", Statuses
+                                    .ToArray()
+                                    .Where(x => x != null)
+                                    .Select(x => $"Shard {x.ShardId} is in {x.ConnectionState.ToString()} state with {x.Guilds} servers")) + "\n" + groupStr);
                                 break;
                             default:
                                 break;

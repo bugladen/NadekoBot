@@ -363,10 +363,13 @@ namespace NadekoBot
         public async Task RunAndBlockAsync(params string[] args)
         {
             await RunAsync(args).ConfigureAwait(false);
+            StartSendingData();
             if (ShardCoord != null)
                 await ShardCoord.RunAndBlockAsync();
             else
+            {
                 await Task.Delay(-1).ConfigureAwait(false);
+            }
         }
 
         private void TerribleElevatedPermissionCheck()
