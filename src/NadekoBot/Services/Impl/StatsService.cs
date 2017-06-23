@@ -126,7 +126,6 @@ namespace NadekoBot.Services.Impl
                 return Task.CompletedTask;
             };
 
-            //todo carbonitex update
             if (sc != null)
             {
                 _carbonitexTimer = new Timer(async (state) =>

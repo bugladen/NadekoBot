@@ -290,7 +290,10 @@ namespace NadekoBot
 
             Task SetClientReady()
             {
-                clientReady.TrySetResult(true);
+                var _ = Task.Run(() =>
+                {
+                    clientReady.TrySetResult(true);
+                });
                 return Task.CompletedTask;
             }
 
