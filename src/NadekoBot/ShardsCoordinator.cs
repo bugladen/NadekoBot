@@ -53,7 +53,7 @@ namespace NadekoBot
                     FileName = Credentials.ShardRunCommand,
                     Arguments = string.Format(Credentials.ShardRunArguments, i, curProcessId)
                 });
-                await Task.Delay(6500);
+                await Task.Delay(5000);
             }
         }
 
