@@ -163,7 +163,7 @@ namespace NadekoBot
                 var repeaterService = new MessageRepeaterService(this, Client, AllGuildConfigs);
                 //var converterService = new ConverterService(Db);
                 var commandMapService = new CommandMapService(AllGuildConfigs);
-                var patreonRewardsService = new PatreonRewardsService(Credentials, Db, Currency);
+                var patreonRewardsService = new PatreonRewardsService(Credentials, Db, Currency, Client);
                 var verboseErrorsService = new VerboseErrorsService(AllGuildConfigs, Db, CommandHandler, helpService);
                 var pruneService = new PruneService();
                 #endregion

@@ -32,6 +32,8 @@ namespace NadekoBot.Services.Utility
         private readonly DbService _db;
         private readonly CurrencyService _currency;
 
+        private readonly string cacheFileName = "./patreon-rewards.json";
+
         public PatreonRewardsService(IBotCredentials creds, DbService db, CurrencyService currency,
             DiscordSocketClient client)
         {
@@ -41,7 +43,8 @@ namespace NadekoBot.Services.Utility
             if (string.IsNullOrWhiteSpace(creds.PatreonAccessToken))
                 return;
             _log = LogManager.GetCurrentClassLogger();
-            Updater = new Timer(async (load) => await RefreshPledges((bool)load), client.ShardId == 0, TimeSpan.Zero, Interval);
+            Updater = new Timer(async (load) => await RefreshPledges((bool)load),
+                client.ShardId == 0, client.ShardId == 0 ? TimeSpan.Zero : TimeSpan.FromMinutes(2), Interval);
         }
 
         public async Task RefreshPledges(bool shouldLoad)
@@ -93,11 +96,15 @@ namespace NadekoBot.Services.Utility
                 {
                     getPledgesLocker.Release();
                 }
+                Console.WriteLine("Pledges loaded from the website");
             }
             else
             {
+                if(File.Exists(cacheFileName))
                 Pledges = JsonConvert.DeserializeObject<PatreonUserAndReward[]>(File.ReadAllText("./patreon_rewards.json"))
                     .ToImmutableArray();
+
+                Console.WriteLine("Pledges loaded from the file");
             }
         }
 
