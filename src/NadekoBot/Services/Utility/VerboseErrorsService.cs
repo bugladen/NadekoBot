@@ -50,12 +50,12 @@ namespace NadekoBot.Services.Utility
 
         public bool ToggleVerboseErrors(ulong guildId)
         {
-
+            bool enabled;
             using (var uow = _db.UnitOfWork)
             {
                 var gc = uow.GuildConfigs.For(guildId, set => set);
 
-                gc.VerboseErrors = !gc.VerboseErrors;
+                enabled = gc.VerboseErrors = !gc.VerboseErrors;
 
                 uow.Complete();
 
@@ -65,15 +65,12 @@ namespace NadekoBot.Services.Utility
                     guildsEnabled.TryRemove(guildId);
             }
 
-            if (guildsEnabled.Add(guildId))
-            {
-                return true;
-            }
+            if (enabled)
+                guildsEnabled.Add(guildId);
             else
-            {
                 guildsEnabled.TryRemove(guildId);
-                return false;
-            }
+
+            return enabled;            
         }
 
     }
