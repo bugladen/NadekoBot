@@ -9,6 +9,6 @@ namespace NadekoBot.DataStructures.ModuleBehaviors
     /// </summary>
     public interface ILateExecutor
     {
-        Task LateExecute(DiscordShardedClient client, IGuild guild, IUserMessage msg);
+        Task LateExecute(DiscordSocketClient client, IGuild guild, IUserMessage msg);
     }
 }

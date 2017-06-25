@@ -13,10 +13,10 @@ namespace NadekoBot.Modules.Games
         [Group]
         public class PollCommands : NadekoSubmodule
         {
-            private readonly DiscordShardedClient _client;
+            private readonly DiscordSocketClient _client;
             private readonly PollService _polls;
 
-            public PollCommands(DiscordShardedClient client, PollService polls)
+            public PollCommands(DiscordSocketClient client, PollService polls)
             {
                 _client = client;
                 _polls = polls;
@@ -26,13 +26,7 @@ namespace NadekoBot.Modules.Games
             [RequireUserPermission(GuildPermission.ManageMessages)]
             [RequireContext(ContextType.Guild)]
             public Task Poll([Remainder] string arg = null)
-                => InternalStartPoll(arg, false);
-
-            [NadekoCommand, Usage, Description, Aliases]
-            [RequireUserPermission(GuildPermission.ManageMessages)]
-            [RequireContext(ContextType.Guild)]
-            public Task PublicPoll([Remainder] string arg = null)
-                => InternalStartPoll(arg, true);
+                => InternalStartPoll(arg);
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireUserPermission(GuildPermission.ManageMessages)]
@@ -45,9 +39,9 @@ namespace NadekoBot.Modules.Games
                 await Context.Channel.EmbedAsync(poll.GetStats(GetText("current_poll_results")));
             }
 
-            private async Task InternalStartPoll(string arg, bool isPublic = false)
+            private async Task InternalStartPoll(string arg)
             {
-                if(await _polls.StartPoll((ITextChannel)Context.Channel, Context.Message, arg, isPublic) == false)
+                if(await _polls.StartPoll((ITextChannel)Context.Channel, Context.Message, arg) == false)
                     await ReplyErrorLocalized("poll_already_running").ConfigureAwait(false);
             }
 

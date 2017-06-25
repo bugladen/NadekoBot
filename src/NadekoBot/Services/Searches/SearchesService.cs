@@ -15,7 +15,7 @@ namespace NadekoBot.Services.Searches
 {
     public class SearchesService
     {
-        private readonly DiscordShardedClient _client;
+        private readonly DiscordSocketClient _client;
         private readonly IGoogleApiService _google;
         private readonly DbService _db;
         private readonly Logger _log;
@@ -31,7 +31,7 @@ namespace NadekoBot.Services.Searches
         public List<WoWJoke> WowJokes { get; } = new List<WoWJoke>();
         public List<MagicItem> MagicItems { get; } = new List<MagicItem>();
 
-        public SearchesService(DiscordShardedClient client, IGoogleApiService google, DbService db)
+        public SearchesService(DiscordSocketClient client, IGoogleApiService google, DbService db)
         {
             _client = client;
             _google = google;

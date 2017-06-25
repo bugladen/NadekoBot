@@ -34,7 +34,9 @@ namespace NadekoBot.Modules.Utility
             [OwnerOnly]
             public async Task PatreonRewardsReload()
             {
-                await _patreon.LoadPledges().ConfigureAwait(false);
+                if (string.IsNullOrWhiteSpace(_creds.PatreonAccessToken))
+                    return;
+                await _patreon.RefreshPledges(true).ConfigureAwait(false);
 
                 await Context.Channel.SendConfirmAsync("👌").ConfigureAwait(false);
             }
@@ -44,6 +46,7 @@ namespace NadekoBot.Modules.Utility
             {
                 if (string.IsNullOrWhiteSpace(_creds.PatreonAccessToken))
                     return;
+
                 if (DateTime.UtcNow.Day < 5)
                 {
                     await ReplyErrorLocalized("clpa_too_early").ConfigureAwait(false);

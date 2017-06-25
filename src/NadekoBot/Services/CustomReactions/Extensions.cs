@@ -40,7 +40,7 @@ namespace NadekoBot.Services.CustomReactions
             } },
         };
 
-        public static Dictionary<string, Func<IUserMessage, DiscordShardedClient, string>> placeholders = new Dictionary<string, Func<IUserMessage, DiscordShardedClient, string>>()
+        public static Dictionary<string, Func<IUserMessage, DiscordSocketClient, string>> placeholders = new Dictionary<string, Func<IUserMessage, DiscordSocketClient, string>>()
         {
             {"%mention%", (ctx, client) => { return $"<@{client.CurrentUser.Id}>"; } },
             {"%user%", (ctx, client) => { return ctx.Author.Mention; } },
@@ -94,7 +94,7 @@ namespace NadekoBot.Services.CustomReactions
             } }
         };
 
-        private static string ResolveTriggerString(this string str, IUserMessage ctx, DiscordShardedClient client)
+        private static string ResolveTriggerString(this string str, IUserMessage ctx, DiscordSocketClient client)
         {
             foreach (var ph in placeholders)
             {
@@ -104,7 +104,7 @@ namespace NadekoBot.Services.CustomReactions
             return str;
         }
 
-        private static async Task<string> ResolveResponseStringAsync(this string str, IUserMessage ctx, DiscordShardedClient client, string resolvedTrigger)
+        private static async Task<string> ResolveResponseStringAsync(this string str, IUserMessage ctx, DiscordSocketClient client, string resolvedTrigger)
         {
             foreach (var ph in placeholders)
             {
@@ -127,13 +127,13 @@ namespace NadekoBot.Services.CustomReactions
             return str;
         }
 
-        public static string TriggerWithContext(this CustomReaction cr, IUserMessage ctx, DiscordShardedClient client)
+        public static string TriggerWithContext(this CustomReaction cr, IUserMessage ctx, DiscordSocketClient client)
             => cr.Trigger.ResolveTriggerString(ctx, client);
 
-        public static Task<string > ResponseWithContextAsync(this CustomReaction cr, IUserMessage ctx, DiscordShardedClient client)
+        public static Task<string > ResponseWithContextAsync(this CustomReaction cr, IUserMessage ctx, DiscordSocketClient client)
             => cr.Response.ResolveResponseStringAsync(ctx, client, cr.Trigger.ResolveTriggerString(ctx, client));
 
-        public static async Task<IUserMessage> Send(this CustomReaction cr, IUserMessage context, DiscordShardedClient client, CustomReactionsService crs)
+        public static async Task<IUserMessage> Send(this CustomReaction cr, IUserMessage context, DiscordSocketClient client, CustomReactionsService crs)
         {
             var channel = cr.DmResponse ? await context.Author.CreateDMChannelAsync() : context.Channel;
 

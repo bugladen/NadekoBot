@@ -22,7 +22,7 @@ namespace NadekoBot.Modules.Gambling
             private readonly BotConfig _bc;
             private readonly DbService _db;
             private readonly CurrencyService _cs;
-            private readonly DiscordShardedClient _client;
+            private readonly DiscordSocketClient _client;
 
             public enum Role
             {
@@ -34,7 +34,7 @@ namespace NadekoBot.Modules.Gambling
                 List
             }
 
-            public FlowerShop(BotConfig bc, DbService db, CurrencyService cs, DiscordShardedClient client)
+            public FlowerShop(BotConfig bc, DbService db, CurrencyService cs, DiscordSocketClient client)
             {
                 _db = db;
                 _bc = bc;

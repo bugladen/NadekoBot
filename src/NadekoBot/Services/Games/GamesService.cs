@@ -23,7 +23,7 @@ namespace NadekoBot.Services.Games
         public readonly ImmutableArray<string> EightBallResponses;
 
         private readonly Timer _t;
-        private readonly DiscordShardedClient _client;
+        private readonly DiscordSocketClient _client;
         private readonly NadekoStrings _strings;
         private readonly IImagesService _images;
         private readonly Logger _log;
@@ -33,7 +33,7 @@ namespace NadekoBot.Services.Games
 
         public List<TypingArticle> TypingArticles { get; } = new List<TypingArticle>();
 
-        public GamesService(DiscordShardedClient client, BotConfig bc, IEnumerable<GuildConfig> gcs, 
+        public GamesService(DiscordSocketClient client, BotConfig bc, IEnumerable<GuildConfig> gcs, 
             NadekoStrings strings, IImagesService images, CommandHandler cmdHandler)
         {
             _bc = bc;

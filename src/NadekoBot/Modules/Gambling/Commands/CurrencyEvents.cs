@@ -34,11 +34,11 @@ namespace NadekoBot.Modules.Gambling
                 .ToArray();
 
             private string _secretCode = string.Empty;
-            private readonly DiscordShardedClient _client;
+            private readonly DiscordSocketClient _client;
             private readonly BotConfig _bc;
             private readonly CurrencyService _cs;
 
-            public CurrencyEvents(DiscordShardedClient client, BotConfig bc, CurrencyService cs)
+            public CurrencyEvents(DiscordSocketClient client, BotConfig bc, CurrencyService cs)
             {
                 _client = client;
                 _bc = bc;
@@ -151,7 +151,7 @@ namespace NadekoBot.Modules.Gambling
     {
         private readonly ConcurrentHashSet<ulong> _flowerReactionAwardedUsers = new ConcurrentHashSet<ulong>();
         private readonly Logger _log;
-        private readonly DiscordShardedClient _client;
+        private readonly DiscordSocketClient _client;
         private readonly CurrencyService _cs;
 
         private IUserMessage StartingMessage { get; set; }
@@ -159,7 +159,7 @@ namespace NadekoBot.Modules.Gambling
         private CancellationTokenSource Source { get; }
         private CancellationToken CancelToken { get; }
 
-        public FlowerReactionEvent(DiscordShardedClient client, CurrencyService cs)
+        public FlowerReactionEvent(DiscordSocketClient client, CurrencyService cs)
         {
             _log = LogManager.GetCurrentClassLogger();
             _client = client;

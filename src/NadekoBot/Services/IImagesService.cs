@@ -18,6 +18,6 @@ namespace NadekoBot.Services
         ImmutableArray<byte> WifeMatrix { get; }
         ImmutableArray<byte> RategirlDot { get; }
 
-        TimeSpan Reload();
+        void Reload();
     }
 }

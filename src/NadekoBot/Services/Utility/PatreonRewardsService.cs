@@ -1,12 +1,15 @@
-﻿using NadekoBot.Services.Database.Models;
+﻿using Discord.WebSocket;
+using NadekoBot.Services.Database.Models;
 using NadekoBot.Services.Utility.Patreon;
 using Newtonsoft.Json;
 using NLog;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -23,12 +26,15 @@ namespace NadekoBot.Services.Utility
         private readonly SemaphoreSlim claimLockJustInCase = new SemaphoreSlim(1, 1);
         private readonly Logger _log;
 
-        public readonly TimeSpan Interval = TimeSpan.FromMinutes(15);
-        private IBotCredentials _creds;
+        public readonly TimeSpan Interval = TimeSpan.FromMinutes(3);
+        private readonly IBotCredentials _creds;
         private readonly DbService _db;
         private readonly CurrencyService _currency;
 
-        public PatreonRewardsService(IBotCredentials creds, DbService db, CurrencyService currency)
+        private readonly string cacheFileName = "./patreon-rewards.json";
+
+        public PatreonRewardsService(IBotCredentials creds, DbService db, CurrencyService currency,
+            DiscordSocketClient client)
         {
             _creds = creds;
             _db = db;
@@ -36,58 +42,65 @@ namespace NadekoBot.Services.Utility
             if (string.IsNullOrWhiteSpace(creds.PatreonAccessToken))
                 return;
             _log = LogManager.GetCurrentClassLogger();
-            Updater = new Timer(async (_) => await LoadPledges(), null, TimeSpan.Zero, Interval);
+            Updater = new Timer(async (load) => await RefreshPledges((bool)load),
+                client.ShardId == 0, client.ShardId == 0 ? TimeSpan.Zero : TimeSpan.FromMinutes(2), Interval);
         }
 
-        public async Task LoadPledges()
+        public async Task RefreshPledges(bool shouldLoad)
         {
-            LastUpdate = DateTime.UtcNow;
-            await getPledgesLocker.WaitAsync(1000).ConfigureAwait(false);
-            try
+            if (shouldLoad)
             {
-                var rewards = new List<PatreonPledge>();
-                var users = new List<PatreonUser>();
-                using (var http = new HttpClient())
+                LastUpdate = DateTime.UtcNow;
+                await getPledgesLocker.WaitAsync().ConfigureAwait(false);
+                try
                 {
-                    http.DefaultRequestHeaders.Clear();
-                    http.DefaultRequestHeaders.Add("Authorization", "Bearer " + _creds.PatreonAccessToken);
-                    var data = new PatreonData()
+                    var rewards = new List<PatreonPledge>();
+                    var users = new List<PatreonUser>();
+                    using (var http = new HttpClient())
                     {
-                        Links = new PatreonDataLinks()
+                        http.DefaultRequestHeaders.Clear();
+                        http.DefaultRequestHeaders.Add("Authorization", "Bearer " + _creds.PatreonAccessToken);
+                        var data = new PatreonData()
                         {
-                            next = "https://api.patreon.com/oauth2/api/campaigns/334038/pledges"
-                        }
-                    };
-                    do
+                            Links = new PatreonDataLinks()
+                            {
+                                next = "https://api.patreon.com/oauth2/api/campaigns/334038/pledges"
+                            }
+                        };
+                        do
+                        {
+                            var res = await http.GetStringAsync(data.Links.next)
+                                .ConfigureAwait(false);
+                            data = JsonConvert.DeserializeObject<PatreonData>(res);
+                            var pledgers = data.Data.Where(x => x["type"].ToString() == "pledge");
+                            rewards.AddRange(pledgers.Select(x => JsonConvert.DeserializeObject<PatreonPledge>(x.ToString()))
+                                .Where(x => x.attributes.declined_since == null));
+                            users.AddRange(data.Included
+                                .Where(x => x["type"].ToString() == "user")
+                                .Select(x => JsonConvert.DeserializeObject<PatreonUser>(x.ToString())));
+                        } while (!string.IsNullOrWhiteSpace(data.Links.next));
+                    }
+                    Pledges = rewards.Join(users, (r) => r.relationships?.patron?.data?.id, (u) => u.id, (x, y) => new PatreonUserAndReward()
                     {
-                        var res = await http.GetStringAsync(data.Links.next)
-                            .ConfigureAwait(false);
-                        data = JsonConvert.DeserializeObject<PatreonData>(res);
-                        var pledgers = data.Data.Where(x => x["type"].ToString() == "pledge");
-                        rewards.AddRange(pledgers.Select(x => JsonConvert.DeserializeObject<PatreonPledge>(x.ToString()))
-                            .Where(x => x.attributes.declined_since == null));
-                        users.AddRange(data.Included
-                            .Where(x => x["type"].ToString() == "user")
-                            .Select(x => JsonConvert.DeserializeObject<PatreonUser>(x.ToString())));
-                    } while (!string.IsNullOrWhiteSpace(data.Links.next));
+                        User = y,
+                        Reward = x,
+                    }).ToImmutableArray();
+                    File.WriteAllText("./patreon_rewards.json", JsonConvert.SerializeObject(Pledges));
                 }
-                Pledges = rewards.Join(users, (r) => r.relationships?.patron?.data?.id, (u) => u.id, (x, y) => new PatreonUserAndReward()
+                catch (Exception ex)
                 {
-                    User = y,
-                    Reward = x,
-                }).ToImmutableArray();
-            }
-            catch (Exception ex)
-            {
-                _log.Warn(ex);
-            }
-            finally
-            {
-                var _ = Task.Run(async () =>
+                    _log.Warn(ex);
+                }
+                finally
                 {
-                    await Task.Delay(TimeSpan.FromMinutes(5)).ConfigureAwait(false);
                     getPledgesLocker.Release();
-                });
+                }
+            }
+            else
+            {
+                if(File.Exists(cacheFileName))
+                Pledges = JsonConvert.DeserializeObject<PatreonUserAndReward[]>(File.ReadAllText("./patreon_rewards.json"))
+                    .ToImmutableArray();
             }
         }
 

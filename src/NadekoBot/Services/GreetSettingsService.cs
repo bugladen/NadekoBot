@@ -17,10 +17,10 @@ namespace NadekoBot.Services
         private readonly DbService _db;
 
         public readonly ConcurrentDictionary<ulong, GreetSettings> GuildConfigsCache;
-        private readonly DiscordShardedClient _client;
+        private readonly DiscordSocketClient _client;
         private readonly Logger _log;
 
-        public GreetSettingsService(DiscordShardedClient client, IEnumerable<GuildConfig> guildConfigs, DbService db)
+        public GreetSettingsService(DiscordSocketClient client, IEnumerable<GuildConfig> guildConfigs, DbService db)
         {
             _db = db;
             _client = client;

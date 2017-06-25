@@ -22,12 +22,12 @@ namespace NadekoBot.Modules.Music
     public class Music : NadekoTopLevelModule 
     {
         private static MusicService _music;
-        private readonly DiscordShardedClient _client;
+        private readonly DiscordSocketClient _client;
         private readonly IBotCredentials _creds;
         private readonly IGoogleApiService _google;
         private readonly DbService _db;
 
-        public Music(DiscordShardedClient client, IBotCredentials creds, IGoogleApiService google,
+        public Music(DiscordSocketClient client, IBotCredentials creds, IGoogleApiService google,
             DbService db, MusicService music)
         {
             _client = client;

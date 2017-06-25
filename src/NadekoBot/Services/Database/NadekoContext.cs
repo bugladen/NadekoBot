@@ -19,7 +19,9 @@ namespace NadekoBot.Services.Database
         {
             var optionsBuilder = new DbContextOptionsBuilder();
             optionsBuilder.UseSqlite("Filename=./data/NadekoBot.db");
-            return new NadekoContext(optionsBuilder.Options);
+            var ctx = new NadekoContext(optionsBuilder.Options);
+            ctx.Database.SetCommandTimeout(60);
+            return ctx;
         }
     }
 

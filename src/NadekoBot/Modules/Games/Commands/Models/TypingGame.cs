@@ -20,13 +20,13 @@ namespace NadekoBot.Modules.Games.Models
         public bool IsActive { get; private set; }
         private readonly Stopwatch sw;
         private readonly List<ulong> finishedUserIds;
-        private readonly DiscordShardedClient _client;
+        private readonly DiscordSocketClient _client;
         private readonly GamesService _games;
         private readonly string _prefix;
 
         private Logger _log { get; }
 
-        public TypingGame(GamesService games, DiscordShardedClient client, ITextChannel channel, string prefix) //kek@prefix
+        public TypingGame(GamesService games, DiscordSocketClient client, ITextChannel channel, string prefix) //kek@prefix
         {
             _log = LogManager.GetCurrentClassLogger();
             _games = games;

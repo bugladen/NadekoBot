@@ -17,10 +17,10 @@ namespace NadekoBot.Modules.CustomReactions
         private readonly IBotCredentials _creds;
         private readonly DbService _db;
         private readonly CustomReactionsService _crs;
-        private readonly DiscordShardedClient _client;
+        private readonly DiscordSocketClient _client;
 
         public CustomReactions(IBotCredentials creds, DbService db, CustomReactionsService crs,
-            DiscordShardedClient client)
+            DiscordSocketClient client)
         {
             _creds = creds;
             _db = db;
