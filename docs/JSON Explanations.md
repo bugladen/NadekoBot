@@ -19,7 +19,9 @@ If you do not see `credentials.json` you will need to rename `credentials_exampl
   "PatreonAccessToken": "",
   "Db": null,
   "TotalShards": 1,
-  "ShardRunCommand": ""
+  "ShardRunCommand": "",
+  "ShardRunArguments": "",
+  "ShardRunPort": null
 }
 ```
 -----
@@ -155,21 +157,7 @@ It should look like:
 	- For Patreon creators only.
 - **TotalShards** 
 	- Required if the bot will be connected to more than 1500 servers. 
-	- Most likely unnecessary to change until your bot is added to more than 1500 servers.  
-- **ShardRunCommand**
-	- Command with which to run shards 1+
-	- Required if you're sharding your bot on windows using .exe, or in a custom way.
-	- This internally defaults to `dotnet`
-	- For example, if you want to shard your NadekoBot which you installed using windows installer, you would want to set it to something like this: `C:\Program Files\NadekoBot\system\NadekoBot.exe`
-- **ShardRunArguments**
-	- Arguments to the shard run command
-	- Required if you're sharding your bot on windows using .exe, or in a custom way. 
-	- This internally defaults to `run -c Release -- {0} {1} {2}` which will be enough to run linux and other 'from source' setups
-	- {0} will be replaced by the `shard ID` of the shard being ran, {1} by the shard 0's process id, and {2} by the port shard communication is happening on
-	- If shard0 (main window) is closed, all other shards will close too
-	- For example, if you want to shard your NadekoBot which you installed using windows installer, you would want to set it to `{0} {1} {2}`
-- **ShardRunPort**
-	- Bot uses a random UDP port in [5000, 6000) range for communication between shards
+	- Most likely unnecessary to change until your bot is added to more than 1500 servers.
 -----
 
 ## DB files
@@ -195,6 +183,23 @@ in order to open the database file you will need [DB Browser for SQLite](http://
 - click on **Write Changes**
 
 and that will save all the changes.
+
+## Sharding your bot
+
+- **ShardRunCommand**
+	- Command with which to run shards 1+
+	- Required if you're sharding your bot on windows using .exe, or in a custom way.
+	- This internally defaults to `dotnet`
+	- For example, if you want to shard your NadekoBot which you installed using windows installer, you would want to set it to something like this: `C:\Program Files\NadekoBot\system\NadekoBot.exe`
+- **ShardRunArguments**
+	- Arguments to the shard run command
+	- Required if you're sharding your bot on windows using .exe, or in a custom way. 
+	- This internally defaults to `run -c Release -- {0} {1} {2}` which will be enough to run linux and other 'from source' setups
+	- {0} will be replaced by the `shard ID` of the shard being ran, {1} by the shard 0's process id, and {2} by the port shard communication is happening on
+	- If shard0 (main window) is closed, all other shards will close too
+	- For example, if you want to shard your NadekoBot which you installed using windows installer, you would want to set it to `{0} {1} {2}`
+- **ShardRunPort**
+	- Bot uses a random UDP port in [5000, 6000) range for communication between shards
 
 
 ![nadekodb](https://cdn.discordapp.com/attachments/251504306010849280/254067055240806400/nadekodb.gif)
