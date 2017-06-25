@@ -14,6 +14,7 @@ using NadekoBot.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using NadekoBot.Services.Administration;
 using System.Diagnostics;
+using NadekoBot.DataStructures;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -207,12 +208,11 @@ namespace NadekoBot.Modules.Administration
 
             //todo 2 shard commands
             //[NadekoCommand, Usage, Description, Aliases]
+            //[Shard0Precondition]
             //[OwnerOnly]
-            //public async Task ConnectShard(int shardid)
+            //public async Task RestartShard(int shardid)
             //{
-            //    var shard = _client.GetShard(shardid);
-
-            //    if (shard == null)
+            //    if (shardid == 0 || shardid > b)
             //    {
             //        await ReplyErrorLocalized("no_shard_id").ConfigureAwait(false);
             //        return;

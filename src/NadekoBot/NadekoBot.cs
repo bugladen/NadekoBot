@@ -4,8 +4,6 @@ using Discord.WebSocket;
 using NadekoBot.Services;
 using NadekoBot.Services.Impl;
 using NLog;
-using NLog.Config;
-using NLog.Targets;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -28,8 +26,6 @@ using NadekoBot.Services.Help;
 using System.IO;
 using NadekoBot.Services.Pokemon;
 using NadekoBot.DataStructures.ShardCom;
-using NadekoBot.DataStructures;
-using NadekoBot.Extensions;
 
 namespace NadekoBot
 {
@@ -295,9 +291,10 @@ namespace NadekoBot
                     clientReady.TrySetResult(true);
                     try
                     {
-                       await Task.WhenAll((await Client.GetDMChannelsAsync())
-                            .Select(x => x.CloseAsync()))
-                            .ConfigureAwait(false);
+                        foreach (var chan in (await Client.GetDMChannelsAsync()))
+                        {
+                            await chan.CloseAsync().ConfigureAwait(false);
+                        }
                     }
                     catch
                     {
