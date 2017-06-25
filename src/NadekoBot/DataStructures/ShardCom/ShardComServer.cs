@@ -9,8 +9,12 @@ namespace NadekoBot.DataStructures.ShardCom
 {
     public class ShardComServer : IDisposable
     {
-        public const int Port = 5664;
-        private readonly UdpClient _client = new UdpClient(Port);
+        private readonly UdpClient _client;
+
+        public ShardComServer(int port)
+        {
+            _client = new UdpClient(port);
+        }
 
         public void Start()
         {

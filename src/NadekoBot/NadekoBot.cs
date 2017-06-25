@@ -65,9 +65,9 @@ namespace NadekoBot
         public int ShardId { get; }
         public ShardsCoordinator ShardCoord { get; private set; }
 
-        private readonly ShardComClient _comClient = new ShardComClient();
+        private readonly ShardComClient _comClient;
 
-        public NadekoBot(int shardId, int parentProcessId)
+        public NadekoBot(int shardId, int parentProcessId, int? port = null)
         {
             if (shardId < 0)
                 throw new ArgumentOutOfRangeException(nameof(shardId));
@@ -79,6 +79,10 @@ namespace NadekoBot
             TerribleElevatedPermissionCheck();
 
             Credentials = new BotCredentials();
+
+            port = port ?? Credentials.ShardRunPort;
+            _comClient = new ShardComClient(port.Value);
+
             Db = new DbService(Credentials);
 
             using (var uow = Db.UnitOfWork)
@@ -108,7 +112,7 @@ namespace NadekoBot
             Currency = new CurrencyService(BotConfig, Db);
             GoogleApi = new GoogleApiService(Credentials);
 
-            SetupShard(shardId, parentProcessId);
+            SetupShard(shardId, parentProcessId, port.Value);
 
 #if GLOBAL_NADEKO
             Client.Log += Client_Log;
@@ -411,7 +415,7 @@ namespace NadekoBot
             }
         }
 
-        private void SetupShard(int shardId, int parentProcessId)
+        private void SetupShard(int shardId, int parentProcessId, int port)
         {
             if (shardId != 0)
             {
@@ -432,7 +436,7 @@ namespace NadekoBot
             }
             else
             {
-                ShardCoord = new ShardsCoordinator();
+                ShardCoord = new ShardsCoordinator(port);
             }
         }
     }
