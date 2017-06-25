@@ -165,7 +165,7 @@ namespace NadekoBot
                 #endregion
 
                 #region permissions
-                var permissionsService = new PermissionService(Client, Db, BotConfig, CommandHandler);
+                var permissionsService = new PermissionService(Client, Db, BotConfig, CommandHandler, Strings);
                 var blacklistService = new BlacklistService(BotConfig);
                 var cmdcdsService = new CmdCdService(AllGuildConfigs);
                 var filterService = new FilterService(Client, AllGuildConfigs);
@@ -180,11 +180,11 @@ namespace NadekoBot
 
                 var clashService = new ClashOfClansService(Client, Db, Localization, Strings, uow, startingGuildIdList);
                 var musicService = new MusicService(GoogleApi, Strings, Localization, Db, soundcloudApiService, Credentials, AllGuildConfigs);
-                var crService = new CustomReactionsService(permissionsService, Db, Client, CommandHandler, BotConfig, uow);
+                var crService = new CustomReactionsService(permissionsService, Db, Strings, Client, CommandHandler, BotConfig, uow);
 
                 #region Games
                 var gamesService = new GamesService(Client, BotConfig, AllGuildConfigs, Strings, Images, CommandHandler);
-                var chatterBotService = new ChatterBotService(Client, permissionsService, AllGuildConfigs, CommandHandler);
+                var chatterBotService = new ChatterBotService(Client, permissionsService, AllGuildConfigs, CommandHandler, Strings);
                 var pollService = new PollService(Client, Strings);
                 #endregion
 

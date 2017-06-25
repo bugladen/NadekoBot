@@ -20,16 +20,18 @@ namespace NadekoBot.Services.Permissions
         private readonly DbService _db;
         private readonly Logger _log;
         private readonly CommandHandler _cmd;
+        private readonly NadekoStrings _strings;
 
         //guildid, root permission
         public ConcurrentDictionary<ulong, PermissionCache> Cache { get; } =
             new ConcurrentDictionary<ulong, PermissionCache>();
 
-        public PermissionService(DiscordSocketClient client, DbService db, BotConfig bc, CommandHandler cmd)
+        public PermissionService(DiscordSocketClient client, DbService db, BotConfig bc, CommandHandler cmd, NadekoStrings strings)
         {
             _log = LogManager.GetCurrentClassLogger();
             _db = db;
             _cmd = cmd;
+            _strings = strings;
 
             var sw = Stopwatch.StartNew();
             if (client.ShardId == 0)
@@ -205,11 +207,9 @@ WHERE secondaryTargetName LIKE '.%' OR
                 PermissionCache pc = GetCache(guild.Id);
                 if (!resetCommand && !pc.Permissions.CheckPermissions(msg, commandName, moduleName, out int index))
                 {
-                    var returnMsg = $"Permission number #{index + 1} **{pc.Permissions[index].GetCommand(_cmd.GetPrefix(guild), (SocketGuild)guild)}** is preventing this action.";
                     if (pc.Verbose)
-                        try { await channel.SendErrorAsync(returnMsg).ConfigureAwait(false); } catch { }
+                        try { await channel.SendErrorAsync(_strings.GetText("trigger", guild.Id, "Permissions".ToLowerInvariant(), index + 1, Format.Bold(pc.Permissions[index].GetCommand(_cmd.GetPrefix(guild), (SocketGuild)guild)))).ConfigureAwait(false); } catch { }
                     return true;
-                    //return new ExecuteCommandResult(cmd, pc, SearchResult.FromError(CommandError.Exception, returnMsg));
                 }
 
 
@@ -222,7 +222,6 @@ WHERE secondaryTargetName LIKE '.%' OR
                         if (pc.Verbose)
                             try { await channel.SendErrorAsync(returnMsg).ConfigureAwait(false); } catch { }
                         return true;
-                        //return new ExecuteCommandResult(cmd, pc, SearchResult.FromError(CommandError.Exception, $"You need the **{pc.PermRole}** role in order to use permission commands."));
                     }
                 }
             }

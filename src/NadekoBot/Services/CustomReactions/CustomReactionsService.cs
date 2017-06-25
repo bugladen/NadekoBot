@@ -27,8 +27,9 @@ namespace NadekoBot.Services.CustomReactions
         private readonly PermissionService _perms;
         private readonly CommandHandler _cmd;
         private readonly BotConfig _bc;
+        private readonly NadekoStrings _strings;
 
-        public CustomReactionsService(PermissionService perms, DbService db, 
+        public CustomReactionsService(PermissionService perms, DbService db, NadekoStrings strings,
             DiscordSocketClient client, CommandHandler cmd, BotConfig bc, IUnitOfWork uow)
         {
             _log = LogManager.GetCurrentClassLogger();
@@ -37,6 +38,7 @@ namespace NadekoBot.Services.CustomReactions
             _perms = perms;
             _cmd = cmd;
             _bc = bc;
+            _strings = strings;
             
             var items = uow.CustomReactions.GetAll();
             GuildReactions = new ConcurrentDictionary<ulong, CustomReaction[]>(items.Where(g => g.GuildId != null && g.GuildId != 0).GroupBy(k => k.GuildId.Value).ToDictionary(g => g.Key, g => g.ToArray()));
@@ -109,7 +111,7 @@ namespace NadekoBot.Services.CustomReactions
                         {
                             if (pc.Verbose)
                             {
-                                var returnMsg = $"Permission number #{index + 1} **{pc.Permissions[index].GetCommand(_cmd.GetPrefix(guild), sg)}** is preventing this action.";
+                                var returnMsg = _strings.GetText("trigger", guild.Id, "Permissions".ToLowerInvariant(), index + 1, Format.Bold(pc.Permissions[index].GetCommand(_cmd.GetPrefix(guild), (SocketGuild)guild)));
                                 try { await msg.Channel.SendErrorAsync(returnMsg).ConfigureAwait(false); } catch { }
                                 _log.Info(returnMsg);
                             }
