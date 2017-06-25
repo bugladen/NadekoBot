@@ -60,8 +60,6 @@ namespace NadekoBot
         public INServiceProvider Services { get; private set; }
         public BotCredentials Credentials { get; }
 
-        private const string _mutexName = @"Global\nadeko_shards_lock";
-        private readonly Semaphore sem = new Semaphore(1, 1, _mutexName);
         public int ShardId { get; }
         public ShardsCoordinator ShardCoord { get; private set; }
 
@@ -313,23 +311,13 @@ namespace NadekoBot
             }
 
             //connect
-            try { sem.WaitOne(); } catch (AbandonedMutexException) { }
-
             _log.Info("Shard {0} logging in ...", ShardId);
-
-            try
-            {
-                await Client.LoginAsync(TokenType.Bot, token).ConfigureAwait(false);
-                await Client.StartAsync().ConfigureAwait(false);
-                Client.Ready += SetClientReady;
-                await clientReady.Task.ConfigureAwait(false);
-                Client.Ready -= SetClientReady;
-            }
-            finally
-            {
-                _log.Info("Shard {0} logged in.", ShardId);
-                sem.Release();
-            }
+            await Client.LoginAsync(TokenType.Bot, token).ConfigureAwait(false);
+            await Client.StartAsync().ConfigureAwait(false);
+            Client.Ready += SetClientReady;
+            await clientReady.Task.ConfigureAwait(false);
+            Client.Ready -= SetClientReady;
+            _log.Info("Shard {0} logged in.", ShardId);
         }
 
         public async Task RunAsync(params string[] args)
