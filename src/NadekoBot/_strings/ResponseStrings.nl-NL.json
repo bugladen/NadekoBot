@@ -243,7 +243,7 @@
     "administration_sbdm": "Je bent soft-gebant van {0} server.\nReden: {1}",
     "administration_user_unbanned": "Gebruiker niet meer verbannen",
     "administration_migration_done": "Migratie klaar!",
-    "adminsitration_migration_error": "Fout tijdens het migreren, kijk in de bot zijn console voor meer informatie.",
+    "administration_migration_error": "Fout tijdens het migreren, kijk in de bot zijn console voor meer informatie.",
     "administration_presence_updates": "Aanwezigheid updates",
     "administration_sb_user": "Gebruiker soft-gebant",
     "gambling_awarded": "heeft {0} aan {1} gegeven",

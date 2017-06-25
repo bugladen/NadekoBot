@@ -243,7 +243,7 @@
     "administration_sbdm": "あなたは{0}サーバーからソフト禁止されました。\n理由：{1}",
     "administration_user_unbanned": "Since I'm using \"exiled\" for banned. need to rethink a new word.. so just leave this one alone\n",
     "administration_migration_done": "移行が完了しました！\n",
-    "adminsitration_migration_error": "移行中にエラーが発生しました。詳細については、ボットのコンソールを確認してください。\n",
+    "administration_migration_error": "移行中にエラーが発生しました。詳細については、ボットのコンソールを確認してください。\n",
     "administration_presence_updates": "存在の更新",
     "administration_sb_user": "ユーザはソフトバン",
     "gambling_awarded": "{0}から{1}に授与されました\n",

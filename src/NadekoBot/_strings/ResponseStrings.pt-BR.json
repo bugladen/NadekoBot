@@ -243,7 +243,7 @@
     "administration_sbdm": "Você foi banido temporariamente do servidor {0}.\nMotivo: {1}",
     "administration_user_unbanned": "Usuário desbanido",
     "administration_migration_done": "Migração concluída!",
-    "adminsitration_migration_error": "Erro enquanto migrava, verifique o console do bot para mais informações.",
+    "administration_migration_error": "Erro enquanto migrava, verifique o console do bot para mais informações.",
     "administration_presence_updates": "Atualizações de Presença",
     "administration_sb_user": "Usuário Banido Temporariamente",
     "gambling_awarded": "concedeu {0} para {1}",

@@ -243,7 +243,7 @@
     "administration_sbdm": "Anda telah diban halus dari server {0}.\nAlasan: {1}",
     "administration_user_unbanned": "Pengguna telah di unban",
     "administration_migration_done": "Migrasi selesai!",
-    "adminsitration_migration_error": "Error ketika migrasi, cek konsol bot untuk informasi lebih lanjut.",
+    "administration_migration_error": "Error ketika migrasi, cek konsol bot untuk informasi lebih lanjut.",
     "administration_presence_updates": "Pembaharuan kehadiran",
     "administration_sb_user": "Pengguna diban halus",
     "gambling_awarded": "Telah menyerahkan {0} ke {1}",

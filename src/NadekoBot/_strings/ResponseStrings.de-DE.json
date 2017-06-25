@@ -243,7 +243,7 @@
     "administration_sbdm": "Sie wurden vom Server {0} gekickt.\nGrund: {1}",
     "administration_user_unbanned": "Benutzer entbannt",
     "administration_migration_done": "Migration fertig!",
-    "adminsitration_migration_error": "Fehler beim migrieren von Daten. Prüfe die Konsole des Bots für mehr Informationen.",
+    "administration_migration_error": "Fehler beim migrieren von Daten. Prüfe die Konsole des Bots für mehr Informationen.",
     "administration_presence_updates": "Anwesenheits Änderungen",
     "administration_sb_user": "Nutzer wurde gekickt",
     "gambling_awarded": "gab {0} an {1}",

@@ -243,7 +243,7 @@
     "administration_sbdm": "당신은 {0} 서버에서 소프트밴을 당했습니다.\n사유: {1}",
     "administration_user_unbanned": "사용자 밴 해제",
     "administration_migration_done": "이전 완료!",
-    "adminsitration_migration_error": "이전 과정에서 오류가 발생했습니다. 자세한 정보는 봇의 콘솔을 통해서 확인하세요.",
+    "administration_migration_error": "이전 과정에서 오류가 발생했습니다. 자세한 정보는 봇의 콘솔을 통해서 확인하세요.",
     "administration_presence_updates": "현재 상태 업데이트",
     "administration_sb_user": "사용자 소프트 밴",
     "gambling_awarded": "님이 {1}에게 {0}개를 지급했습니다.",

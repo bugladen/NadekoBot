@@ -243,7 +243,7 @@
     "administration_sbdm": "لقد تم حظرك من {0} مزود.\nالسبب: {1}",
     "administration_user_unbanned": "ازالة الطرد عن المستخدم",
     "administration_migration_done": "تمت الهجرة !",
-    "adminsitration_migration_error": "حدث خطأ أثناء الترحيل، راجع وحدة تحكم بوت للحصول على مزيد من المعلومات.",
+    "administration_migration_error": "حدث خطأ أثناء الترحيل، راجع وحدة تحكم بوت للحصول على مزيد من المعلومات.",
     "administration_presence_updates": "التحديث الحالي",
     "administration_sb_user": "المستخدم طرد-مخفض",
     "gambling_awarded": "تم  منح {0} الى {1}",

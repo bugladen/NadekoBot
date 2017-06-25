@@ -243,7 +243,7 @@
     "administration_sbdm": "您已从{0}服务器软禁止。\n原因：{1}",
     "administration_user_unbanned": "用户已取消禁止",
     "administration_migration_done": "迁移完成！",
-    "adminsitration_migration_error": "在迁移时出错，请检查机器人的控制台以获取更多信息。",
+    "administration_migration_error": "在迁移时出错，请检查机器人的控制台以获取更多信息。",
     "administration_presence_updates": "在线状态更新",
     "administration_sb_user": "用户被软禁用",
     "gambling_awarded": "已将{0}奖励给{1}",

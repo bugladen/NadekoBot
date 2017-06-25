@@ -243,7 +243,7 @@
     "administration_sbdm": "אתה קיבלת איסור רך מהסרבר {0}.\nסיבה: {1}",
     "administration_user_unbanned": "משתמש ונאסר",
     "administration_migration_done": "נדידה גמורה!",
-    "adminsitration_migration_error": "שגיעה בזמן הנדידה, תבדוק את ה מסוף בקרה של הבוט בשביל יותר מידע.\n\n ",
+    "administration_migration_error": "שגיעה בזמן הנדידה, תבדוק את ה מסוף בקרה של הבוט בשביל יותר מידע.\n\n ",
     "administration_presence_updates": "עדכון נוכחות",
     "administration_sb_user": "משתמש קיבל איסור רך.",
     "gambling_awarded": "העניק {0} ל{1}",

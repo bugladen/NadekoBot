@@ -243,7 +243,7 @@
     "administration_sbdm": "Du har blitt 'soft-banned' fra {0} server.\nGrunn: {1}",
     "administration_user_unbanned": "Fjernet bruker fra utestenging",
     "administration_migration_done": "Migrering fullført!",
-    "adminsitration_migration_error": "Feil under migrering, sjekk botens konsoll for mer informasjon.",
+    "administration_migration_error": "Feil under migrering, sjekk botens konsoll for mer informasjon.",
     "administration_presence_updates": "Oppdatering av tilstedeværelse",
     "administration_sb_user": "Bruker soft-banned",
     "gambling_awarded": "har tildelt {0} til {1}",

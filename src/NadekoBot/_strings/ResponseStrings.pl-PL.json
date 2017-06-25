@@ -243,7 +243,7 @@
     "administration_sbdm": "Zostałeś tymczasowo zablokowany na serwerze {0}\nPowód: {1}",
     "administration_user_unbanned": "Użytkownik został odbanowany",
     "administration_migration_done": "Migracja zakończona!",
-    "adminsitration_migration_error": "Błąd podczas migracji, sprawdz konsole bota po więcej informacji.",
+    "administration_migration_error": "Błąd podczas migracji, sprawdz konsole bota po więcej informacji.",
     "administration_presence_updates": "Aktualizacje obecności",
     "administration_sb_user": "Użytkownik tymczasowo zablokowany",
     "gambling_awarded": "nagrodził {0} {1}",

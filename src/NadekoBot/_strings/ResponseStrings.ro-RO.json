@@ -243,7 +243,7 @@
     "administration_sbdm": "Ai fost banat-ușor din serverul {0}.\nMotivul: {1}",
     "administration_user_unbanned": "Utilizator bannat.",
     "administration_migration_done": "Migrare terminata!",
-    "adminsitration_migration_error": "Eroare in timpul migrarii, verifica consola bot-ului pentru mai multe informatii.",
+    "administration_migration_error": "Eroare in timpul migrarii, verifica consola bot-ului pentru mai multe informatii.",
     "administration_presence_updates": "Actualizări de prezență.",
     "administration_sb_user": "Utilizator banat-ușor.",
     "gambling_awarded": "A acordat {0} la {1}.",

@@ -243,7 +243,7 @@
     "administration_sbdm": "您已被伺服器 {0} 軟禁。\n理由: {1}",
     "administration_user_unbanned": "成員已解禁",
     "administration_migration_done": "合併完成!",
-    "adminsitration_migration_error": "在合併時發生問題，請查閱命令視窗來取得更多資訊。",
+    "administration_migration_error": "在合併時發生問題，請查閱命令視窗來取得更多資訊。",
     "administration_presence_updates": "在線狀態更新",
     "administration_sb_user": "成員被軟禁",
     "gambling_awarded": "賜予了 {1} 給 {0}",
