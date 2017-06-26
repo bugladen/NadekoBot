@@ -153,6 +153,7 @@ namespace NadekoBot.Modules.Gambling
         private readonly Logger _log;
         private readonly DiscordSocketClient _client;
         private readonly CurrencyService _cs;
+        private readonly SocketSelfUser _botUser;
 
         private IUserMessage StartingMessage { get; set; }
 
@@ -164,6 +165,7 @@ namespace NadekoBot.Modules.Gambling
             _log = LogManager.GetCurrentClassLogger();
             _client = client;
             _cs = cs;
+            _botUser = client.CurrentUser;
             Source = new CancellationTokenSource();
             CancelToken = Source.Token;
         }
@@ -208,6 +210,9 @@ namespace NadekoBot.Modules.Gambling
             {
                 try
                 {
+                    if (r.UserId == _botUser.Id)
+                        return;
+
                     if (r.Emote.Name == "🌸" && r.User.IsSpecified && ((DateTime.UtcNow - r.User.Value.CreatedAt).TotalDays > 5) && _flowerReactionAwardedUsers.Add(r.User.Value.Id))
                     {
                         await _cs.AddAsync(r.User.Value, "Flower Reaction Event", amount, false)
