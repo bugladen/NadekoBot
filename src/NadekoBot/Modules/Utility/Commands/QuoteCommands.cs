@@ -67,17 +67,18 @@ namespace NadekoBot.Modules.Utility
                 if (quote == null)
                     return;
 
+                var rep = new ReplacementBuilder()
+                    .WithDefault(Context)
+                    .Build();
+
                 if (CREmbed.TryParse(quote.Text, out var crembed))
                 {
-                    new ReplacementBuilder()
-                        .WithDefault(Context)
-                        .Build()
-                        .Replace(crembed);
+                    rep.Replace(crembed);
                     await Context.Channel.EmbedAsync(crembed.ToEmbed(), crembed.PlainText?.SanitizeMentions() ?? "")
                         .ConfigureAwait(false);
                     return;
                 }
-                await Context.Channel.SendMessageAsync($"`#{quote.Id}` 📣 " + quote.Text.SanitizeMentions());
+                await Context.Channel.SendMessageAsync($"`#{quote.Id}` 📣 " + rep.Replace(quote.Text)?.SanitizeMentions());
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -115,16 +116,17 @@ namespace NadekoBot.Modules.Utility
                 { 
                     var qfromid = uow.Quotes.Get(id);
 
+                    var rep = new ReplacementBuilder()
+                        .WithDefault(Context)
+                        .Build();
+
                     if (qfromid == null)
                     {
                         await Context.Channel.SendErrorAsync(GetText("quotes_notfound"));
                     }
                     else if (CREmbed.TryParse(qfromid.Text, out var crembed))
                     {
-                        new ReplacementBuilder()
-                            .WithDefault(Context)
-                            .Build()
-                            .Replace(crembed);
+                        rep.Replace(crembed);
 
                         await Context.Channel.EmbedAsync(crembed.ToEmbed(), crembed.PlainText?.SanitizeMentions() ?? "")
                             .ConfigureAwait(false);
@@ -132,7 +134,7 @@ namespace NadekoBot.Modules.Utility
                     else
                     {
                         await Context.Channel.SendMessageAsync($"`#{qfromid.Id}` 🗯️ " + qfromid.Keyword.ToLowerInvariant().SanitizeMentions() + ":  " +
-                                                    qfromid.Text.SanitizeMentions());
+                                                    rep.Replace(qfromid.Text)?.SanitizeMentions());
                     }
 
                 }
