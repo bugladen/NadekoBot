@@ -735,7 +735,7 @@
   "administration_warned_on_by": "On {0} at {1} by {2}",
   "administration_warnings_cleared": "All warnings have been cleared for {0}.",
   "administration_warnings_none": "No warning on this page.",
-  "administration_warnings_list": "List of all warned users on the server.",
+  "administration_warnings_list": "List of all warned users on the server",
   "administration_warnlog_for": "Warnlog for {0}",
   "administration_warnpl_none": "No punishments set.",
   "administration_warn_cleared_by": "cleared by {0}",
