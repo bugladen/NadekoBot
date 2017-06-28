@@ -66,15 +66,16 @@ namespace NadekoBot.Extensions
             ms.Seek(0, SeekOrigin.Begin);
             return ms;
         }
-
+        public static Task SendPaginatedConfirmAsync(this IMessageChannel channel, DiscordSocketClient client, int currentPage, Func<int, EmbedBuilder> pageFunc, int? lastPage = null, bool addPaginatedFooter = true) =>
+            channel.SendPaginatedConfirmAsync(client, currentPage, (x) => Task.FromResult(pageFunc(x)), lastPage, addPaginatedFooter);
         /// <summary>
         /// danny kamisama
         /// </summary>
-        public static async Task SendPaginatedConfirmAsync(this IMessageChannel channel, DiscordSocketClient client, int currentPage, Func<int, EmbedBuilder> pageFunc, int? lastPage = null, bool addPaginatedFooter = true)
+        public static async Task SendPaginatedConfirmAsync(this IMessageChannel channel, DiscordSocketClient client, int currentPage, Func<int, Task<EmbedBuilder>> pageFunc, int? lastPage = null, bool addPaginatedFooter = true)
         {
-            var embed = pageFunc(currentPage);
+            var embed = await pageFunc(currentPage).ConfigureAwait(false);
 
-            if(addPaginatedFooter)
+            if (addPaginatedFooter)
                 embed.AddPaginatedFooter(currentPage, lastPage);
 
             var msg = await channel.EmbedAsync(embed) as IUserMessage;
@@ -82,8 +83,8 @@ namespace NadekoBot.Extensions
             if (lastPage == 0)
                 return;
 
-            
-            await msg.AddReactionAsync( arrow_left).ConfigureAwait(false);
+
+            await msg.AddReactionAsync(arrow_left).ConfigureAwait(false);
             await msg.AddReactionAsync(arrow_right).ConfigureAwait(false);
 
             await Task.Delay(2000).ConfigureAwait(false);
@@ -96,7 +97,7 @@ namespace NadekoBot.Extensions
                     {
                         if (currentPage == 0)
                             return;
-                        var toSend = pageFunc(--currentPage);
+                        var toSend = await pageFunc(--currentPage).ConfigureAwait(false);
                         if (addPaginatedFooter)
                             toSend.AddPaginatedFooter(currentPage, lastPage);
                         await msg.ModifyAsync(x => x.Embed = toSend.Build()).ConfigureAwait(false);
@@ -105,7 +106,7 @@ namespace NadekoBot.Extensions
                     {
                         if (lastPage == null || lastPage > currentPage)
                         {
-                            var toSend = pageFunc(++currentPage);
+                            var toSend = await pageFunc(++currentPage).ConfigureAwait(false);
                             if (addPaginatedFooter)
                                 toSend.AddPaginatedFooter(currentPage, lastPage);
                             await msg.ModifyAsync(x => x.Embed = toSend.Build()).ConfigureAwait(false);
@@ -315,7 +316,7 @@ namespace NadekoBot.Extensions
                 return list;
             }
         }
-    
+
         /// <summary>
         /// Easy use of fast, efficient case-insensitive Contains check with StringComparison Member Types 
         /// CurrentCulture, CurrentCultureIgnoreCase, InvariantCulture, InvariantCultureIgnoreCase, Ordinal, OrdinalIgnoreCase

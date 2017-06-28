@@ -194,6 +194,39 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.BanMembers)]
+            public async Task WarnlogAll(int page = 1)
+            {
+                if (--page < 0)
+                    return;
+                IGrouping<ulong, Warning>[] warnings;
+                using (var uow = _db.UnitOfWork)
+                {
+                    warnings = uow.Warnings.GetAll().GroupBy(x => x.UserId).ToArray();
+                }
+
+                await Context.Channel.SendPaginatedConfirmAsync((DiscordSocketClient)Context.Client, page, async (curPage) =>
+                {
+                    var ws = await Task.WhenAll(warnings.Skip(curPage * 15)
+                        .Take(15)
+                        .ToArray()
+                        .Select(async x =>
+                        {
+                            var all = x.Count();
+                            var forgiven = x.Count(y => y.Forgiven);
+                            var total = all - forgiven;
+                            return ((await Context.Guild.GetUserAsync(x.Key))?.ToString() ?? x.Key.ToString()) + $" | {total} ({all} - {forgiven})";
+                        }));
+
+                    return new EmbedBuilder()
+                        .WithTitle(GetText("warnings_list"))
+                        .WithDescription(string.Join("\n", ws));
+
+                }, warnings.Length / 15);
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.BanMembers)]
             public Task Warnclear(IGuildUser user)
                 => Warnclear(user.Id);
 
