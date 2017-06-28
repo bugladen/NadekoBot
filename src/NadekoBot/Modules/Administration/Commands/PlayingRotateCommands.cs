@@ -33,11 +33,11 @@ namespace NadekoBot.Modules.Administration
                     {
                         var config = uow.BotConfig.GetOrCreate();
 
-                        _service.RotatingStatuses = config.RotatingStatuses = !config.RotatingStatuses;
+                        config.RotatingStatuses = !config.RotatingStatuses;
                         uow.Complete();
                     }
                 }
-                if (_service.RotatingStatuses)
+                if (_service.BotConfig.RotatingStatuses)
                     await ReplyConfirmLocalized("ropl_enabled").ConfigureAwait(false);
                 else
                     await ReplyConfirmLocalized("ropl_disabled").ConfigureAwait(false);
@@ -52,7 +52,6 @@ namespace NadekoBot.Modules.Administration
                     var config = uow.BotConfig.GetOrCreate();
                     var toAdd = new PlayingStatus { Status = status };
                     config.RotatingStatusMessages.Add(toAdd);
-                    _service.RotatingStatusMessages.Add(toAdd);
                     await uow.CompleteAsync();
                 }
 
@@ -63,13 +62,13 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task ListPlaying()
             {
-                if (!_service.RotatingStatusMessages.Any())
+                if (!_service.BotConfig.RotatingStatusMessages.Any())
                     await ReplyErrorLocalized("ropl_not_set").ConfigureAwait(false);
                 else
                 {
                     var i = 1;
                     await ReplyConfirmLocalized("ropl_list",
-                            string.Join("\n\t", _service.RotatingStatusMessages.Select(rs => $"`{i++}.` {rs.Status}")))
+                            string.Join("\n\t", _service.BotConfig.RotatingStatusMessages.Select(rs => $"`{i++}.` {rs.Status}")))
                         .ConfigureAwait(false);
                 }
 
@@ -90,7 +89,6 @@ namespace NadekoBot.Modules.Administration
                         return;
                     msg = config.RotatingStatusMessages[index].Status;
                     config.RotatingStatusMessages.RemoveAt(index);
-                    _service.RotatingStatusMessages.RemoveAt(index);
                     await uow.CompleteAsync();
                 }
                 await ReplyConfirmLocalized("reprm", msg).ConfigureAwait(false);

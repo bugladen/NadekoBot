@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.WebSocket;
+using NadekoBot.DataStructures.Replacements;
 using NadekoBot.Extensions;
 using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
@@ -19,13 +20,6 @@ namespace NadekoBot.Services.Utility
                                 RegexOptions.Compiled | RegexOptions.Multiline);
 
         public string RemindMessageFormat { get; }
-
-        public readonly IDictionary<string, Func<Reminder, string>> _replacements = new Dictionary<string, Func<Reminder, string>>
-            {
-                { "%message%" , (r) => r.Message },
-                { "%user%", (r) => $"<@!{r.UserId}>" },
-                { "%target%", (r) =>  r.IsPrivate ? "Direct Message" : $"<#{r.ChannelId}>"}
-            };
 
         private readonly Logger _log;
         private readonly CancellationTokenSource cancelSource;
@@ -82,11 +76,13 @@ namespace NadekoBot.Services.Utility
                 if (ch == null)
                     return;
 
-                await ch.SendMessageAsync(
-                    _replacements.Aggregate(RemindMessageFormat,
-                        (cur, replace) => cur.Replace(replace.Key, replace.Value(r)))
-                                             .SanitizeMentions()
-                        ).ConfigureAwait(false); //it works trust me
+                var rep = new ReplacementBuilder()
+                    .WithOverride("%user%", () => $"<@!{r.UserId}>")
+                    .WithOverride("%message%", () => r.Message)
+                    .WithOverride("%target%", () => r.IsPrivate ? "Direct Message" : $"<#{r.ChannelId}>")
+                    .Build();
+
+                await ch.SendMessageAsync(rep.Replace(RemindMessageFormat).SanitizeMentions()).ConfigureAwait(false); //it works trust me
             }
             catch (Exception ex) { _log.Warn(ex); }
             finally

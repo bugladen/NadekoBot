@@ -1377,15 +1377,6 @@
   <data name="typeadd_usage" xml:space="preserve">
     <value>`{0}typeadd wordswords`</value>
   </data>
-  <data name="poll_cmd" xml:space="preserve">
-    <value>poll</value>
-  </data>
-  <data name="poll_desc" xml:space="preserve">
-    <value>Creates a poll which requires users to send the number of the voting option to the bot.</value>
-  </data>
-  <data name="poll_usage" xml:space="preserve">
-    <value>`{0}poll Question?;Answer1;Answ 2;A_3`</value>
-  </data>
   <data name="pollend_cmd" xml:space="preserve">
     <value>pollend</value>
   </data>
@@ -2583,13 +2574,13 @@
   <data name="togethertube_usage" xml:space="preserve">
     <value>`{0}totube`</value>
   </data>
-  <data name="publicpoll_cmd" xml:space="preserve">
-    <value>publicpoll ppoll</value>
+  <data name="poll_cmd" xml:space="preserve">
+    <value>poll ppoll</value>
   </data>
-  <data name="publicpoll_desc" xml:space="preserve">
+  <data name="poll_desc" xml:space="preserve">
     <value>Creates a public poll which requires users to type a number of the voting option in the channel command is ran in.</value>
   </data>
-  <data name="publicpoll_usage" xml:space="preserve">
+  <data name="poll_usage" xml:space="preserve">
     <value>`{0}ppoll Question?;Answer1;Answ 2;A_3`</value>
   </data>
   <data name="autotranslang_cmd" xml:space="preserve">

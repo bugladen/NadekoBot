@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using NadekoBot.DataStructures;
+using NadekoBot.DataStructures.Replacements;
 using NadekoBot.Extensions;
 using NadekoBot.Services.Database.Models;
 using NLog;
@@ -45,15 +46,17 @@ namespace NadekoBot.Services
 
                     if (channel == null) //maybe warn the server owner that the channel is missing
                         return;
-                    CREmbed embedData;
-                    if (CREmbed.TryParse(conf.ChannelByeMessageText, out embedData))
+
+                    var rep = new ReplacementBuilder()
+                        .WithDefault(user, channel, user.Guild, _client)
+                        .Build();
+
+                    if (CREmbed.TryParse(conf.ChannelByeMessageText, out var embedData))
                     {
-                        embedData.PlainText = embedData.PlainText?.Replace("%user%", user.Username).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);
-                        embedData.Description = embedData.Description?.Replace("%user%", user.Username).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);
-                        embedData.Title = embedData.Title?.Replace("%user%", user.Username).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);
+                        rep.Replace(embedData);
                         try
                         {
-                            var toDelete = await channel.EmbedAsync(embedData.ToEmbed(), embedData.PlainText ?? "").ConfigureAwait(false);
+                            var toDelete = await channel.EmbedAsync(embedData.ToEmbed(), embedData.PlainText?.SanitizeMentions() ?? "").ConfigureAwait(false);
                             if (conf.AutoDeleteByeMessagesTimer > 0)
                             {
                                 toDelete.DeleteAfter(conf.AutoDeleteByeMessagesTimer);
@@ -63,7 +66,7 @@ namespace NadekoBot.Services
                     }
                     else
                     {
-                        var msg = conf.ChannelByeMessageText.Replace("%user%", user.Username).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);
+                        var msg = rep.Replace(conf.ChannelByeMessageText);
                         if (string.IsNullOrWhiteSpace(msg))
                             return;
                         try
@@ -98,16 +101,16 @@ namespace NadekoBot.Services
                         var channel = (await user.Guild.GetTextChannelsAsync()).SingleOrDefault(c => c.Id == conf.GreetMessageChannelId);
                         if (channel != null) //maybe warn the server owner that the channel is missing
                         {
+                            var rep = new ReplacementBuilder()
+                                .WithDefault(user, channel, user.Guild, _client)
+                                .Build();
 
-                            CREmbed embedData;
-                            if (CREmbed.TryParse(conf.ChannelGreetMessageText, out embedData))
+                            if (CREmbed.TryParse(conf.ChannelGreetMessageText, out var embedData))
                             {
-                                embedData.PlainText = embedData.PlainText?.Replace("%user%", user.Mention).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);
-                                embedData.Description = embedData.Description?.Replace("%user%", user.Mention).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);
-                                embedData.Title = embedData.Title?.Replace("%user%", user.ToString()).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);
+                                rep.Replace(embedData);
                                 try
                                 {
-                                    var toDelete = await channel.EmbedAsync(embedData.ToEmbed(), embedData.PlainText ?? "").ConfigureAwait(false);
+                                    var toDelete = await channel.EmbedAsync(embedData.ToEmbed(), embedData.PlainText?.SanitizeMentions() ?? "").ConfigureAwait(false);
                                     if (conf.AutoDeleteGreetMessagesTimer > 0)
                                     {
                                         toDelete.DeleteAfter(conf.AutoDeleteGreetMessagesTimer);
@@ -117,7 +120,7 @@ namespace NadekoBot.Services
                             }
                             else
                             {
-                                var msg = conf.ChannelGreetMessageText.Replace("%user%", user.Mention).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);
+                                var msg = rep.Replace(conf.ChannelGreetMessageText);
                                 if (!string.IsNullOrWhiteSpace(msg))
                                 {
                                     try
@@ -140,21 +143,22 @@ namespace NadekoBot.Services
 
                         if (channel != null)
                         {
-                            CREmbed embedData;
-                            if (CREmbed.TryParse(conf.DmGreetMessageText, out embedData))
+                            var rep = new ReplacementBuilder()
+                                .WithDefault(user, channel, user.Guild, _client)
+                                .Build();
+                            if (CREmbed.TryParse(conf.DmGreetMessageText, out var embedData))
                             {
-                                embedData.PlainText = embedData.PlainText?.Replace("%user%", user.ToString()).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);
-                                embedData.Description = embedData.Description?.Replace("%user%", user.ToString()).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);
-                                embedData.Title = embedData.Title?.Replace("%user%", user.ToString()).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);
+
+                                rep.Replace(embedData);
                                 try
                                 {
-                                    await channel.EmbedAsync(embedData.ToEmbed(), embedData.PlainText ?? "").ConfigureAwait(false);
+                                    await channel.EmbedAsync(embedData.ToEmbed(), embedData.PlainText?.SanitizeMentions() ?? "").ConfigureAwait(false);
                                 }
                                 catch (Exception ex) { _log.Warn(ex); }
                             }
                             else
                             {
-                                var msg = conf.DmGreetMessageText.Replace("%user%", user.ToString()).Replace("%id%", user.Id.ToString()).Replace("%server%", user.Guild.Name);
+                                var msg = rep.Replace(conf.DmGreetMessageText);
                                 if (!string.IsNullOrWhiteSpace(msg))
                                 {
                                     await channel.SendConfirmAsync(msg).ConfigureAwait(false);
