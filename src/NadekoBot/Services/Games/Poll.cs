@@ -114,6 +114,7 @@ namespace NadekoBot.Services.Games
             {
                 var toDelete = await ch.SendConfirmAsync(GetText("poll_voted", Format.Bold(msg.Author.ToString()))).ConfigureAwait(false);
                 toDelete.DeleteAfter(5);
+                try { await msg.DeleteAsync().ConfigureAwait(false); } catch { }
                 return true;
             }
             return false;
