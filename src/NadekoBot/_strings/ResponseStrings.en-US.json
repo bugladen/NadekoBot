@@ -375,6 +375,7 @@
   "games_hangman_game_started": "Hangman game started",
   "games_hangman_running": "Hangman game already running on this channel.",
   "games_hangman_start_errored": "Starting hangman errored.",
+  "games_hangman_stopped": "Hangman game stopped.",
   "games_hangman_types": "List of \"{0}hangman\" term types:",
   "games_leaderboard": "Leaderboard",
   "games_not_enough": "You don't have enough {0}",

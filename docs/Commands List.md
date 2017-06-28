@@ -34,7 +34,6 @@ Commands and aliases | Description | Usage
 `.creatxtchanl` `.ctch` | Creates a new text channel with a given name. **Requires ManageChannels server permission.** | `.ctch TextChannelName`
 `.settopic` `.st` | Sets a topic on the current channel. **Requires ManageChannels server permission.** | `.st My new topic`
 `.setchanlname` `.schn` | Changes the name of the current channel. **Requires ManageChannels server permission.** | `.schn NewName`
-`.prune` `.clear` | `.prune` removes all Nadeko's messages in the last 100 messages. `.prune X` removes last `X` number of messages from the channel (up to 100). `.prune @Someone` removes all Someone's messages in the last 100 messages. `.prune @Someone X` removes last `X` number of 'Someone's' messages in the channel.  | `.prune` or `.prune 5` or `.prune @Someone` or `.prune @Someone X`
 `.mentionrole` `.menro` | Mentions every person from the provided role or roles (separated by a ',') on this server. **Requires MentionEveryone server permission.** | `.menro RoleName`
 `.donators` | List of the lovely people who donated to keep this project alive.  | `.donators`
 `.donadd` | Add a donator to the database. **Bot owner only** | `.donadd Donate Amount`
@@ -65,6 +64,7 @@ Commands and aliases | Description | Usage
 `.antispam` | Stops people from repeating same message X times in a row. You can specify to either mute, kick or ban the offenders. Max message count is 10. **Requires Administrator server permission.** | `.antispam 3 Mute` or `.antispam 4 Kick` or `.antispam 6 Ban`
 `.antispamignore` | Toggles whether antispam ignores current channel. Antispam must be enabled.  | `.antispamignore`
 `.antilist` `.antilst` | Shows currently enabled protection features.  | `.antilist`
+`.prune` `.clear` | `.prune` removes all Nadeko's messages in the last 100 messages. `.prune X` removes last `X` number of messages from the channel (up to 100). `.prune @Someone` removes all Someone's messages in the last 100 messages. `.prune @Someone X` removes last `X` number of 'Someone's' messages in the channel.  | `.prune` or `.prune 5` or `.prune @Someone` or `.prune @Someone X`
 `.slowmode` | Toggles slowmode. Disable by specifying no parameters. To enable, specify a number of messages each user can send, and an interval in seconds. For example 1 message every 5 seconds. **Requires ManageMessages server permission.** | `.slowmode 1 5` or `.slowmode`
 `.slowmodewl` | Ignores a role or a user from the slowmode feature. **Requires ManageMessages server permission.** | `.slowmodewl SomeRole` or `.slowmodewl AdminDude`
 `.adsarm` | Toggles the automatic deletion of confirmations for `.iam` and `.iamn` commands. **Requires ManageMessages server permission.** | `.adsarm`
@@ -81,7 +81,6 @@ Commands and aliases | Description | Usage
 `.scclr` | Removes all startup commands. **Bot owner only** | `.scclr`
 `.fwmsgs` | Toggles forwarding of non-command messages sent to bot's DM to the bot owners **Bot owner only** | `.fwmsgs`
 `.fwtoall` | Toggles whether messages will be forwarded to all bot owners or only to the first one specified in the credentials.json file **Bot owner only** | `.fwtoall`
-`.connectshard` | Try (re)connecting a shard with a certain shardid when it dies. No one knows will it work. Keep an eye on the console for errors. **Bot owner only** | `.connectshard 2`
 `.leave` | Makes Nadeko leave the server. Either server name or server ID is required. **Bot owner only** | `.leave 123123123331`
 `.die` | Shuts the bot down. **Bot owner only** | `.die`
 `.setname` `.newnm` | Gives the bot a new name. **Bot owner only** | `.newnm BotName`
@@ -199,11 +198,11 @@ Commands and aliases | Description | Usage
 `.cleverbot` | Toggles cleverbot session. When enabled, the bot will reply to messages starting with bot mention in the server. Custom reactions starting with %mention% won't work if cleverbot is enabled. **Requires ManageMessages server permission.** | `.cleverbot`
 `.hangmanlist` | Shows a list of hangman term types.  | `.hangmanlist`
 `.hangman` | Starts a game of hangman in the channel. Use `.hangmanlist` to see a list of available term types. Defaults to 'all'.  | `.hangman` or `.hangman movies`
+`.hangmanstop` | Stops the active hangman game on this channel if it exists.  | `.hangmanstop`
 `.pick` | Picks the currency planted in this channel. 60 seconds cooldown.  | `.pick`
 `.plant` | Spend an amount of currency to plant it in this channel. Default is 1. (If bot is restarted or crashes, the currency will be lost)  | `.plant` or `.plant 5`
 `.gencurrency` `.gc` | Toggles currency generation on this channel. Every posted message will have chance to spawn currency. Chance is specified by the Bot Owner. (default is 2%) **Requires ManageMessages server permission.** | `.gc`
-`.poll` | Creates a poll which requires users to send the number of the voting option to the bot. **Requires ManageMessages server permission.** | `.poll Question?;Answer1;Answ 2;A_3`
-`.publicpoll` `.ppoll` | Creates a public poll which requires users to type a number of the voting option in the channel command is ran in. **Requires ManageMessages server permission.** | `.ppoll Question?;Answer1;Answ 2;A_3`
+`.poll` `.ppoll` | Creates a public poll which requires users to type a number of the voting option in the channel command is ran in. **Requires ManageMessages server permission.** | `.ppoll Question?;Answer1;Answ 2;A_3`
 `.pollstats` | Shows the poll results without stopping the poll on this server. **Requires ManageMessages server permission.** | `.pollstats`
 `.pollend` | Stops active poll on this server and prints the results in this channel. **Requires ManageMessages server permission.** | `.pollend`
 `.typestart` | Starts a typing contest.  | `.typestart`
@@ -411,7 +410,6 @@ Commands and aliases | Description | Usage
 `.channeltopic` `.ct` | Sends current channel's topic as a message.  | `.ct`
 `.createinvite` `.crinv` | Creates a new invite which has infinite max uses and never expires. **Requires CreateInstantInvite channel permission.** | `.crinv`
 `.shardstats` | Stats for shards. Paginated with 25 shards per page.  | `.shardstats` or `.shardstats 2`
-`.shardid` | Shows which shard is a certain guild on, by guildid.  | `.shardid 117523346618318850`
 `.stats` | Shows some basic stats for Nadeko.  | `.stats`
 `.showemojis` `.se` | Shows a name and a link to every SPECIAL emoji in the message.  | `.se A message full of SPECIAL emojis`
 `.listservers` | Lists servers the bot is on with some basic info. 15 per page. **Bot owner only** | `.listservers 3`
@@ -421,9 +419,6 @@ Commands and aliases | Description | Usage
 `.calcops` | Shows all available operations in the `.calc` command  | `.calcops`
 `.alias` `.cmdmap` | Create a custom alias for a certain Nadeko command. Provide no alias to remove the existing one. **Requires Administrator server permission.** | `.alias allin $bf 100 h` or `.alias "linux thingy" >loonix Spyware Windows`
 `.aliaslist` `.cmdmaplist` `.aliases` | Shows the list of currently set aliases. Paginated.  | `.aliaslist` or `.aliaslist 3`
-`.scsc` | Starts an instance of cross server channel. You will get a token as a DM that other people will use to tune in to the same instance. **Bot owner only** | `.scsc`
-`.jcsc` | Joins current channel to an instance of cross server channel using the token. **Requires ManageServer server permission.** | `.jcsc TokenHere`
-`.lcsc` | Leaves a cross server channel instance from this channel. **Requires ManageServer server permission.** | `.lcsc`
 `.serverinfo` `.sinfo` | Shows info about the server the bot is on. If no channel is supplied, it defaults to current one.  | `.sinfo Some Server`
 `.channelinfo` `.cinfo` | Shows info about the channel. If no channel is supplied, it defaults to current one.  | `.cinfo #some-channel`
 `.userinfo` `.uinfo` | Shows info about the user. If no user is supplied, it defaults a user running the command.  | `.uinfo @SomeUser`

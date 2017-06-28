@@ -2781,6 +2781,15 @@
   <data name="hangman_usage" xml:space="preserve">
     <value>`{0}hangman` or `{0}hangman movies`</value>
   </data>
+  <data name="hangmanstop_cmd" xml:space="preserve">
+    <value>hangmanstop</value>
+  </data>
+  <data name="hangmanstop_desc" xml:space="preserve">
+    <value>Stops the active hangman game on this channel if it exists.</value>
+  </data>
+  <data name="hangmanstop_usage" xml:space="preserve">
+    <value>`{0}hangmanstop`</value>
+  </data>
   <data name="crstatsclear_cmd" xml:space="preserve">
     <value>crstatsclear</value>
   </data>

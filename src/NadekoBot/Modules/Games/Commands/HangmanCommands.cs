@@ -25,12 +25,14 @@ namespace NadekoBot.Modules.Games
             //channelId, game
             public static ConcurrentDictionary<ulong, HangmanGame> HangmanGames { get; } = new ConcurrentDictionary<ulong, HangmanGame>();
             [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
             public async Task Hangmanlist()
             {
                 await Context.Channel.SendConfirmAsync(Format.Code(GetText("hangman_types", Prefix)) + "\n" + string.Join(", ", HangmanTermPool.data.Keys));
             }
 
             [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
             public async Task Hangman([Remainder]string type = "All")
             {
                 var hm = new HangmanGame(_client, Context.Channel, type);
@@ -58,6 +60,17 @@ namespace NadekoBot.Modules.Games
                 }
 
                 await Context.Channel.SendConfirmAsync(GetText("hangman_game_started"), hm.ScrambledWord + "\n" + hm.GetHangman());
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            public async Task HangmanStop()
+            {
+                if (HangmanGames.TryRemove(Context.Channel.Id, out HangmanGame throwaway))
+                {
+                    throwaway.Dispose();
+                    await ReplyConfirmLocalized("hangman_stopped").ConfigureAwait(false);
+                }
             }
         }
     }
