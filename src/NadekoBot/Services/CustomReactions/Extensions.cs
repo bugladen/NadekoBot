@@ -64,7 +64,7 @@ namespace NadekoBot.Services.CustomReactions
                 .WithOverride("%target%", () => ctx.Content.Substring(resolvedTrigger.Length).Trim())
                 .Build();
 
-            str = rep.Replace(str.ToLowerInvariant());
+            str = rep.Replace(str);
 
             foreach (var ph in regexPlaceholders)
             {
