@@ -41,7 +41,7 @@ namespace NadekoBot.Services.CustomReactions
                 if (img?.Source == null)
                     return "";
 
-                return " "+img.Source.Replace("b.", ".") + " ";
+                return " " + img.Source.Replace("b.", ".") + " ";
             } }
         };
 
