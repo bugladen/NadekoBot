@@ -27,17 +27,15 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task RotatePlaying()
             {
-                lock (_locker)
+                bool enabled;
+                using (var uow = _db.UnitOfWork)
                 {
-                    using (var uow = _db.UnitOfWork)
-                    {
-                        var config = uow.BotConfig.GetOrCreate();
+                    var config = uow.BotConfig.GetOrCreate();
 
-                        config.RotatingStatuses = !config.RotatingStatuses;
-                        uow.Complete();
-                    }
+                    enabled = config.RotatingStatuses = !config.RotatingStatuses;
+                    uow.Complete();
                 }
-                if (_service.BotConfig.RotatingStatuses)
+                if (enabled)
                     await ReplyConfirmLocalized("ropl_enabled").ConfigureAwait(false);
                 else
                     await ReplyConfirmLocalized("ropl_disabled").ConfigureAwait(false);
