@@ -81,59 +81,58 @@ namespace NadekoBot.Services.Music
 
 
                          _log.Info("Starting");
-                         var p = Process.Start(new ProcessStartInfo
+                         using (var b = new SongBuffer(data.Song.Uri, ""))
                          {
-                             FileName = "ffmpeg",
-                             Arguments = $"-i {data.Song.Uri} -f s16le -ar 48000 -vn -ac 2 pipe:1 -loglevel quiet",
-                             UseShellExecute = false,
-                             RedirectStandardOutput = true,
-                             RedirectStandardError = false,
-                             CreateNoWindow = true,
-                         });
-                         var ac = await GetAudioClient();
-                         if (ac == null)
-                         {
-                             await Task.Delay(900);
-                             // just wait some time, maybe bot doesn't even have perms to join that voice channel, 
-                             // i don't want to spam connection attempts
-                             continue;
-                         }
-                         var pcm = ac.CreatePCMStream(AudioApplication.Music);
+                             var bufferSuccess = await b.StartBuffering(cancelToken);
 
-                         OnStarted?.Invoke(this, data.Song);
+                             if (bufferSuccess == false)
+                                 continue;
 
-                         byte[] buffer = new byte[3840];
-                         int bytesRead = 0;
-                         try
-                         {
-                             while ((bytesRead = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, buffer.Length, cancelToken).ConfigureAwait(false)) > 0)
+                             var ac = await GetAudioClient();
+                             if (ac == null)
                              {
-                                 var vol = Volume;
-                                 if (vol != 1)
-                                     AdjustVolume(buffer, vol);
-                                 await pcm.WriteAsync(buffer, 0, bytesRead, cancelToken);
-
-                                 await (pauseTaskSource?.Task ?? Task.CompletedTask);
+                                 await Task.Delay(900);
+                                 // just wait some time, maybe bot doesn't even have perms to join that voice channel, 
+                                 // i don't want to spam connection attempts
+                                 continue;
                              }
-                         }
-                         catch (OperationCanceledException)
-                         {
-                             _log.Info("Song Canceled");
-                         }
-                         catch (Exception ex)
-                         {
-                             _log.Warn(ex);
-                         }
-                         finally
-                         {
-                             //flush is known to get stuck from time to time, just cancel it if it takes more than 1 second
-                             var flushCancel = new CancellationTokenSource();
-                             var flushToken = flushCancel.Token;
-                             var flushDelay = Task.Delay(1000, flushToken);
-                             await Task.WhenAny(flushDelay, pcm.FlushAsync(flushToken));
-                             flushCancel.Cancel();
+                             var pcm = ac.CreatePCMStream(AudioApplication.Music);
 
-                             OnCompleted?.Invoke(this, data.Song);
+                             OnStarted?.Invoke(this, data.Song);
+
+                             byte[] buffer = new byte[3840];
+                             int bytesRead = 0;
+                             try
+                             {
+                                 while ((bytesRead = await b.ReadAsync(buffer, 0, buffer.Length, cancelToken).ConfigureAwait(false)) > 0)
+                                 {
+                                     var vol = Volume;
+                                     if (vol != 1)
+                                         AdjustVolume(buffer, vol);
+                                     await Task.WhenAll(Task.Delay(10), pcm.WriteAsync(buffer, 0, bytesRead, cancelToken)).ConfigureAwait(false);
+
+                                     await (pauseTaskSource?.Task ?? Task.CompletedTask);
+                                 }
+                             }
+                             catch (OperationCanceledException)
+                             {
+                                 _log.Info("Song Canceled");
+                             }
+                             catch (Exception ex)
+                             {
+                                 _log.Warn(ex);
+                             }
+                             finally
+                             {
+                                 //flush is known to get stuck from time to time, just cancel it if it takes more than 1 second
+                                var flushCancel = new CancellationTokenSource();
+                                var flushToken = flushCancel.Token;
+                                var flushDelay = Task.Delay(1000, flushToken);
+                                await Task.WhenAny(flushDelay, pcm.FlushAsync(flushToken));
+                                flushCancel.Cancel();
+
+                                 OnCompleted?.Invoke(this, data.Song);
+                             }
                          }
                      }
                      finally
@@ -141,7 +140,7 @@ namespace NadekoBot.Services.Music
                          _log.Info("Next song");
                          do
                          {
-                             await Task.Delay(100);
+                             await Task.Delay(500);
                          }
                          while (Stopped && !Exited);
                          if(!RepeatCurrentSong)
@@ -158,6 +157,14 @@ namespace NadekoBot.Services.Music
                 reconnect)
                 try
                 {
+                    try
+                    {
+                        await _audioClient?.StopAsync();
+                        _audioClient?.Dispose();
+                    }
+                    catch
+                    {
+                    }
                     _audioClient = await VoiceChannel.ConnectAsync();
                 }
                 catch

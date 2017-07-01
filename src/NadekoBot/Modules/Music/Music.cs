@@ -451,6 +451,7 @@ namespace NadekoBot.Modules.Music
                 {
                     try
                     {
+                        await Task.Yield();
                         //todo fix for all
                         if (item.ProviderType == MusicType.Normal)
                             await Task.WhenAll(Task.Delay(1000), InternalQueue(mp, await _music.ResolveSong(item.Query, Context.User.ToString(), item.ProviderType), true)).ConfigureAwait(false);

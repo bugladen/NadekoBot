@@ -47,11 +47,6 @@ namespace NadekoBot.Services.Music
             Directory.CreateDirectory(MusicDataPath);
         }
 
-        //        public MusicPlayer GetPlayer(ulong guildId)
-        //        {
-        //            MusicPlayers.TryGetValue(guildId, out var player);
-        //            return player;
-        //        }
         public float GetDefaultVolume(ulong guildId)
         {
             return _defaultVolumes.GetOrAdd(guildId, (id) =>

@@ -1,10 +1,79 @@
-﻿//using NadekoBot.Extensions;
-//using NLog;
-//using System;
-//using System.Diagnostics;
-//using System.IO;
-//using System.Threading;
-//using System.Threading.Tasks;
+﻿using NadekoBot.DataStructures;
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace NadekoBot.Services.Music
+{
+    public class SongBuffer : IDisposable
+    {
+        const int maxReadSize = 3840;
+        private Process p;
+        private PoopyRingBuffer _outStream = new PoopyRingBuffer();
+
+        private readonly SemaphoreSlim _lock = new SemaphoreSlim(1, 1);
+
+        public string SongUri { get; private set; }
+
+        public SongBuffer(string songUri, string skipTo)
+        {
+            this.SongUri = songUri;
+
+            this.p = Process.Start(new ProcessStartInfo
+            {
+                FileName = "ffmpeg",
+                Arguments = $"-i {songUri} -f s16le -ar 48000 -vn -ac 2 pipe:1 -loglevel quiet",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = false,
+                CreateNoWindow = true,
+            });
+        }
+
+        public Task<bool> StartBuffering(CancellationToken cancelToken)
+        {
+            var toReturn = new TaskCompletionSource<bool>();
+            var _ = Task.Run(async () =>
+            {
+                try
+                {
+                    byte[] buffer = new byte[3840];
+                    while (!this.p.HasExited || cancelToken.IsCancellationRequested)
+                    {
+                        int bytesRead = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, buffer.Length, cancelToken).ConfigureAwait(false);
+
+                        await _outStream.WriteAsync(buffer, 0, bytesRead, cancelToken);
+
+                        if (_outStream.RemainingCapacity < _outStream.Capacity * 0.9f)
+                            toReturn.TrySetResult(true);
+                    }
+                }
+                catch
+                {
+                    toReturn.TrySetResult(false);
+                    //ignored
+                }
+            }, cancelToken);
+
+            return toReturn.Task;
+        }
+
+        public Task<int> ReadAsync(byte[] b, int offset, int toRead, CancellationToken cancelToken)
+        {
+            return _outStream.ReadAsync(b, offset, toRead, cancelToken);
+        }
+
+        public void Dispose()
+        {
+            try { this.p.Kill(); }
+            catch { }
+            _outStream.Dispose();
+            this.p.Dispose();
+        }
+    }
+}
 
 //namespace NadekoBot.Services.Music
 //{
