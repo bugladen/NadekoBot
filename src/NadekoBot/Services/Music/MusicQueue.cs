@@ -113,7 +113,10 @@ namespace NadekoBot.Services.Music
 
         public void ResetCurrent()
         {
-            CurrentIndex = 0;
+            lock (locker)
+            {
+                CurrentIndex = 0;
+            }
         }
     }
 }

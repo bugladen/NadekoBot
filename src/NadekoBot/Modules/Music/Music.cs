@@ -253,10 +253,9 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public Task Destroy()
+        public async Task Destroy()
         {
-            _music.DestroyPlayer(Context.Guild.Id);
-            return Task.CompletedTask;
+            await _music.DestroyPlayer(Context.Guild.Id);
         }
 
         [NadekoCommand, Usage, Description, Aliases]

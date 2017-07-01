@@ -15,7 +15,7 @@ namespace NadekoBot.Services.Music
         Playing,
         Completed
     }
-    public class MusicPlayer : IDisposable
+    public class MusicPlayer
     {
         private readonly Task _player;
         private readonly IVoiceChannel VoiceChannel;
@@ -92,7 +92,12 @@ namespace NadekoBot.Services.Music
                          });
                          var ac = await GetAudioClient();
                          if (ac == null)
+                         {
+                             await Task.Delay(900);
+                             // just wait some time, maybe bot doesn't even have perms to join that voice channel, 
+                             // i don't want to spam connection attempts
                              continue;
+                         }
                          var pcm = ac.CreatePCMStream(AudioApplication.Music);
 
                          OnStarted?.Invoke(this, data.Song);
@@ -175,8 +180,8 @@ namespace NadekoBot.Services.Music
             {
                 Stopped = false;
                 Unpause();
+                CancelCurrentSong();
             }
-            CancelCurrentSong();
         }
 
         public void Stop(bool clearQueue = false)
@@ -188,8 +193,8 @@ namespace NadekoBot.Services.Music
                 if (clearQueue)
                     Queue.Clear();
                 Unpause();
+                CancelCurrentSong();
             }
-            CancelCurrentSong();
         }
 
         private void Unpause()
@@ -283,18 +288,22 @@ namespace NadekoBot.Services.Music
             }
         }
 
-        public void Dispose()
+        public async Task Destroy()
         {
-            _log.Info("Disposing");
+            _log.Info("Destroying");
             lock (locker)
             {
+                Stop();
                 Exited = true;
                 Unpause();
+
+                OnCompleted = null;
+                OnPauseChanged = null;
+                OnStarted = null;
             }
-            CancelCurrentSong();
-            OnCompleted = null;
-            OnPauseChanged = null;
-            OnStarted = null;
+            var ac = _audioClient;
+            if (ac != null)
+                await ac.StopAsync();
         }
 
 

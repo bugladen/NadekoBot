@@ -5,11 +5,9 @@ using System.Threading.Tasks;
 using Discord;
 using NadekoBot.Extensions;
 using NadekoBot.Services.Database.Models;
-using System.Text.RegularExpressions;
 using NLog;
 using System.IO;
 using VideoLibrary;
-using System.Net.Http;
 using System.Collections.Generic;
 using Discord.Commands;
 
@@ -235,10 +233,10 @@ namespace NadekoBot.Services.Music
             return song;
         }
 
-        public void DestroyPlayer(ulong id)
+        public async Task DestroyPlayer(ulong id)
         {
             if (MusicPlayers.TryRemove(id, out var mp))
-                mp.Dispose();
+                await mp.Destroy();
         }
 
         //        public async Task QueueSong(IGuildUser queuer, ITextChannel textCh, IVoiceChannel voiceCh, string query, bool silent = false, MusicType musicType = MusicType.Normal)
