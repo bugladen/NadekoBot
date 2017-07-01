@@ -74,25 +74,25 @@ namespace NadekoBot.DataStructures.Replacements
             return this;
         }
 
-        public ReplacementBuilder WithMusic(MusicService ms)
-        {
-            _reps.TryAdd("%playing%", () =>
-            {
-                var cnt = ms.MusicPlayers.Count(kvp => kvp.Value.CurrentSong != null);
-                if (cnt != 1) return cnt.ToString();
-                try
-                {
-                    var mp = ms.MusicPlayers.FirstOrDefault();
-                    return mp.Value.CurrentSong.SongInfo.Title;
-                }
-                catch
-                {
-                    return "No songs";
-                }
-            });
-            _reps.TryAdd("%queued%", () => ms.MusicPlayers.Sum(kvp => kvp.Value.Playlist.Count).ToString());
-            return this;
-        }
+        //public ReplacementBuilder WithMusic(MusicService ms)
+        //{
+        //    _reps.TryAdd("%playing%", () =>
+        //    {
+        //        var cnt = ms.MusicPlayers.Count(kvp => kvp.Value.CurrentSong != null);
+        //        if (cnt != 1) return cnt.ToString();
+        //        try
+        //        {
+        //            var mp = ms.MusicPlayers.FirstOrDefault();
+        //            return mp.Value.CurrentSong.SongInfo.Title;
+        //        }
+        //        catch
+        //        {
+        //            return "No songs";
+        //        }
+        //    });
+        //    _reps.TryAdd("%queued%", () => ms.MusicPlayers.Sum(kvp => kvp.Value.Playlist.Count).ToString());
+        //    return this;
+        //}
 
         public ReplacementBuilder WithRngRegex()
         {

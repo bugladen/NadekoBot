@@ -35,7 +35,7 @@ namespace NadekoBot.Services.Administration
             _rep = new ReplacementBuilder()
                 .WithClient(client)
                 .WithStats(client)
-                .WithMusic(music)
+                //.WithMusic(music)
                 .Build();
 
             _t = new Timer(async (objState) =>
