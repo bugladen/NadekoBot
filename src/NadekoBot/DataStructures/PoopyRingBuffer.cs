@@ -48,7 +48,7 @@ namespace NadekoBot.DataStructures
 
         private readonly SemaphoreSlim _locker = new SemaphoreSlim(1, 1);
 
-        public PoopyRingBuffer(int capacity = 38400)
+        public PoopyRingBuffer(int capacity = 3640 * 200)
         {
             this.Capacity = capacity + 1;
             this.buffer = new byte[this.Capacity];

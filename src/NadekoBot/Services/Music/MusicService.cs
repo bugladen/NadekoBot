@@ -10,6 +10,7 @@ using System.IO;
 using VideoLibrary;
 using System.Collections.Generic;
 using Discord.Commands;
+using Discord.WebSocket;
 
 namespace NadekoBot.Services.Music
 {
@@ -25,13 +26,15 @@ namespace NadekoBot.Services.Music
         private readonly SoundCloudApiService _sc;
         private readonly IBotCredentials _creds;
         private readonly ConcurrentDictionary<ulong, float> _defaultVolumes;
+        private readonly DiscordSocketClient _client;
 
         public ConcurrentDictionary<ulong, MusicPlayer> MusicPlayers { get; } = new ConcurrentDictionary<ulong, MusicPlayer>();
 
-        public MusicService(IGoogleApiService google,
+        public MusicService(DiscordSocketClient client, IGoogleApiService google,
             NadekoStrings strings, ILocalization localization, DbService db,
             SoundCloudApiService sc, IBotCredentials creds, IEnumerable<GuildConfig> gcs)
         {
+            _client = client;
             _google = google;
             _strings = strings;
             _localization = localization;
@@ -185,6 +188,25 @@ namespace NadekoBot.Services.Music
                 //};
                 return mp;
             });
+        }
+
+        public MusicPlayer GetPlayerOrDefault(ulong guildId)
+        {
+            if (MusicPlayers.TryGetValue(guildId, out var mp))
+                return mp;
+            else
+                return null;
+        }
+
+        public async Task TryQueueRelatedSongAsync(string query, ITextChannel txtCh, IVoiceChannel vch)
+        {
+            var related = (await _google.GetRelatedVideosAsync(query, 4)).ToArray();
+            if (!related.Any())
+                return;
+
+            var si = await ResolveSong(related[new NadekoRandom().Next(related.Length)], _client.CurrentUser.ToString(), MusicType.Normal);
+            var mp = await GetOrCreatePlayer(txtCh.GuildId, vch, txtCh);
+            mp.Enqueue(si);
         }
 
         public async Task<SongInfo> ResolveSong(string query, string queuerName, MusicType musicType = MusicType.Normal)

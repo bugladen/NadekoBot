@@ -183,7 +183,7 @@ namespace NadekoBot
                 #endregion
 
                 var clashService = new ClashOfClansService(Client, Db, Localization, Strings, uow, startingGuildIdList);
-                var musicService = new MusicService(GoogleApi, Strings, Localization, Db, soundcloudApiService, Credentials, AllGuildConfigs);
+                var musicService = new MusicService(Client, GoogleApi, Strings, Localization, Db, soundcloudApiService, Credentials, AllGuildConfigs);
                 var crService = new CustomReactionsService(permissionsService, Db, Strings, Client, CommandHandler, BotConfig, uow);
 
                 #region Games

@@ -4,6 +4,7 @@ using NadekoBot.Services.Database.Models;
 using System;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Services.Music
 {

@@ -18,7 +18,7 @@ namespace NadekoBot.Services.Music
     public class MusicPlayer
     {
         private readonly Task _player;
-        private readonly IVoiceChannel VoiceChannel;
+        private IVoiceChannel VoiceChannel { get; set; }
         private readonly Logger _log;
 
         private MusicQueue Queue { get; } = new MusicQueue();
@@ -42,9 +42,13 @@ namespace NadekoBot.Services.Music
         }
 
         public bool RepeatCurrentSong { get; private set; }
+        public bool Shuffle { get; private set; }
+        public bool Autoplay { get; private set; }
+        public bool RepeatPlaylist { get; private set; } = true;
 
         private IAudioClient _audioClient;
         private readonly object locker = new object();
+        private MusicService _musicService;
 
         #region events
         public event Action<MusicPlayer, SongInfo> OnStarted;
@@ -59,6 +63,7 @@ namespace NadekoBot.Services.Music
             this.VoiceChannel = vch;
             this.SongCancelSource = new CancellationTokenSource();
             this.OutputTextChannel = output;
+            this._musicService = musicService;
 
             _player = Task.Run(async () =>
              {
@@ -96,42 +101,43 @@ namespace NadekoBot.Services.Music
                                  // i don't want to spam connection attempts
                                  continue;
                              }
-                             var pcm = ac.CreatePCMStream(AudioApplication.Music);
-
-                             OnStarted?.Invoke(this, data.Song);
-
-                             byte[] buffer = new byte[3840];
-                             int bytesRead = 0;
-                             try
+                             using (var pcm = ac.CreatePCMStream(AudioApplication.Music))
                              {
-                                 while ((bytesRead = await b.ReadAsync(buffer, 0, buffer.Length, cancelToken).ConfigureAwait(false)) > 0)
+                                 OnStarted?.Invoke(this, data.Song);
+
+                                 byte[] buffer = new byte[3840];
+                                 int bytesRead = 0;
+                                 try
                                  {
-                                     var vol = Volume;
-                                     if (vol != 1)
-                                         AdjustVolume(buffer, vol);
-                                     await Task.WhenAll(Task.Delay(10), pcm.WriteAsync(buffer, 0, bytesRead, cancelToken)).ConfigureAwait(false);
+                                     while ((bytesRead = await b.ReadAsync(buffer, 0, buffer.Length, cancelToken).ConfigureAwait(false)) > 0)
+                                     {
+                                         var vol = Volume;
+                                         if (vol != 1)
+                                             AdjustVolume(buffer, vol);
+                                         await Task.WhenAll(Task.Delay(10), pcm.WriteAsync(buffer, 0, bytesRead, cancelToken)).ConfigureAwait(false);
 
-                                     await (pauseTaskSource?.Task ?? Task.CompletedTask);
+                                         await (pauseTaskSource?.Task ?? Task.CompletedTask);
+                                     }
                                  }
-                             }
-                             catch (OperationCanceledException)
-                             {
-                                 _log.Info("Song Canceled");
-                             }
-                             catch (Exception ex)
-                             {
-                                 _log.Warn(ex);
-                             }
-                             finally
-                             {
-                                 //flush is known to get stuck from time to time, just cancel it if it takes more than 1 second
-                                var flushCancel = new CancellationTokenSource();
-                                var flushToken = flushCancel.Token;
-                                var flushDelay = Task.Delay(1000, flushToken);
-                                await Task.WhenAny(flushDelay, pcm.FlushAsync(flushToken));
-                                flushCancel.Cancel();
+                                 catch (OperationCanceledException)
+                                 {
+                                     _log.Info("Song Canceled");
+                                 }
+                                 catch (Exception ex)
+                                 {
+                                     _log.Warn(ex);
+                                 }
+                                 finally
+                                 {
+                                     //flush is known to get stuck from time to time, just cancel it if it takes more than 1 second
+                                     var flushCancel = new CancellationTokenSource();
+                                     var flushToken = flushCancel.Token;
+                                     var flushDelay = Task.Delay(1000, flushToken);
+                                     await Task.WhenAny(flushDelay, pcm.FlushAsync(flushToken));
+                                     flushCancel.Cancel();
 
-                                 OnCompleted?.Invoke(this, data.Song);
+                                     OnCompleted?.Invoke(this, data.Song);
+                                 }
                              }
                          }
                      }
@@ -143,8 +149,35 @@ namespace NadekoBot.Services.Music
                              await Task.Delay(500);
                          }
                          while (Stopped && !Exited);
-                         if(!RepeatCurrentSong)
-                            Queue.Next();
+                         if (!RepeatCurrentSong) //if repeating current song, just ignore other settings, and play this song again (don't change the index)
+                         {
+                             if (Shuffle)
+                                 Queue.Random(); //if shuffle is set, set current song index to a random number
+                             else
+                             {
+                                 //if last song, and autoplay is enabled, and if it's a youtube song
+                                 // do autplay magix
+                                 if (Queue.Count == data.Index && Autoplay && data.Song?.Provider == "YouTube")
+                                 {
+                                     try
+                                     {
+                                         //todo test autoplay
+                                         await _musicService.TryQueueRelatedSongAsync(data.Song.Query, OutputTextChannel, VoiceChannel);
+                                         Queue.Next();
+                                     }
+                                     catch { }
+                                 }
+                                 else if (Queue.Count == data.Index && !RepeatPlaylist)
+                                 {
+                                     //todo test repeatplaylist
+                                     Stop();
+                                 }
+                                 else
+                                 {
+                                     Queue.Next();
+                                 }
+                             }
+                         }
                      }
                  }
              }, SongCancelSource.Token);
@@ -311,6 +344,41 @@ namespace NadekoBot.Services.Music
             var ac = _audioClient;
             if (ac != null)
                 await ac.StopAsync();
+        }
+
+        public bool ToggleShuffle()
+        {
+            lock (locker)
+            {
+                return Shuffle = !Shuffle;
+            }
+        }
+
+        public bool ToggleAutoplay()
+        {
+            lock (locker)
+            {
+                return Autoplay = !Autoplay;
+            }
+        }
+
+        public bool ToggleRepeatPlaylist()
+        {
+            lock (locker)
+            {
+                return RepeatPlaylist = !RepeatPlaylist;
+            }
+        }
+
+        public void SetMaxQueueSize(uint size)
+        {
+            Queue.SetMaxQueueSize(size);
+        }
+
+        public void SetVoiceChannel(IVoiceChannel vch)
+        {
+            VoiceChannel = vch;
+            Next();
         }
 
 

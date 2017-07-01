@@ -111,11 +111,15 @@ namespace NadekoBot.Modules.Music
                 }
             }
         }
+        //todo  add play command. .play = .n, .play whatever = .q whatever
+
+
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Queue([Remainder] string query)
         {
+            //todo add a notice that player is stopped if user queues a song while it is
             var mp = await _music.GetOrCreatePlayer(Context);
             var songInfo = await _music.ResolveSong(query, Context.User.ToString());
             await InternalQueue(mp, songInfo, false);
@@ -209,11 +213,9 @@ namespace NadekoBot.Modules.Music
 
                 if (mp.RepeatCurrentSong)
                     desc = "🔂 " + GetText("repeating_cur_song") + "\n\n" + desc;
-                //else if (musicPlayer.RepeatPlaylist)
-                //    desc = "🔁 " + GetText("repeating_playlist") + "\n\n" + desc;
-
-
-
+                else if (mp.Shuffle)
+                    desc = "🔀 " + GetText("shuffling_playlist") + "\n\n" + desc;
+                
                 var embed = new EmbedBuilder()
                     .WithAuthor(eab => eab.WithName(GetText("player_queue", curPage + 1, lastPage + 1))
                         .WithMusicIcon())
@@ -307,7 +309,7 @@ namespace NadekoBot.Modules.Music
             {
                 var song = mp.RemoveAt(index - 1);
                 var embed = new EmbedBuilder()
-                            .WithAuthor(eab => eab.WithName(GetText("removed_song") + " #" + (index + 1)).WithMusicIcon())
+                            .WithAuthor(eab => eab.WithName(GetText("removed_song") + " #" + (index)).WithMusicIcon())
                             .WithDescription(song.PrettyName)
                             .WithFooter(ef => ef.WithText(song.PrettyInfo))
                             .WithErrorColor();
@@ -519,22 +521,18 @@ namespace NadekoBot.Modules.Music
 
             await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
-
-        //[NadekoCommand, Usage, Description, Aliases]
-        //[RequireContext(ContextType.Guild)]
-        //public async Task ShufflePlaylist()
-        //{
-        //    MusicPlayer musicPlayer;
-        //    if ((musicPlayer = _music.GetPlayer(Context.Guild.Id)) == null)
-        //        return;
-        //    if (((IGuildUser)Context.User).VoiceChannel != musicPlayer.PlaybackVoiceChannel)
-        //        return;
-        //    if (musicPlayer.Playlist.Count < 2)
-        //        return;
-
-        //    musicPlayer.Shuffle();
-        //    await ReplyConfirmLocalized("songs_shuffled").ConfigureAwait(false);
-        //}
+        //todo test shuffle
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task ShufflePlaylist()
+        {
+            var mp = await _music.GetOrCreatePlayer(Context);
+            var val = mp.ToggleShuffle();
+            if(val)
+                await ReplyConfirmLocalized("songs_shuffle_enable").ConfigureAwait(false);
+            else
+                await ReplyConfirmLocalized("songs_shuffle_disable").ConfigureAwait(false);
+        }
 
         //[NadekoCommand, Usage, Description, Aliases]
         //[RequireContext(ContextType.Guild)]
@@ -687,17 +685,22 @@ namespace NadekoBot.Modules.Music
 
         //}
 
-        //[NadekoCommand, Usage, Description, Aliases]
-        //[RequireContext(ContextType.Guild)]
-        //public async Task Move()
-        //{
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task Move()
+        {
+            var vch = ((IGuildUser)Context.User).VoiceChannel;
 
-        //    MusicPlayer musicPlayer;
-        //    var voiceChannel = ((IGuildUser)Context.User).VoiceChannel;
-        //    if (voiceChannel == null || voiceChannel.Guild != Context.Guild || !MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer))
-        //        return;
-        //    await musicPlayer.MoveToVoiceChannel(voiceChannel);
-        //}
+            if (vch == null)
+                return;
+
+            var mp = _music.GetPlayerOrDefault(Context.Guild.Id);
+
+            if (mp == null)
+                return;
+            //todo test move
+            mp.SetVoiceChannel(vch);
+        }
 
         //[NadekoCommand, Usage, Description, Aliases]
         //[RequireContext(ContextType.Guild)]
@@ -745,21 +748,21 @@ namespace NadekoBot.Modules.Music
 
         //}
 
-        //[NadekoCommand, Usage, Description, Aliases]
-        //[RequireContext(ContextType.Guild)]
-        //public async Task SetMaxQueue(uint size = 0)
-        //{
-        //    MusicPlayer musicPlayer;
-        //    if ((musicPlayer = _music.GetPlayer(Context.Guild.Id)) == null)
-        //        return;
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task SetMaxQueue(uint size = 0)
+        {
+            if (size < 0)
+                return;
+            var mp = await _music.GetOrCreatePlayer(Context);
 
-        //    musicPlayer.MaxQueueSize = size;
+            mp.SetMaxQueueSize(size);
 
-        //    if(size == 0)
-        //        await ReplyConfirmLocalized("max_queue_unlimited").ConfigureAwait(false);
-        //    else
-        //        await ReplyConfirmLocalized("max_queue_x", size).ConfigureAwait(false);
-        //}
+            if (size == 0)
+                await ReplyConfirmLocalized("max_queue_unlimited").ConfigureAwait(false);
+            else
+                await ReplyConfirmLocalized("max_queue_x", size).ConfigureAwait(false);
+        }
 
         //[NadekoCommand, Usage, Description, Aliases]
         //[RequireContext(ContextType.Guild)]
@@ -800,19 +803,17 @@ namespace NadekoBot.Modules.Music
                                             .ConfigureAwait(false);
         }
 
-        //[NadekoCommand, Usage, Description, Aliases]
-        //[RequireContext(ContextType.Guild)]
-        //public async Task RepeatPl()
-        //{
-        //    MusicPlayer musicPlayer;
-        //    if ((musicPlayer = _music.GetPlayer(Context.Guild.Id)) == null)
-        //        return;
-        //    var currentValue = musicPlayer.ToggleRepeatPlaylist();
-        //    if(currentValue)
-        //        await ReplyConfirmLocalized("rpl_enabled").ConfigureAwait(false);
-        //    else
-        //        await ReplyConfirmLocalized("rpl_disabled").ConfigureAwait(false);
-        //}
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task RepeatPl()
+        {
+            var mp = await _music.GetOrCreatePlayer(Context);
+            var currentValue = mp.ToggleRepeatPlaylist();
+            if (currentValue)
+                await ReplyConfirmLocalized("rpl_enabled").ConfigureAwait(false);
+            else
+                await ReplyConfirmLocalized("rpl_disabled").ConfigureAwait(false);
+        }
 
         //[NadekoCommand, Usage, Description, Aliases]
         //[RequireContext(ContextType.Guild)]
@@ -849,19 +850,17 @@ namespace NadekoBot.Modules.Music
         //    await ReplyConfirmLocalized("skipped_to", minutes, seconds).ConfigureAwait(false);
         //}
 
-        //[NadekoCommand, Usage, Description, Aliases]
-        //[RequireContext(ContextType.Guild)]
-        //public async Task Autoplay()
-        //{
-        //    MusicPlayer musicPlayer;
-        //    if ((musicPlayer = _music.GetPlayer(Context.Guild.Id)) == null)
-        //        return;
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task Autoplay()
+        {
+            var mp = await _music.GetOrCreatePlayer(Context);
 
-        //    if (!musicPlayer.ToggleAutoplay())
-        //        await ReplyConfirmLocalized("autoplay_disabled").ConfigureAwait(false);
-        //    else
-        //        await ReplyConfirmLocalized("autoplay_enabled").ConfigureAwait(false);
-        //}
+            if (!mp.ToggleAutoplay())
+                await ReplyConfirmLocalized("autoplay_disabled").ConfigureAwait(false);
+            else
+                await ReplyConfirmLocalized("autoplay_enabled").ConfigureAwait(false);
+        }
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
