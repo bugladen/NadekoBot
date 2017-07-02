@@ -404,6 +404,7 @@
   "music_attempting_to_queue": "Attempting to queue {0} songs...",
   "music_autoplay_disabled": "Autoplay disabled.",
   "music_autoplay_enabled": "Autoplay enabled.",
+  "music_autoplaying": "Auto-playing.",
   "music_defvol_set": "Default volume set to {0}%",
   "music_dir_queue_complete": "Directory queue complete.",
   "music_fairplay": "fairplay",

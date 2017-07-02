@@ -61,6 +61,9 @@ namespace NadekoBot.Services.Music
         public event Action<MusicPlayer, bool> OnPauseChanged;
         #endregion
 
+
+        private bool manualSkip = false;
+
         public MusicPlayer(MusicService musicService, IVoiceChannel vch, ITextChannel output, float volume)
         {
             _log = LogManager.GetCurrentClassLogger();
@@ -80,6 +83,7 @@ namespace NadekoBot.Services.Music
                      {
                          data = Queue.Current;
                          cancelToken = SongCancelSource.Token;
+                         manualSkip = false;
                      }
                      try
                      {
@@ -142,12 +146,10 @@ namespace NadekoBot.Services.Music
                      }
                      finally
                      {
-                         do
-                         {
-                             await Task.Delay(500);
-                         }
-                         while (Stopped && !Exited);
-                         if (!RepeatCurrentSong) //if repeating current song, just ignore other settings, and play this song again (don't change the index)
+                         //if repeating current song, just ignore other settings, 
+                         // and play this song again (don't change the index)
+                         // ignore rcs if song is manually skipped
+                         if (!RepeatCurrentSong || manualSkip)
                          {
                              if (Shuffle)
                              {
@@ -172,9 +174,8 @@ namespace NadekoBot.Services.Music
                                          _log.Info("Loading related song failed.");
                                      }
                                  }
-                                 else if (Queue.Count == data.Index && !RepeatPlaylist)
+                                 else if (Queue.Count - 1 == data.Index && !RepeatPlaylist && !manualSkip)
                                  {
-                                     //todo test repeatplaylist
                                      _log.Info("Stopping because repeatplaylist is disabled");
                                      Stop();
                                  }
@@ -185,6 +186,11 @@ namespace NadekoBot.Services.Music
                                  }
                              }
                          }
+                         do
+                         {
+                             await Task.Delay(500);
+                         }
+                         while (Stopped && !Exited);
                      }
                  }
              }, SongCancelSource.Token);
@@ -221,10 +227,11 @@ namespace NadekoBot.Services.Music
             return (true, Queue.Count);
         }
 
-        public void Next(int skipCount)
+        public void Next(int skipCount = 1)
         {
             lock (locker)
             {
+                manualSkip = true;
                 Queue.Next(skipCount - 1);
                 Stopped = false;
                 Unpause();
