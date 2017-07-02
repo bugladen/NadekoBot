@@ -57,7 +57,7 @@ namespace NadekoBot.Services.Music
             song.ThrowIfNull(nameof(song));
             lock (locker)
             {
-                if(CurrentIndex >= maxQueueSize)
+                if(maxQueueSize !=0 && CurrentIndex >= maxQueueSize)
                     throw new PlaylistFullException();
                 Songs.AddLast(song);
             }

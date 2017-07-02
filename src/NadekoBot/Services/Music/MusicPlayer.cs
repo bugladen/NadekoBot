@@ -96,48 +96,46 @@ namespace NadekoBot.Services.Music
                              var ac = await GetAudioClient();
                              if (ac == null)
                              {
-                                 await Task.Delay(900);
+                                 await Task.Delay(900, cancelToken);
                                  // just wait some time, maybe bot doesn't even have perms to join that voice channel, 
                                  // i don't want to spam connection attempts
                                  continue;
                              }
-                             using (var pcm = ac.CreatePCMStream(AudioApplication.Music))
+                             var pcm = ac.CreatePCMStream(AudioApplication.Music, bufferMillis: 250);
+                             OnStarted?.Invoke(this, data.Song);
+
+                             byte[] buffer = new byte[3840];
+                             int bytesRead = 0;
+                             try
                              {
-                                 OnStarted?.Invoke(this, data.Song);
+                                 while ((bytesRead = await b.ReadAsync(buffer, 0, buffer.Length, cancelToken).ConfigureAwait(false)) > 0)
+                                 {
+                                     var vol = Volume;
+                                     if (vol != 1)
+                                         AdjustVolume(buffer, vol);
+                                     await Task.WhenAll(Task.Delay(10), pcm.WriteAsync(buffer, 0, bytesRead, cancelToken)).ConfigureAwait(false);
 
-                                 byte[] buffer = new byte[3840];
-                                 int bytesRead = 0;
-                                 try
-                                 {
-                                     while ((bytesRead = await b.ReadAsync(buffer, 0, buffer.Length, cancelToken).ConfigureAwait(false)) > 0)
-                                     {
-                                         var vol = Volume;
-                                         if (vol != 1)
-                                             AdjustVolume(buffer, vol);
-                                         await Task.WhenAll(Task.Delay(10), pcm.WriteAsync(buffer, 0, bytesRead, cancelToken)).ConfigureAwait(false);
+                                     await (pauseTaskSource?.Task ?? Task.CompletedTask);
+                                 }
+                             }
+                             catch (OperationCanceledException)
+                             {
+                                 _log.Info("Song Canceled");
+                             }
+                             catch (Exception ex)
+                             {
+                                 _log.Warn(ex);
+                             }
+                             finally
+                             {
+                                 //flush is known to get stuck from time to time, just cancel it if it takes more than 1 second
+                                 var flushCancel = new CancellationTokenSource();
+                                 var flushToken = flushCancel.Token;
+                                 var flushDelay = Task.Delay(1000, flushToken);
+                                 await Task.WhenAny(flushDelay, pcm.FlushAsync(flushToken));
+                                 flushCancel.Cancel();
 
-                                         await (pauseTaskSource?.Task ?? Task.CompletedTask);
-                                     }
-                                 }
-                                 catch (OperationCanceledException)
-                                 {
-                                     _log.Info("Song Canceled");
-                                 }
-                                 catch (Exception ex)
-                                 {
-                                     _log.Warn(ex);
-                                 }
-                                 finally
-                                 {
-                                     //flush is known to get stuck from time to time, just cancel it if it takes more than 1 second
-                                     var flushCancel = new CancellationTokenSource();
-                                     var flushToken = flushCancel.Token;
-                                     var flushDelay = Task.Delay(1000, flushToken);
-                                     await Task.WhenAny(flushDelay, pcm.FlushAsync(flushToken));
-                                     flushCancel.Cancel();
-
-                                     OnCompleted?.Invoke(this, data.Song);
-                                 }
+                                 OnCompleted?.Invoke(this, data.Song);
                              }
                          }
                      }

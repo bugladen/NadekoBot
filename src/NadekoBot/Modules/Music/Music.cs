@@ -1,18 +1,14 @@
 ﻿using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Services;
-using System.IO;
 using Discord;
 using System.Threading.Tasks;
 using NadekoBot.Attributes;
 using System;
 using System.Linq;
 using NadekoBot.Extensions;
-using System.Net.Http;
-using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using NadekoBot.Services.Database.Models;
-using System.Threading;
 using NadekoBot.Services.Music;
 using NadekoBot.DataStructures;
 using System.Collections.Concurrent;
@@ -102,24 +98,26 @@ namespace NadekoBot.Modules.Music
                                                                 .WithThumbnailUrl(songInfo.Thumbnail)
                                                                 .WithFooter(ef => ef.WithText(songInfo.PrettyProvider)))
                                                                 .ConfigureAwait(false);
+                        if (mp.Stopped)
+                        {
+                            (await ReplyErrorLocalized("music_queue_stopped", Format.Code(Prefix + "play")).ConfigureAwait(false)).DeleteAfter(10);
+                        }
                         queuedMessage?.DeleteAfter(10);
                     }
                     catch
                     {
                         // ignored
-                    } // if queued message sending fails, don't attempt to delete it
+                    } 
                 }
             }
         }
+
         //todo  add play command. .play = .n, .play whatever = .q whatever
-
-
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Queue([Remainder] string query)
         {
-            //todo add a notice that player is stopped if user queues a song while it is
             var mp = await _music.GetOrCreatePlayer(Context);
             var songInfo = await _music.ResolveSong(query, Context.User.ToString());
             await InternalQueue(mp, songInfo, false);
@@ -207,7 +205,7 @@ namespace NadekoBot.Modules.Music
                                 return $"**⇒**`{number}.` {v.PrettyFullName}";
                             else
                                 return $"`{number}.` {v.PrettyFullName}";
-                        })); //todo v.prettyfullname instead of title
+                        }));
 
                 desc = $"`🔊` {songs[current].PrettyFullName}\n\n" + desc;
 
@@ -687,7 +685,7 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Move()
+        public void Move()
         {
             var vch = ((IGuildUser)Context.User).VoiceChannel;
 
@@ -748,6 +746,7 @@ namespace NadekoBot.Modules.Music
 
         //}
 
+        //todo test smq
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task SetMaxQueue(uint size = 0)
@@ -782,6 +781,7 @@ namespace NadekoBot.Modules.Music
         //        await ReplyConfirmLocalized("max_playtime_set", seconds).ConfigureAwait(false);
         //}
 
+        //todo test rcs
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task ReptCurSong()
@@ -803,6 +803,7 @@ namespace NadekoBot.Modules.Music
                                             .ConfigureAwait(false);
         }
 
+        //todo test rpl
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task RepeatPl()
@@ -862,6 +863,7 @@ namespace NadekoBot.Modules.Music
                 await ReplyConfirmLocalized("autoplay_enabled").ConfigureAwait(false);
         }
 
+        //todo test output text channel
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [RequireUserPermission(GuildPermission.ManageMessages)]
