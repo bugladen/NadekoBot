@@ -470,7 +470,7 @@ namespace NadekoBot.Modules.Music
                 .AddField(efb => efb.WithName(GetText("id")).WithValue(playlist.Id.ToString())));
         }
 
-        private readonly ConcurrentHashSet<ulong> PlaylistLoadBlacklist = new ConcurrentHashSet<ulong>();
+        private static readonly ConcurrentHashSet<ulong> PlaylistLoadBlacklist = new ConcurrentHashSet<ulong>();
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
@@ -544,8 +544,7 @@ namespace NadekoBot.Modules.Music
             var song = await _music.ResolveSong(query, Context.User.ToString(), MusicType.Soundcloud);
             await InternalQueue(mp, song, false).ConfigureAwait(false);
         }
-
-        //todo test soundcloudpl
+        
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task SoundCloudPl([Remainder] string pl)
@@ -560,19 +559,26 @@ namespace NadekoBot.Modules.Music
             using (var http = new HttpClient())
             {
                 var scvids = JObject.Parse(await http.GetStringAsync($"https://scapi.nadekobot.me/resolve?url={pl}").ConfigureAwait(false))["tracks"].ToObject<SoundCloudVideo[]>();
-
+                IUserMessage msg = null;
+                try { msg = await Context.Channel.SendMessageAsync(GetText("attempting_to_queue", Format.Bold(scvids.Length.ToString()))).ConfigureAwait(false); } catch { }
                 foreach (var svideo in scvids)
                 {
                     try
                     {
+                        await Task.Yield();
                         await InternalQueue(mp, await _music.SongInfoFromSVideo(svideo, Context.User.ToString()), true);
                     }
-                    catch { break; }
+                    catch (Exception ex)
+                    {
+                        _log.Warn(ex);
+                        break;
+                    }
                 }
+                if (msg != null)
+                    await msg.ModifyAsync(m => m.Content = GetText("playlist_queue_complete")).ConfigureAwait(false);
             }
         }
-
-        //todo fix playlist sync stuff
+        
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task NowPlaying()
@@ -676,7 +682,7 @@ namespace NadekoBot.Modules.Music
             var song = await _music.ResolveSong(path, Context.User.ToString(), MusicType.Local);
             await InternalQueue(mp, song, false).ConfigureAwait(false);
         }
-        //todo test localpl
+
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
@@ -695,6 +701,7 @@ namespace NadekoBot.Modules.Music
             {
                 try
                 {
+                    await Task.Yield();
                     var song = await _music.ResolveSong(file.FullName, Context.User.ToString(), MusicType.Local);
                     await InternalQueue(mp, song, true).ConfigureAwait(false);
                 }
