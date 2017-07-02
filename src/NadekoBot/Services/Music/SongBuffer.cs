@@ -69,6 +69,7 @@ Check the guides for your platform on how to setup ffmpeg correctly:
     Linux Guide:  https://goo.gl/ShjCUo");
                 }
                 catch (OperationCanceledException) { }
+                catch (InvalidOperationException) { } // when ffmpeg is disposed
                 catch (Exception ex)
                 {
                     _log.Info(ex);

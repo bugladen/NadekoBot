@@ -1198,7 +1198,7 @@
     <value>`{0}drawnew` or `{0}drawnew 5`</value>
   </data>
   <data name="shuffleplaylist_cmd" xml:space="preserve">
-    <value>playlistshuffle plsh</value>
+    <value>shuffle plsh</value>
   </data>
   <data name="shuffleplaylist_desc" xml:space="preserve">
     <value>Shuffles the current playlist.</value>

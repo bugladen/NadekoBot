@@ -246,6 +246,9 @@ namespace NadekoBot.Modules.Music
                 var add = "";
                 if (mp.Stopped)
                     add += Format.Bold(GetText("queue_stopped", Format.Code(Prefix + "play"))) + "\n";
+                var mps = mp.MaxPlaytimeSeconds;
+                if (mps > 0)
+                    add += Format.Bold(GetText("song_skips_after", TimeSpan.FromSeconds(mps).ToString("g"))) + "\n";
                 if (mp.RepeatCurrentSong)
                     add += "🔂 " + GetText("repeating_cur_song") + "\n";
                 else if (mp.Shuffle)
@@ -259,7 +262,7 @@ namespace NadekoBot.Modules.Music
                 }
 
                 if (!string.IsNullOrWhiteSpace(add))
-                    desc += add + "\n";
+                    desc = add + "\n" + desc;
                 
                 var embed = new EmbedBuilder()
                     .WithAuthor(eab => eab.WithName(GetText("player_queue", curPage + 1, lastPage + 1))
@@ -795,24 +798,21 @@ namespace NadekoBot.Modules.Music
                 await ReplyConfirmLocalized("max_queue_x", size).ConfigureAwait(false);
         }
 
-        //[NadekoCommand, Usage, Description, Aliases]
-        //[RequireContext(ContextType.Guild)]
-        //public async Task SetMaxPlaytime(uint seconds)
-        //{
-        //    if (seconds < 15 && seconds != 0)
-        //        return;
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task SetMaxPlaytime(uint seconds)
+        {
+            if (seconds < 15 && seconds != 0)
+                return;
 
-        //    var channel = (ITextChannel)Context.Channel;
-        //    MusicPlayer musicPlayer;
-        //    if ((musicPlayer = _music.GetPlayer(Context.Guild.Id)) == null)
-        //        return;
-        //    musicPlayer.MaxPlaytimeSeconds = seconds;
-        //    if (seconds == 0)
-        //        await ReplyConfirmLocalized("max_playtime_none").ConfigureAwait(false);
-        //    else
-        //        await ReplyConfirmLocalized("max_playtime_set", seconds).ConfigureAwait(false);
-        //}
-        
+            var mp = await _music.GetOrCreatePlayer(Context);
+            mp.MaxPlaytimeSeconds = seconds;
+            if (seconds == 0)
+                await ReplyConfirmLocalized("max_playtime_none").ConfigureAwait(false);
+            else
+                await ReplyConfirmLocalized("max_playtime_set", seconds).ConfigureAwait(false);
+        }
+
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task ReptCurSong()

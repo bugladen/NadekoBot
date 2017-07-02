@@ -50,6 +50,13 @@ namespace NadekoBot.Services.Music
             get => Queue.MaxQueueSize;
             set => Queue.MaxQueueSize = value;
         }
+        public uint MaxPlaytimeSeconds { get; set; }
+
+
+        const int _frameBytes = 3840;
+        const float _miliseconds = 20.0f;
+        public TimeSpan CurrentTime => TimeSpan.FromSeconds(_bytesSent / (float)_frameBytes / (1000 / _miliseconds));
+        private int _bytesSent = 0;
 
         private IAudioClient _audioClient;
         private readonly object locker = new object();
@@ -78,6 +85,7 @@ namespace NadekoBot.Services.Music
              {
                  while (!Exited)
                  {
+                     _bytesSent = 0;
                      CancellationToken cancelToken;
                      (int Index, SongInfo Song) data;
                      lock (locker)
@@ -122,12 +130,14 @@ namespace NadekoBot.Services.Music
                              int bytesRead = 0;
                              try
                              {
-                                 while ((bytesRead = await b.ReadAsync(buffer, 0, buffer.Length, cancelToken).ConfigureAwait(false)) > 0)
+                                 while ((bytesRead = await b.ReadAsync(buffer, 0, buffer.Length, cancelToken).ConfigureAwait(false)) > 0 
+                                    && (MaxPlaytimeSeconds <= 0 || MaxPlaytimeSeconds >= CurrentTime.TotalSeconds))
                                  {
                                      var vol = Volume;
                                      if (vol != 1)
                                          AdjustVolume(buffer, vol);
                                      await pcm.WriteAsync(buffer, 0, bytesRead, cancelToken).ConfigureAwait(false);
+                                     unchecked { _bytesSent += bytesRead; }
 
                                      await (pauseTaskSource?.Task ?? Task.CompletedTask);
                                  }
