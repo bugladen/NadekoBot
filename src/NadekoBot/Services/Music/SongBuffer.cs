@@ -9,7 +9,7 @@ namespace NadekoBot.Services.Music
 {
     public class SongBuffer : IDisposable
     {
-        const int maxReadSize = 3840;
+        const int readSize = 38400;
         private Process p;
         private PoopyRingBuffer _outStream = new PoopyRingBuffer();
 
@@ -39,38 +39,33 @@ namespace NadekoBot.Services.Music
             {
                 try
                 {
-                    byte[] buffer = new byte[3840];
+                    byte[] buffer = new byte[readSize];
                     while (!cancelToken.IsCancellationRequested)
                     {
                         var toRead = buffer.Length;
                         var remCap = _outStream.RemainingCapacity;
-                        if (remCap < 3840)
+                        if (remCap < readSize)
                         {
                             if (_outStream.RemainingCapacity == 0)
                             {
                                 Console.WriteLine("Buffer full, not gonnna read from ffmpeg");
-                                await Task.Delay(10);
+                                await Task.Delay(20);
                                 continue;
                             }
                             toRead = remCap;
                         }
-                        do
+
+                        int bytesRead = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, toRead, cancelToken).ConfigureAwait(false);
+                        if (bytesRead == 0)
                         {
-                            if(p.HasExited)
-                                Console.WriteLine("FFMPEG has exited, I'm in the read/write loop");
-
-                            int bytesRead = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, toRead, cancelToken).ConfigureAwait(false);
-                            if (bytesRead == 0)
-                            {
-                                Console.WriteLine("I'm not reading anything from ffmpeg");
-                                await Task.Delay(20);
-                            }
-                            await _outStream.WriteAsync(buffer, 0, bytesRead, cancelToken);
-
-                        } while (p.HasExited && !cancelToken.IsCancellationRequested);
+                            Console.WriteLine("I'm not reading anything from ffmpeg");
+                            await Task.Delay(20);
+                            continue;
+                        }
+                        await _outStream.WriteAsync(buffer, 0, bytesRead, cancelToken);
 
                         if (_outStream.RemainingCapacity < _outStream.Capacity * 0.9f)
-                            if(toReturn.TrySetResult(true))
+                            if (toReturn.TrySetResult(true))
                                 Console.WriteLine("Prebuffering finished");
                     }
                     Console.WriteLine("FFMPEG killed or song canceled");
