@@ -108,18 +108,6 @@ namespace NadekoBot.Services.Music
                         {
                             // ignored
                         }
-
-                        //todo autoplay should be independent from event handlers
-                        //if (mp.Autoplay && mp.Playlist.Count == 0 && song.SongInfo.ProviderType == MusicType.Normal)
-                        //{
-                        //    var relatedVideos = (await _google.GetRelatedVideosAsync(song.SongInfo.Query, 4)).ToList();
-                        //    if (relatedVideos.Count > 0)
-                        //        await QueueSong(await textCh.Guild.GetCurrentUserAsync(),
-                        //            textCh,
-                        //            voiceCh,
-                        //            relatedVideos[new NadekoRandom().Next(0, relatedVideos.Count)],
-                        //            true).ConfigureAwait(false);
-                        //}
                     }
                     catch
                     {

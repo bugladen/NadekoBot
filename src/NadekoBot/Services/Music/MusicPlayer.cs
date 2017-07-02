@@ -174,7 +174,6 @@ namespace NadekoBot.Services.Music
                                      try
                                      {
                                          _log.Info("Loading related song");
-                                         //todo test autoplay
                                          await _musicService.TryQueueRelatedSongAsync(data.Song.Query, OutputTextChannel, VoiceChannel);
                                          Queue.Next();
                                      }
@@ -245,6 +244,8 @@ namespace NadekoBot.Services.Music
                 manualSkip = true;
                 // if player is stopped, and user uses .n, it should play current song.  
                 // It's a bit weird, but that's the least annoying solution
+                if (!Stopped)
+                    Queue.Next(skipCount - 1);
                 Stopped = false;
                 Unpause();
                 CancelCurrentSong();

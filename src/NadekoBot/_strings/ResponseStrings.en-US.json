@@ -440,6 +440,7 @@
   "music_queue_full": "Queue is full at {0}/{0}.",
   "music_queue_stopped": "Player is stopped. Use {0} command to start playing.",
   "music_removed_song": "Removed song",
+  "music_removed_song_error": "Song on that index doesn't exist",
   "music_repeating_cur_song": "Repeating current song",
   "music_repeating_playlist": "Repeating playlist",
   "music_repeating_track": "Repeating track",
