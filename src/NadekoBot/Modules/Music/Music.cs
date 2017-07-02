@@ -109,7 +109,7 @@ namespace NadekoBot.Modules.Music
                                                                 .ConfigureAwait(false);
                         if (mp.Stopped)
                         {
-                            (await ReplyErrorLocalized("music_queue_stopped", Format.Code(Prefix + "play")).ConfigureAwait(false)).DeleteAfter(10);
+                            (await ReplyErrorLocalized("queue_stopped", Format.Code(Prefix + "play")).ConfigureAwait(false)).DeleteAfter(10);
                         }
                         queuedMessage?.DeleteAfter(10);
                     }
@@ -227,18 +227,21 @@ namespace NadekoBot.Modules.Music
 
                 desc = $"`🔊` {songs[current].PrettyFullName}\n\n" + desc;
 
-
+                var add = "";
                 if (mp.RepeatCurrentSong)
-                    desc = "🔂 " + GetText("repeating_cur_song") + "\n\n" + desc;
+                    add += "🔂 " + GetText("repeating_cur_song") + "\n";
                 else if (mp.Shuffle)
-                    desc = "🔀 " + GetText("shuffling_playlist") + "\n\n" + desc;
+                    add += "🔀 " + GetText("shuffling_playlist") + "\n";
                 else
                 {
-                    if(mp.Autoplay)
-                        desc = "↪ " + GetText("autoplaying") + "\n\n" + desc;
                     if (mp.RepeatPlaylist)
-                        desc = "🔁 " + GetText("repeating_playlist") + "\n\n" + desc;
+                        add += "🔁 " + GetText("repeating_playlist") + "\n";
+                    if (mp.Autoplay)
+                        add += "↪ " + GetText("autoplaying") + "\n";
                 }
+
+                if (!string.IsNullOrWhiteSpace(add))
+                    desc += add + "\n";
                 
                 var embed = new EmbedBuilder()
                     .WithAuthor(eab => eab.WithName(GetText("player_queue", curPage + 1, lastPage + 1))

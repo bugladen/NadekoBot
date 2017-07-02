@@ -48,13 +48,13 @@ namespace NadekoBot.Services.Music
                 try
                 {
                     byte[] buffer = new byte[readSize];
-                    int bytesRead = -1;
-                    while (!cancelToken.IsCancellationRequested && bytesRead != 0)
+                    int bytesRead = 1;
+                    while (!cancelToken.IsCancellationRequested && !this.p.HasExited && bytesRead > 0)
                     {
                         bytesRead = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, readSize, cancelToken).ConfigureAwait(false);
                         await _outStream.WriteAsync(buffer, 0, bytesRead, cancelToken);
 
-                        if (_outStream.RemainingCapacity < _outStream.Capacity * 0.5f)
+                        if (_outStream.RemainingCapacity < _outStream.Capacity * 0.5f || bytesRead == 0)
                             if (toReturn.TrySetResult(true))
                                 _log.Info("Prebuffering finished");
                     }

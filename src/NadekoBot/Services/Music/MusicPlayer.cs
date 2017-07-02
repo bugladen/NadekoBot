@@ -94,10 +94,18 @@ namespace NadekoBot.Services.Music
                          _log.Info("Starting");
                          using (var b = new SongBuffer(data.Song.Uri, ""))
                          {
-                             var bufferSuccess = await b.StartBuffering(cancelToken);
-
-                             if (bufferSuccess == false)
+                             var bufferTask = b.StartBuffering(cancelToken);
+                             var timeout = Task.Delay(10000);
+                             if (Task.WhenAny(bufferTask, timeout) == timeout)
+                             {
+                                 _log.Info("Buffering failed due to a timeout.");
                                  continue;
+                             }
+                             else if (!bufferTask.Result)
+                             {
+                                 _log.Info("Buffering failed due to a cancel or error.");
+                                 continue;
+                             }
 
                              var ac = await GetAudioClient();
                              if (ac == null)
@@ -161,7 +169,7 @@ namespace NadekoBot.Services.Music
                              {
                                  //if last song, and autoplay is enabled, and if it's a youtube song
                                  // do autplay magix
-                                 if (Queue.Count == data.Index && Autoplay && data.Song?.Provider == "YouTube")
+                                 if (Queue.Count - 1 == data.Index && Autoplay && data.Song?.Provider == "YouTube")
                                  {
                                      try
                                      {
