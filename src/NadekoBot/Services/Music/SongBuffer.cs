@@ -43,17 +43,17 @@ namespace NadekoBot.Services.Music
                     while (!cancelToken.IsCancellationRequested)
                     {
                         var toRead = buffer.Length;
-                        var remCap = _outStream.RemainingCapacity;
-                        if (remCap < readSize)
-                        {
-                            if (_outStream.RemainingCapacity == 0)
-                            {
-                                Console.WriteLine("Buffer full, not gonnna read from ffmpeg");
-                                await Task.Delay(20);
-                                continue;
-                            }
-                            toRead = remCap;
-                        }
+                        //var remCap = _outStream.RemainingCapacity;
+                        //if (remCap < readSize)
+                        //{
+                        //    if (_outStream.RemainingCapacity == 0)
+                        //    {
+                        //        Console.WriteLine("Buffer full, not gonnna read from ffmpeg");
+                        //        await Task.Delay(20);
+                        //        continue;
+                        //    }
+                        //    toRead = remCap;
+                        //}
 
                         int bytesRead = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, toRead, cancelToken).ConfigureAwait(false);
                         if (bytesRead == 0)
@@ -88,6 +88,7 @@ namespace NadekoBot.Services.Music
 
         public void Dispose()
         {
+            Console.WriteLine("DISPOSING");
             try { this.p.Kill(); }
             catch { }
             _outStream.Dispose();

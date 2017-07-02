@@ -101,10 +101,10 @@ namespace NadekoBot.Services.Music
                                  // i don't want to spam connection attempts
                                  continue;
                              }
-                             var pcm = ac.CreatePCMStream(AudioApplication.Music, bufferMillis: 250);
+                             var pcm = ac.CreatePCMStream(AudioApplication.Music, bufferMillis: 1000);
                              OnStarted?.Invoke(this, data.Song);
 
-                             byte[] buffer = new byte[3840];
+                             byte[] buffer = new byte[38400];
                              int bytesRead = 0;
                              try
                              {
