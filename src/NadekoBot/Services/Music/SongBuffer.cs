@@ -40,7 +40,7 @@ namespace NadekoBot.Services.Music
                 try
                 {
                     byte[] buffer = new byte[3840];
-                    while (cancelToken.IsCancellationRequested)
+                    while (!cancelToken.IsCancellationRequested)
                     {
                         var toRead = buffer.Length;
                         var remCap = _outStream.RemainingCapacity;
