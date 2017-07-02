@@ -12,6 +12,9 @@ using NadekoBot.Services.Database.Models;
 using NadekoBot.Services.Music;
 using NadekoBot.DataStructures;
 using System.Collections.Concurrent;
+using System.IO;
+using System.Net.Http;
+using Newtonsoft.Json.Linq;
 
 namespace NadekoBot.Modules.Music
 {
@@ -35,6 +38,8 @@ namespace NadekoBot.Modules.Music
 
             //_client.UserVoiceStateUpdated += Client_UserVoiceStateUpdated;
         }
+
+        //todo when someone drags nadeko from one voice channel to another
 
         //private Task Client_UserVoiceStateUpdated(SocketUser iusr, SocketVoiceState oldState, SocketVoiceState newState)
         //{
@@ -84,6 +89,13 @@ namespace NadekoBot.Modules.Music
 
         private async Task InternalQueue(MusicPlayer mp, SongInfo songInfo, bool silent)
         {
+            if (songInfo == null)
+            {
+                if(!silent)
+                    await ReplyErrorLocalized("song_not_found").ConfigureAwait(false);
+                return;
+            }
+
             (bool Success, int Index) qData;
             try
             {
@@ -137,6 +149,7 @@ namespace NadekoBot.Modules.Music
         {
             var mp = await _music.GetOrCreatePlayer(Context);
             var songInfo = await _music.ResolveSong(query, Context.User.ToString());
+            
             try { await InternalQueue(mp, songInfo, false); } catch (QueueFullException) { return; }
 
             if ((await Context.Guild.GetCurrentUserAsync()).GetPermissions((IGuildChannel)Context.Channel).ManageMessages)
@@ -486,9 +499,8 @@ namespace NadekoBot.Modules.Music
                     try
                     {
                         await Task.Yield();
-                        //todo fix for all
-                        if (item.ProviderType == MusicType.Normal)
-                            await Task.WhenAll(Task.Delay(1000), InternalQueue(mp, await _music.ResolveSong(item.Query, Context.User.ToString(), item.ProviderType), true)).ConfigureAwait(false);
+                        
+                        await Task.WhenAll(Task.Delay(1000), InternalQueue(mp, await _music.ResolveSong(item.Query, Context.User.ToString(), item.ProviderType), true)).ConfigureAwait(false);
                     }
                     catch (SongNotFoundException) { }
                     catch { break; }
@@ -524,17 +536,43 @@ namespace NadekoBot.Modules.Music
         //    }
         //}
 
-        //[NadekoCommand, Usage, Description, Aliases]
-        //[RequireContext(ContextType.Guild)]
-        //public async Task SoundCloudQueue([Remainder] string query)
-        //{
-        //    await _music.QueueSong(((IGuildUser)Context.User), (ITextChannel)Context.Channel, ((IGuildUser)Context.User).VoiceChannel, query, musicType: MusicType.Soundcloud).ConfigureAwait(false);
-        //    if ((await Context.Guild.GetCurrentUserAsync()).GetPermissions((IGuildChannel)Context.Channel).ManageMessages)
-        //    {
-        //        Context.Message.DeleteAfter(10);
-        //    }
-        //}
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task SoundCloudQueue([Remainder] string query)
+        {
+            var mp = await _music.GetOrCreatePlayer(Context);
+            var song = await _music.ResolveSong(query, Context.User.ToString(), MusicType.Soundcloud);
+            await InternalQueue(mp, song, false).ConfigureAwait(false);
+        }
 
+        //todo test soundcloudpl
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task SoundCloudPl([Remainder] string pl)
+        {
+            pl = pl?.Trim();
+
+            if (string.IsNullOrWhiteSpace(pl))
+                return;
+
+            var mp = await _music.GetOrCreatePlayer(Context);
+
+            using (var http = new HttpClient())
+            {
+                var scvids = JObject.Parse(await http.GetStringAsync($"https://scapi.nadekobot.me/resolve?url={pl}").ConfigureAwait(false))["tracks"].ToObject<SoundCloudVideo[]>();
+
+                foreach (var svideo in scvids)
+                {
+                    try
+                    {
+                        await InternalQueue(mp, await _music.SongInfoFromSVideo(svideo, Context.User.ToString()), true);
+                    }
+                    catch { break; }
+                }
+            }
+        }
+
+        //todo fix playlist sync stuff
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task NowPlaying()
@@ -619,103 +657,59 @@ namespace NadekoBot.Modules.Music
         //    await msg.ModifyAsync(m => m.Content = "✅ " + Format.Bold(GetText("playlist_queue_complete"))).ConfigureAwait(false);
         //}
 
-        //[NadekoCommand, Usage, Description, Aliases]
-        //[RequireContext(ContextType.Guild)]
-        //public async Task SoundCloudPl([Remainder] string pl)
-        //{
 
-        //    pl = pl?.Trim();
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task Radio(string radioLink)
+        {
+            var mp = await _music.GetOrCreatePlayer(Context);
+            var song = await _music.ResolveSong(radioLink, Context.User.ToString(), MusicType.Radio);
+            await InternalQueue(mp, song, false).ConfigureAwait(false);
+        }
 
-        //    if (string.IsNullOrWhiteSpace(pl))
-        //        return;
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [OwnerOnly]
+        public async Task Local([Remainder] string path)
+        {
+            var mp = await _music.GetOrCreatePlayer(Context);
+            var song = await _music.ResolveSong(path, Context.User.ToString(), MusicType.Local);
+            await InternalQueue(mp, song, false).ConfigureAwait(false);
+        }
+        //todo test localpl
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [OwnerOnly]
+        public async Task LocalPl([Remainder] string dirPath)
+        {
+            if (string.IsNullOrWhiteSpace(dirPath))
+                return;
 
-        //    using (var http = new HttpClient())
-        //    {
-        //        var scvids = JObject.Parse(await http.GetStringAsync($"https://scapi.nadekobot.me/resolve?url={pl}").ConfigureAwait(false))["tracks"].ToObject<SoundCloudVideo[]>();
-        //        await _music.QueueSong(((IGuildUser)Context.User), (ITextChannel)Context.Channel, ((IGuildUser)Context.User).VoiceChannel, scvids[0].TrackLink).ConfigureAwait(false);
+            var mp = await _music.GetOrCreatePlayer(Context);
 
-        //        MusicPlayer musicPlayer;
-        //        if ((musicPlayer = _music.GetPlayer(Context.Guild.Id)) == null)
-        //            return;
-
-        //        foreach (var svideo in scvids.Skip(1))
-        //        {
-        //            try
-        //            {
-        //                musicPlayer.AddSong(new Song(new SongInfo
-        //                {
-        //                    Title = svideo.FullName,
-        //                    Provider = "SoundCloud",
-        //                    Uri = await svideo.StreamLink(),
-        //                    ProviderType = MusicType.Normal,
-        //                    Query = svideo.TrackLink,
-        //                }), ((IGuildUser)Context.User).Username);
-        //            }
-        //            catch (PlaylistFullException) { break; }
-        //        }
-        //    }
-        //}
-
-        //[NadekoCommand, Usage, Description, Aliases]
-        //[RequireContext(ContextType.Guild)]
-        //[OwnerOnly]
-        //public async Task LocalPl([Remainder] string directory)
-        //{
-
-        //    var arg = directory;
-        //    if (string.IsNullOrWhiteSpace(arg))
-        //        return;
-        //    var dir = new DirectoryInfo(arg);
-        //    var fileEnum = dir.GetFiles("*", SearchOption.AllDirectories)
-        //                        .Where(x => !x.Attributes.HasFlag(FileAttributes.Hidden | FileAttributes.System));
-        //    var gusr = (IGuildUser)Context.User;
-        //    foreach (var file in fileEnum)
-        //    {
-        //        try
-        //        {
-        //            await _music.QueueSong(gusr, (ITextChannel)Context.Channel, gusr.VoiceChannel, file.FullName, true, MusicType.Local).ConfigureAwait(false);
-        //        }
-        //        catch (PlaylistFullException)
-        //        {
-        //            break;
-        //        }
-        //        catch
-        //        {
-        //            // ignored
-        //        }
-        //    }
-        //    await ReplyConfirmLocalized("dir_queue_complete").ConfigureAwait(false);
-        //}
-
-        //[NadekoCommand, Usage, Description, Aliases]
-        //[RequireContext(ContextType.Guild)]
-        //public async Task Radio(string radioLink)
-        //{
-
-        //    if (((IGuildUser)Context.User).VoiceChannel?.Guild != Context.Guild)
-        //    {
-        //        await ReplyErrorLocalized("must_be_in_voice").ConfigureAwait(false);
-        //        return;
-        //    }
-        //    await _music.QueueSong(((IGuildUser)Context.User), (ITextChannel)Context.Channel, ((IGuildUser)Context.User).VoiceChannel, radioLink, musicType: MusicType.Radio).ConfigureAwait(false);
-        //    if ((await Context.Guild.GetCurrentUserAsync()).GetPermissions((IGuildChannel)Context.Channel).ManageMessages)
-        //    {
-        //        Context.Message.DeleteAfter(10);
-        //    }
-        //}
-
-        //[NadekoCommand, Usage, Description, Aliases]
-        //[RequireContext(ContextType.Guild)]
-        //[OwnerOnly]
-        //public async Task Local([Remainder] string path)
-        //{
-
-        //    var arg = path;
-        //    if (string.IsNullOrWhiteSpace(arg))
-        //        return;
-        //    await _music.QueueSong(((IGuildUser)Context.User), (ITextChannel)Context.Channel, ((IGuildUser)Context.User).VoiceChannel, path, musicType: MusicType.Local).ConfigureAwait(false);
-
-        //}
+            DirectoryInfo dir;
+            try { dir = new DirectoryInfo(dirPath); } catch { return; }
+            var fileEnum = dir.GetFiles("*", SearchOption.AllDirectories)
+                                .Where(x => !x.Attributes.HasFlag(FileAttributes.Hidden | FileAttributes.System) && x.Extension != ".jpg" && x.Extension != ".png");
+            foreach (var file in fileEnum)
+            {
+                try
+                {
+                    var song = await _music.ResolveSong(file.FullName, Context.User.ToString(), MusicType.Local);
+                    await InternalQueue(mp, song, true).ConfigureAwait(false);
+                }
+                catch (QueueFullException)
+                {
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    _log.Warn(ex);
+                    break;
+                }
+            }
+            await ReplyConfirmLocalized("dir_queue_complete").ConfigureAwait(false);
+        }
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
@@ -776,8 +770,6 @@ namespace NadekoBot.Modules.Music
         //    await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
 
         //    //await channel.SendConfirmAsync($"🎵Moved {s.PrettyName} `from #{n1} to #{n2}`").ConfigureAwait(false);
-
-
         //}
         
         [NadekoCommand, Usage, Description, Aliases]

@@ -11,6 +11,8 @@ using VideoLibrary;
 using System.Collections.Generic;
 using Discord.Commands;
 using Discord.WebSocket;
+using System.Text.RegularExpressions;
+using System.Net.Http;
 
 namespace NadekoBot.Services.Music
 {
@@ -156,24 +158,7 @@ namespace NadekoBot.Services.Music
                         // ignored
                     }
                 };
-                //mp.SongRemoved += async (song, index) =>
-                //{
-                //    try
-                //    {
-                //        var embed = new EmbedBuilder()
-                //            .WithAuthor(eab => eab.WithName(GetText("removed_song") + " #" + (index + 1)).WithMusicIcon())
-                //            .WithDescription(song.PrettyName)
-                //            .WithFooter(ef => ef.WithText(song.PrettyInfo))
-                //            .WithErrorColor();
-
-                //        await mp.OutputTextChannel.EmbedAsync(embed).ConfigureAwait(false);
-
-                //    }
-                //    catch
-                //    {
-                //        // ignored
-                //    }
-                //};
+                
                 return mp;
             });
         }
@@ -192,27 +177,109 @@ namespace NadekoBot.Services.Music
             if (!related.Any())
                 return;
 
-            var si = await ResolveSong(related[new NadekoRandom().Next(related.Length)], _client.CurrentUser.ToString(), MusicType.Normal);
+            var si = await ResolveSong(related[new NadekoRandom().Next(related.Length)], _client.CurrentUser.ToString(), MusicType.YouTube);
+            if (si == null)
+                throw new SongNotFoundException();
             var mp = await GetOrCreatePlayer(txtCh.GuildId, vch, txtCh);
             mp.Enqueue(si);
         }
 
-        public async Task<SongInfo> ResolveSong(string query, string queuerName, MusicType musicType = MusicType.Normal)
+        public async Task<SongInfo> ResolveSong(string query, string queuerName, MusicType? musicType = null)
         {
             query.ThrowIfNull(nameof(query));
 
-            SongInfo sinfo;
-
-            sinfo = await ResolveYoutubeSong(query, queuerName).ConfigureAwait(false);
+            SongInfo sinfo = null;
+            switch (musicType)
+            {
+                case MusicType.YouTube:
+                    sinfo = await ResolveYoutubeSong(query, queuerName);
+                    break;
+                case MusicType.Radio:
+                    try { sinfo = ResolveRadioSong(IsRadioLink(query) ? await HandleStreamContainers(query) : query, queuerName); } catch { };
+                    break;
+                case MusicType.Local:
+                    sinfo = ResolveLocalSong(query, queuerName);
+                    break;
+                case MusicType.Soundcloud:
+                    sinfo = await ResolveSoundCloudSong(query, queuerName);
+                    break;
+                case null:
+                    if (_sc.IsSoundCloudLink(query))
+                        sinfo = await ResolveSoundCloudSong(query, queuerName);
+                    else if (IsRadioLink(query))
+                        sinfo = ResolveRadioSong(await HandleStreamContainers(query), queuerName);
+                    else
+                        try
+                        {
+                            sinfo = await ResolveYoutubeSong(query, queuerName);
+                        }
+                        catch
+                        {
+                            sinfo = null;
+                        }
+                    break;
+            }
 
             return sinfo;
+        }
+
+        public async Task<SongInfo> ResolveSoundCloudSong(string query, string queuerName)
+        {
+            var svideo = !_sc.IsSoundCloudLink(query) ? 
+                await _sc.GetVideoByQueryAsync(query).ConfigureAwait(false):
+                await _sc.ResolveVideoAsync(query).ConfigureAwait(false);
+
+            if (svideo == null)
+                return null;
+            return await SongInfoFromSVideo(svideo, queuerName);
+        }
+
+        public async Task<SongInfo> SongInfoFromSVideo(SoundCloudVideo svideo, string queuerName) =>
+            new SongInfo
+            {
+                Title = svideo.FullName,
+                Provider = "SoundCloud",
+                Uri = await svideo.StreamLink().ConfigureAwait(false),
+                ProviderType = MusicType.Soundcloud,
+                Query = svideo.TrackLink,
+                AlbumArt = svideo.artwork_url,
+                QueuerName = queuerName
+            };
+
+    public SongInfo ResolveLocalSong(string query, string queuerName)
+        {
+            return new SongInfo
+            {
+                Uri = "\"" + Path.GetFullPath(query) + "\"",
+                Title = Path.GetFileNameWithoutExtension(query),
+                Provider = "Local File",
+                ProviderType = MusicType.Local,
+                Query = query,
+                QueuerName = queuerName
+            };
+        }
+
+        public SongInfo ResolveRadioSong(string query, string queuerName)
+        {
+            return new SongInfo
+            {
+                Uri = query,
+                Title = query,
+                Provider = "Radio Stream",
+                ProviderType = MusicType.Radio,
+                Query = query,
+                QueuerName = queuerName
+            };
         }
 
         public async Task<SongInfo> ResolveYoutubeSong(string query, string queuerName)
         {
             var link = (await _google.GetVideoLinksByKeywordAsync(query).ConfigureAwait(false)).FirstOrDefault();
             if (string.IsNullOrWhiteSpace(link))
-                throw new OperationCanceledException("Not a valid youtube query.");
+            {
+                _log.Info("No song found.");
+                return null;
+            }
             var allVideos = await Task.Run(async () => { try { return await YouTube.Default.GetAllVideosAsync(link).ConfigureAwait(false); } catch { return Enumerable.Empty<YouTubeVideo>(); } }).ConfigureAwait(false);
             var videos = allVideos.Where(v => v.AdaptiveKind == AdaptiveKind.Audio);
             var video = videos
@@ -221,7 +288,7 @@ namespace NadekoBot.Services.Music
                 .FirstOrDefault();
 
             if (video == null) // do something with this error
-                throw new Exception("Could not load any video elements based on the query.");
+                _log.Info("Could not load any video elements based on the query.");
             //var m = Regex.Match(query, @"\?t=(?<t>\d*)");
             //int gotoTime = 0;
             //if (m.Captures.Count > 0)
@@ -232,11 +299,20 @@ namespace NadekoBot.Services.Music
                 Provider = "YouTube",
                 Uri = await video.GetUriAsync().ConfigureAwait(false),
                 Query = link,
-                ProviderType = MusicType.Normal,
+                ProviderType = MusicType.YouTube,
                 QueuerName = queuerName
             };
             return song;
         }
+
+        private bool IsRadioLink(string query) =>
+            (query.StartsWith("http") ||
+            query.StartsWith("ww"))
+            &&
+            (query.Contains(".pls") ||
+            query.Contains(".m3u") ||
+            query.Contains(".asx") ||
+            query.Contains(".xspf"));
 
         public async Task DestroyPlayer(ulong id)
         {
@@ -244,159 +320,98 @@ namespace NadekoBot.Services.Music
                 await mp.Destroy();
         }
 
-        //        public async Task QueueSong(IGuildUser queuer, ITextChannel textCh, IVoiceChannel voiceCh, string query, bool silent = false, MusicType musicType = MusicType.Normal)
-        //        {
-        //            string GetText(string text, params object[] replacements) => 
-        //                _strings.GetText(text, _localization.GetCultureInfo(textCh.Guild), "Music".ToLowerInvariant(), replacements);
+        private readonly Regex plsRegex = new Regex("File1=(?<url>.*?)\\n", RegexOptions.Compiled);
+        private readonly Regex m3uRegex = new Regex("(?<url>^[^#].*)", RegexOptions.Compiled | RegexOptions.Multiline);
+        private readonly Regex asxRegex = new Regex("<ref href=\"(?<url>.*?)\"", RegexOptions.Compiled);
+        private readonly Regex xspfRegex = new Regex("<location>(?<url>.*?)</location>", RegexOptions.Compiled);
 
-        //if (string.IsNullOrWhiteSpace(query) || query.Length< 3)
-        //    throw new ArgumentException("Invalid song query.", nameof(query));
+        private async Task<string> HandleStreamContainers(string query)
+        {
+            string file = null;
+            try
+            {
+                using (var http = new HttpClient())
+                {
+                    file = await http.GetStringAsync(query).ConfigureAwait(false);
+                }
+            }
+            catch
+            {
+                return query;
+            }
+            if (query.Contains(".pls"))
+            {
+                //File1=http://armitunes.com:8000/
+                //Regex.Match(query)
+                try
+                {
+                    var m = plsRegex.Match(file);
+                    var res = m.Groups["url"]?.ToString();
+                    return res?.Trim();
+                }
+                catch
+                {
+                    _log.Warn($"Failed reading .pls:\n{file}");
+                    return null;
+                }
+            }
+            if (query.Contains(".m3u"))
+            {
+                /* 
+# This is a comment
+                   C:\xxx4xx\xxxxxx3x\xx2xxxx\xx.mp3
+                   C:\xxx5xx\x6xxxxxx\x7xxxxx\xx.mp3
+                */
+                try
+                {
+                    var m = m3uRegex.Match(file);
+                    var res = m.Groups["url"]?.ToString();
+                    return res?.Trim();
+                }
+                catch
+                {
+                    _log.Warn($"Failed reading .m3u:\n{file}");
+                    return null;
+                }
 
-        //            var musicPlayer = GetOrCreatePlayer(textCh.Guild.Id, voiceCh, textCh);
-        //            Song resolvedSong;
-        //            try
-        //            {
-        //                musicPlayer.ThrowIfQueueFull();
-        //                resolvedSong = await ResolveSong(query, musicType).ConfigureAwait(false);
+            }
+            if (query.Contains(".asx"))
+            {
+                //<ref href="http://armitunes.com:8000"/>
+                try
+                {
+                    var m = asxRegex.Match(file);
+                    var res = m.Groups["url"]?.ToString();
+                    return res?.Trim();
+                }
+                catch
+                {
+                    _log.Warn($"Failed reading .asx:\n{file}");
+                    return null;
+                }
+            }
+            if (query.Contains(".xspf"))
+            {
+                /*
+                <?xml version="1.0" encoding="UTF-8"?>
+                    <playlist version="1" xmlns="http://xspf.org/ns/0/">
+                        <trackList>
+                            <track><location>file:///mp3s/song_1.mp3</location></track>
+                */
+                try
+                {
+                    var m = xspfRegex.Match(file);
+                    var res = m.Groups["url"]?.ToString();
+                    return res?.Trim();
+                }
+                catch
+                {
+                    _log.Warn($"Failed reading .xspf:\n{file}");
+                    return null;
+                }
+            }
 
-        //                if (resolvedSong == null)
-        //                    throw new SongNotFoundException();
-
-        //                musicPlayer.AddSong(resolvedSong, queuer.Username);
-        //            }
-        //            catch (PlaylistFullException)
-        //            {
-        //                try
-        //                {
-        //                    await textCh.SendConfirmAsync(GetText("queue_full", musicPlayer.MaxQueueSize));
-        //                }
-        //                catch
-        //                {
-        //                    // ignored
-        //                }
-        //                throw;
-        //            }
-        //            if (!silent)
-        //            {
-        //                try
-        //                {
-        //                    //var queuedMessage = await textCh.SendConfirmAsync($"🎵 Queued **{resolvedSong.SongInfo.Title}** at `#{musicPlayer.Playlist.Count + 1}`").ConfigureAwait(false);
-        //                    var queuedMessage = await textCh.EmbedAsync(new EmbedBuilder().WithOkColor()
-        //                                                            .WithAuthor(eab => eab.WithName(GetText("queued_song") + " #" + (musicPlayer.Playlist.Count + 1)).WithMusicIcon())
-        //                                                            .WithDescription($"{resolvedSong.PrettyName}\n{GetText("queue")} ")
-        //                                                            .WithThumbnailUrl(resolvedSong.Thumbnail)
-        //                                                            .WithFooter(ef => ef.WithText(resolvedSong.PrettyProvider)))
-        //                                                            .ConfigureAwait(false);
-        //                    queuedMessage?.DeleteAfter(10);
-        //                }
-        //                catch
-        //                {
-        //                    // ignored
-        //                } // if queued message sending fails, don't attempt to delete it
-        //            }
-        //        }
-
-
-
-
-
-
-        //        private async Task<string> HandleStreamContainers(string query)
-        //        {
-        //            string file = null;
-        //            try
-        //            {
-        //                using (var http = new HttpClient())
-        //                {
-        //                    file = await http.GetStringAsync(query).ConfigureAwait(false);
-        //                }
-        //            }
-        //            catch
-        //            {
-        //                return query;
-        //            }
-        //            if (query.Contains(".pls"))
-        //            {
-        //                //File1=http://armitunes.com:8000/
-        //                //Regex.Match(query)
-        //                try
-        //                {
-        //                    var m = Regex.Match(file, "File1=(?<url>.*?)\\n");
-        //                    var res = m.Groups["url"]?.ToString();
-        //                    return res?.Trim();
-        //                }
-        //                catch
-        //                {
-        //                    _log.Warn($"Failed reading .pls:\n{file}");
-        //                    return null;
-        //                }
-        //            }
-        //            if (query.Contains(".m3u"))
-        //            {
-        //                /* 
-        //# This is a comment
-        //                   C:\xxx4xx\xxxxxx3x\xx2xxxx\xx.mp3
-        //                   C:\xxx5xx\x6xxxxxx\x7xxxxx\xx.mp3
-        //                */
-        //                try
-        //                {
-        //                    var m = Regex.Match(file, "(?<url>^[^#].*)", RegexOptions.Multiline);
-        //                    var res = m.Groups["url"]?.ToString();
-        //                    return res?.Trim();
-        //                }
-        //                catch
-        //                {
-        //                    _log.Warn($"Failed reading .m3u:\n{file}");
-        //                    return null;
-        //                }
-
-        //            }
-        //            if (query.Contains(".asx"))
-        //            {
-        //                //<ref href="http://armitunes.com:8000"/>
-        //                try
-        //                {
-        //                    var m = Regex.Match(file, "<ref href=\"(?<url>.*?)\"");
-        //                    var res = m.Groups["url"]?.ToString();
-        //                    return res?.Trim();
-        //                }
-        //                catch
-        //                {
-        //                    _log.Warn($"Failed reading .asx:\n{file}");
-        //                    return null;
-        //                }
-        //            }
-        //            if (query.Contains(".xspf"))
-        //            {
-        //                /*
-        //                <?xml version="1.0" encoding="UTF-8"?>
-        //                    <playlist version="1" xmlns="http://xspf.org/ns/0/">
-        //                        <trackList>
-        //                            <track><location>file:///mp3s/song_1.mp3</location></track>
-        //                */
-        //                try
-        //                {
-        //                    var m = Regex.Match(file, "<location>(?<url>.*?)</location>");
-        //                    var res = m.Groups["url"]?.ToString();
-        //                    return res?.Trim();
-        //                }
-        //                catch
-        //                {
-        //                    _log.Warn($"Failed reading .xspf:\n{file}");
-        //                    return null;
-        //                }
-        //            }
-
-        //            return query;
-        //        }
-
-        //        private bool IsRadioLink(string query) =>
-        //            (query.StartsWith("http") ||
-        //            query.StartsWith("ww"))
-        //            &&
-        //            (query.Contains(".pls") ||
-        //            query.Contains(".m3u") ||
-        //            query.Contains(".asx") ||
-        //            query.Contains(".xspf"));
+            return query;
+        }
     }
 }

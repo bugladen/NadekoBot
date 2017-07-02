@@ -115,10 +115,10 @@ namespace NadekoBot.Services.Music
                                  // i don't want to spam connection attempts
                                  continue;
                              }
-                             var pcm = ac.CreatePCMStream(AudioApplication.Music, bufferMillis: 1000);
+                             var pcm = ac.CreatePCMStream(AudioApplication.Music, bufferMillis: 200);
                              OnStarted?.Invoke(this, data.Song);
 
-                             byte[] buffer = new byte[38400];
+                             byte[] buffer = new byte[3840];
                              int bytesRead = 0;
                              try
                              {
@@ -127,7 +127,7 @@ namespace NadekoBot.Services.Music
                                      var vol = Volume;
                                      if (vol != 1)
                                          AdjustVolume(buffer, vol);
-                                     await Task.WhenAll(Task.Delay(10), pcm.WriteAsync(buffer, 0, bytesRead, cancelToken)).ConfigureAwait(false);
+                                     await pcm.WriteAsync(buffer, 0, bytesRead, cancelToken).ConfigureAwait(false);
 
                                      await (pauseTaskSource?.Task ?? Task.CompletedTask);
                                  }
@@ -169,7 +169,7 @@ namespace NadekoBot.Services.Music
                              {
                                  //if last song, and autoplay is enabled, and if it's a youtube song
                                  // do autplay magix
-                                 if (Queue.Count - 1 == data.Index && Autoplay && data.Song?.Provider == "YouTube")
+                                 if (Queue.Count - 1 == data.Index && Autoplay && data.Song?.ProviderType == Database.Models.MusicType.YouTube)
                                  {
                                      try
                                      {

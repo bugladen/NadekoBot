@@ -47,7 +47,7 @@ namespace NadekoBot.Services.Music
             {
                 switch (ProviderType)
                 {
-                    case MusicType.Normal:
+                    case MusicType.YouTube:
                         return Query;
                     case MusicType.Soundcloud:
                         return Query;
@@ -60,6 +60,7 @@ namespace NadekoBot.Services.Music
                 }
             }
         }
+        private string videoId = null;
         private readonly Regex videoIdRegex = new Regex("<=v=[a-zA-Z0-9-]+(?=&)|(?<=[0-9])[^&\n]+|(?<=v=)[^&\n]+", RegexOptions.Compiled);
         public string Thumbnail
         {
@@ -69,9 +70,8 @@ namespace NadekoBot.Services.Music
                 {
                     case MusicType.Radio:
                         return "https://cdn.discordapp.com/attachments/155726317222887425/261850925063340032/1482522097_radio.png"; //test links
-                    case MusicType.Normal:
-                        //todo have videoid in songinfo from the start
-                        var videoId = videoIdRegex.Match(Query);
+                    case MusicType.YouTube:
+                        videoId = videoId ?? videoIdRegex.Match(Query)?.ToString();
                         return $"https://img.youtube.com/vi/{ videoId }/0.jpg";
                     case MusicType.Local:
                         return "https://cdn.discordapp.com/attachments/155726317222887425/261850914783100928/1482522077_music.png"; //test links
