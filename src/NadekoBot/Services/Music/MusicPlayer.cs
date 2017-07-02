@@ -63,6 +63,7 @@ namespace NadekoBot.Services.Music
 
 
         private bool manualSkip = false;
+        private bool newVoiceChannel = false;
 
         public MusicPlayer(MusicService musicService, IVoiceChannel vch, ITextChannel output, float volume)
         {
@@ -200,7 +201,8 @@ namespace NadekoBot.Services.Music
         {
             if (_audioClient == null ||
                 _audioClient.ConnectionState != ConnectionState.Connected ||
-                reconnect)
+                reconnect || 
+                newVoiceChannel)
                 try
                 {
                     try
@@ -211,6 +213,7 @@ namespace NadekoBot.Services.Music
                     catch
                     {
                     }
+                    newVoiceChannel = false;
                     _audioClient = await VoiceChannel.ConnectAsync();
                 }
                 catch
@@ -389,6 +392,7 @@ namespace NadekoBot.Services.Music
         public void SetVoiceChannel(IVoiceChannel vch)
         {
             VoiceChannel = vch;
+            newVoiceChannel = true;
             Next();
         }
 

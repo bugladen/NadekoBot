@@ -120,7 +120,7 @@ namespace NadekoBot.Modules.Music
                 }
             }
         }
-        //todo test play
+
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public Task Play([Remainder]string query = null)
@@ -722,7 +722,7 @@ namespace NadekoBot.Modules.Music
 
             if (mp == null)
                 return;
-            //todo test move
+
             mp.SetVoiceChannel(vch);
         }
 
@@ -886,7 +886,6 @@ namespace NadekoBot.Modules.Music
                 await ReplyConfirmLocalized("autoplay_enabled").ConfigureAwait(false);
         }
 
-        //todo test output text channel
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [RequireUserPermission(GuildPermission.ManageMessages)]
