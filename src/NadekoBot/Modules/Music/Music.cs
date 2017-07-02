@@ -125,7 +125,7 @@ namespace NadekoBot.Modules.Music
         [RequireContext(ContextType.Guild)]
         public Task Play([Remainder]string query = null)
         {
-            if (string.IsNullOrWhiteSpace(query))
+            if (!string.IsNullOrWhiteSpace(query))
                 try { return Queue(query); } catch (QueueFullException) { return Task.CompletedTask; }
             else
                 return Next();

@@ -27,7 +27,7 @@ namespace NadekoBot.Services.Music
             this.p = Process.Start(new ProcessStartInfo
             {
                 FileName = "ffmpeg",
-                Arguments = $"-ss 0 -i {songUri} -f s16le -ar 48000 -vn -ac 2 pipe:1 -loglevel quiet",
+                Arguments = $"-i {songUri} -f s16le -ar 48000 -vn -ac 2 pipe:1 -loglevel quiet",
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
