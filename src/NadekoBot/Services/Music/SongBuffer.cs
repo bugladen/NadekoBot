@@ -68,6 +68,7 @@ Check the guides for your platform on how to setup ffmpeg correctly:
     Windows Guide: https://goo.gl/OjKk8F
     Linux Guide:  https://goo.gl/ShjCUo");
                 }
+                catch (OperationCanceledException) { }
                 catch (Exception ex)
                 {
                     _log.Info(ex);

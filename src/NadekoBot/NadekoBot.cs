@@ -212,8 +212,6 @@ namespace NadekoBot
                 var pokemonService = new PokemonService();
                 #endregion
 
-
-
                 //initialize Services
                 Services = new NServiceProvider.ServiceProviderBuilder()
                     .Add<ILocalization>(Localization)
@@ -268,7 +266,6 @@ namespace NadekoBot
                     .Add<PokemonService>(pokemonService)
                     .Add<NadekoBot>(this)
                     .Build();
-
 
                 CommandHandler.AddServices(Services);
 

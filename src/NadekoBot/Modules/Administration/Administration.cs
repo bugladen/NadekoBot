@@ -134,7 +134,7 @@ namespace NadekoBot.Modules.Administration
                 await user.RemoveRolesAsync(userRoles).ConfigureAwait(false);
                 await ReplyConfirmLocalized("rar", Format.Bold(user.ToString())).ConfigureAwait(false);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 await ReplyErrorLocalized("rar_err").ConfigureAwait(false);
             }

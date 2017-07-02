@@ -84,7 +84,16 @@ namespace NadekoBot.Modules.Music
 
         private async Task InternalQueue(MusicPlayer mp, SongInfo songInfo, bool silent)
         {
-            var qData = mp.Enqueue(songInfo);
+            (bool Success, int Index) qData;
+            try
+            {
+                qData = mp.Enqueue(songInfo);
+            }
+            catch (QueueFullException)
+            {
+                await ReplyErrorLocalized("queue_full", mp.MaxQueueSize).ConfigureAwait(false);
+                throw;
+            }
             if (qData.Success)
             {
                 if (!silent)
@@ -111,8 +120,16 @@ namespace NadekoBot.Modules.Music
                 }
             }
         }
-
-        //todo  add play command. .play = .n, .play whatever = .q whatever
+        //todo test play
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public Task Play([Remainder]string query = null)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                try { return Queue(query); } catch (QueueFullException) { return Task.CompletedTask; }
+            else
+                return Next();
+        }
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
@@ -120,7 +137,7 @@ namespace NadekoBot.Modules.Music
         {
             var mp = await _music.GetOrCreatePlayer(Context);
             var songInfo = await _music.ResolveSong(query, Context.User.ToString());
-            await InternalQueue(mp, songInfo, false);
+            try { await InternalQueue(mp, songInfo, false); } catch (QueueFullException) { return; }
 
             if ((await Context.Guild.GetCurrentUserAsync()).GetPermissions((IGuildChannel)Context.Channel).ManageMessages)
             {
@@ -241,7 +258,7 @@ namespace NadekoBot.Modules.Music
             
             var mp = await _music.GetOrCreatePlayer(Context);
 
-            mp.Next();
+            mp.Next(skipCount);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -520,7 +537,7 @@ namespace NadekoBot.Modules.Music
 
             await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
-        //todo test shuffle
+
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task ShufflePlaylist()
@@ -746,8 +763,7 @@ namespace NadekoBot.Modules.Music
 
 
         //}
-
-        //todo test smq
+        
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task SetMaxQueue(uint size = 0)
@@ -756,7 +772,7 @@ namespace NadekoBot.Modules.Music
                 return;
             var mp = await _music.GetOrCreatePlayer(Context);
 
-            mp.SetMaxQueueSize(size);
+            mp.MaxQueueSize = size;
 
             if (size == 0)
                 await ReplyConfirmLocalized("max_queue_unlimited").ConfigureAwait(false);

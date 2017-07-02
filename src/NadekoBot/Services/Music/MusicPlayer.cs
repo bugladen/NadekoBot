@@ -45,6 +45,11 @@ namespace NadekoBot.Services.Music
         public bool Shuffle { get; private set; }
         public bool Autoplay { get; private set; }
         public bool RepeatPlaylist { get; private set; } = true;
+        public uint MaxQueueSize
+        {
+            get => Queue.MaxQueueSize;
+            set => Queue.MaxQueueSize = value;
+        }
 
         private IAudioClient _audioClient;
         private readonly object locker = new object();
@@ -137,7 +142,6 @@ namespace NadekoBot.Services.Music
                      }
                      finally
                      {
-                         _log.Info("Next song");
                          do
                          {
                              await Task.Delay(500);
@@ -146,7 +150,10 @@ namespace NadekoBot.Services.Music
                          if (!RepeatCurrentSong) //if repeating current song, just ignore other settings, and play this song again (don't change the index)
                          {
                              if (Shuffle)
+                             {
+                                 _log.Info("Random song");
                                  Queue.Random(); //if shuffle is set, set current song index to a random number
+                             }
                              else
                              {
                                  //if last song, and autoplay is enabled, and if it's a youtube song
@@ -155,19 +162,25 @@ namespace NadekoBot.Services.Music
                                  {
                                      try
                                      {
+                                         _log.Info("Loading related song");
                                          //todo test autoplay
                                          await _musicService.TryQueueRelatedSongAsync(data.Song.Query, OutputTextChannel, VoiceChannel);
                                          Queue.Next();
                                      }
-                                     catch { }
+                                     catch
+                                     {
+                                         _log.Info("Loading related song failed.");
+                                     }
                                  }
                                  else if (Queue.Count == data.Index && !RepeatPlaylist)
                                  {
                                      //todo test repeatplaylist
+                                     _log.Info("Stopping because repeatplaylist is disabled");
                                      Stop();
                                  }
                                  else
                                  {
+                                     _log.Info("Next song");
                                      Queue.Next();
                                  }
                              }
@@ -208,10 +221,11 @@ namespace NadekoBot.Services.Music
             return (true, Queue.Count);
         }
 
-        public void Next()
+        public void Next(int skipCount)
         {
             lock (locker)
             {
+                Queue.Next(skipCount - 1);
                 Stopped = false;
                 Unpause();
                 CancelCurrentSong();
@@ -362,11 +376,6 @@ namespace NadekoBot.Services.Music
             {
                 return RepeatPlaylist = !RepeatPlaylist;
             }
-        }
-
-        public void SetMaxQueueSize(uint size)
-        {
-            Queue.SetMaxQueueSize(size);
         }
 
         public void SetVoiceChannel(IVoiceChannel vch)

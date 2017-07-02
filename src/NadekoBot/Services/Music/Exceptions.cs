@@ -2,12 +2,12 @@
 
 namespace NadekoBot.Services.Music
 {
-    public class PlaylistFullException : Exception
+    public class QueueFullException : Exception
     {
-        public PlaylistFullException(string message) : base(message)
+        public QueueFullException(string message) : base(message)
         {
         }
-        public PlaylistFullException() : base("Queue is full.") { }
+        public QueueFullException() : base("Queue is full.") { }
     }
 
     public class SongNotFoundException : Exception

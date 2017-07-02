@@ -50,23 +50,37 @@ namespace NadekoBot.Services.Music
             }
         }
 
-        public uint maxQueueSize { get; private set; }
+        private uint _maxQueueSize;
+        public uint MaxQueueSize
+        {
+            get => _maxQueueSize;
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentOutOfRangeException(nameof(value));
+
+                lock (locker)
+                {
+                    _maxQueueSize = value;
+                }
+            }
+        }
 
         public void Add(SongInfo song)
         {
             song.ThrowIfNull(nameof(song));
             lock (locker)
             {
-                if(maxQueueSize !=0 && CurrentIndex >= maxQueueSize)
-                    throw new PlaylistFullException();
+                if(MaxQueueSize != 0 && Songs.Count >= MaxQueueSize)
+                    throw new QueueFullException();
                 Songs.AddLast(song);
             }
         }
 
-        public void Next()
+        public void Next(int skipCount = 1)
         {
             lock(locker)
-                CurrentIndex++;
+                CurrentIndex += skipCount;
         }
 
         public void Dispose()
@@ -131,17 +145,6 @@ namespace NadekoBot.Services.Music
             lock (locker)
             {
                 CurrentIndex = new NadekoRandom().Next(Songs.Count);
-            }
-        }
-
-        public void SetMaxQueueSize(uint size)
-        {
-            if (size < 0)
-                throw new ArgumentOutOfRangeException(nameof(size));
-
-            lock (locker)
-            {
-                maxQueueSize = size;
             }
         }
     }
