@@ -24,7 +24,7 @@ namespace NadekoBot.Services.Music
             this.p = Process.Start(new ProcessStartInfo
             {
                 FileName = "ffmpeg",
-                Arguments = $"-i {songUri} -f s16le -ar 48000 -vn -ac 2 pipe:1 -loglevel quiet",
+                Arguments = $"-i {songUri} -f s16le -ar 48000 -vn -ac 2 pipe:1 -loglevel quiet -nostdin",
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = false,
@@ -40,7 +40,7 @@ namespace NadekoBot.Services.Music
                 try
                 {
                     byte[] buffer = new byte[3840];
-                    while (!this.p.HasExited || cancelToken.IsCancellationRequested)
+                    while (cancelToken.IsCancellationRequested)
                     {
                         var toRead = buffer.Length;
                         var remCap = _outStream.RemainingCapacity;
@@ -54,13 +54,20 @@ namespace NadekoBot.Services.Music
                             }
                             toRead = remCap;
                         }
-                        int bytesRead = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, toRead, cancelToken).ConfigureAwait(false);
-                        if (bytesRead == 0)
+                        do
                         {
-                            Console.WriteLine("I'm not reading anything from ffmpeg");
-                            await Task.Delay(50);
-                        }
-                        await _outStream.WriteAsync(buffer, 0, bytesRead, cancelToken);
+                            if(p.HasExited)
+                                Console.WriteLine("FFMPEG has exited, I'm in the read/write loop");
+
+                            int bytesRead = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, toRead, cancelToken).ConfigureAwait(false);
+                            if (bytesRead == 0)
+                            {
+                                Console.WriteLine("I'm not reading anything from ffmpeg");
+                                await Task.Delay(20);
+                            }
+                            await _outStream.WriteAsync(buffer, 0, bytesRead, cancelToken);
+
+                        } while (p.HasExited && !cancelToken.IsCancellationRequested);
 
                         if (_outStream.RemainingCapacity < _outStream.Capacity * 0.9f)
                             if(toReturn.TrySetResult(true))
