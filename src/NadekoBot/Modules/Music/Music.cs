@@ -165,6 +165,7 @@ namespace NadekoBot.Modules.Music
             }
         }
 
+        //todo, page should default to the page the current song is on
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task ListQueue(int page = 1)

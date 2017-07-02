@@ -42,17 +42,36 @@ namespace NadekoBot.Services.Music
                     byte[] buffer = new byte[3840];
                     while (!this.p.HasExited || cancelToken.IsCancellationRequested)
                     {
-                        int bytesRead = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, buffer.Length, cancelToken).ConfigureAwait(false);
-
+                        var toRead = buffer.Length;
+                        var remCap = _outStream.RemainingCapacity;
+                        if (remCap < 3840)
+                        {
+                            if (_outStream.RemainingCapacity == 0)
+                            {
+                                Console.WriteLine("Buffer full, not gonnna read from ffmpeg");
+                                await Task.Delay(10);
+                                continue;
+                            }
+                            toRead = remCap;
+                        }
+                        int bytesRead = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, toRead, cancelToken).ConfigureAwait(false);
+                        if (bytesRead == 0)
+                        {
+                            Console.WriteLine("I'm not reading anything from ffmpeg");
+                            await Task.Delay(50);
+                        }
                         await _outStream.WriteAsync(buffer, 0, bytesRead, cancelToken);
 
                         if (_outStream.RemainingCapacity < _outStream.Capacity * 0.9f)
-                            toReturn.TrySetResult(true);
+                            if(toReturn.TrySetResult(true))
+                                Console.WriteLine("Prebuffering finished");
                     }
+                    Console.WriteLine("FFMPEG killed or song canceled");
                 }
                 catch
                 {
-                    toReturn.TrySetResult(false);
+                    if(toReturn.TrySetResult(false))
+                        Console.WriteLine("Prebuffering failed");
                     //ignored
                 }
             }, cancelToken);

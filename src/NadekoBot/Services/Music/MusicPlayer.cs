@@ -117,6 +117,7 @@ namespace NadekoBot.Services.Music
 
                                      await (pauseTaskSource?.Task ?? Task.CompletedTask);
                                  }
+                                 _log.Info(">>>>>>>>>READ 0<<<<<<<<<<");
                              }
                              catch (OperationCanceledException)
                              {

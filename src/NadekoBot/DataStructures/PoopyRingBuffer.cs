@@ -48,7 +48,7 @@ namespace NadekoBot.DataStructures
 
         private readonly SemaphoreSlim _locker = new SemaphoreSlim(1, 1);
 
-        public PoopyRingBuffer(int capacity = 3640 * 200)
+        public PoopyRingBuffer(int capacity = 3840 * 300)
         {
             this.Capacity = capacity + 1;
             this.buffer = new byte[this.Capacity];
@@ -59,7 +59,6 @@ namespace NadekoBot.DataStructures
             await _locker.WaitAsync(cancelToken);
             try
             {
-                Console.WriteLine("Reading {0}", toRead);
                 if (WritePos == ReadPos)
                     return 0;
 
@@ -129,7 +128,7 @@ namespace NadekoBot.DataStructures
                             WritePos = 0;
                     }
                 }
-                Console.WriteLine("Readpos: {0} WritePos: {1}", ReadPos, WritePos);
+                Console.WriteLine("Readpos: {0} WritePos: {1} ({2})", ReadPos, WritePos, ReadPos - WritePos);
                 return toWrite;
             }
             finally
