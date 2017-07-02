@@ -24,11 +24,16 @@ namespace NadekoBot.Services.Music
             this.p = Process.Start(new ProcessStartInfo
             {
                 FileName = "ffmpeg",
-                Arguments = $"-i {songUri} -f s16le -ar 48000 -vn -ac 2 pipe:1 -loglevel quiet -nostdin",
+                Arguments = $"-ss 0 -i {songUri} -f s16le -ar 48000 -vn -ac 2 pipe:1 -loglevel quiet",
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
-                RedirectStandardError = false,
+                RedirectStandardError = true,
                 CreateNoWindow = true,
+            });
+            var t = Task.Run(() =>
+            {
+                this.p.BeginErrorReadLine();
+                this.p.WaitForExit();
             });
         }
 
@@ -40,7 +45,8 @@ namespace NadekoBot.Services.Music
                 try
                 {
                     byte[] buffer = new byte[readSize];
-                    while (!cancelToken.IsCancellationRequested)
+                    int bytesRead = -1;
+                    while (!cancelToken.IsCancellationRequested && bytesRead != 0)
                     {
                         var toRead = buffer.Length;
                         //var remCap = _outStream.RemainingCapacity;
@@ -54,14 +60,8 @@ namespace NadekoBot.Services.Music
                         //    }
                         //    toRead = remCap;
                         //}
-
-                        int bytesRead = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, toRead, cancelToken).ConfigureAwait(false);
-                        if (bytesRead == 0)
-                        {
-                            Console.WriteLine("I'm not reading anything from ffmpeg");
-                            await Task.Delay(20);
-                            continue;
-                        }
+                        
+                        bytesRead = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, toRead, cancelToken).ConfigureAwait(false);
                         await _outStream.WriteAsync(buffer, 0, bytesRead, cancelToken);
 
                         if (_outStream.RemainingCapacity < _outStream.Capacity * 0.9f)
@@ -70,8 +70,9 @@ namespace NadekoBot.Services.Music
                     }
                     Console.WriteLine("FFMPEG killed or song canceled");
                 }
-                catch
+                catch (Exception ex)
                 {
+                    Console.WriteLine(ex);
                     if(toReturn.TrySetResult(false))
                         Console.WriteLine("Prebuffering failed");
                     //ignored

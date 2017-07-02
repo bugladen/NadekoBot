@@ -1,5 +1,7 @@
-﻿using System;
+﻿using NadekoBot.Extensions;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -48,7 +50,7 @@ namespace NadekoBot.DataStructures
 
         private readonly SemaphoreSlim _locker = new SemaphoreSlim(1, 1);
 
-        public PoopyRingBuffer(int capacity = 3840 * 300)
+        public PoopyRingBuffer(int capacity = 50_000_000)
         {
             this.Capacity = capacity + 1;
             this.buffer = new byte[this.Capacity];
@@ -97,7 +99,7 @@ namespace NadekoBot.DataStructures
         public Task WriteAsync(byte[] b, int offset, int toWrite, CancellationToken cancelToken) => Task.Run(async () =>
         {
             while (toWrite > RemainingCapacity)
-                await Task.Delay(100, cancelToken);
+                await Task.Delay(50, cancelToken);
 
             await _locker.WaitAsync(cancelToken);
             try
