@@ -172,7 +172,6 @@ namespace NadekoBot.Services.Music
     //            while (!cancelToken.IsCancellationRequested && //song canceled for whatever reason
     //                !(MusicPlayer.MaxPlaytimeSeconds != 0 && CurrentTime.TotalSeconds >= MusicPlayer.MaxPlaytimeSeconds)) // or exceedded max playtime
     //            {
-    //                //Console.WriteLine($"Read: {songBuffer.ReadPosition}\nWrite: {songBuffer.WritePosition}\nContentLength:{songBuffer.ContentLength}\n---------");
     //                var read = await inStream.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
     //                //await inStream.CopyToAsync(voiceClient.OutputStream);
     //                if (read < _frameBytes)

@@ -173,7 +173,6 @@ namespace NadekoBot.Modules.Searches
 //                                              .FirstOrDefault(jt => jt["role"].ToString() == role)?["general"];
 //                          if (general == null)
 //                          {
-//                              //Console.WriteLine("General is null.");
 //                              return;
 //                          }
 //                          //get build data for this role
@@ -309,7 +308,6 @@ namespace NadekoBot.Modules.Searches
 //                      }
 //                      catch (Exception ex)
 //                      {
-//                          //Console.WriteLine(ex);
 //                          await channel.SendMessageAsync("💢 Failed retreiving data for that champion.").ConfigureAwait(false);
 //                      }
 //                  });

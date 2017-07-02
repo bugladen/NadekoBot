@@ -352,7 +352,7 @@ namespace NadekoBot
 #if GLOBAL_NADEKO
             isPublicNadeko = true;
 #endif
-            //Console.WriteLine(string.Join(", ", CommandService.Commands
+            //_log.Info(string.Join(", ", CommandService.Commands
             //    .Distinct(x => x.Name + x.Module.Name)
             //    .SelectMany(x => x.Aliases)
             //    .GroupBy(x => x)

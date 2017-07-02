@@ -87,7 +87,6 @@ namespace NadekoBot.DataStructures
                         ReadPos = secondRead;
                     }
                 }
-                Console.WriteLine("Readpos: {0} WritePos: {1}", ReadPos, WritePos);
                 return toRead;
             }
             finally
@@ -99,12 +98,14 @@ namespace NadekoBot.DataStructures
         public Task WriteAsync(byte[] b, int offset, int toWrite, CancellationToken cancelToken) => Task.Run(async () =>
         {
             while (toWrite > RemainingCapacity)
-                await Task.Delay(50, cancelToken);
+                await Task.Delay(1000, cancelToken); // wait a lot, buffer should be large anyway
+
+            if (toWrite == 0)
+                return;
 
             await _locker.WaitAsync(cancelToken);
             try
             {
-                Console.WriteLine("Writing {0}", toWrite);
                 if (WritePos < ReadPos)
                 {
                     Buffer.BlockCopy(b, offset, buffer, WritePos, toWrite);
@@ -130,8 +131,6 @@ namespace NadekoBot.DataStructures
                             WritePos = 0;
                     }
                 }
-                Console.WriteLine("Readpos: {0} WritePos: {1} ({2})", ReadPos, WritePos, ReadPos - WritePos);
-                return toWrite;
             }
             finally
             {

@@ -1,4 +1,5 @@
 ﻿using NadekoBot.DataStructures;
+using NLog;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -14,11 +15,13 @@ namespace NadekoBot.Services.Music
         private PoopyRingBuffer _outStream = new PoopyRingBuffer();
 
         private readonly SemaphoreSlim _lock = new SemaphoreSlim(1, 1);
+        private readonly Logger _log;
 
         public string SongUri { get; private set; }
 
         public SongBuffer(string songUri, string skipTo)
         {
+            _log = LogManager.GetCurrentClassLogger();
             this.SongUri = songUri;
 
             this.p = Process.Start(new ProcessStartInfo
@@ -48,34 +51,31 @@ namespace NadekoBot.Services.Music
                     int bytesRead = -1;
                     while (!cancelToken.IsCancellationRequested && bytesRead != 0)
                     {
-                        var toRead = buffer.Length;
-                        //var remCap = _outStream.RemainingCapacity;
-                        //if (remCap < readSize)
-                        //{
-                        //    if (_outStream.RemainingCapacity == 0)
-                        //    {
-                        //        Console.WriteLine("Buffer full, not gonnna read from ffmpeg");
-                        //        await Task.Delay(20);
-                        //        continue;
-                        //    }
-                        //    toRead = remCap;
-                        //}
-                        
-                        bytesRead = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, toRead, cancelToken).ConfigureAwait(false);
+                        bytesRead = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, readSize, cancelToken).ConfigureAwait(false);
                         await _outStream.WriteAsync(buffer, 0, bytesRead, cancelToken);
 
-                        if (_outStream.RemainingCapacity < _outStream.Capacity * 0.9f)
+                        if (_outStream.RemainingCapacity < _outStream.Capacity * 0.5f)
                             if (toReturn.TrySetResult(true))
-                                Console.WriteLine("Prebuffering finished");
+                                _log.Info("Prebuffering finished");
                     }
-                    Console.WriteLine("FFMPEG killed or song canceled");
+                    _log.Info("FFMPEG killed, song canceled, or song fully downloaded");
+                }
+                catch (System.ComponentModel.Win32Exception)
+                {
+                    _log.Error(@"You have not properly installed or configured FFMPEG. 
+Please install and configure FFMPEG to play music. 
+Check the guides for your platform on how to setup ffmpeg correctly:
+    Windows Guide: https://goo.gl/OjKk8F
+    Linux Guide:  https://goo.gl/ShjCUo");
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex);
-                    if(toReturn.TrySetResult(false))
-                        Console.WriteLine("Prebuffering failed");
-                    //ignored
+                    _log.Info(ex);
+                }
+                finally
+                {
+                    if (toReturn.TrySetResult(false))
+                        _log.Info("Prebuffering failed");
                 }
             }, cancelToken);
 
@@ -89,7 +89,6 @@ namespace NadekoBot.Services.Music
 
         public void Dispose()
         {
-            Console.WriteLine("DISPOSING");
             try { this.p.Kill(); }
             catch { }
             _outStream.Dispose();
@@ -203,7 +202,6 @@ namespace NadekoBot.Services.Music
 //               {
 //                   if (outStream != null)
 //                       outStream.Dispose();
-//                   Console.WriteLine($"Buffering done.");
 //                   if (p != null)
 //                   {
 //                       try

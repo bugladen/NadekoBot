@@ -78,12 +78,8 @@ namespace NadekoBot.Services.Music
                      }
                      try
                      {
-                         _log.Info("Checking for songs");
                          if (data.Song == null)
                              continue;
-
-                         _log.Info("Connecting");
-
 
                          _log.Info("Starting");
                          using (var b = new SongBuffer(data.Song.Uri, ""))
@@ -117,7 +113,6 @@ namespace NadekoBot.Services.Music
 
                                      await (pauseTaskSource?.Task ?? Task.CompletedTask);
                                  }
-                                 _log.Info(">>>>>>>>>READ 0<<<<<<<<<<");
                              }
                              catch (OperationCanceledException)
                              {
