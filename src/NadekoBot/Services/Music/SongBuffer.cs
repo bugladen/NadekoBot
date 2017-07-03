@@ -80,7 +80,7 @@ namespace NadekoBot.Services.Music
                                 if (toReturn.TrySetResult(true))
                                     _log.Info("Prebuffering finished");
 
-                        _log.Info(_outStream.Length);
+                        //_log.Info(_outStream.Length);
                         await Task.Delay(10);
                     }
                     if (cancelToken.IsCancellationRequested)
