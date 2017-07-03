@@ -70,8 +70,8 @@ namespace NadekoBot.Modules.Music
                         //    player.TogglePause();
                         //else if (!player.Paused && newState.VoiceChannel.Users.Count <= 1) // pause if there are no users in the new channel
                         //    player.TogglePause();
-
-                        player.SetVoiceChannel(newState.VoiceChannel);
+                       
+                       // player.SetVoiceChannel(newState.VoiceChannel);
                         return;
                     }
 

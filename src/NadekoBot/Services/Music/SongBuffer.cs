@@ -111,11 +111,17 @@ Check the guides for your platform on how to setup ffmpeg correctly:
 
         public void Dispose()
         {
+            try
+            {
+                this.p.StandardOutput.Dispose();
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex);
+            }
             try { this.p.Kill(); }
             catch { }
             _outStream.Dispose();
-            this.p.StandardError.Dispose();
-            this.p.StandardOutput.Dispose();
             this.p.Dispose();
         }
     }

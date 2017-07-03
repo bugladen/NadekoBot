@@ -123,172 +123,166 @@ namespace NadekoBot.Services.Music
                          manualSkip = false;
                          manualIndex = false;
                      }
-                     try
+                     if (data.Song == null)
+                         continue;
+
+                     _log.Info("Starting");
+                     using (var b = new SongBuffer(data.Song.Uri, ""))
                      {
-                         if (data.Song == null)
-                             continue;
-
-                         _log.Info("Starting");
-                         using (var b = new SongBuffer(data.Song.Uri, ""))
-                         {
-                             AudioOutStream pcm = null;
-                             try
-                             {
-                                 var bufferTask = b.StartBuffering(cancelToken);
-                                 var timeout = Task.Delay(10000);
-                                 if (Task.WhenAny(bufferTask, timeout) == timeout)
-                                 {
-                                     _log.Info("Buffering failed due to a timeout.");
-                                     continue;
-                                 }
-                                 else if (!bufferTask.Result)
-                                 {
-                                     _log.Info("Buffering failed due to a cancel or error.");
-                                     continue;
-                                 }
-
-                                 var ac = await GetAudioClient();
-                                 if (ac == null)
-                                 {
-                                     await Task.Delay(900, cancelToken);
-                                     // just wait some time, maybe bot doesn't even have perms to join that voice channel, 
-                                     // i don't want to spam connection attempts
-                                     continue;
-                                 }
-                                 pcm = ac.CreatePCMStream(AudioApplication.Music, bufferMillis: 500);
-                                 OnStarted?.Invoke(this, data);
-
-                                 byte[] buffer = new byte[3840];
-                                 int bytesRead = 0;
-
-                                 while ((bytesRead = b.Read(buffer, 0, buffer.Length)) > 0
-                                    && (MaxPlaytimeSeconds <= 0 || MaxPlaytimeSeconds >= CurrentTime.TotalSeconds))
-                                 {
-                                     //AdjustVolume(buffer, Volume);
-                                     await pcm.WriteAsync(buffer, 0, bytesRead, cancelToken).ConfigureAwait(false);
-                                     unchecked { _bytesSent += bytesRead; }
-
-                                     await (pauseTaskSource?.Task ?? Task.CompletedTask);
-                                 }
-                             }
-                             catch (OperationCanceledException)
-                             {
-                                 _log.Info("Song Canceled");
-                             }
-                             catch (Exception ex)
-                             {
-                                 _log.Warn(ex);
-                             }
-                             finally
-                             {
-                                 if (pcm != null)
-                                 {
-                                     // flush is known to get stuck from time to time, 
-                                     // just skip flushing if it takes more than 1 second
-                                     var flushCancel = new CancellationTokenSource();
-                                     var flushToken = flushCancel.Token;
-                                     var flushDelay = Task.Delay(1000, flushToken);
-                                     await Task.WhenAny(flushDelay, pcm.FlushAsync(flushToken));
-                                     flushCancel.Cancel();
-                                 }
-
-                                 OnCompleted?.Invoke(this, data.Song);
-                             }
-                         }
-                     }
-                     finally
-                     {
+                         AudioOutStream pcm = null;
                          try
                          {
-                             //if repeating current song, just ignore other settings, 
-                             // and play this song again (don't change the index)
-                             // ignore rcs if song is manually skipped
-
-                             int queueCount;
-                             lock (locker)
-                                 queueCount = Queue.Count;
-
-                             if (!manualIndex && (!RepeatCurrentSong || manualSkip))
+                             var bufferTask = b.StartBuffering(cancelToken);
+                             var timeout = Task.Delay(10000);
+                             if (Task.WhenAny(bufferTask, timeout) == timeout)
                              {
-                                 if (Shuffle)
-                                 {
-                                     _log.Info("Random song");
-                                     Queue.Random(); //if shuffle is set, set current song index to a random number
-                                 }
-                                 else
-                                 {
-                                     //if last song, and autoplay is enabled, and if it's a youtube song
-                                     // do autplay magix
-                                     if (queueCount - 1 == data.Index && Autoplay && data.Song?.ProviderType == Database.Models.MusicType.YouTube)
-                                     {
-                                         try
-                                         {
-                                             _log.Info("Loading related song");
-                                             await _musicService.TryQueueRelatedSongAsync(data.Song.Query, OutputTextChannel, VoiceChannel);
-                                             Queue.Next();
-                                         }
-                                         catch
-                                         {
-                                             _log.Info("Loading related song failed.");
-                                         }
-                                     }
-                                     else if (FairPlay)
-                                     {
-                                         lock (locker)
-                                         {
-                                             _log.Info("Next fair song");
-                                             var q = Queue.ToArray().Songs.Shuffle().ToArray();
-
-                                             bool found = false;
-                                             for (var i = 0; i < q.Length; i++) //first try to find a queuer who didn't have their song played recently
-                                             {
-                                                 var item = q[i];
-                                                 if (RecentlyPlayedUsers.Add(item.QueuerName)) // if it's found, set current song to that index
-                                                 {
-                                                     Queue.CurrentIndex = i;
-                                                     found = true;
-                                                     break;
-                                                 }
-                                             }
-                                             if (!found) //if it's not
-                                             {
-                                                 RecentlyPlayedUsers.Clear(); //clear all recently played users (that means everyone from the playlist has had their song played)
-                                                 Queue.Random(); //go to a random song (to prevent looping on the first few songs)
-                                                 var cur = Current;
-                                                 if (cur.Current != null) // add newely scheduled song's queuer to the recently played list
-                                                     RecentlyPlayedUsers.Add(cur.Current.QueuerName);
-                                             }
-                                         }
-                                     }
-                                     else if (queueCount - 1 == data.Index && !RepeatPlaylist && !manualSkip)
-                                     {
-                                         _log.Info("Stopping because repeatplaylist is disabled");
-                                         lock (locker)
-                                         {
-                                             Stop();
-                                         }
-                                     }
-                                     else
-                                     {
-                                         _log.Info("Next song");
-                                         lock (locker)
-                                         {
-                                             Queue.Next();
-                                         }
-                                     }
-                                 }
+                                 _log.Info("Buffering failed due to a timeout.");
+                                 continue;
                              }
+                             else if (!bufferTask.Result)
+                             {
+                                 _log.Info("Buffering failed due to a cancel or error.");
+                                 continue;
+                             }
+
+                             var ac = await GetAudioClient();
+                             if (ac == null)
+                             {
+                                 await Task.Delay(900, cancelToken);
+                                 // just wait some time, maybe bot doesn't even have perms to join that voice channel, 
+                                 // i don't want to spam connection attempts
+                                 continue;
+                             }
+                             pcm = ac.CreatePCMStream(AudioApplication.Music, bufferMillis: 500);
+                             OnStarted?.Invoke(this, data);
+
+                             byte[] buffer = new byte[3840];
+                             int bytesRead = 0;
+
+                             while ((bytesRead = b.Read(buffer, 0, buffer.Length)) > 0
+                                && (MaxPlaytimeSeconds <= 0 || MaxPlaytimeSeconds >= CurrentTime.TotalSeconds))
+                             {
+                                 //AdjustVolume(buffer, Volume);
+                                 await pcm.WriteAsync(buffer, 0, bytesRead, cancelToken).ConfigureAwait(false);
+                                 unchecked { _bytesSent += bytesRead; }
+
+                                 await (pauseTaskSource?.Task ?? Task.CompletedTask);
+                             }
+                         }
+                         catch (OperationCanceledException)
+                         {
+                             _log.Info("Song Canceled");
                          }
                          catch (Exception ex)
                          {
-                             _log.Error(ex);
+                             _log.Warn(ex);
                          }
-                         do
+                         finally
                          {
-                             await Task.Delay(500);
+                             if (pcm != null)
+                             {
+                                 // flush is known to get stuck from time to time, 
+                                 // just skip flushing if it takes more than 1 second
+                                 var flushCancel = new CancellationTokenSource();
+                                 var flushToken = flushCancel.Token;
+                                 var flushDelay = Task.Delay(1000, flushToken);
+                                 await Task.WhenAny(flushDelay, pcm.FlushAsync(flushToken));
+                                 flushCancel.Cancel();
+                             }
+
+                             OnCompleted?.Invoke(this, data.Song);
                          }
-                         while ((Queue.Count == 0 || Stopped) && !Exited);
                      }
+                     try
+                     {
+                         //if repeating current song, just ignore other settings, 
+                         // and play this song again (don't change the index)
+                         // ignore rcs if song is manually skipped
+
+                         int queueCount;
+                         lock (locker)
+                             queueCount = Queue.Count;
+
+                         if (!manualIndex && (!RepeatCurrentSong || manualSkip))
+                         {
+                             if (Shuffle)
+                             {
+                                 _log.Info("Random song");
+                                 Queue.Random(); //if shuffle is set, set current song index to a random number
+                             }
+                             else
+                             {
+                                 //if last song, and autoplay is enabled, and if it's a youtube song
+                                 // do autplay magix
+                                 if (queueCount - 1 == data.Index && Autoplay && data.Song?.ProviderType == Database.Models.MusicType.YouTube)
+                                 {
+                                     try
+                                     {
+                                         _log.Info("Loading related song");
+                                         await _musicService.TryQueueRelatedSongAsync(data.Song.Query, OutputTextChannel, VoiceChannel);
+                                         Queue.Next();
+                                     }
+                                     catch
+                                     {
+                                         _log.Info("Loading related song failed.");
+                                     }
+                                 }
+                                 else if (FairPlay)
+                                 {
+                                     lock (locker)
+                                     {
+                                         _log.Info("Next fair song");
+                                         var q = Queue.ToArray().Songs.Shuffle().ToArray();
+
+                                         bool found = false;
+                                         for (var i = 0; i < q.Length; i++) //first try to find a queuer who didn't have their song played recently
+                                         {
+                                             var item = q[i];
+                                             if (RecentlyPlayedUsers.Add(item.QueuerName)) // if it's found, set current song to that index
+                                             {
+                                                 Queue.CurrentIndex = i;
+                                                 found = true;
+                                                 break;
+                                             }
+                                         }
+                                         if (!found) //if it's not
+                                         {
+                                             RecentlyPlayedUsers.Clear(); //clear all recently played users (that means everyone from the playlist has had their song played)
+                                             Queue.Random(); //go to a random song (to prevent looping on the first few songs)
+                                             var cur = Current;
+                                             if (cur.Current != null) // add newely scheduled song's queuer to the recently played list
+                                                 RecentlyPlayedUsers.Add(cur.Current.QueuerName);
+                                         }
+                                     }
+                                 }
+                                 else if (queueCount - 1 == data.Index && !RepeatPlaylist && !manualSkip)
+                                 {
+                                     _log.Info("Stopping because repeatplaylist is disabled");
+                                     lock (locker)
+                                     {
+                                         Stop();
+                                     }
+                                 }
+                                 else
+                                 {
+                                     _log.Info("Next song");
+                                     lock (locker)
+                                     {
+                                         Queue.Next();
+                                     }
+                                 }
+                             }
+                         }
+                     }
+                     catch (Exception ex)
+                     {
+                         _log.Error(ex);
+                     }
+                     do
+                     {
+                         await Task.Delay(500);
+                     }
+                     while ((Queue.Count == 0 || Stopped) && !Exited);
                  }
              }, SongCancelSource.Token);
         }
@@ -319,13 +313,20 @@ namespace NadekoBot.Services.Music
                         if (t != null)
                         {
                             await t;
-                            _audioClient?.Dispose();
+                            _audioClient.Dispose();
                         }
                     }
                     catch
                     {
                     }
                     newVoiceChannel = false;
+                    var curUser = await VoiceChannel.Guild.GetCurrentUserAsync();
+                    _audioClient = await VoiceChannel.ConnectAsync();
+                    if (curUser.VoiceChannel != null)
+                    {
+                        await _audioClient.StopAsync();
+                        await Task.Delay(1000);
+                    }
                     _audioClient = await VoiceChannel.ConnectAsync();
                 }
                 catch
