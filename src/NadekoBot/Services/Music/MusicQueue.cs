@@ -11,7 +11,7 @@ namespace NadekoBot.Services.Music
     {
         private LinkedList<SongInfo> Songs { get; } = new LinkedList<SongInfo>();
         private int _currentIndex = 0;
-        private int CurrentIndex
+        public int CurrentIndex
         {
             get
             {
@@ -124,7 +124,7 @@ namespace NadekoBot.Services.Music
             }
         }
 
-        public (int, SongInfo[]) ToArray()
+        public (int CurrentIndex, SongInfo[] Songs) ToArray()
         {
             lock (locker)
             {

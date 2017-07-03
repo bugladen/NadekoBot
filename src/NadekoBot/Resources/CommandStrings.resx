@@ -1198,7 +1198,7 @@
     <value>`{0}drawnew` or `{0}drawnew 5`</value>
   </data>
   <data name="shuffleplaylist_cmd" xml:space="preserve">
-    <value>shuffle plsh</value>
+    <value>shuffle sh plsh</value>
   </data>
   <data name="shuffleplaylist_desc" xml:space="preserve">
     <value>Shuffles the current playlist.</value>
@@ -1471,10 +1471,10 @@
     <value>play start</value>
   </data>
   <data name="play_desc" xml:space="preserve">
-    <value>If no arguments are specified, acts as `{0}next 1` command. If you specify a search query, acts as a `{0}q` command</value>
+    <value>If no arguments are specified, acts as `{0}next 1` command. If you specify a song number, it will jump to that song. If you specify a search query, acts as a `{0}q` command</value>
   </data>
   <data name="play_usage" xml:space="preserve">
-    <value>`{0}play` or `{0}play Dream Of Venice`</value>
+    <value>`{0}play` or `{0}play 5` or `{0}play Dream Of Venice`</value>
   </data>
   <data name="stop_cmd" xml:space="preserve">
     <value>stop s</value>
