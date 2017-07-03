@@ -27,7 +27,7 @@ namespace NadekoBot.Services.Music
             this.p = Process.Start(new ProcessStartInfo
             {
                 FileName = "ffmpeg",
-                Arguments = $"-i {songUri} -f s16le -ar 48000 -vn -ac 2 pipe:1 -loglevel quiet",
+                Arguments = $"-i {songUri} -f s16le -ar 48000 -vn -ac 2 pipe:1 -loglevel error -threads 0",
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
@@ -78,7 +78,7 @@ namespace NadekoBot.Services.Music
                         lock (locker)
                             if (_outStream.Length > 200_000 || bytesRead == 0)
                                 if (toReturn.TrySetResult(true))
-                                    _log.Info("Prebuffering finished");
+                                    _log.Info("Prebuffering finished in {0}", sw.Elapsed.TotalSeconds.ToString("F2"));
 
                         //_log.Info(_outStream.Length);
                         await Task.Delay(10);
