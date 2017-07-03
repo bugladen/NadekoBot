@@ -63,27 +63,27 @@ namespace NadekoBot.Modules.Music
                     if ((player.VoiceChannel == oldState.VoiceChannel) &&
                             usr.Id == _client.CurrentUser.Id)
                     {
-                        if (player.Paused && newState.VoiceChannel.Users.Count > 1) //unpause if there are people in the new channel
-                            player.TogglePause();
-                        else if (!player.Paused && newState.VoiceChannel.Users.Count <= 1) // pause if there are no users in the new channel
-                            player.TogglePause();
+                        //if (player.Paused && newState.VoiceChannel.Users.Count > 1) //unpause if there are people in the new channel
+                        //    player.TogglePause();
+                        //else if (!player.Paused && newState.VoiceChannel.Users.Count <= 1) // pause if there are no users in the new channel
+                        //    player.TogglePause();
 
                         player.SetVoiceChannel(newState.VoiceChannel);
                         return;
                     }
 
 
-                    //if some other user moved
-                    if ((player.VoiceChannel == newState.VoiceChannel && //if joined first, and player paused, unpause 
-                            player.Paused &&
-                            newState.VoiceChannel.Users.Count >= 2) ||  // keep in mind bot is in the channel (+1)
-                        (player.VoiceChannel == oldState.VoiceChannel && // if left last, and player unpaused, pause
-                            !player.Paused &&
-                            oldState.VoiceChannel.Users.Count == 1))
-                    {
-                        player.TogglePause();
-                        return;
-                    }
+                    ////if some other user moved
+                    //if ((player.VoiceChannel == newState.VoiceChannel && //if joined first, and player paused, unpause 
+                    //        player.Paused &&
+                    //        newState.VoiceChannel.Users.Count >= 2) ||  // keep in mind bot is in the channel (+1)
+                    //    (player.VoiceChannel == oldState.VoiceChannel && // if left last, and player unpaused, pause
+                    //        !player.Paused &&
+                    //        oldState.VoiceChannel.Users.Count == 1))
+                    //{
+                    //    player.TogglePause();
+                    //    return;
+                    //}
                 }
                 catch
                 {
