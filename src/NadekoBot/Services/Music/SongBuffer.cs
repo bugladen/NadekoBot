@@ -10,7 +10,7 @@ namespace NadekoBot.Services.Music
 {
     public class SongBuffer : IDisposable
     {
-        const int readSize = 38400;
+        const int readSize = 81920;
         private Process p;
         private PoopyRingBuffer _outStream = new PoopyRingBuffer();
 
@@ -52,8 +52,13 @@ namespace NadekoBot.Services.Music
             var toReturn = new TaskCompletionSource<bool>();
             var _ = Task.Run(async () =>
             {
+                int maxLoopsPerSec = 25;
+                var sw = Stopwatch.StartNew();
+                var delay = 1000 / maxLoopsPerSec;
+                int currentLoops = 0;
                 try
                 {
+                    ++currentLoops;
                     byte[] buffer = new byte[readSize];
                     int bytesRead = 1;
                     while (!cancelToken.IsCancellationRequested && !this.p.HasExited)
@@ -67,7 +72,7 @@ namespace NadekoBot.Services.Music
                             lock (locker)
                                 written = _outStream.Write(buffer, 0, bytesRead);
                             if (!written)
-                                await Task.Delay(32, cancelToken);
+                                await Task.Delay(2000, cancelToken);
                         }
                         while (!written);
                         lock (locker)
@@ -75,9 +80,15 @@ namespace NadekoBot.Services.Music
                                 if (toReturn.TrySetResult(true))
                                     _log.Info("Prebuffering finished");
 
-                        await Task.Delay(5); // @.@
+                        _log.Info(_outStream.Length);
+                        await Task.Delay(10);
                     }
-                    _log.Info("FFMPEG killed, song canceled, or song fully downloaded");
+                    if (cancelToken.IsCancellationRequested)
+                        _log.Info("Song canceled");
+                    else if (p.HasExited)
+                        _log.Info("Song buffered completely (FFmpeg exited)");
+                    else if (bytesRead == 0)
+                        _log.Info("Nothing read");
                 }
                 catch (System.ComponentModel.Win32Exception)
                 {
@@ -119,8 +130,14 @@ Check the guides for your platform on how to setup ffmpeg correctly:
             {
                 _log.Error(ex);
             }
-            try { this.p.Kill(); }
-            catch { }
+            try
+            {
+                if(!this.p.HasExited)
+                    this.p.Kill();
+            }
+            catch
+            {
+            }
             _outStream.Dispose();
             this.p.Dispose();
         }

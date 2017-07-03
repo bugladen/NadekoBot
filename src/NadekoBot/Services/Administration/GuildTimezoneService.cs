@@ -21,7 +21,10 @@ namespace NadekoBot.Services.Administration
                     TimeZoneInfo tz;
                     try
                     {
-                        tz = TimeZoneInfo.FindSystemTimeZoneById(x.TimeZoneId);
+                        if (x.TimeZoneId == null)
+                            tz = null;
+                        else
+                            tz = TimeZoneInfo.FindSystemTimeZoneById(x.TimeZoneId);
                     }
                     catch
                     {

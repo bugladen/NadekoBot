@@ -321,10 +321,10 @@ namespace NadekoBot.Services.Music
                     }
                     newVoiceChannel = false;
                     var curUser = await VoiceChannel.Guild.GetCurrentUserAsync();
-                    _audioClient = await VoiceChannel.ConnectAsync();
                     if (curUser.VoiceChannel != null)
                     {
-                        await _audioClient.StopAsync();
+                        var ac = await VoiceChannel.ConnectAsync();
+                        await ac.StopAsync();
                         await Task.Delay(1000);
                     }
                     _audioClient = await VoiceChannel.ConnectAsync();
