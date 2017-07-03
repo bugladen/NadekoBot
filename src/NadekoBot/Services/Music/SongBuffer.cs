@@ -54,7 +54,7 @@ namespace NadekoBot.Services.Music
                         bytesRead = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, readSize, cancelToken).ConfigureAwait(false);
                         await _outStream.WriteAsync(buffer, 0, bytesRead, cancelToken);
 
-                        if (_outStream.RemainingCapacity < _outStream.Capacity * 0.5f || bytesRead == 0)
+                        if (_outStream.LightLength > 200_000 || bytesRead == 0)
                             if (toReturn.TrySetResult(true))
                                 _log.Info("Prebuffering finished");
                     }

@@ -38,6 +38,11 @@ namespace NadekoBot.DataStructures
             }
         }
 
+        public int LightLength =>
+            _readPos <= _writePos?
+                _writePos - _readPos :
+                Capacity - (_readPos - _writePos);
+
         public int RemainingCapacity
         {
             get { lock (posLock) return Capacity - Length - 1; }
