@@ -131,38 +131,40 @@ namespace NadekoBot.Services.Music
                          _log.Info("Starting");
                          using (var b = new SongBuffer(data.Song.Uri, ""))
                          {
-                             var bufferTask = b.StartBuffering(cancelToken);
-                             var timeout = Task.Delay(10000);
-                             if (Task.WhenAny(bufferTask, timeout) == timeout)
-                             {
-                                 _log.Info("Buffering failed due to a timeout.");
-                                 continue;
-                             }
-                             else if (!bufferTask.Result)
-                             {
-                                 _log.Info("Buffering failed due to a cancel or error.");
-                                 continue;
-                             }
-
-                             var ac = await GetAudioClient();
-                             if (ac == null)
-                             {
-                                 await Task.Delay(900, cancelToken);
-                                 // just wait some time, maybe bot doesn't even have perms to join that voice channel, 
-                                 // i don't want to spam connection attempts
-                                 continue;
-                             }
-                             var pcm = ac.CreatePCMStream(AudioApplication.Music, bufferMillis: 500);
-                             OnStarted?.Invoke(this, data);
-
-                             byte[] buffer = new byte[3840];
-                             int bytesRead = 0;
+                             AudioOutStream pcm = null;
                              try
                              {
-                                 while ((bytesRead = await b.ReadAsync(buffer, 0, buffer.Length, cancelToken).ConfigureAwait(false)) > 0
+                                 var bufferTask = b.StartBuffering(cancelToken);
+                                 var timeout = Task.Delay(10000);
+                                 if (Task.WhenAny(bufferTask, timeout) == timeout)
+                                 {
+                                     _log.Info("Buffering failed due to a timeout.");
+                                     continue;
+                                 }
+                                 else if (!bufferTask.Result)
+                                 {
+                                     _log.Info("Buffering failed due to a cancel or error.");
+                                     continue;
+                                 }
+
+                                 var ac = await GetAudioClient();
+                                 if (ac == null)
+                                 {
+                                     await Task.Delay(900, cancelToken);
+                                     // just wait some time, maybe bot doesn't even have perms to join that voice channel, 
+                                     // i don't want to spam connection attempts
+                                     continue;
+                                 }
+                                 pcm = ac.CreatePCMStream(AudioApplication.Music, bufferMillis: 500);
+                                 OnStarted?.Invoke(this, data);
+
+                                 byte[] buffer = new byte[3840];
+                                 int bytesRead = 0;
+
+                                 while ((bytesRead = b.Read(buffer, 0, buffer.Length)) > 0
                                     && (MaxPlaytimeSeconds <= 0 || MaxPlaytimeSeconds >= CurrentTime.TotalSeconds))
                                  {
-                                     AdjustVolume(buffer, Volume);
+                                     //AdjustVolume(buffer, Volume);
                                      await pcm.WriteAsync(buffer, 0, bytesRead, cancelToken).ConfigureAwait(false);
                                      unchecked { _bytesSent += bytesRead; }
 
@@ -179,12 +181,16 @@ namespace NadekoBot.Services.Music
                              }
                              finally
                              {
-                                 //flush is known to get stuck from time to time, just cancel it if it takes more than 1 second
-                                 var flushCancel = new CancellationTokenSource();
-                                 var flushToken = flushCancel.Token;
-                                 var flushDelay = Task.Delay(1000, flushToken);
-                                 await Task.WhenAny(flushDelay, pcm.FlushAsync(flushToken));
-                                 flushCancel.Cancel();
+                                 if (pcm != null)
+                                 {
+                                     // flush is known to get stuck from time to time, 
+                                     // just skip flushing if it takes more than 1 second
+                                     var flushCancel = new CancellationTokenSource();
+                                     var flushToken = flushCancel.Token;
+                                     var flushDelay = Task.Delay(1000, flushToken);
+                                     await Task.WhenAny(flushDelay, pcm.FlushAsync(flushToken));
+                                     flushCancel.Cancel();
+                                 }
 
                                  OnCompleted?.Invoke(this, data.Song);
                              }
@@ -309,8 +315,12 @@ namespace NadekoBot.Services.Music
                 {
                     try
                     {
-                        await _audioClient?.StopAsync();
-                        _audioClient?.Dispose();
+                        var t = _audioClient?.StopAsync();
+                        if (t != null)
+                        {
+                            await t;
+                            _audioClient?.Dispose();
+                        }
                     }
                     catch
                     {

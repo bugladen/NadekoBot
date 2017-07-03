@@ -36,10 +36,17 @@ namespace NadekoBot.Services.Music
             var t = Task.Run(() =>
             {
                 this.p.BeginErrorReadLine();
+                this.p.ErrorDataReceived += P_ErrorDataReceived;
                 this.p.WaitForExit();
             });
         }
 
+        private void P_ErrorDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            _log.Error(">>> " + e.Data);
+        }
+
+        private readonly object locker = new object();
         public Task<bool> StartBuffering(CancellationToken cancelToken)
         {
             var toReturn = new TaskCompletionSource<bool>();
@@ -49,14 +56,26 @@ namespace NadekoBot.Services.Music
                 {
                     byte[] buffer = new byte[readSize];
                     int bytesRead = 1;
-                    while (!cancelToken.IsCancellationRequested && !this.p.HasExited && bytesRead > 0)
+                    while (!cancelToken.IsCancellationRequested && !this.p.HasExited)
                     {
                         bytesRead = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, readSize, cancelToken).ConfigureAwait(false);
-                        await _outStream.WriteAsync(buffer, 0, bytesRead, cancelToken);
+                        if (bytesRead == 0)
+                            break;
+                        bool written;
+                        do
+                        {
+                            lock (locker)
+                                written = _outStream.Write(buffer, 0, bytesRead);
+                            if (!written)
+                                await Task.Delay(32, cancelToken);
+                        }
+                        while (!written);
+                        lock (locker)
+                            if (_outStream.Length > 200_000 || bytesRead == 0)
+                                if (toReturn.TrySetResult(true))
+                                    _log.Info("Prebuffering finished");
 
-                        if (_outStream.LightLength > 200_000 || bytesRead == 0)
-                            if (toReturn.TrySetResult(true))
-                                _log.Info("Prebuffering finished");
+                        await Task.Delay(5); // @.@
                     }
                     _log.Info("FFMPEG killed, song canceled, or song fully downloaded");
                 }
@@ -84,9 +103,10 @@ Check the guides for your platform on how to setup ffmpeg correctly:
             return toReturn.Task;
         }
 
-        public Task<int> ReadAsync(byte[] b, int offset, int toRead, CancellationToken cancelToken)
+        public int Read(byte[] b, int offset, int toRead)
         {
-            return _outStream.ReadAsync(b, offset, toRead, cancelToken);
+            lock (locker)
+                return _outStream.Read(b, offset, toRead);
         }
 
         public void Dispose()
@@ -94,6 +114,8 @@ Check the guides for your platform on how to setup ffmpeg correctly:
             try { this.p.Kill(); }
             catch { }
             _outStream.Dispose();
+            this.p.StandardError.Dispose();
+            this.p.StandardOutput.Dispose();
             this.p.Dispose();
         }
     }

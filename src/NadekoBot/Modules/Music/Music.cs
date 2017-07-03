@@ -45,7 +45,7 @@ namespace NadekoBot.Modules.Music
             var t = _music.DestroyPlayer(arg.Id);
             return Task.CompletedTask;
         }
-
+        //todo changing server region is bugged again
         private Task Client_UserVoiceStateUpdated(SocketUser iusr, SocketVoiceState oldState, SocketVoiceState newState)
         {
             var t = Task.Run(() =>
