@@ -57,6 +57,9 @@ namespace NadekoBot.Modules.Music
 
                 var player = _music.GetPlayerOrDefault(usr.Guild.Id);
 
+                if (player == null)
+                    return;
+
                 try
                 {
                     //if bot moved
