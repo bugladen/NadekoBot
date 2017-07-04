@@ -187,7 +187,6 @@ namespace NadekoBot.Services
 
         private async Task MessageReceivedHandler(SocketMessage msg)
         {
-            await Task.Delay(1500);
             try
             {
                 if (msg.Author.IsBot || !_bot.Ready) //no bots, wait until bot connected and initialized
