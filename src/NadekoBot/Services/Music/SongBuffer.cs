@@ -40,7 +40,7 @@ namespace NadekoBot.Services.Music
             return Process.Start(new ProcessStartInfo
             {
                 FileName = "ffmpeg",
-                Arguments = $"-ss {skipTo:F4} -i {songUri} -f s16le -ar 48000 -vn -ac 2 pipe:1 -loglevel error -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5",
+                Arguments = $"-ss {skipTo:F4} -err_detect ignore_err -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5 -i {songUri} -f s16le -ar 48000 -vn -ac 2 pipe:1 -loglevel error",
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
@@ -64,24 +64,24 @@ namespace NadekoBot.Services.Music
             var toReturn = new TaskCompletionSource<bool>();
             var _ = Task.Run(async () =>
             {
-                int maxLoopsPerSec = 25;
+                //int maxLoopsPerSec = 25;
                 var sw = Stopwatch.StartNew();
-                var delay = 1000 / maxLoopsPerSec;
+                //var delay = 1000 / maxLoopsPerSec;
                 int currentLoops = 0;
                 int _bytesSent = 0;
                 try
                 {
-                    do
-                    {
-                        if (restart)
-                        {
-                            var cur = _bytesSent / 3840 / (1000 / 20.0f);
-                            _log.Info("Restarting");
-                            try { this.p.StandardOutput.Dispose(); } catch { }
-                            try { this.p.Dispose(); } catch { }
-                            this.p = StartFFmpegProcess(SongUri, cur);
-                        }
-                        restart = false;
+                    //do
+                    //{
+                    //    if (restart)
+                    //    {
+                    //        var cur = _bytesSent / 3840 / (1000 / 20.0f);
+                    //        _log.Info("Restarting");
+                    //        try { this.p.StandardOutput.Dispose(); } catch { }
+                    //        try { this.p.Dispose(); } catch { }
+                    //        this.p = StartFFmpegProcess(SongUri, cur);
+                    //    }
+                    //    restart = false;
                         ++currentLoops;
                         byte[] buffer = new byte[readSize];
                         int bytesRead = 1;
@@ -117,8 +117,8 @@ namespace NadekoBot.Services.Music
 
                         if (restart)
                             _log.Info("Lets do some magix");
-                    }
-                    while (restart && !cancelToken.IsCancellationRequested);
+                    //}
+                    //while (restart && !cancelToken.IsCancellationRequested);
                 }
                 catch (System.ComponentModel.Win32Exception)
                 {
