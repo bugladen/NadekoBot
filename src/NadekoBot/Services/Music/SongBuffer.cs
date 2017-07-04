@@ -40,7 +40,7 @@ namespace NadekoBot.Services.Music
             return Process.Start(new ProcessStartInfo
             {
                 FileName = "ffmpeg",
-                Arguments = $"-ss {skipTo:F4} -i {songUri} -f s16le -ar 48000 -vn -ac 2 pipe:1 -loglevel error -threads 0 -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5",
+                Arguments = $"-ss {skipTo:F4} -i {songUri} -f s16le -ar 48000 -vn -ac 2 pipe:1 -loglevel error -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5",
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
@@ -51,7 +51,7 @@ namespace NadekoBot.Services.Music
         private void P_ErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
             _log.Error(">>> " + e.Data);
-            if (e.Data.Contains("Error in the pull function"))
+            if (e.Data?.Contains("Error in the pull function") == true)
             {
                 _log.Info("Got error in the pull function!");
                 restart = true;
