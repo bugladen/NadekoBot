@@ -1,6 +1,5 @@
 ﻿using Discord.WebSocket;
 using NadekoBot.DataStructures.Replacements;
-using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
 using NadekoBot.Services.Music;
 using NLog;
@@ -35,7 +34,7 @@ namespace NadekoBot.Services.Administration
             _rep = new ReplacementBuilder()
                 .WithClient(client)
                 .WithStats(client)
-                .WithMusic(music)
+                //.WithMusic(music)
                 .Build();
 
             _t = new Timer(async (objState) =>

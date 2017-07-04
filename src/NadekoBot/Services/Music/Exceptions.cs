@@ -2,19 +2,27 @@
 
 namespace NadekoBot.Services.Music
 {
-    class PlaylistFullException : Exception
+    public class QueueFullException : Exception
     {
-        public PlaylistFullException(string message) : base(message)
+        public QueueFullException(string message) : base(message)
         {
         }
-        public PlaylistFullException() : base("Queue is full.") { }
+        public QueueFullException() : base("Queue is full.") { }
     }
 
-    class SongNotFoundException : Exception
+    public class SongNotFoundException : Exception
     {
         public SongNotFoundException(string message) : base(message)
         {
         }
         public SongNotFoundException() : base("Song is not found.") { }
+    }
+    public class NotInVoiceChannelException : Exception
+    {
+        public NotInVoiceChannelException(string message) : base(message)
+        {
+        }
+
+        public NotInVoiceChannelException() : base("You're not in the voice channel on this server.") { }
     }
 }

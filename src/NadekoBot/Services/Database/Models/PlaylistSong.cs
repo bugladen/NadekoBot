@@ -12,7 +12,7 @@
     public enum MusicType
     {
         Radio,
-        Normal,
+        YouTube,
         Local,
         Soundcloud
     }

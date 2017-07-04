@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using Discord;
 using NadekoBot.Extensions;
 using NadekoBot.Services.Database.Models;
-using System.Text.RegularExpressions;
 using NLog;
 using System.IO;
 using VideoLibrary;
-using System.Net.Http;
 using System.Collections.Generic;
+using Discord.Commands;
+using Discord.WebSocket;
+using System.Text.RegularExpressions;
+using System.Net.Http;
 
 namespace NadekoBot.Services.Music
 {
@@ -26,13 +28,15 @@ namespace NadekoBot.Services.Music
         private readonly SoundCloudApiService _sc;
         private readonly IBotCredentials _creds;
         private readonly ConcurrentDictionary<ulong, float> _defaultVolumes;
+        private readonly DiscordSocketClient _client;
 
         public ConcurrentDictionary<ulong, MusicPlayer> MusicPlayers { get; } = new ConcurrentDictionary<ulong, MusicPlayer>();
 
-        public MusicService(IGoogleApiService google, 
-            NadekoStrings strings, ILocalization localization, DbService db, 
+        public MusicService(DiscordSocketClient client, IGoogleApiService google,
+            NadekoStrings strings, ILocalization localization, DbService db,
             SoundCloudApiService sc, IBotCredentials creds, IEnumerable<GuildConfig> gcs)
         {
+            _client = client;
             _google = google;
             _strings = strings;
             _localization = localization;
@@ -48,28 +52,44 @@ namespace NadekoBot.Services.Music
             Directory.CreateDirectory(MusicDataPath);
         }
 
-        public MusicPlayer GetPlayer(ulong guildId)
+        public float GetDefaultVolume(ulong guildId)
         {
-            MusicPlayers.TryGetValue(guildId, out var player);
-            return player;
+            return _defaultVolumes.GetOrAdd(guildId, (id) =>
+            {
+                using (var uow = _db.UnitOfWork)
+                {
+                    return uow.GuildConfigs.For(guildId, set => set).DefaultMusicVolume;
+                }
+            });
         }
 
-        public MusicPlayer GetOrCreatePlayer(ulong guildId, IVoiceChannel voiceCh, ITextChannel textCh)
+        public Task<MusicPlayer> GetOrCreatePlayer(ICommandContext context)
+        {
+            var gUsr = (IGuildUser)context.User;
+            var txtCh = (ITextChannel)context.Channel;
+            var vCh = gUsr.VoiceChannel;
+            return GetOrCreatePlayer(context.Guild.Id, vCh, txtCh);
+        }
+
+        public async Task<MusicPlayer> GetOrCreatePlayer(ulong guildId, IVoiceChannel voiceCh, ITextChannel textCh)
         {
             string GetText(string text, params object[] replacements) =>
                 _strings.GetText(text, _localization.GetCultureInfo(textCh.Guild), "Music".ToLowerInvariant(), replacements);
 
-            return MusicPlayers.GetOrAdd(guildId, server =>
+            if (voiceCh == null || voiceCh.Guild != textCh.Guild)
             {
-                var vol = _defaultVolumes.GetOrAdd(guildId, (id) =>
+                if (textCh != null)
                 {
-                    using (var uow = _db.UnitOfWork)
-                    {
-                        return uow.GuildConfigs.For(guildId, set => set).DefaultMusicVolume;
-                    }
-                });
-                
-                var mp = new MusicPlayer(voiceCh, textCh, vol, _google);
+                    await textCh.SendErrorAsync(GetText("must_be_in_voice")).ConfigureAwait(false);
+                }
+                throw new ArgumentException(nameof(voiceCh));
+            }
+
+            return MusicPlayers.GetOrAdd(guildId, _ =>
+            {
+                var vol = GetDefaultVolume(guildId);
+                var mp = new MusicPlayer(this, _google, voiceCh, textCh, vol);
+
                 IUserMessage playingMessage = null;
                 IUserMessage lastFinishedMessage = null;
                 mp.OnCompleted += async (s, song) =>
@@ -90,31 +110,19 @@ namespace NadekoBot.Services.Music
                         {
                             // ignored
                         }
-
-                        if (mp.Autoplay && mp.Playlist.Count == 0 && song.SongInfo.ProviderType == MusicType.Normal)
-                        {
-                            var relatedVideos = (await _google.GetRelatedVideosAsync(song.SongInfo.Query, 4)).ToList();
-                            if (relatedVideos.Count > 0)
-                                await QueueSong(await textCh.Guild.GetCurrentUserAsync(),
-                                    textCh,
-                                    voiceCh,
-                                    relatedVideos[new NadekoRandom().Next(0, relatedVideos.Count)],
-                                    true).ConfigureAwait(false);
-                        }
                     }
                     catch
                     {
                         // ignored
                     }
                 };
-
                 mp.OnStarted += async (player, song) =>
                 {
-                    try { await mp.UpdateSongDurationsAsync().ConfigureAwait(false); }
-                    catch
-                    {
-                        // ignored
-                    }
+                    //try { await mp.UpdateSongDurationsAsync().ConfigureAwait(false); }
+                    //catch
+                    //{
+                    //    // ignored
+                    //}
                     var sender = player;
                     if (sender == null)
                         return;
@@ -123,9 +131,9 @@ namespace NadekoBot.Services.Music
                         playingMessage?.DeleteAfter(0);
 
                         playingMessage = await mp.OutputTextChannel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                                                    .WithAuthor(eab => eab.WithName(GetText("playing_song")).WithMusicIcon())
-                                                    .WithDescription(song.PrettyName)
-                                                    .WithFooter(ef => ef.WithText(song.PrettyInfo)))
+                                                    .WithAuthor(eab => eab.WithName(GetText("playing_song", song.Index + 1)).WithMusicIcon())
+                                                    .WithDescription(song.Song.PrettyName)
+                                                    .WithFooter(ef => ef.WithText(mp.PrettyVolume + " | " + song.Song.PrettyInfo)))
                                                     .ConfigureAwait(false);
                     }
                     catch
@@ -133,7 +141,7 @@ namespace NadekoBot.Services.Music
                         // ignored
                     }
                 };
-                mp.OnPauseChanged += async (paused) =>
+                mp.OnPauseChanged += async (player, paused) =>
                 {
                     try
                     {
@@ -150,194 +158,176 @@ namespace NadekoBot.Services.Music
                         // ignored
                     }
                 };
-
-                mp.SongRemoved += async (song, index) =>
-                {
-                    try
-                    {
-                        var embed = new EmbedBuilder()
-                            .WithAuthor(eab => eab.WithName(GetText("removed_song") + " #" + (index + 1)).WithMusicIcon())
-                            .WithDescription(song.PrettyName)
-                            .WithFooter(ef => ef.WithText(song.PrettyInfo))
-                            .WithErrorColor();
-
-                        await mp.OutputTextChannel.EmbedAsync(embed).ConfigureAwait(false);
-
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
-                };
+                
                 return mp;
             });
         }
 
-
-        public async Task QueueSong(IGuildUser queuer, ITextChannel textCh, IVoiceChannel voiceCh, string query, bool silent = false, MusicType musicType = MusicType.Normal)
+        public MusicPlayer GetPlayerOrDefault(ulong guildId)
         {
-            string GetText(string text, params object[] replacements) => 
-                _strings.GetText(text, _localization.GetCultureInfo(textCh.Guild), "Music".ToLowerInvariant(), replacements);
-
-            if (voiceCh == null || voiceCh.Guild != textCh.Guild)
-            {
-                if (!silent)
-                    await textCh.SendErrorAsync(GetText("must_be_in_voice")).ConfigureAwait(false);
-                throw new ArgumentNullException(nameof(voiceCh));
-            }
-            if (string.IsNullOrWhiteSpace(query) || query.Length < 3)
-                throw new ArgumentException("Invalid song query.", nameof(query));
-
-            var musicPlayer = GetOrCreatePlayer(textCh.Guild.Id, voiceCh, textCh);
-            Song resolvedSong;
-            try
-            {
-                musicPlayer.ThrowIfQueueFull();
-                resolvedSong = await ResolveSong(query, musicType).ConfigureAwait(false);
-
-                if (resolvedSong == null)
-                    throw new SongNotFoundException();
-
-                musicPlayer.AddSong(resolvedSong, queuer.Username);
-            }
-            catch (PlaylistFullException)
-            {
-                try
-                {
-                    await textCh.SendConfirmAsync(GetText("queue_full", musicPlayer.MaxQueueSize));
-                }
-                catch
-                {
-                    // ignored
-                }
-                throw;
-            }
-            if (!silent)
-            {
-                try
-                {
-                    //var queuedMessage = await textCh.SendConfirmAsync($"🎵 Queued **{resolvedSong.SongInfo.Title}** at `#{musicPlayer.Playlist.Count + 1}`").ConfigureAwait(false);
-                    var queuedMessage = await textCh.EmbedAsync(new EmbedBuilder().WithOkColor()
-                                                            .WithAuthor(eab => eab.WithName(GetText("queued_song") + " #" + (musicPlayer.Playlist.Count + 1)).WithMusicIcon())
-                                                            .WithDescription($"{resolvedSong.PrettyName}\n{GetText("queue")} ")
-                                                            .WithThumbnailUrl(resolvedSong.Thumbnail)
-                                                            .WithFooter(ef => ef.WithText(resolvedSong.PrettyProvider)))
-                                                            .ConfigureAwait(false);
-                    queuedMessage?.DeleteAfter(10);
-                }
-                catch
-                {
-                    // ignored
-                } // if queued message sending fails, don't attempt to delete it
-            }
+            if (MusicPlayers.TryGetValue(guildId, out var mp))
+                return mp;
+            else
+                return null;
         }
 
-        public void DestroyPlayer(ulong id)
+        public async Task TryQueueRelatedSongAsync(string query, ITextChannel txtCh, IVoiceChannel vch)
         {
-            if (MusicPlayers.TryRemove(id, out var mp))
-                mp.Destroy();
+            var related = (await _google.GetRelatedVideosAsync(query, 4)).ToArray();
+            if (!related.Any())
+                return;
+
+            var si = await ResolveSong(related[new NadekoRandom().Next(related.Length)], _client.CurrentUser.ToString(), MusicType.YouTube);
+            if (si == null)
+                throw new SongNotFoundException();
+            var mp = await GetOrCreatePlayer(txtCh.GuildId, vch, txtCh);
+            mp.Enqueue(si);
         }
 
-
-        public async Task<Song> ResolveSong(string query, MusicType musicType = MusicType.Normal)
+        public async Task<SongInfo> ResolveSong(string query, string queuerName, MusicType? musicType = null)
         {
-            if (string.IsNullOrWhiteSpace(query))
-                throw new ArgumentNullException(nameof(query));
+            query.ThrowIfNull(nameof(query));
 
-            if (musicType != MusicType.Local && IsRadioLink(query))
+            SongInfo sinfo = null;
+            switch (musicType)
             {
-                musicType = MusicType.Radio;
-                query = await HandleStreamContainers(query).ConfigureAwait(false) ?? query;
+                case MusicType.YouTube:
+                    sinfo = await ResolveYoutubeSong(query, queuerName);
+                    break;
+                case MusicType.Radio:
+                    try { sinfo = ResolveRadioSong(IsRadioLink(query) ? await HandleStreamContainers(query) : query, queuerName); } catch { };
+                    break;
+                case MusicType.Local:
+                    sinfo = ResolveLocalSong(query, queuerName);
+                    break;
+                case MusicType.Soundcloud:
+                    sinfo = await ResolveSoundCloudSong(query, queuerName);
+                    break;
+                case null:
+                    if (_sc.IsSoundCloudLink(query))
+                        sinfo = await ResolveSoundCloudSong(query, queuerName);
+                    else if (IsRadioLink(query))
+                        sinfo = ResolveRadioSong(await HandleStreamContainers(query), queuerName);
+                    else
+                        try
+                        {
+                            sinfo = await ResolveYoutubeSong(query, queuerName);
+                        }
+                        catch
+                        {
+                            sinfo = null;
+                        }
+                    break;
             }
 
-            try
+            return sinfo;
+        }
+
+        public async Task<SongInfo> ResolveSoundCloudSong(string query, string queuerName)
+        {
+            var svideo = !_sc.IsSoundCloudLink(query) ? 
+                await _sc.GetVideoByQueryAsync(query).ConfigureAwait(false):
+                await _sc.ResolveVideoAsync(query).ConfigureAwait(false);
+
+            if (svideo == null)
+                return null;
+            return await SongInfoFromSVideo(svideo, queuerName);
+        }
+
+        public async Task<SongInfo> SongInfoFromSVideo(SoundCloudVideo svideo, string queuerName) =>
+            new SongInfo
             {
-                switch (musicType)
-                {
-                    case MusicType.Local:
-                        return new Song(new SongInfo
-                        {
-                            Uri = "\"" + Path.GetFullPath(query) + "\"",
-                            Title = Path.GetFileNameWithoutExtension(query),
-                            Provider = "Local File",
-                            ProviderType = musicType,
-                            Query = query,
-                        });
-                    case MusicType.Radio:
-                        return new Song(new SongInfo
-                        {
-                            Uri = query,
-                            Title = $"{query}",
-                            Provider = "Radio Stream",
-                            ProviderType = musicType,
-                            Query = query
-                        })
-                        { TotalTime = TimeSpan.MaxValue };
-                }
-                if (_sc.IsSoundCloudLink(query))
-                {
-                    var svideo = await _sc.ResolveVideoAsync(query).ConfigureAwait(false);
-                    return new Song(new SongInfo
-                    {
-                        Title = svideo.FullName,
-                        Provider = "SoundCloud",
-                        Uri = await svideo.StreamLink(),
-                        ProviderType = musicType,
-                        Query = svideo.TrackLink,
-                        AlbumArt = svideo.artwork_url,
-                    })
-                    { TotalTime = TimeSpan.FromMilliseconds(svideo.Duration) };
-                }
+                Title = svideo.FullName,
+                Provider = "SoundCloud",
+                Uri = await svideo.StreamLink().ConfigureAwait(false),
+                ProviderType = MusicType.Soundcloud,
+                Query = svideo.TrackLink,
+                AlbumArt = svideo.artwork_url,
+                QueuerName = queuerName
+            };
 
-                if (musicType == MusicType.Soundcloud)
-                {
-                    var svideo = await _sc.GetVideoByQueryAsync(query).ConfigureAwait(false);
-                    return new Song(new SongInfo
-                    {
-                        Title = svideo.FullName,
-                        Provider = "SoundCloud",
-                        Uri = await svideo.StreamLink(),
-                        ProviderType = MusicType.Soundcloud,
-                        Query = svideo.TrackLink,
-                        AlbumArt = svideo.artwork_url,
-                    })
-                    { TotalTime = TimeSpan.FromMilliseconds(svideo.Duration) };
-                }
-
-                var link = (await _google.GetVideoLinksByKeywordAsync(query).ConfigureAwait(false)).FirstOrDefault();
-                if (string.IsNullOrWhiteSpace(link))
-                    throw new OperationCanceledException("Not a valid youtube query.");
-                var allVideos = await Task.Run(async () => { try { return await YouTube.Default.GetAllVideosAsync(link).ConfigureAwait(false); } catch { return Enumerable.Empty<YouTubeVideo>(); } }).ConfigureAwait(false);
-                var videos = allVideos.Where(v => v.AdaptiveKind == AdaptiveKind.Audio);
-                var video = videos
-                    .Where(v => v.AudioBitrate < 256)
-                    .OrderByDescending(v => v.AudioBitrate)
-                    .FirstOrDefault();
-
-                if (video == null) // do something with this error
-                    throw new Exception("Could not load any video elements based on the query.");
-                var m = Regex.Match(query, @"\?t=(?<t>\d*)");
-                int gotoTime = 0;
-                if (m.Captures.Count > 0)
-                    int.TryParse(m.Groups["t"].ToString(), out gotoTime);
-                var song = new Song(new SongInfo
-                {
-                    Title = video.Title.Substring(0, video.Title.Length - 10), // removing trailing "- You Tube"
-                    Provider = "YouTube",
-                    Uri = await video.GetUriAsync().ConfigureAwait(false),
-                    Query = link,
-                    ProviderType = musicType,
-                });
-                song.SkipTo = gotoTime;
-                return song;
-            }
-            catch (Exception ex)
+    public SongInfo ResolveLocalSong(string query, string queuerName)
+        {
+            return new SongInfo
             {
-                _log.Warn($"Failed resolving the link.{ex.Message}");
-                _log.Warn(ex);
+                Uri = "\"" + Path.GetFullPath(query) + "\"",
+                Title = Path.GetFileNameWithoutExtension(query),
+                Provider = "Local File",
+                ProviderType = MusicType.Local,
+                Query = query,
+                QueuerName = queuerName
+            };
+        }
+
+        public SongInfo ResolveRadioSong(string query, string queuerName)
+        {
+            return new SongInfo
+            {
+                Uri = query,
+                Title = query,
+                Provider = "Radio Stream",
+                ProviderType = MusicType.Radio,
+                Query = query,
+                QueuerName = queuerName
+            };
+        }
+
+        public async Task<SongInfo> ResolveYoutubeSong(string query, string queuerName)
+        {
+            var link = (await _google.GetVideoLinksByKeywordAsync(query).ConfigureAwait(false)).FirstOrDefault();
+            if (string.IsNullOrWhiteSpace(link))
+            {
+                _log.Info("No song found.");
                 return null;
             }
+            var allVideos = await Task.Run(async () => { try { return await YouTube.Default.GetAllVideosAsync(link).ConfigureAwait(false); } catch { return Enumerable.Empty<YouTubeVideo>(); } }).ConfigureAwait(false);
+            var videos = allVideos.Where(v => v.AdaptiveKind == AdaptiveKind.Audio);
+            var video = videos
+                .Where(v => v.AudioBitrate < 256)
+                .OrderByDescending(v => v.AudioBitrate)
+                .FirstOrDefault();
+
+            if (video == null) // do something with this error
+            {
+                _log.Info("Could not load any video elements based on the query.");
+                return null;
+            }
+            //var m = Regex.Match(query, @"\?t=(?<t>\d*)");
+            //int gotoTime = 0;
+            //if (m.Captures.Count > 0)
+            //    int.TryParse(m.Groups["t"].ToString(), out gotoTime);
+            
+            var song = new SongInfo
+            {
+                Title = video.Title.Substring(0, video.Title.Length - 10), // removing trailing "- You Tube"
+                Provider = "YouTube",
+                Uri = await video.GetUriAsync().ConfigureAwait(false),
+                Query = link,
+                ProviderType = MusicType.YouTube,
+                QueuerName = queuerName
+            };
+            return song;
         }
+
+        private bool IsRadioLink(string query) =>
+            (query.StartsWith("http") ||
+            query.StartsWith("ww"))
+            &&
+            (query.Contains(".pls") ||
+            query.Contains(".m3u") ||
+            query.Contains(".asx") ||
+            query.Contains(".xspf"));
+
+        public async Task DestroyPlayer(ulong id)
+        {
+            if (MusicPlayers.TryRemove(id, out var mp))
+                await mp.Destroy();
+        }
+
+        private readonly Regex plsRegex = new Regex("File1=(?<url>.*?)\\n", RegexOptions.Compiled);
+        private readonly Regex m3uRegex = new Regex("(?<url>^[^#].*)", RegexOptions.Compiled | RegexOptions.Multiline);
+        private readonly Regex asxRegex = new Regex("<ref href=\"(?<url>.*?)\"", RegexOptions.Compiled);
+        private readonly Regex xspfRegex = new Regex("<location>(?<url>.*?)</location>", RegexOptions.Compiled);
 
         private async Task<string> HandleStreamContainers(string query)
         {
@@ -359,7 +349,7 @@ namespace NadekoBot.Services.Music
                 //Regex.Match(query)
                 try
                 {
-                    var m = Regex.Match(file, "File1=(?<url>.*?)\\n");
+                    var m = plsRegex.Match(file);
                     var res = m.Groups["url"]?.ToString();
                     return res?.Trim();
                 }
@@ -378,7 +368,7 @@ namespace NadekoBot.Services.Music
                 */
                 try
                 {
-                    var m = Regex.Match(file, "(?<url>^[^#].*)", RegexOptions.Multiline);
+                    var m = m3uRegex.Match(file);
                     var res = m.Groups["url"]?.ToString();
                     return res?.Trim();
                 }
@@ -394,7 +384,7 @@ namespace NadekoBot.Services.Music
                 //<ref href="http://armitunes.com:8000"/>
                 try
                 {
-                    var m = Regex.Match(file, "<ref href=\"(?<url>.*?)\"");
+                    var m = asxRegex.Match(file);
                     var res = m.Groups["url"]?.ToString();
                     return res?.Trim();
                 }
@@ -414,7 +404,7 @@ namespace NadekoBot.Services.Music
                 */
                 try
                 {
-                    var m = Regex.Match(file, "<location>(?<url>.*?)</location>");
+                    var m = xspfRegex.Match(file);
                     var res = m.Groups["url"]?.ToString();
                     return res?.Trim();
                 }
@@ -427,14 +417,5 @@ namespace NadekoBot.Services.Music
 
             return query;
         }
-
-        private bool IsRadioLink(string query) =>
-            (query.StartsWith("http") ||
-            query.StartsWith("ww"))
-            &&
-            (query.Contains(".pls") ||
-            query.Contains(".m3u") ||
-            query.Contains(".asx") ||
-            query.Contains(".xspf"));
     }
 }

@@ -31,6 +31,7 @@ using NadekoBot.Extensions;
 
 namespace NadekoBot
 {
+    //todo log when joining or leaving the server
     public class NadekoBot
     {
         private Logger _log;
@@ -183,7 +184,7 @@ namespace NadekoBot
                 #endregion
 
                 var clashService = new ClashOfClansService(Client, Db, Localization, Strings, uow, startingGuildIdList);
-                var musicService = new MusicService(GoogleApi, Strings, Localization, Db, soundcloudApiService, Credentials, AllGuildConfigs);
+                var musicService = new MusicService(Client, GoogleApi, Strings, Localization, Db, soundcloudApiService, Credentials, AllGuildConfigs);
                 var crService = new CustomReactionsService(permissionsService, Db, Strings, Client, CommandHandler, BotConfig, uow);
 
                 #region Games
@@ -211,8 +212,6 @@ namespace NadekoBot
                 #region pokemon 
                 var pokemonService = new PokemonService();
                 #endregion
-
-
 
                 //initialize Services
                 Services = new NServiceProvider.ServiceProviderBuilder()
@@ -268,7 +267,6 @@ namespace NadekoBot
                     .Add<PokemonService>(pokemonService)
                     .Add<NadekoBot>(this)
                     .Build();
-
 
                 CommandHandler.AddServices(Services);
 
@@ -352,7 +350,7 @@ namespace NadekoBot
 #if GLOBAL_NADEKO
             isPublicNadeko = true;
 #endif
-            //Console.WriteLine(string.Join(", ", CommandService.Commands
+            //_log.Info(string.Join(", ", CommandService.Commands
             //    .Distinct(x => x.Name + x.Module.Name)
             //    .SelectMany(x => x.Aliases)
             //    .GroupBy(x => x)
