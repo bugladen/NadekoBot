@@ -114,7 +114,17 @@ namespace NadekoBot.Services.Music
         private readonly IGoogleApiService _google;
 
         private ConcurrentHashSet<string> RecentlyPlayedUsers { get; } = new ConcurrentHashSet<string>();
-        public TimeSpan TotalPlaytime => TimeSpan.MaxValue;
+        public TimeSpan TotalPlaytime
+        {
+            get
+            {
+                var songs = Queue.ToArray().Songs;
+                return songs.Any(s => s.TotalTime == TimeSpan.MaxValue)
+                    ? TimeSpan.MaxValue
+                    : new TimeSpan(songs.Sum(s => s.TotalTime.Ticks));
+            }
+        }
+            
 
         public MusicPlayer(MusicService musicService, IGoogleApiService google, IVoiceChannel vch, ITextChannel output, float volume)
         {
