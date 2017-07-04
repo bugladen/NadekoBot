@@ -53,7 +53,7 @@ namespace NadekoBot.Services.Music
             _log.Error(">>> " + e.Data);
             if (e.Data?.Contains("Error in the pull function") == true)
             {
-                _log.Info("Got error in the pull function!");
+                _log.Error("Ignore this.");
                 restart = true;
             }
         }
@@ -108,15 +108,12 @@ namespace NadekoBot.Services.Music
                             //_log.Info(_outStream.Length);
                             await Task.Delay(10);
                         }
-                        if (cancelToken.IsCancellationRequested)
-                            _log.Info("Song canceled");
-                        else if (p.HasExited)
-                            _log.Info("Song buffered completely (FFmpeg exited)");
-                        else if (bytesRead == 0)
-                            _log.Info("Nothing read");
-
-                        if (restart)
-                            _log.Info("Lets do some magix");
+                        //if (cancelToken.IsCancellationRequested)
+                        //    _log.Info("Song canceled");
+                        //else if (p.HasExited)
+                        //    _log.Info("Song buffered completely (FFmpeg exited)");
+                        //else if (bytesRead == 0)
+                        //    _log.Info("Nothing read");
                     //}
                     //while (restart && !cancelToken.IsCancellationRequested);
                 }

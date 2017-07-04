@@ -7,6 +7,7 @@ using NLog;
 using System.Linq;
 using System.Collections.Concurrent;
 using NadekoBot.Extensions;
+using System.Diagnostics;
 
 namespace NadekoBot.Services.Music
 {
@@ -28,10 +29,24 @@ namespace NadekoBot.Services.Music
         public bool Exited { get; set; } = false;
         public bool Stopped { get; private set; } = false;
         public float Volume { get; private set; } = 1.0f;
-        public string PrettyVolume => $"🔉 {(int)(Volume * 100)}%";
         public bool Paused => pauseTaskSource != null;
         private TaskCompletionSource<bool> pauseTaskSource { get; set; } = null;
 
+        public string PrettyVolume => $"🔉 {(int)(Volume * 100)}%";
+        public string PrettyCurrentTime
+        {
+            get
+            {
+                var time = CurrentTime.ToString(@"mm\:ss");
+                var hrs = (int)CurrentTime.TotalHours;
+
+                if (hrs > 0)
+                    return hrs + ":" + time;
+                else
+                    return time;
+            }
+        }
+        public string PrettyFullTime => PrettyCurrentTime + " / " + (Queue.Current.Song?.PrettyTotalTime ?? "?");
         private CancellationTokenSource SongCancelSource { get; set; }
         public ITextChannel OutputTextChannel { get; set; }
         public (int Index, SongInfo Current) Current
@@ -96,11 +111,12 @@ namespace NadekoBot.Services.Music
         private bool manualSkip = false;
         private bool manualIndex = false;
         private bool newVoiceChannel = false;
+        private readonly IGoogleApiService _google;
 
         private ConcurrentHashSet<string> RecentlyPlayedUsers { get; } = new ConcurrentHashSet<string>();
         public TimeSpan TotalPlaytime => TimeSpan.MaxValue;
 
-        public MusicPlayer(MusicService musicService, IVoiceChannel vch, ITextChannel output, float volume)
+        public MusicPlayer(MusicService musicService, IGoogleApiService google, IVoiceChannel vch, ITextChannel output, float volume)
         {
             _log = LogManager.GetCurrentClassLogger();
             this.Volume = volume;
@@ -108,6 +124,7 @@ namespace NadekoBot.Services.Music
             this.SongCancelSource = new CancellationTokenSource();
             this.OutputTextChannel = output;
             this._musicService = musicService;
+            this._google = google;
 
             _player = Task.Run(async () =>
              {
@@ -527,6 +544,30 @@ namespace NadekoBot.Services.Music
                 if (Exited)
                     return;
                 VoiceChannel = vch;
+            }
+        }
+
+        public async Task UpdateSongDurationsAsync()
+        {
+            var sw = Stopwatch.StartNew();
+            var (_, songs) = Queue.ToArray();
+            var toUpdate = songs
+                .Where(x => x.ProviderType == Database.Models.MusicType.YouTube
+                    && x.TotalTime == TimeSpan.Zero);
+
+            var vIds = toUpdate.Select(x => x.VideoId);
+
+            sw.Stop();
+            _log.Info(sw.Elapsed.TotalSeconds);
+            if (!vIds.Any())
+                return;
+
+            var durations = await _google.GetVideoDurationsAsync(vIds);
+
+            foreach (var x in toUpdate)
+            {
+                if (durations.TryGetValue(x.VideoId, out var dur))
+                    x.TotalTime = dur;
             }
         }
 

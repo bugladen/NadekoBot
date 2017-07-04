@@ -88,7 +88,7 @@ namespace NadekoBot.Services.Music
             return MusicPlayers.GetOrAdd(guildId, _ =>
             {
                 var vol = GetDefaultVolume(guildId);
-                var mp = new MusicPlayer(this, voiceCh, textCh, vol);
+                var mp = new MusicPlayer(this, _google, voiceCh, textCh, vol);
 
                 IUserMessage playingMessage = null;
                 IUserMessage lastFinishedMessage = null;

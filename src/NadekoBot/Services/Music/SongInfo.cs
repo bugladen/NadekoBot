@@ -17,7 +17,7 @@ namespace NadekoBot.Services.Music
         public string Uri { get; set; }
         public string AlbumArt { get; set; }
         public string QueuerName { get; set; }
-        public TimeSpan TotalTime = TimeSpan.Zero;
+        public TimeSpan TotalTime { get; set; } = TimeSpan.Zero;
 
         public string PrettyProvider => (Provider ?? "???");
         //public string PrettyFullTime => PrettyCurrentTime + " / " + PrettyTotalTime;
@@ -60,7 +60,20 @@ namespace NadekoBot.Services.Music
                 }
             }
         }
-        private string videoId = null;
+        private string _videoId = null;
+        public string VideoId
+        {
+            get
+            {
+                if (ProviderType == MusicType.YouTube)
+                    return _videoId = _videoId ?? videoIdRegex.Match(Query)?.ToString();
+
+                return _videoId ?? "";
+            }
+
+            set => _videoId = value;
+        }
+
         private readonly Regex videoIdRegex = new Regex("<=v=[a-zA-Z0-9-]+(?=&)|(?<=[0-9])[^&\n]+|(?<=v=)[^&\n]+", RegexOptions.Compiled);
         public string Thumbnail
         {
@@ -71,8 +84,7 @@ namespace NadekoBot.Services.Music
                     case MusicType.Radio:
                         return "https://cdn.discordapp.com/attachments/155726317222887425/261850925063340032/1482522097_radio.png"; //test links
                     case MusicType.YouTube:
-                        videoId = videoId ?? videoIdRegex.Match(Query)?.ToString();
-                        return $"https://img.youtube.com/vi/{ videoId }/0.jpg";
+                        return $"https://img.youtube.com/vi/{ VideoId }/0.jpg";
                     case MusicType.Local:
                         return "https://cdn.discordapp.com/attachments/155726317222887425/261850914783100928/1482522077_music.png"; //test links
                     case MusicType.Soundcloud:

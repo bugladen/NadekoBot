@@ -75,7 +75,6 @@ namespace NadekoBot.Modules.Music
                         return;
                     }
 
-
                     ////if some other user moved
                     //if ((player.VoiceChannel == newState.VoiceChannel && //if joined first, and player paused, unpause 
                     //        player.Paused &&
@@ -232,7 +231,8 @@ namespace NadekoBot.Modules.Music
             
             if (--page < -1)
                 return;
-            //try { await musicPlayer.UpdateSongDurationsAsync().ConfigureAwait(false); } catch { }
+            
+            try { await mp.UpdateSongDurationsAsync().ConfigureAwait(false); } catch { }
 
             const int itemsPerPage = 10;
 
@@ -604,13 +604,13 @@ namespace NadekoBot.Modules.Music
             var (_, currentSong) = mp.Current;
             if (currentSong == null)
                 return;
-            //try { await mp.UpdateSongDurationsAsync().ConfigureAwait(false); } catch { }
+            try { await mp.UpdateSongDurationsAsync().ConfigureAwait(false); } catch { }
 
             var embed = new EmbedBuilder().WithOkColor()
                             .WithAuthor(eab => eab.WithName(GetText("now_playing")).WithMusicIcon())
                             .WithDescription(currentSong.PrettyName)
                             .WithThumbnailUrl(currentSong.Thumbnail)
-                            .WithFooter(ef => ef.WithText(mp.PrettyVolume + " | " + /*currentSong.PrettyFullTime  +*/ $" | {currentSong.PrettyProvider} | {currentSong.QueuerName}"));
+                            .WithFooter(ef => ef.WithText(mp.PrettyVolume + " | " + mp.PrettyFullTime  + $" | {currentSong.PrettyProvider} | {currentSong.QueuerName}"));
 
             await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
@@ -847,7 +847,7 @@ namespace NadekoBot.Modules.Music
             else
                 await ReplyConfirmLocalized("rpl_disabled").ConfigureAwait(false);
         }
-
+        //todo readd goto
         //[NadekoCommand, Usage, Description, Aliases]
         //[RequireContext(ContextType.Guild)]
         //public async Task Goto(int time)
