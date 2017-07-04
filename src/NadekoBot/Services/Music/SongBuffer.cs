@@ -19,20 +19,14 @@ namespace NadekoBot.Services.Music
 
         public string SongUri { get; private set; }
 
+        private volatile bool restart = false;
+
         public SongBuffer(string songUri, string skipTo)
         {
             _log = LogManager.GetCurrentClassLogger();
             this.SongUri = songUri;
 
-            this.p = Process.Start(new ProcessStartInfo
-            {
-                FileName = "ffmpeg",
-                Arguments = $"-i {songUri} -f s16le -ar 48000 -vn -ac 2 pipe:1 -loglevel error -threads 0 -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5",
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                CreateNoWindow = true,
-            });
+            this.p = StartFFmpegProcess(songUri, 0);
             var t = Task.Run(() =>
             {
                 this.p.BeginErrorReadLine();
@@ -41,9 +35,27 @@ namespace NadekoBot.Services.Music
             });
         }
 
+        private Process StartFFmpegProcess(string songUri, float skipTo = 0)
+        {
+            return Process.Start(new ProcessStartInfo
+            {
+                FileName = "ffmpeg",
+                Arguments = $"-ss {skipTo:F4} -i {songUri} -f s16le -ar 48000 -vn -ac 2 pipe:1 -loglevel error -threads 0 -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true,
+            });
+        }
+
         private void P_ErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
             _log.Error(">>> " + e.Data);
+            if (e.Data.Contains("Error in the pull function"))
+            {
+                _log.Info("Got error in the pull function!");
+                restart = true;
+            }
         }
 
         private readonly object locker = new object();
@@ -56,39 +68,57 @@ namespace NadekoBot.Services.Music
                 var sw = Stopwatch.StartNew();
                 var delay = 1000 / maxLoopsPerSec;
                 int currentLoops = 0;
+                int _bytesSent = 0;
                 try
                 {
-                    ++currentLoops;
-                    byte[] buffer = new byte[readSize];
-                    int bytesRead = 1;
-                    while (!cancelToken.IsCancellationRequested && !this.p.HasExited)
+                    do
                     {
-                        bytesRead = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, readSize, cancelToken).ConfigureAwait(false);
-                        if (bytesRead == 0)
-                            break;
-                        bool written;
-                        do
+                        if (restart)
                         {
-                            lock (locker)
-                                written = _outStream.Write(buffer, 0, bytesRead);
-                            if (!written)
-                                await Task.Delay(2000, cancelToken);
+                            var cur = _bytesSent / 3840 / (1000 / 20.0f);
+                            _log.Info("Restarting");
+                            try { this.p.StandardOutput.Dispose(); } catch { }
+                            try { this.p.Dispose(); } catch { }
+                            this.p = StartFFmpegProcess(SongUri, cur);
                         }
-                        while (!written);
-                        lock (locker)
-                            if (_outStream.Length > 200_000 || bytesRead == 0)
-                                if (toReturn.TrySetResult(true))
-                                    _log.Info("Prebuffering finished in {0}", sw.Elapsed.TotalSeconds.ToString("F2"));
+                        restart = false;
+                        ++currentLoops;
+                        byte[] buffer = new byte[readSize];
+                        int bytesRead = 1;
+                        while (!cancelToken.IsCancellationRequested && !this.p.HasExited)
+                        {
+                            bytesRead = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, readSize, cancelToken).ConfigureAwait(false);
+                            _bytesSent += bytesRead;
+                            if (bytesRead == 0)
+                                break;
+                            bool written;
+                            do
+                            {
+                                lock (locker)
+                                    written = _outStream.Write(buffer, 0, bytesRead);
+                                if (!written)
+                                    await Task.Delay(2000, cancelToken);
+                            }
+                            while (!written);
+                            lock (locker)
+                                if (_outStream.Length > 200_000 || bytesRead == 0)
+                                    if (toReturn.TrySetResult(true))
+                                        _log.Info("Prebuffering finished in {0}", sw.Elapsed.TotalSeconds.ToString("F2"));
 
-                        //_log.Info(_outStream.Length);
-                        await Task.Delay(10);
+                            //_log.Info(_outStream.Length);
+                            await Task.Delay(10);
+                        }
+                        if (cancelToken.IsCancellationRequested)
+                            _log.Info("Song canceled");
+                        else if (p.HasExited)
+                            _log.Info("Song buffered completely (FFmpeg exited)");
+                        else if (bytesRead == 0)
+                            _log.Info("Nothing read");
+
+                        if (restart)
+                            _log.Info("Lets do some magix");
                     }
-                    if (cancelToken.IsCancellationRequested)
-                        _log.Info("Song canceled");
-                    else if (p.HasExited)
-                        _log.Info("Song buffered completely (FFmpeg exited)");
-                    else if (bytesRead == 0)
-                        _log.Info("Nothing read");
+                    while (restart && !cancelToken.IsCancellationRequested);
                 }
                 catch (System.ComponentModel.Win32Exception)
                 {
