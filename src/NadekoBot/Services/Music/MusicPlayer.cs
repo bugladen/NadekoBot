@@ -365,7 +365,6 @@ namespace NadekoBot.Services.Music
 
         public int Enqueue(SongInfo song)
         {
-            _log.Info("Adding song");
             lock (locker)
             {
                 if (Exited)
@@ -547,7 +546,7 @@ namespace NadekoBot.Services.Music
             }
         }
 
-        public void SetVoiceChannel(IVoiceChannel vch)
+        public async Task SetVoiceChannel(IVoiceChannel vch)
         {
             lock (locker)
             {
@@ -555,6 +554,7 @@ namespace NadekoBot.Services.Music
                     return;
                 VoiceChannel = vch;
             }
+            _audioClient = await vch.ConnectAsync();
         }
 
         public async Task UpdateSongDurationsAsync()
@@ -580,6 +580,9 @@ namespace NadekoBot.Services.Music
                     x.TotalTime = dur;
             }
         }
+
+        public SongInfo MoveSong(int n1, int n2)
+            => Queue.MoveSong(n1, n2);
 
         //// this should be written better
         //public TimeSpan TotalPlaytime => 

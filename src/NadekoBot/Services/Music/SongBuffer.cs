@@ -19,7 +19,7 @@ namespace NadekoBot.Services.Music
 
         public string SongUri { get; private set; }
 
-        private volatile bool restart = false;
+        //private volatile bool restart = false;
 
         public SongBuffer(string songUri, string skipTo)
         {
@@ -50,11 +50,13 @@ namespace NadekoBot.Services.Music
 
         private void P_ErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(e.Data))
+                return;
             _log.Error(">>> " + e.Data);
             if (e.Data?.Contains("Error in the pull function") == true)
             {
                 _log.Error("Ignore this.");
-                restart = true;
+                //restart = true;
             }
         }
 
@@ -99,7 +101,7 @@ namespace NadekoBot.Services.Music
                                 if (!written)
                                     await Task.Delay(2000, cancelToken);
                             }
-                            while (!written);
+                            while (!written && !cancelToken.IsCancellationRequested);
                             lock (locker)
                                 if (_outStream.Length > 200_000 || bytesRead == 0)
                                     if (toReturn.TrySetResult(true))

@@ -45,6 +45,7 @@ namespace NadekoBot.Modules.Music
             var t = _music.DestroyPlayer(arg.Id);
             return Task.CompletedTask;
         }
+
         //todo changing server region is bugged again
         private Task Client_UserVoiceStateUpdated(SocketUser iusr, SocketVoiceState oldState, SocketVoiceState newState)
         {
@@ -725,7 +726,7 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public void Move()
+        public async Task Move()
         {
             var vch = ((IGuildUser)Context.User).VoiceChannel;
 
@@ -737,53 +738,42 @@ namespace NadekoBot.Modules.Music
             if (mp == null)
                 return;
 
-            mp.SetVoiceChannel(vch);
+            await mp.SetVoiceChannel(vch);
         }
 
-        //[NadekoCommand, Usage, Description, Aliases]
-        //[RequireContext(ContextType.Guild)]
-        //public async Task MoveSong([Remainder] string fromto)
-        //{
-        //    if (string.IsNullOrWhiteSpace(fromto))
-        //        return;
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task MoveSong([Remainder] string fromto)
+        {
+            if (string.IsNullOrWhiteSpace(fromto))
+                return;
 
-        //    MusicPlayer musicPlayer;
-        //    if ((musicPlayer = _music.GetPlayer(Context.Guild.Id)) == null)
-        //        return;
+            MusicPlayer mp = _music.GetPlayerOrDefault(Context.Guild.Id);
+            if (mp == null)
+                return;
 
-        //    fromto = fromto?.Trim();
-        //    var fromtoArr = fromto.Split('>');
+            fromto = fromto?.Trim();
+            var fromtoArr = fromto.Split('>');
 
-        //    int n1;
-        //    int n2;
+            SongInfo s;
+            if (fromtoArr.Length != 2 || !int.TryParse(fromtoArr[0], out var n1) ||
+                !int.TryParse(fromtoArr[1], out var n2) || n1 < 1 || n2 < 1 || n1 == n2
+                || (s = mp.MoveSong(n1, n2)) == null)
+            {
+                await ReplyConfirmLocalized("invalid_input").ConfigureAwait(false);
+                return;
+            }
 
-        //    var playlist = musicPlayer.Playlist as List<Song> ?? musicPlayer.Playlist.ToList();
+            var embed = new EmbedBuilder()
+                .WithTitle(s.Title.TrimTo(65))
+                .WithUrl(s.SongUrl)
+            .WithAuthor(eab => eab.WithName(GetText("song_moved")).WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/258605269972549642/music1.png"))
+            .AddField(fb => fb.WithName(GetText("from_position")).WithValue($"#{n1}").WithIsInline(true))
+            .AddField(fb => fb.WithName(GetText("to_position")).WithValue($"#{n2}").WithIsInline(true))
+            .WithColor(NadekoBot.OkColor);
+            await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+        }
 
-        //    if (fromtoArr.Length != 2 || !int.TryParse(fromtoArr[0], out n1) ||
-        //        !int.TryParse(fromtoArr[1], out n2) || n1 < 1 || n2 < 1 || n1 == n2 ||
-        //        n1 > playlist.Count || n2 > playlist.Count)
-        //    {
-        //        await ReplyConfirmLocalized("invalid_input").ConfigureAwait(false);
-        //        return;
-        //    }
-
-        //    var s = playlist[n1 - 1];
-        //    playlist.Insert(n2 - 1, s);
-        //    var nn1 = n2 < n1 ? n1 : n1 - 1;
-        //    playlist.RemoveAt(nn1);
-
-        //    var embed = new EmbedBuilder()
-        //        .WithTitle($"{s.SongInfo.Title.TrimTo(70)}")
-        //        .WithUrl(s.SongUrl)
-        //    .WithAuthor(eab => eab.WithName(GetText("song_moved")).WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/258605269972549642/music1.png"))
-        //    .AddField(fb => fb.WithName(GetText("from_position")).WithValue($"#{n1}").WithIsInline(true))
-        //    .AddField(fb => fb.WithName(GetText("to_position")).WithValue($"#{n2}").WithIsInline(true))
-        //    .WithColor(NadekoBot.OkColor);
-        //    await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
-
-        //    //await channel.SendConfirmAsync($"🎵Moved {s.PrettyName} `from #{n1} to #{n2}`").ConfigureAwait(false);
-        //}
-        
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task SetMaxQueue(uint size = 0)
