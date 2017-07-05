@@ -204,8 +204,8 @@ namespace NadekoBot
                 var playingRotateService = new PlayingRotateService(Client, BotConfig, musicService, Db);
                 var gameVcService = new GameVoiceChannelService(Client, Db, AllGuildConfigs);
                 var autoAssignRoleService = new AutoAssignRoleService(Client, AllGuildConfigs);
-                var logCommandService = new LogCommandService(Client, Strings, AllGuildConfigs, Db, muteService, protectionService);
                 var guildTimezoneService = new GuildTimezoneService(Client, AllGuildConfigs, Db);
+                var logCommandService = new LogCommandService(Client, Strings, AllGuildConfigs, Db, muteService, protectionService, guildTimezoneService);
                 #endregion
 
                 #region pokemon 
