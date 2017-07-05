@@ -295,8 +295,13 @@ namespace NadekoBot.Modules.Utility
 
             var allShardStrings = statuses
                 .Select(x =>
-                    GetText("shard_stats_txt", x.ShardId.ToString(),
-                        Format.Bold(x.ConnectionState.ToString()), Format.Bold(x.Guilds.ToString())))
+                {
+                    var timeDiff = DateTime.UtcNow - x.Time;
+                    if (timeDiff > TimeSpan.FromSeconds(20))
+                        return $"Shard #{x.ShardId.ToString()} **UNRESPONSIVE** for {timeDiff.ToString(@"hh\:mm\:ss")}";
+                    return GetText("shard_stats_txt", x.ShardId.ToString(),
+                        Format.Bold(x.ConnectionState.ToString()), Format.Bold(x.Guilds.ToString()), timeDiff.ToString(@"hh\:mm\:ss"));
+                        })
                 .ToArray();
 
             await Context.Channel.SendPaginatedConfirmAsync(_client, page, (curPage) =>

@@ -678,7 +678,7 @@
   "utility_server_info": "Server info",
   "utility_shard": "Shard",
   "utility_shard_stats": "Shard stats",
-  "utility_shard_stats_txt": "Shard **#{0}** is in {1} state with {2} servers",
+  "utility_shard_stats_txt": "Shard **#{0}** is in {1} state with {2} servers - {3} ago",
   "utility_showemojis": "**Name:** {0} **Link:** {1}",
   "utility_showemojis_none": "No special emojis found.",
   "utility_stats_songs": "Playing {0} songs, {1} queued.",

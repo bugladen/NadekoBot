@@ -3,6 +3,7 @@ using NadekoBot.Services;
 using NadekoBot.Services.Impl;
 using NLog;
 using System;
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ namespace NadekoBot
         private readonly Logger _log;
         private readonly ShardComServer _comServer;
         private readonly int _port;
-
+        
         public ShardsCoordinator(int port)
         {
             LogSetup.SetupLogger();
@@ -40,6 +41,7 @@ namespace NadekoBot
         private Task _comServer_OnDataReceived(ShardComMessage msg)
         {
             Statuses[msg.ShardId] = msg;
+
             if (msg.ConnectionState == Discord.ConnectionState.Disconnected || msg.ConnectionState == Discord.ConnectionState.Disconnecting)
                 _log.Error("!!! SHARD {0} IS IN {1} STATE", msg.ShardId, msg.ConnectionState.ToString());
             return Task.CompletedTask;
@@ -87,7 +89,7 @@ namespace NadekoBot
                                 _log.Info(string.Join("\n", Statuses
                                     .ToArray()
                                     .Where(x => x != null)
-                                    .Select(x => $"Shard {x.ShardId} is in {x.ConnectionState.ToString()} state with {x.Guilds} servers")) + "\n" + groupStr);
+                                    .Select(x => $"Shard {x.ShardId} is in {x.ConnectionState.ToString()} state with {x.Guilds} servers. {(DateTime.UtcNow - x.Time).ToString(@"hh\:mm\:ss")} ago")) + "\n" + groupStr);
                                 break;
                             default:
                                 break;

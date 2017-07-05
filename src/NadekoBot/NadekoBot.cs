@@ -130,8 +130,9 @@ namespace NadekoBot
                         ConnectionState = Client.ConnectionState,
                         Guilds = Client.ConnectionState == ConnectionState.Connected ? Client.Guilds.Count : 0,
                         ShardId = Client.ShardId,
+                        Time = DateTime.UtcNow,
                     });
-                    await Task.Delay(1000);
+                    await Task.Delay(5000);
                 }
             });
         }
