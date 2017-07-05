@@ -17,6 +17,7 @@ If you do not see `credentials.json` you will need to rename `credentials_exampl
   "MashapeKey": "4UrKpcWXc2mshS8RKi00000y8Kf5p1Q8kI6jsn32bmd8oVWiY7",
   "OsuApiKey": "4c8c8fdff8e1234581725db27fd140a7d93320d6",
   "PatreonAccessToken": "",
+  "PatreonCampaignId": "334038",
   "Db": null,
   "TotalShards": 1,
   "ShardRunCommand": "",
@@ -155,6 +156,8 @@ It should look like:
 	- You can get this key [here.](https://osu.ppy.sh/p/api) 		
 - **PatreonAccessToken**
 	- For Patreon creators only.
+- **PatreonCampaignId**
+	- For Patreon creators only. Id of your campaign.
 - **TotalShards** 
 	- Required if the bot will be connected to more than 1500 servers. 
 	- Most likely unnecessary to change until your bot is added to more than 1500 servers.

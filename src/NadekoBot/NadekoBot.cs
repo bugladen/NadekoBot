@@ -31,7 +31,6 @@ using NadekoBot.Extensions;
 
 namespace NadekoBot
 {
-    //todo log when joining or leaving the server
     public class NadekoBot
     {
         private Logger _log;
