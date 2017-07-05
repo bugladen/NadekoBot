@@ -136,6 +136,8 @@ namespace NadekoBot.Services.Music
             this._musicService = musicService;
             this._google = google;
 
+            _log.Info("Initialized");
+
             _player = Task.Run(async () =>
              {
                  while (!Exited)
@@ -193,7 +195,6 @@ namespace NadekoBot.Services.Music
                              while ((bytesRead = b.Read(buffer, 0, buffer.Length)) > 0
                              && (MaxPlaytimeSeconds <= 0 || MaxPlaytimeSeconds >= CurrentTime.TotalSeconds))
                              {
-                                 _log.Info("Sending stuff");
                                  AdjustVolume(buffer, Volume);
                                  await pcm.WriteAsync(buffer, 0, bytesRead, cancelToken).ConfigureAwait(false);
                                  unchecked { _bytesSent += bytesRead; }
@@ -313,8 +314,8 @@ namespace NadekoBot.Services.Music
                      }
                      do
                      {
-                         await Task.Delay(500);
                          _log.Info("Waiting for something to happen");
+                         await Task.Delay(500);
                      }
                      while ((Queue.Count == 0 || Stopped) && !Exited);
                  }
@@ -346,7 +347,11 @@ namespace NadekoBot.Services.Music
                         var t = _audioClient?.StopAsync();
                         if (t != null)
                         {
+
+                            _log.Info("Stopping audio client");
                             await t;
+
+                            _log.Info("Disposing audio client");
                             _audioClient.Dispose();
                         }
                     }
@@ -354,13 +359,19 @@ namespace NadekoBot.Services.Music
                     {
                     }
                     newVoiceChannel = false;
+
+                    _log.Info("Get current user");
                     var curUser = await VoiceChannel.Guild.GetCurrentUserAsync();
                     if (curUser.VoiceChannel != null)
                     {
+                        _log.Info("Connecting");
                         var ac = await VoiceChannel.ConnectAsync();
+                        _log.Info("Connected, stopping");
                         await ac.StopAsync();
+                        _log.Info("Disconnected");
                         await Task.Delay(1000);
                     }
+                    _log.Info("Connecting");
                     _audioClient = await VoiceChannel.ConnectAsync();
                 }
                 catch

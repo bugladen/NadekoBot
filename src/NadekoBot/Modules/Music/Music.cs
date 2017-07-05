@@ -36,7 +36,7 @@ namespace NadekoBot.Modules.Music
             _db = db;
             _music = music;
 
-            _client.UserVoiceStateUpdated += Client_UserVoiceStateUpdated;
+            //_client.UserVoiceStateUpdated += Client_UserVoiceStateUpdated;
             _client.LeftGuild += _client_LeftGuild;
         }
 
@@ -47,54 +47,54 @@ namespace NadekoBot.Modules.Music
         }
 
         //todo changing server region is bugged again
-        private Task Client_UserVoiceStateUpdated(SocketUser iusr, SocketVoiceState oldState, SocketVoiceState newState)
-        {
-            var t = Task.Run(() =>
-            {
-                var usr = iusr as SocketGuildUser;
-                if (usr == null ||
-                    oldState.VoiceChannel == newState.VoiceChannel)
-                    return;
+        //private Task Client_UserVoiceStateUpdated(SocketUser iusr, SocketVoiceState oldState, SocketVoiceState newState)
+        //{
+        //    var t = Task.Run(() =>
+        //    {
+        //        var usr = iusr as SocketGuildUser;
+        //        if (usr == null ||
+        //            oldState.VoiceChannel == newState.VoiceChannel)
+        //            return;
 
-                var player = _music.GetPlayerOrDefault(usr.Guild.Id);
+        //        var player = _music.GetPlayerOrDefault(usr.Guild.Id);
 
-                if (player == null)
-                    return;
+        //        if (player == null)
+        //            return;
 
-                try
-                {
-                    //if bot moved
-                    if ((player.VoiceChannel == oldState.VoiceChannel) &&
-                            usr.Id == _client.CurrentUser.Id)
-                    {
-                        //if (player.Paused && newState.VoiceChannel.Users.Count > 1) //unpause if there are people in the new channel
-                        //    player.TogglePause();
-                        //else if (!player.Paused && newState.VoiceChannel.Users.Count <= 1) // pause if there are no users in the new channel
-                        //    player.TogglePause();
+        //        try
+        //        {
+        //            //if bot moved
+        //            if ((player.VoiceChannel == oldState.VoiceChannel) &&
+        //                    usr.Id == _client.CurrentUser.Id)
+        //            {
+        //                //if (player.Paused && newState.VoiceChannel.Users.Count > 1) //unpause if there are people in the new channel
+        //                //    player.TogglePause();
+        //                //else if (!player.Paused && newState.VoiceChannel.Users.Count <= 1) // pause if there are no users in the new channel
+        //                //    player.TogglePause();
                        
-                       // player.SetVoiceChannel(newState.VoiceChannel);
-                        return;
-                    }
+        //               // player.SetVoiceChannel(newState.VoiceChannel);
+        //                return;
+        //            }
 
-                    ////if some other user moved
-                    //if ((player.VoiceChannel == newState.VoiceChannel && //if joined first, and player paused, unpause 
-                    //        player.Paused &&
-                    //        newState.VoiceChannel.Users.Count >= 2) ||  // keep in mind bot is in the channel (+1)
-                    //    (player.VoiceChannel == oldState.VoiceChannel && // if left last, and player unpaused, pause
-                    //        !player.Paused &&
-                    //        oldState.VoiceChannel.Users.Count == 1))
-                    //{
-                    //    player.TogglePause();
-                    //    return;
-                    //}
-                }
-                catch
-                {
-                    // ignored
-                }
-            });
-            return Task.CompletedTask;
-        }
+        //            ////if some other user moved
+        //            //if ((player.VoiceChannel == newState.VoiceChannel && //if joined first, and player paused, unpause 
+        //            //        player.Paused &&
+        //            //        newState.VoiceChannel.Users.Count >= 2) ||  // keep in mind bot is in the channel (+1)
+        //            //    (player.VoiceChannel == oldState.VoiceChannel && // if left last, and player unpaused, pause
+        //            //        !player.Paused &&
+        //            //        oldState.VoiceChannel.Users.Count == 1))
+        //            //{
+        //            //    player.TogglePause();
+        //            //    return;
+        //            //}
+        //        }
+        //        catch
+        //        {
+        //            // ignored
+        //        }
+        //    });
+        //    return Task.CompletedTask;
+        //}
 
         private async Task InternalQueue(MusicPlayer mp, SongInfo songInfo, bool silent)
         {

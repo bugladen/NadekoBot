@@ -76,6 +76,7 @@ namespace NadekoBot.Services.Music
             string GetText(string text, params object[] replacements) =>
                 _strings.GetText(text, _localization.GetCultureInfo(textCh.Guild), "Music".ToLowerInvariant(), replacements);
 
+            _log.Info("Checks");
             if (voiceCh == null || voiceCh.Guild != textCh.Guild)
             {
                 if (textCh != null)
@@ -84,14 +85,18 @@ namespace NadekoBot.Services.Music
                 }
                 throw new ArgumentException(nameof(voiceCh));
             }
-
+            _log.Info("Get or add");
             return MusicPlayers.GetOrAdd(guildId, _ =>
             {
+                _log.Info("Getting default volume");
                 var vol = GetDefaultVolume(guildId);
+                _log.Info("Creating musicplayer instance");
                 var mp = new MusicPlayer(this, _google, voiceCh, textCh, vol);
 
                 IUserMessage playingMessage = null;
                 IUserMessage lastFinishedMessage = null;
+
+                _log.Info("Subscribing");
                 mp.OnCompleted += async (s, song) =>
                 {
                     try
@@ -158,7 +163,7 @@ namespace NadekoBot.Services.Music
                         // ignored
                     }
                 };
-                
+                _log.Info("Done creating");
                 return mp;
             });
         }
