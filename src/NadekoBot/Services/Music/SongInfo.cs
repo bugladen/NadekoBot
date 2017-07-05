@@ -14,7 +14,7 @@ namespace NadekoBot.Services.Music
         public MusicType ProviderType { get; set; }
         public string Query { get; set; }
         public string Title { get; set; }
-        public string Uri { get; set; }
+        public Func<Task<string>> Uri { get; set; }
         public string AlbumArt { get; set; }
         public string QueuerName { get; set; }
         public TimeSpan TotalTime { get; set; } = TimeSpan.Zero;

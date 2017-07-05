@@ -234,23 +234,23 @@ namespace NadekoBot.Services.Music
             return await SongInfoFromSVideo(svideo, queuerName);
         }
 
-        public async Task<SongInfo> SongInfoFromSVideo(SoundCloudVideo svideo, string queuerName) =>
-            new SongInfo
+        public Task<SongInfo> SongInfoFromSVideo(SoundCloudVideo svideo, string queuerName) =>
+            Task.FromResult(new SongInfo
             {
                 Title = svideo.FullName,
                 Provider = "SoundCloud",
-                Uri = await svideo.StreamLink().ConfigureAwait(false),
+                Uri = () => svideo.StreamLink(),
                 ProviderType = MusicType.Soundcloud,
                 Query = svideo.TrackLink,
                 AlbumArt = svideo.artwork_url,
                 QueuerName = queuerName
-            };
+            });
 
     public SongInfo ResolveLocalSong(string query, string queuerName)
         {
             return new SongInfo
             {
-                Uri = "\"" + Path.GetFullPath(query) + "\"",
+                Uri = () => Task.FromResult("\"" + Path.GetFullPath(query) + "\""),
                 Title = Path.GetFileNameWithoutExtension(query),
                 Provider = "Local File",
                 ProviderType = MusicType.Local,
@@ -263,7 +263,7 @@ namespace NadekoBot.Services.Music
         {
             return new SongInfo
             {
-                Uri = query,
+                Uri = () => Task.FromResult(query),
                 Title = query,
                 Provider = "Radio Stream",
                 ProviderType = MusicType.Radio,
@@ -282,18 +282,7 @@ namespace NadekoBot.Services.Music
 
         public async Task<SongInfo> ResolveYoutubeSong(string query, string queuerName)
         {
-            var link = (await _google.GetVideoLinksByKeywordAsync(query).ConfigureAwait(false)).FirstOrDefault();
-            if (string.IsNullOrWhiteSpace(link))
-            {
-                _log.Info("No song found.");
-                return null;
-            }
-            var allVideos = await Task.Run(async () => { try { return await YouTube.Default.GetAllVideosAsync(link).ConfigureAwait(false); } catch { return Enumerable.Empty<YouTubeVideo>(); } }).ConfigureAwait(false);
-            var videos = allVideos.Where(v => v.AdaptiveKind == AdaptiveKind.Audio);
-            var video = videos
-                .Where(v => v.AudioBitrate < 256)
-                .OrderByDescending(v => v.AudioBitrate)
-                .FirstOrDefault();
+            var (link, video) = await GetYoutubeVideo(query);
 
             if (video == null) // do something with this error
             {
@@ -309,12 +298,36 @@ namespace NadekoBot.Services.Music
             {
                 Title = video.Title.Substring(0, video.Title.Length - 10), // removing trailing "- You Tube"
                 Provider = "YouTube",
-                Uri = await video.GetUriAsync().ConfigureAwait(false),
+                Uri = async () => {
+                    var vid = await GetYoutubeVideo(query);
+                    if (vid.Item2 == null)
+                        throw new HttpRequestException();
+
+                    return await vid.Item2.GetUriAsync();
+                },
                 Query = link,
                 ProviderType = MusicType.YouTube,
                 QueuerName = queuerName
             };
             return song;
+        }
+
+        private async Task<(string, YouTubeVideo)> GetYoutubeVideo(string query)
+        {
+            var link = (await _google.GetVideoLinksByKeywordAsync(query).ConfigureAwait(false)).FirstOrDefault();
+            if (string.IsNullOrWhiteSpace(link))
+            {
+                _log.Info("No song found.");
+                return (null, null);
+            }
+            var allVideos = await Task.Run(async () => { try { return await YouTube.Default.GetAllVideosAsync(link).ConfigureAwait(false); } catch { return Enumerable.Empty<YouTubeVideo>(); } }).ConfigureAwait(false);
+            var videos = allVideos.Where(v => v.AdaptiveKind == AdaptiveKind.Audio);
+            var video = videos
+                .Where(v => v.AudioBitrate < 256)
+                .OrderByDescending(v => v.AudioBitrate)
+                .FirstOrDefault();
+
+            return (link, video);
         }
 
         private bool IsRadioLink(string query) =>

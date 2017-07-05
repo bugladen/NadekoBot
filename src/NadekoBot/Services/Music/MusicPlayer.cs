@@ -154,7 +154,7 @@ namespace NadekoBot.Services.Music
                          continue;
 
                      _log.Info("Starting");
-                     using (var b = new SongBuffer(data.Song.Uri, ""))
+                     using (var b = new SongBuffer(await data.Song.Uri(), ""))
                      {
                          AudioOutStream pcm = null;
                          try

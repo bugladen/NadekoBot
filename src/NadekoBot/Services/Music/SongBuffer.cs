@@ -24,6 +24,7 @@ namespace NadekoBot.Services.Music
         public SongBuffer(string songUri, string skipTo)
         {
             _log = LogManager.GetCurrentClassLogger();
+            _log.Warn(songUri);
             this.SongUri = songUri;
 
             this.p = StartFFmpegProcess(songUri, 0);
