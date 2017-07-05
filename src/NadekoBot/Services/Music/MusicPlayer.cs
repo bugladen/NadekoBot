@@ -180,6 +180,7 @@ namespace NadekoBot.Services.Music
                                  // i don't want to spam connection attempts
                                  continue;
                              }
+                             pcm = ac.CreatePCMStream(AudioApplication.Music, bufferMillis: 500);
                              OnStarted?.Invoke(this, data);
 
                              byte[] buffer = new byte[3840];
