@@ -1,6 +1,7 @@
 ﻿using Discord.Commands;
 using System.Threading.Tasks;
 using NadekoBot.Modules.Permissions;
+using System;
 
 namespace NadekoBot.TypeReaders
 {
@@ -9,7 +10,7 @@ namespace NadekoBot.TypeReaders
     /// </summary>
     public class PermissionActionTypeReader : TypeReader
     {
-        public override Task<TypeReaderResult> Read(ICommandContext context, string input)
+        public override Task<TypeReaderResult> Read(ICommandContext context, string input, IServiceProvider _)
         {
             input = input.ToUpperInvariant();
             switch (input)

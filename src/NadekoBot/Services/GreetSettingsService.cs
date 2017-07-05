@@ -139,7 +139,7 @@ namespace NadekoBot.Services
 
                     if (conf.SendDmGreetMessage)
                     {
-                        var channel = await user.CreateDMChannelAsync();
+                        var channel = await user.GetOrCreateDMChannelAsync();
 
                         if (channel != null)
                         {

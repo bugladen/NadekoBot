@@ -67,7 +67,7 @@ namespace NadekoBot.Services.Utility
                     var user = _client.GetGuild(r.ServerId).GetUser(r.ChannelId);
                     if (user == null)
                         return;
-                    ch = await user.CreateDMChannelAsync().ConfigureAwait(false);
+                    ch = await user.GetOrCreateDMChannelAsync().ConfigureAwait(false);
                 }
                 else
                 {

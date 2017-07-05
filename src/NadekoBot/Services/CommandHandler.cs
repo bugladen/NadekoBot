@@ -355,7 +355,7 @@ namespace NadekoBot.Services
                     }
                 }
 
-                var execResult = await commands[i].ExecuteAsync(context, parseResult, serviceProvider);
+                var execResult = (ExecuteResult)(await commands[i].ExecuteAsync(context, parseResult, serviceProvider));
                 if (execResult.Exception != null && (!(execResult.Exception is HttpException he) || he.DiscordCode != 50013))
                 {
                     lock (errorLogLock)

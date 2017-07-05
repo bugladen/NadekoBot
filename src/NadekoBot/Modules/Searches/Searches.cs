@@ -667,7 +667,7 @@ namespace NadekoBot.Modules.Searches
             str += new NadekoRandom().Next();
             foreach (var usr in allUsrsArray)
             {
-                await (await usr.CreateDMChannelAsync()).SendConfirmAsync(str).ConfigureAwait(false);
+                await (await usr.GetOrCreateDMChannelAsync()).SendConfirmAsync(str).ConfigureAwait(false);
             }
         }
 

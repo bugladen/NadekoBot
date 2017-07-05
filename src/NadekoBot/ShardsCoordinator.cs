@@ -22,7 +22,8 @@ namespace NadekoBot
         private readonly Logger _log;
         private readonly ShardComServer _comServer;
         private readonly int _port;
-        
+        private readonly int _curProcessId;
+
         public ShardsCoordinator(int port)
         {
             LogSetup.SetupLogger();
@@ -36,6 +37,8 @@ namespace NadekoBot
             _comServer.Start();
 
             _comServer.OnDataReceived += _comServer_OnDataReceived;
+
+            _curProcessId = Process.GetCurrentProcess().Id;
         }
 
         private Task _comServer_OnDataReceived(ShardComMessage msg)
@@ -49,13 +52,12 @@ namespace NadekoBot
 
         public async Task RunAsync()
         {
-            var curProcessId = Process.GetCurrentProcess().Id;
             for (int i = 1; i < Credentials.TotalShards; i++)
             {
                 var p = Process.Start(new ProcessStartInfo()
                 {
                     FileName = Credentials.ShardRunCommand,
-                    Arguments = string.Format(Credentials.ShardRunArguments, i, curProcessId, _port)
+                    Arguments = string.Format(Credentials.ShardRunArguments, i, _curProcessId, _port)
                 });
                 await Task.Delay(5000);
             }

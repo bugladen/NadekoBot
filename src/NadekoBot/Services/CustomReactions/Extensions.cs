@@ -81,7 +81,7 @@ namespace NadekoBot.Services.CustomReactions
 
         public static async Task<IUserMessage> Send(this CustomReaction cr, IUserMessage ctx, DiscordSocketClient client, CustomReactionsService crs)
         {
-            var channel = cr.DmResponse ? await ctx.Author.CreateDMChannelAsync() : ctx.Channel;
+            var channel = cr.DmResponse ? await ctx.Author.GetOrCreateDMChannelAsync() : ctx.Channel;
 
             crs.ReactionStats.AddOrUpdate(cr.Trigger, 1, (k, old) => ++old);
 
