@@ -272,6 +272,14 @@ namespace NadekoBot.Services.Music
             };
         }
 
+        public async Task DestroyAllPlayers()
+        {
+            foreach (var key in MusicPlayers.Keys)
+            {
+                await DestroyPlayer(key);
+            }
+        }
+
         public async Task<SongInfo> ResolveYoutubeSong(string query, string queuerName)
         {
             var link = (await _google.GetVideoLinksByKeywordAsync(query).ConfigureAwait(false)).FirstOrDefault();
