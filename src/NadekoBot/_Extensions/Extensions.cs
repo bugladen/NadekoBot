@@ -237,12 +237,20 @@ namespace NadekoBot.Extensions
              => await (await user.GetOrCreateDMChannelAsync()).SendMessageAsync("", embed: new EmbedBuilder().WithOkColor().WithDescription(text));
 
         public static async Task<IUserMessage> SendConfirmAsync(this IUser user, string title, string text, string url = null)
-             => await (await user.GetOrCreateDMChannelAsync()).SendMessageAsync("", embed: new EmbedBuilder().WithOkColor().WithDescription(text)
-                 .WithTitle(title).WithUrl(url));
+        {
+            var eb = new EmbedBuilder().WithOkColor().WithDescription(text);
+            if (url != null && Uri.IsWellFormedUriString(url, UriKind.Absolute))
+                eb.WithUrl(url);
+            return await (await user.GetOrCreateDMChannelAsync()).SendMessageAsync("", embed: eb);
+        }
 
         public static async Task<IUserMessage> SendErrorAsync(this IUser user, string title, string error, string url = null)
-             => await (await user.GetOrCreateDMChannelAsync()).SendMessageAsync("", embed: new EmbedBuilder().WithErrorColor().WithDescription(error)
-                 .WithTitle(title).WithUrl(url));
+        {
+            var eb = new EmbedBuilder().WithErrorColor().WithDescription(error);
+            if (url != null && Uri.IsWellFormedUriString(url, UriKind.Absolute))
+                eb.WithUrl(url);
+            return await (await user.GetOrCreateDMChannelAsync()).SendMessageAsync("", embed: eb);
+        }
 
         public static async Task<IUserMessage> SendErrorAsync(this IUser user, string error)
              => await (await user.GetOrCreateDMChannelAsync()).SendMessageAsync("", embed: new EmbedBuilder().WithErrorColor().WithDescription(error));
@@ -260,15 +268,29 @@ namespace NadekoBot.Extensions
              => ch.SendMessageAsync(msg, embed: embed);
 
         public static Task<IUserMessage> SendErrorAsync(this IMessageChannel ch, string title, string error, string url = null, string footer = null)
-             => ch.SendMessageAsync("", embed: new EmbedBuilder().WithErrorColor().WithDescription(error)
-                 .WithTitle(title).WithUrl(url).WithFooter(efb => efb.WithText(footer)));
+        {
+            var eb = new EmbedBuilder().WithErrorColor().WithDescription(error)
+                .WithTitle(title);
+            if (url != null && Uri.IsWellFormedUriString(url, UriKind.Absolute))
+                eb.WithUrl(url);
+            if (!string.IsNullOrWhiteSpace(footer))
+                eb.WithFooter(efb => efb.WithText(footer));
+            return ch.SendMessageAsync("", embed: eb);
+        }
 
         public static Task<IUserMessage> SendErrorAsync(this IMessageChannel ch, string error)
              => ch.SendMessageAsync("", embed: new EmbedBuilder().WithErrorColor().WithDescription(error));
 
         public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string title, string text, string url = null, string footer = null)
-             => ch.SendMessageAsync("", embed: new EmbedBuilder().WithOkColor().WithDescription(text)
-                 .WithTitle(title).WithUrl(url).WithFooter(efb => efb.WithText(footer)));
+        {
+            var eb = new EmbedBuilder().WithOkColor().WithDescription(text)
+                .WithTitle(title);
+            if (url != null && Uri.IsWellFormedUriString(url, UriKind.Absolute))
+                eb.WithUrl(url);
+            if (!string.IsNullOrWhiteSpace(footer))
+                eb.WithFooter(efb => efb.WithText(footer));
+            return ch.SendMessageAsync("", embed: eb);
+        }
 
         public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string text)
              => ch.SendMessageAsync("", embed: new EmbedBuilder().WithOkColor().WithDescription(text));
