@@ -32,6 +32,7 @@ namespace NadekoBot.Modules.Utility
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
+            [RequireContext(ContextType.DM)]
             public async Task PatreonRewardsReload()
             {
                 if (string.IsNullOrWhiteSpace(_creds.PatreonAccessToken))
@@ -42,6 +43,7 @@ namespace NadekoBot.Modules.Utility
             }
 
             [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.DM)]
             public async Task ClaimPatreonRewards()
             {
                 if (string.IsNullOrWhiteSpace(_creds.PatreonAccessToken))
