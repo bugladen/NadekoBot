@@ -5,15 +5,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Collections.Concurrent;
 using NadekoBot.Services;
+using Discord.WebSocket;
 
 namespace NadekoBot.Services.Administration
 {
     public class GuildTimezoneService
     {
+        //hack >.>
+        public static ConcurrentDictionary<ulong, GuildTimezoneService> AllServices { get; } = new ConcurrentDictionary<ulong, GuildTimezoneService>();
         private ConcurrentDictionary<ulong, TimeZoneInfo> _timezones;
         private readonly DbService _db;
 
-        public GuildTimezoneService(IEnumerable<GuildConfig> gcs, DbService db)
+        public GuildTimezoneService(DiscordSocketClient client, IEnumerable<GuildConfig> gcs, DbService db)
         {
             _timezones = gcs
                 .Select(x =>
@@ -36,6 +39,9 @@ namespace NadekoBot.Services.Administration
                 .ToDictionary(x => x.Item1, x => x.Item2)
                 .ToConcurrent();
 
+            var curUser = client.CurrentUser;
+            if (curUser != null)
+                AllServices.TryAdd(curUser.Id, this);
             _db = db;
         }
 

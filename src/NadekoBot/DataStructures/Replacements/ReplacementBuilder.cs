@@ -3,6 +3,7 @@ using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
+using NadekoBot.Services.Administration;
 using NadekoBot.Services.Music;
 using System;
 using System.Collections.Concurrent;
@@ -26,7 +27,7 @@ namespace NadekoBot.DataStructures.Replacements
         {
             return this.WithUser(usr)
                 .WithChannel(ch)
-                .WithServer(g)
+                .WithServer(client, g)
                 .WithClient(client);
         }
 
@@ -41,10 +42,24 @@ namespace NadekoBot.DataStructures.Replacements
             return this;
         }
 
-        public ReplacementBuilder WithServer(IGuild g)
+        public ReplacementBuilder WithServer(DiscordSocketClient client, IGuild g)
         {
+
             _reps.TryAdd("%sid%", () => g == null ? "DM" : g.Id.ToString());
             _reps.TryAdd("%server%", () => g == null ? "DM" : g.Name);
+            _reps.TryAdd("%server_time%", () =>
+            {
+                TimeZoneInfo to = TimeZoneInfo.Local;
+                if (g != null)
+                {
+                    if (GuildTimezoneService.AllServices.TryGetValue(client.CurrentUser.Id, out var tz))
+                        to = tz.GetTimeZoneOrDefault(g.Id) ?? TimeZoneInfo.Local;
+                }
+
+                return TimeZoneInfo.ConvertTime(DateTime.UtcNow,
+                    TimeZoneInfo.Utc,
+                    to).ToString("HH:mm ") + to.StandardName.GetInitials();
+            });
             return this;
         }
 

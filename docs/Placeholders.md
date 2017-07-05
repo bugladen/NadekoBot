@@ -18,6 +18,7 @@ Some features have their own specific placeholders which are noted in that featu
 - `%userdiscrim%` - discriminator (for example 1234)
 - `%rngX-Y%` - Replace X and Y with the range (for example `%rng5-10%` - random between 5 and 10)
 - `%time%` - Bot time
+- `%server_time%` - Time on this server, set with `.timezone` command
 
 **If you're using placeholders in embeds, don't use %user% and  in titles, footers and field names. They will not show properly.**
 
