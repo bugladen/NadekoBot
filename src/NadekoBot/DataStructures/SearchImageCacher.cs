@@ -102,7 +102,7 @@ namespace NadekoBot.DataStructures
                     website = $"https://e621.net/post/index.json?limit=1000&tags={tag}";
                     break;
                 case DapiSearchType.Danbooru:
-                    website = $"https://danbooru.donmai.us/posts.json?limit=200&tags={tag}";
+                    website = $"http://danbooru.donmai.us/posts.json?limit=200&tags={tag}";
                     break;
                 case DapiSearchType.Gelbooru:
                     website = $"http://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=1000&tags={tag}";
