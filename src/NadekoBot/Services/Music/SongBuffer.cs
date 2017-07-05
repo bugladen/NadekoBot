@@ -41,7 +41,7 @@ namespace NadekoBot.Services.Music
             return Process.Start(new ProcessStartInfo
             {
                 FileName = "ffmpeg",
-                Arguments = $"-ss {skipTo:F4} -err_detect ignore_err -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5 -i {songUri} -f s16le -ar 48000 -vn -ac 2 pipe:1 -loglevel error",
+                Arguments = $"-err_detect ignore_err -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5 -i {songUri} -f s16le -ar 48000 -vn -ac 2 pipe:1 -loglevel error",
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
