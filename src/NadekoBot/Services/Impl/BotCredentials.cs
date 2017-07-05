@@ -36,6 +36,8 @@ namespace NadekoBot.Services.Impl
         public string ShardRunArguments { get; }
         public int ShardRunPort { get; }
 
+        public string PatreonCampaignId { get; }
+
         public BotCredentials()
         {
             _log = LogManager.GetCurrentClassLogger();
@@ -64,6 +66,7 @@ namespace NadekoBot.Services.Impl
                 MashapeKey = data[nameof(MashapeKey)];
                 OsuApiKey = data[nameof(OsuApiKey)];
                 PatreonAccessToken = data[nameof(PatreonAccessToken)];
+                PatreonCampaignId = data[nameof(PatreonCampaignId)] ?? "334038";
                 ShardRunCommand = data[nameof(ShardRunCommand)];
                 ShardRunArguments = data[nameof(ShardRunArguments)];
                 if (string.IsNullOrWhiteSpace(ShardRunCommand))
@@ -121,6 +124,7 @@ namespace NadekoBot.Services.Impl
             public DBConfig Db { get; set; } = new DBConfig("sqlite", "Filename=./data/NadekoBot.db");
             public int TotalShards { get; set; } = 1;
             public string PatreonAccessToken { get; set; } = "";
+            public string PatreonCampaignId { get; set; } = "334038";
 
             public string ShardRunCommand { get; set; } = "";
             public string ShardRunArguments { get; set; } = "";

@@ -22,6 +22,7 @@ namespace NadekoBot.Services
         int TotalShards { get; }
         string ShardRunCommand { get; }
         string ShardRunArguments { get; }
+        string PatreonCampaignId { get; }
     }
 
     public class DBConfig

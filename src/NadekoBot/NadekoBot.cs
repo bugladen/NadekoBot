@@ -317,7 +317,21 @@ namespace NadekoBot
             Client.Ready += SetClientReady;
             await clientReady.Task.ConfigureAwait(false);
             Client.Ready -= SetClientReady;
+            Client.JoinedGuild += Client_JoinedGuild;
+            Client.LeftGuild += Client_LeftGuild;
             _log.Info("Shard {0} logged in.", ShardId);
+        }
+
+        private Task Client_LeftGuild(SocketGuild arg)
+        {
+            _log.Info("Left server: {0} [{1}]", arg?.Name, arg?.Id);
+            return Task.CompletedTask;
+        }
+
+        private Task Client_JoinedGuild(SocketGuild arg)
+        {
+            _log.Info("Joined server: {0} [{1}]", arg?.Name, arg?.Id);
+            return Task.CompletedTask;
         }
 
         public async Task RunAsync(params string[] args)

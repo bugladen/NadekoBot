@@ -64,7 +64,7 @@ namespace NadekoBot.Services.Utility
                         {
                             Links = new PatreonDataLinks()
                             {
-                                next = "https://api.patreon.com/oauth2/api/campaigns/334038/pledges"
+                                next = $"https://api.patreon.com/oauth2/api/campaigns/{_creds.PatreonCampaignId}/pledges"
                             }
                         };
                         do
