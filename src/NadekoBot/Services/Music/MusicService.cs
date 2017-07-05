@@ -44,6 +44,7 @@ namespace NadekoBot.Services.Music
             _sc = sc;
             _creds = creds;
             _log = LogManager.GetCurrentClassLogger();
+            _yt = YouTube.Default;
 
             try { Directory.Delete(MusicDataPath, true); } catch { }
 
@@ -329,7 +330,7 @@ namespace NadekoBot.Services.Music
                 return (null, null);
             }
             _log.Info("Getting all videos");
-            var allVideos = await Task.Run(async () => { try { return await YouTube.Default.GetAllVideosAsync(link).ConfigureAwait(false); } catch { return Enumerable.Empty<YouTubeVideo>(); } }).ConfigureAwait(false);
+            var allVideos = await Task.Run(async () => { try { return await _yt.GetAllVideosAsync(link).ConfigureAwait(false); } catch { return Enumerable.Empty<YouTubeVideo>(); } }).ConfigureAwait(false);
             var videos = allVideos.Where(v => v.AdaptiveKind == AdaptiveKind.Audio);
             var video = videos
                 .Where(v => v.AudioBitrate < 256)
@@ -358,6 +359,7 @@ namespace NadekoBot.Services.Music
         private readonly Regex m3uRegex = new Regex("(?<url>^[^#].*)", RegexOptions.Compiled | RegexOptions.Multiline);
         private readonly Regex asxRegex = new Regex("<ref href=\"(?<url>.*?)\"", RegexOptions.Compiled);
         private readonly Regex xspfRegex = new Regex("<location>(?<url>.*?)</location>", RegexOptions.Compiled);
+        private readonly YouTube _yt;
 
         private async Task<string> HandleStreamContainers(string query)
         {
