@@ -156,6 +156,7 @@ namespace NadekoBot.Services.Music
                      _log.Info("Starting");
                      using (var b = new SongBuffer(await data.Song.Uri(), ""))
                      {
+                         _log.Info("Created buffer, buffering...");
                          AudioOutStream pcm = null;
                          try
                          {
@@ -171,16 +172,19 @@ namespace NadekoBot.Services.Music
                                  _log.Info("Buffering failed due to a cancel or error.");
                                  continue;
                              }
-
+                             _log.Info("Buffered. Getting audio client...");
                              var ac = await GetAudioClient();
+                             _log.Info("Got Audio client");
                              if (ac == null)
                              {
+                                 _log.Info("Can't join");
                                  await Task.Delay(900, cancelToken);
                                  // just wait some time, maybe bot doesn't even have perms to join that voice channel, 
                                  // i don't want to spam connection attempts
                                  continue;
                              }
                              pcm = ac.CreatePCMStream(AudioApplication.Music, bufferMillis: 500);
+                             _log.Info("Created pcm stream");
                              OnStarted?.Invoke(this, data);
 
                              byte[] buffer = new byte[3840];
@@ -189,6 +193,7 @@ namespace NadekoBot.Services.Music
                              while ((bytesRead = b.Read(buffer, 0, buffer.Length)) > 0
                              && (MaxPlaytimeSeconds <= 0 || MaxPlaytimeSeconds >= CurrentTime.TotalSeconds))
                              {
+                                 _log.Info("Sending stuff");
                                  AdjustVolume(buffer, Volume);
                                  await pcm.WriteAsync(buffer, 0, bytesRead, cancelToken).ConfigureAwait(false);
                                  unchecked { _bytesSent += bytesRead; }
@@ -309,6 +314,7 @@ namespace NadekoBot.Services.Music
                      do
                      {
                          await Task.Delay(500);
+                         _log.Info("Waiting for something to happen");
                      }
                      while ((Queue.Count == 0 || Stopped) && !Exited);
                  }

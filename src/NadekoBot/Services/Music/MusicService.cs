@@ -282,6 +282,7 @@ namespace NadekoBot.Services.Music
 
         public async Task<SongInfo> ResolveYoutubeSong(string query, string queuerName)
         {
+            _log.Info("Getting video");
             var (link, video) = await GetYoutubeVideo(query);
 
             if (video == null) // do something with this error
@@ -293,7 +294,8 @@ namespace NadekoBot.Services.Music
             //int gotoTime = 0;
             //if (m.Captures.Count > 0)
             //    int.TryParse(m.Groups["t"].ToString(), out gotoTime);
-            
+
+            _log.Info("Creating song info");
             var song = new SongInfo
             {
                 Title = video.Title.Substring(0, video.Title.Length - 10), // removing trailing "- You Tube"
@@ -314,12 +316,14 @@ namespace NadekoBot.Services.Music
 
         private async Task<(string, YouTubeVideo)> GetYoutubeVideo(string query)
         {
+            _log.Info("Getting link");
             var link = (await _google.GetVideoLinksByKeywordAsync(query).ConfigureAwait(false)).FirstOrDefault();
             if (string.IsNullOrWhiteSpace(link))
             {
                 _log.Info("No song found.");
                 return (null, null);
             }
+            _log.Info("Getting all videos");
             var allVideos = await Task.Run(async () => { try { return await YouTube.Default.GetAllVideosAsync(link).ConfigureAwait(false); } catch { return Enumerable.Empty<YouTubeVideo>(); } }).ConfigureAwait(false);
             var videos = allVideos.Where(v => v.AdaptiveKind == AdaptiveKind.Audio);
             var video = videos
