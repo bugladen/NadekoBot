@@ -62,8 +62,8 @@ namespace NadekoBot.Modules.Searches
                             .AddField(fb => fb.WithName(GetText("quick_wins")).WithValue(qp.OverallStats.wins.ToString()).WithIsInline(true))
                             .AddField(fb => fb.WithName(GetText("compet_wins")).WithValue(compet.OverallStats.wins.ToString()).WithIsInline(true))
                             .AddField(fb => fb.WithName(GetText("compet_loses")).WithValue(compet.OverallStats.losses.ToString()).WithIsInline(true))
-                            .AddField(fb => fb.WithName(GetText("compet_played")).WithValue(compet.OverallStats.games.ToString()).WithIsInline(true))
-                            .AddField(fb => fb.WithName(GetText("compet_rank")).WithValue(compet.OverallStats.comprank.ToString()).WithIsInline(true))
+                            .AddField(fb => fb.WithName(GetText("compet_played")).WithValue(compet.OverallStats.games.ToString() ?? "-").WithIsInline(true))
+                            .AddField(fb => fb.WithName(GetText("compet_rank")).WithValue(compet.OverallStats.comprank?.ToString() ?? "-").WithIsInline(true))
                             .AddField(fb => fb.WithName(GetText("compet_playtime")).WithValue(compet.GameStats.timePlayed + "hrs").WithIsInline(true))
                             .AddField(fb => fb.WithName(GetText("quick_playtime")).WithValue(qp.GameStats.timePlayed.ToString("F1") + "hrs").WithIsInline(true))
                             .WithColor(NadekoBot.OkColor);
