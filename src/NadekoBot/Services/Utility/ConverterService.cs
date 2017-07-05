@@ -25,33 +25,41 @@ namespace NadekoBot.Services.Utility
         {
             _log = LogManager.GetCurrentClassLogger();
             _db = db;
-            try
-            {
-                var data = JsonConvert.DeserializeObject<List<MeasurementUnit>>(
-                    File.ReadAllText("data/units.json"))
-                        .Select(u => new ConvertUnit()
-                        {
-                            Modifier = u.Modifier,
-                            UnitType = u.UnitType,
-                            InternalTrigger = string.Join("|", u.Triggers)
-                        }).ToArray();
 
-                using (var uow = _db.UnitOfWork)
+            if (client.ShardId == 0)
+            {
+                try
                 {
-                    if (uow.ConverterUnits.Empty())
+                    var data = JsonConvert.DeserializeObject<List<MeasurementUnit>>(
+                        File.ReadAllText("data/units.json"))
+                            .Select(u => new ConvertUnit()
+                            {
+                                Modifier = u.Modifier,
+                                UnitType = u.UnitType,
+                                InternalTrigger = string.Join("|", u.Triggers)
+                            }).ToArray();
+
+                    using (var uow = _db.UnitOfWork)
                     {
-                        uow.ConverterUnits.AddRange(data);
-                        uow.Complete();
+                        if (uow.ConverterUnits.Empty())
+                        {
+                            uow.ConverterUnits.AddRange(data);
+
+                            Units = uow.ConverterUnits.GetAll().ToList();
+                            uow.Complete();
+                        }
                     }
                 }
-                Units = data.ToList();
-            }
-            catch (Exception ex)
-            {
-                _log.Warn("Could not load units: " + ex.Message);
+                catch (Exception ex)
+                {
+                    _log.Warn("Could not load units: " + ex.Message);
+                }
             }
 
-            _currencyUpdater = new Timer(async (shouldLoad) => await UpdateCurrency((bool)shouldLoad), client.ShardId == 0, _updateInterval, _updateInterval);
+            _currencyUpdater = new Timer(async (shouldLoad) => await UpdateCurrency((bool)shouldLoad), 
+                client.ShardId == 0, 
+                TimeSpan.FromSeconds(1), 
+                _updateInterval);
         }
 
         private async Task<Rates> GetCurrencyRates()
