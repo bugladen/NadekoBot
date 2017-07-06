@@ -21,11 +21,12 @@ namespace NadekoBot.Services.Music
 
         //private volatile bool restart = false;
 
-        public SongBuffer(string songUri, string skipTo)
+        public SongBuffer(string songUri, string skipTo, bool isLocal)
         {
             _log = LogManager.GetCurrentClassLogger();
             //_log.Warn(songUri);
             this.SongUri = songUri;
+            this._isLocal = isLocal;
 
             this.p = StartFFmpegProcess(songUri, 0);
             var t = Task.Run(() =>
@@ -38,10 +39,14 @@ namespace NadekoBot.Services.Music
 
         private Process StartFFmpegProcess(string songUri, float skipTo = 0)
         {
+            var args = $"-err_detect ignore_err -i {songUri} -f s16le -ar 48000 -vn -ac 2 pipe:1 -loglevel error";
+            if (!_isLocal)
+                args = "-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5 " + args;
+
             return Process.Start(new ProcessStartInfo
             {
                 FileName = "ffmpeg",
-                Arguments = $"-err_detect ignore_err -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5 -i {songUri} -f s16le -ar 48000 -vn -ac 2 pipe:1 -loglevel error",
+                Arguments = args,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
@@ -62,6 +67,8 @@ namespace NadekoBot.Services.Music
         }
 
         private readonly object locker = new object();
+        private readonly bool _isLocal;
+
         public Task<bool> StartBuffering(CancellationToken cancelToken)
         {
             var toReturn = new TaskCompletionSource<bool>();
