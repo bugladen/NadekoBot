@@ -324,7 +324,6 @@ namespace NadekoBot.Services.Music
 
         private async Task<SongInfo> GetYoutubeVideo(string query, string queuerName)
         {
-
             _log.Info("Getting link");
             string[] data;
             try
@@ -346,7 +345,18 @@ namespace NadekoBot.Services.Music
                 {
                     Title = data[0],
                     VideoId = data[1],
-                    Uri = () => Task.FromResult(data[2]),
+                    Uri = async () => {
+                        using (var ytdl = new YtdlOperation())
+                        {
+                            data = (await ytdl.GetDataAsync(query)).Split('\n');
+                        }
+                        if (data.Length < 6)
+                        {
+                            _log.Info("No song found. Data less than 6");
+                            return null;
+                        }
+                        return data[2];
+                    },
                     AlbumArt = data[3],
                     TotalTime = time,
                     QueuerName = queuerName,

@@ -1,20 +1,13 @@
 ﻿using NLog;
-using NYoutubeDL;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Services.Impl
 {
     public class YtdlOperation : IDisposable
     {
-        private readonly TaskCompletionSource<string> _endedCompletionSource;
-        private string output { get; set; }
+        private readonly Logger _log;
 
         public YtdlOperation()
         {
@@ -25,7 +18,6 @@ namespace NadekoBot.Services.Impl
         {
             using (Process process = new Process()
             {
-
                 StartInfo = new ProcessStartInfo()
                 {
                     FileName = "youtube-dl",
@@ -40,22 +32,14 @@ namespace NadekoBot.Services.Impl
                 process.Start();
                 var str = await process.StandardOutput.ReadToEndAsync();
                 var err = await process.StandardError.ReadToEndAsync();
-                _log.Info(str);
-                _log.Info(err);
+                _log.Warn(err);
                 return str;
             }
         }
 
-        private int cnt;
-        private Timer _timeoutTimer;
-        private Process p;
-        private readonly Logger _log;
-
         public void Dispose()
         {
-            //_timeoutTimer.Change(Timeout.Infinite, Timeout.Infinite);
-            //_timeoutTimer.Dispose();
-            try { this.p?.Kill(); } catch { }
+
         }
     }
 }
