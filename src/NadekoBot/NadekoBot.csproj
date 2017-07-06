@@ -74,6 +74,7 @@
     <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
     <PackageReference Include="NLog" Version="5.0.0-beta03" />
+    <PackageReference Include="NYoutubeDL" Version="0.4.4" />
     <PackageReference Include="System.ValueTuple" Version="4.4.0-preview1-25305-02" />
     <PackageReference Include="System.Xml.XPath" Version="4.3.0" />
   </ItemGroup>

@@ -73,36 +73,38 @@ namespace NadekoBot
             {
                 _log.Error(ex);
             }
-            await Task.Run(() =>
-            {
-                string input;
-                while ((input = Console.ReadLine()?.ToLowerInvariant()) != "quit")
-                {
-                    try
-                    {
-                        switch (input)
-                        {
-                            case "ls":
-                                var groupStr = string.Join(",", Statuses
-                                    .ToArray()
-                                    .Where(x => x != null)
-                                    .GroupBy(x => x.ConnectionState)
-                                    .Select(x => x.Count() + " " + x.Key));
-                                _log.Info(string.Join("\n", Statuses
-                                    .ToArray()
-                                    .Where(x => x != null)
-                                    .Select(x => $"Shard {x.ShardId} is in {x.ConnectionState.ToString()} state with {x.Guilds} servers. {(DateTime.UtcNow - x.Time).ToString(@"hh\:mm\:ss")} ago")) + "\n" + groupStr);
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        _log.Warn(ex);
-                    }
-                }
-            });
+            //await Task.Run(() =>
+            //{
+            //    string input;
+            //    while ((input = Console.ReadLine()?.ToLowerInvariant()) != "quit")
+            //    {
+            //        try
+            //        {
+            //            switch (input)
+            //            {
+            //                case "ls":
+            //                    var groupStr = string.Join(",", Statuses
+            //                        .ToArray()
+            //                        .Where(x => x != null)
+            //                        .GroupBy(x => x.ConnectionState)
+            //                        .Select(x => x.Count() + " " + x.Key));
+            //                    _log.Info(string.Join("\n", Statuses
+            //                        .ToArray()
+            //                        .Where(x => x != null)
+            //                        .Select(x => $"Shard {x.ShardId} is in {x.ConnectionState.ToString()} state with {x.Guilds} servers. {(DateTime.UtcNow - x.Time).ToString(@"hh\:mm\:ss")} ago")) + "\n" + groupStr);
+            //                    break;
+            //                default:
+            //                    break;
+            //            }
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            _log.Warn(ex);
+            //        }
+            //    }
+            //});
+
+            await Task.Delay(-1);
             foreach (var p in ShardProcesses)
             {
                 try { p.Kill(); } catch { }

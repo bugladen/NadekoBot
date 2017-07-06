@@ -9,7 +9,7 @@ namespace NadekoBot.DataStructures
         // readpos == writepos means empty
         // writepos == readpos - 1 means full 
 
-        private readonly byte[] buffer;
+        private byte[] buffer;
         public int Capacity { get; }
 
         private int _readPos = 0;
@@ -110,7 +110,7 @@ namespace NadekoBot.DataStructures
 
         public void Dispose()
         {
-
+            buffer = null;
         }
     }
 }

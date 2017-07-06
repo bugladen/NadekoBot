@@ -161,7 +161,7 @@ namespace NadekoBot.Services.Music
                     continue;
 
                 _log.Info("Starting");
-                using (var b = new SongBuffer(await data.Song.Uri(), ""))
+                using (var b = new SongBuffer(await data.Song.Uri(), "", data.Song.ProviderType == Database.Models.MusicType.Local))
                 {
                     _log.Info("Created buffer, buffering...");
                     AudioOutStream pcm = null;
