@@ -89,12 +89,13 @@ namespace NadekoBot.Modules.Games.Trivia
                     questionEmbed = new EmbedBuilder().WithOkColor()
                         .WithTitle(GetText("trivia_game"))
                         .AddField(eab => eab.WithName(GetText("category")).WithValue(CurrentQuestion.Category))
-                        .AddField(eab => eab.WithName(GetText("question")).WithValue(CurrentQuestion.Question))
-                        .WithImageUrl(CurrentQuestion.ImageUrl);
+                        .AddField(eab => eab.WithName(GetText("question")).WithValue(CurrentQuestion.Question));
+                    if (Uri.IsWellFormedUriString(CurrentQuestion.ImageUrl, UriKind.Absolute))
+                        questionEmbed.WithImageUrl(CurrentQuestion.ImageUrl);
 
                     questionMessage = await Channel.EmbedAsync(questionEmbed).ConfigureAwait(false);
                 }
-                catch (HttpException ex) when (ex.HttpCode == System.Net.HttpStatusCode.NotFound || 
+                catch (HttpException ex) when (ex.HttpCode == System.Net.HttpStatusCode.NotFound ||
                                                ex.HttpCode == System.Net.HttpStatusCode.Forbidden ||
                                                ex.HttpCode == System.Net.HttpStatusCode.BadRequest)
                 {
@@ -145,11 +146,13 @@ namespace NadekoBot.Modules.Games.Trivia
                 {
                     try
                     {
-                        await Channel.EmbedAsync(new EmbedBuilder().WithErrorColor()
+                        var embed = new EmbedBuilder().WithErrorColor()
                             .WithTitle(GetText("trivia_game"))
-                            .WithDescription(GetText("trivia_times_up", Format.Bold(CurrentQuestion.Answer)))
-                            .WithImageUrl(CurrentQuestion.AnswerImageUrl))
-                            .ConfigureAwait(false);
+                            .WithDescription(GetText("trivia_times_up", Format.Bold(CurrentQuestion.Answer)));
+                        if (Uri.IsWellFormedUriString(CurrentQuestion.AnswerImageUrl, UriKind.Absolute))
+                            embed.WithImageUrl(CurrentQuestion.AnswerImageUrl);
+
+                        await Channel.EmbedAsync(embed).ConfigureAwait(false);
                     }
                     catch (Exception ex)
                     {
@@ -215,13 +218,14 @@ namespace NadekoBot.Modules.Games.Trivia
                         ShouldStopGame = true;
                         try
                         {
-                            await Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                            var embedS = new EmbedBuilder().WithOkColor()
                                 .WithTitle(GetText("trivia_game"))
                                 .WithDescription(GetText("trivia_win",
                                     guildUser.Mention,
-                                    Format.Bold(CurrentQuestion.Answer)))
-                                .WithImageUrl(CurrentQuestion.AnswerImageUrl))
-                                .ConfigureAwait(false);
+                                    Format.Bold(CurrentQuestion.Answer)));
+                            if (Uri.IsWellFormedUriString(CurrentQuestion.AnswerImageUrl, UriKind.Absolute))
+                                embedS.WithImageUrl(CurrentQuestion.AnswerImageUrl);
+                            await Channel.EmbedAsync(embedS).ConfigureAwait(false);
                         }
                         catch
                         {
@@ -232,12 +236,12 @@ namespace NadekoBot.Modules.Games.Trivia
                             await _cs.AddAsync(guildUser, "Won trivia", reward, true).ConfigureAwait(false);
                         return;
                     }
-
-                    await Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                    var embed = new EmbedBuilder().WithOkColor()
                         .WithTitle(GetText("trivia_game"))
-                        .WithDescription(GetText("trivia_guess", guildUser.Mention, Format.Bold(CurrentQuestion.Answer)))
-                        .WithImageUrl(CurrentQuestion.AnswerImageUrl))
-                        .ConfigureAwait(false);
+                        .WithDescription(GetText("trivia_guess", guildUser.Mention, Format.Bold(CurrentQuestion.Answer)));
+                    if (Uri.IsWellFormedUriString(CurrentQuestion.AnswerImageUrl, UriKind.Absolute))
+                        embed.WithImageUrl(CurrentQuestion.AnswerImageUrl);
+                    await Channel.EmbedAsync(embed).ConfigureAwait(false);
                 }
                 catch (Exception ex) { _log.Warn(ex); }
             });

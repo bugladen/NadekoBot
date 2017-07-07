@@ -59,8 +59,9 @@ namespace NadekoBot.Modules.Utility
                     .AddField(fb => fb.WithName(GetText("region")).WithValue(guild.VoiceRegionId.ToString()).WithIsInline(true))
                     .AddField(fb => fb.WithName(GetText("roles")).WithValue((guild.Roles.Count - 1).ToString()).WithIsInline(true))
                     .AddField(fb => fb.WithName(GetText("features")).WithValue(features).WithIsInline(true))
-                    .WithImageUrl(guild.IconUrl)
                     .WithColor(NadekoBot.OkColor);
+                if (Uri.IsWellFormedUriString(guild.IconUrl, UriKind.Absolute))
+                    embed.WithImageUrl(guild.IconUrl);
                 if (guild.Emotes.Any())
                 {
                     embed.AddField(fb => fb.WithName(GetText("custom_emojis") + $"({guild.Emotes.Count})").WithValue(string.Join(" ", guild.Emotes.Shuffle().Take(20).Select(e => $"{e.Name} <:{e.Name}:{e.Id}>"))));
