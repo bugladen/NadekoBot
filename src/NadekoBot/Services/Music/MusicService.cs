@@ -15,6 +15,7 @@ using System.Text.RegularExpressions;
 using System.Net.Http;
 using NadekoBot.Services.Impl;
 using System.Globalization;
+using System.Threading;
 
 namespace NadekoBot.Services.Music
 {
@@ -53,6 +54,8 @@ namespace NadekoBot.Services.Music
             _defaultVolumes = new ConcurrentDictionary<ulong, float>(gcs.ToDictionary(x => x.GuildId, x => x.DefaultMusicVolume));
 
             Directory.CreateDirectory(MusicDataPath);
+
+            _t = new Timer(_ => _log.Info(MusicPlayers.Count(x => x.Value.Current.Current != null)), null, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
         }
 
         public float GetDefaultVolume(ulong guildId)
@@ -407,6 +410,7 @@ namespace NadekoBot.Services.Music
         private readonly Regex asxRegex = new Regex("<ref href=\"(?<url>.*?)\"", RegexOptions.Compiled);
         private readonly Regex xspfRegex = new Regex("<location>(?<url>.*?)</location>", RegexOptions.Compiled);
         private readonly YouTube _yt;
+        private readonly Timer _t;
 
         private async Task<string> HandleStreamContainers(string query)
         {
