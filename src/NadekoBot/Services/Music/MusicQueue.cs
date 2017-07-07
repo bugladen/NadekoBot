@@ -163,5 +163,13 @@ namespace NadekoBot.Services.Music
                 return s;
             }
         }
+
+        public void RemoveSong(SongInfo song)
+        {
+            lock (locker)
+            {
+                Songs.Remove(song);
+            }
+        }
     }
 }

@@ -113,6 +113,8 @@ namespace NadekoBot.Services.Music
         private bool newVoiceChannel = false;
         private readonly IGoogleApiService _google;
 
+        private bool cancel = false;
+
         private ConcurrentHashSet<string> RecentlyPlayedUsers { get; } = new ConcurrentHashSet<string>();
         public TimeSpan TotalPlaytime
         {
@@ -148,6 +150,7 @@ namespace NadekoBot.Services.Music
             while (!Exited)
             {
                 _bytesSent = 0;
+                cancel = false;
                 CancellationToken cancelToken;
                 (int Index, SongInfo Song) data;
                 lock (locker)
@@ -210,6 +213,7 @@ namespace NadekoBot.Services.Music
                     catch (OperationCanceledException)
                     {
                         _log.Info("Song Canceled");
+                        cancel = true;
                     }
                     catch (Exception ex)
                     {
@@ -230,6 +234,13 @@ namespace NadekoBot.Services.Music
                         }
 
                         OnCompleted?.Invoke(this, data.Song);
+
+                        if (_bytesSent == 0 && !cancel)
+                        {
+                            lock (locker)
+                                Queue.RemoveSong(data.Song);
+                            _log.Info("Song removed because it can't play");
+                        }
                     }
                 }
                 try
@@ -319,7 +330,6 @@ namespace NadekoBot.Services.Music
                 }
                 do
                 {
-                    _log.Info("Waiting for something to happen");
                     await Task.Delay(500);
                 }
                 while ((Queue.Count == 0 || Stopped) && !Exited);
