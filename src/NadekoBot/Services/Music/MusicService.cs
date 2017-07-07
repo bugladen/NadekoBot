@@ -55,7 +55,7 @@ namespace NadekoBot.Services.Music
 
             Directory.CreateDirectory(MusicDataPath);
 
-            _t = new Timer(_ => _log.Info(MusicPlayers.Count(x => x.Value.Current.Current != null)), null, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
+            //_t = new Timer(_ => _log.Info(MusicPlayers.Count(x => x.Value.Current.Current != null)), null, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
         }
 
         public float GetDefaultVolume(ulong guildId)
