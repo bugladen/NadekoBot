@@ -40,7 +40,12 @@ namespace NadekoBot.DataStructures
                 embed.WithDescription(Description);
             embed.WithColor(new Discord.Color(Color));
             if (Footer != null)
-                embed.WithFooter(efb => efb.WithIconUrl(Footer.IconUrl).WithText(Footer.Text));
+                embed.WithFooter(efb =>
+                {
+                    efb.WithText(Footer.Text);
+                    if (Uri.IsWellFormedUriString(Footer.IconUrl, UriKind.Absolute))
+                        efb.WithIconUrl(Footer.IconUrl);
+                });
 
             if (Thumbnail != null && Uri.IsWellFormedUriString(Thumbnail, UriKind.Absolute))
                 embed.WithThumbnailUrl(Thumbnail);
