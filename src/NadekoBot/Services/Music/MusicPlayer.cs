@@ -204,7 +204,7 @@ namespace NadekoBot.Services.Music
                         && (MaxPlaytimeSeconds <= 0 || MaxPlaytimeSeconds >= CurrentTime.TotalSeconds))
                         {
                             AdjustVolume(buffer, Volume);
-                            await pcm.WriteAsync(buffer, 0, bytesRead, cancelToken).ConfigureAwait(false);
+                            //await pcm.WriteAsync(buffer, 0, bytesRead, cancelToken).ConfigureAwait(false);
                             unchecked { _bytesSent += bytesRead; }
 
                             await (pauseTaskSource?.Task ?? Task.CompletedTask);
