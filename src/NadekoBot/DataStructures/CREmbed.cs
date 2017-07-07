@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Newtonsoft.Json;
 using NLog;
+using System;
 
 namespace NadekoBot.DataStructures
 {
@@ -31,19 +32,26 @@ namespace NadekoBot.DataStructures
 
         public EmbedBuilder ToEmbed()
         {
-            var embed = new EmbedBuilder()
-                .WithTitle(Title)
-                .WithDescription(Description)
-                .WithColor(new Discord.Color(Color));
+            var embed = new EmbedBuilder();
+
+            if (!string.IsNullOrWhiteSpace(Title))
+                embed.WithTitle(Title);
+            if (!string.IsNullOrWhiteSpace(Description))
+                embed.WithDescription(Description);
+            embed.WithColor(new Discord.Color(Color));
             if (Footer != null)
                 embed.WithFooter(efb => efb.WithIconUrl(Footer.IconUrl).WithText(Footer.Text));
-            embed.WithThumbnailUrl(Thumbnail)
-                .WithImageUrl(Image);
+
+            if (Thumbnail != null && Uri.IsWellFormedUriString(Thumbnail, UriKind.Absolute))
+                embed.WithThumbnailUrl(Thumbnail);
+            if(Image != null && Uri.IsWellFormedUriString(Image, UriKind.Absolute))
+                embed.WithImageUrl(Image);
 
             if (Fields != null)
                 foreach (var f in Fields)
                 {
-                    embed.AddField(efb => efb.WithName(f.Name).WithValue(f.Value).WithIsInline(f.Inline));
+                    if(!string.IsNullOrWhiteSpace(f.Name) && !string.IsNullOrWhiteSpace(f.Value))
+                        embed.AddField(efb => efb.WithName(f.Name).WithValue(f.Value).WithIsInline(f.Inline));
                 }
 
             return embed;
