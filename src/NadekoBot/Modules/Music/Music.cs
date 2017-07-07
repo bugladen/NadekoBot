@@ -663,7 +663,7 @@ namespace NadekoBot.Modules.Music
                     if (mp.Exited)
                         return;
 
-                    await Task.WhenAll(Task.Delay(100), InternalQueue(mp, await _music.ResolveSong(song, Context.User.ToString(), MusicType.YouTube), true));
+                    await Task.WhenAll(Task.Delay(150), InternalQueue(mp, await _music.ResolveSong(song, Context.User.ToString(), MusicType.YouTube), true));
                 }
                 catch (SongNotFoundException) { }
                 catch { break; }

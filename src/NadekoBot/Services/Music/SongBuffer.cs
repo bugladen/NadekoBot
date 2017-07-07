@@ -12,7 +12,7 @@ namespace NadekoBot.Services.Music
     {
         const int readSize = 81920;
         private Process p;
-        private PoopyRingBuffer _outStream = new PoopyRingBuffer();
+        private Stream _outStream;
 
         private readonly SemaphoreSlim _lock = new SemaphoreSlim(1, 1);
         private readonly Logger _log;
@@ -27,14 +27,6 @@ namespace NadekoBot.Services.Music
             //_log.Warn(songUri);
             this.SongUri = songUri;
             this._isLocal = isLocal;
-
-            this.p = StartFFmpegProcess(songUri, 0);
-            var t = Task.Run(() =>
-            {
-                this.p.BeginErrorReadLine();
-                this.p.ErrorDataReceived += P_ErrorDataReceived;
-                this.p.WaitForExit();
-            });
         }
 
         private Process StartFFmpegProcess(string songUri, float skipTo = 0)
@@ -72,60 +64,73 @@ namespace NadekoBot.Services.Music
         public Task<bool> StartBuffering(CancellationToken cancelToken)
         {
             var toReturn = new TaskCompletionSource<bool>();
-            var _ = Task.Run(async () =>
+            var _ = Task.Run(() =>
             {
-                //int maxLoopsPerSec = 25;
-                var sw = Stopwatch.StartNew();
-                //var delay = 1000 / maxLoopsPerSec;
-                int currentLoops = 0;
-                int _bytesSent = 0;
-                try
+                try { 
+                this.p = StartFFmpegProcess(SongUri, 0);
+                var t = Task.Run(() =>
                 {
-                    //do
-                    //{
-                    //    if (restart)
-                    //    {
-                    //        var cur = _bytesSent / 3840 / (1000 / 20.0f);
-                    //        _log.Info("Restarting");
-                    //        try { this.p.StandardOutput.Dispose(); } catch { }
-                    //        try { this.p.Dispose(); } catch { }
-                    //        this.p = StartFFmpegProcess(SongUri, cur);
-                    //    }
-                    //    restart = false;
-                        ++currentLoops;
-                        byte[] buffer = new byte[readSize];
-                        int bytesRead = 1;
-                        while (!cancelToken.IsCancellationRequested && !this.p.HasExited)
-                        {
-                            bytesRead = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, readSize, cancelToken).ConfigureAwait(false);
-                            _bytesSent += bytesRead;
-                            if (bytesRead == 0)
-                                break;
-                            bool written;
-                            do
-                            {
-                                lock (locker)
-                                    written = _outStream.Write(buffer, 0, bytesRead);
-                                if (!written)
-                                    await Task.Delay(2000, cancelToken);
-                            }
-                            while (!written && !cancelToken.IsCancellationRequested);
-                            lock (locker)
-                                if (_outStream.Length > 200_000 || bytesRead == 0)
-                                    if (toReturn.TrySetResult(true))
-                                        _log.Info("Prebuffering finished in {0}", sw.Elapsed.TotalSeconds.ToString("F2"));
+                    this.p.BeginErrorReadLine();
+                    this.p.ErrorDataReceived += P_ErrorDataReceived;
+                    this.p.WaitForExit();
+                });
 
-                            //_log.Info(_outStream.Length);
-                            await Task.Delay(10);
-                        }
-                        //if (cancelToken.IsCancellationRequested)
-                        //    _log.Info("Song canceled");
-                        //else if (p.HasExited)
-                        //    _log.Info("Song buffered completely (FFmpeg exited)");
-                        //else if (bytesRead == 0)
-                        //    _log.Info("Nothing read");
-                    //}
-                    //while (restart && !cancelToken.IsCancellationRequested);
+                    this._outStream = this.p.StandardOutput.BaseStream;
+
+                    ////int maxLoopsPerSec = 25;
+                    //var sw = Stopwatch.StartNew();
+                    ////var delay = 1000 / maxLoopsPerSec;
+                    //int currentLoops = 0;
+                    //int _bytesSent = 0;
+                    //try
+                    //{
+                    //    //do
+                    //    //{
+                    //    //    if (restart)
+                    //    //    {
+                    //    //        var cur = _bytesSent / 3840 / (1000 / 20.0f);
+                    //    //        _log.Info("Restarting");
+                    //    //        try { this.p.StandardOutput.Dispose(); } catch { }
+                    //    //        try { this.p.Dispose(); } catch { }
+                    //    //        this.p = StartFFmpegProcess(SongUri, cur);
+                    //    //    }
+                    //    //    restart = false;
+                    //        ++currentLoops;
+                    //        byte[] buffer = new byte[readSize];
+                    //        int bytesRead = 1;
+                    //        while (!cancelToken.IsCancellationRequested && !this.p.HasExited)
+                    //        {
+                    //            bytesRead = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, readSize, cancelToken).ConfigureAwait(false);
+                    //            _bytesSent += bytesRead;
+                    //            if (bytesRead == 0)
+                    //                break;
+                    //            bool written;
+                    //            do
+                    //            {
+                    //                lock (locker)
+                    //                    written = _outStream.Write(buffer, 0, bytesRead);
+                    //                if (!written)
+                    //                    await Task.Delay(2000, cancelToken);
+                    //            }
+                    //            while (!written && !cancelToken.IsCancellationRequested);
+                    //            lock (locker)
+                    //                if (_outStream.Length > 200_000 || bytesRead == 0)
+                    //                    if (toReturn.TrySetResult(true))
+                    //                        _log.Info("Prebuffering finished in {0}", sw.Elapsed.TotalSeconds.ToString("F2"));
+
+                    //            //_log.Info(_outStream.Length);
+                    //            await Task.Delay(10);
+                    //        }
+                    //        //if (cancelToken.IsCancellationRequested)
+                    //        //    _log.Info("Song canceled");
+                    //        //else if (p.HasExited)
+                    //        //    _log.Info("Song buffered completely (FFmpeg exited)");
+                    //        //else if (bytesRead == 0)
+                    //        //    _log.Info("Nothing read");
+                    //    //}
+                    //    //while (restart && !cancelToken.IsCancellationRequested);
+                    //return Task.CompletedTask;
+                    toReturn.TrySetResult(true);
                 }
                 catch (System.ComponentModel.Win32Exception)
                 {
