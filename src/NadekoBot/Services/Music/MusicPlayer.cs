@@ -268,7 +268,7 @@ namespace NadekoBot.Services.Music
                                     try
                                     {
                                         _log.Info("Loading related song");
-                                        await _musicService.TryQueueRelatedSongAsync(data.Song.Query, OutputTextChannel, VoiceChannel);
+                                        await _musicService.TryQueueRelatedSongAsync(data.Song, OutputTextChannel, VoiceChannel);
                                         Queue.Next();
                                     }
                                     catch

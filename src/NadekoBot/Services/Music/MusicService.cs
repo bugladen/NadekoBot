@@ -182,9 +182,9 @@ namespace NadekoBot.Services.Music
                 return null;
         }
 
-        public async Task TryQueueRelatedSongAsync(string query, ITextChannel txtCh, IVoiceChannel vch)
+        public async Task TryQueueRelatedSongAsync(SongInfo song, ITextChannel txtCh, IVoiceChannel vch)
         {
-            var related = (await _google.GetRelatedVideosAsync(query, 4)).ToArray();
+            var related = (await _google.GetRelatedVideosAsync(song.VideoId, 4)).ToArray();
             if (!related.Any())
                 return;
 
