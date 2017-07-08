@@ -33,7 +33,7 @@ namespace NadekoBot.Modules.Searches
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Lolban()
         {
-            const int showCount = 8;
+            //const int showCount = 8;
             //http://api.champion.gg/stats/champs/mostBanned?api_key=YOUR_API_TOKEN&page=1&limit=2
             try
             {

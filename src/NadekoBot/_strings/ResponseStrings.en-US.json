@@ -35,6 +35,7 @@
   "customreactions_stats_cleared": "Stats cleared for {0} custom reaction.",
   "customreactions_stats_not_found": "No stats for that trigger found, no action taken.",
   "customreactions_trigger": "Trigger",
+  "customreactions_redacted_too_long": "Redecated because it's too long.",
   "nsfw_autohentai_stopped": "Autohentai stopped.",
   "nsfw_not_found": "No results found.",
   "pokemon_already_fainted": "{0} has already fainted.",

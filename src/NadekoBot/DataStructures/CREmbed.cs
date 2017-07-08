@@ -1,4 +1,5 @@
 ﻿using Discord;
+using NadekoBot.Extensions;
 using Newtonsoft.Json;
 using NLog;
 using System;
@@ -71,7 +72,13 @@ namespace NadekoBot.DataStructures
             try
             {
                 var crembed = JsonConvert.DeserializeObject<CREmbed>(input);
-
+                
+                if(crembed.Fields != null && crembed.Fields.Length > 0)
+                    foreach (var f in crembed.Fields)
+                    {
+                        f.Name = f.Name.TrimTo(256);
+                        f.Value = f.Value.TrimTo(1024);
+                    }
                 if (!crembed.IsValid)
                     return false;
 

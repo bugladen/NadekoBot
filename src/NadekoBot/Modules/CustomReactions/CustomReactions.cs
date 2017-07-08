@@ -79,7 +79,7 @@ namespace NadekoBot.Modules.CustomReactions
                 .WithTitle(GetText("new_cust_react"))
                 .WithDescription($"#{cr.Id}")
                 .AddField(efb => efb.WithName(GetText("trigger")).WithValue(key))
-                .AddField(efb => efb.WithName(GetText("response")).WithValue(message))
+                .AddField(efb => efb.WithName(GetText("response")).WithValue(message.Length > 1024 ? GetText("redacted_too_long") : message))
                 ).ConfigureAwait(false);
         }
 
