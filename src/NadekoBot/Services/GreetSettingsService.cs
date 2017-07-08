@@ -154,7 +154,10 @@ namespace NadekoBot.Services
                                 {
                                     await channel.EmbedAsync(embedData.ToEmbed(), embedData.PlainText?.SanitizeMentions() ?? "").ConfigureAwait(false);
                                 }
-                                catch (Exception ex) { _log.Warn(ex); }
+                                catch (Exception ex)
+                                {
+                                    _log.Warn(ex);
+                                }
                             }
                             else
                             {
