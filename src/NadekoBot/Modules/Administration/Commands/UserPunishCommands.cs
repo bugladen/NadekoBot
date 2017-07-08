@@ -204,7 +204,7 @@ namespace NadekoBot.Modules.Administration
                 IGrouping<ulong, Warning>[] warnings;
                 using (var uow = _db.UnitOfWork)
                 {
-                    warnings = uow.Warnings.GetAll().GroupBy(x => x.UserId).ToArray();
+                    warnings = uow.Warnings.GetForGuild(Context.Guild.Id).GroupBy(x => x.UserId).ToArray();
                 }
 
                 await Context.Channel.SendPaginatedConfirmAsync((DiscordSocketClient)Context.Client, page, async (curPage) =>
