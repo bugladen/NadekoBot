@@ -341,7 +341,7 @@ namespace NadekoBot.Services.Music
                     return null;
                 }
                 TimeSpan time;
-                if (!TimeSpan.TryParseExact(data[4], new[] { "m\\:ss", "mm\\:ss", "h\\:mm\\:ss", "hh\\:mm\\:ss", "hhh\\:mm\\:ss" }, CultureInfo.InvariantCulture, out time))
+                if (!TimeSpan.TryParseExact(data[4], new[] { "ss", "m\\:ss", "mm\\:ss", "h\\:mm\\:ss", "hh\\:mm\\:ss", "hhh\\:mm\\:ss" }, CultureInfo.InvariantCulture, out time))
                     time = TimeSpan.FromHours(24);
 
                 return new SongInfo()
