@@ -163,83 +163,86 @@ namespace NadekoBot.Services.Music
                 if (data.Song != null)
                 {
                     _log.Info("Starting");
-                    using (var b = new SongBuffer(await data.Song.Uri(), "", data.Song.ProviderType == Database.Models.MusicType.Local))
+                    AudioOutStream pcm = null;
+                    SongBuffer b = null;
+                    try
                     {
-                        _log.Info("Created buffer, buffering...");
-                        AudioOutStream pcm = null;
-                        try
+                        b = new SongBuffer(await data.Song.Uri(), "", data.Song.ProviderType == Database.Models.MusicType.Local);
+                        //_log.Info("Created buffer, buffering...");
+
+                        //var bufferTask = b.StartBuffering(cancelToken);
+                        //var timeout = Task.Delay(10000);
+                        //if (Task.WhenAny(bufferTask, timeout) == timeout)
+                        //{
+                        //    _log.Info("Buffering failed due to a timeout.");
+                        //    continue;
+                        //}
+                        //else if (!bufferTask.Result)
+                        //{
+                        //    _log.Info("Buffering failed due to a cancel or error.");
+                        //    continue;
+                        //}
+                        //_log.Info("Buffered. Getting audio client...");
+                        var ac = await GetAudioClient();
+                        _log.Info("Got Audio client");
+                        if (ac == null)
                         {
-                            var bufferTask = b.StartBuffering(cancelToken);
-                            var timeout = Task.Delay(10000);
-                            if (Task.WhenAny(bufferTask, timeout) == timeout)
-                            {
-                                _log.Info("Buffering failed due to a timeout.");
-                                continue;
-                            }
-                            else if (!bufferTask.Result)
-                            {
-                                _log.Info("Buffering failed due to a cancel or error.");
-                                continue;
-                            }
-                            _log.Info("Buffered. Getting audio client...");
-                            var ac = await GetAudioClient();
-                            _log.Info("Got Audio client");
-                            if (ac == null)
-                            {
-                                _log.Info("Can't join");
-                                await Task.Delay(900, cancelToken);
-                                // just wait some time, maybe bot doesn't even have perms to join that voice channel, 
-                                // i don't want to spam connection attempts
-                                continue;
-                            }
-                            pcm = ac.CreatePCMStream(AudioApplication.Music, bufferMillis: 500);
-                            _log.Info("Created pcm stream");
-                            OnStarted?.Invoke(this, data);
-
-                            byte[] buffer = new byte[3840];
-                            int bytesRead = 0;
-
-                            while ((bytesRead = b.Read(buffer, 0, buffer.Length)) > 0
-                            && (MaxPlaytimeSeconds <= 0 || MaxPlaytimeSeconds >= CurrentTime.TotalSeconds))
-                            {
-                                AdjustVolume(buffer, Volume);
-                                await pcm.WriteAsync(buffer, 0, bytesRead, cancelToken).ConfigureAwait(false);
-                                unchecked { _bytesSent += bytesRead; }
-
-                                await (pauseTaskSource?.Task ?? Task.CompletedTask);
-                            }
+                            _log.Info("Can't join");
+                            await Task.Delay(900, cancelToken);
+                            // just wait some time, maybe bot doesn't even have perms to join that voice channel, 
+                            // i don't want to spam connection attempts
+                            continue;
                         }
-                        catch (OperationCanceledException)
-                        {
-                            _log.Info("Song Canceled");
-                            cancel = true;
-                        }
-                        catch (Exception ex)
-                        {
-                            _log.Warn(ex);
-                        }
-                        finally
-                        {
-                            if (pcm != null)
-                            {
-                                // flush is known to get stuck from time to time, 
-                                // just skip flushing if it takes more than 1 second
-                                var flushCancel = new CancellationTokenSource();
-                                var flushToken = flushCancel.Token;
-                                var flushDelay = Task.Delay(1000, flushToken);
-                                await Task.WhenAny(flushDelay, pcm.FlushAsync(flushToken));
-                                flushCancel.Cancel();
-                                pcm.Dispose();
-                            }
+                        pcm = ac.CreatePCMStream(AudioApplication.Music, bufferMillis: 500);
+                        _log.Info("Created pcm stream");
+                        OnStarted?.Invoke(this, data);
 
-                            OnCompleted?.Invoke(this, data.Song);
+                        byte[] buffer = new byte[3840];
+                        int bytesRead = 0;
 
-                            if (_bytesSent == 0 && !cancel)
-                            {
-                                lock (locker)
-                                    Queue.RemoveSong(data.Song);
-                                _log.Info("Song removed because it can't play");
-                            }
+                        while ((bytesRead = b.Read(buffer, 0, buffer.Length)) > 0
+                        && (MaxPlaytimeSeconds <= 0 || MaxPlaytimeSeconds >= CurrentTime.TotalSeconds))
+                        {
+                            AdjustVolume(buffer, Volume);
+                            await pcm.WriteAsync(buffer, 0, bytesRead, cancelToken).ConfigureAwait(false);
+                            unchecked { _bytesSent += bytesRead; }
+
+                            await (pauseTaskSource?.Task ?? Task.CompletedTask);
+                        }
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        _log.Info("Song Canceled");
+                        cancel = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        _log.Warn(ex);
+                    }
+                    finally
+                    {
+                        if (pcm != null)
+                        {
+                            // flush is known to get stuck from time to time, 
+                            // just skip flushing if it takes more than 1 second
+                            var flushCancel = new CancellationTokenSource();
+                            var flushToken = flushCancel.Token;
+                            var flushDelay = Task.Delay(1000, flushToken);
+                            await Task.WhenAny(flushDelay, pcm.FlushAsync(flushToken));
+                            flushCancel.Cancel();
+                            pcm.Dispose();
+                        }
+
+                        if (b != null)
+                            b.Dispose();
+
+                        OnCompleted?.Invoke(this, data.Song);
+
+                        if (_bytesSent == 0 && !cancel)
+                        {
+                            lock (locker)
+                                Queue.RemoveSong(data.Song);
+                            _log.Info("Song removed because it can't play");
                         }
                     }
                     try
