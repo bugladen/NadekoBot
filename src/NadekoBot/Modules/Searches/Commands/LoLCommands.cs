@@ -2,9 +2,11 @@
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -29,24 +31,30 @@ namespace NadekoBot.Modules.Searches
                                                 "If you consider playing teemo, do it. If you consider teemo, you deserve him.",
                                                 "Doesn't matter what you ban really. Enemy will ban your main and you will lose." };
 
+        private static readonly Lazy<Dictionary<int, string>> champData = new Lazy<Dictionary<int, string>>(() => 
+            ((IDictionary<string, JToken>)JObject.Parse(File.ReadAllText("data/lolchamps.json")))
+                .ToDictionary(x => (int)x.Value["id"], x => x.Value["name"].ToString()), true);
 
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Lolban()
         {
             //const int showCount = 8;
-            //http://api.champion.gg/stats/champs/mostBanned?api_key=YOUR_API_TOKEN&page=1&limit=2
             try
             {
                 using (var http = new HttpClient())
                 {
-                    var data = JArray.Parse(await http.GetStringAsync($"http://api.champion.gg/v2/champions?champData=normalized&limit=200&api_key={_creds.LoLApiKey}"));
+                    var data = JArray.Parse(await http.GetStringAsync($"http://api.champion.gg/v2/champions?champData=general&limit=200&api_key={_creds.LoLApiKey}"));
 
-                    var champs = data.OrderByDescending(x => (float)x["banRate"])/*.Distinct(x => x["championId"])*/.Take(6);
+                    var champs = data.OrderByDescending(x => (double)x["banRate"]).Distinct(x => x["championId"]).Take(6);
+
+                    //_log.Info(string.Join("\n", champs.Select(x => x["championId"] + " | " + x["banRate"] + " | " + x["normalized"]["banRate"])));
                     var eb = new EmbedBuilder().WithOkColor().WithTitle(Format.Underline(GetText("x_most_banned_champs", champs.Count())));
                     foreach (var champ in champs)
                     {
                         var lChamp = champ;
-                        eb.AddField(efb => efb.WithName(lChamp["championId"].ToString()).WithValue((float)lChamp["banRate"] * 100 + "%").WithIsInline(true));
+                        if (!champData.Value.TryGetValue((int)champ["championId"], out var champName))
+                            champName = "UNKNOWN";
+                        eb.AddField(efb => efb.WithName(champName).WithValue(((double)lChamp["banRate"] * 100).ToString("F2") + "%").WithIsInline(true));
                     }
 
                     await Context.Channel.EmbedAsync(eb, Format.Italics(trashTalk[new NadekoRandom().Next(0, trashTalk.Length)])).ConfigureAwait(false);
