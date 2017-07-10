@@ -20,6 +20,7 @@ namespace NadekoBot.Services.Utility
         private readonly Timer _currencyUpdater;
         private readonly TimeSpan _updateInterval = new TimeSpan(12, 0, 0);
         private readonly DbService _db;
+        private readonly ConvertUnit[] fileData;
 
         public ConverterService(DiscordSocketClient client, DbService db)
         {
@@ -30,7 +31,7 @@ namespace NadekoBot.Services.Utility
             {
                 try
                 {
-                    var data = JsonConvert.DeserializeObject<List<MeasurementUnit>>(
+                    fileData = JsonConvert.DeserializeObject<List<MeasurementUnit>>(
                         File.ReadAllText("data/units.json"))
                             .Select(u => new ConvertUnit()
                             {
@@ -43,7 +44,7 @@ namespace NadekoBot.Services.Utility
                     {
                         if (uow.ConverterUnits.Empty())
                         {
-                            uow.ConverterUnits.AddRange(data);
+                            uow.ConverterUnits.AddRange(fileData);
 
                             Units = uow.ConverterUnits.GetAll().ToList();
                             uow.Complete();
@@ -104,6 +105,7 @@ namespace NadekoBot.Services.Utility
                     Units.RemoveAll(u => u.UnitType == unitTypeString);
                     Units.Add(baseType);
                     Units.AddRange(range);
+                    Units.AddRange(fileData);
                 }
                 else
                 {
