@@ -480,9 +480,10 @@ namespace NadekoBot.Services.Music
             lock (locker)
             {
                 var cur = Queue.Current;
+                var toReturn = Queue.RemoveAt(index);
                 if (cur.Index == index)
                     Next();
-                return Queue.RemoveAt(index);
+                return toReturn;
             }
         }
 
