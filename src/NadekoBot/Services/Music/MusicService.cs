@@ -254,7 +254,8 @@ namespace NadekoBot.Services.Music
                 ProviderType = MusicType.Soundcloud,
                 Query = svideo.TrackLink,
                 AlbumArt = svideo.artwork_url,
-                QueuerName = queuerName
+                QueuerName = queuerName,
+                TotalTime = TimeSpan.FromMilliseconds(svideo.Duration)
             });
 
         public SongInfo ResolveLocalSong(string query, string queuerName)
