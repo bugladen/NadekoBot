@@ -339,18 +339,6 @@ namespace NadekoBot.Services.Music
             }
         }
 
-        public void SetIndex(int index)
-        {
-            if (index < 0)
-                throw new ArgumentOutOfRangeException(nameof(index));
-            lock (locker)
-            {
-                Queue.CurrentIndex = index;
-                manualIndex = true;
-                CancelCurrentSong();
-            }
-        }
-
         private async Task<IAudioClient> GetAudioClient(bool reconnect = false)
         {
             if (_audioClient == null ||
@@ -409,6 +397,21 @@ namespace NadekoBot.Services.Music
             }
         }
 
+        public void SetIndex(int index)
+        {
+            if (index < 0)
+                throw new ArgumentOutOfRangeException(nameof(index));
+            lock (locker)
+            {
+                if (Exited)
+                    return;
+                Queue.CurrentIndex = index;
+                manualIndex = true;
+                Stopped = false;
+                CancelCurrentSong();
+            }
+        }
+
         public void Next(int skipCount = 1)
         {
             lock (locker)
@@ -420,9 +423,11 @@ namespace NadekoBot.Services.Music
                 // It's a bit weird, but that's the least annoying solution
                 if (!Stopped)
                     Queue.Next(skipCount - 1);
+                else
+                    Queue.CurrentIndex = 0;
                 Stopped = false;
-                Unpause();
                 CancelCurrentSong();
+                Unpause();
             }
         }
 

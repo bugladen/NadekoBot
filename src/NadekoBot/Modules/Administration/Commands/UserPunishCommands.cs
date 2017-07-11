@@ -28,6 +28,7 @@ namespace NadekoBot.Modules.Administration
                 _muteService = muteService;
             }
 
+            //todo move to service
             private async Task<PunishmentAction?> InternalWarn(IGuild guild, ulong userId, string modName, string reason)
             {
                 if (string.IsNullOrWhiteSpace(reason))
