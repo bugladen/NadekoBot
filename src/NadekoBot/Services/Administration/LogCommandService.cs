@@ -751,13 +751,19 @@ namespace NadekoBot.Services.Administration
                     ITextChannel logChannel;
                     if ((logChannel = await TryGetLogChannel(guild, logSetting, LogType.UserBanned)) == null)
                         return;
-                    await logChannel.EmbedAsync(new EmbedBuilder()
+                    var embed = new EmbedBuilder()
                         .WithOkColor()
                         .WithTitle("🚫 " + GetText(logChannel.Guild, "user_banned"))
-                        .WithThumbnailUrl(usr.GetAvatarUrl())
                         .WithDescription(usr.ToString())
                         .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))
-                        .WithFooter(efb => efb.WithText(CurrentTime(guild)))).ConfigureAwait(false);
+                        .WithFooter(efb => efb.WithText(CurrentTime(guild)));
+
+                    var avatarUrl = usr.GetAvatarUrl();
+
+                    if (Uri.IsWellFormedUriString(avatarUrl, UriKind.Absolute))
+                        embed.WithThumbnailUrl(usr.GetAvatarUrl());
+
+                    await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                 }
                 catch (Exception ex) { _log.Warn(ex); }
             });
