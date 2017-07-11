@@ -15,7 +15,7 @@ namespace NadekoBot.Services.Music
         public string Query { get; set; }
         public string Title { get; set; }
         public Func<Task<string>> Uri { get; set; }
-        public string AlbumArt { get; set; }
+        public string Thumbnail { get; set; }
         public string QueuerName { get; set; }
         public TimeSpan TotalTime { get; set; } = TimeSpan.Zero;
 
@@ -75,24 +75,5 @@ namespace NadekoBot.Services.Music
         }
 
         private readonly Regex videoIdRegex = new Regex("<=v=[a-zA-Z0-9-]+(?=&)|(?<=[0-9])[^&\n]+|(?<=v=)[^&\n]+", RegexOptions.Compiled);
-        public string Thumbnail
-        {
-            get
-            {
-                switch (ProviderType)
-                {
-                    case MusicType.Radio:
-                        return "https://cdn.discordapp.com/attachments/155726317222887425/261850925063340032/1482522097_radio.png"; //test links
-                    case MusicType.YouTube:
-                        return $"https://img.youtube.com/vi/{ VideoId }/0.jpg";
-                    case MusicType.Local:
-                        return "https://cdn.discordapp.com/attachments/155726317222887425/261850914783100928/1482522077_music.png"; //test links
-                    case MusicType.Soundcloud:
-                        return AlbumArt;
-                    default:
-                        return "";
-                }
-            }
-        }
     }
 }

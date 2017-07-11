@@ -7,15 +7,11 @@ using NadekoBot.Extensions;
 using NadekoBot.Services.Database.Models;
 using NLog;
 using System.IO;
-using VideoLibrary;
 using System.Collections.Generic;
 using Discord.Commands;
 using Discord.WebSocket;
-using System.Text.RegularExpressions;
-using System.Net.Http;
+using NadekoBot.Services.Music.SongResolver;
 using NadekoBot.Services.Impl;
-using System.Globalization;
-using System.Threading;
 
 namespace NadekoBot.Services.Music
 {
@@ -47,7 +43,6 @@ namespace NadekoBot.Services.Music
             _sc = sc;
             _creds = creds;
             _log = LogManager.GetCurrentClassLogger();
-            _yt = YouTube.Default;
 
             try { Directory.Delete(MusicDataPath, true); } catch { }
 
@@ -199,89 +194,16 @@ namespace NadekoBot.Services.Music
         {
             query.ThrowIfNull(nameof(query));
 
-            SongInfo sinfo = null;
-            switch (musicType)
-            {
-                case MusicType.YouTube:
-                    sinfo = await ResolveYoutubeSong(query, queuerName);
-                    break;
-                case MusicType.Radio:
-                    try { sinfo = ResolveRadioSong(IsRadioLink(query) ? await HandleStreamContainers(query) : query, queuerName); } catch { };
-                    break;
-                case MusicType.Local:
-                    sinfo = ResolveLocalSong(query, queuerName);
-                    break;
-                case MusicType.Soundcloud:
-                    sinfo = await ResolveSoundCloudSong(query, queuerName);
-                    break;
-                case null:
-                    if (_sc.IsSoundCloudLink(query))
-                        sinfo = await ResolveSoundCloudSong(query, queuerName);
-                    else if (IsRadioLink(query))
-                        sinfo = ResolveRadioSong(await HandleStreamContainers(query), queuerName);
-                    else
-                        try
-                        {
-                            sinfo = await ResolveYoutubeSong(query, queuerName);
-                        }
-                        catch
-                        {
-                            sinfo = null;
-                        }
-                    break;
-            }
+            ISongResolverFactory resolverFactory = new SongResolverFactory(_sc);
+            var strategy = await resolverFactory.GetResolveStrategy(query, musicType);
+            var sinfo = await strategy.ResolveSong(query);
+
+            if (sinfo == null)
+                return null;
+
+            sinfo.QueuerName = queuerName;
 
             return sinfo;
-        }
-
-        public async Task<SongInfo> ResolveSoundCloudSong(string query, string queuerName)
-        {
-            var svideo = !_sc.IsSoundCloudLink(query) ?
-                await _sc.GetVideoByQueryAsync(query).ConfigureAwait(false) :
-                await _sc.ResolveVideoAsync(query).ConfigureAwait(false);
-
-            if (svideo == null)
-                return null;
-            return await SongInfoFromSVideo(svideo, queuerName);
-        }
-
-        public Task<SongInfo> SongInfoFromSVideo(SoundCloudVideo svideo, string queuerName) =>
-            Task.FromResult(new SongInfo
-            {
-                Title = svideo.FullName,
-                Provider = "SoundCloud",
-                Uri = () => svideo.StreamLink(),
-                ProviderType = MusicType.Soundcloud,
-                Query = svideo.TrackLink,
-                AlbumArt = svideo.artwork_url,
-                QueuerName = queuerName,
-                TotalTime = TimeSpan.FromMilliseconds(svideo.Duration)
-            });
-
-        public SongInfo ResolveLocalSong(string query, string queuerName)
-        {
-            return new SongInfo
-            {
-                Uri = () => Task.FromResult("\"" + Path.GetFullPath(query) + "\""),
-                Title = Path.GetFileNameWithoutExtension(query),
-                Provider = "Local File",
-                ProviderType = MusicType.Local,
-                Query = query,
-                QueuerName = queuerName
-            };
-        }
-
-        public SongInfo ResolveRadioSong(string query, string queuerName)
-        {
-            return new SongInfo
-            {
-                Uri = () => Task.FromResult(query),
-                Title = query,
-                Provider = "Radio Stream",
-                ProviderType = MusicType.Radio,
-                Query = query,
-                QueuerName = queuerName
-            };
         }
 
         public async Task DestroyAllPlayers()
@@ -292,214 +214,66 @@ namespace NadekoBot.Services.Music
             }
         }
 
-        public Task<SongInfo> ResolveYoutubeSong(string query, string queuerName)
-        {
-            _log.Info("Getting video");
-            //var (link, video) = await GetYoutubeVideo(query);
-
-            //if (video == null) // do something with this error
-            //{
-            //    _log.Info("Could not load any video elements based on the query.");
-            //    return null;
-            //}
-            ////var m = Regex.Match(query, @"\?t=(?<t>\d*)");
-            ////int gotoTime = 0;
-            ////if (m.Captures.Count > 0)
-            ////    int.TryParse(m.Groups["t"].ToString(), out gotoTime);
-
-            //_log.Info("Creating song info");
-            //var song = new SongInfo
-            //{
-            //    Title = video.Title.Substring(0, video.Title.Length - 10), // removing trailing "- You Tube"
-            //    Provider = "YouTube",
-            //    Uri = async () => {
-            //        var vid = await GetYoutubeVideo(query);
-            //        if (vid.Item2 == null)
-            //            throw new HttpRequestException();
-
-            //        return await vid.Item2.GetUriAsync();
-            //    },
-            //    Query = link,
-            //    ProviderType = MusicType.YouTube,
-            //    QueuerName = queuerName
-            //};
-            return GetYoutubeVideo(query, queuerName);
-        }
-
-        private async Task<SongInfo> GetYoutubeVideo(string query, string queuerName)
-        {
-            _log.Info("Getting link");
-            string[] data;
-            try
-            {
-                using (var ytdl = new YtdlOperation())
-                {
-                    data = (await ytdl.GetDataAsync(query)).Split('\n');
-                }
-                if (data.Length < 6)
-                {
-                    _log.Info("No song found. Data less than 6");
-                    return null;
-                }
-                TimeSpan time;
-                if (!TimeSpan.TryParseExact(data[4], new[] { "ss", "m\\:ss", "mm\\:ss", "h\\:mm\\:ss", "hh\\:mm\\:ss", "hhh\\:mm\\:ss" }, CultureInfo.InvariantCulture, out time))
-                    time = TimeSpan.FromHours(24);
-
-                return new SongInfo()
-                {
-                    Title = data[0],
-                    VideoId = data[1],
-                    Uri = async () => {
-                        using (var ytdl = new YtdlOperation())
-                        {
-                            data = (await ytdl.GetDataAsync(query)).Split('\n');
-                        }
-                        if (data.Length < 6)
-                        {
-                            _log.Info("No song found. Data less than 6");
-                            return null;
-                        }
-                        return data[2];
-                    },
-                    AlbumArt = data[3],
-                    TotalTime = time,
-                    QueuerName = queuerName,
-                    Provider = "YouTube",
-                    ProviderType = MusicType.YouTube,
-                    Query = "https://youtube.com/watch?v=" + data[1],
-                };
-            }
-            catch (Exception ex)
-            {
-                _log.Warn(ex);
-                return null;
-            }
-
-            //if (string.IsNullOrWhiteSpace(link))
-            //{
-            //    _log.Info("No song found.");
-            //    return (null, null);
-            //}
-            //_log.Info("Getting all videos");
-            //var allVideos = await Task.Run(async () => { try { return await _yt.GetAllVideosAsync(link).ConfigureAwait(false); } catch { return Enumerable.Empty<YouTubeVideo>(); } }).ConfigureAwait(false);
-            //var videos = allVideos.Where(v => v.AdaptiveKind == AdaptiveKind.Audio);
-            //var video = videos
-            //    .Where(v => v.AudioBitrate < 256)
-            //    .OrderByDescending(v => v.AudioBitrate)
-            //    .FirstOrDefault();
-
-            //return (link, video);
-        }
-
-        private bool IsRadioLink(string query) =>
-            (query.StartsWith("http") ||
-            query.StartsWith("ww"))
-            &&
-            (query.Contains(".pls") ||
-            query.Contains(".m3u") ||
-            query.Contains(".asx") ||
-            query.Contains(".xspf"));
-
         public async Task DestroyPlayer(ulong id)
         {
             if (MusicPlayers.TryRemove(id, out var mp))
                 await mp.Destroy();
         }
 
-        private readonly Regex plsRegex = new Regex("File1=(?<url>.*?)\\n", RegexOptions.Compiled);
-        private readonly Regex m3uRegex = new Regex("(?<url>^[^#].*)", RegexOptions.Compiled | RegexOptions.Multiline);
-        private readonly Regex asxRegex = new Regex("<ref href=\"(?<url>.*?)\"", RegexOptions.Compiled);
-        private readonly Regex xspfRegex = new Regex("<location>(?<url>.*?)</location>", RegexOptions.Compiled);
-        private readonly YouTube _yt;
-        private readonly Timer _t;
 
-        private async Task<string> HandleStreamContainers(string query)
-        {
-            string file = null;
-            try
-            {
-                using (var http = new HttpClient())
-                {
-                    file = await http.GetStringAsync(query).ConfigureAwait(false);
-                }
-            }
-            catch
-            {
-                return query;
-            }
-            if (query.Contains(".pls"))
-            {
-                //File1=http://armitunes.com:8000/
-                //Regex.Match(query)
-                try
-                {
-                    var m = plsRegex.Match(file);
-                    var res = m.Groups["url"]?.ToString();
-                    return res?.Trim();
-                }
-                catch
-                {
-                    _log.Warn($"Failed reading .pls:\n{file}");
-                    return null;
-                }
-            }
-            if (query.Contains(".m3u"))
-            {
-                /* 
-# This is a comment
-                   C:\xxx4xx\xxxxxx3x\xx2xxxx\xx.mp3
-                   C:\xxx5xx\x6xxxxxx\x7xxxxx\xx.mp3
-                */
-                try
-                {
-                    var m = m3uRegex.Match(file);
-                    var res = m.Groups["url"]?.ToString();
-                    return res?.Trim();
-                }
-                catch
-                {
-                    _log.Warn($"Failed reading .m3u:\n{file}");
-                    return null;
-                }
 
-            }
-            if (query.Contains(".asx"))
-            {
-                //<ref href="http://armitunes.com:8000"/>
-                try
-                {
-                    var m = asxRegex.Match(file);
-                    var res = m.Groups["url"]?.ToString();
-                    return res?.Trim();
-                }
-                catch
-                {
-                    _log.Warn($"Failed reading .asx:\n{file}");
-                    return null;
-                }
-            }
-            if (query.Contains(".xspf"))
-            {
-                /*
-                <?xml version="1.0" encoding="UTF-8"?>
-                    <playlist version="1" xmlns="http://xspf.org/ns/0/">
-                        <trackList>
-                            <track><location>file:///mp3s/song_1.mp3</location></track>
-                */
-                try
-                {
-                    var m = xspfRegex.Match(file);
-                    var res = m.Groups["url"]?.ToString();
-                    return res?.Trim();
-                }
-                catch
-                {
-                    _log.Warn($"Failed reading .xspf:\n{file}");
-                    return null;
-                }
-            }
+        //public Task<SongInfo> ResolveYoutubeSong(string query, string queuerName)
+        //{
+        //    _log.Info("Getting video");
+        //    //var (link, video) = await GetYoutubeVideo(query);
 
-            return query;
-        }
+        //    //if (video == null) // do something with this error
+        //    //{
+        //    //    _log.Info("Could not load any video elements based on the query.");
+        //    //    return null;
+        //    //}
+        //    ////var m = Regex.Match(query, @"\?t=(?<t>\d*)");
+        //    ////int gotoTime = 0;
+        //    ////if (m.Captures.Count > 0)
+        //    ////    int.TryParse(m.Groups["t"].ToString(), out gotoTime);
+
+        //    //_log.Info("Creating song info");
+        //    //var song = new SongInfo
+        //    //{
+        //    //    Title = video.Title.Substring(0, video.Title.Length - 10), // removing trailing "- You Tube"
+        //    //    Provider = "YouTube",
+        //    //    Uri = async () => {
+        //    //        var vid = await GetYoutubeVideo(query);
+        //    //        if (vid.Item2 == null)
+        //    //            throw new HttpRequestException();
+
+        //    //        return await vid.Item2.GetUriAsync();
+        //    //    },
+        //    //    Query = link,
+        //    //    ProviderType = MusicType.YouTube,
+        //    //    QueuerName = queuerName
+        //    //};
+        //    return GetYoutubeVideo(query, queuerName);
+        //}
+
+        //private async Task<SongInfo> GetYoutubeVideo(string query, string queuerName)
+        //{
+
+
+        //    //if (string.IsNullOrWhiteSpace(link))
+        //    //{
+        //    //    _log.Info("No song found.");
+        //    //    return (null, null);
+        //    //}
+        //    //_log.Info("Getting all videos");
+        //    //var allVideos = await Task.Run(async () => { try { return await _yt.GetAllVideosAsync(link).ConfigureAwait(false); } catch { return Enumerable.Empty<YouTubeVideo>(); } }).ConfigureAwait(false);
+        //    //var videos = allVideos.Where(v => v.AdaptiveKind == AdaptiveKind.Audio);
+        //    //var video = videos
+        //    //    .Where(v => v.AudioBitrate < 256)
+        //    //    .OrderByDescending(v => v.AudioBitrate)
+        //    //    .FirstOrDefault();
+
+        //    //return (link, video);
+        //}
     }
 }

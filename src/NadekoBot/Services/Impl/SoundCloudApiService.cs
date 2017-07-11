@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Services.Music
+namespace NadekoBot.Services.Impl
 {
     public class SoundCloudApiService
     {
