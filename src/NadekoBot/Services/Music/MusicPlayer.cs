@@ -252,8 +252,12 @@ namespace NadekoBot.Services.Music
                         // ignore rcs if song is manually skipped
 
                         int queueCount;
+                        bool stopped;
                         lock (locker)
+                        {
                             queueCount = Queue.Count;
+                            stopped = Stopped;
+                        }
 
                         if (!manualIndex && (!RepeatCurrentSong || manualSkip))
                         {
@@ -320,7 +324,8 @@ namespace NadekoBot.Services.Music
                                     _log.Info("Next song");
                                     lock (locker)
                                     {
-                                        Queue.Next();
+                                        if(!Stopped)
+                                            Queue.Next();
                                     }
                                 }
                             }
@@ -422,7 +427,13 @@ namespace NadekoBot.Services.Music
                 // if player is stopped, and user uses .n, it should play current song.  
                 // It's a bit weird, but that's the least annoying solution
                 if (!Stopped)
-                    Queue.Next(skipCount - 1);
+                    if (!RepeatPlaylist && Queue.IsLast()) // if it's the last song in the queue, and repeat playlist is disabled
+                    { //stop the queue
+                        Stop();
+                        return;
+                    }
+                    else
+                        Queue.Next(skipCount - 1);
                 else
                     Queue.CurrentIndex = 0;
                 Stopped = false;

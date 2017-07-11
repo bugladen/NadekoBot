@@ -172,5 +172,11 @@ namespace NadekoBot.Services.Music
                 Songs.Remove(song);
             }
         }
+
+        public bool IsLast()
+        {
+            lock (locker)
+                return CurrentIndex == Songs.Count - 1;
+        }
     }
 }
