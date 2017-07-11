@@ -147,10 +147,13 @@ namespace NadekoBot.Services.Administration
                     {
                         embed.WithTitle("👥" + GetText(g, "avatar_changed"))
                             .WithDescription($"{before.Username}#{before.Discriminator} | {before.Id}")
-                            .WithThumbnailUrl(before.GetAvatarUrl())
-                            .WithImageUrl(after.GetAvatarUrl())
                             .WithFooter(fb => fb.WithText(CurrentTime(g)))
                             .WithOkColor();
+
+                        if (Uri.IsWellFormedUriString(before.GetAvatarUrl(), UriKind.Absolute))
+                            embed.WithThumbnailUrl(before.GetAvatarUrl());
+                        if (Uri.IsWellFormedUriString(after.GetAvatarUrl(), UriKind.Absolute))
+                            embed.WithImageUrl(after.GetAvatarUrl());
                     }
                     else
                     {
@@ -667,14 +670,17 @@ namespace NadekoBot.Services.Administration
                     ITextChannel logChannel;
                     if ((logChannel = await TryGetLogChannel(usr.Guild, logSetting, LogType.UserLeft)) == null)
                         return;
-
-                    await logChannel.EmbedAsync(new EmbedBuilder()
+                    var embed = new EmbedBuilder()
                         .WithOkColor()
                         .WithTitle("❌ " + GetText(logChannel.Guild, "user_left"))
-                        .WithThumbnailUrl(usr.GetAvatarUrl())
                         .WithDescription(usr.ToString())
                         .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))
-                        .WithFooter(efb => efb.WithText(CurrentTime(usr.Guild)))).ConfigureAwait(false);
+                        .WithFooter(efb => efb.WithText(CurrentTime(usr.Guild)));
+
+                    if (Uri.IsWellFormedUriString(usr.GetAvatarUrl(), UriKind.Absolute))
+                        embed.WithThumbnailUrl(usr.GetAvatarUrl());
+
+                    await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                 }
                 catch
                 {
@@ -698,13 +704,17 @@ namespace NadekoBot.Services.Administration
                     if ((logChannel = await TryGetLogChannel(usr.Guild, logSetting, LogType.UserJoined)) == null)
                         return;
 
-                    await logChannel.EmbedAsync(new EmbedBuilder()
+                    var embed = new EmbedBuilder()
                         .WithOkColor()
                         .WithTitle("✅ " + GetText(logChannel.Guild, "user_joined"))
-                        .WithThumbnailUrl(usr.GetAvatarUrl())
                         .WithDescription($"{usr}")
                         .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))
-                        .WithFooter(efb => efb.WithText(CurrentTime(usr.Guild)))).ConfigureAwait(false);
+                        .WithFooter(efb => efb.WithText(CurrentTime(usr.Guild)));
+
+                    if (Uri.IsWellFormedUriString(usr.GetAvatarUrl(), UriKind.Absolute))
+                        embed.WithThumbnailUrl(usr.GetAvatarUrl());
+
+                    await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                 }
                 catch (Exception ex) { _log.Warn(ex); }
             });
@@ -724,14 +734,17 @@ namespace NadekoBot.Services.Administration
                     ITextChannel logChannel;
                     if ((logChannel = await TryGetLogChannel(guild, logSetting, LogType.UserUnbanned)) == null)
                         return;
-
-                    await logChannel.EmbedAsync(new EmbedBuilder()
+                    var embed = new EmbedBuilder()
                         .WithOkColor()
                         .WithTitle("♻️ " + GetText(logChannel.Guild, "user_unbanned"))
-                        .WithThumbnailUrl(usr.GetAvatarUrl())
                         .WithDescription(usr.ToString())
                         .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))
-                        .WithFooter(efb => efb.WithText(CurrentTime(guild)))).ConfigureAwait(false);
+                        .WithFooter(efb => efb.WithText(CurrentTime(guild)));
+
+                    if (Uri.IsWellFormedUriString(usr.GetAvatarUrl(), UriKind.Absolute))
+                        embed.WithThumbnailUrl(usr.GetAvatarUrl());
+
+                    await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                 }
                 catch (Exception ex) { _log.Warn(ex); }
             });
