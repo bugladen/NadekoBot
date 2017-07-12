@@ -188,9 +188,9 @@ namespace NadekoBot.Services.Impl
                     }
                     catch
                     {
-                    // ignored
-                }
-                }, null, TimeSpan.FromHours(1), TimeSpan.FromHours(1));
+                        // ignored
+                    }
+                }, null, TimeSpan.FromSeconds(1), TimeSpan.FromHours(1));
             }
         }
 
