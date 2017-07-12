@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -157,6 +158,14 @@ namespace NadekoBot.Services.Impl
                     }
                 }, null, TimeSpan.FromHours(1), TimeSpan.FromHours(1));
 
+                var platform = "other";
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                    platform = "linux";
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                    platform = "osx";
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                    platform = "windows";
+
                 _dataTimer = new Timer(async (state) =>
                 {
                     try
@@ -167,7 +176,8 @@ namespace NadekoBot.Services.Impl
                                 new Dictionary<string, string> {
                                     { "id", string.Concat(MD5.Create().ComputeHash(Encoding.ASCII.GetBytes(_creds.ClientId.ToString())).Select(x => x.ToString("X2"))) },
                                     { "guildCount", sc.GuildCount.ToString() },
-                                    { "version", BotVersion } }))
+                                    { "version", BotVersion },
+                                    { "platform", platform }}))
                             {
                                 content.Headers.Clear();
                                 content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
