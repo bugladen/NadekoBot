@@ -185,6 +185,8 @@ in order to open the database file you will need [DB Browser for SQLite](http://
 - click on **Apply** 
 - click on **Write Changes**
 
+![nadekodb](https://cdn.discordapp.com/attachments/251504306010849280/254067055240806400/nadekodb.gif)
+
 and that will save all the changes.
 
 ## Sharding your bot
@@ -205,7 +207,6 @@ and that will save all the changes.
 	- Bot uses a random UDP port in [5000, 6000) range for communication between shards
 
 
-![nadekodb](https://cdn.discordapp.com/attachments/251504306010849280/254067055240806400/nadekodb.gif)
 
 [Google Console]: https://console.developers.google.com
 [DiscordApp]: https://discordapp.com/developers/applications/me
