@@ -153,14 +153,22 @@ namespace NadekoBot.Services.Music
         {
             lock (locker)
             {
+                var currentSong = Current.Song;
                 var playlist = Songs.ToList();
-                if (n1 > playlist.Count || n2 > playlist.Count)
+                if (n1 >= playlist.Count || n2 >= playlist.Count || n1 == n2)
                     return null;
-                var s = playlist[n1 - 1];
-                playlist.Insert(n2 - 1, s);
-                var nn1 = n2 < n1 ? n1 : n1 - 1;
-                playlist.RemoveAt(nn1);
+
+                var s = playlist[n1];
+
+                playlist.RemoveAt(n1);
+                playlist.Insert(n2, s);
+
                 Songs = new LinkedList<SongInfo>(playlist);
+
+
+                if (currentSong != null)
+                    CurrentIndex = playlist.IndexOf(currentSong);
+
                 return s;
             }
         }
@@ -180,3 +188,6 @@ namespace NadekoBot.Services.Music
         }
     }
 }
+//O O [O] O O O O
+//
+// 3

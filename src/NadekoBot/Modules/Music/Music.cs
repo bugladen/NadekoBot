@@ -774,7 +774,7 @@ namespace NadekoBot.Modules.Music
             SongInfo s;
             if (fromtoArr.Length != 2 || !int.TryParse(fromtoArr[0], out var n1) ||
                 !int.TryParse(fromtoArr[1], out var n2) || n1 < 1 || n2 < 1 || n1 == n2
-                || (s = mp.MoveSong(n1, n2)) == null)
+                || (s = mp.MoveSong(--n1, --n2)) == null)
             {
                 await ReplyConfirmLocalized("invalid_input").ConfigureAwait(false);
                 return;
@@ -784,8 +784,8 @@ namespace NadekoBot.Modules.Music
                 .WithTitle(s.Title.TrimTo(65))
                 .WithUrl(s.SongUrl)
             .WithAuthor(eab => eab.WithName(GetText("song_moved")).WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/258605269972549642/music1.png"))
-            .AddField(fb => fb.WithName(GetText("from_position")).WithValue($"#{n1}").WithIsInline(true))
-            .AddField(fb => fb.WithName(GetText("to_position")).WithValue($"#{n2}").WithIsInline(true))
+            .AddField(fb => fb.WithName(GetText("from_position")).WithValue($"#{n1 + 1}").WithIsInline(true))
+            .AddField(fb => fb.WithName(GetText("to_position")).WithValue($"#{n2 + 1}").WithIsInline(true))
             .WithColor(NadekoBot.OkColor);
             await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
