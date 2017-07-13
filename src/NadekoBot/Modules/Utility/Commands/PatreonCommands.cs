@@ -32,18 +32,23 @@ namespace NadekoBot.Modules.Utility
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
+            [RequireContext(ContextType.DM)]
             public async Task PatreonRewardsReload()
             {
-                await _patreon.LoadPledges().ConfigureAwait(false);
+                if (string.IsNullOrWhiteSpace(_creds.PatreonAccessToken))
+                    return;
+                await _patreon.RefreshPledges(true).ConfigureAwait(false);
 
                 await Context.Channel.SendConfirmAsync("👌").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.DM)]
             public async Task ClaimPatreonRewards()
             {
                 if (string.IsNullOrWhiteSpace(_creds.PatreonAccessToken))
                     return;
+
                 if (DateTime.UtcNow.Day < 5)
                 {
                     await ReplyErrorLocalized("clpa_too_early").ConfigureAwait(false);

@@ -36,7 +36,7 @@ namespace NadekoBot.Modules.Administration
                     .ToArray();
                 var timezonesPerPage = 20;
 
-                await Context.Channel.SendPaginatedConfirmAsync((DiscordShardedClient)Context.Client, page, 
+                await Context.Channel.SendPaginatedConfirmAsync((DiscordSocketClient)Context.Client, page, 
                     (curPage) => new EmbedBuilder()
                         .WithOkColor()
                         .WithTitle(GetText("timezones_available"))

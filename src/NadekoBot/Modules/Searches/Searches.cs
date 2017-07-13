@@ -21,6 +21,7 @@ using NadekoBot.Attributes;
 using Discord.Commands;
 using ImageSharp;
 using NadekoBot.Services.Searches;
+using NadekoBot.DataStructures;
 
 namespace NadekoBot.Modules.Searches
 {
@@ -666,7 +667,7 @@ namespace NadekoBot.Modules.Searches
             str += new NadekoRandom().Next();
             foreach (var usr in allUsrsArray)
             {
-                await (await usr.CreateDMChannelAsync()).SendConfirmAsync(str).ConfigureAwait(false);
+                await (await usr.GetOrCreateDMChannelAsync()).SendConfirmAsync(str).ConfigureAwait(false);
             }
         }
 
@@ -791,14 +792,14 @@ namespace NadekoBot.Modules.Searches
 
             tag = tag?.Trim() ?? "";
 
-            var url = await _searches.DapiSearch(tag, type).ConfigureAwait(false);
+            var imgObj = await _searches.DapiSearch(tag, type, Context.Guild?.Id).ConfigureAwait(false);
 
-            if (url == null)
+            if (imgObj == null)
                 await channel.SendErrorAsync(umsg.Author.Mention + " " + GetText("no_results"));
             else
                 await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                    .WithDescription($"{umsg.Author.Mention} [{tag}]({url})")
-                    .WithImageUrl(url)
+                    .WithDescription($"{umsg.Author.Mention} [{tag ?? "url"}]({imgObj.FileUrl})")
+                    .WithImageUrl(imgObj.FileUrl)
                     .WithFooter(efb => efb.WithText(type.ToString()))).ConfigureAwait(false);
         }
 

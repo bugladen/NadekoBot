@@ -126,16 +126,15 @@ namespace NadekoBot.Modules.Administration
         {
             var guser = (IGuildUser)Context.User;
 
-            var userRoles = user.GetRoles();
-            if (guser.Id != Context.Guild.OwnerId && 
-                (user.Id == Context.Guild.OwnerId || guser.GetRoles().Max(x => x.Position) <= userRoles.Max(x => x.Position)))
+            var userRoles = user.GetRoles().Except(new[] { guser.Guild.EveryoneRole });
+            if (user.Id == Context.Guild.OwnerId || (Context.User.Id != Context.Guild.OwnerId && guser.GetRoles().Max(x => x.Position) <= userRoles.Max(x => x.Position)))
                 return;
             try
             {
                 await user.RemoveRolesAsync(userRoles).ConfigureAwait(false);
                 await ReplyConfirmLocalized("rar", Format.Bold(user.ToString())).ConfigureAwait(false);
             }
-            catch
+            catch (Exception)
             {
                 await ReplyErrorLocalized("rar_err").ConfigureAwait(false);
             }

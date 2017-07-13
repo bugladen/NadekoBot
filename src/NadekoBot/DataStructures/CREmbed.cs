@@ -1,6 +1,8 @@
 ﻿using Discord;
+using NadekoBot.Extensions;
 using Newtonsoft.Json;
 using NLog;
+using System;
 
 namespace NadekoBot.DataStructures
 {
@@ -31,19 +33,31 @@ namespace NadekoBot.DataStructures
 
         public EmbedBuilder ToEmbed()
         {
-            var embed = new EmbedBuilder()
-                .WithTitle(Title)
-                .WithDescription(Description)
-                .WithColor(new Discord.Color(Color));
+            var embed = new EmbedBuilder();
+
+            if (!string.IsNullOrWhiteSpace(Title))
+                embed.WithTitle(Title);
+            if (!string.IsNullOrWhiteSpace(Description))
+                embed.WithDescription(Description);
+            embed.WithColor(new Discord.Color(Color));
             if (Footer != null)
-                embed.WithFooter(efb => efb.WithIconUrl(Footer.IconUrl).WithText(Footer.Text));
-            embed.WithThumbnailUrl(Thumbnail)
-                .WithImageUrl(Image);
+                embed.WithFooter(efb =>
+                {
+                    efb.WithText(Footer.Text);
+                    if (Uri.IsWellFormedUriString(Footer.IconUrl, UriKind.Absolute))
+                        efb.WithIconUrl(Footer.IconUrl);
+                });
+
+            if (Thumbnail != null && Uri.IsWellFormedUriString(Thumbnail, UriKind.Absolute))
+                embed.WithThumbnailUrl(Thumbnail);
+            if(Image != null && Uri.IsWellFormedUriString(Image, UriKind.Absolute))
+                embed.WithImageUrl(Image);
 
             if (Fields != null)
                 foreach (var f in Fields)
                 {
-                    embed.AddField(efb => efb.WithName(f.Name).WithValue(f.Value).WithIsInline(f.Inline));
+                    if(!string.IsNullOrWhiteSpace(f.Name) && !string.IsNullOrWhiteSpace(f.Value))
+                        embed.AddField(efb => efb.WithName(f.Name).WithValue(f.Value).WithIsInline(f.Inline));
                 }
 
             return embed;
@@ -58,7 +72,13 @@ namespace NadekoBot.DataStructures
             try
             {
                 var crembed = JsonConvert.DeserializeObject<CREmbed>(input);
-
+                
+                if(crembed.Fields != null && crembed.Fields.Length > 0)
+                    foreach (var f in crembed.Fields)
+                    {
+                        f.Name = f.Name.TrimTo(256);
+                        f.Value = f.Value.TrimTo(1024);
+                    }
                 if (!crembed.IsValid)
                     return false;
 

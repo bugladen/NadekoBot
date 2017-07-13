@@ -55,7 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AngleSharp" Version="0.9.9" />
-    <PackageReference Include="Discord.Net" Version="1.0.0-rc3-00746" />
+    <PackageReference Include="Discord.Net" Version="1.0.1-build-00785" />
     <PackageReference Include="libvideo" Version="1.0.1" />
     <PackageReference Include="CoreCLR-NCalc" Version="2.1.2" />
     <PackageReference Include="Google.Apis.Urlshortener.v1" Version="1.19.0.138" />
@@ -74,6 +74,7 @@
     <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
     <PackageReference Include="NLog" Version="5.0.0-beta03" />
+    <PackageReference Include="NYoutubeDL" Version="0.4.4" />
     <PackageReference Include="System.ValueTuple" Version="4.4.0-preview1-25305-02" />
     <PackageReference Include="System.Xml.XPath" Version="4.3.0" />
   </ItemGroup>
@@ -90,5 +91,6 @@
 
   <ItemGroup>
     <Folder Include="Modules\Music\Classes\" />
+    <Folder Include="Utility\Services\" />
   </ItemGroup>
 </Project>

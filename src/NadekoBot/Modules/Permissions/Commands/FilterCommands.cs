@@ -195,7 +195,7 @@ namespace NadekoBot.Modules.Permissions
 
                 var fws = fwHash.ToArray();
 
-                await channel.SendPaginatedConfirmAsync((DiscordShardedClient)Context.Client,
+                await channel.SendPaginatedConfirmAsync((DiscordSocketClient)Context.Client,
                     page,
                     (curPage) =>
                         new EmbedBuilder()

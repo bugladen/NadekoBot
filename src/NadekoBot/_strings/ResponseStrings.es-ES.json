@@ -243,7 +243,7 @@
     "administration_sbdm": "Has sido advertido en el servidor {0}. \nRazón: {1}",
     "administration_user_unbanned": "Usuario desbloqueado:",
     "administration_migration_done": "¡Migración terminada!",
-    "adminsitration_migration_error": "Error al migrar, revisa la consola para más información.",
+    "administration_migration_error": "Error al migrar, revisa la consola para más información.",
     "administration_presence_updates": "Actualizaciones de presencia",
     "administration_sb_user": "Usuario advertido",
     "gambling_awarded": "le ha regalado {0} a {1}",

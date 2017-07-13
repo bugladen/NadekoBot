@@ -20,12 +20,12 @@ namespace NadekoBot.Services.Administration
         public readonly ConcurrentHashSet<ulong> VoicePlusTextCache;
 
         private readonly ConcurrentDictionary<ulong, SemaphoreSlim> _guildLockObjects = new ConcurrentDictionary<ulong, SemaphoreSlim>();
-        private readonly DiscordShardedClient _client;
+        private readonly DiscordSocketClient _client;
         private readonly NadekoStrings _strings;
         private readonly DbService _db;
         private readonly Logger _log;
 
-        public VplusTService(DiscordShardedClient client, IEnumerable<GuildConfig> gcs, NadekoStrings strings,
+        public VplusTService(DiscordSocketClient client, IEnumerable<GuildConfig> gcs, NadekoStrings strings,
             DbService db)
         {
             _client = client;

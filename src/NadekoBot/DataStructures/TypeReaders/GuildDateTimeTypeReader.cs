@@ -14,7 +14,7 @@ namespace NadekoBot.TypeReaders
             _gts = gts;
         }
 
-        public override Task<TypeReaderResult> Read(ICommandContext context, string input)
+        public override Task<TypeReaderResult> Read(ICommandContext context, string input, IServiceProvider _)
         {
             if (!DateTime.TryParse(input, out var dt))
                 return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "Input string is in an incorrect format."));

@@ -814,7 +814,7 @@
     <value>serverinfo sinfo</value>
   </data>
   <data name="serverinfo_desc" xml:space="preserve">
-    <value>Shows info about the server the bot is on. If no channel is supplied, it defaults to current one.</value>
+    <value>Shows info about the server the bot is on. If no server is supplied, it defaults to current one.</value>
   </data>
   <data name="serverinfo_usage" xml:space="preserve">
     <value>`{0}sinfo Some Server`</value>
@@ -1198,7 +1198,7 @@
     <value>`{0}drawnew` or `{0}drawnew 5`</value>
   </data>
   <data name="shuffleplaylist_cmd" xml:space="preserve">
-    <value>playlistshuffle plsh</value>
+    <value>shuffle sh plsh</value>
   </data>
   <data name="shuffleplaylist_desc" xml:space="preserve">
     <value>Shuffles the current playlist.</value>
@@ -1377,15 +1377,6 @@
   <data name="typeadd_usage" xml:space="preserve">
     <value>`{0}typeadd wordswords`</value>
   </data>
-  <data name="poll_cmd" xml:space="preserve">
-    <value>poll</value>
-  </data>
-  <data name="poll_desc" xml:space="preserve">
-    <value>Creates a poll which requires users to send the number of the voting option to the bot.</value>
-  </data>
-  <data name="poll_usage" xml:space="preserve">
-    <value>`{0}poll Question?;Answer1;Answ 2;A_3`</value>
-  </data>
   <data name="pollend_cmd" xml:space="preserve">
     <value>pollend</value>
   </data>
@@ -1476,6 +1467,15 @@
   <data name="next_usage" xml:space="preserve">
     <value>`{0}n` or `{0}n 5`</value>
   </data>
+  <data name="play_cmd" xml:space="preserve">
+    <value>play start</value>
+  </data>
+  <data name="play_desc" xml:space="preserve">
+    <value>If no arguments are specified, acts as `{0}next 1` command. If you specify a song number, it will jump to that song. If you specify a search query, acts as a `{0}q` command</value>
+  </data>
+  <data name="play_usage" xml:space="preserve">
+    <value>`{0}play` or `{0}play 5` or `{0}play Dream Of Venice`</value>
+  </data>
   <data name="stop_cmd" xml:space="preserve">
     <value>stop s</value>
   </data>
@@ -1534,7 +1534,7 @@
     <value>listqueue lq</value>
   </data>
   <data name="listqueue_desc" xml:space="preserve">
-    <value>Lists 15 currently queued songs per page. Default page is 1.</value>
+    <value>Lists 10 currently queued songs per page. Default page is 1.</value>
   </data>
   <data name="listqueue_usage" xml:space="preserve">
     <value>`{0}lq` or `{0}lq 2`</value>
@@ -2583,13 +2583,13 @@
   <data name="togethertube_usage" xml:space="preserve">
     <value>`{0}totube`</value>
   </data>
-  <data name="publicpoll_cmd" xml:space="preserve">
-    <value>publicpoll ppoll</value>
+  <data name="poll_cmd" xml:space="preserve">
+    <value>poll ppoll</value>
   </data>
-  <data name="publicpoll_desc" xml:space="preserve">
+  <data name="poll_desc" xml:space="preserve">
     <value>Creates a public poll which requires users to type a number of the voting option in the channel command is ran in.</value>
   </data>
-  <data name="publicpoll_usage" xml:space="preserve">
+  <data name="poll_usage" xml:space="preserve">
     <value>`{0}ppoll Question?;Answer1;Answ 2;A_3`</value>
   </data>
   <data name="autotranslang_cmd" xml:space="preserve">
@@ -2789,6 +2789,15 @@
   </data>
   <data name="hangman_usage" xml:space="preserve">
     <value>`{0}hangman` or `{0}hangman movies`</value>
+  </data>
+  <data name="hangmanstop_cmd" xml:space="preserve">
+    <value>hangmanstop</value>
+  </data>
+  <data name="hangmanstop_desc" xml:space="preserve">
+    <value>Stops the active hangman game on this channel if it exists.</value>
+  </data>
+  <data name="hangmanstop_usage" xml:space="preserve">
+    <value>`{0}hangmanstop`</value>
   </data>
   <data name="crstatsclear_cmd" xml:space="preserve">
     <value>crstatsclear</value>
@@ -3096,14 +3105,14 @@
   <data name="shardstats_usage" xml:space="preserve">
     <value>`{0}shardstats` or `{0}shardstats 2`</value>
   </data>
-  <data name="connectshard_cmd" xml:space="preserve">
-    <value>connectshard</value>
+  <data name="restartshard_cmd" xml:space="preserve">
+    <value>restartshard</value>
   </data>
-  <data name="connectshard_desc" xml:space="preserve">
+  <data name="restartshard_desc" xml:space="preserve">
     <value>Try (re)connecting a shard with a certain shardid when it dies. No one knows will it work. Keep an eye on the console for errors.</value>
   </data>
-  <data name="connectshard_usage" xml:space="preserve">
-    <value>`{0}connectshard 2`</value>
+  <data name="restartshard_usage" xml:space="preserve">
+    <value>`{0}restartshard 2`</value>
   </data>
   <data name="shardid_cmd" xml:space="preserve">
     <value>shardid</value>
@@ -3257,6 +3266,15 @@
   </data>
   <data name="warnlog_usage" xml:space="preserve">
     <value>`{0}warnlog @b1nzy`</value>
+  </data>
+  <data name="warnlogall_cmd" xml:space="preserve">
+    <value>warnlogall</value>
+  </data>
+  <data name="warnlogall_desc" xml:space="preserve">
+    <value>See a list of all warnings on the server. 15 users per page.</value>
+  </data>
+  <data name="warnlogall_usage" xml:space="preserve">
+    <value>`{0}warnlogall` or `{0}warnlogall 2`</value>
   </data>
   <data name="warn_cmd" xml:space="preserve">
     <value>warn</value>

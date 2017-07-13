@@ -13,6 +13,6 @@ namespace NadekoBot.DataStructures.ModuleBehaviors
         /// Try to execute some logic within some module's service.
         /// </summary>
         /// <returns>Whether it should block other command executions after it.</returns>
-        Task<bool> TryExecuteEarly(DiscordShardedClient client, IGuild guild, IUserMessage msg);
+        Task<bool> TryExecuteEarly(DiscordSocketClient client, IGuild guild, IUserMessage msg);
     }
 }

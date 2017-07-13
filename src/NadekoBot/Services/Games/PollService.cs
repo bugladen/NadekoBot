@@ -13,17 +13,17 @@ namespace NadekoBot.Services.Games
     {
         public ConcurrentDictionary<ulong, Poll> ActivePolls = new ConcurrentDictionary<ulong, Poll>();
         private readonly Logger _log;
-        private readonly DiscordShardedClient _client;
+        private readonly DiscordSocketClient _client;
         private readonly NadekoStrings _strings;
 
-        public PollService(DiscordShardedClient client, NadekoStrings strings)
+        public PollService(DiscordSocketClient client, NadekoStrings strings)
         {
             _log = LogManager.GetCurrentClassLogger();
             _client = client;
             _strings = strings;
         }
 
-        public async Task<bool?> StartPoll(ITextChannel channel, IUserMessage msg, string arg, bool isPublic = false)
+        public async Task<bool?> StartPoll(ITextChannel channel, IUserMessage msg, string arg)
         {
             if (string.IsNullOrWhiteSpace(arg) || !arg.Contains(";"))
                 return null;
@@ -31,7 +31,7 @@ namespace NadekoBot.Services.Games
             if (data.Length < 3)
                 return null;
 
-            var poll = new Poll(_client, _strings, msg, data[0], data.Skip(1), isPublic: isPublic);
+            var poll = new Poll(_client, _strings, msg, data[0], data.Skip(1));
             if (ActivePolls.TryAdd(channel.Guild.Id, poll))
             {
                 poll.OnEnded += (gid) =>
@@ -45,20 +45,10 @@ namespace NadekoBot.Services.Games
             return false;
         }
 
-        public async Task<bool> TryExecuteEarly(DiscordShardedClient client, IGuild guild, IUserMessage msg)
+        public async Task<bool> TryExecuteEarly(DiscordSocketClient client, IGuild guild, IUserMessage msg)
         {
             if (guild == null)
-            {
-                foreach (var kvp in ActivePolls)
-                {
-                    if (!kvp.Value.IsPublic)
-                    {
-                        if (await kvp.Value.TryVote(msg).ConfigureAwait(false))
-                            return true;                        
-                    }
-                }
                 return false;
-            }
 
             if (!ActivePolls.TryGetValue(guild.Id, out var poll))
                 return false;

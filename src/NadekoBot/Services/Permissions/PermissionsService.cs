@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿
+using Microsoft.EntityFrameworkCore;
 using NadekoBot.DataStructures.ModuleBehaviors;
 using NadekoBot.Services.Database.Models;
 using NLog;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using NadekoBot.Extensions;
+using NadekoBot.Services;
 
 namespace NadekoBot.Services.Permissions
 {
@@ -18,22 +20,26 @@ namespace NadekoBot.Services.Permissions
         private readonly DbService _db;
         private readonly Logger _log;
         private readonly CommandHandler _cmd;
+        private readonly NadekoStrings _strings;
 
         //guildid, root permission
         public ConcurrentDictionary<ulong, PermissionCache> Cache { get; } =
             new ConcurrentDictionary<ulong, PermissionCache>();
 
-        public PermissionService(DbService db, BotConfig bc, CommandHandler cmd)
+        public PermissionService(DiscordSocketClient client, DbService db, BotConfig bc, CommandHandler cmd, NadekoStrings strings)
         {
             _log = LogManager.GetCurrentClassLogger();
             _db = db;
             _cmd = cmd;
+            _strings = strings;
 
             var sw = Stopwatch.StartNew();
-            TryMigratePermissions(bc);
+            if (client.ShardId == 0)
+                TryMigratePermissions(bc);
+
             using (var uow = _db.UnitOfWork)
             {
-                foreach (var x in uow.GuildConfigs.Permissionsv2ForAll())
+                foreach (var x in uow.GuildConfigs.Permissionsv2ForAll(client.Guilds.ToArray().Select(x => (long)x.Id).ToList()))
                 {
                     Cache.TryAdd(x.GuildId, new PermissionCache()
                     {
@@ -68,10 +74,9 @@ namespace NadekoBot.Services.Permissions
         private void TryMigratePermissions(BotConfig bc)
         {
             var log = LogManager.GetCurrentClassLogger();
-            using (var uow = _db.UnitOfWork)
+            if (bc.PermissionVersion <= 1)
             {
-                var _bc = uow.BotConfig.GetOrCreate();
-                if (_bc.PermissionVersion <= 1)
+                using (var uow = _db.UnitOfWork)
                 {
                     log.Info("Permission version is 1, upgrading to 2.");
                     var oldCache = new ConcurrentDictionary<ulong, OldPermissionCache>(uow.GuildConfigs
@@ -126,9 +131,13 @@ namespace NadekoBot.Services.Permissions
                         log.Info("Permission migration to v2 is done.");
                     }
 
-                    _bc.PermissionVersion = 2;
+                    bc.PermissionVersion = 2;
+                    uow.Complete();
                 }
-                if (_bc.PermissionVersion <= 2)
+            }
+            if (bc.PermissionVersion <= 2)
+            {
+                using (var uow = _db.UnitOfWork)
                 {
                     var oldPrefixes = new[] { ".", ";", "!!", "!m", "!", "+", "-", "$", ">" };
                     uow._context.Database.ExecuteSqlCommand(
@@ -144,9 +153,9 @@ WHERE secondaryTargetName LIKE '.%' OR
     secondaryTargetName LIKE '>%' OR
     secondaryTargetName LIKE '-%' OR
     secondaryTargetName LIKE '!%';");
-                    _bc.PermissionVersion = 3;
+                    bc.PermissionVersion = 3;
+                    uow.Complete();
                 }
-                uow.Complete();
             }
         }
 
@@ -183,7 +192,7 @@ WHERE secondaryTargetName LIKE '.%' OR
             });
         }
 
-        public async Task<bool> TryBlockLate(DiscordShardedClient client, IUserMessage msg, IGuild guild, IMessageChannel channel, IUser user, string moduleName, string commandName)
+        public async Task<bool> TryBlockLate(DiscordSocketClient client, IUserMessage msg, IGuild guild, IMessageChannel channel, IUser user, string moduleName, string commandName)
         {
             await Task.Yield();
             if (guild == null)
@@ -198,11 +207,9 @@ WHERE secondaryTargetName LIKE '.%' OR
                 PermissionCache pc = GetCache(guild.Id);
                 if (!resetCommand && !pc.Permissions.CheckPermissions(msg, commandName, moduleName, out int index))
                 {
-                    var returnMsg = $"Permission number #{index + 1} **{pc.Permissions[index].GetCommand(_cmd.GetPrefix(guild), (SocketGuild)guild)}** is preventing this action.";
                     if (pc.Verbose)
-                        try { await channel.SendErrorAsync(returnMsg).ConfigureAwait(false); } catch { }
+                        try { await channel.SendErrorAsync(_strings.GetText("trigger", guild.Id, "Permissions".ToLowerInvariant(), index + 1, Format.Bold(pc.Permissions[index].GetCommand(_cmd.GetPrefix(guild), (SocketGuild)guild)))).ConfigureAwait(false); } catch { }
                     return true;
-                    //return new ExecuteCommandResult(cmd, pc, SearchResult.FromError(CommandError.Exception, returnMsg));
                 }
 
 
@@ -215,7 +222,6 @@ WHERE secondaryTargetName LIKE '.%' OR
                         if (pc.Verbose)
                             try { await channel.SendErrorAsync(returnMsg).ConfigureAwait(false); } catch { }
                         return true;
-                        //return new ExecuteCommandResult(cmd, pc, SearchResult.FromError(CommandError.Exception, $"You need the **{pc.PermRole}** role in order to use permission commands."));
                     }
                 }
             }

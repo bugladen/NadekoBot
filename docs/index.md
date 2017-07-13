@@ -28,6 +28,7 @@ If you want to contribute, be sure to PR on the **[1.4][1.4]** branch.
 	- [Permissions System](Permissions System.md)
 	- [JSON Explanations](JSON Explanations.md)
 	- [Custom Reactions](Custom Reactions.md)
+	- [Placeholders](Placeholders.md)
 - [Frequently Asked Questions](Frequently Asked Questions.md)
 - [Contribution Guide](Contribution Guide.md)
 - [Donate](Donate.md)

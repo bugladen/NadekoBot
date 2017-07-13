@@ -21,9 +21,9 @@ namespace NadekoBot.Modules.Games
             private static readonly Dictionary<ulong, TicTacToe> _games = new Dictionary<ulong, TicTacToe>();
 
             private readonly SemaphoreSlim _sem = new SemaphoreSlim(1, 1);
-            private readonly DiscordShardedClient _client;
+            private readonly DiscordSocketClient _client;
 
-            public TicTacToeCommands(DiscordShardedClient client)
+            public TicTacToeCommands(DiscordSocketClient client)
             {
                 _client = client;
             }
@@ -87,9 +87,9 @@ namespace NadekoBot.Modules.Games
             private IUserMessage _previousMessage;
             private Timer _timeoutTimer;
             private readonly NadekoStrings _strings;
-            private readonly DiscordShardedClient _client;
+            private readonly DiscordSocketClient _client;
 
-            public TicTacToe(NadekoStrings strings, DiscordShardedClient client, ITextChannel channel, IGuildUser firstUser)
+            public TicTacToe(NadekoStrings strings, DiscordSocketClient client, ITextChannel channel, IGuildUser firstUser)
             {
                 _channel = channel;
                 _strings = strings;

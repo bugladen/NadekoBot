@@ -1,6 +1,8 @@
 ﻿using Discord;
 using Discord.WebSocket;
+using NadekoBot.DataStructures.Replacements;
 using NadekoBot.Extensions;
+using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
 using NLog;
 using System;
@@ -19,21 +21,15 @@ namespace NadekoBot.Services.Utility
 
         public string RemindMessageFormat { get; }
 
-        public readonly IDictionary<string, Func<Reminder, string>> _replacements = new Dictionary<string, Func<Reminder, string>>
-            {
-                { "%message%" , (r) => r.Message },
-                { "%user%", (r) => $"<@!{r.UserId}>" },
-                { "%target%", (r) =>  r.IsPrivate ? "Direct Message" : $"<#{r.ChannelId}>"}
-            };
-
         private readonly Logger _log;
         private readonly CancellationTokenSource cancelSource;
         private readonly CancellationToken cancelAllToken;
         private readonly BotConfig _config;
-        private readonly DiscordShardedClient _client;
+        private readonly DiscordSocketClient _client;
         private readonly DbService _db;
 
-        public RemindService(DiscordShardedClient client, BotConfig config, DbService db)
+        public RemindService(DiscordSocketClient client, BotConfig config, DbService db, 
+            List<long> guilds, IUnitOfWork uow)
         {
             _config = config;
             _client = client;
@@ -42,11 +38,8 @@ namespace NadekoBot.Services.Utility
 
             cancelSource = new CancellationTokenSource();
             cancelAllToken = cancelSource.Token;
-            List<Reminder> reminders;
-            using (var uow = _db.UnitOfWork)
-            {
-                reminders = uow.Reminders.GetAll().ToList();
-            }
+            
+            var reminders = uow.Reminders.GetIncludedReminders(guilds).ToList();
             RemindMessageFormat = _config.RemindMessageFormat;
 
             foreach (var r in reminders)
@@ -74,7 +67,7 @@ namespace NadekoBot.Services.Utility
                     var user = _client.GetGuild(r.ServerId).GetUser(r.ChannelId);
                     if (user == null)
                         return;
-                    ch = await user.CreateDMChannelAsync().ConfigureAwait(false);
+                    ch = await user.GetOrCreateDMChannelAsync().ConfigureAwait(false);
                 }
                 else
                 {
@@ -83,11 +76,13 @@ namespace NadekoBot.Services.Utility
                 if (ch == null)
                     return;
 
-                await ch.SendMessageAsync(
-                    _replacements.Aggregate(RemindMessageFormat,
-                        (cur, replace) => cur.Replace(replace.Key, replace.Value(r)))
-                                             .SanitizeMentions()
-                        ).ConfigureAwait(false); //it works trust me
+                var rep = new ReplacementBuilder()
+                    .WithOverride("%user%", () => $"<@!{r.UserId}>")
+                    .WithOverride("%message%", () => r.Message)
+                    .WithOverride("%target%", () => r.IsPrivate ? "Direct Message" : $"<#{r.ChannelId}>")
+                    .Build();
+
+                await ch.SendMessageAsync(rep.Replace(RemindMessageFormat).SanitizeMentions()).ConfigureAwait(false); //it works trust me
             }
             catch (Exception ex) { _log.Warn(ex); }
             finally

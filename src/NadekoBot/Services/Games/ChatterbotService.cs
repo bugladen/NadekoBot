@@ -15,19 +15,22 @@ namespace NadekoBot.Services.Games
 {
     public class ChatterBotService : IEarlyBlockingExecutor
     {
-        private readonly DiscordShardedClient _client;
+        private readonly DiscordSocketClient _client;
         private readonly Logger _log;
         private readonly PermissionService _perms;
         private readonly CommandHandler _cmd;
+        private readonly NadekoStrings _strings;
 
         public ConcurrentDictionary<ulong, Lazy<ChatterBotSession>> ChatterBotGuilds { get; }
 
-        public ChatterBotService(DiscordShardedClient client, PermissionService perms, IEnumerable<GuildConfig> gcs, CommandHandler cmd)
+        public ChatterBotService(DiscordSocketClient client, PermissionService perms, IEnumerable<GuildConfig> gcs, 
+            CommandHandler cmd, NadekoStrings strings)
         {
             _client = client;
             _log = LogManager.GetCurrentClassLogger();
             _perms = perms;
             _cmd = cmd;
+            _strings = strings;
 
             ChatterBotGuilds = new ConcurrentDictionary<ulong, Lazy<ChatterBotSession>>(
                     gcs.Where(gc => gc.CleverbotEnabled)
@@ -83,7 +86,7 @@ namespace NadekoBot.Services.Games
             return true;
         }
 
-        public async Task<bool> TryExecuteEarly(DiscordShardedClient client, IGuild guild, IUserMessage usrMsg)
+        public async Task<bool> TryExecuteEarly(DiscordSocketClient client, IGuild guild, IUserMessage usrMsg)
         {
             if (!(guild is SocketGuild sg))
                 return false;
@@ -101,8 +104,7 @@ namespace NadekoBot.Services.Games
                 {
                     if (pc.Verbose)
                     {
-                        //todo move this to permissions
-                        var returnMsg = $"Permission number #{index + 1} **{pc.Permissions[index].GetCommand(_cmd.GetPrefix(guild), sg)}** is preventing this action.";
+                        var returnMsg = _strings.GetText("trigger", guild.Id, "Permissions".ToLowerInvariant(), index + 1, Format.Bold(pc.Permissions[index].GetCommand(_cmd.GetPrefix(guild), (SocketGuild)guild)));
                         try { await usrMsg.Channel.SendErrorAsync(returnMsg).ConfigureAwait(false); } catch { }
                         _log.Info(returnMsg);
                     }

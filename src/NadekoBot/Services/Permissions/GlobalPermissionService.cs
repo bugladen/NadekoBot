@@ -19,7 +19,7 @@ namespace NadekoBot.Services.Permissions
             BlockedCommands = new ConcurrentHashSet<string>(bc.BlockedCommands.Select(x => x.Name));
         }
 
-        public async Task<bool> TryBlockLate(DiscordShardedClient client, IUserMessage msg, IGuild guild, IMessageChannel channel, IUser user, string moduleName, string commandName)
+        public async Task<bool> TryBlockLate(DiscordSocketClient client, IUserMessage msg, IGuild guild, IMessageChannel channel, IUser user, string moduleName, string commandName)
         {
             await Task.Yield();
             commandName = commandName.ToLowerInvariant();

@@ -243,7 +243,7 @@
     "administration_sbdm": "Вас забанили на сервере {0}. Причина: {1}",
     "administration_user_unbanned": "Пользователь разбанен.",
     "administration_migration_done": "Перемещение закончено!",
-    "adminsitration_migration_error": "Ошибка при переносе файлов, проверьте консоль бота для получения дальнейшей информации.",
+    "administration_migration_error": "Ошибка при переносе файлов, проверьте консоль бота для получения дальнейшей информации.",
     "administration_presence_updates": "История присутвия пользователей",
     "administration_sb_user": "Пользователя выгнали",
     "gambling_awarded": "наградил {0} пользователю {1}",

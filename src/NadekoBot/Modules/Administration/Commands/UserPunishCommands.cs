@@ -28,6 +28,7 @@ namespace NadekoBot.Modules.Administration
                 _muteService = muteService;
             }
 
+            //todo move to service
             private async Task<PunishmentAction?> InternalWarn(IGuild guild, ulong userId, string modName, string reason)
             {
                 if (string.IsNullOrWhiteSpace(reason))
@@ -109,7 +110,7 @@ namespace NadekoBot.Modules.Administration
             {
                 try
                 {
-                    await (await user.CreateDMChannelAsync()).EmbedAsync(new EmbedBuilder().WithErrorColor()
+                    await (await user.GetOrCreateDMChannelAsync()).EmbedAsync(new EmbedBuilder().WithErrorColor()
                                      .WithDescription(GetText("warned_on", Context.Guild.ToString()))
                                      .AddField(efb => efb.WithName(GetText("moderator")).WithValue(Context.User.ToString()))
                                      .AddField(efb => efb.WithName(GetText("reason")).WithValue(reason ?? "-")))
@@ -131,24 +132,27 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.BanMembers)]
+            [Priority(1)]
             public Task Warnlog(int page, IGuildUser user)
                 => Warnlog(page, user.Id);
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.BanMembers)]
+            [Priority(0)]
             public Task Warnlog(IGuildUser user)
-                => Warnlog(user.Id);
+                => Context.User.Id == user.Id || ((IGuildUser)Context.User).GuildPermissions.BanMembers ? Warnlog(user.Id) : Task.CompletedTask;
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.BanMembers)]
+            [Priority(3)]
             public Task Warnlog(int page, ulong userId)
                 => InternalWarnlog(userId, page - 1);
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.BanMembers)]
+            [Priority(2)]
             public Task Warnlog(ulong userId)
                 => InternalWarnlog(userId, 0);
 
@@ -189,6 +193,39 @@ namespace NadekoBot.Modules.Administration
                 }
 
                 await Context.Channel.EmbedAsync(embed);
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.BanMembers)]
+            public async Task WarnlogAll(int page = 1)
+            {
+                if (--page < 0)
+                    return;
+                IGrouping<ulong, Warning>[] warnings;
+                using (var uow = _db.UnitOfWork)
+                {
+                    warnings = uow.Warnings.GetForGuild(Context.Guild.Id).GroupBy(x => x.UserId).ToArray();
+                }
+
+                await Context.Channel.SendPaginatedConfirmAsync((DiscordSocketClient)Context.Client, page, async (curPage) =>
+                {
+                    var ws = await Task.WhenAll(warnings.Skip(curPage * 15)
+                        .Take(15)
+                        .ToArray()
+                        .Select(async x =>
+                        {
+                            var all = x.Count();
+                            var forgiven = x.Count(y => y.Forgiven);
+                            var total = all - forgiven;
+                            return ((await Context.Guild.GetUserAsync(x.Key))?.ToString() ?? x.Key.ToString()) + $" | {total} ({all} - {forgiven})";
+                        }));
+
+                    return new EmbedBuilder()
+                        .WithTitle(GetText("warnings_list"))
+                        .WithDescription(string.Join("\n", ws));
+
+                }, warnings.Length / 15);
             }
 
             [NadekoCommand, Usage, Description, Aliases]

@@ -7,5 +7,6 @@ namespace NadekoBot.Services.Database.Repositories
     {
         Warning[] For(ulong guildId, ulong userId);
         Task ForgiveAll(ulong guildId, ulong userId, string mod);
+        Warning[] GetForGuild(ulong id);
     }
 }

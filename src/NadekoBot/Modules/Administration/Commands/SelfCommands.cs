@@ -13,6 +13,9 @@ using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using NadekoBot.Services.Administration;
+using System.Diagnostics;
+using NadekoBot.DataStructures;
+using NadekoBot.Services.Music;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -25,16 +28,18 @@ namespace NadekoBot.Modules.Administration
 
             private static readonly object _locker = new object();
             private readonly SelfService _service;
-            private readonly DiscordShardedClient _client;
+            private readonly DiscordSocketClient _client;
             private readonly IImagesService _images;
+            private readonly MusicService _music;
 
-            public SelfCommands(DbService db, SelfService service, DiscordShardedClient client,
-                IImagesService images)
+            public SelfCommands(DbService db, SelfService service, DiscordSocketClient client,
+                MusicService music, IImagesService images)
             {
                 _db = db;
                 _service = service;
                 _client = client;
                 _images = images;
+                _music = music;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -204,28 +209,28 @@ namespace NadekoBot.Modules.Administration
 
             }
 
-            [NadekoCommand, Usage, Description, Aliases]
-            [OwnerOnly]
-            public async Task ConnectShard(int shardid)
-            {
-                var shard = _client.GetShard(shardid);
-
-                if (shard == null)
-                {
-                    await ReplyErrorLocalized("no_shard_id").ConfigureAwait(false);
-                    return;
-                }
-                try
-                {
-                    await ReplyConfirmLocalized("shard_reconnecting", Format.Bold("#" + shardid)).ConfigureAwait(false);
-                    await shard.StartAsync().ConfigureAwait(false);
-                    await ReplyConfirmLocalized("shard_reconnected", Format.Bold("#" + shardid)).ConfigureAwait(false);
-                }
-                catch (Exception ex)
-                {
-                    _log.Warn(ex);
-                }
-            }
+            //todo 2 shard commands
+            //[NadekoCommand, Usage, Description, Aliases]
+            //[Shard0Precondition]
+            //[OwnerOnly]
+            //public async Task RestartShard(int shardid)
+            //{
+            //    if (shardid == 0 || shardid > b)
+            //    {
+            //        await ReplyErrorLocalized("no_shard_id").ConfigureAwait(false);
+            //        return;
+            //    }
+            //    try
+            //    {
+            //        await ReplyConfirmLocalized("shard_reconnecting", Format.Bold("#" + shardid)).ConfigureAwait(false);
+            //        await shard.StartAsync().ConfigureAwait(false);
+            //        await ReplyConfirmLocalized("shard_reconnected", Format.Bold("#" + shardid)).ConfigureAwait(false);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        _log.Warn(ex);
+            //    }
+            //}
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
@@ -266,6 +271,7 @@ namespace NadekoBot.Modules.Administration
                     // ignored
                 }
                 await Task.Delay(2000).ConfigureAwait(false);
+                try { await _music.DestroyAllPlayers().ConfigureAwait(false); } catch { }
                 Environment.Exit(0);
             }
 
@@ -417,8 +423,10 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task ReloadImages()
             {
-                var time = _images.Reload();
-                await ReplyConfirmLocalized("images_loaded", time.TotalSeconds.ToString("F3")).ConfigureAwait(false);
+                var sw = Stopwatch.StartNew();
+                _images.Reload();
+                sw.Stop();
+                await ReplyConfirmLocalized("images_loaded", sw.Elapsed.TotalSeconds.ToString("F3")).ConfigureAwait(false);
             }
 
             private static UserStatus SettableUserStatusToUserStatus(SettableUserStatus sus)

@@ -22,12 +22,12 @@ namespace NadekoBot.Modules.Gambling
         {
             private readonly BotConfig _bc;
             private readonly CurrencyService _cs;
-            private readonly DiscordShardedClient _client;
+            private readonly DiscordSocketClient _client;
             
 
             public static ConcurrentDictionary<ulong, AnimalRace> AnimalRaces { get; } = new ConcurrentDictionary<ulong, AnimalRace>();
 
-            public AnimalRacing(BotConfig bc, CurrencyService cs, DiscordShardedClient client)
+            public AnimalRacing(BotConfig bc, CurrencyService cs, DiscordSocketClient client)
             {
                 _bc = bc;
                 _cs = cs;
@@ -82,14 +82,14 @@ namespace NadekoBot.Modules.Gambling
                 private readonly ITextChannel _raceChannel;
                 private readonly BotConfig _bc;
                 private readonly CurrencyService _cs;
-                private readonly DiscordShardedClient _client;
+                private readonly DiscordSocketClient _client;
                 private readonly ILocalization _localization;
                 private readonly NadekoStrings _strings;
 
                 public bool Started { get; private set; }
 
                 public AnimalRace(ulong serverId, ITextChannel channel, string prefix, BotConfig bc,
-                    CurrencyService cs, DiscordShardedClient client, ILocalization localization,
+                    CurrencyService cs, DiscordSocketClient client, ILocalization localization,
                     NadekoStrings strings)
                 {
                     _prefix = prefix;

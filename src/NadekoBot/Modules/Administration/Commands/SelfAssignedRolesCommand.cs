@@ -140,7 +140,7 @@ namespace NadekoBot.Modules.Administration
                     await uow.CompleteAsync();
                 }
 
-                await Context.Channel.SendPaginatedConfirmAsync((DiscordShardedClient)Context.Client, page, (curPage) =>
+                await Context.Channel.SendPaginatedConfirmAsync((DiscordSocketClient)Context.Client, page, (curPage) =>
                 {
                     return new EmbedBuilder()
                         .WithTitle(GetText("self_assign_list", roleCnt))

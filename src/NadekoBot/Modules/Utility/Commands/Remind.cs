@@ -3,6 +3,7 @@ using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
+using NadekoBot.Services.Administration;
 using NadekoBot.Services.Database.Models;
 using NadekoBot.Services.Utility;
 using System;
@@ -19,11 +20,13 @@ namespace NadekoBot.Modules.Utility
         {
             private readonly RemindService _service;
             private readonly DbService _db;
+            private readonly GuildTimezoneService _tz;
 
-            public RemindCommands(RemindService service, DbService db)
+            public RemindCommands(RemindService service, DbService db, GuildTimezoneService tz)
             {
                 _service = service;
                 _db = db;
+                _tz = tz;
             }
 
             public enum MeOrHere
@@ -33,7 +36,7 @@ namespace NadekoBot.Modules.Utility
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [Priority(1)]
+            [Priority(0)]
             public async Task Remind(MeOrHere meorhere, string timeStr, [Remainder] string message)
             {
                 ulong target;
@@ -44,7 +47,7 @@ namespace NadekoBot.Modules.Utility
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
-            [Priority(0)]
+            [Priority(1)]
             public async Task Remind(ITextChannel channel, string timeStr, [Remainder] string message)
             {
                 var perms = ((IGuildUser)Context.User).GetPermissions((ITextChannel)channel);
@@ -119,6 +122,7 @@ namespace NadekoBot.Modules.Utility
                     await uow.CompleteAsync();
                 }
 
+                var gTime = TimeZoneInfo.ConvertTime(time, _tz.GetTimeZoneOrUtc(Context.Guild.Id));
                 try
                 {
                     await Context.Channel.SendConfirmAsync(
@@ -126,7 +130,7 @@ namespace NadekoBot.Modules.Utility
                             Format.Bold(!isPrivate ? $"<#{targetId}>" : Context.User.Username),
                             Format.Bold(message.SanitizeMentions()),
                             Format.Bold(output),
-                            time, time)).ConfigureAwait(false);
+                            gTime, gTime)).ConfigureAwait(false);
                 }
                 catch
                 {

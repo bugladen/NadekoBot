@@ -21,10 +21,10 @@ namespace NadekoBot.Services.Administration
         public event Func<PunishmentAction, ProtectionType, IGuildUser[], Task> OnAntiProtectionTriggered = delegate { return Task.CompletedTask; };
 
         private readonly Logger _log;
-        private readonly DiscordShardedClient _client;
+        private readonly DiscordSocketClient _client;
         private readonly MuteService _mute;
 
-        public ProtectionService(DiscordShardedClient client, IEnumerable<GuildConfig> gcs, MuteService mute)
+        public ProtectionService(DiscordSocketClient client, IEnumerable<GuildConfig> gcs, MuteService mute)
         {
             _log = LogManager.GetCurrentClassLogger();
             _client = client;

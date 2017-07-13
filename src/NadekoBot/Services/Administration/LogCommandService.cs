@@ -16,11 +16,24 @@ namespace NadekoBot.Services.Administration
     public class LogCommandService
     {
 
-        private readonly DiscordShardedClient _client;
+        private readonly DiscordSocketClient _client;
         private readonly Logger _log;
 
-        private string PrettyCurrentTime => $"【{DateTime.UtcNow:HH:mm:ss}】";
-        private string CurrentTime => $"{DateTime.UtcNow:HH:mm:ss}";
+        private string PrettyCurrentTime(IGuild g)
+        {
+            var time = DateTime.UtcNow;
+            if(g != null)
+                time = TimeZoneInfo.ConvertTime(time, _tz.GetTimeZoneOrUtc(g.Id));
+            return $"【{time:HH:mm:ss}】";
+        }
+        private string CurrentTime(IGuild g)
+        {
+            DateTime time = DateTime.UtcNow;
+            if (g != null)
+                time = TimeZoneInfo.ConvertTime(time, _tz.GetTimeZoneOrUtc(g.Id));
+
+            return $"{time:HH:mm:ss}";
+        }
 
         public ConcurrentDictionary<ulong, LogSetting> GuildLogSettings { get; }
 
@@ -30,9 +43,10 @@ namespace NadekoBot.Services.Administration
         private readonly DbService _db;
         private readonly MuteService _mute;
         private readonly ProtectionService _prot;
+        private readonly GuildTimezoneService _tz;
 
-        public LogCommandService(DiscordShardedClient client, NadekoStrings strings,
-            IEnumerable<GuildConfig> gcs, DbService db, MuteService mute, ProtectionService prot)
+        public LogCommandService(DiscordSocketClient client, NadekoStrings strings,
+            IEnumerable<GuildConfig> gcs, DbService db, MuteService mute, ProtectionService prot, GuildTimezoneService tz)
         {
             _client = client;
             _log = LogManager.GetCurrentClassLogger();
@@ -40,6 +54,7 @@ namespace NadekoBot.Services.Administration
             _db = db;
             _mute = mute;
             _prot = prot;
+            _tz = tz;
 
             GuildLogSettings = gcs
                 .ToDictionary(g => g.GuildId, g => g.LogSetting)
@@ -51,14 +66,15 @@ namespace NadekoBot.Services.Administration
                 {
                     var keys = PresenceUpdates.Keys.ToList();
 
-                    await Task.WhenAll(keys.Select(async key =>
+                    await Task.WhenAll(keys.Select(key =>
                     {
-                        if (PresenceUpdates.TryRemove(key, out List<string> messages))
-                            try { await key.SendConfirmAsync(GetText(key.Guild, "presence_updates"), string.Join(Environment.NewLine, messages)); }
-                            catch
-                            {
-                                // ignored
-                            }
+                        if (PresenceUpdates.TryRemove(key, out var msgs))
+                        {
+                            var title = GetText(key.Guild, "presence_updates");
+                            var desc = string.Join(Environment.NewLine, msgs);
+                            return key.SendConfirmAsync(title, desc.TrimTo(2048));
+                        }
+                        return Task.CompletedTask;
                     }));
                 }
                 catch (Exception ex)
@@ -74,7 +90,7 @@ namespace NadekoBot.Services.Administration
             _client.UserUnbanned += _client_UserUnbanned;
             _client.UserJoined += _client_UserJoined;
             _client.UserLeft += _client_UserLeft;
-            _client.UserPresenceUpdated += _client_UserPresenceUpdated;
+            //_client.UserPresenceUpdated += _client_UserPresenceUpdated;
             _client.UserVoiceStateUpdated += _client_UserVoiceStateUpdated;
             _client.UserVoiceStateUpdated += _client_UserVoiceStateUpdated_TTS;
             _client.GuildMemberUpdated += _client_GuildUserUpdated;
@@ -124,17 +140,20 @@ namespace NadekoBot.Services.Administration
                             .WithDescription($"{before.Username}#{before.Discriminator} | {before.Id}")
                             .AddField(fb => fb.WithName("Old Name").WithValue($"{before.Username}").WithIsInline(true))
                             .AddField(fb => fb.WithName("New Name").WithValue($"{after.Username}").WithIsInline(true))
-                            .WithFooter(fb => fb.WithText(CurrentTime))
+                            .WithFooter(fb => fb.WithText(CurrentTime(g)))
                             .WithOkColor();
                     }
                     else if (before.AvatarId != after.AvatarId)
                     {
                         embed.WithTitle("👥" + GetText(g, "avatar_changed"))
                             .WithDescription($"{before.Username}#{before.Discriminator} | {before.Id}")
-                            .WithThumbnailUrl(before.GetAvatarUrl())
-                            .WithImageUrl(after.GetAvatarUrl())
-                            .WithFooter(fb => fb.WithText(CurrentTime))
+                            .WithFooter(fb => fb.WithText(CurrentTime(g)))
                             .WithOkColor();
+
+                        if (Uri.IsWellFormedUriString(before.GetAvatarUrl(), UriKind.Absolute))
+                            embed.WithThumbnailUrl(before.GetAvatarUrl());
+                        if (Uri.IsWellFormedUriString(after.GetAvatarUrl(), UriKind.Absolute))
+                            embed.WithImageUrl(after.GetAvatarUrl());
                     }
                     else
                     {
@@ -244,7 +263,7 @@ namespace NadekoBot.Services.Administration
 
                     var embed = new EmbedBuilder().WithAuthor(eab => eab.WithName(mutes))
                             .WithTitle($"{usr.Username}#{usr.Discriminator} | {usr.Id}")
-                            .WithFooter(fb => fb.WithText(CurrentTime))
+                            .WithFooter(fb => fb.WithText(CurrentTime(usr.Guild)))
                             .WithOkColor();
 
                     await logChannel.EmbedAsync(embed).ConfigureAwait(false);
@@ -287,7 +306,7 @@ namespace NadekoBot.Services.Administration
 
                     var embed = new EmbedBuilder().WithAuthor(eab => eab.WithName(mutes))
                             .WithTitle($"{usr.Username}#{usr.Discriminator} | {usr.Id}")
-                            .WithFooter(fb => fb.WithText($"{CurrentTime}"))
+                            .WithFooter(fb => fb.WithText($"{CurrentTime(usr.Guild)}"))
                             .WithOkColor();
 
                     await logChannel.EmbedAsync(embed).ConfigureAwait(false);
@@ -335,7 +354,7 @@ namespace NadekoBot.Services.Administration
                     var embed = new EmbedBuilder().WithAuthor(eab => eab.WithName($"🛡 Anti-{protection}"))
                             .WithTitle(GetText(logChannel.Guild, "users") + " " + punishment)
                             .WithDescription(string.Join("\n", users.Select(u => u.ToString())))
-                            .WithFooter(fb => fb.WithText($"{CurrentTime}"))
+                            .WithFooter(fb => fb.WithText(CurrentTime(logChannel.Guild)))
                             .WithOkColor();
 
                     await logChannel.EmbedAsync(embed).ConfigureAwait(false);
@@ -354,40 +373,59 @@ namespace NadekoBot.Services.Administration
             {
                 try
                 {
-                    if (!GuildLogSettings.TryGetValue(before.Guild.Id, out LogSetting logSetting)
-                        || (logSetting.UserUpdatedId == null))
+                    if (!GuildLogSettings.TryGetValue(before.Guild.Id, out LogSetting logSetting))
                         return;
 
                     ITextChannel logChannel;
-                    if ((logChannel = await TryGetLogChannel(before.Guild, logSetting, LogType.UserUpdated)) == null)
-                        return;
-                    var embed = new EmbedBuilder().WithOkColor().WithFooter(efb => efb.WithText(CurrentTime))
-                        .WithTitle($"{before.Username}#{before.Discriminator} | {before.Id}");
-                    if (before.Nickname != after.Nickname)
+                    if (logSetting.UserUpdatedId != null && (logChannel = await TryGetLogChannel(before.Guild, logSetting, LogType.UserUpdated)) != null)
                     {
-                        embed.WithAuthor(eab => eab.WithName("👥 " + GetText(logChannel.Guild, "nick_change")))
+                        var embed = new EmbedBuilder().WithOkColor().WithFooter(efb => efb.WithText(CurrentTime(before.Guild)))
+                            .WithTitle($"{before.Username}#{before.Discriminator} | {before.Id}");
+                        if (before.Nickname != after.Nickname)
+                        {
+                            embed.WithAuthor(eab => eab.WithName("👥 " + GetText(logChannel.Guild, "nick_change")))
+                                .AddField(efb => efb.WithName(GetText(logChannel.Guild, "old_nick")).WithValue($"{before.Nickname}#{before.Discriminator}"))
+                                .AddField(efb => efb.WithName(GetText(logChannel.Guild, "new_nick")).WithValue($"{after.Nickname}#{after.Discriminator}"));
 
-                            .AddField(efb => efb.WithName(GetText(logChannel.Guild, "old_nick")).WithValue($"{before.Nickname}#{before.Discriminator}"))
-                            .AddField(efb => efb.WithName(GetText(logChannel.Guild, "new_nick")).WithValue($"{after.Nickname}#{after.Discriminator}"));
+                            await logChannel.EmbedAsync(embed).ConfigureAwait(false);
+                        }
+                        else if (!before.Roles.SequenceEqual(after.Roles))
+                        {
+                            if (before.Roles.Count < after.Roles.Count)
+                            {
+                                var diffRoles = after.Roles.Where(r => !before.Roles.Contains(r)).Select(r => r.Name);
+                                embed.WithAuthor(eab => eab.WithName("⚔ " + GetText(logChannel.Guild, "user_role_add")))
+                                    .WithDescription(string.Join(", ", diffRoles).SanitizeMentions());
+                            }
+                            else if (before.Roles.Count > after.Roles.Count)
+                            {
+                                var diffRoles = before.Roles.Where(r => !after.Roles.Contains(r)).Select(r => r.Name);
+                                embed.WithAuthor(eab => eab.WithName("⚔ " + GetText(logChannel.Guild, "user_role_rem")))
+                                    .WithDescription(string.Join(", ", diffRoles).SanitizeMentions());
+                            }
+                            await logChannel.EmbedAsync(embed).ConfigureAwait(false);
+                        }
                     }
-                    else if (!before.Roles.SequenceEqual(after.Roles))
+
+                    logChannel = null;
+                    if (logSetting.LogUserPresenceId != null && (logChannel = await TryGetLogChannel(before.Guild, logSetting, LogType.UserPresence)) != null)
                     {
-                        if (before.Roles.Count < after.Roles.Count)
+                        if (before.Status != after.Status)
                         {
-                            var diffRoles = after.Roles.Where(r => !before.Roles.Contains(r)).Select(r => r.Name);
-                            embed.WithAuthor(eab => eab.WithName("⚔ " + GetText(logChannel.Guild, "user_role_add")))
-                                .WithDescription(string.Join(", ", diffRoles).SanitizeMentions());
+                            var str = "🎭" + Format.Code(PrettyCurrentTime(after.Guild)) +
+                                  GetText(logChannel.Guild, "user_status_change",
+                                        "👤" + Format.Bold(after.Username),
+                                        Format.Bold(after.Status.ToString()));
+                            PresenceUpdates.AddOrUpdate(logChannel,
+                                new List<string>() { str }, (id, list) => { list.Add(str); return list; });
                         }
-                        else if (before.Roles.Count > after.Roles.Count)
+                        else if (before.Game?.Name != after.Game?.Name)
                         {
-                            var diffRoles = before.Roles.Where(r => !after.Roles.Contains(r)).Select(r => r.Name);
-                            embed.WithAuthor(eab => eab.WithName("⚔ " + GetText(logChannel.Guild, "user_role_rem")))
-                                .WithDescription(string.Join(", ", diffRoles).SanitizeMentions());
+                            var str = $"👾`{PrettyCurrentTime(after.Guild)}`👤__**{after.Username}**__ is now playing **{after.Game?.Name ?? "-"}**.";
+                            PresenceUpdates.AddOrUpdate(logChannel,
+                                new List<string>() { str }, (id, list) => { list.Add(str); return list; });
                         }
                     }
-                    else
-                        return;
-                    await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                 }
                 catch
                 {
@@ -417,7 +455,7 @@ namespace NadekoBot.Services.Administration
                     if ((logChannel = await TryGetLogChannel(before.Guild, logSetting, LogType.ChannelUpdated)) == null)
                         return;
 
-                    var embed = new EmbedBuilder().WithOkColor().WithFooter(efb => efb.WithText(CurrentTime));
+                    var embed = new EmbedBuilder().WithOkColor().WithFooter(efb => efb.WithText(CurrentTime(before.Guild)));
 
                     var beforeTextChannel = cbefore as ITextChannel;
                     var afterTextChannel = cafter as ITextChannel;
@@ -477,7 +515,7 @@ namespace NadekoBot.Services.Administration
                         .WithOkColor()
                         .WithTitle("🆕 " + title)
                         .WithDescription($"{ch.Name} | {ch.Id}")
-                        .WithFooter(efb => efb.WithText(CurrentTime))).ConfigureAwait(false);
+                        .WithFooter(efb => efb.WithText(CurrentTime(ch.Guild)))).ConfigureAwait(false);
                 }
                 catch
                 {
@@ -515,7 +553,7 @@ namespace NadekoBot.Services.Administration
                         .WithOkColor()
                         .WithTitle("🆕 " + title)
                         .WithDescription($"{ch.Name} | {ch.Id}")
-                        .WithFooter(efb => efb.WithText(CurrentTime))).ConfigureAwait(false);
+                        .WithFooter(efb => efb.WithText(CurrentTime(ch.Guild)))).ConfigureAwait(false);
                 }
                 catch (Exception ex) { _log.Warn(ex); }
             });
@@ -549,23 +587,23 @@ namespace NadekoBot.Services.Administration
                     string str = null;
                     if (beforeVch?.Guild == afterVch?.Guild)
                     {
-                        str = "🎙" + Format.Code(PrettyCurrentTime) + GetText(logChannel.Guild, "user_vmoved",
+                        str = "🎙" + Format.Code(PrettyCurrentTime(usr.Guild)) + GetText(logChannel.Guild, "user_vmoved",
                                 "👤" + Format.Bold(usr.Username + "#" + usr.Discriminator),
                                 Format.Bold(beforeVch?.Name ?? ""), Format.Bold(afterVch?.Name ?? ""));
                     }
                     else if (beforeVch == null)
                     {
-                        str = "🎙" + Format.Code(PrettyCurrentTime) + GetText(logChannel.Guild, "user_vjoined",
+                        str = "🎙" + Format.Code(PrettyCurrentTime(usr.Guild)) + GetText(logChannel.Guild, "user_vjoined",
                                 "👤" + Format.Bold(usr.Username + "#" + usr.Discriminator),
                                 Format.Bold(afterVch.Name ?? ""));
                     }
                     else if (afterVch == null)
                     {
-                        str = "🎙" + Format.Code(PrettyCurrentTime) + GetText(logChannel.Guild, "user_vleft",
+                        str = "🎙" + Format.Code(PrettyCurrentTime(usr.Guild)) + GetText(logChannel.Guild, "user_vleft",
                                 "👤" + Format.Bold(usr.Username + "#" + usr.Discriminator),
                                 Format.Bold(beforeVch.Name ?? ""));
                     }
-                    if (str != null)
+                    if (!string.IsNullOrWhiteSpace(str))
                         PresenceUpdates.AddOrUpdate(logChannel, new List<string>() { str }, (id, list) => { list.Add(str); return list; });
                 }
                 catch
@@ -576,48 +614,48 @@ namespace NadekoBot.Services.Administration
             return Task.CompletedTask;
         }
 
-        private Task _client_UserPresenceUpdated(Optional<SocketGuild> optGuild, SocketUser usr, SocketPresence before, SocketPresence after)
-        {
-            var _ = Task.Run(async () =>
-            {
-                try
-                {
-                    var guild = optGuild.GetValueOrDefault() ?? (usr as SocketGuildUser)?.Guild;
+        //private Task _client_UserPresenceUpdated(Optional<SocketGuild> optGuild, SocketUser usr, SocketPresence before, SocketPresence after)
+        //{
+        //    var _ = Task.Run(async () =>
+        //    {
+        //        try
+        //        {
+        //            var guild = optGuild.GetValueOrDefault() ?? (usr as SocketGuildUser)?.Guild;
 
-                    if (guild == null)
-                        return;
+        //            if (guild == null)
+        //                return;
 
-                    if (!GuildLogSettings.TryGetValue(guild.Id, out LogSetting logSetting)
-                        || (logSetting.LogUserPresenceId == null)
-                        || before.Status == after.Status)
-                        return;
+        //            if (!GuildLogSettings.TryGetValue(guild.Id, out LogSetting logSetting)
+        //                || (logSetting.LogUserPresenceId == null)
+        //                || before.Status == after.Status)
+        //                return;
 
-                    ITextChannel logChannel;
-                    if ((logChannel = await TryGetLogChannel(guild, logSetting, LogType.UserPresence)) == null)
-                        return;
-                    string str = "";
-                    if (before.Status != after.Status)
-                        str = "🎭" + Format.Code(PrettyCurrentTime) +
-                              GetText(logChannel.Guild, "user_status_change",
-                                    "👤" + Format.Bold(usr.Username),
-                                    Format.Bold(after.Status.ToString()));
+        //            ITextChannel logChannel;
+        //            if ((logChannel = await TryGetLogChannel(guild, logSetting, LogType.UserPresence)) == null)
+        //                return;
+        //            string str = "";
+        //            if (before.Status != after.Status)
+        //                str = "🎭" + Format.Code(PrettyCurrentTime(g)) +
+        //                      GetText(logChannel.Guild, "user_status_change",
+        //                            "👤" + Format.Bold(usr.Username),
+        //                            Format.Bold(after.Status.ToString()));
 
-                    //if (before.Game?.Name != after.Game?.Name)
-                    //{
-                    //    if (str != "")
-                    //        str += "\n";
-                    //    str += $"👾`{prettyCurrentTime}`👤__**{usr.Username}**__ is now playing **{after.Game?.Name}**.";
-                    //}
+        //            //if (before.Game?.Name != after.Game?.Name)
+        //            //{
+        //            //    if (str != "")
+        //            //        str += "\n";
+        //            //    str += $"👾`{prettyCurrentTime}`👤__**{usr.Username}**__ is now playing **{after.Game?.Name}**.";
+        //            //}
 
-                    PresenceUpdates.AddOrUpdate(logChannel, new List<string>() { str }, (id, list) => { list.Add(str); return list; });
-                }
-                catch
-                {
-                    // ignored
-                }
-            });
-            return Task.CompletedTask;
-        }
+        //            PresenceUpdates.AddOrUpdate(logChannel, new List<string>() { str }, (id, list) => { list.Add(str); return list; });
+        //        }
+        //        catch
+        //        {
+        //            // ignored
+        //        }
+        //    });
+        //    return Task.CompletedTask;
+        //}
 
         private Task _client_UserLeft(IGuildUser usr)
         {
@@ -632,14 +670,17 @@ namespace NadekoBot.Services.Administration
                     ITextChannel logChannel;
                     if ((logChannel = await TryGetLogChannel(usr.Guild, logSetting, LogType.UserLeft)) == null)
                         return;
-
-                    await logChannel.EmbedAsync(new EmbedBuilder()
+                    var embed = new EmbedBuilder()
                         .WithOkColor()
                         .WithTitle("❌ " + GetText(logChannel.Guild, "user_left"))
-                        .WithThumbnailUrl(usr.GetAvatarUrl())
                         .WithDescription(usr.ToString())
                         .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))
-                        .WithFooter(efb => efb.WithText(CurrentTime))).ConfigureAwait(false);
+                        .WithFooter(efb => efb.WithText(CurrentTime(usr.Guild)));
+
+                    if (Uri.IsWellFormedUriString(usr.GetAvatarUrl(), UriKind.Absolute))
+                        embed.WithThumbnailUrl(usr.GetAvatarUrl());
+
+                    await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                 }
                 catch
                 {
@@ -663,13 +704,17 @@ namespace NadekoBot.Services.Administration
                     if ((logChannel = await TryGetLogChannel(usr.Guild, logSetting, LogType.UserJoined)) == null)
                         return;
 
-                    await logChannel.EmbedAsync(new EmbedBuilder()
+                    var embed = new EmbedBuilder()
                         .WithOkColor()
                         .WithTitle("✅ " + GetText(logChannel.Guild, "user_joined"))
-                        .WithThumbnailUrl(usr.GetAvatarUrl())
                         .WithDescription($"{usr}")
                         .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))
-                        .WithFooter(efb => efb.WithText(CurrentTime))).ConfigureAwait(false);
+                        .WithFooter(efb => efb.WithText(CurrentTime(usr.Guild)));
+
+                    if (Uri.IsWellFormedUriString(usr.GetAvatarUrl(), UriKind.Absolute))
+                        embed.WithThumbnailUrl(usr.GetAvatarUrl());
+
+                    await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                 }
                 catch (Exception ex) { _log.Warn(ex); }
             });
@@ -689,14 +734,17 @@ namespace NadekoBot.Services.Administration
                     ITextChannel logChannel;
                     if ((logChannel = await TryGetLogChannel(guild, logSetting, LogType.UserUnbanned)) == null)
                         return;
-
-                    await logChannel.EmbedAsync(new EmbedBuilder()
+                    var embed = new EmbedBuilder()
                         .WithOkColor()
                         .WithTitle("♻️ " + GetText(logChannel.Guild, "user_unbanned"))
-                        .WithThumbnailUrl(usr.GetAvatarUrl())
                         .WithDescription(usr.ToString())
                         .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))
-                        .WithFooter(efb => efb.WithText(CurrentTime))).ConfigureAwait(false);
+                        .WithFooter(efb => efb.WithText(CurrentTime(guild)));
+
+                    if (Uri.IsWellFormedUriString(usr.GetAvatarUrl(), UriKind.Absolute))
+                        embed.WithThumbnailUrl(usr.GetAvatarUrl());
+
+                    await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                 }
                 catch (Exception ex) { _log.Warn(ex); }
             });
@@ -716,13 +764,19 @@ namespace NadekoBot.Services.Administration
                     ITextChannel logChannel;
                     if ((logChannel = await TryGetLogChannel(guild, logSetting, LogType.UserBanned)) == null)
                         return;
-                    await logChannel.EmbedAsync(new EmbedBuilder()
+                    var embed = new EmbedBuilder()
                         .WithOkColor()
                         .WithTitle("🚫 " + GetText(logChannel.Guild, "user_banned"))
-                        .WithThumbnailUrl(usr.GetAvatarUrl())
                         .WithDescription(usr.ToString())
                         .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))
-                        .WithFooter(efb => efb.WithText(CurrentTime))).ConfigureAwait(false);
+                        .WithFooter(efb => efb.WithText(CurrentTime(guild)));
+
+                    var avatarUrl = usr.GetAvatarUrl();
+
+                    if (Uri.IsWellFormedUriString(avatarUrl, UriKind.Absolute))
+                        embed.WithThumbnailUrl(usr.GetAvatarUrl());
+
+                    await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                 }
                 catch (Exception ex) { _log.Warn(ex); }
             });
@@ -757,7 +811,7 @@ namespace NadekoBot.Services.Administration
                         .WithDescription(msg.Author.ToString())
                         .AddField(efb => efb.WithName(GetText(logChannel.Guild, "content")).WithValue(string.IsNullOrWhiteSpace(msg.Content) ? "-" : msg.Resolve(userHandling: TagHandling.FullName)).WithIsInline(false))
                         .AddField(efb => efb.WithName("Id").WithValue(msg.Id.ToString()).WithIsInline(false))
-                        .WithFooter(efb => efb.WithText(CurrentTime));
+                        .WithFooter(efb => efb.WithText(CurrentTime(channel.Guild)));
                     if (msg.Attachments.Any())
                         embed.AddField(efb => efb.WithName(GetText(logChannel.Guild, "attachments")).WithValue(string.Join(", ", msg.Attachments.Select(a => a.Url))).WithIsInline(false));
 
@@ -809,7 +863,7 @@ namespace NadekoBot.Services.Administration
                         .AddField(efb => efb.WithName(GetText(logChannel.Guild, "old_msg")).WithValue(string.IsNullOrWhiteSpace(before.Content) ? "-" : before.Resolve(userHandling: TagHandling.FullName)).WithIsInline(false))
                         .AddField(efb => efb.WithName(GetText(logChannel.Guild, "new_msg")).WithValue(string.IsNullOrWhiteSpace(after.Content) ? "-" : after.Resolve(userHandling: TagHandling.FullName)).WithIsInline(false))
                         .AddField(efb => efb.WithName("Id").WithValue(after.Id.ToString()).WithIsInline(false))
-                        .WithFooter(efb => efb.WithText(CurrentTime));
+                        .WithFooter(efb => efb.WithText(CurrentTime(channel.Guild)));
 
                     await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                 }

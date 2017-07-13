@@ -24,7 +24,7 @@ namespace NadekoBot.Services.Help
             _strings = strings;
         }
 
-        public async Task LateExecute(DiscordShardedClient client, IGuild guild, IUserMessage msg)
+        public async Task LateExecute(DiscordSocketClient client, IGuild guild, IUserMessage msg)
         {
             try
             {
@@ -48,6 +48,7 @@ namespace NadekoBot.Services.Help
             return new EmbedBuilder()
                 .AddField(fb => fb.WithName(str).WithValue($"{com.RealSummary(prefix)} {GetCommandRequirements(com, guild)}").WithIsInline(true))
                 .AddField(fb => fb.WithName(GetText("usage", guild)).WithValue(com.RealRemarks(prefix)).WithIsInline(false))
+                .WithFooter(efb => efb.WithText(GetText("module", guild, com.Module.GetTopLevelModule().Name)))
                 .WithColor(NadekoBot.OkColor);
         }
 

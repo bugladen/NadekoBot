@@ -243,7 +243,7 @@
     "administration_sbdm": "{0} sunucusundan hafif bir şekilde yasaklandınız.\nSebep: {1}",
     "administration_user_unbanned": "Kullanıcı yasağı kaldırıldı",
     "administration_migration_done": "Eski kayıtlar taşındı!",
-    "adminsitration_migration_error": "Taşıma işlemi sırasında hata oluştu, daha fazla bilgi için bot konsolunu kontrol edin.",
+    "administration_migration_error": "Taşıma işlemi sırasında hata oluştu, daha fazla bilgi için bot konsolunu kontrol edin.",
     "administration_presence_updates": "Durum güncellemeleri",
     "administration_sb_user": "Kullanıcı hafif bir şekilde yasaklandı.",
     "gambling_awarded": "{1} 'e {0} ödül vermiş",
