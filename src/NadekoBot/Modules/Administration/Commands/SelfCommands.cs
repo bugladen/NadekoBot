@@ -100,13 +100,13 @@ namespace NadekoBot.Modules.Administration
                 }
                 else
                 {
-                    await Context.Channel.SendConfirmAsync("", string.Join("\n--\n", scmds.Select(x =>
+                    await Context.Channel.SendConfirmAsync("", string.Join("\n", scmds.Select(x =>
                     {
-                        string str = Format.Code(GetText("server")) + ": " + (x.GuildId == null ? "-" : x.GuildName + "/" + x.GuildId);
+                        string str = $"```css\n[{GetText("server") + "]: " + (x.GuildId == null ? "-" : x.GuildName + " #" + x.GuildId)}";
 
                         str += $@"
-{Format.Code(GetText("channel"))}: {x.ChannelName}/{x.ChannelId}
-{Format.Code(GetText("command_text"))}: {x.CommandText}";
+[{GetText("channel")}]: {x.ChannelName} #{x.ChannelId}
+[{GetText("command_text")}]: {x.CommandText}```";
                         return str;
                     })), footer: GetText("page", page + 1))
                          .ConfigureAwait(false);

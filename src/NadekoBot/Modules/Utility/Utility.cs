@@ -161,11 +161,12 @@ namespace NadekoBot.Modules.Utility
             var usrs = (await Context.Guild.GetUsersAsync()).ToArray();
             var roleUsers = usrs.Where(u => u.RoleIds.Contains(role.Id)).Select(u => u.ToString())
                 .ToArray();
+            var inroleusers = string.Join(", ", roleUsers
+                    .OrderBy(x => rng.Next())
+                    .Take(50));
             var embed = new EmbedBuilder().WithOkColor()
                 .WithTitle("ℹ️ " + Format.Bold(GetText("inrole_list", Format.Bold(role.Name))) + $" - {roleUsers.Length}")
-                .WithDescription(string.Join(", ", roleUsers
-                    .OrderBy(x => rng.Next())
-                    .Take(50)));
+                .WithDescription($"```css\n[{role.Name}]\n{inroleusers}```");
             await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 

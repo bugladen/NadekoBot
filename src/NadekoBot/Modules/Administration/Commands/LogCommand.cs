@@ -106,8 +106,8 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task LogEvents()
             {
-                await Context.Channel.SendConfirmAsync(GetText("log_events") + "\n" +
-                                                       string.Join(", ", Enum.GetNames(typeof(LogType)).Cast<string>()))
+                await Context.Channel.SendConfirmAsync(Format.Bold(GetText("log_events")) + "\n" +
+                                                       $"```fix\n{string.Join(", ", Enum.GetNames(typeof(LogType)).Cast<string>())}```")
                     .ConfigureAwait(false);
             }
 
