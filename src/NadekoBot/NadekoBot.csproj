@@ -91,6 +91,5 @@
 
   <ItemGroup>
     <Folder Include="Modules\Music\Classes\" />
-    <Folder Include="Utility\Services\" />
   </ItemGroup>
 </Project>

@@ -608,6 +608,8 @@
   "searches_wind_speed": "Wind speed",
   "searches_x_most_banned_champs": "The {0} most banned champions",
   "searches_yodify_error": "Failed to yodify your sentence.",
+  "utility_stream_role_enabled": "When a user from {0} role starts streaming, I will give them {1} role.",
+  "utility_stream_role_disabled": "Stream role feature has been disabled.",
   "utiliity_joined": "Joined",
   "utility_activity_line": "`{0}.` {1} [{2:F2}/s] - {3} total",
   "utility_activity_page": "Activity page #{0}",

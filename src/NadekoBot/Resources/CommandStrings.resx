@@ -1701,6 +1701,15 @@
   <data name="save_usage" xml:space="preserve">
     <value>`{0}save classical1`</value>
   </data>
+    <data name="streamrole_cmd" xml:space="preserve">
+    <value>streamrole</value>
+  </data>
+  <data name="streamrole_desc" xml:space="preserve">
+    <value>Sets a role which is monitored for streamers (FromRole), and a role to add if a user from 'FromRole' is streaming (AddRole). When a user from 'FromRole' starts streaming, they will receive an 'AddRole'. Provide no arguments to disable</value>
+  </data>
+  <data name="streamrole_usage" xml:space="preserve">
+    <value>`{0}streamrole "Eligible Streamers" "Featured Streams"`</value>
+  </data>
   <data name="load_cmd" xml:space="preserve">
     <value>load</value>
   </data>
