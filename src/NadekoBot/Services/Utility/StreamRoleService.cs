@@ -50,7 +50,11 @@ namespace NadekoBot.Services.Utility
                     {
                         //get needed roles
                         fromRole = after.Guild.GetRole(setting.FromRoleId);
+                        if (fromRole == null)
+                            throw new InvalidOperationException();
                         addRole = after.Guild.GetRole(setting.AddRoleId);
+                        if (addRole == null)
+                            throw new InvalidOperationException();
                     }
                     catch (Exception ex)
                     {

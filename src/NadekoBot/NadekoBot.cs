@@ -167,6 +167,7 @@ namespace NadekoBot
                 var patreonRewardsService = new PatreonRewardsService(Credentials, Db, Currency, Client);
                 var verboseErrorsService = new VerboseErrorsService(AllGuildConfigs, Db, CommandHandler, helpService);
                 var pruneService = new PruneService();
+                var streamRoleService = new StreamRoleService(Client, Db, AllGuildConfigs);
                 #endregion
 
                 #region permissions
@@ -236,6 +237,7 @@ namespace NadekoBot
                         .Add(verboseErrorsService)
                         .Add(patreonRewardsService)
                         .Add(pruneService)
+                        .Add(streamRoleService)
                     .Add<SearchesService>(searchesService)
                         .Add(streamNotificationService)
                         .Add(animeSearchService)
