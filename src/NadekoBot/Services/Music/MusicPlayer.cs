@@ -62,7 +62,7 @@ namespace NadekoBot.Services.Music
         public bool RepeatCurrentSong { get; private set; }
         public bool Shuffle { get; private set; }
         public bool Autoplay { get; private set; }
-        public bool RepeatPlaylist { get; private set; } = true;
+        public bool RepeatPlaylist { get; private set; } = false;
         public uint MaxQueueSize
         {
             get => Queue.MaxQueueSize;
@@ -447,7 +447,7 @@ namespace NadekoBot.Services.Music
             lock (locker)
             {
                 Stopped = true;
-                Queue.ResetCurrent();
+                //Queue.ResetCurrent();
                 if (clearQueue)
                     Queue.Clear();
                 Unpause();
