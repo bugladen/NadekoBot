@@ -59,7 +59,13 @@ namespace NadekoBot.Services.Permissions
 
             _client.MessageUpdated += (oldData, newMsg, channel) =>
             {
-                var _ = Task.Run(() => FilterInvites((channel as ITextChannel)?.Guild, newMsg as IUserMessage));
+                var _ = Task.Run(async () =>
+                {
+                    var guild = (channel as ITextChannel)?.Guild;
+                    var usrMsg = newMsg as IUserMessage;
+
+                    return (await FilterInvites(guild, usrMsg)) || (await FilterWords(guild, usrMsg));
+                });
                 return Task.CompletedTask;
             };
         }
