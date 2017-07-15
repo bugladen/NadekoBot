@@ -13,15 +13,11 @@ namespace NadekoBot.Modules.Permissions
         [Group]
         public class ResetPermissionsCommands : NadekoSubmodule
         {
-            private readonly PermissionService _service;
-            private readonly DbService _db;
-            private readonly GlobalPermissionService _globalPerms;
+            private readonly ResetPermissionsService _service;
 
-            public ResetPermissionsCommands(PermissionService service, GlobalPermissionService globalPerms, DbService db)
+            public ResetPermissionsCommands(ResetPermissionsService service)
             {
                 _service = service;
-                _db = db;
-                _globalPerms = globalPerms;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -29,14 +25,7 @@ namespace NadekoBot.Modules.Permissions
             [RequireUserPermission(GuildPermission.Administrator)]
             public async Task ResetPermissions()
             {
-                //todo 50 move to service
-                using (var uow = _db.UnitOfWork)
-                {
-                    var config = uow.GuildConfigs.GcWithPermissionsv2For(Context.Guild.Id);
-                    config.Permissions = Permissionv2.GetDefaultPermlist;
-                    await uow.CompleteAsync();
-                    _service.UpdateCache(config);
-                }
+                await _service.ResetPermissions(Context.Guild.Id).ConfigureAwait(false);
                 await ReplyConfirmLocalized("perms_reset").ConfigureAwait(false);
             }
 
@@ -44,17 +33,7 @@ namespace NadekoBot.Modules.Permissions
             [OwnerOnly]
             public async Task ResetGlobalPermissions()
             {
-                //todo 50 move to service
-                using (var uow = _db.UnitOfWork)
-                {
-                    var gc = uow.BotConfig.GetOrCreate();
-                    gc.BlockedCommands.Clear();
-                    gc.BlockedModules.Clear();
-
-                    _globalPerms.BlockedCommands.Clear();
-                    _globalPerms.BlockedModules.Clear();
-                    await uow.CompleteAsync();
-                }
+                await _service.ResetGlobalPermissions().ConfigureAwait(false);
                 await ReplyConfirmLocalized("global_perms_reset").ConfigureAwait(false);
             }
         }

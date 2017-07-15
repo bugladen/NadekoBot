@@ -11,7 +11,7 @@ namespace NadekoBot.Services.Administration
 {
     public class GuildTimezoneService : INService
     {
-        //hack >.>
+        // todo 70 this is a hack >.<
         public static ConcurrentDictionary<ulong, GuildTimezoneService> AllServices { get; } = new ConcurrentDictionary<ulong, GuildTimezoneService>();
         private ConcurrentDictionary<ulong, TimeZoneInfo> _timezones;
         private readonly DbService _db;
