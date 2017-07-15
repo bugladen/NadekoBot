@@ -28,14 +28,14 @@ namespace NadekoBot.Modules.Utility
         private readonly DiscordSocketClient _client;
         private readonly IStatsService _stats;
         private readonly IBotCredentials _creds;
-        private readonly NadekoBot _bot;
+        private readonly ShardsCoordinator _shardCoord;
 
-        public Utility(NadekoBot bot, DiscordSocketClient client, IStatsService stats, IBotCredentials creds)
+        public Utility(ShardsCoordinator shardCoord, DiscordSocketClient client, IStatsService stats, IBotCredentials creds)
         {
             _client = client;
             _stats = stats;
             _creds = creds;
-            _bot = bot;
+            _shardCoord = shardCoord;
         }        
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -286,7 +286,7 @@ namespace NadekoBot.Modules.Utility
         {
             if (--page < 0)
                 return;
-            var statuses = _bot.ShardCoord.Statuses.ToArray()
+            var statuses = _shardCoord.Statuses.ToArray()
                 .Where(x => x != null);
 
             var status = string.Join(", ", statuses
@@ -331,7 +331,7 @@ namespace NadekoBot.Modules.Utility
                                           .WithIconUrl("https://cdn.discordapp.com/avatars/116275390695079945/b21045e778ef21c96d175400e779f0fb.jpg"))
                     .AddField(efb => efb.WithName(GetText("author")).WithValue(_stats.Author).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("botid")).WithValue(_client.CurrentUser.Id.ToString()).WithIsInline(true))
-                    .AddField(efb => efb.WithName(GetText("shard")).WithValue($"#{_bot.ShardId} / {_creds.TotalShards}").WithIsInline(true))
+                    .AddField(efb => efb.WithName(GetText("shard")).WithValue($"#{_client.ShardId} / {_creds.TotalShards}").WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("commands_ran")).WithValue(_stats.CommandsRan.ToString()).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("messages")).WithValue($"{_stats.MessageCounter} ({_stats.MessagesPerSecond:F2}/sec)").WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("memory")).WithValue($"{_stats.Heap} MB").WithIsInline(true))

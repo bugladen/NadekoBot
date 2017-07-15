@@ -49,7 +49,6 @@ namespace NadekoBot
 
         public INServiceProvider Services { get; private set; }
 
-        public int ShardId { get; }
         public ShardsCoordinator ShardCoord { get; private set; }
 
         private readonly ShardComClient _comClient;
@@ -62,8 +61,6 @@ namespace NadekoBot
             LogSetup.SetupLogger();
             _log = LogManager.GetCurrentClassLogger();
             TerribleElevatedPermissionCheck();
-
-            ShardId = shardId;
 
             Credentials = new BotCredentials();
             Db = new DbService(Credentials);
@@ -92,7 +89,7 @@ namespace NadekoBot
                 ErrorColor = new Color(Convert.ToUInt32(BotConfig.ErrorColor, 16));
             }
 
-            SetupShard(shardId, parentProcessId, port.Value);
+            SetupShard(parentProcessId, port.Value);
 
 #if GLOBAL_NADEKO
             Client.Log += Client_Log;
@@ -187,7 +184,7 @@ namespace NadekoBot
             }
 
             //connect
-            _log.Info("Shard {0} logging in ...", ShardId);
+            _log.Info("Shard {0} logging in ...", Client.ShardId);
             await Client.LoginAsync(TokenType.Bot, token).ConfigureAwait(false);
             await Client.StartAsync().ConfigureAwait(false);
             Client.Ready += SetClientReady;
@@ -195,7 +192,7 @@ namespace NadekoBot
             Client.Ready -= SetClientReady;
             Client.JoinedGuild += Client_JoinedGuild;
             Client.LeftGuild += Client_LeftGuild;
-            _log.Info("Shard {0} logged in.", ShardId);
+            _log.Info("Shard {0} logged in.", Client.ShardId);
         }
 
         private Task Client_LeftGuild(SocketGuild arg)
@@ -212,18 +209,18 @@ namespace NadekoBot
 
         public async Task RunAsync(params string[] args)
         {
-            if(ShardId == 0)
+            if(Client.ShardId == 0)
             _log.Info("Starting NadekoBot v" + StatsService.BotVersion);
 
             var sw = Stopwatch.StartNew();
 
             await LoginAsync(Credentials.Token).ConfigureAwait(false);
 
-            _log.Info($"Shard {ShardId} loading services...");
+            _log.Info($"Shard {Client.ShardId} loading services...");
             AddServices();
 
             sw.Stop();
-            _log.Info($"Shard {ShardId} connected in {sw.Elapsed.TotalSeconds:F2}s");
+            _log.Info($"Shard {Client.ShardId} connected in {sw.Elapsed.TotalSeconds:F2}s");
 
             var stats = Services.GetService<IStatsService>();
             stats.Initialize();
@@ -257,7 +254,7 @@ namespace NadekoBot
                     .ForEach(x => CommandService.RemoveModuleAsync(x));
 
             Ready.TrySetResult(true);
-            _log.Info($"Shard {ShardId} ready.");
+            _log.Info($"Shard {Client.ShardId} ready.");
             //_log.Info(await stats.Print().ConfigureAwait(false));
         }
 
@@ -297,29 +294,27 @@ namespace NadekoBot
             }
         }
 
-        private void SetupShard(int shardId, int parentProcessId, int port)
+        private void SetupShard(int parentProcessId, int port)
         {
-            if (shardId != 0)
-            {
-                new Thread(new ThreadStart(() =>
-                {
-                    try
-                    {
-                        var p = Process.GetProcessById(parentProcessId);
-                        if (p == null)
-                            return;
-                        p.WaitForExit();
-                    }
-                    finally
-                    {
-                        Environment.Exit(10);
-                    }
-                })).Start();
-            }
-            else
+            if (Client.ShardId == 0)
             {
                 ShardCoord = new ShardsCoordinator(port);
+                return;
             }
+            new Thread(new ThreadStart(() =>
+            {
+                try
+                {
+                    var p = Process.GetProcessById(parentProcessId);
+                    if (p == null)
+                        return;
+                    p.WaitForExit();
+                }
+                finally
+                {
+                    Environment.Exit(10);
+                }
+            })).Start();
         }
     }
 }
