@@ -16,15 +16,13 @@ namespace NadekoBot.Modules.Utility
     public partial class Utility
     {
         [Group]
-        public class RemindCommands : NadekoSubmodule
+        public class RemindCommands : NadekoSubmodule<RemindService>
         {
-            private readonly RemindService _service;
             private readonly DbService _db;
             private readonly GuildTimezoneService _tz;
 
-            public RemindCommands(RemindService service, DbService db, GuildTimezoneService tz)
+            public RemindCommands(DbService db, GuildTimezoneService tz)
             {
-                _service = service;
                 _db = db;
                 _tz = tz;
             }

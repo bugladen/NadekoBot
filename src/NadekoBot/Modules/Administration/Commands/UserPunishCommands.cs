@@ -15,15 +15,13 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class UserPunishCommands : NadekoSubmodule
+        public class UserPunishCommands : NadekoSubmodule<UserPunishService>
         {
             private readonly DbService _db;
-            private readonly UserPunishService _service;
 
-            public UserPunishCommands(UserPunishService service, DbService db, MuteService muteService)
+            public UserPunishCommands(DbService db, MuteService muteService)
             {
                 _db = db;
-                _service = service;
             }
 
             [NadekoCommand, Usage, Description, Aliases]

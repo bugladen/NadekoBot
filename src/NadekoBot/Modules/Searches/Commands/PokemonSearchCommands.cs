@@ -12,17 +12,10 @@ namespace NadekoBot.Modules.Searches
     public partial class Searches
     {
         [Group]
-        public class PokemonSearchCommands : NadekoSubmodule
+        public class PokemonSearchCommands : NadekoSubmodule<SearchesService>
         {
-            private readonly SearchesService _searches;
-
-            public Dictionary<string, SearchPokemon> Pokemons => _searches.Pokemons;
-            public Dictionary<string, SearchPokemonAbility> PokemonAbilities => _searches.PokemonAbilities;
-
-            public PokemonSearchCommands(SearchesService searches)
-            {
-                _searches = searches;
-            }
+            public Dictionary<string, SearchPokemon> Pokemons => _service.Pokemons;
+            public Dictionary<string, SearchPokemonAbility> PokemonAbilities => _service.PokemonAbilities;
 
             [NadekoCommand, Usage, Description, Aliases]
             public async Task Pokemon([Remainder] string pokemon = null)

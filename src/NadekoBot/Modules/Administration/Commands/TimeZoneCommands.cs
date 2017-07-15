@@ -13,15 +13,8 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class TimeZoneCommands : NadekoSubmodule
+        public class TimeZoneCommands : NadekoSubmodule<GuildTimezoneService>
         {
-            private readonly GuildTimezoneService _service;
-
-            public TimeZoneCommands(GuildTimezoneService service)
-            {
-                _service = service;
-            }
-
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Timezones(int page = 1)

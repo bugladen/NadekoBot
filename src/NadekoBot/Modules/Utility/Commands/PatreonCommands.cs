@@ -13,21 +13,19 @@ namespace NadekoBot.Modules.Utility
     public partial class Utility
     {
         [Group]
-        public class PatreonCommands : NadekoSubmodule
+        public class PatreonCommands : NadekoSubmodule<PatreonRewardsService>
         {
-            private readonly PatreonRewardsService _patreon;
             private readonly IBotCredentials _creds;
             private readonly BotConfig _config;
             private readonly DbService _db;
             private readonly CurrencyService _currency;
 
-            public PatreonCommands(PatreonRewardsService p, IBotCredentials creds, BotConfig config, DbService db, CurrencyService currency)
+            public PatreonCommands(IBotCredentials creds, BotConfig config, DbService db, CurrencyService currency)
             {
                 _creds = creds;
                 _config = config;
                 _db = db;
                 _currency = currency;
-                _patreon = p;                
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -37,7 +35,7 @@ namespace NadekoBot.Modules.Utility
             {
                 if (string.IsNullOrWhiteSpace(_creds.PatreonAccessToken))
                     return;
-                await _patreon.RefreshPledges(true).ConfigureAwait(false);
+                await _service.RefreshPledges(true).ConfigureAwait(false);
 
                 await Context.Channel.SendConfirmAsync("👌").ConfigureAwait(false);
             }
@@ -57,7 +55,7 @@ namespace NadekoBot.Modules.Utility
                 int amount = 0;
                 try
                 {
-                    amount = await _patreon.ClaimReward(Context.User.Id).ConfigureAwait(false);
+                    amount = await _service.ClaimReward(Context.User.Id).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
@@ -69,7 +67,7 @@ namespace NadekoBot.Modules.Utility
                     await ReplyConfirmLocalized("clpa_success", amount + _config.CurrencySign).ConfigureAwait(false);
                     return;
                 }
-                var rem = (_patreon.Interval - (DateTime.UtcNow - _patreon.LastUpdate));
+                var rem = (_service.Interval - (DateTime.UtcNow - _service.LastUpdate));
                 var helpcmd = Format.Code(Prefix + "donate");
                 await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                     .WithDescription(GetText("clpa_fail"))

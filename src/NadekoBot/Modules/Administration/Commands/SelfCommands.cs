@@ -14,7 +14,6 @@ using NadekoBot.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using NadekoBot.Services.Administration;
 using System.Diagnostics;
-using NadekoBot.DataStructures;
 using NadekoBot.Services.Music;
 
 namespace NadekoBot.Modules.Administration
@@ -22,21 +21,19 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class SelfCommands : NadekoSubmodule
+        public class SelfCommands : NadekoSubmodule<SelfService>
         {
             private readonly DbService _db;
 
             private static readonly object _locker = new object();
-            private readonly SelfService _service;
             private readonly DiscordSocketClient _client;
             private readonly IImagesService _images;
             private readonly MusicService _music;
 
-            public SelfCommands(DbService db, SelfService service, DiscordSocketClient client,
+            public SelfCommands(DbService db, DiscordSocketClient client,
                 MusicService music, IImagesService images)
             {
                 _db = db;
-                _service = service;
                 _client = client;
                 _images = images;
                 _music = music;

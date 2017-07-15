@@ -31,8 +31,11 @@
   
   <ItemGroup>
     <Compile Remove="data\**\*;credentials.json" />
+    <Compile Remove="Modules\Music\Classes\**" />
     <Compile Remove="Modules\Utility\Models\**" />
+    <EmbeddedResource Remove="Modules\Music\Classes\**" />
     <EmbeddedResource Remove="Modules\Utility\Models\**" />
+    <None Remove="Modules\Music\Classes\**" />
     <None Remove="Modules\Utility\Models\**" />
     <None Update="credentials_example.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -87,9 +90,5 @@
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="1.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Modules\Music\Classes\" />
   </ItemGroup>
 </Project>

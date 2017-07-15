@@ -16,14 +16,12 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class VcRoleCommands : NadekoSubmodule
+        public class VcRoleCommands : NadekoSubmodule<VcRoleService>
         {
-            private readonly VcRoleService _service;
             private readonly DbService _db;
 
-            public VcRoleCommands(VcRoleService service, DbService db)
+            public VcRoleCommands(DbService db)
             {
-                _service = service;
                 _db = db;
             }
 

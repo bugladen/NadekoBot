@@ -11,15 +11,13 @@ namespace NadekoBot.Modules.Games
     public partial class Games
     {
         [Group]
-        public class PollCommands : NadekoSubmodule
+        public class PollCommands : NadekoSubmodule<PollService>
         {
             private readonly DiscordSocketClient _client;
-            private readonly PollService _polls;
 
-            public PollCommands(DiscordSocketClient client, PollService polls)
+            public PollCommands(DiscordSocketClient client)
             {
                 _client = client;
-                _polls = polls;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -33,7 +31,7 @@ namespace NadekoBot.Modules.Games
             [RequireContext(ContextType.Guild)]
             public async Task PollStats()
             {
-                if (!_polls.ActivePolls.TryGetValue(Context.Guild.Id, out var poll))
+                if (!_service.ActivePolls.TryGetValue(Context.Guild.Id, out var poll))
                     return;
 
                 await Context.Channel.EmbedAsync(poll.GetStats(GetText("current_poll_results")));
@@ -41,7 +39,7 @@ namespace NadekoBot.Modules.Games
 
             private async Task InternalStartPoll(string arg)
             {
-                if(await _polls.StartPoll((ITextChannel)Context.Channel, Context.Message, arg) == false)
+                if(await _service.StartPoll((ITextChannel)Context.Channel, Context.Message, arg) == false)
                     await ReplyErrorLocalized("poll_already_running").ConfigureAwait(false);
             }
 
@@ -52,7 +50,7 @@ namespace NadekoBot.Modules.Games
             {
                 var channel = (ITextChannel)Context.Channel;
 
-                _polls.ActivePolls.TryRemove(channel.Guild.Id, out var poll);
+                _service.ActivePolls.TryRemove(channel.Guild.Id, out var poll);
                 await poll.StopPoll().ConfigureAwait(false);
             }
         }

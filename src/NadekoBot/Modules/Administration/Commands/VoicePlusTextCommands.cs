@@ -15,14 +15,12 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class VoicePlusTextCommands : NadekoSubmodule
+        public class VoicePlusTextCommands : NadekoSubmodule<VplusTService>
         {
-            private readonly VplusTService _service;
             private readonly DbService _db;
 
-            public VoicePlusTextCommands(VplusTService service, DbService db)
+            public VoicePlusTextCommands(DbService db)
             {
-                _service = service;
                 _db = db;
             }
 

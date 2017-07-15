@@ -12,15 +12,13 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class AutoAssignRoleCommands : NadekoSubmodule
+        public class AutoAssignRoleCommands : NadekoSubmodule<AutoAssignRoleService>
         {
             private readonly DbService _db;
-            private readonly AutoAssignRoleService _service;
 
-            public AutoAssignRoleCommands(AutoAssignRoleService service, DbService db)
+            public AutoAssignRoleCommands(DbService db)
             {
                 _db = db;
-                _service = service;
             }
 
             [NadekoCommand, Usage, Description, Aliases]

@@ -15,15 +15,13 @@ namespace NadekoBot.Modules.Searches
     public partial class Searches
     {
         [Group]
-        public class StreamNotificationCommands : NadekoSubmodule
+        public class StreamNotificationCommands : NadekoSubmodule<StreamNotificationService>
         {
             private readonly DbService _db;
-            private readonly StreamNotificationService _service;
 
-            public StreamNotificationCommands(DbService db, StreamNotificationService service)
+            public StreamNotificationCommands(DbService db)
             {
                 _db = db;
-                _service = service;
             }
 
             [NadekoCommand, Usage, Description, Aliases]

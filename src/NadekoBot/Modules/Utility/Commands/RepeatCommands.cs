@@ -19,15 +19,13 @@ namespace NadekoBot.Modules.Utility
     public partial class Utility
     {
         [Group]
-        public class RepeatCommands : NadekoSubmodule
+        public class RepeatCommands : NadekoSubmodule<MessageRepeaterService>
         {
-            private readonly MessageRepeaterService _service;
             private readonly DiscordSocketClient _client;
             private readonly DbService _db;
 
-            public RepeatCommands(MessageRepeaterService service, DiscordSocketClient client, DbService db)
+            public RepeatCommands(DiscordSocketClient client, DbService db)
             {
-                _service = service;
                 _client = client;
                 _db = db;
             }

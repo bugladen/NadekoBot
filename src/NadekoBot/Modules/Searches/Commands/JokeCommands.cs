@@ -14,14 +14,8 @@ namespace NadekoBot.Modules.Searches
     public partial class Searches
     {
         [Group]
-        public class JokeCommands : NadekoSubmodule
+        public class JokeCommands : NadekoSubmodule<SearchesService>
         {
-            private readonly SearchesService _searches;
-
-            public JokeCommands(SearchesService searches)
-            {
-                _searches = searches;
-            }
 
             [NadekoCommand, Usage, Description, Aliases]
             public async Task Yomama()
@@ -65,24 +59,24 @@ namespace NadekoBot.Modules.Searches
             [NadekoCommand, Usage, Description, Aliases]
             public async Task WowJoke()
             {
-                if (!_searches.WowJokes.Any())
+                if (!_service.WowJokes.Any())
                 {
                     await ReplyErrorLocalized("jokes_not_loaded").ConfigureAwait(false);
                     return;
                 }
-                var joke = _searches.WowJokes[new NadekoRandom().Next(0, _searches.WowJokes.Count)];
+                var joke = _service.WowJokes[new NadekoRandom().Next(0, _service.WowJokes.Count)];
                 await Context.Channel.SendConfirmAsync(joke.Question, joke.Answer).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             public async Task MagicItem()
             {
-                if (!_searches.WowJokes.Any())
+                if (!_service.WowJokes.Any())
                 {
                     await ReplyErrorLocalized("magicitems_not_loaded").ConfigureAwait(false);
                     return;
                 }
-                var item = _searches.MagicItems[new NadekoRandom().Next(0, _searches.MagicItems.Count)];
+                var item = _service.MagicItems[new NadekoRandom().Next(0, _service.MagicItems.Count)];
 
                 await Context.Channel.SendConfirmAsync("✨" + item.Name, item.Description).ConfigureAwait(false);
             }

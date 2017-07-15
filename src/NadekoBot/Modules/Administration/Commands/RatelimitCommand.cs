@@ -15,14 +15,12 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class SlowModeCommands : NadekoSubmodule
+        public class SlowModeCommands : NadekoSubmodule<SlowmodeService>
         {
-            private readonly SlowmodeService _service;
             private readonly DbService _db;
 
-            public SlowModeCommands(SlowmodeService service, DbService db)
+            public SlowModeCommands(DbService db)
             {
-                _service = service;
                 _db = db;
             }
 

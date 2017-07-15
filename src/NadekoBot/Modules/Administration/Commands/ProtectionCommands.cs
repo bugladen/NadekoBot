@@ -15,15 +15,13 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class ProtectionCommands : NadekoSubmodule
+        public class ProtectionCommands : NadekoSubmodule<ProtectionService>
         {
-            private readonly ProtectionService _service;
             private readonly MuteService _mute;
             private readonly DbService _db;
 
-            public ProtectionCommands(ProtectionService service, MuteService mute, DbService db)
+            public ProtectionCommands(MuteService mute, DbService db)
             {
-                _service = service;
                 _mute = mute;
                 _db = db;
             }

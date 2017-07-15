@@ -10,15 +10,13 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class GameChannelCommands : NadekoSubmodule
+        public class GameChannelCommands : NadekoSubmodule<GameVoiceChannelService>
         {
             private readonly DbService _db;
-            private readonly GameVoiceChannelService _service;
 
-            public GameChannelCommands(GameVoiceChannelService service, DbService db)
+            public GameChannelCommands(DbService db)
             {
                 _db = db;
-                _service = service;
             }
 
             [NadekoCommand, Usage, Description, Aliases]

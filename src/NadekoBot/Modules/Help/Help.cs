@@ -15,7 +15,7 @@ using NadekoBot.Services.Help;
 
 namespace NadekoBot.Modules.Help
 {
-    public class Help : NadekoTopLevelModule
+    public class Help : NadekoTopLevelModule<HelpService>
     {
         public const string PatreonUrl = "https://patreon.com/nadekobot";
         public const string PaypalUrl = "https://paypal.me/Kwoth";
@@ -23,18 +23,16 @@ namespace NadekoBot.Modules.Help
         private readonly BotConfig _config;
         private readonly CommandService _cmds;
         private readonly GlobalPermissionService _perms;
-        private readonly HelpService _h;
 
         public string HelpString => String.Format(_config.HelpString, _creds.ClientId, Prefix);
         public string DMHelpString => _config.DMHelpString;
 
-        public Help(IBotCredentials creds, GlobalPermissionService perms, BotConfig config, CommandService cmds, HelpService h)
+        public Help(IBotCredentials creds, GlobalPermissionService perms, BotConfig config, CommandService cmds)
         {
             _creds = creds;
             _config = config;
             _cmds = cmds;
             _perms = perms;
-            _h = h;
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -107,7 +105,7 @@ namespace NadekoBot.Modules.Help
             //    return;
             //}
 
-            var embed = _h.GetCommandHelp(com, Context.Guild);
+            var embed = _service.GetCommandHelp(com, Context.Guild);
             await channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
@@ -144,7 +142,7 @@ namespace NadekoBot.Modules.Help
                     lastModule = module.Name;
                 }
                 helpstr.AppendLine($"{string.Join(" ", com.Aliases.Select(a => "`" + Prefix + a + "`"))} |" +
-                                   $" {string.Format(com.Summary, Prefix)} {_h.GetCommandRequirements(com, Context.Guild)} |" +
+                                   $" {string.Format(com.Summary, Prefix)} {_service.GetCommandRequirements(com, Context.Guild)} |" +
                                    $" {string.Format(com.Remarks, Prefix)}");
             }
             File.WriteAllText("../../docs/Commands List.md", helpstr.ToString());

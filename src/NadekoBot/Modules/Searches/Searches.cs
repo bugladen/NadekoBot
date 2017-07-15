@@ -25,17 +25,16 @@ using NadekoBot.DataStructures;
 
 namespace NadekoBot.Modules.Searches
 {
-    public partial class Searches : NadekoTopLevelModule
+    public partial class Searches : NadekoTopLevelModule<SearchesService>
     {
         private readonly IBotCredentials _creds;
         private readonly IGoogleApiService _google;
         private readonly SearchesService _searches;
 
-        public Searches(IBotCredentials creds, IGoogleApiService google, SearchesService searches)
+        public Searches(IBotCredentials creds, IGoogleApiService google)
         {
             _creds = creds;
             _google = google;
-            _searches = searches;
         }
 
         [NadekoCommand, Usage, Description, Aliases]

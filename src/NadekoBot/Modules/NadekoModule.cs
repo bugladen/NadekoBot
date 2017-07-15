@@ -130,8 +130,22 @@ namespace NadekoBot.Modules
             }
         }
     }
+    
+    public abstract class NadekoTopLevelModule<TService> : NadekoTopLevelModule where TService : INService
+    {
+        public TService _service { get; set; }
+
+        public NadekoTopLevelModule(bool isTopLevel = true) : base(isTopLevel)
+        {
+        }
+    }
 
     public abstract class NadekoSubmodule : NadekoTopLevelModule
+    {
+        protected NadekoSubmodule() : base(false) { }
+    }
+
+    public abstract class NadekoSubmodule<TService> : NadekoTopLevelModule<TService> where TService : INService
     {
         protected NadekoSubmodule() : base(false)
         {

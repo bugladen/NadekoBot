@@ -12,16 +12,14 @@ using NadekoBot.Services.Pokemon;
 
 namespace NadekoBot.Modules.Pokemon
 {
-    public class Pokemon : NadekoTopLevelModule
+    public class Pokemon : NadekoTopLevelModule<PokemonService>
     {
-        private readonly PokemonService _service;
         private readonly DbService _db;
         private readonly BotConfig _bc;
         private readonly CurrencyService _cs;
 
-        public Pokemon(PokemonService pokemonService, DbService db, BotConfig bc, CurrencyService cs)
+        public Pokemon(DbService db, BotConfig bc, CurrencyService cs)
         {
-            _service = pokemonService;
             _db = db;
             _bc = bc;
             _cs = cs;

@@ -11,15 +11,8 @@ namespace NadekoBot.Modules.Utility
     public partial class Utility
     {
         [Group]
-        public class UnitConverterCommands : NadekoSubmodule
+        public class UnitConverterCommands : NadekoSubmodule<ConverterService>
         {
-            private readonly ConverterService _service;
-
-            public UnitConverterCommands(ConverterService service)
-            {
-                _service = service;
-            }
-
             [NadekoCommand, Usage, Description, Aliases]
             public async Task ConvertList()
             {

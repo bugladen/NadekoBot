@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using NadekoBot.Services;
 using System.Net.Http;
 using NadekoBot.Extensions;
-using System.Xml;
 using System.Threading;
 using System.Collections.Concurrent;
 using NadekoBot.Services.Searches;
@@ -16,16 +15,10 @@ using NadekoBot.DataStructures;
 
 namespace NadekoBot.Modules.NSFW
 {
-    public class NSFW : NadekoTopLevelModule
+    public class NSFW : NadekoTopLevelModule<SearchesService>
     {
         private static readonly ConcurrentDictionary<ulong, Timer> _autoHentaiTimers = new ConcurrentDictionary<ulong, Timer>();
         private static readonly ConcurrentHashSet<ulong> _hentaiBombBlacklist = new ConcurrentHashSet<ulong>();
-        private readonly SearchesService _service;
-
-        public NSFW(SearchesService service)
-        {
-            _service = service;
-        }
 
         private async Task InternalHentai(IMessageChannel channel, string tag, bool noError)
         {

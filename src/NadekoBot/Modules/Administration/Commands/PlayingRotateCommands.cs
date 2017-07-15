@@ -11,16 +11,14 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class PlayingRotateCommands : NadekoSubmodule
+        public class PlayingRotateCommands : NadekoSubmodule<PlayingRotateService>
         {
             private static readonly object _locker = new object();
             private readonly DbService _db;
-            private readonly PlayingRotateService _service;
 
-            public PlayingRotateCommands(PlayingRotateService service, DbService db)
+            public PlayingRotateCommands(DbService db)
             {
                 _db = db;
-                _service = service;
             }
 
             [NadekoCommand, Usage, Description, Aliases]

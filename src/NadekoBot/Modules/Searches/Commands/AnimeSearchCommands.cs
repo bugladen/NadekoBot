@@ -15,15 +15,8 @@ namespace NadekoBot.Modules.Searches
     public partial class Searches
     {
         [Group]
-        public class AnimeSearchCommands : NadekoSubmodule
+        public class AnimeSearchCommands : NadekoSubmodule<AnimeSearchService>
         {
-            private readonly AnimeSearchService _service;
-
-            public AnimeSearchCommands(AnimeSearchService service)
-            {
-                _service = service;
-            }
-
             [NadekoCommand, Usage, Description, Aliases]
             [Priority(0)]
             public async Task Mal([Remainder] string name)

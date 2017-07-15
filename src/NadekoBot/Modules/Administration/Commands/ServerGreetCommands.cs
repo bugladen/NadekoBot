@@ -11,14 +11,12 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class ServerGreetCommands : NadekoSubmodule
+        public class ServerGreetCommands : NadekoSubmodule<GreetSettingsService>
         {
-            private readonly GreetSettingsService _greetService;
             private readonly DbService _db;
 
-            public ServerGreetCommands(GreetSettingsService greetService, DbService db)
+            public ServerGreetCommands(DbService db)
             {
-                _greetService = greetService;
                 _db = db;
             }
 
@@ -30,7 +28,7 @@ namespace NadekoBot.Modules.Administration
                 if (timer < 0 || timer > 600)
                     return;
 
-                await _greetService.SetGreetDel(Context.Guild.Id, timer).ConfigureAwait(false);
+                await _service.SetGreetDel(Context.Guild.Id, timer).ConfigureAwait(false);
 
                 if (timer > 0)
                     await ReplyConfirmLocalized("greetdel_on", timer).ConfigureAwait(false);
@@ -43,7 +41,7 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.ManageGuild)]
             public async Task Greet()
             {
-                var enabled = await _greetService.SetGreet(Context.Guild.Id, Context.Channel.Id).ConfigureAwait(false);
+                var enabled = await _service.SetGreet(Context.Guild.Id, Context.Channel.Id).ConfigureAwait(false);
 
                 if (enabled)
                     await ReplyConfirmLocalized("greet_on").ConfigureAwait(false);
@@ -67,7 +65,7 @@ namespace NadekoBot.Modules.Administration
                     return;
                 }
 
-                var sendGreetEnabled = _greetService.SetGreetMessage(Context.Guild.Id, ref text);
+                var sendGreetEnabled = _service.SetGreetMessage(Context.Guild.Id, ref text);
 
                 await ReplyConfirmLocalized("greetmsg_new").ConfigureAwait(false);
                 if (!sendGreetEnabled)
@@ -79,7 +77,7 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.ManageGuild)]
             public async Task GreetDm()
             {
-                var enabled = await _greetService.SetGreetDm(Context.Guild.Id).ConfigureAwait(false);
+                var enabled = await _service.SetGreetDm(Context.Guild.Id).ConfigureAwait(false);
 
                 if (enabled)
                     await ReplyConfirmLocalized("greetdm_on").ConfigureAwait(false);
@@ -103,7 +101,7 @@ namespace NadekoBot.Modules.Administration
                     return;
                 }
 
-                var sendGreetEnabled = _greetService.SetGreetDmMessage(Context.Guild.Id, ref text);
+                var sendGreetEnabled = _service.SetGreetDmMessage(Context.Guild.Id, ref text);
 
                 await ReplyConfirmLocalized("greetdmmsg_new").ConfigureAwait(false);
                 if (!sendGreetEnabled)
@@ -115,7 +113,7 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.ManageGuild)]
             public async Task Bye()
             {
-                var enabled = await _greetService.SetBye(Context.Guild.Id, Context.Channel.Id).ConfigureAwait(false);
+                var enabled = await _service.SetBye(Context.Guild.Id, Context.Channel.Id).ConfigureAwait(false);
 
                 if (enabled)
                     await ReplyConfirmLocalized("bye_on").ConfigureAwait(false);
@@ -139,7 +137,7 @@ namespace NadekoBot.Modules.Administration
                     return;
                 }
 
-                var sendByeEnabled = _greetService.SetByeMessage(Context.Guild.Id, ref text);
+                var sendByeEnabled = _service.SetByeMessage(Context.Guild.Id, ref text);
 
                 await ReplyConfirmLocalized("byemsg_new").ConfigureAwait(false);
                 if (!sendByeEnabled)
@@ -151,7 +149,7 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.ManageGuild)]
             public async Task ByeDel(int timer = 30)
             {
-                await _greetService.SetByeDel(Context.Guild.Id, timer).ConfigureAwait(false);
+                await _service.SetByeDel(Context.Guild.Id, timer).ConfigureAwait(false);
 
                 if (timer > 0)
                     await ReplyConfirmLocalized("byedel_on", timer).ConfigureAwait(false);

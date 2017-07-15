@@ -4,12 +4,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Reflection;
-using Discord.Commands;
-using Discord.WebSocket;
-using NadekoBot.Services.Database.Models;
-using NadekoBot.Services.Impl;
 using System.Linq;
-using NadekoBot.Extensions;
 using System.Diagnostics;
 using NLog;
 

@@ -18,14 +18,12 @@ namespace NadekoBot.Modules.Administration
     {
         [Group]
         [NoPublicBot]
-        public class LogCommands : NadekoSubmodule
+        public class LogCommands : NadekoSubmodule<LogCommandService>
         {
-            private readonly LogCommandService _lc;
             private readonly DbService _db;
 
-            public LogCommands(LogCommandService lc, DbService db)
+            public LogCommands(DbService db)
             {
-                _lc = lc;
                 _db = db;
             }
 
@@ -46,7 +44,7 @@ namespace NadekoBot.Modules.Administration
                 using (var uow = _db.UnitOfWork)
                 {
                     logSetting = uow.GuildConfigs.LogSettingsFor(channel.Guild.Id).LogSetting;
-                    _lc.GuildLogSettings.AddOrUpdate(channel.Guild.Id, (id) => logSetting, (id, old) => logSetting);
+                    _service.GuildLogSettings.AddOrUpdate(channel.Guild.Id, (id) => logSetting, (id, old) => logSetting);
                     logSetting.LogOtherId =
                     logSetting.MessageUpdatedId =
                     logSetting.MessageDeletedId =
@@ -82,7 +80,7 @@ namespace NadekoBot.Modules.Administration
                 using (var uow = _db.UnitOfWork)
                 {
                     var config = uow.GuildConfigs.LogSettingsFor(channel.Guild.Id);
-                    LogSetting logSetting = _lc.GuildLogSettings.GetOrAdd(channel.Guild.Id, (id) => config.LogSetting);
+                    LogSetting logSetting = _service.GuildLogSettings.GetOrAdd(channel.Guild.Id, (id) => config.LogSetting);
                     removed = logSetting.IgnoredChannels.RemoveWhere(ilc => ilc.ChannelId == channel.Id);
                     config.LogSetting.IgnoredChannels.RemoveWhere(ilc => ilc.ChannelId == channel.Id);
                     if (removed == 0)
@@ -122,7 +120,7 @@ namespace NadekoBot.Modules.Administration
                 using (var uow = _db.UnitOfWork)
                 {
                     var logSetting = uow.GuildConfigs.LogSettingsFor(channel.Guild.Id).LogSetting;
-                    _lc.GuildLogSettings.AddOrUpdate(channel.Guild.Id, (id) => logSetting, (id, old) => logSetting);
+                    _service.GuildLogSettings.AddOrUpdate(channel.Guild.Id, (id) => logSetting, (id, old) => logSetting);
                     switch (type)
                     {
                         case LogType.Other:

@@ -4,9 +4,6 @@ using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services.Administration;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Administration
@@ -14,15 +11,9 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class PruneCommands : ModuleBase
+        public class PruneCommands : NadekoSubmodule<PruneService>
         {
             private readonly TimeSpan twoWeeks = TimeSpan.FromDays(14);
-            private readonly PruneService _prune;
-
-            public PruneCommands(PruneService prune)
-            {
-                _prune = prune;
-            }
 
             //delets her own messages, no perm required
             [NadekoCommand, Usage, Description, Aliases]
@@ -31,7 +22,7 @@ namespace NadekoBot.Modules.Administration
             {
                 var user = await Context.Guild.GetCurrentUserAsync().ConfigureAwait(false);
 
-                await _prune.PruneWhere((ITextChannel)Context.Channel, 100, (x) => x.Author.Id == user.Id).ConfigureAwait(false);
+                await _service.PruneWhere((ITextChannel)Context.Channel, 100, (x) => x.Author.Id == user.Id).ConfigureAwait(false);
                 Context.Message.DeleteAfter(3);
             }
             // prune x
@@ -47,7 +38,7 @@ namespace NadekoBot.Modules.Administration
                     return;
                 if (count > 1000)
                     count = 1000;
-                await _prune.PruneWhere((ITextChannel)Context.Channel, count, x => true).ConfigureAwait(false);
+                await _service.PruneWhere((ITextChannel)Context.Channel, count, x => true).ConfigureAwait(false);
             }
 
             //prune @user [x]
@@ -66,7 +57,7 @@ namespace NadekoBot.Modules.Administration
 
                 if (count > 1000)
                     count = 1000;
-                await _prune.PruneWhere((ITextChannel)Context.Channel, count, m => m.Author.Id == user.Id && DateTime.UtcNow - m.CreatedAt < twoWeeks);
+                await _service.PruneWhere((ITextChannel)Context.Channel, count, m => m.Author.Id == user.Id && DateTime.UtcNow - m.CreatedAt < twoWeeks);
             }
         }
     }

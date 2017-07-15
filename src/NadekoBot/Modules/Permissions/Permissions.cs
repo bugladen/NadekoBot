@@ -13,15 +13,13 @@ using NadekoBot.Services.Permissions;
 
 namespace NadekoBot.Modules.Permissions
 {
-    public partial class Permissions : NadekoTopLevelModule
+    public partial class Permissions : NadekoTopLevelModule<PermissionService>
     {
         private readonly DbService _db;
-        private readonly PermissionService _service;
 
-        public Permissions(PermissionService service, DbService db)
+        public Permissions(DbService db)
         {
             _db = db;
-            _service = service;
         }
 
         [NadekoCommand, Usage, Description, Aliases]

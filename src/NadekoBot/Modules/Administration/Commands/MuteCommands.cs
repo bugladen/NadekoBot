@@ -11,14 +11,12 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class MuteCommands : NadekoSubmodule
+        public class MuteCommands : NadekoSubmodule<MuteService>
         {
-            private readonly MuteService _service;
             private readonly DbService _db;
 
-            public MuteCommands(MuteService service, DbService db)
+            public MuteCommands(DbService db)
             {
-                _service = service;
                 _db = db;
             }
 
