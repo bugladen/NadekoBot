@@ -7,8 +7,6 @@ using NadekoBot.Extensions;
 using NadekoBot.Services;
 using NadekoBot.Services.Administration;
 using NadekoBot.Services.Database.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,87 +18,12 @@ namespace NadekoBot.Modules.Administration
         public class UserPunishCommands : NadekoSubmodule
         {
             private readonly DbService _db;
-            private readonly MuteService _muteService;
+            private readonly UserPunishService _service;
 
-            public UserPunishCommands(DbService db, MuteService muteService)
+            public UserPunishCommands(UserPunishService service, DbService db, MuteService muteService)
             {
                 _db = db;
-                _muteService = muteService;
-            }
-
-            //todo move to service
-            private async Task<PunishmentAction?> InternalWarn(IGuild guild, ulong userId, string modName, string reason)
-            {
-                if (string.IsNullOrWhiteSpace(reason))
-                    reason = "-";
-
-                var guildId = guild.Id;
-
-                var warn = new Warning()
-                {
-                    UserId = userId,
-                    GuildId = guildId,
-                    Forgiven = false,
-                    Reason = reason,
-                    Moderator = modName,
-                };
-
-                int warnings = 1;
-                List<WarningPunishment> ps;
-                using (var uow = _db.UnitOfWork)
-                {
-                    ps = uow.GuildConfigs.For(guildId, set => set.Include(x => x.WarnPunishments))
-                        .WarnPunishments;
-
-                    warnings += uow.Warnings
-                        .For(guildId, userId)                        
-                        .Where(w => !w.Forgiven && w.UserId == userId)
-                        .Count();
-
-                    uow.Warnings.Add(warn);
-
-                    uow.Complete();
-                }
-
-                var p = ps.FirstOrDefault(x => x.Count == warnings);
-
-                if (p != null)
-                {
-                    var user = await guild.GetUserAsync(userId);
-                    if (user == null)
-                        return null;
-                    switch (p.Punishment)
-                    {
-                        case PunishmentAction.Mute:
-                            if (p.Time == 0)
-                                await _muteService.MuteUser(user).ConfigureAwait(false);
-                            else
-                                await _muteService.TimedMute(user, TimeSpan.FromMinutes(p.Time)).ConfigureAwait(false);
-                            break;
-                        case PunishmentAction.Kick:
-                            await user.KickAsync().ConfigureAwait(false);
-                            break;
-                        case PunishmentAction.Ban:
-                            await guild.AddBanAsync(user).ConfigureAwait(false);
-                            break;
-                        case PunishmentAction.Softban:
-                            await guild.AddBanAsync(user, 7).ConfigureAwait(false);
-                            try
-                            {
-                                await guild.RemoveBanAsync(user).ConfigureAwait(false);
-                            }
-                            catch
-                            {
-                                await guild.RemoveBanAsync(user).ConfigureAwait(false);
-                            }
-                            break;
-                        default:
-                            break;
-                    }
-                    return p.Punishment;
-                }
-
-                return null;
+                _service = service;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -117,7 +40,7 @@ namespace NadekoBot.Modules.Administration
                         .ConfigureAwait(false);
                 }
                 catch { }
-                var punishment = await InternalWarn(Context.Guild, user.Id, Context.User.ToString(), reason).ConfigureAwait(false);
+                var punishment = await _service.Warn(Context.Guild, user.Id, Context.User.ToString(), reason).ConfigureAwait(false);
 
                 if (punishment == null)
                 {
