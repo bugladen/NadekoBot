@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Services
 {
-    public interface IGoogleApiService
+    public interface IGoogleApiService : INService
     {
         IEnumerable<string> Languages { get; }
 

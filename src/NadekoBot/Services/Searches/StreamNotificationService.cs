@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Services.Searches
 {
-    public class StreamNotificationService
+    public class StreamNotificationService : INService
     {
         private readonly Timer _streamCheckTimer;
         private bool firstStreamNotifPass { get; set; } = true;

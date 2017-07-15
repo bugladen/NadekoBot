@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Services.Administration
 {
-    public class AdministrationService
+    public class AdministrationService : INService
     {
         public readonly ConcurrentHashSet<ulong> DeleteMessagesOnCommand;
         private readonly Logger _log;

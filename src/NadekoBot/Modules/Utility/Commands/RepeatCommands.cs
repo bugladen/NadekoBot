@@ -63,7 +63,6 @@ namespace NadekoBot.Modules.Utility
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
-            [Priority(0)]
             public async Task RepeatRemove(int index)
             {
                 if (!_service.RepeaterReady)
@@ -103,7 +102,7 @@ namespace NadekoBot.Modules.Utility
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
-            [Priority(1)]
+            [Priority(0)]
             public async Task Repeat(int minutes, [Remainder] string message)
             {
                 if (!_service.RepeaterReady)
@@ -152,7 +151,7 @@ namespace NadekoBot.Modules.Utility
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
-            [Priority(0)]
+            [Priority(1)]
             public async Task Repeat(GuildDateTime gt, [Remainder] string message)
             {
                 if (!_service.RepeaterReady)

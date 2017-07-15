@@ -82,14 +82,14 @@ namespace NadekoBot.Modules.Help
             await ConfirmLocalized("commands_instr", Prefix).ConfigureAwait(false);
         }
         [NadekoCommand, Usage, Description, Aliases]
-        [Priority(1)]
+        [Priority(0)]
         public async Task H([Remainder] string fail)
         {
             await ReplyErrorLocalized("command_not_found").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [Priority(0)]
+        [Priority(1)]
         public async Task H([Remainder] CommandInfo com = null)
         {
             var channel = Context.Channel;

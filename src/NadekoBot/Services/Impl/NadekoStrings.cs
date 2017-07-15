@@ -11,7 +11,7 @@ using System.Text.RegularExpressions;
 
 namespace NadekoBot.Services
 {
-    public class NadekoStrings
+    public class NadekoStrings : INService
     {
         public const string stringsPath = @"_strings/";
 

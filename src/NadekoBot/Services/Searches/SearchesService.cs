@@ -15,7 +15,7 @@ using System.Xml;
 
 namespace NadekoBot.Services.Searches
 {
-    public class SearchesService
+    public class SearchesService : INService
     {
         private readonly DiscordSocketClient _client;
         private readonly IGoogleApiService _google;

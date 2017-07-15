@@ -20,7 +20,7 @@ namespace NadekoBot.Services.Administration
         All
     }
 
-    public class MuteService
+    public class MuteService : INService
     {
         public ConcurrentDictionary<ulong, string> GuildMuteRoles { get; }
         public ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>> MutedUsers { get; }

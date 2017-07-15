@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace NadekoBot.Services.Utility
 {
     //todo 50 rewrite
-    public class MessageRepeaterService
+    public class MessageRepeaterService : INService
     {
         //messagerepeater
         //guildid/RepeatRunners
@@ -19,8 +19,7 @@ namespace NadekoBot.Services.Utility
         {
             var _ = Task.Run(async () =>
             {
-                while (!bot.Ready)
-                    await Task.Delay(1000);
+                await bot.Ready.Task.ConfigureAwait(false);
 
                 Repeaters = new ConcurrentDictionary<ulong, ConcurrentQueue<RepeatRunner>>(gcs
                     .ToDictionary(gc => gc.GuildId,

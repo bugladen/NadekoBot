@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Services.Games
 {
-    public class GamesService
+    public class GamesService : INService
     {
         private readonly BotConfig _bc;
 

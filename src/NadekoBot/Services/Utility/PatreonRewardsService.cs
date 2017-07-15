@@ -9,13 +9,12 @@ using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Services.Utility
 {
-    public class PatreonRewardsService
+    public class PatreonRewardsService : INService
     {
         private readonly SemaphoreSlim getPledgesLocker = new SemaphoreSlim(1, 1);
 

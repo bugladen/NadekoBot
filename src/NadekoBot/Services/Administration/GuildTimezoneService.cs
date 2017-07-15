@@ -9,7 +9,7 @@ using Discord.WebSocket;
 
 namespace NadekoBot.Services.Administration
 {
-    public class GuildTimezoneService
+    public class GuildTimezoneService : INService
     {
         //hack >.>
         public static ConcurrentDictionary<ulong, GuildTimezoneService> AllServices { get; } = new ConcurrentDictionary<ulong, GuildTimezoneService>();

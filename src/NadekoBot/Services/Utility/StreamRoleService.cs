@@ -12,7 +12,7 @@ using NLog;
 
 namespace NadekoBot.Services.Utility
 {
-    public class StreamRoleService
+    public class StreamRoleService : INService
     {
         private readonly DbService _db;
         private readonly ConcurrentDictionary<ulong, StreamRoleSettings> guildSettings;
@@ -26,6 +26,7 @@ namespace NadekoBot.Services.Utility
             this._log = LogManager.GetCurrentClassLogger();
 
             guildSettings = gcs.ToDictionary(x => x.GuildId, x => x.StreamRole)
+                .Where(x => x.Value.FromRoleId != 0 && x.Value.AddRoleId != 0)
                .ToConcurrent();
 
             client.GuildMemberUpdated += Client_GuildMemberUpdated;

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Services.Games
 {
-    public class ChatterBotService : IEarlyBlockingExecutor
+    public class ChatterBotService : IEarlyBlockingExecutor, INService
     {
         private readonly DiscordSocketClient _client;
         private readonly Logger _log;

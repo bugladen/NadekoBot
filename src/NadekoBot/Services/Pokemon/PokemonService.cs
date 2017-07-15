@@ -6,7 +6,7 @@ using System.IO;
 
 namespace NadekoBot.Services.Pokemon
 {
-    public class PokemonService
+    public class PokemonService : INService
     {
         public readonly List<PokemonType> PokemonTypes = new List<PokemonType>();
         public readonly ConcurrentDictionary<ulong, PokeStats> Stats = new ConcurrentDictionary<ulong, PokeStats>();

@@ -25,7 +25,7 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageRoles)]
-            [Priority(1)]
+            [Priority(0)]
             public async Task SetMuteRole([Remainder] string name)
             {
                 name = name.Trim();
@@ -45,7 +45,7 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageRoles)]
-            [Priority(0)]
+            [Priority(1)]
             public Task SetMuteRole([Remainder] IRole role)
                 => SetMuteRole(role.Name);
 
@@ -53,7 +53,7 @@ namespace NadekoBot.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageRoles)]
             [RequireUserPermission(GuildPermission.MuteMembers)]
-            [Priority(1)]
+            [Priority(0)]
             public async Task Mute(IGuildUser user)
             {
                 try
@@ -71,7 +71,7 @@ namespace NadekoBot.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageRoles)]
             [RequireUserPermission(GuildPermission.MuteMembers)]
-            [Priority(0)]
+            [Priority(1)]
             public async Task Mute(int minutes, IGuildUser user)
             {
                 if (minutes < 1 || minutes > 1440)

@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 namespace NadekoBot.Services.Administration
 {
-    public class SelfService : ILateExecutor
+    public class SelfService : ILateExecutor, INService
     {
         public volatile bool ForwardDMs;
         public volatile bool ForwardDMsToAllOwners;
@@ -44,8 +44,7 @@ namespace NadekoBot.Services.Administration
 
             var _ = Task.Run(async () =>
             {
-                while (!bot.Ready)
-                    await Task.Delay(1000);
+                await bot.Ready.Task.ConfigureAwait(false);
 
                 foreach (var cmd in bc.StartupCommands)
                 {
@@ -56,8 +55,7 @@ namespace NadekoBot.Services.Administration
 
             var ___ = Task.Run(async () =>
             {
-                while (!bot.Ready)
-                    await Task.Delay(1000);
+                await bot.Ready.Task.ConfigureAwait(false);
 
                 await Task.Delay(5000);
 

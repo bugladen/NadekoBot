@@ -12,7 +12,7 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         {
         }
 
-        public IEnumerable<Reminder> GetIncludedReminders(List<long> guildIds)
+        public IEnumerable<Reminder> GetIncludedReminders(IEnumerable<long> guildIds)
         {
             return _set.Where(x => guildIds.Contains((long)x.ServerId)).ToList();
         }

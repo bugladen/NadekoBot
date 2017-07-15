@@ -7,7 +7,7 @@ using NadekoBot.Services.Database;
 
 namespace NadekoBot.Services
 {
-    public class CurrencyService
+    public class CurrencyService : INService
     {
         private readonly BotConfig _config;
         private readonly DbService _db;

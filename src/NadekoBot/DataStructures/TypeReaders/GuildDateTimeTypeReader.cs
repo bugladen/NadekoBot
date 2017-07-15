@@ -1,4 +1,5 @@
 ﻿using Discord.Commands;
+using NadekoBot.Services;
 using NadekoBot.Services.Administration;
 using System;
 using System.Threading.Tasks;
@@ -7,15 +8,9 @@ namespace NadekoBot.TypeReaders
 {
     public class GuildDateTimeTypeReader : TypeReader
     {
-        private readonly GuildTimezoneService _gts;
-
-        public GuildDateTimeTypeReader(GuildTimezoneService gts)
+        public override Task<TypeReaderResult> Read(ICommandContext context, string input, IServiceProvider services)
         {
-            _gts = gts;
-        }
-
-        public override Task<TypeReaderResult> Read(ICommandContext context, string input, IServiceProvider _)
-        {
+            var _gts = (GuildTimezoneService)services.GetService(typeof(GuildTimezoneService));
             if (!DateTime.TryParse(input, out var dt))
                 return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "Input string is in an incorrect format."));
 

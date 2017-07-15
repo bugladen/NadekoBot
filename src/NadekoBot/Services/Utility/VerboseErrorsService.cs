@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace NadekoBot.Services.Utility
 {
-    public class VerboseErrorsService
+    public class VerboseErrorsService : INService
     {
         private readonly ConcurrentHashSet<ulong> guildsEnabled;
         private readonly DbService _db;

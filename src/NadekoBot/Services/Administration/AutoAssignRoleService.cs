@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Services.Administration
 {
-    public class AutoAssignRoleService
+    public class AutoAssignRoleService : INService
     {
         private readonly Logger _log;
         private readonly DiscordSocketClient _client;

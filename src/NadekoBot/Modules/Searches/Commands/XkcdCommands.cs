@@ -17,7 +17,7 @@ namespace NadekoBot.Modules.Searches
             private const string _xkcdUrl = "https://xkcd.com";
 
             [NadekoCommand, Usage, Description, Aliases]
-            [Priority(1)]
+            [Priority(0)]
             public async Task Xkcd(string arg = null)
             {
                 if (arg?.ToLowerInvariant().Trim() == "latest")
@@ -44,7 +44,7 @@ namespace NadekoBot.Modules.Searches
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [Priority(0)]
+            [Priority(1)]
             public async Task Xkcd(int num)
             {
                 if (num < 1)

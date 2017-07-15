@@ -10,7 +10,7 @@ using NadekoBot.Extensions;
 
 namespace NadekoBot.Services.Utility
 {
-    public class CommandMapService : IInputTransformer
+    public class CommandMapService : IInputTransformer, INService
     {
         private readonly Logger _log;
 

@@ -11,7 +11,7 @@ using NadekoBot.Attributes;
 
 namespace NadekoBot.Services.Help
 {
-    public class HelpService : ILateExecutor
+    public class HelpService : ILateExecutor, INService
     {
         private readonly BotConfig _bc;
         private readonly CommandHandler _ch;

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Services.Permissions
 {
-    public class CmdCdService : ILateBlocker
+    public class CmdCdService : ILateBlocker, INService
     {
         public ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>> CommandCooldowns { get; }
         public ConcurrentDictionary<ulong, ConcurrentHashSet<ActiveCooldown>> ActiveCooldowns { get; } = new ConcurrentDictionary<ulong, ConcurrentHashSet<ActiveCooldown>>();

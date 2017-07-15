@@ -52,7 +52,7 @@ namespace NadekoBot.Modules.Gambling
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [Priority(0)]
+        [Priority(1)]
         public async Task Cash([Remainder] IUser user = null)
         {
             if(user == null)
@@ -62,7 +62,7 @@ namespace NadekoBot.Modules.Gambling
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [Priority(1)]
+        [Priority(0)]
         public async Task Cash(ulong userId)
         {
             await ReplyConfirmLocalized("has", Format.Code(userId.ToString()), $"{GetCurrency(userId)} {CurrencySign}").ConfigureAwait(false);
@@ -88,7 +88,7 @@ namespace NadekoBot.Modules.Gambling
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
-        [Priority(2)]
+        [Priority(0)]
         public Task Award(int amount, [Remainder] IGuildUser usr) =>
             Award(amount, usr.Id);
 
@@ -107,7 +107,7 @@ namespace NadekoBot.Modules.Gambling
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
-        [Priority(0)]
+        [Priority(2)]
         public async Task Award(int amount, [Remainder] IRole role)
         {
             var users = (await Context.Guild.GetUsersAsync())

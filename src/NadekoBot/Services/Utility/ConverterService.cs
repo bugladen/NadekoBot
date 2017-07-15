@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Services.Utility
 {
-    public class ConverterService
+    public class ConverterService : INService
     {
         public List<ConvertUnit> Units { get; } = new List<ConvertUnit>();
         private readonly Logger _log;

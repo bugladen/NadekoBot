@@ -192,10 +192,18 @@ namespace NadekoBot.Modules.NSFW
             if (imgObj == null)
                 await ReplyErrorLocalized("not_found").ConfigureAwait(false);
             else
-                await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+            {
+                var embed = new EmbedBuilder().WithOkColor()
                     .WithDescription($"{Context.User} [{tag ?? "url"}]({imgObj}) ")
-                    .WithImageUrl(imgObj.FileUrl)
-                    .WithFooter(efb => efb.WithText(type.ToString()))).ConfigureAwait(false);
+                    .WithFooter(efb => efb.WithText(type.ToString()));
+
+                if (Uri.IsWellFormedUriString(imgObj.FileUrl, UriKind.Absolute))
+                    embed.WithImageUrl(imgObj.FileUrl);
+                else
+                    _log.Error($"Image link from {type} is not a proper Url: {imgObj.FileUrl}");
+
+                await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+            }
         }
     }
 }

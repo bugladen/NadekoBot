@@ -39,7 +39,7 @@ namespace NadekoBot.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(ChannelPermission.ManageMessages)]
             [RequireBotPermission(GuildPermission.ManageMessages)]
-            [Priority(0)]
+            [Priority(1)]
             public async Task Prune(int count)
             {
                 count++;
@@ -55,7 +55,7 @@ namespace NadekoBot.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(ChannelPermission.ManageMessages)]
             [RequireBotPermission(GuildPermission.ManageMessages)]
-            [Priority(1)]
+            [Priority(0)]
             public async Task Prune(IGuildUser user, int count = 100)
             {
                 if (user.Id == Context.User.Id)

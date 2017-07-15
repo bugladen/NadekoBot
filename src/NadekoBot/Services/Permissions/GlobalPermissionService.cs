@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Services.Permissions
 {
-    public class GlobalPermissionService : ILateBlocker
+    public class GlobalPermissionService : ILateBlocker, INService
     {
         public readonly ConcurrentHashSet<string> BlockedModules;
         public readonly ConcurrentHashSet<string> BlockedCommands;

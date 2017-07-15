@@ -9,17 +9,10 @@ namespace NadekoBot.TypeReaders
 {
     public class CommandTypeReader : TypeReader
     {
-        private readonly CommandService _cmds;
-        private readonly CommandHandler _cmdHandler;
-
-        public CommandTypeReader(CommandService cmds, CommandHandler cmdHandler)
+        public override Task<TypeReaderResult> Read(ICommandContext context, string input, IServiceProvider services)
         {
-            _cmds = cmds;
-            _cmdHandler = cmdHandler;
-        }
-
-        public override Task<TypeReaderResult> Read(ICommandContext context, string input, IServiceProvider _)
-        {
+            var _cmds = ((INServiceProvider)services).GetService<CommandService>();
+            var _cmdHandler = ((INServiceProvider)services).GetService<CommandHandler>();
             input = input.ToUpperInvariant();
             var prefix = _cmdHandler.GetPrefix(context.Guild);
             if (!input.StartsWith(prefix.ToUpperInvariant()))
@@ -38,16 +31,11 @@ namespace NadekoBot.TypeReaders
 
     public class CommandOrCrTypeReader : CommandTypeReader
     {
-        private readonly CustomReactionsService _crs;
-
-        public CommandOrCrTypeReader(CustomReactionsService crs, CommandService cmds, CommandHandler cmdHandler) : base(cmds, cmdHandler)
-        {
-            _crs = crs;
-        }
-
-        public override async Task<TypeReaderResult> Read(ICommandContext context, string input, IServiceProvider _)
+        public override async Task<TypeReaderResult> Read(ICommandContext context, string input, IServiceProvider services)
         {
             input = input.ToUpperInvariant();
+
+            var _crs = ((INServiceProvider)services).GetService<CustomReactionsService>();
 
             if (_crs.GlobalReactions.Any(x => x.Trigger.ToUpperInvariant() == input))
             {
@@ -65,7 +53,7 @@ namespace NadekoBot.TypeReaders
                 }
             }
 
-            var cmd = await base.Read(context, input, _);
+            var cmd = await base.Read(context, input, services);
             if (cmd.IsSuccess)
             {
                 return TypeReaderResult.FromSuccess(new CommandOrCrInfo(((CommandInfo)cmd.Values.First().Value).Name));

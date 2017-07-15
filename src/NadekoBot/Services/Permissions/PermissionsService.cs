@@ -11,14 +11,14 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using NadekoBot.Extensions;
+using NadekoBot.Services.Database;
 using NadekoBot.Services;
 
 namespace NadekoBot.Services.Permissions
 {
-    public class PermissionService : ILateBlocker
+    public class PermissionService : ILateBlocker, INService
     {
         private readonly DbService _db;
-        private readonly Logger _log;
         private readonly CommandHandler _cmd;
         private readonly NadekoStrings _strings;
 
@@ -26,16 +26,15 @@ namespace NadekoBot.Services.Permissions
         public ConcurrentDictionary<ulong, PermissionCache> Cache { get; } =
             new ConcurrentDictionary<ulong, PermissionCache>();
 
-        public PermissionService(DiscordSocketClient client, DbService db, BotConfig bc, CommandHandler cmd, NadekoStrings strings)
+        public PermissionService(DiscordSocketClient client, DbService db, CommandHandler cmd, NadekoStrings strings)
         {
-            _log = LogManager.GetCurrentClassLogger();
             _db = db;
             _cmd = cmd;
             _strings = strings;
 
             var sw = Stopwatch.StartNew();
             if (client.ShardId == 0)
-                TryMigratePermissions(bc);
+                TryMigratePermissions();
 
             using (var uow = _db.UnitOfWork)
             {
@@ -49,9 +48,6 @@ namespace NadekoBot.Services.Permissions
                     });
                 }
             }
-
-            sw.Stop();
-            _log.Debug($"Loaded in {sw.Elapsed.TotalSeconds:F2}s");
         }
 
         public PermissionCache GetCache(ulong guildId)
@@ -71,12 +67,13 @@ namespace NadekoBot.Services.Permissions
             return pc;
         }
 
-        private void TryMigratePermissions(BotConfig bc)
+        private void TryMigratePermissions()
         {
-            var log = LogManager.GetCurrentClassLogger();
-            if (bc.PermissionVersion <= 1)
+            using (var uow = _db.UnitOfWork)
             {
-                using (var uow = _db.UnitOfWork)
+                var bc = uow.BotConfig.GetOrCreate();
+                var log = LogManager.GetCurrentClassLogger();
+                if (bc.PermissionVersion <= 1)
                 {
                     log.Info("Permission version is 1, upgrading to 2.");
                     var oldCache = new ConcurrentDictionary<ulong, OldPermissionCache>(uow.GuildConfigs
@@ -134,25 +131,22 @@ namespace NadekoBot.Services.Permissions
                     bc.PermissionVersion = 2;
                     uow.Complete();
                 }
-            }
-            if (bc.PermissionVersion <= 2)
-            {
-                using (var uow = _db.UnitOfWork)
+                if (bc.PermissionVersion <= 2)
                 {
                     var oldPrefixes = new[] { ".", ";", "!!", "!m", "!", "+", "-", "$", ">" };
                     uow._context.Database.ExecuteSqlCommand(
-$@"UPDATE {nameof(Permissionv2)}
+    $@"UPDATE {nameof(Permissionv2)}
 SET secondaryTargetName=trim(substr(secondaryTargetName, 3))
 WHERE secondaryTargetName LIKE '!!%' OR secondaryTargetName LIKE '!m%';
 
 UPDATE {nameof(Permissionv2)}
 SET secondaryTargetName=substr(secondaryTargetName, 2)
 WHERE secondaryTargetName LIKE '.%' OR
-    secondaryTargetName LIKE '~%' OR
-    secondaryTargetName LIKE ';%' OR
-    secondaryTargetName LIKE '>%' OR
-    secondaryTargetName LIKE '-%' OR
-    secondaryTargetName LIKE '!%';");
+secondaryTargetName LIKE '~%' OR
+secondaryTargetName LIKE ';%' OR
+secondaryTargetName LIKE '>%' OR
+secondaryTargetName LIKE '-%' OR
+secondaryTargetName LIKE '!%';");
                     bc.PermissionVersion = 3;
                     uow.Complete();
                 }

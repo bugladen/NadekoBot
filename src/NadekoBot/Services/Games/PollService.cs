@@ -9,7 +9,7 @@ using NLog;
 
 namespace NadekoBot.Services.Games
 {
-    public class PollService : IEarlyBlockingExecutor
+    public class PollService : IEarlyBlockingExecutor, INService
     {
         public ConcurrentDictionary<ulong, Poll> ActivePolls = new ConcurrentDictionary<ulong, Poll>();
         private readonly Logger _log;

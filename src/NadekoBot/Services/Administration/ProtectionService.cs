@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Services.Administration
 {
-    public class ProtectionService
+    public class ProtectionService : INService
     {
         public readonly ConcurrentDictionary<ulong, AntiRaidStats> AntiRaidGuilds =
                 new ConcurrentDictionary<ulong, AntiRaidStats>();

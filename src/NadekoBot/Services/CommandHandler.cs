@@ -24,7 +24,8 @@ namespace NadekoBot.Services
 
         public int GetHashCode(IGuildUser obj) => obj.Id.GetHashCode();
     }
-    public class CommandHandler
+
+    public class CommandHandler : INService
     {
         public const int GlobalCommandsCooldown = 750;
 
@@ -189,7 +190,7 @@ namespace NadekoBot.Services
         {
             try
             {
-                if (msg.Author.IsBot || !_bot.Ready) //no bots, wait until bot connected and initialized
+                if (msg.Author.IsBot || !_bot.Ready.Task.IsCompleted) //no bots, wait until bot connected and initialized
                     return;
 
                 if (!(msg is SocketUserMessage usrMsg))
@@ -296,83 +297,124 @@ namespace NadekoBot.Services
             => ExecuteCommand(context, input.Substring(argPos), serviceProvider, multiMatchHandling);
 
 
-        public async Task<(bool Success, string Error, CommandInfo Info)> ExecuteCommand(CommandContext context, string input, IServiceProvider serviceProvider, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
+        public async Task<(bool Success, string Error, CommandInfo Info)> ExecuteCommand(CommandContext context, string input, IServiceProvider services, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
         {
             var searchResult = _commandService.Search(context, input);
             if (!searchResult.IsSuccess)
                 return (false, null, null);
 
             var commands = searchResult.Commands;
-            for (int i = commands.Count - 1; i >= 0; i--)
+            var preconditionResults = new Dictionary<CommandMatch, PreconditionResult>();
+
+            foreach (var match in commands)
             {
-                var preconditionResult = await commands[i].CheckPreconditionsAsync(context, serviceProvider).ConfigureAwait(false);
-                if (!preconditionResult.IsSuccess)
-                {
-                    return (false, preconditionResult.ErrorReason, commands[i].Command);
-                }
-
-                var parseResult = await commands[i].ParseAsync(context, searchResult, preconditionResult).ConfigureAwait(false);
-                if (!parseResult.IsSuccess)
-                {
-                    if (parseResult.Error == CommandError.MultipleMatches)
-                    {
-                        TypeReaderValue[] argList, paramList;
-                        switch (multiMatchHandling)
-                        {
-                            case MultiMatchHandling.Best:
-                                argList = parseResult.ArgValues.Select(x => x.Values.OrderByDescending(y => y.Score).First()).ToArray();
-                                paramList = parseResult.ParamValues.Select(x => x.Values.OrderByDescending(y => y.Score).First()).ToArray();
-                                parseResult = ParseResult.FromSuccess(argList, paramList);
-                                break;
-                        }
-                    }
-
-                    if (!parseResult.IsSuccess)
-                    {
-                        if (commands.Count == 1)
-                            return (false, parseResult.ErrorReason, commands[i].Command);
-                        else
-                            continue;
-                    }
-                }
-
-                var cmd = commands[i].Command;
-
-                // Bot will ignore commands which are ran more often than what specified by
-                // GlobalCommandsCooldown constant (miliseconds)
-                if (!UsersOnShortCooldown.Add(context.Message.Author.Id))
-                    return (false, null, commands[i].Command);
-                //return SearchResult.FromError(CommandError.Exception, "You are on a global cooldown.");
-
-                var commandName = cmd.Aliases.First();
-                foreach (var svc in _services)
-                {
-                    if (svc is ILateBlocker exec &&
-                        await exec.TryBlockLate(_client, context.Message, context.Guild, context.Channel, context.User, cmd.Module.GetTopLevelModule().Name, commandName).ConfigureAwait(false))
-                    {
-                        _log.Info("Late blocking User [{0}] Command: [{1}] in [{2}]", context.User, commandName, svc.GetType().Name);
-                        return (false, null, commands[i].Command);
-                    }
-                }
-
-                var execResult = (ExecuteResult)(await commands[i].ExecuteAsync(context, parseResult, serviceProvider));
-                if (execResult.Exception != null && (!(execResult.Exception is HttpException he) || he.DiscordCode != 50013))
-                {
-                    lock (errorLogLock)
-                    {
-                        var now = DateTime.Now;
-                        File.AppendAllText($"./command_errors_{now:yyyy-MM-dd}.txt",
-                            $"[{now:HH:mm-yyyy-MM-dd}]" + Environment.NewLine
-                            + execResult.Exception.ToString() + Environment.NewLine
-                            + "------" + Environment.NewLine);
-                        _log.Warn(execResult.Exception);
-                    }
-                }
-                return (true, null, commands[i].Command);
+                preconditionResults[match] = await match.Command.CheckPreconditionsAsync(context, services).ConfigureAwait(false);
             }
 
-            return (false, null, null);
-            //return new ExecuteCommandResult(null, null, SearchResult.FromError(CommandError.UnknownCommand, "This input does not match any overload."));
+            var successfulPreconditions = preconditionResults
+                .Where(x => x.Value.IsSuccess)
+                .ToArray();
+
+            if (successfulPreconditions.Length == 0)
+            {
+                //All preconditions failed, return the one from the highest priority command
+                var bestCandidate = preconditionResults
+                    .OrderByDescending(x => x.Key.Command.Priority)
+                    .FirstOrDefault(x => !x.Value.IsSuccess);
+                return (false, bestCandidate.Value.ErrorReason, commands[0].Command);
+            }
+
+            var parseResultsDict = new Dictionary<CommandMatch, ParseResult>();
+            foreach (var pair in successfulPreconditions)
+            {
+                var parseResult = await pair.Key.ParseAsync(context, searchResult, pair.Value, services).ConfigureAwait(false);
+
+                if (parseResult.Error == CommandError.MultipleMatches)
+                {
+                    IReadOnlyList<TypeReaderValue> argList, paramList;
+                    switch (multiMatchHandling)
+                    {
+                        case MultiMatchHandling.Best:
+                            argList = parseResult.ArgValues.Select(x => x.Values.OrderByDescending(y => y.Score).First()).ToImmutableArray();
+                            paramList = parseResult.ParamValues.Select(x => x.Values.OrderByDescending(y => y.Score).First()).ToImmutableArray();
+                            parseResult = ParseResult.FromSuccess(argList, paramList);
+                            break;
+                    }
+                }
+
+                parseResultsDict[pair.Key] = parseResult;
+            }
+            // Calculates the 'score' of a command given a parse result
+            float CalculateScore(CommandMatch match, ParseResult parseResult)
+            {
+                float argValuesScore = 0, paramValuesScore = 0;
+
+                if (match.Command.Parameters.Count > 0)
+                {
+                    var argValuesSum = parseResult.ArgValues?.Sum(x => x.Values.OrderByDescending(y => y.Score).FirstOrDefault().Score) ?? 0;
+                    var paramValuesSum = parseResult.ParamValues?.Sum(x => x.Values.OrderByDescending(y => y.Score).FirstOrDefault().Score) ?? 0;
+
+                    argValuesScore = argValuesSum / match.Command.Parameters.Count;
+                    paramValuesScore = paramValuesSum / match.Command.Parameters.Count;
+                }
+
+                var totalArgsScore = (argValuesScore + paramValuesScore) / 2;
+                return match.Command.Priority + totalArgsScore * 0.99f;
+            }
+
+            //Order the parse results by their score so that we choose the most likely result to execute
+            var parseResults = parseResultsDict
+                .OrderByDescending(x => CalculateScore(x.Key, x.Value));
+
+            var successfulParses = parseResults
+                .Where(x => x.Value.IsSuccess)
+                .ToArray();
+
+            if (successfulParses.Length == 0)
+            {
+                //All parses failed, return the one from the highest priority command, using score as a tie breaker
+                var bestMatch = parseResults
+                    .FirstOrDefault(x => !x.Value.IsSuccess);
+                return (false, bestMatch.Value.ErrorReason, commands[0].Command);
+            }
+
+            var cmd = successfulParses[0].Key.Command;
+
+            // Bot will ignore commands which are ran more often than what specified by
+            // GlobalCommandsCooldown constant (miliseconds)
+            if (!UsersOnShortCooldown.Add(context.Message.Author.Id))
+                return (false, null, cmd);
+            //return SearchResult.FromError(CommandError.Exception, "You are on a global cooldown.");
+
+            var commandName = cmd.Aliases.First();
+            foreach (var svc in _services)
+            {
+                if (svc is ILateBlocker exec &&
+                    await exec.TryBlockLate(_client, context.Message, context.Guild, context.Channel, context.User, cmd.Module.GetTopLevelModule().Name, commandName).ConfigureAwait(false))
+                {
+                    _log.Info("Late blocking User [{0}] Command: [{1}] in [{2}]", context.User, commandName, svc.GetType().Name);
+                    return (false, null, cmd);
+                }
+            }
+
+            //If we get this far, at least one parse was successful. Execute the most likely overload.
+            var chosenOverload = successfulParses[0];
+            var execResult = (ExecuteResult)await chosenOverload.Key.ExecuteAsync(context, chosenOverload.Value, services).ConfigureAwait(false);
+
+            if (execResult.Exception != null && (!(execResult.Exception is HttpException he) || he.DiscordCode != 50013))
+            {
+                lock (errorLogLock)
+                {
+                    var now = DateTime.Now;
+                    File.AppendAllText($"./command_errors_{now:yyyy-MM-dd}.txt",
+                        $"[{now:HH:mm-yyyy-MM-dd}]" + Environment.NewLine
+                        + execResult.Exception.ToString() + Environment.NewLine
+                        + "------" + Environment.NewLine);
+                    _log.Warn(execResult.Exception);
+                }
+            }
+
+            return (true, null, cmd);
         }
 
         private readonly object errorLogLock = new object();

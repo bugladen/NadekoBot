@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Services.Searches
 {
-    public class AnimeSearchService
+    public class AnimeSearchService : INService
     {
         private readonly Logger _log;
 

@@ -11,7 +11,7 @@ namespace NadekoBot.Modules.Administration
         public class PrefixCommands : NadekoSubmodule
         {
             [NadekoCommand, Usage, Description, Aliases]
-            [Priority(0)]
+            [Priority(1)]
             public new async Task Prefix()
             {
                 await ReplyConfirmLocalized("prefix_current", Format.Code(_cmdHandler.GetPrefix(Context.Guild))).ConfigureAwait(false);
@@ -21,7 +21,7 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.Administrator)]
-            [Priority(1)]
+            [Priority(0)]
             public new async Task Prefix([Remainder]string prefix)
             {
                 if (string.IsNullOrWhiteSpace(prefix))

@@ -289,7 +289,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireUserPermission(GuildPermission.ManageNicknames)]
-            [Priority(1)]
+            [Priority(0)]
             public async Task SetNick([Remainder] string newNick = null)
             {
                 if (string.IsNullOrWhiteSpace(newNick))
@@ -303,7 +303,7 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireBotPermission(GuildPermission.ManageNicknames)]
             [RequireUserPermission(GuildPermission.ManageNicknames)]
-            [Priority(0)]
+            [Priority(1)]
             public async Task SetNick(IGuildUser gu, [Remainder] string newNick = null)
             {
                 await gu.ModifyAsync(u => u.Nickname = newNick).ConfigureAwait(false);

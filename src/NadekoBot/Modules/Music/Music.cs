@@ -377,7 +377,7 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [Priority(0)]
+        [Priority(1)]
         public async Task SongRemove(int index)
         {
             if (index < 1)
@@ -406,7 +406,7 @@ namespace NadekoBot.Modules.Music
         public enum All { All }
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [Priority(1)]
+        [Priority(0)]
         public async Task SongRemove(All all)
         {
             var mp = _music.GetPlayerOrDefault(Context.Guild.Id);
@@ -853,41 +853,6 @@ namespace NadekoBot.Modules.Music
             else
                 await ReplyConfirmLocalized("rpl_disabled").ConfigureAwait(false);
         }
-        //todo readd goto
-        //[NadekoCommand, Usage, Description, Aliases]
-        //[RequireContext(ContextType.Guild)]
-        //public async Task Goto(int time)
-        //{
-        //    MusicPlayer musicPlayer;
-        //    if ((musicPlayer = _music.GetPlayer(Context.Guild.Id)) == null)
-        //        return;
-        //    if (((IGuildUser)Context.User).VoiceChannel != musicPlayer.PlaybackVoiceChannel)
-        //        return;
-
-        //    if (time < 0)
-        //        return;
-
-        //    var currentSong = musicPlayer.CurrentSong;
-
-        //    if (currentSong == null)
-        //        return;
-
-        //    //currentSong.PrintStatusMessage = false;
-        //    var gotoSong = currentSong.Clone();
-        //    gotoSong.SkipTo = time;
-        //    musicPlayer.AddSong(gotoSong, 0);
-        //    musicPlayer.Next();
-
-        //    var minutes = (time / 60).ToString();
-        //    var seconds = (time % 60).ToString();
-
-        //    if (minutes.Length == 1)
-        //        minutes = "0" + minutes;
-        //    if (seconds.Length == 1)
-        //        seconds = "0" + seconds;
-
-        //    await ReplyConfirmLocalized("skipped_to", minutes, seconds).ConfigureAwait(false);
-        //}
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]

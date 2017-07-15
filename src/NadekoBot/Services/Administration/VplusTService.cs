@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Services.Administration
 {
-    public class VplusTService
+    public class VplusTService : INService
     {
         private readonly Regex _channelNameRegex = new Regex(@"[^a-zA-Z0-9 -]", RegexOptions.Compiled);
 

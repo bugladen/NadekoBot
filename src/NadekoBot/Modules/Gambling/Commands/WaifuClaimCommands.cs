@@ -197,12 +197,12 @@ namespace NadekoBot.Modules.Gambling
             private static readonly TimeSpan _divorceLimit = TimeSpan.FromHours(6);
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [Priority(1)]
+            [Priority(0)]
             public Task Divorce([Remainder]IGuildUser target) => Divorce(target.Id);
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [Priority(0)]
+            [Priority(1)]
             public async Task Divorce([Remainder]ulong targetId)
             {
                 if (targetId == Context.User.Id)

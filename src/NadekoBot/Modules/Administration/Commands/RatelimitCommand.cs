@@ -67,7 +67,7 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
-            [Priority(1)]
+            [Priority(0)]
             public async Task SlowmodeWhitelist(IGuildUser user)
             {
                 var siu = new SlowmodeIgnoredUser
@@ -99,7 +99,7 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
-            [Priority(0)]
+            [Priority(1)]
             public async Task SlowmodeWhitelist(IRole role)
             {
                 var sir = new SlowmodeIgnoredRole

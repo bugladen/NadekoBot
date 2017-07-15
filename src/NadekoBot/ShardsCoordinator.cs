@@ -3,7 +3,6 @@ using NadekoBot.Services;
 using NadekoBot.Services.Impl;
 using NLog;
 using System;
-using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;

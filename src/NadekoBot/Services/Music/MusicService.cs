@@ -15,7 +15,7 @@ using NadekoBot.Services.Impl;
 
 namespace NadekoBot.Services.Music
 {
-    public class MusicService
+    public class MusicService : INService
     {
         public const string MusicDataPath = "data/musicdata";
 

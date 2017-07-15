@@ -84,7 +84,7 @@ namespace NadekoBot.Modules.CustomReactions
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [Priority(0)]
+        [Priority(1)]
         public async Task ListCustReact(int page = 1)
         {
             if (--page < 0 || page > 999)
@@ -130,7 +130,7 @@ namespace NadekoBot.Modules.CustomReactions
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [Priority(1)]
+        [Priority(0)]
         public async Task ListCustReact(All x)
         {
             CustomReaction[] customReactions;

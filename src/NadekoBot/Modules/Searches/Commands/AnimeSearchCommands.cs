@@ -25,7 +25,7 @@ namespace NadekoBot.Modules.Searches
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [Priority(1)]
+            [Priority(0)]
             public async Task Mal([Remainder] string name)
             {
                 if (string.IsNullOrWhiteSpace(name))
@@ -132,7 +132,7 @@ namespace NadekoBot.Modules.Searches
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [Priority(0)]
+            [Priority(1)]
             public Task Mal(IGuildUser usr) => Mal(usr.Username);
 
             [NadekoCommand, Usage, Description, Aliases]

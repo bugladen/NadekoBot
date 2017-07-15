@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Services.Permissions
 {
-    public class BlacklistService : IEarlyBlocker
+    public class BlacklistService : IEarlyBlocker, INService
     {
         public ConcurrentHashSet<ulong> BlacklistedUsers { get; }
         public ConcurrentHashSet<ulong> BlacklistedGuilds { get; }
