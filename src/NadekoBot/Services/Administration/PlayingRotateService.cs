@@ -1,7 +1,7 @@
 ﻿using Discord.WebSocket;
 using NadekoBot.DataStructures.Replacements;
+using NadekoBot.Modules.Music.Services;
 using NadekoBot.Services.Database.Models;
-using NadekoBot.Services.Music;
 using NLog;
 using System;
 using System.Linq;

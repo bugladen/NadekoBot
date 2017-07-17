@@ -14,7 +14,7 @@ using NadekoBot.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using NadekoBot.Services.Administration;
 using System.Diagnostics;
-using NadekoBot.Services.Music;
+using NadekoBot.Modules.Music.Services;
 
 namespace NadekoBot.Modules.Administration
 {

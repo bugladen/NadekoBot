@@ -11,7 +11,7 @@ using System.Text;
 using System.Collections.Generic;
 using NadekoBot.Services.Database.Models;
 using NadekoBot.Services.Permissions;
-using NadekoBot.Services.Help;
+using NadekoBot.Modules.Help.Services;
 
 namespace NadekoBot.Modules.Help
 {

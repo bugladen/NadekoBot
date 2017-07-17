@@ -29,7 +29,6 @@ namespace NadekoBot.Modules.Searches
     {
         private readonly IBotCredentials _creds;
         private readonly IGoogleApiService _google;
-        private readonly SearchesService _searches;
 
         public Searches(IBotCredentials creds, IGoogleApiService google)
         {
@@ -791,7 +790,7 @@ namespace NadekoBot.Modules.Searches
 
             tag = tag?.Trim() ?? "";
 
-            var imgObj = await _searches.DapiSearch(tag, type, Context.Guild?.Id).ConfigureAwait(false);
+            var imgObj = await _service.DapiSearch(tag, type, Context.Guild?.Id).ConfigureAwait(false);
 
             if (imgObj == null)
                 await channel.SendErrorAsync(umsg.Author.Mention + " " + GetText("no_results"));

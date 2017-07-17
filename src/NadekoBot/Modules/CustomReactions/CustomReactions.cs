@@ -8,7 +8,7 @@ using Discord;
 using NadekoBot.Extensions;
 using Discord.WebSocket;
 using System;
-using NadekoBot.Services.CustomReactions;
+using NadekoBot.Modules.CustomReactions.Services;
 
 namespace NadekoBot.Modules.CustomReactions
 {

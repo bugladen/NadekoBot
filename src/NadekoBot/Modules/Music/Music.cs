@@ -9,14 +9,16 @@ using System.Linq;
 using NadekoBot.Extensions;
 using System.Collections.Generic;
 using NadekoBot.Services.Database.Models;
-using NadekoBot.Services.Music;
 using NadekoBot.DataStructures;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
-using NadekoBot.Services.Music.Extensions;
 using NadekoBot.Services.Impl;
+using NadekoBot.Modules.Music.Services;
+using NadekoBot.Modules.Music.Common.Exceptions;
+using NadekoBot.Modules.Music.Common;
+using NadekoBot.Modules.Music.Extensions;
 
 namespace NadekoBot.Modules.Music
 {

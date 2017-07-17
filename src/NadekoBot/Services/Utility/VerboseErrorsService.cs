@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Discord;
 using NadekoBot.Extensions;
-using NadekoBot.Services.Help;
 using Discord.Commands;
 using System.Linq;
+using NadekoBot.Modules.Help.Services;
 
 namespace NadekoBot.Services.Utility
 {
