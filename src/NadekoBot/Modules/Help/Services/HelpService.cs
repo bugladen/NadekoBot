@@ -1,5 +1,4 @@
-﻿using NadekoBot.DataStructures.ModuleBehaviors;
-using NadekoBot.Services.Database.Models;
+﻿using NadekoBot.Services.Database.Models;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
@@ -7,8 +6,10 @@ using System;
 using Discord.Commands;
 using NadekoBot.Extensions;
 using System.Linq;
-using NadekoBot.Attributes;
+using NadekoBot.Common.Attributes;
+using NadekoBot.Common.ModuleBehaviors;
 using NadekoBot.Services;
+using NadekoBot.Services.Impl;
 
 namespace NadekoBot.Modules.Help.Services
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ConcurrentCollections
+namespace NadekoBot.Common
 {
     public static class PlatformHelper
     {

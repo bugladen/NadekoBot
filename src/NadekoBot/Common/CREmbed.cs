@@ -1,10 +1,10 @@
-﻿using Discord;
+﻿using System;
+using Discord;
 using NadekoBot.Extensions;
 using Newtonsoft.Json;
 using NLog;
-using System;
 
-namespace NadekoBot.DataStructures
+namespace NadekoBot.Common
 {
     public class CREmbed
     {

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Collections.Concurrent;
 using NadekoBot.Extensions;
 using System.Diagnostics;
+using NadekoBot.Common.Collections;
 using NadekoBot.Modules.Music.Services;
 using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;

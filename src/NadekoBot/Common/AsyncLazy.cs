@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace NadekoBot.DataStructures
+namespace NadekoBot.Common
 {
     public class AsyncLazy<T> : Lazy<Task<T>>
     {

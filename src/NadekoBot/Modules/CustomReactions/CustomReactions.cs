@@ -2,12 +2,12 @@
 using System.Threading.Tasks;
 using Discord.Commands;
 using NadekoBot.Services;
-using NadekoBot.Attributes;
 using NadekoBot.Services.Database.Models;
 using Discord;
 using NadekoBot.Extensions;
 using Discord.WebSocket;
 using System;
+using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.CustomReactions.Services;
 
 namespace NadekoBot.Modules.CustomReactions

@@ -1,8 +1,8 @@
-﻿using Discord;
+﻿using System.Threading.Tasks;
+using Discord;
 using Discord.WebSocket;
-using System.Threading.Tasks;
 
-namespace NadekoBot.DataStructures.ModuleBehaviors
+namespace NadekoBot.Common.ModuleBehaviors
 {
     /// <summary>
     /// Implemented by modules which can execute something and prevent further commands from being executed.

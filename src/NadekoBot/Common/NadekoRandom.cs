@@ -1,26 +1,21 @@
 ﻿using System;
 using System.Security.Cryptography;
 
-namespace NadekoBot.Services
+namespace NadekoBot.Common
 {
     public class NadekoRandom : Random
     {
-        RandomNumberGenerator rng;
+        readonly RandomNumberGenerator _rng;
 
         public NadekoRandom() : base()
         {
-            rng = RandomNumberGenerator.Create();
-        }
-
-        private NadekoRandom(int Seed) : base(Seed)
-        {
-            rng = RandomNumberGenerator.Create();
+            _rng = RandomNumberGenerator.Create();
         }
 
         public override int Next()
         {
             var bytes = new byte[sizeof(int)];
-            rng.GetBytes(bytes);
+            _rng.GetBytes(bytes);
             return Math.Abs(BitConverter.ToInt32(bytes, 0));
         }
 
@@ -29,7 +24,7 @@ namespace NadekoBot.Services
             if (maxValue <= 0)
                 throw new ArgumentOutOfRangeException();
             var bytes = new byte[sizeof(int)];
-            rng.GetBytes(bytes);
+            _rng.GetBytes(bytes);
             return Math.Abs(BitConverter.ToInt32(bytes, 0)) % maxValue;
         }
 
@@ -40,27 +35,27 @@ namespace NadekoBot.Services
             if (minValue == maxValue)
                 return minValue;
             var bytes = new byte[sizeof(int)];
-            rng.GetBytes(bytes);
+            _rng.GetBytes(bytes);
             var sign = Math.Sign(BitConverter.ToInt32(bytes, 0));
             return (sign * BitConverter.ToInt32(bytes, 0)) % (maxValue - minValue) + minValue;
         }
 
         public override void NextBytes(byte[] buffer)
         {
-            rng.GetBytes(buffer);
+            _rng.GetBytes(buffer);
         }
 
         protected override double Sample()
         {
             var bytes = new byte[sizeof(double)];
-            rng.GetBytes(bytes);
+            _rng.GetBytes(bytes);
             return Math.Abs(BitConverter.ToDouble(bytes, 0) / double.MaxValue + 1);
         }
 
         public override double NextDouble()
         {
             var bytes = new byte[sizeof(double)];
-            rng.GetBytes(bytes);
+            _rng.GetBytes(bytes);
             return BitConverter.ToDouble(bytes, 0);
         }
     }

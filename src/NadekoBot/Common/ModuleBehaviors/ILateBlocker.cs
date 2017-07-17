@@ -1,8 +1,8 @@
-﻿using Discord;
+﻿using System.Threading.Tasks;
+using Discord;
 using Discord.WebSocket;
-using System.Threading.Tasks;
 
-namespace NadekoBot.DataStructures.ModuleBehaviors
+namespace NadekoBot.Common.ModuleBehaviors
 {
     public interface ILateBlocker
     {

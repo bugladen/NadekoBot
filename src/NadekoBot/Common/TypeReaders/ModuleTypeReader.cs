@@ -1,10 +1,10 @@
-﻿using Discord.Commands;
-using NadekoBot.Extensions;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Discord.Commands;
+using NadekoBot.Extensions;
 
-namespace NadekoBot.TypeReaders
+namespace NadekoBot.Common.TypeReaders
 {
     public class ModuleTypeReader : TypeReader
     {

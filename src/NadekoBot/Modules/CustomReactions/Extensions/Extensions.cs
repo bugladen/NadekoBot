@@ -2,8 +2,6 @@
 using AngleSharp.Dom.Html;
 using Discord;
 using Discord.WebSocket;
-using NadekoBot.DataStructures;
-using NadekoBot.DataStructures.Replacements;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.CustomReactions.Services;
 using NadekoBot.Services;
@@ -13,6 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using NadekoBot.Common;
+using NadekoBot.Common.Replacements;
 
 namespace NadekoBot.Modules.CustomReactions.Extensions
 {

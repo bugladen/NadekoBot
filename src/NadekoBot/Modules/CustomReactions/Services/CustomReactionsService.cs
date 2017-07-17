@@ -1,17 +1,20 @@
 ﻿using Discord;
 using Discord.WebSocket;
-using NadekoBot.DataStructures.ModuleBehaviors;
 using NadekoBot.Services.Database.Models;
 using NLog;
 using System.Collections.Concurrent;
 using System.Linq;
 using System;
 using System.Threading.Tasks;
-using NadekoBot.Services.Permissions;
+using NadekoBot.Common;
+using NadekoBot.Common.ModuleBehaviors;
 using NadekoBot.Extensions;
 using NadekoBot.Services.Database;
 using NadekoBot.Services;
 using NadekoBot.Modules.CustomReactions.Extensions;
+using NadekoBot.Modules.Permissions.Common;
+using NadekoBot.Modules.Permissions.Services;
+using NadekoBot.Services.Impl;
 
 namespace NadekoBot.Modules.CustomReactions.Services
 {

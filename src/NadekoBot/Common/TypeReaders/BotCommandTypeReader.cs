@@ -1,11 +1,11 @@
-﻿using Discord.Commands;
-using NadekoBot.Modules.CustomReactions.Services;
-using NadekoBot.Services;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Discord.Commands;
+using NadekoBot.Modules.CustomReactions.Services;
+using NadekoBot.Services;
 
-namespace NadekoBot.TypeReaders
+namespace NadekoBot.Common.TypeReaders
 {
     public class CommandTypeReader : TypeReader
     {

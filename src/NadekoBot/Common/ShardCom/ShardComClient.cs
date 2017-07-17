@@ -1,11 +1,10 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
-namespace NadekoBot.DataStructures.ShardCom
+namespace NadekoBot.Common.ShardCom
 {
     public class ShardComClient
     {

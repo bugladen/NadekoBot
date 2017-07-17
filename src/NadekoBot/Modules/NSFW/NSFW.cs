@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using NadekoBot.Attributes;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
@@ -10,8 +9,11 @@ using System.Net.Http;
 using NadekoBot.Extensions;
 using System.Threading;
 using System.Collections.Concurrent;
-using NadekoBot.Services.Searches;
-using NadekoBot.DataStructures;
+using NadekoBot.Common;
+using NadekoBot.Common.Attributes;
+using NadekoBot.Common.Collections;
+using NadekoBot.Modules.Searches.Common;
+using NadekoBot.Modules.Searches.Services;
 
 namespace NadekoBot.Modules.NSFW
 {

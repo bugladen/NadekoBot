@@ -4,14 +4,14 @@ using System.Linq;
 using Discord;
 using NadekoBot.Services;
 using System.Threading.Tasks;
-using NadekoBot.Attributes;
 using System;
 using System.IO;
 using System.Text;
 using System.Collections.Generic;
+using NadekoBot.Common.Attributes;
 using NadekoBot.Services.Database.Models;
-using NadekoBot.Services.Permissions;
 using NadekoBot.Modules.Help.Services;
+using NadekoBot.Modules.Permissions.Services;
 
 namespace NadekoBot.Modules.Help
 {

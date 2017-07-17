@@ -1,7 +1,5 @@
 ﻿using Discord;
 using Discord.WebSocket;
-using NadekoBot.DataStructures;
-using NadekoBot.DataStructures.Replacements;
 using NadekoBot.Extensions;
 using NadekoBot.Services.Database.Models;
 using NLog;
@@ -10,6 +8,8 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NadekoBot.Common;
+using NadekoBot.Common.Replacements;
 
 namespace NadekoBot.Services
 {

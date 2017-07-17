@@ -1,9 +1,9 @@
-﻿using Discord.Commands;
+﻿using System;
 using System.Threading.Tasks;
-using NadekoBot.Modules.Permissions;
-using System;
+using Discord.Commands;
+using NadekoBot.Common.TypeReaders.Models;
 
-namespace NadekoBot.TypeReaders
+namespace NadekoBot.Common.TypeReaders
 {
     /// <summary>
     /// Used instead of bool for more flexible keywords for true/false only in the permission module

@@ -1,10 +1,9 @@
-﻿using Discord.Commands;
-using NadekoBot.Services;
-using NadekoBot.Services.Administration;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Discord.Commands;
+using NadekoBot.Modules.Administration.Services;
 
-namespace NadekoBot.TypeReaders
+namespace NadekoBot.Common.TypeReaders
 {
     public class GuildDateTimeTypeReader : TypeReader
     {

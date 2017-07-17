@@ -10,6 +10,7 @@ using System.IO;
 using System.Collections.Generic;
 using Discord.Commands;
 using Discord.WebSocket;
+using NadekoBot.Common;
 using NadekoBot.Services.Impl;
 using NadekoBot.Services;
 using NadekoBot.Modules.Music.Common;

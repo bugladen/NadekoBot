@@ -9,16 +9,17 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using NadekoBot.Modules.Permissions;
-using NadekoBot.TypeReaders;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using NadekoBot.Services.Database.Models;
 using System.Threading;
 using System.IO;
-using NadekoBot.DataStructures.ShardCom;
-using NadekoBot.DataStructures;
 using NadekoBot.Extensions;
 using System.Collections.Generic;
+using NadekoBot.Common;
+using NadekoBot.Common.ShardCom;
+using NadekoBot.Common.TypeReaders;
+using NadekoBot.Common.TypeReaders.Models;
 using NadekoBot.Services.Database;
 
 namespace NadekoBot

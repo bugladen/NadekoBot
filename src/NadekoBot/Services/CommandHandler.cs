@@ -9,12 +9,13 @@ using Discord.Commands;
 using NadekoBot.Extensions;
 using System.Collections.Concurrent;
 using System.Threading;
-using NadekoBot.DataStructures;
 using System.Collections.Immutable;
-using NadekoBot.DataStructures.ModuleBehaviors;
 using NadekoBot.Services.Database.Models;
 using System.IO;
 using Discord.Net;
+using NadekoBot.Common;
+using NadekoBot.Common.Collections;
+using NadekoBot.Common.ModuleBehaviors;
 
 namespace NadekoBot.Services
 {

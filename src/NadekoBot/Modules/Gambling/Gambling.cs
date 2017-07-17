@@ -1,12 +1,13 @@
 ﻿using Discord;
 using Discord.Commands;
-using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using System.Linq;
 using System.Threading.Tasks;
 using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
 using System.Collections.Generic;
+using NadekoBot.Common;
+using NadekoBot.Common.Attributes;
 
 namespace NadekoBot.Modules.Gambling
 {

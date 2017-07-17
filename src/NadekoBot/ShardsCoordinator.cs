@@ -1,18 +1,18 @@
-﻿using NadekoBot.DataStructures.ShardCom;
-using NadekoBot.Services;
+﻿using NadekoBot.Services;
 using NadekoBot.Services.Impl;
 using NLog;
 using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using NadekoBot.Common.ShardCom;
 
 namespace NadekoBot
 {
     public class ShardsCoordinator
     {
-        private readonly BotCredentials Credentials;
-        private Process[] ShardProcesses;
+        private readonly BotCredentials _creds;
+        private readonly Process[] ShardProcesses;
         public ShardComMessage[] Statuses { get; }
         public int GuildCount => Statuses.ToArray()
             .Where(x => x != null)
@@ -26,9 +26,9 @@ namespace NadekoBot
         public ShardsCoordinator(int port)
         {
             LogSetup.SetupLogger();
-            Credentials = new BotCredentials();
-            ShardProcesses = new Process[Credentials.TotalShards];
-            Statuses = new ShardComMessage[Credentials.TotalShards];
+            _creds = new BotCredentials();
+            ShardProcesses = new Process[_creds.TotalShards];
+            Statuses = new ShardComMessage[_creds.TotalShards];
             _log = LogManager.GetCurrentClassLogger();
             _port = port;
 
@@ -51,12 +51,12 @@ namespace NadekoBot
 
         public async Task RunAsync()
         {
-            for (int i = 1; i < Credentials.TotalShards; i++)
+            for (int i = 1; i < _creds.TotalShards; i++)
             {
                 var p = Process.Start(new ProcessStartInfo()
                 {
-                    FileName = Credentials.ShardRunCommand,
-                    Arguments = string.Format(Credentials.ShardRunArguments, i, _curProcessId, _port)
+                    FileName = _creds.ShardRunCommand,
+                    Arguments = string.Format(_creds.ShardRunArguments, i, _curProcessId, _port)
                 });
                 await Task.Delay(5000);
             }

@@ -1,11 +1,11 @@
-﻿using Discord;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Discord;
 using NLog;
 
-namespace NadekoBot.Services
+namespace NadekoBot.Services.Impl
 {
     public class Localization : ILocalization
     {

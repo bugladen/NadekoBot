@@ -1,5 +1,4 @@
 using Discord.Commands;
-using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using System.Linq;
 using NadekoBot.Services;
@@ -8,7 +7,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Discord;
 using System;
-using NadekoBot.Services.Pokemon;
+using NadekoBot.Common.Attributes;
+using NadekoBot.Modules.Pokemon.Common;
+using NadekoBot.Modules.Pokemon.Services;
 
 namespace NadekoBot.Modules.Pokemon
 {

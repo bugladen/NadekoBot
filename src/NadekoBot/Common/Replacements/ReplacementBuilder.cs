@@ -1,16 +1,15 @@
-﻿using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
-using NadekoBot.Extensions;
-using NadekoBot.Modules.Music.Services;
-using NadekoBot.Services;
-using NadekoBot.Services.Administration;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Discord;
+using Discord.Commands;
+using Discord.WebSocket;
+using NadekoBot.Extensions;
+using NadekoBot.Modules.Administration.Services;
+using NadekoBot.Modules.Music.Services;
 
-namespace NadekoBot.DataStructures.Replacements
+namespace NadekoBot.Common.Replacements
 {
     public class ReplacementBuilder
     {

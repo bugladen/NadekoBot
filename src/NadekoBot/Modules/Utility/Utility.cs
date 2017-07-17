@@ -1,6 +1,5 @@
 using Discord;
 using Discord.Commands;
-using NadekoBot.Attributes;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,9 +15,10 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Discord.WebSocket;
 using System.Diagnostics;
+using NadekoBot.Common;
+using NadekoBot.Common.Attributes;
 using Color = Discord.Color;
 using NadekoBot.Services;
-using NadekoBot.DataStructures;
 
 namespace NadekoBot.Modules.Utility
 {

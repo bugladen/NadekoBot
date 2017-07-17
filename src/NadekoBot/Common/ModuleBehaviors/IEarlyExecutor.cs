@@ -1,4 +1,4 @@
-﻿namespace NadekoBot.DataStructures.ModuleBehaviors
+﻿namespace NadekoBot.Common.ModuleBehaviors
 {
     public interface IEarlyExecutor
     {

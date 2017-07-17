@@ -1,8 +1,8 @@
-﻿using Discord.Commands;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Discord.Commands;
 
-namespace NadekoBot.DataStructures
+namespace NadekoBot.Common
 {
     public class NoPublicBot : PreconditionAttribute
     {

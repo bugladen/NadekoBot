@@ -5,10 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NadekoBot.Common.Attributes;
 using NadekoBot.Services;
-using NadekoBot.Attributes;
+using NadekoBot.Modules.Administration.Services;
 using NadekoBot.Services.Database.Models;
-using NadekoBot.Services.Administration;
 
 namespace NadekoBot.Modules.Administration
 {
