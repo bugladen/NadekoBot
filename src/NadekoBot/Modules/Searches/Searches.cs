@@ -390,7 +390,7 @@ namespace NadekoBot.Modules.Searches
                 try
                 {
                     var items = JArray.Parse(response).Shuffle().ToList();
-                    var images = new List<ImageSharp.Image>();
+                    var images = new List<Image<Rgba32>>();
                     if (items == null)
                         throw new KeyNotFoundException("Cannot find a card by that name");
                     foreach (var item in items.Where(item => item.HasValues && item["img"] != null).Take(4))
@@ -402,7 +402,7 @@ namespace NadekoBot.Modules.Searches
                                 var imgStream = new MemoryStream();
                                 await sr.CopyToAsync(imgStream);
                                 imgStream.Position = 0;
-                                images.Add(new ImageSharp.Image(imgStream));
+                                images.Add(ImageSharp.Image.Load(imgStream));
                             }
                         }).ConfigureAwait(false);
                     }
@@ -412,7 +412,7 @@ namespace NadekoBot.Modules.Searches
                         msg = GetText("hs_over_x", 4);
                     }
                     var ms = new MemoryStream();
-                    await Task.Run(() => images.AsEnumerable().Merge().Save(ms));
+                    await Task.Run(() => images.AsEnumerable().Merge().SaveAsPng(ms));
                     ms.Position = 0;
                     await Context.Channel.SendFileAsync(ms, arg + ".png", msg).ConfigureAwait(false);
                 }
@@ -634,10 +634,10 @@ namespace NadekoBot.Modules.Searches
             color = color?.Trim().Replace("#", "");
             if (string.IsNullOrWhiteSpace(color))
                 return;
-            ImageSharp.Color clr;
+            Rgba32 clr;
             try
             {
-                clr = ImageSharp.Color.FromHex(color);
+                clr = Rgba32.FromHex(color);
             }
             catch
             {
@@ -646,7 +646,7 @@ namespace NadekoBot.Modules.Searches
             }
             
 
-            var img = new ImageSharp.Image(50, 50);
+            var img = new ImageSharp.Image<Rgba32>(50, 50);
 
             img.BackgroundColor(clr);
 

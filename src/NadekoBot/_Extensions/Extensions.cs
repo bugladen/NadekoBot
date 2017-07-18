@@ -15,6 +15,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NadekoBot.Common.Collections;
+using SixLabors.Primitives;
+using ImageSharp.PixelFormats;
 
 namespace NadekoBot.Extensions
 {
@@ -131,10 +133,10 @@ namespace NadekoBot.Extensions
         public static string ToJson<T>(this T any, Formatting formatting = Formatting.Indented) =>
             JsonConvert.SerializeObject(any, formatting);
 
-        public static Stream ToStream(this ImageSharp.Image img)
+        public static Stream ToStream(this ImageSharp.Image<Rgba32> img)
         {
             var imageStream = new MemoryStream();
-            img.Save(imageStream);
+            img.SaveAsPng(imageStream);
             imageStream.Position = 0;
             return imageStream;
         }
@@ -198,11 +200,11 @@ namespace NadekoBot.Extensions
             return await ownerPrivate.SendMessageAsync(message).ConfigureAwait(false);
         }
 
-        public static ImageSharp.Image Merge(this IEnumerable<ImageSharp.Image> images)
+        public static Image<Rgba32> Merge(this IEnumerable<ImageSharp.Image<Rgba32>> images)
         {
             var imgs = images.ToArray();
 
-            var canvas = new ImageSharp.Image(imgs.Sum(img => img.Width), imgs.Max(img => img.Height));
+            var canvas = new Image<Rgba32>(imgs.Sum(img => img.Width), imgs.Max(img => img.Height));
 
             var xOffset = 0;
             for (int i = 0; i < imgs.Length; i++)

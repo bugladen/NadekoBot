@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
 using Image = ImageSharp.Image;
+using ImageSharp;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -19,8 +20,8 @@ namespace NadekoBot.Modules.Gambling
         [Group]
         public class DriceRollCommands : NadekoSubmodule
         {
-            private Regex dndRegex { get; } = new Regex(@"^(?<n1>\d+)d(?<n2>\d+)(?:\+(?<add>\d+))?(?:\-(?<sub>\d+))?$", RegexOptions.Compiled);
-            private Regex fudgeRegex { get; } = new Regex(@"^(?<n1>\d+)d(?:F|f)$", RegexOptions.Compiled);
+            private readonly Regex dndRegex  = new Regex(@"^(?<n1>\d+)d(?<n2>\d+)(?:\+(?<add>\d+))?(?:\-(?<sub>\d+))?$", RegexOptions.Compiled);
+            private readonly Regex fudgeRegex  = new Regex(@"^(?<n1>\d+)d(?:F|f)$", RegexOptions.Compiled);
 
             private readonly char[] _fateRolls = { '-', ' ', '+' };
             private readonly IImagesService _images;
@@ -42,7 +43,7 @@ namespace NadekoBot.Modules.Gambling
                 var imageStream = await Task.Run(() =>
                 {
                     var ms = new MemoryStream();
-                    new[] { GetDice(num1), GetDice(num2) }.Merge().Save(ms);
+                    new[] { GetDice(num1), GetDice(num2) }.Merge().SaveAsPng(ms);
                     ms.Position = 0;
                     return ms;
                 }).ConfigureAwait(false);
@@ -97,7 +98,7 @@ namespace NadekoBot.Modules.Gambling
 
                 var rng = new NadekoRandom();
 
-                var dice = new List<Image>(num);
+                var dice = new List<Image<Rgba32>>(num);
                 var values = new List<int>(num);
                 for (var i = 0; i < num; i++)
                 {
@@ -127,7 +128,7 @@ namespace NadekoBot.Modules.Gambling
 
                 var bitmap = dice.Merge();
                 var ms = new MemoryStream();
-                bitmap.Save(ms);
+                bitmap.SaveAsPng(ms);
                 ms.Position = 0;
                 await Context.Channel.SendFileAsync(ms, "dice.png",
                     Context.User.Mention +  " " +
@@ -213,7 +214,7 @@ namespace NadekoBot.Modules.Gambling
                 await ReplyConfirmLocalized("dice_rolled", Format.Bold(rolled.ToString())).ConfigureAwait(false);
             }
 
-            private Image GetDice(int num)
+            private Image<Rgba32> GetDice(int num)
             {
                 if (num < 0 || num > 10)
                     throw new ArgumentOutOfRangeException(nameof(num));
@@ -224,15 +225,15 @@ namespace NadekoBot.Modules.Gambling
                     using (var imgOneStream = images[1].ToStream())
                     using (var imgZeroStream = images[0].ToStream())
                     {
-                        Image imgOne = new Image(imgOneStream);
-                        Image imgZero = new Image(imgZeroStream);
+                        var imgOne = Image.Load(imgOneStream);
+                        var imgZero = Image.Load(imgZeroStream);
 
                         return new[] { imgOne, imgZero }.Merge();
                     }
                 }
                 using (var die = _images.Dice[num].ToStream())
                 {
-                    return new Image(die);
+                    return Image.Load(die);
                 }
             }
         }

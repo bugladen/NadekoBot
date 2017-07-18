@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Gambling.Common;
 using Image = ImageSharp.Image;
+using ImageSharp;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -27,7 +28,7 @@ namespace NadekoBot.Modules.Gambling
                     throw new ArgumentOutOfRangeException(nameof(num));
 
                 Cards cards = guildId == null ? new Cards() : _allDecks.GetOrAdd(Context.Guild, (s) => new Cards());
-                var images = new List<Image>();
+                var images = new List<Image<Rgba32>>();
                 var cardObjects = new List<Cards.Card>();
                 for (var i = 0; i < num; i++)
                 {
@@ -46,10 +47,10 @@ namespace NadekoBot.Modules.Gambling
                     var currentCard = cards.DrawACard();
                     cardObjects.Add(currentCard);
                     using (var stream = File.OpenRead(Path.Combine(_cardsPath, currentCard.ToString().ToLowerInvariant() + ".jpg").Replace(' ', '_')))
-                        images.Add(new Image(stream));
+                        images.Add(Image.Load(stream));
                 }
                 MemoryStream bitmapStream = new MemoryStream();
-                images.Merge().Save(bitmapStream);
+                images.Merge().SaveAsPng(bitmapStream);
                 bitmapStream.Position = 0;
 
                 var toSend = $"{Context.User.Mention}";
