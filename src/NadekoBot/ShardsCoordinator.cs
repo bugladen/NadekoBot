@@ -12,7 +12,7 @@ namespace NadekoBot
     public class ShardsCoordinator
     {
         private readonly BotCredentials _creds;
-        private readonly Process[] ShardProcesses;
+        private readonly Process[] _shardProcesses;
         public ShardComMessage[] Statuses { get; }
         public int GuildCount => Statuses.ToArray()
             .Where(x => x != null)
@@ -27,7 +27,7 @@ namespace NadekoBot
         {
             LogSetup.SetupLogger();
             _creds = new BotCredentials();
-            ShardProcesses = new Process[_creds.TotalShards];
+            _shardProcesses = new Process[_creds.TotalShards];
             Statuses = new ShardComMessage[_creds.TotalShards];
             _log = LogManager.GetCurrentClassLogger();
             _port = port;
@@ -72,39 +72,9 @@ namespace NadekoBot
             {
                 _log.Error(ex);
             }
-            //await Task.Run(() =>
-            //{
-            //    string input;
-            //    while ((input = Console.ReadLine()?.ToLowerInvariant()) != "quit")
-            //    {
-            //        try
-            //        {
-            //            switch (input)
-            //            {
-            //                case "ls":
-            //                    var groupStr = string.Join(",", Statuses
-            //                        .ToArray()
-            //                        .Where(x => x != null)
-            //                        .GroupBy(x => x.ConnectionState)
-            //                        .Select(x => x.Count() + " " + x.Key));
-            //                    _log.Info(string.Join("\n", Statuses
-            //                        .ToArray()
-            //                        .Where(x => x != null)
-            //                        .Select(x => $"Shard {x.ShardId} is in {x.ConnectionState.ToString()} state with {x.Guilds} servers. {(DateTime.UtcNow - x.Time).ToString(@"hh\:mm\:ss")} ago")) + "\n" + groupStr);
-            //                    break;
-            //                default:
-            //                    break;
-            //            }
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            _log.Warn(ex);
-            //        }
-            //    }
-            //});
 
             await Task.Delay(-1);
-            foreach (var p in ShardProcesses)
+            foreach (var p in _shardProcesses)
             {
                 try { p.Kill(); } catch { }
                 try { p.Dispose(); } catch { }

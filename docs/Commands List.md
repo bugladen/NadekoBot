@@ -3,7 +3,6 @@ You can support the project on patreon: <https://patreon.com/nadekobot> or paypa
 ##Table of contents
 - [Help](#help)
 - [Administration](#administration)
-- [ClashOfClans](#clashofclans)
 - [CustomReactions](#customreactions)
 - [Gambling](#gambling)
 - [Games](#games)
@@ -119,21 +118,6 @@ Commands and aliases | Description | Usage
 
 ###### [Back to ToC](#table-of-contents)
 
-### ClashOfClans  
-Commands and aliases | Description | Usage
-----------------|--------------|-------
-`.createwar` `.cw` | Creates a new war by specifying a size (>10 and multiple of 5) and enemy clan name. **Requires ManageMessages server permission.** | `.cw 15 The Enemy Clan`
-`.startwar` `.sw` | Starts a war with a given number.  | `.sw 15`
-`.listwar` `.lw` | Shows the active war claims by a number. Shows all wars in a short way if no number is specified.  | `.lw [war_number]` or `.lw`
-`.basecall` | Claims a certain base from a certain war. You can supply a name in the third optional argument to claim in someone else's place.  | `.basecall [war_number] [base_number] [optional_other_name]`
-`.callfinish1` `.cf1` | Finish your claim with 1 star if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else.  | `.cf1 1` or `.cf1 1 5`
-`.callfinish2` `.cf2` | Finish your claim with 2 stars if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else.  | `.cf2 1` or `.cf2 1 5`
-`.callfinish` `.cf` | Finish your claim with 3 stars if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else.  | `.cf 1` or `.cf 1 5`
-`.endwar` `.ew` | Ends the war with a given index.  | `.ew [war_number]`
-`.uncall` | Removes your claim from a certain war. Optional second argument denotes a person in whose place to unclaim  | `.uc [war_number] [optional_other_name]`
-
-###### [Back to ToC](#table-of-contents)
-
 ### CustomReactions  
 Commands and aliases | Description | Usage
 ----------------|--------------|-------
@@ -189,12 +173,12 @@ Commands and aliases | Description | Usage
 ### Games  
 Commands and aliases | Description | Usage
 ----------------|--------------|-------
-`.leet` | Converts a text to leetspeak with 6 (1-6) severity levels  | `.leet 3 Hello`
 `.choose` | Chooses a thing from a list of things  | `.choose Get up;Sleep;Sleep more`
 `.8ball` | Ask the 8ball a yes/no question.  | `.8ball should I do something`
 `.rps` | Play a game of Rocket-Paperclip-Scissors with Nadeko.  | `.rps scissors`
 `.rategirl` | Use the universal hot-crazy wife zone matrix to determine the girl's worth. It is everything young men need to know about women. At any moment in time, any woman you have previously located on this chart can vanish from that location and appear anywhere else on the chart.  | `.rategirl @SomeGurl`
 `.linux` | Prints a customizable Linux interjection  | `.linux Spyware Windows`
+`.leet` | Converts a text to leetspeak with 6 (1-6) severity levels  | `.leet 3 Hello`
 `.acrophobia` `.acro` | Starts an Acrophobia game. Second argument is optional round length in seconds. (default is 60)  | `.acro` or `.acro 30`
 `.cleverbot` | Toggles cleverbot session. When enabled, the bot will reply to messages starting with bot mention in the server. Custom reactions starting with %mention% won't work if cleverbot is enabled. **Requires ManageMessages server permission.** | `.cleverbot`
 `.hangmanlist` | Shows a list of hangman term types.  | `.hangmanlist`
@@ -238,12 +222,12 @@ Commands and aliases | Description | Usage
 `.queuesearch` `.qs` `.yqs` | Search for top 5 youtube song result using keywords, and type the index of the song to play that song. Bot will join your voice channel. **You must be in a voice channel**.  | `.qs Dream Of Venice`
 `.listqueue` `.lq` | Lists 10 currently queued songs per page. Default page is 1.  | `.lq` or `.lq 2`
 `.next` `.n` | Goes to the next song in the queue. You have to be in the same voice channel as the bot. You can skip multiple songs, but in that case songs will not be requeued if .rcs or .rpl is enabled.  | `.n` or `.n 5`
-`.stop` `.s` | Stops the music and clears the playlist. Stays in the channel.  | `.s`
+`.stop` `.s` | Stops the music and preserves the current song index. Stays in the channel.  | `.s`
 `.destroy` `.d` | Completely stops the music and unbinds the bot from the channel. (may cause weird behaviour)  | `.d`
 `.pause` `.p` | Pauses or Unpauses the song.  | `.p`
 `.volume` `.vol` | Sets the music playback volume (0-100%)  | `.vol 50`
 `.defvol` `.dv` | Sets the default music volume when music playback is started (0-100). Persists through restarts.  | `.dv 80`
-`.songremove` `.srm` | Remove a song by its # in the queue, or 'all' to remove all songs from the queue.  | `.srm 5`
+`.songremove` `.srm` | Remove a song by its # in the queue, or 'all' to remove all songs from the queue and reset the song index.  | `.srm 5`
 `.playlists` `.pls` | Lists all playlists. Paginated, 20 per page. Default page is 0.  | `.pls 1`
 `.deleteplaylist` `.delpls` | Deletes a saved playlist. Works only if you made it or if you are the bot owner.  | `.delpls animu-5`
 `.save` | Saves a playlist under a certain name. Playlist name must be no longer than 20 characters and must not contain dashes.  | `.save classical1`
@@ -440,6 +424,7 @@ Commands and aliases | Description | Usage
 `.repeatremove` `.reprm` | Removes a repeating message on a specified index. Use `.repeatlist` to see indexes. **Requires ManageMessages server permission.** | `.reprm 2`
 `.repeat` | Repeat a message every `X` minutes in the current channel. You can instead specify time of day for the message to be repeated at daily (make sure you've set your server's timezone). You can have up to 5 repeating messages on the server in total. **Requires ManageMessages server permission.** | `.repeat 5 Hello there` or `.repeat 17:30 tea time`
 `.repeatlist` `.replst` | Shows currently repeating messages and their indexes. **Requires ManageMessages server permission.** | `.repeatlist`
+`.streamrole` | Sets a role which is monitored for streamers (FromRole), and a role to add if a user from 'FromRole' is streaming (AddRole). When a user from 'FromRole' starts streaming, they will receive an 'AddRole'. Provide no arguments to disable **Requires ManageRoles server permission.** | `.streamrole "Eligible Streamers" "Featured Streams"`
 `.convertlist` | List of the convertible dimensions and currencies.  | `.convertlist`
 `.convert` | Convert quantities. Use `.convertlist` to see supported dimensions and currencies.  | `.convert m km 1000`
 `.verboseerror` `.ve` | Toggles whether the bot should print command errors when a command is incorrectly used. **Requires ManageMessages server permission.** | `.ve`

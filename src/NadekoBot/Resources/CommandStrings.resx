@@ -1480,7 +1480,7 @@
     <value>stop s</value>
   </data>
   <data name="stop_desc" xml:space="preserve">
-    <value>Stops the music and clears the playlist. Stays in the channel.</value>
+    <value>Stops the music and preserves the current song index. Stays in the channel.</value>
   </data>
   <data name="stop_usage" xml:space="preserve">
     <value>`{0}s`</value>
@@ -1642,7 +1642,7 @@
     <value>songremove srm</value>
   </data>
   <data name="songremove_desc" xml:space="preserve">
-    <value>Remove a song by its # in the queue, or 'all' to remove all songs from the queue.</value>
+    <value>Remove a song by its # in the queue, or 'all' to remove all songs from the queue and reset the song index.</value>
   </data>
   <data name="songremove_usage" xml:space="preserve">
     <value>`{0}srm 5`</value>
