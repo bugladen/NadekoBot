@@ -137,7 +137,6 @@ namespace NadekoBot
                     .AddManual<IEnumerable<GuildConfig>>(AllGuildConfigs) //todo wrap this
                     .AddManual<NadekoBot>(this)
                     .AddManual<IUnitOfWork>(uow)
-                    .AddManual(ShardCoord)
                     .LoadFrom(Assembly.GetEntryAssembly())
                     .Build();
 

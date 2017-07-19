@@ -44,11 +44,11 @@ namespace NadekoBot.Services.Impl
         public int GuildCount =>
             _sc?.GuildCount ?? _client.Guilds.Count();
 
-        public StatsService(DiscordSocketClient client, CommandHandler cmdHandler, IBotCredentials creds, ShardsCoordinator sc)
+        public StatsService(DiscordSocketClient client, CommandHandler cmdHandler, IBotCredentials creds, NadekoBot nadeko)
         {
             _client = client;
             _creds = creds;
-            _sc = sc;
+            _sc = nadeko.ShardCoord;
 
             _started = DateTime.UtcNow;
             _client.MessageReceived += _ => Task.FromResult(Interlocked.Increment(ref _messageCounter));
@@ -130,7 +130,7 @@ namespace NadekoBot.Services.Impl
                 return Task.CompletedTask;
             };
 
-            if (sc != null)
+            if (_sc != null)
             {
                 _carbonitexTimer = new Timer(async (state) =>
                 {
@@ -142,7 +142,7 @@ namespace NadekoBot.Services.Impl
                         {
                             using (var content = new FormUrlEncodedContent(
                                 new Dictionary<string, string> {
-                                { "servercount", sc.GuildCount.ToString() },
+                                { "servercount", _sc.GuildCount.ToString() },
                                 { "key", _creds.CarbonKey }}))
                             {
                                 content.Headers.Clear();
@@ -175,7 +175,7 @@ namespace NadekoBot.Services.Impl
                             using (var content = new FormUrlEncodedContent(
                                 new Dictionary<string, string> {
                                     { "id", string.Concat(MD5.Create().ComputeHash(Encoding.ASCII.GetBytes(_creds.ClientId.ToString())).Select(x => x.ToString("X2"))) },
-                                    { "guildCount", sc.GuildCount.ToString() },
+                                    { "guildCount", _sc.GuildCount.ToString() },
                                     { "version", BotVersion },
                                     { "platform", platform }}))
                             {

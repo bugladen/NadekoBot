@@ -30,12 +30,12 @@ namespace NadekoBot.Modules.Utility
         private readonly IBotCredentials _creds;
         private readonly ShardsCoordinator _shardCoord;
 
-        public Utility(ShardsCoordinator shardCoord, DiscordSocketClient client, IStatsService stats, IBotCredentials creds)
+        public Utility(NadekoBot nadeko, DiscordSocketClient client, IStatsService stats, IBotCredentials creds)
         {
             _client = client;
             _stats = stats;
             _creds = creds;
-            _shardCoord = shardCoord;
+            _shardCoord = nadeko.ShardCoord;
         }        
 
         [NadekoCommand, Usage, Description, Aliases]
