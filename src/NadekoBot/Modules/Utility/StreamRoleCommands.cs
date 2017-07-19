@@ -3,6 +3,8 @@ using Discord.Commands;
 using System.Threading.Tasks;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Utility.Services;
+using NadekoBot.Common.TypeReaders;
+using NadekoBot.Modules.Utility.Common;
 
 namespace NadekoBot.Modules.Utility
 {
@@ -16,7 +18,7 @@ namespace NadekoBot.Modules.Utility
             [RequireContext(ContextType.Guild)]
             public async Task StreamRole(IRole fromRole, IRole addRole)
             {
-                this._service.SetStreamRole(fromRole, addRole);
+                await this._service.SetStreamRole(fromRole, addRole).ConfigureAwait(false);
 
                 await ReplyConfirmLocalized("stream_role_enabled", Format.Bold(fromRole.ToString()), Format.Bold(addRole.ToString())).ConfigureAwait(false);
             }
@@ -29,6 +31,62 @@ namespace NadekoBot.Modules.Utility
             {
                 this._service.StopStreamRole(Context.Guild.Id);
                 await ReplyConfirmLocalized("stream_role_disabled").ConfigureAwait(false);
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireBotPermission(GuildPermission.ManageRoles)]
+            [RequireUserPermission(GuildPermission.ManageRoles)]
+            [RequireContext(ContextType.Guild)]
+            public async Task StreamRoleKeyword([Remainder]string keyword = null)
+            {
+                string kw = this._service.SetKeyword(Context.Guild.Id, keyword);
+                
+                if(string.IsNullOrWhiteSpace(keyword))
+                    await ReplyConfirmLocalized("stream_role_kw_reset").ConfigureAwait(false);
+                else
+                    await ReplyConfirmLocalized("stream_role_kw_set", Format.Bold(kw)).ConfigureAwait(false);
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireBotPermission(GuildPermission.ManageRoles)]
+            [RequireUserPermission(GuildPermission.ManageRoles)]
+            [RequireContext(ContextType.Guild)]
+            public async Task StreamRoleBlacklist(AddRemove action, [Remainder] IGuildUser user)
+            {
+                var success = await this._service.ApplyListAction(StreamRoleListType.Blacklist, Context.Guild.Id, action, user.Id, user.ToString())
+                    .ConfigureAwait(false);
+
+                if(action == AddRemove.Add)
+                    if(success)
+                        await ReplyConfirmLocalized("stream_role_bl_add", Format.Bold(user.ToString())).ConfigureAwait(false);
+                    else
+                        await ReplyConfirmLocalized("stream_role_bl_add_fail", Format.Bold(user.ToString())).ConfigureAwait(false);
+                else
+                    if (success)
+                        await ReplyConfirmLocalized("stream_role_bl_rem", Format.Bold(user.ToString())).ConfigureAwait(false);
+                    else
+                        await ReplyErrorLocalized("stream_role_bl_rem_fail", Format.Bold(user.ToString())).ConfigureAwait(false);
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireBotPermission(GuildPermission.ManageRoles)]
+            [RequireUserPermission(GuildPermission.ManageRoles)]
+            [RequireContext(ContextType.Guild)]
+            public async Task StreamRoleWhitelist(AddRemove action, [Remainder] IGuildUser user)
+            {
+                var success = await this._service.ApplyListAction(StreamRoleListType.Whitelist, Context.Guild.Id, action, user.Id, user.ToString())
+                    .ConfigureAwait(false);
+
+                if (action == AddRemove.Add)
+                    if(success)
+                        await ReplyConfirmLocalized("stream_role_wl_add", Format.Bold(user.ToString())).ConfigureAwait(false);
+                    else
+                        await ReplyConfirmLocalized("stream_role_wl_add_fail", Format.Bold(user.ToString())).ConfigureAwait(false);
+                else 
+                    if (success)
+                        await ReplyConfirmLocalized("stream_role_wl_rem", Format.Bold(user.ToString())).ConfigureAwait(false);
+                    else
+                        await ReplyErrorLocalized("stream_role_wl_rem_fail", Format.Bold(user.ToString())).ConfigureAwait(false);
             }
         }
     }

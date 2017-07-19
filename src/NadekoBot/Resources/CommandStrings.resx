@@ -3546,4 +3546,31 @@
   <data name="verboseerror_desc" xml:space="preserve">
     <value>Toggles whether the bot should print command errors when a command is incorrectly used.</value>
   </data>
+  <data name="streamrolekeyword_cmd" xml:space="preserve">
+    <value>streamrolekw srkw</value>
+  </data>
+  <data name="streamrolekeyword_usage" xml:space="preserve">
+    <value>`{0}srkw` or `{0}srkw PUBG`</value>
+  </data>
+  <data name="streamrolekeyword_desc" xml:space="preserve">
+    <value>Sets keyword which is required in the stream's title in order for the streamrole to apply. Provide no keyword in order to reset.</value>
+  </data>
+  <data name="streamroleblacklist_cmd" xml:space="preserve">
+    <value>streamrolebl srbl</value>
+  </data>
+  <data name="streamroleblacklist_usage" xml:space="preserve">
+    <value>`{0}srbl add @b1nzy#1234` or `{0}srbl rem @b1nzy#1234`</value>
+  </data>
+  <data name="streamroleblacklist_desc" xml:space="preserve">
+    <value>Adds or removes a blacklisted user. Blacklisted users will never receive the stream role.</value>
+  </data>
+  <data name="streamrolewhitelist_cmd" xml:space="preserve">
+    <value>streamrolewl srwl</value>
+  </data>
+  <data name="streamrolewhitelist_usage" xml:space="preserve">
+    <value>`{0}srwl add @b1nzy#1234` or `{0}srwl rem @b1nzy#1234`</value>
+  </data>
+  <data name="streamrolewhitelist_desc" xml:space="preserve">
+    <value>Adds or removes a whitelisted user. Whitelisted users will receive the stream role even if they don't have the specified keyword in their stream title.</value>
+  </data>
 </root>

@@ -2,24 +2,18 @@
 using Discord.Commands;
 using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
-using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Common.Collections;
 using NadekoBot.Modules.Games.Common.Trivia;
 using NadekoBot.Modules.Permissions.Services;
+using NadekoBot.Common.TypeReaders;
 
 namespace NadekoBot.Modules.Permissions
 {
     public partial class Permissions
     {
-        public enum AddRemove
-        {
-            Add,
-            Rem
-        }
-
         [Group]
         public class BlacklistCommands : NadekoSubmodule
         {
