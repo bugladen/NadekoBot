@@ -59,7 +59,7 @@ namespace NadekoBot.Modules.Gambling
 
                 await Context.Channel.SendPaginatedConfirmAsync(_client, page, (curPage) =>
                 {
-                    var theseEntries = entries.Skip(curPage * 9).Take(9);
+                    var theseEntries = entries.Skip(curPage * 9).Take(9).ToArray();
 
                     if (!theseEntries.Any())
                         return new EmbedBuilder().WithErrorColor()
@@ -67,10 +67,10 @@ namespace NadekoBot.Modules.Gambling
                     var embed = new EmbedBuilder().WithOkColor()
                         .WithTitle(GetText("shop", _bc.CurrencySign));
 
-                    for (int i = 0; i < entries.Count; i++)
+                    for (int i = 0; i < theseEntries.Length; i++)
                     {
                         var entry = entries[i];
-                        embed.AddField(efb => efb.WithName($"#{i + 1} - {entry.Price}{_bc.CurrencySign}").WithValue(EntryToString(entry)).WithIsInline(true));
+                        embed.AddField(efb => efb.WithName($"#{curPage * 9 + i + 1} - {entry.Price}{_bc.CurrencySign}").WithValue(EntryToString(entry)).WithIsInline(true));
                     }
                     return embed;
                 }, entries.Count / 9, true);
