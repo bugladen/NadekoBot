@@ -253,8 +253,7 @@ namespace NadekoBot.Modules.Utility.Services
 
             foreach (var usr in await fromRole.Guild.GetUsersAsync(CacheMode.CacheOnly).ConfigureAwait(false))
             {
-                await TryApplyRole(usr, setting).ConfigureAwait(false);
-                await Task.Delay(500).ConfigureAwait(false);
+                await Task.WhenAll(TryApplyRole(usr, setting), Task.Delay(100)).ConfigureAwait(false);
             }
         }
 
