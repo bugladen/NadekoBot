@@ -71,6 +71,7 @@ namespace NadekoBot.Services.Impl
                 PatreonCampaignId = data[nameof(PatreonCampaignId)] ?? "334038";
                 ShardRunCommand = data[nameof(ShardRunCommand)];
                 ShardRunArguments = data[nameof(ShardRunArguments)];
+                CleverbotApiKey = data[nameof(CleverbotApiKey)];
                 if (string.IsNullOrWhiteSpace(ShardRunCommand))
                     ShardRunCommand = "dotnet";
                 if (string.IsNullOrWhiteSpace(ShardRunArguments))
