@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using NLog;
 using System.Linq;
-using System.Collections.Concurrent;
 using NadekoBot.Extensions;
 using System.Diagnostics;
 using NadekoBot.Common.Collections;

@@ -3,7 +3,6 @@ using Discord.Commands;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
 using System;
-using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord.WebSocket;
@@ -12,7 +11,6 @@ using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Common.Collections;
 using NLog;
-using NadekoBot.Services.Database.Models;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -37,10 +35,10 @@ namespace NadekoBot.Modules.Gambling
 
             private string _secretCode = string.Empty;
             private readonly DiscordSocketClient _client;
-            private readonly BotConfig _bc;
+            private readonly IBotConfigProvider _bc;
             private readonly CurrencyService _cs;
 
-            public CurrencyEventsCommands(DiscordSocketClient client, BotConfig bc, CurrencyService cs)
+            public CurrencyEventsCommands(DiscordSocketClient client, IBotConfigProvider bc, CurrencyService cs)
             {
                 _client = client;
                 _bc = bc;
@@ -80,12 +78,12 @@ namespace NadekoBot.Modules.Gambling
                     _secretCode += _sneakyGameStatusChars[rng.Next(0, _sneakyGameStatusChars.Length)];
                 }
                 
-                await _client.SetGameAsync($"type {_secretCode} for " + _bc.CurrencyPluralName)
+                await _client.SetGameAsync($"type {_secretCode} for " + _bc.BotConfig.CurrencyPluralName)
                     .ConfigureAwait(false);
                 try
                 {
                     var title = GetText("sneakygamestatus_title");
-                    var desc = GetText("sneakygamestatus_desc", Format.Bold(100.ToString()) + _bc.CurrencySign, Format.Bold(num.ToString()));
+                    var desc = GetText("sneakygamestatus_desc", Format.Bold(100.ToString()) + _bc.BotConfig.CurrencySign, Format.Bold(num.ToString()));
                     await context.Channel.SendConfirmAsync(title, desc).ConfigureAwait(false);
                 }
                 catch
@@ -133,7 +131,7 @@ namespace NadekoBot.Modules.Gambling
                     amount = 100;
 
                 var title = GetText("flowerreaction_title");
-                var desc = GetText("flowerreaction_desc", "🌸", Format.Bold(amount.ToString()) + _bc.CurrencySign);
+                var desc = GetText("flowerreaction_desc", "🌸", Format.Bold(amount.ToString()) + _bc.BotConfig.CurrencySign);
                 var footer = GetText("flowerreaction_footer", 24);
                 var msg = await context.Channel.SendConfirmAsync(title,
                         desc, footer: footer)

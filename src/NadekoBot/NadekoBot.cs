@@ -8,7 +8,6 @@ using System;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using NadekoBot.Modules.Permissions;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using NadekoBot.Services.Database.Models;
@@ -34,7 +33,6 @@ namespace NadekoBot
         public CommandService CommandService { get; }
 
         public DbService Db { get; }
-        public BotConfig BotConfig { get; }
         public ImmutableArray<GuildConfig> AllGuildConfigs { get; private set; }
 
         /* I don't know how to make this not be static
@@ -53,6 +51,8 @@ namespace NadekoBot
         public ShardsCoordinator ShardCoord { get; private set; }
 
         private readonly ShardComClient _comClient;
+
+        private readonly BotConfig _botConfig;
 
         public NadekoBot(int shardId, int parentProcessId, int? port = null)
         {
@@ -85,9 +85,9 @@ namespace NadekoBot
 
             using (var uow = Db.UnitOfWork)
             {
-                BotConfig = uow.BotConfig.GetOrCreate();
-                OkColor = new Color(Convert.ToUInt32(BotConfig.OkColor, 16));
-                ErrorColor = new Color(Convert.ToUInt32(BotConfig.ErrorColor, 16));
+                _botConfig = uow.BotConfig.GetOrCreate();
+                OkColor = new Color(Convert.ToUInt32(_botConfig.OkColor, 16));
+                ErrorColor = new Color(Convert.ToUInt32(_botConfig.ErrorColor, 16));
             }
 
             SetupShard(parentProcessId, port.Value);
@@ -124,13 +124,13 @@ namespace NadekoBot
             {
                 AllGuildConfigs = uow.GuildConfigs.GetAllGuildConfigs(startingGuildIdList).ToImmutableArray();
 
-                var localization = new Localization(BotConfig.Locale, AllGuildConfigs.ToDictionary(x => x.GuildId, x => x.Locale), Db);
+                var localization = new Localization(_botConfig.Locale, AllGuildConfigs.ToDictionary(x => x.GuildId, x => x.Locale), Db);
 
                 //initialize Services
                 Services = new NServiceProvider.ServiceProviderBuilder()
                     .AddManual<IBotCredentials>(Credentials)
                     .AddManual(Db)
-                    .AddManual(BotConfig)
+                    .AddManual(_botConfig)
                     .AddManual(Client)
                     .AddManual(CommandService)
                     .AddManual<ILocalization>(localization)

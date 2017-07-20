@@ -4,7 +4,6 @@ using Discord;
 using Discord.WebSocket;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.CustomReactions.Services;
-using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
 using System;
 using System.Collections.Generic;

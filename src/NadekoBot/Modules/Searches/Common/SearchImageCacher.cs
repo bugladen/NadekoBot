@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using System.Xml;
 using NadekoBot.Common;
 using NadekoBot.Extensions;
-using NadekoBot.Services;
 using Newtonsoft.Json;
 using NLog;
 

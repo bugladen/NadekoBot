@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using NadekoBot.Common;
 using NadekoBot.Extensions;
-using NadekoBot.Services;
 
 namespace NadekoBot.Modules.Gambling.Common
 {

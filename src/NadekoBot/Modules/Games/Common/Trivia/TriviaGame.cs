@@ -10,7 +10,6 @@ using Discord.Net;
 using Discord.WebSocket;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
-using NadekoBot.Services.Database.Models;
 using NadekoBot.Services.Impl;
 using NLog;
 
@@ -22,7 +21,7 @@ namespace NadekoBot.Modules.Games.Common.Trivia
         private readonly Logger _log;
         private readonly NadekoStrings _strings;
         private readonly DiscordSocketClient _client;
-        private readonly BotConfig _bc;
+        private readonly IBotConfigProvider _bc;
         private readonly CurrencyService _cs;
 
         public IGuild Guild { get; }
@@ -44,7 +43,7 @@ namespace NadekoBot.Modules.Games.Common.Trivia
 
         public int WinRequirement { get; }
 
-        public TriviaGame(NadekoStrings strings, DiscordSocketClient client, BotConfig bc,
+        public TriviaGame(NadekoStrings strings, DiscordSocketClient client, IBotConfigProvider bc,
             CurrencyService cs, IGuild guild, ITextChannel channel,
             bool showHints, int winReq, bool isPokemon)
         {
@@ -232,7 +231,7 @@ namespace NadekoBot.Modules.Games.Common.Trivia
                         {
                             // ignored
                         }
-                        var reward = _bc.TriviaCurrencyReward;
+                        var reward = _bc.BotConfig.TriviaCurrencyReward;
                         if (reward > 0)
                             await _cs.AddAsync(guildUser, "Won trivia", reward, true).ConfigureAwait(false);
                         return;

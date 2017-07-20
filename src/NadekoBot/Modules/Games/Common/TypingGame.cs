@@ -8,7 +8,6 @@ using Discord.WebSocket;
 using NadekoBot.Common;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Games.Services;
-using NadekoBot.Services;
 using NLog;
 
 namespace NadekoBot.Modules.Games.Common

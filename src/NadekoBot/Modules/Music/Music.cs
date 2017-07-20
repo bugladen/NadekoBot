@@ -8,7 +8,6 @@ using System.Linq;
 using NadekoBot.Extensions;
 using System.Collections.Generic;
 using NadekoBot.Services.Database.Models;
-using System.Collections.Concurrent;
 using System.IO;
 using System.Net.Http;
 using NadekoBot.Common;

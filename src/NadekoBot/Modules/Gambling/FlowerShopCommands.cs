@@ -20,7 +20,7 @@ namespace NadekoBot.Modules.Gambling
         [Group]
         public class FlowerShopCommands : NadekoSubmodule
         {
-            private readonly BotConfig _bc;
+            private readonly IBotConfigProvider _bc;
             private readonly DbService _db;
             private readonly CurrencyService _cs;
             private readonly DiscordSocketClient _client;
@@ -35,7 +35,7 @@ namespace NadekoBot.Modules.Gambling
                 List
             }
 
-            public FlowerShopCommands(BotConfig bc, DbService db, CurrencyService cs, DiscordSocketClient client)
+            public FlowerShopCommands(IBotConfigProvider bc, DbService db, CurrencyService cs, DiscordSocketClient client)
             {
                 _db = db;
                 _bc = bc;
@@ -65,12 +65,12 @@ namespace NadekoBot.Modules.Gambling
                         return new EmbedBuilder().WithErrorColor()
                             .WithDescription(GetText("shop_none"));
                     var embed = new EmbedBuilder().WithOkColor()
-                        .WithTitle(GetText("shop", _bc.CurrencySign));
+                        .WithTitle(GetText("shop", _bc.BotConfig.CurrencySign));
 
                     for (int i = 0; i < theseEntries.Length; i++)
                     {
                         var entry = entries[i];
-                        embed.AddField(efb => efb.WithName($"#{curPage * 9 + i + 1} - {entry.Price}{_bc.CurrencySign}").WithValue(EntryToString(entry)).WithIsInline(true));
+                        embed.AddField(efb => efb.WithName($"#{curPage * 9 + i + 1} - {entry.Price}{_bc.BotConfig.CurrencySign}").WithValue(EntryToString(entry)).WithIsInline(true));
                     }
                     return embed;
                 }, entries.Count / 9, true);
@@ -130,7 +130,7 @@ namespace NadekoBot.Modules.Gambling
                     }
                     else
                     {
-                        await ReplyErrorLocalized("not_enough", _bc.CurrencySign).ConfigureAwait(false);
+                        await ReplyErrorLocalized("not_enough", _bc.BotConfig.CurrencySign).ConfigureAwait(false);
                         return;
                     }
                 }
@@ -186,7 +186,7 @@ namespace NadekoBot.Modules.Gambling
                     }
                     else
                     {
-                        await ReplyErrorLocalized("not_enough", _bc.CurrencySign).ConfigureAwait(false);
+                        await ReplyErrorLocalized("not_enough", _bc.BotConfig.CurrencySign).ConfigureAwait(false);
                         return;
                     }
                 }

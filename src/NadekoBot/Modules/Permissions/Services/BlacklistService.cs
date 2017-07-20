@@ -1,5 +1,4 @@
-﻿using System.Collections.Concurrent;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using NadekoBot.Common.Collections;
@@ -15,9 +14,9 @@ namespace NadekoBot.Modules.Permissions.Services
         public ConcurrentHashSet<ulong> BlacklistedGuilds { get; }
         public ConcurrentHashSet<ulong> BlacklistedChannels { get; }
 
-        public BlacklistService(BotConfig bc)
+        public BlacklistService(IBotConfigProvider bc)
         {
-            var blacklist = bc.Blacklist;
+            var blacklist = bc.BotConfig.Blacklist;
             BlacklistedUsers = new ConcurrentHashSet<ulong>(blacklist.Where(bi => bi.Type == BlacklistType.User).Select(c => c.ItemId));
             BlacklistedGuilds = new ConcurrentHashSet<ulong>(blacklist.Where(bi => bi.Type == BlacklistType.Server).Select(c => c.ItemId));
             BlacklistedChannels = new ConcurrentHashSet<ulong>(blacklist.Where(bi => bi.Type == BlacklistType.Channel).Select(c => c.ItemId));

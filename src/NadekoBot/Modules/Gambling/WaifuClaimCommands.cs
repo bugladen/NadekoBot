@@ -58,7 +58,7 @@ namespace NadekoBot.Modules.Gambling
                 InsufficientAmount
             }
 
-            public WaifuClaimCommands(BotConfig bc, CurrencyService cs, DbService db)
+            public WaifuClaimCommands(IBotConfigProvider bc, CurrencyService cs, DbService db)
             {
                 _bc = bc;
                 _cs = cs;
@@ -71,7 +71,7 @@ namespace NadekoBot.Modules.Gambling
             {
                 if (amount < 50)
                 {
-                    await ReplyErrorLocalized("waifu_isnt_cheap", 50 + _bc.CurrencySign).ConfigureAwait(false);
+                    await ReplyErrorLocalized("waifu_isnt_cheap", 50 + _bc.BotConfig.CurrencySign).ConfigureAwait(false);
                     return;
                 }
 
@@ -173,14 +173,14 @@ namespace NadekoBot.Modules.Gambling
                 }
                 if (result == WaifuClaimResult.NotEnoughFunds)
                 {
-                    await ReplyErrorLocalized("not_enough", _bc.CurrencySign).ConfigureAwait(false);
+                    await ReplyErrorLocalized("not_enough", _bc.BotConfig.CurrencySign).ConfigureAwait(false);
                     return;
                 }
                 var msg = GetText("waifu_claimed", 
                     Format.Bold(target.ToString()), 
-                    amount + _bc.CurrencySign);
+                    amount + _bc.BotConfig.CurrencySign);
                 if (w.Affinity?.UserId == Context.User.Id)
-                    msg += "\n" + GetText("waifu_fulfilled", target, w.Price + _bc.CurrencySign);
+                    msg += "\n" + GetText("waifu_fulfilled", target, w.Price + _bc.BotConfig.CurrencySign);
                 else
                     msg = " " + msg;
                 await Context.Channel.SendConfirmAsync(Context.User.Mention + msg).ConfigureAwait(false);
@@ -258,11 +258,11 @@ namespace NadekoBot.Modules.Gambling
 
                 if (result == DivorceResult.SucessWithPenalty)
                 {
-                    await ReplyConfirmLocalized("waifu_divorced_like", Format.Bold(w.Waifu.ToString()), amount + _bc.CurrencySign).ConfigureAwait(false);
+                    await ReplyConfirmLocalized("waifu_divorced_like", Format.Bold(w.Waifu.ToString()), amount + _bc.BotConfig.CurrencySign).ConfigureAwait(false);
                 }
                 else if (result == DivorceResult.Success)
                 {
-                    await ReplyConfirmLocalized("waifu_divorced_notlike", amount + _bc.CurrencySign).ConfigureAwait(false);
+                    await ReplyConfirmLocalized("waifu_divorced_notlike", amount + _bc.BotConfig.CurrencySign).ConfigureAwait(false);
                 }
                 else if (result == DivorceResult.NotYourWife)
                 {
@@ -278,7 +278,7 @@ namespace NadekoBot.Modules.Gambling
             }
 
             private static readonly TimeSpan _affinityLimit = TimeSpan.FromMinutes(30);
-            private readonly BotConfig _bc;
+            private readonly IBotConfigProvider _bc;
             private readonly CurrencyService _cs;
             private readonly DbService _db;
 
@@ -406,7 +406,7 @@ namespace NadekoBot.Modules.Gambling
                     var w = waifus[i];
 
                     var j = i;
-                    embed.AddField(efb => efb.WithName("#" + ((page * 9) + j + 1) + " - " + w.Price + _bc.CurrencySign).WithValue(w.ToString()).WithIsInline(false));
+                    embed.AddField(efb => efb.WithName("#" + ((page * 9) + j + 1) + " - " + w.Price + _bc.BotConfig.CurrencySign).WithValue(w.ToString()).WithIsInline(false));
                 }
 
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);

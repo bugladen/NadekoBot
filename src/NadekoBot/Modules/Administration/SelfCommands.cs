@@ -29,14 +29,16 @@ namespace NadekoBot.Modules.Administration
             private readonly DiscordSocketClient _client;
             private readonly IImagesService _images;
             private readonly MusicService _music;
+            private readonly IBotConfigProvider _bc;
 
             public SelfCommands(DbService db, DiscordSocketClient client,
-                MusicService music, IImagesService images)
+                MusicService music, IImagesService images, IBotConfigProvider bc)
             {
                 _db = db;
                 _client = client;
                 _images = images;
                 _music = music;
+                _bc = bc;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -179,9 +181,11 @@ namespace NadekoBot.Modules.Administration
                 using (var uow = _db.UnitOfWork)
                 {
                     var config = uow.BotConfig.GetOrCreate();
-                    _service.ForwardDMs = config.ForwardMessages = !config.ForwardMessages;
+                    config.ForwardMessages = !config.ForwardMessages;
                     uow.Complete();
                 }
+                _bc.Reload();
+                
                 if (_service.ForwardDMs)
                     await ReplyConfirmLocalized("fwdm_start").ConfigureAwait(false);
                 else
@@ -196,9 +200,11 @@ namespace NadekoBot.Modules.Administration
                 {
                     var config = uow.BotConfig.GetOrCreate();
                     lock (_locker)
-                        _service.ForwardDMsToAllOwners = config.ForwardToAllOwners = !config.ForwardToAllOwners;
+                        config.ForwardToAllOwners = !config.ForwardToAllOwners;
                     uow.Complete();
                 }
+                _bc.Reload();
+
                 if (_service.ForwardDMsToAllOwners)
                     await ReplyConfirmLocalized("fwall_start").ConfigureAwait(false);
                 else

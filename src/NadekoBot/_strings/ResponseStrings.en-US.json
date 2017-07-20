@@ -626,6 +626,8 @@
   "utility_activity_users_total": "{0} users total.",
   "utility_author": "Author",
   "utility_botid": "Bot ID",
+  "utility_bot_config_edit_fail": "Failed setting {0} to the value {1}",
+  "utility_bot_config_edit_success": "The value of {0} is set to {1}",
   "utility_calcops": "List of functions in {0}calc command",
   "utility_channelid": "{0} of this channel is {1}",
   "utility_channel_topic": "Channel topic",

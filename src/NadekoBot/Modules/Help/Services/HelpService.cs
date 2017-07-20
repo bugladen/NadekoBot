@@ -1,5 +1,4 @@
-﻿using NadekoBot.Services.Database.Models;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using System;
@@ -15,11 +14,11 @@ namespace NadekoBot.Modules.Help.Services
 {
     public class HelpService : ILateExecutor, INService
     {
-        private readonly BotConfig _bc;
+        private readonly IBotConfigProvider _bc;
         private readonly CommandHandler _ch;
         private readonly NadekoStrings _strings;
 
-        public HelpService(BotConfig bc, CommandHandler ch, NadekoStrings strings)
+        public HelpService(IBotConfigProvider bc, CommandHandler ch, NadekoStrings strings)
         {
             _bc = bc;
             _ch = ch;
@@ -31,7 +30,7 @@ namespace NadekoBot.Modules.Help.Services
             try
             {
                 if(guild == null)
-                    await msg.Channel.SendMessageAsync(_bc.DMHelpString).ConfigureAwait(false);
+                    await msg.Channel.SendMessageAsync(_bc.BotConfig.DMHelpString).ConfigureAwait(false);
             }
             catch (Exception)
             {

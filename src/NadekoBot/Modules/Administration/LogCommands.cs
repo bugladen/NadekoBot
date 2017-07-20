@@ -1,7 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Extensions;
-using NadekoBot.Modules.Permissions;
 using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
 using System;

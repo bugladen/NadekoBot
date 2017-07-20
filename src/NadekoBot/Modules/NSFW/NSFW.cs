@@ -4,7 +4,6 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using NadekoBot.Services;
 using System.Net.Http;
 using NadekoBot.Extensions;
 using System.Threading;

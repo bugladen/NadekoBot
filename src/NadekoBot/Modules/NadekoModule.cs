@@ -5,7 +5,6 @@ using NadekoBot.Services;
 using NLog;
 using System.Globalization;
 using System.Threading.Tasks;
-using System;
 using Discord.WebSocket;
 using NadekoBot.Services.Impl;
 

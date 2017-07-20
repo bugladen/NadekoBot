@@ -25,11 +25,11 @@ namespace NadekoBot.Modules.Utility.Services
         private readonly Logger _log;
         private readonly CancellationTokenSource cancelSource;
         private readonly CancellationToken cancelAllToken;
-        private readonly BotConfig _config;
+        private readonly IBotConfigProvider _config;
         private readonly DiscordSocketClient _client;
         private readonly DbService _db;
 
-        public RemindService(DiscordSocketClient client, BotConfig config, DbService db,
+        public RemindService(DiscordSocketClient client, IBotConfigProvider config, DbService db,
              StartingGuildsService guilds, IUnitOfWork uow)
         {
             _config = config;
@@ -41,7 +41,7 @@ namespace NadekoBot.Modules.Utility.Services
             cancelAllToken = cancelSource.Token;
             
             var reminders = uow.Reminders.GetIncludedReminders(guilds).ToList();
-            RemindMessageFormat = _config.RemindMessageFormat;
+            RemindMessageFormat = _config.BotConfig.RemindMessageFormat;
 
             foreach (var r in reminders)
             {

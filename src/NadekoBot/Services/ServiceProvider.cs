@@ -48,6 +48,8 @@ namespace NadekoBot.Services
                 var interfaces = new HashSet<Type>(allTypes
                         .Where(x => x.GetInterfaces().Contains(typeof(INService)) && x.GetTypeInfo().IsInterface));
 
+                var alreadyFailed = new Dictionary<Type, int>();
+
                 var sw = Stopwatch.StartNew();
                 var swInstance = new Stopwatch();
                 while (services.Count > 0)
@@ -71,11 +73,20 @@ namespace NadekoBot.Services
                         else //if i failed getting it, add it to the end, and break
                         {
                             services.Enqueue(type);
+                            if (alreadyFailed.ContainsKey(type))
+                            {
+                                alreadyFailed[type]++;
+                                if (alreadyFailed[type] > 3)
+                                    _log.Warn(type.Name + " wasn't instantiated in the first 3 attempts. Missing " + arg.Name + " type");
+                            }
+                            else
+                                alreadyFailed.Add(type, 1);
                             break;
                         }
                     }
                     if (args.Count != argTypes.Length)
                         continue;
+                    // _log.Info("Loading " + type.Name);
                     swInstance.Restart();
                     var instance = ctor.Invoke(args.ToArray());
                     swInstance.Stop();

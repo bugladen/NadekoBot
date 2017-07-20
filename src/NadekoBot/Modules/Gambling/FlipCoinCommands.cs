@@ -2,7 +2,6 @@ using Discord;
 using Discord.Commands;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
-using NadekoBot.Services.Database.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -19,12 +18,12 @@ namespace NadekoBot.Modules.Gambling
         public class FlipCoinCommands : NadekoSubmodule
         {
             private readonly IImagesService _images;
-            private readonly BotConfig _bc;
+            private readonly IBotConfigProvider _bc;
             private readonly CurrencyService _cs;
 
             private readonly NadekoRandom rng = new NadekoRandom();
 
-            public FlipCoinCommands(IImagesService images, CurrencyService cs, BotConfig bc)
+            public FlipCoinCommands(IImagesService images, CurrencyService cs, IBotConfigProvider bc)
             {
                 _images = images;
                 _bc = bc;
@@ -89,15 +88,15 @@ namespace NadekoBot.Modules.Gambling
             [NadekoCommand, Usage, Description, Aliases]
             public async Task Betflip(int amount, BetFlipGuess guess)
             {
-                if (amount < _bc.MinimumBetAmount)
+                if (amount < _bc.BotConfig.MinimumBetAmount)
                 {
-                    await ReplyErrorLocalized("min_bet_limit", _bc.MinimumBetAmount + _bc.CurrencySign).ConfigureAwait(false);
+                    await ReplyErrorLocalized("min_bet_limit", _bc.BotConfig.MinimumBetAmount + _bc.BotConfig.CurrencySign).ConfigureAwait(false);
                     return;
                 }
                 var removed = await _cs.RemoveAsync(Context.User, "Betflip Gamble", amount, false).ConfigureAwait(false);
                 if (!removed)
                 {
-                    await ReplyErrorLocalized("not_enough", _bc.CurrencyPluralName).ConfigureAwait(false);
+                    await ReplyErrorLocalized("not_enough", _bc.BotConfig.CurrencyPluralName).ConfigureAwait(false);
                     return;
                 }
                 BetFlipGuess result;
@@ -116,8 +115,8 @@ namespace NadekoBot.Modules.Gambling
                 string str;
                 if (guess == result)
                 { 
-                    var toWin = (int)Math.Round(amount * _bc.BetflipMultiplier);
-                    str = Context.User.Mention + " " + GetText("flip_guess", toWin + _bc.CurrencySign);
+                    var toWin = (int)Math.Round(amount * _bc.BotConfig.BetflipMultiplier);
+                    str = Context.User.Mention + " " + GetText("flip_guess", toWin + _bc.BotConfig.CurrencySign);
                     await _cs.AddAsync(Context.User, "Betflip Gamble", toWin, false).ConfigureAwait(false);
                 }
                 else

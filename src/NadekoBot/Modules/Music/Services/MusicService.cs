@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
@@ -88,7 +87,7 @@ namespace NadekoBot.Modules.Music.Services
                 {
                     await textCh.SendErrorAsync(GetText("must_be_in_voice")).ConfigureAwait(false);
                 }
-                throw new ArgumentException(nameof(voiceCh));
+                throw new NotInVoiceChannelException();
             }
             _log.Info("Get or add");
             return MusicPlayers.GetOrAdd(guildId, _ =>

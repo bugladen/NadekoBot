@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using NadekoBot.Common;
 using NadekoBot.Extensions;
-using NadekoBot.Services;
 using Newtonsoft.Json;
 
 namespace NadekoBot.Modules.Games.Common.Trivia

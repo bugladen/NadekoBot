@@ -22,7 +22,7 @@ namespace NadekoBot.Modules.Games.Services
 {
     public class GamesService : INService
     {
-        private readonly BotConfig _bc;
+        private readonly IBotConfigProvider _bc;
 
         public readonly ConcurrentDictionary<ulong, GirlRating> GirlRatings = new ConcurrentDictionary<ulong, GirlRating>();
         public readonly ImmutableArray<string> EightBallResponses;
@@ -38,7 +38,7 @@ namespace NadekoBot.Modules.Games.Services
 
         public List<TypingArticle> TypingArticles { get; } = new List<TypingArticle>();
 
-        public GamesService(DiscordSocketClient client, BotConfig bc, IEnumerable<GuildConfig> gcs, 
+        public GamesService(DiscordSocketClient client, IBotConfigProvider bc, IEnumerable<GuildConfig> gcs, 
             NadekoStrings strings, IImagesService images, CommandHandler cmdHandler)
         {
             _bc = bc;
@@ -49,7 +49,7 @@ namespace NadekoBot.Modules.Games.Services
             _log = LogManager.GetCurrentClassLogger();
 
             //8ball
-            EightBallResponses = _bc.EightBallResponses.Select(ebr => ebr.Text).ToImmutableArray();
+            EightBallResponses = _bc.BotConfig.EightBallResponses.Select(ebr => ebr.Text).ToImmutableArray();
 
             //girl ratings
             _t = new Timer((_) =>
@@ -122,14 +122,14 @@ namespace NadekoBot.Modules.Games.Services
                     var lastGeneration = LastGenerations.GetOrAdd(channel.Id, DateTime.MinValue);
                     var rng = new NadekoRandom();
 
-                    if (DateTime.UtcNow - TimeSpan.FromSeconds(_bc.CurrencyGenerationCooldown) < lastGeneration) //recently generated in this channel, don't generate again
+                    if (DateTime.UtcNow - TimeSpan.FromSeconds(_bc.BotConfig.CurrencyGenerationCooldown) < lastGeneration) //recently generated in this channel, don't generate again
                         return;
 
-                    var num = rng.Next(1, 101) + _bc.CurrencyGenerationChance * 100;
+                    var num = rng.Next(1, 101) + _bc.BotConfig.CurrencyGenerationChance * 100;
                     if (num > 100 && LastGenerations.TryUpdate(channel.Id, DateTime.UtcNow, lastGeneration))
                     {
-                        var dropAmount = _bc.CurrencyDropAmount;
-                        var dropAmountMax = _bc.CurrencyDropAmountMax;
+                        var dropAmount = _bc.BotConfig.CurrencyDropAmount;
+                        var dropAmountMax = _bc.BotConfig.CurrencyDropAmountMax;
 
                         if (dropAmountMax != null && dropAmountMax > dropAmount)
                             dropAmount = new NadekoRandom().Next(dropAmount, dropAmountMax.Value + 1);
@@ -139,9 +139,9 @@ namespace NadekoBot.Modules.Games.Services
                             var msgs = new IUserMessage[dropAmount];
                             var prefix = _cmdHandler.GetPrefix(channel.Guild.Id);
                             var toSend = dropAmount == 1
-                                ? GetText(channel, "curgen_sn", _bc.CurrencySign)
+                                ? GetText(channel, "curgen_sn", _bc.BotConfig.CurrencySign)
                                     + " " + GetText(channel, "pick_sn", prefix)
-                                : GetText(channel, "curgen_pl", dropAmount, _bc.CurrencySign)
+                                : GetText(channel, "curgen_pl", dropAmount, _bc.BotConfig.CurrencySign)
                                     + " " + GetText(channel, "pick_pl", prefix);
                             var file = GetRandomCurrencyImage();
                             using (var fileStream = file.Data.ToStream())

@@ -50,7 +50,7 @@ namespace NadekoBot.Services
         public ConcurrentHashSet<ulong> UsersOnShortCooldown { get; } = new ConcurrentHashSet<ulong>();
         private readonly Timer _clearUsersOnShortCooldown;
 
-        public CommandHandler(DiscordSocketClient client, DbService db, BotConfig bc, IEnumerable<GuildConfig> gcs, CommandService commandService, IBotCredentials credentials, NadekoBot bot)
+        public CommandHandler(DiscordSocketClient client, DbService db, IBotConfigProvider bc, IEnumerable<GuildConfig> gcs, CommandService commandService, IBotCredentials credentials, NadekoBot bot)
         {
             _client = client;
             _commandService = commandService;
@@ -65,7 +65,7 @@ namespace NadekoBot.Services
                 UsersOnShortCooldown.Clear();
             }, null, GlobalCommandsCooldown, GlobalCommandsCooldown);
 
-            DefaultPrefix = bc.DefaultPrefix;
+            DefaultPrefix = bc.BotConfig.DefaultPrefix;
             _prefixes = gcs
                 .Where(x => x.Prefix != null)
                 .ToDictionary(x => x.GuildId, x => x.Prefix)

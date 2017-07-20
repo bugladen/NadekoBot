@@ -25,11 +25,11 @@ namespace NadekoBot.Modules.Games
         public class PlantPickCommands : NadekoSubmodule
         {
             private readonly CurrencyService _cs;
-            private readonly BotConfig _bc;
+            private readonly IBotConfigProvider _bc;
             private readonly GamesService _games;
             private readonly DbService _db;
 
-            public PlantPickCommands(BotConfig bc, CurrencyService cs, GamesService games,
+            public PlantPickCommands(IBotConfigProvider bc, CurrencyService cs, GamesService games,
                 DbService db)
             {
                 _bc = bc;
@@ -54,8 +54,8 @@ namespace NadekoBot.Modules.Games
 
                 await Task.WhenAll(msgs.Where(m => m != null).Select(toDelete => toDelete.DeleteAsync())).ConfigureAwait(false);
 
-                await _cs.AddAsync((IGuildUser)Context.User, $"Picked {_bc.CurrencyPluralName}", msgs.Count, false).ConfigureAwait(false);
-                var msg = await ReplyConfirmLocalized("picked", msgs.Count + _bc.CurrencySign)
+                await _cs.AddAsync((IGuildUser)Context.User, $"Picked {_bc.BotConfig.CurrencyPluralName}", msgs.Count, false).ConfigureAwait(false);
+                var msg = await ReplyConfirmLocalized("picked", msgs.Count + _bc.BotConfig.CurrencySign)
                     .ConfigureAwait(false);
                 msg.DeleteAfter(10);
             }
@@ -67,10 +67,10 @@ namespace NadekoBot.Modules.Games
                 if (amount < 1)
                     return;
 
-                var removed = await _cs.RemoveAsync((IGuildUser)Context.User, $"Planted a {_bc.CurrencyName}", amount, false).ConfigureAwait(false);
+                var removed = await _cs.RemoveAsync((IGuildUser)Context.User, $"Planted a {_bc.BotConfig.CurrencyName}", amount, false).ConfigureAwait(false);
                 if (!removed)
                 {
-                    await ReplyErrorLocalized("not_enough", _bc.CurrencySign).ConfigureAwait(false);
+                    await ReplyErrorLocalized("not_enough", _bc.BotConfig.CurrencySign).ConfigureAwait(false);
                     return;
                 }
 
@@ -79,7 +79,7 @@ namespace NadekoBot.Modules.Games
                 //todo 81 upload all currency images to transfer.sh and use that one as cdn
                 var msgToSend = GetText("planted",
                     Format.Bold(Context.User.ToString()),
-                    amount + _bc.CurrencySign,
+                    amount + _bc.BotConfig.CurrencySign,
                     Prefix);
 
                 if (amount > 1)

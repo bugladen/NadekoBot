@@ -7,7 +7,6 @@ using Discord;
 using Discord.WebSocket;
 using NadekoBot.Common;
 using NadekoBot.Extensions;
-using NadekoBot.Services;
 using Newtonsoft.Json;
 using NLog;
 

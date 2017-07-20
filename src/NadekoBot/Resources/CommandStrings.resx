@@ -3573,4 +3573,13 @@
   <data name="streamrolewhitelist_desc" xml:space="preserve">
     <value>Adds or removes a whitelisted user. Whitelisted users will receive the stream role even if they don't have the specified keyword in their stream title.</value>
   </data>
+  <data name="botconfigedit_cmd" xml:space="preserve">
+    <value>botconfigedit bce</value>
+  </data>
+  <data name="botconfigedit_usage" xml:space="preserve">
+    <value>`{0}bce CurrencyName b1nzy` or `{0}bce`</value>
+  </data>
+  <data name="botconfigedit_desc" xml:space="preserve">
+    <value>Sets one of available bot config settings to a specified value. Use the command without any parameters to get a list of available settings.</value>
+  </data>
 </root>

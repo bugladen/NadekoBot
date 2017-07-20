@@ -8,7 +8,6 @@ using NadekoBot.Common;
 using NadekoBot.Common.ModuleBehaviors;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
-using NadekoBot.Services.Database.Models;
 using NadekoBot.Services.Impl;
 using NLog;
 
@@ -16,8 +15,9 @@ namespace NadekoBot.Modules.Administration.Services
 {
     public class SelfService : ILateExecutor, INService
     {
-        public volatile bool ForwardDMs;
-        public volatile bool ForwardDMsToAllOwners;
+        //todo bot config
+        public bool ForwardDMs => _bc.BotConfig.ForwardMessages;
+        public bool ForwardDMsToAllOwners => _bc.BotConfig.ForwardToAllOwners;
         
         private readonly NadekoBot _bot;
         private readonly CommandHandler _cmdHandler;
@@ -28,9 +28,10 @@ namespace NadekoBot.Modules.Administration.Services
         private readonly DiscordSocketClient _client;
         private readonly IBotCredentials _creds;
         private ImmutableArray<AsyncLazy<IDMChannel>> ownerChannels = new ImmutableArray<AsyncLazy<IDMChannel>>();
+        private readonly IBotConfigProvider _bc;
 
         public SelfService(DiscordSocketClient client, NadekoBot bot, CommandHandler cmdHandler, DbService db,
-            BotConfig bc, ILocalization localization, NadekoStrings strings, IBotCredentials creds)
+            IBotConfigProvider bc, ILocalization localization, NadekoStrings strings, IBotCredentials creds)
         {
             _bot = bot;
             _cmdHandler = cmdHandler;
@@ -40,15 +41,13 @@ namespace NadekoBot.Modules.Administration.Services
             _strings = strings;
             _client = client;
             _creds = creds;
-
-            ForwardDMs = bc.ForwardMessages;
-            ForwardDMsToAllOwners = bc.ForwardToAllOwners;
+            _bc = bc;
 
             var _ = Task.Run(async () =>
             {
                 await bot.Ready.Task.ConfigureAwait(false);
 
-                foreach (var cmd in bc.StartupCommands)
+                foreach (var cmd in bc.BotConfig.StartupCommands)
                 {
                     await cmdHandler.ExecuteExternal(cmd.GuildId, cmd.ChannelId, cmd.CommandText);
                     await Task.Delay(400).ConfigureAwait(false);

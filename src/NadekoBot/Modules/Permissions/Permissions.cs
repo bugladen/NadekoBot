@@ -7,7 +7,6 @@ using Discord;
 using NadekoBot.Services.Database.Models;
 using System.Collections.Generic;
 using Discord.WebSocket;
-using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Common.TypeReaders;
 using NadekoBot.Common.TypeReaders.Models;

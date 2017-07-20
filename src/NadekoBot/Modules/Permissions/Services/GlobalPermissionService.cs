@@ -1,12 +1,10 @@
-﻿using System.Collections.Concurrent;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using NadekoBot.Common.Collections;
 using NadekoBot.Common.ModuleBehaviors;
 using NadekoBot.Services;
-using NadekoBot.Services.Database.Models;
 
 namespace NadekoBot.Modules.Permissions.Services
 {
@@ -15,10 +13,10 @@ namespace NadekoBot.Modules.Permissions.Services
         public readonly ConcurrentHashSet<string> BlockedModules;
         public readonly ConcurrentHashSet<string> BlockedCommands;
 
-        public GlobalPermissionService(BotConfig bc)
+        public GlobalPermissionService(IBotConfigProvider bc)
         {
-            BlockedModules = new ConcurrentHashSet<string>(bc.BlockedModules.Select(x => x.Name));
-            BlockedCommands = new ConcurrentHashSet<string>(bc.BlockedCommands.Select(x => x.Name));
+            BlockedModules = new ConcurrentHashSet<string>(bc.BotConfig.BlockedModules.Select(x => x.Name));
+            BlockedCommands = new ConcurrentHashSet<string>(bc.BotConfig.BlockedCommands.Select(x => x.Name));
         }
 
         public async Task<bool> TryBlockLate(DiscordSocketClient client, IUserMessage msg, IGuild guild, IMessageChannel channel, IUser user, string moduleName, string commandName)

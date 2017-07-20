@@ -1,7 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Extensions;
-using NadekoBot.Services;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Threading.Tasks;

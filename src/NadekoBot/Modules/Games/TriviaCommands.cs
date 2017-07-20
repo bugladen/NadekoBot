@@ -3,12 +3,10 @@ using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
-using NadekoBot.Services.Database.Models;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Games.Common.Trivia;
-
 
 namespace NadekoBot.Modules.Games
 {
@@ -19,11 +17,11 @@ namespace NadekoBot.Modules.Games
         {
             private readonly CurrencyService _cs;
             private readonly DiscordSocketClient _client;
-            private readonly BotConfig _bc;
+            private readonly IBotConfigProvider _bc;
 
             public static ConcurrentDictionary<ulong, TriviaGame> RunningTrivias { get; } = new ConcurrentDictionary<ulong, TriviaGame>();
 
-            public TriviaCommands(DiscordSocketClient client, BotConfig bc, CurrencyService cs)
+            public TriviaCommands(DiscordSocketClient client, IBotConfigProvider bc, CurrencyService cs)
             {
                 _cs = cs;
                 _client = client;

@@ -3,7 +3,6 @@ using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
-using NadekoBot.Services.Database.Models;
 using NLog;
 using System;
 using System.Collections.Concurrent;
@@ -22,14 +21,14 @@ namespace NadekoBot.Modules.Gambling
         [Group]
         public class AnimalRacingCommands : NadekoSubmodule
         {
-            private readonly BotConfig _bc;
+            private readonly IBotConfigProvider _bc;
             private readonly CurrencyService _cs;
             private readonly DiscordSocketClient _client;
             
 
             public static ConcurrentDictionary<ulong, AnimalRace> AnimalRaces { get; } = new ConcurrentDictionary<ulong, AnimalRace>();
 
-            public AnimalRacingCommands(BotConfig bc, CurrencyService cs, DiscordSocketClient client)
+            public AnimalRacingCommands(IBotConfigProvider bc, CurrencyService cs, DiscordSocketClient client)
             {
                 _bc = bc;
                 _cs = cs;
@@ -82,7 +81,7 @@ namespace NadekoBot.Modules.Gambling
                 private readonly Logger _log;
 
                 private readonly ITextChannel _raceChannel;
-                private readonly BotConfig _bc;
+                private readonly IBotConfigProvider _bc;
                 private readonly CurrencyService _cs;
                 private readonly DiscordSocketClient _client;
                 private readonly ILocalization _localization;
@@ -90,7 +89,7 @@ namespace NadekoBot.Modules.Gambling
 
                 public bool Started { get; private set; }
 
-                public AnimalRace(ulong serverId, ITextChannel channel, string prefix, BotConfig bc,
+                public AnimalRace(ulong serverId, ITextChannel channel, string prefix, IBotConfigProvider bc,
                     CurrencyService cs, DiscordSocketClient client, ILocalization localization,
                     NadekoStrings strings)
                 {
@@ -110,7 +109,7 @@ namespace NadekoBot.Modules.Gambling
                         return;
                     }
                     
-                    animals = new ConcurrentQueue<string>(_bc.RaceAnimals.Select(ra => ra.Icon).Shuffle());
+                    animals = new ConcurrentQueue<string>(_bc.BotConfig.RaceAnimals.Select(ra => ra.Icon).Shuffle());
 
 
                     var cancelSource = new CancellationTokenSource();
@@ -238,7 +237,7 @@ namespace NadekoBot.Modules.Gambling
                                 .ConfigureAwait(false);
                             await _raceChannel.SendConfirmAsync(GetText("animal_race"),
                                     Format.Bold(GetText("animal_race_won_money", winner.User.Mention,
-                                        winner.Animal, wonAmount + _bc.CurrencySign)))
+                                        winner.Animal, wonAmount + _bc.BotConfig.CurrencySign)))
                                 .ConfigureAwait(false);
                         }
                         else
@@ -295,13 +294,13 @@ namespace NadekoBot.Modules.Gambling
                     if (amount > 0)
                         if (!await _cs.RemoveAsync(u, "BetRace", amount, false).ConfigureAwait(false))
                         {
-                            await _raceChannel.SendErrorAsync(GetText("not_enough", _bc.CurrencySign)).ConfigureAwait(false);
+                            await _raceChannel.SendErrorAsync(GetText("not_enough", _bc.BotConfig.CurrencySign)).ConfigureAwait(false);
                             return;
                         }
                     _participants.Add(p);
                     string confStr;
                     if (amount > 0)
-                        confStr = GetText("animal_race_join_bet", u.Mention, p.Animal, amount + _bc.CurrencySign);
+                        confStr = GetText("animal_race_join_bet", u.Mention, p.Animal, amount + _bc.BotConfig.CurrencySign);
                     else
                         confStr = GetText("animal_race_join", u.Mention, p.Animal);
                     await _raceChannel.SendConfirmAsync(GetText("animal_race"), Format.Bold(confStr)).ConfigureAwait(false);
