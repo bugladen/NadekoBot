@@ -4,25 +4,24 @@ using NadekoBot.Common;
 using NadekoBot.Extensions;
 using Newtonsoft.Json;
 
-namespace NadekoBot.Modules.Games.Common
+namespace NadekoBot.Modules.Games.Common.ChatterBot
 {
-    public class ChatterBotSession
+    public class ChatterBotSession : IChatterBotSession
     {
-        private static NadekoRandom rng { get; } = new NadekoRandom();
-        public string ChatterbotId { get; }
-        public string ChannelId { get; }
+        private static NadekoRandom Rng { get; } = new NadekoRandom();
+
+        private readonly string _chatterBotId;
         private int _botId = 6;
 
-        public ChatterBotSession(ulong channelId)
+        public ChatterBotSession()
         {
-            ChannelId = channelId.ToString().ToBase64();
-            ChatterbotId = rng.Next(0, 1000000).ToString().ToBase64();
+            _chatterBotId = Rng.Next(0, 1000000).ToString().ToBase64();
         }
 
         private string apiEndpoint => "http://api.program-o.com/v2/chatbot/" +
                                       $"?bot_id={_botId}&" +
                                       "say={0}&" +
-                                      $"convo_id=nadekobot_{ChatterbotId}_{ChannelId}&" +
+                                      $"convo_id=nadekobot_{_chatterBotId}&" +
                                       "format=json";
 
         public async Task<string> Think(string message)

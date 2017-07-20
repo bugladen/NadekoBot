@@ -7,13 +7,13 @@ using Discord;
 using Discord.WebSocket;
 using NadekoBot.Common.ModuleBehaviors;
 using NadekoBot.Extensions;
-using NadekoBot.Modules.Games.Common;
 using NadekoBot.Modules.Permissions.Common;
 using NadekoBot.Modules.Permissions.Services;
 using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
 using NadekoBot.Services.Impl;
 using NLog;
+using NadekoBot.Modules.Games.Common.ChatterBot;
 
 namespace NadekoBot.Modules.Games.Services
 {
@@ -24,24 +24,34 @@ namespace NadekoBot.Modules.Games.Services
         private readonly PermissionService _perms;
         private readonly CommandHandler _cmd;
         private readonly NadekoStrings _strings;
+        private readonly IBotCredentials _creds;
 
-        public ConcurrentDictionary<ulong, Lazy<ChatterBotSession>> ChatterBotGuilds { get; }
+        public ConcurrentDictionary<ulong, Lazy<IChatterBotSession>> ChatterBotGuilds { get; }
 
         public ChatterBotService(DiscordSocketClient client, PermissionService perms, IEnumerable<GuildConfig> gcs, 
-            CommandHandler cmd, NadekoStrings strings)
+            CommandHandler cmd, NadekoStrings strings, IBotCredentials creds)
         {
             _client = client;
             _log = LogManager.GetCurrentClassLogger();
             _perms = perms;
             _cmd = cmd;
             _strings = strings;
+            _creds = creds;
 
-            ChatterBotGuilds = new ConcurrentDictionary<ulong, Lazy<ChatterBotSession>>(
+            ChatterBotGuilds = new ConcurrentDictionary<ulong, Lazy<IChatterBotSession>>(
                     gcs.Where(gc => gc.CleverbotEnabled)
-                        .ToDictionary(gc => gc.GuildId, gc => new Lazy<ChatterBotSession>(() => new ChatterBotSession(gc.GuildId), true)));
+                        .ToDictionary(gc => gc.GuildId, gc => new Lazy<IChatterBotSession>(() => CreateSession(), true)));
         }
 
-        public string PrepareMessage(IUserMessage msg, out ChatterBotSession cleverbot)
+        public IChatterBotSession CreateSession()
+        {
+            if (string.IsNullOrWhiteSpace(_creds.CleverbotApiKey))
+                return new ChatterBotSession();
+            else
+                return new OfficialCleverbotSession(_creds.CleverbotApiKey);
+        }
+
+        public string PrepareMessage(IUserMessage msg, out IChatterBotSession cleverbot)
         {
             var channel = msg.Channel as ITextChannel;
             cleverbot = null;
@@ -49,7 +59,7 @@ namespace NadekoBot.Modules.Games.Services
             if (channel == null)
                 return null;
 
-            if (!ChatterBotGuilds.TryGetValue(channel.Guild.Id, out Lazy<ChatterBotSession> lazyCleverbot))
+            if (!ChatterBotGuilds.TryGetValue(channel.Guild.Id, out Lazy<IChatterBotSession> lazyCleverbot))
                 return null;
 
             cleverbot = lazyCleverbot.Value;
@@ -74,7 +84,7 @@ namespace NadekoBot.Modules.Games.Services
             return message;
         }
 
-        public async Task<bool> TryAsk(ChatterBotSession cleverbot, ITextChannel channel, string message)
+        public async Task<bool> TryAsk(IChatterBotSession cleverbot, ITextChannel channel, string message)
         {
             await channel.TriggerTypingAsync().ConfigureAwait(false);
 
@@ -96,7 +106,7 @@ namespace NadekoBot.Modules.Games.Services
                 return false;
             try
             {
-                var message = PrepareMessage(usrMsg, out ChatterBotSession cbs);
+                var message = PrepareMessage(usrMsg, out IChatterBotSession cbs);
                 if (message == null || cbs == null)
                     return false;
                 

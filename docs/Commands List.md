@@ -401,6 +401,7 @@ Commands and aliases | Description | Usage
 `.listservers` | Lists servers the bot is on with some basic info. 15 per page. **Bot owner only** | `.listservers 3`
 `.savechat` | Saves a number of messages to a text file and sends it to you. **Bot owner only** | `.savechat 150`
 `.ping` | Ping the bot to see if there are latency issues.  | `.ping`
+`.botconfigedit` `.bce` | Sets one of available bot config settings to a specified value. Use the command without any parameters to get a list of available settings. **Bot owner only** | `.bce CurrencyName b1nzy` or `.bce`
 `.calculate` `.calc` | Evaluate a mathematical expression.  | `.calc 1+1`
 `.calcops` | Shows all available operations in the `.calc` command  | `.calcops`
 `.alias` `.cmdmap` | Create a custom alias for a certain Nadeko command. Provide no alias to remove the existing one. **Requires Administrator server permission.** | `.alias allin $bf 100 h` or `.alias "linux thingy" >loonix Spyware Windows`
@@ -425,6 +426,9 @@ Commands and aliases | Description | Usage
 `.repeat` | Repeat a message every `X` minutes in the current channel. You can instead specify time of day for the message to be repeated at daily (make sure you've set your server's timezone). You can have up to 5 repeating messages on the server in total. **Requires ManageMessages server permission.** | `.repeat 5 Hello there` or `.repeat 17:30 tea time`
 `.repeatlist` `.replst` | Shows currently repeating messages and their indexes. **Requires ManageMessages server permission.** | `.repeatlist`
 `.streamrole` | Sets a role which is monitored for streamers (FromRole), and a role to add if a user from 'FromRole' is streaming (AddRole). When a user from 'FromRole' starts streaming, they will receive an 'AddRole'. Provide no arguments to disable **Requires ManageRoles server permission.** | `.streamrole "Eligible Streamers" "Featured Streams"`
+`.streamrolekw` `.srkw` | Sets keyword which is required in the stream's title in order for the streamrole to apply. Provide no keyword in order to reset. **Requires ManageRoles server permission.** | `.srkw` or `.srkw PUBG`
+`.streamrolebl` `.srbl` | Adds or removes a blacklisted user. Blacklisted users will never receive the stream role. **Requires ManageRoles server permission.** | `.srbl add @b1nzy#1234` or `.srbl rem @b1nzy#1234`
+`.streamrolewl` `.srwl` | Adds or removes a whitelisted user. Whitelisted users will receive the stream role even if they don't have the specified keyword in their stream title. **Requires ManageRoles server permission.** | `.srwl add @b1nzy#1234` or `.srwl rem @b1nzy#1234`
 `.convertlist` | List of the convertible dimensions and currencies.  | `.convertlist`
 `.convert` | Convert quantities. Use `.convertlist` to see supported dimensions and currencies.  | `.convert m km 1000`
 `.verboseerror` `.ve` | Toggles whether the bot should print command errors when a command is incorrectly used. **Requires ManageMessages server permission.** | `.ve`

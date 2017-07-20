@@ -26,6 +26,7 @@ namespace NadekoBot.Services.Impl
 
         public string LoLApiKey { get; }
         public string OsuApiKey { get; }
+        public string CleverbotApiKey { get; }
 
         public DBConfig Db { get; }
         public int TotalShards { get; }
@@ -121,6 +122,7 @@ namespace NadekoBot.Services.Impl
             public string MashapeKey { get; set; } = "";
             public string OsuApiKey { get; set; } = "";
             public string SoundCloudClientId { get; set; } = "";
+            public string CleverbotApiKey { get; } = "";
             public string CarbonKey { get; set; } = "";
             public DBConfig Db { get; set; } = new DBConfig("sqlite", "Filename=./data/NadekoBot.db");
             public int TotalShards { get; set; } = 1;

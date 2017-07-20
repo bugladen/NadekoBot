@@ -1,4 +1,4 @@
-﻿namespace NadekoBot.Modules.Games.Common
+﻿namespace NadekoBot.Modules.Games.Common.ChatterBot
 {
     public class ChatterBotResponse
     {

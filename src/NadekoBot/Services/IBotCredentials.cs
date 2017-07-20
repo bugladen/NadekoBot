@@ -23,6 +23,7 @@ namespace NadekoBot.Services
         string ShardRunCommand { get; }
         string ShardRunArguments { get; }
         string PatreonCampaignId { get; }
+        string CleverbotApiKey { get; }
     }
 
     public class DBConfig
