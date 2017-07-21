@@ -10,6 +10,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using NadekoBot.Modules.Searches.Common;
+using NadekoBot.Common.Collections;
+using NadekoBot.Services.Database.Models;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using NadekoBot.Modules.NSFW.Exceptions;
 
 namespace NadekoBot.Modules.Searches.Services
 {
@@ -33,12 +38,19 @@ namespace NadekoBot.Modules.Searches.Services
 
         private readonly ConcurrentDictionary<ulong?, SearchImageCacher> _imageCacher = new ConcurrentDictionary<ulong?, SearchImageCacher>();
 
-        public SearchesService(DiscordSocketClient client, IGoogleApiService google, DbService db)
+        private readonly ConcurrentDictionary<ulong, HashSet<string>> _blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>();
+
+        public SearchesService(DiscordSocketClient client, IGoogleApiService google, DbService db, IEnumerable<GuildConfig> gcs)
         {
             _client = client;
             _google = google;
             _db = db;
             _log = LogManager.GetCurrentClassLogger();
+
+            _blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>(
+                gcs.ToDictionary(
+                    x => x.GuildId,
+                    x => new HashSet<string>(x.NsfwBlacklistedTags.Select(y => y.Tag))));
 
             //translate commands
             _client.MessageReceived += (msg) =>
@@ -117,9 +129,47 @@ namespace NadekoBot.Modules.Searches.Services
 
         public Task<ImageCacherObject> DapiSearch(string tag, DapiSearchType type, ulong? guild, bool isExplicit = false)
         {
+            if (guild.HasValue && GetBlacklistedTags(guild.Value)
+                                                 .Any(x => tag.ToLowerInvariant().Contains(x)))
+            {
+                throw new TagBlacklistedException();
+            }
             var cacher = _imageCacher.GetOrAdd(guild, (key) => new SearchImageCacher());
             
             return cacher.GetImage(tag, isExplicit, type);
+        }
+
+        public HashSet<string> GetBlacklistedTags(ulong guildId)
+        {
+            if (_blacklistedTags.TryGetValue(guildId, out var tags))
+                return tags;
+            return new HashSet<string>();
+        }
+
+        public bool ToggleBlacklistedTag(ulong guildId, string tag)
+        {
+            var tagObj = new NsfwBlacklitedTag
+            {
+                Tag = tag
+            };
+
+            bool added;
+            using (var uow = _db.UnitOfWork)
+            {
+                var gc = uow.GuildConfigs.For(guildId, set => set.Include(y => y.NsfwBlacklistedTags));
+                if (gc.NsfwBlacklistedTags.Add(tagObj))
+                    added = true;
+                else
+                {
+                    gc.NsfwBlacklistedTags.Remove(tagObj);
+                    added = false;
+                }
+                var newTags = new HashSet<string>(gc.NsfwBlacklistedTags.Select(x => x.Tag));
+                _blacklistedTags.AddOrUpdate(guildId, newTags, delegate { return newTags; });
+
+                uow.Complete();
+            }
+            return added;
         }
     }
     

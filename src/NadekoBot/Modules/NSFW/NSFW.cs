@@ -13,6 +13,7 @@ using NadekoBot.Common.Attributes;
 using NadekoBot.Common.Collections;
 using NadekoBot.Modules.Searches.Common;
 using NadekoBot.Modules.Searches.Services;
+using NadekoBot.Modules.NSFW.Exceptions;
 
 namespace NadekoBot.Modules.NSFW
 {
@@ -26,7 +27,16 @@ namespace NadekoBot.Modules.NSFW
             var rng = new NadekoRandom();
             var arr = Enum.GetValues(typeof(DapiSearchType));
             var type = (DapiSearchType)arr.GetValue(new NadekoRandom().Next(2, arr.Length));
-            var img = await _service.DapiSearch(tag, type, Context.Guild?.Id, true).ConfigureAwait(false);
+            ImageCacherObject img;
+            try
+            {
+                img = await _service.DapiSearch(tag, type, Context.Guild?.Id, true).ConfigureAwait(false);
+            }
+            catch (TagBlacklistedException)
+            {
+                await ReplyErrorLocalized("blacklisted_tag").ConfigureAwait(false);
+                return;
+            }
 
             if (img == null)
             {
@@ -179,9 +189,42 @@ namespace NadekoBot.Modules.NSFW
             }
         }
 
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task NsfwTagBlacklist([Remainder] string tag = null)
+        {
+            if (string.IsNullOrWhiteSpace(tag))
+            {
+                var blTags = _service.GetBlacklistedTags(Context.Guild.Id);
+                await Context.Channel.SendConfirmAsync(GetText("blacklisted_tag_list"),
+                    blTags.Any()
+                    ? string.Join(", ", blTags)
+                    : "-").ConfigureAwait(false);
+            }
+            else
+            {
+                tag = tag.Trim().ToLowerInvariant();
+                var added = _service.ToggleBlacklistedTag(Context.Guild.Id, tag);
+
+                if(added)
+                    await ReplyConfirmLocalized("blacklisted_tag_add", tag).ConfigureAwait(false);
+                else
+                    await ReplyConfirmLocalized("blacklisted_tag_remove", tag).ConfigureAwait(false);
+            }
+        }
+
         public async Task InternalDapiCommand(string tag, DapiSearchType type, bool forceExplicit)
         {
-            var imgObj = await _service.DapiSearch(tag, type, Context.Guild?.Id, forceExplicit).ConfigureAwait(false);
+            ImageCacherObject imgObj;
+            try
+            {
+                imgObj = await _service.DapiSearch(tag, type, Context.Guild?.Id, forceExplicit).ConfigureAwait(false);
+            }
+            catch (TagBlacklistedException)
+            {
+                await ReplyErrorLocalized("blacklisted_tag").ConfigureAwait(false);
+                return;
+            }
 
             if (imgObj == null)
                 await ReplyErrorLocalized("not_found").ConfigureAwait(false);

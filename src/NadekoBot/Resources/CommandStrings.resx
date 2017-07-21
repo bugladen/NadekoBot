@@ -3582,4 +3582,13 @@
   <data name="botconfigedit_desc" xml:space="preserve">
     <value>Sets one of available bot config settings to a specified value. Use the command without any parameters to get a list of available settings.</value>
   </data>
+  <data name="nsfwtagblacklist_cmd" xml:space="preserve">
+    <value>nsfwtagbl nsfwtbl</value>
+  </data>
+  <data name="nsfwtagblacklist_usage" xml:space="preserve">
+    <value>`{0}nsfwtbl poop`</value>
+  </data>
+  <data name="nsfwtagblacklist_desc" xml:space="preserve">
+    <value>Toggles whether the tag is blacklisted or not in nsfw searches. Provide no parameters to see the list of blacklisted tags.</value>
+  </data>
 </root>
