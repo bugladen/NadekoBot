@@ -105,6 +105,7 @@ namespace NadekoBot.Modules.Utility.Services
                 }
 
                 await uow.CompleteAsync().ConfigureAwait(false);
+                UpdateCache(guild.Id, streamRoleSettings);
             }
             if (success)
             {
@@ -215,11 +216,15 @@ namespace NadekoBot.Modules.Utility.Services
                     && !setting.Blacklist.Any(x => x.UserId == user.Id)
                     && user.RoleIds.Contains(setting.FromRoleId)
                     && (string.IsNullOrWhiteSpace(setting.Keyword)
-                        || user.Game.Value.Name.Contains(setting.Keyword)
+                        || user.Game.Value.Name.ToLowerInvariant().Contains(setting.Keyword.ToLowerInvariant())
                         || setting.Whitelist.Any(x => x.UserId == user.Id)))
             {
                 try
                 {
+                    addRole = addRole ?? user.Guild.GetRole(setting.AddRoleId);
+                    if (addRole == null)
+                        throw new StreamRoleNotFoundException();
+
                     //check if he doesn't have addrole already, to avoid errors
                     if (!user.RoleIds.Contains(setting.AddRoleId))
                         await user.AddRoleAsync(addRole).ConfigureAwait(false);
