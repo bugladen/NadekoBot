@@ -266,6 +266,7 @@ Commands and aliases | Description | Usage
 `.gelbooru` | Shows a random hentai image from gelbooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +)  | `.gelbooru yuri+kissing`
 `.boobs` | Real adult content.  | `.boobs`
 `.butts` `.ass` `.butt` | Real adult content.  | `.butts` or `.ass`
+`.nsfwtagbl` `.nsfwtbl` | Toggles whether the tag is blacklisted or not in nsfw searches. Provide no parameters to see the list of blacklisted tags.  | `.nsfwtbl poop`
 
 ###### [Back to ToC](#table-of-contents)
 
