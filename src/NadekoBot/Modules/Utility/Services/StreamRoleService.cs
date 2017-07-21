@@ -21,8 +21,6 @@ namespace NadekoBot.Modules.Utility.Services
     {
         private readonly DbService _db;
         private readonly ConcurrentDictionary<ulong, StreamRoleSettings> guildSettings;
-        //(guildId, userId), roleId
-        private readonly ConcurrentDictionary<(ulong GuildId, ulong UserId), ulong> toRemove = new ConcurrentDictionary<(ulong GuildId, ulong UserId), ulong>();
         private readonly Logger _log;
 
         public StreamRoleService(DiscordSocketClient client, DbService db, IEnumerable<GuildConfig> gcs)
@@ -35,6 +33,18 @@ namespace NadekoBot.Modules.Utility.Services
                 .ToConcurrent();
 
             client.GuildMemberUpdated += Client_GuildMemberUpdated;
+
+            var _ = Task.Run(async () =>
+            {
+                try
+                {
+                    await Task.WhenAll(client.Guilds.Select(g => RescanUsers(g))).ConfigureAwait(false);
+                }
+                catch
+                {
+                    // ignored
+                }
+            });
         }
 
         private Task Client_GuildMemberUpdated(SocketGuildUser before, SocketGuildUser after)
@@ -42,112 +52,30 @@ namespace NadekoBot.Modules.Utility.Services
             var _ = Task.Run(async () =>
             {
                 //if user wasn't streaming or didn't have a game status at all
-                if ((!before.Game.HasValue || before.Game.Value.StreamType == StreamType.NotStreaming)
-                    && guildSettings.TryGetValue(after.Guild.Id, out var setting))
+                if (guildSettings.TryGetValue(after.Guild.Id, out var setting))
                 {
-                    await TryApplyRole(after, setting).ConfigureAwait(false);
-                }
-
-                // try removing a role that was given to the user
-                // if user had a game status
-                // and he was streaming
-                // and he no longer has a game status, or has a game status which is not a stream
-                // and if he's scheduled for role removal, get the roleid to remove
-                else if (before.Game.HasValue &&
-                    before.Game.Value.StreamType != StreamType.NotStreaming &&
-                    (!after.Game.HasValue || after.Game.Value.StreamType == StreamType.NotStreaming) &&
-                    toRemove.TryRemove((after.Guild.Id, after.Id), out var roleId))
-                {
-                    try
-                    {
-                        //get the role to remove from the role id
-                        var role = after.Guild.GetRole(roleId);
-                        if (role == null)
-                            return;
-                        //check if user has the role which needs to be removed to avoid errors
-                        if (after.Roles.Contains(role))
-                            await after.RemoveRoleAsync(role).ConfigureAwait(false);
-                    }
-                    catch (Exception ex)
-                    {
-                        _log.Warn("Failed removing the stream role from the user who stopped streaming.");
-                        _log.Error(ex);
-                    }
+                    await RescanUser(after, setting).ConfigureAwait(false);
                 }
             });
 
             return Task.CompletedTask;
         }
-
-        private async Task TryApplyRole(IGuildUser user, StreamRoleSettings setting)
-        {
-            // if the user has a game status now
-            // and that status is a streaming status
-            // and the feature is enabled
-            // and he's not blacklisted
-            // and keyword is either not set, or the game contains the keyword required, or he's whitelisted
-            if (user.Game.HasValue &&
-                    user.Game.Value.StreamType != StreamType.NotStreaming
-                    && setting.Enabled
-                    && !setting.Blacklist.Any(x => x.UserId == user.Id)
-                    && (string.IsNullOrWhiteSpace(setting.Keyword) 
-                        || user.Game.Value.Name.Contains(setting.Keyword) 
-                        || setting.Whitelist.Any(x => x.UserId == user.Id)))
-            {
-                IRole fromRole;
-                IRole addRole;
-
-                //get needed roles
-                fromRole = user.Guild.GetRole(setting.FromRoleId);
-                if (fromRole == null)
-                    throw new StreamRoleNotFoundException();
-                addRole = user.Guild.GetRole(setting.AddRoleId);
-                if (addRole == null)
-                    throw new StreamRoleNotFoundException();
-
-                try
-                {
-                    //check if user is in the fromrole
-                    if (user.RoleIds.Contains(setting.FromRoleId))
-                    {
-                        //check if he doesn't have addrole already, to avoid errors
-                        if (!user.RoleIds.Contains(setting.AddRoleId))
-                            await user.AddRoleAsync(addRole).ConfigureAwait(false);
-                        //schedule him for the role removal when he stops streaming
-                        toRemove.TryAdd((addRole.Guild.Id, user.Id), addRole.Id);
-                    }
-                }
-                catch (HttpException ex) when (ex.HttpCode == System.Net.HttpStatusCode.Forbidden)
-                {
-                    StopStreamRole(user.Guild.Id);
-                    _log.Warn("Error adding stream role(s). Disabling stream role feature.");
-                    _log.Error(ex);
-                    throw new StreamRolePermissionException();
-                }
-                catch (Exception ex)
-                {
-                    _log.Warn("Failed adding stream role.");
-                    _log.Error(ex);
-                }
-            }
-        }
-
         /// <summary>
         /// Adds or removes a user from a blacklist or a whitelist in the specified guild.
         /// </summary>
-        /// <param name="guildId">Id of the guild</param>
+        /// <param name="guild">Guild</param>
         /// <param name="action">Add or rem action</param>
         /// <param name="userId">User's Id</param>
         /// <param name="userName">User's name#discrim</param>
         /// <returns>Whether the operation was successful</returns>
-        public async Task<bool> ApplyListAction(StreamRoleListType listType, ulong guildId, AddRemove action, ulong userId, string userName)
+        public async Task<bool> ApplyListAction(StreamRoleListType listType, IGuild guild, AddRemove action, ulong userId, string userName)
         {
             userName.ThrowIfNull(nameof(userName));
 
             bool success;
             using (var uow = _db.UnitOfWork)
             {
-                var streamRoleSettings = uow.GuildConfigs.GetStreamRoleSettings(guildId);
+                var streamRoleSettings = uow.GuildConfigs.GetStreamRoleSettings(guild.Id);
 
                 if (listType == StreamRoleListType.Whitelist)
                 {
@@ -178,30 +106,34 @@ namespace NadekoBot.Modules.Utility.Services
 
                 await uow.CompleteAsync().ConfigureAwait(false);
             }
+            if (success)
+            {
+                await RescanUsers(guild).ConfigureAwait(false);
+            }
             return success;
         }
 
         /// <summary>
         /// Sets keyword on a guild and updates the cache.
         /// </summary>
-        /// <param name="guildId">Guild Id</param>
+        /// <param name="guild">Guild Id</param>
         /// <param name="keyword">Keyword to set</param>
         /// <returns>The keyword set</returns>
-        public string SetKeyword(ulong guildId, string keyword)
+        public async Task<string> SetKeyword(IGuild guild, string keyword)
         {
             keyword = keyword?.Trim()?.ToLowerInvariant();
 
             using (var uow = _db.UnitOfWork)
             {
-                var streamRoleSettings = uow.GuildConfigs.GetStreamRoleSettings(guildId);
+                var streamRoleSettings = uow.GuildConfigs.GetStreamRoleSettings(guild.Id);
 
                 streamRoleSettings.Keyword = keyword;
-                UpdateCache(guildId, streamRoleSettings);
+                UpdateCache(guild.Id, streamRoleSettings);
                 uow.Complete();
-
-                return streamRoleSettings.Keyword;
             }
 
+            await RescanUsers(guild).ConfigureAwait(false);
+            return keyword;
         }
 
         /// <summary>
@@ -251,9 +183,10 @@ namespace NadekoBot.Modules.Utility.Services
 
             UpdateCache(fromRole.Guild.Id, setting);
 
-            foreach (var usr in await fromRole.Guild.GetUsersAsync(CacheMode.CacheOnly).ConfigureAwait(false))
+            foreach (var usr in await fromRole.GetMembersAsync())
             {
-                await Task.WhenAll(TryApplyRole(usr, setting), Task.Delay(100)).ConfigureAwait(false);
+                if (usr is IGuildUser x)
+                    await RescanUser(x, setting, addRole).ConfigureAwait(false);
             }
         }
 
@@ -261,16 +194,94 @@ namespace NadekoBot.Modules.Utility.Services
         /// Stops the stream role feature on the specified guild.
         /// </summary>
         /// <param name="guildId">Guild's Id</param>
-        public void StopStreamRole(ulong guildId)
+        public async Task StopStreamRole(IGuild guild, bool cleanup = false)
         {
             using (var uow = _db.UnitOfWork)
             {
-                var streamRoleSettings = uow.GuildConfigs.GetStreamRoleSettings(guildId);
+                var streamRoleSettings = uow.GuildConfigs.GetStreamRoleSettings(guild.Id);
                 streamRoleSettings.Enabled = false;
-                uow.Complete();
+                await uow.CompleteAsync().ConfigureAwait(false);
             }
 
-            guildSettings.TryRemove(guildId, out _);
+            if (guildSettings.TryRemove(guild.Id, out var setting) && cleanup)
+                await RescanUsers(guild).ConfigureAwait(false);
+        }
+        //todo multiple rescans at the same time?
+        private async Task RescanUser(IGuildUser user, StreamRoleSettings setting, IRole addRole = null)
+        {
+            if (user.Game.HasValue &&
+                    user.Game.Value.StreamType != StreamType.NotStreaming
+                    && setting.Enabled
+                    && !setting.Blacklist.Any(x => x.UserId == user.Id)
+                    && user.RoleIds.Contains(setting.FromRoleId)
+                    && (string.IsNullOrWhiteSpace(setting.Keyword)
+                        || user.Game.Value.Name.Contains(setting.Keyword)
+                        || setting.Whitelist.Any(x => x.UserId == user.Id)))
+            {
+                try
+                {
+                    //check if he doesn't have addrole already, to avoid errors
+                    if (!user.RoleIds.Contains(setting.AddRoleId))
+                        await user.AddRoleAsync(addRole).ConfigureAwait(false);
+                    _log.Info("Added stream role to user {0} in {1} server", user.ToString(), user.Guild.ToString());
+                }
+                catch (HttpException ex) when (ex.HttpCode == System.Net.HttpStatusCode.Forbidden)
+                {
+                    await StopStreamRole(user.Guild).ConfigureAwait(false);
+                    _log.Warn("Error adding stream role(s). Forcibly disabling stream role feature.");
+                    _log.Error(ex);
+                    throw new StreamRolePermissionException();
+                }
+                catch (Exception ex)
+                {
+                    _log.Warn("Failed adding stream role.");
+                    _log.Error(ex);
+                }
+            }
+            else
+            {
+                //check if user is in the addrole
+                if (user.RoleIds.Contains(setting.AddRoleId))
+                {
+                    try
+                    {
+                        addRole = addRole ?? user.Guild.GetRole(setting.AddRoleId);
+                        if (addRole == null)
+                            throw new StreamRoleNotFoundException();
+
+                        await user.RemoveRoleAsync(addRole).ConfigureAwait(false);
+                        _log.Info("Removed stream role from a user {0} in {1} server", user.ToString(), user.Guild.ToString());
+                    }
+                    catch (HttpException ex) when (ex.HttpCode == System.Net.HttpStatusCode.Forbidden)
+                    {
+                        await StopStreamRole(user.Guild).ConfigureAwait(false);
+                        _log.Warn("Error removing stream role(s). Forcibly disabling stream role feature.");
+                        _log.Error(ex);
+                        throw new StreamRolePermissionException();
+                    }
+                    _log.Info("Removed stream role from the user {0} in {1} server", user.ToString(), user.Guild.ToString());
+                }
+            }
+        }
+
+        private async Task RescanUsers(IGuild guild)
+        {
+            if (!guildSettings.TryGetValue(guild.Id, out var setting))
+                return;
+
+            var addRole = guild.GetRole(setting.AddRoleId);
+            if (addRole == null)
+                return;
+
+            if (setting.Enabled)
+            {
+                var users = await guild.GetUsersAsync(CacheMode.CacheOnly).ConfigureAwait(false);
+                foreach (var usr in users.Where(x => x.RoleIds.Contains(setting.FromRoleId) || x.RoleIds.Contains(addRole.Id)))
+                {
+                    if(usr is IGuildUser x)
+                        await RescanUser(x, setting, addRole).ConfigureAwait(false);
+                }
+            }
         }
 
         private void UpdateCache(ulong guildId, StreamRoleSettings setting)

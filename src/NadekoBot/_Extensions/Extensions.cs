@@ -126,8 +126,8 @@ namespace NadekoBot.Extensions
 
         public static double UnixTimestamp(this DateTime dt) => dt.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0)).TotalSeconds;
 
-        public static IEnumerable<IUser> Members(this IRole role) =>
-            role.Guild.GetUsersAsync().GetAwaiter().GetResult().Where(u => u.RoleIds.Contains(role.Id)) ?? Enumerable.Empty<IUser>();
+        public static async Task<IEnumerable<IGuildUser>> GetMembersAsync(this IRole role) =>
+            (await role.Guild.GetUsersAsync(CacheMode.CacheOnly)).Where(u => u.RoleIds.Contains(role.Id)) ?? Enumerable.Empty<IGuildUser>();
         
         public static string ToJson<T>(this T any, Formatting formatting = Formatting.Indented) =>
             JsonConvert.SerializeObject(any, formatting);

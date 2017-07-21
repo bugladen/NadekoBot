@@ -42,7 +42,7 @@ namespace NadekoBot.Modules.Gambling
         {
             role = role ?? Context.Guild.EveryoneRole;
 
-            var members = role.Members().Where(u => u.Status != UserStatus.Offline);
+            var members = (await role.GetMembersAsync()).Where(u => u.Status != UserStatus.Offline);
             var membersArray = members as IUser[] ?? members.ToArray();
             if (membersArray.Length == 0)
             {

@@ -5,11 +5,13 @@ using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Utility.Services;
 using NadekoBot.Common.TypeReaders;
 using NadekoBot.Modules.Utility.Common;
+using NadekoBot.Common;
 
 namespace NadekoBot.Modules.Utility
 {
     public partial class Utility
     {
+        [NoPublicBot]
         public class StreamRoleCommands : NadekoSubmodule<StreamRoleService>
         {
             [NadekoCommand, Usage, Description, Aliases]
@@ -29,7 +31,7 @@ namespace NadekoBot.Modules.Utility
             [RequireContext(ContextType.Guild)]
             public async Task StreamRole()
             {
-                this._service.StopStreamRole(Context.Guild.Id);
+                await this._service.StopStreamRole(Context.Guild).ConfigureAwait(false);
                 await ReplyConfirmLocalized("stream_role_disabled").ConfigureAwait(false);
             }
 
@@ -39,7 +41,7 @@ namespace NadekoBot.Modules.Utility
             [RequireContext(ContextType.Guild)]
             public async Task StreamRoleKeyword([Remainder]string keyword = null)
             {
-                string kw = this._service.SetKeyword(Context.Guild.Id, keyword);
+                string kw = await this._service.SetKeyword(Context.Guild, keyword).ConfigureAwait(false);
                 
                 if(string.IsNullOrWhiteSpace(keyword))
                     await ReplyConfirmLocalized("stream_role_kw_reset").ConfigureAwait(false);
@@ -53,7 +55,7 @@ namespace NadekoBot.Modules.Utility
             [RequireContext(ContextType.Guild)]
             public async Task StreamRoleBlacklist(AddRemove action, [Remainder] IGuildUser user)
             {
-                var success = await this._service.ApplyListAction(StreamRoleListType.Blacklist, Context.Guild.Id, action, user.Id, user.ToString())
+                var success = await this._service.ApplyListAction(StreamRoleListType.Blacklist, Context.Guild, action, user.Id, user.ToString())
                     .ConfigureAwait(false);
 
                 if(action == AddRemove.Add)
@@ -74,7 +76,7 @@ namespace NadekoBot.Modules.Utility
             [RequireContext(ContextType.Guild)]
             public async Task StreamRoleWhitelist(AddRemove action, [Remainder] IGuildUser user)
             {
-                var success = await this._service.ApplyListAction(StreamRoleListType.Whitelist, Context.Guild.Id, action, user.Id, user.ToString())
+                var success = await this._service.ApplyListAction(StreamRoleListType.Whitelist, Context.Guild, action, user.Id, user.ToString())
                     .ConfigureAwait(false);
 
                 if (action == AddRemove.Add)
