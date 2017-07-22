@@ -64,8 +64,8 @@
     <PackageReference Include="Google.Apis.Urlshortener.v1" Version="1.19.0.138" />
     <PackageReference Include="Google.Apis.YouTube.v3" Version="1.20.0.701" />
     <PackageReference Include="Google.Apis.Customsearch.v1" Version="1.20.0.466" />
-    <PackageReference Include="ImageSharp" Version="1.0.0-alpha9-00171" />
-    <PackageReference Include="ImageSharp.Drawing" Version="1.0.0-alpha9-00166" />
+    <PackageReference Include="ImageSharp" Version="1.0.0-alpha9-00173" />
+    <PackageReference Include="ImageSharp.Drawing" Version="1.0.0-alpha9-00168" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="1.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="1.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="1.1.1" />

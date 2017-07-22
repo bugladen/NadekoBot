@@ -199,7 +199,7 @@ namespace NadekoBot.Extensions
             return await ownerPrivate.SendMessageAsync(message).ConfigureAwait(false);
         }
 
-        public static Image<Rgba32> Merge(this IEnumerable<ImageSharp.Image<Rgba32>> images)
+        public static Image<Rgba32> Merge(this IEnumerable<Image<Rgba32>> images)
         {
             var imgs = images.ToArray();
 
