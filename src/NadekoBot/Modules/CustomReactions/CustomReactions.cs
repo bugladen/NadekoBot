@@ -270,7 +270,7 @@ namespace NadekoBot.Modules.CustomReactions
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task CrDm(int id)
+        public async Task CrCa(int id)
         {
             if ((Context.Guild == null && !_creds.IsOwner(Context.User)) || 
                 (Context.Guild != null && !((IGuildUser)Context.User).GuildPermissions.Administrator))
@@ -297,21 +297,21 @@ namespace NadekoBot.Modules.CustomReactions
                     return;
                 }
 
-                var setValue = reaction.DmResponse = !reaction.DmResponse;
+                var setValue = reaction.ContainsAnywhere = !reaction.ContainsAnywhere;
 
                 using (var uow = _db.UnitOfWork)
                 {
-                    uow.CustomReactions.Get(id).DmResponse = setValue;
+                    uow.CustomReactions.Get(id).ContainsAnywhere = setValue;
                     uow.Complete();
                 }
 
                 if (setValue)
                 {
-                    await ReplyConfirmLocalized("crdm_enabled", Format.Code(reaction.Id.ToString())).ConfigureAwait(false);
+                    await ReplyConfirmLocalized("crca_enabled", Format.Code(reaction.Id.ToString())).ConfigureAwait(false);
                 }
                 else
                 {
-                    await ReplyConfirmLocalized("crdm_disabled", Format.Code(reaction.Id.ToString())).ConfigureAwait(false);
+                    await ReplyConfirmLocalized("crca_disabled", Format.Code(reaction.Id.ToString())).ConfigureAwait(false);
                 }
             }
             else

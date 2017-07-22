@@ -69,7 +69,13 @@ namespace NadekoBot.Modules.CustomReactions.Services
 
                         var hasTarget = cr.Response.ToLowerInvariant().Contains("%target%");
                         var trigger = cr.TriggerWithContext(umsg, _client).Trim().ToLowerInvariant();
-                        return ((hasTarget && content.StartsWith(trigger + " ")) || (_bc.BotConfig.CustomReactionsStartWith && content.StartsWith(trigger + " "))  || content == trigger);
+                        return ((cr.ContainsAnywhere && 
+                            (content.StartsWith(trigger + " ") 
+                                || content.EndsWith(" " + trigger) 
+                                || content.Contains(" " + trigger + " "))) 
+                            || (hasTarget && content.StartsWith(trigger + " ")) 
+                            || (_bc.BotConfig.CustomReactionsStartWith && content.StartsWith(trigger + " "))  
+                            || content == trigger);
                     }).ToArray();
 
                     if (rs.Length != 0)

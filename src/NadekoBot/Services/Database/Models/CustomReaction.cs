@@ -17,6 +17,8 @@ namespace NadekoBot.Services.Database.Models
         public bool DmResponse { get; set; }
 
         public bool IsGlobal => !GuildId.HasValue;
+
+        public bool ContainsAnywhere { get; set; }
     }
 
     public class ReactionResponse : DbEntity

@@ -3249,6 +3249,15 @@
   <data name="crdm_usage" xml:space="preserve">
     <value>`{0}crdm 44`</value>
   </data>
+  <data name="crca_cmd" xml:space="preserve">
+    <value>crca</value>
+  </data>
+  <data name="crca_desc" xml:space="preserve">
+    <value>Toggles whether the custom reaction will trigger if the triggering message contains the keyword (instead of only starting with it).</value>
+  </data>
+  <data name="crca_usage" xml:space="preserve">
+    <value>`{0}crca 44`</value>
+  </data>
   <data name="aliaslist_cmd" xml:space="preserve">
     <value>aliaslist cmdmaplist aliases</value>
   </data>

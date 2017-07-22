@@ -734,6 +734,8 @@
   "customreactions_crad_enabled": "Message triggering the custom reaction with id {0} will get automatically deleted.",
   "customreactions_crdm_disabled": "Response message for the custom reaction with id {0} won't be sent as a DM.",
   "customreactions_crdm_enabled": "Response message for the custom reaction with id {0} will be sent as a DM.",
+  "customreactions_crca_disabled": "Custom reaction with id {0} will no longer trigger unless it's trigger word is at the beggining of the sentence.",
+  "customreactions_crca_enabled": "Custom reaction with id {0} will now trigger if it's contained anywhere in the sentence.",
   "utility_aliases_none": "No alias found",
   "utility_alias_added": "Typing {0} will now be an alias of {1}.",
   "utility_alias_list": "List of aliases",
