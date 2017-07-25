@@ -45,7 +45,7 @@ namespace NadekoBot.Modules.Games
 
                 hm.OnEnded += g =>
                 {
-                    HangmanGames.TryRemove(g.GameChannel.Id, out HangmanGame throwaway);
+                    HangmanGames.TryRemove(g.GameChannel.Id, out _);
                 };
                 try
                 {
@@ -54,8 +54,8 @@ namespace NadekoBot.Modules.Games
                 catch (Exception ex)
                 {
                     try { await Context.Channel.SendErrorAsync(GetText("hangman_start_errored") + " " + ex.Message).ConfigureAwait(false); } catch { }
-                    HangmanGames.TryRemove(Context.Channel.Id, out HangmanGame throwaway);
-                    throwaway.Dispose();
+                    if(HangmanGames.TryRemove(Context.Channel.Id, out var removed))
+                        removed.Dispose();
                     return;
                 }
 
@@ -66,9 +66,9 @@ namespace NadekoBot.Modules.Games
             [RequireContext(ContextType.Guild)]
             public async Task HangmanStop()
             {
-                if (HangmanGames.TryRemove(Context.Channel.Id, out HangmanGame throwaway))
+                if (HangmanGames.TryRemove(Context.Channel.Id, out var removed))
                 {
-                    throwaway.Dispose();
+                    removed.Dispose();
                     await ReplyConfirmLocalized("hangman_stopped").ConfigureAwait(false);
                 }
             }

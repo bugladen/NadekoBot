@@ -15,7 +15,6 @@ namespace NadekoBot.Modules.Administration.Services
 {
     public class SelfService : ILateExecutor, INService
     {
-        //todo bot config
         public bool ForwardDMs => _bc.BotConfig.ForwardMessages;
         public bool ForwardDMsToAllOwners => _bc.BotConfig.ForwardToAllOwners;
         

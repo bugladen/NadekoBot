@@ -3,7 +3,7 @@ using NadekoBot.Services.Database.Models;
 
 namespace NadekoBot.Services
 {
-    public interface IBotConfigProvider : INService
+    public interface IBotConfigProvider
     {
         BotConfig BotConfig { get; }
         void Reload();

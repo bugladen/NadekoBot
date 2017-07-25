@@ -30,9 +30,9 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.ManageMessages)]
             public async Task Slowmode()
             {
-                if (_service.RatelimitingChannels.TryRemove(Context.Channel.Id, out Ratelimiter throwaway))
+                if (_service.RatelimitingChannels.TryRemove(Context.Channel.Id, out Ratelimiter removed))
                 {
-                    throwaway.CancelSource.Cancel();
+                    removed.CancelSource.Cancel();
                     await ReplyConfirmLocalized("slowmode_disabled").ConfigureAwait(false);
                 }
             }

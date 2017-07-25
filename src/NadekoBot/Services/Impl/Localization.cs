@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using Discord;
 using NLog;
+using NadekoBot.Services.Database.Models;
 
 namespace NadekoBot.Services.Impl
 {
@@ -16,10 +17,15 @@ namespace NadekoBot.Services.Impl
         public CultureInfo DefaultCultureInfo { get; private set; } = CultureInfo.CurrentCulture;
 
         private Localization() { }
-        public Localization(string defaultCulture, IDictionary<ulong, string> cultureInfoNames, DbService db)
+        public Localization(IBotConfigProvider bcp, IEnumerable<GuildConfig> gcs, DbService db)
         {
             _log = LogManager.GetCurrentClassLogger();
+
+            var cultureInfoNames = gcs.ToDictionary(x => x.GuildId, x => x.Locale);
+            var defaultCulture = bcp.BotConfig.Locale;
+
             _db = db;
+
             if (string.IsNullOrWhiteSpace(defaultCulture))
                 DefaultCultureInfo = new CultureInfo("en-US");
             else
@@ -74,8 +80,7 @@ namespace NadekoBot.Services.Impl
 
         public void RemoveGuildCulture(ulong guildId) {
 
-            CultureInfo throwaway;
-            if (GuildCultureInfos.TryRemove(guildId, out throwaway))
+            if (GuildCultureInfos.TryRemove(guildId, out var _))
             {
                 using (var uow = _db.UnitOfWork)
                 {

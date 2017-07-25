@@ -28,7 +28,7 @@ namespace NadekoBot.Modules.Games
             {
                 var channel = (ITextChannel)Context.Channel;
 
-                if (_service.ChatterBotGuilds.TryRemove(channel.Guild.Id, out Lazy<IChatterBotSession> throwaway))
+                if (_service.ChatterBotGuilds.TryRemove(channel.Guild.Id, out _))
                 {
                     using (var uow = _db.UnitOfWork)
                     {

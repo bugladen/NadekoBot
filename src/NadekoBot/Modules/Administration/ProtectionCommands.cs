@@ -60,9 +60,8 @@ namespace NadekoBot.Modules.Administration
                     await ReplyErrorLocalized("raid_time", 2, 300).ConfigureAwait(false);
                     return;
                 }
-
-                AntiRaidStats throwaway;
-                if (_service.AntiRaidGuilds.TryRemove(Context.Guild.Id, out throwaway))
+                
+                if (_service.AntiRaidGuilds.TryRemove(Context.Guild.Id, out _))
                 {
                     using (var uow = _db.UnitOfWork)
                     {
@@ -117,11 +116,10 @@ namespace NadekoBot.Modules.Administration
             {
                 if (messageCount < 2 || messageCount > 10)
                     return;
-
-                AntiSpamStats throwaway;
-                if (_service.AntiSpamGuilds.TryRemove(Context.Guild.Id, out throwaway))
+                
+                if (_service.AntiSpamGuilds.TryRemove(Context.Guild.Id, out var removed))
                 {
-                    throwaway.UserStats.ForEach(x => x.Value.Dispose());
+                    removed.UserStats.ForEach(x => x.Value.Dispose());
                     using (var uow = _db.UnitOfWork)
                     {
                         var gc = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(x => x.AntiSpamSetting)

@@ -158,8 +158,7 @@ namespace NadekoBot.Modules.Gambling
 
                 private void End()
                 {
-                    AnimalRace throwaway;
-                    AnimalRaces.TryRemove(_serverId, out throwaway);
+                    AnimalRaces.TryRemove(_serverId, out _);
                 }
 
                 private async Task StartRace()

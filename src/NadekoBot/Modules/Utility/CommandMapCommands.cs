@@ -42,10 +42,8 @@ namespace NadekoBot.Modules.Utility
 
                 if (string.IsNullOrWhiteSpace(mapping))
                 {
-                    ConcurrentDictionary<string, string> maps;
-                    string throwaway;
-                    if (!_service.AliasMaps.TryGetValue(Context.Guild.Id, out maps) ||
-                        !maps.TryRemove(trigger, out throwaway))
+                    if (!_service.AliasMaps.TryGetValue(Context.Guild.Id, out var maps) ||
+                        !maps.TryRemove(trigger, out _))
                     {
                         await ReplyErrorLocalized("alias_remove_fail", Format.Code(trigger)).ConfigureAwait(false);
                         return;
@@ -112,9 +110,8 @@ namespace NadekoBot.Modules.Utility
 
                 if (page < 0)
                     return;
-
-                ConcurrentDictionary<string, string> maps;
-                if (!_service.AliasMaps.TryGetValue(Context.Guild.Id, out maps) || !maps.Any())
+                
+                if (!_service.AliasMaps.TryGetValue(Context.Guild.Id, out var maps) || !maps.Any())
                 {
                     await ReplyErrorLocalized("aliases_none").ConfigureAwait(false);
                     return;

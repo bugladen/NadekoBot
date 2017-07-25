@@ -10,8 +10,15 @@ namespace NadekoBot.Modules.Utility
 {
     public partial class Utility
     {
-        public class BotConfigCommands : NadekoSubmodule<IBotConfigProvider>
+        public class BotConfigCommands : NadekoSubmodule
         {
+            private readonly IBotConfigProvider _service;
+
+            public BotConfigCommands(IBotConfigProvider service)
+            {
+                _service = service;
+            }
+
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public async Task BotConfigEdit()

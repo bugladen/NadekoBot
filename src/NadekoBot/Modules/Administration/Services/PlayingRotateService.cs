@@ -18,17 +18,19 @@ namespace NadekoBot.Modules.Administration.Services
         private readonly Logger _log;
         private readonly Replacer _rep;
         private readonly DbService _db;
-        public BotConfig BotConfig { get; private set; } //todo load whole botconifg, not just for this service when you have the time
+        private readonly IBotConfigProvider _bcp;
+
+        public BotConfig BotConfig => _bcp.BotConfig;
 
         private class TimerState
         {
             public int Index { get; set; }
         }
 
-        public PlayingRotateService(DiscordSocketClient client, BotConfig bc, MusicService music, DbService db)
+        public PlayingRotateService(DiscordSocketClient client, IBotConfigProvider bcp, MusicService music, DbService db)
         {
             _client = client;
-            BotConfig = bc;
+            _bcp = bcp;
             _music = music;
             _db = db;
             _log = LogManager.GetCurrentClassLogger();
@@ -42,11 +44,9 @@ namespace NadekoBot.Modules.Administration.Services
             {
                 try
                 {
-                    using (var uow = _db.UnitOfWork)
-                    {
-                        BotConfig = uow.BotConfig.GetOrCreate();
-                    }
-                    var state = (TimerState)objState;
+                    bcp.Reload();
+
+                    var state = (TimerState)objState; 
                     if (!BotConfig.RotatingStatuses)
                         return;
                     if (state.Index >= BotConfig.RotatingStatusMessages.Count)

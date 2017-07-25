@@ -37,7 +37,7 @@ namespace NadekoBot.Modules.Administration
                     if (role == null)
                     {
                         conf.AutoAssignRoleId = 0;
-                        _service.AutoAssignedRoles.TryRemove(Context.Guild.Id, out ulong throwaway);
+                        _service.AutoAssignedRoles.TryRemove(Context.Guild.Id, out _);
                     }
                     else
                     {

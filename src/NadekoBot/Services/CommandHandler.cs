@@ -261,10 +261,11 @@ namespace NadekoBot.Services
                 }
             }
             var prefix = GetPrefix(guild?.Id);
+            var isPrefixCommand = messageContent == ".prefix";
             // execute the command and measure the time it took
-            if (messageContent.StartsWith(prefix))
+            if (messageContent.StartsWith(prefix) || isPrefixCommand)
             {
-                var result = await ExecuteCommandAsync(new CommandContext(_client, usrMsg), messageContent, prefix.Length, _services, MultiMatchHandling.Best);
+                var result = await ExecuteCommandAsync(new CommandContext(_client, usrMsg), messageContent, isPrefixCommand ? 1 : prefix.Length, _services, MultiMatchHandling.Best);
                 execTime = Environment.TickCount - execTime;
                 
                 if (result.Success)
