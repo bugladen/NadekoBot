@@ -9,7 +9,6 @@ using NadekoBot.Services.Database.Models;
 
 namespace NadekoBot.Modules.Utility.Services
 {
-    //todo 50 rewrite
     public class MessageRepeaterService : INService
     {
         //messagerepeater
@@ -24,10 +23,17 @@ namespace NadekoBot.Modules.Utility.Services
                 await bot.Ready.Task.ConfigureAwait(false);
 
                 Repeaters = new ConcurrentDictionary<ulong, ConcurrentQueue<RepeatRunner>>(gcs
-                    .ToDictionary(gc => gc.GuildId,
-                        gc => new ConcurrentQueue<RepeatRunner>(gc.GuildRepeaters
-                            .Select(gr => new RepeatRunner(client, gr))
-                            .Where(x => x.Guild != null))));
+                    .Select(gc =>
+                    {
+                        var guild = client.GetGuild(gc.GuildId);
+                        if (guild == null)
+                            return (0, null);
+                        return (gc.GuildId, new ConcurrentQueue<RepeatRunner>(gc.GuildRepeaters
+                            .Select(gr => new RepeatRunner(client, guild, gr))
+                            .Where(x => x.Guild != null)));
+                    })
+                    .Where(x => x.Item2 != null)
+                    .ToDictionary(x => x.Item1, x => x.Item2));
                 RepeaterReady = true;
             });
         }

@@ -131,7 +131,7 @@ namespace NadekoBot.Modules.Utility
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
 
-                var rep = new RepeatRunner(_client, toAdd);
+                var rep = new RepeatRunner(_client, (SocketGuild)Context.Guild, toAdd);
 
                 _service.Repeaters.AddOrUpdate(Context.Guild.Id, new ConcurrentQueue<RepeatRunner>(new[] {rep}), (key, old) =>
                 {
@@ -179,7 +179,7 @@ namespace NadekoBot.Modules.Utility
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
 
-                var rep = new RepeatRunner(_client, toAdd);
+                var rep = new RepeatRunner(_client, (SocketGuild)Context.Guild, toAdd);
 
                 _service.Repeaters.AddOrUpdate(Context.Guild.Id, new ConcurrentQueue<RepeatRunner>(new[] { rep }), (key, old) =>
                 {

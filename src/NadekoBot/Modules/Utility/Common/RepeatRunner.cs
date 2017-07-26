@@ -22,18 +22,15 @@ namespace NadekoBot.Modules.Utility.Common
         private IUserMessage oldMsg = null;
         private Timer _t;
 
-        public RepeatRunner(DiscordSocketClient client, Repeater repeater)
+        public RepeatRunner(DiscordSocketClient client, SocketGuild guild, Repeater repeater)
         {
             _log = LogManager.GetCurrentClassLogger();
             Repeater = repeater;
-
-            //todo 40 @.@ fix all of this
-            Guild = client.GetGuild(repeater.GuildId);
+            Guild = guild;
 
             InitialInterval = Repeater.Interval;
 
-            if (Guild != null)
-                Run();
+            Run();
         }
 
         private void Run()
