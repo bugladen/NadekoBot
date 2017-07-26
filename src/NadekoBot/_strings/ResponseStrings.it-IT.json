@@ -778,13 +778,13 @@
     "utility_quotes_notfound": "Non è stata trovata nessuna citazione corrispondente all'ID specificato.",
     "administration_prefix_current": "Il prefisso in questo server é {0}",
     "administration_prefix_new": "Prefisso in questo server cambiato da {0} a {1}",
-    "administration_defprefix_current": "",
-    "administration_defprefix_new": "",
+    "administration_defprefix_current": "Il prefisso base del bot é {0}",
+    "administration_defprefix_new": "Cambiato il prefisso base del bot da {0} a {1}",
     "administration_bot_nick": "Il soprannome del Bot é cambiato in {0}",
     "administration_user_nick": "Il soprannome dell'utente {0} é cambiato in {1}",
     "administration_timezone_guild": "Il fuso orario di questa gilda é '{0}'",
     "administration_timezone_not_found": "",
-    "administration_timezones_available": "",
+    "administration_timezones_available": "Fuso orari disponibili",
     "music_song_not_found": "Nessuna canzone trovata.",
     "searches_define_unknown": "Impossibile trovare la definizione per quel termine.",
     "utility_repeater_initial": "",
@@ -804,5 +804,5 @@
     "music_songs_shuffle_enable": "",
     "music_songs_shuffle_disable": "",
     "music_song_skips_after": "",
-    "administration_warnings_list": ""
+    "administration_warnings_list": "Lista di tutti gli utenti avvisati in questo server"
 }
