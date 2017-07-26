@@ -283,7 +283,7 @@
     "help_cmdlist_donate": "Vous pouvez supporter ce projet sur Patreon <{0}> ou via Paypal <{1}>",
     "help_cmd_and_alias": "Commandes et alias",
     "help_commandlist_regen": "Liste des commandes rafraîchie.",
-    "help_commands_instr": "Écrivez `{0}h NomDeLaCommande` pour voir l'aide spécifique à cette commande. Ex: `{0}h >8ball`",
+    "help_commands_instr": "Écrivez `{0}h NomDeLaCommande` pour voir l'aide spécifique à cette commande. Ex: `{0}h {0}8ball`",
     "help_command_not_found": "Impossible de trouver cette commande. Veuillez vérifier qu'elle existe avant de réessayer.",
     "help_desc": "Description",
     "help_donate": "Vous pouvez supporter le projet NadekoBot\nsur Patreon <{0}>\npar Paypal <{1}>\nN'oubliez pas de mettre votre nom discord ou ID dans le message.\n\n**Merci** ♥️",
