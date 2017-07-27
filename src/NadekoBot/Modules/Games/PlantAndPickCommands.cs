@@ -75,8 +75,7 @@ namespace NadekoBot.Modules.Games
                 }
 
                 var imgData = _games.GetRandomCurrencyImage();
-
-                //todo 81 upload all currency images to transfer.sh and use that one as cdn
+                
                 var msgToSend = GetText("planted",
                     Format.Bold(Context.User.ToString()),
                     amount + _bc.BotConfig.CurrencySign,
