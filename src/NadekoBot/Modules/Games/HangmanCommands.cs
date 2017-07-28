@@ -23,43 +23,102 @@ namespace NadekoBot.Modules.Games
             }
 
             //channelId, game
-            public static ConcurrentDictionary<ulong, HangmanGame> HangmanGames { get; } = new ConcurrentDictionary<ulong, HangmanGame>();
+            public static ConcurrentDictionary<ulong, Hangman> HangmanGames { get; } = new ConcurrentDictionary<ulong, Hangman>();
+
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Hangmanlist()
             {
-                await Context.Channel.SendConfirmAsync(Format.Code(GetText("hangman_types", Prefix)) + "\n" + string.Join(", ", HangmanTermPool.data.Keys));
+                await Context.Channel.SendConfirmAsync(Format.Code(GetText("hangman_types", Prefix)) + "\n" + string.Join(", ", TermPool.data.Keys));
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Hangman([Remainder]string type = "All")
+            public async Task Hangman([Remainder]TermType type = TermType.Random)
             {
-                var hm = new HangmanGame(_client, Context.Channel, type);
+                var hm = new Hangman(type);
 
                 if (!HangmanGames.TryAdd(Context.Channel.Id, hm))
                 {
+                    hm.Dispose();
                     await ReplyErrorLocalized("hangman_running").ConfigureAwait(false);
                     return;
                 }
+                hm.OnGameEnded += Hm_OnGameEnded;
+                hm.OnGuessFailed += Hm_OnGuessFailed;
+                hm.OnGuessSucceeded += Hm_OnGuessSucceeded;
+                hm.OnLetterAlreadyUsed += Hm_OnLetterAlreadyUsed;
+                _client.MessageReceived += _client_MessageReceived;
 
-                hm.OnEnded += g =>
-                {
-                    HangmanGames.TryRemove(g.GameChannel.Id, out _);
-                };
                 try
                 {
-                    hm.Start();
+                    await Context.Channel.SendConfirmAsync(GetText("hangman_game_started") + $" ({hm.TermType})",
+                        hm.ScrambledWord + "\n" + hm.GetHangman())
+                        .ConfigureAwait(false);
                 }
-                catch (Exception ex)
+                catch { }
+
+                await hm.EndedTask.ConfigureAwait(false);
+
+
+                Task _client_MessageReceived(SocketMessage msg)
                 {
-                    try { await Context.Channel.SendErrorAsync(GetText("hangman_start_errored") + " " + ex.Message).ConfigureAwait(false); } catch { }
-                    if(HangmanGames.TryRemove(Context.Channel.Id, out var removed))
-                        removed.Dispose();
-                    return;
+                    var _ = Task.Run(() =>
+                    {
+                        if (Context.Channel.Id == msg.Channel.Id)
+                            return hm.Input(msg.Author.Id, msg.Author.ToString(), msg.Content);
+                        else
+                            return Task.CompletedTask;
+                    });
+                    return Task.CompletedTask;
+                }
+            }
+
+            Task Hm_OnGameEnded(Hangman game, string winner)
+            {
+                HangmanGames.TryRemove(Context.Channel.Id, out _);
+
+                if (winner == null)
+                {
+                    var loseEmbed = new EmbedBuilder().WithTitle($"Hangman Game ({game.TermType}) - Ended")
+                                             .WithDescription(Format.Bold("You lose."))
+                                             .AddField(efb => efb.WithName("It was").WithValue(game.Term.Word.ToTitleCase()))
+                                             .WithFooter(efb => efb.WithText(string.Join(" ", game.PreviousGuesses)))
+                                             .WithErrorColor();
+
+                    if (Uri.IsWellFormedUriString(game.Term.ImageUrl, UriKind.Absolute))
+                        loseEmbed.WithImageUrl(game.Term.ImageUrl);
+
+                    return Context.Channel.EmbedAsync(loseEmbed);
                 }
 
-                await Context.Channel.SendConfirmAsync(GetText("hangman_game_started"), hm.ScrambledWord + "\n" + hm.GetHangman());
+                var winEmbed = new EmbedBuilder().WithTitle($"Hangman Game ({game.TermType}) - Ended")
+                                             .WithDescription(Format.Bold($"{winner} Won."))
+                                             .AddField(efb => efb.WithName("It was").WithValue(game.Term.Word.ToTitleCase()))
+                                             .WithFooter(efb => efb.WithText(string.Join(" ", game.PreviousGuesses)))
+                                             .WithOkColor();
+
+                if (Uri.IsWellFormedUriString(game.Term.ImageUrl, UriKind.Absolute))
+                    winEmbed.WithImageUrl(game.Term.ImageUrl);
+
+                return Context.Channel.EmbedAsync(winEmbed);
+            }
+
+            private Task Hm_OnLetterAlreadyUsed(Hangman game, string user, char guess)
+            {
+                return Context.Channel.SendErrorAsync($"Hangman Game ({game.TermType})", $"{user} Letter `{guess}` has already been used. You can guess again in 3 seconds.\n" + game.ScrambledWord + "\n" + game.GetHangman(),
+                                    footer: string.Join(" ", game.PreviousGuesses));
+            }
+
+            private Task Hm_OnGuessSucceeded(Hangman game, string user, char guess)
+            {
+                return Context.Channel.SendConfirmAsync($"Hangman Game ({game.TermType})", $"{user} guessed a letter `{guess}`!\n" + game.ScrambledWord + "\n" + game.GetHangman());
+            }
+
+            private Task Hm_OnGuessFailed(Hangman game, string user, char guess)
+            {
+                return Context.Channel.SendErrorAsync($"Hangman Game ({game.TermType})", $"{user} Letter `{guess}` does not exist. You can guess again in 3 seconds.\n" + game.ScrambledWord + "\n" + game.GetHangman(),
+                                    footer: string.Join(" ", game.PreviousGuesses));
             }
 
             [NadekoCommand, Usage, Description, Aliases]

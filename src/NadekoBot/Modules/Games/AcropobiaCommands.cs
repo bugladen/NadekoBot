@@ -2,18 +2,12 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Extensions;
-using NLog;
-using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
-using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
-using NadekoBot.Common.Collections;
-using NadekoBot.Services.Impl;
 using NadekoBot.Modules.Games.Common.Acrophobia;
 
 namespace NadekoBot.Modules.Games
