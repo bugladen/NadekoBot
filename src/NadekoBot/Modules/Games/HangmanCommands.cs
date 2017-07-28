@@ -60,6 +60,9 @@ namespace NadekoBot.Modules.Games
 
                 await hm.EndedTask.ConfigureAwait(false);
 
+                _client.MessageReceived -= _client_MessageReceived;
+                HangmanGames.TryRemove(Context.Channel.Id, out _);
+                hm.Dispose();
 
                 Task _client_MessageReceived(SocketMessage msg)
                 {
@@ -76,8 +79,6 @@ namespace NadekoBot.Modules.Games
 
             Task Hm_OnGameEnded(Hangman game, string winner)
             {
-                HangmanGames.TryRemove(Context.Channel.Id, out _);
-
                 if (winner == null)
                 {
                     var loseEmbed = new EmbedBuilder().WithTitle($"Hangman Game ({game.TermType}) - Ended")
@@ -127,7 +128,7 @@ namespace NadekoBot.Modules.Games
             {
                 if (HangmanGames.TryRemove(Context.Channel.Id, out var removed))
                 {
-                    removed.Dispose();
+                    await removed.Stop().ConfigureAwait(false);
                     await ReplyConfirmLocalized("hangman_stopped").ConfigureAwait(false);
                 }
             }

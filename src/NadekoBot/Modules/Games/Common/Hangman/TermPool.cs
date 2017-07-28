@@ -1,5 +1,4 @@
 ﻿using NadekoBot.Common;
-using NadekoBot.Extensions;
 using NadekoBot.Modules.Games.Common.Hangman.Exceptions;
 using Newtonsoft.Json;
 using System;
