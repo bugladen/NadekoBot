@@ -53,7 +53,6 @@ namespace NadekoBot.Modules.Games.Common.Hangman
         public ImmutableArray<char> PreviousGuesses => _previousGuesses.ToImmutableArray();
 
         private readonly TaskCompletionSource<bool> _endingCompletionSource = new TaskCompletionSource<bool>();
-        private bool disposed = false;
 
         public Task EndedTask => _endingCompletionSource.Task;
 
