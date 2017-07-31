@@ -12,12 +12,12 @@ namespace NadekoBot.Modules.Games.Common.Hangman
     public class TermPool
     {
         const string termsPath = "data/hangman3.json";
-        public static IReadOnlyDictionary<string, HangmanObject[]> data { get; } = new Dictionary<string, HangmanObject[]>();
+        public static IReadOnlyDictionary<string, HangmanObject[]> Data { get; } = new Dictionary<string, HangmanObject[]>();
         static TermPool()
         {
             try
             {
-                data = JsonConvert.DeserializeObject<Dictionary<string, HangmanObject[]>>(File.ReadAllText(termsPath));
+                Data = JsonConvert.DeserializeObject<Dictionary<string, HangmanObject[]>>(File.ReadAllText(termsPath));
             }
             catch (Exception)
             {
@@ -35,11 +35,11 @@ namespace NadekoBot.Modules.Games.Common.Hangman
 
             if (type == TermType.Random)
             {
-                var keys = data.Keys.ToArray();
+                var keys = Data.Keys.ToArray();
                 
                 type = _termTypes[rng.Next(0, _termTypes.Length - 1)]; // - 1 because last one is 'all'
             }
-            if (!data.TryGetValue(type.ToString(), out var termTypes) || termTypes.Length == 0)
+            if (!Data.TryGetValue(type.ToString(), out var termTypes) || termTypes.Length == 0)
                 throw new TermNotFoundException();
 
             var obj = termTypes[rng.Next(0, termTypes.Length)];
