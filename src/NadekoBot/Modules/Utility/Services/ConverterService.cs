@@ -96,7 +96,8 @@ namespace NadekoBot.Modules.Utility.Services
 
                     using (var uow = _db.UnitOfWork)
                     {
-                        uow.ConverterUnits.RemoveRange(toRemove.ToArray());
+                        if(toRemove.Any())
+                            uow.ConverterUnits.RemoveRange(toRemove.ToArray());
                         uow.ConverterUnits.Add(baseType);
                         uow.ConverterUnits.AddRange(range);
 
