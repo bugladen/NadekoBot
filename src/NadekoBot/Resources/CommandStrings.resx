@@ -1269,6 +1269,15 @@
   <data name="joinrace_usage" xml:space="preserve">
     <value>`{0}jr` or `{0}jr 5`</value>
   </data>
+  <data name="nunchi_cmd" xml:space="preserve">
+    <value>nunchi</value>
+  </data>
+  <data name="nunchi_desc" xml:space="preserve">
+    <value>Creates or joins a nunchi game. Minimum 3 users required.</value>
+  </data>
+  <data name="nunchi_usage" xml:space="preserve">
+    <value>`{0}nunchi`</value>
+  </data>
   <data name="raffle_cmd" xml:space="preserve">
     <value>raffle</value>
   </data>

@@ -16,7 +16,6 @@ namespace NadekoBot.Modules.Games
     - Shiritori
     - Simple RPG adventure
     - The nunchi game
-    - Wheel of fortune
     - Connect 4
     */
     public partial class Games : NadekoTopLevelModule<GamesService>
