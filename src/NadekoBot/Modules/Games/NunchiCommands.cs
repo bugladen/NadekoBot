@@ -47,7 +47,7 @@ namespace NadekoBot.Modules.Games
                 }
 
 
-                try { await ReplyConfirmLocalized("nunchi_created").ConfigureAwait(false); } catch { }
+                try { await ConfirmLocalized("nunchi_created").ConfigureAwait(false); } catch { }
 
                 nunchi.OnGameEnded += Nunchi_OnGameEnded;
                 //nunchi.OnGameStarted += Nunchi_OnGameStarted;
@@ -61,7 +61,7 @@ namespace NadekoBot.Modules.Games
                 {
                     if (Games.TryRemove(Context.Guild.Id, out var game))
                         game.Dispose();
-                    await ReplyErrorLocalized("nunchi_failed_to_start").ConfigureAwait(false);
+                    await ConfirmLocalized("nunchi_failed_to_start").ConfigureAwait(false);
                 }
 
                 async Task _client_MessageReceived(SocketMessage arg)
@@ -84,26 +84,26 @@ namespace NadekoBot.Modules.Games
 
             private Task Nunchi_OnRoundStarted(Nunchi arg)
             {
-                return ReplyConfirmLocalized("nunchi_round_started", Format.Bold(arg.CurrentNumber.ToString()));
+                return ConfirmLocalized("nunchi_round_started", Format.Bold(arg.CurrentNumber.ToString()));
             }
 
             private Task Nunchi_OnUserGuessed(Nunchi arg)
             {
-                return ReplyConfirmLocalized("nunchi_next_number", Format.Bold(arg.CurrentNumber.ToString()));
+                return ConfirmLocalized("nunchi_next_number", Format.Bold(arg.CurrentNumber.ToString()));
             }
 
             private Task Nunchi_OnRoundEnded(Nunchi arg1, (ulong Id, string Name)? arg2)
             {
                 if(arg2.HasValue)
-                    return ReplyConfirmLocalized("nunchi_round_ended", Format.Bold(arg2.Value.Name));
+                    return ConfirmLocalized("nunchi_round_ended", Format.Bold(arg2.Value.Name));
                 else
-                    return ReplyConfirmLocalized("nunchi_round_ended_boot",
+                    return ConfirmLocalized("nunchi_round_ended_boot",
                         Format.Bold("\n" + string.Join("\n, ", arg1.Participants.Select(x => x.Name)))); // this won't work if there are too many users
             }
 
             private Task Nunchi_OnGameStarted(Nunchi arg)
             {
-                return ReplyConfirmLocalized("nunchi_started", Format.Bold(arg.ParticipantCount.ToString()));
+                return ConfirmLocalized("nunchi_started", Format.Bold(arg.ParticipantCount.ToString()));
             }
 
             private Task Nunchi_OnGameEnded(Nunchi arg1, string arg2)
@@ -112,9 +112,9 @@ namespace NadekoBot.Modules.Games
                     game.Dispose();
 
                 if(arg2 == null)
-                    return ReplyConfirmLocalized("nunchi_ended_no_winner", Format.Bold(arg2));
+                    return ConfirmLocalized("nunchi_ended_no_winner", Format.Bold(arg2));
                 else
-                    return ReplyConfirmLocalized("nunchi_ended", Format.Bold(arg2));
+                    return ConfirmLocalized("nunchi_ended", Format.Bold(arg2));
             }
         }
     }

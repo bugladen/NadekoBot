@@ -1273,7 +1273,7 @@
     <value>nunchi</value>
   </data>
   <data name="nunchi_desc" xml:space="preserve">
-    <value>Creates or joins a nunchi game. Minimum 3 users required.</value>
+    <value>Creates or joins an existing nunchi game. Users have to count up by 1 from the starting number shown by the bot. If someone makes a mistake (types an incorrent number, or repeats the same number) they are out of the game and a new round starts without them.  Minimum 3 users required.</value>
   </data>
   <data name="nunchi_usage" xml:space="preserve">
     <value>`{0}nunchi`</value>
