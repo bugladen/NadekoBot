@@ -126,6 +126,7 @@ Commands and aliases | Description | Usage
 `.listcustreactg` `.lcrg` | Lists global or server custom reactions (20 commands per page) grouped by trigger, and show a number of responses for each. Running the command in DM will list global custom reactions, while running it in server will list that server's custom reactions.  | `.lcrg 1`
 `.showcustreact` `.scr` | Shows a custom reaction's response on a given ID.  | `.scr 1`
 `.delcustreact` `.dcr` | Deletes a custom reaction on a specific index. If ran in DM, it is bot owner only and deletes a global custom reaction. If ran in a server, it requires Administration privileges and removes server custom reaction.  | `.dcr 5`
+`.crca` | Toggles whether the custom reaction will trigger if the triggering message contains the keyword (instead of only starting with it).  | `.crca 44`
 `.crdm` | Toggles whether the response message of the custom reaction will be sent as a direct message.  | `.crdm 44`
 `.crad` | Toggles whether the message triggering the custom reaction will be automatically deleted.  | `.crad 59`
 `.crstatsclear` | Resets the counters on `.crstats`. You can specify a trigger to clear stats only for that trigger. **Bot owner only** | `.crstatsclear` or `.crstatsclear rng`
@@ -167,6 +168,7 @@ Commands and aliases | Description | Usage
 `.affinity` | Sets your affinity towards someone you want to be claimed by. Setting affinity will reduce their `.claim` on you by 20%. You can leave second argument empty to clear your affinity. 30 minutes cooldown.  | `.affinity @MyHusband` or `.affinity`
 `.waifus` `.waifulb` | Shows top 9 waifus. You can specify another page to show other waifus.  | `.waifus` or `.waifulb 3`
 `.waifuinfo` `.waifustats` | Shows waifu stats for a target person. Defaults to you if no user is provided.  | `.waifuinfo @MyCrush` or `.waifuinfo`
+`.wheeloffortune` `.wheel` | Bets a certain amount of currency on the wheel of fortune. Wheel can stop on one of many different multipliers. Won amount is rounded down to the nearest whole number.  | `.wheel 5`
 
 ###### [Back to ToC](#table-of-contents)
 
@@ -184,6 +186,7 @@ Commands and aliases | Description | Usage
 `.hangmanlist` | Shows a list of hangman term types.  | `.hangmanlist`
 `.hangman` | Starts a game of hangman in the channel. Use `.hangmanlist` to see a list of available term types. Defaults to 'all'.  | `.hangman` or `.hangman movies`
 `.hangmanstop` | Stops the active hangman game on this channel if it exists.  | `.hangmanstop`
+`.nunchi` | Creates or joins an existing nunchi game. Users have to count up by 1 from the starting number shown by the bot. If someone makes a mistake (types an incorrent number, or repeats the same number) they are out of the game and a new round starts without them.  Minimum 3 users required.  | `.nunchi`
 `.pick` | Picks the currency planted in this channel. 60 seconds cooldown.  | `.pick`
 `.plant` | Spend an amount of currency to plant it in this channel. Default is 1. (If bot is restarted or crashes, the currency will be lost)  | `.plant` or `.plant 5`
 `.gencurrency` `.gc` | Toggles currency generation on this channel. Every posted message will have chance to spawn currency. Chance is specified by the Bot Owner. (default is 2%) **Requires ManageMessages server permission.** | `.gc`
