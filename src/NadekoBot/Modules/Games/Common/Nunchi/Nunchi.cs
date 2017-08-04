@@ -22,7 +22,7 @@ namespace NadekoBot.Modules.Games.Common.Nunchi
         public Phase CurrentPhase { get; private set; } = Phase.Joining;
 
         public event Func<Nunchi, Task> OnGameStarted;
-        public event Func<Nunchi, Task> OnRoundStarted;
+        public event Func<Nunchi, int, Task> OnRoundStarted;
         public event Func<Nunchi, Task> OnUserGuessed;
         public event Func<Nunchi, (ulong Id, string Name)?, Task> OnRoundEnded; // tuple of the user who failed
         public event Func<Nunchi, string, Task> OnGameEnded; // name of the user who won
@@ -87,7 +87,7 @@ namespace NadekoBot.Modules.Games.Common.Nunchi
 
                 CurrentPhase = Phase.Playing;
                 var _ = OnGameStarted?.Invoke(this);
-                var __ = OnRoundStarted?.Invoke(this);
+                var __ = OnRoundStarted?.Invoke(this, CurrentNumber);
                 return true;
             }
             finally { _locker.Release(); }
@@ -164,7 +164,7 @@ namespace NadekoBot.Modules.Games.Common.Nunchi
             {
                 await Task.Delay(_nextRoundTimeout).ConfigureAwait(false);
                 CurrentPhase = Phase.Playing;
-                var ___ = OnRoundStarted?.Invoke(this);
+                var ___ = OnRoundStarted?.Invoke(this, CurrentNumber);
             });
             
         }

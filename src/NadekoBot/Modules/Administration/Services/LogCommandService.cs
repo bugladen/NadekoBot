@@ -12,9 +12,11 @@ using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
 using NadekoBot.Services.Impl;
 using NLog;
+using NadekoBot.Common;
 
 namespace NadekoBot.Modules.Administration.Services
 {
+    [NoPublicBot]
     public class LogCommandService : INService
     {
 
