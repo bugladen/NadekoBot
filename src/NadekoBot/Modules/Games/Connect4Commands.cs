@@ -34,6 +34,10 @@ namespace NadekoBot.Modules.Games
                 Connect4Game game;
                 if ((game = Games.GetOrAdd(Context.Channel.Id, newGame)) != newGame)
                 {
+                    if (game.CurrentPhase != Connect4Game.Phase.Joining)
+                        return;
+
+                    newGame.Dispose();
                     //means game already exists, try to join
                     var joined = await game.Join(Context.User.Id, Context.User.ToString()).ConfigureAwait(false);
                     return;

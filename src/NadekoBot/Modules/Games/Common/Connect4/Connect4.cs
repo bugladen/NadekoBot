@@ -85,6 +85,8 @@ namespace NadekoBot.Modules.Games.Common.Connect4
 
         public void Initialize()
         {
+            if (CurrentPhase != Phase.Joining)
+                return;
             var _ = Task.Run(async () =>
             {
                 await Task.Delay(15000).ConfigureAwait(false);
@@ -267,6 +269,7 @@ namespace NadekoBot.Modules.Games.Common.Connect4
 
                             if (same == 4)
                             {
+                                Console.WriteLine($"Won top left diagonal starting from {row + col * NumberOfRows}");
                                 EndGame(Result.CurrentPlayerWon);
                                 break;
                             }
@@ -292,6 +295,7 @@ namespace NadekoBot.Modules.Games.Common.Connect4
 
                             if (same == 4)
                             {
+                                Console.WriteLine($"Won top right diagonal starting from {row + col * NumberOfRows}");
                                 EndGame(Result.CurrentPlayerWon);
                                 break;
                             }
@@ -327,6 +331,8 @@ namespace NadekoBot.Modules.Games.Common.Connect4
 
         private void EndGame(Result result)
         {
+            if (CurrentPhase == Phase.Ended)
+                return;
             var _ = OnGameEnded?.Invoke(this, result);
             CurrentPhase = Phase.Ended;
         }
@@ -351,6 +357,8 @@ namespace NadekoBot.Modules.Games.Common.Connect4
         {
             OnGameFailedToStart = null;
             OnGameStateUpdated = null;
+            OnGameEnded = null;
+            _playerTimeoutTimer?.Change(Timeout.Infinite, Timeout.Infinite);
         }
     }
 }

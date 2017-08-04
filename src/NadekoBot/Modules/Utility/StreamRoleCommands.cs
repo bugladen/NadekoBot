@@ -11,7 +11,6 @@ namespace NadekoBot.Modules.Utility
 {
     public partial class Utility
     {
-        [NoPublicBot]
         public class StreamRoleCommands : NadekoSubmodule<StreamRoleService>
         {
             [NadekoCommand, Usage, Description, Aliases]
