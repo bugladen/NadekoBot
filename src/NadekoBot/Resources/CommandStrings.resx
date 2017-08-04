@@ -1278,6 +1278,15 @@
   <data name="nunchi_usage" xml:space="preserve">
     <value>`{0}nunchi`</value>
   </data>
+  <data name="connect4_cmd" xml:space="preserve">
+    <value>connect4 con4</value>
+  </data>
+  <data name="connect4_desc" xml:space="preserve">
+    <value>Creates or joins an existing connect4 game. 2 players are required for the game. Objective of the game is to get 4 of your pieces next to each other in a vertical, horizontal or diagonal line.</value>
+  </data>
+  <data name="connect4_usage" xml:space="preserve">
+    <value>`{0}connect4`</value>
+  </data>
   <data name="raffle_cmd" xml:space="preserve">
     <value>raffle</value>
   </data>

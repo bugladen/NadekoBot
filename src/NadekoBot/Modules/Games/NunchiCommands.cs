@@ -64,21 +64,39 @@ namespace NadekoBot.Modules.Games
                     await ConfirmLocalized("nunchi_failed_to_start").ConfigureAwait(false);
                 }
 
-                async Task _client_MessageReceived(SocketMessage arg)
+                Task _client_MessageReceived(SocketMessage arg)
                 {
-                    if (arg.Channel.Id != Context.Channel.Id)
-                        return;
+                    var _ = Task.Run(async () =>
+                    {
+                        if (arg.Channel.Id != Context.Channel.Id)
+                            return;
 
-                    if (!int.TryParse(arg.Content, out var number))
-                        return;
-                    try
+                        if (!int.TryParse(arg.Content, out var number))
+                            return;
+                        try
+                        {
+                            await nunchi.Input(arg.Author.Id, arg.Author.ToString(), number).ConfigureAwait(false);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                        }
+                    });
+                    return Task.CompletedTask;
+                }
+
+                Task Nunchi_OnGameEnded(Nunchi arg1, string arg2)
+                {
+                    if (Games.TryRemove(Context.Guild.Id, out var game))
                     {
-                        await nunchi.Input(arg.Author.Id, arg.Author.ToString(), number).ConfigureAwait(false);
+                        _client.MessageReceived -= _client_MessageReceived;
+                        game.Dispose();
                     }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex);
-                    }
+
+                    if (arg2 == null)
+                        return ConfirmLocalized("nunchi_ended_no_winner", Format.Bold(arg2));
+                    else
+                        return ConfirmLocalized("nunchi_ended", Format.Bold(arg2));
                 }
             }
 
@@ -104,17 +122,6 @@ namespace NadekoBot.Modules.Games
             private Task Nunchi_OnGameStarted(Nunchi arg)
             {
                 return ConfirmLocalized("nunchi_started", Format.Bold(arg.ParticipantCount.ToString()));
-            }
-
-            private Task Nunchi_OnGameEnded(Nunchi arg1, string arg2)
-            {
-                if (Games.TryRemove(Context.Guild.Id, out var game))
-                    game.Dispose();
-
-                if(arg2 == null)
-                    return ConfirmLocalized("nunchi_ended_no_winner", Format.Bold(arg2));
-                else
-                    return ConfirmLocalized("nunchi_ended", Format.Bold(arg2));
             }
         }
     }

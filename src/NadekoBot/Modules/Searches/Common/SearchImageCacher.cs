@@ -101,19 +101,19 @@ namespace NadekoBot.Modules.Searches.Common
                     website = $"https://e621.net/post/index.json?limit=1000&tags={tag}";
                     break;
                 case DapiSearchType.Danbooru:
-                    website = $"http://danbooru.donmai.us/posts.json?limit=200&tags={tag}";
+                    website = $"http://danbooru.donmai.us/posts.json?limit=100&tags={tag}";
                     break;
                 case DapiSearchType.Gelbooru:
-                    website = $"http://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=1000&tags={tag}";
+                    website = $"http://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=100&tags={tag}";
                     break;
                 case DapiSearchType.Rule34:
                     website = $"https://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=100&tags={tag}";
                     break;
                 case DapiSearchType.Konachan:
-                    website = $"https://konachan.com/post.json?s=post&q=index&limit=1000&tags={tag}";
+                    website = $"https://konachan.com/post.json?s=post&q=index&limit=100&tags={tag}";
                     break;
                 case DapiSearchType.Yandere:
-                    website = $"https://yande.re/post.json?limit=1000&tags={tag}";
+                    website = $"https://yande.re/post.json?limit=100&tags={tag}";
                     break;
             }
 
@@ -137,7 +137,7 @@ namespace NadekoBot.Modules.Searches.Common
 
         private async Task<ImageCacherObject[]> LoadXmlAsync(string website, DapiSearchType type)
         {
-            var list = new List<ImageCacherObject>(1000);
+            var list = new List<ImageCacherObject>();
             using (var http = new HttpClient())
             {
                 using (var reader = XmlReader.Create(await http.GetStreamAsync(website), new XmlReaderSettings()

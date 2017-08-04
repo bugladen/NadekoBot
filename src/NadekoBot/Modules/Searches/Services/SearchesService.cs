@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using NadekoBot.Modules.Searches.Common;
-using NadekoBot.Common.Collections;
 using NadekoBot.Services.Database.Models;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
