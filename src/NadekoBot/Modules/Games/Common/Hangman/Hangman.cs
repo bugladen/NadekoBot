@@ -67,8 +67,8 @@ namespace NadekoBot.Modules.Games.Common.Hangman
             Errors++;
             if (Errors > MaxErrors)
             {
-                CurrentPhase = Phase.Ended;
                 var _ = OnGameEnded(this, null);
+                CurrentPhase = Phase.Ended;
             }
         }
 
@@ -101,8 +101,8 @@ namespace NadekoBot.Modules.Games.Common.Hangman
                     if (input != Term.Word) // failed
                         return;
 
-                    CurrentPhase = Phase.Ended;
                     var _ = OnGameEnded?.Invoke(this, userName);
+                    CurrentPhase = Phase.Ended;
                     return;
                 }
 
@@ -128,6 +128,7 @@ namespace NadekoBot.Modules.Games.Common.Hangman
                                                                             .Where(c => char.IsLetterOrDigit(c)))))
                 {
                     var _ = OnGameEnded.Invoke(this, userName); //if all letters are guessed
+                    CurrentPhase = Phase.Ended;
                 }
                 else //guessed but not last letter
                 {

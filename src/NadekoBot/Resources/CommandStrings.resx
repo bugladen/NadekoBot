@@ -1539,6 +1539,15 @@
   <data name="queue_usage" xml:space="preserve">
     <value>`{0}q Dream Of Venice`</value>
   </data>
+  <data name="queuenext_cmd" xml:space="preserve">
+    <value>queuenext qn</value>
+  </data>
+  <data name="queuenext_desc" xml:space="preserve">
+    <value>Works the same as `{0}queue` command, except it enqueues the new song after the current one. **You must be in a voice channel**.</value>
+  </data>
+  <data name="queuenext_usage" xml:space="preserve">
+    <value>`{0}qn Dream Of Venice`</value>
+  </data>
   <data name="queuesearch_cmd" xml:space="preserve">
     <value>queuesearch qs yqs</value>
   </data>

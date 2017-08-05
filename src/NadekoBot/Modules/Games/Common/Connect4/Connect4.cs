@@ -62,15 +62,14 @@ namespace NadekoBot.Modules.Games.Common.Connect4
 
         private Timer _playerTimeoutTimer;
 
-        /* rows = 4, columns = 3, total = 12
-         * [][][][][][]
-         * [][][][][][]
-         * [][][][][][]
-         * [][][][][][]
-         * [][][][][][]
-         * [][][][][][]
-         * [][][][][][]
-         * */
+        /* [ ][ ][ ][ ][ ][ ]
+         * [ ][ ][ ][ ][ ][ ]
+         * [ ][ ][ ][ ][ ][ ]
+         * [ ][ ][ ][ ][ ][ ]
+         * [ ][ ][ ][ ][ ][ ]
+         * [ ][ ][ ][ ][ ][ ]
+         * [ ][ ][ ][ ][ ][ ]
+         */
 
         public Connect4Game(ulong userId, string userName)
         {

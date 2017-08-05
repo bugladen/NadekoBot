@@ -405,6 +405,16 @@ namespace NadekoBot.Modules.Music.Common
             }
         }
 
+        public int EnqueueNext(SongInfo song)
+        {
+            lock (locker)
+            {
+                if (Exited)
+                    return -1;
+                return Queue.AddNext(song);
+            }
+        }
+
         public void SetIndex(int index)
         {
             if (index < 0)
