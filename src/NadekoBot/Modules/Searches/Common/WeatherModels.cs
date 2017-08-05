@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace NadekoBot.Modules.Searches.Common
 {
@@ -21,7 +22,9 @@ namespace NadekoBot.Modules.Searches.Common
         public double Temp { get; set; }
         public float Pressure { get; set; }
         public float Humidity { get; set; }
+        [JsonProperty("temp_min")]
         public double TempMin { get; set; }
+        [JsonProperty("temp_max")]
         public double TempMax { get; set; }
     }
 
