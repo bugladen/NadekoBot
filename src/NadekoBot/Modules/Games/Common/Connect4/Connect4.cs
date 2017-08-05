@@ -274,6 +274,8 @@ namespace NadekoBot.Modules.Games.Common.Connect4
                                 break;
                             }
 
+                            same = 1;
+
                             //top right
                             for (int i = 1; i < 4; i++)
                             {
