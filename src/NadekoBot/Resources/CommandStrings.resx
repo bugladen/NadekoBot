@@ -3022,7 +3022,7 @@
     <value>Sets a price for a command. Running that command will take currency from users. Set 0 to remove the price.</value>
   </data>
   <data name="commandcost_usage" xml:space="preserve">
-    <value>`{0}cmdcost 0 !!q` or `{0}cmdcost 1 &gt;8ball`</value>
+    <value>`{0}cmdcost 0 !!q` or `{0}cmdcost 1 {0}8ball`</value>
   </data>
   <data name="startevent_cmd" xml:space="preserve">
     <value>startevent</value>
@@ -3166,7 +3166,7 @@
     <value>Starts a game of tic tac toe. Another user must run the command in the same channel in order to accept the challenge. Use numbers 1-9 to play. 15 seconds per move.</value>
   </data>
   <data name="tictactoe_usage" xml:space="preserve">
-    <value>&gt;ttt</value>
+    <value>{0}ttt</value>
   </data>
   <data name="timezones_cmd" xml:space="preserve">
     <value>timezones</value>
