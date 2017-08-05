@@ -69,7 +69,7 @@ namespace NadekoBot.Modules.Gambling
 
                     for (int i = 0; i < theseEntries.Length; i++)
                     {
-                        var entry = entries[i];
+                        var entry = theseEntries[i];
                         embed.AddField(efb => efb.WithName($"#{curPage * 9 + i + 1} - {entry.Price}{_bc.BotConfig.CurrencySign}").WithValue(EntryToString(entry)).WithIsInline(true));
                     }
                     return embed;

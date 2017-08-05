@@ -374,7 +374,7 @@
   "games_nunchi_started": "Nunchi game started with {0} participants.",
   "games_nunchi_round_ended": "Nunchi round ended. {0} is out of the game.",
   "games_nunchi_round_ended_boot": "Nunchi round ended due to timeout of some users. These users are still in the game: {0}",
-  "games_nunchi_round_started": "Nunchi round started with {0} users. Start counting from the number {0}.",
+  "games_nunchi_round_started": "Nunchi round started with {0} users. Start counting from the number {1}.",
   "games_nunchi_next_number": "Number registered. Last number was {0}.",
   "games_nunchi_failed_to_start": "Nunchi failed to start because there were not enough participants.",
   "games_nunchi_created": "Nunchi game created. Waiting for users to join.",
