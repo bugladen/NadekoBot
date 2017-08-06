@@ -1809,14 +1809,14 @@
   <data name="lolban_usage" xml:space="preserve">
     <value>`{0}lolban`</value>
   </data>
-  <data name="hitbox_cmd" xml:space="preserve">
-    <value>hitbox hb</value>
+  <data name="smashcast_cmd" xml:space="preserve">
+    <value>smashcast hb</value>
   </data>
-  <data name="hitbox_desc" xml:space="preserve">
+  <data name="smashcast_desc" xml:space="preserve">
     <value>Notifies this channel when a certain user starts streaming.</value>
   </data>
-  <data name="hitbox_usage" xml:space="preserve">
-    <value>`{0}hitbox SomeStreamer`</value>
+  <data name="smashcast_usage" xml:space="preserve">
+    <value>`{0}smashcast SomeStreamer`</value>
   </data>
   <data name="twitch_cmd" xml:space="preserve">
     <value>twitch tw</value>

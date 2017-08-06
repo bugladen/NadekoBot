@@ -215,7 +215,7 @@ namespace NadekoBot.Modules.Administration
                                         type = FollowedStream.FollowedStreamType.Mixer;
                                         break;
                                     case StreamNotificationConfig0_9.StreamType.Hitbox:
-                                        type = FollowedStream.FollowedStreamType.Hitbox;
+                                        type = FollowedStream.FollowedStreamType.Smashcast;
                                         break;
                                     default:
                                         break;

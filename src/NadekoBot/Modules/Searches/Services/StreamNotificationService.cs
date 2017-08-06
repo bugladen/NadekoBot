@@ -86,7 +86,7 @@ namespace NadekoBot.Modules.Searches.Services
             StreamStatus result;
             switch (stream.Type)
             {
-                case FollowedStream.FollowedStreamType.Hitbox:
+                case FollowedStream.FollowedStreamType.Smashcast:
                     var hitboxUrl = $"https://api.hitbox.tv/media/status/{stream.Username.ToLowerInvariant()}";
                     if (checkCache && _cachedStatuses.TryGetValue(hitboxUrl, out result))
                         return result;
@@ -178,7 +178,7 @@ namespace NadekoBot.Modules.Searches.Services
 
         public string GetLink(FollowedStream fs)
         {
-            if (fs.Type == FollowedStream.FollowedStreamType.Hitbox)
+            if (fs.Type == FollowedStream.FollowedStreamType.Smashcast)
                 return $"https://www.hitbox.tv/{fs.Username}/";
             if (fs.Type == FollowedStream.FollowedStreamType.Twitch)
                 return $"https://www.twitch.tv/{fs.Username}/";
