@@ -1827,14 +1827,14 @@
   <data name="twitch_usage" xml:space="preserve">
     <value>`{0}twitch SomeStreamer`</value>
   </data>
-  <data name="beam_cmd" xml:space="preserve">
-    <value>beam bm</value>
+  <data name="mixer_cmd" xml:space="preserve">
+    <value>mixer bm</value>
   </data>
-  <data name="beam_desc" xml:space="preserve">
+  <data name="mixer_desc" xml:space="preserve">
     <value>Notifies this channel when a certain user starts streaming.</value>
   </data>
-  <data name="beam_usage" xml:space="preserve">
-    <value>`{0}beam SomeStreamer`</value>
+  <data name="mixer_usage" xml:space="preserve">
+    <value>`{0}mixer SomeStreamer`</value>
   </data>
   <data name="removestream_cmd" xml:space="preserve">
     <value>removestream rms</value>
@@ -1843,7 +1843,7 @@
     <value>Removes notifications of a certain streamer from a certain platform on this channel.</value>
   </data>
   <data name="removestream_usage" xml:space="preserve">
-    <value>`{0}rms Twitch SomeGuy` or `{0}rms Beam SomeOtherGuy`</value>
+    <value>`{0}rms Twitch SomeGuy` or `{0}rms mixer SomeOtherGuy`</value>
   </data>
   <data name="liststreams_cmd" xml:space="preserve">
     <value>liststreams ls</value>

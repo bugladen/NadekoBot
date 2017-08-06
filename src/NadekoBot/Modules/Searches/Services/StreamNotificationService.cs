@@ -126,8 +126,8 @@ namespace NadekoBot.Modules.Searches.Services
                     };
                     _cachedStatuses.AddOrUpdate(twitchUrl, result, (key, old) => result);
                     return result;
-                case FollowedStream.FollowedStreamType.Beam:
-                    var beamUrl = $"https://beam.pro/api/v1/channels/{stream.Username.ToLowerInvariant()}";
+                case FollowedStream.FollowedStreamType.Mixer:
+                    var beamUrl = $"https://mixer.com/api/v1/channels/{stream.Username.ToLowerInvariant()}";
                     if (checkCache && _cachedStatuses.TryGetValue(beamUrl, out result))
                         return result;
                     using (var http = new HttpClient())
@@ -179,11 +179,11 @@ namespace NadekoBot.Modules.Searches.Services
         public string GetLink(FollowedStream fs)
         {
             if (fs.Type == FollowedStream.FollowedStreamType.Hitbox)
-                return $"http://www.hitbox.tv/{fs.Username}/";
+                return $"https://www.hitbox.tv/{fs.Username}/";
             if (fs.Type == FollowedStream.FollowedStreamType.Twitch)
-                return $"http://www.twitch.tv/{fs.Username}/";
-            if (fs.Type == FollowedStream.FollowedStreamType.Beam)
-                return $"https://beam.pro/{fs.Username}/";
+                return $"https://www.twitch.tv/{fs.Username}/";
+            if (fs.Type == FollowedStream.FollowedStreamType.Mixer)
+                return $"https://www.mixer.com/{fs.Username}/";
             return "??";
         }
     }
