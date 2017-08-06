@@ -61,12 +61,15 @@ namespace NadekoBot.Modules.Permissions.Services
 
             _client.MessageUpdated += (oldData, newMsg, channel) =>
             {
-                var _ = Task.Run(async () =>
+                var _ = Task.Run(() =>
                 {
                     var guild = (channel as ITextChannel)?.Guild;
                     var usrMsg = newMsg as IUserMessage;
 
-                    return (await FilterInvites(guild, usrMsg)) || (await FilterWords(guild, usrMsg));
+                    if (guild == null || usrMsg == null)
+                        return Task.CompletedTask;
+
+                    return TryBlockEarly(guild, usrMsg);
                 });
                 return Task.CompletedTask;
             };
@@ -116,9 +119,9 @@ namespace NadekoBot.Modules.Permissions.Services
             if (usrMsg is null)
                 return false;
 
-            if ((InviteFilteringChannels.Contains(usrMsg.Channel.Id) ||
-                InviteFilteringServers.Contains(guild.Id)) &&
-                    usrMsg.Content.IsDiscordInvite())
+            if ((InviteFilteringChannels.Contains(usrMsg.Channel.Id) 
+                || InviteFilteringServers.Contains(guild.Id)) 
+                && usrMsg.Content.IsDiscordInvite())
             {
                 try
                 {
