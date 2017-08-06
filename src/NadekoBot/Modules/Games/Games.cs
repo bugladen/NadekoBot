@@ -15,8 +15,6 @@ namespace NadekoBot.Modules.Games
     - Blackjack
     - Shiritori
     - Simple RPG adventure
-    - The nunchi game
-    - Connect 4
     */
     public partial class Games : NadekoTopLevelModule<GamesService>
     {
