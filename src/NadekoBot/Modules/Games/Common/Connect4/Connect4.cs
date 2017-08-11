@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Games.Common.Connect4
 {
-    //todo: diagonal checking
     public class Connect4Game : IDisposable
     {
         public enum Phase

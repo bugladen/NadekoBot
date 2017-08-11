@@ -74,7 +74,7 @@ namespace NadekoBot.Modules.CustomReactions.Extensions
 
             var rep = new ReplacementBuilder()
                 .WithDefault(ctx.Author, ctx.Channel, (ctx.Channel as ITextChannel)?.Guild, client)
-                .WithOverride("%target%", () => ctx.Content.Substring(substringIndex))
+                .WithOverride("%target%", () => ctx.Content.Substring(substringIndex).Trim())
                 .Build();
 
             str = rep.Replace(str);
