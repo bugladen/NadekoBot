@@ -35,7 +35,7 @@ namespace NadekoBot.Modules.Searches.Services
         public List<WoWJoke> WowJokes { get; } = new List<WoWJoke>();
         public List<MagicItem> MagicItems { get; } = new List<MagicItem>();
 
-        private readonly ConcurrentDictionary<ulong?, SearchImageCacher> _imageCacher = new ConcurrentDictionary<ulong?, SearchImageCacher>();
+        private readonly ConcurrentDictionary<ulong, SearchImageCacher> _imageCacher = new ConcurrentDictionary<ulong, SearchImageCacher>();
 
         private readonly ConcurrentDictionary<ulong, HashSet<string>> _blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>();
 
@@ -133,7 +133,7 @@ namespace NadekoBot.Modules.Searches.Services
             {
                 throw new TagBlacklistedException();
             }
-            var cacher = _imageCacher.GetOrAdd(guild, (key) => new SearchImageCacher());
+            var cacher = _imageCacher.GetOrAdd(guild ?? 0, (key) => new SearchImageCacher());
             
             return cacher.GetImage(tag, isExplicit, type);
         }
