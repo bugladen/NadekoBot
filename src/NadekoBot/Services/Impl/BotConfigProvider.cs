@@ -98,6 +98,30 @@ namespace NadekoBot.Services.Impl
                         else
                             return false;
                         break;
+                    case BotConfigEditType.Betroll100Multiplier:
+                        if (float.TryParse(newValue, out var br100) && br100 > 0)
+                            bc.Betroll100Multiplier = br100;
+                        else
+                            return false;
+                        break;
+                    case BotConfigEditType.Betroll91Multiplier:
+                        if (int.TryParse(newValue, out var br91) && br91 > 0)
+                            bc.Betroll91Multiplier = br91;
+                        else
+                            return false;
+                        break;
+                    case BotConfigEditType.Betroll67Multiplier:
+                        if (int.TryParse(newValue, out var br67) && br67 > 0)
+                            bc.Betroll67Multiplier = br67;
+                        else
+                            return false;
+                        break;
+                    case BotConfigEditType.BetflipMultiplier:
+                        if (int.TryParse(newValue, out var bf) && bf > 0)
+                            bc.BetflipMultiplier = bf;
+                        else
+                            return false;
+                        break;
                     default:
                         return false;
                 }
