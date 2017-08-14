@@ -4,6 +4,7 @@ using Discord;
 using NadekoBot.Extensions;
 using NadekoBot.Services.Database.Models;
 using NadekoBot.Services.Database;
+using NadekoBot.Services;
 
 namespace NadekoBot.Services
 {
@@ -58,6 +59,26 @@ namespace NadekoBot.Services
                 Amount = -amount,
             });
             return true;
+        }
+
+        public async Task AddToManyAsync(string reason, long amount, params ulong[] userIds)
+        {
+            using (var uow = _db.UnitOfWork)
+            {
+                foreach (var userId in userIds)
+                {
+                    var transaction = new CurrencyTransaction()
+                    {
+                        UserId = userId,
+                        Reason = reason,
+                        Amount = amount,
+                    };
+                    uow.Currency.TryUpdateState(userId, amount);
+                    uow.CurrencyTransactions.Add(transaction);
+                }
+
+                await uow.CompleteAsync();
+            }
         }
 
         public async Task AddAsync(IUser author, string reason, long amount, bool sendMessage)

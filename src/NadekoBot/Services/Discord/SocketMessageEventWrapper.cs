@@ -24,36 +24,45 @@ namespace NadekoBot.Services.Discord
 
         private Task Discord_ReactionsCleared(Cacheable<IUserMessage, ulong> msg, ISocketMessageChannel channel)
         {
-            try
+            Task.Run(() =>
             {
-                if (msg.Id == Message.Id)
-                    OnReactionsCleared?.Invoke();
-            }
-            catch { }
+                try
+                {
+                    if (msg.Id == Message.Id)
+                        OnReactionsCleared?.Invoke();
+                }
+                catch { }
+            });
 
             return Task.CompletedTask;
         }
 
         private Task Discord_ReactionRemoved(Cacheable<IUserMessage, ulong> msg, ISocketMessageChannel channel, SocketReaction reaction)
         {
-            try
+            Task.Run(() =>
             {
-                if (msg.Id == Message.Id)
-                    OnReactionRemoved?.Invoke(reaction);
-            }
-            catch { }
+                try
+                {
+                    if (msg.Id == Message.Id)
+                        OnReactionRemoved?.Invoke(reaction);
+                }
+                catch { }
+            });
 
             return Task.CompletedTask;
         }
 
         private Task Discord_ReactionAdded(Cacheable<IUserMessage, ulong> msg, ISocketMessageChannel channel, SocketReaction reaction)
         {
-            try
+            Task.Run(() =>
             {
-                if (msg.Id == Message.Id)
-                    OnReactionAdded?.Invoke(reaction);
-            }
-            catch { }
+                try
+                {
+                    if (msg.Id == Message.Id)
+                        OnReactionAdded?.Invoke(reaction);
+                }
+                catch { }
+            });
 
             return Task.CompletedTask;
         }
