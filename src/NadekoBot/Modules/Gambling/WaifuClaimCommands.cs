@@ -459,9 +459,72 @@ namespace NadekoBot.Modules.Gambling
                     .AddField(efb => efb.WithName(GetText("likes")).WithValue(w.Affinity?.ToString() ?? nobody).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("changes_of_heart")).WithValue($"{affInfo.Count} - \"the {affInfo.Title}\"").WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("divorces")).WithValue(divorces.ToString()).WithIsInline(true))
-                    .AddField(efb => efb.WithName($"Waifus ({claims.Count})").WithValue(claims.Count == 0 ? nobody : string.Join("\n", claims.OrderBy(x => rng.Next()).Take(30).Select(x => x.Waifu))).WithIsInline(true));
+                    .AddField(efb => efb.WithName(GetText("gifts")).WithValue(!w.Items.Any() ? "-" : string.Join("\n", w.Items.OrderBy(x => x.Price).GroupBy(x => x.ItemEmoji).Select(x => $"{x.Key} x{x.Count()}"))).WithIsInline(true))
+                    .AddField(efb => efb.WithName($"Waifus ({claims.Count})").WithValue(claims.Count == 0 ? nobody : string.Join("\n", claims.OrderBy(x => rng.Next()).Take(30).Select(x => x.Waifu))).WithIsInline(false));
 
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [Priority(1)]
+            public async Task WaifuGift()
+            {
+                var embed = new EmbedBuilder()
+                    .WithTitle(GetText("waifu_gift_shop"))
+                    .WithOkColor();
+
+                Enum.GetValues(typeof(WaifuItem.ItemName))
+                    .Cast<WaifuItem.ItemName>()
+                    .Select(x => WaifuItem.GetItem(x))
+                    .ForEach(x => embed.AddField(f => f.WithName(x.ItemEmoji + " " + x.Item).WithValue(x.Price).WithIsInline(true)));
+
+                    await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [Priority(0)]
+            public async Task WaifuGift(WaifuItem.ItemName item, [Remainder] IUser waifu)
+            {
+                var itemObj = WaifuItem.GetItem(item);
+
+                using (var uow = _db.UnitOfWork)
+                {
+                    var w = uow.Waifus.ByWaifuUserId(waifu.Id);
+
+                    //try to buy the item first
+
+                    if (!await _cs.RemoveAsync(Context.User.Id, "Bought waifu item", itemObj.Price, uow))
+                    {
+                        await ReplyErrorLocalized("not_enough", _bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                        return;
+                    }
+                    if (w == null)
+                    {
+                        uow.Waifus.Add(w = new WaifuInfo()
+                        {
+                            Affinity = null,
+                            Claimer = null,
+                            Price = 1,
+                            Waifu = uow.DiscordUsers.GetOrCreate(waifu),
+                        });
+
+                        w.Waifu.Username = waifu.Username;
+                        w.Waifu.Discriminator = waifu.Discriminator;
+                    }
+                    w.Items.Add(itemObj);
+                    if (w.Claimer?.UserId == Context.User.Id)
+                    {
+                        w.Price += itemObj.Price;
+                    }
+                    else
+                        w.Price += itemObj.Price / 2;
+
+                    await uow.CompleteAsync().ConfigureAwait(false);
+                }
+
+                await ReplyConfirmLocalized("waifu_gift", Format.Bold(item.ToString() + " " +itemObj.ItemEmoji), Format.Bold(waifu.ToString())).ConfigureAwait(false);
             }
 
 

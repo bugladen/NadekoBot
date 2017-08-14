@@ -2259,87 +2259,6 @@
   <data name="butts_usage" xml:space="preserve">
     <value>`{0}butts` or `{0}ass`</value>
   </data>
-  <data name="createwar_cmd" xml:space="preserve">
-    <value>createwar cw</value>
-  </data>
-  <data name="createwar_desc" xml:space="preserve">
-    <value>Creates a new war by specifying a size (&gt;10 and multiple of 5) and enemy clan name.</value>
-  </data>
-  <data name="createwar_usage" xml:space="preserve">
-    <value>`{0}cw 15 The Enemy Clan`</value>
-  </data>
-  <data name="startwar_cmd" xml:space="preserve">
-    <value>startwar sw</value>
-  </data>
-  <data name="startwar_desc" xml:space="preserve">
-    <value>Starts a war with a given number.</value>
-  </data>
-  <data name="startwar_usage" xml:space="preserve">
-    <value>`{0}sw 15`</value>
-  </data>
-  <data name="listwar_cmd" xml:space="preserve">
-    <value>listwar lw</value>
-  </data>
-  <data name="listwar_desc" xml:space="preserve">
-    <value>Shows the active war claims by a number. Shows all wars in a short way if no number is specified.</value>
-  </data>
-  <data name="listwar_usage" xml:space="preserve">
-    <value>`{0}lw [war_number]` or `{0}lw`</value>
-  </data>
-  <data name="basecall_cmd" xml:space="preserve">
-    <value>basecall</value>
-  </data>
-  <data name="basecall_desc" xml:space="preserve">
-    <value>Claims a certain base from a certain war. You can supply a name in the third optional argument to claim in someone else's place.</value>
-  </data>
-  <data name="basecall_usage" xml:space="preserve">
-    <value>`{0}basecall [war_number] [base_number] [optional_other_name]`</value>
-  </data>
-  <data name="callfinish_cmd" xml:space="preserve">
-    <value>callfinish cf</value>
-  </data>
-  <data name="callfinish_desc" xml:space="preserve">
-    <value>Finish your claim with 3 stars if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else.</value>
-  </data>
-  <data name="callfinish_usage" xml:space="preserve">
-    <value>`{0}cf 1` or `{0}cf 1 5`</value>
-  </data>
-  <data name="callfinish2_cmd" xml:space="preserve">
-    <value>callfinish2 cf2</value>
-  </data>
-  <data name="callfinish2_desc" xml:space="preserve">
-    <value>Finish your claim with 2 stars if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else.</value>
-  </data>
-  <data name="callfinish2_usage" xml:space="preserve">
-    <value>`{0}cf2 1` or `{0}cf2 1 5`</value>
-  </data>
-  <data name="callfinish1_cmd" xml:space="preserve">
-    <value>callfinish1 cf1</value>
-  </data>
-  <data name="callfinish1_desc" xml:space="preserve">
-    <value>Finish your claim with 1 star if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else.</value>
-  </data>
-  <data name="callfinish1_usage" xml:space="preserve">
-    <value>`{0}cf1 1` or `{0}cf1 1 5`</value>
-  </data>
-  <data name="unclaim_cmd" xml:space="preserve">
-    <value>uncall</value>
-  </data>
-  <data name="unclaim_desc" xml:space="preserve">
-    <value>Removes your claim from a certain war. Optional second argument denotes a person in whose place to unclaim</value>
-  </data>
-  <data name="unclaim_usage" xml:space="preserve">
-    <value>`{0}uc [war_number] [optional_other_name]`</value>
-  </data>
-  <data name="endwar_cmd" xml:space="preserve">
-    <value>endwar ew</value>
-  </data>
-  <data name="endwar_desc" xml:space="preserve">
-    <value>Ends the war with a given index.</value>
-  </data>
-  <data name="endwar_usage" xml:space="preserve">
-    <value>`{0}ew [war_number]`</value>
-  </data>
   <data name="translate_cmd" xml:space="preserve">
     <value>translate trans</value>
   </data>
@@ -3086,6 +3005,15 @@
   </data>
   <data name="waifuclaim_usage" xml:space="preserve">
     <value>`{0}claim 50 @Himesama`</value>
+  </data>
+  <data name="waifugift_cmd" xml:space="preserve">
+    <value>waifugift gift gifts</value>
+  </data>
+  <data name="waifugift_desc" xml:space="preserve">
+    <value>Gift an item to someone. This will increase their waifu value by 50% of the gifted item's value if they don't have affinity set towards you, or 100% if they do. Provide no arguments to see a list of items that you can gift.</value>
+  </data>
+  <data name="waifugift_usage" xml:space="preserve">
+    <value>`{0}gifts` or `{0}gift Rose @Himesama`</value>
   </data>
   <data name="waifuleaderboard_cmd" xml:space="preserve">
     <value>waifus waifulb</value>
