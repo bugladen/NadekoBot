@@ -2826,6 +2826,15 @@
   <data name="fairplay_usage" xml:space="preserve">
     <value>`{0}fp`</value>
   </data>
+  <data name="songautodelete_cmd" xml:space="preserve">
+    <value>songautodelete sad</value>
+  </data>
+  <data name="songautodelete_desc" xml:space="preserve">
+    <value>Toggles whether the song should be automatically removed from the music queue when it finishes playing.</value>
+  </data>
+  <data name="songautodelete_usage" xml:space="preserve">
+    <value>`{0}sad`</value>
+  </data>
   <data name="define_cmd" xml:space="preserve">
     <value>define def</value>
   </data>
