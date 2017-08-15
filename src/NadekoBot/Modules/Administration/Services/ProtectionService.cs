@@ -78,7 +78,7 @@ namespace NadekoBot.Modules.Administration.Services
                             if (spamSettings.UserStats.TryRemove(msg.Author.Id, out stats))
                             {
                                 stats.Dispose();
-                                await PunishUsers(spamSettings.AntiSpamSettings.Action, ProtectionType.Spamming, (IGuildUser)msg.Author)
+                                await PunishUsers(spamSettings.AntiSpamSettings.Action, ProtectionType.Spamming, spamSettings.AntiSpamSettings.MuteTime, (IGuildUser)msg.Author)
                                     .ConfigureAwait(false);
                             }
                         }
@@ -111,7 +111,7 @@ namespace NadekoBot.Modules.Administration.Services
                             var users = settings.RaidUsers.ToArray();
                             settings.RaidUsers.Clear();
 
-                            await PunishUsers(settings.AntiRaidSettings.Action, ProtectionType.Raiding, users).ConfigureAwait(false);
+                            await PunishUsers(settings.AntiRaidSettings.Action, ProtectionType.Raiding, 0, users).ConfigureAwait(false);
                         }
                         await Task.Delay(1000 * settings.AntiRaidSettings.Seconds).ConfigureAwait(false);
 
@@ -129,7 +129,7 @@ namespace NadekoBot.Modules.Administration.Services
         }
 
 
-        private async Task PunishUsers(PunishmentAction action, ProtectionType pt, params IGuildUser[] gus)
+        private async Task PunishUsers(PunishmentAction action, ProtectionType pt, int muteTime, params IGuildUser[] gus)
         {
             _log.Info($"[{pt}] - Punishing [{gus.Length}] users with [{action}] in {gus[0].Guild.Name} guild");
             foreach (var gu in gus)
@@ -139,7 +139,10 @@ namespace NadekoBot.Modules.Administration.Services
                     case PunishmentAction.Mute:
                         try
                         {
-                            await _mute.MuteUser(gu).ConfigureAwait(false);
+                            if (muteTime <= 0)
+                                await _mute.MuteUser(gu).ConfigureAwait(false);
+                            else
+                                await _mute.TimedMute(gu, TimeSpan.FromSeconds(muteTime)).ConfigureAwait(false);
                         }
                         catch (Exception ex) { _log.Warn(ex, "I can't apply punishement"); }
                         break;

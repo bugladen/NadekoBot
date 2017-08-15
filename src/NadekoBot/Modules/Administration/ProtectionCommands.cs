@@ -33,9 +33,17 @@ namespace NadekoBot.Modules.Administration
 
                 if (string.IsNullOrWhiteSpace(ignoredString))
                     ignoredString = "none";
+
+                string add = "";
+                if (stats.AntiSpamSettings.Action == PunishmentAction.Mute
+                    && stats.AntiSpamSettings.MuteTime > 0)
+                {
+                    add = " (" + stats.AntiSpamSettings.MuteTime + "s)";
+                }
+
                 return GetText("spam_stats",
                         Format.Bold(stats.AntiSpamSettings.MessageThreshold.ToString()),
-                        Format.Bold(stats.AntiSpamSettings.Action.ToString()),
+                        Format.Bold(stats.AntiSpamSettings.Action.ToString() + add),
                         ignoredString);
             }
 
@@ -162,6 +170,7 @@ namespace NadekoBot.Modules.Administration
                     {
                         Action = action,
                         MessageThreshold = messageCount,
+                        MuteTime = time,
                     }
                 };
 
@@ -169,6 +178,7 @@ namespace NadekoBot.Modules.Administration
                 {
                     stats.AntiSpamSettings.MessageThreshold = messageCount;
                     stats.AntiSpamSettings.Action = action;
+                    stats.AntiSpamSettings.MuteTime = time;
                     return stats;
                 });
 
