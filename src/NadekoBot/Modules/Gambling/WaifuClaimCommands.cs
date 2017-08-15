@@ -487,6 +487,9 @@ namespace NadekoBot.Modules.Gambling
             [Priority(0)]
             public async Task WaifuGift(WaifuItem.ItemName item, [Remainder] IUser waifu)
             {
+                if (waifu.Id == Context.User.Id)
+                    return;
+
                 var itemObj = WaifuItem.GetItem(item);
 
                 using (var uow = _db.UnitOfWork)
