@@ -1339,7 +1339,7 @@
     <value>Bets a certain amount of currency on the wheel of fortune. Wheel can stop on one of many different multipliers. Won amount is rounded down to the nearest whole number.</value>
   </data>
   <data name="wheeloffortune_usage" xml:space="preserve">
-    <value>`{0}wheel 5`</value>
+    <value>`{0}wheel 10`</value>
   </data>
   <data name="leaderboard_cmd" xml:space="preserve">
     <value>leaderboard lb</value>
