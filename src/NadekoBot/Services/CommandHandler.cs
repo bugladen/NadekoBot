@@ -43,6 +43,7 @@ namespace NadekoBot.Services
         
         public event Func<IUserMessage, CommandInfo, Task> CommandExecuted = delegate { return Task.CompletedTask; };
         public event Func<CommandInfo, ITextChannel, string, Task> CommandErrored = delegate { return Task.CompletedTask; };
+        public event Func<IUserMessage, Task> OnMessageNoTrigger = delegate { return Task.CompletedTask; };
 
         //userid/msg count
         public ConcurrentDictionary<ulong, uint> UserMessagesSent { get; } = new ConcurrentDictionary<ulong, uint>();
@@ -261,13 +262,13 @@ namespace NadekoBot.Services
                 }
             }
             var prefix = GetPrefix(guild?.Id);
-            var isPrefixCommand = messageContent == ".prefix";
+            var isPrefixCommand = messageContent.StartsWith(".prefix");
             // execute the command and measure the time it took
             if (messageContent.StartsWith(prefix) || isPrefixCommand)
             {
                 var result = await ExecuteCommandAsync(new CommandContext(_client, usrMsg), messageContent, isPrefixCommand ? 1 : prefix.Length, _services, MultiMatchHandling.Best);
                 execTime = Environment.TickCount - execTime;
-                
+
                 if (result.Success)
                 {
                     await LogSuccessfulExecution(usrMsg, channel as ITextChannel, exec2, exec3, execTime).ConfigureAwait(false);
@@ -276,11 +277,14 @@ namespace NadekoBot.Services
                 }
                 else if (result.Error != null)
                 {
-                    LogErroredExecution(result.Error, usrMsg,  channel as ITextChannel, exec2, exec3, execTime);
+                    LogErroredExecution(result.Error, usrMsg, channel as ITextChannel, exec2, exec3, execTime);
                     if (guild != null)
                         await CommandErrored(result.Info, channel as ITextChannel, result.Error);
                 }
-
+            }
+            else
+            {
+                await OnMessageNoTrigger(usrMsg).ConfigureAwait(false);
             }
 
             foreach (var svc in _services)
