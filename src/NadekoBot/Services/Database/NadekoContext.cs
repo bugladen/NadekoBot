@@ -43,6 +43,7 @@ namespace NadekoBot.Services.Database
         public DbSet<UserPokeTypes> PokeGame { get; set; }
         public DbSet<WaifuUpdate> WaifuUpdates { get; set; }
         public DbSet<Warning> Warnings { get; set; }
+        public DbSet<UserXpStats> UserXpStats { get; set; }
 
         //logging
         public DbSet<LogSetting> LogSettings { get; set; }
@@ -291,6 +292,18 @@ namespace NadekoBot.Services.Database
             var pr = modelBuilder.Entity<RewardedUser>();
             pr.HasIndex(x => x.UserId)
                 .IsUnique();
+            #endregion
+
+            #region XpStatas
+            modelBuilder.Entity<UserXpStats>()
+                .HasIndex(x => new { x.UserId, x.GuildId })
+                .IsUnique();
+            #endregion
+
+            #region XpSettings
+            modelBuilder.Entity<XpSettings>()
+                .HasOne(x => x.GuildConfig)
+                .WithOne(x => x.XpSettings);
             #endregion
         }
     }

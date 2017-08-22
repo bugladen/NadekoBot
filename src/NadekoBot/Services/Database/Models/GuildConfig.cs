@@ -86,6 +86,8 @@ namespace NadekoBot.Services.Database.Models
 
         public StreamRoleSettings StreamRole { get; set; }
 
+        public XpSettings XpSettings { get; set; }
+
         //public List<ProtectionIgnoredChannel> ProtectionIgnoredChannels { get; set; } = new List<ProtectionIgnoredChannel>();
     }
 

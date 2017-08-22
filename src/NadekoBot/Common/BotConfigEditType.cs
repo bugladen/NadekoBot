@@ -17,6 +17,8 @@
         CurrencyDropAmountMax,
         MinimumBetAmount,
         TriviaCurrencyReward,
+        XpPerMessage,
+        XpMinutesTimeout,
         
         //ErrorColor, //after i fix the nadekobot.cs static variables
         //OkColor

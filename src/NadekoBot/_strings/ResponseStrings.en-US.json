@@ -822,5 +822,16 @@
   "administration_prefix_current": "Prefix on this server is {0}",
   "administration_prefix_new": "Changed prefix on this server from {0} to {1}",
   "administration_defprefix_current": "Default bot prefix is {0}",
-  "administration_defprefix_new": "Changed Default bot prefix from {0} to {1}"
+  "administration_defprefix_new": "Changed Default bot prefix from {0} to {1}",
+  "xp_server_level": "Server Level",
+  "xp_level": "Level",
+  "xp_club": "Club",
+  "xp_xp": "Experience",
+  "xp_excluded": "{0} has been excluded from the XP system on this server.",
+  "xp_not_excluded": "{0} is no longer excluded from the XP system on this server.",
+  "xp_exclusion_list": "Exclusion List",
+  "xp_server_is_excluded": "This server is excluded.",
+  "xp_server_is_not_excluded": "This server is not excluded.",
+  "xp_excluded_roles": "Excluded Roles",
+  "xp_excluded_channels": "Excluded Channels"
 }
