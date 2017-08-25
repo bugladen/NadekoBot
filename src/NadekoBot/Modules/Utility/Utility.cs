@@ -24,7 +24,6 @@ namespace NadekoBot.Modules.Utility
 {
     public partial class Utility : NadekoTopLevelModule
     {
-        private static ConcurrentDictionary<ulong, Timer> _rotatingRoleColors = new ConcurrentDictionary<ulong, Timer>();
         private readonly DiscordSocketClient _client;
         private readonly IStatsService _stats;
         private readonly IBotCredentials _creds;
@@ -36,71 +35,6 @@ namespace NadekoBot.Modules.Utility
             _stats = stats;
             _creds = creds;
             _shardCoord = nadeko.ShardCoord;
-        }        
-
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.ManageRoles)]
-        [OwnerOnly]
-        public async Task RotateRoleColor(int timeout, IRole role, params string[] hexes)
-        {
-            var channel = (ITextChannel)Context.Channel;
-
-            if ((timeout < 60 && timeout != 0) || timeout > 3600)
-                return;
-
-            Timer t;
-            if (timeout == 0 || hexes.Length == 0)
-            {
-                if (_rotatingRoleColors.TryRemove(role.Id, out t))
-                {
-                    t.Change(Timeout.Infinite, Timeout.Infinite);
-                    await ReplyConfirmLocalized("rrc_stop", Format.Bold(role.Name)).ConfigureAwait(false);
-                }
-                return;
-            }
-
-            var hexColors = hexes.Select(hex =>
-            {
-                try { return (Rgba32?)Rgba32.FromHex(hex.Replace("#", "")); } catch { return null; }
-            })
-            .Where(c => c != null)
-            .Select(c => c.Value)
-            .ToArray();
-
-            if (!hexColors.Any())
-            {
-                await ReplyErrorLocalized("rrc_no_colors").ConfigureAwait(false);
-                return;
-            }
-
-            var images = hexColors.Select(color =>
-            {
-                var img = new ImageSharp.Image<Rgba32>(50, 50);
-                img.BackgroundColor(color);
-                return img;
-            }).Merge().ToStream();
-
-            var i = 0;
-            t = new Timer(async (_) =>
-            {
-                try
-                {
-                    var color = hexColors[i];
-                    await role.ModifyAsync(r => r.Color = new Color(color.R, color.G, color.B)).ConfigureAwait(false);
-                    ++i;
-                    if (i >= hexColors.Length)
-                        i = 0;
-                }
-                catch { }
-            }, null, 0, timeout * 1000);
-
-            _rotatingRoleColors.AddOrUpdate(role.Id, t, (key, old) =>
-            {
-                old.Change(Timeout.Infinite, Timeout.Infinite);
-                return t;
-            });
-            await channel.SendFileAsync(images, "magicalgirl.jpg", GetText("rrc_start", Format.Bold(role.Name))).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
