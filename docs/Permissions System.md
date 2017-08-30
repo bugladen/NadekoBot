@@ -49,11 +49,11 @@ To allow users to only see the current song and have a DJ role for queuing follo
 
 	*	Disables music commands for everybody
 
-2.	`.sc !!nowplaying enable`
+2.	`.sc .nowplaying enable`
 
 	*	Enables the "nowplaying" command for everyone
 
-3.	`.sc !!listqueue enable`
+3.	`.sc .listqueue enable`
 
 	*	Enables the "listqueue" command for everyone
 
