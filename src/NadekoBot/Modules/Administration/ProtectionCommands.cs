@@ -29,21 +29,22 @@ namespace NadekoBot.Modules.Administration
 
             private string GetAntiSpamString(AntiSpamStats stats)
             {
-                var ignoredString = string.Join(", ", stats.AntiSpamSettings.IgnoredChannels.Select(c => $"<#{c.ChannelId}>"));
+                var settings = stats.AntiSpamSettings;
+                var ignoredString = string.Join(", ", settings.IgnoredChannels.Select(c => $"<#{c.ChannelId}>"));
 
                 if (string.IsNullOrWhiteSpace(ignoredString))
                     ignoredString = "none";
 
                 string add = "";
-                if (stats.AntiSpamSettings.Action == PunishmentAction.Mute
-                    && stats.AntiSpamSettings.MuteTime > 0)
+                if (settings.Action == PunishmentAction.Mute
+                    && settings.MuteTime > 0)
                 {
-                    add = " (" + stats.AntiSpamSettings.MuteTime + "s)";
+                    add = " (" + settings.MuteTime + "s)";
                 }
 
                 return GetText("spam_stats",
-                        Format.Bold(stats.AntiSpamSettings.MessageThreshold.ToString()),
-                        Format.Bold(stats.AntiSpamSettings.Action.ToString() + add),
+                        Format.Bold(settings.MessageThreshold.ToString()),
+                        Format.Bold(settings.Action.ToString() + add),
                         ignoredString);
             }
 
@@ -174,11 +175,9 @@ namespace NadekoBot.Modules.Administration
                     }
                 };
 
-                _service.AntiSpamGuilds.AddOrUpdate(Context.Guild.Id, stats, (key, old) =>
+                stats = _service.AntiSpamGuilds.AddOrUpdate(Context.Guild.Id, stats, (key, old) =>
                 {
-                    stats.AntiSpamSettings.MessageThreshold = messageCount;
-                    stats.AntiSpamSettings.Action = action;
-                    stats.AntiSpamSettings.MuteTime = time;
+                    stats.AntiSpamSettings.IgnoredChannels = old.AntiSpamSettings.IgnoredChannels;
                     return stats;
                 });
 
