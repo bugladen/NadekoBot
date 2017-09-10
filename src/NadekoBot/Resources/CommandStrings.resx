@@ -3625,7 +3625,7 @@
     <value>`{0}xprr 3 Social`</value>
   </data>
   <data name="xprolereward_desc" xml:space="preserve">
-    <value>Sets a role reward on a specified level.</value>
+    <value>Sets a role reward on a specified level. Provide no role name in order to remove the role reward.</value>
   </data>
   <data name="xpleaderboard_cmd" xml:space="preserve">
     <value>xpleaderboard xplb</value>
