@@ -20,17 +20,24 @@ namespace NadekoBot.Modules.Searches.Common
 
         private readonly SortedSet<ImageCacherObject> _cache;
         private readonly Logger _log;
+        private readonly HttpClient _http;
 
         public SearchImageCacher()
         {
+            _http = new HttpClient();
+            _http.AddFakeHeaders();
+
             _log = LogManager.GetCurrentClassLogger();
             _rng = new NadekoRandom();
             _cache = new SortedSet<ImageCacherObject>();
         }
 
-        public async Task<ImageCacherObject> GetImage(string tag, bool forceExplicit, DapiSearchType type)
+        public async Task<ImageCacherObject> GetImage(string tag, bool forceExplicit, DapiSearchType type,
+            HashSet<string> blacklistedTags = null)
         {
             tag = tag?.ToLowerInvariant();
+
+            blacklistedTags = blacklistedTags ?? new HashSet<string>();
 
             if (type == DapiSearchType.E621)
                 tag = tag?.Replace("yuri", "female/female");
@@ -63,6 +70,9 @@ namespace NadekoBot.Modules.Searches.Common
                 else
                 {
                     var images = await DownloadImages(tag, forceExplicit, type).ConfigureAwait(false);
+                    images = images
+                        .Where(x => x.Tags.All(t => !blacklistedTags.Contains(t)))
+                        .ToArray();
                     if (images.Length == 0)
                         return null;
                     var toReturn = images[_rng.Next(images.Length)];
@@ -116,48 +126,40 @@ namespace NadekoBot.Modules.Searches.Common
                     website = $"https://yande.re/post.json?limit=100&tags={tag}";
                     break;
             }
-
-            using (var http = new HttpClient())
-            {
-                http.AddFakeHeaders();
                 
-                if (type == DapiSearchType.Konachan || type == DapiSearchType.Yandere || 
-                    type == DapiSearchType.E621 || type == DapiSearchType.Danbooru)
-                {
-                    var data = await http.GetStringAsync(website).ConfigureAwait(false);
-                    return JsonConvert.DeserializeObject<DapiImageObject[]>(data)
-                        .Where(x => x.File_Url != null)
-                        .Select(x => new ImageCacherObject(x, type))
-                        .ToArray();
-                }
-
-                return (await LoadXmlAsync(website, type)).ToArray();
+            if (type == DapiSearchType.Konachan || type == DapiSearchType.Yandere || 
+                type == DapiSearchType.E621 || type == DapiSearchType.Danbooru)
+            {
+                var data = await _http.GetStringAsync(website).ConfigureAwait(false);
+                return JsonConvert.DeserializeObject<DapiImageObject[]>(data)
+                    .Where(x => x.File_Url != null)
+                    .Select(x => new ImageCacherObject(x, type))
+                    .ToArray();
             }
+
+            return (await LoadXmlAsync(website, type)).ToArray();
         }
 
         private async Task<ImageCacherObject[]> LoadXmlAsync(string website, DapiSearchType type)
         {
             var list = new List<ImageCacherObject>();
-            using (var http = new HttpClient())
+            using (var reader = XmlReader.Create(await _http.GetStreamAsync(website), new XmlReaderSettings()
             {
-                using (var reader = XmlReader.Create(await http.GetStreamAsync(website), new XmlReaderSettings()
+                Async = true,
+            }))
+            {
+                while (await reader.ReadAsync())
                 {
-                    Async = true,
-                }))
-                {
-                    while (await reader.ReadAsync())
+                    if (reader.NodeType == XmlNodeType.Element &&
+                        reader.Name == "post")
                     {
-                        if (reader.NodeType == XmlNodeType.Element &&
-                            reader.Name == "post")
+                        list.Add(new ImageCacherObject(new DapiImageObject()
                         {
-                            list.Add(new ImageCacherObject(new DapiImageObject()
-                            {
-                                File_Url = reader["file_url"],
-                                Tags = reader["tags"],
-                                Rating = reader["rating"] ?? "e"
+                            File_Url = reader["file_url"],
+                            Tags = reader["tags"],
+                            Rating = reader["rating"] ?? "e"
                                
-                            }, type));
-                        }
+                        }, type));
                     }
                 }
             }

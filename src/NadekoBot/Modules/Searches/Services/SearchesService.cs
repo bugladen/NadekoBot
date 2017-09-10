@@ -14,11 +14,14 @@ using NadekoBot.Services.Database.Models;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using NadekoBot.Modules.NSFW.Exceptions;
+using System.Net.Http;
 
 namespace NadekoBot.Modules.Searches.Services
 {
     public class SearchesService : INService
     {
+        public HttpClient Http { get; }
+
         private readonly DiscordSocketClient _client;
         private readonly IGoogleApiService _google;
         private readonly DbService _db;
@@ -41,6 +44,8 @@ namespace NadekoBot.Modules.Searches.Services
 
         public SearchesService(DiscordSocketClient client, IGoogleApiService google, DbService db, IEnumerable<GuildConfig> gcs)
         {
+            Http = new HttpClient();
+            Http.AddFakeHeaders();
             _client = client;
             _google = google;
             _db = db;
@@ -128,14 +133,26 @@ namespace NadekoBot.Modules.Searches.Services
 
         public Task<ImageCacherObject> DapiSearch(string tag, DapiSearchType type, ulong? guild, bool isExplicit = false)
         {
-            if (guild.HasValue && GetBlacklistedTags(guild.Value)
-                                                 .Any(x => tag.ToLowerInvariant().Contains(x)))
+            if (guild.HasValue)
             {
-                throw new TagBlacklistedException();
+                var blacklistedTags = GetBlacklistedTags(guild.Value);
+
+                if (blacklistedTags
+                    .Any(x => tag.ToLowerInvariant().Contains(x)))
+                {
+                    throw new TagBlacklistedException();
+                }
+
+                var cacher = _imageCacher.GetOrAdd(guild.Value, (key) => new SearchImageCacher());
+
+                return cacher.GetImage(tag, isExplicit, type, blacklistedTags);
             }
-            var cacher = _imageCacher.GetOrAdd(guild ?? 0, (key) => new SearchImageCacher());
-            
-            return cacher.GetImage(tag, isExplicit, type);
+            else
+            {
+                var cacher = _imageCacher.GetOrAdd(guild ?? 0, (key) => new SearchImageCacher());
+
+                return cacher.GetImage(tag, isExplicit, type);
+            }
         }
 
         public HashSet<string> GetBlacklistedTags(ulong guildId)
