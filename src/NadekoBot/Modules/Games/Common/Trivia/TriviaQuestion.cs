@@ -23,11 +23,13 @@ namespace NadekoBot.Modules.Games.Common.Trivia
         public string ImageUrl { get; set; }
         public string AnswerImageUrl { get; set; }
         public string Answer { get; set; }
+        public string CleanAnswer { get; }
 
         public TriviaQuestion(string q, string a, string c, string img = null, string answerImage = null)
         {
             this.Question = q;
             this.Answer = a;
+            this.CleanAnswer = Clean(a);
             this.Category = c;
             this.ImageUrl = img;
             this.AnswerImageUrl = answerImage ?? img;
@@ -37,20 +39,20 @@ namespace NadekoBot.Modules.Games.Common.Trivia
 
         public bool IsAnswerCorrect(string guess)
         {
-            guess = CleanGuess(guess);
             if (Answer.Equals(guess))
             {
                 return true;
             }
-            Answer = CleanGuess(Answer);
-            guess = CleanGuess(guess);
-            if (Answer.Equals(guess))
+            var cleanGuess = Clean(guess);
+            if (CleanAnswer.Equals(cleanGuess))
             {
                 return true;
             }
 
-            int levDistance = Answer.LevenshteinDistance(guess);
-            return JudgeGuess(Answer.Length, guess.Length, levDistance);
+            int levDistanceClean = CleanAnswer.LevenshteinDistance(cleanGuess);
+            int levDistanceNormal = Answer.LevenshteinDistance(guess);
+            return JudgeGuess(CleanAnswer.Length, cleanGuess.Length, levDistanceClean)
+                || JudgeGuess(Answer.Length, guess.Length, levDistanceNormal);
         }
 
         private bool JudgeGuess(int guessLength, int answerLength, int levDistance)
@@ -68,7 +70,7 @@ namespace NadekoBot.Modules.Games.Common.Trivia
             return false;
         }
 
-        private string CleanGuess(string str)
+        private string Clean(string str)
         {
             str = " " + str.ToLower() + " ";
             str = Regex.Replace(str, "\\s+", " ");
