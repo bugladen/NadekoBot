@@ -78,6 +78,31 @@ namespace NadekoBot.Modules.Xp.Services
             _log = LogManager.GetCurrentClassLogger();
             _strings = strings;
 
+            //load settings
+            _excludedChannels = allGuildConfigs
+                .ToDictionary(
+                    x => x.GuildId,
+                    x => new ConcurrentHashSet<ulong>(x.XpSettings
+                            .ExclusionList
+                            .Where(ex => ex.ItemType == ExcludedItemType.Channel)
+                            .Select(ex => ex.ItemId)
+                            .Distinct()))
+                .ToConcurrent();
+
+            _excludedRoles = allGuildConfigs
+                .ToDictionary(
+                    x => x.GuildId,
+                    x => new ConcurrentHashSet<ulong>(x.XpSettings
+                            .ExclusionList
+                            .Where(ex => ex.ItemType == ExcludedItemType.Role)
+                            .Select(ex => ex.ItemId)
+                            .Distinct()))
+                .ToConcurrent();
+
+            _excludedServers = new ConcurrentHashSet<ulong>(
+                allGuildConfigs.Where(x => x.XpSettings.ServerExcluded)
+                               .Select(x => x.GuildId));
+
             //todo 60 move to font provider or somethign
             _fonts = new FontCollection();
             if (Directory.Exists("data/fonts"))

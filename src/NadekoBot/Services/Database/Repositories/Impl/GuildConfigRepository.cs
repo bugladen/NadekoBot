@@ -47,6 +47,8 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                 .Include(gc => gc.FollowedStreams)
                 .Include(gc => gc.StreamRole)
                 .Include(gc => gc.NsfwBlacklistedTags)
+                .Include(gc => gc.XpSettings)
+                    .ThenInclude(x => x.ExclusionList)
                 .ToList();
 
         /// <summary>
