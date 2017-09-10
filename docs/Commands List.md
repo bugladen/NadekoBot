@@ -448,12 +448,12 @@ Commands and aliases | Description | Usage
 ----------------|--------------|-------
 `.experience` `.xp` | Shows your xp stats. Specify the user to show that user's stats instead.  | `.xp`
 `.xprolerewards` `.xprrs` | Shows currently set role rewards.  | `.xprrs`
-`.xprolereward` `.xprr` | Sets a role reward on a specified level. **Requires ManageRoles server permission.** | `.xprr 3 Social`
+`.xprolereward` `.xprr` | Sets a role reward on a specified level. Provide no role name in order to remove the role reward. **Requires ManageRoles server permission.** | `.xprr 3 Social`
 `.xpnotify` `.xpn` | Sets how the bot should notify you when you get a `server` or `global` level. You can set `dm` (for the bot to send a direct message), `channel` (to get notified in the channel you sent the last message in) or `none` to disable.  | `.xpn global dm` `.xpn server channel`
-`.xpexclude` `.xpex` | Exclude a user or a role from the xp system, or whole current server. **Requires Administrator server permission.** | `.xpex User @b1nzy` `.xpex Server`
+`.xpexclude` `.xpex` | Exclude a user or a role from the xp system, or whole current server. **Requires Administrator server permission.** | `.xpex Role Excluded-Role` `.xpex Server`
 `.xpexclusionlist` `.xpexl` | Shows the roles and channels excluded from the XP system on this server, as well as whether the whole server is excluded.  | `.xpexl`
 `.xpleaderboard` `.xplb` | Shows current server's xp leaderboard.  | `.xplb`
-`.xpgleaderboard` `.xpglb` | Shows current server's xp leaderboard.  | `.xpglb`
+`.xpgleaderboard` `.xpglb` | Shows the global xp leaderboard.  | `.xpglb`
 `.xpadd` | Adds xp to a user on the server. This does not affect their global ranking. You can use negative values. **Requires Administrator server permission.** | `.xpadd 100 @b1nzy`
 `.clubcreate` | Creates a club. You must be atleast level 5 and not be in the club already.  | `.clubcreate b1nzy's friends`
 `.clubicon` | Sets the club icon.  | `.clubicon https://i.imgur.com/htfDMfU.png`

@@ -774,15 +774,6 @@
   <data name="donadd_usage" xml:space="preserve">
     <value>`{0}donadd Donate Amount`</value>
   </data>
-  <data name="announce_cmd" xml:space="preserve">
-    <value>announce</value>
-  </data>
-  <data name="announce_desc" xml:space="preserve">
-    <value>Sends a message to all servers' default channel that bot is connected to.</value>
-  </data>
-  <data name="announce_usage" xml:space="preserve">
-    <value>`{0}announce Useless spam`</value>
-  </data>
   <data name="savechat_cmd" xml:space="preserve">
     <value>savechat</value>
   </data>

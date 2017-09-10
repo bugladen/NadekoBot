@@ -411,19 +411,6 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task Announce([Remainder] string message)
-            {
-                var channels = _client.Guilds.Select(g => g.DefaultChannel).ToArray();
-                if (channels == null)
-                    return;
-                await Task.WhenAll(channels.Where(c => c != null).Select(c => c.SendConfirmAsync(GetText("message_from_bo", Context.User.ToString()), message)))
-                        .ConfigureAwait(false);
-
-                await ReplyConfirmLocalized("message_sent").ConfigureAwait(false);
-            }
-
-            [NadekoCommand, Usage, Description, Aliases]
-            [OwnerOnly]
             public async Task ReloadImages()
             {
                 var sw = Stopwatch.StartNew();
