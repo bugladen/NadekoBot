@@ -39,7 +39,7 @@ namespace NadekoBot.Services
         public string DefaultPrefix { get; private set; }
         private ConcurrentDictionary<ulong, string> _prefixes { get; } = new ConcurrentDictionary<ulong, string>();
 
-        private ImmutableArray<AsyncLazy<IDMChannel>> ownerChannels { get; set; } = new ImmutableArray<AsyncLazy<IDMChannel>>();
+        private ImmutableArray<AsyncLazy<IDMChannel>> OwnerChannels { get; set; } = new ImmutableArray<AsyncLazy<IDMChannel>>();
         
         public event Func<IUserMessage, CommandInfo, Task> CommandExecuted = delegate { return Task.CompletedTask; };
         public event Func<CommandInfo, ITextChannel, string, Task> CommandErrored = delegate { return Task.CompletedTask; };

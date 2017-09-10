@@ -28,7 +28,7 @@ namespace NadekoBot.Modules.Games.Services
         public readonly ImmutableArray<string> EightBallResponses;
 
         private readonly Timer _t;
-        private readonly DiscordSocketClient _client;
+        private readonly CommandHandler _cmd;
         private readonly NadekoStrings _strings;
         private readonly IImagesService _images;
         private readonly Logger _log;
@@ -38,11 +38,11 @@ namespace NadekoBot.Modules.Games.Services
 
         public List<TypingArticle> TypingArticles { get; } = new List<TypingArticle>();
 
-        public GamesService(DiscordSocketClient client, IBotConfigProvider bc, IEnumerable<GuildConfig> gcs, 
+        public GamesService(CommandHandler cmd, IBotConfigProvider bc, IEnumerable<GuildConfig> gcs, 
             NadekoStrings strings, IImagesService images, CommandHandler cmdHandler)
         {
             _bc = bc;
-            _client = client;
+            _cmd = cmd;
             _strings = strings;
             _images = images;
             _cmdHandler = cmdHandler;
@@ -59,7 +59,7 @@ namespace NadekoBot.Modules.Games.Services
             }, null, TimeSpan.FromDays(1), TimeSpan.FromDays(1));
 
             //plantpick
-            client.MessageReceived += PotentialFlowerGeneration;
+            _cmd.OnMessageNoTrigger += PotentialFlowerGeneration;
             GenerationChannels = new ConcurrentHashSet<ulong>(gcs
                 .SelectMany(c => c.GenerateCurrencyChannelIds.Select(obj => obj.ChannelId)));
 
@@ -102,7 +102,7 @@ namespace NadekoBot.Modules.Games.Services
         private string GetText(ITextChannel ch, string key, params object[] rep)
             => _strings.GetText(key, ch.GuildId, "Games".ToLowerInvariant(), rep);
 
-        private Task PotentialFlowerGeneration(SocketMessage imsg)
+        private Task PotentialFlowerGeneration(IUserMessage imsg)
         {
             var msg = imsg as SocketUserMessage;
             if (msg == null || msg.Author.IsBot)

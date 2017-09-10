@@ -58,14 +58,14 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AngleSharp" Version="0.9.9" />
-    <PackageReference Include="Discord.Net" Version="1.0.2-build-00797" />
+    <PackageReference Include="Discord.Net" Version="2.0.0-alpha-build-00824" />
     <PackageReference Include="libvideo" Version="1.0.1" />
     <PackageReference Include="CoreCLR-NCalc" Version="2.1.2" />
     <PackageReference Include="Google.Apis.Urlshortener.v1" Version="1.19.0.138" />
     <PackageReference Include="Google.Apis.YouTube.v3" Version="1.20.0.701" />
     <PackageReference Include="Google.Apis.Customsearch.v1" Version="1.20.0.466" />
-    <PackageReference Include="ImageSharp" Version="1.0.0-alpha9-00173" />
-    <PackageReference Include="ImageSharp.Drawing" Version="1.0.0-alpha9-00168" />
+    <PackageReference Include="ImageSharp" Version="1.0.0-alpha9-00194" />
+    <PackageReference Include="ImageSharp.Drawing" Version="1.0.0-alpha9-00189" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="1.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="1.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="1.1.1" />
@@ -87,8 +87,22 @@
     <NoWarn>$(NoWarn);CS1573;CS1591</NoWarn>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\CommandStrings.Designer.cs">
+      <SubType>Designer</SubType>
+    </Compile>
   </ItemGroup>
 </Project>

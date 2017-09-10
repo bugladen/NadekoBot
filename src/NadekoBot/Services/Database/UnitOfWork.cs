@@ -57,6 +57,12 @@ namespace NadekoBot.Services.Database
         private IWarningsRepository _warnings;
         public IWarningsRepository Warnings => _warnings ?? (_warnings = new WarningsRepository(_context));
 
+        private IXpRepository _xp;
+        public IXpRepository Xp => _xp ?? (_xp = new XpRepository(_context));
+
+        private IClubRepository _clubs;
+        public IClubRepository Clubs => _clubs ?? (_clubs = new ClubRepository(_context));
+
         public UnitOfWork(NadekoContext context)
         {
             _context = context;

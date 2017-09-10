@@ -16,5 +16,6 @@ namespace NadekoBot.Services.Database.Repositories
         void SetCleverbotEnabled(ulong id, bool cleverbotEnabled);
         IEnumerable<GuildConfig> Permissionsv2ForAll(List<long> include);
         GuildConfig GcWithPermissionsv2For(ulong guildId);
+        XpSettings XpSettingsFor(ulong guildId);
     }
 }

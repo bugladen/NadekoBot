@@ -4,6 +4,7 @@ using System.Linq;
 using NadekoBot.Services.Database.Models;
 using NadekoBot.Extensions;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using System;
 
 namespace NadekoBot.Services.Database
 {
@@ -43,6 +44,8 @@ namespace NadekoBot.Services.Database
         public DbSet<UserPokeTypes> PokeGame { get; set; }
         public DbSet<WaifuUpdate> WaifuUpdates { get; set; }
         public DbSet<Warning> Warnings { get; set; }
+        public DbSet<UserXpStats> UserXpStats { get; set; }
+        public DbSet<ClubInfo> Clubs { get; set; }
 
         //logging
         public DbSet<LogSetting> LogSettings { get; set; }
@@ -70,24 +73,6 @@ namespace NadekoBot.Services.Database
             {
                 var bc = new BotConfig();
 
-                bc.ModulePrefixes.AddRange(new HashSet<ModulePrefix>()
-                {
-                    new ModulePrefix() { ModuleName = "Administration", Prefix = "." },
-                    new ModulePrefix() { ModuleName = "Searches", Prefix = "~" },
-                    new ModulePrefix() { ModuleName = "Translator", Prefix = "~" },
-                    new ModulePrefix() { ModuleName = "NSFW", Prefix = "~" },
-                    new ModulePrefix() { ModuleName = "ClashOfClans", Prefix = "," },
-                    new ModulePrefix() { ModuleName = "Help", Prefix = "-" },
-                    new ModulePrefix() { ModuleName = "Music", Prefix = "!!" },
-                    new ModulePrefix() { ModuleName = "Trello", Prefix = "trello" },
-                    new ModulePrefix() { ModuleName = "Games", Prefix = ">" },
-                    new ModulePrefix() { ModuleName = "Gambling", Prefix = "$" },
-                    new ModulePrefix() { ModuleName = "Permissions", Prefix = ";" },
-                    new ModulePrefix() { ModuleName = "Pokemon", Prefix = ">" },
-                    new ModulePrefix() { ModuleName = "Utility", Prefix = "." },
-                    new ModulePrefix() { ModuleName = "CustomReactions", Prefix = "." },
-                    new ModulePrefix() { ModuleName = "PokeGame", Prefix = ">" }
-                });
                 bc.RaceAnimals.AddRange(new HashSet<RaceAnimal>
                 {
                     new RaceAnimal { Icon = "🐼", Name = "Panda" },
@@ -176,7 +161,14 @@ namespace NadekoBot.Services.Database
             #endregion
 
             #region BotConfig
-            //var botConfigEntity = modelBuilder.Entity<BotConfig>();
+            var botConfigEntity = modelBuilder.Entity<BotConfig>();
+
+            botConfigEntity.Property(x => x.XpMinutesTimeout)
+                .HasDefaultValue(5);
+
+            botConfigEntity.Property(x => x.XpPerMessage)
+                .HasDefaultValue(3);
+
             //botConfigEntity
             //    .HasMany(c => c.ModulePrefixes)
             //    .WithOne(mp => mp.BotConfig)
@@ -277,9 +269,19 @@ namespace NadekoBot.Services.Database
             //    .WithOne();
             //    //.HasForeignKey<WaifuInfo>(w => w.ClaimerId)
             //    //.IsRequired(false);
+            #endregion
 
+            #region DiscordUser
+            
             var du = modelBuilder.Entity<DiscordUser>();
             du.HasAlternateKey(w => w.UserId);
+            du.HasOne(x => x.Club)
+               .WithMany(x => x.Users)
+               .IsRequired(false);
+
+            modelBuilder.Entity<DiscordUser>()
+                .Property(x => x.LastLevelUp)
+                .HasDefaultValue(DateTime.Now);
 
             #endregion
 
@@ -291,6 +293,63 @@ namespace NadekoBot.Services.Database
             var pr = modelBuilder.Entity<RewardedUser>();
             pr.HasIndex(x => x.UserId)
                 .IsUnique();
+            #endregion
+
+            #region XpStats
+            modelBuilder.Entity<UserXpStats>()
+                .HasIndex(x => new { x.UserId, x.GuildId })
+                .IsUnique();
+
+            modelBuilder.Entity<UserXpStats>()
+                .Property(x => x.LastLevelUp)
+                .HasDefaultValue(DateTime.Now);
+            #endregion
+
+            #region XpSettings
+            modelBuilder.Entity<XpSettings>()
+                .HasOne(x => x.GuildConfig)
+                .WithOne(x => x.XpSettings);
+            #endregion
+
+            #region XpRoleReward
+            modelBuilder.Entity<XpRoleReward>()
+                .HasAlternateKey(x => x.Level);
+            #endregion
+
+            #region Club
+            var ci = modelBuilder.Entity<ClubInfo>();
+            ci.HasOne(x => x.Owner)
+              .WithOne()
+              .HasForeignKey<ClubInfo>(x => x.OwnerId);
+
+
+            ci.HasAlternateKey(x => new { x.Name, x.Discrim });
+            #endregion
+
+            #region ClubManytoMany
+
+            modelBuilder.Entity<ClubApplicants>()
+            .HasKey(t => new { t.ClubId, t.UserId });
+
+            modelBuilder.Entity<ClubApplicants>()
+                .HasOne(pt => pt.User)
+                .WithMany();
+
+            modelBuilder.Entity<ClubApplicants>()
+                .HasOne(pt => pt.Club)
+                .WithMany(x => x.Applicants);
+
+            modelBuilder.Entity<ClubBans>()
+            .HasKey(t => new { t.ClubId, t.UserId });
+
+            modelBuilder.Entity<ClubBans>()
+                .HasOne(pt => pt.User)
+                .WithMany();
+
+            modelBuilder.Entity<ClubBans>()
+                .HasOne(pt => pt.Club)
+                .WithMany(x => x.Bans);
+
             #endregion
         }
     }

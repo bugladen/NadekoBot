@@ -122,6 +122,18 @@ namespace NadekoBot.Services.Impl
                         else
                             return false;
                         break;
+                    case BotConfigEditType.XpPerMessage:
+                        if (int.TryParse(newValue, out var xp) && xp > 0)
+                            bc.XpPerMessage = xp;
+                        else
+                            return false;
+                        break;
+                    case BotConfigEditType.XpMinutesTimeout:
+                        if (int.TryParse(newValue, out var min) && min > 0)
+                            bc.XpMinutesTimeout = min;
+                        else
+                            return false;
+                        break;
                     default:
                         return false;
                 }

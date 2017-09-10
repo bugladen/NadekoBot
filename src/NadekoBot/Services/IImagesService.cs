@@ -17,6 +17,8 @@ namespace NadekoBot.Services
         ImmutableArray<byte> WifeMatrix { get; }
         ImmutableArray<byte> RategirlDot { get; }
 
+        ImmutableArray<byte> XpCard { get; }
+
         void Reload();
     }
 }

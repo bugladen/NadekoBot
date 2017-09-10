@@ -11,7 +11,7 @@ using NadekoBot.Modules.Games.Services;
 
 namespace NadekoBot.Modules.Games
 {
-    /*todo more games
+    /* more games
     - Blackjack
     - Shiritori
     - Simple RPG adventure

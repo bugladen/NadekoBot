@@ -352,54 +352,6 @@ namespace NadekoBot.Modules.Administration
                 oldConfig.RotatingStatuses.ForEach(i => messages.Add(new PlayingStatus { Status = i }));
                 botConfig.RotatingStatusMessages = messages;
 
-                //Prefix
-                botConfig.ModulePrefixes.Clear();
-                botConfig.ModulePrefixes.AddRange(new HashSet<ModulePrefix>
-                {
-                    new ModulePrefix()
-                    {
-                        ModuleName = "Administration",
-                        Prefix = oldConfig.CommandPrefixes.Administration
-                    },
-                    new ModulePrefix()
-                    {
-                        ModuleName = "Searches",
-                        Prefix = oldConfig.CommandPrefixes.Searches
-                    },
-                    new ModulePrefix() {ModuleName = "NSFW", Prefix = oldConfig.CommandPrefixes.NSFW},
-                    new ModulePrefix()
-                    {
-                        ModuleName = "Conversations",
-                        Prefix = oldConfig.CommandPrefixes.Conversations
-                    },
-                    new ModulePrefix()
-                    {
-                        ModuleName = "ClashOfClans",
-                        Prefix = oldConfig.CommandPrefixes.ClashOfClans
-                    },
-                    new ModulePrefix() {ModuleName = "Help", Prefix = oldConfig.CommandPrefixes.Help},
-                    new ModulePrefix() {ModuleName = "Music", Prefix = oldConfig.CommandPrefixes.Music},
-                    new ModulePrefix() {ModuleName = "Trello", Prefix = oldConfig.CommandPrefixes.Trello},
-                    new ModulePrefix() {ModuleName = "Games", Prefix = oldConfig.CommandPrefixes.Games},
-                    new ModulePrefix()
-                    {
-                        ModuleName = "Gambling",
-                        Prefix = oldConfig.CommandPrefixes.Gambling
-                    },
-                    new ModulePrefix()
-                    {
-                        ModuleName = "Permissions",
-                        Prefix = oldConfig.CommandPrefixes.Permissions
-                    },
-                    new ModulePrefix()
-                    {
-                        ModuleName = "Programming",
-                        Prefix = oldConfig.CommandPrefixes.Programming
-                    },
-                    new ModulePrefix() {ModuleName = "Pokemon", Prefix = oldConfig.CommandPrefixes.Pokemon},
-                    new ModulePrefix() {ModuleName = "Utility", Prefix = oldConfig.CommandPrefixes.Utility}
-                });
-
                 //Blacklist
                 var blacklist = new HashSet<BlacklistItem>(oldConfig.ServerBlacklist.Select(server => new BlacklistItem() { ItemId = server, Type = BlacklistType.Server }));
                 blacklist.AddRange(oldConfig.ChannelBlacklist.Select(channel => new BlacklistItem() { ItemId = channel, Type = BlacklistType.Channel }));
