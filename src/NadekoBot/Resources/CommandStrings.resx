@@ -3643,7 +3643,7 @@
     <value>`{0}xpglb`</value>
   </data>
   <data name="xpgloballeaderboard_desc" xml:space="preserve">
-    <value>Shows current server's xp leaderboard.</value>
+    <value>Shows the global xp leaderboard.</value>
   </data>
   <data name="xpadd_cmd" xml:space="preserve">
     <value>xpadd</value>
