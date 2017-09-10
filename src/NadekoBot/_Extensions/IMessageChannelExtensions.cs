@@ -10,7 +10,7 @@ namespace NadekoBot.Extensions
     public static class IMessageChannelExtensions
     {
         public static Task<IUserMessage> EmbedAsync(this IMessageChannel ch, EmbedBuilder embed, string msg = "")
-            => ch.SendMessageAsync(msg, embed: embed);
+            => ch.SendMessageAsync(msg, embed: embed.Build());
 
         public static Task<IUserMessage> SendErrorAsync(this IMessageChannel ch, string title, string error, string url = null, string footer = null)
         {
@@ -20,11 +20,11 @@ namespace NadekoBot.Extensions
                 eb.WithUrl(url);
             if (!string.IsNullOrWhiteSpace(footer))
                 eb.WithFooter(efb => efb.WithText(footer));
-            return ch.SendMessageAsync("", embed: eb);
+            return ch.SendMessageAsync("", embed: eb.Build());
         }
 
         public static Task<IUserMessage> SendErrorAsync(this IMessageChannel ch, string error)
-             => ch.SendMessageAsync("", embed: new EmbedBuilder().WithErrorColor().WithDescription(error));
+             => ch.SendMessageAsync("", embed: new EmbedBuilder().WithErrorColor().WithDescription(error).Build());
 
         public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string title, string text, string url = null, string footer = null)
         {
@@ -34,11 +34,11 @@ namespace NadekoBot.Extensions
                 eb.WithUrl(url);
             if (!string.IsNullOrWhiteSpace(footer))
                 eb.WithFooter(efb => efb.WithText(footer));
-            return ch.SendMessageAsync("", embed: eb);
+            return ch.SendMessageAsync("", embed: eb.Build());
         }
 
         public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string text)
-             => ch.SendMessageAsync("", embed: new EmbedBuilder().WithOkColor().WithDescription(text));
+             => ch.SendMessageAsync("", embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build());
 
         public static Task<IUserMessage> SendTableAsync<T>(this IMessageChannel ch, string seed, IEnumerable<T> items, Func<T, string> howToPrint, int columns = 3)
         {

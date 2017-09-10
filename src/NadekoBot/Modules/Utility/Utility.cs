@@ -417,7 +417,7 @@ namespace NadekoBot.Modules.Utility
                     })
                 });
             await Context.User.SendFileAsync(
-                await JsonConvert.SerializeObject(grouping, Formatting.Indented).ToStream().ConfigureAwait(false), title, title).ConfigureAwait(false);
+                await JsonConvert.SerializeObject(grouping, Formatting.Indented).ToStream().ConfigureAwait(false), title, title, false).ConfigureAwait(false);
         }
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Ping()

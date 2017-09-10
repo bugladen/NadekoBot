@@ -207,7 +207,7 @@ namespace NadekoBot.Modules.Utility.Services
             if (guildSettings.TryRemove(guild.Id, out var setting) && cleanup)
                 await RescanUsers(guild).ConfigureAwait(false);
         }
-        //todo multiple rescans at the same time?
+
         private async Task RescanUser(IGuildUser user, StreamRoleSettings setting, IRole addRole = null)
         {
             if (user.Game.HasValue &&

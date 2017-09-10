@@ -48,8 +48,8 @@ namespace NadekoBot.Modules.Gambling
         [Group]
         public class WaifuClaimCommands : NadekoSubmodule
         {
-            private static ConcurrentDictionary<ulong, DateTime> divorceCooldowns { get; } = new ConcurrentDictionary<ulong, DateTime>();
-            private static ConcurrentDictionary<ulong, DateTime> affinityCooldowns { get; } = new ConcurrentDictionary<ulong, DateTime>();
+            private static ConcurrentDictionary<ulong, DateTime> _divorceCooldowns { get; } = new ConcurrentDictionary<ulong, DateTime>();
+            private static ConcurrentDictionary<ulong, DateTime> _affinityCooldowns { get; } = new ConcurrentDictionary<ulong, DateTime>();
 
             enum WaifuClaimResult
             {
@@ -219,7 +219,7 @@ namespace NadekoBot.Modules.Gambling
                     var now = DateTime.UtcNow;
                     if (w?.Claimer == null || w.Claimer.UserId != Context.User.Id)
                         result = DivorceResult.NotYourWife;
-                    else if (divorceCooldowns.AddOrUpdate(Context.User.Id,
+                    else if (_divorceCooldowns.AddOrUpdate(Context.User.Id,
                         now,
                         (key, old) => ((difference = now.Subtract(old)) > _divorceLimit) ? now : old) != now)
                     {
@@ -303,7 +303,7 @@ namespace NadekoBot.Modules.Gambling
                     if (w?.Affinity?.UserId == u?.Id)
                     {
                     }
-                    else if (affinityCooldowns.AddOrUpdate(Context.User.Id,
+                    else if (_affinityCooldowns.AddOrUpdate(Context.User.Id,
                         now,
                         (key, old) => ((difference = now.Subtract(old)) > _affinityLimit) ? now : old) != now)
                     {
@@ -459,7 +459,7 @@ namespace NadekoBot.Modules.Gambling
                     .AddField(efb => efb.WithName(GetText("likes")).WithValue(w.Affinity?.ToString() ?? nobody).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("changes_of_heart")).WithValue($"{affInfo.Count} - \"the {affInfo.Title}\"").WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("divorces")).WithValue(divorces.ToString()).WithIsInline(true))
-                    .AddField(efb => efb.WithName(GetText("gifts")).WithValue(!w.Items.Any() ? "-" : string.Join("\n", w.Items.OrderBy(x => x.Price).GroupBy(x => x.ItemEmoji).Select(x => $"{x.Key} x{x.Count()}"))).WithIsInline(true))
+                    .AddField(efb => efb.WithName(GetText("gifts")).WithValue(!w.Items.Any() ? "-" : string.Join("\n", w.Items.OrderBy(x => x.Price).GroupBy(x => x.ItemEmoji).Select(x => $"{x.Key} x{x.Count()}"))).WithIsInline(false))
                     .AddField(efb => efb.WithName($"Waifus ({claims.Count})").WithValue(claims.Count == 0 ? nobody : string.Join("\n", claims.OrderBy(x => rng.Next()).Take(30).Select(x => x.Waifu))).WithIsInline(false));
 
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);

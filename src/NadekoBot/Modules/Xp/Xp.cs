@@ -1,9 +1,12 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Extensions;
-using NadekoBot.Modules.Xp.Extensions;
+using NadekoBot.Modules.Xp.Common;
 using NadekoBot.Modules.Xp.Services;
+using NadekoBot.Services.Database.Models;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,37 +14,94 @@ namespace NadekoBot.Modules.Xp
 {
     public partial class Xp : NadekoTopLevelModule<XpService>
     {
+        private readonly DiscordSocketClient _client;
+
+        public Xp(DiscordSocketClient client)
+        {
+            _client = client;
+        }
+
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Experience(IUser user = null)
+        public async Task Experience([Remainder]IUser user = null)
         {
             user = user ?? Context.User;
-            await Task.Delay(64).ConfigureAwait(false); // wait a bit in case user got XP with this message
 
-            var stats = _service.GetUserStats(Context.Guild.Id, user.Id);
-
-            var levelData = stats.GetLevelData();
-            var xpBarStr = _service.GenerateXpBar(levelData.LevelXp, levelData.LevelRequiredXp);
-
-            await Context.Channel.EmbedAsync(new EmbedBuilder()
-                .WithTitle(user.ToString())
-                //.AddField(GetText("server_level"), stats.ServerLevel.ToString(), true)
-                .AddField(GetText("level"), levelData.Level.ToString(), true)
-                //.AddField(GetText("club"), stats.ClubName ?? "-", true)
-                .AddField(GetText("xp"), xpBarStr, false)
-                .WithOkColor())
+            await Context.Channel.TriggerTypingAsync();
+            var img = await _service.GenerateImageAsync((IGuildUser)user);
+            
+            await Context.Channel.SendFileAsync(img.ToStream(), $"{user.Id}_xp.png")
                 .ConfigureAwait(false);
         }
 
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public Task XpRoleRewards(int page = 1)
+        {
+            page--;
+
+            if (page < 0)
+                return Task.CompletedTask;
+
+            var roles = _service.GetRoleRewards(Context.Guild.Id)
+                .OrderBy(x => x.Level)
+                .Skip(page * 9)
+                .Take(9);
+
+            var embed = new EmbedBuilder()
+                .WithTitle(GetText("role_rewards"))
+                .WithOkColor();
+
+            if (!roles.Any())
+                return Context.Channel.EmbedAsync(embed.WithDescription(GetText("no_role_rewards")));
+
+            foreach (var rolerew in roles)
+            {
+                var role = Context.Guild.GetRole(rolerew.RoleId);
+
+                if (role == null)
+                    continue;
+
+                embed.AddField(GetText("level_x", Format.Bold(rolerew.Level.ToString())), role.ToString());
+            }
+            return Context.Channel.EmbedAsync(embed);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireUserPermission(GuildPermission.ManageRoles)]
+        [RequireContext(ContextType.Guild)]
+        public async Task XpRoleReward(int level, [Remainder] IRole role = null)
+        {
+            if (level < 1)
+                return;
+
+            _service.SetRoleReward(Context.Guild.Id, level, role?.Id);
+
+            if(role == null)
+                await ReplyConfirmLocalized("role_reward_cleared", level).ConfigureAwait(false);
+            else
+                await ReplyConfirmLocalized("role_reward_added", level, Format.Bold(role.ToString())).ConfigureAwait(false);
+        }
+
+        public enum NotifyPlace
+        {
+            Server = 0,
+            Guild = 0,
+            Global = 1,
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task XpNotify(NotifyPlace place = NotifyPlace.Guild, XpNotificationType type = XpNotificationType.Channel)
+        {
+            if (place == NotifyPlace.Guild)
+                await _service.ChangeNotificationType(Context.User.Id, Context.Guild.Id, type);
+            else
+                await _service.ChangeNotificationType(Context.User, type);
+            await Context.Channel.SendConfirmAsync("👌").ConfigureAwait(false);
+        }
+
         public enum Server { Server };
-        
-        //[NadekoCommand, Usage, Description, Aliases]
-        //[RequireContext(ContextType.Guild)]
-        //[OwnerOnly]
-        //[Priority(1)]
-        //public async Task XpExclude(Server _, IGuild guild)
-        //{
-        //}
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
@@ -100,6 +160,92 @@ namespace NadekoBot.Modules.Xp
                 .WithOkColor();
 
             await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public Task XpLeaderboard(int page = 1)
+        {
+            if (--page < 0)
+                return Task.CompletedTask;
+
+            return Context.Channel.SendPaginatedConfirmAsync(_client, page, async (curPage) =>
+            {
+                var users = _service.GetUserXps(Context.Guild.Id, curPage);
+
+                var embed = new EmbedBuilder()
+                    .WithTitle(GetText("server_leaderboard"))
+                    .WithOkColor();
+
+                if (!users.Any())
+                    return embed.WithDescription("-");
+                else
+                {
+                    for (int i = 0; i < users.Length; i++)
+                    {
+                        var levelStats = LevelStats.FromXp(users[i].Xp + users[i].AwardedXp);
+                        var user = await Context.Guild.GetUserAsync(users[i].UserId).ConfigureAwait(false);
+
+                        var userXpData = users[i];
+
+                        var awardStr = "";
+                        if (userXpData.AwardedXp > 0)
+                            awardStr = $"(+{userXpData.AwardedXp})";
+                        else if (userXpData.AwardedXp < 0)
+                            awardStr = $"({userXpData.AwardedXp.ToString()})";
+
+                        embed.AddField(
+                            $"#{(i + 1 + curPage * 9)} {(user?.ToString() ?? users[i].UserId.ToString())}",
+                            $"{GetText("level_x", levelStats.Level)} - {levelStats.TotalXp}xp {awardStr}");
+                    }
+                    return embed;
+                }
+            }, addPaginatedFooter: false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task XpGlobalLeaderboard(int page = 1)
+        {
+            if (--page < 0)
+                return;
+
+            await Context.Channel.SendPaginatedConfirmAsync(_client, page, async (curPage) =>
+            {
+                var users = _service.GetUserXps(curPage);
+
+                var embed = new EmbedBuilder()
+                    .WithTitle(GetText("global_leaderboard"))
+                    .WithOkColor();
+
+                if (!users.Any())
+                    return embed.WithDescription("-");
+                else
+                {
+                    for (int i = 0; i < users.Length; i++)
+                    {
+                        var user = await Context.Guild.GetUserAsync(users[i].UserId).ConfigureAwait(false);
+                        embed.AddField(
+                            $"#{(i + 1 + curPage * 9)} {(user?.ToString() ?? users[i].UserId.ToString())}", 
+                            $"{GetText("level_x", LevelStats.FromXp(users[i].TotalXp).Level)} - {users[i].TotalXp}xp");
+                    }
+
+                    return embed;
+                }
+            }, addPaginatedFooter: false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task XpAdd(int amount, [Remainder] IGuildUser user)
+        {
+            if (amount == 0)
+                return;
+
+            _service.AddXp(user.Id, Context.Guild.Id, amount);
+
+            await ReplyConfirmLocalized("modified", Format.Bold(user.ToString()), Format.Bold(amount.ToString())).ConfigureAwait(false);
         }
     }
 }

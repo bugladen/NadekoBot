@@ -1,11 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NadekoBot.Services.Database;
+using System.Linq;
 
 namespace NadekoBot.Services
 {
     public class DbService
     {
         private readonly DbContextOptions options;
+        private readonly DbContextOptions migrateOptions;
 
         private readonly string _connectionString;
 
@@ -15,25 +17,23 @@ namespace NadekoBot.Services
             var optionsBuilder = new DbContextOptionsBuilder();
             optionsBuilder.UseSqlite(creds.Db.ConnectionString);
             options = optionsBuilder.Options;
-            //switch (_creds.Db.Type.ToUpperInvariant())
-            //{
-            //    case "SQLITE":
-            //        dbType = typeof(NadekoSqliteContext);
-            //        break;
-            //    //case "SQLSERVER":
-            //    //    dbType = typeof(NadekoSqlServerContext);
-            //    //    break;
-            //    default:
-            //        break;
 
-            //}
+            optionsBuilder = new DbContextOptionsBuilder();
+            optionsBuilder.UseSqlite(creds.Db.ConnectionString, x => x.SuppressForeignKeyEnforcement());
+            migrateOptions = optionsBuilder.Options;
         }
 
         public NadekoContext GetDbContext()
         {
             var context = new NadekoContext(options);
+            if (context.Database.GetPendingMigrations().Any())
+            {
+                var mContext = new NadekoContext(migrateOptions);
+                mContext.Database.Migrate();
+                mContext.SaveChanges();
+                mContext.Dispose();
+            }
             context.Database.SetCommandTimeout(60);
-            context.Database.Migrate();
             context.EnsureSeedData();
 
             //set important sqlite stuffs

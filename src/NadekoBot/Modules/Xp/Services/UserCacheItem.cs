@@ -1,18 +1,21 @@
-﻿namespace NadekoBot.Modules.Xp.Services
+﻿using Discord;
+
+namespace NadekoBot.Modules.Xp.Services
 {
     public class UserCacheItem
     {
-        public ulong UserId { get; set; }
-        public ulong GuildId { get; set; }
+        public IGuildUser User { get; set; }
+        public IGuild Guild { get; set; }
+        public IMessageChannel Channel { get; set; }
 
         public override int GetHashCode()
         {
-            return UserId.GetHashCode();
+            return User.GetHashCode();
         }
 
         public override bool Equals(object obj)
         {
-            return obj is UserCacheItem uci && uci.UserId == UserId;
+            return obj is UserCacheItem uci && uci.User == User;
         }
     }
 }

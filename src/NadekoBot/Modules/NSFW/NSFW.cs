@@ -15,6 +15,7 @@ using NadekoBot.Modules.Searches.Common;
 using NadekoBot.Modules.Searches.Services;
 using NadekoBot.Modules.NSFW.Exceptions;
 
+//todo static httpclient
 namespace NadekoBot.Modules.NSFW
 {
     public class NSFW : NadekoTopLevelModule<SearchesService>
