@@ -130,8 +130,11 @@ namespace NadekoBot.Modules.Xp
         [NadekoCommand, Usage, Description, Aliases]
         [RequireUserPermission(GuildPermission.ManageChannels)]
         [RequireContext(ContextType.Guild)]
-        public async Task XpExclude(Channel _, [Remainder] ITextChannel channel)
+        public async Task XpExclude(Channel _, [Remainder] ITextChannel channel = null)
         {
+            if (channel == null)
+                channel = (ITextChannel)Context.Channel;
+
             var ex = _service.ToggleExcludeChannel(Context.Guild.Id, channel.Id);
 
             await ReplyConfirmLocalized((ex ? "excluded" : "not_excluded"), Format.Bold(channel.ToString())).ConfigureAwait(false);

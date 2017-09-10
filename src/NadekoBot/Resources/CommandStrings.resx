@@ -3595,7 +3595,7 @@
     <value>xpexclude xpex</value>
   </data>
   <data name="xpexclude_usage" xml:space="preserve">
-    <value>`{0}xpex User @b1nzy` `{0}xpex Server`</value>
+    <value>`{0}xpex Role Excluded-Role` `{0}xpex Server`</value>
   </data>
   <data name="xpexclude_desc" xml:space="preserve">
     <value>Exclude a user or a role from the xp system, or whole current server.</value>
