@@ -12,6 +12,7 @@ You can support the project on patreon: <https://patreon.com/nadekobot> or paypa
 - [Pokemon](#pokemon)
 - [Searches](#searches)
 - [Utility](#utility)
+- [Xp](#xp)
 
 
 ### Administration  
@@ -168,7 +169,8 @@ Commands and aliases | Description | Usage
 `.affinity` | Sets your affinity towards someone you want to be claimed by. Setting affinity will reduce their `.claim` on you by 20%. You can leave second argument empty to clear your affinity. 30 minutes cooldown.  | `.affinity @MyHusband` or `.affinity`
 `.waifus` `.waifulb` | Shows top 9 waifus. You can specify another page to show other waifus.  | `.waifus` or `.waifulb 3`
 `.waifuinfo` `.waifustats` | Shows waifu stats for a target person. Defaults to you if no user is provided.  | `.waifuinfo @MyCrush` or `.waifuinfo`
-`.wheeloffortune` `.wheel` | Bets a certain amount of currency on the wheel of fortune. Wheel can stop on one of many different multipliers. Won amount is rounded down to the nearest whole number.  | `.wheel 5`
+`.waifugift` `.gift` `.gifts` | Gift an item to someone. This will increase their waifu value by 50% of the gifted item's value if they don't have affinity set towards you, or 100% if they do. Provide no arguments to see a list of items that you can gift.  | `.gifts` or `.gift Rose @Himesama`
+`.wheeloffortune` `.wheel` | Bets a certain amount of currency on the wheel of fortune. Wheel can stop on one of many different multipliers. Won amount is rounded down to the nearest whole number.  | `.wheel 10`
 
 ###### [Back to ToC](#table-of-contents)
 
@@ -183,6 +185,7 @@ Commands and aliases | Description | Usage
 `.leet` | Converts a text to leetspeak with 6 (1-6) severity levels  | `.leet 3 Hello`
 `.acrophobia` `.acro` | Starts an Acrophobia game. Second argument is optional round length in seconds. (default is 60)  | `.acro` or `.acro 30`
 `.cleverbot` | Toggles cleverbot session. When enabled, the bot will reply to messages starting with bot mention in the server. Custom reactions starting with %mention% won't work if cleverbot is enabled. **Requires ManageMessages server permission.** | `.cleverbot`
+`.connect4` `.con4` | Creates or joins an existing connect4 game. 2 players are required for the game. Objective of the game is to get 4 of your pieces next to each other in a vertical, horizontal or diagonal line.  | `.connect4`
 `.hangmanlist` | Shows a list of hangman term types.  | `.hangmanlist`
 `.hangman` | Starts a game of hangman in the channel. Use `.hangmanlist` to see a list of available term types. Defaults to 'all'.  | `.hangman` or `.hangman movies`
 `.hangmanstop` | Stops the active hangman game on this channel if it exists.  | `.hangmanstop`
@@ -198,7 +201,7 @@ Commands and aliases | Description | Usage
 `.typeadd` | Adds a new article to the typing contest. **Bot owner only** | `.typeadd wordswords`
 `.typelist` | Lists added typing articles with their IDs. 15 per page.  | `.typelist` or `.typelist 3`
 `.typedel` | Deletes a typing article given the ID. **Bot owner only** | `.typedel 3`
-`.tictactoe` `.ttt` | Starts a game of tic tac toe. Another user must run the command in the same channel in order to accept the challenge. Use numbers 1-9 to play. 15 seconds per move.  | >ttt
+`.tictactoe` `.ttt` | Starts a game of tic tac toe. Another user must run the command in the same channel in order to accept the challenge. Use numbers 1-9 to play. 15 seconds per move.  | .ttt
 `.trivia` `.t` | Starts a game of trivia. You can add `nohint` to prevent hints. First player to get to 10 points wins by default. You can specify a different number. 30 seconds per question.  | `.t` or `.t 5 nohint`
 `.tl` | Shows a current trivia leaderboard.  | `.tl`
 `.tq` | Quits current trivia after current question.  | `.tq`
@@ -222,6 +225,7 @@ Commands and aliases | Description | Usage
 ----------------|--------------|-------
 `.play` `.start` | If no arguments are specified, acts as `.next 1` command. If you specify a song number, it will jump to that song. If you specify a search query, acts as a `.q` command  | `.play` or `.play 5` or `.play Dream Of Venice`
 `.queue` `.q` `.yq` | Queue a song using keywords or a link. Bot will join your voice channel. **You must be in a voice channel**.  | `.q Dream Of Venice`
+`.queuenext` `.qn` | Works the same as `.queue` command, except it enqueues the new song after the current one. **You must be in a voice channel**.  | `.qn Dream Of Venice`
 `.queuesearch` `.qs` `.yqs` | Search for top 5 youtube song result using keywords, and type the index of the song to play that song. Bot will join your voice channel. **You must be in a voice channel**.  | `.qs Dream Of Venice`
 `.listqueue` `.lq` | Lists 10 currently queued songs per page. Default page is 1.  | `.lq` or `.lq 2`
 `.next` `.n` | Goes to the next song in the queue. You have to be in the same voice channel as the bot. You can skip multiple songs, but in that case songs will not be requeued if .rcs or .rpl is enabled.  | `.n` or `.n 5`
@@ -236,6 +240,7 @@ Commands and aliases | Description | Usage
 `.save` | Saves a playlist under a certain name. Playlist name must be no longer than 20 characters and must not contain dashes.  | `.save classical1`
 `.load` | Loads a saved playlist using its ID. Use `.pls` to list all saved playlists and `.save` to save new ones.  | `.load 5`
 `.fairplay` `.fp` | Toggles fairplay. While enabled, the bot will prioritize songs from users who didn't have their song recently played instead of the song's position in the queue.  | `.fp`
+`.songautodelete` `.sad` | Toggles whether the song should be automatically removed from the music queue when it finishes playing.  | `.sad`
 `.soundcloudqueue` `.sq` | Queue a soundcloud song using keywords. Bot will join your voice channel. **You must be in a voice channel**.  | `.sq Dream Of Venice`
 `.soundcloudpl` `.scpl` | Queue a Soundcloud playlist using a link.  | `.scpl soundcloudseturl`
 `.nowplaying` `.np` | Shows the song that the bot is currently playing.  | `.np`
@@ -371,11 +376,11 @@ Commands and aliases | Description | Usage
 `.place` | Shows a placeholder image of a given tag. Use `.placelist` to see all available tags. You can specify the width and height of the image as the last two optional arguments.  | `.place Cage` or `.place steven 500 400`
 `.pokemon` `.poke` | Searches for a pokemon.  | `.poke Sylveon`
 `.pokemonability` `.pokeab` | Searches for a pokemon ability.  | `.pokeab overgrow`
-`.hitbox` `.hb` | Notifies this channel when a certain user starts streaming. **Requires ManageMessages server permission.** | `.hitbox SomeStreamer`
+`.smashcast` `.hb` | Notifies this channel when a certain user starts streaming. **Requires ManageMessages server permission.** | `.smashcast SomeStreamer`
 `.twitch` `.tw` | Notifies this channel when a certain user starts streaming. **Requires ManageMessages server permission.** | `.twitch SomeStreamer`
-`.beam` `.bm` | Notifies this channel when a certain user starts streaming. **Requires ManageMessages server permission.** | `.beam SomeStreamer`
+`.mixer` `.bm` | Notifies this channel when a certain user starts streaming. **Requires ManageMessages server permission.** | `.mixer SomeStreamer`
 `.liststreams` `.ls` | Lists all streams you are following on this server.  | `.ls`
-`.removestream` `.rms` | Removes notifications of a certain streamer from a certain platform on this channel. **Requires ManageMessages server permission.** | `.rms Twitch SomeGuy` or `.rms Beam SomeOtherGuy`
+`.removestream` `.rms` | Removes notifications of a certain streamer from a certain platform on this channel. **Requires ManageMessages server permission.** | `.rms Twitch SomeGuy` or `.rms mixer SomeOtherGuy`
 `.checkstream` `.cs` | Checks if a user is online on a certain streaming platform.  | `.cs twitch MyFavStreamer`
 `.translate` `.trans` | Translates from>to text. From the given language to the destination language.  | `.trans en>fr Hello`
 `.autotrans` `.at` | Starts automatic translation of all messages by users who set their `.atl` in this channel. You can set "del" argument to automatically delete all translated user messages. **Requires Administrator server permission.** **Bot owner only** | `.at` or `.at del`
@@ -388,7 +393,6 @@ Commands and aliases | Description | Usage
 ### Utility  
 Commands and aliases | Description | Usage
 ----------------|--------------|-------
-`.rotaterolecolor` `.rrc` | Rotates a roles color on an interval with a list of supplied colors. First argument is interval in seconds (Minimum 60). Second argument is a role, followed by a space-separated list of colors in hex. Provide a rolename with a 0 interval to disable. **Requires ManageRoles server permission.** **Bot owner only** | `.rrc 60 MyLsdRole #ff0000 #00ff00 #0000ff` or `.rrc 0 MyLsdRole`
 `.togethertube` `.totube` | Creates a new room on <https://togethertube.com> and shows the link in the chat.  | `.totube`
 `.whosplaying` `.whpl` | Shows a list of users who are playing the specified game.  | `.whpl Overwatch`
 `.inrole` | Lists every person from the specified role on this server. You can use role ID, role name.  | `.inrole Some Role`
@@ -436,3 +440,32 @@ Commands and aliases | Description | Usage
 `.convertlist` | List of the convertible dimensions and currencies.  | `.convertlist`
 `.convert` | Convert quantities. Use `.convertlist` to see supported dimensions and currencies.  | `.convert m km 1000`
 `.verboseerror` `.ve` | Toggles whether the bot should print command errors when a command is incorrectly used. **Requires ManageMessages server permission.** | `.ve`
+
+###### [Back to ToC](#table-of-contents)
+
+### Xp  
+Commands and aliases | Description | Usage
+----------------|--------------|-------
+`.experience` `.xp` | Shows your xp stats. Specify the user to show that user's stats instead.  | `.xp`
+`.xprolerewards` `.xprrs` | Shows currently set role rewards.  | `.xprrs`
+`.xprolereward` `.xprr` | Sets a role reward on a specified level. **Requires ManageRoles server permission.** | `.xprr 3 Social`
+`.xpnotify` `.xpn` | Sets how the bot should notify you when you get a `server` or `global` level. You can set `dm` (for the bot to send a direct message), `channel` (to get notified in the channel you sent the last message in) or `none` to disable.  | `.xpn global dm` `.xpn server channel`
+`.xpexclude` `.xpex` | Exclude a user or a role from the xp system, or whole current server. **Requires Administrator server permission.** | `.xpex User @b1nzy` `.xpex Server`
+`.xpexclusionlist` `.xpexl` | Shows the roles and channels excluded from the XP system on this server, as well as whether the whole server is excluded.  | `.xpexl`
+`.xpleaderboard` `.xplb` | Shows current server's xp leaderboard.  | `.xplb`
+`.xpgleaderboard` `.xpglb` | Shows current server's xp leaderboard.  | `.xpglb`
+`.xpadd` | Adds xp to a user on the server. This does not affect their global ranking. You can use negative values. **Requires Administrator server permission.** | `.xpadd 100 @b1nzy`
+`.clubcreate` | Creates a club. You must be atleast level 5 and not be in the club already.  | `.clubcreate b1nzy's friends`
+`.clubicon` | Sets the club icon.  | `.clubicon https://i.imgur.com/htfDMfU.png`
+`.clubinfo` | Shows information about the club.  | `.clubinfo b1nzy's friends#123`
+`.clubbans` | Shows the list of users who have banned from your club. Paginated. You must be club owner to use this command.  | `.clubbans 2`
+`.clubapps` | Shows the list of users who have applied to your club. Paginated. You must be club owner to use this command.  | `.clubapps 2`
+`.clubapply` | Apply to join a club. You must meet that club's minimum level requirement, and not be on its ban list.  | `.clubapply b1nzy's friends#123`
+`.clubaccept` | Apply to join a club. You must meet that club's minimum level requirement, and not be on its ban list.  | `.clubaccept b1nzy#1337`
+`.clubleave` | Leaves the club you're currently in.  | `.clubleave`
+`.clubkick` | Kicks the user from the club. You must be the club owner. They will be able to apply again.  | `.clubkick b1nzy#1337`
+`.clubban` | Bans the user from the club. You must be the club owner. They will not be able to apply again.  | `.clubban b1nzy#1337`
+`.clubunban` | Unbans the previously banned user from the club. You must be the club owner.  | `.clubunban b1nzy#1337`
+`.clublevelreq` | Sets the club required level to apply to join the club. You must be club owner. You can't set this number below 5.  | `.clublevelreq 7`
+`.clubdisband` | Disbands the club you're the owner of. This action is irreversible.  | `.clubdisband`
+`.clublb` | Shows club rankings on the specified page.  | `.clublb 2`
