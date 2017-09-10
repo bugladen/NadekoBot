@@ -41,8 +41,7 @@ namespace NadekoBot.Modules.Searches
                 return;
 
             string response;
-            using (var http = new HttpClient())
-                response = await http.GetStringAsync($"http://api.openweathermap.org/data/2.5/weather?q={query}&appid=42cd627dd60debf25a5739e50a217d74&units=metric").ConfigureAwait(false);
+            response = await _service.Http.GetStringAsync($"http://api.openweathermap.org/data/2.5/weather?q={query}&appid=42cd627dd60debf25a5739e50a217d74&units=metric").ConfigureAwait(false);
 
             var data = JsonConvert.DeserializeObject<WeatherData>(response);
 
@@ -67,19 +66,17 @@ namespace NadekoBot.Modules.Searches
             if (string.IsNullOrWhiteSpace(arg) || string.IsNullOrWhiteSpace(_creds.GoogleApiKey))
                 return;
 
-            using (var http = new HttpClient())
-            {
-                var res = await http.GetStringAsync($"https://maps.googleapis.com/maps/api/geocode/json?address={arg}&key={_creds.GoogleApiKey}").ConfigureAwait(false);
-                var obj = JsonConvert.DeserializeObject<GeolocationResult>(res);
+            var res = await _service.Http.GetStringAsync($"https://maps.googleapis.com/maps/api/geocode/json?address={arg}&key={_creds.GoogleApiKey}").ConfigureAwait(false);
+            var obj = JsonConvert.DeserializeObject<GeolocationResult>(res);
 
-                var currentSeconds = DateTime.UtcNow.UnixTimestamp();
-                var timeRes = await http.GetStringAsync($"https://maps.googleapis.com/maps/api/timezone/json?location={obj.results[0].Geometry.Location.Lat},{obj.results[0].Geometry.Location.Lng}&timestamp={currentSeconds}&key={_creds.GoogleApiKey}").ConfigureAwait(false);
-                var timeObj = JsonConvert.DeserializeObject<TimeZoneResult>(timeRes);
+            var currentSeconds = DateTime.UtcNow.UnixTimestamp();
+            var timeRes = await _service.Http.GetStringAsync($"https://maps.googleapis.com/maps/api/timezone/json?location={obj.results[0].Geometry.Location.Lat},{obj.results[0].Geometry.Location.Lng}&timestamp={currentSeconds}&key={_creds.GoogleApiKey}").ConfigureAwait(false);
+            var timeObj = JsonConvert.DeserializeObject<TimeZoneResult>(timeRes);
 
-                var time = DateTime.UtcNow.AddSeconds(timeObj.DstOffset + timeObj.RawOffset);
+            var time = DateTime.UtcNow.AddSeconds(timeObj.DstOffset + timeObj.RawOffset);
 
-                await ReplyConfirmLocalized("time", Format.Bold(obj.results[0].FormattedAddress), Format.Code(time.ToString("HH:mm")), timeObj.TimeZoneName).ConfigureAwait(false);
-            }
+            await ReplyConfirmLocalized("time", Format.Bold(obj.results[0].FormattedAddress), Format.Code(time.ToString("HH:mm")), timeObj.TimeZoneName).ConfigureAwait(false);
+
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -114,21 +111,15 @@ namespace NadekoBot.Modules.Searches
         [NadekoCommand, Usage, Description, Aliases]
         public async Task RandomCat()
         {
-            using (var http = new HttpClient())
-            {
-                var res = JObject.Parse(await http.GetStringAsync("http://www.random.cat/meow").ConfigureAwait(false));
-                await Context.Channel.SendMessageAsync(Uri.EscapeUriString(res["file"].ToString())).ConfigureAwait(false);
-            }
+            var res = JObject.Parse(await _service.Http.GetStringAsync("http://www.random.cat/meow").ConfigureAwait(false));
+            await Context.Channel.SendMessageAsync(Uri.EscapeUriString(res["file"].ToString())).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         public async Task RandomDog()
         {
-            using (var http = new HttpClient())
-            {
-                await Context.Channel.SendMessageAsync("http://random.dog/" + await http.GetStringAsync("http://random.dog/woof")
-                             .ConfigureAwait(false)).ConfigureAwait(false);
-            }
+            await Context.Channel.SendMessageAsync("http://random.dog/" + await _service.Http.GetStringAsync("http://random.dog/woof")
+                            .ConfigureAwait(false)).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -503,34 +494,32 @@ namespace NadekoBot.Modules.Searches
             if (string.IsNullOrWhiteSpace(word))
                 return;
 
-            using (var http = new HttpClient())
+            var res = await _service.Http.GetStringAsync("http://api.pearson.com/v2/dictionaries/entries?headword=" + WebUtility.UrlEncode(word.Trim())).ConfigureAwait(false);
+
+            var data = JsonConvert.DeserializeObject<DefineModel>(res);
+
+            var sense = data.Results.FirstOrDefault(x => x.Senses?[0].Definition != null)?.Senses[0];
+
+            if (sense?.Definition == null)
             {
-                var res = await http.GetStringAsync("http://api.pearson.com/v2/dictionaries/entries?headword=" + WebUtility.UrlEncode(word.Trim())).ConfigureAwait(false);
-
-                var data = JsonConvert.DeserializeObject<DefineModel>(res);
-
-                var sense = data.Results.FirstOrDefault(x => x.Senses?[0].Definition != null)?.Senses[0];
-
-                if (sense?.Definition == null)
-                {
-                    await ReplyErrorLocalized("define_unknown").ConfigureAwait(false);
-                    return;
-                }
-
-                var definition = sense.Definition.ToString();
-                if (!(sense.Definition is string))
-                    definition = ((JArray)JToken.Parse(sense.Definition.ToString())).First.ToString();
-
-                var embed = new EmbedBuilder().WithOkColor()
-                    .WithTitle(GetText("define") + " " + word)
-                    .WithDescription(definition)
-                    .WithFooter(efb => efb.WithText(sense.Gramatical_info?.type));
-
-                if (sense.Examples != null)
-                    embed.AddField(efb => efb.WithName(GetText("example")).WithValue(sense.Examples.First().text));
-
-                await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                await ReplyErrorLocalized("define_unknown").ConfigureAwait(false);
+                return;
             }
+
+            var definition = sense.Definition.ToString();
+            if (!(sense.Definition is string))
+                definition = ((JArray)JToken.Parse(sense.Definition.ToString())).First.ToString();
+
+            var embed = new EmbedBuilder().WithOkColor()
+                .WithTitle(GetText("define") + " " + word)
+                .WithDescription(definition)
+                .WithFooter(efb => efb.WithText(sense.Gramatical_info?.type));
+
+            if (sense.Examples != null)
+                embed.AddField(efb => efb.WithName(GetText("example")).WithValue(sense.Examples.First().text));
+
+            await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -577,15 +566,12 @@ namespace NadekoBot.Modules.Searches
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Catfact()
         {
-            using (var http = new HttpClient())
-            {
-                var response = await http.GetStringAsync("http://catfacts-api.appspot.com/api/facts").ConfigureAwait(false);
-                if (response == null)
-                    return;
+            var response = await _service.Http.GetStringAsync("https://catfact.ninja/fact").ConfigureAwait(false);
+            if (response == null)
+                return;
 
-                var fact = JObject.Parse(response)["facts"][0].ToString();
-                await Context.Channel.SendConfirmAsync("🐈" + GetText("catfact"), fact).ConfigureAwait(false);
-            }
+            var fact = JObject.Parse(response)["fact"].ToString();
+            await Context.Channel.SendConfirmAsync("🐈" + GetText("catfact"), fact).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
