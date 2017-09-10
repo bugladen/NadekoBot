@@ -10,7 +10,7 @@ For this guide we will be using the folder /nadeko as our config root folder.
 ```bash
 docker create --name=nadeko -v /nadeko/conf/:/root/nadeko -v /nadeko/data:/opt/NadekoBot/src/NadekoBot/bin/Release/netcoreapp1.1/data uirel/nadeko:1.4
 ```
--If you are coming from a previous version of nadeko (the old docker) make sure your crednetials.json has been copied into this directory and is the only thing in this folder. 
+-If you are coming from a previous version of nadeko (the old docker) make sure your credentials.json has been copied into this directory and is the only thing in this folder. 
 
 -If you are making a fresh install, create your credentials.json from the following guide and place it in the /nadeko folder [Nadeko JSON Guide](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/)
 
@@ -21,7 +21,7 @@ Next start the docker up with
 The docker will start and the log file will start scrolling past. Depending on hardware the bot start can take up to 5 minutes on a small DigitalOcean droplet.
 Once the log ends with "NadekoBot | Starting NadekoBot v1.0-rc2" the bot is ready and can be invited to your server. Ctrl+C at this point to stop viewing the logs.
 
-After a few moments you should be able to invite Nadeko to your server. If you cannot check the log file for errors 
+After a few moments you should be able to invite Nadeko to your server. If you cannot check the log file for errors. 
 
 ## Monitoring
 
