@@ -48,7 +48,7 @@ If you do not see `credentials.json` you will need to rename `credentials_exampl
 - Replace the **`12345678`** in this link: 			
 `https://discordapp.com/oauth2/authorize?client_id=`**`12345678`**`&scope=bot&permissions=66186303` with your `Client ID`.
 - The link should now look like this: 			
-`https://discordapp.com/oauth2/authorize?client_id=`**`YOUR_CLENT_ID_HERE`**`&scope=bot&permissions=66186303`
+`https://discordapp.com/oauth2/authorize?client_id=`**`YOUR_CLIENT_ID_HERE`**`&scope=bot&permissions=66186303`
 - Go to the newly created link and pick the server we created, and click `Authorize`.
 - The bot should have been added to your server.
 
