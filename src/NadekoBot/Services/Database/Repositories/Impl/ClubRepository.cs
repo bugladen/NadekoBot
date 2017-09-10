@@ -40,7 +40,9 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         {
             return _set
                 .Where(x => x.Name.ToLowerInvariant() == clubName.ToLowerInvariant())
-                .Max(x => x.Discrim) + 1;
+                .Select(x => x.Discrim)
+                .DefaultIfEmpty()
+                .Max() + 1;
         }
 
         public ClubInfo GetByMember(ulong userId, Func<DbSet<ClubInfo>, IQueryable<ClubInfo>> func = null)
