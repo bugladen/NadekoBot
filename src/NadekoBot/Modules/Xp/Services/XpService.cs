@@ -131,8 +131,6 @@ namespace NadekoBot.Modules.Xp.Services
                     if (toAddTo.Count == 0)
                         return;
 
-                    _log.Info("Adding XP to {0} users.", toAddTo.Count);
-
                     using (var uow = _db.UnitOfWork)
                     {
                         foreach (var item in group)
@@ -141,6 +139,11 @@ namespace NadekoBot.Modules.Xp.Services
 
                             var usr = uow.Xp.GetOrCreateUser(item.Key.GuildId, item.Key.User.Id);
                             var du = uow.DiscordUsers.GetOrCreate(item.Key.User);
+
+                            if (du.LastXpGain + TimeSpan.FromMinutes(_bc.BotConfig.XpMinutesTimeout) > DateTime.UtcNow)
+                                continue;
+
+                            du.LastXpGain = DateTime.UtcNow;
 
                             var globalXp = uow.Xp.GetTotalUserXp(item.Key.User.Id);
                             var oldGlobalLevelData = new LevelStats(globalXp);
@@ -239,6 +242,9 @@ namespace NadekoBot.Modules.Xp.Services
                 }
             }, null, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
 
+
+            //just a first line, in order to prevent queries. But since other shards can try to do this too,
+            //i'll check in the db too.
             var clearRewardTimer = Task.Run(async () =>
             {
                 while (true)
@@ -268,10 +274,16 @@ namespace NadekoBot.Modules.Xp.Services
 
                 if (roleId == null)
                 {
-                    settings.RoleRewards.RemoveWhere(x => x.Level == level);
+                    var toRemove = settings.RoleRewards.FirstOrDefault(x => x.Level == level);
+                    if (toRemove != null)
+                    {
+                        uow._context.Remove(toRemove);
+                        settings.RoleRewards.Remove(toRemove);
+                    }
                 }
                 else
                 {
+
                     var rew = settings.RoleRewards.FirstOrDefault(x => x.Level == level);
 
                     if (rew != null)
@@ -553,7 +565,7 @@ namespace NadekoBot.Modules.Xp.Services
             _timeFont = _fonts.Find("Whitney-Bold").CreateFont(20);
         }
 
-        public async Task<Image<Rgba32>> GenerateImageAsync(FullUserStats stats)
+        public Task<Image<Rgba32>> GenerateImageAsync(FullUserStats stats) => Task.Run(async () =>
         {
             var img = Image.Load(_images.XpCard.ToArray());
 
@@ -567,7 +579,7 @@ namespace NadekoBot.Modules.Xp.Services
                 new PointF(130, 5));
 
             // level
-            
+
             img.DrawText(stats.Global.Level.ToString(), _levelFont, Rgba32.White,
                 new PointF(47, 137));
 
@@ -575,14 +587,14 @@ namespace NadekoBot.Modules.Xp.Services
                 new PointF(47, 285));
 
             //club name
-            
+
             var clubName = stats.User.Club?.ToString() ?? "-";
 
             var clubFont = _clubFontFamily
                 .CreateFont(clubName.Length <= 8
                     ? 35
                     : 35 - (clubName.Length / 2));
-            
+
             img.DrawText(clubName, clubFont, Rgba32.White,
                 new PointF(650 - clubName.Length * 10, 40));
 
@@ -700,7 +712,7 @@ namespace NadekoBot.Modules.Xp.Services
                         _imageStreams.AddOrUpdate(imgUrl, s, (k, v) => s);
                     }
                     var toDraw = Image.Load(s);
-                    
+
                     img.DrawImage(toDraw,
                         1,
                         new Size(45, 45),
@@ -717,7 +729,7 @@ namespace NadekoBot.Modules.Xp.Services
             //_log.Info("{0:F2} KB", arr.Length * 1.0f / 1.KB());
 
             return img;
-        }
+        });
 
 
         // https://github.com/SixLabors/ImageSharp/tree/master/samples/AvatarWithRoundedCorner
