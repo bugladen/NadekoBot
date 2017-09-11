@@ -23,13 +23,13 @@ namespace NadekoBot.Modules.Games.Common.Trivia
         public string ImageUrl { get; set; }
         public string AnswerImageUrl { get; set; }
         public string Answer { get; set; }
-        public string CleanAnswer { get; }
+        private string _cleanAnswer;
+        public string CleanAnswer => _cleanAnswer ?? (_cleanAnswer = Clean(Answer));
 
         public TriviaQuestion(string q, string a, string c, string img = null, string answerImage = null)
         {
             this.Question = q;
             this.Answer = a;
-            this.CleanAnswer = Clean(a);
             this.Category = c;
             this.ImageUrl = img;
             this.AnswerImageUrl = answerImage ?? img;
