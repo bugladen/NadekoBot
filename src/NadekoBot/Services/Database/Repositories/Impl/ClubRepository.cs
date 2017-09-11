@@ -58,7 +58,8 @@ namespace NadekoBot.Services.Database.Repositories.Impl
 
         public ClubInfo[] GetClubLeaderboardPage(int page)
         {
-            return _set.OrderBy(x => x.Xp)
+            return _set
+                .OrderByDescending(x => x.Xp)
                 .Skip(page * 9)
                 .Take(9)
                 .ToArray();
