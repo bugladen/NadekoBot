@@ -58,7 +58,9 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                 .Where(x => x.GuildId == guildId)
                 .Count(x => x.Xp > (_set
                     .Where(y => y.UserId == userId && y.GuildId == guildId)
-                    .Sum(y => y.Xp))) + 1;
+                    .Select(y => y.Xp)
+                    .DefaultIfEmpty()
+                    .Sum())) + 1;
         }
 
         public (ulong UserId, int TotalXp)[] GetUsersFor(int page)

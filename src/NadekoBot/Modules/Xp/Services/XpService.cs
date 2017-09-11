@@ -343,9 +343,6 @@ namespace NadekoBot.Modules.Xp.Services
 
             var _ = Task.Run(() =>
             {
-                if (!SetUserRewarded(user.Id))
-                    return;
-
                 if (_excludedChannels.TryGetValue(user.Guild.Id, out var chans) &&
                     chans.Contains(arg.Channel.Id))
                     return;
@@ -359,6 +356,10 @@ namespace NadekoBot.Modules.Xp.Services
 
                 if (!arg.Content.Contains(' ') && arg.Content.Length < 5)
                     return;
+
+                if (!SetUserRewarded(user.Id))
+                    return;
+
                 _addMessageXp.Enqueue(new UserCacheItem { Guild = user.Guild, Channel = arg.Channel, User = user });
             });
             return Task.CompletedTask;

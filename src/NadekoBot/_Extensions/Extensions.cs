@@ -135,7 +135,7 @@ namespace NadekoBot.Extensions
         public static MemoryStream ToStream(this ImageSharp.Image<Rgba32> img)
         {
             var imageStream = new MemoryStream();
-            img.SaveAsPng(imageStream);
+            img.SaveAsPng(imageStream, new ImageSharp.Formats.PngEncoder() { CompressionLevel = 9});
             imageStream.Position = 0;
             return imageStream;
         }
