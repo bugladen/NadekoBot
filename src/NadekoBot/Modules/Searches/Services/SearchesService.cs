@@ -187,6 +187,14 @@ namespace NadekoBot.Modules.Searches.Services
             }
             return added;
         }
+
+        public void ClearCache()
+        {
+            foreach (var c in _imageCacher)
+            {
+                c.Value?.Clear();
+            }
+        }
     }
     
     public struct UserChannelPair

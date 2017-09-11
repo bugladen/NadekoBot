@@ -3771,4 +3771,13 @@
   <data name="clubleaderboard_desc" xml:space="preserve">
     <value>Shows club rankings on the specified page.</value>
   </data>
+  <data name="nsfwclearcache_cmd" xml:space="preserve">
+    <value>nsfwcc</value>
+  </data>
+  <data name="nsfwclearcache_usage" xml:space="preserve">
+    <value>`{0}nsfwcc`</value>
+  </data>
+  <data name="nsfwclearcache_desc" xml:space="preserve">
+    <value>Clears nsfw cache.</value>
+  </data>
 </root>

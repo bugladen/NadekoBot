@@ -165,6 +165,11 @@ namespace NadekoBot.Modules.Searches.Common
             }
             return list.ToArray();
         }
+
+        public void Clear()
+        {
+            _cache.Clear();
+        }
     }
 
     public class ImageCacherObject : IComparable<ImageCacherObject>
