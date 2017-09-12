@@ -21,6 +21,7 @@
     <FileVersion>1.0.0.0</FileVersion>
     <ApplicationIcon>nadeko_icon.ico</ApplicationIcon>
     <RuntimeIdentifiers>win7-x64<!--;ubuntu.14.04-x64;osx.10.10-x64 --></RuntimeIdentifiers>
+    <Configurations>Debug;Release;global_nadeko</Configurations>
     </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Version)' == '' ">
@@ -78,6 +79,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
     <PackageReference Include="NLog" Version="5.0.0-beta03" />
     <PackageReference Include="NYoutubeDL" Version="0.4.4" />
+    <PackageReference Include="StackExchange.Redis" Version="1.2.6" />
     <PackageReference Include="System.ValueTuple" Version="4.4.0-preview1-25305-02" />
     <PackageReference Include="System.Xml.XPath" Version="4.3.0" />
   </ItemGroup>
@@ -92,6 +94,10 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='global_nadeko|AnyCPU'">
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 

@@ -139,6 +139,7 @@ namespace NadekoBot
                     .AddManual<IEnumerable<GuildConfig>>(AllGuildConfigs) //todo wrap this
                     .AddManual<NadekoBot>(this)
                     .AddManual<IUnitOfWork>(uow)
+                    .AddManual<IDataCache>(new RedisCache())
                     .LoadFrom(Assembly.GetEntryAssembly())
                     .Build();
 

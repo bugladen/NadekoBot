@@ -36,6 +36,7 @@ namespace NadekoBot.Modules.Xp.Services
         private readonly IImagesService _images;
         private readonly Logger _log;
         private readonly NadekoStrings _strings;
+        private readonly IDataCache _cache;
         private readonly FontCollection _fonts = new FontCollection();
         public const int XP_REQUIRED_LVL_1 = 36;
 
@@ -54,9 +55,6 @@ namespace NadekoBot.Modules.Xp.Services
         private readonly ConcurrentQueue<UserCacheItem> _addMessageXp 
             = new ConcurrentQueue<UserCacheItem>();
 
-        private readonly ConcurrentDictionary<string, byte[]> _imageStreams 
-            = new ConcurrentDictionary<string, byte[]>();
-
         private readonly Timer updateXpTimer;
         private readonly HttpClient http = new HttpClient();
         private FontFamily _usernameFontFamily;
@@ -69,7 +67,7 @@ namespace NadekoBot.Modules.Xp.Services
 
         public XpService(CommandHandler cmd, IBotConfigProvider bc,
             IEnumerable<GuildConfig> allGuildConfigs, IImagesService images,
-            DbService db, NadekoStrings strings)
+            DbService db, NadekoStrings strings, IDataCache cache)
         {
             _db = db;
             _cmd = cmd;
@@ -77,6 +75,7 @@ namespace NadekoBot.Modules.Xp.Services
             _images = images;
             _log = LogManager.GetCurrentClassLogger();
             _strings = strings;
+            _cache = cache;
 
             //load settings
             allGuildConfigs = allGuildConfigs.Where(x => x.XpSettings != null);
@@ -665,20 +664,20 @@ namespace NadekoBot.Modules.Xp.Services
                 {
                     var avatarUrl = stats.User.RealAvatarUrl();
 
-                    byte[] s;
-                    if (!_imageStreams.TryGetValue(avatarUrl, out s))
+                    var (succ, data) = await _cache.TryGetImageDataAsync(avatarUrl);
+                    if (!succ)
                     {
                         using (var temp = await http.GetStreamAsync(avatarUrl))
                         {
                             var tempDraw = Image.Load(temp);
                             tempDraw = tempDraw.Resize(69, 70);
                             ApplyRoundedCorners(tempDraw, 35);
-                            s = tempDraw.ToStream().ToArray();
+                            data = tempDraw.ToStream().ToArray();
                         }
 
-                        _imageStreams.AddOrUpdate(avatarUrl, s, (k, v) => s);
+                        await _cache.SetImageDataAsync(avatarUrl, data);
                     }
-                    var toDraw = Image.Load(s);
+                    var toDraw = Image.Load(data);
 
 
                     img.DrawImage(toDraw,
@@ -699,20 +698,20 @@ namespace NadekoBot.Modules.Xp.Services
                 var imgUrl = stats.User.Club.ImageUrl;
                 try
                 {
-                    byte[] s;
-                    if (!_imageStreams.TryGetValue(imgUrl, out s))
+                    var (succ, data) = await _cache.TryGetImageDataAsync(imgUrl);
+                    if (!succ)
                     {
                         using (var temp = await http.GetStreamAsync(imgUrl))
                         {
                             var tempDraw = Image.Load(temp);
                             tempDraw = tempDraw.Resize(45, 45);
                             ApplyRoundedCorners(tempDraw, 22.5f);
-                            s = tempDraw.ToStream().ToArray();
+                            data = tempDraw.ToStream().ToArray();
                         }
 
-                        _imageStreams.AddOrUpdate(imgUrl, s, (k, v) => s);
+                        await _cache.SetImageDataAsync(imgUrl, data);
                     }
-                    var toDraw = Image.Load(s);
+                    var toDraw = Image.Load(data);
 
                     img.DrawImage(toDraw,
                         1,
@@ -724,7 +723,7 @@ namespace NadekoBot.Modules.Xp.Services
                     _log.Warn(ex);
                 }
             }
-
+            img.Resize(432, 211);
             var arr = img.ToStream().ToArray();
 
             //_log.Info("{0:F2} KB", arr.Length * 1.0f / 1.KB());
