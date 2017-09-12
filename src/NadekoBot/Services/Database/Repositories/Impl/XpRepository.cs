@@ -65,15 +65,13 @@ namespace NadekoBot.Services.Database.Repositories.Impl
 
         public (ulong UserId, int TotalXp)[] GetUsersFor(int page)
         {
-            return (from orduser in _set
-                    group orduser by orduser.UserId into g
-                    orderby g.Sum(x => x.Xp) descending
-                    select new { UserId = g.Key, TotalXp = g.Sum(x => x.Xp) })
-                    .Skip(page * 9)
-                    .Take(9)
-                    .AsEnumerable()
-                    .Select(x => (x.UserId, x.TotalXp))
-                    .ToArray();
+            return _set.GroupBy(x => x.UserId)
+                .OrderByDescending(x => x.Sum(y => y.Xp))
+                .Skip(page * 9)
+                .Take(9)
+                .AsEnumerable()
+                .Select(x => (x.Key, x.Sum(y => y.Xp)))
+                .ToArray();
         }
     }
 }
