@@ -32,7 +32,7 @@ namespace NadekoBot.Modules.Xp
             sw.Stop();
             _log.Info("Generating finished in {0:F2}s", sw.Elapsed.TotalSeconds);
             sw.Restart();
-            await Context.Channel.SendFileAsync(img.ToStream(), $"{user.Id}_xp.png")
+            await Context.Channel.SendFileAsync(img, $"{user.Id}_xp.png")
                 .ConfigureAwait(false);
             sw.Stop();
             _log.Info("Sending finished in {0:F2}s", sw.Elapsed.TotalSeconds);

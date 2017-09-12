@@ -76,11 +76,13 @@ namespace NadekoBot.Modules.Searches.Common
                     if (images.Length == 0)
                         return null;
                     var toReturn = images[_rng.Next(images.Length)];
+#if !GLOBAL_NADEKO
                     foreach (var dledImg in images)
                     {
                         if(dledImg != toReturn)
                             _cache.Add(dledImg);
                     }
+#endif
                     return toReturn;
                 }                    
             }
