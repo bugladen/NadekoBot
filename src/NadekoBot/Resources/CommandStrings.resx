@@ -3679,7 +3679,7 @@
     <value>`{0}clubaccept b1nzy#1337`</value>
   </data>
   <data name="clubaccept_desc" xml:space="preserve">
-    <value>Apply to join a club. You must meet that club's minimum level requirement, and not be on its ban list.</value>
+    <value>Accept a user who applied to your club.</value>
   </data>
   <data name="clubleave_cmd" xml:space="preserve">
     <value>clubleave</value>

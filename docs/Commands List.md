@@ -90,7 +90,6 @@ Commands and aliases | Description | Usage
 `.setgame` | Sets the bots game. **Bot owner only** | `.setgame with snakes`
 `.setstream` | Sets the bots stream. First argument is the twitch link, second argument is stream name. **Bot owner only** | `.setstream TWITCHLINK Hello`
 `.send` | Sends a message to someone on a different server through the bot.  Separate server and channel/user ids with `|` and prefix the channel id with `c:` and the user id with `u:`. **Bot owner only** | `.send serverid|c:channelid message` or `.send serverid|u:userid message`
-`.announce` | Sends a message to all servers' default channel that bot is connected to. **Bot owner only** | `.announce Useless spam`
 `.reloadimages` | Reloads images bot is using. Safe to use even when bot is being used heavily. **Bot owner only** | `.reloadimages`
 `.greetdel` `.grdel` | Sets the time it takes (in seconds) for greet messages to be auto-deleted. Set it to 0 to disable automatic deletion. **Requires ManageServer server permission.** | `.greetdel 0` or `.greetdel 30`
 `.greet` | Toggles anouncements on the current channel when someone joins the server. **Requires ManageServer server permission.** | `.greet`
@@ -275,6 +274,7 @@ Commands and aliases | Description | Usage
 `.boobs` | Real adult content.  | `.boobs`
 `.butts` `.ass` `.butt` | Real adult content.  | `.butts` or `.ass`
 `.nsfwtagbl` `.nsfwtbl` | Toggles whether the tag is blacklisted or not in nsfw searches. Provide no parameters to see the list of blacklisted tags.  | `.nsfwtbl poop`
+`.nsfwcc` | Clears nsfw cache. **Bot owner only** | `.nsfwcc`
 
 ###### [Back to ToC](#table-of-contents)
 
@@ -461,7 +461,7 @@ Commands and aliases | Description | Usage
 `.clubbans` | Shows the list of users who have banned from your club. Paginated. You must be club owner to use this command.  | `.clubbans 2`
 `.clubapps` | Shows the list of users who have applied to your club. Paginated. You must be club owner to use this command.  | `.clubapps 2`
 `.clubapply` | Apply to join a club. You must meet that club's minimum level requirement, and not be on its ban list.  | `.clubapply b1nzy's friends#123`
-`.clubaccept` | Apply to join a club. You must meet that club's minimum level requirement, and not be on its ban list.  | `.clubaccept b1nzy#1337`
+`.clubaccept` | Accept a user who applied to your club.  | `.clubaccept b1nzy#1337`
 `.clubleave` | Leaves the club you're currently in.  | `.clubleave`
 `.clubkick` | Kicks the user from the club. You must be the club owner. They will be able to apply again.  | `.clubkick b1nzy#1337`
 `.clubban` | Bans the user from the club. You must be the club owner. They will not be able to apply again.  | `.clubban b1nzy#1337`
