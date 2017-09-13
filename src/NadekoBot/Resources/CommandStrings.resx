@@ -3589,7 +3589,7 @@
     <value>`{0}xpex Role Excluded-Role` `{0}xpex Server`</value>
   </data>
   <data name="xpexclude_desc" xml:space="preserve">
-    <value>Exclude a user or a role from the xp system, or whole current server.</value>
+    <value>Exclude a channel, role or current server from the xp system.</value>
   </data>
   <data name="xpnotify_cmd" xml:space="preserve">
     <value>xpnotify xpn</value>

@@ -150,6 +150,7 @@ namespace NadekoBot.Modules.Xp.Services
 
                             var oldGuildLevelData = new LevelStats(usr.Xp + usr.AwardedXp);
                             usr.Xp += xp;
+                            du.TotalXp += xp;
                             if (du.Club != null)
                                 du.Club.Xp += xp;
                             var newGuildLevelData = new LevelStats(usr.Xp + usr.AwardedXp);
@@ -311,7 +312,7 @@ namespace NadekoBot.Modules.Xp.Services
         {
             using (var uow = _db.UnitOfWork)
             {
-                return uow.Xp.GetUsersFor(page);
+                return uow.DiscordUsers.GetUsersXpLeaderboardFor(page);
             }
         }
 
@@ -424,8 +425,8 @@ namespace NadekoBot.Modules.Xp.Services
             {
                 du = uow.DiscordUsers.GetOrCreate(user);
                 stats = uow.Xp.GetOrCreateUser(user.GuildId, user.Id);
-                totalXp = uow.Xp.GetTotalUserXp(user.Id);
-                globalRank = uow.Xp.GetUserGlobalRanking(user.Id);
+                totalXp = du.TotalXp;
+                globalRank = uow.DiscordUsers.GetUserGlobalRanking(user.Id);
                 guildRank = uow.Xp.GetUserGuildRanking(user.Id, user.GuildId);
             }
 

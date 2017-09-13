@@ -1,10 +1,12 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Xp.Common;
 using NadekoBot.Modules.Xp.Services;
+using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
 using System.Diagnostics;
 using System.Linq;
@@ -15,14 +17,42 @@ namespace NadekoBot.Modules.Xp
     public partial class Xp : NadekoTopLevelModule<XpService>
     {
         private readonly DiscordSocketClient _client;
+        private readonly DbService _db;
 
-        public Xp(DiscordSocketClient client)
+        public Xp(DiscordSocketClient client,DbService db)
         {
             _client = client;
+            _db = db;
         }
+
+        //[NadekoCommand, Usage, Description, Aliases]
+        //[RequireContext(ContextType.Guild)]
+        //[OwnerOnly]
+        //public async Task Populate()
+        //{
+        //    var rng = new NadekoRandom();
+        //    using (var uow = _db.UnitOfWork)
+        //    {
+        //        for (var i = 0ul; i < 1000000; i++)
+        //        {
+        //            uow.DiscordUsers.Add(new DiscordUser()
+        //            {
+        //                AvatarId = i.ToString(),
+        //                Discriminator = "1234",
+        //                UserId = i,
+        //                Username = i.ToString(),
+        //                Club = null,
+        //            });
+        //            var xp = uow.Xp.GetOrCreateUser(Context.Guild.Id, i);
+        //            xp.Xp = rng.Next(100, 100000);
+        //        }
+        //        uow.Complete();
+        //    }
+        //}
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        //[Ratelimit(30)]
         public async Task Experience([Remainder]IUser user = null)
         {
             user = user ?? Context.User;
@@ -44,7 +74,7 @@ namespace NadekoBot.Modules.Xp
         {
             page--;
 
-            if (page < 0)
+            if (page < 0 || page > 100)
                 return Task.CompletedTask;
 
             var roles = _service.GetRoleRewards(Context.Guild.Id)
@@ -173,7 +203,7 @@ namespace NadekoBot.Modules.Xp
         [RequireContext(ContextType.Guild)]
         public Task XpLeaderboard(int page = 1)
         {
-            if (--page < 0)
+            if (--page < 0 || page > 100)
                 return Task.CompletedTask;
 
             return Context.Channel.SendPaginatedConfirmAsync(_client, page, async (curPage) =>
@@ -214,32 +244,28 @@ namespace NadekoBot.Modules.Xp
         [RequireContext(ContextType.Guild)]
         public async Task XpGlobalLeaderboard(int page = 1)
         {
-            if (--page < 0)
+            if (--page < 0 || page > 100)
                 return;
+            var users = _service.GetUserXps(page);
 
-            await Context.Channel.SendPaginatedConfirmAsync(_client, page, async (curPage) =>
+            var embed = new EmbedBuilder()
+                .WithTitle(GetText("global_leaderboard"))
+                .WithOkColor();
+
+            if (!users.Any())
+                embed.WithDescription("-");
+            else
             {
-                var users = _service.GetUserXps(curPage);
-
-                var embed = new EmbedBuilder()
-                    .WithTitle(GetText("global_leaderboard"))
-                    .WithOkColor();
-
-                if (!users.Any())
-                    return embed.WithDescription("-");
-                else
+                for (int i = 0; i < users.Length; i++)
                 {
-                    for (int i = 0; i < users.Length; i++)
-                    {
-                        var user = await Context.Guild.GetUserAsync(users[i].UserId).ConfigureAwait(false);
-                        embed.AddField(
-                            $"#{(i + 1 + curPage * 9)} {(user?.ToString() ?? users[i].UserId.ToString())}", 
-                            $"{GetText("level_x", LevelStats.FromXp(users[i].TotalXp).Level)} - {users[i].TotalXp}xp");
-                    }
-
-                    return embed;
+                    var user = await Context.Guild.GetUserAsync(users[i].UserId).ConfigureAwait(false);
+                    embed.AddField(
+                        $"#{(i + 1 + page * 9)} {(user?.ToString() ?? users[i].UserId.ToString())}", 
+                        $"{GetText("level_x", LevelStats.FromXp(users[i].TotalXp).Level)} - {users[i].TotalXp}xp");
                 }
-            }, addPaginatedFooter: false);
+            }
+
+            await Context.Channel.EmbedAsync(embed);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
