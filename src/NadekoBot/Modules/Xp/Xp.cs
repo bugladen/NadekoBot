@@ -258,9 +258,9 @@ namespace NadekoBot.Modules.Xp
             {
                 for (int i = 0; i < users.Length; i++)
                 {
-                    var user = await Context.Guild.GetUserAsync(users[i].UserId).ConfigureAwait(false);
+                    var user = users[i];
                     embed.AddField(
-                        $"#{(i + 1 + page * 9)} {(user?.ToString() ?? users[i].UserId.ToString())}", 
+                        $"#{(i + 1 + page * 9)} {(user.ToString())}", 
                         $"{GetText("level_x", LevelStats.FromXp(users[i].TotalXp).Level)} - {users[i].TotalXp}xp");
                 }
             }

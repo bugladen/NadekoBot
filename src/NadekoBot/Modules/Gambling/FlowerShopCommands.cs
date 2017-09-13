@@ -331,7 +331,7 @@ namespace NadekoBot.Modules.Gambling
                 var embed = new EmbedBuilder().WithOkColor();
 
                 if (entry.Type == ShopEntryType.Role)
-                    return embed.AddField(efb => efb.WithName(GetText("name")).WithValue(GetText("shop_role", Format.Bold(entry.RoleName))).WithIsInline(true))
+                    return embed.AddField(efb => efb.WithName(GetText("name")).WithValue(GetText("shop_role", Format.Bold(Context.Guild.GetRole(entry.RoleId)?.Name ?? "MISSING_ROLE"))).WithIsInline(true))
                             .AddField(efb => efb.WithName(GetText("price")).WithValue(entry.Price.ToString()).WithIsInline(true))
                             .AddField(efb => efb.WithName(GetText("type")).WithValue(entry.Type.ToString()).WithIsInline(true));
                 else if (entry.Type == ShopEntryType.List)
@@ -349,7 +349,7 @@ namespace NadekoBot.Modules.Gambling
             {
                 if (entry.Type == ShopEntryType.Role)
                 {
-                    return GetText("shop_role", Format.Bold(entry.RoleName));
+                    return GetText("shop_role", Format.Bold(Context.Guild.GetRole(entry.RoleId)?.Name ?? "MISSING_ROLE"));
                 }
                 else if (entry.Type == ShopEntryType.List)
                 {

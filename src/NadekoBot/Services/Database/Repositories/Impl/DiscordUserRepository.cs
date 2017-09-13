@@ -46,14 +46,13 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                     .Sum(y => y.TotalXp));
         }
 
-        public (ulong UserId, int TotalXp)[] GetUsersXpLeaderboardFor(int page)
+        public DiscordUser[] GetUsersXpLeaderboardFor(int page)
         {
             return _set
                 .OrderByDescending(x => x.TotalXp)
                 .Skip(page * 9)
                 .Take(9)
                 .AsEnumerable()
-                .Select(y => (y.UserId, y.TotalXp))
                 .ToArray();
         }
     }

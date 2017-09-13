@@ -7,6 +7,6 @@ namespace NadekoBot.Services.Database.Repositories
     {
         DiscordUser GetOrCreate(IUser original);
         int GetUserGlobalRanking(ulong id);
-        (ulong UserId, int TotalXp)[] GetUsersXpLeaderboardFor(int page);
+        DiscordUser[] GetUsersXpLeaderboardFor(int page);
     }
 }

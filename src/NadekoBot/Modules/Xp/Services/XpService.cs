@@ -308,7 +308,7 @@ namespace NadekoBot.Modules.Xp.Services
             }
         }
 
-        public (ulong UserId, int TotalXp)[] GetUserXps(int page)
+        public DiscordUser[] GetUserXps(int page)
         {
             using (var uow = _db.UnitOfWork)
             {
