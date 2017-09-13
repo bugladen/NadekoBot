@@ -64,12 +64,6 @@ namespace NadekoBot.Modules.CustomReactions.Services
 
             GuildReactions = new ConcurrentDictionary<ulong, CustomReaction[]>(items.Where(g => g.GuildId != null && g.GuildId != 0).GroupBy(k => k.GuildId.Value).ToDictionary(g => g.Key, g => g.ToArray()));
             GlobalReactions = items.Where(g => g.GuildId == null || g.GuildId == 0).ToArray();
-            foreach (var item in items)
-            {
-                _log.Info(item.Id);
-                _log.Info(item.Trigger);
-                _log.Info(item.GuildId);
-            }
         }
 
         public Task AddGcr(CustomReaction cr)
