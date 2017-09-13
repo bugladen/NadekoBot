@@ -58,8 +58,7 @@ namespace NadekoBot.Modules.CustomReactions
 
             if (channel == null)
             {
-                Array.Resize(ref _service.GlobalReactions, _service.GlobalReactions.Length + 1);
-                _service.GlobalReactions[_service.GlobalReactions.Length - 1] = cr;
+                await _service.AddGcr(cr).ConfigureAwait(false);
             }
             else
             {
@@ -237,8 +236,7 @@ namespace NadekoBot.Modules.CustomReactions
                     if ((toDelete.GuildId == null || toDelete.GuildId == 0) && Context.Guild == null)
                     {
                         uow.CustomReactions.Remove(toDelete);
-                        //todo 91 i can dramatically improve performance of this, if Ids are ordered.
-                        _service.GlobalReactions = _service.GlobalReactions.Where(cr => cr?.Id != toDelete.Id).ToArray();
+                        await _service.DelGcr(toDelete.Id);
                         success = true;
                     }
                     else if ((toDelete.GuildId != null && toDelete.GuildId != 0) && Context.Guild.Id == toDelete.GuildId)

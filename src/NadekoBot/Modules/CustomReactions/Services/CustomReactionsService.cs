@@ -15,6 +15,7 @@ using NadekoBot.Modules.CustomReactions.Extensions;
 using NadekoBot.Modules.Permissions.Common;
 using NadekoBot.Modules.Permissions.Services;
 using NadekoBot.Services.Impl;
+using Newtonsoft.Json;
 
 namespace NadekoBot.Modules.CustomReactions.Services
 {
@@ -32,9 +33,11 @@ namespace NadekoBot.Modules.CustomReactions.Services
         private readonly CommandHandler _cmd;
         private readonly IBotConfigProvider _bc;
         private readonly NadekoStrings _strings;
+        private readonly IDataCache _cache;
 
         public CustomReactionsService(PermissionService perms, DbService db, NadekoStrings strings,
-            DiscordSocketClient client, CommandHandler cmd, IBotConfigProvider bc, IUnitOfWork uow)
+            DiscordSocketClient client, CommandHandler cmd, IBotConfigProvider bc, IUnitOfWork uow, 
+            IDataCache cache)
         {
             _log = LogManager.GetCurrentClassLogger();
             _db = db;
@@ -43,10 +46,42 @@ namespace NadekoBot.Modules.CustomReactions.Services
             _cmd = cmd;
             _bc = bc;
             _strings = strings;
-            
+            _cache = cache;
+
+            var sub = _cache.Redis.GetSubscriber();
+            sub.Subscribe("gcr.added", (ch, msg) =>
+            {
+                Array.Resize(ref GlobalReactions, GlobalReactions.Length + 1);
+                GlobalReactions[GlobalReactions.Length - 1] = JsonConvert.DeserializeObject<CustomReaction>(msg);
+            }, StackExchange.Redis.CommandFlags.FireAndForget);
+            sub.Subscribe("gcr.deleted", (ch, msg) =>
+            {
+                var id = int.Parse(msg);
+                GlobalReactions = GlobalReactions.Where(cr => cr?.Id != id).ToArray();
+            }, StackExchange.Redis.CommandFlags.FireAndForget);
+
             var items = uow.CustomReactions.GetAll();
+
             GuildReactions = new ConcurrentDictionary<ulong, CustomReaction[]>(items.Where(g => g.GuildId != null && g.GuildId != 0).GroupBy(k => k.GuildId.Value).ToDictionary(g => g.Key, g => g.ToArray()));
             GlobalReactions = items.Where(g => g.GuildId == null || g.GuildId == 0).ToArray();
+            foreach (var item in items)
+            {
+                _log.Info(item.Id);
+                _log.Info(item.Trigger);
+                _log.Info(item.GuildId);
+            }
+        }
+
+        public Task AddGcr(CustomReaction cr)
+        {
+            var sub = _cache.Redis.GetSubscriber();
+            return sub.PublishAsync("gcr.added", JsonConvert.SerializeObject(cr));
+        }
+
+        public Task DelGcr(int id)
+        {
+            var sub = _cache.Redis.GetSubscriber();
+            return sub.PublishAsync("gcr.deleted", id);
         }
 
         public void ClearStats() => ReactionStats.Clear();

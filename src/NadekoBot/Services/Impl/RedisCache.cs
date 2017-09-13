@@ -5,13 +5,14 @@ namespace NadekoBot.Services.Impl
 {
     public class RedisCache : IDataCache
     {
-        private readonly ConnectionMultiplexer _redis;
+        public ConnectionMultiplexer Redis { get; }
         private readonly IDatabase _db;
 
         public RedisCache()
         {
-            _redis = ConnectionMultiplexer.Connect("localhost");
-            _db = _redis.GetDatabase();
+            Redis = ConnectionMultiplexer.Connect("localhost");
+            Redis.PreserveAsyncOrder = false;
+            _db = Redis.GetDatabase();
         }
 
         public async Task<(bool Success, byte[] Data)> TryGetImageDataAsync(string key)
