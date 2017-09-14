@@ -30,8 +30,9 @@ namespace NadekoBot.Modules.Administration
             private readonly IImagesService _images;
             private readonly MusicService _music;
             private readonly IBotConfigProvider _bc;
+            private readonly NadekoBot _bot;
 
-            public SelfCommands(DbService db, DiscordSocketClient client,
+            public SelfCommands(DbService db, NadekoBot bot, DiscordSocketClient client,
                 MusicService music, IImagesService images, IBotConfigProvider bc)
             {
                 _db = db;
@@ -39,6 +40,7 @@ namespace NadekoBot.Modules.Administration
                 _images = images;
                 _music = music;
                 _bc = bc;
+                _bot = bot;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -349,7 +351,7 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task SetGame([Remainder] string game = null)
             {
-                await _client.SetGameAsync(game).ConfigureAwait(false);
+                await _bot.SetGameAsync(game).ConfigureAwait(false);
 
                 await ReplyConfirmLocalized("set_game").ConfigureAwait(false);
             }
