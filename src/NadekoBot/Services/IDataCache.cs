@@ -11,6 +11,8 @@ namespace NadekoBot.Services
     {
         ConnectionMultiplexer Redis { get; }
         Task<(bool Success, byte[] Data)> TryGetImageDataAsync(string key);
+        Task<(bool Success, string Data)> TryGetAnimeDataAsync(string key);
         Task SetImageDataAsync(string key, byte[] data);
+        Task SetAnimeDataAsync(string link, string data);
     }
 }

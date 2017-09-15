@@ -282,7 +282,7 @@ namespace NadekoBot.Modules.Xp
                 }
                 else
                 {
-                    await ReplyErrorLocalized("club_disaband_error").ConfigureAwait(false);
+                    await ReplyErrorLocalized("club_disband_error").ConfigureAwait(false);
                 }
             }
 

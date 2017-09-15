@@ -242,13 +242,6 @@ namespace NadekoBot
 #if GLOBAL_NADEKO
             isPublicNadeko = true;
 #endif
-            //_log.Info(string.Join(", ", CommandService.Commands
-            //    .Distinct(x => x.Name + x.Module.Name)
-            //    .SelectMany(x => x.Aliases)
-            //    .GroupBy(x => x)
-            //    .Where(x => x.Count() > 1)
-            //    .Select(x => x.Key + $"({x.Count()})")));
-
             //unload modules which are not available on the public bot
 
             if(isPublicNadeko)

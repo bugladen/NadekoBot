@@ -25,5 +25,16 @@ namespace NadekoBot.Services.Impl
         {
             return _db.StringSetAsync("image_" + key, data);
         }
+
+        public async Task<(bool Success, string Data)> TryGetAnimeDataAsync(string key)
+        {
+            string x = await _db.StringGetAsync("anime_" + key);
+            return (x != null, x);
+        }
+
+        public Task SetAnimeDataAsync(string key, string data)
+        {
+            return _db.StringSetAsync("anime_" + key, data);
+        }
     }
 }
