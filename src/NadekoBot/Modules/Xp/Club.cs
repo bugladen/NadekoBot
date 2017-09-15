@@ -159,7 +159,8 @@ namespace NadekoBot.Modules.Xp
 
                         return new EmbedBuilder()
                             .WithTitle(GetText("club_bans_for", club.ToString()))
-                            .WithDescription(toShow);
+                            .WithDescription(toShow)
+                            .WithOkColor();
 
                     }, bans.Length / 10);
             }
@@ -190,7 +191,8 @@ namespace NadekoBot.Modules.Xp
 
                         return new EmbedBuilder()
                             .WithTitle(GetText("club_apps_for", club.ToString()))
-                            .WithDescription(toShow);
+                            .WithDescription(toShow)
+                            .WithOkColor();
 
                     }, apps.Length / 10);
             }
