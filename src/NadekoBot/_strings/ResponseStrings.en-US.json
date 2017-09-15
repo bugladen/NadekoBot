@@ -13,7 +13,6 @@
   "customreactions_stats_not_found": "No stats for that trigger found, no action taken.",
   "customreactions_trigger": "Trigger",
   "customreactions_redacted_too_long": "Redecated because it's too long.",
-  "nsfw_autohentai_stopped": "Autohentai stopped.",
   "nsfw_not_found": "No results found.",
   "nsfw_blacklisted_tag_list": "List of blacklisted tags:",
   "nsfw_blacklisted_tag": "One or more tags you've used are blacklisted",
@@ -868,5 +867,10 @@
   "xp_club_icon_set": "New club icon set.",
   "xp_club_bans_for": "Bans for {0} club",
   "xp_club_apps_for": "Applicants for {0} club",
-  "xp_club_leaderboard": "Club leaderboard - page {0}"
+  "xp_club_leaderboard": "Club leaderboard - page {0}",
+  "xp_club_admin_add": "{0} is now a club admin.",
+  "xp_club_admin_remove": "{0} is no longer club admin.",
+  "xp_club_admin_error": "Error. You are either not the owner of the club, or that user is not in your club.",
+  "nsfw_started": "Started. Reposting every {0}s.",
+  "nsfw_stopped": "Stopped reposting."
 }

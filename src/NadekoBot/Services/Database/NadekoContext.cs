@@ -329,7 +329,7 @@ namespace NadekoBot.Services.Database
             #region ClubManytoMany
 
             modelBuilder.Entity<ClubApplicants>()
-            .HasKey(t => new { t.ClubId, t.UserId });
+                .HasKey(t => new { t.ClubId, t.UserId });
 
             modelBuilder.Entity<ClubApplicants>()
                 .HasOne(pt => pt.User)
@@ -340,7 +340,7 @@ namespace NadekoBot.Services.Database
                 .WithMany(x => x.Applicants);
 
             modelBuilder.Entity<ClubBans>()
-            .HasKey(t => new { t.ClubId, t.UserId });
+                .HasKey(t => new { t.ClubId, t.UserId });
 
             modelBuilder.Entity<ClubBans>()
                 .HasOne(pt => pt.User)

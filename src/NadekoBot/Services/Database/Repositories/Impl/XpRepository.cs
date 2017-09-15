@@ -29,11 +29,6 @@ namespace NadekoBot.Services.Database.Repositories.Impl
             return usr;
         }
 
-        public int GetTotalUserXp(ulong userId)
-        {
-            return _set.Where(x => x.UserId == userId).Sum(x => x.Xp);
-        }
-
         public UserXpStats[] GetUsersFor(ulong guildId, int page)
         {
             return _set.Where(x => x.GuildId == guildId)

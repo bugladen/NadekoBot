@@ -144,7 +144,7 @@ namespace NadekoBot.Modules.Xp.Services
 
                             du.LastXpGain = DateTime.UtcNow;
 
-                            var globalXp = uow.Xp.GetTotalUserXp(item.Key.User.Id);
+                            var globalXp = du.TotalXp;
                             var oldGlobalLevelData = new LevelStats(globalXp);
                             var newGlobalLevelData = new LevelStats(globalXp + xp);
 
@@ -401,17 +401,6 @@ namespace NadekoBot.Modules.Xp.Services
         private bool SetUserRewarded(ulong userId)
         {
             return _rewardedUsers.Add(userId);
-        }
-
-        public LevelStats GetGlobalUserStats(ulong userId)
-        {
-            int totalXp;
-            using (var uow = _db.UnitOfWork)
-            {
-                totalXp = uow.Xp.GetTotalUserXp(userId);
-            }
-
-            return new LevelStats(totalXp);
         }
 
         public FullUserStats GetUserStats(IGuildUser user)
