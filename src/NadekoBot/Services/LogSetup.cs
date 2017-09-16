@@ -11,7 +11,7 @@ namespace NadekoBot.Services
             var logConfig = new LoggingConfiguration();
             var consoleTarget = new ColoredConsoleTarget()
             {
-                Layout = @"${date:format=HH\:mm\:ss} ${logger} | ${message}"
+                Layout = @"${date:format=HH\:mm\:ss} ${logger:shortName=True} | ${message}"
             };
             logConfig.AddTarget("Console", consoleTarget);
 

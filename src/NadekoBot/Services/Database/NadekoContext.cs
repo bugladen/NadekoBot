@@ -3,22 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using NadekoBot.Services.Database.Models;
 using NadekoBot.Extensions;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace NadekoBot.Services.Database
 {
-
-    public class NadekoContextFactory : IDbContextFactory<NadekoContext>
+    public class NadekoContextFactory : IDesignTimeDbContextFactory<NadekoContext>
     {
-        /// <summary>
-        /// :\ Used for migrations
-        /// </summary>
-        /// <param name="options"></param>
-        /// <returns></returns>
-        public NadekoContext Create(DbContextFactoryOptions options)
+        public NadekoContext CreateDbContext(string[] args)
         {
-            var optionsBuilder = new DbContextOptionsBuilder();
+            var optionsBuilder = new DbContextOptionsBuilder<NadekoContext>();
             optionsBuilder.UseSqlite("Filename=./data/NadekoBot.db");
             var ctx = new NadekoContext(optionsBuilder.Options);
             ctx.Database.SetCommandTimeout(60);
@@ -58,12 +52,7 @@ namespace NadekoBot.Services.Database
         public DbSet<ModulePrefix> ModulePrefixes { get; set; }
         public DbSet<RewardedUser> RewardedUsers { get; set; }
 
-        public NadekoContext() : base()
-        {
-
-        }
-
-        public NadekoContext(DbContextOptions options) : base(options)
+        public NadekoContext(DbContextOptions<NadekoContext> options) : base(options)
         {
         }
 
@@ -231,7 +220,7 @@ namespace NadekoBot.Services.Database
             musicPlaylistEntity
                 .HasMany(p => p.Songs)
                 .WithOne()
-                .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade);
 
 
             #endregion
