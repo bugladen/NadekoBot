@@ -2,9 +2,6 @@
 using System.Runtime.CompilerServices;
 using Discord.Commands;
 using NadekoBot.Services.Impl;
-
-//todo what if it doesn't exist
-
 namespace NadekoBot.Common.Attributes
 {
     public class Aliases : AliasAttribute

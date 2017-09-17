@@ -90,11 +90,6 @@ namespace NadekoBot.Services.Impl
                 ulong.TryParse(data[nameof(ClientId)], out ulong clId);
                 ClientId = clId;
 
-                //var scId = data[nameof(SoundCloudClientId)];
-                //SoundCloudClientId = scId;
-                //SoundCloudClientId = string.IsNullOrWhiteSpace(scId)
-                //    ? 
-                //    : scId;
                 CarbonKey = data[nameof(CarbonKey)];
                 var dbSection = data.GetSection("db");
                 Db = new DBConfig(string.IsNullOrWhiteSpace(dbSection["Type"]) 

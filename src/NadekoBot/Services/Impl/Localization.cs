@@ -131,6 +131,15 @@ namespace NadekoBot.Services.Impl
         public static CommandData LoadCommand(string key)
         {
             _commandData.TryGetValue(key, out var toReturn);
+
+            if (toReturn == null)
+                return new CommandData
+                {
+                    Cmd = key,
+                    Desc = key,
+                    Usage = key,
+                };
+
             return toReturn;
         }
     }
