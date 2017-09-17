@@ -1431,7 +1431,7 @@
   },
   "heal": {
     "Cmd": "heal",
-    "Desc": "Heals someone. Revives those who fainted. Costs a NadekoFlower. ",
+    "Desc": "Heals someone. Revives those who fainted. Costs one Currency. ",
     "Usage": "`{0}heal @someone`"
   },
   "movelist": {
@@ -1441,7 +1441,7 @@
   },
   "settype": {
     "Cmd": "settype",
-    "Desc": "Set your poketype. Costs a NadekoFlower. Provide no arguments to see a list of available types.",
+    "Desc": "Set your poketype. Costs one Currency. Provide no arguments to see a list of available types.",
     "Usage": "`{0}settype fire` or `{0}settype`"
   },
   "type": {
@@ -1576,8 +1576,8 @@
   },
   "startevent": {
     "Cmd": "startevent",
-    "Desc": "Starts one of the events seen on public nadeko.",
-    "Usage": "`{0}startevent flowerreaction`"
+    "Desc": "Starts one of the events seen on public nadeko. `reaction` and `sneakygamestatus` are the only 2 available now.",
+    "Usage": "`{0}startevent reaction`"
   },
   "slotstats": {
     "Cmd": "slotstats",

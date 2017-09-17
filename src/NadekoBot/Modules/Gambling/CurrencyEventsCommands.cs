@@ -13,6 +13,7 @@ using NadekoBot.Common.Collections;
 using NLog;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using NadekoBot.Services.Database.Models;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -23,7 +24,7 @@ namespace NadekoBot.Modules.Gambling
         {
             public enum CurrencyEvent
             {
-                FlowerReaction,
+                Reaction,
                 SneakyGameStatus
             }
             //flower reaction event
@@ -54,8 +55,8 @@ namespace NadekoBot.Modules.Gambling
             {
                 switch (e)
                 {
-                    case CurrencyEvent.FlowerReaction:
-                        await FlowerReactionEvent(Context, arg).ConfigureAwait(false);
+                    case CurrencyEvent.Reaction:
+                        await reactionEvent(Context, arg).ConfigureAwait(false);
                         break;
                     case CurrencyEvent.SneakyGameStatus:
                         await SneakyGameStatusEvent(Context, arg).ConfigureAwait(false);
@@ -127,19 +128,19 @@ namespace NadekoBot.Modules.Gambling
                 return Task.CompletedTask;
             }
 
-            public async Task FlowerReactionEvent(ICommandContext context, int amount)
+            public async Task reactionEvent(ICommandContext context, int amount)
             {
                 if (amount <= 0)
                     amount = 100;
 
-                var title = GetText("flowerreaction_title");
-                var desc = GetText("flowerreaction_desc", "🌸", Format.Bold(amount.ToString()) + _bc.BotConfig.CurrencySign);
-                var footer = GetText("flowerreaction_footer", 24);
+                var title = GetText("reaction_title");
+                var desc = GetText("reaction_desc", _bc.BotConfig.CurrencySign, Format.Bold(amount.ToString()) + _bc.BotConfig.CurrencySign);
+                var footer = GetText("reaction_footer", 24);
                 var msg = await context.Channel.SendConfirmAsync(title,
                         desc, footer: footer)
                     .ConfigureAwait(false);
 
-                await new FlowerReactionEvent(_client, _cs, amount).Start(msg, context);
+                await new ReactionEvent(_bc.BotConfig, _client, _cs, amount).Start(msg, context);
             }
         }
     }
@@ -149,9 +150,10 @@ namespace NadekoBot.Modules.Gambling
         public abstract Task Start(IUserMessage msg, ICommandContext channel);
     }
 
-    public class FlowerReactionEvent : CurrencyEvent
+    public class ReactionEvent : CurrencyEvent
     {
-        private readonly ConcurrentHashSet<ulong> _flowerReactionAwardedUsers = new ConcurrentHashSet<ulong>();
+        private readonly ConcurrentHashSet<ulong> _reactionAwardedUsers = new ConcurrentHashSet<ulong>();
+        private readonly BotConfig _bc;
         private readonly Logger _log;
         private readonly DiscordSocketClient _client;
         private readonly CurrencyService _cs;
@@ -165,8 +167,9 @@ namespace NadekoBot.Modules.Gambling
         private readonly ConcurrentQueue<ulong> _toGiveTo = new ConcurrentQueue<ulong>();
         private readonly int _amount;
 
-        public FlowerReactionEvent(DiscordSocketClient client, CurrencyService cs, int amount)
+        public ReactionEvent(BotConfig bc, DiscordSocketClient client, CurrencyService cs, int amount)
         {
+            _bc = bc;
             _log = LogManager.GetCurrentClassLogger();
             _client = client;
             _cs = cs;
@@ -223,10 +226,17 @@ namespace NadekoBot.Modules.Gambling
             StartingMessage = umsg;
             _client.MessageDeleted += MessageDeletedEventHandler;
 
-            try { await StartingMessage.AddReactionAsync(new Emoji("🌸")).ConfigureAwait(false); }
+            IEmote iemote;
+            if (Emote.TryParse(_bc.CurrencySign, out var emote))
+            {
+                iemote = emote;
+            }
+            else
+                iemote = new Emoji(_bc.CurrencySign);
+            try { await StartingMessage.AddReactionAsync(iemote).ConfigureAwait(false); }
             catch
             {
-                try { await StartingMessage.AddReactionAsync(new Emoji("🌸")).ConfigureAwait(false); }
+                try { await StartingMessage.AddReactionAsync(iemote).ConfigureAwait(false); }
                 catch
                 {
                     try { await StartingMessage.DeleteAsync().ConfigureAwait(false); }
@@ -240,7 +250,7 @@ namespace NadekoBot.Modules.Gambling
                     if (r.UserId == _botUser.Id)
                         return;
 
-                    if (r.Emote.Name == "🌸" && r.User.IsSpecified && ((DateTime.UtcNow - r.User.Value.CreatedAt).TotalDays > 5) && _flowerReactionAwardedUsers.Add(r.User.Value.Id))
+                    if (r.Emote.Name == iemote.Name && r.User.IsSpecified && ((DateTime.UtcNow - r.User.Value.CreatedAt).TotalDays > 5) && _reactionAwardedUsers.Add(r.User.Value.Id))
                     {
                         _toGiveTo.Enqueue(r.UserId);
                     }
