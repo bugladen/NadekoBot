@@ -135,11 +135,11 @@ namespace NadekoBot.Modules.Permissions.Services
                 {
                     var oldPrefixes = new[] { ".", ";", "!!", "!m", "!", "+", "-", "$", ">" };
                     uow._context.Database.ExecuteSqlCommand(
-    $@"UPDATE {nameof(Permissionv2)}
+    @"UPDATE Permissionv2
 SET secondaryTargetName=trim(substr(secondaryTargetName, 3))
 WHERE secondaryTargetName LIKE '!!%' OR secondaryTargetName LIKE '!m%';
 
-UPDATE {nameof(Permissionv2)}
+UPDATE Permissionv2
 SET secondaryTargetName=substr(secondaryTargetName, 2)
 WHERE secondaryTargetName LIKE '.%' OR
 secondaryTargetName LIKE '~%' OR

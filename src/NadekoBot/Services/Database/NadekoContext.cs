@@ -5,15 +5,19 @@ using NadekoBot.Services.Database.Models;
 using NadekoBot.Extensions;
 using System;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Data.Sqlite;
+using System.IO;
 
 namespace NadekoBot.Services.Database
 {
     public class NadekoContextFactory : IDesignTimeDbContextFactory<NadekoContext>
-    {
+    {        
         public NadekoContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<NadekoContext>();
-            optionsBuilder.UseSqlite("Filename=./data/NadekoBot.db");
+            var builder = new SqliteConnectionStringBuilder("Data Source=data/NadekoBot.db");
+            builder.DataSource = Path.Combine(AppContext.BaseDirectory, builder.DataSource);
+            optionsBuilder.UseSqlite(builder.ToString());
             var ctx = new NadekoContext(optionsBuilder.Options);
             ctx.Database.SetCommandTimeout(60);
             return ctx;

@@ -5,6 +5,9 @@ using System.Linq;
 using Discord;
 using NLog;
 using NadekoBot.Services.Database.Models;
+using NadekoBot.Common;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace NadekoBot.Services.Impl
 {
@@ -15,6 +18,14 @@ namespace NadekoBot.Services.Impl
 
         public ConcurrentDictionary<ulong, CultureInfo> GuildCultureInfos { get; }
         public CultureInfo DefaultCultureInfo { get; private set; } = CultureInfo.CurrentCulture;
+
+        private static readonly Dictionary<string, CommandData> _commandData;
+
+        static Localization()
+        {
+            _commandData = JsonConvert.DeserializeObject<Dictionary<string, CommandData>>(
+                File.ReadAllText("./data/command_strings.json"));
+        }
 
         private Localization() { }
         public Localization(IBotConfigProvider bcp, IEnumerable<GuildConfig> gcs, DbService db)
@@ -117,10 +128,10 @@ namespace NadekoBot.Services.Impl
             return info ?? DefaultCultureInfo;
         }
 
-        public static string LoadCommandString(string key)
+        public static CommandData LoadCommand(string key)
         {
-            string toReturn = Resources.CommandStrings.ResourceManager.GetString(key);
-            return string.IsNullOrWhiteSpace(toReturn) ? key : toReturn;
+            _commandData.TryGetValue(key, out var toReturn);
+            return toReturn;
         }
     }
 }

@@ -3,11 +3,13 @@ using System.Runtime.CompilerServices;
 using Discord.Commands;
 using NadekoBot.Services.Impl;
 
+//todo what if it doesn't exist
+
 namespace NadekoBot.Common.Attributes
 {
     public class Aliases : AliasAttribute
     {
-        public Aliases([CallerMemberName] string memberName = "") : base(Localization.LoadCommandString(memberName.ToLowerInvariant() + "_cmd").Split(' ').Skip(1).ToArray())
+        public Aliases([CallerMemberName] string memberName = "") : base(Localization.LoadCommand(memberName.ToLowerInvariant()).Cmd.Split(' ').Skip(1).ToArray())
         {
         }
     }

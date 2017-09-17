@@ -6,7 +6,7 @@ namespace NadekoBot.Common.Attributes
 {
     public class Usage : RemarksAttribute
     {
-        public Usage([CallerMemberName] string memberName="") : base(Localization.LoadCommandString(memberName.ToLowerInvariant()+"_usage"))
+        public Usage([CallerMemberName] string memberName="") : base(Localization.LoadCommand(memberName.ToLowerInvariant()).Usage)
         {
 
         }
