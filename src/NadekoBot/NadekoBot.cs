@@ -61,6 +61,17 @@ namespace NadekoBot
             if (shardId < 0)
                 throw new ArgumentOutOfRangeException(nameof(shardId));
 
+            //var obj = JsonConvert.DeserializeObject<Dictionary<string, CommandData2>>(File.ReadAllText("./data/command_strings.json"))
+            //    .ToDictionary(x => x.Key, x => new CommandData2
+            //    {
+            //        Cmd = x.Value.Cmd,
+            //        Desc = x.Value.Desc,
+            //        Usage = x.Value.Usage.Select(y => y.Substring(1, y.Length - 2)).ToArray(),
+            //    });
+
+            //File.WriteAllText("./data/command_strings.json", JsonConvert.SerializeObject(obj, Formatting.Indented));
+            
+
             LogSetup.SetupLogger();
             _log = LogManager.GetCurrentClassLogger();
             TerribleElevatedPermissionCheck();

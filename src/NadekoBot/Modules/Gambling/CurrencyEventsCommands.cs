@@ -56,7 +56,7 @@ namespace NadekoBot.Modules.Gambling
                 switch (e)
                 {
                     case CurrencyEvent.Reaction:
-                        await reactionEvent(Context, arg).ConfigureAwait(false);
+                        await ReactionEvent(Context, arg).ConfigureAwait(false);
                         break;
                     case CurrencyEvent.SneakyGameStatus:
                         await SneakyGameStatusEvent(Context, arg).ConfigureAwait(false);
@@ -128,7 +128,7 @@ namespace NadekoBot.Modules.Gambling
                 return Task.CompletedTask;
             }
 
-            public async Task reactionEvent(ICommandContext context, int amount)
+            public async Task ReactionEvent(ICommandContext context, int amount)
             {
                 if (amount <= 0)
                     amount = 100;
