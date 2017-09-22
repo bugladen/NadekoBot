@@ -5,11 +5,14 @@ namespace NadekoBot.Services.Impl
 {
     public class RedisCache : IDataCache
     {
+        private ulong _botid;
+
         public ConnectionMultiplexer Redis { get; }
         private readonly IDatabase _db;
 
-        public RedisCache()
+        public RedisCache(ulong botId)
         {
+            _botid = botId;
             Redis = ConnectionMultiplexer.Connect("127.0.0.1");
             Redis.PreserveAsyncOrder = false;
             _db = Redis.GetDatabase();

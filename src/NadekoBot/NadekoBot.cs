@@ -152,7 +152,7 @@ namespace NadekoBot
                     .AddManual<IEnumerable<GuildConfig>>(AllGuildConfigs) //todo wrap this
                     .AddManual<NadekoBot>(this)
                     .AddManual<IUnitOfWork>(uow)
-                    .AddManual<IDataCache>(new RedisCache())
+                    .AddManual<IDataCache>(new RedisCache(Client.CurrentUser.Id))
                     .LoadFrom(Assembly.GetEntryAssembly())
                     .Build();
 
@@ -167,7 +167,6 @@ namespace NadekoBot
                 CommandService.AddTypeReader<ModuleOrCrInfo>(new ModuleOrCrTypeReader(CommandService));
                 CommandService.AddTypeReader<IGuild>(new GuildTypeReader(Client));
                 CommandService.AddTypeReader<GuildDateTime>(new GuildDateTimeTypeReader());
-
             }
         }
 
@@ -330,7 +329,7 @@ namespace NadekoBot
         private void HandleStatusChanges()
         {
             var sub = Services.GetService<IDataCache>().Redis.GetSubscriber();
-            sub.Subscribe("status.game_set", async (ch, game) =>
+            sub.Subscribe(Client.CurrentUser.Id + "_status.game_set", async (ch, game) =>
             {
                 try
                 {
@@ -344,7 +343,7 @@ namespace NadekoBot
                 }
             }, CommandFlags.FireAndForget);
 
-            sub.Subscribe("status.stream_set", async (ch, streamData) =>
+            sub.Subscribe(Client.CurrentUser.Id + "_status.stream_set", async (ch, streamData) =>
             {
                 try
                 {
@@ -363,14 +362,14 @@ namespace NadekoBot
         {
             var obj = new { Name = game };
             var sub = Services.GetService<IDataCache>().Redis.GetSubscriber();
-            return sub.PublishAsync("status.game_set", JsonConvert.SerializeObject(obj));
+            return sub.PublishAsync(Client.CurrentUser.Id + "_status.game_set", JsonConvert.SerializeObject(obj));
         }
 
         public Task SetStreamAsync(string name, string url)
         {
             var obj = new { Name = name, Url = url };
             var sub = Services.GetService<IDataCache>().Redis.GetSubscriber();
-            return sub.PublishAsync("status.game_set", JsonConvert.SerializeObject(obj));
+            return sub.PublishAsync(Client.CurrentUser.Id + "_status.game_set", JsonConvert.SerializeObject(obj));
         }
     }
 }

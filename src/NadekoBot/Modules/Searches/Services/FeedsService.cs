@@ -125,7 +125,7 @@ namespace NadekoBot.Modules.Searches.Services
                             await Task.WhenAll(sendTasks).ConfigureAwait(false);
                         }
                     }
-                    catch (Exception ex) { Console.WriteLine(ex); }
+                    catch { }
                 }
 
                 await Task.Delay(10000);

@@ -15,6 +15,8 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using NadekoBot.Modules.NSFW.Exceptions;
 using System.Net.Http;
+using Newtonsoft.Json.Linq;
+using AngleSharp;
 
 namespace NadekoBot.Modules.Searches.Services
 {
@@ -194,6 +196,31 @@ namespace NadekoBot.Modules.Searches.Services
             {
                 c.Value?.Clear();
             }
+        }
+
+        public async Task<string> GetYomamaJoke()
+        {
+            var response = await Http.GetStringAsync("http://api.yomomma.info/").ConfigureAwait(false);
+            return JObject.Parse(response)["joke"].ToString() + " 😆";
+        }
+
+        public async Task<(string Text, string BaseUri)> GetRandomJoke()
+        {
+            var config = Configuration.Default.WithDefaultLoader();
+            var document = await BrowsingContext.New(config).OpenAsync("http://www.goodbadjokes.com/random");
+
+            var html = document.QuerySelector(".post > .joke-content");
+
+            var part1 = html.QuerySelector("dt").TextContent;
+            var part2 = html.QuerySelector("dd").TextContent;
+
+            return (part1 + "\n\n" + part2, document.BaseUri);
+        }
+
+        public async Task<string> GetChuckNorrisJoke()
+        {
+            var response = await Http.GetStringAsync("http://api.icndb.com/jokes/random/").ConfigureAwait(false);
+            return JObject.Parse(response)["value"]["joke"].ToString() + " 😆";
         }
     }
     

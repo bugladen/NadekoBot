@@ -49,12 +49,12 @@ namespace NadekoBot.Modules.CustomReactions.Services
             _cache = cache;
 
             var sub = _cache.Redis.GetSubscriber();
-            sub.Subscribe("gcr.added", (ch, msg) =>
+            sub.Subscribe(_client.CurrentUser.Id + "_gcr.added", (ch, msg) =>
             {
                 Array.Resize(ref GlobalReactions, GlobalReactions.Length + 1);
                 GlobalReactions[GlobalReactions.Length - 1] = JsonConvert.DeserializeObject<CustomReaction>(msg);
             }, StackExchange.Redis.CommandFlags.FireAndForget);
-            sub.Subscribe("gcr.deleted", (ch, msg) =>
+            sub.Subscribe(_client.CurrentUser.Id + "_gcr.deleted", (ch, msg) =>
             {
                 var id = int.Parse(msg);
                 GlobalReactions = GlobalReactions.Where(cr => cr?.Id != id).ToArray();
@@ -69,13 +69,13 @@ namespace NadekoBot.Modules.CustomReactions.Services
         public Task AddGcr(CustomReaction cr)
         {
             var sub = _cache.Redis.GetSubscriber();
-            return sub.PublishAsync("gcr.added", JsonConvert.SerializeObject(cr));
+            return sub.PublishAsync(_client.CurrentUser.Id + "_gcr.added", JsonConvert.SerializeObject(cr));
         }
 
         public Task DelGcr(int id)
         {
             var sub = _cache.Redis.GetSubscriber();
-            return sub.PublishAsync("gcr.deleted", id);
+            return sub.PublishAsync(_client.CurrentUser.Id + "_gcr.deleted", id);
         }
 
         public void ClearStats() => ReactionStats.Clear();
