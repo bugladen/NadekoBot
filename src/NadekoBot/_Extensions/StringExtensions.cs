@@ -9,6 +9,11 @@ namespace NadekoBot.Extensions
 {
     public static class StringExtensions
     {
+        public static string StripHTML(this string input)
+        {
+            return Regex.Replace(input, "<.*?>", String.Empty);
+        }
+
         /// <summary>
         /// Easy use of fast, efficient case-insensitive Contains check with StringComparison Member Types 
         /// CurrentCulture, CurrentCultureIgnoreCase, InvariantCulture, InvariantCultureIgnoreCase, Ordinal, OrdinalIgnoreCase

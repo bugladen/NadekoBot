@@ -2965,5 +2965,26 @@
     "Usage": [
       "{0}8ball"
     ]
+  },
+  "feed": {
+    "cmd": "feed feedadd",
+    "desc": "Subscribes to a feed. Bot will post an update up to once every 10 seconds. You can have up to 10 feeds on one server. All feeds must have unique URLs.",
+    "usage": [
+      "{0}feed https://www.rt.com/rss/"
+    ]
+  },
+  "feedremove": {
+    "cmd": "feedremove feedrm feeddel",
+    "desc": "Stops tracking a feed on the given index. Use `{0}feeds` command to see a list of feeds and their indexes.",
+    "usage": [
+      "{0}feedremove 3"
+    ]
+  },
+  "feedlist": {
+    "cmd": "feeds feedlist",
+    "desc": "Shows the list of feeds you've subscribed to on this server.",
+    "usage": [
+      "{0}feeds"
+    ]
   }
 }

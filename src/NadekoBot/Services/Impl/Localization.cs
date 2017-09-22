@@ -20,7 +20,7 @@ namespace NadekoBot.Services.Impl
         public CultureInfo DefaultCultureInfo { get; private set; } = CultureInfo.CurrentCulture;
 
         private static readonly Dictionary<string, CommandData> _commandData;
-
+        
         static Localization()
         {
             _commandData = JsonConvert.DeserializeObject<Dictionary<string, CommandData>>(

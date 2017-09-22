@@ -44,6 +44,8 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                 .Include(gc => gc.SlowmodeIgnoredUsers)
                 .Include(gc => gc.AntiSpamSetting)
                     .ThenInclude(x => x.IgnoredChannels)
+                .Include(gc => gc.FeedSubs)
+                    .ThenInclude(x => x.GuildConfig)
                 .Include(gc => gc.FollowedStreams)
                 .Include(gc => gc.StreamRole)
                 .Include(gc => gc.NsfwBlacklistedTags)

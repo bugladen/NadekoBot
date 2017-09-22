@@ -872,5 +872,10 @@
   "xp_club_admin_remove": "{0} is no longer club admin.",
   "xp_club_admin_error": "Error. You are either not the owner of the club, or that user is not in your club.",
   "nsfw_started": "Started. Reposting every {0}s.",
-  "nsfw_stopped": "Stopped reposting."
+  "nsfw_stopped": "Stopped reposting.",
+  "searches_feed_added": "Feed added.",
+  "searches_feed_not_valid": "Invalid link, or you're already following that feed on this server, or you've reached maximum number of feeds allowed.",
+  "searches_feed_out_of_range": "Index out of range.",
+  "searches_feed_removed": "Feed removed.",
+  "searches_feed_no_feed": "You haven't subscribed to any feeds on this server."
 }

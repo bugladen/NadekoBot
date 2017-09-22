@@ -142,6 +142,9 @@ namespace NadekoBot.Services.Database
                 .HasOne(x => x.GuildConfig)
                 .WithOne(x => x.AntiRaidSetting);
 
+            modelBuilder.Entity<FeedSub>()
+                .HasAlternateKey(x => new { x.GuildConfigId, x.Url });
+
             //modelBuilder.Entity<ProtectionIgnoredChannel>()
             //    .HasAlternateKey(c => new { c.ChannelId, c.ProtectionType });
 
@@ -304,6 +307,7 @@ namespace NadekoBot.Services.Database
                 .WithOne(x => x.XpSettings);
             #endregion
 
+            //todo major bug
             #region XpRoleReward
             modelBuilder.Entity<XpRoleReward>()
                 .HasAlternateKey(x => x.Level);
