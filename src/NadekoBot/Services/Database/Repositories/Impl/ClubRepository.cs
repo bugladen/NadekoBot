@@ -52,10 +52,11 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         {
             if (func == null)
                 return _set
+                    .Where(x => x.Name == name && x.Discrim == discrim)
+                    .Include(x => x.Users)
                     .Include(x => x.Bans)
                     .Include(x => x.Applicants)
-                    .Include(x => x.Users)
-                    .FirstOrDefault(x => x.Name.ToLowerInvariant() == name && x.Discrim == discrim);
+                    .FirstOrDefault();
 
             return func(_set).FirstOrDefault(x => x.Name == name && x.Discrim == discrim);
         }
@@ -72,7 +73,8 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         public ClubInfo GetByMember(ulong userId, Func<DbSet<ClubInfo>, IQueryable<ClubInfo>> func = null)
         {
             if (func == null)
-                return _set.Include(x => x.Users)
+                return _set
+                    .Include(x => x.Users)
                     .Include(x => x.Bans)
                     .Include(x => x.Applicants)
                     .FirstOrDefault(x => x.Users.Any(y => y.UserId == userId));

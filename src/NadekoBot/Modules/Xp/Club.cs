@@ -117,12 +117,12 @@ namespace NadekoBot.Modules.Xp
                         .AddField("Owner", club.Owner.ToString(), true)
                         .AddField("Level Req.", club.MinimumLevelReq.ToString(), true)
                         .AddField("Members", string.Join("\n", club.Users
+                            .OrderByDescending(x => x.IsClubAdmin || club.OwnerId == x.Id)
                             .Skip(page * 10)
                             .Take(10)
-                            .OrderByDescending(x => x.IsClubAdmin)
                             .Select(x => 
                             {
-                                if (x.IsClubAdmin)
+                                if (x.IsClubAdmin || club.OwnerId == x.Id)
                                     return x.ToString() + "⭐";
                                 return x.ToString();
                             })), false);
