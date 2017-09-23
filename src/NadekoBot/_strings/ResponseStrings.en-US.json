@@ -847,6 +847,7 @@
   "xp_club_create_error": "Failed creating the club. Make sure you're above level 5 and not a member of a club already.",
   "xp_club_created": "Club {0} successfully created!",
   "xp_club_not_exists": "That club doesn't exist.",
+  "xp_club_not_exists_owner": "You are not the owner or the admin of the club.",
   "xp_club_applied": "You've applied for membership in {0} club.",
   "xp_club_apply_error": "Error applying. You are either already a member of the club, or you don't meet the minimum level requirement, or you've been banned from this one.",
   "xp_club_accepted": "Accepted user {0} to the club.",

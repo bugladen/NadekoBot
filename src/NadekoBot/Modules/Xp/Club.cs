@@ -142,7 +142,7 @@ namespace NadekoBot.Modules.Xp
 
                 var club = _service.GetClubWithBansAndApplications(Context.User.Id);
                 if (club == null)
-                    return ReplyErrorLocalized("club_not_exists");
+                    return ReplyErrorLocalized("club_not_exists_owner");
 
                 var bans = club
                     .Bans
@@ -174,7 +174,7 @@ namespace NadekoBot.Modules.Xp
 
                 var club = _service.GetClubWithBansAndApplications(Context.User.Id);
                 if (club == null)
-                    return ReplyErrorLocalized("club_not_exists");
+                    return ReplyErrorLocalized("club_not_exists_owner");
 
                 var apps = club
                     .Applicants
