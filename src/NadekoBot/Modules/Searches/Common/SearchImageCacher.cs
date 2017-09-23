@@ -99,7 +99,6 @@ namespace NadekoBot.Modules.Searches.Common
 
         public async Task<ImageCacherObject[]> DownloadImages(string tag, bool isExplicit, DapiSearchType type)
         {
-            _log.Info($"Loading extra images from {type}");
             tag = tag?.Replace(" ", "_").ToLowerInvariant();
             if (isExplicit)
                 tag = "rating%3Aexplicit+" + tag;

@@ -40,10 +40,14 @@ namespace NadekoBot.Services.Database.Repositories.Impl
 
         public int GetUserGlobalRanking(ulong id)
         {
-            return _set.Count(x => x.TotalXp > 
+            if (!_set.Where(y => y.UserId == id).Any())
+            {
+                return _set.Count();
+            }
+            return _set.Count(x => x.TotalXp >= 
                 _set.Where(y => y.UserId == id)
                     .DefaultIfEmpty()
-                    .Sum(y => y.TotalXp));
+                    .Sum(y => y.TotalXp)) + 1;
         }
 
         public DiscordUser[] GetUsersXpLeaderboardFor(int page)
