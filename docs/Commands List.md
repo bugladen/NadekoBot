@@ -447,6 +447,7 @@ Commands and aliases | Description | Usage
 Commands and aliases | Description | Usage
 ----------------|--------------|-------
 `.experience` `.xp` | Shows your xp stats. Specify the user to show that user's stats instead.  | `.xp`
+`.xprolerewards` `.xprrs` | Shows currently set role rewards.  | `.xprrs`
 `.xprolereward` `.xprr` | Sets a role reward on a specified level. Provide no role name in order to remove the role reward. **Requires ManageRoles server permission.** | `.xprr 3 Social`
 `.xpnotify` `.xpn` | Sets how the bot should notify you when you get a `server` or `global` level. You can set `dm` (for the bot to send a direct message), `channel` (to get notified in the channel you sent the last message in) or `none` to disable.  | `.xpn global dm` `.xpn server channel`
 `.xpexclude` `.xpex` | Exclude a user or a role from the xp system, or whole current server. **Requires Administrator server permission.** | `.xpex Role Excluded-Role` `.xpex Server`
