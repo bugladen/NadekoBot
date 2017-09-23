@@ -277,7 +277,7 @@ namespace NadekoBot.Services.Database
 
             modelBuilder.Entity<DiscordUser>()
                 .Property(x => x.LastLevelUp)
-                .HasDefaultValue(DateTime.Now);
+                .HasDefaultValue(new DateTime(2017, 9, 21, 20, 53, 13, 305, DateTimeKind.Local));
 
             #endregion
 
@@ -298,7 +298,8 @@ namespace NadekoBot.Services.Database
 
             modelBuilder.Entity<UserXpStats>()
                 .Property(x => x.LastLevelUp)
-                .HasDefaultValue(DateTime.Now);
+                .HasDefaultValue(new DateTime(2017, 9, 21, 20, 53, 13, 307, DateTimeKind.Local));
+            
             #endregion
 
             #region XpSettings
@@ -310,7 +311,8 @@ namespace NadekoBot.Services.Database
             //todo major bug
             #region XpRoleReward
             modelBuilder.Entity<XpRoleReward>()
-                .HasAlternateKey(x => x.Level);
+                .HasIndex(x => new { x.XpSettingsId, x.Level })
+                .IsUnique();
             #endregion
 
             #region Club

@@ -18,17 +18,20 @@ namespace NadekoBot.Services.Database.Models
 
     public class XpRoleReward : DbEntity
     {
+        public int XpSettingsId { get; set; }
+        public XpSettings XpSettings { get; set; }
+
         public int Level { get; set; }
         public ulong RoleId { get; set; }
 
         public override int GetHashCode()
         {
-            return Level.GetHashCode() ^ RoleId.GetHashCode();
+            return Level.GetHashCode() ^ XpSettingsId.GetHashCode();
         }
 
         public override bool Equals(object obj)
         {
-            return obj is XpRoleReward xrr && xrr.Level == Level && xrr.RoleId == RoleId;
+            return obj is XpRoleReward xrr && xrr.Level == Level && xrr.XpSettingsId == XpSettingsId;
         }
     }
 
