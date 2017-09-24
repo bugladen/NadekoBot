@@ -296,12 +296,8 @@ namespace NadekoBot.Modules.CustomReactions
                 }
 
                 var setValue = reaction.ContainsAnywhere = !reaction.ContainsAnywhere;
-
-                using (var uow = _db.UnitOfWork)
-                {
-                    uow.CustomReactions.Get(id).ContainsAnywhere = setValue;
-                    uow.Complete();
-                }
+                
+                await _service.SetCrCaAsync(reaction.Id, setValue).ConfigureAwait(false);
 
                 if (setValue)
                 {
@@ -348,11 +344,7 @@ namespace NadekoBot.Modules.CustomReactions
 
                 var setValue = reaction.DmResponse = !reaction.DmResponse;
 
-                using (var uow = _db.UnitOfWork)
-                {
-                    uow.CustomReactions.Get(id).DmResponse = setValue;
-                    uow.Complete();
-                }
+                await _service.SetCrDmAsync(reaction.Id, setValue).ConfigureAwait(false);
 
                 if (setValue)
                 {
@@ -398,12 +390,8 @@ namespace NadekoBot.Modules.CustomReactions
                 }
 
                 var setValue = reaction.AutoDeleteTrigger = !reaction.AutoDeleteTrigger;
-
-                using (var uow = _db.UnitOfWork)
-                {
-                    uow.CustomReactions.Get(id).AutoDeleteTrigger = setValue;
-                    uow.Complete();
-                }
+                
+                await _service.SetCrAdAsync(reaction.Id, setValue).ConfigureAwait(false);
 
                 if (setValue)
                 {
