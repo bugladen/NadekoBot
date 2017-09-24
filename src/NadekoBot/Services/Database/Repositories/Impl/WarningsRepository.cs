@@ -32,5 +32,10 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                 })
                 .ConfigureAwait(false);
         }
+
+        public Warning[] GetForGuild(ulong id)
+        {
+            return _set.Where(x => x.GuildId == id).ToArray();
+        }
     }
 }

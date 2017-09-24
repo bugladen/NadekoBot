@@ -1,7 +1,6 @@
 ﻿using NLog;
 using System;
 using System.Collections.Immutable;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -26,6 +25,8 @@ namespace NadekoBot.Services.Impl
         private const string _wifeMatrixPath = _basePath + "rategirl/wifematrix.png";
         private const string _rategirlDot = _basePath + "rategirl/dot.png";
 
+        private const string _xpCardPath = _basePath + "xp/xp.png";
+
 
         public ImmutableArray<byte> Heads { get; private set; }
         public ImmutableArray<byte> Tails { get; private set; }
@@ -41,18 +42,18 @@ namespace NadekoBot.Services.Impl
         public ImmutableArray<byte> WifeMatrix { get; private set; }
         public ImmutableArray<byte> RategirlDot { get; private set; }
 
+        public ImmutableArray<byte> XpCard { get; private set; }
+
         public ImagesService()
         {
             _log = LogManager.GetCurrentClassLogger();
             this.Reload();
         }
 
-        public TimeSpan Reload()
+        public void Reload()
         {
             try
             {
-                _log.Info("Loading images...");
-                var sw = Stopwatch.StartNew();
                 Heads = File.ReadAllBytes(_headsPath).ToImmutableArray();
                 Tails = File.ReadAllBytes(_tailsPath).ToImmutableArray();
 
@@ -80,9 +81,7 @@ namespace NadekoBot.Services.Impl
                 WifeMatrix = File.ReadAllBytes(_wifeMatrixPath).ToImmutableArray();
                 RategirlDot = File.ReadAllBytes(_rategirlDot).ToImmutableArray();
 
-                sw.Stop();
-                _log.Info($"Images loaded after {sw.Elapsed.TotalSeconds:F2}s!");
-                return sw.Elapsed;
+                XpCard = File.ReadAllBytes(_xpCardPath).ToImmutableArray();
             }
             catch (Exception ex)
             {

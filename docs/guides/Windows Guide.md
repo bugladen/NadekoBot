@@ -3,12 +3,11 @@
 #### Prerequisites 
 - [Notepad++][Notepad++] (or some other decent text editor)
 - Windows 8 or later
-- [.NET Core SDK (Command line / other)][.NET Core SDK]
 - [Create Discord Bot application](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#creating-discord-bot-application) and [Invite the bot to your server](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#inviting-your-bot-to-your-server). 
 
 #### Guide 
 - Download and run the [NadekoBot Updater.][Updater]
-- Press **`Install ffmpeg`** button if you want music features. 			
+- Press **`Install ffmpeg`** and **`Install youtube-dl`** if you want music features. 			
 ***NOTE:** RESTART YOUR PC IF YOU DO.*
 - Press **`Update`** and go through the installation wizard.			
 ***NOTE:** If you're upgrading from 1.3, DO NOT select your old nadekobot folder. Install it in a separate directory and read the [upgrading guide](http://nadekobot.readthedocs.io/en/latest/guides/Upgrading%20Guide/).*

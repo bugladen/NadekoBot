@@ -1,26 +1,27 @@
 ﻿using Discord;
 using Discord.Commands;
-using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using System.Linq;
 using System.Threading.Tasks;
 using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
 using System.Collections.Generic;
+using NadekoBot.Common;
+using NadekoBot.Common.Attributes;
 
 namespace NadekoBot.Modules.Gambling
 {
     public partial class Gambling : NadekoTopLevelModule
     {
-        private readonly BotConfig _bc;
+        private readonly IBotConfigProvider _bc;
         private readonly DbService _db;
         private readonly CurrencyService _currency;
 
-        private string CurrencyName => _bc.CurrencyName;
-        private string CurrencyPluralName => _bc.CurrencyPluralName;
-        private string CurrencySign => _bc.CurrencySign;
+        private string CurrencyName => _bc.BotConfig.CurrencyName;
+        private string CurrencyPluralName => _bc.BotConfig.CurrencyPluralName;
+        private string CurrencySign => _bc.BotConfig.CurrencySign;
 
-        public Gambling(BotConfig bc, DbService db, CurrencyService currency)
+        public Gambling(IBotConfigProvider bc, DbService db, CurrencyService currency)
         {
             _bc = bc;
             _db = db;
@@ -41,7 +42,7 @@ namespace NadekoBot.Modules.Gambling
         {
             role = role ?? Context.Guild.EveryoneRole;
 
-            var members = role.Members().Where(u => u.Status != UserStatus.Offline);
+            var members = (await role.GetMembersAsync()).Where(u => u.Status != UserStatus.Offline);
             var membersArray = members as IUser[] ?? members.ToArray();
             if (membersArray.Length == 0)
             {
@@ -52,7 +53,7 @@ namespace NadekoBot.Modules.Gambling
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [Priority(0)]
+        [Priority(1)]
         public async Task Cash([Remainder] IUser user = null)
         {
             if(user == null)
@@ -62,7 +63,7 @@ namespace NadekoBot.Modules.Gambling
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [Priority(1)]
+        [Priority(0)]
         public async Task Cash(ulong userId)
         {
             await ReplyConfirmLocalized("has", Format.Code(userId.ToString()), $"{GetCurrency(userId)} {CurrencySign}").ConfigureAwait(false);
@@ -88,7 +89,7 @@ namespace NadekoBot.Modules.Gambling
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
-        [Priority(2)]
+        [Priority(0)]
         public Task Award(int amount, [Remainder] IGuildUser usr) =>
             Award(amount, usr.Id);
 
@@ -107,7 +108,7 @@ namespace NadekoBot.Modules.Gambling
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
-        [Priority(0)]
+        [Priority(2)]
         public async Task Award(int amount, [Remainder] IRole role)
         {
             var users = (await Context.Guild.GetUsersAsync())
@@ -229,21 +230,21 @@ namespace NadekoBot.Modules.Gambling
             {
                 if (rnd < 91)
                 {
-                    str += GetText("br_win", (amount * _bc.Betroll67Multiplier) + CurrencySign, 66);
+                    str += GetText("br_win", (amount * _bc.BotConfig.Betroll67Multiplier) + CurrencySign, 66);
                     await _currency.AddAsync(Context.User, "Betroll Gamble",
-                        (int) (amount * _bc.Betroll67Multiplier), false).ConfigureAwait(false);
+                        (int) (amount * _bc.BotConfig.Betroll67Multiplier), false).ConfigureAwait(false);
                 }
                 else if (rnd < 100)
                 {
-                    str += GetText("br_win", (amount * _bc.Betroll91Multiplier) + CurrencySign, 90);
+                    str += GetText("br_win", (amount * _bc.BotConfig.Betroll91Multiplier) + CurrencySign, 90);
                     await _currency.AddAsync(Context.User, "Betroll Gamble",
-                        (int) (amount * _bc.Betroll91Multiplier), false).ConfigureAwait(false);
+                        (int) (amount * _bc.BotConfig.Betroll91Multiplier), false).ConfigureAwait(false);
                 }
                 else
                 {
-                    str += GetText("br_win", (amount * _bc.Betroll100Multiplier) + CurrencySign, 100) + " 👑";
+                    str += GetText("br_win", (amount * _bc.BotConfig.Betroll100Multiplier) + CurrencySign, 100) + " 👑";
                     await _currency.AddAsync(Context.User, "Betroll Gamble",
-                        (int) (amount * _bc.Betroll100Multiplier), false).ConfigureAwait(false);
+                        (int) (amount * _bc.BotConfig.Betroll100Multiplier), false).ConfigureAwait(false);
                 }
             }
             await Context.Channel.SendConfirmAsync(str).ConfigureAwait(false);

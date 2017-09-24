@@ -1,5 +1,4 @@
-﻿using NadekoBot.Attributes;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord.Commands;
@@ -8,20 +7,21 @@ using Discord;
 using NadekoBot.Services.Database.Models;
 using System.Collections.Generic;
 using Discord.WebSocket;
-using NadekoBot.TypeReaders;
-using NadekoBot.Services.Permissions;
+using NadekoBot.Common.Attributes;
+using NadekoBot.Common.TypeReaders;
+using NadekoBot.Common.TypeReaders.Models;
+using NadekoBot.Modules.Permissions.Common;
+using NadekoBot.Modules.Permissions.Services;
 
 namespace NadekoBot.Modules.Permissions
 {
-    public partial class Permissions : NadekoTopLevelModule
+    public partial class Permissions : NadekoTopLevelModule<PermissionService>
     {
         private readonly DbService _db;
-        private readonly PermissionService _service;
 
-        public Permissions(PermissionService service, DbService db)
+        public Permissions(DbService db)
         {
             _db = db;
-            _service = service;
         }
 
         [NadekoCommand, Usage, Description, Aliases]

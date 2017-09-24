@@ -1,5 +1,4 @@
 using Discord.Commands;
-using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using System.Linq;
 using NadekoBot.Services;
@@ -8,20 +7,20 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Discord;
 using System;
-using NadekoBot.Services.Pokemon;
+using NadekoBot.Common.Attributes;
+using NadekoBot.Modules.Pokemon.Common;
+using NadekoBot.Modules.Pokemon.Services;
 
 namespace NadekoBot.Modules.Pokemon
 {
-    public class Pokemon : NadekoTopLevelModule
+    public class Pokemon : NadekoTopLevelModule<PokemonService>
     {
-        private readonly PokemonService _service;
         private readonly DbService _db;
-        private readonly BotConfig _bc;
+        private readonly IBotConfigProvider _bc;
         private readonly CurrencyService _cs;
 
-        public Pokemon(PokemonService pokemonService, DbService db, BotConfig bc, CurrencyService cs)
+        public Pokemon(DbService db, IBotConfigProvider bc, CurrencyService cs)
         {
-            _service = pokemonService;
             _db = db;
             _bc = bc;
             _cs = cs;
@@ -231,7 +230,7 @@ namespace NadekoBot.Modules.Pokemon
                 {
                     if (!await _cs.RemoveAsync(user, $"Poke-Heal {target}", amount, true).ConfigureAwait(false))
                     {
-                        await ReplyErrorLocalized("no_currency", _bc.CurrencySign).ConfigureAwait(false);
+                        await ReplyErrorLocalized("no_currency", _bc.BotConfig.CurrencySign).ConfigureAwait(false);
                         return;
                     }
                 }
@@ -244,13 +243,13 @@ namespace NadekoBot.Modules.Pokemon
                     _service.Stats[targetUser.Id].Hp = (targetStats.MaxHp / 2);
                     if (target == "yourself")
                     {
-                        await ReplyConfirmLocalized("revive_yourself", _bc.CurrencySign).ConfigureAwait(false);
+                        await ReplyConfirmLocalized("revive_yourself", _bc.BotConfig.CurrencySign).ConfigureAwait(false);
                         return;
                     }
 
-                    await ReplyConfirmLocalized("revive_other", Format.Bold(targetUser.ToString()), _bc.CurrencySign).ConfigureAwait(false);
+                    await ReplyConfirmLocalized("revive_other", Format.Bold(targetUser.ToString()), _bc.BotConfig.CurrencySign).ConfigureAwait(false);
                 }
-                await ReplyConfirmLocalized("healed", Format.Bold(targetUser.ToString()), _bc.CurrencySign).ConfigureAwait(false);
+                await ReplyConfirmLocalized("healed", Format.Bold(targetUser.ToString()), _bc.BotConfig.CurrencySign).ConfigureAwait(false);
             }
             else
             {
@@ -297,7 +296,7 @@ namespace NadekoBot.Modules.Pokemon
             {
                 if (!await _cs.RemoveAsync(user, $"{user} change type to {typeTargeted}", amount, true).ConfigureAwait(false))
                 {
-                    await ReplyErrorLocalized("no_currency", _bc.CurrencySign).ConfigureAwait(false);
+                    await ReplyErrorLocalized("no_currency", _bc.BotConfig.CurrencySign).ConfigureAwait(false);
                     return;
                 }
             }
@@ -331,7 +330,7 @@ namespace NadekoBot.Modules.Pokemon
             //Now for the response
             await ReplyConfirmLocalized("settype_success", 
                 targetType, 
-                _bc.CurrencySign).ConfigureAwait(false);
+                _bc.BotConfig.CurrencySign).ConfigureAwait(false);
         }
     }
 }

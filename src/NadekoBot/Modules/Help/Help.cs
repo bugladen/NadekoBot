@@ -4,37 +4,34 @@ using System.Linq;
 using Discord;
 using NadekoBot.Services;
 using System.Threading.Tasks;
-using NadekoBot.Attributes;
 using System;
 using System.IO;
 using System.Text;
 using System.Collections.Generic;
-using NadekoBot.Services.Database.Models;
-using NadekoBot.Services.Permissions;
-using NadekoBot.Services.Help;
+using NadekoBot.Common.Attributes;
+using NadekoBot.Modules.Help.Services;
+using NadekoBot.Modules.Permissions.Services;
 
 namespace NadekoBot.Modules.Help
 {
-    public class Help : NadekoTopLevelModule
+    public class Help : NadekoTopLevelModule<HelpService>
     {
         public const string PatreonUrl = "https://patreon.com/nadekobot";
         public const string PaypalUrl = "https://paypal.me/Kwoth";
         private readonly IBotCredentials _creds;
-        private readonly BotConfig _config;
+        private readonly IBotConfigProvider _config;
         private readonly CommandService _cmds;
         private readonly GlobalPermissionService _perms;
-        private readonly HelpService _h;
 
-        public string HelpString => String.Format(_config.HelpString, _creds.ClientId, Prefix);
-        public string DMHelpString => _config.DMHelpString;
+        public string HelpString => String.Format(_config.BotConfig.HelpString, _creds.ClientId, Prefix);
+        public string DMHelpString => _config.BotConfig.DMHelpString;
 
-        public Help(IBotCredentials creds, GlobalPermissionService perms, BotConfig config, CommandService cmds, HelpService h)
+        public Help(IBotCredentials creds, GlobalPermissionService perms, IBotConfigProvider config, CommandService cmds)
         {
             _creds = creds;
             _config = config;
             _cmds = cmds;
             _perms = perms;
-            _h = h;
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -82,21 +79,21 @@ namespace NadekoBot.Modules.Help
             await ConfirmLocalized("commands_instr", Prefix).ConfigureAwait(false);
         }
         [NadekoCommand, Usage, Description, Aliases]
-        [Priority(1)]
+        [Priority(0)]
         public async Task H([Remainder] string fail)
         {
             await ReplyErrorLocalized("command_not_found").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [Priority(0)]
+        [Priority(1)]
         public async Task H([Remainder] CommandInfo com = null)
         {
             var channel = Context.Channel;
 
             if (com == null)
             {
-                IMessageChannel ch = channel is ITextChannel ? await ((IGuildUser)Context.User).CreateDMChannelAsync() : channel;
+                IMessageChannel ch = channel is ITextChannel ? await ((IGuildUser)Context.User).GetOrCreateDMChannelAsync() : channel;
                 await ch.SendMessageAsync(HelpString).ConfigureAwait(false);
                 return;
             }
@@ -107,7 +104,7 @@ namespace NadekoBot.Modules.Help
             //    return;
             //}
 
-            var embed = _h.GetCommandHelp(com, Context.Guild);
+            var embed = _service.GetCommandHelp(com, Context.Guild);
             await channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
@@ -144,7 +141,7 @@ namespace NadekoBot.Modules.Help
                     lastModule = module.Name;
                 }
                 helpstr.AppendLine($"{string.Join(" ", com.Aliases.Select(a => "`" + Prefix + a + "`"))} |" +
-                                   $" {string.Format(com.Summary, Prefix)} {_h.GetCommandRequirements(com, Context.Guild)} |" +
+                                   $" {string.Format(com.Summary, Prefix)} {_service.GetCommandRequirements(com, Context.Guild)} |" +
                                    $" {string.Format(com.Remarks, Prefix)}");
             }
             File.WriteAllText("../../docs/Commands List.md", helpstr.ToString());

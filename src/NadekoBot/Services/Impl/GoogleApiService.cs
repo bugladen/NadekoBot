@@ -42,16 +42,17 @@ namespace NadekoBot.Services.Impl
             sh = new UrlshortenerService(bcs);
             cs = new CustomsearchService(bcs);
         }
-
+        private static readonly Regex plRegex = new Regex("(?:youtu\\.be\\/|list=)(?<id>[\\da-zA-Z\\-_]*)", RegexOptions.Compiled);
         public async Task<IEnumerable<string>> GetPlaylistIdsByKeywordsAsync(string keywords, int count = 1)
         {
+            await Task.Yield();
             if (string.IsNullOrWhiteSpace(keywords))
                 throw new ArgumentNullException(nameof(keywords));
 
             if (count <= 0)
                 throw new ArgumentOutOfRangeException(nameof(count));
 
-            var match = new Regex("(?:youtu\\.be\\/|list=)(?<id>[\\da-zA-Z\\-_]*)").Match(keywords);
+            var match = plRegex.Match(keywords);
             if (match.Length > 1)
             {
                 return new[] { match.Groups["id"].Value.ToString() };
@@ -64,22 +65,17 @@ namespace NadekoBot.Services.Impl
             return (await query.ExecuteAsync()).Items.Select(i => i.Id.PlaylistId);
         }
 
-        private readonly Regex YtVideoIdRegex = new Regex(@"(?:youtube\.com\/\S*(?:(?:\/e(?:mbed))?\/|watch\?(?:\S*?&?v\=))|youtu\.be\/)(?<id>[a-zA-Z0-9_-]{6,11})", RegexOptions.Compiled);
+        //private readonly Regex YtVideoIdRegex = new Regex(@"(?:youtube\.com\/\S*(?:(?:\/e(?:mbed))?\/|watch\?(?:\S*?&?v\=))|youtu\.be\/)(?<id>[a-zA-Z0-9_-]{6,11})", RegexOptions.Compiled);
         private readonly IBotCredentials _creds;
 
         public async Task<IEnumerable<string>> GetRelatedVideosAsync(string id, int count = 1)
         {
+            await Task.Yield();
             if (string.IsNullOrWhiteSpace(id))
                 throw new ArgumentNullException(nameof(id));
 
             if (count <= 0)
                 throw new ArgumentOutOfRangeException(nameof(count));
-
-            var match = YtVideoIdRegex.Match(id);
-            if (match.Length > 1)
-            {
-                id = match.Groups["id"].Value;
-            }
             var query = yt.Search.List("snippet");
             query.MaxResults = count;
             query.RelatedToVideoId = id;
@@ -89,22 +85,13 @@ namespace NadekoBot.Services.Impl
 
         public async Task<IEnumerable<string>> GetVideoLinksByKeywordAsync(string keywords, int count = 1)
         {
+            await Task.Yield();
             if (string.IsNullOrWhiteSpace(keywords))
                 throw new ArgumentNullException(nameof(keywords));
 
             if (count <= 0)
                 throw new ArgumentOutOfRangeException(nameof(count));
-
-            string id = "";
-            var match = YtVideoIdRegex.Match(keywords);
-            if (match.Length > 1)
-            {
-                id = match.Groups["id"].Value;
-            }
-            if (!string.IsNullOrWhiteSpace(id))
-            {
-                return new[] { "http://www.youtube.com/watch?v=" + id };
-            }
+            
             var query = yt.Search.List("snippet");
             query.MaxResults = count;
             query.Q = keywords;
@@ -114,6 +101,7 @@ namespace NadekoBot.Services.Impl
 
         public async Task<IEnumerable<(string Name, string Id, string Url)>> GetVideoInfosByKeywordAsync(string keywords, int count = 1)
         {
+            await Task.Yield();
             if (string.IsNullOrWhiteSpace(keywords))
                 throw new ArgumentNullException(nameof(keywords));
 
@@ -129,6 +117,7 @@ namespace NadekoBot.Services.Impl
 
         public async Task<string> ShortenUrl(string url)
         {
+            await Task.Yield();
             if (string.IsNullOrWhiteSpace(url))
                 throw new ArgumentNullException(nameof(url));
 
@@ -149,6 +138,7 @@ namespace NadekoBot.Services.Impl
 
         public async Task<IEnumerable<string>> GetPlaylistTracksAsync(string playlistId, int count = 50)
         {
+            await Task.Yield();
             if (string.IsNullOrWhiteSpace(playlistId))
                 throw new ArgumentNullException(nameof(playlistId));
 
@@ -181,6 +171,7 @@ namespace NadekoBot.Services.Impl
 
         public async Task<IReadOnlyDictionary<string, TimeSpan>> GetVideoDurationsAsync(IEnumerable<string> videoIds)
         {
+            await Task.Yield();
             var videoIdsList = videoIds as List<string> ?? videoIds.ToList();
 
             Dictionary<string, TimeSpan> toReturn = new Dictionary<string, TimeSpan>();
@@ -211,6 +202,7 @@ namespace NadekoBot.Services.Impl
 
         public async Task<ImageResult> GetImageAsync(string query, int start = 1)
         {
+            await Task.Yield();
             if (string.IsNullOrWhiteSpace(query))
                 throw new ArgumentNullException(nameof(query));
 
@@ -362,6 +354,7 @@ namespace NadekoBot.Services.Impl
 
         public async Task<string> Translate(string sourceText, string sourceLanguage, string targetLanguage)
         {
+            await Task.Yield();
             string text;
 
             if (!_languageDictionary.ContainsKey(sourceLanguage) ||
@@ -384,8 +377,7 @@ namespace NadekoBot.Services.Impl
 
         private string ConvertToLanguageCode(string language)
         {
-            string mode;
-            _languageDictionary.TryGetValue(language, out mode);
+            _languageDictionary.TryGetValue(language, out var mode);
             return mode;
         }
     }

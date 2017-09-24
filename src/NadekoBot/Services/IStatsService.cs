@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Services
 {
-    public interface IStatsService
+    public interface IStatsService : INService
     {
         string Author { get; }
         long CommandsRan { get; }
@@ -13,6 +13,7 @@ namespace NadekoBot.Services
         double MessagesPerSecond { get; }
         long TextChannels { get; }
         long VoiceChannels { get; }
+        int GuildCount { get; }
 
         TimeSpan GetUptime();
         string GetUptimeString(string separator = ", ");

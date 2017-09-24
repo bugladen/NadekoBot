@@ -9,7 +9,7 @@
 
         public enum FollowedStreamType
         {
-            Twitch, Hitbox, Beam
+            Twitch, Smashcast, Mixer
         }
 
         public override int GetHashCode() => 

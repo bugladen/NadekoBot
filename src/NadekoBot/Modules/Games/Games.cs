@@ -2,21 +2,26 @@
 using Discord;
 using NadekoBot.Services;
 using System.Threading.Tasks;
-using NadekoBot.Attributes;
 using System;
+using NadekoBot.Common;
+using NadekoBot.Common.Attributes;
 using NadekoBot.Extensions;
-using NadekoBot.Services.Games;
+using NadekoBot.Modules.Games.Common;
+using NadekoBot.Modules.Games.Services;
 
 namespace NadekoBot.Modules.Games
 {
-    public partial class Games : NadekoTopLevelModule
+    /* more games
+    - Blackjack
+    - Shiritori
+    - Simple RPG adventure
+    */
+    public partial class Games : NadekoTopLevelModule<GamesService>
     {
-        private readonly GamesService _games;
         private readonly IImagesService _images;
 
-        public Games(GamesService games, IImagesService images)
+        public Games(IImagesService images)
         {
-            _games = games;
             _images = images;
         }
 
@@ -33,14 +38,14 @@ namespace NadekoBot.Modules.Games
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task _8Ball([Remainder] string question = null)
+        public async Task EightBall([Remainder] string question = null)
         {
             if (string.IsNullOrWhiteSpace(question))
                 return;
 
             await Context.Channel.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
                                .AddField(efb => efb.WithName("❓ " + GetText("question") ).WithValue(question).WithIsInline(false))
-                               .AddField(efb => efb.WithName("🎱 " + GetText("8ball")).WithValue(_games.EightBallResponses[new NadekoRandom().Next(0, _games.EightBallResponses.Length)]).WithIsInline(false)));
+                               .AddField(efb => efb.WithName("🎱 " + GetText("8ball")).WithValue(_service.EightBallResponses[new NadekoRandom().Next(0, _service.EightBallResponses.Length)]).WithIsInline(false)));
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -100,7 +105,7 @@ namespace NadekoBot.Modules.Games
         [RequireContext(ContextType.Guild)]
         public async Task RateGirl(IGuildUser usr)
         {
-            var gr = _games.GirlRatings.GetOrAdd(usr.Id, GetGirl);
+            var gr = _service.GirlRatings.GetOrAdd(usr.Id, GetGirl);
             var img = await gr.Url;
             await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                 .WithTitle("Girl Rating For " + usr)
@@ -135,7 +140,7 @@ namespace NadekoBot.Modules.Games
                 hot = NextDouble(0, 5);
                 crazy = NextDouble(4, 10);
                 advice = 
-                    "This is your NO-GO ZONE. We do not hang around, and date, and marry women who are atleast, in our mind, a 5. " +
+                    "This is your NO-GO ZONE. We do not hang around, and date, and marry women who are at least, in our mind, a 5. " +
                     "So, this is your no-go zone. You don't go here. You just rule this out. Life is better this way, that's the way it is.";
             }
             else if (roll < 750)

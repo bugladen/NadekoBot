@@ -774,15 +774,6 @@
   <data name="donadd_usage" xml:space="preserve">
     <value>`{0}donadd Donate Amount`</value>
   </data>
-  <data name="announce_cmd" xml:space="preserve">
-    <value>announce</value>
-  </data>
-  <data name="announce_desc" xml:space="preserve">
-    <value>Sends a message to all servers' default channel that bot is connected to.</value>
-  </data>
-  <data name="announce_usage" xml:space="preserve">
-    <value>`{0}announce Useless spam`</value>
-  </data>
   <data name="savechat_cmd" xml:space="preserve">
     <value>savechat</value>
   </data>
@@ -814,7 +805,7 @@
     <value>serverinfo sinfo</value>
   </data>
   <data name="serverinfo_desc" xml:space="preserve">
-    <value>Shows info about the server the bot is on. If no channel is supplied, it defaults to current one.</value>
+    <value>Shows info about the server the bot is on. If no server is supplied, it defaults to current one.</value>
   </data>
   <data name="serverinfo_usage" xml:space="preserve">
     <value>`{0}sinfo Some Server`</value>
@@ -1198,7 +1189,7 @@
     <value>`{0}drawnew` or `{0}drawnew 5`</value>
   </data>
   <data name="shuffleplaylist_cmd" xml:space="preserve">
-    <value>playlistshuffle plsh</value>
+    <value>shuffle sh plsh</value>
   </data>
   <data name="shuffleplaylist_desc" xml:space="preserve">
     <value>Shuffles the current playlist.</value>
@@ -1269,6 +1260,24 @@
   <data name="joinrace_usage" xml:space="preserve">
     <value>`{0}jr` or `{0}jr 5`</value>
   </data>
+  <data name="nunchi_cmd" xml:space="preserve">
+    <value>nunchi</value>
+  </data>
+  <data name="nunchi_desc" xml:space="preserve">
+    <value>Creates or joins an existing nunchi game. Users have to count up by 1 from the starting number shown by the bot. If someone makes a mistake (types an incorrent number, or repeats the same number) they are out of the game and a new round starts without them.  Minimum 3 users required.</value>
+  </data>
+  <data name="nunchi_usage" xml:space="preserve">
+    <value>`{0}nunchi`</value>
+  </data>
+  <data name="connect4_cmd" xml:space="preserve">
+    <value>connect4 con4</value>
+  </data>
+  <data name="connect4_desc" xml:space="preserve">
+    <value>Creates or joins an existing connect4 game. 2 players are required for the game. Objective of the game is to get 4 of your pieces next to each other in a vertical, horizontal or diagonal line.</value>
+  </data>
+  <data name="connect4_usage" xml:space="preserve">
+    <value>`{0}connect4`</value>
+  </data>
   <data name="raffle_cmd" xml:space="preserve">
     <value>raffle</value>
   </data>
@@ -1313,6 +1322,15 @@
   </data>
   <data name="betroll_usage" xml:space="preserve">
     <value>`{0}br 5`</value>
+  </data>
+  <data name="wheeloffortune_cmd" xml:space="preserve">
+    <value>wheeloffortune wheel</value>
+  </data>
+  <data name="wheeloffortune_desc" xml:space="preserve">
+    <value>Bets a certain amount of currency on the wheel of fortune. Wheel can stop on one of many different multipliers. Won amount is rounded down to the nearest whole number.</value>
+  </data>
+  <data name="wheeloffortune_usage" xml:space="preserve">
+    <value>`{0}wheel 10`</value>
   </data>
   <data name="leaderboard_cmd" xml:space="preserve">
     <value>leaderboard lb</value>
@@ -1376,15 +1394,6 @@
   </data>
   <data name="typeadd_usage" xml:space="preserve">
     <value>`{0}typeadd wordswords`</value>
-  </data>
-  <data name="poll_cmd" xml:space="preserve">
-    <value>poll</value>
-  </data>
-  <data name="poll_desc" xml:space="preserve">
-    <value>Creates a poll which requires users to send the number of the voting option to the bot.</value>
-  </data>
-  <data name="poll_usage" xml:space="preserve">
-    <value>`{0}poll Question?;Answer1;Answ 2;A_3`</value>
   </data>
   <data name="pollend_cmd" xml:space="preserve">
     <value>pollend</value>
@@ -1476,11 +1485,20 @@
   <data name="next_usage" xml:space="preserve">
     <value>`{0}n` or `{0}n 5`</value>
   </data>
+  <data name="play_cmd" xml:space="preserve">
+    <value>play start</value>
+  </data>
+  <data name="play_desc" xml:space="preserve">
+    <value>If no arguments are specified, acts as `{0}next 1` command. If you specify a song number, it will jump to that song. If you specify a search query, acts as a `{0}q` command</value>
+  </data>
+  <data name="play_usage" xml:space="preserve">
+    <value>`{0}play` or `{0}play 5` or `{0}play Dream Of Venice`</value>
+  </data>
   <data name="stop_cmd" xml:space="preserve">
     <value>stop s</value>
   </data>
   <data name="stop_desc" xml:space="preserve">
-    <value>Stops the music and clears the playlist. Stays in the channel.</value>
+    <value>Stops the music and preserves the current song index. Stays in the channel.</value>
   </data>
   <data name="stop_usage" xml:space="preserve">
     <value>`{0}s`</value>
@@ -1512,6 +1530,15 @@
   <data name="queue_usage" xml:space="preserve">
     <value>`{0}q Dream Of Venice`</value>
   </data>
+  <data name="queuenext_cmd" xml:space="preserve">
+    <value>queuenext qn</value>
+  </data>
+  <data name="queuenext_desc" xml:space="preserve">
+    <value>Works the same as `{0}queue` command, except it enqueues the new song after the current one. **You must be in a voice channel**.</value>
+  </data>
+  <data name="queuenext_usage" xml:space="preserve">
+    <value>`{0}qn Dream Of Venice`</value>
+  </data>
   <data name="queuesearch_cmd" xml:space="preserve">
     <value>queuesearch qs yqs</value>
   </data>
@@ -1534,7 +1561,7 @@
     <value>listqueue lq</value>
   </data>
   <data name="listqueue_desc" xml:space="preserve">
-    <value>Lists 15 currently queued songs per page. Default page is 1.</value>
+    <value>Lists 10 currently queued songs per page. Default page is 1.</value>
   </data>
   <data name="listqueue_usage" xml:space="preserve">
     <value>`{0}lq` or `{0}lq 2`</value>
@@ -1642,7 +1669,7 @@
     <value>songremove srm</value>
   </data>
   <data name="songremove_desc" xml:space="preserve">
-    <value>Remove a song by its # in the queue, or 'all' to remove all songs from the queue.</value>
+    <value>Remove a song by its # in the queue, or 'all' to remove all songs from the queue and reset the song index.</value>
   </data>
   <data name="songremove_usage" xml:space="preserve">
     <value>`{0}srm 5`</value>
@@ -1700,6 +1727,15 @@
   </data>
   <data name="save_usage" xml:space="preserve">
     <value>`{0}save classical1`</value>
+  </data>
+    <data name="streamrole_cmd" xml:space="preserve">
+    <value>streamrole</value>
+  </data>
+  <data name="streamrole_desc" xml:space="preserve">
+    <value>Sets a role which is monitored for streamers (FromRole), and a role to add if a user from 'FromRole' is streaming (AddRole). When a user from 'FromRole' starts streaming, they will receive an 'AddRole'. Provide no arguments to disable</value>
+  </data>
+  <data name="streamrole_usage" xml:space="preserve">
+    <value>`{0}streamrole "Eligible Streamers" "Featured Streams"`</value>
   </data>
   <data name="load_cmd" xml:space="preserve">
     <value>load</value>
@@ -1764,14 +1800,14 @@
   <data name="lolban_usage" xml:space="preserve">
     <value>`{0}lolban`</value>
   </data>
-  <data name="hitbox_cmd" xml:space="preserve">
-    <value>hitbox hb</value>
+  <data name="smashcast_cmd" xml:space="preserve">
+    <value>smashcast hb</value>
   </data>
-  <data name="hitbox_desc" xml:space="preserve">
+  <data name="smashcast_desc" xml:space="preserve">
     <value>Notifies this channel when a certain user starts streaming.</value>
   </data>
-  <data name="hitbox_usage" xml:space="preserve">
-    <value>`{0}hitbox SomeStreamer`</value>
+  <data name="smashcast_usage" xml:space="preserve">
+    <value>`{0}smashcast SomeStreamer`</value>
   </data>
   <data name="twitch_cmd" xml:space="preserve">
     <value>twitch tw</value>
@@ -1782,14 +1818,14 @@
   <data name="twitch_usage" xml:space="preserve">
     <value>`{0}twitch SomeStreamer`</value>
   </data>
-  <data name="beam_cmd" xml:space="preserve">
-    <value>beam bm</value>
+  <data name="mixer_cmd" xml:space="preserve">
+    <value>mixer bm</value>
   </data>
-  <data name="beam_desc" xml:space="preserve">
+  <data name="mixer_desc" xml:space="preserve">
     <value>Notifies this channel when a certain user starts streaming.</value>
   </data>
-  <data name="beam_usage" xml:space="preserve">
-    <value>`{0}beam SomeStreamer`</value>
+  <data name="mixer_usage" xml:space="preserve">
+    <value>`{0}mixer SomeStreamer`</value>
   </data>
   <data name="removestream_cmd" xml:space="preserve">
     <value>removestream rms</value>
@@ -1798,7 +1834,7 @@
     <value>Removes notifications of a certain streamer from a certain platform on this channel.</value>
   </data>
   <data name="removestream_usage" xml:space="preserve">
-    <value>`{0}rms Twitch SomeGuy` or `{0}rms Beam SomeOtherGuy`</value>
+    <value>`{0}rms Twitch SomeGuy` or `{0}rms mixer SomeOtherGuy`</value>
   </data>
   <data name="liststreams_cmd" xml:space="preserve">
     <value>liststreams ls</value>
@@ -2214,87 +2250,6 @@
   <data name="butts_usage" xml:space="preserve">
     <value>`{0}butts` or `{0}ass`</value>
   </data>
-  <data name="createwar_cmd" xml:space="preserve">
-    <value>createwar cw</value>
-  </data>
-  <data name="createwar_desc" xml:space="preserve">
-    <value>Creates a new war by specifying a size (&gt;10 and multiple of 5) and enemy clan name.</value>
-  </data>
-  <data name="createwar_usage" xml:space="preserve">
-    <value>`{0}cw 15 The Enemy Clan`</value>
-  </data>
-  <data name="startwar_cmd" xml:space="preserve">
-    <value>startwar sw</value>
-  </data>
-  <data name="startwar_desc" xml:space="preserve">
-    <value>Starts a war with a given number.</value>
-  </data>
-  <data name="startwar_usage" xml:space="preserve">
-    <value>`{0}sw 15`</value>
-  </data>
-  <data name="listwar_cmd" xml:space="preserve">
-    <value>listwar lw</value>
-  </data>
-  <data name="listwar_desc" xml:space="preserve">
-    <value>Shows the active war claims by a number. Shows all wars in a short way if no number is specified.</value>
-  </data>
-  <data name="listwar_usage" xml:space="preserve">
-    <value>`{0}lw [war_number]` or `{0}lw`</value>
-  </data>
-  <data name="basecall_cmd" xml:space="preserve">
-    <value>basecall</value>
-  </data>
-  <data name="basecall_desc" xml:space="preserve">
-    <value>Claims a certain base from a certain war. You can supply a name in the third optional argument to claim in someone else's place.</value>
-  </data>
-  <data name="basecall_usage" xml:space="preserve">
-    <value>`{0}basecall [war_number] [base_number] [optional_other_name]`</value>
-  </data>
-  <data name="callfinish_cmd" xml:space="preserve">
-    <value>callfinish cf</value>
-  </data>
-  <data name="callfinish_desc" xml:space="preserve">
-    <value>Finish your claim with 3 stars if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else.</value>
-  </data>
-  <data name="callfinish_usage" xml:space="preserve">
-    <value>`{0}cf 1` or `{0}cf 1 5`</value>
-  </data>
-  <data name="callfinish2_cmd" xml:space="preserve">
-    <value>callfinish2 cf2</value>
-  </data>
-  <data name="callfinish2_desc" xml:space="preserve">
-    <value>Finish your claim with 2 stars if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else.</value>
-  </data>
-  <data name="callfinish2_usage" xml:space="preserve">
-    <value>`{0}cf2 1` or `{0}cf2 1 5`</value>
-  </data>
-  <data name="callfinish1_cmd" xml:space="preserve">
-    <value>callfinish1 cf1</value>
-  </data>
-  <data name="callfinish1_desc" xml:space="preserve">
-    <value>Finish your claim with 1 star if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else.</value>
-  </data>
-  <data name="callfinish1_usage" xml:space="preserve">
-    <value>`{0}cf1 1` or `{0}cf1 1 5`</value>
-  </data>
-  <data name="unclaim_cmd" xml:space="preserve">
-    <value>uncall</value>
-  </data>
-  <data name="unclaim_desc" xml:space="preserve">
-    <value>Removes your claim from a certain war. Optional second argument denotes a person in whose place to unclaim</value>
-  </data>
-  <data name="unclaim_usage" xml:space="preserve">
-    <value>`{0}uc [war_number] [optional_other_name]`</value>
-  </data>
-  <data name="endwar_cmd" xml:space="preserve">
-    <value>endwar ew</value>
-  </data>
-  <data name="endwar_desc" xml:space="preserve">
-    <value>Ends the war with a given index.</value>
-  </data>
-  <data name="endwar_usage" xml:space="preserve">
-    <value>`{0}ew [war_number]`</value>
-  </data>
   <data name="translate_cmd" xml:space="preserve">
     <value>translate trans</value>
   </data>
@@ -2583,13 +2538,13 @@
   <data name="togethertube_usage" xml:space="preserve">
     <value>`{0}totube`</value>
   </data>
-  <data name="publicpoll_cmd" xml:space="preserve">
-    <value>publicpoll ppoll</value>
+  <data name="poll_cmd" xml:space="preserve">
+    <value>poll ppoll</value>
   </data>
-  <data name="publicpoll_desc" xml:space="preserve">
+  <data name="poll_desc" xml:space="preserve">
     <value>Creates a public poll which requires users to type a number of the voting option in the channel command is ran in.</value>
   </data>
-  <data name="publicpoll_usage" xml:space="preserve">
+  <data name="poll_usage" xml:space="preserve">
     <value>`{0}ppoll Question?;Answer1;Answ 2;A_3`</value>
   </data>
   <data name="autotranslang_cmd" xml:space="preserve">
@@ -2790,6 +2745,15 @@
   <data name="hangman_usage" xml:space="preserve">
     <value>`{0}hangman` or `{0}hangman movies`</value>
   </data>
+  <data name="hangmanstop_cmd" xml:space="preserve">
+    <value>hangmanstop</value>
+  </data>
+  <data name="hangmanstop_desc" xml:space="preserve">
+    <value>Stops the active hangman game on this channel if it exists.</value>
+  </data>
+  <data name="hangmanstop_usage" xml:space="preserve">
+    <value>`{0}hangmanstop`</value>
+  </data>
   <data name="crstatsclear_cmd" xml:space="preserve">
     <value>crstatsclear</value>
   </data>
@@ -2852,6 +2816,15 @@
   </data>
   <data name="fairplay_usage" xml:space="preserve">
     <value>`{0}fp`</value>
+  </data>
+  <data name="songautodelete_cmd" xml:space="preserve">
+    <value>songautodelete sad</value>
+  </data>
+  <data name="songautodelete_desc" xml:space="preserve">
+    <value>Toggles whether the song should be automatically removed from the music queue when it finishes playing.</value>
+  </data>
+  <data name="songautodelete_usage" xml:space="preserve">
+    <value>`{0}sad`</value>
   </data>
   <data name="define_cmd" xml:space="preserve">
     <value>define def</value>
@@ -2977,7 +2950,7 @@
     <value>Sets a price for a command. Running that command will take currency from users. Set 0 to remove the price.</value>
   </data>
   <data name="commandcost_usage" xml:space="preserve">
-    <value>`{0}cmdcost 0 !!q` or `{0}cmdcost 1 &gt;8ball`</value>
+    <value>`{0}cmdcost 0 !!q` or `{0}cmdcost 1 {0}8ball`</value>
   </data>
   <data name="startevent_cmd" xml:space="preserve">
     <value>startevent</value>
@@ -3032,6 +3005,15 @@
   </data>
   <data name="waifuclaim_usage" xml:space="preserve">
     <value>`{0}claim 50 @Himesama`</value>
+  </data>
+  <data name="waifugift_cmd" xml:space="preserve">
+    <value>waifugift gift gifts</value>
+  </data>
+  <data name="waifugift_desc" xml:space="preserve">
+    <value>Gift an item to someone. This will increase their waifu value by 50% of the gifted item's value if they don't have affinity set towards you, or 100% if they do. Provide no arguments to see a list of items that you can gift.</value>
+  </data>
+  <data name="waifugift_usage" xml:space="preserve">
+    <value>`{0}gifts` or `{0}gift Rose @Himesama`</value>
   </data>
   <data name="waifuleaderboard_cmd" xml:space="preserve">
     <value>waifus waifulb</value>
@@ -3096,14 +3078,14 @@
   <data name="shardstats_usage" xml:space="preserve">
     <value>`{0}shardstats` or `{0}shardstats 2`</value>
   </data>
-  <data name="connectshard_cmd" xml:space="preserve">
-    <value>connectshard</value>
+  <data name="restartshard_cmd" xml:space="preserve">
+    <value>restartshard</value>
   </data>
-  <data name="connectshard_desc" xml:space="preserve">
+  <data name="restartshard_desc" xml:space="preserve">
     <value>Try (re)connecting a shard with a certain shardid when it dies. No one knows will it work. Keep an eye on the console for errors.</value>
   </data>
-  <data name="connectshard_usage" xml:space="preserve">
-    <value>`{0}connectshard 2`</value>
+  <data name="restartshard_usage" xml:space="preserve">
+    <value>`{0}restartshard 2`</value>
   </data>
   <data name="shardid_cmd" xml:space="preserve">
     <value>shardid</value>
@@ -3121,7 +3103,7 @@
     <value>Starts a game of tic tac toe. Another user must run the command in the same channel in order to accept the challenge. Use numbers 1-9 to play. 15 seconds per move.</value>
   </data>
   <data name="tictactoe_usage" xml:space="preserve">
-    <value>&gt;ttt</value>
+    <value>{0}ttt</value>
   </data>
   <data name="timezones_cmd" xml:space="preserve">
     <value>timezones</value>
@@ -3231,6 +3213,15 @@
   <data name="crdm_usage" xml:space="preserve">
     <value>`{0}crdm 44`</value>
   </data>
+  <data name="crca_cmd" xml:space="preserve">
+    <value>crca</value>
+  </data>
+  <data name="crca_desc" xml:space="preserve">
+    <value>Toggles whether the custom reaction will trigger if the triggering message contains the keyword (instead of only starting with it).</value>
+  </data>
+  <data name="crca_usage" xml:space="preserve">
+    <value>`{0}crca 44`</value>
+  </data>
   <data name="aliaslist_cmd" xml:space="preserve">
     <value>aliaslist cmdmaplist aliases</value>
   </data>
@@ -3257,6 +3248,15 @@
   </data>
   <data name="warnlog_usage" xml:space="preserve">
     <value>`{0}warnlog @b1nzy`</value>
+  </data>
+  <data name="warnlogall_cmd" xml:space="preserve">
+    <value>warnlogall</value>
+  </data>
+  <data name="warnlogall_desc" xml:space="preserve">
+    <value>See a list of all warnings on the server. 15 users per page.</value>
+  </data>
+  <data name="warnlogall_usage" xml:space="preserve">
+    <value>`{0}warnlogall` or `{0}warnlogall 2`</value>
   </data>
   <data name="warn_cmd" xml:space="preserve">
     <value>warn</value>
@@ -3518,5 +3518,293 @@
   </data>
   <data name="verboseerror_desc" xml:space="preserve">
     <value>Toggles whether the bot should print command errors when a command is incorrectly used.</value>
+  </data>
+  <data name="streamrolekeyword_cmd" xml:space="preserve">
+    <value>streamrolekw srkw</value>
+  </data>
+  <data name="streamrolekeyword_usage" xml:space="preserve">
+    <value>`{0}srkw` or `{0}srkw PUBG`</value>
+  </data>
+  <data name="streamrolekeyword_desc" xml:space="preserve">
+    <value>Sets keyword which is required in the stream's title in order for the streamrole to apply. Provide no keyword in order to reset.</value>
+  </data>
+  <data name="streamroleblacklist_cmd" xml:space="preserve">
+    <value>streamrolebl srbl</value>
+  </data>
+  <data name="streamroleblacklist_usage" xml:space="preserve">
+    <value>`{0}srbl add @b1nzy#1234` or `{0}srbl rem @b1nzy#1234`</value>
+  </data>
+  <data name="streamroleblacklist_desc" xml:space="preserve">
+    <value>Adds or removes a blacklisted user. Blacklisted users will never receive the stream role.</value>
+  </data>
+  <data name="streamrolewhitelist_cmd" xml:space="preserve">
+    <value>streamrolewl srwl</value>
+  </data>
+  <data name="streamrolewhitelist_usage" xml:space="preserve">
+    <value>`{0}srwl add @b1nzy#1234` or `{0}srwl rem @b1nzy#1234`</value>
+  </data>
+  <data name="streamrolewhitelist_desc" xml:space="preserve">
+    <value>Adds or removes a whitelisted user. Whitelisted users will receive the stream role even if they don't have the specified keyword in their stream title.</value>
+  </data>
+  <data name="botconfigedit_cmd" xml:space="preserve">
+    <value>botconfigedit bce</value>
+  </data>
+  <data name="botconfigedit_usage" xml:space="preserve">
+    <value>`{0}bce CurrencyName b1nzy` or `{0}bce`</value>
+  </data>
+  <data name="botconfigedit_desc" xml:space="preserve">
+    <value>Sets one of available bot config settings to a specified value. Use the command without any parameters to get a list of available settings.</value>
+  </data>
+  <data name="nsfwtagblacklist_cmd" xml:space="preserve">
+    <value>nsfwtagbl nsfwtbl</value>
+  </data>
+  <data name="nsfwtagblacklist_usage" xml:space="preserve">
+    <value>`{0}nsfwtbl poop`</value>
+  </data>
+  <data name="nsfwtagblacklist_desc" xml:space="preserve">
+    <value>Toggles whether the tag is blacklisted or not in nsfw searches. Provide no parameters to see the list of blacklisted tags.</value>
+  </data>
+  <data name="experience_cmd" xml:space="preserve">
+    <value>experience xp</value>
+  </data>
+  <data name="experience_usage" xml:space="preserve">
+    <value>`{0}xp`</value>
+  </data>
+  <data name="experience_desc" xml:space="preserve">
+    <value>Shows your xp stats. Specify the user to show that user's stats instead.</value>
+  </data>
+  <data name="xpexclusionlist_cmd" xml:space="preserve">
+    <value>xpexclusionlist xpexl</value>
+  </data>
+  <data name="xpexclusionlist_usage" xml:space="preserve">
+    <value>`{0}xpexl`</value>
+  </data>
+  <data name="xpexclusionlist_desc" xml:space="preserve">
+    <value>Shows the roles and channels excluded from the XP system on this server, as well as whether the whole server is excluded.</value>
+  </data>
+  <data name="xpexclude_cmd" xml:space="preserve">
+    <value>xpexclude xpex</value>
+  </data>
+  <data name="xpexclude_usage" xml:space="preserve">
+    <value>`{0}xpex Role Excluded-Role` `{0}xpex Server`</value>
+  </data>
+  <data name="xpexclude_desc" xml:space="preserve">
+    <value>Exclude a channel, role or current server from the xp system.</value>
+  </data>
+  <data name="xpnotify_cmd" xml:space="preserve">
+    <value>xpnotify xpn</value>
+  </data>
+  <data name="xpnotify_usage" xml:space="preserve">
+    <value>`{0}xpn global dm` `{0}xpn server channel`</value>
+  </data>
+  <data name="xpnotify_desc" xml:space="preserve">
+    <value>Sets how the bot should notify you when you get a `server` or `global` level. You can set `dm` (for the bot to send a direct message), `channel` (to get notified in the channel you sent the last message in) or `none` to disable.</value>
+  </data>
+  <data name="xprolerewards_cmd" xml:space="preserve">
+    <value>xprolerewards xprrs</value>
+  </data>
+  <data name="xprolerewards_usage" xml:space="preserve">
+    <value>`{0}xprrs`</value>
+  </data>
+  <data name="xprolerewards_desc" xml:space="preserve">
+    <value>Shows currently set role rewards.</value>
+  </data>
+  <data name="xprolereward_cmd" xml:space="preserve">
+    <value>xprolereward xprr</value>
+  </data>
+  <data name="xprolereward_usage" xml:space="preserve">
+    <value>`{0}xprr 3 Social`</value>
+  </data>
+  <data name="xprolereward_desc" xml:space="preserve">
+    <value>Sets a role reward on a specified level. Provide no role name in order to remove the role reward.</value>
+  </data>
+  <data name="xpleaderboard_cmd" xml:space="preserve">
+    <value>xpleaderboard xplb</value>
+  </data>
+  <data name="xpleaderboard_usage" xml:space="preserve">
+    <value>`{0}xplb`</value>
+  </data>
+  <data name="xpleaderboard_desc" xml:space="preserve">
+    <value>Shows current server's xp leaderboard.</value>
+  </data>
+  <data name="xpgloballeaderboard_cmd" xml:space="preserve">
+    <value>xpgleaderboard xpglb</value>
+  </data>
+  <data name="xpgloballeaderboard_usage" xml:space="preserve">
+    <value>`{0}xpglb`</value>
+  </data>
+  <data name="xpgloballeaderboard_desc" xml:space="preserve">
+    <value>Shows the global xp leaderboard.</value>
+  </data>
+  <data name="xpadd_cmd" xml:space="preserve">
+    <value>xpadd</value>
+  </data>
+  <data name="xpadd_usage" xml:space="preserve">
+    <value>`{0}xpadd 100 @b1nzy`</value>
+  </data>
+  <data name="xpadd_desc" xml:space="preserve">
+    <value>Adds xp to a user on the server. This does not affect their global ranking. You can use negative values.</value>
+  </data>
+  <data name="clubcreate_cmd" xml:space="preserve">
+    <value>clubcreate</value>
+  </data>
+  <data name="clubcreate_usage" xml:space="preserve">
+    <value>`{0}clubcreate b1nzy's friends`</value>
+  </data>
+  <data name="clubcreate_desc" xml:space="preserve">
+    <value>Creates a club. You must be atleast level 5 and not be in the club already.</value>
+  </data>
+  <data name="clubinformation_cmd" xml:space="preserve">
+    <value>clubinfo</value>
+  </data>
+  <data name="clubinformation_usage" xml:space="preserve">
+    <value>`{0}clubinfo b1nzy's friends#123`</value>
+  </data>
+  <data name="clubinformation_desc" xml:space="preserve">
+    <value>Shows information about the club.</value>
+  </data>
+  <data name="clubapply_cmd" xml:space="preserve">
+    <value>clubapply</value>
+  </data>
+  <data name="clubapply_usage" xml:space="preserve">
+    <value>`{0}clubapply b1nzy's friends#123`</value>
+  </data>
+  <data name="clubapply_desc" xml:space="preserve">
+    <value>Apply to join a club. You must meet that club's minimum level requirement, and not be on its ban list.</value>
+  </data>
+  <data name="clubaccept_cmd" xml:space="preserve">
+    <value>clubaccept</value>
+  </data>
+  <data name="clubaccept_usage" xml:space="preserve">
+    <value>`{0}clubaccept b1nzy#1337`</value>
+  </data>
+  <data name="clubaccept_desc" xml:space="preserve">
+    <value>Accept a user who applied to your club.</value>
+  </data>
+  <data name="clubleave_cmd" xml:space="preserve">
+    <value>clubleave</value>
+  </data>
+  <data name="clubleave_usage" xml:space="preserve">
+    <value>`{0}clubleave`</value>
+  </data>
+  <data name="clubleave_desc" xml:space="preserve">
+    <value>Leaves the club you're currently in.</value>
+  </data>
+  <data name="clubdisband_cmd" xml:space="preserve">
+    <value>clubdisband</value>
+  </data>
+  <data name="clubdisband_usage" xml:space="preserve">
+    <value>`{0}clubdisband`</value>
+  </data>
+  <data name="clubdisband_desc" xml:space="preserve">
+    <value>Disbands the club you're the owner of. This action is irreversible.</value>
+  </data>
+  <data name="clubkick_cmd" xml:space="preserve">
+    <value>clubkick</value>
+  </data>
+  <data name="clubkick_usage" xml:space="preserve">
+    <value>`{0}clubkick b1nzy#1337`</value>
+  </data>
+  <data name="clubkick_desc" xml:space="preserve">
+    <value>Kicks the user from the club. You must be the club owner. They will be able to apply again.</value>
+  </data>
+  <data name="clubban_cmd" xml:space="preserve">
+    <value>clubban</value>
+  </data>
+  <data name="clubban_usage" xml:space="preserve">
+    <value>`{0}clubban b1nzy#1337`</value>
+  </data>
+  <data name="clubban_desc" xml:space="preserve">
+    <value>Bans the user from the club. You must be the club owner. They will not be able to apply again.</value>
+  </data>
+  <data name="clubunban_cmd" xml:space="preserve">
+    <value>clubunban</value>
+  </data>
+  <data name="clubunban_usage" xml:space="preserve">
+    <value>`{0}clubunban b1nzy#1337`</value>
+  </data>
+  <data name="clubunban_desc" xml:space="preserve">
+    <value>Unbans the previously banned user from the club. You must be the club owner.</value>
+  </data>
+  <data name="clublevelreq_cmd" xml:space="preserve">
+    <value>clublevelreq</value>
+  </data>
+  <data name="clublevelreq_usage" xml:space="preserve">
+    <value>`{0}clublevelreq 7`</value>
+  </data>
+  <data name="clublevelreq_desc" xml:space="preserve">
+    <value>Sets the club required level to apply to join the club. You must be club owner. You can't set this number below 5.</value>
+  </data>
+  <data name="clubicon_cmd" xml:space="preserve">
+    <value>clubicon</value>
+  </data>
+  <data name="clubicon_usage" xml:space="preserve">
+    <value>`{0}clubicon https://i.imgur.com/htfDMfU.png`</value>
+  </data>
+  <data name="clubicon_desc" xml:space="preserve">
+    <value>Sets the club icon.</value>
+  </data>
+  <data name="clubapps_cmd" xml:space="preserve">
+    <value>clubapps</value>
+  </data>
+  <data name="clubapps_usage" xml:space="preserve">
+    <value>`{0}clubapps 2`</value>
+  </data>
+  <data name="clubapps_desc" xml:space="preserve">
+    <value>Shows the list of users who have applied to your club. Paginated. You must be club owner to use this command.</value>
+  </data>
+  <data name="clubbans_cmd" xml:space="preserve">
+    <value>clubbans</value>
+  </data>
+  <data name="clubbans_usage" xml:space="preserve">
+    <value>`{0}clubbans 2`</value>
+  </data>
+  <data name="clubbans_desc" xml:space="preserve">
+    <value>Shows the list of users who have banned from your club. Paginated. You must be club owner to use this command.</value>
+  </data>
+  <data name="clubleaderboard_cmd" xml:space="preserve">
+    <value>clublb</value>
+  </data>
+  <data name="clubleaderboard_usage" xml:space="preserve">
+    <value>`{0}clublb 2`</value>
+  </data>
+  <data name="clubleaderboard_desc" xml:space="preserve">
+    <value>Shows club rankings on the specified page.</value>
+  </data>
+  <data name="nsfwclearcache_cmd" xml:space="preserve">
+    <value>nsfwcc</value>
+  </data>
+  <data name="nsfwclearcache_usage" xml:space="preserve">
+    <value>`{0}nsfwcc`</value>
+  </data>
+  <data name="nsfwclearcache_desc" xml:space="preserve">
+    <value>Clears nsfw cache.</value>
+  </data>
+  <data name="clubadmin_cmd" xml:space="preserve">
+    <value>clubadmin</value>
+  </data>
+  <data name="clubadmin_usage" xml:space="preserve">
+    <value>`{0}clubadmin`</value>
+  </data>
+  <data name="clubadmin_desc" xml:space="preserve">
+    <value>Assigns (or unassigns) staff role to the member of the club. Admins can ban, kick and accept applications.</value>
+  </data>
+  <data name="autoboobs_cmd" xml:space="preserve">
+    <value>autoboobs</value>
+  </data>
+  <data name="autoboobs_desc" xml:space="preserve">
+    <value>Posts a boobs every X seconds. 20 seconds minimum. Provide no arguments to disable.</value>
+  </data>
+  <data name="autoboobs_usage" xml:space="preserve">
+    <value>`{0}autoboobs 30` or `{0}autoboobs`</value>
+  </data>
+  <data name="autobutts_cmd" xml:space="preserve">
+    <value>autobutts</value>
+  </data>
+  <data name="autobutts_desc" xml:space="preserve">
+    <value>Posts a butts every X seconds. 20 seconds minimum. Provide no arguments to disable.</value>
+  </data>
+  <data name="autobutts_usage" xml:space="preserve">
+    <value>`{0}autobutts 30` or `{0}autobutts`</value>
   </data>
 </root>

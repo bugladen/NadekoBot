@@ -17,6 +17,7 @@ namespace NadekoBot.Services.Database.Repositories.Impl
             return _set.Include(wi => wi.Waifu)
                         .Include(wi => wi.Affinity)
                         .Include(wi => wi.Claimer)
+                        .Include(wi => wi.Items)
                         .FirstOrDefault(wi => wi.Waifu.UserId == userId);
         }
 
@@ -25,6 +26,7 @@ namespace NadekoBot.Services.Database.Repositories.Impl
             return _set.Include(wi => wi.Waifu)
                         .Include(wi => wi.Affinity)
                         .Include(wi => wi.Claimer)
+                        .Include(wi => wi.Items)
                         .Where(wi => wi.Claimer != null && wi.Claimer.UserId == userId)
                         .ToList();
         }

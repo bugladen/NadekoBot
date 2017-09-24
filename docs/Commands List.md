@@ -3,7 +3,6 @@ You can support the project on patreon: <https://patreon.com/nadekobot> or paypa
 ##Table of contents
 - [Help](#help)
 - [Administration](#administration)
-- [ClashOfClans](#clashofclans)
 - [CustomReactions](#customreactions)
 - [Gambling](#gambling)
 - [Games](#games)
@@ -13,6 +12,7 @@ You can support the project on patreon: <https://patreon.com/nadekobot> or paypa
 - [Pokemon](#pokemon)
 - [Searches](#searches)
 - [Utility](#utility)
+- [Xp](#xp)
 
 
 ### Administration  
@@ -34,7 +34,6 @@ Commands and aliases | Description | Usage
 `.creatxtchanl` `.ctch` | Creates a new text channel with a given name. **Requires ManageChannels server permission.** | `.ctch TextChannelName`
 `.settopic` `.st` | Sets a topic on the current channel. **Requires ManageChannels server permission.** | `.st My new topic`
 `.setchanlname` `.schn` | Changes the name of the current channel. **Requires ManageChannels server permission.** | `.schn NewName`
-`.prune` `.clear` | `.prune` removes all Nadeko's messages in the last 100 messages. `.prune X` removes last `X` number of messages from the channel (up to 100). `.prune @Someone` removes all Someone's messages in the last 100 messages. `.prune @Someone X` removes last `X` number of 'Someone's' messages in the channel.  | `.prune` or `.prune 5` or `.prune @Someone` or `.prune @Someone X`
 `.mentionrole` `.menro` | Mentions every person from the provided role or roles (separated by a ',') on this server. **Requires MentionEveryone server permission.** | `.menro RoleName`
 `.donators` | List of the lovely people who donated to keep this project alive.  | `.donators`
 `.donadd` | Add a donator to the database. **Bot owner only** | `.donadd Donate Amount`
@@ -65,6 +64,7 @@ Commands and aliases | Description | Usage
 `.antispam` | Stops people from repeating same message X times in a row. You can specify to either mute, kick or ban the offenders. Max message count is 10. **Requires Administrator server permission.** | `.antispam 3 Mute` or `.antispam 4 Kick` or `.antispam 6 Ban`
 `.antispamignore` | Toggles whether antispam ignores current channel. Antispam must be enabled.  | `.antispamignore`
 `.antilist` `.antilst` | Shows currently enabled protection features.  | `.antilist`
+`.prune` `.clear` | `.prune` removes all Nadeko's messages in the last 100 messages. `.prune X` removes last `X` number of messages from the channel (up to 100). `.prune @Someone` removes all Someone's messages in the last 100 messages. `.prune @Someone X` removes last `X` number of 'Someone's' messages in the channel.  | `.prune` or `.prune 5` or `.prune @Someone` or `.prune @Someone X`
 `.slowmode` | Toggles slowmode. Disable by specifying no parameters. To enable, specify a number of messages each user can send, and an interval in seconds. For example 1 message every 5 seconds. **Requires ManageMessages server permission.** | `.slowmode 1 5` or `.slowmode`
 `.slowmodewl` | Ignores a role or a user from the slowmode feature. **Requires ManageMessages server permission.** | `.slowmodewl SomeRole` or `.slowmodewl AdminDude`
 `.adsarm` | Toggles the automatic deletion of confirmations for `.iam` and `.iamn` commands. **Requires ManageMessages server permission.** | `.adsarm`
@@ -81,7 +81,6 @@ Commands and aliases | Description | Usage
 `.scclr` | Removes all startup commands. **Bot owner only** | `.scclr`
 `.fwmsgs` | Toggles forwarding of non-command messages sent to bot's DM to the bot owners **Bot owner only** | `.fwmsgs`
 `.fwtoall` | Toggles whether messages will be forwarded to all bot owners or only to the first one specified in the credentials.json file **Bot owner only** | `.fwtoall`
-`.connectshard` | Try (re)connecting a shard with a certain shardid when it dies. No one knows will it work. Keep an eye on the console for errors. **Bot owner only** | `.connectshard 2`
 `.leave` | Makes Nadeko leave the server. Either server name or server ID is required. **Bot owner only** | `.leave 123123123331`
 `.die` | Shuts the bot down. **Bot owner only** | `.die`
 `.setname` `.newnm` | Gives the bot a new name. **Bot owner only** | `.newnm BotName`
@@ -91,7 +90,6 @@ Commands and aliases | Description | Usage
 `.setgame` | Sets the bots game. **Bot owner only** | `.setgame with snakes`
 `.setstream` | Sets the bots stream. First argument is the twitch link, second argument is stream name. **Bot owner only** | `.setstream TWITCHLINK Hello`
 `.send` | Sends a message to someone on a different server through the bot.  Separate server and channel/user ids with `|` and prefix the channel id with `c:` and the user id with `u:`. **Bot owner only** | `.send serverid|c:channelid message` or `.send serverid|u:userid message`
-`.announce` | Sends a message to all servers' default channel that bot is connected to. **Bot owner only** | `.announce Useless spam`
 `.reloadimages` | Reloads images bot is using. Safe to use even when bot is being used heavily. **Bot owner only** | `.reloadimages`
 `.greetdel` `.grdel` | Sets the time it takes (in seconds) for greet messages to be auto-deleted. Set it to 0 to disable automatic deletion. **Requires ManageServer server permission.** | `.greetdel 0` or `.greetdel 30`
 `.greet` | Toggles anouncements on the current channel when someone joins the server. **Requires ManageServer server permission.** | `.greet`
@@ -105,6 +103,7 @@ Commands and aliases | Description | Usage
 `.timezone` | Sets this guilds timezone. This affects bot's time output in this server (logs, etc..)  | `.timezone` or `.timezone GMT Standard Time`
 `.warn` | Warns a user. **Requires BanMembers server permission.** | `.warn @b1nzy Very rude person`
 `.warnlog` | See a list of warnings of a certain user. **Requires BanMembers server permission.** | `.warnlog @b1nzy`
+`.warnlogall` | See a list of all warnings on the server. 15 users per page. **Requires BanMembers server permission.** | `.warnlogall` or `.warnlogall 2`
 `.warnclear` `.warnc` | Clears all warnings from a certain user. **Requires BanMembers server permission.** | `.warnclear @PoorDude`
 `.warnpunish` `.warnp` | Sets a punishment for a certain number of warnings. Provide no punishment to remove. **Requires BanMembers server permission.** | `.warnpunish 5 Ban` or `.warnpunish 3`
 `.warnpunishlist` `.warnpl` | Lists punishments for warnings.  | `.warnpunishlist`
@@ -119,21 +118,6 @@ Commands and aliases | Description | Usage
 
 ###### [Back to ToC](#table-of-contents)
 
-### ClashOfClans  
-Commands and aliases | Description | Usage
-----------------|--------------|-------
-`.createwar` `.cw` | Creates a new war by specifying a size (>10 and multiple of 5) and enemy clan name. **Requires ManageMessages server permission.** | `.cw 15 The Enemy Clan`
-`.startwar` `.sw` | Starts a war with a given number.  | `.sw 15`
-`.listwar` `.lw` | Shows the active war claims by a number. Shows all wars in a short way if no number is specified.  | `.lw [war_number]` or `.lw`
-`.basecall` | Claims a certain base from a certain war. You can supply a name in the third optional argument to claim in someone else's place.  | `.basecall [war_number] [base_number] [optional_other_name]`
-`.callfinish1` `.cf1` | Finish your claim with 1 star if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else.  | `.cf1 1` or `.cf1 1 5`
-`.callfinish2` `.cf2` | Finish your claim with 2 stars if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else.  | `.cf2 1` or `.cf2 1 5`
-`.callfinish` `.cf` | Finish your claim with 3 stars if you destroyed a base. First argument is the war number, optional second argument is a base number if you want to finish for someone else.  | `.cf 1` or `.cf 1 5`
-`.endwar` `.ew` | Ends the war with a given index.  | `.ew [war_number]`
-`.uncall` | Removes your claim from a certain war. Optional second argument denotes a person in whose place to unclaim  | `.uc [war_number] [optional_other_name]`
-
-###### [Back to ToC](#table-of-contents)
-
 ### CustomReactions  
 Commands and aliases | Description | Usage
 ----------------|--------------|-------
@@ -142,6 +126,7 @@ Commands and aliases | Description | Usage
 `.listcustreactg` `.lcrg` | Lists global or server custom reactions (20 commands per page) grouped by trigger, and show a number of responses for each. Running the command in DM will list global custom reactions, while running it in server will list that server's custom reactions.  | `.lcrg 1`
 `.showcustreact` `.scr` | Shows a custom reaction's response on a given ID.  | `.scr 1`
 `.delcustreact` `.dcr` | Deletes a custom reaction on a specific index. If ran in DM, it is bot owner only and deletes a global custom reaction. If ran in a server, it requires Administration privileges and removes server custom reaction.  | `.dcr 5`
+`.crca` | Toggles whether the custom reaction will trigger if the triggering message contains the keyword (instead of only starting with it).  | `.crca 44`
 `.crdm` | Toggles whether the response message of the custom reaction will be sent as a direct message.  | `.crdm 44`
 `.crad` | Toggles whether the message triggering the custom reaction will be automatically deleted.  | `.crad 59`
 `.crstatsclear` | Resets the counters on `.crstats`. You can specify a trigger to clear stats only for that trigger. **Bot owner only** | `.crstatsclear` or `.crstatsclear rng`
@@ -183,27 +168,31 @@ Commands and aliases | Description | Usage
 `.affinity` | Sets your affinity towards someone you want to be claimed by. Setting affinity will reduce their `.claim` on you by 20%. You can leave second argument empty to clear your affinity. 30 minutes cooldown.  | `.affinity @MyHusband` or `.affinity`
 `.waifus` `.waifulb` | Shows top 9 waifus. You can specify another page to show other waifus.  | `.waifus` or `.waifulb 3`
 `.waifuinfo` `.waifustats` | Shows waifu stats for a target person. Defaults to you if no user is provided.  | `.waifuinfo @MyCrush` or `.waifuinfo`
+`.waifugift` `.gift` `.gifts` | Gift an item to someone. This will increase their waifu value by 50% of the gifted item's value if they don't have affinity set towards you, or 100% if they do. Provide no arguments to see a list of items that you can gift.  | `.gifts` or `.gift Rose @Himesama`
+`.wheeloffortune` `.wheel` | Bets a certain amount of currency on the wheel of fortune. Wheel can stop on one of many different multipliers. Won amount is rounded down to the nearest whole number.  | `.wheel 10`
 
 ###### [Back to ToC](#table-of-contents)
 
 ### Games  
 Commands and aliases | Description | Usage
 ----------------|--------------|-------
-`.leet` | Converts a text to leetspeak with 6 (1-6) severity levels  | `.leet 3 Hello`
 `.choose` | Chooses a thing from a list of things  | `.choose Get up;Sleep;Sleep more`
 `.8ball` | Ask the 8ball a yes/no question.  | `.8ball should I do something`
 `.rps` | Play a game of Rocket-Paperclip-Scissors with Nadeko.  | `.rps scissors`
 `.rategirl` | Use the universal hot-crazy wife zone matrix to determine the girl's worth. It is everything young men need to know about women. At any moment in time, any woman you have previously located on this chart can vanish from that location and appear anywhere else on the chart.  | `.rategirl @SomeGurl`
 `.linux` | Prints a customizable Linux interjection  | `.linux Spyware Windows`
+`.leet` | Converts a text to leetspeak with 6 (1-6) severity levels  | `.leet 3 Hello`
 `.acrophobia` `.acro` | Starts an Acrophobia game. Second argument is optional round length in seconds. (default is 60)  | `.acro` or `.acro 30`
 `.cleverbot` | Toggles cleverbot session. When enabled, the bot will reply to messages starting with bot mention in the server. Custom reactions starting with %mention% won't work if cleverbot is enabled. **Requires ManageMessages server permission.** | `.cleverbot`
+`.connect4` `.con4` | Creates or joins an existing connect4 game. 2 players are required for the game. Objective of the game is to get 4 of your pieces next to each other in a vertical, horizontal or diagonal line.  | `.connect4`
 `.hangmanlist` | Shows a list of hangman term types.  | `.hangmanlist`
 `.hangman` | Starts a game of hangman in the channel. Use `.hangmanlist` to see a list of available term types. Defaults to 'all'.  | `.hangman` or `.hangman movies`
+`.hangmanstop` | Stops the active hangman game on this channel if it exists.  | `.hangmanstop`
+`.nunchi` | Creates or joins an existing nunchi game. Users have to count up by 1 from the starting number shown by the bot. If someone makes a mistake (types an incorrent number, or repeats the same number) they are out of the game and a new round starts without them.  Minimum 3 users required.  | `.nunchi`
 `.pick` | Picks the currency planted in this channel. 60 seconds cooldown.  | `.pick`
 `.plant` | Spend an amount of currency to plant it in this channel. Default is 1. (If bot is restarted or crashes, the currency will be lost)  | `.plant` or `.plant 5`
 `.gencurrency` `.gc` | Toggles currency generation on this channel. Every posted message will have chance to spawn currency. Chance is specified by the Bot Owner. (default is 2%) **Requires ManageMessages server permission.** | `.gc`
-`.poll` | Creates a poll which requires users to send the number of the voting option to the bot. **Requires ManageMessages server permission.** | `.poll Question?;Answer1;Answ 2;A_3`
-`.publicpoll` `.ppoll` | Creates a public poll which requires users to type a number of the voting option in the channel command is ran in. **Requires ManageMessages server permission.** | `.ppoll Question?;Answer1;Answ 2;A_3`
+`.poll` `.ppoll` | Creates a public poll which requires users to type a number of the voting option in the channel command is ran in. **Requires ManageMessages server permission.** | `.ppoll Question?;Answer1;Answ 2;A_3`
 `.pollstats` | Shows the poll results without stopping the poll on this server. **Requires ManageMessages server permission.** | `.pollstats`
 `.pollend` | Stops active poll on this server and prints the results in this channel. **Requires ManageMessages server permission.** | `.pollend`
 `.typestart` | Starts a typing contest.  | `.typestart`
@@ -211,7 +200,7 @@ Commands and aliases | Description | Usage
 `.typeadd` | Adds a new article to the typing contest. **Bot owner only** | `.typeadd wordswords`
 `.typelist` | Lists added typing articles with their IDs. 15 per page.  | `.typelist` or `.typelist 3`
 `.typedel` | Deletes a typing article given the ID. **Bot owner only** | `.typedel 3`
-`.tictactoe` `.ttt` | Starts a game of tic tac toe. Another user must run the command in the same channel in order to accept the challenge. Use numbers 1-9 to play. 15 seconds per move.  | >ttt
+`.tictactoe` `.ttt` | Starts a game of tic tac toe. Another user must run the command in the same channel in order to accept the challenge. Use numbers 1-9 to play. 15 seconds per move.  | .ttt
 `.trivia` `.t` | Starts a game of trivia. You can add `nohint` to prevent hints. First player to get to 10 points wins by default. You can specify a different number. 30 seconds per question.  | `.t` or `.t 5 nohint`
 `.tl` | Shows a current trivia leaderboard.  | `.tl`
 `.tq` | Quits current trivia after current question.  | `.tq`
@@ -233,35 +222,38 @@ Commands and aliases | Description | Usage
 ### Music  
 Commands and aliases | Description | Usage
 ----------------|--------------|-------
+`.play` `.start` | If no arguments are specified, acts as `.next 1` command. If you specify a song number, it will jump to that song. If you specify a search query, acts as a `.q` command  | `.play` or `.play 5` or `.play Dream Of Venice`
+`.queue` `.q` `.yq` | Queue a song using keywords or a link. Bot will join your voice channel. **You must be in a voice channel**.  | `.q Dream Of Venice`
+`.queuenext` `.qn` | Works the same as `.queue` command, except it enqueues the new song after the current one. **You must be in a voice channel**.  | `.qn Dream Of Venice`
+`.queuesearch` `.qs` `.yqs` | Search for top 5 youtube song result using keywords, and type the index of the song to play that song. Bot will join your voice channel. **You must be in a voice channel**.  | `.qs Dream Of Venice`
+`.listqueue` `.lq` | Lists 10 currently queued songs per page. Default page is 1.  | `.lq` or `.lq 2`
 `.next` `.n` | Goes to the next song in the queue. You have to be in the same voice channel as the bot. You can skip multiple songs, but in that case songs will not be requeued if .rcs or .rpl is enabled.  | `.n` or `.n 5`
-`.stop` `.s` | Stops the music and clears the playlist. Stays in the channel.  | `.s`
+`.stop` `.s` | Stops the music and preserves the current song index. Stays in the channel.  | `.s`
 `.destroy` `.d` | Completely stops the music and unbinds the bot from the channel. (may cause weird behaviour)  | `.d`
 `.pause` `.p` | Pauses or Unpauses the song.  | `.p`
-`.fairplay` `.fp` | Toggles fairplay. While enabled, the bot will prioritize songs from users who didn't have their song recently played instead of the song's position in the queue.  | `.fp`
-`.queue` `.q` `.yq` | Queue a song using keywords or a link. Bot will join your voice channel. **You must be in a voice channel**.  | `.q Dream Of Venice`
-`.queuesearch` `.qs` `.yqs` | Search for top 5 youtube song result using keywords, and type the index of the song to play that song. Bot will join your voice channel. **You must be in a voice channel**.  | `.qs Dream Of Venice`
-`.soundcloudqueue` `.sq` | Queue a soundcloud song using keywords. Bot will join your voice channel. **You must be in a voice channel**.  | `.sq Dream Of Venice`
-`.listqueue` `.lq` | Lists 15 currently queued songs per page. Default page is 1.  | `.lq` or `.lq 2`
-`.nowplaying` `.np` | Shows the song that the bot is currently playing.  | `.np`
 `.volume` `.vol` | Sets the music playback volume (0-100%)  | `.vol 50`
 `.defvol` `.dv` | Sets the default music volume when music playback is started (0-100). Persists through restarts.  | `.dv 80`
-`.playlistshuffle` `.plsh` | Shuffles the current playlist.  | `.plsh`
-`.playlist` `.pl` | Queues up to 500 songs from a youtube playlist specified by a link, or keywords.  | `.pl playlist link or name`
+`.songremove` `.srm` | Remove a song by its # in the queue, or 'all' to remove all songs from the queue and reset the song index.  | `.srm 5`
+`.playlists` `.pls` | Lists all playlists. Paginated, 20 per page. Default page is 0.  | `.pls 1`
+`.deleteplaylist` `.delpls` | Deletes a saved playlist. Works only if you made it or if you are the bot owner.  | `.delpls animu-5`
+`.save` | Saves a playlist under a certain name. Playlist name must be no longer than 20 characters and must not contain dashes.  | `.save classical1`
+`.load` | Loads a saved playlist using its ID. Use `.pls` to list all saved playlists and `.save` to save new ones.  | `.load 5`
+`.fairplay` `.fp` | Toggles fairplay. While enabled, the bot will prioritize songs from users who didn't have their song recently played instead of the song's position in the queue.  | `.fp`
+`.songautodelete` `.sad` | Toggles whether the song should be automatically removed from the music queue when it finishes playing.  | `.sad`
+`.soundcloudqueue` `.sq` | Queue a soundcloud song using keywords. Bot will join your voice channel. **You must be in a voice channel**.  | `.sq Dream Of Venice`
 `.soundcloudpl` `.scpl` | Queue a Soundcloud playlist using a link.  | `.scpl soundcloudseturl`
-`.localplaylst` `.lopl` | Queues all songs from a directory. **Bot owner only** | `.lopl C:/music/classical`
+`.nowplaying` `.np` | Shows the song that the bot is currently playing.  | `.np`
+`.shuffle` `.sh` `.plsh` | Shuffles the current playlist.  | `.plsh`
+`.playlist` `.pl` | Queues up to 500 songs from a youtube playlist specified by a link, or keywords.  | `.pl playlist link or name`
 `.radio` `.ra` | Queues a radio stream from a link. It can be a direct mp3 radio stream, .m3u, .pls .asx or .xspf (Usage Video: <https://streamable.com/al54>)  | `.ra radio link here`
 `.local` `.lo` | Queues a local file by specifying a full path. **Bot owner only** | `.lo C:/music/mysong.mp3`
-`.songremove` `.srm` | Remove a song by its # in the queue, or 'all' to remove all songs from the queue.  | `.srm 5`
+`.localplaylst` `.lopl` | Queues all songs from a directory. **Bot owner only** | `.lopl C:/music/classical`
+`.move` `.mv` | Moves the bot to your voice channel. (works only if music is already playing)  | `.mv`
 `.movesong` `.ms` | Moves a song from one position to another.  | `.ms 5>3`
 `.setmaxqueue` `.smq` | Sets a maximum queue size. Supply 0 or no argument to have no limit.  | `.smq 50` or `.smq`
 `.setmaxplaytime` `.smp` | Sets a maximum number of seconds (>14) a song can run before being skipped automatically. Set 0 to have no limit.  | `.smp 0` or `.smp 270`
 `.reptcursong` `.rcs` | Toggles repeat of current song.  | `.rcs`
 `.rpeatplaylst` `.rpl` | Toggles repeat of all songs in the queue (every song that finishes is added to the end of the queue).  | `.rpl`
-`.save` | Saves a playlist under a certain name. Playlist name must be no longer than 20 characters and must not contain dashes.  | `.save classical1`
-`.load` | Loads a saved playlist using its ID. Use `.pls` to list all saved playlists and `.save` to save new ones.  | `.load 5`
-`.playlists` `.pls` | Lists all playlists. Paginated, 20 per page. Default page is 0.  | `.pls 1`
-`.deleteplaylist` `.delpls` | Deletes a saved playlist. Works only if you made it or if you are the bot owner.  | `.delpls animu-5`
-`.goto` | Goes to a specific time in seconds in a song.  | `.goto 30`
 `.autoplay` `.ap` | Toggles autoplay - When the song is finished, automatically queue a related Youtube song. (Works only for Youtube songs and when queue is empty)  | `.ap`
 `.setmusicchannel` `.smch` | Sets the current channel as the default music output channel. This will output playing, finished, paused and removed songs to that channel instead of the channel where the first song was queued in. **Requires ManageMessages server permission.** | `.smch`
 
@@ -281,6 +273,8 @@ Commands and aliases | Description | Usage
 `.gelbooru` | Shows a random hentai image from gelbooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +)  | `.gelbooru yuri+kissing`
 `.boobs` | Real adult content.  | `.boobs`
 `.butts` `.ass` `.butt` | Real adult content.  | `.butts` or `.ass`
+`.nsfwtagbl` `.nsfwtbl` | Toggles whether the tag is blacklisted or not in nsfw searches. Provide no parameters to see the list of blacklisted tags.  | `.nsfwtbl poop`
+`.nsfwcc` | Clears nsfw cache. **Bot owner only** | `.nsfwcc`
 
 ###### [Back to ToC](#table-of-contents)
 
@@ -382,11 +376,11 @@ Commands and aliases | Description | Usage
 `.place` | Shows a placeholder image of a given tag. Use `.placelist` to see all available tags. You can specify the width and height of the image as the last two optional arguments.  | `.place Cage` or `.place steven 500 400`
 `.pokemon` `.poke` | Searches for a pokemon.  | `.poke Sylveon`
 `.pokemonability` `.pokeab` | Searches for a pokemon ability.  | `.pokeab overgrow`
-`.hitbox` `.hb` | Notifies this channel when a certain user starts streaming. **Requires ManageMessages server permission.** | `.hitbox SomeStreamer`
+`.smashcast` `.hb` | Notifies this channel when a certain user starts streaming. **Requires ManageMessages server permission.** | `.smashcast SomeStreamer`
 `.twitch` `.tw` | Notifies this channel when a certain user starts streaming. **Requires ManageMessages server permission.** | `.twitch SomeStreamer`
-`.beam` `.bm` | Notifies this channel when a certain user starts streaming. **Requires ManageMessages server permission.** | `.beam SomeStreamer`
+`.mixer` `.bm` | Notifies this channel when a certain user starts streaming. **Requires ManageMessages server permission.** | `.mixer SomeStreamer`
 `.liststreams` `.ls` | Lists all streams you are following on this server.  | `.ls`
-`.removestream` `.rms` | Removes notifications of a certain streamer from a certain platform on this channel. **Requires ManageMessages server permission.** | `.rms Twitch SomeGuy` or `.rms Beam SomeOtherGuy`
+`.removestream` `.rms` | Removes notifications of a certain streamer from a certain platform on this channel. **Requires ManageMessages server permission.** | `.rms Twitch SomeGuy` or `.rms mixer SomeOtherGuy`
 `.checkstream` `.cs` | Checks if a user is online on a certain streaming platform.  | `.cs twitch MyFavStreamer`
 `.translate` `.trans` | Translates from>to text. From the given language to the destination language.  | `.trans en>fr Hello`
 `.autotrans` `.at` | Starts automatic translation of all messages by users who set their `.atl` in this channel. You can set "del" argument to automatically delete all translated user messages. **Requires Administrator server permission.** **Bot owner only** | `.at` or `.at del`
@@ -399,7 +393,6 @@ Commands and aliases | Description | Usage
 ### Utility  
 Commands and aliases | Description | Usage
 ----------------|--------------|-------
-`.rotaterolecolor` `.rrc` | Rotates a roles color on an interval with a list of supplied colors. First argument is interval in seconds (Minimum 60). Second argument is a role, followed by a space-separated list of colors in hex. Provide a rolename with a 0 interval to disable. **Requires ManageRoles server permission.** **Bot owner only** | `.rrc 60 MyLsdRole #ff0000 #00ff00 #0000ff` or `.rrc 0 MyLsdRole`
 `.togethertube` `.totube` | Creates a new room on <https://togethertube.com> and shows the link in the chat.  | `.totube`
 `.whosplaying` `.whpl` | Shows a list of users who are playing the specified game.  | `.whpl Overwatch`
 `.inrole` | Lists every person from the specified role on this server. You can use role ID, role name.  | `.inrole Some Role`
@@ -411,20 +404,17 @@ Commands and aliases | Description | Usage
 `.channeltopic` `.ct` | Sends current channel's topic as a message.  | `.ct`
 `.createinvite` `.crinv` | Creates a new invite which has infinite max uses and never expires. **Requires CreateInstantInvite channel permission.** | `.crinv`
 `.shardstats` | Stats for shards. Paginated with 25 shards per page.  | `.shardstats` or `.shardstats 2`
-`.shardid` | Shows which shard is a certain guild on, by guildid.  | `.shardid 117523346618318850`
 `.stats` | Shows some basic stats for Nadeko.  | `.stats`
 `.showemojis` `.se` | Shows a name and a link to every SPECIAL emoji in the message.  | `.se A message full of SPECIAL emojis`
 `.listservers` | Lists servers the bot is on with some basic info. 15 per page. **Bot owner only** | `.listservers 3`
 `.savechat` | Saves a number of messages to a text file and sends it to you. **Bot owner only** | `.savechat 150`
 `.ping` | Ping the bot to see if there are latency issues.  | `.ping`
+`.botconfigedit` `.bce` | Sets one of available bot config settings to a specified value. Use the command without any parameters to get a list of available settings. **Bot owner only** | `.bce CurrencyName b1nzy` or `.bce`
 `.calculate` `.calc` | Evaluate a mathematical expression.  | `.calc 1+1`
 `.calcops` | Shows all available operations in the `.calc` command  | `.calcops`
 `.alias` `.cmdmap` | Create a custom alias for a certain Nadeko command. Provide no alias to remove the existing one. **Requires Administrator server permission.** | `.alias allin $bf 100 h` or `.alias "linux thingy" >loonix Spyware Windows`
 `.aliaslist` `.cmdmaplist` `.aliases` | Shows the list of currently set aliases. Paginated.  | `.aliaslist` or `.aliaslist 3`
-`.scsc` | Starts an instance of cross server channel. You will get a token as a DM that other people will use to tune in to the same instance. **Bot owner only** | `.scsc`
-`.jcsc` | Joins current channel to an instance of cross server channel using the token. **Requires ManageServer server permission.** | `.jcsc TokenHere`
-`.lcsc` | Leaves a cross server channel instance from this channel. **Requires ManageServer server permission.** | `.lcsc`
-`.serverinfo` `.sinfo` | Shows info about the server the bot is on. If no channel is supplied, it defaults to current one.  | `.sinfo Some Server`
+`.serverinfo` `.sinfo` | Shows info about the server the bot is on. If no server is supplied, it defaults to current one.  | `.sinfo Some Server`
 `.channelinfo` `.cinfo` | Shows info about the channel. If no channel is supplied, it defaults to current one.  | `.cinfo #some-channel`
 `.userinfo` `.uinfo` | Shows info about the user. If no user is supplied, it defaults a user running the command.  | `.uinfo @SomeUser`
 `.activity` | Checks for spammers. **Bot owner only** | `.activity`
@@ -443,6 +433,39 @@ Commands and aliases | Description | Usage
 `.repeatremove` `.reprm` | Removes a repeating message on a specified index. Use `.repeatlist` to see indexes. **Requires ManageMessages server permission.** | `.reprm 2`
 `.repeat` | Repeat a message every `X` minutes in the current channel. You can instead specify time of day for the message to be repeated at daily (make sure you've set your server's timezone). You can have up to 5 repeating messages on the server in total. **Requires ManageMessages server permission.** | `.repeat 5 Hello there` or `.repeat 17:30 tea time`
 `.repeatlist` `.replst` | Shows currently repeating messages and their indexes. **Requires ManageMessages server permission.** | `.repeatlist`
+`.streamrole` | Sets a role which is monitored for streamers (FromRole), and a role to add if a user from 'FromRole' is streaming (AddRole). When a user from 'FromRole' starts streaming, they will receive an 'AddRole'. Provide no arguments to disable **Requires ManageRoles server permission.** | `.streamrole "Eligible Streamers" "Featured Streams"`
+`.streamrolekw` `.srkw` | Sets keyword which is required in the stream's title in order for the streamrole to apply. Provide no keyword in order to reset. **Requires ManageRoles server permission.** | `.srkw` or `.srkw PUBG`
+`.streamrolebl` `.srbl` | Adds or removes a blacklisted user. Blacklisted users will never receive the stream role. **Requires ManageRoles server permission.** | `.srbl add @b1nzy#1234` or `.srbl rem @b1nzy#1234`
+`.streamrolewl` `.srwl` | Adds or removes a whitelisted user. Whitelisted users will receive the stream role even if they don't have the specified keyword in their stream title. **Requires ManageRoles server permission.** | `.srwl add @b1nzy#1234` or `.srwl rem @b1nzy#1234`
 `.convertlist` | List of the convertible dimensions and currencies.  | `.convertlist`
 `.convert` | Convert quantities. Use `.convertlist` to see supported dimensions and currencies.  | `.convert m km 1000`
 `.verboseerror` `.ve` | Toggles whether the bot should print command errors when a command is incorrectly used. **Requires ManageMessages server permission.** | `.ve`
+
+###### [Back to ToC](#table-of-contents)
+
+### Xp  
+Commands and aliases | Description | Usage
+----------------|--------------|-------
+`.experience` `.xp` | Shows your xp stats. Specify the user to show that user's stats instead.  | `.xp`
+`.xprolerewards` `.xprrs` | Shows currently set role rewards.  | `.xprrs`
+`.xprolereward` `.xprr` | Sets a role reward on a specified level. Provide no role name in order to remove the role reward. **Requires ManageRoles server permission.** | `.xprr 3 Social`
+`.xpnotify` `.xpn` | Sets how the bot should notify you when you get a `server` or `global` level. You can set `dm` (for the bot to send a direct message), `channel` (to get notified in the channel you sent the last message in) or `none` to disable.  | `.xpn global dm` `.xpn server channel`
+`.xpexclude` `.xpex` | Exclude a user or a role from the xp system, or whole current server. **Requires Administrator server permission.** | `.xpex Role Excluded-Role` `.xpex Server`
+`.xpexclusionlist` `.xpexl` | Shows the roles and channels excluded from the XP system on this server, as well as whether the whole server is excluded.  | `.xpexl`
+`.xpleaderboard` `.xplb` | Shows current server's xp leaderboard.  | `.xplb`
+`.xpgleaderboard` `.xpglb` | Shows the global xp leaderboard.  | `.xpglb`
+`.xpadd` | Adds xp to a user on the server. This does not affect their global ranking. You can use negative values. **Requires Administrator server permission.** | `.xpadd 100 @b1nzy`
+`.clubcreate` | Creates a club. You must be atleast level 5 and not be in the club already.  | `.clubcreate b1nzy's friends`
+`.clubicon` | Sets the club icon.  | `.clubicon https://i.imgur.com/htfDMfU.png`
+`.clubinfo` | Shows information about the club.  | `.clubinfo b1nzy's friends#123`
+`.clubbans` | Shows the list of users who have banned from your club. Paginated. You must be club owner to use this command.  | `.clubbans 2`
+`.clubapps` | Shows the list of users who have applied to your club. Paginated. You must be club owner to use this command.  | `.clubapps 2`
+`.clubapply` | Apply to join a club. You must meet that club's minimum level requirement, and not be on its ban list.  | `.clubapply b1nzy's friends#123`
+`.clubaccept` | Accept a user who applied to your club.  | `.clubaccept b1nzy#1337`
+`.clubleave` | Leaves the club you're currently in.  | `.clubleave`
+`.clubkick` | Kicks the user from the club. You must be the club owner. They will be able to apply again.  | `.clubkick b1nzy#1337`
+`.clubban` | Bans the user from the club. You must be the club owner. They will not be able to apply again.  | `.clubban b1nzy#1337`
+`.clubunban` | Unbans the previously banned user from the club. You must be the club owner.  | `.clubunban b1nzy#1337`
+`.clublevelreq` | Sets the club required level to apply to join the club. You must be club owner. You can't set this number below 5.  | `.clublevelreq 7`
+`.clubdisband` | Disbands the club you're the owner of. This action is irreversible.  | `.clubdisband`
+`.clublb` | Shows club rankings on the specified page.  | `.clublb 2`

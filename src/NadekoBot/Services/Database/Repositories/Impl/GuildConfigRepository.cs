@@ -24,8 +24,10 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                 }
             };
 
-        public IEnumerable<GuildConfig> GetAllGuildConfigs() =>
-            _set.Include(gc => gc.LogSetting)
+        public IEnumerable<GuildConfig> GetAllGuildConfigs(List<long> availableGuilds) =>
+            _set
+                .Where(gc => availableGuilds.Contains((long)gc.GuildId))
+                .Include(gc => gc.LogSetting)
                     .ThenInclude(ls => ls.IgnoredChannels)
                 .Include(gc => gc.MutedUsers)
                 .Include(gc => gc.CommandAliases)
@@ -42,6 +44,13 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                 .Include(gc => gc.SlowmodeIgnoredUsers)
                 .Include(gc => gc.AntiSpamSetting)
                     .ThenInclude(x => x.IgnoredChannels)
+                .Include(gc => gc.FeedSubs)
+                    .ThenInclude(x => x.GuildConfig)
+                .Include(gc => gc.FollowedStreams)
+                .Include(gc => gc.StreamRole)
+                .Include(gc => gc.NsfwBlacklistedTags)
+                .Include(gc => gc.XpSettings)
+                    .ThenInclude(x => x.ExclusionList)
                 .ToList();
 
         /// <summary>
@@ -134,9 +143,10 @@ namespace NadekoBot.Services.Database.Repositories.Impl
             return query.ToList();
         }
 
-        public IEnumerable<GuildConfig> Permissionsv2ForAll()
+        public IEnumerable<GuildConfig> Permissionsv2ForAll(List<long> include)
         {
             var query = _set
+                .Where(x => include.Contains((long)x.GuildId))
                 .Include(gc => gc.Permissions);
 
             return query.ToList();
@@ -167,8 +177,10 @@ namespace NadekoBot.Services.Database.Repositories.Impl
             return config;
         }
 
-        public IEnumerable<FollowedStream> GetAllFollowedStreams() =>
-            _set.Include(gc => gc.FollowedStreams)
+        public IEnumerable<FollowedStream> GetAllFollowedStreams(List<long> included) =>
+            _set
+                .Where(gc => included.Contains((long)gc.GuildId))
+                .Include(gc => gc.FollowedStreams)
                 .SelectMany(gc => gc.FollowedStreams)
                 .ToList();
 
@@ -180,6 +192,20 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                 return;
 
             conf.CleverbotEnabled = cleverbotEnabled;
+        }
+
+        public XpSettings XpSettingsFor(ulong guildId)
+        {
+            var gc = For(guildId,
+                set => set.Include(x => x.XpSettings)
+                          .ThenInclude(x => x.RoleRewards)
+                          .Include(x => x.XpSettings)
+                          .ThenInclude(x => x.ExclusionList));
+
+            if (gc.XpSettings == null)
+                gc.XpSettings = new XpSettings();
+
+            return gc.XpSettings;
         }
     }
 }

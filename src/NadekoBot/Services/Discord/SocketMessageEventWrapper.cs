@@ -12,7 +12,7 @@ namespace NadekoBot.Services.Discord
         public event Action<SocketReaction> OnReactionRemoved = delegate { };
         public event Action OnReactionsCleared = delegate { };
 
-        public ReactionEventWrapper(DiscordShardedClient client, IUserMessage msg)
+        public ReactionEventWrapper(DiscordSocketClient client, IUserMessage msg)
         {
             Message = msg ?? throw new ArgumentNullException(nameof(msg));
             _client = client;
@@ -24,36 +24,45 @@ namespace NadekoBot.Services.Discord
 
         private Task Discord_ReactionsCleared(Cacheable<IUserMessage, ulong> msg, ISocketMessageChannel channel)
         {
-            try
+            Task.Run(() =>
             {
-                if (msg.Id == Message.Id)
-                    OnReactionsCleared?.Invoke();
-            }
-            catch { }
+                try
+                {
+                    if (msg.Id == Message.Id)
+                        OnReactionsCleared?.Invoke();
+                }
+                catch { }
+            });
 
             return Task.CompletedTask;
         }
 
         private Task Discord_ReactionRemoved(Cacheable<IUserMessage, ulong> msg, ISocketMessageChannel channel, SocketReaction reaction)
         {
-            try
+            Task.Run(() =>
             {
-                if (msg.Id == Message.Id)
-                    OnReactionRemoved?.Invoke(reaction);
-            }
-            catch { }
+                try
+                {
+                    if (msg.Id == Message.Id)
+                        OnReactionRemoved?.Invoke(reaction);
+                }
+                catch { }
+            });
 
             return Task.CompletedTask;
         }
 
         private Task Discord_ReactionAdded(Cacheable<IUserMessage, ulong> msg, ISocketMessageChannel channel, SocketReaction reaction)
         {
-            try
+            Task.Run(() =>
             {
-                if (msg.Id == Message.Id)
-                    OnReactionAdded?.Invoke(reaction);
-            }
-            catch { }
+                try
+                {
+                    if (msg.Id == Message.Id)
+                        OnReactionAdded?.Invoke(reaction);
+                }
+                catch { }
+            });
 
             return Task.CompletedTask;
         }
@@ -69,7 +78,7 @@ namespace NadekoBot.Services.Discord
         }
 
         private bool disposing = false;
-        private readonly DiscordShardedClient _client;
+        private readonly DiscordSocketClient _client;
 
         public void Dispose()
         {

@@ -1,11 +1,15 @@
-﻿using Discord;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Discord;
 using NLog;
+using NadekoBot.Services.Database.Models;
+using NadekoBot.Common;
+using Newtonsoft.Json;
+using System.IO;
 
-namespace NadekoBot.Services
+namespace NadekoBot.Services.Impl
 {
     public class Localization : ILocalization
     {
@@ -15,11 +19,24 @@ namespace NadekoBot.Services
         public ConcurrentDictionary<ulong, CultureInfo> GuildCultureInfos { get; }
         public CultureInfo DefaultCultureInfo { get; private set; } = CultureInfo.CurrentCulture;
 
+        private static readonly Dictionary<string, CommandData> _commandData;
+        
+        static Localization()
+        {
+            _commandData = JsonConvert.DeserializeObject<Dictionary<string, CommandData>>(
+                File.ReadAllText("./data/command_strings.json"));
+        }
+
         private Localization() { }
-        public Localization(string defaultCulture, IDictionary<ulong, string> cultureInfoNames, DbService db)
+        public Localization(IBotConfigProvider bcp, IEnumerable<GuildConfig> gcs, DbService db)
         {
             _log = LogManager.GetCurrentClassLogger();
+
+            var cultureInfoNames = gcs.ToDictionary(x => x.GuildId, x => x.Locale);
+            var defaultCulture = bcp.BotConfig.Locale;
+
             _db = db;
+
             if (string.IsNullOrWhiteSpace(defaultCulture))
                 DefaultCultureInfo = new CultureInfo("en-US");
             else
@@ -74,8 +91,7 @@ namespace NadekoBot.Services
 
         public void RemoveGuildCulture(ulong guildId) {
 
-            CultureInfo throwaway;
-            if (GuildCultureInfos.TryRemove(guildId, out throwaway))
+            if (GuildCultureInfos.TryRemove(guildId, out var _))
             {
                 using (var uow = _db.UnitOfWork)
                 {
@@ -112,10 +128,19 @@ namespace NadekoBot.Services
             return info ?? DefaultCultureInfo;
         }
 
-        public static string LoadCommandString(string key)
+        public static CommandData LoadCommand(string key)
         {
-            string toReturn = Resources.CommandStrings.ResourceManager.GetString(key);
-            return string.IsNullOrWhiteSpace(toReturn) ? key : toReturn;
+            _commandData.TryGetValue(key, out var toReturn);
+
+            if (toReturn == null)
+                return new CommandData
+                {
+                    Cmd = key,
+                    Desc = key,
+                    Usage = new[] { key },
+                };
+
+            return toReturn;
         }
     }
 }

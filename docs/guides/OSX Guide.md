@@ -24,6 +24,8 @@ brew install opusfile
 brew install libffi
 brew install libsodium
 brew install tmux
+brew install python
+brew install youtube-dl
 ```
 
 #### Installing .NET Core SDK

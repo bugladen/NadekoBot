@@ -1,17 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using NLog;
-using System.Diagnostics;
-using Newtonsoft.Json;
-using System;
-using System.Linq;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using NLog;
 
-namespace NadekoBot.Services
+namespace NadekoBot.Services.Impl
 {
-    public class NadekoStrings
+    public class NadekoStrings : INService
     {
         public const string stringsPath = @"_strings/";
 
@@ -42,9 +41,9 @@ namespace NadekoBot.Services
             responseStrings = allLangsDict.ToImmutableDictionary();
             sw.Stop();
 
-            _log.Info("Loaded {0} languages ({1}) in {2:F2}s",
+            _log.Info("Loaded {0} languages in {1:F2}s",
                 responseStrings.Count,
-                string.Join(",", responseStrings.Keys),
+                //string.Join(",", responseStrings.Keys),
                 sw.Elapsed.TotalSeconds);
 
             ////improper string format checks

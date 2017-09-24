@@ -1,5 +1,6 @@
 #Manually added files
 
+patreon_rewards.json
 command_errors*.txt
 
 src/NadekoBot/Command Errors*.txt

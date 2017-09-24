@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.RegularExpressions;
 
 namespace NadekoBot.Services.Database.Models
@@ -6,7 +7,9 @@ namespace NadekoBot.Services.Database.Models
     public class CustomReaction : DbEntity
     {
         public ulong? GuildId { get; set; }
+
         [NotMapped]
+        [JsonIgnore]
         public Regex Regex { get; set; }
         public string Response { get; set; }
         public string Trigger { get; set; }
@@ -16,7 +19,10 @@ namespace NadekoBot.Services.Database.Models
         public bool AutoDeleteTrigger { get; set; }
         public bool DmResponse { get; set; }
 
+        [JsonIgnore]
         public bool IsGlobal => !GuildId.HasValue;
+
+        public bool ContainsAnywhere { get; set; }
     }
 
     public class ReactionResponse : DbEntity
