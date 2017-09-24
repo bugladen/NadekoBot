@@ -42,12 +42,12 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         {
             if (!_set.Where(y => y.UserId == id).Any())
             {
-                return _set.Count();
+                return _set.Count() + 1;
             }
             return _set.Count(x => x.TotalXp >= 
                 _set.Where(y => y.UserId == id)
                     .DefaultIfEmpty()
-                    .Sum(y => y.TotalXp)) + 1;
+                    .Sum(y => y.TotalXp));
         }
 
         public DiscordUser[] GetUsersXpLeaderboardFor(int page)

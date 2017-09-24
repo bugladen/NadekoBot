@@ -32,6 +32,7 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                 .Include(x => x.Applicants)
                     .ThenInclude(x => x.User)
                 .Include(x => x.Owner)
+                .Include(x => x.Users)
                 .FirstOrDefault(x => x.Owner.UserId == userId) ??
             _context.Set<DiscordUser>()
                 .Include(x => x.Club)
