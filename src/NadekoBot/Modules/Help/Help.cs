@@ -155,7 +155,7 @@ namespace NadekoBot.Modules.Help
                 "http://nadekobot.readthedocs.io/en/latest/Commands%20List/",
                 "http://nadekobot.readthedocs.io/en/latest/").ConfigureAwait(false);
         }
-
+        
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Donate()
         {
