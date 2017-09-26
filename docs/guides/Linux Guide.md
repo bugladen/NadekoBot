@@ -191,7 +191,7 @@ To set up Nadeko for music and Google API Keys, follow [Setting up your API keys
 - Copy the `credentials.json` to desktop
 - EDIT it as it is guided here: [Setting up credentials.json][setup credentials]
 - Paste/put it back in the folder once done. `(Using WinSCP)`
-- **If** you already have Nadeko 1.3.x setup and have `credentials.json` and `NadekoBot.db`, you can just copy and paste the `credentials.json` to `NadekoBot/src/NadekoBot` and `NadekoBot.db` to `NadekoBot/src/NadekoBot/bin/Release/netcoreapp1.1/data` using WinSCP.			
+- **If** you already have Nadeko 1.3.x setup and have `credentials.json` and `NadekoBot.db`, you can just copy and paste the `credentials.json` to `NadekoBot/src/NadekoBot` and `NadekoBot.db` to `NadekoBot/src/NadekoBot/bin/Release/netcoreapp2.0/data` using WinSCP.			
 **Or** follow the [Upgrading Guide.][upgrading]
 
 
