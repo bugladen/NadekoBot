@@ -5,7 +5,6 @@ If you do not see `credentials.json` you will need to rename `credentials_exampl
 ```json
 {
   "ClientId": 179372110000358912,
-  "BotId": 179372110000358912,
   "Token": "MTc5MzcyXXX2MDI1ODY3MjY0.ChKs4g.I8J_R9XX0t-QY-0PzXXXiN0-7vo",
   "OwnerIds": [
     105635123466156544,
@@ -71,16 +70,13 @@ It should look like:
 ```json
 "Token": "MTc5MzcyXXX2MDI1ODY3MjY0.ChKs4g.I8J_R9XX0t-QY-0PzXXXiN0-7vo",
 ```
-##### Getting Client and Bot ID:
+##### Getting Client ID:
 - Copy the `Client ID` on the page and replace the `12312123` part of the **`"ClientId"`** line with it.
-	- **Important: Bot ID and Client ID** will be the same in **newer bot accounts** due to recent changes by Discord.
-	- If that's the case, **copy the same client ID** to **`"BotId"`**
 ```
 It should look like:
 ```
 ```json
 "ClientId": 179372110000358912,
-"BotId": 179372110000358912,
 ```
 -----
 ##### Getting Owner ID*(s)*:		
@@ -209,8 +205,6 @@ and that will save all the changes.
 	- For example, if you want to shard your NadekoBot which you installed using windows installer, you would want to set it to `{0} {1} {2}`
 - **ShardRunPort**
 	- Bot uses a random UDP port in [5000, 6000) range for communication between shards
-
-
 
 [Google Console]: https://console.developers.google.com
 [DiscordApp]: https://discordapp.com/developers/applications/me
