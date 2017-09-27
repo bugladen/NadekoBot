@@ -878,5 +878,7 @@
   "searches_feed_not_valid": "Invalid link, or you're already following that feed on this server, or you've reached maximum number of feeds allowed.",
   "searches_feed_out_of_range": "Index out of range.",
   "searches_feed_removed": "Feed removed.",
-  "searches_feed_no_feed": "You haven't subscribed to any feeds on this server."
+  "searches_feed_no_feed": "You haven't subscribed to any feeds on this server.",
+  "administration_restart_fail": "You must setup RestartCommand in your credentials.json",
+  "administration_restarting": "Restarting."
 }

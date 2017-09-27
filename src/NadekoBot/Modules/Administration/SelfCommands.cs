@@ -31,9 +31,11 @@ namespace NadekoBot.Modules.Administration
             private readonly MusicService _music;
             private readonly IBotConfigProvider _bc;
             private readonly NadekoBot _bot;
+            private readonly IBotCredentials _creds;
 
             public SelfCommands(DbService db, NadekoBot bot, DiscordSocketClient client,
-                MusicService music, IImagesService images, IBotConfigProvider bc)
+                MusicService music, IImagesService images, IBotConfigProvider bc,
+                IBotCredentials creds)
             {
                 _db = db;
                 _client = client;
@@ -41,6 +43,7 @@ namespace NadekoBot.Modules.Administration
                 _music = music;
                 _bc = bc;
                 _bot = bot;
+                _creds = creds;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -277,6 +280,22 @@ namespace NadekoBot.Modules.Administration
                 }
                 await Task.Delay(2000).ConfigureAwait(false);
                 try { await _music.DestroyAllPlayers().ConfigureAwait(false); } catch { }
+                Environment.Exit(0);
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [OwnerOnly]
+            public async Task Restart()
+            {
+                var cmd = _creds.RestartCommand;
+                if (cmd == null || string.IsNullOrWhiteSpace(cmd.Cmd))
+                {
+                    await ReplyErrorLocalized("restart_fail").ConfigureAwait(false);
+                    return;
+                }
+
+                await ReplyConfirmLocalized("restarting").ConfigureAwait(false);
+                Process.Start(cmd.Cmd, cmd.Args);
                 Environment.Exit(0);
             }
 

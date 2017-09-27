@@ -27,7 +27,7 @@ namespace NadekoBot.Services.Impl
         public string LoLApiKey { get; }
         public string OsuApiKey { get; }
         public string CleverbotApiKey { get; }
-
+        public RestartConfig RestartCommand { get; }
         public DBConfig Db { get; }
         public int TotalShards { get; }
         public string CarbonKey { get; }
@@ -72,6 +72,13 @@ namespace NadekoBot.Services.Impl
                 ShardRunCommand = data[nameof(ShardRunCommand)];
                 ShardRunArguments = data[nameof(ShardRunArguments)];
                 CleverbotApiKey = data[nameof(CleverbotApiKey)];
+
+                var restartSection = data.GetSection(nameof(RestartCommand));
+                var cmd = restartSection["cmd"];
+                var args = restartSection["args"];
+                if (!string.IsNullOrWhiteSpace(cmd))
+                    RestartCommand = new RestartConfig(cmd, args);
+
                 if (string.IsNullOrWhiteSpace(ShardRunCommand))
                     ShardRunCommand = "dotnet";
                 if (string.IsNullOrWhiteSpace(ShardRunArguments))
@@ -124,6 +131,7 @@ namespace NadekoBot.Services.Impl
             public int TotalShards { get; set; } = 1;
             public string PatreonAccessToken { get; set; } = "";
             public string PatreonCampaignId { get; set; } = "334038";
+            public string RestartCommand { get; set; } = null;
 
             public string ShardRunCommand { get; set; } = "";
             public string ShardRunArguments { get; set; } = "";

@@ -42,7 +42,12 @@ namespace NadekoBot.Modules.Searches
                         {
                             await reader.Read();
                         }
-                        catch { success = false; }
+                        catch (Exception ex)
+                        {
+
+                            Console.WriteLine(ex);
+                            success = false;
+                        }
                     }
 
                     if (success)
