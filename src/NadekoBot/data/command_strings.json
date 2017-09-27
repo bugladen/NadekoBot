@@ -2988,5 +2988,12 @@
     "usage": [
       "{0}feeds"
     ]
+  },
+  "editcustreact": {
+    "cmd": "editcustreact ecr",
+    "desc": "Edits the custom reaction's response given it's ID.",
+    "usage": [
+      "{0}ecr 123 I'm a magical girl"
+    ]
   }
 }

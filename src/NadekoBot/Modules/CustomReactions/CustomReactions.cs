@@ -81,6 +81,60 @@ namespace NadekoBot.Modules.CustomReactions
         }
 
         [NadekoCommand, Usage, Description, Aliases]
+        public async Task EditCustReact(int id, [Remainder] string message)
+        {
+            var channel = Context.Channel as ITextChannel;
+            if (string.IsNullOrWhiteSpace(message) || id < 0)
+                return;
+
+            if ((channel == null && !_creds.IsOwner(Context.User)) || (channel != null && !((IGuildUser)Context.User).GuildPermissions.Administrator))
+            {
+                await ReplyErrorLocalized("insuff_perms").ConfigureAwait(false);
+                return;
+            }
+
+            CustomReaction cr;
+            using (var uow = _db.UnitOfWork)
+            {
+                cr = uow.CustomReactions.Get(id);
+
+                if (cr != null)
+                {
+                    cr.Response = message;
+                    await uow.CompleteAsync().ConfigureAwait(false);
+                }
+            }
+
+            if (cr != null)
+            {
+                if (channel == null)
+                {
+                    await _service.EditGcr(id, message).ConfigureAwait(false);
+                }
+                else
+                {
+                    if (_service.GuildReactions.TryGetValue(Context.Guild.Id, out var crs))
+                    {
+                        var oldCr = crs.FirstOrDefault(x => x.Id == id);
+                        if (oldCr != null)
+                            oldCr.Response = message;
+                    }
+                }
+
+                await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                    .WithTitle(GetText("edited_cust_react"))
+                    .WithDescription($"#{cr.Id}")
+                    .AddField(efb => efb.WithName(GetText("trigger")).WithValue(cr.Trigger))
+                    .AddField(efb => efb.WithName(GetText("response")).WithValue(message.Length > 1024 ? GetText("redacted_too_long") : message))
+                    ).ConfigureAwait(false);
+            }
+            else
+            {
+                await ReplyErrorLocalized("edit_fail").ConfigureAwait(false);
+            }
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
         [Priority(1)]
         public async Task ListCustReact(int page = 1)
         {

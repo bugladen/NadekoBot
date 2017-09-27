@@ -37,7 +37,10 @@ namespace NadekoBot.Modules.Administration
                                      .AddField(efb => efb.WithName(GetText("reason")).WithValue(reason ?? "-")))
                         .ConfigureAwait(false);
                 }
-                catch { }
+                catch
+                {
+
+                }
                 var punishment = await _service.Warn(Context.Guild, user.Id, Context.User.ToString(), reason).ConfigureAwait(false);
 
                 if (punishment == null)

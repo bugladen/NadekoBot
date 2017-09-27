@@ -59,6 +59,14 @@ namespace NadekoBot.Modules.CustomReactions.Services
                 var id = int.Parse(msg);
                 GlobalReactions = GlobalReactions.Where(cr => cr?.Id != id).ToArray();
             }, StackExchange.Redis.CommandFlags.FireAndForget);
+            sub.Subscribe(_client.CurrentUser.Id + "_gcr.edited", (ch, msg) =>
+            {
+                var obj = new { Id = 0, Message = "" };
+                obj = JsonConvert.DeserializeAnonymousType(msg, obj);
+                var gcr = GlobalReactions.FirstOrDefault(x => x.Id == obj.Id);
+                if (gcr != null)
+                    gcr.Response = obj.Message;
+            }, StackExchange.Redis.CommandFlags.FireAndForget);
             sub.Subscribe(_client.CurrentUser.Id + "_crad.toggle", (ch, msg) =>
             {
                 var obj = new { Id = 0, Value = false };
@@ -89,6 +97,17 @@ namespace NadekoBot.Modules.CustomReactions.Services
 
             GuildReactions = new ConcurrentDictionary<ulong, CustomReaction[]>(items.Where(g => g.GuildId != null && g.GuildId != 0).GroupBy(k => k.GuildId.Value).ToDictionary(g => g.Key, g => g.ToArray()));
             GlobalReactions = items.Where(g => g.GuildId == null || g.GuildId == 0).ToArray();
+        }
+
+        public Task EditGcr(int id, string message)
+        {
+            var sub = _cache.Redis.GetSubscriber();
+
+            return sub.PublishAsync(_client.CurrentUser.Id + "_gcr.edited", JsonConvert.SerializeObject(new
+            {
+                Id = id,
+                Message = message,
+            }));
         }
 
         public Task AddGcr(CustomReaction cr)
