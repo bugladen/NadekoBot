@@ -41,12 +41,51 @@ namespace NadekoBot.Modules.Gambling
                 var ar = new AnimalRace(_cs, _bc.BotConfig.RaceAnimals.Shuffle().ToArray());
                 if (!AnimalRaces.TryAdd(Context.Guild.Id, ar))
                     return Context.Channel.SendErrorAsync(GetText("animal_race"), GetText("animal_race_already_started"));
+
                 ar.Initialize();
+
+                var count = 0;
+                Task _client_MessageReceived(SocketMessage arg)
+                {
+                    var _ = Task.Run(() => {
+                        try
+                        {
+                            if (arg.Channel.Id == Context.Channel.Id)
+                            {
+                                if (ar.CurrentPhase  == AnimalRace.Phase.Running && ++count % 9 == 0)
+                                {
+                                    raceMessage = null;
+                                }
+                            }
+                        }
+                        catch { }
+                    });
+                    return Task.CompletedTask;
+                }
+
+                Task Ar_OnEnded(AnimalRace race)
+                {
+                    _client.MessageReceived -= _client_MessageReceived;
+                    AnimalRaces.TryRemove(Context.Guild.Id, out _);
+                    var winner = race.FinishedUsers[0];
+                    if (race.FinishedUsers[0].Bet > 0)
+                    {
+                        return Context.Channel.SendConfirmAsync(GetText("animal_race"),
+                                            GetText("animal_race_won_money", Format.Bold(winner.Username),
+                                                winner.Animal.Icon, (race.FinishedUsers[0].Bet * (race.Users.Length - 1)) + _bc.BotConfig.CurrencySign));
+                    }
+                    else
+                    {
+                        return Context.Channel.SendConfirmAsync(GetText("animal_race"),
+                            GetText("animal_race_won", Format.Bold(winner.Username), winner.Animal.Icon));
+                    }
+                }
 
                 ar.OnStartingFailed += Ar_OnStartingFailed;
                 ar.OnStateUpdate += Ar_OnStateUpdate;
                 ar.OnEnded += Ar_OnEnded;
                 ar.OnStarted += Ar_OnStarted;
+                _client.MessageReceived += _client_MessageReceived;
 
                 return Context.Channel.SendConfirmAsync(GetText("animal_race"), GetText("animal_race_starting"),
                                     footer: GetText("animal_race_join_instr", Prefix));
@@ -60,23 +99,6 @@ namespace NadekoBot.Modules.Gambling
                     return Context.Channel.SendConfirmAsync(GetText("animal_race"), GetText("animal_race_starting_with_x", race.Users.Length));
             }
 
-            private Task Ar_OnEnded(AnimalRace race)
-            {
-                AnimalRaces.TryRemove(Context.Guild.Id, out _);
-                var winner = race.FinishedUsers[0];
-                if (race.FinishedUsers[0].Bet > 0)
-                {
-                    return Context.Channel.SendConfirmAsync(GetText("animal_race"),
-                                        GetText("animal_race_won_money", Format.Bold(winner.Username),
-                                            winner.Animal.Icon, (race.FinishedUsers[0].Bet * (race.Users.Length - 1)) + _bc.BotConfig.CurrencySign));
-                }
-                else
-                {
-                    return Context.Channel.SendConfirmAsync(GetText("animal_race"),
-                        GetText("animal_race_won", Format.Bold(winner.Username), winner.Animal.Icon));
-                }
-            }
-
             private async Task Ar_OnStateUpdate(AnimalRace race)
             {
                 var text = $@"|🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🔚|
@@ -88,11 +110,13 @@ namespace NadekoBot.Modules.Gambling
                 }))}
 |🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🔚|";
 
-                if (raceMessage == null)
+                var msg = raceMessage;
+
+                if (msg == null)
                     raceMessage = await Context.Channel.SendConfirmAsync(text)
                         .ConfigureAwait(false);
                 else
-                    await raceMessage.ModifyAsync(x => x.Embed = new EmbedBuilder()
+                    await msg.ModifyAsync(x => x.Embed = new EmbedBuilder()
                         .WithTitle(GetText("animal_race"))
                         .WithDescription(text)
                         .WithOkColor()
