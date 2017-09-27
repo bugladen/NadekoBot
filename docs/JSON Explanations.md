@@ -22,7 +22,8 @@ If you do not see `credentials.json` you will need to rename `credentials_exampl
   "TotalShards": 1,
   "ShardRunCommand": "",
   "ShardRunArguments": "",
-  "ShardRunPort": null
+  "ShardRunPort": null,
+  "RestartCommand": null
 }
 ```
 -----
@@ -161,7 +162,27 @@ It should look like:
 - **TotalShards** 
 	- Required if the bot will be connected to more than 1500 servers. 
 	- Most likely unnecessary to change until your bot is added to more than 1500 servers.
------
+- **RestartCommand**
+	- Required if you want to be able to use `.restart` command
+	- It requires command, and arguments to the command which to execute right before bot stops
+	- If you're using linux, it's easier, and more reliable to use auto restart option, and just use `.die`
+
+For linux, or from the source, this is usually
+```json
+"RestartCommand": {
+	"Cmd": "dotnet",
+	"Args": "run -c Release"
+}
+```
+
+For windows (regular installation, or from the updater), this is usually
+
+```json
+"RestartCommand": {
+	"Cmd": "NadekoBot.exe",
+	"Args": ""
+}
+```
 
 ## DB files
 
