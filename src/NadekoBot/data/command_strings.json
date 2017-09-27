@@ -2995,5 +2995,12 @@
     "usage": [
       "{0}ecr 123 I'm a magical girl"
     ]
+  },
+  "say": {
+    "cmd": "say",
+    "desc": "Bot will send the message you typed in this channel. Supports embeds.",
+    "usage": [
+      "{0}say hi"
+    ]
   }
 }
