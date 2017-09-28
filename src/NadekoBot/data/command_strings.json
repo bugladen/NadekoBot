@@ -2835,7 +2835,7 @@
   },
   "clubcreate": {
     "Cmd": "clubcreate",
-    "Desc": "Creates a club. You must be atleast level 5 and not be in the club already.",
+    "Desc": "Creates a club. You must be at least level 5 and not be in the club already.",
     "Usage": [
       "{0}clubcreate b1nzy's friends"
     ]
