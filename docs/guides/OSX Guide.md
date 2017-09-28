@@ -76,7 +76,7 @@ Next, choose `6` to exit.
 #### Setting up Credentials.json file
 - Open up the `NadekoBot` folder, which should be in your home directory, then `NadekoBot` folder then `src` folder and then the additonal `NadekoBot` folder.
 - Edit the way its guided here: [Setting up credentials.json](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-credentialsjson-file)
-- **If** you already have Nadeko 1.x setup and have `credentials.json` and `NadekoBot.db`, you can just copy and paste the `credentials.json` to `NadekoBot/src/NadekoBot` and `NadekoBot.db` to `NadekoBot/src/NadekoBot/bin/Release/netcoreapp1.1/data`.			
+- **If** you already have Nadeko 1.x setup and have `credentials.json` and `NadekoBot.db`, you can just copy and paste the `credentials.json` to `NadekoBot/src/NadekoBot` and `NadekoBot.db` to `NadekoBot/src/NadekoBot/bin/Release/netcoreapp2.0/data`.			
 **Or** follow the [Upgrading Guide.](http://nadekobot.readthedocs.io/en/latest/guides/Upgrading%20Guide/)
 
 #### Setting NadekoBot Music
