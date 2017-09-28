@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Searches.Services;
+using NadekoBot.Modules.Searches.Common;
 
 namespace NadekoBot.Modules.Searches
 {
@@ -124,11 +125,11 @@ namespace NadekoBot.Modules.Searches
                         Username = stream,
                         Type = platform,
                     }));
-                    if (streamStatus.IsLive)
+                    if (streamStatus.Live)
                     {
                         await ReplyConfirmLocalized("streamer_online",
                                 username,
-                                streamStatus.Views)
+                                streamStatus.Viewers)
                             .ConfigureAwait(false);
                     }
                     else
@@ -154,7 +155,7 @@ namespace NadekoBot.Modules.Searches
                     Type = type,
                 };
 
-                StreamStatus status;
+                IStreamResponse status;
                 try
                 {
                     status = await _service.GetStreamStatus(fs).ConfigureAwait(false);

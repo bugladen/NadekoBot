@@ -21,20 +21,21 @@ namespace NadekoBot.Modules.Searches.Services
     {
         private readonly Timer _streamCheckTimer;
         private bool firstStreamNotifPass { get; set; } = true;
-        private readonly ConcurrentDictionary<string, StreamStatus> _cachedStatuses = new ConcurrentDictionary<string, StreamStatus>();
-
+        private readonly ConcurrentDictionary<string, IStreamResponse> _cachedStatuses = new ConcurrentDictionary<string, IStreamResponse>();
         private readonly DbService _db;
         private readonly DiscordSocketClient _client;
         private readonly NadekoStrings _strings;
+        private readonly HttpClient _http;
 
         public StreamNotificationService(DbService db, DiscordSocketClient client, NadekoStrings strings)
         {
             _db = db;
             _client = client;
             _strings = strings;
+            _http = new HttpClient();
             _streamCheckTimer = new Timer(async (state) =>
             {
-                var oldCachedStatuses = new ConcurrentDictionary<string, StreamStatus>(_cachedStatuses);
+                var oldCachedStatuses = new ConcurrentDictionary<string, IStreamResponse>(_cachedStatuses);
                 _cachedStatuses.Clear();
                 IEnumerable<FollowedStream> streams;
                 using (var uow = _db.UnitOfWork)
@@ -52,9 +53,9 @@ namespace NadekoBot.Modules.Searches.Services
                             return;
                         }
 
-                        StreamStatus oldStatus;
-                        if (oldCachedStatuses.TryGetValue(newStatus.ApiLink, out oldStatus) &&
-                            oldStatus.IsLive != newStatus.IsLive)
+                        IStreamResponse oldResponse;
+                        if (oldCachedStatuses.TryGetValue(newStatus.Url, out oldResponse) &&
+                            oldResponse.Live != newStatus.Live)
                         {
                             var server = _client.GetGuild(fs.GuildId);
                             var channel = server?.GetTextChannel(fs.ChannelId);
@@ -80,92 +81,85 @@ namespace NadekoBot.Modules.Searches.Services
             }, null, TimeSpan.FromSeconds(60), TimeSpan.FromSeconds(60));
         }
 
-        public async Task<StreamStatus> GetStreamStatus(FollowedStream stream, bool checkCache = true)
+        public async Task<IStreamResponse> GetStreamStatus(FollowedStream stream, bool checkCache = true)
         {
             string response;
-            StreamStatus result;
+            IStreamResponse result;
             switch (stream.Type)
             {
                 case FollowedStream.FollowedStreamType.Smashcast:
-                    var hitboxUrl = $"https://api.hitbox.tv/media/status/{stream.Username.ToLowerInvariant()}";
-                    if (checkCache && _cachedStatuses.TryGetValue(hitboxUrl, out result))
+                    var smashcastUrl = $"https://api.smashcast.tv/user/{stream.Username.ToLowerInvariant()}";
+                    if (checkCache && _cachedStatuses.TryGetValue(smashcastUrl, out result))
                         return result;
-                    using (var http = new HttpClient())
-                    {
-                        response = await http.GetStringAsync(hitboxUrl).ConfigureAwait(false);
-                    }
-                    var hbData = JsonConvert.DeserializeObject<HitboxResponse>(response);
-                    if (!hbData.Success)
+                    response = await _http.GetStringAsync(smashcastUrl).ConfigureAwait(false);
+
+                    var scData = JsonConvert.DeserializeObject<SmashcastResponse>(response);
+                    if (!scData.Success)
                         throw new StreamNotFoundException($"{stream.Username} [{stream.Type}]");
-                    result = new StreamStatus()
-                    {
-                        IsLive = hbData.IsLive,
-                        ApiLink = hitboxUrl,
-                        Views = hbData.Views
-                    };
-                    _cachedStatuses.AddOrUpdate(hitboxUrl, result, (key, old) => result);
-                    return result;
+                    scData.Url = smashcastUrl;
+                    _cachedStatuses.AddOrUpdate(smashcastUrl, scData, (key, old) => scData);
+                    return scData;
                 case FollowedStream.FollowedStreamType.Twitch:
                     var twitchUrl = $"https://api.twitch.tv/kraken/streams/{Uri.EscapeUriString(stream.Username.ToLowerInvariant())}?client_id=67w6z9i09xv2uoojdm9l0wsyph4hxo6";
                     if (checkCache && _cachedStatuses.TryGetValue(twitchUrl, out result))
                         return result;
-                    using (var http = new HttpClient())
-                    {
-                        response = await http.GetStringAsync(twitchUrl).ConfigureAwait(false);
-                    }
+                    response = await _http.GetStringAsync(twitchUrl).ConfigureAwait(false);
+
                     var twData = JsonConvert.DeserializeObject<TwitchResponse>(response);
                     if (twData.Error != null)
                     {
                         throw new StreamNotFoundException($"{stream.Username} [{stream.Type}]");
                     }
-                    result = new StreamStatus()
-                    {
-                        IsLive = twData.IsLive,
-                        ApiLink = twitchUrl,
-                        Views = twData.Stream?.Viewers.ToString() ?? "0"
-                    };
-                    _cachedStatuses.AddOrUpdate(twitchUrl, result, (key, old) => result);
-                    return result;
+                    twData.Url = twitchUrl;
+                    _cachedStatuses.AddOrUpdate(twitchUrl, twData, (key, old) => twData);
+                    return twData;
                 case FollowedStream.FollowedStreamType.Mixer:
                     var beamUrl = $"https://mixer.com/api/v1/channels/{stream.Username.ToLowerInvariant()}";
                     if (checkCache && _cachedStatuses.TryGetValue(beamUrl, out result))
                         return result;
-                    using (var http = new HttpClient())
-                    {
-                        response = await http.GetStringAsync(beamUrl).ConfigureAwait(false);
-                    }
+                    response = await _http.GetStringAsync(beamUrl).ConfigureAwait(false);
 
-                    var bmData = JsonConvert.DeserializeObject<BeamResponse>(response);
+
+                    var bmData = JsonConvert.DeserializeObject<MixerResponse>(response);
                     if (bmData.Error != null)
                         throw new StreamNotFoundException($"{stream.Username} [{stream.Type}]");
-                    result = new StreamStatus()
-                    {
-                        IsLive = bmData.IsLive,
-                        ApiLink = beamUrl,
-                        Views = bmData.ViewersCurrent.ToString()
-                    };
-                    _cachedStatuses.AddOrUpdate(beamUrl, result, (key, old) => result);
-                    return result;
+                    bmData.Url = beamUrl;
+                    _cachedStatuses.AddOrUpdate(beamUrl, bmData, (key, old) => bmData);
+                    return bmData;
                 default:
                     break;
             }
             return null;
         }
 
-        public EmbedBuilder GetEmbed(FollowedStream fs, StreamStatus status, ulong guildId)
+        public EmbedBuilder GetEmbed(FollowedStream fs, IStreamResponse status, ulong guildId)
         {
-            var embed = new EmbedBuilder().WithTitle(fs.Username)
-                                          .WithUrl(GetLink(fs))
-                                          .AddField(efb => efb.WithName(GetText(fs, "status"))
-                                                            .WithValue(status.IsLive ? "Online" : "Offline")
-                                                            .WithIsInline(true))
-                                          .AddField(efb => efb.WithName(GetText(fs, "viewers"))
-                                                            .WithValue(status.IsLive ? status.Views : "-")
-                                                            .WithIsInline(true))
-                                          .AddField(efb => efb.WithName(GetText(fs, "platform"))
-                                                            .WithValue(fs.Type.ToString())
-                                                            .WithIsInline(true))
-                                          .WithColor(status.IsLive ? NadekoBot.OkColor : NadekoBot.ErrorColor);
+            var embed = new EmbedBuilder()
+                .WithTitle(fs.Username)
+                .WithUrl(GetLink(fs))
+                .WithDescription(GetLink(fs))
+                .AddField(efb => efb.WithName(GetText(fs, "status"))
+                                .WithValue(status.Live ? "Online" : "Offline")
+                                .WithIsInline(true))
+                .AddField(efb => efb.WithName(GetText(fs, "viewers"))
+                                .WithValue(status.Live ? status.Viewers.ToString() : "-")
+                                .WithIsInline(true))
+                .WithColor(status.Live ? NadekoBot.OkColor : NadekoBot.ErrorColor);
+
+            if (!string.IsNullOrWhiteSpace(status.Title))
+                embed.WithAuthor(status.Title);
+
+            if (!string.IsNullOrWhiteSpace(status.Game))
+                embed.AddField(GetText(fs, "streaming"),
+                                status.Game,
+                                true);
+
+            embed.AddField(GetText(fs, "followers"),
+                            status.FollowerCount.ToString(),
+                            true);
+
+            if (!string.IsNullOrWhiteSpace(status.Icon))
+                embed.WithThumbnailUrl(status.Icon);
 
             return embed;
         }
@@ -179,7 +173,7 @@ namespace NadekoBot.Modules.Searches.Services
         public string GetLink(FollowedStream fs)
         {
             if (fs.Type == FollowedStream.FollowedStreamType.Smashcast)
-                return $"https://www.hitbox.tv/{fs.Username}/";
+                return $"https://www.smashcast.tv/{fs.Username}/";
             if (fs.Type == FollowedStream.FollowedStreamType.Twitch)
                 return $"https://www.twitch.tv/{fs.Username}/";
             if (fs.Type == FollowedStream.FollowedStreamType.Mixer)

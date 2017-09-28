@@ -882,5 +882,7 @@
   "searches_feed_no_feed": "You haven't subscribed to any feeds on this server.",
   "administration_restart_fail": "You must setup RestartCommand in your credentials.json",
   "administration_restarting": "Restarting.",
-  "customreactions_edit_fail": "Custom reaction with that ID does not exist."
+  "customreactions_edit_fail": "Custom reaction with that ID does not exist.",
+  "searches_streaming": "Streaming",
+  "searches_followers": "Followers"
 }
