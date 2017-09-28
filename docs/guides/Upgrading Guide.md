@@ -1,3 +1,5 @@
+# This section is for users who are upgrading from versions older than 1.4 to 1.4+
+
 #### If you have NadekoBot 1.x on Windows
 
 - Go to `NadekoBot\src\NadekoBot` and backup your `credentials.json` file; then go to `NadekoBot\src\NadekoBot\bin\Release\netcoreapp1.0` and backup your `data` folder.
