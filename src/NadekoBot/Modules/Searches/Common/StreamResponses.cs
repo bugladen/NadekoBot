@@ -45,12 +45,12 @@ namespace NadekoBot.Modules.Searches.Common
             public int Viewers { get; set; }
             public string Game { get; set; }
             public ChannelInfo Channel { get; set; }
-            public int Followers { get; set; }
 
             public class ChannelInfo
             {
                 public string Status { get; set; }
                 public string Logo { get; set; }
+                public int Followers { get; set; }
             }
         }
 
@@ -58,7 +58,7 @@ namespace NadekoBot.Modules.Searches.Common
         public string Title => Stream?.Channel?.Status;
         public bool Live => IsLive;
         public string Game => Stream?.Game;
-        public int FollowerCount => Stream?.Followers ?? 0;
+        public int FollowerCount => Stream?.Channel?.Followers ?? 0;
         public string Url { get; set; }
         public string Icon => Stream?.Channel?.Logo;
     }
