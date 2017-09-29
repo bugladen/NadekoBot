@@ -19,17 +19,8 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <Compile Remove="data\**\*;credentials.json" />
-    <Compile Remove="Modules\Music\Classes\**" />
-    <Compile Remove="Modules\Utility\Models\**" />
-    <EmbeddedResource Remove="Modules\Music\Classes\**" />
-    <EmbeddedResource Remove="Modules\Utility\Models\**" />
-    <None Remove="Modules\Music\Classes\**" />
-    <None Remove="Modules\Utility\Models\**" />
+    <Compile Remove="credentials.json" />
     <None Update="credentials_example.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="_strings\**">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="libsodium.dll;opus.dll;libsodium.so;libopus.so">
@@ -38,16 +29,10 @@
     <None Update="nadeko_icon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="data\**\*">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="data\musicdata\**\*">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AngleSharp" Version="0.9.9" />
-    <PackageReference Include="Discord.Net" Version="2.0.0-alpha-build-00828" />
+    <PackageReference Include="Discord.Net" Version="2.0.0-alpha-build-00832" />
     <PackageReference Include="CoreCLR-NCalc" Version="2.1.3" />
     <PackageReference Include="Google.Apis.Urlshortener.v1" Version="1.29.1.138" />
     <PackageReference Include="Google.Apis.YouTube.v3" Version="1.29.1.976" />
@@ -77,5 +62,10 @@
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\NadekoBot.Core\NadekoBot.Core.csproj" />
+    <ProjectReference Include="..\..\NadekoBot.Modules.CustomReactions\NadekoBot.Modules.CustomReactions.csproj" />
   </ItemGroup>
 </Project>
