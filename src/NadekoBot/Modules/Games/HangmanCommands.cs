@@ -29,12 +29,12 @@ namespace NadekoBot.Modules.Games
             [RequireContext(ContextType.Guild)]
             public async Task Hangmanlist()
             {
-                await Context.Channel.SendConfirmAsync(Format.Code(GetText("hangman_types", Prefix)) + "\n" + string.Join(", ", TermPool.Data.Keys));
+                await Context.Channel.SendConfirmAsync(Format.Code(GetText("hangman_types", Prefix)) + "\n" + string.Join("\n", TermPool.Data.Keys));
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Hangman([Remainder]TermType type = TermType.Random)
+            public async Task Hangman([Remainder]string type = "random")
             {
                 var hm = new Hangman(type);
 
