@@ -3,8 +3,6 @@ Permissions Overview
 Have you ever felt confused or even overwhelmed when trying to set Nadeko's permissions? In this guide we will be explaining how to use the 
 permission commands correctly and even cover a few common questions! Every command we discuss here can be found in the [Commands List](http://nadekobot.readthedocs.io/en/latest/Commands%20List/#permissions).
 
-**To see the guide, [click here](http://nadekobot.readthedocs.io/en/latest/Permissions%20System/)**
-
 Why do we use the Permissions Commands?
 ------------------------------
 Permissions are very handy at setting who can use what commands in a server. By default, the NSFW module is blocked, but nothing else is. If something is a bot owner only command, it can only be ran by the bot owner, the person who is running the bot, or has their ID in [`credentials.json`](http://nadekobot.readthedocs.io/en/1.0/JSON%20Explanations/ "Setting up your credentials"). 
