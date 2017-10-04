@@ -33,7 +33,7 @@ namespace NadekoBot.Modules.Utility.Services
                             .Where(x => x.Guild != null)));
                     })
                     .Where(x => x.Item2 != null)
-                    .ToDictionary(x => x.Item1, x => x.Item2));
+                    .ToDictionary(x => x.GuildId, x => x.Item2));
                 RepeaterReady = true;
             });
         }

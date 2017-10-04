@@ -3,23 +3,22 @@ using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
-using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Games.Common.Trivia;
+using NadekoBot.Modules.Games.Services;
 
 namespace NadekoBot.Modules.Games
 {
     public partial class Games
     {
+        //todo move games to service, unload
         [Group]
-        public class TriviaCommands : NadekoSubmodule
+        public class TriviaCommands : NadekoSubmodule<GamesService>
         {
             private readonly CurrencyService _cs;
             private readonly DiscordSocketClient _client;
             private readonly IBotConfigProvider _bc;
-
-            public static ConcurrentDictionary<ulong, TriviaGame> RunningTrivias { get; } = new ConcurrentDictionary<ulong, TriviaGame>();
 
             public TriviaCommands(DiscordSocketClient client, IBotConfigProvider bc, CurrencyService cs)
             {
@@ -48,7 +47,7 @@ namespace NadekoBot.Modules.Games
                 var isPokemon = additionalArgs.Contains("pokemon");
 
                 var trivia = new TriviaGame(_strings, _client, _bc, _cs, channel.Guild, channel, showHints, winReq, isPokemon);
-                if (RunningTrivias.TryAdd(channel.Guild.Id, trivia))
+                if (_service.RunningTrivias.TryAdd(channel.Guild.Id, trivia))
                 {
                     try
                     {
@@ -56,7 +55,7 @@ namespace NadekoBot.Modules.Games
                     }
                     finally
                     {
-                        RunningTrivias.TryRemove(channel.Guild.Id, out trivia);
+                        _service.RunningTrivias.TryRemove(channel.Guild.Id, out trivia);
                         await trivia.EnsureStopped().ConfigureAwait(false);
                     }
                     return;
@@ -72,8 +71,7 @@ namespace NadekoBot.Modules.Games
             {
                 var channel = (ITextChannel)Context.Channel;
 
-                TriviaGame trivia;
-                if (RunningTrivias.TryGetValue(channel.Guild.Id, out trivia))
+                if (_service.RunningTrivias.TryGetValue(channel.Guild.Id, out TriviaGame trivia))
                 {
                     await channel.SendConfirmAsync(GetText("leaderboard"), trivia.GetLeaderboard()).ConfigureAwait(false);
                     return;
@@ -88,8 +86,7 @@ namespace NadekoBot.Modules.Games
             {
                 var channel = (ITextChannel)Context.Channel;
 
-                TriviaGame trivia;
-                if (RunningTrivias.TryGetValue(channel.Guild.Id, out trivia))
+                if (_service.RunningTrivias.TryGetValue(channel.Guild.Id, out TriviaGame trivia))
                 {
                     await trivia.StopGame().ConfigureAwait(false);
                     return;

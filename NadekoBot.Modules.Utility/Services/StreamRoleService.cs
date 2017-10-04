@@ -17,22 +17,24 @@ using Discord.Net;
 
 namespace NadekoBot.Modules.Utility.Services
 {
-    public class StreamRoleService : INService
+    public class StreamRoleService : INService, IUnloadableService
     {
         private readonly DbService _db;
+        private readonly DiscordSocketClient _client;
         private readonly ConcurrentDictionary<ulong, StreamRoleSettings> guildSettings;
         private readonly Logger _log;
 
         public StreamRoleService(DiscordSocketClient client, DbService db, IEnumerable<GuildConfig> gcs)
         {
-            this._db = db;
             this._log = LogManager.GetCurrentClassLogger();
+            this._db = db;
+            this._client = client;
 
             guildSettings = gcs.ToDictionary(x => x.GuildId, x => x.StreamRole)
                 .Where(x => x.Value != null && x.Value.Enabled)
                 .ToConcurrent();
 
-            client.GuildMemberUpdated += Client_GuildMemberUpdated;
+            _client.GuildMemberUpdated += Client_GuildMemberUpdated;
 
             var _ = Task.Run(async () =>
             {
@@ -45,6 +47,12 @@ namespace NadekoBot.Modules.Utility.Services
                     // ignored
                 }
             });
+        }
+
+        public Task Unload()
+        {
+            _client.GuildMemberUpdated -= Client_GuildMemberUpdated;
+            return Task.CompletedTask;
         }
 
         private Task Client_GuildMemberUpdated(SocketGuildUser before, SocketGuildUser after)

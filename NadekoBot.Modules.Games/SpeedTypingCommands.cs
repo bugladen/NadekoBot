@@ -3,7 +3,6 @@ using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Extensions;
 using Newtonsoft.Json;
-using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,9 +15,8 @@ namespace NadekoBot.Modules.Games
     public partial class Games
     {
         [Group]
-        public class SpeedTypingCommands : NadekoSubmodule
+        public class SpeedTypingCommands : NadekoSubmodule<GamesService>
         {
-            public static ConcurrentDictionary<ulong, TypingGame> RunningContests = new ConcurrentDictionary<ulong, TypingGame>();
             private readonly GamesService _games;
             private readonly DiscordSocketClient _client;
 
@@ -34,7 +32,7 @@ namespace NadekoBot.Modules.Games
             {
                 var channel = (ITextChannel)Context.Channel;
 
-                var game = RunningContests.GetOrAdd(channel.Guild.Id, id => new TypingGame(_games, _client, channel, Prefix));
+                var game = _service.RunningContests.GetOrAdd(channel.Guild.Id, id => new TypingGame(_games, _client, channel, Prefix));
 
                 if (game.IsActive)
                 {
@@ -54,8 +52,7 @@ namespace NadekoBot.Modules.Games
             public async Task TypeStop()
             {
                 var channel = (ITextChannel)Context.Channel;
-                TypingGame game;
-                if (RunningContests.TryRemove(channel.Guild.Id, out game))
+                if (_service.RunningContests.TryRemove(channel.Guild.Id, out TypingGame game))
                 {
                     await game.Stop().ConfigureAwait(false);
                     return;

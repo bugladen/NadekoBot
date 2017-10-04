@@ -15,7 +15,7 @@ using NLog;
 
 namespace NadekoBot.Modules.Utility.Services
 {
-    public class PatreonRewardsService : INService
+    public class PatreonRewardsService : INService, IUnloadableService
     {
         private readonly SemaphoreSlim getPledgesLocker = new SemaphoreSlim(1, 1);
 
@@ -33,15 +33,16 @@ namespace NadekoBot.Modules.Utility.Services
 
         private readonly string cacheFileName = "./patreon-rewards.json";
 
-        public PatreonRewardsService(IBotCredentials creds, DbService db, CurrencyService currency,
+        public PatreonRewardsService(IBotCredentials creds, DbService db, 
+            CurrencyService currency,
             DiscordSocketClient client)
         {
+            _log = LogManager.GetCurrentClassLogger();
             _creds = creds;
             _db = db;
             _currency = currency;
             if (string.IsNullOrWhiteSpace(creds.PatreonAccessToken))
                 return;
-            _log = LogManager.GetCurrentClassLogger();
             Updater = new Timer(async (load) => await RefreshPledges((bool)load),
                 client.ShardId == 0, client.ShardId == 0 ? TimeSpan.Zero : TimeSpan.FromMinutes(2), Interval);
         }
@@ -170,6 +171,12 @@ namespace NadekoBot.Modules.Utility.Services
             {
                 claimLockJustInCase.Release();
             }
+        }
+
+        public Task Unload()
+        {
+            Updater.Change(Timeout.Infinite, Timeout.Infinite);
+            return Task.CompletedTask;
         }
     }
 }

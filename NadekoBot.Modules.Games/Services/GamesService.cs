@@ -17,10 +17,15 @@ using NadekoBot.Services.Database.Models;
 using NadekoBot.Services.Impl;
 using Newtonsoft.Json;
 using NLog;
+using NadekoBot.Modules.Games.Common.Acrophobia;
+using NadekoBot.Modules.Games.Common.Connect4;
+using NadekoBot.Modules.Games.Common.Hangman;
+using NadekoBot.Modules.Games.Common.Trivia;
+using NadekoBot.Modules.Games.Common.Nunchi;
 
 namespace NadekoBot.Modules.Games.Services
 {
-    public class GamesService : INService
+    public class GamesService : INService, IUnloadableService
     {
         private readonly IBotConfigProvider _bc;
 
@@ -38,7 +43,16 @@ namespace NadekoBot.Modules.Games.Services
 
         public List<TypingArticle> TypingArticles { get; } = new List<TypingArticle>();
 
-        public GamesService(CommandHandler cmd, IBotConfigProvider bc, IEnumerable<GuildConfig> gcs, 
+        //channelId, game
+        public ConcurrentDictionary<ulong, Acrophobia> AcrophobiaGames { get; } = new ConcurrentDictionary<ulong, Acrophobia>();
+        public ConcurrentDictionary<ulong, Connect4Game> Connect4Games { get; } = new ConcurrentDictionary<ulong, Connect4Game>();
+        public ConcurrentDictionary<ulong, Hangman> HangmanGames { get; } = new ConcurrentDictionary<ulong, Hangman>();
+        public ConcurrentDictionary<ulong, TriviaGame> RunningTrivias { get; } = new ConcurrentDictionary<ulong, TriviaGame>();
+        public Dictionary<ulong, TicTacToe> TicTacToeGames { get; } = new Dictionary<ulong, TicTacToe>();
+        public ConcurrentDictionary<ulong, TypingGame> RunningContests { get; } = new ConcurrentDictionary<ulong, TypingGame>();
+        public ConcurrentDictionary<ulong, Nunchi> NunchiGames { get; } = new ConcurrentDictionary<ulong, Common.Nunchi.Nunchi>();
+
+        public GamesService(CommandHandler cmd, IBotConfigProvider bc, IEnumerable<GuildConfig> gcs,
             NadekoStrings strings, IImagesService images, CommandHandler cmdHandler)
         {
             _bc = bc;
@@ -72,6 +86,34 @@ namespace NadekoBot.Modules.Games.Services
                 _log.Warn("Error while loading typing articles {0}", ex.ToString());
                 TypingArticles = new List<TypingArticle>();
             }
+        }
+
+        public async Task Unload()
+        {
+            _t.Change(Timeout.Infinite, Timeout.Infinite);
+            _cmd.OnMessageNoTrigger -= PotentialFlowerGeneration;
+
+            AcrophobiaGames.ForEach(x => x.Value.Dispose());
+            AcrophobiaGames.Clear();
+            Connect4Games.ForEach(x => x.Value.Dispose());
+            Connect4Games.Clear();
+            HangmanGames.ForEach(x => x.Value.Dispose());
+            HangmanGames.Clear();
+            await Task.WhenAll(RunningTrivias.Select(x => x.Value.StopGame()));
+            RunningTrivias.Clear();
+
+            TicTacToeGames.Clear();
+
+            await Task.WhenAll(RunningContests.Select(x => x.Value.Stop()))
+                .ConfigureAwait(false);
+            RunningContests.Clear();
+            NunchiGames.ForEach(x => x.Value.Dispose());
+            NunchiGames.Clear();
+        }
+
+        private void DisposeElems(IEnumerable<IDisposable> xs)
+        {
+            xs.ForEach(x => x.Dispose());
         }
 
         public void AddTypingArticle(IUser user, string text)

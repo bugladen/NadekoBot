@@ -3,8 +3,8 @@ using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Games.Common.Nunchi;
+using NadekoBot.Modules.Games.Services;
 using System;
-using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,9 +12,9 @@ namespace NadekoBot.Modules.Games
 {
     public partial class Games
     {
-        public class NunchiCommands : NadekoSubmodule
+        [Group]
+        public class NunchiCommands : NadekoSubmodule<GamesService>
         {
-            public static readonly ConcurrentDictionary<ulong, Nunchi> Games = new ConcurrentDictionary<ulong, Common.Nunchi.Nunchi>();
             private readonly DiscordSocketClient _client;
 
             public NunchiCommands(DiscordSocketClient client)
@@ -30,7 +30,7 @@ namespace NadekoBot.Modules.Games
                 Nunchi nunchi;
 
                 //if a game was already active
-                if ((nunchi = Games.GetOrAdd(Context.Guild.Id, newNunchi)) != newNunchi)
+                if ((nunchi = _service.NunchiGames.GetOrAdd(Context.Guild.Id, newNunchi)) != newNunchi)
                 {
                     // join it
                     if (!await nunchi.Join(Context.User.Id, Context.User.ToString()))
@@ -57,7 +57,7 @@ namespace NadekoBot.Modules.Games
                 var success = await nunchi.Initialize().ConfigureAwait(false);
                 if (!success)
                 {
-                    if (Games.TryRemove(Context.Guild.Id, out var game))
+                    if (_service.NunchiGames.TryRemove(Context.Guild.Id, out var game))
                         game.Dispose();
                     await ConfirmLocalized("nunchi_failed_to_start").ConfigureAwait(false);
                 }
@@ -85,7 +85,7 @@ namespace NadekoBot.Modules.Games
 
                 Task Nunchi_OnGameEnded(Nunchi arg1, string arg2)
                 {
-                    if (Games.TryRemove(Context.Guild.Id, out var game))
+                    if (_service.NunchiGames.TryRemove(Context.Guild.Id, out var game))
                     {
                         _client.MessageReceived -= _client_MessageReceived;
                         game.Dispose();

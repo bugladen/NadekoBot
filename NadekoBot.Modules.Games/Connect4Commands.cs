@@ -1,10 +1,10 @@
-﻿using Discord;  
+﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Games.Common.Connect4;
-using System.Collections.Concurrent;
+using NadekoBot.Modules.Games.Services;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,12 +13,11 @@ namespace NadekoBot.Modules.Games
 {
     public partial class Games
     {
-        public class Connect4Commands : NadekoSubmodule
+        [Group]
+        public class Connect4Commands : NadekoSubmodule<GamesService>
         {
-            public static ConcurrentDictionary<ulong, Connect4Game> Games = new ConcurrentDictionary<ulong, Connect4Game>();
             private readonly DiscordSocketClient _client;
-
-            //private readonly string[] numbers = new string[] { "⓪", " ①", "②", "③", "④", "⑤", "⑥", "⑦", "⑧", "⑨" };
+            
             private readonly string[] numbers = new string[] { ":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:"};
 
             public Connect4Commands(DiscordSocketClient client)
@@ -32,7 +31,7 @@ namespace NadekoBot.Modules.Games
             {
                 var newGame = new Connect4Game(Context.User.Id, Context.User.ToString());
                 Connect4Game game;
-                if ((game = Games.GetOrAdd(Context.Channel.Id, newGame)) != newGame)
+                if ((game = _service.Connect4Games.GetOrAdd(Context.Channel.Id, newGame)) != newGame)
                 {
                     if (game.CurrentPhase != Connect4Game.Phase.Joining)
                         return;
@@ -84,7 +83,7 @@ namespace NadekoBot.Modules.Games
 
                 Task Game_OnGameFailedToStart(Connect4Game arg)
                 {
-                    if (Games.TryRemove(Context.Channel.Id, out var toDispose))
+                    if (_service.Connect4Games.TryRemove(Context.Channel.Id, out var toDispose))
                     {
                         _client.MessageReceived -= _client_MessageReceived;
                         toDispose.Dispose();
@@ -94,7 +93,7 @@ namespace NadekoBot.Modules.Games
 
                 Task Game_OnGameEnded(Connect4Game arg, Connect4Game.Result result)
                 {
-                    if (Games.TryRemove(Context.Channel.Id, out var toDispose))
+                    if (_service.Connect4Games.TryRemove(Context.Channel.Id, out var toDispose))
                     {
                         _client.MessageReceived -= _client_MessageReceived;
                         toDispose.Dispose();

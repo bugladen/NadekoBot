@@ -13,7 +13,7 @@ using NLog;
 
 namespace NadekoBot.Modules.Utility.Services
 {
-    public class ConverterService : INService
+    public class ConverterService : INService, IUnloadableService
     {
         public List<ConvertUnit> Units { get; } = new List<ConvertUnit>();
         private readonly Logger _log;
@@ -121,6 +121,12 @@ namespace NadekoBot.Modules.Utility.Services
             {
                 _log.Warn("Failed updating currency. Ignore this.");
             }
+        }
+
+        public Task Unload()
+        {
+            _currencyUpdater.Change(Timeout.Infinite, Timeout.Infinite);
+            return Task.CompletedTask;
         }
     }
 

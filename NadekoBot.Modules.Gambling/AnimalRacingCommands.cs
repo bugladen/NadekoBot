@@ -4,26 +4,23 @@ using Discord.WebSocket;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
 using System;
-using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Gambling.Common.AnimalRacing.Exceptions;
 using NadekoBot.Modules.Gambling.Common.AnimalRacing;
+using NadekoBot.Modules.Gambling.Services;
 
 namespace NadekoBot.Modules.Gambling
 {
     public partial class Gambling
     {
         [Group]
-        public class AnimalRacingCommands : NadekoSubmodule
+        public class AnimalRacingCommands : NadekoSubmodule<AnimalRaceService>
         {
             private readonly IBotConfigProvider _bc;
             private readonly CurrencyService _cs;
             private readonly DiscordSocketClient _client;
-
-
-            public static ConcurrentDictionary<ulong, AnimalRace> AnimalRaces { get; } = new ConcurrentDictionary<ulong, AnimalRace>();
 
             public AnimalRacingCommands(IBotConfigProvider bc, CurrencyService cs, DiscordSocketClient client)
             {
@@ -39,7 +36,7 @@ namespace NadekoBot.Modules.Gambling
             public Task Race()
             {
                 var ar = new AnimalRace(_cs, _bc.BotConfig.RaceAnimals.Shuffle().ToArray());
-                if (!AnimalRaces.TryAdd(Context.Guild.Id, ar))
+                if (!_service.AnimalRaces.TryAdd(Context.Guild.Id, ar))
                     return Context.Channel.SendErrorAsync(GetText("animal_race"), GetText("animal_race_already_started"));
 
                 ar.Initialize();
@@ -66,7 +63,7 @@ namespace NadekoBot.Modules.Gambling
                 Task Ar_OnEnded(AnimalRace race)
                 {
                     _client.MessageReceived -= _client_MessageReceived;
-                    AnimalRaces.TryRemove(Context.Guild.Id, out _);
+                    _service.AnimalRaces.TryRemove(Context.Guild.Id, out _);
                     var winner = race.FinishedUsers[0];
                     if (race.FinishedUsers[0].Bet > 0)
                     {
@@ -126,7 +123,7 @@ namespace NadekoBot.Modules.Gambling
 
             private Task Ar_OnStartingFailed(AnimalRace race)
             {
-                AnimalRaces.TryRemove(Context.Guild.Id, out _);
+                _service.AnimalRaces.TryRemove(Context.Guild.Id, out _);
                 return ReplyErrorLocalized("animal_race_failed");
             }
 
@@ -134,7 +131,7 @@ namespace NadekoBot.Modules.Gambling
             [RequireContext(ContextType.Guild)]
             public async Task JoinRace(int amount = 0)
             {
-                if (!AnimalRaces.TryGetValue(Context.Guild.Id, out var ar))
+                if (!_service.AnimalRaces.TryGetValue(Context.Guild.Id, out var ar))
                 {
                     await ReplyErrorLocalized("race_not_exist").ConfigureAwait(false);
                     return;

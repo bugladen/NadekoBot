@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.3
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{04929013-5BAB-42B0-B9B2-8F2BB8F16AF2}"
 EndProject
@@ -13,25 +13,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NadekoBot", "src\NadekoBot\NadekoBot.csproj", "{45EC1473-C678-4857-A544-07DFE0D0B478}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NadekoBot.Modules.CustomReactions", "NadekoBot.Modules.CustomReactions\NadekoBot.Modules.CustomReactions.csproj", "{60F1217E-5E01-42DC-9B86-0FE910EDE081}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NadekoBot.Core", "NadekoBot.Core\NadekoBot.Core.csproj", "{A6CCEFBD-DCF2-482C-9643-47664683548F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NadekoBot.Modules.Xp", "NadekoBot.Modules.Xp\NadekoBot.Modules.Xp.csproj", "{41A2DEBA-E8AE-4EC8-A58F-01C4B6E599E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NadekoBot.Modules.Xp", "NadekoBot.Modules.Xp\NadekoBot.Modules.Xp.csproj", "{41A2DEBA-E8AE-4EC8-A58F-01C4B6E599E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NadekoBot.Modules.Utility", "NadekoBot.Modules.Utility\NadekoBot.Modules.Utility.csproj", "{07606931-CB55-4D20-8369-4E086B00EC52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NadekoBot.Modules.Utility", "NadekoBot.Modules.Utility\NadekoBot.Modules.Utility.csproj", "{07606931-CB55-4D20-8369-4E086B00EC52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NadekoBot.Modules.Searches", "NadekoBot.Module.Searches\NadekoBot.Modules.Searches.csproj", "{8BEE9984-3EB3-45BE-A5CF-0DB912626B81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NadekoBot.Modules.Searches", "NadekoBot.Module.Searches\NadekoBot.Modules.Searches.csproj", "{8BEE9984-3EB3-45BE-A5CF-0DB912626B81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NadekoBot.Modules.Nsfw", "NadekoBot.Modules.Nsfw\NadekoBot.Modules.Nsfw.csproj", "{75ED72EC-7AB3-4B12-A2DA-3655C740B356}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NadekoBot.Modules.Nsfw", "NadekoBot.Modules.Nsfw\NadekoBot.Modules.Nsfw.csproj", "{75ED72EC-7AB3-4B12-A2DA-3655C740B356}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NadekoBot.Modules.Games", "NadekoBot.Modules.Games\NadekoBot.Modules.Games.csproj", "{FF6BDE61-24B4-4DC2-99EE-409EA1650180}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NadekoBot.Modules.Games", "NadekoBot.Modules.Games\NadekoBot.Modules.Games.csproj", "{FF6BDE61-24B4-4DC2-99EE-409EA1650180}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NadekoBot.Modules.Gambling", "NadekoBot.Modules.Gambling\NadekoBot.Modules.Gambling.csproj", "{6436A700-694E-412C-92AE-B793FCD44E84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NadekoBot.Modules.Gambling", "NadekoBot.Modules.Gambling\NadekoBot.Modules.Gambling.csproj", "{6436A700-694E-412C-92AE-B793FCD44E84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NadekoBot.Modules.Pokemon", "NadekoBot.Modules.Pokemon\NadekoBot.Modules.Pokemon.csproj", "{30463C26-555B-4760-9459-A16DFA015DFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NadekoBot.Modules.Pokemon", "NadekoBot.Modules.Pokemon\NadekoBot.Modules.Pokemon.csproj", "{30463C26-555B-4760-9459-A16DFA015DFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NadekoBot.Modules.Music", "NadekoBot.Modules.Music\NadekoBot.Modules.Music.csproj", "{674E28A6-30B1-413D-BBD3-E5F71614A00F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NadekoBot.Modules.Music", "NadekoBot.Modules.Music\NadekoBot.Modules.Music.csproj", "{674E28A6-30B1-413D-BBD3-E5F71614A00F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,12 +44,6 @@ Global
 		{45EC1473-C678-4857-A544-07DFE0D0B478}.GlobalNadeko|Any CPU.Build.0 = Release|Any CPU
 		{45EC1473-C678-4857-A544-07DFE0D0B478}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45EC1473-C678-4857-A544-07DFE0D0B478}.Release|Any CPU.Build.0 = Release|Any CPU
-		{60F1217E-5E01-42DC-9B86-0FE910EDE081}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{60F1217E-5E01-42DC-9B86-0FE910EDE081}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{60F1217E-5E01-42DC-9B86-0FE910EDE081}.GlobalNadeko|Any CPU.ActiveCfg = Debug|Any CPU
-		{60F1217E-5E01-42DC-9B86-0FE910EDE081}.GlobalNadeko|Any CPU.Build.0 = Debug|Any CPU
-		{60F1217E-5E01-42DC-9B86-0FE910EDE081}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{60F1217E-5E01-42DC-9B86-0FE910EDE081}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A6CCEFBD-DCF2-482C-9643-47664683548F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A6CCEFBD-DCF2-482C-9643-47664683548F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6CCEFBD-DCF2-482C-9643-47664683548F}.GlobalNadeko|Any CPU.ActiveCfg = Debug|Any CPU
@@ -112,7 +104,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{45EC1473-C678-4857-A544-07DFE0D0B478} = {04929013-5BAB-42B0-B9B2-8F2BB8F16AF2}
-		{60F1217E-5E01-42DC-9B86-0FE910EDE081} = {04929013-5BAB-42B0-B9B2-8F2BB8F16AF2}
 		{A6CCEFBD-DCF2-482C-9643-47664683548F} = {04929013-5BAB-42B0-B9B2-8F2BB8F16AF2}
 		{41A2DEBA-E8AE-4EC8-A58F-01C4B6E599E5} = {04929013-5BAB-42B0-B9B2-8F2BB8F16AF2}
 		{07606931-CB55-4D20-8369-4E086B00EC52} = {04929013-5BAB-42B0-B9B2-8F2BB8F16AF2}

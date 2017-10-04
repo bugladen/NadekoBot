@@ -1,7 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Xp.Common;

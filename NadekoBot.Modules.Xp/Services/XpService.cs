@@ -26,7 +26,7 @@ using ImageSharp.Drawing.Brushes;
 
 namespace NadekoBot.Modules.Xp.Services
 {
-    public class XpService : INService
+    public class XpService : INService, IUnloadableService
     {
         private enum NotifOf { Server, Global } // is it a server level-up or global level-up notification
 
@@ -55,7 +55,9 @@ namespace NadekoBot.Modules.Xp.Services
         private readonly ConcurrentQueue<UserCacheItem> _addMessageXp 
             = new ConcurrentQueue<UserCacheItem>();
 
-        private readonly Timer updateXpTimer;
+        private readonly Timer _updateXpTimer;
+        private readonly CancellationTokenSource _clearRewardTimerTokenSource;
+        private readonly Task _clearRewardTimer;
         private readonly HttpClient http = new HttpClient();
         private FontFamily _usernameFontFamily;
         private FontFamily _clubFontFamily;
@@ -115,7 +117,7 @@ namespace NadekoBot.Modules.Xp.Services
 
             _cmd.OnMessageNoTrigger += _cmd_OnMessageNoTrigger;
 
-            updateXpTimer = new Timer(async _ =>
+            _updateXpTimer = new Timer(async _ =>
             {
                 try
                 {
@@ -241,19 +243,20 @@ namespace NadekoBot.Modules.Xp.Services
                     _log.Warn(ex);
                 }
             }, null, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
-
-
+            
+            _clearRewardTimerTokenSource = new CancellationTokenSource();
+            var token = _clearRewardTimerTokenSource.Token;
             //just a first line, in order to prevent queries. But since other shards can try to do this too,
             //i'll check in the db too.
-            var clearRewardTimer = Task.Run(async () =>
+            _clearRewardTimer = Task.Run(async () =>
             {
-                while (true)
+                while (!token.IsCancellationRequested)
                 {
                     _rewardedUsers.Clear();
                     
                     await Task.Delay(TimeSpan.FromMinutes(_bc.BotConfig.XpMinutesTimeout));
                 }
-            });
+            }, token);
         }
 
         public IEnumerable<XpRoleReward> GetRoleRewards(ulong id)
@@ -750,6 +753,18 @@ namespace NadekoBot.Modules.Xp.Services
             var cornerBottomRight = cornerToptLeft.RotateDegree(180).Translate(rightPos, bottomPos);
 
             return new PathCollection(cornerToptLeft, cornerBottomLeft, cornerTopRight, cornerBottomRight);
+        }
+
+        public Task Unload()
+        {
+            _cmd.OnMessageNoTrigger -= _cmd_OnMessageNoTrigger;
+
+            if (!_clearRewardTimerTokenSource.IsCancellationRequested)
+                _clearRewardTimerTokenSource.Cancel();
+
+            _updateXpTimer.Change(Timeout.Infinite, Timeout.Infinite);
+            _clearRewardTimerTokenSource.Dispose();
+            return Task.CompletedTask;
         }
     }
 }

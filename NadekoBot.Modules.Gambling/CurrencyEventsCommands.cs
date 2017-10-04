@@ -17,6 +17,7 @@ using NadekoBot.Services.Database.Models;
 
 namespace NadekoBot.Modules.Gambling
 {
+    //todo mess, needs unload thing too - refactor
     public partial class Gambling
     {
         [Group]
@@ -274,7 +275,6 @@ namespace NadekoBot.Modules.Gambling
 
                 _log.Warn("Stopping flower reaction event because it expired.");
                 await End();
-                
             }
         }
     }

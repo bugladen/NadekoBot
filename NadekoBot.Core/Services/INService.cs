@@ -1,4 +1,6 @@
-﻿namespace NadekoBot.Services
+﻿using System.Threading.Tasks;
+
+namespace NadekoBot.Services
 {
     /// <summary>
     /// All services must implement this interface in order to be auto-discovered by the DI system
@@ -6,5 +8,13 @@
     public interface INService
     {
         
+    }
+
+    /// <summary>
+    /// All services which require cleanup after they are unloaded must implement this interface
+    /// </summary>
+    public interface IUnloadableService
+    {
+        Task Unload();
     }
 }

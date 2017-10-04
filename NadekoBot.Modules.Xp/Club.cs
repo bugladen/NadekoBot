@@ -99,8 +99,7 @@ namespace NadekoBot.Modules.Xp
                     return;
                 }
 
-                ClubInfo club;
-                if (!_service.GetClubByName(clubName, out club))
+                if (!_service.GetClubByName(clubName, out ClubInfo club))
                 {
                     await ReplyErrorLocalized("club_not_exists").ConfigureAwait(false);
                     return;

@@ -4,8 +4,6 @@ using NadekoBot.Services.Database.Models;
 using Discord;
 using NadekoBot.Modules.Xp.Common;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
 namespace NadekoBot.Modules.Xp.Services
 {

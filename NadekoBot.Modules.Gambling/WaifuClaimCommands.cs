@@ -44,7 +44,7 @@ namespace NadekoBot.Modules.Gambling
             Depraved,
             Harlot
         }
-
+        //todo unclaimed waifus should lose 5% of their value a day
         [Group]
         public class WaifuClaimCommands : NadekoSubmodule
         {

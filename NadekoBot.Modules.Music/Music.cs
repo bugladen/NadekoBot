@@ -30,22 +30,15 @@ namespace NadekoBot.Modules.Music
         private readonly IGoogleApiService _google;
         private readonly DbService _db;
 
-        public Music(DiscordSocketClient client, IBotCredentials creds, IGoogleApiService google,
+        public Music(DiscordSocketClient client, 
+            IBotCredentials creds, 
+            IGoogleApiService google,
             DbService db)
         {
             _client = client;
             _creds = creds;
             _google = google;
             _db = db;
-
-            //_client.UserVoiceStateUpdated += Client_UserVoiceStateUpdated;
-            _client.LeftGuild += _client_LeftGuild;
-        }
-
-        private Task _client_LeftGuild(SocketGuild arg)
-        {
-            var t = _service.DestroyPlayer(arg.Id);
-            return Task.CompletedTask;
         }
 
         //todo changing server region is bugged again

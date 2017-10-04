@@ -4,16 +4,13 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <RuntimeFrameworkVersion>2.0.0</RuntimeFrameworkVersion>
     <OutputType>exe</OutputType>
-    <AssetTargetFallback>$(AssetTargetFallback);dnxcore50;portable-net45+win8+wpa81</AssetTargetFallback>
     <ApplicationIcon>nadeko_icon.ico</ApplicationIcon>
-    <RuntimeIdentifiers>win7-x64<!--;ubuntu.14.04-x64;osx.10.10-x64 --></RuntimeIdentifiers>
-    <Configurations>Debug;Release;global_nadeko</Configurations>
     <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Version)' == '' ">
-    <VersionPrefix Condition=" '$(VersionPrefix)' == '' ">1.9.1</VersionPrefix>
+    <VersionPrefix Condition=" '$(VersionPrefix)' == '' ">2.0.0</VersionPrefix>
     <Version Condition=" '$(VersionSuffix)' != '' ">$(VersionPrefix).$(VersionSuffix)</Version>
     <Version Condition=" '$(Version)' == '' ">$(VersionPrefix)</Version>
   </PropertyGroup>
@@ -22,6 +19,12 @@
     <Compile Remove="credentials.json" />
     <None Update="credentials_example.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="data\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="_strings\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="libsodium.dll;opus.dll;libsodium.so;libopus.so">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -66,6 +69,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\NadekoBot.Core\NadekoBot.Core.csproj" />
-    <ProjectReference Include="..\..\NadekoBot.Modules.CustomReactions\NadekoBot.Modules.CustomReactions.csproj" />
   </ItemGroup>
 </Project>

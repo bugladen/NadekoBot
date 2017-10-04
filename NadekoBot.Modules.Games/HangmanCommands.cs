@@ -1,19 +1,19 @@
 ﻿using Discord.Commands;
 using NadekoBot.Extensions;
 using System;
-using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Games.Common.Hangman;
+using NadekoBot.Modules.Games.Services;
 
 namespace NadekoBot.Modules.Games
 {
     public partial class Games
     {
         [Group]
-        public class HangmanCommands : NadekoSubmodule
+        public class HangmanCommands : NadekoSubmodule<GamesService>
         {
             private readonly DiscordSocketClient _client;
 
@@ -21,9 +21,6 @@ namespace NadekoBot.Modules.Games
             {
                 _client = client;
             }
-
-            //channelId, game
-            public static ConcurrentDictionary<ulong, Hangman> HangmanGames { get; } = new ConcurrentDictionary<ulong, Hangman>();
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
@@ -38,7 +35,7 @@ namespace NadekoBot.Modules.Games
             {
                 var hm = new Hangman(type);
 
-                if (!HangmanGames.TryAdd(Context.Channel.Id, hm))
+                if (!_service.HangmanGames.TryAdd(Context.Channel.Id, hm))
                 {
                     hm.Dispose();
                     await ReplyErrorLocalized("hangman_running").ConfigureAwait(false);
@@ -61,7 +58,7 @@ namespace NadekoBot.Modules.Games
                 await hm.EndedTask.ConfigureAwait(false);
 
                 _client.MessageReceived -= _client_MessageReceived;
-                HangmanGames.TryRemove(Context.Channel.Id, out _);
+                _service.HangmanGames.TryRemove(Context.Channel.Id, out _);
                 hm.Dispose();
 
                 Task _client_MessageReceived(SocketMessage msg)
@@ -127,7 +124,7 @@ namespace NadekoBot.Modules.Games
             [RequireContext(ContextType.Guild)]
             public async Task HangmanStop()
             {
-                if (HangmanGames.TryRemove(Context.Channel.Id, out var removed))
+                if (_service.HangmanGames.TryRemove(Context.Channel.Id, out var removed))
                 {
                     await removed.Stop().ConfigureAwait(false);
                     await ReplyConfirmLocalized("hangman_stopped").ConfigureAwait(false);

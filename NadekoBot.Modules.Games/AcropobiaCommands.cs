@@ -2,25 +2,22 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Extensions;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Games.Common.Acrophobia;
+using NadekoBot.Modules.Games.Services;
 
 namespace NadekoBot.Modules.Games
 {
     public partial class Games
     {
         [Group]
-        public class AcropobiaCommands : NadekoSubmodule
+        public class AcropobiaCommands : NadekoSubmodule<GamesService>
         {
             private readonly DiscordSocketClient _client;
-
-            //channelId, game
-            public static ConcurrentDictionary<ulong, Acrophobia> AcrophobiaGames { get; } = new ConcurrentDictionary<ulong, Acrophobia>();
 
             public AcropobiaCommands(DiscordSocketClient client)
             {
@@ -36,7 +33,7 @@ namespace NadekoBot.Modules.Games
                 var channel = (ITextChannel)Context.Channel;
 
                 var game = new Acrophobia(submissionTime);
-                if (AcrophobiaGames.TryAdd(channel.Id, game))
+                if (_service.AcrophobiaGames.TryAdd(channel.Id, game))
                 {
                     try
                     {
@@ -50,7 +47,7 @@ namespace NadekoBot.Modules.Games
                     finally
                     {
                         _client.MessageReceived -= _client_MessageReceived;
-                        AcrophobiaGames.TryRemove(channel.Id, out game);
+                        _service.AcrophobiaGames.TryRemove(channel.Id, out game);
                         game.Dispose();
                     }
                 }

@@ -176,7 +176,7 @@ namespace NadekoBot.Modules.Gambling
                             using (var file = _images.SlotEmojis[numbers[i]].ToStream())
                             using (var randomImage = ImageSharp.Image.Load(file))
                             {
-                                bgImage.DrawImage(randomImage, 100, default(Size), new Point(95 + 142 * i, 330));
+                                bgImage.DrawImage(randomImage, 100, default, new Point(95 + 142 * i, 330));
                             }
                         }
 
@@ -189,7 +189,7 @@ namespace NadekoBot.Modules.Gambling
                             using (var fs = _images.SlotNumbers[digit].ToStream())
                             using (var img = ImageSharp.Image.Load(fs))
                             {
-                                bgImage.DrawImage(img, 100, default(Size), new Point(230 - n * 16, 462));
+                                bgImage.DrawImage(img, 100, default, new Point(230 - n * 16, 462));
                             }
                             n++;
                         } while ((printWon /= 10) != 0);
@@ -202,7 +202,7 @@ namespace NadekoBot.Modules.Gambling
                             using (var fs = _images.SlotNumbers[digit].ToStream())
                             using (var img = ImageSharp.Image.Load(fs))
                             {
-                                bgImage.DrawImage(img, 100, default(Size), new Point(395 - n * 16, 462));
+                                bgImage.DrawImage(img, 100, default, new Point(395 - n * 16, 462));
                             }
                             n++;
                         } while ((printAmount /= 10) != 0);

@@ -22,19 +22,17 @@ namespace NadekoBot.Modules.Games
         /// https://discord.gg/0TYNJfCU4De7YIk8
         /// </summary>
         [Group]
-        public class PlantPickCommands : NadekoSubmodule
+        public class PlantPickCommands : NadekoSubmodule<GamesService>
         {
             private readonly CurrencyService _cs;
             private readonly IBotConfigProvider _bc;
-            private readonly GamesService _games;
             private readonly DbService _db;
 
-            public PlantPickCommands(IBotConfigProvider bc, CurrencyService cs, GamesService games,
+            public PlantPickCommands(IBotConfigProvider bc, CurrencyService cs,
                 DbService db)
             {
                 _bc = bc;
                 _cs = cs;
-                _games = games;
                 _db = db;
             }
 
@@ -49,7 +47,7 @@ namespace NadekoBot.Modules.Games
 
 
                 try { await Context.Message.DeleteAsync().ConfigureAwait(false); } catch { }
-                if (!_games.PlantedFlowers.TryRemove(channel.Id, out List<IUserMessage> msgs))
+                if (!_service.PlantedFlowers.TryRemove(channel.Id, out List<IUserMessage> msgs))
                     return;
 
                 await Task.WhenAll(msgs.Where(m => m != null).Select(toDelete => toDelete.DeleteAsync())).ConfigureAwait(false);
@@ -74,7 +72,7 @@ namespace NadekoBot.Modules.Games
                     return;
                 }
 
-                var imgData = _games.GetRandomCurrencyImage();
+                var imgData = _service.GetRandomCurrencyImage();
                 
                 var msgToSend = GetText("planted",
                     Format.Bold(Context.User.ToString()),
@@ -95,7 +93,7 @@ namespace NadekoBot.Modules.Games
                 var msgs = new IUserMessage[amount];
                 msgs[0] = msg;
 
-                _games.PlantedFlowers.AddOrUpdate(Context.Channel.Id, msgs.ToList(), (id, old) =>
+                _service.PlantedFlowers.AddOrUpdate(Context.Channel.Id, msgs.ToList(), (id, old) =>
                 {
                     old.AddRange(msgs);
                     return old;
@@ -121,13 +119,13 @@ namespace NadekoBot.Modules.Games
                     if (!guildConfig.GenerateCurrencyChannelIds.Contains(toAdd))
                     {
                         guildConfig.GenerateCurrencyChannelIds.Add(toAdd);
-                        _games.GenerationChannels.Add(channel.Id);
+                        _service.GenerationChannels.Add(channel.Id);
                         enabled = true;
                     }
                     else
                     {
                         guildConfig.GenerateCurrencyChannelIds.Remove(toAdd);
-                        _games.GenerationChannels.TryRemove(channel.Id);
+                        _service.GenerationChannels.TryRemove(channel.Id);
                         enabled = false;
                     }
                     await uow.CompleteAsync();

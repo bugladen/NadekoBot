@@ -18,7 +18,7 @@ using NadekoBot.Modules.Music.Common.SongResolver;
 
 namespace NadekoBot.Modules.Music.Services
 {
-    public class MusicService : INService
+    public class MusicService : INService, IUnloadableService
     {
         public const string MusicDataPath = "data/musicdata";
 
@@ -47,13 +47,25 @@ namespace NadekoBot.Modules.Music.Services
             _creds = creds;
             _log = LogManager.GetCurrentClassLogger();
 
+            _client.LeftGuild += _client_LeftGuild;
+
             try { Directory.Delete(MusicDataPath, true); } catch { }
 
             _defaultVolumes = new ConcurrentDictionary<ulong, float>(gcs.ToDictionary(x => x.GuildId, x => x.DefaultMusicVolume));
 
             Directory.CreateDirectory(MusicDataPath);
+        }
 
-            //_t = new Timer(_ => _log.Info(MusicPlayers.Count(x => x.Value.Current.Current != null)), null, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
+        public Task Unload()
+        {
+            _client.LeftGuild -= _client_LeftGuild;
+            return Task.CompletedTask;
+        }
+
+        private Task _client_LeftGuild(SocketGuild arg)
+        {
+            var t = DestroyPlayer(arg.Id);
+            return Task.CompletedTask;
         }
 
         public float GetDefaultVolume(ulong guildId)

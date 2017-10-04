@@ -19,6 +19,7 @@ namespace NadekoBot.Modules.NSFW
     // thanks to halitalf for adding autoboob and autobutt features :D
     public class NSFW : NadekoTopLevelModule<SearchesService>
     {
+        //todo clear when module unloaded
         private static readonly ConcurrentDictionary<ulong, Timer> _autoHentaiTimers = new ConcurrentDictionary<ulong, Timer>();
         private static readonly ConcurrentDictionary<ulong, Timer> _autoBoobTimers = new ConcurrentDictionary<ulong, Timer>();
         private static readonly ConcurrentDictionary<ulong, Timer> _autoButtTimers = new ConcurrentDictionary<ulong, Timer>();
