@@ -21,7 +21,7 @@
 -----------
 **Answer:** First, check [issues](https://github.com/Kwoth/NadekoBot/issues "GitHub NadekoBot Issues"), then check the [suggestions](https://feathub.com/Kwoth/NadekoBot).
 
-If your problem or suggestion is not there, feel free to request/notify us about it either in the Issues section of GitHub for issues or in feathub for suggestions.
+If your problem or suggestion is not there, feel free to request/notify us about it either in the Issues section of GitHub for issues or on feathub for suggestions.
 
 ###Question 6: How do I use this command?
 --------
