@@ -12,7 +12,6 @@ namespace NadekoBot.Modules.Games
 {
     public partial class Games
     {
-        //todo move games to service, unload
         [Group]
         public class TriviaCommands : NadekoSubmodule<GamesService>
         {

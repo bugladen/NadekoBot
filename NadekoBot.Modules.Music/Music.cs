@@ -41,7 +41,7 @@ namespace NadekoBot.Modules.Music
             _db = db;
         }
 
-        //todo changing server region is bugged again
+        //todo 50 changing server region is bugged again
         //private Task Client_UserVoiceStateUpdated(SocketUser iusr, SocketVoiceState oldState, SocketVoiceState newState)
         //{
         //    var t = Task.Run(() =>

@@ -16,10 +16,11 @@ using Microsoft.EntityFrameworkCore;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using AngleSharp;
+using System.Threading;
 
 namespace NadekoBot.Modules.Searches.Services
 {
-    public class SearchesService : INService
+    public class SearchesService : INService, IUnloadableService
     {
         public HttpClient Http { get; }
 
@@ -40,6 +41,11 @@ namespace NadekoBot.Modules.Searches.Services
         public List<MagicItem> MagicItems { get; } = new List<MagicItem>();
 
         private readonly ConcurrentDictionary<ulong, SearchImageCacher> _imageCacher = new ConcurrentDictionary<ulong, SearchImageCacher>();
+
+        //todo clear when module unloaded
+        public ConcurrentDictionary<ulong, Timer> _autoHentaiTimers { get; } = new ConcurrentDictionary<ulong, Timer>();
+        public ConcurrentDictionary<ulong, Timer> _autoBoobTimers { get; } = new ConcurrentDictionary<ulong, Timer>();
+        public ConcurrentDictionary<ulong, Timer> _autoButtTimers { get; } = new ConcurrentDictionary<ulong, Timer>();
 
         private readonly ConcurrentDictionary<ulong, HashSet<string>> _blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>();
 
@@ -221,6 +227,19 @@ namespace NadekoBot.Modules.Searches.Services
         {
             var response = await Http.GetStringAsync("http://api.icndb.com/jokes/random/").ConfigureAwait(false);
             return JObject.Parse(response)["value"]["joke"].ToString() + " 😆";
+        }
+
+        public Task Unload()
+        {
+            _autoBoobTimers.ForEach(x => x.Value.Change(Timeout.Infinite, Timeout.Infinite));
+            _autoBoobTimers.Clear();
+            _autoButtTimers.ForEach(x => x.Value.Change(Timeout.Infinite, Timeout.Infinite));
+            _autoButtTimers.Clear();
+            _autoHentaiTimers.ForEach(x => x.Value.Change(Timeout.Infinite, Timeout.Infinite));
+            _autoHentaiTimers.Clear();
+
+            _imageCacher.Clear();
+            return Task.CompletedTask;
         }
     }
     

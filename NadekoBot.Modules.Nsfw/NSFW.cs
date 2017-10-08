@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using NadekoBot.Extensions;
 using System.Threading;
-using System.Collections.Concurrent;
 using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Common.Collections;
@@ -19,11 +18,6 @@ namespace NadekoBot.Modules.NSFW
     // thanks to halitalf for adding autoboob and autobutt features :D
     public class NSFW : NadekoTopLevelModule<SearchesService>
     {
-        //todo clear when module unloaded
-        private static readonly ConcurrentDictionary<ulong, Timer> _autoHentaiTimers = new ConcurrentDictionary<ulong, Timer>();
-        private static readonly ConcurrentDictionary<ulong, Timer> _autoBoobTimers = new ConcurrentDictionary<ulong, Timer>();
-        private static readonly ConcurrentDictionary<ulong, Timer> _autoButtTimers = new ConcurrentDictionary<ulong, Timer>();
-
         private static readonly ConcurrentHashSet<ulong> _hentaiBombBlacklist = new ConcurrentHashSet<ulong>();
 
         private async Task InternalHentai(IMessageChannel channel, string tag, bool noError)

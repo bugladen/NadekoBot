@@ -22,6 +22,7 @@ using NadekoBot.Common.TypeReaders.Models;
 using NadekoBot.Services.Database;
 using StackExchange.Redis;
 using Newtonsoft.Json;
+using System.Runtime.Loader;
 
 namespace NadekoBot
 {
@@ -418,7 +419,7 @@ namespace NadekoBot
             {
                 if (_packageModules.ContainsKey(name))
                     return false;
-
+                
                 var package = Assembly.LoadFile(Path.Combine(AppContext.BaseDirectory,
                                                 "modules",
                                                 $"NadekoBot.Modules.{name}",
