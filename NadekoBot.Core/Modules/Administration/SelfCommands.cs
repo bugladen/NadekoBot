@@ -48,7 +48,9 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task StartupCommandAdd([Remainder] string cmdText)
             {
-                //todo don't let .die be a startup command
+                if (cmdText.StartsWith(Prefix + "die"))
+                    return;
+
                 var guser = ((IGuildUser)Context.User);
                 var cmd = new StartupCommand()
                 {

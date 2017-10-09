@@ -48,6 +48,10 @@ namespace NadekoBot.Modules.Administration.Services
 
                 foreach (var cmd in bc.BotConfig.StartupCommands)
                 {
+                    var prefix = _cmdHandler.GetPrefix(cmd.GuildId);
+                    //if someone already has .die as their startup command, ignore it
+                    if (cmd.CommandText.StartsWith(prefix + "die"))
+                        continue;
                     await cmdHandler.ExecuteExternal(cmd.GuildId, cmd.ChannelId, cmd.CommandText);
                     await Task.Delay(400).ConfigureAwait(false);
                 }
