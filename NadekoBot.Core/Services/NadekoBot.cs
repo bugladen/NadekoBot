@@ -145,22 +145,13 @@ namespace NadekoBot
                     .AddManual<NadekoBot>(this)
                     .AddManual<IUnitOfWork>(uow)
                     .AddManual<IDataCache>(new RedisCache(Client.CurrentUser.Id));
+
                 Services.LoadFrom(Assembly.GetAssembly(typeof(CommandHandler)));
 
                 var commandHandler = Services.GetService<CommandHandler>();
                 commandHandler.AddServices(Services);
 
-
                 LoadTypeReaders(typeof(NadekoBot).Assembly);
-                //setup typereaders
-                CommandService.AddTypeReader<PermissionAction>(new PermissionActionTypeReader(Client, CommandService));
-                CommandService.AddTypeReader<CommandInfo>(new CommandTypeReader(Client, CommandService));
-                //todo module dependency
-                CommandService.AddTypeReader<CommandOrCrInfo>(new CommandOrCrTypeReader(Client, CommandService));
-                CommandService.AddTypeReader<ModuleInfo>(new ModuleTypeReader(Client, CommandService));
-                CommandService.AddTypeReader<ModuleOrCrInfo>(new ModuleOrCrTypeReader(Client, CommandService));
-                CommandService.AddTypeReader<IGuild>(new GuildTypeReader(Client, CommandService));
-                //CommandService.AddTypeReader<GuildDateTime>(new GuildDateTimeTypeReader());
             }
             Services.Unload(typeof(IUnitOfWork)); // unload it after the startup
         }
