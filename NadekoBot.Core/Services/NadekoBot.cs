@@ -17,14 +17,11 @@ using NadekoBot.Extensions;
 using System.Collections.Generic;
 using NadekoBot.Common;
 using NadekoBot.Common.ShardCom;
-using NadekoBot.Common.TypeReaders;
-using NadekoBot.Common.TypeReaders.Models;
 using NadekoBot.Services.Database;
 using StackExchange.Redis;
 using Newtonsoft.Json;
-using System.Runtime.Loader;
-using NadekoBot.Core.Common.TypeReaders;
 
+//todo Finish the script which autobuilds all projects if they're changed
 namespace NadekoBot
 {
     public class NadekoBot
@@ -57,8 +54,9 @@ namespace NadekoBot
         private readonly ShardComClient _comClient;
 
         private readonly BotConfig _botConfig;
+        public IDataCache Cache { get; private set; }
 
-        public NadekoBot(int shardId, int parentProcessId, int? port = null)
+        public NadekoBot(int shardId, int parentProcessId)
         {
             if (shardId < 0)
                 throw new ArgumentOutOfRangeException(nameof(shardId));
@@ -67,6 +65,7 @@ namespace NadekoBot
             _log = LogManager.GetCurrentClassLogger();
             TerribleElevatedPermissionCheck();
 
+            Cache = new RedisCache();
             Credentials = new BotCredentials();
             _db = new DbService(Credentials);
             Client = new DiscordSocketClient(new DiscordSocketConfig
@@ -83,9 +82,8 @@ namespace NadekoBot
                 CaseSensitiveCommands = false,
                 DefaultRunMode = RunMode.Sync,
             });
-
-            port = port ?? Credentials.ShardRunPort;
-            _comClient = new ShardComClient(port.Value);
+            
+            _comClient = new ShardComClient(Cache);
 
             using (var uow = _db.UnitOfWork)
             {
@@ -94,7 +92,7 @@ namespace NadekoBot
                 ErrorColor = new Color(Convert.ToUInt32(_botConfig.ErrorColor, 16));
             }
 
-            SetupShard(parentProcessId, port.Value);
+            SetupShard(parentProcessId);
 
 #if GLOBAL_NADEKO
             Client.Log += Client_Log;
@@ -144,7 +142,7 @@ namespace NadekoBot
                     .AddManual<IEnumerable<GuildConfig>>(AllGuildConfigs) //todo wrap this
                     .AddManual<NadekoBot>(this)
                     .AddManual<IUnitOfWork>(uow)
-                    .AddManual<IDataCache>(new RedisCache(Client.CurrentUser.Id));
+                    .AddManual<IDataCache>(Cache);
 
                 Services.LoadFrom(Assembly.GetAssembly(typeof(CommandHandler)));
 
@@ -156,7 +154,7 @@ namespace NadekoBot
             Services.Unload(typeof(IUnitOfWork)); // unload it after the startup
         }
 
-        private IEnumerable<NadekoTypeReader> LoadTypeReaders(Assembly assembly)
+        private IEnumerable<object> LoadTypeReaders(Assembly assembly)
         {
             Type[] allTypes;
             try
@@ -166,18 +164,30 @@ namespace NadekoBot
             catch (ReflectionTypeLoadException ex)
             {
                 Console.WriteLine(ex.LoaderExceptions[0]);
-                return Enumerable.Empty<NadekoTypeReader>();
+                return Enumerable.Empty<object>();
             }
             var filteredTypes = allTypes
-                .Where(x => x.IsSubclassOf(typeof(NadekoTypeReader))
+                .Where(x => x.IsSubclassOf(typeof(TypeReader)) 
+                    && x.BaseType.GetGenericArguments().Length > 0
                     && !x.IsAbstract);
 
-            var toReturn = new List<NadekoTypeReader>();
+            var toReturn = new List<object>();
             foreach (var ft in filteredTypes)
             {
                 //:yayyy:
-                var x = (NadekoTypeReader)Activator.CreateInstance(ft, Client, CommandService);
-                CommandService.AddTypeReader(x.GetType(), x);
+                var x = (TypeReader)Activator.CreateInstance(ft, Client, CommandService);
+                //@.@ XD XDDD
+                var baseType = ft.BaseType;
+                var typeArgs = baseType.GetGenericArguments();
+                try
+                {
+                    CommandService.AddTypeReader(typeArgs[0], x);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex);
+                    throw;
+                }
                 toReturn.Add(x);
                 _log.Info("Loaded {0} typereader.", x.GetType().Name);
             }
@@ -317,11 +327,11 @@ namespace NadekoBot
             }
         }
 
-        private void SetupShard(int parentProcessId, int port)
+        private void SetupShard(int parentProcessId)
         {
             if (Client.ShardId == 0)
             {
-                ShardCoord = new ShardsCoordinator(port);
+                ShardCoord = new ShardsCoordinator(Cache);
                 return;
             }
             new Thread(new ThreadStart(() =>

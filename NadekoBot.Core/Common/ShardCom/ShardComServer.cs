@@ -4,35 +4,26 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using NadekoBot.Services;
 
 namespace NadekoBot.Common.ShardCom
 {
-    public class ShardComServer : IDisposable
+    public class ShardComServer
     {
-        private readonly UdpClient _client;
+        private readonly IDataCache _cache;
 
-        public ShardComServer(int port)
+        public ShardComServer(IDataCache cache)
         {
-            _client = new UdpClient(port);
+            _cache = cache;
         }
 
         public void Start()
         {
-            Task.Run(async () =>
+            var sub = _cache.Redis.GetSubscriber();
+            sub.SubscribeAsync("shardcoord_send", (ch, data) =>
             {
-                var ip = new IPEndPoint(IPAddress.Any, 0);
-                while (true)
-                {
-                    var recv = await _client.ReceiveAsync();
-                    var data = Encoding.UTF8.GetString(recv.Buffer);
-                    var _ = OnDataReceived(JsonConvert.DeserializeObject<ShardComMessage>(data));
-                }
-            });
-        }
-
-        public void Dispose()
-        {
-            _client.Dispose();
+                var _ = OnDataReceived(JsonConvert.DeserializeObject<ShardComMessage>(data));
+            }, StackExchange.Redis.CommandFlags.FireAndForget);
         }
 
         public event Func<ShardComMessage, Task> OnDataReceived = delegate { return Task.CompletedTask; };

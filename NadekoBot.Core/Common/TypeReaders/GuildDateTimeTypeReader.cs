@@ -7,7 +7,7 @@ using Discord.WebSocket;
 
 namespace NadekoBot.Common.TypeReaders
 {
-    public class GuildDateTimeTypeReader : NadekoTypeReader
+    public class GuildDateTimeTypeReader : NadekoTypeReader<GuildDateTime>
     {
         public GuildDateTimeTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds)
         {

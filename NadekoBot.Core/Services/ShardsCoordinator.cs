@@ -19,19 +19,28 @@ namespace NadekoBot.Services
 
         private readonly Logger _log;
         private readonly ShardComServer _comServer;
-        private readonly int _port;
         private readonly int _curProcessId;
 
-        public ShardsCoordinator(int port)
+        public ShardsCoordinator(IDataCache cache)
         {
             LogSetup.SetupLogger();
             _creds = new BotCredentials();
             _shardProcesses = new Process[_creds.TotalShards];
             Statuses = new ShardComMessage[_creds.TotalShards];
-            _log = LogManager.GetCurrentClassLogger();
-            _port = port;
 
-            _comServer = new ShardComServer(port);
+            for (int i = 0; i < Statuses.Length; i++)
+            {
+                Statuses[i] = new ShardComMessage();
+                var s = Statuses[i];
+                s.ConnectionState = Discord.ConnectionState.Disconnected;
+                s.Guilds = 0;
+                s.ShardId = i;
+                s.Time = DateTime.Now - TimeSpan.FromMinutes(1);
+            }
+
+            _log = LogManager.GetCurrentClassLogger();
+
+            _comServer = new ShardComServer(cache);
             _comServer.Start();
 
             _comServer.OnDataReceived += _comServer_OnDataReceived;
@@ -54,8 +63,10 @@ namespace NadekoBot.Services
                 var p = Process.Start(new ProcessStartInfo()
                 {
                     FileName = _creds.ShardRunCommand,
-                    Arguments = string.Format(_creds.ShardRunArguments, i, _curProcessId, _port)
+                    Arguments = string.Format(_creds.ShardRunArguments, i, _curProcessId, "")
                 });
+                // last "" in format is for backwards compatibility
+                // because current startup commands have {2} in them probably
                 await Task.Delay(5000);
             }
         }

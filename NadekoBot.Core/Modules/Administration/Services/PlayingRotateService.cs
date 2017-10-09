@@ -41,7 +41,7 @@ namespace NadekoBot.Modules.Administration.Services
                 _rep = new ReplacementBuilder()
                     .WithClient(client)
                     .WithStats(client)
-                    //todo type readers
+                    //todo how to add music to replacement builder?
                     //.WithMusic(music)
                     .Build();
 

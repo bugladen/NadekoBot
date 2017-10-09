@@ -5,19 +5,20 @@ namespace NadekoBot.Services.Impl
 {
     public class RedisCache : IDataCache
     {
-        private ulong _botid;
-
         public ConnectionMultiplexer Redis { get; }
         private readonly IDatabase _db;
 
-        public RedisCache(ulong botId)
+        public RedisCache()
         {
-            _botid = botId;
             Redis = ConnectionMultiplexer.Connect("127.0.0.1");
             Redis.PreserveAsyncOrder = false;
             _db = Redis.GetDatabase();
         }
 
+        // things here so far don't need the bot id
+        // because it's a good thing if different bots 
+        // which are hosted on the same PC
+        // can re-use the same image/anime data
         public async Task<(bool Success, byte[] Data)> TryGetImageDataAsync(string key)
         {
             byte[] x = await _db.StringGetAsync("image_" + key);

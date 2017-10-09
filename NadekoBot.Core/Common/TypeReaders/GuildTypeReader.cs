@@ -4,10 +4,11 @@ using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Core.Common.TypeReaders;
+using Discord;
 
 namespace NadekoBot.Common.TypeReaders
 {
-    public class GuildTypeReader : NadekoTypeReader
+    public class GuildTypeReader : NadekoTypeReader<IGuild>
     {
         private readonly DiscordSocketClient _client;
 

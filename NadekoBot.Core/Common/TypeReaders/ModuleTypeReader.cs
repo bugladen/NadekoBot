@@ -8,7 +8,7 @@ using Discord.WebSocket;
 
 namespace NadekoBot.Common.TypeReaders
 {
-    public class ModuleTypeReader : NadekoTypeReader
+    public class ModuleTypeReader : NadekoTypeReader<ModuleInfo>
     {
         private readonly CommandService _cmds;
 
@@ -28,7 +28,7 @@ namespace NadekoBot.Common.TypeReaders
         }
     }
 
-    public class ModuleOrCrTypeReader : NadekoTypeReader
+    public class ModuleOrCrTypeReader : NadekoTypeReader<ModuleOrCrInfo>
     {
         private readonly CommandService _cmds;
 

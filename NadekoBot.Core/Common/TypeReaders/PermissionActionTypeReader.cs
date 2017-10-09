@@ -10,7 +10,7 @@ namespace NadekoBot.Common.TypeReaders
     /// <summary>
     /// Used instead of bool for more flexible keywords for true/false only in the permission module
     /// </summary>
-    public class PermissionActionTypeReader : NadekoTypeReader
+    public class PermissionActionTypeReader : NadekoTypeReader<PermissionAction>
     {
         public PermissionActionTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds)
         {

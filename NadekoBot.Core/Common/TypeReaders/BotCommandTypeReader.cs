@@ -9,7 +9,7 @@ using Discord.WebSocket;
 
 namespace NadekoBot.Common.TypeReaders
 {
-    public class CommandTypeReader : NadekoTypeReader
+    public class CommandTypeReader : NadekoTypeReader<CommandInfo>
     {
         public CommandTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds)
         {
@@ -35,10 +35,14 @@ namespace NadekoBot.Common.TypeReaders
         }
     }
 
-    public class CommandOrCrTypeReader : CommandTypeReader
+    public class CommandOrCrTypeReader : NadekoTypeReader<CommandOrCrInfo>
     {
+        private readonly DiscordSocketClient _client;
+        private readonly CommandService _cmds;
         public CommandOrCrTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds)
         {
+            _client = client;
+            _cmds = cmds;
         }
 
         public override async Task<TypeReaderResult> Read(ICommandContext context, string input, IServiceProvider services)
@@ -63,7 +67,7 @@ namespace NadekoBot.Common.TypeReaders
                 }
             }
 
-            var cmd = await base.Read(context, input, services);
+            var cmd = await new CommandTypeReader(_client, _cmds).Read(context, input, services);
             if (cmd.IsSuccess)
             {
                 return TypeReaderResult.FromSuccess(new CommandOrCrInfo(((CommandInfo)cmd.Values.First().Value).Name));
