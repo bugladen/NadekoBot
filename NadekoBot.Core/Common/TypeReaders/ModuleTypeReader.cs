@@ -3,14 +3,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord.Commands;
 using NadekoBot.Extensions;
+using NadekoBot.Core.Common.TypeReaders;
+using Discord.WebSocket;
 
 namespace NadekoBot.Common.TypeReaders
 {
-    public class ModuleTypeReader : TypeReader
+    public class ModuleTypeReader : NadekoTypeReader
     {
         private readonly CommandService _cmds;
 
-        public ModuleTypeReader(CommandService cmds)
+        public ModuleTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds)
         {
             _cmds = cmds;
         }
@@ -26,11 +28,11 @@ namespace NadekoBot.Common.TypeReaders
         }
     }
 
-    public class ModuleOrCrTypeReader : TypeReader
+    public class ModuleOrCrTypeReader : NadekoTypeReader
     {
         private readonly CommandService _cmds;
 
-        public ModuleOrCrTypeReader(CommandService cmds)
+        public ModuleOrCrTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds)
         {
             _cmds = cmds;
         }

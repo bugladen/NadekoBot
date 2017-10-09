@@ -307,8 +307,7 @@ namespace NadekoBot.Services.Database
                 .HasOne(x => x.GuildConfig)
                 .WithOne(x => x.XpSettings);
             #endregion
-
-            //todo major bug
+            
             #region XpRoleReward
             modelBuilder.Entity<XpRoleReward>()
                 .HasIndex(x => new { x.XpSettingsId, x.Level })

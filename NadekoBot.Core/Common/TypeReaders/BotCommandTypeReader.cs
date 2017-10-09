@@ -4,11 +4,17 @@ using System.Threading.Tasks;
 using Discord.Commands;
 using NadekoBot.Services;
 using NadekoBot.Modules.CustomReactions.Services;
+using NadekoBot.Core.Common.TypeReaders;
+using Discord.WebSocket;
 
 namespace NadekoBot.Common.TypeReaders
 {
-    public class CommandTypeReader : TypeReader
+    public class CommandTypeReader : NadekoTypeReader
     {
+        public CommandTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds)
+        {
+        }
+
         public override Task<TypeReaderResult> Read(ICommandContext context, string input, IServiceProvider services)
         {
             var _cmds = ((INServiceProvider)services).GetService<CommandService>();
@@ -28,9 +34,13 @@ namespace NadekoBot.Common.TypeReaders
             return Task.FromResult(TypeReaderResult.FromSuccess(cmd));
         }
     }
-    //todo dependency on the module
+
     public class CommandOrCrTypeReader : CommandTypeReader
     {
+        public CommandOrCrTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds)
+        {
+        }
+
         public override async Task<TypeReaderResult> Read(ICommandContext context, string input, IServiceProvider services)
         {
             input = input.ToUpperInvariant();

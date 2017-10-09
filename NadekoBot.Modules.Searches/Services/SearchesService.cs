@@ -17,6 +17,7 @@ using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using AngleSharp;
 using System.Threading;
+using NadekoBot.Modules.Searches.Exceptions;
 
 namespace NadekoBot.Modules.Searches.Services
 {
@@ -43,9 +44,9 @@ namespace NadekoBot.Modules.Searches.Services
         private readonly ConcurrentDictionary<ulong, SearchImageCacher> _imageCacher = new ConcurrentDictionary<ulong, SearchImageCacher>();
 
         //todo clear when module unloaded
-        public ConcurrentDictionary<ulong, Timer> _autoHentaiTimers { get; } = new ConcurrentDictionary<ulong, Timer>();
-        public ConcurrentDictionary<ulong, Timer> _autoBoobTimers { get; } = new ConcurrentDictionary<ulong, Timer>();
-        public ConcurrentDictionary<ulong, Timer> _autoButtTimers { get; } = new ConcurrentDictionary<ulong, Timer>();
+        public ConcurrentDictionary<ulong, Timer> AutoHentaiTimers { get; } = new ConcurrentDictionary<ulong, Timer>();
+        public ConcurrentDictionary<ulong, Timer> AutoBoobTimers { get; } = new ConcurrentDictionary<ulong, Timer>();
+        public ConcurrentDictionary<ulong, Timer> AutoButtTimers { get; } = new ConcurrentDictionary<ulong, Timer>();
 
         private readonly ConcurrentDictionary<ulong, HashSet<string>> _blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>();
 
@@ -147,8 +148,7 @@ namespace NadekoBot.Modules.Searches.Services
                 if (blacklistedTags
                     .Any(x => tag.ToLowerInvariant().Contains(x)))
                 {
-                    //todo tag blacklisted
-                    throw new Exception();
+                    throw new TagBlacklistedException();
                 }
 
                 var cacher = _imageCacher.GetOrAdd(guild.Value, (key) => new SearchImageCacher());
@@ -231,12 +231,12 @@ namespace NadekoBot.Modules.Searches.Services
 
         public Task Unload()
         {
-            _autoBoobTimers.ForEach(x => x.Value.Change(Timeout.Infinite, Timeout.Infinite));
-            _autoBoobTimers.Clear();
-            _autoButtTimers.ForEach(x => x.Value.Change(Timeout.Infinite, Timeout.Infinite));
-            _autoButtTimers.Clear();
-            _autoHentaiTimers.ForEach(x => x.Value.Change(Timeout.Infinite, Timeout.Infinite));
-            _autoHentaiTimers.Clear();
+            AutoBoobTimers.ForEach(x => x.Value.Change(Timeout.Infinite, Timeout.Infinite));
+            AutoBoobTimers.Clear();
+            AutoButtTimers.ForEach(x => x.Value.Change(Timeout.Infinite, Timeout.Infinite));
+            AutoButtTimers.Clear();
+            AutoHentaiTimers.ForEach(x => x.Value.Change(Timeout.Infinite, Timeout.Infinite));
+            AutoHentaiTimers.Clear();
 
             _imageCacher.Clear();
             return Task.CompletedTask;

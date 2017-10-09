@@ -11,6 +11,7 @@ namespace NadekoBot.Modules.Games.Common.Hangman
     public class Hangman : IDisposable
     {
         public string TermType { get; }
+        public TermPool TermPool { get; }
         public HangmanObject Term { get; }
 
         public string ScrambledWord => "`" + String.Concat(Term.Word.Select(c =>
@@ -56,10 +57,11 @@ namespace NadekoBot.Modules.Games.Common.Hangman
 
         public Task EndedTask => _endingCompletionSource.Task;
 
-        public Hangman(string type)
+        public Hangman(string type, TermPool tp = null)
         {
             this.TermType = type.Trim().ToLowerInvariant().ToTitleCase();
-            this.Term = TermPool.GetTerm(type);
+            this.TermPool = tp ?? new TermPool();
+            this.Term = this.TermPool.GetTerm(type);
         }
 
         private void AddError()

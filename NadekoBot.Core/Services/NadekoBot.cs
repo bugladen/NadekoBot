@@ -23,6 +23,7 @@ using NadekoBot.Services.Database;
 using StackExchange.Redis;
 using Newtonsoft.Json;
 using System.Runtime.Loader;
+using NadekoBot.Core.Common.TypeReaders;
 
 namespace NadekoBot
 {
@@ -138,6 +139,8 @@ namespace NadekoBot
                     .AddManual(Client)
                     .AddManual(CommandService)
                     .AddManual(botConfigProvider)
+                    //todo this needs to reload whenever a new service is supposed to be loaded
+                    //except at startup for obvious reasons
                     .AddManual<IEnumerable<GuildConfig>>(AllGuildConfigs) //todo wrap this
                     .AddManual<NadekoBot>(this)
                     .AddManual<IUnitOfWork>(uow)
@@ -147,17 +150,48 @@ namespace NadekoBot
                 var commandHandler = Services.GetService<CommandHandler>();
                 commandHandler.AddServices(Services);
 
+
+                LoadTypeReaders(typeof(NadekoBot).Assembly);
                 //setup typereaders
-                CommandService.AddTypeReader<PermissionAction>(new PermissionActionTypeReader());
-                CommandService.AddTypeReader<CommandInfo>(new CommandTypeReader());
+                CommandService.AddTypeReader<PermissionAction>(new PermissionActionTypeReader(Client, CommandService));
+                CommandService.AddTypeReader<CommandInfo>(new CommandTypeReader(Client, CommandService));
                 //todo module dependency
-                CommandService.AddTypeReader<CommandOrCrInfo>(new CommandOrCrTypeReader());
-                CommandService.AddTypeReader<ModuleInfo>(new ModuleTypeReader(CommandService));
-                CommandService.AddTypeReader<ModuleOrCrInfo>(new ModuleOrCrTypeReader(CommandService));
-                CommandService.AddTypeReader<IGuild>(new GuildTypeReader(Client));
+                CommandService.AddTypeReader<CommandOrCrInfo>(new CommandOrCrTypeReader(Client, CommandService));
+                CommandService.AddTypeReader<ModuleInfo>(new ModuleTypeReader(Client, CommandService));
+                CommandService.AddTypeReader<ModuleOrCrInfo>(new ModuleOrCrTypeReader(Client, CommandService));
+                CommandService.AddTypeReader<IGuild>(new GuildTypeReader(Client, CommandService));
                 //CommandService.AddTypeReader<GuildDateTime>(new GuildDateTimeTypeReader());
             }
             Services.Unload(typeof(IUnitOfWork)); // unload it after the startup
+        }
+
+        private IEnumerable<NadekoTypeReader> LoadTypeReaders(Assembly assembly)
+        {
+            Type[] allTypes;
+            try
+            {
+                allTypes = assembly.GetTypes();
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                Console.WriteLine(ex.LoaderExceptions[0]);
+                return Enumerable.Empty<NadekoTypeReader>();
+            }
+            var filteredTypes = allTypes
+                .Where(x => x.IsSubclassOf(typeof(NadekoTypeReader))
+                    && !x.IsAbstract);
+
+            var toReturn = new List<NadekoTypeReader>();
+            foreach (var ft in filteredTypes)
+            {
+                //:yayyy:
+                var x = (NadekoTypeReader)Activator.CreateInstance(ft, Client, CommandService);
+                CommandService.AddTypeReader(x.GetType(), x);
+                toReturn.Add(x);
+                _log.Info("Loaded {0} typereader.", x.GetType().Name);
+            }
+
+            return toReturn;
         }
 
         private async Task LoginAsync(string token)
@@ -254,7 +288,6 @@ namespace NadekoBot
             Ready.TrySetResult(true);
             HandleStatusChanges();
             _log.Info($"Shard {Client.ShardId} ready.");
-            //_log.Info(await stats.Print().ConfigureAwait(false));
         }
 
         private Task Client_Log(LogMessage arg)
@@ -400,6 +433,7 @@ namespace NadekoBot
 
                     _log.Info("Unloaded {0} types.", i);
                 }
+
                 return true;
             }
             finally
@@ -426,6 +460,13 @@ namespace NadekoBot
                                                 $"NadekoBot.Modules.{name}.dll"));
                 var types = Services.LoadFrom(package);
                 var added = await CommandService.AddModulesAsync(package).ConfigureAwait(false);
+                var trs = LoadTypeReaders(package); 
+                /* i don't have to unload typereaders
+                 * (and there's no api for it)
+                 * because they get overwritten anyway, and since 
+                 * the only time I'd unload typereaders, is when unloading a module
+                 * which means they won't have a chance to be used
+                 * */
                 _log.Info("Loaded {0} modules and {1} types.", added.Count(), types.Count());
                 _packageModules.Add(name, added);
                 _packageTypes.Add(name, types);

@@ -5,27 +5,35 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using NLog;
 
 namespace NadekoBot.Modules.Games.Common.Hangman
 {
     public class TermPool
     {
         const string termsPath = "data/hangman3.json";
-        public static IReadOnlyDictionary<string, HangmanObject[]> Data { get; } = new Dictionary<string, HangmanObject[]>();
-        static TermPool()
+        private readonly Logger _log;
+
+        public IReadOnlyDictionary<string, HangmanObject[]> Data { get; } = new Dictionary<string, HangmanObject[]>();
+        public TermPool()
         {
+            _log = LogManager.GetCurrentClassLogger();
             try
             {
                 Data = JsonConvert.DeserializeObject<Dictionary<string, HangmanObject[]>>(File.ReadAllText(termsPath));
+                Data = Data.ToDictionary(
+                    x => x.Key.ToLowerInvariant(),
+                    x => x.Value);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //ignored
+                _log.Warn(ex);
             }
         }
 
-        public static HangmanObject GetTerm(string type)
+        public HangmanObject GetTerm(string type)
         {
+            type = type?.Trim().ToLowerInvariant();
             var rng = new NadekoRandom();
 
             if (type == "random")

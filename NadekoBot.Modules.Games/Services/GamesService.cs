@@ -46,7 +46,10 @@ namespace NadekoBot.Modules.Games.Services
         //channelId, game
         public ConcurrentDictionary<ulong, Acrophobia> AcrophobiaGames { get; } = new ConcurrentDictionary<ulong, Acrophobia>();
         public ConcurrentDictionary<ulong, Connect4Game> Connect4Games { get; } = new ConcurrentDictionary<ulong, Connect4Game>();
+
         public ConcurrentDictionary<ulong, Hangman> HangmanGames { get; } = new ConcurrentDictionary<ulong, Hangman>();
+        public TermPool TermPool { get; } = new TermPool();
+
         public ConcurrentDictionary<ulong, TriviaGame> RunningTrivias { get; } = new ConcurrentDictionary<ulong, TriviaGame>();
         public Dictionary<ulong, TicTacToe> TicTacToeGames { get; } = new Dictionary<ulong, TicTacToe>();
         public ConcurrentDictionary<ulong, TypingGame> RunningContests { get; } = new ConcurrentDictionary<ulong, TypingGame>();

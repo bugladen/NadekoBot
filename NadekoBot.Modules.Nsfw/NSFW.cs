@@ -12,6 +12,7 @@ using NadekoBot.Common.Collections;
 using NadekoBot.Modules.Searches.Common;
 using NadekoBot.Modules.Searches.Services;
 using NadekoBot.Modules.NSFW.Exceptions;
+using NadekoBot.Modules.Searches.Exceptions;
 
 namespace NadekoBot.Modules.NSFW
 {
@@ -85,7 +86,7 @@ namespace NadekoBot.Modules.NSFW
 
             if (interval == 0)
             {
-                if (!_autoHentaiTimers.TryRemove(Context.Channel.Id, out t)) return;
+                if (!_service.AutoHentaiTimers.TryRemove(Context.Channel.Id, out t)) return;
 
                 t.Change(Timeout.Infinite, Timeout.Infinite); //proper way to disable the timer
                 await ReplyConfirmLocalized("stopped").ConfigureAwait(false);
@@ -112,7 +113,7 @@ namespace NadekoBot.Modules.NSFW
                 }
             }, null, interval * 1000, interval * 1000);
 
-            _autoHentaiTimers.AddOrUpdate(Context.Channel.Id, t, (key, old) =>
+            _service.AutoHentaiTimers.AddOrUpdate(Context.Channel.Id, t, (key, old) =>
             {
                 old.Change(Timeout.Infinite, Timeout.Infinite);
                 return t;
@@ -131,7 +132,7 @@ namespace NadekoBot.Modules.NSFW
 
             if (interval == 0)
             {
-                if (!_autoBoobTimers.TryRemove(Context.Channel.Id, out t)) return;
+                if (!_service.AutoBoobTimers.TryRemove(Context.Channel.Id, out t)) return;
 
                 t.Change(Timeout.Infinite, Timeout.Infinite); //proper way to disable the timer
                 await ReplyConfirmLocalized("stopped").ConfigureAwait(false);
@@ -153,7 +154,7 @@ namespace NadekoBot.Modules.NSFW
                 }
             }, null, interval * 1000, interval * 1000);
 
-            _autoBoobTimers.AddOrUpdate(Context.Channel.Id, t, (key, old) =>
+            _service.AutoBoobTimers.AddOrUpdate(Context.Channel.Id, t, (key, old) =>
             {
                 old.Change(Timeout.Infinite, Timeout.Infinite);
                 return t;
@@ -170,7 +171,7 @@ namespace NadekoBot.Modules.NSFW
 
             if (interval == 0)
             {
-                if (!_autoButtTimers.TryRemove(Context.Channel.Id, out t)) return;
+                if (!_service.AutoButtTimers.TryRemove(Context.Channel.Id, out t)) return;
 
                 t.Change(Timeout.Infinite, Timeout.Infinite); //proper way to disable the timer
                 await ReplyConfirmLocalized("stopped").ConfigureAwait(false);
@@ -192,7 +193,7 @@ namespace NadekoBot.Modules.NSFW
                 }
             }, null, interval * 1000, interval * 1000);
 
-            _autoButtTimers.AddOrUpdate(Context.Channel.Id, t, (key, old) =>
+            _service.AutoButtTimers.AddOrUpdate(Context.Channel.Id, t, (key, old) =>
             {
                 old.Change(Timeout.Infinite, Timeout.Infinite);
                 return t;

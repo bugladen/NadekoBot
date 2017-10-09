@@ -3,17 +3,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.WebSocket;
+using NadekoBot.Core.Common.TypeReaders;
 
 namespace NadekoBot.Common.TypeReaders
 {
-    public class GuildTypeReader : TypeReader
+    public class GuildTypeReader : NadekoTypeReader
     {
         private readonly DiscordSocketClient _client;
 
-        public GuildTypeReader(DiscordSocketClient client)
+        public GuildTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds)
         {
             _client = client;
         }
+
         public override Task<TypeReaderResult> Read(ICommandContext context, string input, IServiceProvider _)
         {
             input = input.Trim().ToLowerInvariant();
