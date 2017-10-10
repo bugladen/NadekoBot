@@ -263,7 +263,7 @@ namespace NadekoBot.Modules.Utility.Services
                             throw new StreamRoleNotFoundException();
 
                         await user.RemoveRoleAsync(addRole).ConfigureAwait(false);
-                        _log.Info("Removed stream role from a user {0} in {1} server", user.ToString(), user.Guild.ToString());
+                        _log.Info("Removed stream role from the user {0} in {1} server", user.ToString(), user.Guild.ToString());
                     }
                     catch (HttpException ex) when (ex.HttpCode == System.Net.HttpStatusCode.Forbidden)
                     {
@@ -272,7 +272,6 @@ namespace NadekoBot.Modules.Utility.Services
                         _log.Error(ex);
                         throw new StreamRolePermissionException();
                     }
-                    _log.Info("Removed stream role from the user {0} in {1} server", user.ToString(), user.Guild.ToString());
                 }
             }
         }

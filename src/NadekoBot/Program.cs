@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using NadekoBot.Services;
+using System.Threading.Tasks;
 
 namespace NadekoBot
 {
@@ -6,12 +7,18 @@ namespace NadekoBot
     {
         public static Task Main(string[] args)
         {
-            if (args.Length == 2 && int.TryParse(args[0], out int shardId) && int.TryParse(args[1], out int parentProcessId))
+            if (args.Length == 2 
+                && int.TryParse(args[0], out int shardId) 
+                && int.TryParse(args[1], out int parentProcessId))
             {
-                return new NadekoBot(shardId, parentProcessId).RunAndBlockAsync(args);
+                return new NadekoBot(shardId, parentProcessId)
+                    .RunAndBlockAsync(args);
             }
             else
-                return new NadekoBot(0, 0).RunAndBlockAsync(args);
+            {
+                return new ShardsCoordinator()
+                    .RunAndBlockAsync();
+            }
         }
     }
 }

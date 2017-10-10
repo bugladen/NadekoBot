@@ -56,8 +56,28 @@ namespace NadekoBot.Modules.Administration
                     return;
                 name = name.ToTitleCase();
 
-                await _bot.LoadPackage(name);
-                await ReplyAsync(":ok:");
+                if (await _bot.LoadPackage(name))
+                    await ReplyAsync(":ok:");
+                else
+                    await ReplyAsync(":x:");
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [OwnerOnly]
+            public async Task PackageReload(string name)
+            {
+                if (name.Contains(".") || name.Contains("\\") || name.Contains("/") || name.Contains("~"))
+                    return;
+                name = name.ToTitleCase();
+
+                if (await _bot.UnloadPackage(name))
+                {
+                    await _bot.LoadPackage(name);
+                    await ReplyAsync(":ok:");
+                }
+                else
+                    await ReplyAsync(":x:");
             }
         }
     }

@@ -14,6 +14,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Administration.Services;
+using Newtonsoft.Json;
+using NadekoBot.Common.ShardCom;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -30,10 +32,11 @@ namespace NadekoBot.Modules.Administration
             private readonly IBotConfigProvider _bc;
             private readonly NadekoBot _bot;
             private readonly IBotCredentials _creds;
+            private readonly IDataCache _cache;
 
             public SelfCommands(DbService db, NadekoBot bot, DiscordSocketClient client,
                 IImagesService images, IBotConfigProvider bc,
-                IBotCredentials creds)
+                IBotCredentials creds, IDataCache cache)
             {
                 _db = db;
                 _client = client;
@@ -41,6 +44,7 @@ namespace NadekoBot.Modules.Administration
                 _bc = bc;
                 _bot = bot;
                 _creds = creds;
+                _cache = cache;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -217,28 +221,62 @@ namespace NadekoBot.Modules.Administration
 
             }
 
-            //todo 2 shard commands
-            //[NadekoCommand, Usage, Description, Aliases]
-            //[Shard0Precondition]
-            //[OwnerOnly]
-            //public async Task RestartShard(int shardid)
-            //{
-            //    if (shardid == 0 || shardid > b)
-            //    {
-            //        await ReplyErrorLocalized("no_shard_id").ConfigureAwait(false);
-            //        return;
-            //    }
-            //    try
-            //    {
-            //        await ReplyConfirmLocalized("shard_reconnecting", Format.Bold("#" + shardid)).ConfigureAwait(false);
-            //        await shard.StartAsync().ConfigureAwait(false);
-            //        await ReplyConfirmLocalized("shard_reconnected", Format.Bold("#" + shardid)).ConfigureAwait(false);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        _log.Warn(ex);
-            //    }
-            //}
+            [NadekoCommand, Usage, Description, Aliases]
+            public async Task ShardStats(int page = 1)
+            {
+                if (--page < 0)
+                    return;
+                var db = _cache.Redis.GetDatabase();
+                var statuses = db.ListRange(_creds.RedisKey() + "_shardstats")
+                    .Select(x => JsonConvert.DeserializeObject<ShardComMessage>(x));
+
+                var status = string.Join(", ", statuses
+                    .GroupBy(x => x.ConnectionState)
+                    .Select(x => $"{x.Count()} {x.Key}")
+                    .ToArray());
+
+                var allShardStrings = statuses
+                    .Select(x =>
+                    {
+                        var timeDiff = DateTime.UtcNow - x.Time;
+                        if (timeDiff > TimeSpan.FromSeconds(20))
+                            return $"Shard #{Format.Bold(x.ShardId.ToString())} **UNRESPONSIVE** for {timeDiff.ToString(@"hh\:mm\:ss")}";
+                        return GetText("shard_stats_txt", x.ShardId.ToString(),
+                            Format.Bold(x.ConnectionState.ToString()), Format.Bold(x.Guilds.ToString()), timeDiff.ToString(@"hh\:mm\:ss"));
+                    })
+                    .ToArray();
+
+                await Context.Channel.SendPaginatedConfirmAsync(_client, page, (curPage) =>
+                {
+
+                    var str = string.Join("\n", allShardStrings.Skip(25 * curPage).Take(25));
+
+                    if (string.IsNullOrWhiteSpace(str))
+                        str = GetText("no_shards_on_page");
+
+                    return new EmbedBuilder()
+                        .WithAuthor(a => a.WithName(GetText("shard_stats")))
+                        .WithTitle(status)
+                        .WithOkColor()
+                        .WithDescription(str);
+                }, allShardStrings.Length / 25);
+            }
+            
+            [NadekoCommand, Usage, Description, Aliases]
+            [OwnerOnly]
+            public async Task RestartShard(int shardid)
+            {
+                if (shardid < 0 || shardid >= _creds.TotalShards)
+                {
+                    await ReplyErrorLocalized("no_shard_id").ConfigureAwait(false);
+                    return;
+                }
+                var pub = _cache.Redis.GetSubscriber();
+                pub.Publish(_creds.RedisKey() + "_shard_restart", 
+                    JsonConvert.SerializeObject(_client.ShardId),
+                    StackExchange.Redis.CommandFlags.FireAndForget);
+                await ReplyConfirmLocalized("shard_reconnecting", Format.Bold("#" + shardid)).ConfigureAwait(false);
+            }
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]

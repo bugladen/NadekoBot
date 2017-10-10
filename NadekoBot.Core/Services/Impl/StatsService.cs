@@ -1,6 +1,8 @@
 ﻿using Discord;
 using Discord.WebSocket;
+using NadekoBot.Common.ShardCom;
 using NadekoBot.Extensions;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,6 +13,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using StackExchange.Redis;
 
 namespace NadekoBot.Services.Impl
 {
@@ -40,15 +43,16 @@ namespace NadekoBot.Services.Impl
         private readonly Timer _carbonitexTimer;
         private readonly Timer _dataTimer;
         private readonly ShardsCoordinator _sc;
+        private readonly ConnectionMultiplexer _redis;
 
-        public int GuildCount =>
-            _sc?.GuildCount ?? _client.Guilds.Count();
-
-        public StatsService(DiscordSocketClient client, CommandHandler cmdHandler, IBotCredentials creds, NadekoBot nadeko)
+        public StatsService(DiscordSocketClient client, CommandHandler cmdHandler, 
+            IBotCredentials creds, NadekoBot nadeko,
+            IDataCache cache)
         {
             _client = client;
             _creds = creds;
             _sc = nadeko.ShardCoord;
+            _redis = cache.Redis;
 
             _started = DateTime.UtcNow;
             _client.MessageReceived += _ => Task.FromResult(Interlocked.Increment(ref _messageCounter));
@@ -142,7 +146,7 @@ namespace NadekoBot.Services.Impl
                         {
                             using (var content = new FormUrlEncodedContent(
                                 new Dictionary<string, string> {
-                                { "servercount", _sc.GuildCount.ToString() },
+                                { "servercount", nadeko.GuildCount.ToString() },
                                 { "key", _creds.CarbonKey }}))
                             {
                                 content.Headers.Clear();
@@ -175,7 +179,7 @@ namespace NadekoBot.Services.Impl
                             using (var content = new FormUrlEncodedContent(
                                 new Dictionary<string, string> {
                                     { "id", string.Concat(MD5.Create().ComputeHash(Encoding.ASCII.GetBytes(_creds.ClientId.ToString())).Select(x => x.ToString("X2"))) },
-                                    { "guildCount", _sc.GuildCount.ToString() },
+                                    { "guildCount", nadeko.GuildCount.ToString() },
                                     { "version", BotVersion },
                                     { "platform", platform }}))
                             {

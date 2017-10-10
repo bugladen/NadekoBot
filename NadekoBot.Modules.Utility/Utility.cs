@@ -5,11 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Text;
 using NadekoBot.Extensions;
-using System.Reflection;
 using NadekoBot.Services.Impl;
 using System.Net.Http;
-using System.Collections.Concurrent;
-using System.Threading;
 using ImageSharp;
 using System.Collections.Generic;
 using Newtonsoft.Json;
@@ -17,7 +14,6 @@ using Discord.WebSocket;
 using System.Diagnostics;
 using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
-using Color = Discord.Color;
 using NadekoBot.Services;
 
 namespace NadekoBot.Modules.Utility
@@ -27,14 +23,14 @@ namespace NadekoBot.Modules.Utility
         private readonly DiscordSocketClient _client;
         private readonly IStatsService _stats;
         private readonly IBotCredentials _creds;
-        private readonly ShardsCoordinator _shardCoord;
+        private readonly NadekoBot _bot;
 
         public Utility(NadekoBot nadeko, DiscordSocketClient client, IStatsService stats, IBotCredentials creds)
         {
             _client = client;
             _stats = stats;
             _creds = creds;
-            _shardCoord = nadeko.ShardCoord;
+            _bot = nadeko;
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -215,47 +211,6 @@ namespace NadekoBot.Modules.Utility
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [Shard0Precondition]
-        public async Task ShardStats(int page = 1)
-        {
-            if (--page < 0)
-                return;
-            var statuses = _shardCoord.Statuses.ToArray()
-                .Where(x => x != null);
-
-            var status = string.Join(", ", statuses
-                .GroupBy(x => x.ConnectionState)
-                .Select(x => $"{x.Count()} {x.Key}")
-                .ToArray());
-
-            var allShardStrings = statuses
-                .Select(x =>
-                {
-                    var timeDiff = DateTime.UtcNow - x.Time;
-                    if (timeDiff > TimeSpan.FromSeconds(20))
-                        return $"Shard #{Format.Bold(x.ShardId.ToString())} **UNRESPONSIVE** for {timeDiff.ToString(@"hh\:mm\:ss")}";
-                    return GetText("shard_stats_txt", x.ShardId.ToString(),
-                        Format.Bold(x.ConnectionState.ToString()), Format.Bold(x.Guilds.ToString()), timeDiff.ToString(@"hh\:mm\:ss"));
-                        })
-                .ToArray();
-
-            await Context.Channel.SendPaginatedConfirmAsync(_client, page, (curPage) =>
-            {
-
-                var str = string.Join("\n", allShardStrings.Skip(25 * curPage).Take(25));
-
-                if (string.IsNullOrWhiteSpace(str))
-                    str = GetText("no_shards_on_page");
-
-                return new EmbedBuilder()
-                    .WithAuthor(a => a.WithName(GetText("shard_stats")))
-                    .WithTitle(status)
-                    .WithOkColor()
-                    .WithDescription(str);
-            }, allShardStrings.Length / 25);
-        }
-
-        [NadekoCommand, Usage, Description, Aliases]
         public async Task Stats()
         {            
             await Context.Channel.EmbedAsync(
@@ -273,7 +228,7 @@ namespace NadekoBot.Modules.Utility
                     .AddField(efb => efb.WithName(GetText("uptime")).WithValue(_stats.GetUptimeString("\n")).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("presence")).WithValue(
                         GetText("presence_txt",
-                            _stats.GuildCount, _stats.TextChannels, _stats.VoiceChannels)).WithIsInline(true)));
+                            _bot.GuildCount, _stats.TextChannels, _stats.VoiceChannels)).WithIsInline(true)));
         }
 
         [NadekoCommand, Usage, Description, Aliases]

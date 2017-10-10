@@ -29,7 +29,6 @@ namespace NadekoBot
         private Logger _log;
 
         public BotCredentials Credentials { get; }
-
         public DiscordSocketClient Client { get; }
         public CommandService CommandService { get; }
 
@@ -51,10 +50,14 @@ namespace NadekoBot
 
         public ShardsCoordinator ShardCoord { get; private set; }
 
-        private readonly ShardComClient _comClient;
-
         private readonly BotConfig _botConfig;
         public IDataCache Cache { get; private set; }
+
+        public int GuildCount =>
+            Cache.Redis.GetDatabase()
+                .ListRange(Credentials.RedisKey() + "_shardstats")
+                .Select(x => JsonConvert.DeserializeObject<ShardComMessage>(x))
+                .Sum(x => x.Guilds);
 
         public NadekoBot(int shardId, int parentProcessId)
         {
@@ -82,8 +85,6 @@ namespace NadekoBot
                 CaseSensitiveCommands = false,
                 DefaultRunMode = RunMode.Sync,
             });
-            
-            _comClient = new ShardComClient(Cache);
 
             using (var uow = _db.UnitOfWork)
             {
@@ -105,13 +106,18 @@ namespace NadekoBot
             {
                 while (true)
                 {
-                    await _comClient.Send(new ShardComMessage()
+                    var data = new ShardComMessage()
                     {
                         ConnectionState = Client.ConnectionState,
                         Guilds = Client.ConnectionState == ConnectionState.Connected ? Client.Guilds.Count : 0,
                         ShardId = Client.ShardId,
                         Time = DateTime.UtcNow,
-                    });
+                    };
+
+                    var sub = Cache.Redis.GetSubscriber();
+                    var msg = JsonConvert.SerializeObject(data);
+
+                    await sub.PublishAsync(Credentials.RedisKey() + "_shardcoord_send", msg).ConfigureAwait(false);
                     await Task.Delay(5000);
                 }
             });
@@ -288,6 +294,7 @@ namespace NadekoBot
 
             Ready.TrySetResult(true);
             HandleStatusChanges();
+            StartSendingData();
             _log.Info($"Shard {Client.ShardId} ready.");
         }
 
@@ -303,13 +310,7 @@ namespace NadekoBot
         public async Task RunAndBlockAsync(params string[] args)
         {
             await RunAsync(args).ConfigureAwait(false);
-            StartSendingData();
-            if (ShardCoord != null)
-                await ShardCoord.RunAndBlockAsync();
-            else
-            {
-                await Task.Delay(-1).ConfigureAwait(false);
-            }
+            await Task.Delay(-1).ConfigureAwait(false);
         }
 
         private void TerribleElevatedPermissionCheck()
@@ -329,11 +330,6 @@ namespace NadekoBot
 
         private void SetupShard(int parentProcessId)
         {
-            if (Client.ShardId == 0)
-            {
-                ShardCoord = new ShardsCoordinator(Cache);
-                return;
-            }
             new Thread(new ThreadStart(() =>
             {
                 try

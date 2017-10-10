@@ -15,11 +15,8 @@ namespace NadekoBot.Services.Impl
         private Logger _log;
 
         public ulong ClientId { get; }
-
         public string GoogleApiKey { get; }
-
         public string MashapeKey { get; }
-
         public string Token { get; }
 
         public ImmutableArray<ulong> OwnerIds { get; }

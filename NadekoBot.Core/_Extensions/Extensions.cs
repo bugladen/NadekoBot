@@ -16,24 +16,15 @@ using System.Threading.Tasks;
 using NadekoBot.Common.Collections;
 using SixLabors.Primitives;
 using NadekoBot.Common;
+using NadekoBot.Services;
 
 namespace NadekoBot.Extensions
 {
     public static class Extensions
     {
-        //so ftw
-        public static bool IsSubclassOfRawGeneric(this Type toCheck, Type generic)
+        public static string RedisKey(this IBotCredentials bc)
         {
-            while (toCheck != null && toCheck != typeof(object))
-            {
-                var cur = toCheck.IsGenericType ? toCheck.GetGenericTypeDefinition() : toCheck;
-                if (generic == cur)
-                {
-                    return true;
-                }
-                toCheck = toCheck.BaseType;
-            }
-            return false;
+            return bc.Token.Substring(0, 10);
         }
 
         public static async Task<string> ReplaceAsync(this Regex regex, string input, Func<Match, Task<string>> replacementFn)
@@ -223,7 +214,7 @@ namespace NadekoBot.Extensions
             var xOffset = 0;
             for (int i = 0; i < imgs.Length; i++)
             {
-                canvas.DrawImage(imgs[i], 100, default(Size), new Point(xOffset, 0));
+                canvas.DrawImage(imgs[i], 100, default, new Point(xOffset, 0));
                 xOffset += imgs[i].Bounds.Width;
             }
 
