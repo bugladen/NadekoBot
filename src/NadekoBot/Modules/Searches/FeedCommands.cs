@@ -6,7 +6,6 @@ using NadekoBot.Common.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Searches.Services;
 using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
@@ -42,7 +41,12 @@ namespace NadekoBot.Modules.Searches
                         {
                             await reader.Read();
                         }
-                        catch { success = false; }
+                        catch (Exception ex)
+                        {
+
+                            Console.WriteLine(ex);
+                            success = false;
+                        }
                     }
 
                     if (success)

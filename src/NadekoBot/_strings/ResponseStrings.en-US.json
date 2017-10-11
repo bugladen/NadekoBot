@@ -4,7 +4,8 @@
   "customreactions_insuff_perms": "Insufficient permissions. Requires Bot ownership for global custom reactions, and Administrator for server custom reactions.",
   "customreactions_list_all": "List of all custom reactions",
   "customreactions_name": "Custom Reactions",
-  "customreactions_new_cust_react": "New Custom Reaction",
+  "customreactions_new_cust_react": "\"New Custom Reaction",
+  "customreactions_edited_cust_react": "Custom Reaction Edited",
   "customreactions_no_found": "No custom reaction found.",
   "customreactions_no_found_id": "No custom reaction found with that id.",
   "customreactions_response": "Response",
@@ -878,5 +879,10 @@
   "searches_feed_not_valid": "Invalid link, or you're already following that feed on this server, or you've reached maximum number of feeds allowed.",
   "searches_feed_out_of_range": "Index out of range.",
   "searches_feed_removed": "Feed removed.",
-  "searches_feed_no_feed": "You haven't subscribed to any feeds on this server."
+  "searches_feed_no_feed": "You haven't subscribed to any feeds on this server.",
+  "administration_restart_fail": "You must setup RestartCommand in your credentials.json",
+  "administration_restarting": "Restarting.",
+  "customreactions_edit_fail": "Custom reaction with that ID does not exist.",
+  "searches_streaming": "Streaming",
+  "searches_followers": "Followers"
 }

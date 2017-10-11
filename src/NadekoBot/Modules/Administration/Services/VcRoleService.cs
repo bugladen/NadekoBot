@@ -81,26 +81,28 @@ namespace NadekoBot.Modules.Administration.Services
                             //remove old
                             if (oldVc != null && guildVcRoles.TryGetValue(oldVc.Id, out IRole role))
                             {
-                                if (gusr.Roles.Contains(role))
+                                try
+                                {
+                                    await gusr.RemoveRoleAsync(role).ConfigureAwait(false);
+                                }
+                                catch
                                 {
                                     try
                                     {
-                                        await gusr.RemoveRoleAsync(role).ConfigureAwait(false);
                                         await Task.Delay(500).ConfigureAwait(false);
-                                    }
-                                    catch
-                                    {
-                                        await Task.Delay(200).ConfigureAwait(false);
                                         await gusr.RemoveRoleAsync(role).ConfigureAwait(false);
-                                        await Task.Delay(500).ConfigureAwait(false);
                                     }
+                                    catch { }
                                 }
                             }
                             //add new
                             if (newVc != null && guildVcRoles.TryGetValue(newVc.Id, out role))
                             {
                                 if (!gusr.Roles.Contains(role))
+                                {
+                                    await Task.Delay(500).ConfigureAwait(false);
                                     await gusr.AddRoleAsync(role).ConfigureAwait(false);
+                                }
                             }
 
                         }

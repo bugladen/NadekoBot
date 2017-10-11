@@ -3,7 +3,6 @@ using NadekoBot.Modules.Games.Common.Hangman.Exceptions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 
@@ -25,21 +24,17 @@ namespace NadekoBot.Modules.Games.Common.Hangman
             }
         }
 
-        private static readonly ImmutableArray<TermType> _termTypes = Enum.GetValues(typeof(TermType))
-                                                                            .Cast<TermType>()
-                                                                            .ToImmutableArray();
-
-        public static HangmanObject GetTerm(TermType type)
+        public static HangmanObject GetTerm(string type)
         {
             var rng = new NadekoRandom();
 
-            if (type == TermType.Random)
+            if (type == "random")
             {
                 var keys = Data.Keys.ToArray();
-                
-                type = _termTypes[rng.Next(0, _termTypes.Length - 1)]; // - 1 because last one is 'all'
+
+                type = Data.Keys.ToArray()[rng.Next(0, Data.Keys.Count())];
             }
-            if (!Data.TryGetValue(type.ToString(), out var termTypes) || termTypes.Length == 0)
+            if (!Data.TryGetValue(type, out var termTypes) || termTypes.Length == 0)
                 throw new TermNotFoundException();
 
             var obj = termTypes[rng.Next(0, termTypes.Length)];

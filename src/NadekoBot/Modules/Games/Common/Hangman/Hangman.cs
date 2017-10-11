@@ -56,9 +56,9 @@ namespace NadekoBot.Modules.Games.Common.Hangman
 
         public Task EndedTask => _endingCompletionSource.Task;
 
-        public Hangman(TermType type)
+        public Hangman(string type)
         {
-            this.TermType = type.ToString().Replace('_', ' ').ToTitleCase();
+            this.TermType = type.Trim().ToLowerInvariant().ToTitleCase();
             this.Term = TermPool.GetTerm(type);
         }
 

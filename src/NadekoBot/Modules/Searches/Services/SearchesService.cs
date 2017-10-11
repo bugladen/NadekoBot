@@ -229,11 +229,4 @@ namespace NadekoBot.Modules.Searches.Services
         public ulong UserId { get; set; }
         public ulong ChannelId { get; set; }
     }
-
-    public class StreamStatus
-    {
-        public bool IsLive { get; set; }
-        public string ApiLink { get; set; }
-        public string Views { get; set; }
-    }
 }

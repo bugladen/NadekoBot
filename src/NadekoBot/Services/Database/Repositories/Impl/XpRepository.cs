@@ -40,7 +40,13 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         public int GetUserGuildRanking(ulong userId, ulong guildId)
         {
             if (!_set.Where(x => x.GuildId == guildId && x.UserId == userId).Any())
-                return _set.Count();
+            {
+                var cnt = _set.Count(x => x.GuildId == guildId);
+                if (cnt == 0)
+                    return 1;
+                else
+                    return cnt;
+            }
 
             return _set
                 .Where(x => x.GuildId == guildId)

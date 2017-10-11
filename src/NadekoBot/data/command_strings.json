@@ -284,7 +284,8 @@
     "Cmd": "autoassignrole aar",
     "Desc": "Automaticaly assigns a specified role to every user who joins the server.",
     "Usage": [
-      "{0}aar` to disable, `{0}aar Role Name` to enabl"
+      "{0}aar to disable",
+      "{0}aar Role Name to enable"
     ]
   },
   "leave": {
@@ -900,9 +901,9 @@
   },
   "nroll": {
     "Cmd": "nroll",
-    "Desc": "Rolls in a given range.",
+    "Desc": "Rolls in a given range. If you specify just one number instead of the range, it will role from 0 to that number.",
     "Usage": [
-      "{0}nroll 5` (rolls 0-5",
+      "{0}nroll 5",
       "{0}nroll 5-15"
     ]
   },
@@ -1199,8 +1200,7 @@
     "Cmd": "playlist pl",
     "Desc": "Queues up to 500 songs from a youtube playlist specified by a link, or keywords.",
     "Usage": [
-      "{0}pl playlist lin",
-      "ame"
+      "{0}pl <youtube_playlist_link>"
     ]
   },
   "soundcloudpl": {
@@ -1738,7 +1738,7 @@
     "Cmd": "greetdmmsg",
     "Desc": "Sets a new join announcement message which will be sent to the user who joined. Type `%user%` if you want to mention the new member. Using it with no message will show the current DM greet message. You can use embed json from <http://nadekobot.me/embedbuilder/> instead of a regular text, if you want the message to be embedded.",
     "Usage": [
-      "{0}greetdmmsg Welcome to the server, %user%`"
+      "{0}greetdmmsg Welcome to the server, %user%"
     ]
   },
   "cash": {
@@ -2126,7 +2126,7 @@
     "Desc": "Show's basic stats on a player (competitive rank, playtime, level etc) Region codes are: `eu` `us` `cn` `kr`",
     "Usage": [
       "{0}ow us Battletag#1337",
-      "`{0}overwatch eu Battletag#2016"
+      "{0}overwatch eu Battletag#2016"
     ]
   },
   "acro": {
@@ -2390,7 +2390,7 @@
     "Cmd": "tictactoe ttt",
     "Desc": "Starts a game of tic tac toe. Another user must run the command in the same channel in order to accept the challenge. Use numbers 1-9 to play. 15 seconds per move.",
     "Usage": [
-      "0}tt"
+      "{0}ttt"
     ]
   },
   "timezones": {
@@ -2786,14 +2786,16 @@
     "Cmd": "xpexclude xpex",
     "Desc": "Exclude a channel, role or current server from the xp system.",
     "Usage": [
-      "{0}xpex Role Excluded-Role` `{0}xpex Server"
+      "{0}xpex Role Excluded-Role",
+      "{0}xpex Server"
     ]
   },
   "xpnotify": {
     "Cmd": "xpnotify xpn",
     "Desc": "Sets how the bot should notify you when you get a `server` or `global` level. You can set `dm` (for the bot to send a direct message), `channel` (to get notified in the channel you sent the last message in) or `none` to disable.",
     "Usage": [
-      "{0}xpn global dm` `{0}xpn server channel"
+      "{0}xpn global dm",
+      "{0}xpn server channel"
     ]
   },
   "xprolerewards": {
@@ -2833,7 +2835,7 @@
   },
   "clubcreate": {
     "Cmd": "clubcreate",
-    "Desc": "Creates a club. You must be atleast level 5 and not be in the club already.",
+    "Desc": "Creates a club. You must be at least level 5 and not be in the club already.",
     "Usage": [
       "{0}clubcreate b1nzy's friends"
     ]
@@ -2963,7 +2965,7 @@
     "Cmd": "8ball",
     "Desc": "Ask the 8ball a yes/no question.",
     "Usage": [
-      "{0}8ball"
+      "{0}8ball Is b1nzy a nice guy?"
     ]
   },
   "feed": {
@@ -2985,6 +2987,20 @@
     "desc": "Shows the list of feeds you've subscribed to on this server.",
     "usage": [
       "{0}feeds"
+    ]
+  },
+  "editcustreact": {
+    "cmd": "editcustreact ecr",
+    "desc": "Edits the custom reaction's response given it's ID.",
+    "usage": [
+      "{0}ecr 123 I'm a magical girl"
+    ]
+  },
+  "say": {
+    "cmd": "say",
+    "desc": "Bot will send the message you typed in this channel. Supports embeds.",
+    "usage": [
+      "{0}say hi"
     ]
   }
 }

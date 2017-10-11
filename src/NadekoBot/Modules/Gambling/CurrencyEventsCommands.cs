@@ -192,7 +192,7 @@ namespace NadekoBot.Modules.Gambling
 
                     if (users.Count > 0)
                     {
-                        await _cs.AddToManyAsync("", _amount, users.ToArray()).ConfigureAwait(false);
+                        await _cs.AddToManyAsync("Reaction Event", _amount, users.ToArray()).ConfigureAwait(false);
                     }
 
                     users.Clear();

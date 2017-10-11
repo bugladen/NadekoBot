@@ -32,7 +32,7 @@ After you've done that, you are ready to use your VPS.
 Use the following command to get and run `linuxAIO.sh`		
 (Remember **Do Not** rename the file **linuxAIO.sh**)
 
-`cd ~ && wget -N https://github.com/Kwoth/NadekoBot-BashScript/raw/1.4/linuxAIO.sh && bash linuxAIO.sh`
+`cd ~ && wget -N https://github.com/Kwoth/NadekoBot-BashScript/raw/1.9/linuxAIO.sh && bash linuxAIO.sh`
 
 You should see these following options after using the above command:
 
@@ -52,7 +52,7 @@ Welcome to NadekoBot Auto Prerequisites Installer.
 Would you like to continue?
 ```
 That will install all the prerequisites your system need to run NadekoBot.			
-(Optional) **If** you want to install it manually, you can try finding it [here.](https://github.com/Kwoth/NadekoBot-BashScript/blob/1.4/nadekoautoinstaller.sh)
+(Optional) **If** you want to install it manually, you can try finding it [here.](https://github.com/Kwoth/NadekoBot-BashScript/blob/1.9/nadekoautoinstaller.sh)
 
 Once *prerequisites* finish installing,
 
@@ -107,7 +107,7 @@ The above command will create a new session named **nadeko** *(you can replace â
 
 **Next, we need to run `linuxAIO.sh` in order to get the latest running scripts with patches:**
 
-- `cd ~ && wget -N https://github.com/Kwoth/NadekoBot-BashScript/raw/1.4/linuxAIO.sh && bash linuxAIO.sh`
+- `cd ~ && wget -N https://github.com/Kwoth/NadekoBot-BashScript/raw/1.9/linuxAIO.sh && bash linuxAIO.sh`
 
 **From the options,**
 
@@ -156,7 +156,7 @@ Open **PuTTY** and login as you have before, type `reboot` and press Enter.
 - `tmux kill-session -t nadeko` (don't forget to replace **nadeko** in the command with the name of your bot's session)
 - Make sure the bot is **not** running.
 - `tmux new -s nadeko` (**nadeko** is the name of the session)
-- `cd ~ && wget -N https://github.com/Kwoth/NadekoBot-BashScript/raw/1.4/linuxAIO.sh && bash linuxAIO.sh`
+- `cd ~ && wget -N https://github.com/Kwoth/NadekoBot-BashScript/raw/1.9/linuxAIO.sh && bash linuxAIO.sh`
 - Choose `1` to update the bot with **latest build** available.
 - Next, choose either `2` or `3` to run the bot again with **normally** or **auto restart** respectively.
 - Done.
@@ -191,7 +191,7 @@ To set up Nadeko for music and Google API Keys, follow [Setting up your API keys
 - Copy the `credentials.json` to desktop
 - EDIT it as it is guided here: [Setting up credentials.json][setup credentials]
 - Paste/put it back in the folder once done. `(Using WinSCP)`
-- **If** you already have Nadeko 1.3.x setup and have `credentials.json` and `NadekoBot.db`, you can just copy and paste the `credentials.json` to `NadekoBot/src/NadekoBot` and `NadekoBot.db` to `NadekoBot/src/NadekoBot/bin/Release/netcoreapp1.1/data` using WinSCP.			
+- **If** you already have Nadeko 1.3.x setup and have `credentials.json` and `NadekoBot.db`, you can just copy and paste the `credentials.json` to `NadekoBot/src/NadekoBot` and `NadekoBot.db` to `NadekoBot/src/NadekoBot/bin/Release/netcoreapp2.0/data` using WinSCP.			
 **Or** follow the [Upgrading Guide.][upgrading]
 
 
