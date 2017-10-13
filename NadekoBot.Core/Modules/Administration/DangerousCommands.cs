@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Extensions;
-using NadekoBot.Services;
+using NadekoBot.Core.Services;
 using System;
 using System.Threading.Tasks;
 

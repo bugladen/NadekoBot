@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using Discord;
 using NadekoBot.Common.Collections;
-using NadekoBot.Services.Database.Models;
+using NadekoBot.Core.Services.Database.Models;
 
 namespace NadekoBot.Modules.Administration.Common
 {

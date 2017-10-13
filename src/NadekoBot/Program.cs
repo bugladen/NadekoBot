@@ -1,4 +1,4 @@
-﻿using NadekoBot.Services;
+﻿using NadekoBot.Core.Services;
 using System.Diagnostics;
 using System.Threading.Tasks;
 

@@ -3,8 +3,8 @@ using System.Linq;
 using System.Threading;
 using Discord.WebSocket;
 using NadekoBot.Common.Replacements;
-using NadekoBot.Services;
-using NadekoBot.Services.Database.Models;
+using NadekoBot.Core.Services;
+using NadekoBot.Core.Services.Database.Models;
 using NLog;
 
 namespace NadekoBot.Modules.Administration.Services

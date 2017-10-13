@@ -3,7 +3,7 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Services.Impl
+namespace NadekoBot.Core.Services.Impl
 {
     public class YtdlOperation : IDisposable
     {

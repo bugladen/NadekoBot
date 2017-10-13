@@ -1,7 +1,7 @@
-﻿using NadekoBot.Services.Database.Models;
+﻿using NadekoBot.Core.Services.Database.Models;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Services.Database.Repositories
+namespace NadekoBot.Core.Services.Database.Repositories
 {
     public interface IWarningsRepository : IRepository<Warning>
     {

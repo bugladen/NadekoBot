@@ -1,8 +1,8 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using NadekoBot.Services;
-using NadekoBot.Services.Impl;
+using NadekoBot.Core.Services;
+using NadekoBot.Core.Services.Impl;
 using NLog;
 using System;
 using System.Linq;
@@ -10,14 +10,14 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Collections.Immutable;
 using System.Diagnostics;
-using NadekoBot.Services.Database.Models;
+using NadekoBot.Core.Services.Database.Models;
 using System.Threading;
 using System.IO;
 using NadekoBot.Extensions;
 using System.Collections.Generic;
 using NadekoBot.Common;
 using NadekoBot.Common.ShardCom;
-using NadekoBot.Services.Database;
+using NadekoBot.Core.Services.Database;
 using StackExchange.Redis;
 using Newtonsoft.Json;
 
@@ -166,7 +166,7 @@ namespace NadekoBot
                 return Enumerable.Empty<object>();
             }
             var filteredTypes = allTypes
-                .Where(x => x.IsSubclassOf(typeof(TypeReader)) 
+                .Where(x => x.IsSubclassOf(typeof(TypeReader))
                     && x.BaseType.GetGenericArguments().Length > 0
                     && !x.IsAbstract);
 
@@ -380,9 +380,9 @@ namespace NadekoBot
             return sub.PublishAsync(Client.CurrentUser.Id + "_status.game_set", JsonConvert.SerializeObject(obj));
         }
 
-        private readonly Dictionary<string, IEnumerable<ModuleInfo>> _packageModules = new Dictionary<string, IEnumerable<ModuleInfo>>();
-        private readonly Dictionary<string, IEnumerable<Type>> _packageTypes = new Dictionary<string, IEnumerable<Type>>();
+        private readonly Dictionary<string, (IEnumerable<ModuleInfo> Modules, IEnumerable<Type> Types)> _loadedPackages = new Dictionary<string, (IEnumerable<ModuleInfo>, IEnumerable<Type>)>();
         private readonly SemaphoreSlim _packageLocker = new SemaphoreSlim(1, 1);
+        public IEnumerable<string> LoadedPackages => _loadedPackages.Keys;
 
         /// <summary>
         /// Unloads a package
@@ -394,8 +394,11 @@ namespace NadekoBot
             await _packageLocker.WaitAsync().ConfigureAwait(false);
             try
             {
-                if (!_packageModules.TryGetValue(name, out var modules))
+                if (!_loadedPackages.TryGetValue(name, out var data))
                     return false;
+
+                var modules = data.Modules;
+                var types = data.Types;
 
                 var i = 0;
                 foreach (var m in modules)
@@ -405,7 +408,7 @@ namespace NadekoBot
                 }
                 _log.Info("Unloaded {0} modules.", i);
 
-                if (_packageTypes.TryGetValue(name, out var types))
+                if (types != null && types.Any())
                 {
                     i = 0;
                     foreach (var t in types)
@@ -436,7 +439,7 @@ namespace NadekoBot
             await _packageLocker.WaitAsync().ConfigureAwait(false);
             try
             {
-                if (_packageModules.ContainsKey(name))
+                if (_loadedPackages.ContainsKey(name))
                     return false;
 
                 var startingGuildIdList = Client.Guilds.Select(x => (long)x.Id).ToList();
@@ -458,8 +461,7 @@ namespace NadekoBot
                  * which means they won't have a chance to be used
                  * */
                 _log.Info("Loaded {0} modules and {1} types.", added.Count(), types.Count());
-                _packageModules.Add(name, added);
-                _packageTypes.Add(name, types);
+                _loadedPackages.Add(name, (added, types));
                 return true;
             }
             finally

@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 using NadekoBot.Common.Collections;
 using SixLabors.Primitives;
 using NadekoBot.Common;
-using NadekoBot.Services;
+using NadekoBot.Core.Services;
 
 namespace NadekoBot.Extensions
 {

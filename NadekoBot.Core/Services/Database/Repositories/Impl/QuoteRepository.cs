@@ -1,4 +1,4 @@
-using NadekoBot.Services.Database.Models;
+using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Extensions;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NadekoBot.Common;
 
-namespace NadekoBot.Services.Database.Repositories.Impl
+namespace NadekoBot.Core.Services.Database.Repositories.Impl
 {
     public class QuoteRepository : Repository<Quote>, IQuoteRepository
     {

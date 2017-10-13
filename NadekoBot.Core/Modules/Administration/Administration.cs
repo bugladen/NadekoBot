@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NadekoBot.Common.Attributes;
-using NadekoBot.Services;
+using NadekoBot.Core.Services;
 using NadekoBot.Modules.Administration.Services;
-using NadekoBot.Services.Database.Models;
+using NadekoBot.Core.Services.Database.Models;
 
 namespace NadekoBot.Modules.Administration
 {

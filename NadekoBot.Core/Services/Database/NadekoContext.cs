@@ -1,14 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using NadekoBot.Services.Database.Models;
+using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Extensions;
 using System;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Data.Sqlite;
 using System.IO;
+using NadekoBot.Core.Services.Database.Models;
 
-namespace NadekoBot.Services.Database
+namespace NadekoBot.Core.Services.Database
 {
     public class NadekoContextFactory : IDesignTimeDbContextFactory<NadekoContext>
     {        
@@ -42,6 +43,7 @@ namespace NadekoBot.Services.Database
         public DbSet<Warning> Warnings { get; set; }
         public DbSet<UserXpStats> UserXpStats { get; set; }
         public DbSet<ClubInfo> Clubs { get; set; }
+        public DbSet<LoadedPackage> LoadedPackages { get; set; }
 
         //logging
         public DbSet<LogSetting> LogSettings { get; set; }

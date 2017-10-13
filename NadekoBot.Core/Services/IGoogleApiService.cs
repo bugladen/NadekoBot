@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Services
+namespace NadekoBot.Core.Services
 {
     public interface IGoogleApiService : INService
     {

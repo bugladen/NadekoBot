@@ -7,9 +7,9 @@ using Discord;
 using Discord.WebSocket;
 using NadekoBot.Common.Replacements;
 using NadekoBot.Extensions;
-using NadekoBot.Services;
-using NadekoBot.Services.Database.Models;
-using NadekoBot.Services.Impl;
+using NadekoBot.Core.Services;
+using NadekoBot.Core.Services.Database.Models;
+using NadekoBot.Core.Services.Impl;
 using NLog;
 using System.Collections.Generic;
 

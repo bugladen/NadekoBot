@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using NadekoBot.Common.Attributes;
-using NadekoBot.Services.Impl;
+using NadekoBot.Core.Services.Impl;
 using NadekoBot.Modules.Games.Services;
 using NadekoBot.Modules.Games.Common;
 

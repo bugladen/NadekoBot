@@ -1,9 +1,9 @@
 ﻿using System;
 using NadekoBot.Common;
-using NadekoBot.Services.Database.Models;
-using NadekoBot.Services;
+using NadekoBot.Core.Services.Database.Models;
+using NadekoBot.Core.Services;
 
-namespace NadekoBot.Services.Impl
+namespace NadekoBot.Core.Services.Impl
 {
     public class BotConfigProvider : IBotConfigProvider
     {

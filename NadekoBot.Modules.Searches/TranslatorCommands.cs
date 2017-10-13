@@ -4,7 +4,7 @@ using NadekoBot.Extensions;
 using System.Threading.Tasks;
 using System.Linq;
 using NadekoBot.Common.Attributes;
-using NadekoBot.Services;
+using NadekoBot.Core.Services;
 using NadekoBot.Modules.Searches.Services;
 
 namespace NadekoBot.Modules.Searches

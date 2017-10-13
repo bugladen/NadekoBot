@@ -1,7 +1,7 @@
-﻿using NadekoBot.Services.Database.Models;
+﻿using NadekoBot.Core.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace NadekoBot.Services.Database.Repositories.Impl
+namespace NadekoBot.Core.Services.Database.Repositories.Impl
 {
     public class CurrencyTransactionsRepository : Repository<CurrencyTransaction>, ICurrencyTransactionsRepository
     {

@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NadekoBot.Services.Database.Models;
+using NadekoBot.Core.Services.Database.Models;
 using System;
 using System.Linq;
 
-namespace NadekoBot.Services.Database.Repositories
+namespace NadekoBot.Core.Services.Database.Repositories
 {
     public interface IBotConfigRepository : IRepository<BotConfig>
     {

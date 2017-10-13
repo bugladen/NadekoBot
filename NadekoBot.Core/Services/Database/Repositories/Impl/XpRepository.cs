@@ -1,8 +1,8 @@
-﻿using NadekoBot.Services.Database.Models;
+﻿using NadekoBot.Core.Services.Database.Models;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
-namespace NadekoBot.Services.Database.Repositories.Impl
+namespace NadekoBot.Core.Services.Database.Repositories.Impl
 {
     public class XpRepository : Repository<UserXpStats>, IXpRepository
     {

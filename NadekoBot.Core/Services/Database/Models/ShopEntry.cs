@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace NadekoBot.Services.Database.Models
+namespace NadekoBot.Core.Services.Database.Models
 {
     public enum ShopEntryType
     {

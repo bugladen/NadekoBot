@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Text;
 using NadekoBot.Extensions;
-using NadekoBot.Services.Impl;
+using NadekoBot.Core.Services.Impl;
 using System.Net.Http;
 using ImageSharp;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ using Discord.WebSocket;
 using System.Diagnostics;
 using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
-using NadekoBot.Services;
+using NadekoBot.Core.Services;
 
 namespace NadekoBot.Modules.Utility
 {

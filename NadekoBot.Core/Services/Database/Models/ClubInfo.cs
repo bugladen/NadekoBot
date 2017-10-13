@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace NadekoBot.Services.Database.Models
+namespace NadekoBot.Core.Services.Database.Models
 {
     public class ClubInfo : DbEntity
     {

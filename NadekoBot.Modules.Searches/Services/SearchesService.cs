@@ -1,7 +1,7 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using NadekoBot.Extensions;
-using NadekoBot.Services;
+using NadekoBot.Core.Services;
 using Newtonsoft.Json;
 using NLog;
 using System;
@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using NadekoBot.Modules.Searches.Common;
-using NadekoBot.Services.Database.Models;
+using NadekoBot.Core.Services.Database.Models;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Http;

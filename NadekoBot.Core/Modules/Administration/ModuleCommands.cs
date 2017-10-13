@@ -1,12 +1,13 @@
 ﻿using Discord.Commands;
 using NadekoBot.Common.Attributes;
-using NadekoBot.Core.Modules.Administration.Services;
+using NadekoBot.Modules.Administration.Services;
 using NadekoBot.Extensions;
 using System;
 using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -27,7 +28,13 @@ namespace NadekoBot.Modules.Administration
             public async Task PackageList()
             {
                 _service.ReloadAvailablePackages();
-                await Context.Channel.SendConfirmAsync(string.Join("\n", _service.Packages));
+                await Context.Channel.SendConfirmAsync(
+                    string.Join(
+                        "\n", 
+                        _service.Packages
+                            .Select(x => _bot.LoadedPackages.Contains(x)
+                                ? "✅ " + x
+                                : x)));
             }
 
             [NadekoCommand, Usage, Description, Aliases]

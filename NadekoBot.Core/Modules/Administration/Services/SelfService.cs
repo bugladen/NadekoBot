@@ -7,8 +7,8 @@ using Discord.WebSocket;
 using NadekoBot.Common;
 using NadekoBot.Common.ModuleBehaviors;
 using NadekoBot.Extensions;
-using NadekoBot.Services;
-using NadekoBot.Services.Impl;
+using NadekoBot.Core.Services;
+using NadekoBot.Core.Services.Impl;
 using NLog;
 
 namespace NadekoBot.Modules.Administration.Services

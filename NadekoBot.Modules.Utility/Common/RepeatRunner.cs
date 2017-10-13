@@ -5,7 +5,7 @@ using Discord;
 using Discord.Net;
 using Discord.WebSocket;
 using NadekoBot.Extensions;
-using NadekoBot.Services.Database.Models;
+using NadekoBot.Core.Services.Database.Models;
 using NLog;
 
 namespace NadekoBot.Modules.Utility.Common

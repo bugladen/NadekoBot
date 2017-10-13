@@ -6,8 +6,8 @@ using Discord.Commands;
 using NadekoBot.Common.Collections;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Help.Services;
-using NadekoBot.Services;
-using NadekoBot.Services.Database.Models;
+using NadekoBot.Core.Services;
+using NadekoBot.Core.Services.Database.Models;
 
 namespace NadekoBot.Modules.Utility.Services
 {

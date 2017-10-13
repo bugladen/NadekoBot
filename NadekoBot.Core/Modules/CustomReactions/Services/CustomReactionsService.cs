@@ -1,6 +1,6 @@
 ﻿using Discord;
 using Discord.WebSocket;
-using NadekoBot.Services.Database.Models;
+using NadekoBot.Core.Services.Database.Models;
 using NLog;
 using System.Collections.Concurrent;
 using System.Linq;
@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 using NadekoBot.Common;
 using NadekoBot.Common.ModuleBehaviors;
 using NadekoBot.Extensions;
-using NadekoBot.Services.Database;
-using NadekoBot.Services;
+using NadekoBot.Core.Services.Database;
+using NadekoBot.Core.Services;
 using NadekoBot.Modules.CustomReactions.Extensions;
 using NadekoBot.Modules.Permissions.Common;
 using NadekoBot.Modules.Permissions.Services;
-using NadekoBot.Services.Impl;
+using NadekoBot.Core.Services.Impl;
 using Newtonsoft.Json;
 
 namespace NadekoBot.Modules.CustomReactions.Services

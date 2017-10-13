@@ -2,7 +2,7 @@
 using System.Linq;
 using Discord;
 using Discord.WebSocket;
-using NadekoBot.Services.Database.Models;
+using NadekoBot.Core.Services.Database.Models;
 
 namespace NadekoBot.Modules.Permissions.Common
 {

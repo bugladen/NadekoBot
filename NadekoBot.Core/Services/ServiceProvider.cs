@@ -11,7 +11,7 @@ using NadekoBot.Common;
 #endif
 
 
-namespace NadekoBot.Services
+namespace NadekoBot.Core.Services
 {
     public interface INServiceProvider : IServiceProvider, IEnumerable<object>
     {

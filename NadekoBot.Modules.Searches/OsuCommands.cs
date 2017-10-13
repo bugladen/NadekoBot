@@ -1,7 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Extensions;
-using NadekoBot.Services;
+using NadekoBot.Core.Services;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Globalization;

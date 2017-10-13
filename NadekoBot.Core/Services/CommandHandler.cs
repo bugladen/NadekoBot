@@ -10,14 +10,14 @@ using NadekoBot.Extensions;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Collections.Immutable;
-using NadekoBot.Services.Database.Models;
+using NadekoBot.Core.Services.Database.Models;
 using System.IO;
 using Discord.Net;
 using NadekoBot.Common;
 using NadekoBot.Common.Collections;
 using NadekoBot.Common.ModuleBehaviors;
 
-namespace NadekoBot.Services
+namespace NadekoBot.Core.Services
 {
     public class GuildUserComparer : IEqualityComparer<IGuildUser>
     {

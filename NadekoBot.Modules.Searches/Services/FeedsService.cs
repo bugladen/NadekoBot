@@ -2,14 +2,14 @@
 using Microsoft.SyndicationFeed;
 using Microsoft.SyndicationFeed.Rss;
 using NadekoBot.Extensions;
-using NadekoBot.Services;
+using NadekoBot.Core.Services;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Collections.Generic;
-using NadekoBot.Services.Database.Models;
+using NadekoBot.Core.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Concurrent;
 using Discord.WebSocket;

@@ -4,7 +4,7 @@ using Discord;
 using Discord.WebSocket;
 using NadekoBot.Common.Collections;
 using NadekoBot.Common.ModuleBehaviors;
-using NadekoBot.Services;
+using NadekoBot.Core.Services;
 
 namespace NadekoBot.Modules.Permissions.Services
 {

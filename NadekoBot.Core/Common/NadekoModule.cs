@@ -1,12 +1,12 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Extensions;
-using NadekoBot.Services;
+using NadekoBot.Core.Services;
 using NLog;
 using System.Globalization;
 using System.Threading.Tasks;
 using Discord.WebSocket;
-using NadekoBot.Services.Impl;
+using NadekoBot.Core.Services.Impl;
 
 namespace NadekoBot.Modules
 {

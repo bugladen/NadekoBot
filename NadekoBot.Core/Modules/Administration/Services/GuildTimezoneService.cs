@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Discord.WebSocket;
 using NadekoBot.Extensions;
-using NadekoBot.Services;
-using NadekoBot.Services.Database.Models;
+using NadekoBot.Core.Services;
+using NadekoBot.Core.Services.Database.Models;
 
 namespace NadekoBot.Modules.Administration.Services
 {

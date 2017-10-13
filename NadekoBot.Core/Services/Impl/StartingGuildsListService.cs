@@ -4,7 +4,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Collections;
 
-namespace NadekoBot.Services.Impl
+namespace NadekoBot.Core.Services.Impl
 {
     public class StartingGuildsService : IEnumerable<long>, INService
     {

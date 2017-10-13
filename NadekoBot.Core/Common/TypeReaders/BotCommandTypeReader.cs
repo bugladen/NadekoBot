@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Discord.Commands;
-using NadekoBot.Services;
+using NadekoBot.Core.Services;
 using NadekoBot.Modules.CustomReactions.Services;
 using NadekoBot.Core.Common.TypeReaders;
 using Discord.WebSocket;

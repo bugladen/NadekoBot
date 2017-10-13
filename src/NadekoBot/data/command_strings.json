@@ -1311,9 +1311,9 @@
   },
   "deleteplaylist": {
     "Cmd": "deleteplaylist delpls",
-    "Desc": "Deletes a saved playlist. Works only if you made it or if you are the bot owner.",
+    "Desc": "Deletes a saved playlist using its id. Works only if you made it or if you are the bot owner.",
     "Usage": [
-      "{0}delpls animu-5"
+      "{0}delpls 5"
     ]
   },
   "goto": {
@@ -2991,7 +2991,7 @@
   },
   "editcustreact": {
     "cmd": "editcustreact ecr",
-    "desc": "Edits the custom reaction's response given it's ID.",
+    "desc": "Edits the custom reaction's response given its ID.",
     "usage": [
       "{0}ecr 123 I'm a magical girl"
     ]

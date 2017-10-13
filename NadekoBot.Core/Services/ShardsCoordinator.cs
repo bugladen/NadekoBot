@@ -1,4 +1,4 @@
-﻿using NadekoBot.Services.Impl;
+﻿using NadekoBot.Core.Services.Impl;
 using NLog;
 using System;
 using System.Diagnostics;
@@ -8,7 +8,7 @@ using StackExchange.Redis;
 using Newtonsoft.Json;
 using NadekoBot.Extensions;
 
-namespace NadekoBot.Services
+namespace NadekoBot.Core.Services
 {
     public class ShardsCoordinator
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using NadekoBot.Modules.Pokemon.Common;
-using NadekoBot.Services;
+using NadekoBot.Core.Services;
 using Newtonsoft.Json;
 using NLog;
 

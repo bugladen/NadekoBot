@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using NLog;
 
-namespace NadekoBot.Services.Impl
+namespace NadekoBot.Core.Services.Impl
 {
     public class NadekoStrings : INService
     {

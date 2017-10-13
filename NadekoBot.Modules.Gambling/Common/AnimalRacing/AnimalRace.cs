@@ -1,8 +1,8 @@
 ﻿using NadekoBot.Common;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Gambling.Common.AnimalRacing.Exceptions;
-using NadekoBot.Services;
-using NadekoBot.Services.Database.Models;
+using NadekoBot.Core.Services;
+using NadekoBot.Core.Services.Database.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;

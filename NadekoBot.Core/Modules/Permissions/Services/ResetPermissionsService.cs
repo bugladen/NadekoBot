@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
-using NadekoBot.Services;
-using NadekoBot.Services.Database.Models;
+using NadekoBot.Core.Services;
+using NadekoBot.Core.Services.Database.Models;
 
 namespace NadekoBot.Modules.Permissions.Services
 {

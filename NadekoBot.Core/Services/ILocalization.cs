@@ -2,7 +2,7 @@
 using System.Globalization;
 using Discord;
 
-namespace NadekoBot.Services
+namespace NadekoBot.Core.Services
 {
     public interface ILocalization : INService
     {

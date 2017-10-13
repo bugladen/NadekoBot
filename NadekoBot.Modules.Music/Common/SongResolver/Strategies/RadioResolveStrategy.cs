@@ -1,4 +1,4 @@
-﻿using NadekoBot.Services.Database.Models;
+﻿using NadekoBot.Core.Services.Database.Models;
 using NLog;
 using System;
 using System.Net.Http;

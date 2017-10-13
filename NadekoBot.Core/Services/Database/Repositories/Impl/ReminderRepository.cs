@@ -1,9 +1,9 @@
-﻿using NadekoBot.Services.Database.Models;
+﻿using NadekoBot.Core.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NadekoBot.Services.Database.Repositories.Impl
+namespace NadekoBot.Core.Services.Database.Repositories.Impl
 {
     public class ReminderRepository : Repository<Reminder>, IReminderRepository
     {

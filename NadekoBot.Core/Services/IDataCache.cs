@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Services
+namespace NadekoBot.Core.Services
 {
     public interface IDataCache
     {

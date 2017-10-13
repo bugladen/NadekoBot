@@ -1,6 +1,6 @@
 ﻿using Discord.Commands;
-using NadekoBot.Services;
-using NadekoBot.Services.Database.Models;
+using NadekoBot.Core.Services;
+using NadekoBot.Core.Services.Database.Models;
 using System.Linq;
 using System.Threading.Tasks;
 using NadekoBot.Common.Attributes;

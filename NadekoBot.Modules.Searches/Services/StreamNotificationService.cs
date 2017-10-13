@@ -1,8 +1,8 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using NadekoBot.Extensions;
-using NadekoBot.Services;
-using NadekoBot.Services.Database.Models;
+using NadekoBot.Core.Services;
+using NadekoBot.Core.Services.Database.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
@@ -13,7 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using NadekoBot.Modules.Searches.Common;
 using NadekoBot.Modules.Searches.Common.Exceptions;
-using NadekoBot.Services.Impl;
+using NadekoBot.Core.Services.Impl;
 
 namespace NadekoBot.Modules.Searches.Services
 {

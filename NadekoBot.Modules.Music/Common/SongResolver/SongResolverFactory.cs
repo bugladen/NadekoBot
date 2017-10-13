@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
-using NadekoBot.Services.Database.Models;
-using NadekoBot.Services.Impl;
+using NadekoBot.Core.Services.Database.Models;
+using NadekoBot.Core.Services.Impl;
 using NadekoBot.Modules.Music.Common.SongResolver.Strategies;
 
 namespace NadekoBot.Modules.Music.Common.SongResolver

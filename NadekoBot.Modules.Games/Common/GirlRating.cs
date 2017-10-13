@@ -5,7 +5,7 @@ using System.Net.Http;
 using ImageSharp;
 using NadekoBot.Common;
 using NadekoBot.Extensions;
-using NadekoBot.Services;
+using NadekoBot.Core.Services;
 using NLog;
 using SixLabors.Primitives;
 

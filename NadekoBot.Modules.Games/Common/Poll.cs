@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using NadekoBot.Extensions;
-using NadekoBot.Services.Impl;
+using NadekoBot.Core.Services.Impl;
 
 namespace NadekoBot.Modules.Games.Common
 {

@@ -1,11 +1,11 @@
-﻿using NadekoBot.Services;
+﻿using NadekoBot.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace NadekoBot.Core.Modules.Administration.Services
+namespace NadekoBot.Modules.Administration.Services
 {
     public class PackagesService : INService
     {

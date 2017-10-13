@@ -1,5 +1,5 @@
-﻿using NadekoBot.Services.Database.Models;
-using NadekoBot.Services.Impl;
+﻿using NadekoBot.Core.Services.Database.Models;
+using NadekoBot.Core.Services.Impl;
 using NLog;
 using System;
 using System.Globalization;

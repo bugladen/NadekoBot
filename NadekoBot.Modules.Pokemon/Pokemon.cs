@@ -1,8 +1,8 @@
 using Discord.Commands;
 using NadekoBot.Extensions;
 using System.Linq;
-using NadekoBot.Services;
-using NadekoBot.Services.Database.Models;
+using NadekoBot.Core.Services;
+using NadekoBot.Core.Services.Database.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Discord;

@@ -1,7 +1,7 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using NadekoBot.Extensions;
-using NadekoBot.Services.Database.Models;
+using NadekoBot.Core.Services.Database.Models;
 using NLog;
 using System;
 using System.Collections.Concurrent;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using NadekoBot.Common;
 using NadekoBot.Common.Replacements;
 
-namespace NadekoBot.Services
+namespace NadekoBot.Core.Services
 {
     public class GreetSettingsService : INService
     {

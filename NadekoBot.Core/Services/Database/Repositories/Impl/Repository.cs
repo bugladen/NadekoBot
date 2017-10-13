@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NadekoBot.Services.Database.Models;
+using NadekoBot.Core.Services.Database.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NadekoBot.Services.Database.Repositories.Impl
+namespace NadekoBot.Core.Services.Database.Repositories.Impl
 {
     public class Repository<T> : IRepository<T> where T : DbEntity
     {

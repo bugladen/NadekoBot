@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace NadekoBot.Services.Database.Models
+namespace NadekoBot.Core.Services.Database.Models
 {
     public class ConvertUnit : DbEntity
     {

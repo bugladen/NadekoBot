@@ -15,7 +15,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using StackExchange.Redis;
 
-namespace NadekoBot.Services.Impl
+namespace NadekoBot.Core.Services.Impl
 {
     public class StatsService : IStatsService
     {

@@ -1,4 +1,4 @@
-﻿using NadekoBot.Services.Database.Models;
+﻿using NadekoBot.Core.Services.Database.Models;
 
 namespace NadekoBot.Modules.Xp.Common
 {

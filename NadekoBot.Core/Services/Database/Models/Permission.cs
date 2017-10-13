@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 
-namespace NadekoBot.Services.Database.Models
+namespace NadekoBot.Core.Services.Database.Models
 {
     [DebuggerDisplay("{global::NadekoBot.Modules.Permissions.PermissionExtensions.GetCommand(this)}", Target = typeof(Permission))]
     public class Permission : DbEntity

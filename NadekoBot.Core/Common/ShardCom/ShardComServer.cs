@@ -4,7 +4,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using NadekoBot.Services;
+using NadekoBot.Core.Services;
 
 namespace NadekoBot.Common.ShardCom
 {

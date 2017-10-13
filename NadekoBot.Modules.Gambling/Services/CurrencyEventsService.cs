@@ -2,7 +2,7 @@
 using Discord.Commands;
 using NadekoBot.Modules.Gambling.Common;
 using NadekoBot.Modules.Gambling.Common.CurrencyEvents;
-using NadekoBot.Services;
+using NadekoBot.Core.Services;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;

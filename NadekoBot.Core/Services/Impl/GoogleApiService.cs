@@ -14,7 +14,7 @@ using System.Net;
 using Newtonsoft.Json.Linq;
 using NadekoBot.Extensions;
 
-namespace NadekoBot.Services.Impl
+namespace NadekoBot.Core.Services.Impl
 {
     public class GoogleApiService : IGoogleApiService
     {

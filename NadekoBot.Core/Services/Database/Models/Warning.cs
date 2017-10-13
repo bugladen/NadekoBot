@@ -1,4 +1,4 @@
-﻿namespace NadekoBot.Services.Database.Models
+﻿namespace NadekoBot.Core.Services.Database.Models
 {
     public class Warning : DbEntity
     {

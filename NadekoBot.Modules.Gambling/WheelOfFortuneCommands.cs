@@ -3,7 +3,7 @@ using Discord.Commands;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Gambling.Common.WheelOfFortune;
-using NadekoBot.Services;
+using NadekoBot.Core.Services;
 using System.Threading.Tasks;
 using Wof = NadekoBot.Modules.Gambling.Common.WheelOfFortune.WheelOfFortune;
 

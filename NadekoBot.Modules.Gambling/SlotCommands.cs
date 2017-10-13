@@ -2,7 +2,7 @@
 using Discord.Commands;
 using ImageSharp;
 using NadekoBot.Extensions;
-using NadekoBot.Services;
+using NadekoBot.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;

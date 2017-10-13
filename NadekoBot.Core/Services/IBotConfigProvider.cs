@@ -1,7 +1,7 @@
 ﻿using NadekoBot.Common;
-using NadekoBot.Services.Database.Models;
+using NadekoBot.Core.Services.Database.Models;
 
-namespace NadekoBot.Services
+namespace NadekoBot.Core.Services
 {
     public interface IBotConfigProvider
     {

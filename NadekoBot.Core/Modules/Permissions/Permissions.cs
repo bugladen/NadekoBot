@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Discord.Commands;
-using NadekoBot.Services;
+using NadekoBot.Core.Services;
 using Discord;
-using NadekoBot.Services.Database.Models;
+using NadekoBot.Core.Services.Database.Models;
 using System.Collections.Generic;
 using Discord.WebSocket;
 using NadekoBot.Common.Attributes;

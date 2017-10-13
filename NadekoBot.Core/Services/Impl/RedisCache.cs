@@ -1,7 +1,7 @@
 ﻿using StackExchange.Redis;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Services.Impl
+namespace NadekoBot.Core.Services.Impl
 {
     public class RedisCache : IDataCache
     {

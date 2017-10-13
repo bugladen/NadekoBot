@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NadekoBot.Services.Database.Models;
-using NadekoBot.Services.Database.Repositories;
+using NadekoBot.Core.Services.Database.Models;
+using NadekoBot.Core.Services.Database.Repositories;
 
 namespace NadekoBot.Modules.Utility.Extensions
 {

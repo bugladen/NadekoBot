@@ -9,8 +9,8 @@ using Discord;
 using Discord.Net;
 using Discord.WebSocket;
 using NadekoBot.Extensions;
-using NadekoBot.Services;
-using NadekoBot.Services.Impl;
+using NadekoBot.Core.Services;
+using NadekoBot.Core.Services.Impl;
 using NLog;
 
 namespace NadekoBot.Modules.Games.Common.Trivia

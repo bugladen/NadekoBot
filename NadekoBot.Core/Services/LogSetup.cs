@@ -2,7 +2,7 @@
 using NLog.Config;
 using NLog.Targets;
 
-namespace NadekoBot.Services
+namespace NadekoBot.Core.Services
 {
     public class LogSetup
     {

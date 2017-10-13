@@ -4,12 +4,12 @@ using System.Globalization;
 using System.Linq;
 using Discord;
 using NLog;
-using NadekoBot.Services.Database.Models;
+using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Common;
 using Newtonsoft.Json;
 using System.IO;
 
-namespace NadekoBot.Services.Impl
+namespace NadekoBot.Core.Services.Impl
 {
     public class Localization : ILocalization
     {

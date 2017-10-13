@@ -1,5 +1,5 @@
 ﻿using NadekoBot.Modules.Music.Extensions;
-using NadekoBot.Services.Impl;
+using NadekoBot.Core.Services.Impl;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Music.Common.SongResolver.Strategies

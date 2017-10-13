@@ -9,8 +9,8 @@ using NadekoBot.Extensions;
 using System.Diagnostics;
 using NadekoBot.Common.Collections;
 using NadekoBot.Modules.Music.Services;
-using NadekoBot.Services;
-using NadekoBot.Services.Database.Models;
+using NadekoBot.Core.Services;
+using NadekoBot.Core.Services.Database.Models;
 
 namespace NadekoBot.Modules.Music.Common
 {

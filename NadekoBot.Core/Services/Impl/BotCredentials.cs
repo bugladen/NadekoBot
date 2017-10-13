@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using System.Collections.Immutable;
 using NadekoBot.Common;
 
-namespace NadekoBot.Services.Impl
+namespace NadekoBot.Core.Services.Impl
 {
     public class BotCredentials : IBotCredentials
     {

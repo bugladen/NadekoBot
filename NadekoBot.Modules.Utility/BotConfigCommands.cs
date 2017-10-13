@@ -2,7 +2,7 @@
 using Discord.Commands;
 using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
-using NadekoBot.Services;
+using NadekoBot.Core.Services;
 using System;
 using System.Threading.Tasks;
 

@@ -2,8 +2,8 @@
 using Discord.Commands;
 using Microsoft.EntityFrameworkCore;
 using NadekoBot.Extensions;
-using NadekoBot.Services;
-using NadekoBot.Services.Database.Models;
+using NadekoBot.Core.Services;
+using NadekoBot.Core.Services.Database.Models;
 using System;
 using System.Collections.Concurrent;
 using System.Linq;

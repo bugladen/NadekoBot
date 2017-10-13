@@ -1,4 +1,4 @@
-﻿using NadekoBot.Services;
+﻿using NadekoBot.Core.Services;
 using Newtonsoft.Json;
 using NLog;
 using System;

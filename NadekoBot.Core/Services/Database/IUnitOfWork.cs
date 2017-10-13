@@ -1,8 +1,8 @@
-﻿using NadekoBot.Services.Database.Repositories;
+﻿using NadekoBot.Core.Services.Database.Repositories;
 using System;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Services.Database
+namespace NadekoBot.Core.Services.Database
 {
     public interface IUnitOfWork : IDisposable
     {

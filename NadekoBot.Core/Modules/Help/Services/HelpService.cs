@@ -7,8 +7,8 @@ using NadekoBot.Extensions;
 using System.Linq;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Common.ModuleBehaviors;
-using NadekoBot.Services;
-using NadekoBot.Services.Impl;
+using NadekoBot.Core.Services;
+using NadekoBot.Core.Services.Impl;
 
 namespace NadekoBot.Modules.Help.Services
 {

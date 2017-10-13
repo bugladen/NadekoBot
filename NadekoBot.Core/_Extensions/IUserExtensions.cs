@@ -1,5 +1,5 @@
 ﻿using Discord;
-using NadekoBot.Services.Database.Models;
+using NadekoBot.Core.Services.Database.Models;
 using System;
 using System.IO;
 using System.Threading.Tasks;

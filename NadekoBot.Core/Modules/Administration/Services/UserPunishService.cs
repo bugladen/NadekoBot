@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Microsoft.EntityFrameworkCore;
-using NadekoBot.Services;
-using NadekoBot.Services.Database.Models;
+using NadekoBot.Core.Services;
+using NadekoBot.Core.Services.Database.Models;
 
 namespace NadekoBot.Modules.Administration.Services
 {

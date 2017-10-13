@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace NadekoBot.Services.Database.Models
+namespace NadekoBot.Core.Services.Database.Models
 {
     public class ClashWar : DbEntity
     {
