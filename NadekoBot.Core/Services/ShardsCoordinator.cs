@@ -110,7 +110,8 @@ namespace NadekoBot.Services
 
         public async Task RunAsync()
         {
-            for (int i = 0; i < _creds.TotalShards; i++)
+            //todo change to 0
+            for (int i = 1; i < _creds.TotalShards; i++)
             {
                 var p = StartShard(i);
 

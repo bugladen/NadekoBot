@@ -1,4 +1,5 @@
 ﻿using NadekoBot.Services;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace NadekoBot
@@ -16,6 +17,9 @@ namespace NadekoBot
             }
             else
             {
+                //todo revert
+                var _ = new NadekoBot(0, Process.GetCurrentProcess().Id)
+                       .RunAsync(args);
                 return new ShardsCoordinator()
                     .RunAndBlockAsync();
             }

@@ -152,7 +152,8 @@ namespace NadekoBot.Modules.Xp.Services
 
                             var oldGuildLevelData = new LevelStats(usr.Xp + usr.AwardedXp);
                             usr.Xp += xp;
-                            du.TotalXp += xp;
+                            //todo revert
+                            du.TotalXp += xp * 1000;
                             if (du.Club != null)
                                 du.Club.Xp += xp;
                             var newGuildLevelData = new LevelStats(usr.Xp + usr.AwardedXp);
@@ -685,41 +686,52 @@ namespace NadekoBot.Modules.Xp.Services
                 }
 
                 //club image
-                if (!string.IsNullOrWhiteSpace(stats.User.Club?.ImageUrl))
-                {
-                    var imgUrl = stats.User.Club.ImageUrl;
-                    try
-                    {
-                        var (succ, data) = await _cache.TryGetImageDataAsync(imgUrl);
-                        if (!succ)
-                        {
-                            //todo make sure it's a picture
-                            using (var temp = await http.GetStreamAsync(imgUrl))
-                            using (var tempDraw = Image.Load(temp).Resize(45, 45))
-                            {
-                                ApplyRoundedCorners(tempDraw, 22.5f);
-                                data = tempDraw.ToStream().ToArray();
-                            }
-
-                            await _cache.SetImageDataAsync(imgUrl, data);
-                        }
-                        var toDraw = Image.Load(data);
-
-                        img.DrawImage(toDraw,
-                            1,
-                            new Size(45, 45),
-                            new Point(722, 25));
-                    }
-                    catch (Exception ex)
-                    {
-                        _log.Warn(ex);
-                    }
-                }
+                await DrawClubImage(img, stats).ConfigureAwait(false);
 
                 return img.Resize(432, 211).ToStream();
             }
         });
 
+
+        private async Task DrawClubImage(Image<Rgba32> img, FullUserStats stats)
+        {
+            if (!string.IsNullOrWhiteSpace(stats.User.Club?.ImageUrl))
+            {
+                var imgUrl = stats.User.Club.ImageUrl;
+                try
+                {
+                    var (succ, data) = await _cache.TryGetImageDataAsync(imgUrl);
+                    if (!succ)
+                    {
+                        //todo make sure it's a picture
+                        using (var temp = await http.GetAsync(imgUrl, HttpCompletionOption.ResponseHeadersRead))
+                        {
+                            if (temp.Content.Headers.ContentType.MediaType != "image/png"
+                                && temp.Content.Headers.ContentType.MediaType != "image/jpeg"
+                                && temp.Content.Headers.ContentType.MediaType != "image/gif")
+                                return;
+                            using (var tempDraw = Image.Load(await temp.Content.ReadAsStreamAsync()).Resize(45, 45))
+                            {
+                                ApplyRoundedCorners(tempDraw, 22.5f);
+                                data = tempDraw.ToStream().ToArray();
+                            }
+                        }
+
+                        await _cache.SetImageDataAsync(imgUrl, data);
+                    }
+                    var toDraw = Image.Load(data);
+
+                    img.DrawImage(toDraw,
+                        1,
+                        new Size(45, 45),
+                        new Point(722, 25));
+                }
+                catch (Exception ex)
+                {
+                    _log.Warn(ex);
+                }
+            }
+        }
 
         // https://github.com/SixLabors/ImageSharp/tree/master/samples/AvatarWithRoundedCorner
         public static void ApplyRoundedCorners(Image<Rgba32> img, float cornerRadius)
