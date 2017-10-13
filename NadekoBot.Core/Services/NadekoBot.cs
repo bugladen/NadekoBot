@@ -48,8 +48,6 @@ namespace NadekoBot
 
         public INServiceProvider Services { get; private set; }
 
-        public ShardsCoordinator ShardCoord { get; private set; }
-
         private readonly BotConfig _botConfig;
         public IDataCache Cache { get; private set; }
 
@@ -143,9 +141,6 @@ namespace NadekoBot
                     .AddManual(Client)
                     .AddManual(CommandService)
                     .AddManual(botConfigProvider)
-                    //todo this needs to reload whenever a new service is supposed to be loaded
-                    //except at startup for obvious reasons
-                    .AddManual<IEnumerable<GuildConfig>>(AllGuildConfigs) //todo wrap this
                     .AddManual<NadekoBot>(this)
                     .AddManual<IUnitOfWork>(uow)
                     .AddManual<IDataCache>(Cache);
@@ -255,9 +250,6 @@ namespace NadekoBot
 
         public async Task RunAsync(params string[] args)
         {
-            if (Client.ShardId == 0)
-                _log.Info("Starting NadekoBot v" + StatsService.BotVersion);
-
             var sw = Stopwatch.StartNew();
 
             await LoginAsync(Credentials.Token).ConfigureAwait(false);
@@ -450,7 +442,12 @@ namespace NadekoBot
             {
                 if (_packageModules.ContainsKey(name))
                     return false;
-                
+
+                var startingGuildIdList = Client.Guilds.Select(x => (long)x.Id).ToList();
+                using (var uow = _db.UnitOfWork)
+                {
+                    AllGuildConfigs = uow.GuildConfigs.GetAllGuildConfigs(startingGuildIdList).ToImmutableArray();
+                }
                 var package = Assembly.LoadFile(Path.Combine(AppContext.BaseDirectory,
                                                 "modules",
                                                 $"NadekoBot.Modules.{name}",

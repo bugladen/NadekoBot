@@ -38,22 +38,25 @@ namespace NadekoBot.Modules.Administration.Services
         private readonly DiscordSocketClient _client;
         private readonly DbService _db;
 
-        public MuteService(DiscordSocketClient client, IEnumerable<GuildConfig> gcs, DbService db)
+        public MuteService(DiscordSocketClient client, NadekoBot bot, DbService db)
         {
             _client = client;
             _db = db;
 
-            GuildMuteRoles = gcs
-                    .Where(c => !string.IsNullOrWhiteSpace(c.MuteRoleName))
-                    .ToDictionary(c => c.GuildId, c => c.MuteRoleName)
-                    .ToConcurrent();
+            GuildMuteRoles = bot
+                .AllGuildConfigs
+                .Where(c => !string.IsNullOrWhiteSpace(c.MuteRoleName))
+                .ToDictionary(c => c.GuildId, c => c.MuteRoleName)
+                .ToConcurrent();
 
-            MutedUsers = new ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>>(gcs.ToDictionary(
-                k => k.GuildId,
-                v => new ConcurrentHashSet<ulong>(v.MutedUsers.Select(m => m.UserId))
+            MutedUsers = new ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>>(bot
+                .AllGuildConfigs
+                .ToDictionary(
+                    k => k.GuildId,
+                    v => new ConcurrentHashSet<ulong>(v.MutedUsers.Select(m => m.UserId))
             ));
 
-            foreach (var conf in gcs)
+            foreach (var conf in bot.AllGuildConfigs)
             {
                 foreach (var x in conf.UnmuteTimers)
                 {

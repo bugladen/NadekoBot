@@ -28,8 +28,9 @@ namespace NadekoBot.Modules.Games.Services
 
         public ConcurrentDictionary<ulong, Lazy<IChatterBotSession>> ChatterBotGuilds { get; }
 
-        public ChatterBotService(DiscordSocketClient client, PermissionService perms, IEnumerable<GuildConfig> gcs, 
-            CommandHandler cmd, NadekoStrings strings, IBotCredentials creds)
+        public ChatterBotService(DiscordSocketClient client, PermissionService perms, 
+            NadekoBot bot, CommandHandler cmd, NadekoStrings strings, 
+            IBotCredentials creds)
         {
             _client = client;
             _log = LogManager.GetCurrentClassLogger();
@@ -39,7 +40,8 @@ namespace NadekoBot.Modules.Games.Services
             _creds = creds;
 
             ChatterBotGuilds = new ConcurrentDictionary<ulong, Lazy<IChatterBotSession>>(
-                    gcs.Where(gc => gc.CleverbotEnabled)
+                    bot.AllGuildConfigs
+                        .Where(gc => gc.CleverbotEnabled)
                         .ToDictionary(gc => gc.GuildId, gc => new Lazy<IChatterBotSession>(() => CreateSession(), true)));
         }
 

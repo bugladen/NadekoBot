@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
@@ -7,7 +6,6 @@ using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Common.Collections;
 using NadekoBot.Services;
-using NadekoBot.Services.Database.Models;
 using NLog;
 
 namespace NadekoBot.Modules.Administration.Services
@@ -16,12 +14,14 @@ namespace NadekoBot.Modules.Administration.Services
     {
         public readonly ConcurrentHashSet<ulong> DeleteMessagesOnCommand;
         private readonly Logger _log;
+        private readonly NadekoBot _bot;
 
-        public AdministrationService(IEnumerable<GuildConfig> gcs, CommandHandler cmdHandler)
+        public AdministrationService(NadekoBot bot, CommandHandler cmdHandler)
         {
             _log = LogManager.GetCurrentClassLogger();
+            _bot = bot;
 
-            DeleteMessagesOnCommand = new ConcurrentHashSet<ulong>(gcs.Where(g => g.DeleteMessageOnCommand).Select(g => g.GuildId));
+            DeleteMessagesOnCommand = new ConcurrentHashSet<ulong>(bot.AllGuildConfigs.Where(g => g.DeleteMessageOnCommand).Select(g => g.GuildId));
             cmdHandler.CommandExecuted += DelMsgOnCmd_Handler;
         }
 

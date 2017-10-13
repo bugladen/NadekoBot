@@ -28,7 +28,7 @@ namespace NadekoBot.Modules.Administration.Services
         private readonly DbService _db;
         private readonly Logger _log;
 
-        public VplusTService(DiscordSocketClient client, IEnumerable<GuildConfig> gcs, NadekoStrings strings,
+        public VplusTService(DiscordSocketClient client, NadekoBot bot, NadekoStrings strings,
             DbService db)
         {
             _client = client;
@@ -36,7 +36,7 @@ namespace NadekoBot.Modules.Administration.Services
             _db = db;
             _log = LogManager.GetCurrentClassLogger();
 
-            VoicePlusTextCache = new ConcurrentHashSet<ulong>(gcs.Where(g => g.VoicePlusTextEnabled).Select(g => g.GuildId));
+            VoicePlusTextCache = new ConcurrentHashSet<ulong>(bot.AllGuildConfigs.Where(g => g.VoicePlusTextEnabled).Select(g => g.GuildId));
             _client.UserVoiceStateUpdated += UserUpdatedEventHandler;
         }
 

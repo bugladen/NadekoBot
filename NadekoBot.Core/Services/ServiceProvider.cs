@@ -54,6 +54,16 @@ namespace NadekoBot.Services
             return this;
         }
 
+        public INServiceProvider UpdateManual<T>(T obj)
+        {
+            lock (_locker)
+            {
+                _services.Remove(typeof(T));
+                _services.TryAdd(typeof(T), obj);
+            }
+            return this;
+        }
+
         public IEnumerable<Type> LoadFrom(Assembly assembly)
         {
             List<Type> addedTypes = new List<Type>();

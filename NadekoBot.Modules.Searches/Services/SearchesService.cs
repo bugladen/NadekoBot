@@ -49,7 +49,8 @@ namespace NadekoBot.Modules.Searches.Services
 
         private readonly ConcurrentDictionary<ulong, HashSet<string>> _blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>();
 
-        public SearchesService(DiscordSocketClient client, IGoogleApiService google, DbService db, IEnumerable<GuildConfig> gcs)
+        public SearchesService(DiscordSocketClient client, IGoogleApiService google, 
+            DbService db, NadekoBot bot)
         {
             Http = new HttpClient();
             Http.AddFakeHeaders();
@@ -59,7 +60,7 @@ namespace NadekoBot.Modules.Searches.Services
             _log = LogManager.GetCurrentClassLogger();
 
             _blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>(
-                gcs.ToDictionary(
+                bot.AllGuildConfigs.ToDictionary(
                     x => x.GuildId,
                     x => new HashSet<string>(x.NsfwBlacklistedTags.Select(y => y.Tag))));
 

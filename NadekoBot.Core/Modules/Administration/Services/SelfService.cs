@@ -42,7 +42,7 @@ namespace NadekoBot.Modules.Administration.Services
             _creds = creds;
             _bc = bc;
 
-            var _ = Task.Run(async () =>
+            Task.Run(async () =>
             {
                 await bot.Ready.Task.ConfigureAwait(false);
 
@@ -57,13 +57,11 @@ namespace NadekoBot.Modules.Administration.Services
                 }
             });
 
-            var ___ = Task.Run(async () =>
+            Task.Run(async () =>
             {
                 await bot.Ready.Task.ConfigureAwait(false);
 
                 await Task.Delay(5000);
-
-                _client.Guilds.SelectMany(g => g.Users);
 
                 if(client.ShardId == 0)
                     LoadOwnerChannels();                

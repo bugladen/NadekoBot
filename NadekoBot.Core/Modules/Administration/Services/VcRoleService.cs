@@ -19,7 +19,7 @@ namespace NadekoBot.Modules.Administration.Services
 
         public ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, IRole>> VcRoles { get; }
 
-        public VcRoleService(DiscordSocketClient client, IEnumerable<GuildConfig> gcs, DbService db)
+        public VcRoleService(DiscordSocketClient client, NadekoBot bot, DbService db)
         {
             _log = LogManager.GetCurrentClassLogger();
             _db = db;
@@ -28,7 +28,7 @@ namespace NadekoBot.Modules.Administration.Services
             _client.UserVoiceStateUpdated += ClientOnUserVoiceStateUpdated;
             VcRoles = new ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, IRole>>();
             var missingRoles = new List<VcRoleInfo>();
-            foreach (var gconf in gcs)
+            foreach (var gconf in bot.AllGuildConfigs)
             {
                 var g = _client.GetGuild(gconf.GuildId);
                 if (g == null)

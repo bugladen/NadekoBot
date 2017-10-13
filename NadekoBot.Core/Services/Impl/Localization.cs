@@ -28,11 +28,11 @@ namespace NadekoBot.Services.Impl
         }
 
         private Localization() { }
-        public Localization(IBotConfigProvider bcp, IEnumerable<GuildConfig> gcs, DbService db)
+        public Localization(IBotConfigProvider bcp, NadekoBot bot, DbService db)
         {
             _log = LogManager.GetCurrentClassLogger();
 
-            var cultureInfoNames = gcs.ToDictionary(x => x.GuildId, x => x.Locale);
+            var cultureInfoNames = bot.AllGuildConfigs.ToDictionary(x => x.GuildId, x => x.Locale);
             var defaultCulture = bcp.BotConfig.Locale;
 
             _db = db;
@@ -123,8 +123,7 @@ namespace NadekoBot.Services.Impl
         {
             if (guildId == null)
                 return DefaultCultureInfo;
-            CultureInfo info = null;
-            GuildCultureInfos.TryGetValue(guildId.Value, out info);
+            GuildCultureInfos.TryGetValue(guildId.Value, out CultureInfo info);
             return info ?? DefaultCultureInfo;
         }
 

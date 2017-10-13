@@ -55,7 +55,7 @@ namespace NadekoBot.Modules.Games.Services
         public ConcurrentDictionary<ulong, TypingGame> RunningContests { get; } = new ConcurrentDictionary<ulong, TypingGame>();
         public ConcurrentDictionary<ulong, Nunchi> NunchiGames { get; } = new ConcurrentDictionary<ulong, Common.Nunchi.Nunchi>();
 
-        public GamesService(CommandHandler cmd, IBotConfigProvider bc, IEnumerable<GuildConfig> gcs,
+        public GamesService(CommandHandler cmd, IBotConfigProvider bc, NadekoBot bot,
             NadekoStrings strings, IImagesService images, CommandHandler cmdHandler)
         {
             _bc = bc;
@@ -77,7 +77,8 @@ namespace NadekoBot.Modules.Games.Services
 
             //plantpick
             _cmd.OnMessageNoTrigger += PotentialFlowerGeneration;
-            GenerationChannels = new ConcurrentHashSet<ulong>(gcs
+            GenerationChannels = new ConcurrentHashSet<ulong>(bot
+                .AllGuildConfigs
                 .SelectMany(c => c.GenerateCurrencyChannelIds.Select(obj => obj.ChannelId)));
 
             try

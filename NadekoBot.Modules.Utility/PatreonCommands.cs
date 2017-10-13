@@ -26,21 +26,19 @@ namespace NadekoBot.Modules.Utility
                 _db = db;
                 _currency = currency;
             }
-
+            
             [NadekoCommand, Usage, Description, Aliases]
-            [OwnerOnly]
             [RequireContext(ContextType.DM)]
             public async Task PatreonRewardsReload()
             {
                 if (string.IsNullOrWhiteSpace(_creds.PatreonAccessToken))
                     return;
-                await _service.RefreshPledges(true).ConfigureAwait(false);
+                await _service.RefreshPledges().ConfigureAwait(false);
 
                 await Context.Channel.SendConfirmAsync("👌").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.DM)]
             public async Task ClaimPatreonRewards()
             {
                 if (string.IsNullOrWhiteSpace(_creds.PatreonAccessToken))

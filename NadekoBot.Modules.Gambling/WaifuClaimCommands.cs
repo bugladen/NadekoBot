@@ -4,13 +4,17 @@ using NadekoBot.Extensions;
 using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
+using NadekoBot.Modules.Gambling.Services;
 
+//todo add .deletewaifus
+//todo add .deletecurrency
+//todo add .deleteplaylists
+//todo add .deletexp
 namespace NadekoBot.Modules.Gambling
 {
     public partial class Gambling
@@ -44,13 +48,10 @@ namespace NadekoBot.Modules.Gambling
             Depraved,
             Harlot
         }
-        //todo unclaimed waifus should lose 3% of their value a day
-        [Group]
-        public class WaifuClaimCommands : NadekoSubmodule
-        {
-            private static ConcurrentDictionary<ulong, DateTime> _divorceCooldowns { get; } = new ConcurrentDictionary<ulong, DateTime>();
-            private static ConcurrentDictionary<ulong, DateTime> _affinityCooldowns { get; } = new ConcurrentDictionary<ulong, DateTime>();
 
+        [Group]
+        public class WaifuClaimCommands : NadekoSubmodule<WaifuService>
+        {
             enum WaifuClaimResult
             {
                 Success,
@@ -219,7 +220,7 @@ namespace NadekoBot.Modules.Gambling
                     var now = DateTime.UtcNow;
                     if (w?.Claimer == null || w.Claimer.UserId != Context.User.Id)
                         result = DivorceResult.NotYourWife;
-                    else if (_divorceCooldowns.AddOrUpdate(Context.User.Id,
+                    else if (_service.DivorceCooldowns.AddOrUpdate(Context.User.Id,
                         now,
                         (key, old) => ((difference = now.Subtract(old)) > _divorceLimit) ? now : old) != now)
                     {
@@ -303,7 +304,7 @@ namespace NadekoBot.Modules.Gambling
                     if (w?.Affinity?.UserId == u?.Id)
                     {
                     }
-                    else if (_affinityCooldowns.AddOrUpdate(Context.User.Id,
+                    else if (_service.AffinityCooldowns.AddOrUpdate(Context.User.Id,
                         now,
                         (key, old) => ((difference = now.Subtract(old)) > _affinityLimit) ? now : old) != now)
                     {

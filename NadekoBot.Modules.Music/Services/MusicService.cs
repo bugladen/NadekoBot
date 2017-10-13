@@ -36,7 +36,7 @@ namespace NadekoBot.Modules.Music.Services
 
         public MusicService(DiscordSocketClient client, IGoogleApiService google,
             NadekoStrings strings, ILocalization localization, DbService db,
-            SoundCloudApiService sc, IBotCredentials creds, IEnumerable<GuildConfig> gcs)
+            SoundCloudApiService sc, IBotCredentials creds, NadekoBot bot)
         {
             _client = client;
             _google = google;
@@ -51,7 +51,9 @@ namespace NadekoBot.Modules.Music.Services
 
             try { Directory.Delete(MusicDataPath, true); } catch { }
 
-            _defaultVolumes = new ConcurrentDictionary<ulong, float>(gcs.ToDictionary(x => x.GuildId, x => x.DefaultMusicVolume));
+            _defaultVolumes = new ConcurrentDictionary<ulong, float>(
+                bot.AllGuildConfigs
+                    .ToDictionary(x => x.GuildId, x => x.DefaultMusicVolume));
 
             Directory.CreateDirectory(MusicDataPath);
         }

@@ -19,14 +19,14 @@ namespace NadekoBot.Modules.Administration.Services
         private readonly DbService _db;
         private readonly DiscordSocketClient _client;
 
-        public GameVoiceChannelService(DiscordSocketClient client, DbService db, IEnumerable<GuildConfig> gcs)
+        public GameVoiceChannelService(DiscordSocketClient client, DbService db, NadekoBot bot)
         {
             _log = LogManager.GetCurrentClassLogger();
             _db = db;
             _client = client;
 
             GameVoiceChannels = new ConcurrentHashSet<ulong>(
-                gcs.Where(gc => gc.GameVoiceChannel != null)
+                bot.AllGuildConfigs.Where(gc => gc.GameVoiceChannel != null)
                                          .Select(gc => gc.GameVoiceChannel.Value));
 
             _client.UserVoiceStateUpdated += Client_UserVoiceStateUpdated;

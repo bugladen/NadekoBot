@@ -42,7 +42,6 @@ namespace NadekoBot.Services.Impl
 
         private readonly Timer _carbonitexTimer;
         private readonly Timer _dataTimer;
-        private readonly ShardsCoordinator _sc;
         private readonly ConnectionMultiplexer _redis;
 
         public StatsService(DiscordSocketClient client, CommandHandler cmdHandler, 
@@ -51,7 +50,6 @@ namespace NadekoBot.Services.Impl
         {
             _client = client;
             _creds = creds;
-            _sc = nadeko.ShardCoord;
             _redis = cache.Redis;
 
             _started = DateTime.UtcNow;
@@ -134,7 +132,7 @@ namespace NadekoBot.Services.Impl
                 return Task.CompletedTask;
             };
 
-            if (_sc != null)
+            if (_client.ShardId == 0)
             {
                 _carbonitexTimer = new Timer(async (state) =>
                 {

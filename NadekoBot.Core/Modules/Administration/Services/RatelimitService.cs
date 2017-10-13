@@ -23,17 +23,17 @@ namespace NadekoBot.Modules.Administration.Services
         private readonly Logger _log;
         private readonly DiscordSocketClient _client;
 
-        public SlowmodeService(DiscordSocketClient client, IEnumerable<GuildConfig> gcs)
+        public SlowmodeService(DiscordSocketClient client, NadekoBot bot)
         {
             _log = LogManager.GetCurrentClassLogger();
             _client = client;
 
             IgnoredRoles = new ConcurrentDictionary<ulong, HashSet<ulong>>(
-                gcs.ToDictionary(x => x.GuildId,
+                bot.AllGuildConfigs.ToDictionary(x => x.GuildId,
                                  x => new HashSet<ulong>(x.SlowmodeIgnoredRoles.Select(y => y.RoleId))));
 
             IgnoredUsers = new ConcurrentDictionary<ulong, HashSet<ulong>>(
-                gcs.ToDictionary(x => x.GuildId,
+                bot.AllGuildConfigs.ToDictionary(x => x.GuildId,
                                  x => new HashSet<ulong>(x.SlowmodeIgnoredUsers.Select(y => y.UserId))));
         }
 

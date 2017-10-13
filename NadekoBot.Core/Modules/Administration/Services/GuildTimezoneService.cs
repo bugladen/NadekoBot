@@ -16,9 +16,9 @@ namespace NadekoBot.Modules.Administration.Services
         private ConcurrentDictionary<ulong, TimeZoneInfo> _timezones;
         private readonly DbService _db;
 
-        public GuildTimezoneService(DiscordSocketClient client, IEnumerable<GuildConfig> gcs, DbService db)
+        public GuildTimezoneService(DiscordSocketClient client, NadekoBot bot, DbService db)
         {
-            _timezones = gcs
+            _timezones = bot.AllGuildConfigs
                 .Select(x =>
                 {
                     TimeZoneInfo tz;
@@ -33,10 +33,10 @@ namespace NadekoBot.Modules.Administration.Services
                     {
                         tz = null;
                     }
-                    return (x.GuildId, tz);
+                    return (x.GuildId, Timezone: tz);
                 })
-                .Where(x => x.Item2 != null)
-                .ToDictionary(x => x.Item1, x => x.Item2)
+                .Where(x => x.Timezone != null)
+                .ToDictionary(x => x.GuildId, x => x.Timezone)
                 .ToConcurrent();
 
             var curUser = client.CurrentUser;

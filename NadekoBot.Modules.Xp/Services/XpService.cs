@@ -68,7 +68,7 @@ namespace NadekoBot.Modules.Xp.Services
         private Font _timeFont;
 
         public XpService(CommandHandler cmd, IBotConfigProvider bc,
-            IEnumerable<GuildConfig> allGuildConfigs, IImagesService images,
+            NadekoBot bot, IImagesService images,
             DbService db, NadekoStrings strings, IDataCache cache)
         {
             _db = db;
@@ -80,7 +80,7 @@ namespace NadekoBot.Modules.Xp.Services
             _cache = cache;
 
             //load settings
-            allGuildConfigs = allGuildConfigs.Where(x => x.XpSettings != null);
+            var allGuildConfigs = bot.AllGuildConfigs.Where(x => x.XpSettings != null);
             _excludedChannels = allGuildConfigs
                 .ToDictionary(
                     x => x.GuildId,
@@ -685,7 +685,6 @@ namespace NadekoBot.Modules.Xp.Services
                 }
 
                 //club image
-
                 if (!string.IsNullOrWhiteSpace(stats.User.Club?.ImageUrl))
                 {
                     var imgUrl = stats.User.Club.ImageUrl;
@@ -694,6 +693,7 @@ namespace NadekoBot.Modules.Xp.Services
                         var (succ, data) = await _cache.TryGetImageDataAsync(imgUrl);
                         if (!succ)
                         {
+                            //todo make sure it's a picture
                             using (var temp = await http.GetStreamAsync(imgUrl))
                             using (var tempDraw = Image.Load(temp).Resize(45, 45))
                             {

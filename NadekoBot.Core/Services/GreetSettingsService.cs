@@ -21,13 +21,15 @@ namespace NadekoBot.Services
         private readonly DiscordSocketClient _client;
         private readonly Logger _log;
 
-        public GreetSettingsService(DiscordSocketClient client, IEnumerable<GuildConfig> guildConfigs, DbService db)
+        public GreetSettingsService(DiscordSocketClient client, NadekoBot bot, DbService db)
         {
             _db = db;
             _client = client;
             _log = LogManager.GetCurrentClassLogger();
 
-            GuildConfigsCache = new ConcurrentDictionary<ulong, GreetSettings>(guildConfigs.ToDictionary(g => g.GuildId, GreetSettings.Create));
+            GuildConfigsCache = new ConcurrentDictionary<ulong, GreetSettings>(
+                bot.AllGuildConfigs
+                    .ToDictionary(g => g.GuildId, GreetSettings.Create));
 
             _client.UserJoined += UserJoined;
             _client.UserLeft += UserLeft;
@@ -180,10 +182,8 @@ namespace NadekoBot.Services
 
         public GreetSettings GetOrAddSettingsForGuild(ulong guildId)
         {
-            GreetSettings settings;
-            GuildConfigsCache.TryGetValue(guildId, out settings);
-
-            if (settings != null)
+            if(GuildConfigsCache.TryGetValue(guildId, out var settings) && 
+                settings != null)
                 return settings;
 
             using (var uow = _db.UnitOfWork)

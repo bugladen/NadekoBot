@@ -18,7 +18,7 @@ namespace NadekoBot.Modules.Utility.Services
         private readonly CommandHandler _ch;
         private readonly HelpService _hs;
 
-        public VerboseErrorsService(IEnumerable<GuildConfig> gcs, DbService db, CommandHandler ch, HelpService hs)
+        public VerboseErrorsService(NadekoBot bot, DbService db, CommandHandler ch, HelpService hs)
         {
             _db = db;
             _ch = ch;
@@ -26,7 +26,10 @@ namespace NadekoBot.Modules.Utility.Services
 
             _ch.CommandErrored += LogVerboseError;
 
-            guildsEnabled = new ConcurrentHashSet<ulong>(gcs.Where(x => x.VerboseErrors).Select(x => x.GuildId));
+            guildsEnabled = new ConcurrentHashSet<ulong>(bot
+                .AllGuildConfigs
+                .Where(x => x.VerboseErrors)
+                .Select(x => x.GuildId));
         }
 
         public Task Unload()

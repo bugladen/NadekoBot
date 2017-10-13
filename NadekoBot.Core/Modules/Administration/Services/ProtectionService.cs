@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
@@ -26,13 +25,13 @@ namespace NadekoBot.Modules.Administration.Services
         private readonly DiscordSocketClient _client;
         private readonly MuteService _mute;
 
-        public ProtectionService(DiscordSocketClient client, IEnumerable<GuildConfig> gcs, MuteService mute)
+        public ProtectionService(DiscordSocketClient client, NadekoBot bot, MuteService mute)
         {
             _log = LogManager.GetCurrentClassLogger();
             _client = client;
             _mute = mute;
 
-            foreach (var gc in gcs)
+            foreach (var gc in bot.AllGuildConfigs)
             {
                 var raid = gc.AntiRaidSetting;
                 var spam = gc.AntiSpamSetting;

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -12,6 +10,8 @@ using NadekoBot.Services;
 using NadekoBot.Services.Database.Models;
 using Newtonsoft.Json;
 using NLog;
+using NadekoBot.Extensions;
+using NadekoBot.Core.Common.Caching;
 
 namespace NadekoBot.Modules.Utility.Services
 {
@@ -19,8 +19,8 @@ namespace NadekoBot.Modules.Utility.Services
     {
         private readonly SemaphoreSlim getPledgesLocker = new SemaphoreSlim(1, 1);
 
-        public ImmutableArray<PatreonUserAndReward> Pledges { get; private set; }
-        public DateTime LastUpdate { get; private set; } = DateTime.UtcNow;
+        private readonly FactoryCache<PatreonUserAndReward[]> _pledges;
+        public PatreonUserAndReward[] Pledges => _pledges.GetValue();
 
         public readonly Timer Updater;
         private readonly SemaphoreSlim claimLockJustInCase = new SemaphoreSlim(1, 1);
@@ -30,79 +30,95 @@ namespace NadekoBot.Modules.Utility.Services
         private readonly IBotCredentials _creds;
         private readonly DbService _db;
         private readonly CurrencyService _currency;
+        private readonly IDataCache _cache;
+        private readonly string _key;
 
-        private readonly string cacheFileName = "./patreon-rewards.json";
+        public DateTime LastUpdate { get; private set; } = DateTime.UtcNow;
 
         public PatreonRewardsService(IBotCredentials creds, DbService db, 
             CurrencyService currency,
-            DiscordSocketClient client)
+            DiscordSocketClient client, IDataCache cache)
         {
             _log = LogManager.GetCurrentClassLogger();
             _creds = creds;
             _db = db;
             _currency = currency;
-            if (string.IsNullOrWhiteSpace(creds.PatreonAccessToken))
-                return;
-            Updater = new Timer(async (load) => await RefreshPledges((bool)load),
-                client.ShardId == 0, client.ShardId == 0 ? TimeSpan.Zero : TimeSpan.FromMinutes(2), Interval);
+            _cache = cache;
+            _key = _creds.RedisKey() + "_patreon_rewards";
+
+            _pledges = new FactoryCache<PatreonUserAndReward[]>(() =>
+            {
+                var r = _cache.Redis.GetDatabase();
+                var data = r.StringGet(_key);
+                if (data.IsNullOrEmpty)
+                    return null;
+                else
+                {
+                    _log.Info(data);
+                    return JsonConvert.DeserializeObject<PatreonUserAndReward[]>(data);
+                }
+            }, TimeSpan.FromSeconds(20));
+
+            if(client.ShardId == 0)
+                Updater = new Timer(async _ => await RefreshPledges(),
+                    null, TimeSpan.Zero, Interval);
         }
 
-        public async Task RefreshPledges(bool shouldLoad)
+        public async Task RefreshPledges()
         {
-            if (shouldLoad)
+            if (string.IsNullOrWhiteSpace(_creds.PatreonAccessToken))
+                return;
+
+            LastUpdate = DateTime.UtcNow;
+            await getPledgesLocker.WaitAsync().ConfigureAwait(false);
+            try
             {
-                LastUpdate = DateTime.UtcNow;
-                await getPledgesLocker.WaitAsync().ConfigureAwait(false);
-                try
+                var rewards = new List<PatreonPledge>();
+                var users = new List<PatreonUser>();
+                using (var http = new HttpClient())
                 {
-                    var rewards = new List<PatreonPledge>();
-                    var users = new List<PatreonUser>();
-                    using (var http = new HttpClient())
+                    http.DefaultRequestHeaders.Clear();
+                    http.DefaultRequestHeaders.Add("Authorization", "Bearer " + _creds.PatreonAccessToken);
+                    var data = new PatreonData()
                     {
-                        http.DefaultRequestHeaders.Clear();
-                        http.DefaultRequestHeaders.Add("Authorization", "Bearer " + _creds.PatreonAccessToken);
-                        var data = new PatreonData()
+                        Links = new PatreonDataLinks()
                         {
-                            Links = new PatreonDataLinks()
-                            {
-                                next = $"https://api.patreon.com/oauth2/api/campaigns/{_creds.PatreonCampaignId}/pledges"
-                            }
-                        };
-                        do
-                        {
-                            var res = await http.GetStringAsync(data.Links.next)
-                                .ConfigureAwait(false);
-                            data = JsonConvert.DeserializeObject<PatreonData>(res);
-                            var pledgers = data.Data.Where(x => x["type"].ToString() == "pledge");
-                            rewards.AddRange(pledgers.Select(x => JsonConvert.DeserializeObject<PatreonPledge>(x.ToString()))
-                                .Where(x => x.attributes.declined_since == null));
-                            users.AddRange(data.Included
-                                .Where(x => x["type"].ToString() == "user")
-                                .Select(x => JsonConvert.DeserializeObject<PatreonUser>(x.ToString())));
-                        } while (!string.IsNullOrWhiteSpace(data.Links.next));
-                    }
-                    Pledges = rewards.Join(users, (r) => r.relationships?.patron?.data?.id, (u) => u.id, (x, y) => new PatreonUserAndReward()
+                            next = $"https://api.patreon.com/oauth2/api/campaigns/{_creds.PatreonCampaignId}/pledges"
+                        }
+                    };
+                    do
                     {
-                        User = y,
-                        Reward = x,
-                    }).ToImmutableArray();
-                    File.WriteAllText("./patreon_rewards.json", JsonConvert.SerializeObject(Pledges));
+                        var res = await http.GetStringAsync(data.Links.next)
+                            .ConfigureAwait(false);
+                        data = JsonConvert.DeserializeObject<PatreonData>(res);
+                        var pledgers = data.Data.Where(x => x["type"].ToString() == "pledge");
+                        rewards.AddRange(pledgers.Select(x => JsonConvert.DeserializeObject<PatreonPledge>(x.ToString()))
+                            .Where(x => x.attributes.declined_since == null));
+                        users.AddRange(data.Included
+                            .Where(x => x["type"].ToString() == "user")
+                            .Select(x => JsonConvert.DeserializeObject<PatreonUser>(x.ToString())));
+                    } while (!string.IsNullOrWhiteSpace(data.Links.next));
                 }
-                catch (Exception ex)
+                var db = _cache.Redis.GetDatabase();
+                var toSet = JsonConvert.SerializeObject(rewards.Join(users, (r) => r.relationships?.patron?.data?.id, (u) => u.id, (x, y) => new PatreonUserAndReward()
                 {
-                    _log.Warn(ex);
-                }
-                finally
-                {
-                    getPledgesLocker.Release();
-                }
+                    User = y,
+                    Reward = x,
+                }).ToArray());
+
+                _log.Info(toSet);
+
+                db.StringSet(_key, toSet);
             }
-            else
+            catch (Exception ex)
             {
-                if(File.Exists(cacheFileName))
-                Pledges = JsonConvert.DeserializeObject<PatreonUserAndReward[]>(File.ReadAllText("./patreon_rewards.json"))
-                    .ToImmutableArray();
+                _log.Warn(ex);
             }
+            finally
+            {
+                getPledgesLocker.Release();
+            }
+            
         }
 
         public async Task<int> ClaimReward(ulong userId)
@@ -111,7 +127,7 @@ namespace NadekoBot.Modules.Utility.Services
             var now = DateTime.UtcNow;
             try
             {
-                var data = Pledges.FirstOrDefault(x => x.User.attributes?.social_connections?.discord?.user_id == userId.ToString());
+                var data = Pledges?.FirstOrDefault(x => x.User.attributes?.social_connections?.discord?.user_id == userId.ToString());
 
                 if (data == null)
                     return 0;
@@ -175,7 +191,7 @@ namespace NadekoBot.Modules.Utility.Services
 
         public Task Unload()
         {
-            Updater.Change(Timeout.Infinite, Timeout.Infinite);
+            Updater?.Change(Timeout.Infinite, Timeout.Infinite);
             return Task.CompletedTask;
         }
     }

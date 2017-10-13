@@ -17,11 +17,11 @@ namespace NadekoBot.Modules.Utility.Services
 
         public ConcurrentDictionary<ulong, ConcurrentDictionary<string, string>> AliasMaps { get; } = new ConcurrentDictionary<ulong, ConcurrentDictionary<string, string>>();
         //commandmap
-        public CommandMapService(IEnumerable<GuildConfig> gcs)
+        public CommandMapService(NadekoBot bot)
         {
             _log = LogManager.GetCurrentClassLogger();
             AliasMaps = new ConcurrentDictionary<ulong, ConcurrentDictionary<string, string>>(
-                gcs.ToDictionary(
+                bot.AllGuildConfigs.ToDictionary(
                     x => x.GuildId,
                         x => new ConcurrentDictionary<string, string>(x.CommandAliases
                             .Distinct(new CommandAliasEqualityComparer())

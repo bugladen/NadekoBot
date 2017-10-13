@@ -24,13 +24,14 @@ namespace NadekoBot.Modules.Utility.Services
         private readonly ConcurrentDictionary<ulong, StreamRoleSettings> guildSettings;
         private readonly Logger _log;
 
-        public StreamRoleService(DiscordSocketClient client, DbService db, IEnumerable<GuildConfig> gcs)
+        public StreamRoleService(DiscordSocketClient client, DbService db, NadekoBot bot)
         {
             this._log = LogManager.GetCurrentClassLogger();
             this._db = db;
             this._client = client;
 
-            guildSettings = gcs.ToDictionary(x => x.GuildId, x => x.StreamRole)
+            guildSettings = bot.AllGuildConfigs
+                .ToDictionary(x => x.GuildId, x => x.StreamRole)
                 .Where(x => x.Value != null && x.Value.Enabled)
                 .ToConcurrent();
 

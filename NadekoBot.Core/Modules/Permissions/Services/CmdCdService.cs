@@ -16,10 +16,10 @@ namespace NadekoBot.Modules.Permissions.Services
         public ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>> CommandCooldowns { get; }
         public ConcurrentDictionary<ulong, ConcurrentHashSet<ActiveCooldown>> ActiveCooldowns { get; } = new ConcurrentDictionary<ulong, ConcurrentHashSet<ActiveCooldown>>();
 
-        public CmdCdService(IEnumerable<GuildConfig> gcs)
+        public CmdCdService(NadekoBot bot)
         {
             CommandCooldowns = new ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>>(
-                gcs.ToDictionary(k => k.GuildId, 
+                bot.AllGuildConfigs.ToDictionary(k => k.GuildId, 
                                  v => new ConcurrentHashSet<CommandCooldown>(v.CommandCooldowns)));
         }
 

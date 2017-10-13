@@ -13,6 +13,7 @@ using NLog;
 
 namespace NadekoBot.Modules.Utility.Services
 {
+    //todo rewrite
     public class ConverterService : INService, IUnloadableService
     {
         public List<ConvertUnit> Units { get; } = new List<ConvertUnit>();

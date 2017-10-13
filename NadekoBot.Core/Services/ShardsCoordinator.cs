@@ -27,7 +27,11 @@ namespace NadekoBot.Services
             LogSetup.SetupLogger();
             _log = LogManager.GetCurrentClassLogger();
             _creds = new BotCredentials();
+
+            _log.Info("Starting NadekoBot v" + StatsService.BotVersion);
+
             _key = _creds.RedisKey();
+            _redis = ConnectionMultiplexer.Connect("127.0.0.1");
 
             //setup initial shard statuses
             _defaultShardState = new ShardComMessage()

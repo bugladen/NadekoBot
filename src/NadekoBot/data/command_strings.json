@@ -1836,7 +1836,7 @@
   },
   "antispam": {
     "Cmd": "antispam",
-    "Desc": "Stops people from repeating same message X times in a row. You can specify to either mute, kick or ban the offenders. Max message count is 10.",
+    "Desc": "Stops people from repeating same message X times in a row. You can specify to either mute, kick or ban the offenders. If you're using mute, you can add a number of seconds at the end to use a timed mute. Max message count is 10.",
     "Usage": [
       "{0}antispam 3 Mute",
       "{0}antispam 4 Kick",

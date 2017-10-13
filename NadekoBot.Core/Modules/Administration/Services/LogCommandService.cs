@@ -50,7 +50,7 @@ namespace NadekoBot.Modules.Administration.Services
         private readonly GuildTimezoneService _tz;
 
         public LogCommandService(DiscordSocketClient client, NadekoStrings strings,
-            IEnumerable<GuildConfig> gcs, DbService db, MuteService mute, ProtectionService prot, GuildTimezoneService tz)
+            NadekoBot bot, DbService db, MuteService mute, ProtectionService prot, GuildTimezoneService tz)
         {
             _client = client;
             _log = LogManager.GetCurrentClassLogger();
@@ -60,7 +60,7 @@ namespace NadekoBot.Modules.Administration.Services
             _prot = prot;
             _tz = tz;
 
-            GuildLogSettings = gcs
+            GuildLogSettings = bot.AllGuildConfigs
                 .ToDictionary(g => g.GuildId, g => g.LogSetting)
                 .ToConcurrent();
 

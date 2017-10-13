@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord.WebSocket;
 using NadekoBot.Services;
-using NadekoBot.Services.Database.Models;
 using NLog;
 
 namespace NadekoBot.Modules.Administration.Services
@@ -18,13 +16,13 @@ namespace NadekoBot.Modules.Administration.Services
         //guildid/roleid
         public ConcurrentDictionary<ulong, ulong> AutoAssignedRoles { get; }
 
-        public AutoAssignRoleService(DiscordSocketClient client, IEnumerable<GuildConfig> gcs)
+        public AutoAssignRoleService(DiscordSocketClient client, NadekoBot bot)
         {
             _log = LogManager.GetCurrentClassLogger();
             _client = client;
 
             AutoAssignedRoles = new ConcurrentDictionary<ulong, ulong>(
-                gcs.Where(x => x.AutoAssignRoleId != 0)
+                bot.AllGuildConfigs.Where(x => x.AutoAssignRoleId != 0)
                     .ToDictionary(k => k.GuildId, v => v.AutoAssignRoleId));
 
             _client.UserJoined += (user) =>

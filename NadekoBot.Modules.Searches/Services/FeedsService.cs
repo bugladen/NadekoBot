@@ -24,11 +24,13 @@ namespace NadekoBot.Modules.Searches.Services
         private readonly ConcurrentDictionary<string, DateTime> _lastPosts = 
             new ConcurrentDictionary<string, DateTime>();
 
-        public FeedsService(IEnumerable<GuildConfig> gcs, DbService db, DiscordSocketClient client)
+        public FeedsService(NadekoBot bot, DbService db, DiscordSocketClient client)
         {
             _db = db;
 
-            _subs = gcs.SelectMany(x => x.FeedSubs)
+            _subs = bot
+                .AllGuildConfigs
+                .SelectMany(x => x.FeedSubs)
                 .GroupBy(x => x.Url)
                 .ToDictionary(x => x.Key, x => x.ToHashSet())
                 .ToConcurrent();
@@ -54,8 +56,7 @@ namespace NadekoBot.Modules.Searches.Services
                     if (kvp.Value.Count == 0)
                         continue;
 
-                    DateTime lastTime;
-                    if (!_lastPosts.TryGetValue(kvp.Key, out lastTime))
+                    if (!_lastPosts.TryGetValue(kvp.Key, out DateTime lastTime))
                         lastTime = _lastPosts.AddOrUpdate(kvp.Key, DateTime.UtcNow, (k, old) => DateTime.UtcNow);
 
                     var rssUrl = kvp.Key;
