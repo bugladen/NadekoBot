@@ -132,8 +132,6 @@ namespace NadekoBot
 
                 IBotConfigProvider botConfigProvider = new BotConfigProvider(_db, _botConfig);
 
-                //var localization = new Localization(_botConfig.Locale, AllGuildConfigs.ToDictionary(x => x.GuildId, x => x.Locale), Db);
-
                 //initialize Services
                 Services = new NServiceProvider()
                     .AddManual<IBotCredentials>(Credentials)
@@ -175,9 +173,7 @@ namespace NadekoBot
             var toReturn = new List<object>();
             foreach (var ft in filteredTypes)
             {
-                //:yayyy:
                 var x = (TypeReader)Activator.CreateInstance(ft, Client, CommandService);
-                //@.@ XD XDDD
                 var baseType = ft.BaseType;
                 var typeArgs = baseType.GetGenericArguments();
                 try

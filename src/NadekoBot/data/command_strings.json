@@ -3002,5 +3002,40 @@
     "usage": [
       "{0}say hi"
     ]
+  },
+  "execsql": {
+    "cmd": "execsql",
+    "desc": "Executes an sql command and returns the number of affected rows. Dangerous.",
+    "usage": [
+      "{0}execsql UPDATE Currency SET Amount=Amount+1234"
+    ]
+  },
+  "deletewaifus": {
+    "cmd": "deletewaifus",
+    "desc": "Deletes everything from WaifuUpdates and WaifuInfo tables.",
+    "usage": [
+      "{0}deletewaifus"
+    ]
+  },
+  "deletecurrency": {
+    "cmd": "deletecurrency",
+    "desc": "Deletes everything from Currency and CurrencyTransactions.",
+    "usage": [
+      "{0}deletecurrency"
+    ]
+  },
+  "deleteplaylists": {
+    "cmd": "deleteplaylists",
+    "desc": "Deletes everything from MusicPlaylists.",
+    "usage": [
+      "{0}deleteplaylists"
+    ]
+  },
+  "deletexp": {
+    "cmd": "deletexp",
+    "desc": "Deletes everything from UserXpStats, Clubs and sets users' TotalXP to 0.",
+    "usage": [
+      "{0}execsql UPDATE Currency SET Amount=Amount+1234"
+    ]
   }
 }

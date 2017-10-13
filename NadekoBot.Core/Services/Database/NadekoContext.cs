@@ -51,7 +51,6 @@ namespace NadekoBot.Services.Database
         //orphans xD
         public DbSet<EightBallResponse> EightBallResponses { get; set; }
         public DbSet<RaceAnimal> RaceAnimals { get; set; }
-        public DbSet<ModulePrefix> ModulePrefixes { get; set; }
         public DbSet<RewardedUser> RewardedUsers { get; set; }
 
         public NadekoContext(DbContextOptions<NadekoContext> options) : base(options)

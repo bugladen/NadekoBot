@@ -2,12 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Extensions;
-using NadekoBot.Modules;
 using NadekoBot.Services;
 using System;
 using System.Threading.Tasks;
 
-#if DEBUG
+#if !GLOBAL_NADEKO
 namespace NadekoBot.Modules.Administration
 {
     public partial class Administration
@@ -42,6 +41,33 @@ namespace NadekoBot.Modules.Administration
                     await Context.Channel.SendErrorAsync(ex.ToString());
                 }
             }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [OwnerOnly]
+            public Task DeleteWaifus() =>
+                ExecSql("DELETE FROM WaifuUpdates; DELETE FROM WaifuInfo;");
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [OwnerOnly]
+            public Task DeleteCurrency() =>
+                ExecSql("DELETE FROM Currency; DELETE FROM CurrencyTransactions;");
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [OwnerOnly]
+            public Task DeletePlaylists() =>
+                ExecSql("DELETE FROM MusicPlaylists;");
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [OwnerOnly]
+            public Task DeleteExp() =>
+                ExecSql(@"DELETE FROM UserXpStats;
+UPDATE DiscordUser
+SET ClubId=NULL,
+    IsClubAdmin=0,
+    TotalXp=0;
+DELETE FROM ClubApplicants;
+DELETE FROM ClubBans;
+DELETE FROM Clubs;");
         }
     }
 }

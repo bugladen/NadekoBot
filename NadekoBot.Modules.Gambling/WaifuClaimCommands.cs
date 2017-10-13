@@ -11,10 +11,6 @@ using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Gambling.Services;
 
-//todo add .deletewaifus
-//todo add .deletecurrency
-//todo add .deleteplaylists
-//todo add .deletexp
 namespace NadekoBot.Modules.Gambling
 {
     public partial class Gambling
