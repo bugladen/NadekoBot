@@ -45,10 +45,9 @@ namespace NadekoBot.Core.Services
             for (int i = 0; i < _creds.TotalShards; i++)
             {
                 _defaultShardState.ShardId = i;
-                db.ListSetByIndex(_key + "shardstats", 
-                    i, 
+                db.ListRightPush(_key + "_shardstats",
                     JsonConvert.SerializeObject(_defaultShardState),
-                    CommandFlags.FireAndForget);
+                    flags: CommandFlags.FireAndForget);
             }
 
             _curProcessId = Process.GetCurrentProcess().Id;
@@ -73,7 +72,7 @@ namespace NadekoBot.Core.Services
             var shardId = JsonConvert.DeserializeObject<int>(data);
             var db = _redis.GetDatabase();
             _defaultShardState.ShardId = shardId;
-            db.ListSetByIndex(_key + "shardstats",
+            db.ListSetByIndex(_key + "_shardstats",
                     shardId,
                     JsonConvert.SerializeObject(_defaultShardState),
                     CommandFlags.FireAndForget);
@@ -96,7 +95,7 @@ namespace NadekoBot.Core.Services
             if (msg == null)
                 return;
             var db = _redis.GetDatabase();
-            db.ListSetByIndex(_key + "shardstats",
+            db.ListSetByIndex(_key + "_shardstats",
                     msg.ShardId,
                     data,
                     CommandFlags.FireAndForget);

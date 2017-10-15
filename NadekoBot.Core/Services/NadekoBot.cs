@@ -21,7 +21,6 @@ using NadekoBot.Core.Services.Database;
 using StackExchange.Redis;
 using Newtonsoft.Json;
 
-//todo Finish the script which autobuilds all projects if they're changed
 namespace NadekoBot
 {
     public class NadekoBot
