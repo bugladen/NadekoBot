@@ -200,56 +200,6 @@ namespace NadekoBot.Migrations
                     b.ToTable("BotConfig");
                 });
 
-            modelBuilder.Entity("NadekoBot.Core.Services.Database.Models.ClashCaller", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("BaseDestroyed");
-
-                    b.Property<string>("CallUser");
-
-                    b.Property<int>("ClashWarId");
-
-                    b.Property<DateTime?>("DateAdded");
-
-                    b.Property<int?>("SequenceNumber");
-
-                    b.Property<int>("Stars");
-
-                    b.Property<DateTime>("TimeAdded");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClashWarId");
-
-                    b.ToTable("ClashCallers");
-                });
-
-            modelBuilder.Entity("NadekoBot.Core.Services.Database.Models.ClashWar", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<ulong>("ChannelId");
-
-                    b.Property<DateTime?>("DateAdded");
-
-                    b.Property<string>("EnemyClan");
-
-                    b.Property<ulong>("GuildId");
-
-                    b.Property<int>("Size");
-
-                    b.Property<DateTime>("StartedAt");
-
-                    b.Property<int>("WarState");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ClashOfClans");
-                });
-
             modelBuilder.Entity("NadekoBot.Core.Services.Database.Models.ClubApplicants", b =>
                 {
                     b.Property<int>("ClubId");
@@ -800,6 +750,24 @@ namespace NadekoBot.Migrations
                     b.ToTable("IgnoredVoicePresenceCHannels");
                 });
 
+            modelBuilder.Entity("NadekoBot.Core.Services.Database.Models.LoadedPackage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("BotConfigId");
+
+                    b.Property<DateTime?>("DateAdded");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BotConfigId");
+
+                    b.ToTable("LoadedPackages");
+                });
+
             modelBuilder.Entity("NadekoBot.Core.Services.Database.Models.LogSetting", b =>
                 {
                     b.Property<int>("Id")
@@ -872,26 +840,6 @@ namespace NadekoBot.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("LogSettings");
-                });
-
-            modelBuilder.Entity("NadekoBot.Core.Services.Database.Models.ModulePrefix", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("BotConfigId");
-
-                    b.Property<DateTime?>("DateAdded");
-
-                    b.Property<string>("ModuleName");
-
-                    b.Property<string>("Prefix");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BotConfigId");
-
-                    b.ToTable("ModulePrefixes");
                 });
 
             modelBuilder.Entity("NadekoBot.Core.Services.Database.Models.MusicPlaylist", b =>
@@ -1633,14 +1581,6 @@ namespace NadekoBot.Migrations
                         .HasForeignKey("BotConfigId1");
                 });
 
-            modelBuilder.Entity("NadekoBot.Core.Services.Database.Models.ClashCaller", b =>
-                {
-                    b.HasOne("NadekoBot.Core.Services.Database.Models.ClashWar", "ClashWar")
-                        .WithMany("Bases")
-                        .HasForeignKey("ClashWarId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("NadekoBot.Core.Services.Database.Models.ClubApplicants", b =>
                 {
                     b.HasOne("NadekoBot.Core.Services.Database.Models.ClubInfo", "Club")
@@ -1789,10 +1729,10 @@ namespace NadekoBot.Migrations
                         .HasForeignKey("LogSettingId");
                 });
 
-            modelBuilder.Entity("NadekoBot.Core.Services.Database.Models.ModulePrefix", b =>
+            modelBuilder.Entity("NadekoBot.Core.Services.Database.Models.LoadedPackage", b =>
                 {
                     b.HasOne("NadekoBot.Core.Services.Database.Models.BotConfig")
-                        .WithMany("ModulePrefixes")
+                        .WithMany("LoadedPackages")
                         .HasForeignKey("BotConfigId");
                 });
 

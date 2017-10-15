@@ -18,9 +18,6 @@ namespace NadekoBot.Core.Services.Database
         private IDonatorsRepository _donators;
         public IDonatorsRepository Donators => _donators ?? (_donators = new DonatorsRepository(_context));
 
-        private IClashOfClansRepository _clashOfClans;
-        public IClashOfClansRepository ClashOfClans => _clashOfClans ?? (_clashOfClans = new ClashOfClansRepository(_context));
-
         private IReminderRepository _reminders;
         public IReminderRepository Reminders => _reminders ?? (_reminders = new ReminderRepository(_context));
 

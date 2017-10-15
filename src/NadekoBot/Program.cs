@@ -17,9 +17,10 @@ namespace NadekoBot
             }
             else
             {
-                //todo revert
+#if DEBUG
                 var _ = new NadekoBot(0, Process.GetCurrentProcess().Id)
                        .RunAsync(args);
+#endif
                 return new ShardsCoordinator()
                     .RunAndBlockAsync();
             }

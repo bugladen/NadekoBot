@@ -380,94 +380,113 @@ namespace NadekoBot
             return sub.PublishAsync(Client.CurrentUser.Id + "_status.game_set", JsonConvert.SerializeObject(obj));
         }
 
-        private readonly Dictionary<string, (IEnumerable<ModuleInfo> Modules, IEnumerable<Type> Types)> _loadedPackages = new Dictionary<string, (IEnumerable<ModuleInfo>, IEnumerable<Type>)>();
-        private readonly SemaphoreSlim _packageLocker = new SemaphoreSlim(1, 1);
-        public IEnumerable<string> LoadedPackages => _loadedPackages.Keys;
+        //private readonly Dictionary<string, (IEnumerable<ModuleInfo> Modules, IEnumerable<Type> Types)> _loadedPackages = new Dictionary<string, (IEnumerable<ModuleInfo>, IEnumerable<Type>)>();
+        //private readonly SemaphoreSlim _packageLocker = new SemaphoreSlim(1, 1);
+        //public IEnumerable<string> LoadedPackages => _loadedPackages.Keys;
 
-        /// <summary>
-        /// Unloads a package
-        /// </summary>
-        /// <param name="name">Package name. Case sensitive.</param>
-        /// <returns>Whether the unload is successful.</returns>
-        public async Task<bool> UnloadPackage(string name)
-        {
-            await _packageLocker.WaitAsync().ConfigureAwait(false);
-            try
-            {
-                if (!_loadedPackages.TryGetValue(name, out var data))
-                    return false;
+        ///// <summary>
+        ///// Unloads a package
+        ///// </summary>
+        ///// <param name="name">Package name. Case sensitive.</param>
+        ///// <returns>Whether the unload is successful.</returns>
+        //public async Task<bool> UnloadPackage(string name)
+        //{
+        //    await _packageLocker.WaitAsync().ConfigureAwait(false);
+        //    try
+        //    {
+        //        if (!_loadedPackages.Remove(name, out var data))
+        //            return false;
 
-                var modules = data.Modules;
-                var types = data.Types;
+        //        var modules = data.Modules;
+        //        var types = data.Types;
 
-                var i = 0;
-                foreach (var m in modules)
-                {
-                    await CommandService.RemoveModuleAsync(m).ConfigureAwait(false);
-                    i++;
-                }
-                _log.Info("Unloaded {0} modules.", i);
+        //        var i = 0;
+        //        foreach (var m in modules)
+        //        {
+        //            await CommandService.RemoveModuleAsync(m).ConfigureAwait(false);
+        //            i++;
+        //        }
+        //        _log.Info("Unloaded {0} modules.", i);
 
-                if (types != null && types.Any())
-                {
-                    i = 0;
-                    foreach (var t in types)
-                    {
-                        var obj = Services.Unload(t);
-                        if (obj is IUnloadableService s)
-                            await s.Unload().ConfigureAwait(false);
-                        i++;
-                    }
+        //        if (types != null && types.Any())
+        //        {
+        //            i = 0;
+        //            foreach (var t in types)
+        //            {
+        //                var obj = Services.Unload(t);
+        //                if (obj is IUnloadableService s)
+        //                    await s.Unload().ConfigureAwait(false);
+        //                i++;
+        //            }
 
-                    _log.Info("Unloaded {0} types.", i);
-                }
+        //            _log.Info("Unloaded {0} types.", i);
+        //        }
+        //        using (var uow = _db.UnitOfWork)
+        //        {
+        //            uow.BotConfig.GetOrCreate().LoadedPackages.Remove(new LoadedPackage
+        //            {
+        //                Name = name,
+        //            });
+        //        }
+        //        return true;
+        //    }
+        //    finally
+        //    {
+        //        _packageLocker.Release();
+        //    }
+        //}
+        ///// <summary>
+        ///// Loads a package
+        ///// </summary>
+        ///// <param name="name">Name of the package to load. Case sensitive.</param>
+        ///// <returns>Whether the load is successful.</returns>
+        //public async Task<bool> LoadPackage(string name)
+        //{
+        //    await _packageLocker.WaitAsync().ConfigureAwait(false);
+        //    try
+        //    {
+        //        if (_loadedPackages.ContainsKey(name))
+        //            return false;
 
-                return true;
-            }
-            finally
-            {
-                _packageLocker.Release();
-            }
-        }
-        /// <summary>
-        /// Loads a package
-        /// </summary>
-        /// <param name="name">Name of the package to load. Case sensitive.</param>
-        /// <returns>Whether the load is successful.</returns>
-        public async Task<bool> LoadPackage(string name)
-        {
-            await _packageLocker.WaitAsync().ConfigureAwait(false);
-            try
-            {
-                if (_loadedPackages.ContainsKey(name))
-                    return false;
+        //        var startingGuildIdList = Client.Guilds.Select(x => (long)x.Id).ToList();
+        //        using (var uow = _db.UnitOfWork)
+        //        {
+        //            AllGuildConfigs = uow.GuildConfigs.GetAllGuildConfigs(startingGuildIdList).ToImmutableArray();
+        //        }
 
-                var startingGuildIdList = Client.Guilds.Select(x => (long)x.Id).ToList();
-                using (var uow = _db.UnitOfWork)
-                {
-                    AllGuildConfigs = uow.GuildConfigs.GetAllGuildConfigs(startingGuildIdList).ToImmutableArray();
-                }
-                var package = Assembly.LoadFile(Path.Combine(AppContext.BaseDirectory,
-                                                "modules",
-                                                $"NadekoBot.Modules.{name}",
-                                                $"NadekoBot.Modules.{name}.dll"));
-                var types = Services.LoadFrom(package);
-                var added = await CommandService.AddModulesAsync(package).ConfigureAwait(false);
-                var trs = LoadTypeReaders(package); 
-                /* i don't have to unload typereaders
-                 * (and there's no api for it)
-                 * because they get overwritten anyway, and since 
-                 * the only time I'd unload typereaders, is when unloading a module
-                 * which means they won't have a chance to be used
-                 * */
-                _log.Info("Loaded {0} modules and {1} types.", added.Count(), types.Count());
-                _loadedPackages.Add(name, (added, types));
-                return true;
-            }
-            finally
-            {
-                _packageLocker.Release();
-            }
-        }
+        //        var domain = new Context();
+        //        var package = domain.LoadFromAssemblyPath(Path.Combine(AppContext.BaseDirectory,
+        //                                        "modules",
+        //                                        $"NadekoBot.Modules.{name}",
+        //                                        $"NadekoBot.Modules.{name}.dll"));
+        //        //var package = Assembly.LoadFile(Path.Combine(AppContext.BaseDirectory,
+        //        //                                "modules",
+        //        //                                $"NadekoBot.Modules.{name}",
+        //        //                                $"NadekoBot.Modules.{name}.dll"));
+        //        var types = Services.LoadFrom(package);
+        //        var added = await CommandService.AddModulesAsync(package).ConfigureAwait(false);
+        //        var trs = LoadTypeReaders(package); 
+        //        /* i don't have to unload typereaders
+        //         * (and there's no api for it)
+        //         * because they get overwritten anyway, and since 
+        //         * the only time I'd unload typereaders, is when unloading a module
+        //         * which means they won't have a chance to be used
+        //         * */
+        //        _log.Info("Loaded {0} modules and {1} types.", added.Count(), types.Count());
+        //        _loadedPackages.Add(name, (added, types));
+        //        using (var uow = _db.UnitOfWork)
+        //        {
+        //            uow.BotConfig.GetOrCreate().LoadedPackages.Add(new LoadedPackage
+        //            {
+        //                Name = name,
+        //            });
+        //        }
+        //        return true;
+        //    }
+        //    finally
+        //    {
+        //        _packageLocker.Release();
+        //    }
+        //}
     }
 }

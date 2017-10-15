@@ -12,8 +12,6 @@ namespace NadekoBot.Core.Services.Database.Models
         public float CurrencyGenerationChance { get; set; } = 0.02f;
         public int CurrencyGenerationCooldown { get; set; } = 10;
 
-        public HashSet<ModulePrefix> ModulePrefixes { get; set; } = new HashSet<ModulePrefix>();
-
         public List<PlayingStatus> RotatingStatusMessages { get; set; } = new List<PlayingStatus>();
 
         public bool RotatingStatuses { get; set; } = false;
@@ -70,6 +68,7 @@ Nadeko Support Server: https://discord.gg/nadekobot";
         public bool CustomReactionsStartWith { get; set; } = false;
         public int XpPerMessage { get; set; } = 3;
         public int XpMinutesTimeout { get; set; } = 5;
+        public HashSet<LoadedPackage> LoadedPackages { get; set; } = new HashSet<LoadedPackage>();
     }
 
     public class BlockedCmdOrMdl : DbEntity
@@ -153,25 +152,6 @@ Nadeko Support Server: https://discord.gg/nadekobot";
                 return base.Equals(obj);
 
             return ((RaceAnimal)obj).Icon == Icon;
-        }
-    }
-    
-    public class ModulePrefix : DbEntity
-    {
-        public string ModuleName { get; set; }
-        public string Prefix { get; set; }
-
-        public override int GetHashCode()
-        {
-            return ModuleName.GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            if(!(obj is ModulePrefix))
-                return base.Equals(obj);
-
-            return ((ModulePrefix)obj).ModuleName == ModuleName;
         }
     }
 }

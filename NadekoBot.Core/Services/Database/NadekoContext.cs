@@ -7,7 +7,6 @@ using System;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Data.Sqlite;
 using System.IO;
-using NadekoBot.Core.Services.Database.Models;
 
 namespace NadekoBot.Core.Services.Database
 {
@@ -170,16 +169,7 @@ namespace NadekoBot.Core.Services.Database
             //    .HasForeignKey(mp => mp.BotConfigId);
 
             #endregion
-
-            #region ClashOfClans
-
-            var callersEntity = modelBuilder.Entity<ClashCaller>();
-            callersEntity
-                .HasOne(c => c.ClashWar)
-                .WithMany(c => c.Bases);
-
-            #endregion
-
+            
             #region Self Assignable Roles
 
             var selfassignableRolesEntity = modelBuilder.Entity<SelfAssignedRole>();
