@@ -18,6 +18,11 @@ using Newtonsoft.Json.Linq;
 using AngleSharp;
 using System.Threading;
 using NadekoBot.Modules.Searches.Exceptions;
+using ImageSharp;
+using Image = ImageSharp.Image;
+using SixLabors.Primitives;
+using SixLabors.Fonts;
+using NadekoBot.Core.Services.Impl;
 
 namespace NadekoBot.Modules.Searches.Services
 {
@@ -29,11 +34,16 @@ namespace NadekoBot.Modules.Searches.Services
         private readonly IGoogleApiService _google;
         private readonly DbService _db;
         private readonly Logger _log;
+        private readonly IImagesService _imgs;
+        private readonly IDataCache _cache;
+        private readonly FontProvider _fonts;
+        private readonly HttpClient http;
 
         public ConcurrentDictionary<ulong, bool> TranslatedChannels { get; } = new ConcurrentDictionary<ulong, bool>();
         public ConcurrentDictionary<UserChannelPair, string> UserLanguages { get; } = new ConcurrentDictionary<UserChannelPair, string>();
         
         public readonly string PokemonAbilitiesFile = "data/pokemon/pokemon_abilities7.json";
+
         public readonly string PokemonListFile = "data/pokemon/pokemon_list7.json";
         public Dictionary<string, SearchPokemon> Pokemons { get; } = new Dictionary<string, SearchPokemon>();
         public Dictionary<string, SearchPokemonAbility> PokemonAbilities { get; } = new Dictionary<string, SearchPokemonAbility>();
@@ -50,7 +60,8 @@ namespace NadekoBot.Modules.Searches.Services
         private readonly ConcurrentDictionary<ulong, HashSet<string>> _blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>();
 
         public SearchesService(DiscordSocketClient client, IGoogleApiService google, 
-            DbService db, NadekoBot bot)
+            DbService db, NadekoBot bot, IImagesService imgs, IDataCache cache,
+            FontProvider fonts)
         {
             Http = new HttpClient();
             Http.AddFakeHeaders();
@@ -58,6 +69,10 @@ namespace NadekoBot.Modules.Searches.Services
             _google = google;
             _db = db;
             _log = LogManager.GetCurrentClassLogger();
+            _imgs = imgs;
+            _cache = cache;
+            _fonts = fonts;
+            http = new HttpClient();
 
             _blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>(
                 bot.AllGuildConfigs.ToDictionary(
@@ -124,6 +139,61 @@ namespace NadekoBot.Modules.Searches.Services
             }
             else
                 _log.Warn("data/magicitems.json is missing. Magic items are not loaded.");
+        }
+
+        public async Task<Image<Rgba32>> GetRipPictureAsync(string text, string imgUrl)
+        {
+            var (succ, data) = await _cache.TryGetImageDataAsync(imgUrl);
+            if (!succ)
+            {
+                using (var temp = await http.GetAsync(imgUrl, HttpCompletionOption.ResponseHeadersRead))
+                {
+                    if (temp.Content.Headers.ContentType.MediaType != "image/png"
+                        && temp.Content.Headers.ContentType.MediaType != "image/jpeg"
+                        && temp.Content.Headers.ContentType.MediaType != "image/gif")
+                        data = null;
+                    else
+                    {
+                        using (var tempDraw = ImageSharp.Image.Load(await temp.Content.ReadAsStreamAsync()).Resize(69, 70))
+                        {
+                            tempDraw.ApplyRoundedCorners(35);
+                            data = tempDraw.ToStream().ToArray();
+                        }
+                    }
+                }
+
+                await _cache.SetImageDataAsync(imgUrl, data);
+            }
+            var bg = ImageSharp.Image.Load(_imgs.Rip.ToArray());
+
+            //avatar 82, 139
+            if (data != null)
+            {
+                var avatar = Image.Load(data).Resize(85, 85);
+                bg.DrawImage(avatar, 
+                    default, 
+                    new Point(82, 139),
+                    GraphicsOptions.Default);
+            }
+            //text 63, 241
+            bg.DrawText(text, 
+                _fonts.RipNameFont, 
+                Rgba32.Black, 
+                new PointF(25, 225),
+                new ImageSharp.Drawing.TextGraphicsOptions()
+                {
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    WrapTextWidth = 190,
+                });
+
+            //flowa
+            var flowers = Image.Load(_imgs.FlowerCircle.ToArray());
+            bg.DrawImage(flowers,
+                default,
+                new Point(0, 0),
+                GraphicsOptions.Default);
+
+            return bg;
         }
 
         public async Task<string> Translate(string langs, string text = null)
@@ -212,7 +282,7 @@ namespace NadekoBot.Modules.Searches.Services
 
         public async Task<(string Text, string BaseUri)> GetRandomJoke()
         {
-            var config = Configuration.Default.WithDefaultLoader();
+            var config = AngleSharp.Configuration.Default.WithDefaultLoader();
             var document = await BrowsingContext.New(config).OpenAsync("http://www.goodbadjokes.com/random");
 
             var html = document.QuerySelector(".post > .joke-content");

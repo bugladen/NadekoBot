@@ -37,7 +37,7 @@ namespace NadekoBot.Modules.Xp.Services
         private readonly Logger _log;
         private readonly NadekoStrings _strings;
         private readonly IDataCache _cache;
-        private readonly FontCollection _fonts = new FontCollection();
+        private readonly FontProvider _fonts;
         public const int XP_REQUIRED_LVL_1 = 36;
 
         private readonly ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>> _excludedRoles
@@ -59,17 +59,11 @@ namespace NadekoBot.Modules.Xp.Services
         private readonly CancellationTokenSource _clearRewardTimerTokenSource;
         private readonly Task _clearRewardTimer;
         private readonly HttpClient http = new HttpClient();
-        private FontFamily _usernameFontFamily;
-        private FontFamily _clubFontFamily;
-        private Font _levelFont;
-        private Font _xpFont;
-        private Font _awardedFont;
-        private Font _rankFont;
-        private Font _timeFont;
 
         public XpService(CommandHandler cmd, IBotConfigProvider bc,
             NadekoBot bot, IImagesService images,
-            DbService db, NadekoStrings strings, IDataCache cache)
+            DbService db, NadekoStrings strings, IDataCache cache,
+            FontProvider fonts)
         {
             _db = db;
             _cmd = cmd;
@@ -78,6 +72,7 @@ namespace NadekoBot.Modules.Xp.Services
             _log = LogManager.GetCurrentClassLogger();
             _strings = strings;
             _cache = cache;
+            _fonts = fonts;
 
             //load settings
             var allGuildConfigs = bot.AllGuildConfigs.Where(x => x.XpSettings != null);
@@ -104,16 +99,6 @@ namespace NadekoBot.Modules.Xp.Services
             _excludedServers = new ConcurrentHashSet<ulong>(
                 allGuildConfigs.Where(x => x.XpSettings.ServerExcluded)
                                .Select(x => x.GuildId));
-
-            //todo 60 move to font provider or somethign
-            _fonts = new FontCollection();
-            if (Directory.Exists("data/fonts"))
-                foreach (var file in Directory.GetFiles("data/fonts"))
-                {
-                    _fonts.Install(file);
-                }
-
-            InitializeFonts();
 
             _cmd.OnMessageNoTrigger += _cmd_OnMessageNoTrigger;
 
@@ -547,16 +532,6 @@ namespace NadekoBot.Modules.Xp.Services
             return GenerateImageAsync(GetUserStats(user));
         }
 
-        private void InitializeFonts()
-        {
-            _usernameFontFamily = _fonts.Find("Whitney-Bold");
-            _clubFontFamily = _fonts.Find("Whitney-Bold");
-            _levelFont = _fonts.Find("Whitney-Bold").CreateFont(45);
-            _xpFont = _fonts.Find("Whitney-Bold").CreateFont(50);
-            _awardedFont = _fonts.Find("Whitney-Bold").CreateFont(25);
-            _rankFont = _fonts.Find("Uni Sans Thin CAPS").CreateFont(30);
-            _timeFont = _fonts.Find("Whitney-Bold").CreateFont(20);
-        }
 
         public Task<MemoryStream> GenerateImageAsync(FullUserStats stats) => Task.Run(async () =>
         {
@@ -564,7 +539,7 @@ namespace NadekoBot.Modules.Xp.Services
             {
 
                 var username = stats.User.ToString();
-                var usernameFont = _usernameFontFamily
+                var usernameFont = _fonts.UsernameFontFamily
                     .CreateFont(username.Length <= 6
                         ? 50
                         : 50 - username.Length);
@@ -574,17 +549,17 @@ namespace NadekoBot.Modules.Xp.Services
 
                 // level
 
-                img.DrawText(stats.Global.Level.ToString(), _levelFont, Rgba32.White,
+                img.DrawText(stats.Global.Level.ToString(), _fonts.LevelFont, Rgba32.White,
                     new PointF(47, 137));
 
-                img.DrawText(stats.Guild.Level.ToString(), _levelFont, Rgba32.White,
+                img.DrawText(stats.Guild.Level.ToString(), _fonts.LevelFont, Rgba32.White,
                     new PointF(47, 285));
 
                 //club name
 
                 var clubName = stats.User.Club?.ToString() ?? "-";
 
-                var clubFont = _clubFontFamily
+                var clubFont = _fonts.ClubFontFamily
                     .CreateFont(clubName.Length <= 8
                         ? 35
                         : 35 - (clubName.Length / 2));
@@ -607,7 +582,7 @@ namespace NadekoBot.Modules.Xp.Services
                     new PointF(286 + (450 * (global.LevelXp / (float)global.RequiredXp)), 235),
                     new PointF(286, 235),
                 });
-                img.DrawText($"{global.LevelXp}/{global.RequiredXp}", _xpFont, brush, pen,
+                img.DrawText($"{global.LevelXp}/{global.RequiredXp}", _fonts.XpFont, brush, pen,
                     new PointF(430, 130));
 
                 img.FillPolygon(xpBgBrush, new[] {
@@ -616,7 +591,7 @@ namespace NadekoBot.Modules.Xp.Services
                     new PointF(247 + (450 * (guild.LevelXp / (float)guild.RequiredXp)), 379),
                     new PointF(247, 379),
                 });
-                img.DrawText($"{guild.LevelXp}/{guild.RequiredXp}", _xpFont, brush, pen,
+                img.DrawText($"{guild.LevelXp}/{guild.RequiredXp}", _fonts.XpFont, brush, pen,
                     new PointF(400, 270));
 
                 if (stats.FullGuildStats.AwardedXp != 0)
@@ -624,16 +599,16 @@ namespace NadekoBot.Modules.Xp.Services
                     var sign = stats.FullGuildStats.AwardedXp > 0
                         ? "+ "
                         : "";
-                    img.DrawText($"({sign}{stats.FullGuildStats.AwardedXp})", _awardedFont, brush, pen,
+                    img.DrawText($"({sign}{stats.FullGuildStats.AwardedXp})", _fonts.AwardedFont, brush, pen,
                         new PointF(445 - (Math.Max(0, (stats.FullGuildStats.AwardedXp.ToString().Length - 2)) * 5), 335));
                 }
 
                 //ranking
 
-                img.DrawText(stats.GlobalRanking.ToString(), _rankFont, Rgba32.White,
+                img.DrawText(stats.GlobalRanking.ToString(), _fonts.RankFont, Rgba32.White,
                     new PointF(148, 170));
 
-                img.DrawText(stats.GuildRanking.ToString(), _rankFont, Rgba32.White,
+                img.DrawText(stats.GuildRanking.ToString(), _fonts.RankFont, Rgba32.White,
                     new PointF(148, 317));
 
                 //time on this level
@@ -644,10 +619,10 @@ namespace NadekoBot.Modules.Xp.Services
                     return $"{offset.Days}d{offset.Hours}h{offset.Minutes}m";
                 }
 
-                img.DrawText(GetTimeSpent(stats.User.LastLevelUp), _timeFont, Rgba32.White,
+                img.DrawText(GetTimeSpent(stats.User.LastLevelUp), _fonts.TimeFont, Rgba32.White,
                     new PointF(50, 197));
 
-                img.DrawText(GetTimeSpent(stats.FullGuildStats.LastLevelUp), _timeFont, Rgba32.White,
+                img.DrawText(GetTimeSpent(stats.FullGuildStats.LastLevelUp), _fonts.TimeFont, Rgba32.White,
                     new PointF(50, 344));
 
                 //avatar
@@ -664,7 +639,7 @@ namespace NadekoBot.Modules.Xp.Services
                             using (var temp = await http.GetStreamAsync(avatarUrl))
                             using (var tempDraw = Image.Load(temp).Resize(69, 70))
                             {
-                                ApplyRoundedCorners(tempDraw, 35);
+                                tempDraw.ApplyRoundedCorners(35);
                                 data = tempDraw.ToStream().ToArray();
                             }
 
@@ -710,7 +685,7 @@ namespace NadekoBot.Modules.Xp.Services
                                 return;
                             using (var tempDraw = Image.Load(await temp.Content.ReadAsStreamAsync()).Resize(45, 45))
                             {
-                                ApplyRoundedCorners(tempDraw, 22.5f);
+                                tempDraw.ApplyRoundedCorners(22.5f);
                                 data = tempDraw.ToStream().ToArray();
                             }
                         }
@@ -729,40 +704,6 @@ namespace NadekoBot.Modules.Xp.Services
                     _log.Warn(ex);
                 }
             }
-        }
-
-        // https://github.com/SixLabors/ImageSharp/tree/master/samples/AvatarWithRoundedCorner
-        public static void ApplyRoundedCorners(Image<Rgba32> img, float cornerRadius)
-        {
-            var corners = BuildCorners(img.Width, img.Height, cornerRadius);
-            // now we have our corners time to draw them
-            img.Fill(Rgba32.Transparent, corners, new GraphicsOptions(true)
-            {
-                BlenderMode = ImageSharp.PixelFormats.PixelBlenderMode.Src // enforces that any part of this shape that has color is punched out of the background
-            });
-        }
-
-        public static IPathCollection BuildCorners(int imageWidth, int imageHeight, float cornerRadius)
-        {
-            // first create a square
-            var rect = new RectangularePolygon(-0.5f, -0.5f, cornerRadius, cornerRadius);
-
-            // then cut out of the square a circle so we are left with a corner
-            var cornerToptLeft = rect.Clip(new EllipsePolygon(cornerRadius - 0.5f, cornerRadius - 0.5f, cornerRadius));
-
-            // corner is now a corner shape positions top left
-            //lets make 3 more positioned correctly, we can do that by translating the orgional around the center of the image
-            var center = new Vector2(imageWidth / 2, imageHeight / 2);
-
-            float rightPos = imageWidth - cornerToptLeft.Bounds.Width + 1;
-            float bottomPos = imageHeight - cornerToptLeft.Bounds.Height + 1;
-
-            // move it across the width of the image - the width of the shape
-            var cornerTopRight = cornerToptLeft.RotateDegree(90).Translate(rightPos, 0);
-            var cornerBottomLeft = cornerToptLeft.RotateDegree(-90).Translate(0, bottomPos);
-            var cornerBottomRight = cornerToptLeft.RotateDegree(180).Translate(rightPos, bottomPos);
-
-            return new PathCollection(cornerToptLeft, cornerBottomLeft, cornerTopRight, cornerBottomRight);
         }
 
         public Task Unload()

@@ -7,7 +7,7 @@
 
 #### Guide 
 - Download and run the [NadekoBot Updater.][Updater]
-- Press **`Install Redis`** then
+- Press **`Install Redis`** then  
 - Press **`Install ffmpeg`** and **`Install youtube-dl`** if you want music features.  
 ***NOTE:** RESTART YOUR PC IF YOU DO.*
 - Press **`Update`** and go through the installation wizard.			

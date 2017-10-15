@@ -19,6 +19,9 @@ namespace NadekoBot.Core.Services
 
         ImmutableArray<byte> XpCard { get; }
 
+        ImmutableArray<byte> Rip { get; }
+        ImmutableArray<byte> FlowerCircle { get; }
+
         void Reload();
     }
 }

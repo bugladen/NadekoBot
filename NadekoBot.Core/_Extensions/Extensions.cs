@@ -17,11 +17,47 @@ using NadekoBot.Common.Collections;
 using SixLabors.Primitives;
 using NadekoBot.Common;
 using NadekoBot.Core.Services;
+using SixLabors.Shapes;
+using System.Numerics;
 
 namespace NadekoBot.Extensions
 {
     public static class Extensions
     {
+        // https://github.com/SixLabors/ImageSharp/tree/master/samples/AvatarWithRoundedCorner
+        public static void ApplyRoundedCorners(this Image<Rgba32> img, float cornerRadius)
+        {
+            var corners = BuildCorners(img.Width, img.Height, cornerRadius);
+            // now we have our corners time to draw them
+            img.Fill(Rgba32.Transparent, corners, new GraphicsOptions(true)
+            {
+                BlenderMode = ImageSharp.PixelFormats.PixelBlenderMode.Src // enforces that any part of this shape that has color is punched out of the background
+            });
+        }
+
+        public static IPathCollection BuildCorners(int imageWidth, int imageHeight, float cornerRadius)
+        {
+            // first create a square
+            var rect = new RectangularePolygon(-0.5f, -0.5f, cornerRadius, cornerRadius);
+
+            // then cut out of the square a circle so we are left with a corner
+            var cornerToptLeft = rect.Clip(new EllipsePolygon(cornerRadius - 0.5f, cornerRadius - 0.5f, cornerRadius));
+
+            // corner is now a corner shape positions top left
+            //lets make 3 more positioned correctly, we can do that by translating the orgional around the center of the image
+            var center = new Vector2(imageWidth / 2, imageHeight / 2);
+
+            float rightPos = imageWidth - cornerToptLeft.Bounds.Width + 1;
+            float bottomPos = imageHeight - cornerToptLeft.Bounds.Height + 1;
+
+            // move it across the width of the image - the width of the shape
+            var cornerTopRight = cornerToptLeft.RotateDegree(90).Translate(rightPos, 0);
+            var cornerBottomLeft = cornerToptLeft.RotateDegree(-90).Translate(0, bottomPos);
+            var cornerBottomRight = cornerToptLeft.RotateDegree(180).Translate(rightPos, bottomPos);
+
+            return new PathCollection(cornerToptLeft, cornerBottomLeft, cornerTopRight, cornerBottomRight);
+        }
+
         public static string RedisKey(this IBotCredentials bc)
         {
             return bc.Token.Substring(0, 10);

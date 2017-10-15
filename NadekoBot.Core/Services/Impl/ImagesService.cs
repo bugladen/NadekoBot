@@ -27,6 +27,9 @@ namespace NadekoBot.Core.Services.Impl
 
         private const string _xpCardPath = _basePath + "xp/xp.png";
 
+        private const string _ripPath = _basePath + "rip/rip.png";
+        private const string _ripFlowersPath = _basePath + "rip/rose_overlay.png";
+
 
         public ImmutableArray<byte> Heads { get; private set; }
         public ImmutableArray<byte> Tails { get; private set; }
@@ -43,6 +46,9 @@ namespace NadekoBot.Core.Services.Impl
         public ImmutableArray<byte> RategirlDot { get; private set; }
 
         public ImmutableArray<byte> XpCard { get; private set; }
+
+        public ImmutableArray<byte> Rip { get; private set; }
+        public ImmutableArray<byte> FlowerCircle { get; private set; }
 
         public ImagesService()
         {
@@ -82,6 +88,9 @@ namespace NadekoBot.Core.Services.Impl
                 RategirlDot = File.ReadAllBytes(_rategirlDot).ToImmutableArray();
 
                 XpCard = File.ReadAllBytes(_xpCardPath).ToImmutableArray();
+
+                Rip = File.ReadAllBytes(_ripPath).ToImmutableArray();
+                FlowerCircle = File.ReadAllBytes(_ripFlowersPath).ToImmutableArray();
             }
             catch (Exception ex)
             {

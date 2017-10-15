@@ -36,6 +36,22 @@ namespace NadekoBot.Modules.Searches
             _google = google;
         }
 
+        //for anonymasen :^)
+        [NadekoCommand, Usage, Description, Aliases]
+        public async Task Rip([Remainder]IGuildUser usr)
+        {
+            using (var pic = await _service.GetRipPictureAsync(usr.Nickname ?? usr.Username, usr.RealAvatarUrl()))
+            using (var picStream = pic.ToStream())
+            {
+                await Context.Channel.SendFileAsync(
+                    picStream,
+                    "rip.png",
+                    $"Rip {Format.Bold(usr.ToString())} \n\t- " + 
+                        Format.Italics(Context.User.ToString()))
+                    .ConfigureAwait(false);
+            }
+        }
+
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [RequireUserPermission(GuildPermission.ManageMessages)]

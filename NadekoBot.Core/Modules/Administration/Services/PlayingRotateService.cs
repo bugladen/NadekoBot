@@ -6,6 +6,7 @@ using NadekoBot.Common.Replacements;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
 using NLog;
+using NadekoBot.Modules.Music.Services;
 
 namespace NadekoBot.Modules.Administration.Services
 {
@@ -27,7 +28,7 @@ namespace NadekoBot.Modules.Administration.Services
         }
 
         public PlayingRotateService(DiscordSocketClient client, IBotConfigProvider bcp,
-            DbService db, IDataCache cache, NadekoBot bot)
+            DbService db, IDataCache cache, NadekoBot bot, MusicService music)
         {
             _client = client;
             _bcp = bcp;
@@ -41,8 +42,7 @@ namespace NadekoBot.Modules.Administration.Services
                 _rep = new ReplacementBuilder()
                     .WithClient(client)
                     .WithStats(client)
-                    //todo how to add music to replacement builder?
-                    //.WithMusic(music)
+                    .WithMusic(music)
                     .Build();
 
                 _t = new Timer(async (objState) =>
