@@ -33,9 +33,6 @@ namespace NadekoBot.Core.Services.Database
         private ICurrencyTransactionsRepository _currencyTransactions;
         public ICurrencyTransactionsRepository CurrencyTransactions => _currencyTransactions ?? (_currencyTransactions = new CurrencyTransactionsRepository(_context));
 
-        private IUnitConverterRepository _conUnits;
-        public IUnitConverterRepository ConverterUnits => _conUnits ?? (_conUnits = new UnitConverterRepository(_context));
-
         private IMusicPlaylistRepository _musicPlaylists;
         public IMusicPlaylistRepository MusicPlaylists => _musicPlaylists ?? (_musicPlaylists = new MusicPlaylistRepository(_context));
 

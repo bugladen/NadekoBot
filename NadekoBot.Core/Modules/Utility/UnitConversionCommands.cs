@@ -26,11 +26,12 @@ namespace NadekoBot.Modules.Utility
                                                                                                        .OrderBy(x => x)))));
                 await Context.Channel.EmbedAsync(res);
             }
+
             [NadekoCommand, Usage, Description, Aliases]
             public async Task Convert(string origin, string target, decimal value)
             {
-                var originUnit = _service.Units.Find(x => x.Triggers.Select(y => y.ToLowerInvariant()).Contains(origin.ToLowerInvariant()));
-                var targetUnit = _service.Units.Find(x => x.Triggers.Select(y => y.ToLowerInvariant()).Contains(target.ToLowerInvariant()));
+                var originUnit = _service.Units.FirstOrDefault(x => x.Triggers.Select(y => y.ToLowerInvariant()).Contains(origin.ToLowerInvariant()));
+                var targetUnit = _service.Units.FirstOrDefault(x => x.Triggers.Select(y => y.ToLowerInvariant()).Contains(target.ToLowerInvariant()));
                 if (originUnit == null || targetUnit == null)
                 {
                     await ReplyErrorLocalized("convert_not_found", Format.Bold(origin), Format.Bold(target)).ConfigureAwait(false);

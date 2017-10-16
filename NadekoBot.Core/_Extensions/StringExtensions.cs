@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,9 @@ namespace NadekoBot.Extensions
 {
     public static class StringExtensions
     {
+        public static T MapJson<T>(this string str)
+            => JsonConvert.DeserializeObject<T>(str);
+
         public static string StripHTML(this string input)
         {
             return Regex.Replace(input, "<.*?>", String.Empty);
