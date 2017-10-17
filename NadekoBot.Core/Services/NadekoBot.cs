@@ -185,7 +185,7 @@ namespace NadekoBot
                     throw;
                 }
                 toReturn.Add(x);
-                _log.Info("Loaded {0} typereader.", x.GetType().Name);
+                //_log.Info("Loaded {0} typereader.", x.GetType().Name);
             }
 
             return toReturn;
@@ -250,7 +250,15 @@ namespace NadekoBot
             await LoginAsync(Credentials.Token).ConfigureAwait(false);
 
             _log.Info($"Shard {Client.ShardId} loading services...");
-            AddServices();
+            try
+            {
+                AddServices();
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex);
+                throw;
+            }
 
             sw.Stop();
             _log.Info($"Shard {Client.ShardId} connected in {sw.Elapsed.TotalSeconds:F2}s");

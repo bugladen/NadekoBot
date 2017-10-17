@@ -24,6 +24,7 @@ namespace NadekoBot.Modules.Games
         [Group]
         public class PlantPickCommands : NadekoSubmodule<GamesService>
         {
+            //todo rewrite
             private readonly CurrencyService _cs;
             private readonly IBotConfigProvider _bc;
             private readonly DbService _db;
@@ -42,9 +43,9 @@ namespace NadekoBot.Modules.Games
             {
                 var channel = (ITextChannel)Context.Channel;
 
+                ///waaaaaat
                 if (!(await channel.Guild.GetCurrentUserAsync()).GetPermissions(channel).ManageMessages)
                     return;
-
 
                 try { await Context.Message.DeleteAsync().ConfigureAwait(false); } catch { }
                 if (!_service.PlantedFlowers.TryRemove(channel.Id, out List<IUserMessage> msgs))
@@ -72,23 +73,27 @@ namespace NadekoBot.Modules.Games
                     return;
                 }
 
-                var imgData = _service.GetRandomCurrencyImage();
-                
-                var msgToSend = GetText("planted",
-                    Format.Bold(Context.User.ToString()),
-                    amount + _bc.BotConfig.CurrencySign,
-                    Prefix);
-
-                if (amount > 1)
-                    msgToSend += " " + GetText("pick_pl", Prefix);
-                else
-                    msgToSend += " " + GetText("pick_sn", Prefix);
-
-                IUserMessage msg;
-                using (var toSend = imgData.Data.ToStream())
+                IUserMessage msg = null;
+                try
                 {
-                    msg = await Context.Channel.SendFileAsync(toSend, imgData.Name, msgToSend).ConfigureAwait(false);
+                    var imgData = _service.GetRandomCurrencyImage();
+
+                    var msgToSend = GetText("planted",
+                        Format.Bold(Context.User.ToString()),
+                        amount + _bc.BotConfig.CurrencySign,
+                        Prefix);
+
+                    if (amount > 1)
+                        msgToSend += " " + GetText("pick_pl", Prefix);
+                    else
+                        msgToSend += " " + GetText("pick_sn", Prefix);
+
+                    using (var toSend = imgData.Data.ToStream())
+                    {
+                        msg = await Context.Channel.SendFileAsync(toSend, imgData.Name, msgToSend).ConfigureAwait(false);
+                    }
                 }
+                catch { }
 
                 var msgs = new IUserMessage[amount];
                 msgs[0] = msg;

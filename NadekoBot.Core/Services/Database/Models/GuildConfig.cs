@@ -55,8 +55,8 @@ namespace NadekoBot.Core.Services.Database.Models
         public bool FilterInvites { get; set; }
         public HashSet<FilterChannelId> FilterInvitesChannelIds { get; set; } = new HashSet<FilterChannelId>();
 
-        public bool FilterLinks { get; set; }
-        public HashSet<FilterLinksChannelId> FilterLinksChannels { get; set; } = new HashSet<FilterLinksChannelId>();
+        //public bool FilterLinks { get; set; }
+        //public HashSet<FilterLinksChannelId> FilterLinksChannels { get; set; } = new HashSet<FilterLinksChannelId>();
         
         public bool FilterWords { get; set; }
         public HashSet<FilteredWord> FilteredWords { get; set; } = new HashSet<FilteredWord>();
