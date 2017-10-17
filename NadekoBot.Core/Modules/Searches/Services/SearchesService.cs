@@ -215,12 +215,6 @@ namespace NadekoBot.Modules.Searches.Services
             {
                 var blacklistedTags = GetBlacklistedTags(guild.Value);
 
-                if (blacklistedTags
-                    .Any(x => tag.ToLowerInvariant().Contains(x)))
-                {
-                    throw new TagBlacklistedException();
-                }
-
                 var cacher = _imageCacher.GetOrAdd(guild.Value, (key) => new SearchImageCacher());
 
                 return cacher.GetImage(tag, isExplicit, type, blacklistedTags);
