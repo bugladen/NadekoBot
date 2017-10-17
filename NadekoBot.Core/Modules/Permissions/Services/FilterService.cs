@@ -27,6 +27,9 @@ namespace NadekoBot.Modules.Permissions.Services
         public ConcurrentHashSet<ulong> WordFilteringChannels { get; }
         public ConcurrentHashSet<ulong> WordFilteringServers { get; }
 
+        //public ConcurrentHashSet<ulong> LinkFilteringServers { get; }
+        //public ConcurrentDictionary<ulong, bool> LinkFilteringChannelSettings { get; }
+
         public ConcurrentHashSet<string> FilteredWordsForChannel(ulong channelId, ulong guildId)
         {
             ConcurrentHashSet<string> words = new ConcurrentHashSet<string>();
@@ -56,8 +59,9 @@ namespace NadekoBot.Modules.Permissions.Services
 
             var serverFiltering = bot.AllGuildConfigs.Where(gc => gc.FilterWords);
             WordFilteringServers = new ConcurrentHashSet<ulong>(serverFiltering.Select(gc => gc.GuildId));
-
             WordFilteringChannels = new ConcurrentHashSet<ulong>(bot.AllGuildConfigs.SelectMany(gc => gc.FilterWordsChannelIds.Select(fwci => fwci.ChannelId)));
+
+            //LinkFilteringServers = new ConcurrentHashSet<ulong>(bot.AllGuildConfigs.Where(gc => gc.FilterLinks).Select(x => x.GuildId));
 
             _client.MessageUpdated += (oldData, newMsg, channel) =>
             {

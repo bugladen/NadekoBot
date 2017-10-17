@@ -16,16 +16,24 @@ namespace NadekoBot.Modules.Permissions
     public partial class Permissions
     {
         [Group]
-        public class FilterCommands : NadekoSubmodule
+        public class FilterCommands : NadekoSubmodule<FilterService>
         {
             private readonly DbService _db;
-            private readonly FilterService _service;
 
-            public FilterCommands(FilterService service, DbService db)
+            public FilterCommands(DbService db)
             {
-                _service = service;
                 _db = db;
             }
+
+            //[NadekoCommand, Usage, Description, Aliases]
+            //[RequireContext(ContextType.Guild)]
+            //public async Task SrvrFilterLinks()
+            //{
+            //    using (var uow = _db.UnitOfWork)
+            //    {
+            //        var config = 
+            //    }
+            //}
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]

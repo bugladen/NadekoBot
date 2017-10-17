@@ -950,7 +950,7 @@ namespace NadekoBot.Modules.Administration.Services
                     break;
             }
 
-            if (!id.HasValue)
+            if (!id.HasValue || id == 0)
             {
                 UnsetLogSetting(guild.Id, logChannelType);
                 return null;

@@ -55,6 +55,9 @@ namespace NadekoBot.Core.Services.Database.Models
         public bool FilterInvites { get; set; }
         public HashSet<FilterChannelId> FilterInvitesChannelIds { get; set; } = new HashSet<FilterChannelId>();
 
+        public bool FilterLinks { get; set; }
+        public HashSet<FilterLinksChannelId> FilterLinksChannels { get; set; } = new HashSet<FilterLinksChannelId>();
+        
         public bool FilterWords { get; set; }
         public HashSet<FilteredWord> FilteredWords { get; set; } = new HashSet<FilteredWord>();
         public HashSet<FilterChannelId> FilterWordsChannelIds { get; set; } = new HashSet<FilterChannelId>();
@@ -209,6 +212,23 @@ namespace NadekoBot.Core.Services.Database.Models
     public class FilterChannelId : DbEntity
     {
         public ulong ChannelId { get; set; }
+    }
+
+    public class FilterLinksChannelId : DbEntity
+    {
+        public ulong ChannelId { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is FilterLinksChannelId f
+                ? f.ChannelId == ChannelId
+                : false;
+        }
+
+        public override int GetHashCode()
+        {
+            return ChannelId.GetHashCode();
+        }
     }
 
     public class FilteredWord : DbEntity

@@ -8,5 +8,7 @@ namespace NadekoBot.Modules.Gambling.Services
     {
         public ConcurrentDictionary<ulong, DateTime> DivorceCooldowns { get; } = new ConcurrentDictionary<ulong, DateTime>();
         public ConcurrentDictionary<ulong, DateTime> AffinityCooldowns { get; } = new ConcurrentDictionary<ulong, DateTime>();
+
+        
     }
 }
