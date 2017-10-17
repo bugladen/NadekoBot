@@ -154,7 +154,7 @@ namespace NadekoBot.Modules.Administration
                         .WithTitle(GetText("warnings_list"))
                         .WithDescription(string.Join("\n", ws));
 
-                }, warnings.Length / 15);
+                }, warnings.Length, 15);
             }
 
             [NadekoCommand, Usage, Description, Aliases]

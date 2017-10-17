@@ -258,7 +258,6 @@ namespace NadekoBot.Modules.Music
                 total.Minutes,
                 total.Seconds);
             var maxPlaytime = mp.MaxPlaytimeSeconds;
-            var lastPage = songs.Length / itemsPerPage;
             Func<int, EmbedBuilder> printAction = curPage =>
             {
                 var startAt = itemsPerPage * curPage;
@@ -300,7 +299,7 @@ namespace NadekoBot.Modules.Music
                     desc = add + "\n" + desc;
                 
                 var embed = new EmbedBuilder()
-                    .WithAuthor(eab => eab.WithName(GetText("player_queue", curPage + 1, lastPage + 1))
+                    .WithAuthor(eab => eab.WithName(GetText("player_queue", curPage + 1, (songs.Length / itemsPerPage) + 1))
                         .WithMusicIcon())
                     .WithDescription(desc)
                     .WithFooter(ef => ef.WithText($"{mp.PrettyVolume} | {songs.Length} " +
@@ -309,7 +308,8 @@ namespace NadekoBot.Modules.Music
 
                 return embed;
             };
-            await Context.Channel.SendPaginatedConfirmAsync(_client, page, printAction, lastPage, false).ConfigureAwait(false);
+            await Context.Channel.SendPaginatedConfirmAsync(_client, 
+                page, printAction, songs.Length, itemsPerPage, false).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]

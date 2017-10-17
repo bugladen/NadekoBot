@@ -139,7 +139,7 @@ namespace NadekoBot.Modules.Xp
                         return embed.WithThumbnailUrl(club.ImageUrl);
 
                     return embed;
-                }, club.Users.Count / 10);
+                }, club.Users.Count, 10);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -170,7 +170,7 @@ namespace NadekoBot.Modules.Xp
                             .WithDescription(toShow)
                             .WithOkColor();
 
-                    }, bans.Length / 10);
+                    }, bans.Length, 10);
             }
 
 
@@ -202,7 +202,7 @@ namespace NadekoBot.Modules.Xp
                             .WithDescription(toShow)
                             .WithOkColor();
 
-                    }, apps.Length / 10);
+                    }, apps.Length, 10);
             }
 
             [NadekoCommand, Usage, Description, Aliases]

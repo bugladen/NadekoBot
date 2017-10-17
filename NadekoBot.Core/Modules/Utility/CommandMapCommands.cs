@@ -126,7 +126,7 @@ namespace NadekoBot.Modules.Utility
                     .WithDescription(string.Join("\n",
                         arr.Skip(curPage * 10).Take(10).Select(x => $"`{x.Key}` => `{x.Value}`")));
 
-                }, arr.Length / 10).ConfigureAwait(false);
+                }, arr.Length, 10).ConfigureAwait(false);
             }
         }
     }

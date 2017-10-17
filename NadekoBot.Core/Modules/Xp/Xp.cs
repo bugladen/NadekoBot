@@ -236,7 +236,7 @@ namespace NadekoBot.Modules.Xp
                     }
                     return embed;
                 }
-            }, addPaginatedFooter: false);
+            }, 1000, 10, addPaginatedFooter: false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]

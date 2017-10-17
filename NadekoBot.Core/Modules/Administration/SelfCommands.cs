@@ -259,7 +259,7 @@ namespace NadekoBot.Modules.Administration
                         .WithTitle(status)
                         .WithOkColor()
                         .WithDescription(str);
-                }, allShardStrings.Length / 25);
+                }, allShardStrings.Length, 25);
             }
             
             [NadekoCommand, Usage, Description, Aliases]

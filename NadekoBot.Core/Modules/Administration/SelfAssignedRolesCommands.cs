@@ -146,7 +146,7 @@ namespace NadekoBot.Modules.Administration
                         .WithTitle(GetText("self_assign_list", roleCnt))
                         .WithDescription(string.Join("\n", roles.Skip(curPage * 10).Take(10)))
                         .WithOkColor();
-                }, roles.Count / 10);
+                }, roles.Count, 10);
             }
 
             [NadekoCommand, Usage, Description, Aliases]

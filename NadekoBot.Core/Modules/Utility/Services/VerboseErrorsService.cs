@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
@@ -7,7 +6,6 @@ using NadekoBot.Common.Collections;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Help.Services;
 using NadekoBot.Core.Services;
-using NadekoBot.Core.Services.Database.Models;
 
 namespace NadekoBot.Modules.Utility.Services
 {

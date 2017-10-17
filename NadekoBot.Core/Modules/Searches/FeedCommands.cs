@@ -103,7 +103,7 @@ namespace NadekoBot.Modules.Searches
 
                     return embed.WithDescription(fs);
 
-                }, feeds.Count / 10);
+                }, feeds.Count, 10);
             }
         }
     }

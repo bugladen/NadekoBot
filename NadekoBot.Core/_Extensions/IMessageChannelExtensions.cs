@@ -55,14 +55,16 @@ namespace NadekoBot.Extensions
         private static readonly IEmote arrow_left = new Emoji("⬅");
         private static readonly IEmote arrow_right = new Emoji("➡");
 
-        public static Task SendPaginatedConfirmAsync(this IMessageChannel channel, DiscordSocketClient client, int currentPage, Func<int, EmbedBuilder> pageFunc, int? lastPage = null, bool addPaginatedFooter = true) =>
-            channel.SendPaginatedConfirmAsync(client, currentPage, (x) => Task.FromResult(pageFunc(x)), lastPage, addPaginatedFooter);
+        public static Task SendPaginatedConfirmAsync(this IMessageChannel channel, DiscordSocketClient client, int currentPage, Func<int, EmbedBuilder> pageFunc, int totalElements, int itemsPerPage, bool addPaginatedFooter = true) =>
+            channel.SendPaginatedConfirmAsync(client, currentPage, (x) => Task.FromResult(pageFunc(x)), totalElements, itemsPerPage, addPaginatedFooter);
         /// <summary>
         /// danny kamisama
         /// </summary>
-        public static async Task SendPaginatedConfirmAsync(this IMessageChannel channel, DiscordSocketClient client, int currentPage, Func<int, Task<EmbedBuilder>> pageFunc, int? lastPage = null, bool addPaginatedFooter = true)
+        public static async Task SendPaginatedConfirmAsync(this IMessageChannel channel, DiscordSocketClient client, int currentPage, Func<int, Task<EmbedBuilder>> pageFunc, int totalElements, int itemsPerPage, bool addPaginatedFooter = true)
         {
             var embed = await pageFunc(currentPage).ConfigureAwait(false);
+
+            var lastPage = (totalElements - 1) / itemsPerPage;
 
             if (addPaginatedFooter)
                 embed.AddPaginatedFooter(currentPage, lastPage);
@@ -93,7 +95,7 @@ namespace NadekoBot.Extensions
                     }
                     else if (r.Emote.Name == arrow_right.Name)
                     {
-                        if (lastPage == null || lastPage > currentPage)
+                        if (lastPage > currentPage)
                         {
                             var toSend = await pageFunc(++currentPage).ConfigureAwait(false);
                             if (addPaginatedFooter)
