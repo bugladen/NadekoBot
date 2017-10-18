@@ -74,7 +74,6 @@ namespace NadekoBot.Extensions
             if (lastPage == 0)
                 return;
 
-
             await msg.AddReactionAsync(arrow_left).ConfigureAwait(false);
             await msg.AddReactionAsync(arrow_right).ConfigureAwait(false);
 
