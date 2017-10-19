@@ -154,10 +154,10 @@ namespace NadekoBot.Modules.Administration.Services
                             .WithFooter(fb => fb.WithText(CurrentTime(g)))
                             .WithOkColor();
 
-                        if (Uri.IsWellFormedUriString(before.GetAvatarUrl(), UriKind.Absolute))
-                            embed.WithThumbnailUrl(before.GetAvatarUrl());
-                        if (Uri.IsWellFormedUriString(after.GetAvatarUrl(), UriKind.Absolute))
-                            embed.WithImageUrl(after.GetAvatarUrl());
+                        if (Uri.IsWellFormedUriString(before.RealAvatarUrl(), UriKind.Absolute))
+                            embed.WithThumbnailUrl(before.RealAvatarUrl());
+                        if (Uri.IsWellFormedUriString(after.RealAvatarUrl(), UriKind.Absolute))
+                            embed.WithImageUrl(after.RealAvatarUrl());
                     }
                     else
                     {
