@@ -24,13 +24,17 @@ namespace NadekoBot.Modules.Utility
         private readonly IStatsService _stats;
         private readonly IBotCredentials _creds;
         private readonly NadekoBot _bot;
+        private readonly DbService _db;
 
-        public Utility(NadekoBot nadeko, DiscordSocketClient client, IStatsService stats, IBotCredentials creds)
+        public Utility(NadekoBot nadeko, DiscordSocketClient client, 
+            IStatsService stats, IBotCredentials creds,
+            DbService db)
         {
             _client = client;
             _stats = stats;
             _creds = creds;
             _bot = nadeko;
+            _db = db;            
         }
 
         [NadekoCommand, Usage, Description, Aliases]

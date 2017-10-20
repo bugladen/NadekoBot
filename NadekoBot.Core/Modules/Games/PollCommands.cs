@@ -39,7 +39,7 @@ namespace NadekoBot.Modules.Games
 
             private async Task InternalStartPoll(string arg)
             {
-                if(await _service.StartPoll((ITextChannel)Context.Channel, Context.Message, arg) == false)
+                if(await _service.StartPoll(Context.Channel.Id, Context.Message, arg) == false)
                     await ReplyErrorLocalized("poll_already_running").ConfigureAwait(false);
             }
 
@@ -53,8 +53,6 @@ namespace NadekoBot.Modules.Games
                 _service.ActivePolls.TryRemove(channel.Guild.Id, out var poll);
                 await poll.StopPoll().ConfigureAwait(false);
             }
-        }
-
-        
+        }        
     }
 }

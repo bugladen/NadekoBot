@@ -885,7 +885,8 @@
   "customreactions_edit_fail": "Custom reaction with that ID does not exist.",
   "searches_streaming": "Streaming",
   "searches_followers": "Followers",
-  "gambling_rafflecur_joined": "User {0} joined the raffle!",
-  "gambling_rafflecur_already_joined": "You have already joined this raffle.",
+  "gambling_rafflecur": "{0} Currency Raffle",
+  "gambling_rafflecur_joined": "User {0} joined the raffle",
+  "gambling_rafflecur_already_joined": "You have already joined this raffle or the value you used is not valid.",
   "gambling_rafflecur_ended": "{0} raffle ended. {1} won {2}!"
 }

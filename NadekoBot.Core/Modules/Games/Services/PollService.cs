@@ -26,7 +26,7 @@ namespace NadekoBot.Modules.Games.Services
             _strings = strings;
         }
 
-        public async Task<bool?> StartPoll(ITextChannel channel, IUserMessage msg, string arg)
+        public async Task<bool?> StartPoll(ulong guildId, IUserMessage msg, string arg)
         {
             if (string.IsNullOrWhiteSpace(arg) || !arg.Contains(";"))
                 return null;
@@ -35,7 +35,7 @@ namespace NadekoBot.Modules.Games.Services
                 return null;
 
             var poll = new Poll(_client, _strings, msg, data[0], data.Skip(1));
-            if (ActivePolls.TryAdd(channel.Guild.Id, poll))
+            if (ActivePolls.TryAdd(guildId, poll))
             {
                 poll.OnEnded += (gid) =>
                 {

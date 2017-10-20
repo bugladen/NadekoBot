@@ -2,9 +2,10 @@
 using NadekoBot.Core.Modules.Gambling.Services;
 using System.Threading.Tasks;
 using Discord;
-using System;
 using NadekoBot.Core.Services;
 using NadekoBot.Extensions;
+using System.Linq;
+using Discord.Commands;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -18,28 +19,42 @@ namespace NadekoBot.Modules.Gambling
             {
                 _bc = bc;
             }
+
+            public enum Mixed { Mixed }
+
             [NadekoCommand, Usage, Description, Aliases]
-            public async Task RaffleCur(int amount)
+            [RequireContext(ContextType.Guild)]
+            [Priority(0)]
+            public Task RaffleCur(Mixed _, int amount) =>
+                RaffleCur(amount, true);
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [Priority(1)]
+            public async Task RaffleCur(int amount, bool mixed = false)
             {
+                if (amount < 1)
+                    return;
                 async Task OnEnded(IUser arg, int won)
                 {
-                    await ReplyConfirmLocalized("rafflecur_ended", _bc.BotConfig.CurrencyName, Format.Bold(arg.ToString()), won + _bc.BotConfig.CurrencySign);
+                    await Context.Channel.SendConfirmAsync(GetText("rafflecur_ended", _bc.BotConfig.CurrencyName, Format.Bold(arg.ToString()), won + _bc.BotConfig.CurrencySign));
                 }
                 var res = await _service.JoinOrCreateGame(Context.Channel.Id,
-                    Context.User, amount, OnEnded)
+                    Context.User, amount, mixed, OnEnded)
                         .ConfigureAwait(false);
 
                 if (res.Item1 != null)
                 {
-                    await Context.Channel.SendConfirmAsync(GetText("rafflecur_joined", Context.User.ToString()),
-                        string.Join("\n", res.Item1.Users)).ConfigureAwait(false);
+                    await Context.Channel.SendConfirmAsync(GetText("rafflecur", res.Item1.GameType.ToString()),
+                        string.Join("\n", res.Item1.Users.Select(x => $"{x.DiscordUser} ({x.Amount})")),
+                        footer: GetText("rafflecur_joined", Context.User.ToString())).ConfigureAwait(false);
                 }
                 else
                 {
-                    if (res.Item2 == CurrencyRaffleService.JoinErrorType.AlreadyJoined)
+                    if (res.Item2 == CurrencyRaffleService.JoinErrorType.AlreadyJoinedOrInvalidAmount)
                         await ReplyErrorLocalized("rafflecur_already_joined").ConfigureAwait(false);
                     else if (res.Item2 == CurrencyRaffleService.JoinErrorType.NotEnoughCurrency)
-                        await ReplyErrorLocalized("not_enough").ConfigureAwait(false);
+                        await ReplyErrorLocalized("not_enough", _bc.BotConfig.CurrencySign).ConfigureAwait(false);
                 }
             }
         }
