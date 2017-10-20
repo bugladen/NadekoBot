@@ -3037,5 +3037,12 @@
     "usage": [
       "{0}execsql UPDATE Currency SET Amount=Amount+1234"
     ]
+  },
+  "rafflecur": {
+    "cmd": "rafflecur",
+    "desc": "Starts a currency raffle with a specified amount. Users who join the raffle will lose the amount of currency specified and add it to the pot. After 30 seconds, random winner will be selected who will receive the whole pot.",
+    "usage": [
+      "{0}rafflecur 20"
+    ]
   }
 }
