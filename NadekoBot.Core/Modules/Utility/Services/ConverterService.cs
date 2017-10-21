@@ -54,29 +54,37 @@ namespace NadekoBot.Modules.Utility.Services
 
         private async Task UpdateCurrency(bool shouldLoad)
         {
-            var unitTypeString = "currency";
-            if (shouldLoad)
+            try
             {
-                var currencyRates = await GetCurrencyRates();
-                var baseType = new ConvertUnit()
+                var unitTypeString = "currency";
+                if (shouldLoad)
                 {
-                    Triggers = new[] { currencyRates.Base },
-                    Modifier = decimal.One,
-                    UnitType = unitTypeString
-                };
-                var range = currencyRates.ConversionRates.Select(u => new ConvertUnit()
-                {
-                    Triggers = new[] { u.Key },
-                    Modifier = u.Value,
-                    UnitType = unitTypeString
-                }).ToArray();
+                    var currencyRates = await GetCurrencyRates();
+                    var baseType = new ConvertUnit()
+                    {
+                        Triggers = new[] { currencyRates.Base },
+                        Modifier = decimal.One,
+                        UnitType = unitTypeString
+                    };
+                    var range = currencyRates.ConversionRates.Select(u => new ConvertUnit()
+                    {
+                        Triggers = new[] { u.Key },
+                        Modifier = u.Value,
+                        UnitType = unitTypeString
+                    }).ToArray();
 
-                var fileData = JsonConvert.DeserializeObject<ConvertUnit[]>(
-                        File.ReadAllText("data/units.json"));
+                    var fileData = JsonConvert.DeserializeObject<ConvertUnit[]>(
+                            File.ReadAllText("data/units.json"));
 
-                var data = JsonConvert.SerializeObject(range.Append(baseType).Concat(fileData).ToList());
-                _cache.Redis.GetDatabase()
-                    .StringSet("converter_units", data);
+                    var data = JsonConvert.SerializeObject(range.Append(baseType).Concat(fileData).ToList());
+                    _cache.Redis.GetDatabase()
+                        .StringSet("converter_units", data);
+                }
+            }
+            catch (Exception ex)
+            {
+                _log.Warn("Ignore the message below");
+                _log.Warn(ex);
             }
         }
 
