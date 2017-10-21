@@ -177,6 +177,10 @@ namespace NadekoBot.Core.Services.Database
                 .HasIndex(s => new { s.GuildId, s.RoleId })
                 .IsUnique();
 
+            selfassignableRolesEntity
+                .Property(x => x.Group)
+                .HasDefaultValue(0);
+
             #endregion
 
             #region Currency

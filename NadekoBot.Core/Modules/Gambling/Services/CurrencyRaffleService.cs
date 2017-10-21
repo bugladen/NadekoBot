@@ -65,7 +65,7 @@ namespace NadekoBot.Core.Modules.Gambling.Services
                 {
                     var _t = Task.Run(async () =>
                     {
-                        await Task.Delay(30000).ConfigureAwait(false);
+                        await Task.Delay(60000).ConfigureAwait(false);
                         await _locker.WaitAsync().ConfigureAwait(false);
                         try
                         {

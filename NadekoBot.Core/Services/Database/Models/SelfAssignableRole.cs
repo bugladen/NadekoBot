@@ -4,5 +4,7 @@
     {
         public ulong GuildId { get; set; }
         public ulong RoleId { get; set; }
+        
+        public int Group { get; set; }
     }
 }

@@ -204,9 +204,11 @@
   },
   "asar": {
     "Cmd": "asar",
-    "Desc": "Adds a role to the list of self-assignable roles.",
+    "Desc": "Adds a role to the list of self-assignable roles. You can also specify a group. If 'Exclusive self-assignable roles' feature is enabled, users will be able to pick one role per group.",
     "Usage": [
-      "{0}asar Gamer"
+      "{0}asar Gamer",
+      "{0}asar 1 Alliance",
+      "{0}asar 1 Horde"
     ]
   },
   "rsar": {
@@ -225,7 +227,7 @@
   },
   "tesar": {
     "Cmd": "togglexclsar tesar",
-    "Desc": "Toggles whether the self-assigned roles are exclusive. (So that any person can have only one of the self assignable roles)",
+    "Desc": "Toggles whether the self-assigned roles are exclusive. While enabled, users can only have one self-assignable role per group.",
     "Usage": [
       "{0}tesar"
     ]

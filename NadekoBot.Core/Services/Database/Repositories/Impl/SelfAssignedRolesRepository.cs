@@ -22,7 +22,9 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
             return true;
         }
 
-        public IEnumerable<SelfAssignedRole> GetFromGuild(ulong guildId) => 
-            _set.Where(s => s.GuildId == guildId).ToList();
+        public IEnumerable<IGrouping<int, SelfAssignedRole>> GetFromGuild(ulong guildId) 
+            =>  _set.Where(s => s.GuildId == guildId)
+                    .AsEnumerable()
+                    .GroupBy(x => x.Group);
     }
 }
