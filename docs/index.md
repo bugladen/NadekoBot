@@ -20,7 +20,6 @@ If you want to contribute, be sure to PR on the current **[default][repo]** bran
 	- [OSX Guide](guides/OSX Guide.md)
 	- [Docker Guide](guides/Docker Guide.md)
 	- [From Source](guides/From Source.md)
-	- [Upgrading Guide](guides/Upgrading Guide.md)
 - Commands
 	- [Readme](Readme.md)
 	- [Commands List](Commands List.md)

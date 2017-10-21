@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <OutputPath>..\src\NadekoBot\bin\$(Configuration)\netcoreapp2.0\modules\$(AssemblyName)\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AngleSharp" Version="0.9.9" />
+    <PackageReference Include="Discord.Net" Version="2.0.0-alpha-build-00832" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NadekoBot.Core\NadekoBot.Core.csproj" />
+  </ItemGroup>
+
+</Project>
