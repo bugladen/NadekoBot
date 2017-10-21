@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 #if !GLOBAL_NADEKO
 namespace NadekoBot.Modules.Administration
 {
+    //todo make users confirm their decision
     public partial class Administration
     {
         [Group]

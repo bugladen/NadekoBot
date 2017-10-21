@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using NadekoBot.Extensions;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
@@ -11,7 +10,6 @@ using System.Text;
 using System.Threading.Tasks;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Common.Collections;
-using Microsoft.EntityFrameworkCore;
 
 namespace NadekoBot.Modules.Administration
 {
