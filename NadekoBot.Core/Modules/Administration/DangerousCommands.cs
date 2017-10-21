@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 #if !GLOBAL_NADEKO
 namespace NadekoBot.Modules.Administration
 {
+    //todo make users confirm their decision
     public partial class Administration
     {
         [Group]
@@ -45,7 +46,9 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public Task DeleteWaifus() =>
-                ExecSql("DELETE FROM WaifuUpdates; DELETE FROM WaifuInfo;");
+                ExecSql(@"DELETE FROM WaifuUpdates;
+DELETE FROM WaifuItem;
+DELETE FROM WaifuInfo;");
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]

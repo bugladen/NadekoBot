@@ -44,6 +44,6 @@ namespace NadekoBot.Extensions
         public static string RealAvatarUrl(this DiscordUser usr) =>
             usr.AvatarId.StartsWith("a_")
                     ? $"{DiscordConfig.CDNUrl}avatars/{usr.UserId}/{usr.AvatarId}.gif"
-                    : ((IUser)usr).GetAvatarUrl(ImageFormat.Auto);
+                    : $"{DiscordConfig.CDNUrl}avatars/{usr.UserId}/{usr.AvatarId}.png";
     }
 }
