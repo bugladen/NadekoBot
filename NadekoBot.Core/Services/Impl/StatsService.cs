@@ -1,8 +1,6 @@
 ﻿using Discord;
 using Discord.WebSocket;
-using NadekoBot.Common.ShardCom;
 using NadekoBot.Extensions;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -23,7 +21,7 @@ namespace NadekoBot.Core.Services.Impl
         private readonly IBotCredentials _creds;
         private readonly DateTime _started;
 
-        public const string BotVersion = "2.0.0";
+        public const string BotVersion = "2.0.1";
 
         public string Author => "Kwoth#2560";
         public string Library => "Discord.Net";
