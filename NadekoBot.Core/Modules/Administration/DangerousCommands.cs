@@ -46,7 +46,9 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public Task DeleteWaifus() =>
-                ExecSql("DELETE FROM WaifuUpdates; DELETE FROM WaifuInfo;");
+                ExecSql(@"DELETE FROM WaifuUpdates;
+DELETE FROM WaifuItem;
+DELETE FROM WaifuInfo;");
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
