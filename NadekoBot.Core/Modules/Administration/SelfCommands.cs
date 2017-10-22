@@ -317,7 +317,8 @@ namespace NadekoBot.Modules.Administration
                     // ignored
                 }
                 await Task.Delay(2000).ConfigureAwait(false);
-                Environment.Exit(0);
+                var sub = _cache.Redis.GetSubscriber();
+                sub.Publish(_creds.RedisKey() + "_die", "", StackExchange.Redis.CommandFlags.FireAndForget);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
