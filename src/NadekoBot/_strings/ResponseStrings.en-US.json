@@ -891,5 +891,7 @@
   "gambling_rafflecur": "{0} Currency Raffle",
   "gambling_rafflecur_joined": "User {0} joined the raffle",
   "gambling_rafflecur_already_joined": "You have already joined this raffle or the value you used is not valid.",
-  "gambling_rafflecur_ended": "{0} raffle ended. {1} won {2}!"
+  "gambling_rafflecur_ended": "{0} raffle ended. {1} won {2}!",
+  "music_autodc_enable": "I will disconnect from the voice channel when there are no more songs to play.",
+  "music_autodc_disable": "I will no longer disconnect from the voice channel when there are no more songs to play."
 }

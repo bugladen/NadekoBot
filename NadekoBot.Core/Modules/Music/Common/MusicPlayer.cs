@@ -142,11 +142,8 @@ namespace NadekoBot.Modules.Music.Common
             this._musicService = musicService;
             this._google = google;
 
-            _log.Info("Initialized");
-
             _player = new Thread(new ThreadStart(PlayerLoop));
             _player.Start();
-            _log.Info("Loop started");
         }
 
         private async void PlayerLoop()
@@ -383,7 +380,6 @@ namespace NadekoBot.Modules.Music.Common
                     }
                     newVoiceChannel = false;
 
-                    _log.Info("Get current user");
                     var curUser = await VoiceChannel.Guild.GetCurrentUserAsync();
                     if (curUser.VoiceChannel != null)
                     {

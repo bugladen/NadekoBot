@@ -14,6 +14,7 @@ using NadekoBot.Core.Services;
 using NadekoBot.Modules.Music.Common;
 using NadekoBot.Modules.Music.Common.Exceptions;
 using NadekoBot.Modules.Music.Common.SongResolver;
+using NadekoBot.Common.Collections;
 
 namespace NadekoBot.Modules.Music.Services
 {
@@ -29,6 +30,9 @@ namespace NadekoBot.Modules.Music.Services
         private readonly SoundCloudApiService _sc;
         private readonly IBotCredentials _creds;
         private readonly ConcurrentDictionary<ulong, float> _defaultVolumes;
+
+        public ConcurrentHashSet<ulong> AutoDcServers { get; }
+
         private readonly DiscordSocketClient _client;
 
         public ConcurrentDictionary<ulong, MusicPlayer> MusicPlayers { get; } = new ConcurrentDictionary<ulong, MusicPlayer>();
@@ -53,6 +57,8 @@ namespace NadekoBot.Modules.Music.Services
             _defaultVolumes = new ConcurrentDictionary<ulong, float>(
                 bot.AllGuildConfigs
                     .ToDictionary(x => x.GuildId, x => x.DefaultMusicVolume));
+
+            AutoDcServers = new ConcurrentHashSet<ulong>(bot.AllGuildConfigs.Where(x => x.AutoDcFromVc).Select(x => x.GuildId));
 
             Directory.CreateDirectory(MusicDataPath);
         }
@@ -92,8 +98,7 @@ namespace NadekoBot.Modules.Music.Services
         {
             string GetText(string text, params object[] replacements) =>
                 _strings.GetText(text, _localization.GetCultureInfo(textCh.Guild), "Music".ToLowerInvariant(), replacements);
-
-            _log.Info("Checks");
+            
             if (voiceCh == null || voiceCh.Guild != textCh.Guild)
             {
                 if (textCh != null)
@@ -102,18 +107,14 @@ namespace NadekoBot.Modules.Music.Services
                 }
                 throw new NotInVoiceChannelException();
             }
-            _log.Info("Get or add");
             return MusicPlayers.GetOrAdd(guildId, _ =>
             {
-                _log.Info("Getting default volume");
                 var vol = GetDefaultVolume(guildId);
-                _log.Info("Creating musicplayer instance");
                 var mp = new MusicPlayer(this, _google, voiceCh, textCh, vol);
 
                 IUserMessage playingMessage = null;
                 IUserMessage lastFinishedMessage = null;
 
-                _log.Info("Subscribing");
                 mp.OnCompleted += async (s, song) =>
                 {
                     try
@@ -131,6 +132,16 @@ namespace NadekoBot.Modules.Music.Services
                         catch
                         {
                             // ignored
+                        }
+
+                        var cur = mp.Current;
+                        if (cur.Current == null
+                            && !mp.RepeatCurrentSong
+                            && !mp.RepeatPlaylist
+                            && !mp.FairPlay
+                            && AutoDcServers.Contains(guildId))
+                        {
+                            await DestroyPlayer(guildId).ConfigureAwait(false);
                         }
                     }
                     catch
@@ -234,6 +245,24 @@ namespace NadekoBot.Modules.Music.Services
         {
             if (MusicPlayers.TryRemove(id, out var mp))
                 await mp.Destroy();
+        }
+
+        public bool ToggleAutoDc(ulong id)
+        {
+            bool val;
+            using (var uow = _db.UnitOfWork)
+            {
+                var gc = uow.GuildConfigs.For(id, set => set);
+                val = gc.AutoDcFromVc = !gc.AutoDcFromVc;
+                uow.Complete();
+            }
+
+            if (val)
+                AutoDcServers.Add(id);
+            else
+                AutoDcServers.TryRemove(id);
+
+            return val;
         }
     }
 }

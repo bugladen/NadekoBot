@@ -334,6 +334,19 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        public async Task AutoDisconnect()
+        {
+            var newVal = _service.ToggleAutoDc(Context.Guild.Id);
+
+            if(newVal)
+                await ReplyConfirmLocalized("autodc_enable").ConfigureAwait(false);
+            else
+                await ReplyConfirmLocalized("autodc_disable").ConfigureAwait(false);
+        }
+
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task Destroy()
         {
             await _service.DestroyPlayer(Context.Guild.Id);
