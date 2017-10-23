@@ -16,6 +16,7 @@ using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Administration.Services;
 using Newtonsoft.Json;
 using NadekoBot.Common.ShardCom;
+using Discord.Net;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -344,7 +345,14 @@ namespace NadekoBot.Modules.Administration
                 if (string.IsNullOrWhiteSpace(newName))
                     return;
 
-                await _client.CurrentUser.ModifyAsync(u => u.Username = newName).ConfigureAwait(false);
+                try
+                {
+                    await _client.CurrentUser.ModifyAsync(u => u.Username = newName).ConfigureAwait(false);
+                }
+                catch (RateLimitedException)
+                {
+                    _log.Warn("You've been ratelimited. Wait 2 hours to change your name.");
+                }
 
                 await ReplyConfirmLocalized("bot_name", Format.Bold(newName)).ConfigureAwait(false);
             }
