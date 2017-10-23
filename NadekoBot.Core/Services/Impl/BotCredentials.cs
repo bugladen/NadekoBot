@@ -79,7 +79,7 @@ namespace NadekoBot.Core.Services.Impl
                 if (string.IsNullOrWhiteSpace(ShardRunCommand))
                     ShardRunCommand = "dotnet";
                 if (string.IsNullOrWhiteSpace(ShardRunArguments))
-                    ShardRunArguments = "run -c Release -- {0} {1} {2}";
+                    ShardRunArguments = "run -c Release -- {0} {1}";
                 
                 var portStr = data[nameof(ShardRunPort)];
                 if (string.IsNullOrWhiteSpace(portStr))

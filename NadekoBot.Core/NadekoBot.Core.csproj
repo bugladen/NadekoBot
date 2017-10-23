@@ -44,4 +44,10 @@
   <ItemGroup>
     <None Include="Modules\Utility\NadekoBot.Modules.Searches.csproj" />
   </ItemGroup>
+  
+  <PropertyGroup Condition=" '$(Configuration)' == 'GlobalNadeko' ">
+    <DefineConstants>$(DefineConstants);GLOBAL_NADEKO</DefineConstants>
+    <NoWarn>$(NoWarn);CS1573;CS1591</NoWarn>
+  </PropertyGroup>
+  
 </Project>

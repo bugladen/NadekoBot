@@ -58,6 +58,9 @@ namespace NadekoBot.Extensions
             return new PathCollection(cornerToptLeft, cornerBottomLeft, cornerTopRight, cornerBottomRight);
         }
 
+        /// <summary>
+        /// First 10 characters of teh bot token.
+        /// </summary>
         public static string RedisKey(this IBotCredentials bc)
         {
             return bc.Token.Substring(0, 10);
@@ -146,9 +149,6 @@ namespace NadekoBot.Extensions
             }
             return module;
         }
-
-        //public static async Task<IEnumerable<IGuildUser>> MentionedUsers(this IUserMessage msg) =>
-
 
         public static void AddRange<T>(this HashSet<T> target, IEnumerable<T> elements) where T : class
         {

@@ -240,7 +240,7 @@ namespace NadekoBot.Modules.Administration
                     .Select(x =>
                     {
                         var timeDiff = DateTime.UtcNow - x.Time;
-                        if (timeDiff > TimeSpan.FromSeconds(20))
+                        if (timeDiff >= TimeSpan.FromSeconds(30))
                             return $"Shard #{Format.Bold(x.ShardId.ToString())} **UNRESPONSIVE** for {timeDiff.ToString(@"hh\:mm\:ss")}";
                         return GetText("shard_stats_txt", x.ShardId.ToString(),
                             Format.Bold(x.ConnectionState.ToString()), Format.Bold(x.Guilds.ToString()), timeDiff.ToString(@"hh\:mm\:ss"));

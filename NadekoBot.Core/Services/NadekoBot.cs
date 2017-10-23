@@ -115,7 +115,7 @@ namespace NadekoBot
                     var msg = JsonConvert.SerializeObject(data);
 
                     await sub.PublishAsync(Credentials.RedisKey() + "_shardcoord_send", msg).ConfigureAwait(false);
-                    await Task.Delay(5000);
+                    await Task.Delay(7500);
                 }
             });
         }
