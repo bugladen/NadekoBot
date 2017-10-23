@@ -269,7 +269,8 @@ namespace NadekoBot.Modules.Administration
                 {
                     autoDeleteSelfAssignedRoleMessages = uow.GuildConfigs.For(Context.Guild.Id, set => set).AutoDeleteSelfAssignedRoleMessages;
                     roles = uow.SelfAssignedRoles.GetFromGuild(Context.Guild.Id)
-                        .SelectMany(x => x);
+                        .SelectMany(x => x)
+                        .ToArray();
                 }
                 if (roles.FirstOrDefault(r => r.RoleId == role.Id) == null)
                 {
