@@ -228,6 +228,7 @@ namespace NadekoBot.Core.Services
                         await Task.Delay(6000).ConfigureAwait(false);
                     }
                     tsc.TrySetResult(true);
+                    await Task.Delay(6000).ConfigureAwait(false);
                 }
                 while (true);
                 // ^ keep checking for shards which need to be restarted
