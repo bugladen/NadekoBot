@@ -241,6 +241,7 @@ namespace NadekoBot.Core.Services
                 await tsc.Task.ConfigureAwait(false);
                 while (true)
                 {
+                    await Task.Delay(10000).ConfigureAwait(false);
                     try
                     {
                         var db = _redis.GetDatabase();
@@ -252,12 +253,15 @@ namespace NadekoBot.Core.Services
 
                         if (!statuses.Any())
                         {
-#if !DEBUG
+#if DEBUG
                             for (var i = 0; i < _shardProcesses.Length; i++)
                             {
                                 var p = _shardProcesses[i];
                                 if (p == null || p.HasExited)
+                                {
+                                    _log.Warn("Scheduling shard {0} for restart because it's process is stopped.", i);
                                     _shardStartQueue.Enqueue(i);
+                                }
                             }
 #endif
                         }
@@ -277,10 +281,6 @@ namespace NadekoBot.Core.Services
                         }
                     }
                     catch (Exception ex) { _log.Error(ex); throw; }
-                    finally
-                    {
-                        await Task.Delay(10000).ConfigureAwait(false);
-                    }
                 }
             });
 
