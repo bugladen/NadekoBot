@@ -88,16 +88,19 @@ namespace NadekoBot.Core.Services
             {
                 //add it to the list of shards which should be started
 #if DEBUG
+
                 if (i > 0)
                     _shardStartQueue.Enqueue(i);
+                else
+                    _shardProcesses[i] = Process.GetCurrentProcess();
 #else
-                _shardStartQueue.Enqueue(i); 
+                _shardStartQueue.Enqueue(i);
 #endif
-                //set the shard's initial state in redis cache
+                    //set the shard's initial state in redis cache
                 _defaultShardState.ShardId = i;
                 //this is to avoid the shard coordinator thinking that
                 //the shard is unresponsive while startup up
-                _defaultShardState.Time = DateTime.UtcNow + TimeSpan.FromSeconds(20 * i);
+                _defaultShardState.Time = DateTime.UtcNow + TimeSpan.FromSeconds(45 * (i + 1));
                 db.ListRightPush(_key + "_shardstats",
                     JsonConvert.SerializeObject(_defaultShardState),
                     flags: CommandFlags.FireAndForget);
@@ -241,7 +244,7 @@ namespace NadekoBot.Core.Services
                 await tsc.Task.ConfigureAwait(false);
                 while (true)
                 {
-                    await Task.Delay(10000).ConfigureAwait(false);
+                    await Task.Delay(15000).ConfigureAwait(false);
                     try
                     {
                         var db = _redis.GetDatabase();
