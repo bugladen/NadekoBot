@@ -3054,5 +3054,27 @@
     "usage": [
       "{0}autodc"
     ]
+  },
+  "timelyset": {
+    "cmd": "timelyset",
+    "desc": "Sets the 'timely' currency allowance amount for users. Second argument is period in hours, default is 24 hours.",
+    "usage": [
+      "{0}timelyset 100",
+      "{0}timelyset 50 12"
+    ]
+  },
+  "timely": {
+    "cmd": "timely",
+    "desc": "Use to claim your 'timely' currency. Bot owner has to specify the amount and the period on how often you can claim your currency.",
+    "usage": [
+      "{0}timely"
+    ]
+  },
+  "timelyreset": {
+    "cmd": "timelyreset",
+    "desc": "Resets all user timeouts on `{0}timely` command.",
+    "usage": [
+      "{0}timelyreset"
+    ]
   }
 }

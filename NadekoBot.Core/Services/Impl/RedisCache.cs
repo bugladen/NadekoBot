@@ -1,6 +1,7 @@
 ﻿using NadekoBot.Extensions;
 using StackExchange.Redis;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Core.Services.Impl
@@ -48,6 +49,8 @@ namespace NadekoBot.Core.Services.Impl
         private readonly object timelyLock = new object();
         public TimeSpan? AddTimelyClaim(ulong id, int period)
         {
+            if (period == 0)
+                return null;
             lock (timelyLock)
             {
                 var time = TimeSpan.FromHours(period);
@@ -55,9 +58,18 @@ namespace NadekoBot.Core.Services.Impl
                 {
                     _db.StringSet($"{_redisKey}_timelyclaim_{id}", true);
                     _db.KeyExpire($"{_redisKey}_timelyclaim_{id}", time);
-                    return time;
+                    return null;
                 }
                 return _db.KeyTimeToLive($"{_redisKey}_timelyclaim_{id}");
+            }
+        }
+
+        public void RemoveAllTimelyClaims()
+        {
+            var server = Redis.GetServer("127.0.0.1", 6379);
+            foreach (var k in server.Keys(pattern: $"{_redisKey}_timelyclaim_*"))
+            {
+                _db.KeyDelete(k, CommandFlags.FireAndForget);
             }
         }
     }

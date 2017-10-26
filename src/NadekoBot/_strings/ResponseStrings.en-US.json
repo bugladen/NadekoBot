@@ -898,5 +898,6 @@
   "gambling_timely_already_claimed": "You've already claimed your timely reward. You can get it again in {0}.",
   "gambling_timely": "You've claimed your {0}. You can claim again in {1}h",
   "gambling_timely_set": "Users will be able to claim {0} every {1}h",
-  "gambling_timely_set_none": "Users will not be able to claim any timely currency."
+  "gambling_timely_set_none": "Users will not be able to claim any timely currency.",
+  "gambling_timely_reset": "All users will be able to claim timely currency again."
 }
