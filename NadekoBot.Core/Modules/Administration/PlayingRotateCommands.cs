@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Administration.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -28,7 +29,7 @@ namespace NadekoBot.Modules.Administration
                 bool enabled;
                 using (var uow = _db.UnitOfWork)
                 {
-                    var config = uow.BotConfig.GetOrCreate();
+                    var config = uow.BotConfig.GetOrCreate(set => set);
 
                     enabled = config.RotatingStatuses = !config.RotatingStatuses;
                     uow.Complete();
@@ -45,7 +46,7 @@ namespace NadekoBot.Modules.Administration
             {
                 using (var uow = _db.UnitOfWork)
                 {
-                    var config = uow.BotConfig.GetOrCreate();
+                    var config = uow.BotConfig.GetOrCreate(set => set.Include(x => x.RotatingStatusMessages));
                     var toAdd = new PlayingStatus { Status = status };
                     config.RotatingStatusMessages.Add(toAdd);
                     await uow.CompleteAsync();
@@ -79,7 +80,7 @@ namespace NadekoBot.Modules.Administration
                 string msg;
                 using (var uow = _db.UnitOfWork)
                 {
-                    var config = uow.BotConfig.GetOrCreate();
+                    var config = uow.BotConfig.GetOrCreate(set => set.Include(x => x.RotatingStatusMessages));
 
                     if (index >= config.RotatingStatusMessages.Count)
                         return;

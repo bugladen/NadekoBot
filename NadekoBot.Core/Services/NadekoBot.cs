@@ -65,8 +65,8 @@ namespace NadekoBot
             _log = LogManager.GetCurrentClassLogger();
             TerribleElevatedPermissionCheck();
 
-            Cache = new RedisCache();
             Credentials = new BotCredentials();
+            Cache = new RedisCache(Credentials);
             _db = new DbService(Credentials);
             Client = new DiscordSocketClient(new DiscordSocketConfig
             {
@@ -185,7 +185,6 @@ namespace NadekoBot
                     throw;
                 }
                 toReturn.Add(x);
-                //_log.Info("Loaded {0} typereader.", x.GetType().Name);
             }
 
             return toReturn;

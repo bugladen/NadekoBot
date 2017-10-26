@@ -1,7 +1,5 @@
-﻿using System;
-using NadekoBot.Common;
+﻿using NadekoBot.Common;
 using NadekoBot.Core.Services.Database.Models;
-using NadekoBot.Core.Services;
 
 namespace NadekoBot.Core.Services.Impl
 {
@@ -28,7 +26,7 @@ namespace NadekoBot.Core.Services.Impl
         {
             using (var uow = _db.UnitOfWork)
             {
-                var bc = uow.BotConfig.GetOrCreate();
+                var bc = uow.BotConfig.GetOrCreate(set => set);
                 switch (type)
                 {
                     case BotConfigEditType.CurrencyGenerationChance:

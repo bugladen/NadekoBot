@@ -8,6 +8,7 @@ using NadekoBot.Common.Attributes;
 using NadekoBot.Common.TypeReaders;
 using NadekoBot.Modules.Permissions.Services;
 using NadekoBot.Core.Services.Database.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace NadekoBot.Modules.Permissions
 {
@@ -55,7 +56,7 @@ namespace NadekoBot.Modules.Permissions
                 {
                     using (var uow = _db.UnitOfWork)
                     {
-                        var bc = uow.BotConfig.GetOrCreate();
+                        var bc = uow.BotConfig.GetOrCreate(set => set.Include(x => x.BlockedModules));
                         bc.BlockedModules.Add(new BlockedCmdOrMdl
                         {
                             Name = moduleName,
@@ -69,7 +70,7 @@ namespace NadekoBot.Modules.Permissions
                 {
                     using (var uow = _db.UnitOfWork)
                     {
-                        var bc = uow.BotConfig.GetOrCreate();
+                        var bc = uow.BotConfig.GetOrCreate(set => set.Include(x => x.BlockedModules));
                         bc.BlockedModules.RemoveWhere(x => x.Name == moduleName);
                         uow.Complete();
                     }
@@ -87,7 +88,7 @@ namespace NadekoBot.Modules.Permissions
                 {
                     using (var uow = _db.UnitOfWork)
                     {
-                        var bc = uow.BotConfig.GetOrCreate();
+                        var bc = uow.BotConfig.GetOrCreate(set => set.Include(x => x.BlockedCommands));
                         bc.BlockedCommands.Add(new BlockedCmdOrMdl
                         {
                             Name = commandName,
@@ -101,7 +102,7 @@ namespace NadekoBot.Modules.Permissions
                 {
                     using (var uow = _db.UnitOfWork)
                     {
-                        var bc = uow.BotConfig.GetOrCreate();
+                        var bc = uow.BotConfig.GetOrCreate(set => set.Include(x => x.BlockedCommands));
                         bc.BlockedCommands.RemoveWhere(x => x.Name == commandName);
                         uow.Complete();
                     }

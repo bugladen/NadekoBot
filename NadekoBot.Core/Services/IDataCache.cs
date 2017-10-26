@@ -1,4 +1,5 @@
 ﻿using StackExchange.Redis;
+using System;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Core.Services
@@ -10,5 +11,6 @@ namespace NadekoBot.Core.Services
         Task<(bool Success, string Data)> TryGetAnimeDataAsync(string key);
         Task SetImageDataAsync(string key, byte[] data);
         Task SetAnimeDataAsync(string link, string data);
+        TimeSpan? AddTimelyClaim(ulong id, int period);
     }
 }

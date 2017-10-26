@@ -145,7 +145,7 @@ namespace NadekoBot.Modules.Utility
 
                 using (var uow = _db.UnitOfWork)
                 {
-                    uow.BotConfig.GetOrCreate().RemindMessageFormat = arg.Trim();
+                    uow.BotConfig.GetOrCreate(set => set).RemindMessageFormat = arg.Trim();
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
 

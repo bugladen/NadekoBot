@@ -190,7 +190,7 @@ namespace NadekoBot.Modules.Administration
             {
                 using (var uow = _db.UnitOfWork)
                 {
-                    var config = uow.BotConfig.GetOrCreate();
+                    var config = uow.BotConfig.GetOrCreate(set => set);
                     config.ForwardMessages = !config.ForwardMessages;
                     uow.Complete();
                 }
@@ -208,7 +208,7 @@ namespace NadekoBot.Modules.Administration
             {
                 using (var uow = _db.UnitOfWork)
                 {
-                    var config = uow.BotConfig.GetOrCreate();
+                    var config = uow.BotConfig.GetOrCreate(set => set);
                     lock (_locker)
                         config.ForwardToAllOwners = !config.ForwardToAllOwners;
                     uow.Complete();

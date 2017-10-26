@@ -8,6 +8,7 @@ using NadekoBot.Core.Services.Database.Models;
 using System.Collections.Generic;
 using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
+using System;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -16,16 +17,19 @@ namespace NadekoBot.Modules.Gambling
         private readonly IBotConfigProvider _bc;
         private readonly DbService _db;
         private readonly CurrencyService _currency;
+        private readonly IDataCache _cache;
 
         private string CurrencyName => _bc.BotConfig.CurrencyName;
         private string CurrencyPluralName => _bc.BotConfig.CurrencyPluralName;
         private string CurrencySign => _bc.BotConfig.CurrencySign;
 
-        public Gambling(IBotConfigProvider bc, DbService db, CurrencyService currency)
+        public Gambling(IBotConfigProvider bc, DbService db, CurrencyService currency,
+            IDataCache cache)
         {
             _bc = bc;
             _db = db;
             _currency = currency;
+            _cache = cache;
         }
 
         public long GetCurrency(ulong id)
@@ -34,6 +38,45 @@ namespace NadekoBot.Modules.Gambling
             {
                 return uow.Currency.GetUserCurrency(id);
             }
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        public async Task Timely()
+        {
+            var val = _bc.BotConfig.TimelyCurrency;
+            var period = _bc.BotConfig.TimelyCurrencyPeriod;
+            if (val <= 0)
+            {
+                await ReplyErrorLocalized("timely_none").ConfigureAwait(false);
+                return;
+            }
+
+            TimeSpan? rem;
+            if ((rem = _cache.AddTimelyClaim(Context.User.Id, period)) != null)
+            {
+                await ReplyErrorLocalized("timely_already_claimed", rem?.ToString(@"HH\:mm\:ss")).ConfigureAwait(false);
+                return;
+            }
+
+            await ReplyConfirmLocalized("timely", val + _bc.BotConfig.CurrencySign, period).ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [OwnerOnly]
+        public async Task TimelySet(int num, int period = 24)
+        {
+            if (num < 0 || period < 1)
+                return;
+            using (var uow = _db.UnitOfWork)
+            {
+                uow.BotConfig.GetOrCreate(set => set)
+                    .TimelyCurrency = num;
+                uow.Complete();
+            }
+            if(num == 0)
+                await ReplyConfirmLocalized("timely_set_none").ConfigureAwait(false);
+            else
+                await ReplyConfirmLocalized("timely_set", num, period).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -46,7 +89,7 @@ namespace NadekoBot.Modules.Gambling
             var membersArray = members as IUser[] ?? members.ToArray();
             if (membersArray.Length == 0)
             {
-
+                return;
             }
             var usr = membersArray[new NadekoRandom().Next(0, membersArray.Length)];
             await Context.Channel.SendConfirmAsync("🎟 "+ GetText("raffled_user"), $"**{usr.Username}#{usr.Discriminator}**", footer: $"ID: {usr.Id}").ConfigureAwait(false);

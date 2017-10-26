@@ -106,7 +106,7 @@ namespace NadekoBot.Core.Services.Impl
         {
             using (var uow = _db.UnitOfWork)
             {
-                var bc = uow.BotConfig.GetOrCreate();
+                var bc = uow.BotConfig.GetOrCreate(set => set);
                 bc.Locale = ci.Name;
                 uow.Complete();
             }

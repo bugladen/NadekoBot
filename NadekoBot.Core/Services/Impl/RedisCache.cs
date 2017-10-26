@@ -1,4 +1,6 @@
-﻿using StackExchange.Redis;
+﻿using NadekoBot.Extensions;
+using StackExchange.Redis;
+using System;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Core.Services.Impl
@@ -7,12 +9,14 @@ namespace NadekoBot.Core.Services.Impl
     {
         public ConnectionMultiplexer Redis { get; }
         private readonly IDatabase _db;
+        private readonly string _redisKey;
 
-        public RedisCache()
+        public RedisCache(IBotCredentials creds)
         {
             Redis = ConnectionMultiplexer.Connect("127.0.0.1");
             Redis.PreserveAsyncOrder = false;
             _db = Redis.GetDatabase();
+            _redisKey = creds.RedisKey();
         }
 
         // things here so far don't need the bot id
@@ -39,6 +43,22 @@ namespace NadekoBot.Core.Services.Impl
         public Task SetAnimeDataAsync(string key, string data)
         {
             return _db.StringSetAsync("anime_" + key, data);
+        }
+
+        private readonly object timelyLock = new object();
+        public TimeSpan? AddTimelyClaim(ulong id, int period)
+        {
+            lock (timelyLock)
+            {
+                var time = TimeSpan.FromHours(period);
+                if ((bool?)_db.StringGet($"{_redisKey}_timelyclaim_{id}") == null)
+                {
+                    _db.StringSet($"{_redisKey}_timelyclaim_{id}", true);
+                    _db.KeyExpire($"{_redisKey}_timelyclaim_{id}", time);
+                    return time;
+                }
+                return _db.KeyTimeToLive($"{_redisKey}_timelyclaim_{id}");
+            }
         }
     }
 }

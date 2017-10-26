@@ -71,7 +71,7 @@ namespace NadekoBot.Modules.Permissions.Services
         {
             using (var uow = _db.UnitOfWork)
             {
-                var bc = uow.BotConfig.GetOrCreate();
+                var bc = uow.BotConfig.GetOrCreate(set => set);
                 var log = LogManager.GetCurrentClassLogger();
                 if (bc.PermissionVersion <= 1)
                 {
