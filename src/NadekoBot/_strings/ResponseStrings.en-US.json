@@ -4,7 +4,7 @@
   "customreactions_insuff_perms": "Insufficient permissions. Requires Bot ownership for global custom reactions, and Administrator for server custom reactions.",
   "customreactions_list_all": "List of all custom reactions",
   "customreactions_name": "Custom Reactions",
-  "customreactions_new_cust_react": "\"New Custom Reaction",
+  "customreactions_new_cust_react": "New Custom Reaction",
   "customreactions_edited_cust_react": "Custom Reaction Edited",
   "customreactions_no_found": "No custom reaction found.",
   "customreactions_no_found_id": "No custom reaction found with that id.",

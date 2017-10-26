@@ -625,7 +625,7 @@
   },
   "roles": {
     "Cmd": "roles",
-    "Desc": "List roles on this server or a roles of a specific user if specified. Paginated, 20 roles per page.",
+    "Desc": "List roles on this server or roles of a user if specified. Paginated, 20 roles per page.",
     "Usage": [
       "{0}roles 2",
       "{0}roles @Someone"
