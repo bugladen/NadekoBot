@@ -1,13 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NadekoBot.Core.Services.Database.Models
+﻿namespace NadekoBot.Core.Services.Database.Models
 {
-    public class PollVote
+    public class PollVote : DbEntity
     {
-        
+        public ulong UserId { get; set; }
+        public int VoteIndex { get; set; }
+
+        public override int GetHashCode()
+        {
+            return UserId.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is PollVote p
+                ? p.UserId == UserId
+                : false;
+        }
     }
 }

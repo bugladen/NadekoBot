@@ -57,6 +57,9 @@ namespace NadekoBot.Core.Services.Database
         private IClubRepository _clubs;
         public IClubRepository Clubs => _clubs ?? (_clubs = new ClubRepository(_context));
 
+        private IPollsRepository _polls;
+        public IPollsRepository Polls => _polls ?? (_polls = new PollsRepository(_context));
+
         public UnitOfWork(NadekoContext context)
         {
             _context = context;

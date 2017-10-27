@@ -10,6 +10,10 @@ namespace NadekoBot.Common.Collections
         public List<T> Source { get; }
         private readonly object _locker = new object();
 
+        public IndexedCollection()
+        {
+            Source = new List<T>();
+        }
         public IndexedCollection(IEnumerable<T> source)
         {
             lock (_locker)
