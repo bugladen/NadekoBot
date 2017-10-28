@@ -76,10 +76,20 @@ namespace NadekoBot.Core.Services.Impl
                 if (!string.IsNullOrWhiteSpace(cmd))
                     RestartCommand = new RestartConfig(cmd, args);
 
-                if (string.IsNullOrWhiteSpace(ShardRunCommand))
-                    ShardRunCommand = "dotnet";
-                if (string.IsNullOrWhiteSpace(ShardRunArguments))
-                    ShardRunArguments = "run -c Release -- {0} {1}";
+                if (Environment.OSVersion.Platform == PlatformID.Unix)
+                {
+                    if (string.IsNullOrWhiteSpace(ShardRunCommand))
+                        ShardRunCommand = "dotnet";
+                    if (string.IsNullOrWhiteSpace(ShardRunArguments))
+                        ShardRunArguments = "run -c Release -- {0} {1}";
+                }
+                else //windows
+                {
+                    if (string.IsNullOrWhiteSpace(ShardRunCommand))
+                        ShardRunCommand = "NadekoBot.exe";
+                    if (string.IsNullOrWhiteSpace(ShardRunArguments))
+                        ShardRunArguments = "{0} {1}";
+                }
                 
                 var portStr = data[nameof(ShardRunPort)];
                 if (string.IsNullOrWhiteSpace(portStr))
