@@ -179,8 +179,7 @@ For windows (regular installation, or from the updater), this is usually
 
 ```json
 "RestartCommand": {
-	"Cmd": "NadekoBot.exe",
-	"Args": ""
+	"Cmd": "NadekoBot.exe"
 }
 ```
 
