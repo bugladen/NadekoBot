@@ -28,7 +28,7 @@ namespace NadekoBot.Modules.Administration
                 {"da-DK", "Dansk, Danmark" },
                 {"de-DE", "Deutsch, Deutschland"},
                 {"he-IL", "עברית, ישראל"},
-                {"hu-HU", "Magyar, Magyarország" }
+                {"hu-HU", "Magyar, Magyarország" },
                 {"id-ID", "Bahasa Indonesia, Indonesia" },
                 {"it-IT", "Italiano, Italia" },
                 {"ja-JP", "日本語, 日本"},
@@ -42,6 +42,7 @@ namespace NadekoBot.Modules.Administration
                 {"es-ES", "Español, España"},
                 {"sv-SE", "Svenska, Sverige"},
                 {"tr-TR", "Türkçe, Türkiye"},
+                {"ts-TS", "Tsundere, You Baka"},
             }.ToImmutableDictionary();
 
             [NadekoCommand, Usage, Description, Aliases]
