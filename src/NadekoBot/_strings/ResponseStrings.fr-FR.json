@@ -336,7 +336,7 @@
     "games_cleverbot_disabled": "Cleverbot désactivé sur ce serveur.",
     "games_cleverbot_enabled": "Cleverbot activé sur ce serveur.",
     "games_curgen_disabled": "La génération monétaire a été désactivée sur ce salon.",
-    "games_curgen_enabled": "La génération monétaire a été désactivée sur ce salon.",
+    "games_curgen_enabled": "La génération monétaire a été activé sur ce salon.",
     "games_curgen_pl": "{0} {1} aléatoires sont apparus!",
     "games_curgen_sn": "Un {0} aléatoire est apparu!",
     "games_failed_loading_question": "Impossible de charger une question.",
