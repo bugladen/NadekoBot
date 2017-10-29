@@ -37,7 +37,9 @@ namespace NadekoBot.Modules.Games
                     await Context.Channel
                         .EmbedAsync(new EmbedBuilder()
                             .WithTitle(GetText("poll_created", Context.User.ToString()))
-                            .WithDescription(string.Join("\n", poll.Answers
+                            .WithDescription(
+                                Format.Bold(poll.Question) + "\n\n" +
+                            string.Join("\n", poll.Answers
                                 .Select(x => $"`{x.Index + 1}.` {Format.Bold(x.Text)}"))))
                         .ConfigureAwait(false);
                 else
