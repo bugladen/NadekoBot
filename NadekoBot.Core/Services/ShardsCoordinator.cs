@@ -96,13 +96,18 @@ namespace NadekoBot.Core.Services
 #else
                 _shardStartQueue.Enqueue(i);
 #endif
-                    //set the shard's initial state in redis cache
-                _defaultShardState.ShardId = i;
+                //set the shard's initial state in redis cache
+                var msg = _defaultShardState.Clone();
+                msg.ShardId = i;
                 //this is to avoid the shard coordinator thinking that
                 //the shard is unresponsive while startup up
-                _defaultShardState.Time = DateTime.UtcNow + TimeSpan.FromSeconds(45 * (i + 1));
+                var delay = 45;
+#if GLOBAL_NADEKO
+                delay = 180;
+#endif
+                msg.Time = DateTime.UtcNow + TimeSpan.FromSeconds(delay * (i + 1));
                 db.ListRightPush(_key + "_shardstats",
-                    JsonConvert.SerializeObject(_defaultShardState),
+                    JsonConvert.SerializeObject(msg),
                     flags: CommandFlags.FireAndForget);
             }
 
@@ -141,10 +146,11 @@ namespace NadekoBot.Core.Services
         private void OnStop(int shardId)
         {
             var db = _redis.GetDatabase();
-            _defaultShardState.ShardId = shardId;
+            var msg = _defaultShardState.Clone();
+            msg.ShardId = shardId;
             db.ListSetByIndex(_key + "_shardstats",
                     shardId,
-                    JsonConvert.SerializeObject(_defaultShardState),
+                    JsonConvert.SerializeObject(msg),
                     CommandFlags.FireAndForget);
             var p = _shardProcesses[shardId];
             _shardProcesses[shardId] = null;
