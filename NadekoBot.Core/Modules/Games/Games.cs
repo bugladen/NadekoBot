@@ -44,7 +44,7 @@ namespace NadekoBot.Modules.Games
                 return;
 
             await Context.Channel.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
-                               .AddField(efb => efb.WithName("test❓ " + GetText("question") ).WithValue(question).WithIsInline(false))
+                               .AddField(efb => efb.WithName("❓ " + GetText("question") ).WithValue(question).WithIsInline(false))
                                .AddField(efb => efb.WithName("🎱 " + GetText("8ball")).WithValue(_service.EightBallResponses[new NadekoRandom().Next(0, _service.EightBallResponses.Length)]).WithIsInline(false)));
         }
 
