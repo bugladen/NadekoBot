@@ -93,9 +93,12 @@ namespace NadekoBot.Modules.Utility.Services
                         var pledgers = data.Data.Where(x => x["type"].ToString() == "pledge");
                         rewards.AddRange(pledgers.Select(x => JsonConvert.DeserializeObject<PatreonPledge>(x.ToString()))
                             .Where(x => x.attributes.declined_since == null));
-                        users.AddRange(data.Included
-                            .Where(x => x["type"].ToString() == "user")
-                            .Select(x => JsonConvert.DeserializeObject<PatreonUser>(x.ToString())));
+                        if (data.Included != null)
+                        {
+                            users.AddRange(data.Included
+                                .Where(x => x["type"].ToString() == "user")
+                                .Select(x => JsonConvert.DeserializeObject<PatreonUser>(x.ToString())));
+                        }
                     } while (!string.IsNullOrWhiteSpace(data.Links.next));
                 }
                 var db = _cache.Redis.GetDatabase();
