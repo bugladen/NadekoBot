@@ -6,12 +6,12 @@ namespace NadekoBot.Core.Services
 {
     public class LogSetup
     {
-        public static void SetupLogger()
+        public static void SetupLogger(int shardId)
         {
             var logConfig = new LoggingConfiguration();
             var consoleTarget = new ColoredConsoleTarget()
             {
-                Layout = @"${date:format=HH\:mm\:ss} ${logger:shortName=True} | ${message}"
+                Layout = shardId + @" ${date:format=HH\:mm\:ss} ${logger:shortName=True} | ${message}"
             };
             logConfig.AddTarget("Console", consoleTarget);
 

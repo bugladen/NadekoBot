@@ -61,7 +61,7 @@ namespace NadekoBot
             if (shardId < 0)
                 throw new ArgumentOutOfRangeException(nameof(shardId));
 
-            LogSetup.SetupLogger();
+            LogSetup.SetupLogger(shardId);
             _log = LogManager.GetCurrentClassLogger();
             TerribleElevatedPermissionCheck();
 

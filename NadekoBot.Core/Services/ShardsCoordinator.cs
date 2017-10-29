@@ -63,7 +63,7 @@ namespace NadekoBot.Core.Services
         public ShardsCoordinator()
         {
             //load main stuff
-            LogSetup.SetupLogger();
+            LogSetup.SetupLogger(-1);
             _log = LogManager.GetCurrentClassLogger();
             _creds = new BotCredentials();
 
