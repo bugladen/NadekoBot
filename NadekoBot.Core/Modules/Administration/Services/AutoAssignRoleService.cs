@@ -43,14 +43,14 @@ namespace NadekoBot.Modules.Administration.Services
                             await user.AddRoleAsync(role).ConfigureAwait(false);
                         else
                         {
-                            _log.Info($"Disabled 'Auto assign role' feature on {0} server the role doesn't exist.",
+                            _log.Warn($"Disabled 'Auto assign role' feature on {0} server the role doesn't exist.",
                                roleId);
                             DisableAar(user.GuildId);
                         }
                     }
                     catch (Discord.Net.HttpException ex) when (ex.HttpCode == System.Net.HttpStatusCode.Forbidden)
                     {
-                        _log.Info($"Disabled 'Auto assign role' feature on {0} server because I don't have role management permissions.",
+                        _log.Warn($"Disabled 'Auto assign role' feature on {0} server because I don't have role management permissions.",
                             roleId);
                         DisableAar(user.GuildId);
                     }
