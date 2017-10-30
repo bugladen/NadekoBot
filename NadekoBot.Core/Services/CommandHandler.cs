@@ -10,7 +10,6 @@ using NadekoBot.Extensions;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Collections.Immutable;
-using NadekoBot.Core.Services.Database.Models;
 using System.IO;
 using Discord.Net;
 using NadekoBot.Common;
@@ -36,6 +35,12 @@ namespace NadekoBot.Core.Services
         private readonly IBotCredentials _creds;
         private readonly NadekoBot _bot;
         private INServiceProvider _services;
+        private IEnumerable<IEarlyBlocker> _earlyBlockers;
+        private IEarlyBlockingExecutor[] _earlyBlockingExecutors;
+        private IInputTransformer[] _inputTransformers;
+        private ILateBlocker[] _lateBlockers;
+        private ILateExecutor[] _lateExecutors;
+
         public string DefaultPrefix { get; private set; }
         private ConcurrentDictionary<ulong, string> _prefixes { get; } = new ConcurrentDictionary<ulong, string>();
 
@@ -124,6 +129,31 @@ namespace NadekoBot.Core.Services
         public void AddServices(INServiceProvider services)
         {
             _services = services;
+
+            _earlyBlockers = services
+                .Select(x => x as IEarlyBlocker)
+                .Where(x => x != null)
+                .ToArray();
+
+            _earlyBlockingExecutors = services
+                .Select(x => x as IEarlyBlockingExecutor)
+                .Where(x => x != null)
+                .ToArray();
+
+            _inputTransformers = services
+                .Select(x => x as IInputTransformer)
+                .Where(x => x != null)
+                .ToArray();
+
+            _lateBlockers = services
+                .Select(x => x as ILateBlocker)
+                .Where(x => x != null)
+                .ToArray();
+
+            _lateExecutors = services
+                .Select(x => x as ILateExecutor)
+                .Where(x => x != null)
+                .ToArray();
         }
 
         public async Task ExecuteExternal(ulong? guildId, ulong channelId, string commandText)
@@ -228,24 +258,22 @@ namespace NadekoBot.Core.Services
             //its nice to have early blockers and early blocking executors separate, but
             //i could also have one interface with priorities, and just put early blockers on
             //highest priority. :thinking:
-            foreach (var svc in _services)
+            foreach (var blocker in _earlyBlockers)
             {
-                if (svc is IEarlyBlocker blocker &&
-                    await blocker.TryBlockEarly(guild, usrMsg).ConfigureAwait(false))
+                if (await blocker.TryBlockEarly(guild, usrMsg).ConfigureAwait(false))
                 {
-                    _log.Info("Blocked User: [{0}] Message: [{1}] Service: [{2}]", usrMsg.Author, usrMsg.Content, svc.GetType().Name);
+                    _log.Info("Blocked User: [{0}] Message: [{1}] Service: [{2}]", usrMsg.Author, usrMsg.Content, blocker.GetType().Name);
                     return;
                 }
             }
 
             var exec2 = Environment.TickCount - execTime;            
 
-            foreach (var svc in _services)
+            foreach (var exec in _earlyBlockingExecutors)
             {
-                if (svc is IEarlyBlockingExecutor exec && 
-                    await exec.TryExecuteEarly(_client, guild, usrMsg).ConfigureAwait(false))
+                if (await exec.TryExecuteEarly(_client, guild, usrMsg).ConfigureAwait(false))
                 {
-                    _log.Info("User [{0}] executed [{1}] in [{2}]", usrMsg.Author, usrMsg.Content, svc.GetType().Name);
+                    _log.Info("User [{0}] executed [{1}] in [{2}]", usrMsg.Author, usrMsg.Content, exec.GetType().Name);
                     return;
                 }
             }
@@ -253,11 +281,10 @@ namespace NadekoBot.Core.Services
             var exec3 = Environment.TickCount - execTime;
 
             string messageContent = usrMsg.Content;
-            foreach (var svc in _services)
+            foreach (var exec in _inputTransformers)
             {
                 string newContent;
-                if (svc is IInputTransformer exec && 
-                    (newContent = await exec.TransformInput(guild, usrMsg.Channel, usrMsg.Author, messageContent).ConfigureAwait(false)) != messageContent.ToLowerInvariant())
+                if ((newContent = await exec.TransformInput(guild, usrMsg.Channel, usrMsg.Author, messageContent).ConfigureAwait(false)) != messageContent.ToLowerInvariant())
                 {
                     messageContent = newContent;
                     break;
@@ -289,12 +316,9 @@ namespace NadekoBot.Core.Services
                 await OnMessageNoTrigger(usrMsg).ConfigureAwait(false);
             }
 
-            foreach (var svc in _services)
+            foreach (var exec in _lateExecutors)
             {
-                if (svc is ILateExecutor exec)
-                {
-                    await exec.LateExecute(_client, guild, usrMsg).ConfigureAwait(false);
-                }
+                await exec.LateExecute(_client, guild, usrMsg).ConfigureAwait(false);
             }
 
         }
@@ -393,12 +417,11 @@ namespace NadekoBot.Core.Services
             //return SearchResult.FromError(CommandError.Exception, "You are on a global cooldown.");
 
             var commandName = cmd.Aliases.First();
-            foreach (var svc in _services)
+            foreach (var exec in _lateBlockers)
             {
-                if (svc is ILateBlocker exec &&
-                    await exec.TryBlockLate(_client, context.Message, context.Guild, context.Channel, context.User, cmd.Module.GetTopLevelModule().Name, commandName).ConfigureAwait(false))
+                if (await exec.TryBlockLate(_client, context.Message, context.Guild, context.Channel, context.User, cmd.Module.GetTopLevelModule().Name, commandName).ConfigureAwait(false))
                 {
-                    _log.Info("Late blocking User [{0}] Command: [{1}] in [{2}]", context.User, commandName, svc.GetType().Name);
+                    _log.Info("Late blocking User [{0}] Command: [{1}] in [{2}]", context.User, commandName, exec.GetType().Name);
                     return (false, null, cmd);
                 }
             }
