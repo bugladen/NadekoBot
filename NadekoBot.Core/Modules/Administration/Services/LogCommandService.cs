@@ -12,11 +12,10 @@ using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Core.Services.Impl;
 using NLog;
-using NadekoBot.Common;
 
 namespace NadekoBot.Modules.Administration.Services
 {
-    [NoPublicBot]
+#if !GLOBAL_NADEKO
     public class LogCommandService : INService
     {
 
@@ -1024,4 +1023,5 @@ namespace NadekoBot.Modules.Administration.Services
             }
         }
     }
+#endif
 }
