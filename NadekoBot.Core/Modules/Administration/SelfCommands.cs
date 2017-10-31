@@ -482,9 +482,11 @@ namespace NadekoBot.Modules.Administration
             public async Task ReloadImages()
             {
                 var sw = Stopwatch.StartNew();
-                _images.Reload();
-                sw.Stop();
-                await ReplyConfirmLocalized("images_loaded", sw.Elapsed.TotalSeconds.ToString("F3")).ConfigureAwait(false);
+                var sub = _cache.Redis.GetSubscriber();
+                sub.Publish(_creds.RedisKey() + "_reload_images", 
+                    "",
+                    StackExchange.Redis.CommandFlags.FireAndForget);
+                await ReplyConfirmLocalized("images_loaded", 0).ConfigureAwait(false);
             }
 
             private static UserStatus SettableUserStatusToUserStatus(SettableUserStatus sus)

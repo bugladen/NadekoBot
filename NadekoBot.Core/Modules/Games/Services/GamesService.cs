@@ -13,7 +13,6 @@ using NadekoBot.Common.Collections;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Games.Common;
 using NadekoBot.Core.Services;
-using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Core.Services.Impl;
 using Newtonsoft.Json;
 using NLog;
@@ -30,6 +29,7 @@ namespace NadekoBot.Modules.Games.Services
         private readonly IBotConfigProvider _bc;
 
         public readonly ConcurrentDictionary<ulong, GirlRating> GirlRatings = new ConcurrentDictionary<ulong, GirlRating>();
+
         public readonly ImmutableArray<string> EightBallResponses;
 
         private readonly Timer _t;
@@ -37,7 +37,8 @@ namespace NadekoBot.Modules.Games.Services
         private readonly NadekoStrings _strings;
         private readonly IImagesService _images;
         private readonly Logger _log;
-
+        private readonly NadekoRandom _rng;
+        private readonly CurrencyService _cs;
         public readonly string TypingArticlesPath = "data/typing_articles2.json";
         private readonly CommandHandler _cmdHandler;
 
@@ -56,7 +57,8 @@ namespace NadekoBot.Modules.Games.Services
         public ConcurrentDictionary<ulong, Nunchi> NunchiGames { get; } = new ConcurrentDictionary<ulong, Common.Nunchi.Nunchi>();
 
         public GamesService(CommandHandler cmd, IBotConfigProvider bc, NadekoBot bot,
-            NadekoStrings strings, IImagesService images, CommandHandler cmdHandler)
+            NadekoStrings strings, IImagesService images, CommandHandler cmdHandler,
+            CurrencyService cs)
         {
             _bc = bc;
             _cmd = cmd;
@@ -64,6 +66,8 @@ namespace NadekoBot.Modules.Games.Services
             _images = images;
             _cmdHandler = cmdHandler;
             _log = LogManager.GetCurrentClassLogger();
+            _rng = new NadekoRandom();
+            _cs = cs;
 
             //8ball
             EightBallResponses = _bc.BotConfig.EightBallResponses.Select(ebr => ebr.Text).ToImmutableArray();
@@ -138,7 +142,8 @@ namespace NadekoBot.Modules.Games.Services
         public ConcurrentDictionary<ulong, DateTime> LastGenerations { get; } = new ConcurrentDictionary<ulong, DateTime>();
 
         private ConcurrentDictionary<ulong, object> _locks { get; } = new ConcurrentDictionary<ulong, object>();
-        
+        public ConcurrentHashSet<ulong> HalloweenAwardedUsers { get; } = new ConcurrentHashSet<ulong>();
+
         public (string Name, ImmutableArray<byte> Data) GetRandomCurrencyImage()
         {
             var rng = new NadekoRandom();
@@ -210,6 +215,18 @@ namespace NadekoBot.Modules.Games.Services
                 }
             });
             return Task.CompletedTask;
+        }
+
+        public async Task<bool> GetTreat(ulong userId)
+        {
+            if (_rng.Next(0, 10) != 0)
+            {
+                await _cs.AddAsync(userId, "Halloween 2017 Treat", 10)
+                    .ConfigureAwait(false);
+                return true;
+            }
+
+            return false;
         }
     }
 }

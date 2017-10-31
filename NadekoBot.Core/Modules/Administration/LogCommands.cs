@@ -1,4 +1,6 @@
-﻿using Discord;
+﻿
+#if !GLOBAL_NADEKO
+using Discord;
 using Discord.Commands;
 using NadekoBot.Extensions;
 using NadekoBot.Core.Services;
@@ -14,7 +16,6 @@ using static NadekoBot.Modules.Administration.Services.LogCommandService;
 
 namespace NadekoBot.Modules.Administration
 {
-#if !GLOBAL_NADEKO
     public partial class Administration
     {
         [Group]
@@ -181,5 +182,5 @@ namespace NadekoBot.Modules.Administration
             }
         }
     }
-#endif
 }
+#endif
