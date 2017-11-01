@@ -12,7 +12,8 @@ namespace NadekoBot.Modules.Searches
         [Group]
         public class PlaceCommands : NadekoSubmodule
         {
-            private static string typesStr { get; } = string.Join(", ", Enum.GetNames(typeof(PlaceType)));
+            private static readonly string _typesStr = 
+                string.Join(", ", Enum.GetNames(typeof(PlaceType)));
 
             public enum PlaceType
             {
@@ -30,7 +31,7 @@ namespace NadekoBot.Modules.Searches
             public async Task Placelist()
             {
                 await Context.Channel.SendConfirmAsync(GetText("list_of_place_tags", Prefix), 
-                    typesStr)
+                    _typesStr)
                              .ConfigureAwait(false);
             }
 

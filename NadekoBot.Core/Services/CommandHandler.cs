@@ -190,7 +190,7 @@ namespace NadekoBot.Core.Services
 
         private Task LogSuccessfulExecution(IUserMessage usrMsg, ITextChannel channel, params int[] execPoints)
         {
-            _log.Info($"S: {_client.ShardId} | Command Executed after " + string.Join("/", execPoints.Select(x => x * _oneThousandth)) + "s\n\t" +
+            _log.Info($"Command Executed after " + string.Join("/", execPoints.Select(x => x * _oneThousandth)) + "s\n\t" +
                         "User: {0}\n\t" +
                         "Server: {1}\n\t" +
                         "Channel: {2}\n\t" +
@@ -205,7 +205,7 @@ namespace NadekoBot.Core.Services
 
         private void LogErroredExecution(string errorMessage, IUserMessage usrMsg, ITextChannel channel, params int[] execPoints)
         {
-            _log.Warn($"S: {_client.ShardId} | Command Errored after " + string.Join("/", execPoints.Select(x => x * _oneThousandth)) + "s\n\t" +
+            _log.Warn($"Command Errored after " + string.Join("/", execPoints.Select(x => x * _oneThousandth)) + "s\n\t" +
                         "User: {0}\n\t" +
                         "Server: {1}\n\t" +
                         "Channel: {2}\n\t" +

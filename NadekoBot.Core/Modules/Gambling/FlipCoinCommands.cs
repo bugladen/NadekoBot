@@ -21,7 +21,7 @@ namespace NadekoBot.Modules.Gambling
             private readonly IBotConfigProvider _bc;
             private readonly CurrencyService _cs;
 
-            private readonly NadekoRandom rng = new NadekoRandom();
+            private static readonly NadekoRandom rng = new NadekoRandom();
 
             public FlipCoinCommands(IImagesService images, CurrencyService cs, IBotConfigProvider bc)
             {

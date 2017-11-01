@@ -50,6 +50,7 @@ namespace NadekoBot.Modules.Games
                     game.OnEnded += (g) =>
                     {
                         _service.TicTacToeGames.Remove(channel.Id);
+                        _sem.Dispose();
                     };
                 }
                 finally

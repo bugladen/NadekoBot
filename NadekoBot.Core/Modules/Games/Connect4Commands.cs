@@ -18,7 +18,7 @@ namespace NadekoBot.Modules.Games
         {
             private readonly DiscordSocketClient _client;
             
-            private readonly string[] numbers = new string[] { ":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:"};
+            private static readonly string[] numbers = new string[] { ":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:"};
 
             public Connect4Commands(DiscordSocketClient client)
             {
@@ -174,7 +174,7 @@ namespace NadekoBot.Modules.Games
 
                 for (int i = 0; i < Connect4Game.NumberOfColumns; i++)
                 {
-                    sb.Append(/*new string(' ', 1 + ((i + 1) / 2)) + */numbers[i]);
+                    sb.Append(numbers[i]);
                 }
                 return sb.ToString();
             }

@@ -33,10 +33,6 @@
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Modules\Utility\NadekoBot.Modules.Searches.csproj" />
-  </ItemGroup>
   
   <PropertyGroup Condition=" '$(Configuration)' == 'GlobalNadeko' ">
     <DefineConstants>$(DefineConstants);GLOBAL_NADEKO</DefineConstants>
