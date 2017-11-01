@@ -54,7 +54,7 @@ namespace NadekoBot.Modules.Gambling
             TimeSpan? rem;
             if ((rem = _cache.AddTimelyClaim(Context.User.Id, period)) != null)
             {
-                await ReplyErrorLocalized("timely_already_claimed", rem?.ToString(@"hh\:mm\:ss")).ConfigureAwait(false);
+                await ReplyErrorLocalized("timely_already_claimed", rem?.ToString(@"dd\d\ hh\h\ mm\m\ ss\s")).ConfigureAwait(false);
                 return;
             }
 
