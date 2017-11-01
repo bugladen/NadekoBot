@@ -130,6 +130,8 @@ namespace NadekoBot.Modules.Administration
                     exclusive = uow.GuildConfigs.For(Context.Guild.Id, set => set)
                         .ExclusiveSelfAssignedRoles;
                     var roleModels = uow.SelfAssignedRoles.GetFromGuild(Context.Guild.Id)
+                        .Skip(page * 20)
+                        .Take(20)
                         .ToDictionary(x => x.Key, x => x.AsEnumerable().ToArray())
                         .OrderBy(x => x.Key);
                     foreach (var kvp in roleModels)
