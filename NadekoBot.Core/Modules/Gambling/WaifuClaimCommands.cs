@@ -55,6 +55,11 @@ namespace NadekoBot.Modules.Gambling
                 InsufficientAmount
             }
 
+            private static readonly TimeSpan _affinityLimit = TimeSpan.FromMinutes(30);
+            private readonly IBotConfigProvider _bc;
+            private readonly CurrencyService _cs;
+            private readonly DbService _db;
+
             public WaifuClaimCommands(IBotConfigProvider bc, CurrencyService cs, DbService db)
             {
                 _bc = bc;
@@ -183,6 +188,20 @@ namespace NadekoBot.Modules.Gambling
                 await Context.Channel.SendConfirmAsync(Context.User.Mention + msg).ConfigureAwait(false);
             }
 
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            public async Task WaifuTransfer(IGuildUser waifu, IGuildUser newOwner)
+            {
+                if(!await _service.WaifuTransfer(waifu.Id, newOwner.Id)
+                    .ConfigureAwait(false))
+                {
+                    await ReplyErrorLocalized("waifu_transfer_fail").ConfigureAwait(false);
+                    return;
+                }
+
+                await ReplyConfirmLocalized("waifu_transfer_success").ConfigureAwait(false);
+            }
+
             public enum DivorceResult
             {
                 Success,
@@ -274,11 +293,6 @@ namespace NadekoBot.Modules.Gambling
                 }
             }
 
-            private static readonly TimeSpan _affinityLimit = TimeSpan.FromMinutes(30);
-            private readonly IBotConfigProvider _bc;
-            private readonly CurrencyService _cs;
-            private readonly DbService _db;
-
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task WaifuClaimerAffinity([Remainder]IGuildUser u = null)
@@ -299,6 +313,7 @@ namespace NadekoBot.Modules.Gambling
                     var now = DateTime.UtcNow;
                     if (w?.Affinity?.UserId == u?.Id)
                     {
+                        //todo don't let people change affinity on different shards
                     }
                     else if (_service.AffinityCooldowns.AddOrUpdate(Context.User.Id,
                         now,

@@ -46,6 +46,33 @@ namespace NadekoBot.Modules.Searches.Services
             }
         }
 
+        public async Task<NovelData> GetNovelData(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                throw new ArgumentNullException(nameof(query));
+
+            query = query.Replace(" ", "-");
+            try
+            {
+
+                var link = "http://www.novelupdates.com/series/" + Uri.EscapeDataString(query.Replace("/", " "));
+                link = link.ToLowerInvariant();
+                var (ok, data) = await _cache.TryGetAnimeDataAsync(link).ConfigureAwait(false);
+                if (!ok)
+                {
+                    data = await _http.GetStringAsync(link).ConfigureAwait(false);
+                    await _cache.SetAnimeDataAsync(link, data).ConfigureAwait(false);
+                }
+
+
+                return JsonConvert.DeserializeObject<MangaResult>(data);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public async Task<MangaResult> GetMangaData(string query)
         {
             if (string.IsNullOrWhiteSpace(query))
