@@ -13,7 +13,7 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class PruneCommands : NadekoSubmodule<PruneService>
         {
-            private readonly TimeSpan twoWeeks = TimeSpan.FromDays(14);
+            private static readonly TimeSpan twoWeeks = TimeSpan.FromDays(14);
 
             //delets her own messages, no perm required
             [NadekoCommand, Usage, Description, Aliases]

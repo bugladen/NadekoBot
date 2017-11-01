@@ -20,10 +20,10 @@ namespace NadekoBot.Modules.Gambling
         [Group]
         public class DriceRollCommands : NadekoSubmodule
         {
-            private readonly Regex dndRegex  = new Regex(@"^(?<n1>\d+)d(?<n2>\d+)(?:\+(?<add>\d+))?(?:\-(?<sub>\d+))?$", RegexOptions.Compiled);
-            private readonly Regex fudgeRegex  = new Regex(@"^(?<n1>\d+)d(?:F|f)$", RegexOptions.Compiled);
+            private static readonly Regex dndRegex  = new Regex(@"^(?<n1>\d+)d(?<n2>\d+)(?:\+(?<add>\d+))?(?:\-(?<sub>\d+))?$", RegexOptions.Compiled);
+            private static readonly Regex fudgeRegex  = new Regex(@"^(?<n1>\d+)d(?:F|f)$", RegexOptions.Compiled);
 
-            private readonly char[] _fateRolls = { '-', ' ', '+' };
+            private static readonly char[] _fateRolls = { '-', ' ', '+' };
             private readonly IImagesService _images;
 
             public DriceRollCommands(IImagesService images)
