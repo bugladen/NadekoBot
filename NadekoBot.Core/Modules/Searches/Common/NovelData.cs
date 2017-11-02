@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Searches.Common
 {
-    public class NovelData
+    public class NovelResult
     {
         public string Description { get; set; }
         public string Title { get; set; }

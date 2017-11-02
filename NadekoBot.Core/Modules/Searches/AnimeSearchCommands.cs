@@ -37,7 +37,7 @@ namespace NadekoBot.Modules.Searches
                     .WithImageUrl(novelData.ImageUrl)
                     .AddField(efb => efb.WithName(GetText("authors")).WithValue(String.Join("\n", novelData.Authors)).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("status")).WithValue(novelData.Status).WithIsInline(true))
-                    .AddField(efb => efb.WithName(GetText("genres")).WithValue(string.Join(",\n", novelData.Genres.Any() ? novelData.Genres : new[] { "none" })).WithIsInline(true))
+                    .AddField(efb => efb.WithName(GetText("genres")).WithValue(string.Join(" ", novelData.Genres.Any() ? novelData.Genres : new[] { "none" })).WithIsInline(true))
                     .WithFooter(efb => efb.WithText(GetText("score") + " " + novelData.Score));
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }

@@ -46,6 +46,17 @@ namespace NadekoBot.Core.Services.Impl
             return _db.StringSetAsync("anime_" + key, data);
         }
 
+        public async Task<(bool Success, string Data)> TryGetNovelDataAsync(string key)
+        {
+            string x = await _db.StringGetAsync("novel_" + key);
+            return (x != null, x);
+        }
+
+        public Task SetNovelDataAsync(string key, string data)
+        {
+            return _db.StringSetAsync("novel_" + key, data);
+        }
+
         private readonly object timelyLock = new object();
         public TimeSpan? AddTimelyClaim(ulong id, int period)
         {

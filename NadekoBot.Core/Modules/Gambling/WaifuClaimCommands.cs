@@ -190,9 +190,9 @@ namespace NadekoBot.Modules.Gambling
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task WaifuTransfer(IGuildUser waifu, IGuildUser newOwner)
+            public async Task WaifuTransfer(IUser waifu, IUser newOwner)
             {
-                if(!await _service.WaifuTransfer(waifu.Id, newOwner.Id)
+                if(!await _service.WaifuTransfer(Context.User, waifu.Id, newOwner)
                     .ConfigureAwait(false))
                 {
                     await ReplyErrorLocalized("waifu_transfer_fail").ConfigureAwait(false);
