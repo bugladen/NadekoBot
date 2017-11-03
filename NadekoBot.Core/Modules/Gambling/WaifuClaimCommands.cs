@@ -54,8 +54,6 @@ namespace NadekoBot.Modules.Gambling
                 NotEnoughFunds,
                 InsufficientAmount
             }
-
-            private static readonly TimeSpan _affinityLimit = TimeSpan.FromMinutes(30);
             private readonly IBotConfigProvider _bc;
             private readonly CurrencyService _cs;
             private readonly DbService _db;
@@ -309,8 +307,7 @@ namespace NadekoBot.Modules.Gambling
                 }
                 DiscordUser oldAff = null;
                 var sucess = false;
-                var cooldown = false;
-                var difference = TimeSpan.Zero;
+                TimeSpan? remaining = null;
                 using (var uow = _db.UnitOfWork)
                 {
                     var w = uow.Waifus.ByWaifuUserId(Context.User.Id);
@@ -320,15 +317,8 @@ namespace NadekoBot.Modules.Gambling
                     {
                         //todo don't let people change affinity on different shards
                     }
-                    else if (_cache.Redis.TryAddAffinityCooldown(Context.User.Id))
+                    else if (!_cache.TryAddAffinityCooldown(Context.User.Id, out remaining))
                     {
-
-                    }
-                    else if (_service.AffinityCooldowns.AddOrUpdate(Context.User.Id,
-                        now,
-                        (key, old) => ((difference = now.Subtract(old)) > _affinityLimit) ? now : old) != now)
-                    {
-                        cooldown = true;
                     }
                     else if (w == null)
                     {
@@ -370,12 +360,11 @@ namespace NadekoBot.Modules.Gambling
                 }
                 if (!sucess)
                 {
-                    if (cooldown)
+                    if (remaining != null)
                     {
-                        var remaining = _affinityLimit.Subtract(difference);
                         await ReplyErrorLocalized("waifu_affinity_cooldown", 
-                            Format.Bold(((int)remaining.TotalHours).ToString()),
-                            Format.Bold(remaining.Minutes.ToString())).ConfigureAwait(false);
+                            Format.Bold(((int)remaining?.TotalHours).ToString()),
+                            Format.Bold(remaining?.Minutes.ToString())).ConfigureAwait(false);
                     }
                     else
                     {
