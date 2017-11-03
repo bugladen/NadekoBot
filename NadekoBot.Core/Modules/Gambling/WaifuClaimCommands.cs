@@ -213,8 +213,6 @@ namespace NadekoBot.Modules.Gambling
                 Cooldown
             }
 
-
-            private static readonly TimeSpan _divorceLimit = TimeSpan.FromHours(6);
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [Priority(0)]
@@ -229,7 +227,7 @@ namespace NadekoBot.Modules.Gambling
                     return;
 
                 DivorceResult result;
-                var difference = TimeSpan.Zero;
+                TimeSpan? remaining = null;
                 var amount = 0;
                 WaifuInfo w = null;
                 using (var uow = _db.UnitOfWork)
@@ -238,9 +236,7 @@ namespace NadekoBot.Modules.Gambling
                     var now = DateTime.UtcNow;
                     if (w?.Claimer == null || w.Claimer.UserId != Context.User.Id)
                         result = DivorceResult.NotYourWife;
-                    else if (_service.DivorceCooldowns.AddOrUpdate(Context.User.Id,
-                        now,
-                        (key, old) => ((difference = now.Subtract(old)) > _divorceLimit) ? now : old) != now)
+                    else if (!_cache.TryAddDivorceCooldown(Context.User.Id, out remaining))
                     {
                         result = DivorceResult.Cooldown;
                     }
@@ -289,10 +285,9 @@ namespace NadekoBot.Modules.Gambling
                 }
                 else
                 {
-                    var remaining = _divorceLimit.Subtract(difference);
                     await ReplyErrorLocalized("waifu_recent_divorce", 
-                        Format.Bold(((int)remaining.TotalHours).ToString()),
-                        Format.Bold(remaining.Minutes.ToString())).ConfigureAwait(false);
+                        Format.Bold(((int)remaining?.TotalHours).ToString()),
+                        Format.Bold(remaining?.Minutes.ToString())).ConfigureAwait(false);
                 }
             }
 

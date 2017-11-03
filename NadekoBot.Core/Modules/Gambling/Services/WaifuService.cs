@@ -1,7 +1,5 @@
 ﻿using Discord;
 using NadekoBot.Core.Services;
-using System;
-using System.Collections.Concurrent;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Gambling.Services
@@ -10,9 +8,6 @@ namespace NadekoBot.Modules.Gambling.Services
     {
         private readonly DbService _db;
         private readonly CurrencyService _cs;
-
-        public ConcurrentDictionary<ulong, DateTime> DivorceCooldowns { get; } = new ConcurrentDictionary<ulong, DateTime>();
-        public ConcurrentDictionary<ulong, DateTime> AffinityCooldowns { get; } = new ConcurrentDictionary<ulong, DateTime>();
 
         public WaifuService(DbService db, CurrencyService cs)
         {
