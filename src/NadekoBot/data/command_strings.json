@@ -2314,6 +2314,13 @@
       "{0}claim 50 @Himesama"
     ]
   },
+  "waifutransfer": {
+    "cmd": "waifutransfer",
+    "desc": "Transfer the ownership of one of your waifus to another user. You must pay 10% of your waifu's value.",
+    "usage": [
+      "{0}waifutransfer @ExWaifu @NewOwner"
+    ]
+  },
   "waifugift": {
     "Cmd": "waifugift gift gifts",
     "Desc": "Gift an item to someone. This will increase their waifu value by 50% of the gifted item's value if they don't have affinity set towards you, or 100% if they do. Provide no arguments to see a list of items that you can gift.",
@@ -3075,6 +3082,13 @@
     "desc": "Resets all user timeouts on `{0}timely` command.",
     "usage": [
       "{0}timelyreset"
+    ]
+  },
+  "novel": {
+    "cmd": "novel",
+    "desc": "Searches for a novel on `http://novelupdates.com/`. You have to provide an exact name.",
+    "usage": [
+      "{0}novel the nine cauldrons"
     ]
   }
 }
