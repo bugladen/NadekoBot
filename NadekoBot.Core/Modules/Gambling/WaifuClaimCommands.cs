@@ -59,12 +59,14 @@ namespace NadekoBot.Modules.Gambling
             private readonly IBotConfigProvider _bc;
             private readonly CurrencyService _cs;
             private readonly DbService _db;
+            private readonly IDataCache _cache;
 
-            public WaifuClaimCommands(IBotConfigProvider bc, CurrencyService cs, DbService db)
+            public WaifuClaimCommands(IDataCache cache, IBotConfigProvider bc, CurrencyService cs, DbService db)
             {
                 _bc = bc;
                 _cs = cs;
                 _db = db;
+                _cache = cache;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -317,6 +319,10 @@ namespace NadekoBot.Modules.Gambling
                     if (w?.Affinity?.UserId == u?.Id)
                     {
                         //todo don't let people change affinity on different shards
+                    }
+                    else if (_cache.Redis.TryAddAffinityCooldown(Context.User.Id))
+                    {
+
                     }
                     else if (_service.AffinityCooldowns.AddOrUpdate(Context.User.Id,
                         now,
