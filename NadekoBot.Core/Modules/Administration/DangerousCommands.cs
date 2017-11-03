@@ -5,6 +5,7 @@ using NadekoBot.Extensions;
 using NadekoBot.Core.Services;
 using System;
 using System.Threading.Tasks;
+using Discord;
 
 #if !GLOBAL_NADEKO
 namespace NadekoBot.Modules.Administration
@@ -29,6 +30,21 @@ namespace NadekoBot.Modules.Administration
             {
                 try
                 {
+                    var msg = await Context.Channel.EmbedAsync(new EmbedBuilder()
+                        .WithOkColor()
+                        .WithTitle(GetText("sql_confirm_exec"))
+                        .WithDescription(Format.Code(sql))
+                        .WithFooter("yes/no")).ConfigureAwait(false);
+
+                    var input = await GetUserInputAsync(Context.User.Id, Context.Channel.Id);
+                    input = input?.ToLowerInvariant().ToString();
+
+                    if (input != "yes" && input != "y")
+                    {
+                        return;
+                    }
+                    var _ = msg.DeleteAsync();
+
                     int res;
                     using (var uow = _db.UnitOfWork)
                     {
