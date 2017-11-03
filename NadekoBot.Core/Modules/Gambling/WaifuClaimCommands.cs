@@ -199,7 +199,10 @@ namespace NadekoBot.Modules.Gambling
                     return;
                 }
 
-                await ReplyConfirmLocalized("waifu_transfer_success").ConfigureAwait(false);
+                await ReplyConfirmLocalized("waifu_transfer_success",
+                    Format.Bold(waifu.ToString()),
+                    Format.Bold(Context.User.ToString()),
+                    Format.Bold(newOwner.ToString())).ConfigureAwait(false);
             }
 
             public enum DivorceResult

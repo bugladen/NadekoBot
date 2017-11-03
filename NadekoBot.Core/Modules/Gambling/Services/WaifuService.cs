@@ -22,13 +22,15 @@ namespace NadekoBot.Modules.Gambling.Services
 
         public async Task<bool> WaifuTransfer(IUser owner, ulong waifuId, IUser newOwner)
         {
+            if (owner.Id == newOwner.Id || waifuId == newOwner.Id)
+                return false;
             using (var uow = _db.UnitOfWork)
             {
                 var waifu = uow.Waifus.ByWaifuUserId(waifuId);
                 var ownerUser = uow.DiscordUsers.GetOrCreate(owner);
 
                 // owner has to be the owner of the waifu
-                if (waifu.ClaimerId != ownerUser.Id)
+                if (waifu == null || waifu.ClaimerId != ownerUser.Id)
                     return false;
 
                 if (!await _cs.RemoveAsync(owner.Id,
