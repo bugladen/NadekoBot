@@ -297,7 +297,7 @@ namespace NadekoBot.Modules.Gambling
                 }
                 else
                 {
-                    str += GetText("br_win", (amount * _bc.BotConfig.Betroll100Multiplier) + CurrencySign, 100) + " 👑";
+                    str += GetText("br_win", (amount * _bc.BotConfig.Betroll100Multiplier) + CurrencySign, 99) + " 👑";
                     await _cs.AddAsync(Context.User, "Betroll Gamble",
                         (int) (amount * _bc.BotConfig.Betroll100Multiplier), false).ConfigureAwait(false);
                 }
