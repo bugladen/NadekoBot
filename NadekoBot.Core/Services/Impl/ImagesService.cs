@@ -9,6 +9,7 @@ namespace NadekoBot.Core.Services.Impl
     //todo move everything to redis
     public class ImagesService : IImagesService
     {
+        private readonly IDataCache _cache;
         private readonly Logger _log;
 
         private const string _basePath = "data/images/";
@@ -51,10 +52,14 @@ namespace NadekoBot.Core.Services.Impl
         public ImmutableArray<byte> Rip { get; private set; }
         public ImmutableArray<byte> FlowerCircle { get; private set; }
 
-        public ImagesService()
+        public ImagesService(IDataCache cache, int shardId)
         {
+            _cache = cache;
             _log = LogManager.GetCurrentClassLogger();
-            this.Reload();
+            if (shardId == 0)
+            {
+                this.Reload();
+            }
         }
 
         public void Reload()
