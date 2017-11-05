@@ -54,17 +54,17 @@ namespace NadekoBot.Modules.Gambling
                 NotEnoughFunds,
                 InsufficientAmount
             }
-
-            private static readonly TimeSpan _affinityLimit = TimeSpan.FromMinutes(30);
             private readonly IBotConfigProvider _bc;
             private readonly CurrencyService _cs;
             private readonly DbService _db;
+            private readonly IDataCache _cache;
 
-            public WaifuClaimCommands(IBotConfigProvider bc, CurrencyService cs, DbService db)
+            public WaifuClaimCommands(IDataCache cache, IBotConfigProvider bc, CurrencyService cs, DbService db)
             {
                 _bc = bc;
                 _cs = cs;
                 _db = db;
+                _cache = cache;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -213,8 +213,6 @@ namespace NadekoBot.Modules.Gambling
                 Cooldown
             }
 
-
-            private static readonly TimeSpan _divorceLimit = TimeSpan.FromHours(6);
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [Priority(0)]
@@ -229,7 +227,7 @@ namespace NadekoBot.Modules.Gambling
                     return;
 
                 DivorceResult result;
-                var difference = TimeSpan.Zero;
+                TimeSpan? remaining = null;
                 var amount = 0;
                 WaifuInfo w = null;
                 using (var uow = _db.UnitOfWork)
@@ -238,9 +236,7 @@ namespace NadekoBot.Modules.Gambling
                     var now = DateTime.UtcNow;
                     if (w?.Claimer == null || w.Claimer.UserId != Context.User.Id)
                         result = DivorceResult.NotYourWife;
-                    else if (_service.DivorceCooldowns.AddOrUpdate(Context.User.Id,
-                        now,
-                        (key, old) => ((difference = now.Subtract(old)) > _divorceLimit) ? now : old) != now)
+                    else if (!_cache.TryAddDivorceCooldown(Context.User.Id, out remaining))
                     {
                         result = DivorceResult.Cooldown;
                     }
@@ -289,10 +285,9 @@ namespace NadekoBot.Modules.Gambling
                 }
                 else
                 {
-                    var remaining = _divorceLimit.Subtract(difference);
                     await ReplyErrorLocalized("waifu_recent_divorce", 
-                        Format.Bold(((int)remaining.TotalHours).ToString()),
-                        Format.Bold(remaining.Minutes.ToString())).ConfigureAwait(false);
+                        Format.Bold(((int)remaining?.TotalHours).ToString()),
+                        Format.Bold(remaining?.Minutes.ToString())).ConfigureAwait(false);
                 }
             }
 
@@ -307,8 +302,7 @@ namespace NadekoBot.Modules.Gambling
                 }
                 DiscordUser oldAff = null;
                 var sucess = false;
-                var cooldown = false;
-                var difference = TimeSpan.Zero;
+                TimeSpan? remaining = null;
                 using (var uow = _db.UnitOfWork)
                 {
                     var w = uow.Waifus.ByWaifuUserId(Context.User.Id);
@@ -318,11 +312,8 @@ namespace NadekoBot.Modules.Gambling
                     {
                         //todo don't let people change affinity on different shards
                     }
-                    else if (_service.AffinityCooldowns.AddOrUpdate(Context.User.Id,
-                        now,
-                        (key, old) => ((difference = now.Subtract(old)) > _affinityLimit) ? now : old) != now)
+                    else if (!_cache.TryAddAffinityCooldown(Context.User.Id, out remaining))
                     {
-                        cooldown = true;
                     }
                     else if (w == null)
                     {
@@ -364,12 +355,11 @@ namespace NadekoBot.Modules.Gambling
                 }
                 if (!sucess)
                 {
-                    if (cooldown)
+                    if (remaining != null)
                     {
-                        var remaining = _affinityLimit.Subtract(difference);
                         await ReplyErrorLocalized("waifu_affinity_cooldown", 
-                            Format.Bold(((int)remaining.TotalHours).ToString()),
-                            Format.Bold(remaining.Minutes.ToString())).ConfigureAwait(false);
+                            Format.Bold(((int)remaining?.TotalHours).ToString()),
+                            Format.Bold(remaining?.Minutes.ToString())).ConfigureAwait(false);
                     }
                     else
                     {

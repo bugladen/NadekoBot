@@ -14,6 +14,7 @@ namespace NadekoBot.Modules.Games.Common
     public class GirlRating
     {
         private static readonly Logger _log = LogManager.GetCurrentClassLogger();
+        private readonly IImageCache _images;
 
         public double Crazy { get; }
         public double Hot { get; }
@@ -21,8 +22,9 @@ namespace NadekoBot.Modules.Games.Common
         public string Advice { get; }
         public AsyncLazy<string> Url { get; }
 
-        public GirlRating(IImagesService _images, double crazy, double hot, int roll, string advice)
+        public GirlRating(IImageCache images, double crazy, double hot, int roll, string advice)
         {
+            _images = images;
             Crazy = crazy;
             Hot = hot;
             Roll = roll;
@@ -45,7 +47,7 @@ namespace NadekoBot.Modules.Games.Common
                         using (var pointMs = new MemoryStream(_images.RategirlDot.ToArray(), false))
                         using (var pointImg = Image.Load(pointMs))
                         {
-                            img.DrawImage(pointImg, 100, default(Size), new Point(pointx - 10, pointy - 10));
+                            img.DrawImage(pointImg, 100, default, new Point(pointx - 10, pointy - 10));
                         }
 
                         string url;

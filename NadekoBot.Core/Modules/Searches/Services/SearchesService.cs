@@ -34,7 +34,7 @@ namespace NadekoBot.Modules.Searches.Services
         private readonly IGoogleApiService _google;
         private readonly DbService _db;
         private readonly Logger _log;
-        private readonly IImagesService _imgs;
+        private readonly IImageCache _imgs;
         private readonly IDataCache _cache;
         private readonly FontProvider _fonts;
         private readonly HttpClient http;
@@ -60,7 +60,7 @@ namespace NadekoBot.Modules.Searches.Services
         private readonly ConcurrentDictionary<ulong, HashSet<string>> _blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>();
 
         public SearchesService(DiscordSocketClient client, IGoogleApiService google, 
-            DbService db, NadekoBot bot, IImagesService imgs, IDataCache cache,
+            DbService db, NadekoBot bot, IDataCache cache,
             FontProvider fonts)
         {
             Http = new HttpClient();
@@ -69,7 +69,7 @@ namespace NadekoBot.Modules.Searches.Services
             _google = google;
             _db = db;
             _log = LogManager.GetCurrentClassLogger();
-            _imgs = imgs;
+            _imgs = cache.LocalImages;
             _cache = cache;
             _fonts = fonts;
             http = new HttpClient();

@@ -19,11 +19,11 @@ namespace NadekoBot.Modules.Games
     //todo update docs
     public partial class Games : NadekoTopLevelModule<GamesService>
     {
-        private readonly IImagesService _images;
+        private readonly IImageCache _images;
 
-        public Games(IImagesService images)
+        public Games(IDataCache data)
         {
-            _images = images;
+            _images = data.LocalImages;
         }
 //#if GLOBAL_NADEKO
 //        [NadekoCommand, Usage, Description, Aliases]

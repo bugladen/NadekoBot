@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Games.Services;
+using System;
 
 namespace NadekoBot.Modules.Games
 {
@@ -88,12 +89,18 @@ namespace NadekoBot.Modules.Games
                     else
                         msgToSend += " " + GetText("pick_sn", Prefix);
 
-                    using (var toSend = imgData.Data.ToStream())
+                    using (var toSend = imgData.ToStream())
                     {
-                        msg = await Context.Channel.SendFileAsync(toSend, imgData.Name, msgToSend).ConfigureAwait(false);
+                        msg = await Context.Channel.SendFileAsync(toSend, "plant.png", msgToSend, options: new RequestOptions()
+                        {
+                            RetryMode = RetryMode.AlwaysRetry
+                        }).ConfigureAwait(false);
                     }
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    _log.Warn(ex);
+                }
 
                 var msgs = new IUserMessage[amount];
                 msgs[0] = msg;

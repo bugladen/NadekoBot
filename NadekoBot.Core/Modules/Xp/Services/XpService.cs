@@ -19,8 +19,6 @@ using SixLabors.Fonts;
 using System.IO;
 using SixLabors.Primitives;
 using System.Net.Http;
-using SixLabors.Shapes;
-using System.Numerics;
 using ImageSharp.Drawing.Pens;
 using ImageSharp.Drawing.Brushes;
 
@@ -33,7 +31,7 @@ namespace NadekoBot.Modules.Xp.Services
         private readonly DbService _db;
         private readonly CommandHandler _cmd;
         private readonly IBotConfigProvider _bc;
-        private readonly IImagesService _images;
+        private readonly IImageCache _images;
         private readonly Logger _log;
         private readonly NadekoStrings _strings;
         private readonly IDataCache _cache;
@@ -61,14 +59,13 @@ namespace NadekoBot.Modules.Xp.Services
         private readonly HttpClient http = new HttpClient();
 
         public XpService(CommandHandler cmd, IBotConfigProvider bc,
-            NadekoBot bot, IImagesService images,
-            DbService db, NadekoStrings strings, IDataCache cache,
+            NadekoBot bot, DbService db, NadekoStrings strings, IDataCache cache,
             FontProvider fonts)
         {
             _db = db;
             _cmd = cmd;
             _bc = bc;
-            _images = images;
+            _images = cache.LocalImages;
             _log = LogManager.GetCurrentClassLogger();
             _strings = strings;
             _cache = cache;
