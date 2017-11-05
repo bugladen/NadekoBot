@@ -7,6 +7,8 @@ namespace NadekoBot.Core.Services
     public interface IDataCache
     {
         ConnectionMultiplexer Redis { get; }
+        IImageCache LocalImages { get; }
+
         Task<(bool Success, byte[] Data)> TryGetImageDataAsync(string key);
         Task<(bool Success, string Data)> TryGetAnimeDataAsync(string key);
         Task<(bool Success, string Data)> TryGetNovelDataAsync(string key);

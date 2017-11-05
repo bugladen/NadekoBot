@@ -9,6 +9,9 @@ namespace NadekoBot.Core.Services.Impl
     public class RedisCache : IDataCache
     {
         public ConnectionMultiplexer Redis { get; }
+
+        public IImageCache LocalImages { get; }
+
         private readonly IDatabase _db;
         private readonly string _redisKey;
 
@@ -16,6 +19,7 @@ namespace NadekoBot.Core.Services.Impl
         {
             Redis = ConnectionMultiplexer.Connect("127.0.0.1");
             Redis.PreserveAsyncOrder = false;
+            LocalImages = new RedisImagesCache(Redis, creds);
             _db = Redis.GetDatabase();
             _redisKey = creds.RedisKey();
         }

@@ -35,7 +35,7 @@ namespace NadekoBot.Modules.Games.Services
         private readonly Timer _t;
         private readonly CommandHandler _cmd;
         private readonly NadekoStrings _strings;
-        private readonly IImagesService _images;
+        private readonly IImageCache _images;
         private readonly Logger _log;
         private readonly NadekoRandom _rng;
         private readonly CurrencyService _cs;
@@ -57,13 +57,13 @@ namespace NadekoBot.Modules.Games.Services
         public ConcurrentDictionary<ulong, Nunchi> NunchiGames { get; } = new ConcurrentDictionary<ulong, Common.Nunchi.Nunchi>();
 
         public GamesService(CommandHandler cmd, IBotConfigProvider bc, NadekoBot bot,
-            NadekoStrings strings, IImagesService images, CommandHandler cmdHandler,
+            NadekoStrings strings, IDataCache data, CommandHandler cmdHandler,
             CurrencyService cs)
         {
             _bc = bc;
             _cmd = cmd;
             _strings = strings;
-            _images = images;
+            _images = data.LocalImages;
             _cmdHandler = cmdHandler;
             _log = LogManager.GetCurrentClassLogger();
             _rng = new NadekoRandom();
@@ -144,10 +144,11 @@ namespace NadekoBot.Modules.Games.Services
         private ConcurrentDictionary<ulong, object> _locks { get; } = new ConcurrentDictionary<ulong, object>();
         public ConcurrentHashSet<ulong> HalloweenAwardedUsers { get; } = new ConcurrentHashSet<ulong>();
 
-        public (string Name, ImmutableArray<byte> Data) GetRandomCurrencyImage()
+        public byte[] GetRandomCurrencyImage()
         {
             var rng = new NadekoRandom();
-            return _images.Currency[rng.Next(0, _images.Currency.Length)];
+            var cur = _images.Currency;
+            return cur[rng.Next(0, cur.Length)];
         }
 
         private string GetText(ITextChannel ch, string key, params object[] rep)
@@ -195,11 +196,11 @@ namespace NadekoBot.Modules.Games.Services
                                 : GetText(channel, "curgen_pl", dropAmount, _bc.BotConfig.CurrencySign)
                                     + " " + GetText(channel, "pick_pl", prefix);
                             var file = GetRandomCurrencyImage();
-                            using (var fileStream = file.Data.ToStream())
+                            using (var fileStream = file.ToStream())
                             {
                                 var sent = await channel.SendFileAsync(
                                     fileStream,
-                                    file.Name,
+                                    "drop.png",
                                     toSend).ConfigureAwait(false);
 
                                 msgs[0] = sent;

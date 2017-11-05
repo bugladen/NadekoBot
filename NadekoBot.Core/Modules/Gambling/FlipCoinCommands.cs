@@ -17,15 +17,15 @@ namespace NadekoBot.Modules.Gambling
         [Group]
         public class FlipCoinCommands : NadekoSubmodule
         {
-            private readonly IImagesService _images;
+            private readonly IImageCache _images;
             private readonly IBotConfigProvider _bc;
             private readonly CurrencyService _cs;
 
             private static readonly NadekoRandom rng = new NadekoRandom();
 
-            public FlipCoinCommands(IImagesService images, CurrencyService cs, IBotConfigProvider bc)
+            public FlipCoinCommands(IDataCache data, CurrencyService cs, IBotConfigProvider bc)
             {
-                _images = images;
+                _images = data.LocalImages;
                 _bc = bc;
                 _cs = cs;
             }
