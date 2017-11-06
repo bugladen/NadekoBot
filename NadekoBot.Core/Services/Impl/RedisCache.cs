@@ -72,8 +72,7 @@ namespace NadekoBot.Core.Services.Impl
                 var time = TimeSpan.FromHours(period);
                 if ((bool?)_db.StringGet($"{_redisKey}_timelyclaim_{id}") == null)
                 {
-                    _db.StringSet($"{_redisKey}_timelyclaim_{id}", true);
-                    _db.KeyExpire($"{_redisKey}_timelyclaim_{id}", time);
+                    _db.StringSet($"{_redisKey}_timelyclaim_{id}", true, time);
                     return null;
                 }
                 return _db.KeyTimeToLive($"{_redisKey}_timelyclaim_{id}");
@@ -95,8 +94,7 @@ namespace NadekoBot.Core.Services.Impl
             if (time == null)
             {
                 time = TimeSpan.FromMinutes(30);
-                _db.StringSet($"{_redisKey}_affinity_{userId}", true);
-                _db.KeyExpire($"{_redisKey}_affinity_{userId}", time);
+                _db.StringSet($"{_redisKey}_affinity_{userId}", true, time);
                 return true;
             }
             return false;
@@ -108,8 +106,7 @@ namespace NadekoBot.Core.Services.Impl
             if (time == null)
             {
                 time = TimeSpan.FromHours(6);
-                _db.StringSet($"{_redisKey}_divorce_{userId}", true);
-                _db.KeyExpire($"{_redisKey}_divorce_{userId}", time);
+                _db.StringSet($"{_redisKey}_divorce_{userId}", true, time);
                 return true;
             }
             return false;
