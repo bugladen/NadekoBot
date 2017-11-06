@@ -15,12 +15,15 @@ namespace NadekoBot.Modules.Games
         [Group]
         public class TriviaCommands : NadekoSubmodule<GamesService>
         {
+            private readonly IDataCache _cache;
             private readonly CurrencyService _cs;
             private readonly DiscordSocketClient _client;
             private readonly IBotConfigProvider _bc;
 
-            public TriviaCommands(DiscordSocketClient client, IBotConfigProvider bc, CurrencyService cs)
+            public TriviaCommands(DiscordSocketClient client, IDataCache cache,
+                IBotConfigProvider bc, CurrencyService cs)
             {
+                _cache = cache;
                 _cs = cs;
                 _client = client;
                 _bc = bc;
@@ -45,7 +48,7 @@ namespace NadekoBot.Modules.Games
                 var showHints = !additionalArgs.Contains("nohint");
                 var isPokemon = additionalArgs.Contains("pokemon");
 
-                var trivia = new TriviaGame(_strings, _client, _bc, _cs, channel.Guild, channel, showHints, winReq, isPokemon);
+                var trivia = new TriviaGame(_strings, _client, _bc, _cache, _cs, channel.Guild, channel, showHints, winReq, isPokemon);
                 if (_service.RunningTrivias.TryAdd(channel.Guild.Id, trivia))
                 {
                     try
