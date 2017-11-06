@@ -36,6 +36,30 @@ namespace NadekoBot.Modules.Searches
             _google = google;
         }
 
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task Crypto(string name)
+        {
+            name = name?.ToLowerInvariant();
+
+            if (string.IsNullOrWhiteSpace(name))
+                return;
+
+            var crypto = (await _service.CryptoData().ConfigureAwait(false))
+                ?.FirstOrDefault(x => x.Id.ToLowerInvariant() == name || x.Name.ToLowerInvariant() == name);
+
+            if (crypto == null)
+                return; //todo error message
+
+            await Context.Channel.EmbedAsync(new EmbedBuilder()
+                .WithOkColor()
+                .WithTitle($"{crypto.Name} ({crypto.Id})")
+                .AddField("Market Cap", $"${crypto.Market_Cap_Usd:n0}", true)
+                .AddField("Price", $"${crypto.Price_Usd}", true)
+                .AddField("Volume (24h)", $"${crypto._24h_Volume_Usd:n0}", true)
+                .AddField("Change (7d/24h)", $"{crypto.Percent_Change_7d}% / {crypto.Percent_Change_24h}%", true));
+        }
+
         //for anonymasen :^)
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Rip([Remainder]IGuildUser usr)
