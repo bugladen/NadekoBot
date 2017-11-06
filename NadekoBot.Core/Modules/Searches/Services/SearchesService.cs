@@ -17,7 +17,6 @@ using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using AngleSharp;
 using System.Threading;
-using NadekoBot.Modules.Searches.Exceptions;
 using ImageSharp;
 using Image = ImageSharp.Image;
 using SixLabors.Primitives;
@@ -41,12 +40,6 @@ namespace NadekoBot.Modules.Searches.Services
 
         public ConcurrentDictionary<ulong, bool> TranslatedChannels { get; } = new ConcurrentDictionary<ulong, bool>();
         public ConcurrentDictionary<UserChannelPair, string> UserLanguages { get; } = new ConcurrentDictionary<UserChannelPair, string>();
-        
-        public readonly string PokemonAbilitiesFile = "data/pokemon/pokemon_abilities7.json";
-
-        public readonly string PokemonListFile = "data/pokemon/pokemon_list7.json";
-        public Dictionary<string, SearchPokemon> Pokemons { get; } = new Dictionary<string, SearchPokemon>();
-        public Dictionary<string, SearchPokemonAbility> PokemonAbilities { get; } = new Dictionary<string, SearchPokemonAbility>();
 
         public List<WoWJoke> WowJokes { get; } = new List<WoWJoke>();
         public List<MagicItem> MagicItems { get; } = new List<MagicItem>();

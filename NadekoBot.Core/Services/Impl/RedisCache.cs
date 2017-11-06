@@ -1,7 +1,6 @@
 ﻿using NadekoBot.Extensions;
 using StackExchange.Redis;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Core.Services.Impl
@@ -11,6 +10,7 @@ namespace NadekoBot.Core.Services.Impl
         public ConnectionMultiplexer Redis { get; }
 
         public IImageCache LocalImages { get; }
+        public ILocalDataCache LocalData { get; }
 
         private readonly IDatabase _db;
         private readonly string _redisKey;
@@ -20,6 +20,7 @@ namespace NadekoBot.Core.Services.Impl
             Redis = ConnectionMultiplexer.Connect("127.0.0.1");
             Redis.PreserveAsyncOrder = false;
             LocalImages = new RedisImagesCache(Redis, creds);
+            LocalData = new RedisLocalDataCache(Redis, creds);
             _db = Redis.GetDatabase();
             _redisKey = creds.RedisKey();
         }
@@ -71,8 +72,7 @@ namespace NadekoBot.Core.Services.Impl
                 var time = TimeSpan.FromHours(period);
                 if ((bool?)_db.StringGet($"{_redisKey}_timelyclaim_{id}") == null)
                 {
-                    _db.StringSet($"{_redisKey}_timelyclaim_{id}", true);
-                    _db.KeyExpire($"{_redisKey}_timelyclaim_{id}", time);
+                    _db.StringSet($"{_redisKey}_timelyclaim_{id}", true, time);
                     return null;
                 }
                 return _db.KeyTimeToLive($"{_redisKey}_timelyclaim_{id}");
@@ -94,8 +94,7 @@ namespace NadekoBot.Core.Services.Impl
             if (time == null)
             {
                 time = TimeSpan.FromMinutes(30);
-                _db.StringSet($"{_redisKey}_affinity_{userId}", true);
-                _db.KeyExpire($"{_redisKey}_affinity_{userId}", time);
+                _db.StringSet($"{_redisKey}_affinity_{userId}", true, time);
                 return true;
             }
             return false;
@@ -107,8 +106,7 @@ namespace NadekoBot.Core.Services.Impl
             if (time == null)
             {
                 time = TimeSpan.FromHours(6);
-                _db.StringSet($"{_redisKey}_divorce_{userId}", true);
-                _db.KeyExpire($"{_redisKey}_divorce_{userId}", time);
+                _db.StringSet($"{_redisKey}_divorce_{userId}", true, time);
                 return true;
             }
             return false;

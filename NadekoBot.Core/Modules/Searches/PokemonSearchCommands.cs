@@ -6,7 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NadekoBot.Common.Attributes;
-using NadekoBot.Modules.Searches.Common;
+using NadekoBot.Core.Common.Pokemon;
+using NadekoBot.Core.Services;
 
 namespace NadekoBot.Modules.Searches
 {
@@ -15,8 +16,15 @@ namespace NadekoBot.Modules.Searches
         [Group]
         public class PokemonSearchCommands : NadekoSubmodule<SearchesService>
         {
-            public Dictionary<string, SearchPokemon> Pokemons => _service.Pokemons;
-            public Dictionary<string, SearchPokemonAbility> PokemonAbilities => _service.PokemonAbilities;
+            private readonly IDataCache _cache;
+
+            public IReadOnlyDictionary<string, SearchPokemon> Pokemons => _cache.LocalData.Pokemons;
+            public IReadOnlyDictionary<string, SearchPokemonAbility> PokemonAbilities => _cache.LocalData.PokemonAbilities;
+
+            public PokemonSearchCommands(IDataCache cache)
+            {
+                _cache = cache;
+            }
 
             [NadekoCommand, Usage, Description, Aliases]
             public async Task Pokemon([Remainder] string pokemon = null)
