@@ -917,5 +917,7 @@
   "searches_volume_24h": "Volume (24h)",
   "searches_change_7d_24h": "Change (7d/24h)",
   "searches_crypto_not_found": "Cryptocurrency with that name was not found.",
-  "searches_did_you_mean": "Did you mean {0}?"
+  "searches_did_you_mean": "Did you mean {0}?",
+  "administration_self_assign_level_req": "Self assignable role {0} now requires at least server level {1}.",
+  "administration_self_assign_not_level": "That self-assignable role requires at least server level {0}."
 }
