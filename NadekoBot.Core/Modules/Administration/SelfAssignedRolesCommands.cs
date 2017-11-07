@@ -10,6 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Common.Collections;
+using Microsoft.EntityFrameworkCore;
+using NadekoBot.Modules.Xp.Common;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -147,7 +149,10 @@ namespace NadekoBot.Modules.Administration
                             }
                             else
                             {
-                                rolesStr.AppendLine(Format.Bold(role.Name));
+                                if (roleModel.LevelRequirement == 0)
+                                    rolesStr.AppendLine(Format.Bold(role.Name));
+                                else
+                                    rolesStr.AppendLine(Format.Bold(role.Name) + $" (lvl {roleModel.LevelRequirement}+)");
                                 roleCnt++;
                             }
                         }
@@ -190,23 +195,68 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.ManageRoles)]
+            public async Task RoleLevelReq(int level, [Remainder] IRole role)
+            {
+                if (level < 0)
+                    return;
+
+                bool notExists = false;
+                using (var uow = _db.UnitOfWork)
+                {
+                    //todo add firacode font to visual studio
+                    var roles = uow.SelfAssignedRoles.GetFromGuild(Context.Guild.Id);
+                    var sar = roles.SelectMany(x => x).FirstOrDefault(x => x.RoleId == role.Id);
+                    if (sar != null)
+                    {
+                        sar.LevelRequirement = level;
+                        uow.Complete();
+                    }
+                    else
+                    {
+                        notExists = true;
+                    }
+                }
+
+                if (notExists)
+                {
+                    await ReplyErrorLocalized("self_assign_not").ConfigureAwait(false);
+                    return;
+                }
+
+                await ReplyConfirmLocalized("self_assign_level_req", 
+                    Format.Bold(role.Name), 
+                    Format.Bold(level.ToString())).ConfigureAwait(false);
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
             public async Task Iam([Remainder] IRole role)
             {
                 var guildUser = (IGuildUser)Context.User;
 
                 GuildConfig conf;
                 SelfAssignedRole[] roles;
+                LevelStats userLevelData;
                 using (var uow = _db.UnitOfWork)
                 {
                     conf = uow.GuildConfigs.For(Context.Guild.Id, set => set);
                     roles = uow.SelfAssignedRoles.GetFromGuild(Context.Guild.Id)
                         .SelectMany(x => x)
                         .ToArray();
+
+                    var stats = uow.Xp.GetOrCreateUser(Context.Guild.Id, Context.User.Id);
+                    userLevelData = new LevelStats(stats.Xp + stats.AwardedXp);
                 }
                 var theRoleYouWant = roles.FirstOrDefault(r => r.RoleId == role.Id);
                 if (theRoleYouWant == null)
                 {
                     await ReplyErrorLocalized("self_assign_not").ConfigureAwait(false);
+                    return;
+                }
+                if (theRoleYouWant.LevelRequirement > userLevelData.Level)
+                {
+                    await ReplyErrorLocalized("self_assign_not_level", Format.Bold(theRoleYouWant.LevelRequirement.ToString())).ConfigureAwait(false);
                     return;
                 }
                 if (guildUser.RoleIds.Contains(role.Id))
