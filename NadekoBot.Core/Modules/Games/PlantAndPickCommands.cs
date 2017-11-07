@@ -1,4 +1,4 @@
-﻿using Discord;
+using Discord;
 using Discord.Commands;
 using Microsoft.EntityFrameworkCore;
 using NadekoBot.Extensions;
@@ -91,7 +91,7 @@ namespace NadekoBot.Modules.Games
 
                     using (var toSend = imgData.ToStream())
                     {
-                        msg = await Context.Channel.SendFileAsync(toSend, "plant.png", msgToSend, options: new RequestOptions()
+                        msg = await Context.Channel.SendFileAsync(toSend, "plant.gif", msgToSend, options: new RequestOptions()
                         {
                             RetryMode = RetryMode.AlwaysRetry
                         }).ConfigureAwait(false);
