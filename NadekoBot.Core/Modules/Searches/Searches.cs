@@ -22,6 +22,7 @@ using NadekoBot.Modules.Searches.Common;
 using NadekoBot.Modules.Searches.Services;
 using NadekoBot.Common.Replacements;
 using Discord.WebSocket;
+using NadekoBot.Core.Modules.Searches.Common;
 
 namespace NadekoBot.Modules.Searches
 {
@@ -44,20 +45,56 @@ namespace NadekoBot.Modules.Searches
 
             if (string.IsNullOrWhiteSpace(name))
                 return;
+            var cryptos = (await _service.CryptoData().ConfigureAwait(false));
+            var crypto = cryptos
+                ?.FirstOrDefault(x => x.Id.ToLowerInvariant() == name || x.Name.ToLowerInvariant() == name
+                    || x.Symbol.ToLowerInvariant() == name);
 
-            var crypto = (await _service.CryptoData().ConfigureAwait(false))
-                ?.FirstOrDefault(x => x.Id.ToLowerInvariant() == name || x.Name.ToLowerInvariant() == name);
+            (CryptoData Elem, int Distance)? nearest = null;
+            if (crypto == null)
+            {
+                nearest = cryptos.Select(x => (x, Distance: x.Name.ToLowerInvariant().LevenshteinDistance(name)))
+                    .OrderBy(x => x.Distance)
+                    .Where(x => x.Distance <= 2)
+                    .FirstOrDefault();
+
+                crypto = nearest?.Elem;
+            }
 
             if (crypto == null)
-                return; //todo error message
+            {
+                await ReplyErrorLocalized("crypto_not_found").ConfigureAwait(false);
+                return;
+            }
+
+            if (nearest != null)
+            {
+                //wrap this into some class, ther'es the same code in execsql too
+                var msg = await Context.Channel.EmbedAsync(new EmbedBuilder()
+                        .WithOkColor()
+                        .WithTitle(GetText("crypto_not_found"))
+                        .WithDescription(GetText("did_you_mean", Format.Bold($"{crypto.Name} ({crypto.Symbol})")))
+                        .WithFooter("Y/n")).ConfigureAwait(false);
+
+                var input = await GetUserInputAsync(Context.User.Id, Context.Channel.Id);
+                input = input?.ToLowerInvariant().ToString();
+
+                if (input != "yes" && input != "y")
+                {
+                    var __ = msg.DeleteAsync();
+                    return;
+                }
+                var _ = msg.DeleteAsync();
+            }
 
             await Context.Channel.EmbedAsync(new EmbedBuilder()
                 .WithOkColor()
-                .WithTitle($"{crypto.Name} ({crypto.Id})")
-                .AddField("Market Cap", $"${crypto.Market_Cap_Usd:n0}", true)
-                .AddField("Price", $"${crypto.Price_Usd}", true)
-                .AddField("Volume (24h)", $"${crypto._24h_Volume_Usd:n0}", true)
-                .AddField("Change (7d/24h)", $"{crypto.Percent_Change_7d}% / {crypto.Percent_Change_24h}%", true));
+                .WithTitle($"{crypto.Name} ({crypto.Symbol})")
+                .WithThumbnailUrl($"https://files.coinmarketcap.com/static/img/coins/32x32/{crypto.Id}.png")
+                .AddField(GetText("market_cap"), $"${crypto.Market_Cap_Usd:n0}", true)
+                .AddField(GetText("price"), $"${crypto.Price_Usd}", true)
+                .AddField(GetText("volume_24h"), $"${crypto._24h_Volume_Usd:n0}", true)
+                .AddField(GetText("change_7d_24h"), $"{crypto.Percent_Change_7d}% / {crypto.Percent_Change_24h}%", true));
         }
 
         //for anonymasen :^)

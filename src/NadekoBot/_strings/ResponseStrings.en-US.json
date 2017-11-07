@@ -911,5 +911,11 @@
   "gambling_timely": "You've claimed your {0}. You can claim again in {1}h",
   "gambling_timely_set": "Users will be able to claim {0} every {1}h",
   "gambling_timely_set_none": "Users will not be able to claim any timely currency.",
-  "gambling_timely_reset": "All users will be able to claim timely currency again."
+  "gambling_timely_reset": "All users will be able to claim timely currency again.",
+  "searches_price": "Price",
+  "searches_market_cap": "Market Cap",
+  "searches_volume_24h": "Volume (24h)",
+  "searches_change_7d_24h": "Change (7d/24h)",
+  "searches_crypto_not_found": "Cryptocurrency with that name was not found.",
+  "searches_did_you_mean": "Did you mean {0}?"
 }

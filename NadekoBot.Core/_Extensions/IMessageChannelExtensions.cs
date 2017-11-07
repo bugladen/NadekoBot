@@ -54,9 +54,12 @@ namespace NadekoBot.Extensions
         
         private static readonly IEmote arrow_left = new Emoji("⬅");
         private static readonly IEmote arrow_right = new Emoji("➡");
-        //todo update this
-        public static Task SendPaginatedConfirmAsync(this IMessageChannel channel, DiscordSocketClient client, int currentPage, Func<int, EmbedBuilder> pageFunc, int totalElements, int itemsPerPage, bool addPaginatedFooter = true) =>
-            channel.SendPaginatedConfirmAsync(client, currentPage, (x) => Task.FromResult(pageFunc(x)), totalElements, itemsPerPage, addPaginatedFooter);
+
+        public static Task SendPaginatedConfirmAsync(this IMessageChannel channel, DiscordSocketClient client, 
+            int currentPage, Func<int, EmbedBuilder> pageFunc, int totalElements, 
+            int itemsPerPage, bool addPaginatedFooter = true) =>
+            channel.SendPaginatedConfirmAsync(client, currentPage, 
+                (x) => Task.FromResult(pageFunc(x)), totalElements, itemsPerPage, addPaginatedFooter);
         /// <summary>
         /// danny kamisama
         /// </summary>

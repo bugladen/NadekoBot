@@ -3090,5 +3090,13 @@
     "usage": [
       "{0}novel the nine cauldrons"
     ]
+  },
+  "crypto": {
+    "cmd": "crypto c",
+    "desc": "Shows basic stats about a cryptocurrency from coinmarketcap.com. You can use either a name or an abbreviation of the currency.",
+    "usage": [
+      "{0}c btc",
+      "{0}c bitcoin"
+    ]
   }
 }
