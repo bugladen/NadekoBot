@@ -22,6 +22,21 @@ namespace NadekoBot.Core.Services.Database.Models
             Violin,
             Ring,
             Helicopter,
+            Iphone, //4000
+            Cat, //2000
+            Dog, //2001
+            Lollipop, //30
+            Purse, //3500
+            Sushi, //300
+            Icecream, //200
+            Piano, //8000
+            Yacht, //12000
+            Car, //9000
+            House, //15000
+            Spaceship, //30000
+            Beer, //75
+            Pizza, //150
+            Milk, //125
         }
 
         public WaifuItem()
@@ -64,6 +79,36 @@ namespace NadekoBot.Core.Services.Database.Models
                     return new WaifuItem("💍", 10000, itemName);
                 case ItemName.Helicopter:
                     return new WaifuItem("🚁", 20000, itemName);
+                case ItemName.Iphone:
+                    return new WaifuItem("📱", 4000, itemName);
+                case ItemName.Cat:
+                    return new WaifuItem("🐱", 2000, itemName);
+                case ItemName.Dog:
+                    return new WaifuItem("🐶", 2001, itemName);
+                case ItemName.Lollipop:
+                    return new WaifuItem("🍭", 30, itemName);
+                case ItemName.Purse:
+                    return new WaifuItem("👛", 3500, itemName);
+                case ItemName.Sushi:
+                    return new WaifuItem("🍣", 300, itemName);
+                case ItemName.Icecream:
+                    return new WaifuItem("🍦", 200, itemName);
+                case ItemName.Piano:
+                    return new WaifuItem("🎹", 8000, itemName);
+                case ItemName.Yacht:
+                    return new WaifuItem("🛳", 12000, itemName);
+                case ItemName.Car:
+                    return new WaifuItem("🚗", 9000, itemName);
+                case ItemName.House:
+                    return new WaifuItem("🏠", 15000, itemName);
+                case ItemName.Spaceship:
+                    return new WaifuItem("🚀", 30000, itemName);
+                case ItemName.Beer:
+                    return new WaifuItem("🍺", 75, itemName);
+                case ItemName.Pizza:
+                    return new WaifuItem("🍕", 150, itemName);
+                case ItemName.Milk:
+                    return new WaifuItem("🥛", 125, itemName);
                 default:
                     throw new ArgumentException(nameof(itemName));
             }

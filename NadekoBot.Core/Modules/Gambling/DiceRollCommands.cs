@@ -31,7 +31,6 @@ namespace NadekoBot.Modules.Gambling
                 _images = data.LocalImages;
             }
 
-
             [NadekoCommand, Usage, Description, Aliases]
             public async Task Roll()
             {

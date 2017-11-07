@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Gambling.Services;
+using Discord.WebSocket;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -58,13 +59,16 @@ namespace NadekoBot.Modules.Gambling
             private readonly CurrencyService _cs;
             private readonly DbService _db;
             private readonly IDataCache _cache;
+            private readonly DiscordSocketClient _client;
 
-            public WaifuClaimCommands(IDataCache cache, IBotConfigProvider bc, CurrencyService cs, DbService db)
+            public WaifuClaimCommands(IDataCache cache, IBotConfigProvider bc,
+                CurrencyService cs, DbService db, DiscordSocketClient client)
             {
                 _bc = bc;
                 _cs = cs;
                 _db = db;
                 _cache = cache;
+                _client = client;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -310,7 +314,7 @@ namespace NadekoBot.Modules.Gambling
                     var now = DateTime.UtcNow;
                     if (w?.Affinity?.UserId == u?.Id)
                     {
-                        //todo don't let people change affinity on different shards
+
                     }
                     else if (!_cache.TryAddAffinityCooldown(Context.User.Id, out remaining))
                     {
@@ -473,18 +477,27 @@ namespace NadekoBot.Modules.Gambling
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [Priority(1)]
-            public async Task WaifuGift()
+            public async Task WaifuGift(int page = 1)
             {
-                var embed = new EmbedBuilder()
-                    .WithTitle(GetText("waifu_gift_shop"))
-                    .WithOkColor();
+                if (--page < 0 || page > 2)
+                    return;
 
-                Enum.GetValues(typeof(WaifuItem.ItemName))
-                    .Cast<WaifuItem.ItemName>()
-                    .Select(x => WaifuItem.GetItem(x))
-                    .ForEach(x => embed.AddField(f => f.WithName(x.ItemEmoji + " " + x.Item).WithValue(x.Price).WithIsInline(true)));
+                await Context.Channel.SendPaginatedConfirmAsync(_client, page, (cur) =>
+                {
+                    var embed = new EmbedBuilder()
+                        .WithTitle(GetText("waifu_gift_shop"))
+                        .WithOkColor();
 
-                    await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                    Enum.GetValues(typeof(WaifuItem.ItemName))
+                                        .Cast<WaifuItem.ItemName>()
+                                        .Select(x => WaifuItem.GetItem(x))
+                                        .OrderBy(x => x.Price)
+                                        .Skip(9 * cur)
+                                        .Take(9)
+                                        .ForEach(x => embed.AddField(f => f.WithName(x.ItemEmoji + " " + x.Item).WithValue(x.Price).WithIsInline(true)));
+
+                    return embed;
+                }, Enum.GetValues(typeof(WaifuItem.ItemName)).Length, 9);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
