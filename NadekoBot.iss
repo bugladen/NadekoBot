@@ -21,7 +21,7 @@ DisableWelcomePage=no
 [Files]
 ;install 
 Source: "src\NadekoBot\bin\Release\netcoreapp2.0\{#target}\publish\*"; DestDir: "{app}\{#sysfolder}"; Permissions: users-full; Flags: recursesubdirs onlyifdoesntexist ignoreversion createallsubdirs; Excludes: "*.pdb, *.db"
-Source: "src\NadekoBot\bin\Release\netcoreapp2.0\{#target}\publish\data\command_strings.json"; DestDir: "{app}\{#sysfolder}\data"; DestName: "command_strings.json"; Permissions: users-full; Flags: skipifsourcedoesntexist ignoreversion createallsubdirs overwrite;
+Source: "src\NadekoBot\bin\Release\netcoreapp2.0\{#target}\publish\data\command_strings.json"; DestDir: "{app}\{#sysfolder}\data"; DestName: "command_strings.json"; Permissions: users-full; Flags: skipifsourcedoesntexist ignoreversion createallsubdirs;
 ;rename credentials example to credentials, but don't overwrite if it exists
 ;Source: "src\NadekoBot\bin\Release\netcoreapp2.0\{#target}\publish\credentials_example.json"; DestName: "credentials.json"; DestDir: "{app}\{#sysfolder}"; Permissions: users-full; Flags: skipifsourcedoesntexist onlyifdoesntexist;
 
