@@ -940,10 +940,18 @@
   },
   "raffle": {
     "Cmd": "raffle",
-    "Desc": "Prints a name and ID of a random user from the online list from the (optional) role.",
+    "Desc": "Prints a name and ID of a random online user from the server, or from the online user in the specified role.",
     "Usage": [
       "{0}raffle",
       "{0}raffle RoleName"
+    ]
+  },
+  "raffleany": {
+    "Cmd": "raffleany",
+    "Desc": "Prints a name and ID of a random user from the server, or from the specified role.",
+    "Usage": [
+      "{0}raffleany",
+      "{0}raffleany  RoleName"
     ]
   },
   "give": {
