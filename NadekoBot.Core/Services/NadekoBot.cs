@@ -129,7 +129,7 @@ namespace NadekoBot
             {
                 AllGuildConfigs = uow.GuildConfigs.GetAllGuildConfigs(startingGuildIdList).ToImmutableArray();
 
-                IBotConfigProvider botConfigProvider = new BotConfigProvider(_db, _botConfig);
+                IBotConfigProvider botConfigProvider = new BotConfigProvider(_db, _botConfig, Cache);
 
                 //initialize Services
                 Services = new NServiceProvider()

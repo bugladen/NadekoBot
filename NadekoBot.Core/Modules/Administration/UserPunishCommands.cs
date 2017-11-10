@@ -18,10 +18,15 @@ namespace NadekoBot.Modules.Administration
         public class UserPunishCommands : NadekoSubmodule<UserPunishService>
         {
             private readonly DbService _db;
+            private readonly CurrencyService _cs;
+            private readonly IBotConfigProvider _bc;
 
-            public UserPunishCommands(DbService db, MuteService muteService)
+            public UserPunishCommands(DbService db, MuteService muteService,
+                CurrencyService cs, IBotConfigProvider bc)
             {
                 _db = db;
+                _cs = cs;
+                _bc = bc;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -101,7 +106,7 @@ namespace NadekoBot.Modules.Administration
 
                 var embed = new EmbedBuilder().WithOkColor()
                     .WithTitle(GetText("warnlog_for", (Context.Guild as SocketGuild)?.GetUser(userId)?.ToString() ?? userId.ToString()))
-                    .WithFooter(efb => efb.WithText(GetText("page", page  + 1)));
+                    .WithFooter(efb => efb.WithText(GetText("page", page + 1)));
 
                 if (!warnings.Any())
                 {
@@ -202,8 +207,8 @@ namespace NadekoBot.Modules.Administration
                     uow.Complete();
                 }
 
-                await ReplyConfirmLocalized("warn_punish_set", 
-                    Format.Bold(punish.ToString()), 
+                await ReplyConfirmLocalized("warn_punish_set",
+                    Format.Bold(punish.ToString()),
                     Format.Bold(number.ToString())).ConfigureAwait(false);
             }
 
@@ -396,6 +401,92 @@ namespace NadekoBot.Modules.Administration
                         .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
                         .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true)))
                     .ConfigureAwait(false);
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.BanMembers)]
+            [RequireBotPermission(GuildPermission.BanMembers)]
+            [OwnerOnly]
+            public async Task MassKill([Remainder] string people)
+            {
+                if (string.IsNullOrWhiteSpace(people))
+                    return;
+
+                var gusers = ((SocketGuild)Context.Guild).Users;
+                //get user objects and reasons
+                var bans = people.Split("\n")
+                    .Select(x =>
+                    {
+                        var split = x.Trim().Split(" ");
+
+                        var reason = string.Join(" ", split.Skip(1));
+
+                        if (ulong.TryParse(split[0], out var id))
+                            return (Original: split[0], Id: id, Reason: reason);
+
+                        return (Original: split[0], 
+                            Id: gusers
+                                .FirstOrDefault(u => u.ToString().ToLowerInvariant() == x)
+                                ?.Id, 
+                            Reason: reason);
+                    })
+                    .ToArray();
+
+                //if user is null, means that person couldn't be found
+                var missing = bans
+                    .Where(x => !x.Id.HasValue)
+                    .ToArray();
+
+                //get only data for found users
+                var found = bans
+                    .Where(x => x.Id.HasValue)
+                    .Select(x => x.Id.Value)
+                    .ToArray();
+
+                var missStr = string.Join("\n", missing);
+                if (string.IsNullOrWhiteSpace(missStr))
+                    missStr = "-";
+
+                //send a message but don't wait for it
+                var banningMessageTask = Context.Channel.EmbedAsync(new EmbedBuilder()
+                    .WithDescription(GetText("mass_kill_in_progress", bans.Length))
+                    .AddField(GetText("invalid", missing.Length), missStr)
+                    .WithOkColor());
+
+                using (var uow = _db.UnitOfWork)
+                {
+                    var bc = uow.BotConfig.GetOrCreate(set => set.Include(x => x.Blacklist));
+                    //blacklist the users
+                    bc.Blacklist.AddRange(found.Select(x =>
+                        new BlacklistItem
+                        {
+                            ItemId = x,
+                            Type = BlacklistType.User,
+                        }));
+                    //clear their currencies
+                    uow.Currency.RemoveFromMany(found.Select(x => (long)x).ToList());
+                    uow.Complete();
+                }
+
+                _bc.Reload();
+                
+                //do the banning
+                await Task.WhenAll(bans
+                    .Where(x => x.Id.HasValue)
+                    .Select(x => Context.Guild.AddBanAsync(x.Id.Value, 7, x.Reason, new RequestOptions() {
+                        RetryMode = RetryMode.AlwaysRetry,
+                    })))
+                    .ConfigureAwait(false);
+
+                //wait for the message and edit it
+                var banningMessage = await banningMessageTask.ConfigureAwait(false);
+
+                await banningMessage.ModifyAsync(x => x.Embed = new EmbedBuilder()
+                    .WithDescription(GetText("mass_kill_completed", bans.Length))
+                    .AddField(GetText("invalid", missing.Length), missStr)
+                    .WithOkColor()
+                    .Build()).ConfigureAwait(false);
             }
         }
     }

@@ -9,5 +9,6 @@ namespace NadekoBot.Core.Services.Database.Repositories
         long GetUserCurrency(ulong userId);
         bool TryUpdateState(ulong userId, long change);
         IEnumerable<Currency> GetTopRichest(int count, int skip);
+        void RemoveFromMany(List<long> ids);
     }
 }

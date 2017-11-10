@@ -53,10 +53,28 @@ namespace NadekoBot.Modules.Searches.Services
         private readonly ConcurrentDictionary<ulong, HashSet<string>> _blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>();
         private readonly Timer _t;
 
+        private readonly SemaphoreSlim _cryptoLock = new SemaphoreSlim(1, 1);
         public async Task<CryptoData[]> CryptoData()
         {
-            var data = await _cache.Redis.GetDatabase()
-                .StringGetAsync("crypto_data").ConfigureAwait(false);
+            string data;
+            var r = _cache.Redis.GetDatabase();
+            await _cryptoLock.WaitAsync().ConfigureAwait(false);
+            try
+            {
+                data = await r.StringGetAsync("crypto_data").ConfigureAwait(false);
+
+                if (data == null)
+                {
+                    data = await Http.GetStringAsync("https://api.coinmarketcap.com/v1/ticker/")
+                        .ConfigureAwait(false);
+
+                    await r.StringSetAsync("crypto_data", data, TimeSpan.FromHours(6)).ConfigureAwait(false);
+                }
+            }
+            finally
+            {
+                _cryptoLock.Release();
+            }
 
             return JsonConvert.DeserializeObject<CryptoData[]>(data);
         }
@@ -121,14 +139,7 @@ namespace NadekoBot.Modules.Searches.Services
                     var r = _cache.Redis.GetDatabase();
                     try
                     {
-                        var data = (string)(await r.StringGetAsync("crypto_data").ConfigureAwait(false));
-                        if (data == null)
-                        {
-                            data = await Http.GetStringAsync("https://api.coinmarketcap.com/v1/ticker/")
-                                .ConfigureAwait(false);
-
-                            await r.StringSetAsync("crypto_data", data, TimeSpan.FromHours(6)).ConfigureAwait(false);
-                        }
+                        
                     }
                     catch (Exception ex)
                     {

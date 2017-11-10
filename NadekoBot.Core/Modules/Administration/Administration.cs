@@ -261,7 +261,7 @@ namespace NadekoBot.Modules.Administration
         public async Task CreatVoiChanl([Remainder] string channelName)
         {
             var ch = await Context.Guild.CreateVoiceChannelAsync(channelName).ConfigureAwait(false);
-            await ReplyConfirmLocalized("createvoich",Format.Bold(ch.Name)).ConfigureAwait(false);
+            await ReplyConfirmLocalized("createvoich", Format.Bold(ch.Name)).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -312,7 +312,7 @@ namespace NadekoBot.Modules.Administration
         [RequireUserPermission(GuildPermission.MentionEveryone)]
         public async Task MentionRole(params IRole[] roles)
         {
-            string send = "❕" +GetText("menrole",Context.User.Mention);
+            string send = "❕" + GetText("menrole", Context.User.Mention);
             foreach (var role in roles)
             {
                 send += $"\n**{role.Name}**\n";
