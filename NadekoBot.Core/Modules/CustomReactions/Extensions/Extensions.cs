@@ -150,9 +150,9 @@ namespace NadekoBot.Modules.CustomReactions.Extensions
         private static bool isInvalidWordChar(this string str, int index)
         {
             var ch = (ushort)str[index];
-            if (ch > 64 && ch <= 90) // must be A-Z
+            if (ch >= 65 && ch <= 90) // must be A-Z
                 return false;
-            if (ch > 97 && ch <= 122) // a-z
+            if (ch >= 97 && ch <= 122) // a-z
                 return false;
 
             return true;
