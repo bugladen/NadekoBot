@@ -133,15 +133,15 @@ namespace NadekoBot.Modules.CustomReactions.Extensions
 
             if (indexOfWord == 0) // on start
             {
-                if (word.Length < str.Length &&str.isInvalidWordChar(word.Length)) // filter char after word index
+                if (word.Length < str.Length && str.isInvalidWordChar(word.Length)) // filter char after word index
                     return WordPosition.Start;
             }
             else if ((indexOfWord + word.Length) == str.Length) // on end
             {
-                if (str.isInvalidWordChar(indexOfWord-1)) // filter char before word index
+                if (str.isInvalidWordChar(indexOfWord - 1)) // filter char before word index
                     return WordPosition.End;
             }
-            else if (str.isInvalidWordChar(indexOfWord-1) && str.isInvalidWordChar(indexOfWord + word.Length)) // on middle
+            else if (str.isInvalidWordChar(indexOfWord - 1) && str.isInvalidWordChar(indexOfWord + word.Length)) // on middle
                 return WordPosition.Middle;
 
             return WordPosition.None;
@@ -149,10 +149,10 @@ namespace NadekoBot.Modules.CustomReactions.Extensions
 
         private static bool isInvalidWordChar(this string str, int index)
         {
-            var ch = str[index];
-            if ((byte)ch > 64 && (byte)ch <= 90) // must be A-Z
+            var ch = (ushort)str[index];
+            if (ch > 64 && ch <= 90) // must be A-Z
                 return false;
-            if ((byte)ch > 97 && (byte)ch <= 122) // a-z
+            if (ch > 97 && ch <= 122) // a-z
                 return false;
 
             return true;
