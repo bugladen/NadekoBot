@@ -67,7 +67,7 @@ namespace NadekoBot.Modules.Searches.Services
                     data = await Http.GetStringAsync("https://api.coinmarketcap.com/v1/ticker/")
                         .ConfigureAwait(false);
 
-                    await r.StringSetAsync("crypto_data", data, TimeSpan.FromHours(6)).ConfigureAwait(false);
+                    await r.StringSetAsync("crypto_data", data, TimeSpan.FromHours(1)).ConfigureAwait(false);
                 }
             }
             finally
