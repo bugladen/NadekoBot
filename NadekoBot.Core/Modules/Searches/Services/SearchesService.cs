@@ -51,7 +51,6 @@ namespace NadekoBot.Modules.Searches.Services
         public ConcurrentDictionary<ulong, Timer> AutoButtTimers { get; } = new ConcurrentDictionary<ulong, Timer>();
 
         private readonly ConcurrentDictionary<ulong, HashSet<string>> _blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>();
-        private readonly Timer _t;
 
         private readonly SemaphoreSlim _cryptoLock = new SemaphoreSlim(1, 1);
         public async Task<CryptoData[]> CryptoData()
