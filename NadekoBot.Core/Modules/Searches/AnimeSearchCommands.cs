@@ -26,7 +26,7 @@ namespace NadekoBot.Modules.Searches
 
                 if (novelData == null)
                 {
-                    await ReplyErrorLocalized("failed_finding_novel").ConfigureAwait(false);
+                    await ReplyErrorLocalized("error_finding_novel").ConfigureAwait(false);
                     return;
                 }
 
