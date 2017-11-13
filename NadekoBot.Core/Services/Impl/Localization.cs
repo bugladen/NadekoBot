@@ -24,7 +24,7 @@ namespace NadekoBot.Core.Services.Impl
         static Localization()
         {
             _commandData = JsonConvert.DeserializeObject<Dictionary<string, CommandData>>(
-                File.ReadAllText("./data/command_strings.json"));
+                File.ReadAllText("./_strings/cmd/command_strings.json"));
         }
 
         private Localization() { }

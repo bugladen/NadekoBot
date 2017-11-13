@@ -940,10 +940,18 @@
   },
   "raffle": {
     "Cmd": "raffle",
-    "Desc": "Prints a name and ID of a random user from the online list from the (optional) role.",
+    "Desc": "Prints a name and ID of a random online user from the server, or from the online user in the specified role.",
     "Usage": [
       "{0}raffle",
       "{0}raffle RoleName"
+    ]
+  },
+  "raffleany": {
+    "Cmd": "raffleany",
+    "Desc": "Prints a name and ID of a random user from the server, or from the specified role.",
+    "Usage": [
+      "{0}raffleany",
+      "{0}raffleany  RoleName"
     ]
   },
   "give": {
@@ -3104,6 +3112,13 @@
     "desc": "Set a level requirement on a self-assignable role.",
     "usage": [
       "{0}rlr 5 SomeRole"
+    ]
+  },
+  "masskill": {
+    "cmd": "masskill",
+    "desc": "Specify a new-line separated list of `userid reason`. You can use Username#discrim instead of UserId. Specified users will be banned from the current server, blacklisted from the bot, and have all of their flowers taken away.",
+    "usage": [
+      "{0}masskill BadPerson#1234 Toxic person"
     ]
   }
 }

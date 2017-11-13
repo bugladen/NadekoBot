@@ -6,11 +6,14 @@ namespace NadekoBot.Core.Services.Impl
     public class BotConfigProvider : IBotConfigProvider
     {
         private readonly DbService _db;
+        private readonly IDataCache _cache;
+
         public BotConfig BotConfig { get; private set; }
 
-        public BotConfigProvider(DbService db, BotConfig bc)
+        public BotConfigProvider(DbService db, BotConfig bc, IDataCache cache)
         {
             _db = db;
+            _cache = cache;
             BotConfig = bc;
         }
 

@@ -33,6 +33,11 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
         public long GetUserCurrency(ulong userId) => 
             GetOrCreate(userId).Amount;
 
+        public void RemoveFromMany(List<long> ids)
+        {
+            _set.RemoveRange(_set.Where(x => ids.Contains((long)x.UserId)));
+        }
+
         public bool TryUpdateState(ulong userId, long change)
         {
             var cur = GetOrCreate(userId);
