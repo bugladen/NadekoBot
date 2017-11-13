@@ -26,6 +26,8 @@ brew install libsodium
 brew install tmux
 brew install python
 brew install youtube-dl
+brew install redis
+brew services start redis
 ```
 
 #### Installing .NET Core SDK
