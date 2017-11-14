@@ -841,8 +841,10 @@
   "xp_level_up_channel": "Congratulations {0}, You've reached level {1}!",
   "xp_level_up_dm": "Congratulations {0}, You've reached level {1} on {2} server!",
   "xp_level_up_global": "Congratulations {0}, You've reached global level {1}!",
-  "xp_role_reward_cleared": "Level {0} will no longer reward a role.",
+  "xp_role_reward_cleared": "Reaching level {0} will no longer reward a role.",
   "xp_role_reward_added": "Users who reach level {0} will receive {1} role.",
+  "xp_cur_reward_cleared": "Reaching level {0} will no longer reward any {1}.",
+  "xp_cur_reward_added": "Users who reach level {0} will receive {1}.",
   "xp_role_rewards": "Role Rewards",
   "xp_level_x": "Level {0}",
   "xp_no_role_rewards": "No role reward on this page.",
@@ -923,5 +925,5 @@
   "administration_invalid": "Invalid / Can't be found ({0})",
   "administration_mass_kill_in_progress": "Mass Banning and Blacklisting of {0} users is in progress...",
   "administration_mass_kill_completed": "Mass Banning and Blacklisting of {0} users is complete.",
-  "searches_error_finding_novel": "Can't find that novel. Make sure you've typed the exact full name, and that it exists on novelupdates.com"
+  "searches_failed_finding_novel": "Can't find that novel. Make sure you've typed the exact full name, and that it exists on novelupdates.com"
 }
