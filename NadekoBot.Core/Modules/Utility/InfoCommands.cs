@@ -118,7 +118,7 @@ namespace NadekoBot.Modules.Utility
             [OwnerOnly]
             public async Task Activity(int page = 1)
             {
-                const int activityPerPage = 15;
+                const int activityPerPage = 10;
                 page -= 1;
 
                 if (page < 0)
