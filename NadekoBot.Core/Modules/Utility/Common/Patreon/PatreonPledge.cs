@@ -7,7 +7,7 @@
         public object declined_since { get; set; }
         public bool is_twitch_pledge { get; set; }
         public bool patron_pays_fees { get; set; }
-        public int pledge_cap_cents { get; set; }
+        public int? pledge_cap_cents { get; set; }
     }
 
     public class Address
