@@ -51,7 +51,6 @@ namespace NadekoBot.Modules.Searches.Services
         public ConcurrentDictionary<ulong, Timer> AutoButtTimers { get; } = new ConcurrentDictionary<ulong, Timer>();
 
         private readonly ConcurrentDictionary<ulong, HashSet<string>> _blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>();
-        private readonly Timer _t;
 
         private readonly SemaphoreSlim _cryptoLock = new SemaphoreSlim(1, 1);
         public async Task<CryptoData[]> CryptoData()
@@ -131,22 +130,6 @@ namespace NadekoBot.Modules.Searches.Services
                 });
                 return Task.CompletedTask;
             };
-
-            if (client.ShardId == 0)
-            {
-                _t = new Timer(async _ =>
-                {
-                    var r = _cache.Redis.GetDatabase();
-                    try
-                    {
-                        
-                    }
-                    catch (Exception ex)
-                    {
-                        _log.Warn(ex);
-                    }
-                }, null, TimeSpan.Zero, TimeSpan.FromHours(1));
-            }
 
             //joke commands
             if (File.Exists("data/wowjokes.json"))

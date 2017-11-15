@@ -67,6 +67,8 @@ namespace NadekoBot.Modules.Searches.Services
                     var document = await BrowsingContext.New(config).OpenAsync(link);
 
                     var imageElem = document.QuerySelector("div.seriesimg > img");
+                    if (imageElem == null)
+                        return null;
                     var imageUrl = ((IHtmlImageElement)imageElem).Source;
 
                     var descElem = document.QuerySelector("div#editdescription > p");
