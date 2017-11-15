@@ -127,32 +127,32 @@ namespace NadekoBot.Modules.CustomReactions.Extensions
 
         public static WordPosition GetWordPosition(this string str, string word)
         {
-            var indexOfWord = str.IndexOf(word);
-            if (indexOfWord == -1)
+            var wordIndex = str.IndexOf(word);
+            if (wordIndex == -1)
                 return WordPosition.None;
 
-            if (indexOfWord == 0) // on start
+            if (wordIndex == 0)
             {
-                if (word.Length < str.Length && str.isInvalidWordChar(word.Length)) // filter char after word index
+                if (word.Length < str.Length && str.isValidWordDivider(word.Length))
                     return WordPosition.Start;
             }
-            else if ((indexOfWord + word.Length) == str.Length) // on end
+            else if ((wordIndex + word.Length) == str.Length)
             {
-                if (str.isInvalidWordChar(indexOfWord - 1)) // filter char before word index
+                if (str.isValidWordDivider(wordIndex - 1))
                     return WordPosition.End;
             }
-            else if (str.isInvalidWordChar(indexOfWord - 1) && str.isInvalidWordChar(indexOfWord + word.Length)) // on middle
+            else if (str.isValidWordDivider(wordIndex - 1) && str.isValidWordDivider(wordIndex + word.Length))
                 return WordPosition.Middle;
 
             return WordPosition.None;
         }
 
-        private static bool isInvalidWordChar(this string str, int index)
+        private static bool isValidWordDivider(this string str, int index)
         {
-            var ch = (ushort)str[index];
-            if (ch >= 65 && ch <= 90) // must be A-Z
+            var ch = str[index];
+            if (ch >= 'a' && ch <= 'z')
                 return false;
-            if (ch >= 97 && ch <= 122) // a-z
+            if (ch >= 'A' && ch <= 'Z')
                 return false;
 
             return true;
