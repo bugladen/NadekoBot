@@ -8,6 +8,7 @@ namespace NadekoBot.Core.Services.Database.Models
         public GuildConfig GuildConfig { get; set; }
 
         public HashSet<XpRoleReward> RoleRewards { get; set; } = new HashSet<XpRoleReward>();
+        public HashSet<XpCurrencyReward> CurrencyRewards { get; set; } = new HashSet<XpCurrencyReward>();
         public bool XpRoleRewardExclusive { get; set; }
         public string NotifyMessage { get; set; } = "Congratulations {0}! You have reached level {1}!";
         public HashSet<ExcludedItem> ExclusionList { get; set; } = new HashSet<ExcludedItem>();
@@ -32,6 +33,25 @@ namespace NadekoBot.Core.Services.Database.Models
         public override bool Equals(object obj)
         {
             return obj is XpRoleReward xrr && xrr.Level == Level && xrr.XpSettingsId == XpSettingsId;
+        }
+    }
+
+    public class XpCurrencyReward : DbEntity
+    {
+        public int XpSettingsId { get; set; }
+        public XpSettings XpSettings { get; set; }
+
+        public int Level { get; set; }
+        public int Amount { get; set; }
+
+        public override int GetHashCode()
+        {
+            return Level.GetHashCode() ^ XpSettingsId.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is XpCurrencyReward xrr && xrr.Level == Level && xrr.XpSettingsId == XpSettingsId;
         }
     }
 
