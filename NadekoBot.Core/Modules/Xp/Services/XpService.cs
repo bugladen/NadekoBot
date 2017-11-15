@@ -241,6 +241,50 @@ namespace NadekoBot.Modules.Xp.Services
             }, token);
         }
 
+        public void SetCurrencyReward(ulong guildId, int level, int amount)
+        {
+            using (var uow = _db.UnitOfWork)
+            {
+                var settings = uow.GuildConfigs.XpSettingsFor(guildId);
+
+                if (amount <= 0)
+                {
+                    var toRemove = settings.CurrencyRewards.FirstOrDefault(x => x.Level == level);
+                    if (toRemove != null)
+                    {
+                        uow._context.Remove(toRemove);
+                        settings.CurrencyRewards.Remove(toRemove);
+                    }
+                }
+                else
+                {
+
+                    var rew = settings.CurrencyRewards.FirstOrDefault(x => x.Level == level);
+
+                    if (rew != null)
+                        rew.Amount = amount;
+                    else
+                        settings.CurrencyRewards.Add(new XpCurrencyReward()
+                        {
+                            Level = level,
+                            Amount = amount,
+                        });
+                }
+
+                uow.Complete();
+            }
+        }
+
+        public IEnumerable<XpCurrencyReward> GetCurrencyRewards(ulong id)
+        {
+            using (var uow = _db.UnitOfWork)
+            {
+                return uow.GuildConfigs.XpSettingsFor(id)
+                    .CurrencyRewards
+                    .ToArray();
+            }
+        }
+
         public IEnumerable<XpRoleReward> GetRoleRewards(ulong id)
         {
             using (var uow = _db.UnitOfWork)
