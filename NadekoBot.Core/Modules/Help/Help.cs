@@ -24,7 +24,6 @@ namespace NadekoBot.Modules.Help
         private readonly GlobalPermissionService _perms;
 
         public string HelpString => String.Format(_config.BotConfig.HelpString, _creds.ClientId, Prefix);
-        public string DMHelpString => _config.BotConfig.DMHelpString;
 
         public Help(IBotCredentials creds, GlobalPermissionService perms, IBotConfigProvider config, CommandService cmds)
         {
