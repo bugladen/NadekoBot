@@ -109,7 +109,7 @@ namespace NadekoBot.Modules.Xp
             _service.SetCurrencyReward(Context.Guild.Id, level, amount);
 
             if (amount == 0)
-                await ReplyConfirmLocalized("cur_reward_cleared", level).ConfigureAwait(false);
+                await ReplyConfirmLocalized("cur_reward_cleared", level, _bc.BotConfig.CurrencySign).ConfigureAwait(false);
             else
                 await ReplyConfirmLocalized("cur_reward_added", level, Format.Bold(amount + _bc.BotConfig.CurrencySign)).ConfigureAwait(false);
         }
