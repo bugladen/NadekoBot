@@ -2815,11 +2815,11 @@
       "{0}xpn server channel"
     ]
   },
-  "xprolerewards": {
-    "Cmd": "xprolerewards xprrs",
-    "Desc": "Shows currently set role rewards.",
+  "xpleveluprewards": {
+    "Cmd": "xplvluprewards xprews xpcrs xprrs xprolerewards xpcurrewards",
+    "Desc": "Shows currently set level up rewards.",
     "Usage": [
-      "{0}xprrs"
+      "{0}xprews"
     ]
   },
   "xprolereward": {
@@ -2827,6 +2827,13 @@
     "Desc": "Sets a role reward on a specified level. Provide no role name in order to remove the role reward.",
     "Usage": [
       "{0}xprr 3 Social"
+    ]
+  },
+  "xpcurrencyreward": {
+    "Cmd": "xpcurreward xpcr",
+    "Desc": "Sets a currency reward on a specified level. Provide no amount in order to remove the reward.",
+    "Usage": [
+      "{0}xpcr 3 50"
     ]
   },
   "xpleaderboard": {
