@@ -35,7 +35,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task DefPrefix([Remainder]string prefix)
+            public async Task DefPrefix([Remainder]string prefix = null)
             {
                 if (string.IsNullOrWhiteSpace(prefix))
                 {
