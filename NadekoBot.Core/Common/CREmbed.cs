@@ -41,7 +41,7 @@ namespace NadekoBot.Common
                 embed.WithTitle(Title);
             if (!string.IsNullOrWhiteSpace(Description))
                 embed.WithDescription(Description);
-            if (!string.IsNullOrWhiteSpace(url))
+            if (url != null && Uri.IsWellFormedUriString(url, UriKind.Absolute))
                 embed.WithUrl(url);
             embed.WithColor(new Discord.Color(Color));
             if (Footer != null)
