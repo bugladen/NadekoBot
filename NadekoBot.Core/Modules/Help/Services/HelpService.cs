@@ -9,6 +9,8 @@ using NadekoBot.Common.Attributes;
 using NadekoBot.Common.ModuleBehaviors;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Impl;
+using NadekoBot.Common;
+using NLog;
 
 namespace NadekoBot.Modules.Help.Services
 {
@@ -17,25 +19,33 @@ namespace NadekoBot.Modules.Help.Services
         private readonly IBotConfigProvider _bc;
         private readonly CommandHandler _ch;
         private readonly NadekoStrings _strings;
+        private readonly Logger _log;
 
         public HelpService(IBotConfigProvider bc, CommandHandler ch, NadekoStrings strings)
         {
             _bc = bc;
             _ch = ch;
             _strings = strings;
+            _log = LogManager.GetCurrentClassLogger();
         }
 
-        public async Task LateExecute(DiscordSocketClient client, IGuild guild, IUserMessage msg)
+        public Task LateExecute(DiscordSocketClient client, IGuild guild, IUserMessage msg)
         {
             try
             {
-                if(guild == null)
-                    await msg.Channel.SendMessageAsync(_bc.BotConfig.DMHelpString).ConfigureAwait(false);
+                if (guild == null)
+                {
+                    if (CREmbed.TryParse(_bc.BotConfig.DMHelpString, out var embed))
+                        return msg.Channel.EmbedAsync(embed.ToEmbed(), embed.PlainText?.SanitizeMentions() ?? "");
+
+                    return msg.Channel.SendMessageAsync(_bc.BotConfig.DMHelpString);
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //ignore
+                _log.Warn(ex);
             }
+            return Task.CompletedTask;
         }
 
         public EmbedBuilder GetCommandHelp(CommandInfo com, IGuild guild)

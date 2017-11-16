@@ -17,40 +17,18 @@ namespace NadekoBot.Modules.Xp
     {
         private readonly DiscordSocketClient _client;
         private readonly DbService _db;
+        private readonly IBotConfigProvider _bc;
 
-        public Xp(DiscordSocketClient client,DbService db)
+        public Xp(DiscordSocketClient client,DbService db, IBotConfigProvider bc)
         {
             _client = client;
             _db = db;
+            _bc = bc;
         }
-
-        //[NadekoCommand, Usage, Description, Aliases]
-        //[RequireContext(ContextType.Guild)]
-        //[OwnerOnly]
-        //public async Task Populate()
-        //{
-        //    var rng = new NadekoRandom();
-        //    using (var uow = _db.UnitOfWork)
-        //    {
-        //        for (var i = 0ul; i < 1000000; i++)
-        //        {
-        //            uow.DiscordUsers.Add(new DiscordUser()
-        //            {
-        //                AvatarId = i.ToString(),
-        //                Discriminator = "1234",
-        //                UserId = i,
-        //                Username = i.ToString(),
-        //                Club = null,
-        //            });
-        //            var xp = uow.Xp.GetOrCreateUser(Context.Guild.Id, i);
-        //            xp.Xp = rng.Next(100, 100000);
-        //        }
-        //        uow.Complete();
-        //    }
-        //}
-
+        
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        //todo add ratelimit attribute
         //[Ratelimit(30)]
         public async Task Experience([Remainder]IUser user = null)
         {
@@ -69,34 +47,39 @@ namespace NadekoBot.Modules.Xp
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public Task XpRoleRewards(int page = 1)
+        public Task XpLevelUpRewards(int page = 1)
         {
             page--;
 
             if (page < 0 || page > 100)
                 return Task.CompletedTask;
 
-            var roles = _service.GetRoleRewards(Context.Guild.Id)
-                .OrderBy(x => x.Level)
-                .Skip(page * 9)
-                .Take(9);
-
             var embed = new EmbedBuilder()
-                .WithTitle(GetText("role_rewards"))
+                .WithTitle(GetText("level_up_rewards"))
                 .WithOkColor();
 
-            if (!roles.Any())
-                return Context.Channel.EmbedAsync(embed.WithDescription(GetText("no_role_rewards")));
+            var rewards = _service.GetRoleRewards(Context.Guild.Id)
+                .OrderBy(x => x.Level)
+                .Select(x =>
+                {
+                    var str = Context.Guild.GetRole(x.RoleId)?.ToString();
+                    if (str != null)
+                        str = GetText("role_reward", Format.Bold(str));
+                    return (x.Level, RoleStr: str);
+                })
+                .Where(x => x.RoleStr != null)
+                .Concat(_service.GetCurrencyRewards(Context.Guild.Id)
+                    .OrderBy(x => x.Level)
+                    .Select(x => (x.Level, Format.Bold(x.Amount + _bc.BotConfig.CurrencySign))))
+                    .GroupBy(x => x.Level)
+                    .OrderBy(x => x.Key)
+                    .Skip(page * 9)
+                    .Take(9)
+                    .ForEach(x => embed.AddField(GetText("level_x", x.Key), string.Join("\n", x.Select(y => y.Item2))));
 
-            foreach (var rolerew in roles)
-            {
-                var role = Context.Guild.GetRole(rolerew.RoleId);
+            if (!rewards.Any())
+                return Context.Channel.EmbedAsync(embed.WithDescription(GetText("no_level_up_rewards")));
 
-                if (role == null)
-                    continue;
-
-                embed.AddField(GetText("level_x", Format.Bold(rolerew.Level.ToString())), role.ToString());
-            }
             return Context.Channel.EmbedAsync(embed);
         }
 
@@ -114,6 +97,22 @@ namespace NadekoBot.Modules.Xp
                 await ReplyConfirmLocalized("role_reward_cleared", level).ConfigureAwait(false);
             else
                 await ReplyConfirmLocalized("role_reward_added", level, Format.Bold(role.ToString())).ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [OwnerOnly]
+        public async Task XpCurrencyReward(int level, int amount=0)
+        {
+            if (level < 1 || amount < 0)
+                return;
+
+            _service.SetCurrencyReward(Context.Guild.Id, level, amount);
+
+            if (amount == 0)
+                await ReplyConfirmLocalized("cur_reward_cleared", level, _bc.BotConfig.CurrencySign).ConfigureAwait(false);
+            else
+                await ReplyConfirmLocalized("cur_reward_added", level, Format.Bold(amount + _bc.BotConfig.CurrencySign)).ConfigureAwait(false);
         }
 
         public enum NotifyPlace

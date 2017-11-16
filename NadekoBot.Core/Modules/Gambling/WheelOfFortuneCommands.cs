@@ -15,16 +15,31 @@ namespace NadekoBot.Modules.Gambling
         {
             private readonly CurrencyService _cs;
             private readonly IBotConfigProvider _bc;
+            private readonly DbService _db;
 
-            public WheelOfFortuneCommands(CurrencyService cs, IBotConfigProvider bc)
+            public WheelOfFortuneCommands(CurrencyService cs, IBotConfigProvider bc,
+                DbService db)
             {
                 _cs = cs;
                 _bc = bc;
+                _db = db;
+            }
+
+            public enum Allin { Allin, All }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            public Task WheelOfFortune(Allin _)
+            {
+                long cur;
+                using (var uow = _db.UnitOfWork)
+                {
+                    cur = uow.Currency.GetUserCurrency(Context.User.Id);
+                }
+                return WheelOfFortune(cur);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
-            public async Task WheelOfFortune(int bet)
+            public async Task WheelOfFortune(long bet)
             {
                 const int minBet = 10;
                 if (bet < minBet)

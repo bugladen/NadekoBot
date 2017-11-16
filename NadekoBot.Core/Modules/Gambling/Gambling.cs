@@ -278,9 +278,9 @@ namespace NadekoBot.Modules.Gambling
         //    });
         //    return Task.CompletedTask;
         //}
+        public enum Allin { Allin, All }
 
-        [NadekoCommand, Usage, Description, Aliases]
-        public async Task BetRoll(long amount)
+        private async Task InternallBetroll(long amount)
         {
             if (amount < 1)
                 return;
@@ -303,22 +303,37 @@ namespace NadekoBot.Modules.Gambling
                 {
                     str += GetText("br_win", (amount * _bc.BotConfig.Betroll67Multiplier) + CurrencySign, 66);
                     await _cs.AddAsync(Context.User, "Betroll Gamble",
-                        (int) (amount * _bc.BotConfig.Betroll67Multiplier), false).ConfigureAwait(false);
+                        (int)(amount * _bc.BotConfig.Betroll67Multiplier), false).ConfigureAwait(false);
                 }
                 else if (rnd < 100)
                 {
                     str += GetText("br_win", (amount * _bc.BotConfig.Betroll91Multiplier) + CurrencySign, 90);
                     await _cs.AddAsync(Context.User, "Betroll Gamble",
-                        (int) (amount * _bc.BotConfig.Betroll91Multiplier), false).ConfigureAwait(false);
+                        (int)(amount * _bc.BotConfig.Betroll91Multiplier), false).ConfigureAwait(false);
                 }
                 else
                 {
                     str += GetText("br_win", (amount * _bc.BotConfig.Betroll100Multiplier) + CurrencySign, 99) + " 👑";
                     await _cs.AddAsync(Context.User, "Betroll Gamble",
-                        (int) (amount * _bc.BotConfig.Betroll100Multiplier), false).ConfigureAwait(false);
+                        (int)(amount * _bc.BotConfig.Betroll100Multiplier), false).ConfigureAwait(false);
                 }
             }
             await Context.Channel.SendConfirmAsync(str).ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        public Task BetRoll(long amount)
+            => InternallBetroll(amount);
+
+        [NadekoCommand, Usage, Description, Aliases]
+        public Task BetRoll(Allin _)
+        {
+            long cur;
+            using (var uow = _db.UnitOfWork)
+            {
+                cur = uow.Currency.GetUserCurrency(Context.User.Id);
+            }
+            return InternallBetroll(cur);
         }
 
         [NadekoCommand, Usage, Description, Aliases]

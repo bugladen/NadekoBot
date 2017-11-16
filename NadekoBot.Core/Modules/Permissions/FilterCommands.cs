@@ -89,6 +89,7 @@ namespace NadekoBot.Modules.Permissions
                 }
                 else
                 {
+                    _service.InviteFilteringChannels.TryRemove(channel.Id);
                     await ReplyConfirmLocalized("invite_filter_channel_off").ConfigureAwait(false);
                 }
             }

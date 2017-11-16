@@ -2,16 +2,16 @@
 using AngleSharp.Dom.Html;
 using Discord;
 using Discord.WebSocket;
+using NadekoBot.Common;
+using NadekoBot.Common.Replacements;
+using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.CustomReactions.Services;
-using NadekoBot.Core.Services.Database.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using NadekoBot.Common;
-using NadekoBot.Common.Replacements;
 
 namespace NadekoBot.Modules.CustomReactions.Extensions
 {
@@ -89,7 +89,7 @@ namespace NadekoBot.Modules.CustomReactions.Extensions
         public static string TriggerWithContext(this CustomReaction cr, IUserMessage ctx, DiscordSocketClient client)
             => cr.Trigger.ResolveTriggerString(ctx, client);
 
-        public static Task<string > ResponseWithContextAsync(this CustomReaction cr, IUserMessage ctx, DiscordSocketClient client, bool containsAnywhere)
+        public static Task<string> ResponseWithContextAsync(this CustomReaction cr, IUserMessage ctx, DiscordSocketClient client, bool containsAnywhere)
             => cr.Response.ResolveResponseStringAsync(ctx, client, cr.Trigger.ResolveTriggerString(ctx, client), containsAnywhere);
 
         public static async Task<IUserMessage> Send(this CustomReaction cr, IUserMessage ctx, DiscordSocketClient client, CustomReactionsService crs)
@@ -127,14 +127,35 @@ namespace NadekoBot.Modules.CustomReactions.Extensions
 
         public static WordPosition GetWordPosition(this string str, string word)
         {
-            if (str.StartsWith(word + " "))
-                return WordPosition.Start;
-            else if (str.EndsWith(" " + word))
-                return WordPosition.End;
-            else if (str.Contains(" " + word + " "))
-                return WordPosition.Middle;
-            else
+            var wordIndex = str.IndexOf(word);
+            if (wordIndex == -1)
                 return WordPosition.None;
+
+            if (wordIndex == 0)
+            {
+                if (word.Length < str.Length && str.isValidWordDivider(word.Length))
+                    return WordPosition.Start;
+            }
+            else if ((wordIndex + word.Length) == str.Length)
+            {
+                if (str.isValidWordDivider(wordIndex - 1))
+                    return WordPosition.End;
+            }
+            else if (str.isValidWordDivider(wordIndex - 1) && str.isValidWordDivider(wordIndex + word.Length))
+                return WordPosition.Middle;
+
+            return WordPosition.None;
+        }
+
+        private static bool isValidWordDivider(this string str, int index)
+        {
+            var ch = str[index];
+            if (ch >= 'a' && ch <= 'z')
+                return false;
+            if (ch >= 'A' && ch <= 'Z')
+                return false;
+
+            return true;
         }
     }
 

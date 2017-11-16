@@ -36,6 +36,8 @@ namespace NadekoBot.Modules.Xp.Services
         private readonly NadekoStrings _strings;
         private readonly IDataCache _cache;
         private readonly FontProvider _fonts;
+        private readonly IBotCredentials _creds;
+        private readonly CurrencyService _cs;
         public const int XP_REQUIRED_LVL_1 = 36;
 
         private readonly ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>> _excludedRoles
@@ -60,7 +62,7 @@ namespace NadekoBot.Modules.Xp.Services
 
         public XpService(CommandHandler cmd, IBotConfigProvider bc,
             NadekoBot bot, DbService db, NadekoStrings strings, IDataCache cache,
-            FontProvider fonts)
+            FontProvider fonts, IBotCredentials creds, CurrencyService cs)
         {
             _db = db;
             _cmd = cmd;
@@ -70,6 +72,8 @@ namespace NadekoBot.Modules.Xp.Services
             _strings = strings;
             _cache = cache;
             _fonts = fonts;
+            _creds = creds;
+            _cs = cs;
 
             //load settings
             var allGuildConfigs = bot.AllGuildConfigs.Where(x => x.XpSettings != null);
@@ -105,6 +109,7 @@ namespace NadekoBot.Modules.Xp.Services
                 {
                     var toNotify = new List<(IMessageChannel MessageChannel, IUser User, int Level, XpNotificationType NotifyType, NotifOf NotifOf)>();
                     var roleRewards = new Dictionary<ulong, List<XpRoleReward>>();
+                    var curRewards = new Dictionary<ulong, List<XpCurrencyReward>>();
 
                     var toAddTo = new List<UserCacheItem>();
                     while (_addMessageXp.TryDequeue(out var usr))
@@ -120,13 +125,12 @@ namespace NadekoBot.Modules.Xp.Services
                         {
                             var xp = item.Select(x => bc.BotConfig.XpPerMessage).Sum();
 
+                            //1. Mass query discord users and userxpstats and get them from local dict
+                            //2. (better but much harder) Move everything to the database, and get old and new xp
+                            // amounts for every user (in order to give rewards)
+
                             var usr = uow.Xp.GetOrCreateUser(item.Key.GuildId, item.Key.User.Id);
                             var du = uow.DiscordUsers.GetOrCreate(item.Key.User);
-
-                            if (du.LastXpGain + TimeSpan.FromMinutes(_bc.BotConfig.XpMinutesTimeout) > DateTime.UtcNow)
-                                continue;
-
-                            du.LastXpGain = DateTime.UtcNow;
 
                             var globalXp = du.TotalXp;
                             var oldGlobalLevelData = new LevelStats(globalXp);
@@ -156,20 +160,33 @@ namespace NadekoBot.Modules.Xp.Services
                                     toNotify.Add((first.Channel, first.User, newGuildLevelData.Level, usr.NotifyOnLevelUp, NotifOf.Server));
 
                                 //give role
-                                if (!roleRewards.TryGetValue(usr.GuildId, out var rewards))
+                                if (!roleRewards.TryGetValue(usr.GuildId, out var rrews))
                                 {
-                                    rewards = uow.GuildConfigs.XpSettingsFor(usr.GuildId).RoleRewards.ToList();
-                                    roleRewards.Add(usr.GuildId, rewards);
+                                    rrews = uow.GuildConfigs.XpSettingsFor(usr.GuildId).RoleRewards.ToList();
+                                    roleRewards.Add(usr.GuildId, rrews);
                                 }
 
-                                var rew = rewards.FirstOrDefault(x => x.Level == newGuildLevelData.Level);
-                                if (rew != null)
+                                if (!curRewards.TryGetValue(usr.GuildId, out var crews))
                                 {
-                                    var role = first.User.Guild.GetRole(rew.RoleId);
+                                    crews = uow.GuildConfigs.XpSettingsFor(usr.GuildId).CurrencyRewards.ToList();
+                                    curRewards.Add(usr.GuildId, crews);
+                                }
+
+                                var rrew = rrews.FirstOrDefault(x => x.Level == newGuildLevelData.Level);
+                                if (rrew != null)
+                                {
+                                    var role = first.User.Guild.GetRole(rrew.RoleId);
                                     if (role != null)
                                     {
                                         var __ = first.User.AddRoleAsync(role);
                                     }
+                                }
+                                //get currency reward for this level
+                                var crew = crews.FirstOrDefault(x => x.Level == newGuildLevelData.Level);
+                                if (crew != null)
+                                {
+                                    //give the user the reward if it exists
+                                    await _cs.AddAsync(item.Key.User.Id, "Level-up Reward", crew.Amount, uow);
                                 }
                             }
                         }
@@ -239,6 +256,50 @@ namespace NadekoBot.Modules.Xp.Services
                     await Task.Delay(TimeSpan.FromMinutes(_bc.BotConfig.XpMinutesTimeout));
                 }
             }, token);
+        }
+
+        public void SetCurrencyReward(ulong guildId, int level, int amount)
+        {
+            using (var uow = _db.UnitOfWork)
+            {
+                var settings = uow.GuildConfigs.XpSettingsFor(guildId);
+
+                if (amount <= 0)
+                {
+                    var toRemove = settings.CurrencyRewards.FirstOrDefault(x => x.Level == level);
+                    if (toRemove != null)
+                    {
+                        uow._context.Remove(toRemove);
+                        settings.CurrencyRewards.Remove(toRemove);
+                    }
+                }
+                else
+                {
+
+                    var rew = settings.CurrencyRewards.FirstOrDefault(x => x.Level == level);
+
+                    if (rew != null)
+                        rew.Amount = amount;
+                    else
+                        settings.CurrencyRewards.Add(new XpCurrencyReward()
+                        {
+                            Level = level,
+                            Amount = amount,
+                        });
+                }
+
+                uow.Complete();
+            }
+        }
+
+        public IEnumerable<XpCurrencyReward> GetCurrencyRewards(ulong id)
+        {
+            using (var uow = _db.UnitOfWork)
+            {
+                return uow.GuildConfigs.XpSettingsFor(id)
+                    .CurrencyRewards
+                    .ToArray();
+            }
         }
 
         public IEnumerable<XpRoleReward> GetRoleRewards(ulong id)
@@ -385,7 +446,13 @@ namespace NadekoBot.Modules.Xp.Services
 
         private bool SetUserRewarded(ulong userId)
         {
-            return _rewardedUsers.Add(userId);
+            var r = _cache.Redis.GetDatabase();
+            var key = $"{_creds.RedisKey()}_user_xp_gain_{userId}";
+
+            return r.StringSet(key, 
+                true, 
+                TimeSpan.FromMinutes(_bc.BotConfig.XpMinutesTimeout), 
+                StackExchange.Redis.When.NotExists);
         }
 
         public FullUserStats GetUserStats(IGuildUser user)

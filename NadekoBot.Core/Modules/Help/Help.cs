@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Help.Services;
 using NadekoBot.Modules.Permissions.Services;
+using NadekoBot.Common;
+using NadekoBot.Common.Replacements;
 
 namespace NadekoBot.Modules.Help
 {
@@ -23,8 +25,23 @@ namespace NadekoBot.Modules.Help
         private readonly CommandService _cmds;
         private readonly GlobalPermissionService _perms;
 
-        public string HelpString => String.Format(_config.BotConfig.HelpString, _creds.ClientId, Prefix);
-        public string DMHelpString => _config.BotConfig.DMHelpString;
+        public EmbedBuilder GetHelpStringEmbed()
+        {
+            var r = new ReplacementBuilder()
+                .WithDefault(Context)
+                .WithOverride("{0}", () => _creds.ClientId.ToString())
+                .WithOverride("{1}", () => Prefix)
+                .Build();
+
+
+            if (!CREmbed.TryParse(_config.BotConfig.HelpString, out var embed))
+                return new EmbedBuilder().WithOkColor()
+                    .WithDescription(String.Format(_config.BotConfig.HelpString, _creds.ClientId, Prefix));
+
+            r.Replace(embed);
+
+            return embed.ToEmbed();
+        }
 
         public Help(IBotCredentials creds, GlobalPermissionService perms, IBotConfigProvider config, CommandService cmds)
         {
@@ -94,15 +111,9 @@ namespace NadekoBot.Modules.Help
             if (com == null)
             {
                 IMessageChannel ch = channel is ITextChannel ? await ((IGuildUser)Context.User).GetOrCreateDMChannelAsync() : channel;
-                await ch.SendMessageAsync(HelpString).ConfigureAwait(false);
+                await ch.EmbedAsync(GetHelpStringEmbed()).ConfigureAwait(false);
                 return;
             }
-
-            //if (com == null)
-            //{
-            //    await ReplyErrorLocalized("command_not_found").ConfigureAwait(false);
-            //    return;
-            //}
 
             var embed = _service.GetCommandHelp(com, Context.Guild);
             await channel.EmbedAsync(embed).ConfigureAwait(false);
