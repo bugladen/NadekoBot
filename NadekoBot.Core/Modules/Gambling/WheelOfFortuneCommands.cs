@@ -25,7 +25,7 @@ namespace NadekoBot.Modules.Gambling
                 _db = db;
             }
 
-            public enum Allin { Allin, All }
+            public enum Allin { Allin = int.MinValue, All = int.MinValue }
 
             [NadekoCommand, Usage, Description, Aliases]
             public Task WheelOfFortune(Allin _)
