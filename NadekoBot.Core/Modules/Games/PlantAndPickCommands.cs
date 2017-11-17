@@ -1,4 +1,4 @@
-﻿using Discord;
+using Discord;
 using Discord.Commands;
 using Microsoft.EntityFrameworkCore;
 using NadekoBot.Extensions;
