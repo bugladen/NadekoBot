@@ -42,6 +42,13 @@ namespace NadekoBot.Modules.Searches
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
+            public async Task Picarto([Remainder] string username) =>
+                await TrackStream((ITextChannel)Context.Channel, username, FollowedStream.FollowedStreamType.Picarto)
+                    .ConfigureAwait(false);
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.ManageMessages)]
             public async Task Mixer([Remainder] string username) =>
                 await TrackStream((ITextChannel)Context.Channel, username, FollowedStream.FollowedStreamType.Mixer)
                     .ConfigureAwait(false);

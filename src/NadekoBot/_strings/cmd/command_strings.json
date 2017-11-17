@@ -1357,21 +1357,28 @@
   },
   "smashcast": {
     "Cmd": "smashcast hb",
-    "Desc": "Notifies this channel when a certain user starts streaming.",
+    "Desc": "Notifies this channel when the specified user starts streaming.",
     "Usage": [
       "{0}smashcast SomeStreamer"
     ]
   },
   "twitch": {
     "Cmd": "twitch tw",
-    "Desc": "Notifies this channel when a certain user starts streaming.",
+    "Desc": "Notifies this channel when the specified user starts streaming.",
     "Usage": [
       "{0}twitch SomeStreamer"
     ]
   },
+  "picarto": {
+    "Cmd": "picarto pa",
+    "Desc": "Notifies this channel when the specified user starts streaming.",
+    "Usage": [
+      "{0}picarto SomeStreamer"
+    ]
+  },
   "mixer": {
     "Cmd": "mixer bm",
-    "Desc": "Notifies this channel when a certain user starts streaming.",
+    "Desc": "Notifies this channel when the specified user starts streaming.",
     "Usage": [
       "{0}mixer SomeStreamer"
     ]
