@@ -12,7 +12,7 @@ namespace NadekoBot.Common
         public string PlainText { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public string url { get; set; }
+        public string Url { get; set; }
         public CREmbedFooter Footer { get; set; }
         public string Thumbnail { get; set; }
         public string Image { get; set; }
@@ -27,7 +27,7 @@ namespace NadekoBot.Common
         public bool IsValid =>
             !string.IsNullOrWhiteSpace(Title) ||
             !string.IsNullOrWhiteSpace(Description) ||
-            !string.IsNullOrWhiteSpace(url) ||
+            !string.IsNullOrWhiteSpace(Url) ||
             !string.IsNullOrWhiteSpace(Thumbnail) ||
             !string.IsNullOrWhiteSpace(Image) ||
             (Footer != null && (!string.IsNullOrWhiteSpace(Footer.Text) || !string.IsNullOrWhiteSpace(Footer.IconUrl))) ||
@@ -41,8 +41,8 @@ namespace NadekoBot.Common
                 embed.WithTitle(Title);
             if (!string.IsNullOrWhiteSpace(Description))
                 embed.WithDescription(Description);
-            if (url != null && Uri.IsWellFormedUriString(url, UriKind.Absolute))
-                embed.WithUrl(url);
+            if (Url != null && Uri.IsWellFormedUriString(Url, UriKind.Absolute))
+                embed.WithUrl(Url);
             embed.WithColor(new Discord.Color(Color));
             if (Footer != null)
                 embed.WithFooter(efb =>
