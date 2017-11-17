@@ -133,7 +133,8 @@ namespace NadekoBot.Modules.Utility
                     else
                     {
                         await Context.Channel.SendMessageAsync($"`#{qfromid.Id}` 🗯️ " + qfromid.Keyword.ToLowerInvariant().SanitizeMentions() + ":  " +
-                                                    rep.Replace(qfromid.Text)?.SanitizeMentions());
+                            rep.Replace(qfromid.Text)?.SanitizeMentions() + " `added by:` " + qfromid.AuthorName.SanitizeMentions());
+
                     }
 
                 }
