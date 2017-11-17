@@ -589,6 +589,8 @@
   "utility_invalid_value": "Invalid {0} value.",
   "utility_joined_discord": "Joined Discord",
   "utility_joined_server": "Joined server",
+  "administration_joined_discord": "Joined Discord",
+  "administration_joined_server": "Joined server",
   "utility_listservers": "ID: {0}\nMembers: {1}\nOwner ID: {2}",
   "utility_listservers_none": "No servers found on that page.",
   "utility_list_of_repeaters": "List of repeater",
