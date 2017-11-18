@@ -8,7 +8,7 @@ Nadeko is written in C# and Discord.Net for more information visit <https://gith
 #### Setting up the container
 For this guide we will be using the folder /nadeko as our config root folder.
 ```
-docker create --name=nadeko -v /nadeko/conf/:/root/nadeko -v /nadeko/data:/opt/NadekoBot/src/NadekoBot/bin/Release/netcoreapp1.1/data uirel/nadeko:1.4
+docker create --name=nadeko -v /nadeko/conf/:/root/nadeko -v /nadeko/data:/opt/NadekoBot/src/NadekoBot/bin/Release/netcoreapp2.0/data uirel/nadeko:1.4
 ```
 
 #### Moving `credentials.json` into the docker container. 
@@ -46,7 +46,7 @@ The following commands are required for the default options
 `docker stop nadeko; docker rm nadeko`
 
 ```
-docker create --name=nadeko -v /nadeko/conf/:/root/nadeko -v /nadeko/data:/opt/NadekoBot/src/NadekoBot/bin/Release/netcoreapp1.1/data uirel/nadeko:1.4
+docker create --name=nadeko -v /nadeko/conf/:/root/nadeko -v /nadeko/data:/opt/NadekoBot/src/NadekoBot/bin/Release/netcoreapp2.0/data uirel/nadeko:1.4
 ```
 
 `docker start nadeko`
