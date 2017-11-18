@@ -21,10 +21,10 @@ namespace NadekoBot.Core.Services.Impl
         private readonly IBotCredentials _creds;
         private readonly DateTime _started;
 
-        public const string BotVersion = "2.5.5";
-
+        public const string BotVersion = "2.5.6";
         public string Author => "Kwoth#2560";
         public string Library => "Discord.Net";
+
         public string Heap => Math.Round((double)GC.GetTotalMemory(false) / 1.MiB(), 2)
             .ToString(CultureInfo.InvariantCulture);
         public double MessagesPerSecond => MessageCounter / GetUptime().TotalSeconds;
