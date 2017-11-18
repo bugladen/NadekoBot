@@ -46,7 +46,7 @@ The following commands are required for the default options
 `docker stop nadeko; docker rm nadeko`
 
 ```
-docker create --name=nadeko -v /nadeko/conf/:/root/nadeko -v /nadeko/data:/opt/NadekoBot/src/NadekoBot/bin/Release/netcoreapp1.1/data uirel/nadeko:1.4
+docker create --name=nadeko -v /nadeko/conf/:/root/nadeko -v /nadeko/data:/opt/NadekoBot/src/NadekoBot/bin/Release/netcoreapp2.0/data uirel/nadeko:1.4
 ```
 
 `docker start nadeko`
