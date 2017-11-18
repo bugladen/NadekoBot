@@ -925,5 +925,7 @@
   "administration_invalid": "Invalid / Can't be found ({0})",
   "administration_mass_kill_in_progress": "Mass Banning and Blacklisting of {0} users is in progress...",
   "administration_mass_kill_completed": "Mass Banning and Blacklisting of {0} users is complete.",
-  "searches_failed_finding_novel": "Can't find that novel. Make sure you've typed the exact full name, and that it exists on novelupdates.com"
+  "searches_failed_finding_novel": "Can't find that novel. Make sure you've typed the exact full name, and that it exists on novelupdates.com",
+  "xp_club_transfered": "Ownership of the club {0} has been transfered to {1}",
+  "xp_club_transfer_failed": "Transfer failed. You must be the club owner. Target must be a member of your club."
 }

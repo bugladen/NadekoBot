@@ -51,6 +51,27 @@ namespace NadekoBot.Modules.Xp.Services
             return true;
         }
 
+        public ClubInfo TransferClub(IUser from, IUser newOwner)
+        {
+            ClubInfo club;
+            using (var uow = _db.UnitOfWork)
+            {
+                club = uow.Clubs.GetByOwner(from.Id);
+                var newOwnerUser = uow.DiscordUsers.GetOrCreate(newOwner);
+
+                if (club == null ||
+                    club.Owner.UserId != from.Id ||
+                    !club.Users.Contains(newOwnerUser))
+                    return null;
+
+                club.Owner.IsClubAdmin = true; // old owner will stay as admin
+                newOwnerUser.IsClubAdmin = true;
+                club.Owner = newOwnerUser;
+                uow.Complete();
+            }
+            return club;
+        }
+
         public bool ToggleAdmin(IUser owner, IUser toAdmin)
         {
             bool newState;
@@ -58,13 +79,13 @@ namespace NadekoBot.Modules.Xp.Services
             {
                 var club = uow.Clubs.GetByOwner(owner.Id);
                 var adminUser = uow.DiscordUsers.GetOrCreate(toAdmin);
-
-                if (club.OwnerId == adminUser.Id)
-                    return true;
-
+                
                 if (club == null || club.Owner.UserId != owner.Id || 
                     !club.Users.Contains(adminUser))
                     throw new InvalidOperationException();
+
+                if (club.OwnerId == adminUser.Id)
+                    return true;
 
                 newState = adminUser.IsClubAdmin = !adminUser.IsClubAdmin;
                 uow.Complete();

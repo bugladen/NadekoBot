@@ -27,6 +27,19 @@ namespace NadekoBot.Modules.Xp
             }
 
             [NadekoCommand, Usage, Description, Aliases]
+            public async Task ClubTransfer([Remainder]IUser newOwner)
+            {
+                var club = _service.TransferClub(Context.User, newOwner);
+
+                if(club != null)
+                    await ReplyConfirmLocalized("club_transfered", 
+                        Format.Bold(club.Name), 
+                        Format.Bold(newOwner.ToString())).ConfigureAwait(false);
+                else
+                    await ReplyErrorLocalized("club_transfer_failed").ConfigureAwait(false);
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
             public async Task ClubAdmin([Remainder]IUser toAdmin)
             {
                 bool admin;

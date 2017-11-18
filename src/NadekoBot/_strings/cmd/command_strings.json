@@ -2871,6 +2871,13 @@
       "{0}clubcreate b1nzy's friends"
     ]
   },
+  "clubtransfer": {
+    "Cmd": "clubtransfer",
+    "Desc": "Transfers the ownership of the club to another member of the club.",
+    "Usage": [
+      "{0}clubtransfer @b1nzy"
+    ]
+  },
   "clubinformation": {
     "Cmd": "clubinfo",
     "Desc": "Shows information about the club.",
