@@ -412,7 +412,7 @@ namespace NadekoBot.Modules.Administration.Services
                     }
 
                     logChannel = null;
-                    if (logSetting.LogUserPresenceId != null && (logChannel = await TryGetLogChannel(before.Guild, logSetting, LogType.UserPresence)) != null)
+                    if (!before.IsBot && logSetting.LogUserPresenceId != null && (logChannel = await TryGetLogChannel(before.Guild, logSetting, LogType.UserPresence)) != null)
                     {
                         if (before.Status != after.Status)
                         {
@@ -571,7 +571,7 @@ namespace NadekoBot.Modules.Administration.Services
                 try
                 {
                     var usr = iusr as IGuildUser;
-                    if (usr == null)
+                    if (usr == null || usr.IsBot)
                         return;
 
                     var beforeVch = before.VoiceChannel;
