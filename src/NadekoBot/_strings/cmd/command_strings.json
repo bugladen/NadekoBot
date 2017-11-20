@@ -1971,10 +1971,10 @@
   },
   "listquotes": {
     "Cmd": "listquotes liqu",
-    "Desc": "Lists all quotes on the server ordered alphabetically. 15 Per page.",
+    "Desc": "Lists all quotes on the server ordered alphabetically or by ID. 15 Per page.",
     "Usage": [
-      "{0}liqu",
-      "{0}liqu 3"
+      "{0}liqu 3",
+      "{0}liqu 3 id"
     ]
   },
   "typedel": {
