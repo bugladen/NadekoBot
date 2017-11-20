@@ -18,8 +18,16 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
         public IEnumerable<Quote> GetAllQuotesByKeyword(ulong guildId, string keyword) => 
             _set.Where(q => q.GuildId == guildId && q.Keyword == keyword);
 
-        public IEnumerable<Quote> GetGroup(ulong guildId, int skip, int take) => 
-            _set.Where(q=>q.GuildId == guildId).OrderBy(q => q.Keyword).Skip(skip).Take(take).ToList();
+        public IEnumerable<Quote> GetGroup(ulong guildId, int page, OrderType order)
+        {
+            var q = _set.Where(x => x.GuildId == guildId);
+            if (order == OrderType.Keyword)
+                q.OrderBy(x => x.Keyword);
+            else
+                q.OrderBy(x => x.Id);
+
+            return q.Skip(15 * page).Take(15).ToArray();
+        }
 
         public Task<Quote> GetRandomQuoteByKeywordAsync(ulong guildId, string keyword)
         {

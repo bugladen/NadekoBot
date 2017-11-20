@@ -1357,21 +1357,28 @@
   },
   "smashcast": {
     "Cmd": "smashcast hb",
-    "Desc": "Notifies this channel when a certain user starts streaming.",
+    "Desc": "Notifies this channel when the specified user starts streaming.",
     "Usage": [
       "{0}smashcast SomeStreamer"
     ]
   },
   "twitch": {
     "Cmd": "twitch tw",
-    "Desc": "Notifies this channel when a certain user starts streaming.",
+    "Desc": "Notifies this channel when the specified user starts streaming.",
     "Usage": [
       "{0}twitch SomeStreamer"
     ]
   },
+  "picarto": {
+    "Cmd": "picarto pa",
+    "Desc": "Notifies this channel when the specified user starts streaming.",
+    "Usage": [
+      "{0}picarto SomeStreamer"
+    ]
+  },
   "mixer": {
     "Cmd": "mixer bm",
-    "Desc": "Notifies this channel when a certain user starts streaming.",
+    "Desc": "Notifies this channel when the specified user starts streaming.",
     "Usage": [
       "{0}mixer SomeStreamer"
     ]
@@ -1964,10 +1971,10 @@
   },
   "listquotes": {
     "Cmd": "listquotes liqu",
-    "Desc": "Lists all quotes on the server ordered alphabetically. 15 Per page.",
+    "Desc": "Lists all quotes on the server ordered alphabetically or by ID. 15 Per page.",
     "Usage": [
-      "{0}liqu",
-      "{0}liqu 3"
+      "{0}liqu 3",
+      "{0}liqu 3 id"
     ]
   },
   "typedel": {
@@ -2862,6 +2869,13 @@
     "Desc": "Creates a club. You must be at least level 5 and not be in the club already.",
     "Usage": [
       "{0}clubcreate b1nzy's friends"
+    ]
+  },
+  "clubtransfer": {
+    "Cmd": "clubtransfer",
+    "Desc": "Transfers the ownership of the club to another member of the club.",
+    "Usage": [
+      "{0}clubtransfer @b1nzy"
     ]
   },
   "clubinformation": {

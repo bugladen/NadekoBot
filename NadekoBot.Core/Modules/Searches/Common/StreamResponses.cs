@@ -8,7 +8,7 @@ namespace NadekoBot.Modules.Searches.Common
         string Title { get; }
         bool Live { get; }
         string Game { get; }
-        int FollowerCount { get; }
+        int Followers { get; }
         string Url { get; }
         string Icon { get; }
     }
@@ -26,12 +26,30 @@ namespace NadekoBot.Modules.Searches.Common
         public string Title => "";
         public bool Live => IsLive == "1";
         public string Game => "";
-        public int FollowerCount => Followers;
         public string Icon => !string.IsNullOrWhiteSpace(UserLogo)
             ? "https://edge.sf.hitbox.tv" + UserLogo
             : "";
 
         public string Url { get; set; }
+    }
+
+    public class PicartoResponse : IStreamResponse
+    {
+        public string Name { get; set; }
+        public int Viewers { get; set; }
+
+        public string Title { get; set; }
+
+        [JsonProperty("online")]
+        public bool Live { get; set; }
+        [JsonProperty("category")]
+        public string Game { get; set; }
+
+        public int Followers { get; set; }
+
+        public string Url => "https://picarto.tv/" + Name;
+        [JsonProperty("thumbnail")]
+        public string Icon { get; set; }
     }
 
     public class TwitchResponse : IStreamResponse
@@ -58,7 +76,7 @@ namespace NadekoBot.Modules.Searches.Common
         public string Title => Stream?.Channel?.Status;
         public bool Live => IsLive;
         public string Game => Stream?.Game;
-        public int FollowerCount => Stream?.Channel?.Followers ?? 0;
+        public int Followers => Stream?.Channel?.Followers ?? 0;
         public string Url { get; set; }
         public string Icon => Stream?.Channel?.Logo;
     }
@@ -89,7 +107,7 @@ namespace NadekoBot.Modules.Searches.Common
         public string Title => Name;
         public bool Live => IsLive;
         public string Game => Type?.Name ?? "";
-        public int FollowerCount => NumFollowers;
+        public int Followers => NumFollowers;
         public string Icon => Thumbnail?.Url;
     }
 }

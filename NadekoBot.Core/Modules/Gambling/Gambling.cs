@@ -278,7 +278,7 @@ namespace NadekoBot.Modules.Gambling
         //    });
         //    return Task.CompletedTask;
         //}
-        public enum Allin { Allin, All }
+        public enum Allin { Allin = int.MinValue, All = int.MinValue }
 
         private async Task InternallBetroll(long amount)
         {

@@ -192,7 +192,8 @@ namespace NadekoBot.Modules.Administration.Services
             {
                 try
                 {
-                    if (!toOverwrite.PermissionOverwrites.Select(x => x.Permissions).Contains(denyOverwrite))
+                    if (!toOverwrite.PermissionOverwrites.Any(x => x.TargetId == muteRole.Id 
+                        && x.TargetType == PermissionTarget.Role))
                     {
                         await toOverwrite.AddPermissionOverwriteAsync(muteRole, denyOverwrite)
                                 .ConfigureAwait(false);

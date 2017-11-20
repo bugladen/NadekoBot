@@ -13,4 +13,11 @@ namespace NadekoBot.Core.Services.Database.Models
         [Required]
         public string Text { get; set; }
     }
+
+
+    public enum OrderType
+    {
+        Id,
+        Keyword
+    }
 }

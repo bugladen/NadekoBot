@@ -27,6 +27,19 @@ namespace NadekoBot.Modules.Xp
             }
 
             [NadekoCommand, Usage, Description, Aliases]
+            public async Task ClubTransfer([Remainder]IUser newOwner)
+            {
+                var club = _service.TransferClub(Context.User, newOwner);
+
+                if(club != null)
+                    await ReplyConfirmLocalized("club_transfered", 
+                        Format.Bold(club.Name), 
+                        Format.Bold(newOwner.ToString())).ConfigureAwait(false);
+                else
+                    await ReplyErrorLocalized("club_transfer_failed").ConfigureAwait(false);
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
             public async Task ClubAdmin([Remainder]IUser toAdmin)
             {
                 bool admin;
@@ -116,23 +129,27 @@ namespace NadekoBot.Modules.Xp
                         .AddField("Owner", club.Owner.ToString(), true)
                         .AddField("Level Req.", club.MinimumLevelReq.ToString(), true)
                         .AddField("Members", string.Join("\n", club.Users
-                            .OrderByDescending(x => {
+                            .OrderByDescending(x =>
+                            {
+                                var l = new LevelStats(x.TotalXp).Level;
                                 if (club.OwnerId == x.Id)
-                                    return 2;
+                                    return int.MaxValue;
                                 else if (x.IsClubAdmin)
-                                    return 1;
+                                    return int.MaxValue / 2 + l;
                                 else
-                                    return 0;                                
+                                    return l;
                             })
                             .Skip(page * 10)
                             .Take(10)
-                            .Select(x => 
+                            .Select(x =>
                             {
+                                var l = new LevelStats(x.TotalXp);
+                                var lvlStr = Format.Bold($" 『{l.Level}』");
                                 if (club.OwnerId == x.Id)
-                                    return x.ToString() + "🌟";
+                                    return x.ToString() + "🌟" + lvlStr;
                                 else if (x.IsClubAdmin)
-                                    return x.ToString() + "⭐";
-                                return x.ToString();
+                                    return x.ToString() + "⭐" + lvlStr;
+                                return x.ToString() + lvlStr;
                             })), false);
 
                     if (Uri.IsWellFormedUriString(club.ImageUrl, UriKind.Absolute))

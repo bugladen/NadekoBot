@@ -126,6 +126,17 @@ namespace NadekoBot.Modules.Searches.Services
                     bmData.Url = beamUrl;
                     _cachedStatuses.AddOrUpdate(beamUrl, bmData, (key, old) => bmData);
                     return bmData;
+                case FollowedStream.FollowedStreamType.Picarto:
+                    var picartoUrl = $"https://api.picarto.tv/v1/channel/name/{stream.Username.ToLowerInvariant()}";
+                    if (checkCache && _cachedStatuses.TryGetValue(picartoUrl, out result))
+                        return result;
+
+                    var paResponse = await _http.GetAsync(picartoUrl).ConfigureAwait(false);
+                    if(!paResponse.IsSuccessStatusCode)
+                        throw new StreamNotFoundException($"{stream.Username} [{stream.Type}]");
+                    var paData = JsonConvert.DeserializeObject<PicartoResponse>(await paResponse.Content.ReadAsStringAsync());
+                    _cachedStatuses.AddOrUpdate(picartoUrl, paData, (key, old) => paData);
+                    return paData;
                 default:
                     break;
             }
@@ -155,7 +166,7 @@ namespace NadekoBot.Modules.Searches.Services
                                 true);
 
             embed.AddField(GetText(fs, "followers"),
-                            status.FollowerCount.ToString(),
+                            status.Followers.ToString(),
                             true);
 
             if (!string.IsNullOrWhiteSpace(status.Icon))
@@ -178,6 +189,8 @@ namespace NadekoBot.Modules.Searches.Services
                 return $"https://www.twitch.tv/{fs.Username}/";
             if (fs.Type == FollowedStream.FollowedStreamType.Mixer)
                 return $"https://www.mixer.com/{fs.Username}/";
+            if (fs.Type == FollowedStream.FollowedStreamType.Picarto)
+                return $"https://www.picarto.tv/{fs.Username}";
             return "??";
         }
     }
