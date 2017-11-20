@@ -276,6 +276,8 @@ namespace NadekoBot.Modules.Administration
                     JsonConvert.SerializeObject(_client.ShardId),
                     StackExchange.Redis.CommandFlags.FireAndForget);
                 await ReplyConfirmLocalized("shard_reconnecting", Format.Bold("#" + shardid)).ConfigureAwait(false);
+                await Task.Delay(6000).ConfigureAwait(false);
+                Environment.Exit(0);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
