@@ -22,6 +22,7 @@ If you're running from source on windows, you will have to setup your credential
     "ShardRunCommand": "dotnet",
     "ShardRunArguments": "run -c Release -- {0} {1}"
 ```
+DON'T FORGET TO ADD A `,` WHEN INSTERTING THESE 2 LINES
 
 [.netcore]: https://www.microsoft.com/net/download/core#/sdk
 [ffmpeg]: http://ffmpeg.zeranoe.com/builds/
