@@ -17,12 +17,11 @@ Edit `credentials.json.` Read the JSON Exaplanations guide on the left if you do
 `dotnet run -c Release`
 
 ### !!! NOTE FOR WINDOWS USERS  !!!
-If you're running from source on windows, you will have to setup your credentials to have these 2 extra lines:
+If you're running from source on windows, you will have to add these 2 extra lines to your credentials, after the first open bracket:
 ```js
     "ShardRunCommand": "dotnet",
-    "ShardRunArguments": "run -c Release -- {0} {1}"
+    "ShardRunArguments": "run -c Release -- {0} {1}",
 ```
-DON'T FORGET TO ADD A `,` WHEN INSTERTING THESE 2 LINES
 
 [.netcore]: https://www.microsoft.com/net/download/core#/sdk
 [ffmpeg]: http://ffmpeg.zeranoe.com/builds/
