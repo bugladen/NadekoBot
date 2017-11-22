@@ -16,14 +16,14 @@ If you do not see `credentials.json` you will need to rename `credentials_exampl
   "MashapeKey": "4UrKpcWXc2mshS8RKi00000y8Kf5p1Q8kI6jsn32bmd8oVWiY7",
   "OsuApiKey": "4c8c8fdff8e1234581725db27fd140a7d93320d6",
   "CleverbotApiKey": "",
-  "PatreonAccessToken": "",
-  "PatreonCampaignId": "334038",
   "Db": null,
   "TotalShards": 1,
+  "PatreonAccessToken": "",
+  "PatreonCampaignId": "334038",
+  "RestartCommand": null,
   "ShardRunCommand": "",
   "ShardRunArguments": "",
-  "ShardRunPort": null,
-  "RestartCommand": null
+  "ShardRunPort": null
 }
 ```
 -----
@@ -159,6 +159,9 @@ It should look like:
 	- For Patreon creators only.
 - **PatreonCampaignId**
 	- For Patreon creators only. Id of your campaign.
+
+##### Additional Settings
+
 - **TotalShards** 
 	- Required if the bot will be connected to more than 1500 servers. 
 	- Most likely unnecessary to change until your bot is added to more than 1500 servers.
@@ -172,7 +175,7 @@ For linux, or from the source, this is usually
 "RestartCommand": {
 	"Cmd": "dotnet",
 	"Args": "run -c Release"
-}
+},
 ```
 
 For windows (regular installation, or from the updater), this is usually
@@ -180,8 +183,9 @@ For windows (regular installation, or from the updater), this is usually
 ```json
 "RestartCommand": {
 	"Cmd": "NadekoBot.exe"
-}
+},
 ```
+-----
 
 ## DB files
 
@@ -208,6 +212,8 @@ in order to open the database file you will need [DB Browser for SQLite](http://
 ![nadekodb](https://cdn.discordapp.com/attachments/251504306010849280/254067055240806400/nadekodb.gif)
 
 and that will save all the changes.
+
+-----
 
 ## Sharding your bot
 
