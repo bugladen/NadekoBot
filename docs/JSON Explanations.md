@@ -179,15 +179,14 @@ For windows (regular installation, or from the updater), this is usually
 
 ```json
 "RestartCommand": {
-	"Cmd": "NadekoBot.exe",
-	"Args": ""
+	"Cmd": "NadekoBot.exe"
 }
 ```
 
 ## DB files
 
 Nadeko saves all the settings and infomations in `NadekoBot.db` file here:		
-`NadekoBot/src/NadekoBot/bin/Release/netcoreapp1.1/data/NadekoBot.db` (macOS and Linux) 		
+`NadekoBot/src/NadekoBot/bin/Release/netcoreapp2.0/data/NadekoBot.db` (macOS and Linux) 		
 `NadekoBot\system\data` (Windows)  
 
 in order to open the database file you will need [DB Browser for SQLite](http://sqlitebrowser.org/).

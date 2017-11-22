@@ -16,6 +16,13 @@ Edit `credentials.json.` Read the JSON Exaplanations guide on the left if you do
 `git pull`  
 `dotnet run -c Release`
 
+### !!! NOTE FOR WINDOWS USERS  !!!
+If you're running from source on windows, you will have to setup your credentials to have these 2 extra lines:
+```js
+    "ShardRunCommand": "dotnet",
+    "ShardRunArguments": "run -c Release -- {0} {1}"
+```
+
 [.netcore]: https://www.microsoft.com/net/download/core#/sdk
 [ffmpeg]: http://ffmpeg.zeranoe.com/builds/
 [git]: https://git-scm.com/downloads
