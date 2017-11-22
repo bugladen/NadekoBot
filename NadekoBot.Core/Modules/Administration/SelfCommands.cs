@@ -272,7 +272,7 @@ namespace NadekoBot.Modules.Administration
                     return;
                 }
                 var pub = _cache.Redis.GetSubscriber();
-                pub.Publish(_creds.RedisKey() + "_shardcoord_restart", 
+                pub.Publish(_creds.RedisKey() + "_shardcoord_stop", 
                     JsonConvert.SerializeObject(_client.ShardId),
                     StackExchange.Redis.CommandFlags.FireAndForget);
                 await ReplyConfirmLocalized("shard_reconnecting", Format.Bold("#" + shardid)).ConfigureAwait(false);
