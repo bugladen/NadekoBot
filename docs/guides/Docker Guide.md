@@ -36,7 +36,7 @@ docker start -a nadeko
 
 First time install might encounter a few errors along the way (Namely step 2, 3, 4, 5, 8), this is to be expected, as you do not have the settings/files set up.
 
-## Step-by-step Explination
+## Step-by-step Explanation
 
 ### 1. Grabbing the latest build
 
