@@ -50,19 +50,13 @@ This will grab the latest Nadeko Docker image file from the internet and get rea
 
 This will stop previously running docker container (if exist)
 
-### 2. Stopping any existing container
-
-**Command:** `docker stop nadeko`
-
-This will stop previously running docker container.
-
 ### 3. Backup your credentials.json file
 
 **Command:** `docker cp nadeko:/root/nadeko/credentials.json credentials.json`
 
 Technically speaking, you do not need to run this. But for the sake of fool-proof, this would make a copy of the credentials.json from the docker container and put it to your home folder.
 
-### 4. Backup your credentials.json file
+### 4. Backup your NadekoBot.db file
 
 **Command:** `docker cp nadeko:/opt/NadekoBot/src/NadekoBot/bin/Release/netcoreapp2.0/data/NadekoBot.db NadekoBot.db`
 
@@ -84,13 +78,13 @@ And it will link two folders from your local drive and store the data within. Na
 
 However, in the case if you did not create the folders before hand, or if you were using Windows and did not set up permission right, no files will be generated. (This is why there's the fool-proof steps 3, 4, 7 and 8)
 
-### 7. Copy credentials.json file into the container
+### 7. Copy credentials.json file back into the container
 
 **Command:** `docker cp credentials.json nadeko:/root/nadeko`
 
 Technically speaking, if the file exists in /nadeko/conf, then you do not need to run this. But for the sake of fool-proof, this command makes a copy of the credentials.json from your home folder and it'll be placed in the docker container.
 
-### 8. Copy NadekoBot.db database into the container
+### 8. Copy NadekoBot.db database back into the container
 
 **Command:** `docker cp NadekoBot.db nadeko:/opt/NadekoBot/src/NadekoBot/bin/Release/netcoreapp2.0/data/NadekoBot.db`
 
