@@ -22,9 +22,9 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
         {
             var q = _set.Where(x => x.GuildId == guildId);
             if (order == OrderType.Keyword)
-                q.OrderBy(x => x.Keyword);
+                q = q.OrderBy(x => x.Keyword);
             else
-                q.OrderBy(x => x.Id);
+                q = q.OrderBy(x => x.Id);
 
             return q.Skip(15 * page).Take(15).ToArray();
         }
