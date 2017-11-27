@@ -31,6 +31,14 @@ namespace NadekoBot.Core.Services
                 }
             }
 
+            public bool TryPeek(out int id)
+            {
+                lock (_locker)
+                {
+                    return _queue.TryPeek(out id);
+                }
+            }
+
             public bool TryDequeue(out int id)
             {
                 lock (_locker)
@@ -213,7 +221,7 @@ namespace NadekoBot.Core.Services
                 do
                 {
                     //start a shard which is scheduled for start every 6 seconds 
-                    while (_shardStartQueue.TryDequeue(out var id))
+                    while (_shardStartQueue.TryPeek(out var id))
                     {
                         // if the shard is on the waiting list again
                         // remove it since it's starting up now
@@ -227,6 +235,7 @@ namespace NadekoBot.Core.Services
                             _log.Warn("Auto-restarting shard {0}", id);
                         }
                         _shardProcesses[id] = StartShard(id);
+                        _shardStartQueue.TryDequeue(out var __);
                         await Task.Delay(6000).ConfigureAwait(false);
                     }
                     tsc.TrySetResult(true);
