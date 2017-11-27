@@ -15,6 +15,7 @@ using NadekoBot.Modules.Music.Common;
 using NadekoBot.Modules.Music.Common.Exceptions;
 using NadekoBot.Modules.Music.Common.SongResolver;
 using NadekoBot.Common.Collections;
+using System;
 
 namespace NadekoBot.Modules.Music.Services
 {
@@ -27,6 +28,7 @@ namespace NadekoBot.Modules.Music.Services
         private readonly ILocalization _localization;
         private readonly DbService _db;
         private readonly Logger _log;
+        private readonly ConcurrentDictionary<ulong, MusicSettings> _musicSettings;
         private readonly SoundCloudApiService _sc;
         private readonly IBotCredentials _creds;
         private readonly ConcurrentDictionary<ulong, float> _defaultVolumes;
@@ -49,6 +51,8 @@ namespace NadekoBot.Modules.Music.Services
             _sc = sc;
             _creds = creds;
             _log = LogManager.GetCurrentClassLogger();
+            _musicSettings = bot.AllGuildConfigs.ToDictionary(x => x.GuildId, x => x.MusicSettings)
+                .ToConcurrent();
 
             _client.LeftGuild += _client_LeftGuild;
 
@@ -110,7 +114,10 @@ namespace NadekoBot.Modules.Music.Services
             return MusicPlayers.GetOrAdd(guildId, _ =>
             {
                 var vol = GetDefaultVolume(guildId);
-                var mp = new MusicPlayer(this, _google, voiceCh, textCh, vol);
+                if (!_musicSettings.TryGetValue(guildId, out var ms))
+                    ms = new MusicSettings();
+
+                var mp = new MusicPlayer(this, ms, _google, voiceCh, textCh, vol);
 
                 IUserMessage playingMessage = null;
                 IUserMessage lastFinishedMessage = null;
@@ -263,6 +270,11 @@ namespace NadekoBot.Modules.Music.Services
                 AutoDcServers.TryRemove(id);
 
             return val;
+        }
+
+        public void UpdateSettings(ulong id, MusicSettings musicSettings)
+        {
+            _musicSettings.AddOrUpdate(id, musicSettings, delegate { return musicSettings; });
         }
     }
 }

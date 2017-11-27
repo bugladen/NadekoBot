@@ -10,6 +10,8 @@ using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Gambling.Common.AnimalRacing.Exceptions;
 using NadekoBot.Modules.Gambling.Common.AnimalRacing;
 using NadekoBot.Modules.Gambling.Services;
+using NadekoBot.Core.Modules.Gambling.Common.AnimalRacing;
+using CommandLine;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -33,9 +35,13 @@ namespace NadekoBot.Modules.Gambling
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public Task Race()
+            public Task Race(params string[] args)
             {
-                var ar = new AnimalRace(_cs, _bc.BotConfig.RaceAnimals.Shuffle().ToArray());
+                var options = new RaceOptions();
+                var res = Parser.Default.ParseArguments<RaceOptions>(args);
+                res.MapResult(x => options, x => options);
+
+                var ar = new AnimalRace(options, _cs, _bc.BotConfig.RaceAnimals.Shuffle().ToArray());
                 if (!_service.AnimalRaces.TryAdd(Context.Guild.Id, ar))
                     return Context.Channel.SendErrorAsync(GetText("animal_race"), GetText("animal_race_already_started"));
 
