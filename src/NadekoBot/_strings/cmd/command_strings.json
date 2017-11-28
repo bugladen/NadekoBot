@@ -3141,5 +3141,26 @@
     "usage": [
       "{0}masskill BadPerson#1234 Toxic person"
     ]
+  },
+  "pathofexile": {
+    "cmd": "pathofexile poe",
+    "desc": "Searches characters for a given Path of Exile account.",
+    "usage": [
+      "{0}poe damnfan"
+    ]
+  },
+  "pathofexileitem": {
+    "cmd": "pathofexileitem poei",
+    "desc": "Searches for a Path of Exile item.",
+    "usage": [
+      "{0}poei \"Quill Rain\""
+    ]
+  },
+  "pathofexilecurrency": {
+    "cmd": "pathofexilecurrency poec",
+    "desc": "Returns the chaos equivalent of a given currency.",
+    "usage": [
+      "{0}poec Standard \"Mirror of Kalandra\""
+    ]
   }
 }
