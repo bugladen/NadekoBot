@@ -921,7 +921,7 @@ namespace NadekoBot.Modules.Music
         {
             var mp = await _service.GetOrCreatePlayer(Context);
 
-            mp.OutputTextChannel = null;
+            mp.OutputTextChannel = mp.OriginalTextChannel;
             _service.SetMusicChannel(Context.Guild.Id, null);
 
             await ReplyConfirmLocalized("unset_music_channel").ConfigureAwait(false);

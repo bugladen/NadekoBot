@@ -27,7 +27,7 @@ namespace NadekoBot.Modules.Music.Common
         private readonly Thread _player;
         public IVoiceChannel VoiceChannel { get; private set; }
 
-        private readonly ITextChannel _originalTextChannel;
+        public ITextChannel OriginalTextChannel { get; set; }
         private readonly Logger _log;
 
         private MusicQueue Queue { get; } = new MusicQueue();
@@ -140,11 +140,15 @@ namespace NadekoBot.Modules.Music.Common
             _log = LogManager.GetCurrentClassLogger();
             this.Volume = volume;
             this.VoiceChannel = vch;
-            this._originalTextChannel = original;
+            this.OriginalTextChannel = original;
             this.SongCancelSource = new CancellationTokenSource();
             if(ms.MusicChannelId is ulong cid)
             {
                 this.OutputTextChannel = ((SocketGuild)original.Guild).GetTextChannel(cid) ?? original;
+            }
+            else
+            {
+                this.OutputTextChannel = original;
             }
             this._musicService = musicService;
             this._google = google;
@@ -666,7 +670,7 @@ namespace NadekoBot.Modules.Music.Common
 
         public void SetMusicChannelToOriginal()
         {
-            this.OutputTextChannel = _originalTextChannel;
+            this.OutputTextChannel = OriginalTextChannel;
         }
 
         //// this should be written better
