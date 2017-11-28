@@ -167,17 +167,12 @@ namespace NadekoBot.Modules.Searches
 
 				var itemMods = itemInformation.QuerySelector("span.group.-mod").InnerHtml.Replace("<br>", "\n");
 				itemMods = Regex.Replace(itemMods, "<.*?>", String.Empty);
-
-				//Dirty, make cleaner.
+				
 				var flavorText = "";
-				try
+
+				if (itemInformation.QuerySelector("span.group.-flavour") != null)
 				{
 					flavorText = itemInformation.QuerySelector("span.group.-flavour").InnerHtml.Replace("<br>", "\n");
-				}
-				catch (Exception ex)
-				{
-					flavorText = "";
-					_log.Warn(ex);
 				}
 
 				sb.AppendLine($"{names[1]}\n");
