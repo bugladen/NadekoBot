@@ -16,6 +16,7 @@ using NadekoBot.Modules.Music.Common.Exceptions;
 using NadekoBot.Modules.Music.Common.SongResolver;
 using NadekoBot.Common.Collections;
 using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace NadekoBot.Modules.Music.Services
 {
@@ -275,6 +276,26 @@ namespace NadekoBot.Modules.Music.Services
         public void UpdateSettings(ulong id, MusicSettings musicSettings)
         {
             _musicSettings.AddOrUpdate(id, musicSettings, delegate { return musicSettings; });
+        }
+
+        public void SetMusicChannel(ulong guildId, ulong? cid)
+        {
+            using (var uow = _db.UnitOfWork)
+            {
+                var ms = uow.GuildConfigs.For(guildId, set => set.Include(x => x.MusicSettings)).MusicSettings;
+                ms.MusicChannelId = cid;
+                uow.Complete();
+            }
+        }
+
+        public void SetSongAutoDelete(ulong guildId, bool val)
+        {
+            using (var uow = _db.UnitOfWork)
+            {
+                var ms = uow.GuildConfigs.For(guildId, set => set.Include(x => x.MusicSettings)).MusicSettings;
+                ms.SongAutoDelete = val;
+                uow.Complete();
+            }
         }
     }
 }
