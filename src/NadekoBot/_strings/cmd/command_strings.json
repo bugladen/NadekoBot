@@ -2381,6 +2381,13 @@
       "{0}smch"
     ]
   },
+  "unsetmusicchannel": {
+    "Cmd": "unsetmusicchannel usmch",
+    "Desc": "Bot will output playing, finished, paused and removed songs to the channel where the first song was queued in.",
+    "Usage": [
+      "{0}smch"
+    ]
+  },
   "reloadimages": {
     "Cmd": "reloadimages",
     "Desc": "Reloads images bot is using. Safe to use even when bot is being used heavily.",

@@ -15,7 +15,7 @@ namespace NadekoBot.Common.TypeReaders
         {
         }
 
-        public override Task<TypeReaderResult> Read(ICommandContext context, string input, IServiceProvider services)
+        public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider services)
         {
             var _cmds = ((INServiceProvider)services).GetService<CommandService>();
             var _cmdHandler = ((INServiceProvider)services).GetService<CommandHandler>();
@@ -45,7 +45,7 @@ namespace NadekoBot.Common.TypeReaders
             _cmds = cmds;
         }
 
-        public override async Task<TypeReaderResult> Read(ICommandContext context, string input, IServiceProvider services)
+        public override async Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider services)
         {
             input = input.ToUpperInvariant();
 
@@ -67,7 +67,7 @@ namespace NadekoBot.Common.TypeReaders
                 }
             }
 
-            var cmd = await new CommandTypeReader(_client, _cmds).Read(context, input, services);
+            var cmd = await new CommandTypeReader(_client, _cmds).ReadAsync(context, input, services);
             if (cmd.IsSuccess)
             {
                 return TypeReaderResult.FromSuccess(new CommandOrCrInfo(((CommandInfo)cmd.Values.First().Value).Name));

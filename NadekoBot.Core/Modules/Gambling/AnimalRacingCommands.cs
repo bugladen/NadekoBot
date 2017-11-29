@@ -35,12 +35,13 @@ namespace NadekoBot.Modules.Gambling
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
+            [NadekoOptions(typeof(RaceOptions))]
             public Task Race(params string[] args)
             {
                 var options = new RaceOptions();
                 var res = Parser.Default.ParseArguments<RaceOptions>(args);
-                res.MapResult(x => options, x => options);
-
+                options = res.MapResult(x => x, x => options);
+                options.NormalizeOptions();
                 var ar = new AnimalRace(options, _cs, _bc.BotConfig.RaceAnimals.Shuffle().ToArray());
                 if (!_service.AnimalRaces.TryAdd(Context.Guild.Id, ar))
                     return Context.Channel.SendErrorAsync(GetText("animal_race"), GetText("animal_race_already_started"));
@@ -90,7 +91,7 @@ namespace NadekoBot.Modules.Gambling
                 ar.OnStarted += Ar_OnStarted;
                 _client.MessageReceived += _client_MessageReceived;
 
-                return Context.Channel.SendConfirmAsync(GetText("animal_race"), GetText("animal_race_starting"),
+                return Context.Channel.SendConfirmAsync(GetText("animal_race"), GetText("animal_race_starting", options.StartTime),
                                     footer: GetText("animal_race_join_instr", Prefix));
             }
 

@@ -43,7 +43,6 @@ namespace NadekoBot.Modules.Gambling.Common.AnimalRacing
 
         public AnimalRace(RaceOptions options, CurrencyService currency, RaceAnimal[] availableAnimals)
         {
-            NormalizeOptions(options);
             this._currency = currency;
             this._options = options;
             this._animalsQueue = new Queue<RaceAnimal>(availableAnimals);
@@ -53,17 +52,11 @@ namespace NadekoBot.Modules.Gambling.Common.AnimalRacing
                 CurrentPhase = Phase.Ended;
         }
 
-        private void NormalizeOptions(RaceOptions options)
-        {
-            if (options.StartDelay < 10 || options.StartDelay > 120)
-                options.StartDelay = 20;
-        }
-
         public void Initialize() //lame name
         {
             var _t = Task.Run(async () =>
             {
-                await Task.Delay(_options.StartDelay * 1000).ConfigureAwait(false);
+                await Task.Delay(_options.StartTime * 1000).ConfigureAwait(false);
 
                 await _locker.WaitAsync().ConfigureAwait(false);
                 try
