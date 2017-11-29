@@ -1,8 +1,9 @@
 ﻿using CommandLine;
+using NadekoBot.Core.Common;
 
 namespace NadekoBot.Core.Modules.Gambling.Common.AnimalRacing
 {
-    public class RaceOptions
+    public class RaceOptions : INadekoCommandOptions
     {
         [Option('s', "start-time", Default = 20, Required = false)]
         public int StartTime { get; set; } = 20;
