@@ -27,6 +27,7 @@ namespace NadekoBot.Modules.Games
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
+            [NadekoOptions(typeof(Acrophobia.Options))]
             public async Task Acro(params string[] args)
             {
                 var (options, _) = OptionsParser.Default.ParseFrom(new Acrophobia.Options(), args);
