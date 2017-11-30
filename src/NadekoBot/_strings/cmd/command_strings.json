@@ -2420,7 +2420,7 @@
   },
   "tictactoe": {
     "Cmd": "tictactoe ttt",
-    "Desc": "Starts a game of tic tac toe. Another user must run the command in the same channel in order to accept the challenge. Use numbers 1-9 to play. 15 seconds per move.",
+    "Desc": "Starts a game of tic tac toe. Another user must run the command in the same channel in order to accept the challenge. Use numbers 1-9 to play.",
     "Usage": [
       "{0}ttt"
     ]
