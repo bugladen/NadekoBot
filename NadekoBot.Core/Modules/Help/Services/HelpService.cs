@@ -64,17 +64,35 @@ namespace NadekoBot.Modules.Help.Services
                 .WithFooter(efb => efb.WithText(GetText("module", guild, com.Module.GetTopLevelModule().Name)))
                 .WithColor(NadekoBot.OkColor);
 
-            var opt = (NadekoOptions)com.Attributes.FirstOrDefault(x => x is NadekoOptions);
+            var opt = ((NadekoOptions)com.Attributes.FirstOrDefault(x => x is NadekoOptions))?.OptionType;
             if (opt != null)
             {
-                var x = Activator.CreateInstance(opt.OptionType);
-                var res = Parser.Default.ParseArguments(new[] { "--help" }, x.GetType());
-                var hs = HelpText.RenderUsageTextAsLines();
+                var hs = GetCommandOptionHelp(opt);
                 if(!string.IsNullOrWhiteSpace(hs))
                     em.AddField(GetText("options", guild), hs, false);
             }
 
             return em;
+        }
+
+        private string GetCommandOptionHelp(Type opt)
+        {
+            var strs = opt.GetProperties()
+                .Select(x => x.GetCustomAttributes(true).FirstOrDefault(a => a is OptionAttribute))
+                .Where(x => x != null)
+                .Cast<OptionAttribute>()
+                .Select(x =>
+                {
+                    var toReturn = $"--{x.LongName}";
+
+                    if (!string.IsNullOrWhiteSpace(x.ShortName))
+                        toReturn += $" (-{x.ShortName})";
+
+                    toReturn += $"   {x.HelpText}";
+                    return toReturn;
+                });
+
+            return string.Join("\n", strs);
         }
 
         public string GetCommandRequirements(CommandInfo cmd, IGuild guild) =>

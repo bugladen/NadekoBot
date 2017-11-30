@@ -1,3 +1,4 @@
+
 {
   "h": {
     "Cmd": "help h",
@@ -1002,7 +1003,7 @@
     "Desc": "Starts a game of trivia. You can add `nohint` to prevent hints. First player to get to 10 points wins by default. You can specify a different number. 30 seconds per question.",
     "Usage": [
       "{0}t",
-      "{0}t 5 nohint"
+      "{0}t --timeout 5 -p -w 3 -q 10"
     ]
   },
   "tl": {
