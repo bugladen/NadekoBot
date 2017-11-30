@@ -12,6 +12,7 @@ using NadekoBot.Extensions;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Impl;
 using NLog;
+using NadekoBot.Core.Modules.Games.Common.Trivia;
 
 namespace NadekoBot.Modules.Games.Common.Trivia
 {
@@ -48,7 +49,7 @@ namespace NadekoBot.Modules.Games.Common.Trivia
 
         public TriviaGame(NadekoStrings strings, DiscordSocketClient client, IBotConfigProvider bc,
             IDataCache cache, CurrencyService cs, IGuild guild, ITextChannel channel,
-            bool showHints, int winReq, bool isPokemon)
+            TriviaOptions options)
         {
             _log = LogManager.GetCurrentClassLogger();
             _cache = cache;
@@ -58,11 +59,8 @@ namespace NadekoBot.Modules.Games.Common.Trivia
             _bc = bc;
             _cs = cs;
 
-            ShowHints = showHints;
             Guild = guild;
             Channel = channel;
-            WinRequirement = winReq;
-            IsPokemon = isPokemon;
         }
 
         private string GetText(string key, params object[] replacements) =>
