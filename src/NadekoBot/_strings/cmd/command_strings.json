@@ -2149,10 +2149,10 @@
   },
   "acro": {
     "Cmd": "acrophobia acro",
-    "Desc": "Starts an Acrophobia game. Second argument is optional round length in seconds. (default is 60)",
+    "Desc": "Starts an Acrophobia game.",
     "Usage": [
       "{0}acro",
-      "{0}acro 30"
+      "{0}acro -s 30"
     ]
   },
   "logevents": {
