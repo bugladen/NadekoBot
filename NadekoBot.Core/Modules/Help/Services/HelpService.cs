@@ -11,6 +11,7 @@ using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Impl;
 using NadekoBot.Common;
 using NLog;
+using CommandLine;
 
 namespace NadekoBot.Modules.Help.Services
 {
@@ -56,11 +57,22 @@ namespace NadekoBot.Modules.Help.Services
             var alias = com.Aliases.Skip(1).FirstOrDefault();
             if (alias != null)
                 str += string.Format(" **/ `{0}`**", prefix + alias);
-            return new EmbedBuilder()
+            var em = new EmbedBuilder()
                 .AddField(fb => fb.WithName(str).WithValue($"{com.RealSummary(prefix)} {GetCommandRequirements(com, guild)}").WithIsInline(true))
                 .AddField(fb => fb.WithName(GetText("usage", guild)).WithValue(com.RealRemarks(prefix)).WithIsInline(false))
                 .WithFooter(efb => efb.WithText(GetText("module", guild, com.Module.GetTopLevelModule().Name)))
                 .WithColor(NadekoBot.OkColor);
+
+            var opt = (NadekoOptions)com.Attributes.FirstOrDefault(x => x is NadekoOptions);
+            if (opt != null)
+            {
+                var x = Activator.CreateInstance(opt.OptionType);
+                var hs = Parser.Default.FormatCommandLine(x);
+                if(!string.IsNullOrWhiteSpace(hs))
+                    em.AddField(GetText("options", guild), string.Join("\n--", hs.Split(" --")), false);
+            }
+
+            return em;
         }
 
         public string GetCommandRequirements(CommandInfo cmd, IGuild guild) =>
