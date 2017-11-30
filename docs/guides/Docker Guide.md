@@ -2,21 +2,24 @@
 Nadeko is written in C# and Discord.Net for more information visit <https://github.com/Kwoth/NadekoBot>
 
 ## Before you start ...
-... If your PC falls under any of the following cases, please grab [Docker Toolbox](https://www.docker.com/products/docker-toolbox) instead.
-- For Windows
-  - Any Windows version without Hyper-V Support
-  - Windows 10 Home Edition
-  - Windows 8 and earlier
-- For Mac
-  - Any version newer than 10.8 “Mountain Lion”
-  - If your mac is newer than 10.10.3 Yosemite, keep on reading this guide instead.
+
+... If your PC falls under any of the following cases, please grab Docker Toolbox instead.
+
+For Windows [[Download Link](https://download.docker.com/win/stable/DockerToolbox.exe)]
+- Any Windows version without Hyper-V Support
+- Windows 10 Home Edition
+- Windows 8 and earlier
+
+For Mac [[Download Link](https://download.docker.com/mac/stable/DockerToolbox.pkg)]
+- Any version between 10.8 “Mountain Lion” and 10.10.2 "Yosemite"
 
 ## Prerequisites
 - [Docker](https://store.docker.com/search?type=edition&offering=community) or [Docker Toolbox](https://www.docker.com/products/docker-toolbox).
 - [Create Discord Bot application](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#creating-discord-bot-application) and [Invite the bot to your server](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#inviting-your-bot-to-your-server). 
-- Have your [credentials.json](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-your-credentials) in your home folder.
-  - Home folder for linux/mac: **~**
-  - Home folder for windows: **%userprofile%**
+- Have your [credentials.json](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-your-credentials) in your home folder. To go to your home folder on ...
+- Linux: **cd ~**
+- Mac: **⌘ + Shift + H**
+- Windows: Enter **%userprofile%** in your address bar
 
 ## Fool-proof Quick start guide - Just want to get things working
 
