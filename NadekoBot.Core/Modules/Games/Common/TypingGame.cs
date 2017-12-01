@@ -18,13 +18,13 @@ namespace NadekoBot.Modules.Games.Common
     {
         public class Options : INadekoCommandOptions
         {
-            [Option('s', "start-time", Default = 20, Required = false, HelpText = "How long does it take for the race to start. Default 20.")]
-            public int StartTime { get; set; }
+            [Option('s', "start-time", Default = 5, Required = false, HelpText = "How long does it take for the race to start. Default 5.")]
+            public int StartTime { get; set; } = 5;
 
             public void NormalizeOptions()
             {
-                if (StartTime < 10 || StartTime > 90)
-                    StartTime = 20;
+                if (StartTime < 3 || StartTime > 30)
+                    StartTime = 5;
             }
         }
 
@@ -79,16 +79,19 @@ namespace NadekoBot.Modules.Games.Common
                 await Channel.SendConfirmAsync($@":clock2: Next contest will last for {i} seconds. Type the bolded text as fast as you can.").ConfigureAwait(false);
 
 
-                var msg = await Channel.SendMessageAsync("Starting new typing contest in **3**...").ConfigureAwait(false);
-                await Task.Delay(1000).ConfigureAwait(false);
-                try
+                var time = _options.StartTime;
+
+                var msg = await Channel.SendMessageAsync($"Starting new typing contest in **{time}**...", options: new RequestOptions()
                 {
-                    await msg.ModifyAsync(m => m.Content = "Starting new typing contest in **2**...").ConfigureAwait(false);
-                    await Task.Delay(1000).ConfigureAwait(false);
-                    await msg.ModifyAsync(m => m.Content = "Starting new typing contest in **1**...").ConfigureAwait(false);
-                    await Task.Delay(1000).ConfigureAwait(false);
-                }
-                catch (Exception ex) { _log.Warn(ex); }
+                    RetryMode = RetryMode.AlwaysRetry
+                }).ConfigureAwait(false);
+
+                do
+                {
+                    await Task.Delay(2000).ConfigureAwait(false);
+                    time -= 2;
+                    try { await msg.ModifyAsync(m => m.Content = $"Starting new typing contest in **{time}**..").ConfigureAwait(false); } catch { }
+                } while (time > 2);
 
                 await msg.ModifyAsync(m => m.Content = Format.Bold(Format.Sanitize(CurrentSentence.Replace(" ", " \x200B")).SanitizeMentions())).ConfigureAwait(false);
                 sw.Start();
