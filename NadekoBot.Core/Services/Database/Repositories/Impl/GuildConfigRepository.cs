@@ -51,6 +51,7 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
                 .Include(gc => gc.NsfwBlacklistedTags)
                 .Include(gc => gc.XpSettings)
                     .ThenInclude(x => x.ExclusionList)
+                .Include(gc => gc.MusicSettings)
                 .ToList();
 
         /// <summary>

@@ -11,6 +11,7 @@ using NadekoBot.Common.Collections;
 using NadekoBot.Modules.Music.Services;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
+using Discord.WebSocket;
 
 namespace NadekoBot.Modules.Music.Common
 {
@@ -25,6 +26,8 @@ namespace NadekoBot.Modules.Music.Common
     {
         private readonly Thread _player;
         public IVoiceChannel VoiceChannel { get; private set; }
+
+        public ITextChannel OriginalTextChannel { get; set; }
         private readonly Logger _log;
 
         private MusicQueue Queue { get; } = new MusicQueue();
@@ -130,15 +133,23 @@ namespace NadekoBot.Modules.Music.Common
                     : new TimeSpan(songs.Sum(s => s.TotalTime.Ticks));
             }
         }
-            
 
-        public MusicPlayer(MusicService musicService, IGoogleApiService google, IVoiceChannel vch, ITextChannel output, float volume)
+        public MusicPlayer(MusicService musicService, MusicSettings ms, IGoogleApiService google, 
+            IVoiceChannel vch, ITextChannel original, float volume)
         {
             _log = LogManager.GetCurrentClassLogger();
             this.Volume = volume;
             this.VoiceChannel = vch;
+            this.OriginalTextChannel = original;
             this.SongCancelSource = new CancellationTokenSource();
-            this.OutputTextChannel = output;
+            if(ms.MusicChannelId is ulong cid)
+            {
+                this.OutputTextChannel = ((SocketGuild)original.Guild).GetTextChannel(cid) ?? original;
+            }
+            else
+            {
+                this.OutputTextChannel = original;
+            }
             this._musicService = musicService;
             this._google = google;
 
@@ -656,6 +667,11 @@ namespace NadekoBot.Modules.Music.Common
 
         public SongInfo MoveSong(int n1, int n2)
             => Queue.MoveSong(n1, n2);
+
+        public void SetMusicChannelToOriginal()
+        {
+            this.OutputTextChannel = OriginalTextChannel;
+        }
 
         //// this should be written better
         //public TimeSpan TotalPlaytime => 

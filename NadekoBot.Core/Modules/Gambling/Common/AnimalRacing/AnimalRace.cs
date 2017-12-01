@@ -9,6 +9,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using NadekoBot.Core.Modules.Gambling.Common.AnimalRacing;
 
 namespace NadekoBot.Modules.Gambling.Common.AnimalRacing
 {
@@ -36,12 +37,14 @@ namespace NadekoBot.Modules.Gambling.Common.AnimalRacing
         private readonly SemaphoreSlim _locker = new SemaphoreSlim(1, 1);
         private readonly HashSet<AnimalRacingUser> _users = new HashSet<AnimalRacingUser>();
         private readonly CurrencyService _currency;
+        private readonly RaceOptions _options;
         private readonly Queue<RaceAnimal> _animalsQueue;
         public int MaxUsers { get; }
 
-        public AnimalRace(CurrencyService currency, RaceAnimal[] availableAnimals)
+        public AnimalRace(RaceOptions options, CurrencyService currency, RaceAnimal[] availableAnimals)
         {
             this._currency = currency;
+            this._options = options;
             this._animalsQueue = new Queue<RaceAnimal>(availableAnimals);
             this.MaxUsers = availableAnimals.Length;
 
@@ -53,7 +56,7 @@ namespace NadekoBot.Modules.Gambling.Common.AnimalRacing
         {
             var _t = Task.Run(async () =>
             {
-                await Task.Delay(_startingDelayMiliseconds).ConfigureAwait(false);
+                await Task.Delay(_options.StartTime * 1000).ConfigureAwait(false);
 
                 await _locker.WaitAsync().ConfigureAwait(false);
                 try
