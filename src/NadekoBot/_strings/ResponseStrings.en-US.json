@@ -512,6 +512,7 @@
   "searches_level": "Level",
   "searches_list_of_place_tags": "List of {0}place tags",
   "searches_location": "Location",
+  "searches_city_not_found": "City not found.",
   "searches_magicitems_not_loaded": "Magic Items not loaded.",
   "searches_mal_profile": "{0}'s MAL profile",
   "searches_mashape_api_missing": "Bot owner didn't specify MashapeApiKey. You can't use this functionality.",

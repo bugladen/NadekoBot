@@ -93,7 +93,12 @@ namespace NadekoBot.Modules.Games.Common
                     try { await msg.ModifyAsync(m => m.Content = $"Starting new typing contest in **{time}**..").ConfigureAwait(false); } catch { }
                 } while (time > 2);
 
-                await msg.ModifyAsync(m => m.Content = Format.Bold(Format.Sanitize(CurrentSentence.Replace(" ", " \x200B")).SanitizeMentions())).ConfigureAwait(false);
+                await msg.ModifyAsync(m => {
+                    m.Embed = new EmbedBuilder()
+                        .WithDescription(CurrentSentence)
+                        .Build();
+                    m.Content = "";
+                }).ConfigureAwait(false);
                 sw.Start();
                 HandleAnswers();
 
