@@ -26,11 +26,13 @@ namespace NadekoBot.Modules.Utility
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
+            [Priority(1)]
             public Task ListQuotes(OrderType order = OrderType.Keyword)
-                => ListQuotes(order: order);
+                => ListQuotes(1, order);
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
+            [Priority(0)]
             public async Task ListQuotes(int page = 1, OrderType order = OrderType.Keyword)
             {
                 page -= 1;
