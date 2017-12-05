@@ -7,7 +7,7 @@ If you want Nadeko to play music for you 24/7 without having to hosting it on yo
 It is recommended that you get **Ubuntu 16.04**, as there have been nearly no problems with it. Also, **32-bit systems are incompatible**.
 
 Compatible operating systems:
-- Ubuntu: 14.04, 16.04, 16.10, 17.04
+- Ubuntu: 14.04, 16.04, 16.10, 17.04, 17.10
 - Debian 8
 - CentOS 7
 
