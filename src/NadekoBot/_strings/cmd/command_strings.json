@@ -299,9 +299,12 @@
   },
   "delmsgoncmd": {
     "Cmd": "delmsgoncmd",
-    "Desc": "Toggles the automatic deletion of the user's successful command message to prevent chat flood.",
+    "Desc": "Toggles the automatic deletion of the user's successful command message to prevent chat flood. You can use it either as a server toggle, channel whitelist, or channel blacklist, as channel option has 3 settings: Enable (always do it on this channel), Disable (never do it on this channel), and Inherit (respect server setting). Use `list` parameter to see the current states.",
     "Usage": [
-      "{0}delmsgoncmd"
+      "{0}delmsgoncmd",
+      "{0}delmsgoncmd channel enable",
+      "{0}delmsgoncmd channel inherit",
+      "{0}delmsgoncmd list"
     ]
   },
   "restart": {
