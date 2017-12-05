@@ -3,6 +3,15 @@
 **Setting up NadekoBot on Linux Digital Ocean Droplet**			
 If you want Nadeko to play music for you 24/7 without having to hosting it on your PC and want to keep it cheap, reliable and convenient as possible, you can try Nadeko on Linux Digital Ocean Droplet using the link [DigitalOcean](http://m.do.co/c/46b4d3d44795/) (and using this link will be supporting Nadeko and will give you **$10 credit**)
 
+**Operating System Compatibility**
+It is recommended that you get **Ubuntu 16.04**, as there have been nearly no problems with it. Also, **32-bit systems are incompatible**.
+
+Compatible operating systems:
+- Ubuntu: 14.04, 16.04, 16.10, 17.04
+- Debian 8
+- CentOS 7
+
+
 **Setting up NadekoBot**			
 Assuming you have followed the link above to setup an account and Droplet with 64bit OS in Digital Ocean and got the `IP address and root password (in email)` to login, its time to get started.
 
