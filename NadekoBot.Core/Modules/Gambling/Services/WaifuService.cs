@@ -65,7 +65,7 @@ namespace NadekoBot.Modules.Gambling.Services
                         .GroupBy(x => x.New)
                         .Count();
                 
-                return (int)Math.Ceiling(waifu.Price * 1.25f) + ((divorces + affs) * _bc.BotConfig.DivorcePriceMultiplier);
+                return (int)Math.Ceiling(waifu.Price * 1.25f) + ((divorces + affs + 2) * _bc.BotConfig.DivorcePriceMultiplier);
             }
         }
 
