@@ -94,10 +94,7 @@ namespace NadekoBot.Modules.Games.Common
                 } while (time > 2);
 
                 await msg.ModifyAsync(m => {
-                    m.Embed = new EmbedBuilder()
-                        .WithDescription(CurrentSentence)
-                        .Build();
-                    m.Content = "";
+                    m.Content = CurrentSentence;
                 }).ConfigureAwait(false);
                 sw.Start();
                 HandleAnswers();

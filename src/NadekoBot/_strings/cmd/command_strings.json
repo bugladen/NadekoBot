@@ -1,4 +1,3 @@
-
 {
   "h": {
     "Cmd": "help h",
@@ -2328,6 +2327,13 @@
     "Desc": "Claim a waifu for yourself by spending currency.  You must spend at least 10% more than her current value unless she set `{0}affinity` towards you.",
     "Usage": [
       "{0}claim 50 @Himesama"
+    ]
+  },
+  "waifureset": {
+    "Cmd": "waifureset",
+    "Desc": "Resets your waifu stats, except current waifus.",
+    "Usage": [
+      "{0}waifureset"
     ]
   },
   "waifutransfer": {
