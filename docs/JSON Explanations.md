@@ -234,4 +234,4 @@ and that will save all the changes.
 
 [Google Console]: https://console.developers.google.com
 [DiscordApp]: https://discordapp.com/developers/applications/me
-[Invite Guide]: http://discord.kongslien.net/guide.html
+[Invite Guide]: https://tukimoop.pw/s/guide.html
