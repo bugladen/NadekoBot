@@ -94,7 +94,7 @@ namespace NadekoBot.Modules.Games.Common
                 } while (time > 2);
 
                 await msg.ModifyAsync(m => {
-                    m.Content = CurrentSentence;
+                    m.Content = CurrentSentence.Replace(" ", " \x200B");
                 }).ConfigureAwait(false);
                 sw.Start();
                 HandleAnswers();
