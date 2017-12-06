@@ -9,10 +9,12 @@ using System.Collections.Generic;
 using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
 using System;
+using NadekoBot.Modules.Gambling.Services;
+using NadekoBot.Core.Modules.Gambling.Common;
 
 namespace NadekoBot.Modules.Gambling
 {
-    public partial class Gambling : NadekoTopLevelModule
+    public partial class Gambling : NadekoTopLevelModule<GamblingService>
     {
         private readonly IBotConfigProvider _bc;
         private readonly DbService _db;
@@ -70,7 +72,7 @@ namespace NadekoBot.Modules.Gambling
             _cache.RemoveAllTimelyClaims();
             await ReplyConfirmLocalized("timely_reset").ConfigureAwait(false);
         }
-
+        
         [NadekoCommand, Usage, Description, Aliases]
         [OwnerOnly]
         public async Task TimelySet(int num, int period = 24)
@@ -222,6 +224,104 @@ namespace NadekoBot.Modules.Gambling
                 await ReplyConfirmLocalized("take", amount + CurrencySign, $"<@{usrId}>").ConfigureAwait(false);
             else
                 await ReplyErrorLocalized("take_fail", amount + CurrencySign, Format.Code(usrId.ToString()), CurrencyPluralName).ConfigureAwait(false);
+        }
+
+        IUserMessage rdMsg = null;
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task RollDuel(IUser u)
+        {
+            if (Context.User.Id == u.Id)
+                return;
+
+            //since the challenge is created by another user, we need to reverse the ids
+            //if it gets removed, means challenge is accepted
+            if (_service.Duels.TryRemove((Context.User.Id, u.Id), out var game))
+            {
+                await game.StartGame().ConfigureAwait(false);
+            }
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task RollDuel(int amount, IUser u)
+        {
+            if (Context.User.Id == u.Id)
+                return;
+
+            var embed = new EmbedBuilder()
+                    .WithOkColor()
+                    .WithTitle(GetText("roll_duel"));
+
+            var game = new RollDuelGame(_cs, Context.User.Id, u.Id, amount);
+            //means challenge is just created
+            if(_service.Duels.ContainsKey((Context.User.Id, u.Id)))
+            {
+                await ReplyErrorLocalized("roll_duel_already_challenged").ConfigureAwait(false);
+                return;
+            }
+            if (_service.Duels.TryAdd((u.Id, Context.User.Id), game))
+            {
+                game.OnGameTick += Game_OnGameTick;
+                game.OnEnded += Game_OnEnded;
+
+                await ReplyConfirmLocalized("roll_duel_challenge", 
+                    Format.Bold(Context.User.ToString()), 
+                    Format.Bold(u.ToString()),
+                    Format.Bold(amount + CurrencySign))
+                        .ConfigureAwait(false);
+            }
+
+            async Task Game_OnGameTick(RollDuelGame arg)
+            {
+                var rolls = arg.Rolls.Last();
+                embed.Description += $@"{Format.Bold(Context.User.ToString())} rolled **{rolls.Item1}**
+{Format.Bold(u.ToString())} rolled **{rolls.Item2}**
+--
+";
+
+                if (rdMsg == null)
+                {
+                    rdMsg = await Context.Channel.EmbedAsync(embed)
+                        .ConfigureAwait(false);
+                }
+                else
+                {
+                    await rdMsg.ModifyAsync(x =>
+                    {
+                        x.Embed = embed.Build();
+                    }).ConfigureAwait(false);
+                }
+            }
+
+            async Task Game_OnEnded(RollDuelGame rdGame, RollDuelGame.Reason reason)
+            {
+                try
+                {
+                    if (reason == RollDuelGame.Reason.Normal)
+                    {
+                        var winner = rdGame.Winner == rdGame.P1
+                            ? Context.User
+                            : u;
+                        embed.Description += $"\n**{winner}** Won {((long)(rdGame.Amount * 2 * 0.95)) + CurrencySign}";
+                        await rdMsg.ModifyAsync(x => x.Embed = embed.Build())
+                            .ConfigureAwait(false);
+                    }
+                    else if (reason == RollDuelGame.Reason.Timeout)
+                    {
+                        await ReplyErrorLocalized("roll_duel_timeout").ConfigureAwait(false);
+                    }
+                    else if (reason == RollDuelGame.Reason.NoFunds)
+                    {
+                        await ReplyErrorLocalized("roll_duel_no_funds").ConfigureAwait(false);
+                    }
+                }
+                finally
+                {
+                    _service.Duels.TryRemove((u.Id, Context.User.Id), out var _);
+                }
+            }
         }
 
         //[NadekoCommand, Usage, Description, Aliases]
