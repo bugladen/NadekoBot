@@ -66,7 +66,7 @@
   "administration_delmsg_off": "I will no longer auto-delete messages which successfully execute commands on this server.",
   "administration_delmsg_on": "I will auto-delete messages which successfully execute commands on this server.",
   "administration_delmsg_channel_off": "I will never auto-delete messages which successfully execute commands on this channel.",
-  "administration_delmsg_channel_on": "I will always auto-delete messages which successfully execute commands on this channel, regardles of the server setting.",
+  "administration_delmsg_channel_on": "I will always auto-delete messages which successfully execute commands on this channel, regardless of the server setting.",
   "administration_delmsg_channel_inherit": "I will auto-delete messages which successfully execute commands on this channel only if this feature is enabled on the server.",
   "administration_server_delmsgoncmd": "Server Setting",
   "administration_channel_delmsgoncmd": "Channel-Specific Settings",
