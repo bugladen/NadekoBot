@@ -2,6 +2,7 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Common.Attributes;
+using NadekoBot.Core.Common;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Games.Common.Connect4;
 using NadekoBot.Modules.Games.Services;
@@ -27,9 +28,11 @@ namespace NadekoBot.Modules.Games
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Connect4()
+            [NadekoOptions(typeof(Connect4Game.Options))]
+            public async Task Connect4(params string[] args)
             {
-                var newGame = new Connect4Game(Context.User.Id, Context.User.ToString());
+                var (options, _) = OptionsParser.Default.ParseFrom(new Connect4Game.Options(), args);
+                var newGame = new Connect4Game(Context.User.Id, Context.User.ToString(), options);
                 Connect4Game game;
                 if ((game = _service.Connect4Games.GetOrAdd(Context.Channel.Id, newGame)) != newGame)
                 {

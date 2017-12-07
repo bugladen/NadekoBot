@@ -1,3 +1,4 @@
+
 {
   "h": {
     "Cmd": "help h",
@@ -1002,7 +1003,7 @@
     "Desc": "Starts a game of trivia. You can add `nohint` to prevent hints. First player to get to 10 points wins by default. You can specify a different number. 30 seconds per question.",
     "Usage": [
       "{0}t",
-      "{0}t 5 nohint"
+      "{0}t --timeout 5 -p -w 3 -q 10"
     ]
   },
   "tl": {
@@ -2148,10 +2149,10 @@
   },
   "acro": {
     "Cmd": "acrophobia acro",
-    "Desc": "Starts an Acrophobia game. Second argument is optional round length in seconds. (default is 60)",
+    "Desc": "Starts an Acrophobia game.",
     "Usage": [
       "{0}acro",
-      "{0}acro 30"
+      "{0}acro -s 30"
     ]
   },
   "logevents": {
@@ -2381,6 +2382,13 @@
       "{0}smch"
     ]
   },
+  "unsetmusicchannel": {
+    "Cmd": "unsetmusicchannel usmch",
+    "Desc": "Bot will output playing, finished, paused and removed songs to the channel where the first song was queued in.",
+    "Usage": [
+      "{0}smch"
+    ]
+  },
   "reloadimages": {
     "Cmd": "reloadimages",
     "Desc": "Reloads images bot is using. Safe to use even when bot is being used heavily.",
@@ -2412,7 +2420,7 @@
   },
   "tictactoe": {
     "Cmd": "tictactoe ttt",
-    "Desc": "Starts a game of tic tac toe. Another user must run the command in the same channel in order to accept the challenge. Use numbers 1-9 to play. 15 seconds per move.",
+    "Desc": "Starts a game of tic tac toe. Another user must run the command in the same channel in order to accept the challenge. Use numbers 1-9 to play.",
     "Usage": [
       "{0}ttt"
     ]

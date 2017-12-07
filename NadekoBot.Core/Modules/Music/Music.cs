@@ -591,6 +591,7 @@ namespace NadekoBot.Modules.Music
             var mp = await _service.GetOrCreatePlayer(Context);
             var val = mp.AutoDelete = !mp.AutoDelete;
 
+            _service.SetSongAutoDelete(Context.Guild.Id, val);
             if (val)
             {
                 await ReplyConfirmLocalized("sad_enabled").ConfigureAwait(false);
@@ -816,10 +817,11 @@ namespace NadekoBot.Modules.Music
             var embed = new EmbedBuilder()
                 .WithTitle(s.Title.TrimTo(65))
                 .WithUrl(s.SongUrl)
-            .WithAuthor(eab => eab.WithName(GetText("song_moved")).WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/258605269972549642/music1.png"))
-            .AddField(fb => fb.WithName(GetText("from_position")).WithValue($"#{n1 + 1}").WithIsInline(true))
-            .AddField(fb => fb.WithName(GetText("to_position")).WithValue($"#{n2 + 1}").WithIsInline(true))
-            .WithColor(NadekoBot.OkColor);
+                .WithAuthor(eab => eab.WithName(GetText("song_moved")).WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/258605269972549642/music1.png"))
+                .AddField(fb => fb.WithName(GetText("from_position")).WithValue($"#{n1 + 1}").WithIsInline(true))
+                .AddField(fb => fb.WithName(GetText("to_position")).WithValue($"#{n2 + 1}").WithIsInline(true))
+                .WithColor(NadekoBot.OkColor);
+
             await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
@@ -907,8 +909,22 @@ namespace NadekoBot.Modules.Music
             var mp = await _service.GetOrCreatePlayer(Context);
 
             mp.OutputTextChannel = (ITextChannel)Context.Channel;
+            _service.SetMusicChannel(Context.Guild.Id, Context.Channel.Id);
 
             await ReplyConfirmLocalized("set_music_channel").ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [RequireUserPermission(GuildPermission.ManageMessages)]
+        public async Task UnsetMusicChannel()
+        {
+            var mp = await _service.GetOrCreatePlayer(Context);
+
+            mp.OutputTextChannel = mp.OriginalTextChannel;
+            _service.SetMusicChannel(Context.Guild.Id, null);
+
+            await ReplyConfirmLocalized("unset_music_channel").ConfigureAwait(false);
         }
     }
 }

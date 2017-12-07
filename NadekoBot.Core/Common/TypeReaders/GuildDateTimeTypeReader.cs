@@ -13,7 +13,7 @@ namespace NadekoBot.Common.TypeReaders
         {
         }
 
-        public override Task<TypeReaderResult> Read(ICommandContext context, string input, IServiceProvider services)
+        public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider services)
         {
             var _gts = (GuildTimezoneService)services.GetService(typeof(GuildTimezoneService));
             if (!DateTime.TryParse(input, out var dt))

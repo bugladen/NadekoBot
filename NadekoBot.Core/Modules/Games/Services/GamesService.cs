@@ -39,7 +39,7 @@ namespace NadekoBot.Modules.Games.Services
         private readonly Logger _log;
         private readonly NadekoRandom _rng;
         private readonly CurrencyService _cs;
-        public readonly string TypingArticlesPath = "data/typing_articles2.json";
+        public readonly string TypingArticlesPath = "data/typing_articles3.json";
         private readonly CommandHandler _cmdHandler;
 
         public List<TypingArticle> TypingArticles { get; } = new List<TypingArticle>();
@@ -128,7 +128,8 @@ namespace NadekoBot.Modules.Games.Services
         {
             TypingArticles.Add(new TypingArticle
             {
-                Title = $"Text added on {DateTime.UtcNow} by {user}",
+                Source = user.ToString(),
+                Extra = $"Text added on {DateTime.UtcNow} by {user}.",
                 Text = text.SanitizeMentions(),
             });
 

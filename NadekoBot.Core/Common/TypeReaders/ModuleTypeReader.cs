@@ -17,7 +17,7 @@ namespace NadekoBot.Common.TypeReaders
             _cmds = cmds;
         }
 
-        public override Task<TypeReaderResult> Read(ICommandContext context, string input, IServiceProvider _)
+        public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider _)
         {
             input = input.ToUpperInvariant();
             var module = _cmds.Modules.GroupBy(m => m.GetTopLevelModule()).FirstOrDefault(m => m.Key.Name.ToUpperInvariant() == input)?.Key;
@@ -37,7 +37,7 @@ namespace NadekoBot.Common.TypeReaders
             _cmds = cmds;
         }
 
-        public override Task<TypeReaderResult> Read(ICommandContext context, string input, IServiceProvider _)
+        public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider _)
         {
             input = input.ToLowerInvariant();
             var module = _cmds.Modules.GroupBy(m => m.GetTopLevelModule()).FirstOrDefault(m => m.Key.Name.ToLowerInvariant() == input)?.Key;

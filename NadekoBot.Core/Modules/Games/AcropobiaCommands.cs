@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Games.Common.Acrophobia;
 using NadekoBot.Modules.Games.Services;
+using NadekoBot.Core.Common;
 
 namespace NadekoBot.Modules.Games
 {
@@ -26,13 +27,13 @@ namespace NadekoBot.Modules.Games
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Acro(int submissionTime = 30)
+            [NadekoOptions(typeof(Acrophobia.Options))]
+            public async Task Acro(params string[] args)
             {
-                if (submissionTime < 10 || submissionTime > 120)
-                    return;
+                var (options, _) = OptionsParser.Default.ParseFrom(new Acrophobia.Options(), args);
                 var channel = (ITextChannel)Context.Channel;
 
-                var game = new Acrophobia(submissionTime);
+                var game = new Acrophobia(options);
                 if (_service.AcrophobiaGames.TryAdd(channel.Id, game))
                 {
                     try
@@ -82,7 +83,7 @@ namespace NadekoBot.Modules.Games
                 var embed = new EmbedBuilder().WithOkColor()
                         .WithTitle(GetText("acrophobia"))
                         .WithDescription(GetText("acro_started", Format.Bold(string.Join(".", game.StartingLetters))))
-                        .WithFooter(efb => efb.WithText(GetText("acro_started_footer", game.SubmissionPhaseLength)));
+                        .WithFooter(efb => efb.WithText(GetText("acro_started_footer", game.Opts.SubmissionTime)));
 
                 return Context.Channel.EmbedAsync(embed);
             }

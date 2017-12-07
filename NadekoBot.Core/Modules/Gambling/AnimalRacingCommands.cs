@@ -10,6 +10,8 @@ using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Gambling.Common.AnimalRacing.Exceptions;
 using NadekoBot.Modules.Gambling.Common.AnimalRacing;
 using NadekoBot.Modules.Gambling.Services;
+using NadekoBot.Core.Modules.Gambling.Common.AnimalRacing;
+using NadekoBot.Core.Common;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -33,9 +35,12 @@ namespace NadekoBot.Modules.Gambling
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public Task Race()
+            [NadekoOptions(typeof(RaceOptions))]
+            public Task Race(params string[] args)
             {
-                var ar = new AnimalRace(_cs, _bc.BotConfig.RaceAnimals.Shuffle().ToArray());
+                var (options, success) = OptionsParser.Default.ParseFrom(new RaceOptions(), args);
+
+                var ar = new AnimalRace(options, _cs, _bc.BotConfig.RaceAnimals.Shuffle().ToArray());
                 if (!_service.AnimalRaces.TryAdd(Context.Guild.Id, ar))
                     return Context.Channel.SendErrorAsync(GetText("animal_race"), GetText("animal_race_already_started"));
 
@@ -84,7 +89,7 @@ namespace NadekoBot.Modules.Gambling
                 ar.OnStarted += Ar_OnStarted;
                 _client.MessageReceived += _client_MessageReceived;
 
-                return Context.Channel.SendConfirmAsync(GetText("animal_race"), GetText("animal_race_starting"),
+                return Context.Channel.SendConfirmAsync(GetText("animal_race"), GetText("animal_race_starting", options.StartTime),
                                     footer: GetText("animal_race_join_instr", Prefix));
             }
 

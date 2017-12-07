@@ -16,7 +16,7 @@ namespace NadekoBot.Common.TypeReaders
         {
         }
 
-        public override Task<TypeReaderResult> Read(ICommandContext context, string input, IServiceProvider _)
+        public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider _)
         {
             input = input.ToUpperInvariant();
             switch (input)
