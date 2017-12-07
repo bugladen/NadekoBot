@@ -2401,11 +2401,11 @@
       "{0}smch"
     ]
   },
-  "reloadimages": {
-    "Cmd": "reloadimages",
+  "imagesreload": {
+    "Cmd": "imagesreload",
     "Desc": "Reloads images bot is using. Safe to use even when bot is being used heavily.",
     "Usage": [
-      "{0}reloadimages"
+      "{0}imagesreload"
     ]
   },
   "botconfigreload": {
@@ -2645,7 +2645,7 @@
     ]
   },
   "claimpatreonrewards": {
-    "Cmd": "clparew",
+    "Cmd": "clparew claparew",
     "Desc": "Claim patreon rewards. If you're subscribed to bot owner's patreon you can use this command to claim your rewards - assuming bot owner did setup has their patreon key.",
     "Usage": [
       "{0}clparew"

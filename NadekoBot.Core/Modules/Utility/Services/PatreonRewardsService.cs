@@ -47,7 +47,7 @@ namespace NadekoBot.Modules.Utility.Services
             _cache = cache;
             _key = _creds.RedisKey() + "_patreon_rewards";
             _bc = bc;
-
+            
             _pledges = new FactoryCache<PatreonUserAndReward[]>(() =>
             {
                 var r = _cache.Redis.GetDatabase();
