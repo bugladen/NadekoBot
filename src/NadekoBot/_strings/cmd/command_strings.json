@@ -590,11 +590,12 @@
       "{0}inrole Some Role"
     ]
   },
-  "checkmyperms": {
-    "Cmd": "checkmyperms",
-    "Desc": "Checks your user-specific permissions on this channel.",
+  "checkperms": {
+    "Cmd": "checkperms",
+    "Desc": "Checks yours or bot's user-specific permissions on this channel.",
     "Usage": [
-      "{0}checkmyperms"
+      "{0}checkperms me",
+      "{0}checkperms bot"
     ]
   },
   "stats": {

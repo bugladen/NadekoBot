@@ -106,13 +106,16 @@ namespace NadekoBot.Modules.Utility
             }, roleUsers.Length, 20).ConfigureAwait(false);
         }
 
+        public enum MeOrBot { Me, Bot }
+
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task CheckMyPerms()
+        public async Task CheckPerms(MeOrBot who = MeOrBot.Me)
         {
-
             StringBuilder builder = new StringBuilder();
-            var user = (IGuildUser) Context.User;
+            var user = who == MeOrBot.Me
+                ? (IGuildUser)Context.User
+                : ((SocketGuild)Context.Guild).CurrentUser;
             var perms = user.GetPermissions((ITextChannel)Context.Channel);
             foreach (var p in perms.GetType().GetProperties().Where(p => !p.GetGetMethod().GetParameters().Any()))
             {
