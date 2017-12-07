@@ -11,7 +11,7 @@
 - Press **`Install ffmpeg`** and **`Install youtube-dl`** if you want music features.  
 ***NOTE:** RESTART YOUR PC IF YOU DO.*
 - Press **`Update`** and go through the installation wizard.			
-***NOTE:** If you're upgrading from 1.3, DO NOT select your old nadekobot folder. Install it in a separate directory and read the [upgrading guide](http://nadekobot.readthedocs.io/en/latest/guides/Upgrading%20Guide/).*
+***NOTE:** If you're upgrading from 1.3, DO NOT select your old nadekobot folder.*
 - When installation is finished, make sure **`Open credentials.json`** is checked. 			
 ***NOTE:** Make sure to open it with Notepad++ or some other decent text editor.*
 - [Set up credentials.json](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-credentialsjson-file) file.
