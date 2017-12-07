@@ -135,6 +135,12 @@ namespace NadekoBot.Core.Services.Impl
                         else
                             return false;
                         break;
+                    case BotConfigEditType.PatreonCurrencyPerCent:
+                        if (float.TryParse(newValue, out var cents) && cents > 0)
+                            bc.PatreonCurrencyPerCent = cents;
+                        else
+                            return false;
+                        break;
                     default:
                         return false;
                 }

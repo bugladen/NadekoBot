@@ -492,9 +492,11 @@
   },
   "setgame": {
     "Cmd": "setgame",
-    "Desc": "Sets the bots game.",
+    "Desc": "Sets the bots game status to either Playing, ListeningTo, or Watching.",
     "Usage": [
-      "{0}setgame with snakes"
+      "{0}setgame Playing with snakes.",
+      "{0}setgame Watching anime.",
+      "{0}setgame ListeningTo music."
     ]
   },
   "send": {
@@ -2404,6 +2406,13 @@
     "Desc": "Reloads images bot is using. Safe to use even when bot is being used heavily.",
     "Usage": [
       "{0}reloadimages"
+    ]
+  },
+  "botconfigreload": {
+    "Cmd": "botconfigreload",
+    "Desc": "Reloads bot configuration in case you made changes to the BotConfig table either with .execsql or manually in the .db file.",
+    "Usage": [
+      "{0}botconfigreload"
     ]
   },
   "shardstats": {

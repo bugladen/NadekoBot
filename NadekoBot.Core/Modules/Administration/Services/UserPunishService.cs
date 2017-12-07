@@ -6,6 +6,7 @@ using Discord;
 using Microsoft.EntityFrameworkCore;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
+using NadekoBot.Extensions;
 
 namespace NadekoBot.Modules.Administration.Services
 {
@@ -84,6 +85,9 @@ namespace NadekoBot.Modules.Administration.Services
                         {
                             await guild.RemoveBanAsync(user).ConfigureAwait(false);
                         }
+                        break;
+                    case PunishmentAction.RemoveRoles:
+                        await user.RemoveRolesAsync(user.GetRoles().Where(x => x.Id != guild.EveryoneRole.Id));
                         break;
                     default:
                         break;

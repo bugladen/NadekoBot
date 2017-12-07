@@ -353,6 +353,9 @@ namespace NadekoBot.Modules.Administration.Services
                         case PunishmentAction.Ban:
                             punishment = "⛔️ " + GetText(logChannel.Guild, "banned_pl").ToUpperInvariant();
                             break;
+                        case PunishmentAction.RemoveRoles:
+                            punishment = "⛔️ " + GetText(logChannel.Guild, "remove_roles_pl").ToUpperInvariant();
+                            break;
                     }
 
                     var embed = new EmbedBuilder().WithAuthor(eab => eab.WithName($"🛡 Anti-{protection}"))

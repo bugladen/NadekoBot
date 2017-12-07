@@ -8,6 +8,7 @@ using NadekoBot.Modules.Administration.Common;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
 using NLog;
+using NadekoBot.Extensions;
 
 namespace NadekoBot.Modules.Administration.Services
 {
@@ -175,6 +176,9 @@ namespace NadekoBot.Modules.Administration.Services
                             await gu.Guild.AddBanAsync(gu, 7).ConfigureAwait(false);
                         }
                         catch (Exception ex) { _log.Warn(ex, "I can't apply punishment"); }
+                        break;
+                    case PunishmentAction.RemoveRoles:
+                        await gu.RemoveRolesAsync(gu.GetRoles().Where(x => x.Id != gu.Guild.EveryoneRole.Id));
                         break;
                 }
             }

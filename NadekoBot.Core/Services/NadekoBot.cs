@@ -20,6 +20,7 @@ using NadekoBot.Common.ShardCom;
 using NadekoBot.Core.Services.Database;
 using StackExchange.Redis;
 using Newtonsoft.Json;
+using NadekoBot.Core.Common;
 
 namespace NadekoBot
 {
@@ -347,9 +348,9 @@ namespace NadekoBot
             {
                 try
                 {
-                    var obj = new { Name = default(string) };
+                    var obj = new { Name = default(string), PlayingType = PlayingType.Playing };
                     obj = JsonConvert.DeserializeAnonymousType(game, obj);
-                    await Client.SetGameAsync(obj.Name).ConfigureAwait(false);
+                    await Client.SetGameAsync(obj.Name, streamType: StreamType.NotStreaming + (int)obj.PlayingType).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
@@ -372,9 +373,9 @@ namespace NadekoBot
             }, CommandFlags.FireAndForget);
         }
 
-        public Task SetGameAsync(string game)
+        public Task SetGameAsync(string game, PlayingType type)
         {
-            var obj = new { Name = game };
+            var obj = new { Name = game, PlayingType = type };
             var sub = Services.GetService<IDataCache>().Redis.GetSubscriber();
             return sub.PublishAsync(Client.CurrentUser.Id + "_status.game_set", JsonConvert.SerializeObject(obj));
         }
@@ -383,7 +384,7 @@ namespace NadekoBot
         {
             var obj = new { Name = name, Url = url };
             var sub = Services.GetService<IDataCache>().Redis.GetSubscriber();
-            return sub.PublishAsync(Client.CurrentUser.Id + "_status.game_set", JsonConvert.SerializeObject(obj));
+            return sub.PublishAsync(Client.CurrentUser.Id + "_status.stream_set", JsonConvert.SerializeObject(obj));
         }
 
         //private readonly Dictionary<string, (IEnumerable<ModuleInfo> Modules, IEnumerable<Type> Types)> _loadedPackages = new Dictionary<string, (IEnumerable<ModuleInfo>, IEnumerable<Type>)>();
