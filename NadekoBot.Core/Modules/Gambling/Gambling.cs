@@ -256,9 +256,16 @@ namespace NadekoBot.Modules.Gambling
 
             var game = new RollDuelGame(_cs, Context.User.Id, u.Id, amount);
             //means challenge is just created
-            if(_service.Duels.ContainsKey((Context.User.Id, u.Id)))
+            if(_service.Duels.TryGetValue((Context.User.Id, u.Id), out var other))
             {
-                await ReplyErrorLocalized("roll_duel_already_challenged").ConfigureAwait(false);
+                if (other.Amount != amount)
+                {
+                    await ReplyErrorLocalized("roll_duel_already_challenged").ConfigureAwait(false);
+                }
+                else
+                {
+                    await RollDuel(u).ConfigureAwait(false);
+                }
                 return;
             }
             if (_service.Duels.TryAdd((u.Id, Context.User.Id), game))
@@ -304,7 +311,7 @@ namespace NadekoBot.Modules.Gambling
                         var winner = rdGame.Winner == rdGame.P1
                             ? Context.User
                             : u;
-                        embed.Description += $"\n**{winner}** Won {((long)(rdGame.Amount * 2 * 0.95)) + CurrencySign}";
+                        embed.Description += $"\n**{winner}** Won {((long)(rdGame.Amount * 2 * 0.98)) + CurrencySign}";
                         await rdMsg.ModifyAsync(x => x.Embed = embed.Build())
                             .ConfigureAwait(false);
                     }

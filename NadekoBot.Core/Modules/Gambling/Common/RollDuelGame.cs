@@ -110,7 +110,7 @@ namespace NadekoBot.Core.Modules.Gambling.Common
                     {
                         Winner = P2;
                     }
-                    await _cs.AddAsync(Winner, "Roll Duel win", (long)(Amount * 2 * 0.95f))
+                    await _cs.AddAsync(Winner, "Roll Duel win", (long)(Amount * 2 * 0.98f))
                         .ConfigureAwait(false);
                 }
                 try { await OnGameTick?.Invoke(this); } catch { }
