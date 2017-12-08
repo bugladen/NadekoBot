@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Games.Common.Trivia;
 using NadekoBot.Modules.Games.Services;
+using NadekoBot.Core.Common;
+using NadekoBot.Core.Modules.Games.Common.Trivia;
 
 namespace NadekoBot.Modules.Games
 {
@@ -31,24 +33,18 @@ namespace NadekoBot.Modules.Games
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public Task Trivia([Remainder] string additionalArgs = "")
-                => InternalTrivia(10, additionalArgs);
+            [Priority(0)]
+            [NadekoOptions(typeof(TriviaOptions))]
+            public Task Trivia(params string[] args)
+                => InternalTrivia(args);
 
-            [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
-            public Task Trivia(int winReq = 10, [Remainder] string additionalArgs = "")
-                => InternalTrivia(winReq, additionalArgs);
-
-            public async Task InternalTrivia(int winReq, string additionalArgs = "")
+            public async Task InternalTrivia(params string[] args)
             {
                 var channel = (ITextChannel)Context.Channel;
 
-                additionalArgs = additionalArgs?.Trim()?.ToLowerInvariant();
+                var (opts, _) = OptionsParser.Default.ParseFrom(new TriviaOptions(), args);
 
-                var showHints = !additionalArgs.Contains("nohint");
-                var isPokemon = additionalArgs.Contains("pokemon");
-
-                var trivia = new TriviaGame(_strings, _client, _bc, _cache, _cs, channel.Guild, channel, showHints, winReq, isPokemon);
+                var trivia = new TriviaGame(_strings, _client, _bc, _cache, _cs, channel.Guild, channel, opts);
                 if (_service.RunningTrivias.TryAdd(channel.Guild.Id, trivia))
                 {
                     try

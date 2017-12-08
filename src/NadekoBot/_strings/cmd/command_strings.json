@@ -299,9 +299,12 @@
   },
   "delmsgoncmd": {
     "Cmd": "delmsgoncmd",
-    "Desc": "Toggles the automatic deletion of the user's successful command message to prevent chat flood.",
+    "Desc": "Toggles the automatic deletion of the user's successful command message to prevent chat flood. You can use it either as a server toggle, channel whitelist, or channel blacklist, as channel option has 3 settings: Enable (always do it on this channel), Disable (never do it on this channel), and Inherit (respect server setting). Use `list` parameter to see the current states.",
     "Usage": [
-      "{0}delmsgoncmd"
+      "{0}delmsgoncmd",
+      "{0}delmsgoncmd channel enable",
+      "{0}delmsgoncmd channel inherit",
+      "{0}delmsgoncmd list"
     ]
   },
   "restart": {
@@ -489,9 +492,11 @@
   },
   "setgame": {
     "Cmd": "setgame",
-    "Desc": "Sets the bots game.",
+    "Desc": "Sets the bots game status to either Playing, ListeningTo, or Watching.",
     "Usage": [
-      "{0}setgame with snakes"
+      "{0}setgame Playing with snakes.",
+      "{0}setgame Watching anime.",
+      "{0}setgame ListeningTo music."
     ]
   },
   "send": {
@@ -587,11 +592,12 @@
       "{0}inrole Some Role"
     ]
   },
-  "checkmyperms": {
-    "Cmd": "checkmyperms",
-    "Desc": "Checks your user-specific permissions on this channel.",
+  "checkperms": {
+    "Cmd": "checkperms",
+    "Desc": "Checks yours or bot's user-specific permissions on this channel.",
     "Usage": [
-      "{0}checkmyperms"
+      "{0}checkperms me",
+      "{0}checkperms bot"
     ]
   },
   "stats": {
@@ -1002,7 +1008,7 @@
     "Desc": "Starts a game of trivia. You can add `nohint` to prevent hints. First player to get to 10 points wins by default. You can specify a different number. 30 seconds per question.",
     "Usage": [
       "{0}t",
-      "{0}t 5 nohint"
+      "{0}t --timeout 5 -p -w 3 -q 10"
     ]
   },
   "tl": {
@@ -2148,10 +2154,10 @@
   },
   "acro": {
     "Cmd": "acrophobia acro",
-    "Desc": "Starts an Acrophobia game. Second argument is optional round length in seconds. (default is 60)",
+    "Desc": "Starts an Acrophobia game.",
     "Usage": [
       "{0}acro",
-      "{0}acro 30"
+      "{0}acro -s 30"
     ]
   },
   "logevents": {
@@ -2329,6 +2335,13 @@
       "{0}claim 50 @Himesama"
     ]
   },
+  "waifureset": {
+    "Cmd": "waifureset",
+    "Desc": "Resets your waifu stats, except current waifus.",
+    "Usage": [
+      "{0}waifureset"
+    ]
+  },
   "waifutransfer": {
     "cmd": "waifutransfer",
     "desc": "Transfer the ownership of one of your waifus to another user. You must pay 10% of your waifu's value.",
@@ -2388,11 +2401,18 @@
       "{0}smch"
     ]
   },
-  "reloadimages": {
-    "Cmd": "reloadimages",
+  "imagesreload": {
+    "Cmd": "imagesreload",
     "Desc": "Reloads images bot is using. Safe to use even when bot is being used heavily.",
     "Usage": [
-      "{0}reloadimages"
+      "{0}imagesreload"
+    ]
+  },
+  "botconfigreload": {
+    "Cmd": "botconfigreload",
+    "Desc": "Reloads bot configuration in case you made changes to the BotConfig table either with .execsql or manually in the .db file.",
+    "Usage": [
+      "{0}botconfigreload"
     ]
   },
   "shardstats": {
@@ -2419,7 +2439,7 @@
   },
   "tictactoe": {
     "Cmd": "tictactoe ttt",
-    "Desc": "Starts a game of tic tac toe. Another user must run the command in the same channel in order to accept the challenge. Use numbers 1-9 to play. 15 seconds per move.",
+    "Desc": "Starts a game of tic tac toe. Another user must run the command in the same channel in order to accept the challenge. Use numbers 1-9 to play.",
     "Usage": [
       "{0}ttt"
     ]
@@ -2625,7 +2645,7 @@
     ]
   },
   "claimpatreonrewards": {
-    "Cmd": "clparew",
+    "Cmd": "clparew claparew",
     "Desc": "Claim patreon rewards. If you're subscribed to bot owner's patreon you can use this command to claim your rewards - assuming bot owner did setup has their patreon key.",
     "Usage": [
       "{0}clparew"
@@ -3168,6 +3188,14 @@
     "desc": "Returns the chaos equivalent of a given currency.",
     "usage": [
       "{0}poec Standard \"Mirror of Kalandra\""
+    ]
+  },
+  "rollduel": {
+    "cmd": "rollduel",
+    "desc": "Challenge someone to a roll duel by specifying the amount and the user you wish to challenge as the parameters. To accept the challenge, just specify the name of the user who challenged you, without the amount.",
+    "usage": [
+      "{0}rollduel 50 @SomeGuy",
+      "{0}rollduel @Challenger"
     ]
   }
 }

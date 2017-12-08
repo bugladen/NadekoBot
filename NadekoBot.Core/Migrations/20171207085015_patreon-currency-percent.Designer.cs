@@ -12,9 +12,10 @@ using System;
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoContext))]
-    partial class NadekoSqliteContextModelSnapshot : ModelSnapshot
+    [Migration("20171207085015_patreon-currency-percent")]
+    partial class patreoncurrencypercent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

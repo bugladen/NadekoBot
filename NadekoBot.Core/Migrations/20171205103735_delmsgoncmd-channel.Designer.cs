@@ -12,9 +12,10 @@ using System;
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoContext))]
-    partial class NadekoSqliteContextModelSnapshot : ModelSnapshot
+    [Migration("20171205103735_delmsgoncmd-channel")]
+    partial class delmsgoncmdchannel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -180,10 +181,6 @@ namespace NadekoBot.Migrations
                     b.Property<int>("MinimumBetAmount");
 
                     b.Property<string>("OkColor");
-
-                    b.Property<float>("PatreonCurrencyPerCent")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(1f);
 
                     b.Property<int>("PermissionVersion");
 

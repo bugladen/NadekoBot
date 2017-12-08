@@ -12,6 +12,7 @@ using NadekoBot.Core.Services.Impl;
 using NadekoBot.Common;
 using NLog;
 using CommandLine;
+using CommandLine.Text;
 
 namespace NadekoBot.Modules.Help.Services
 {
@@ -63,16 +64,35 @@ namespace NadekoBot.Modules.Help.Services
                 .WithFooter(efb => efb.WithText(GetText("module", guild, com.Module.GetTopLevelModule().Name)))
                 .WithColor(NadekoBot.OkColor);
 
-            var opt = (NadekoOptions)com.Attributes.FirstOrDefault(x => x is NadekoOptions);
+            var opt = ((NadekoOptions)com.Attributes.FirstOrDefault(x => x is NadekoOptions))?.OptionType;
             if (opt != null)
             {
-                var x = Activator.CreateInstance(opt.OptionType);
-                var hs = Parser.Default.FormatCommandLine(x);
+                var hs = GetCommandOptionHelp(opt);
                 if(!string.IsNullOrWhiteSpace(hs))
-                    em.AddField(GetText("options", guild), string.Join("\n--", hs.Split(" --")), false);
+                    em.AddField(GetText("options", guild), hs, false);
             }
 
             return em;
+        }
+
+        private string GetCommandOptionHelp(Type opt)
+        {
+            var strs = opt.GetProperties()
+                .Select(x => x.GetCustomAttributes(true).FirstOrDefault(a => a is OptionAttribute))
+                .Where(x => x != null)
+                .Cast<OptionAttribute>()
+                .Select(x =>
+                {
+                    var toReturn = $"--{x.LongName}";
+
+                    if (!string.IsNullOrWhiteSpace(x.ShortName))
+                        toReturn += $" (-{x.ShortName})";
+
+                    toReturn += $"   {x.HelpText}";
+                    return toReturn;
+                });
+
+            return string.Join("\n", strs);
         }
 
         public string GetCommandRequirements(CommandInfo cmd, IGuild guild) =>

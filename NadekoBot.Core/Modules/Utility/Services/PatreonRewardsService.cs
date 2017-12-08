@@ -32,12 +32,13 @@ namespace NadekoBot.Modules.Utility.Services
         private readonly CurrencyService _currency;
         private readonly IDataCache _cache;
         private readonly string _key;
+        private readonly IBotConfigProvider _bc;
 
         public DateTime LastUpdate { get; private set; } = DateTime.UtcNow;
 
         public PatreonRewardsService(IBotCredentials creds, DbService db, 
             CurrencyService currency,
-            DiscordSocketClient client, IDataCache cache)
+            DiscordSocketClient client, IDataCache cache, IBotConfigProvider bc)
         {
             _log = LogManager.GetCurrentClassLogger();
             _creds = creds;
@@ -45,7 +46,8 @@ namespace NadekoBot.Modules.Utility.Services
             _currency = currency;
             _cache = cache;
             _key = _creds.RedisKey() + "_patreon_rewards";
-
+            _bc = bc;
+            
             _pledges = new FactoryCache<PatreonUserAndReward[]>(() =>
             {
                 var r = _cache.Redis.GetDatabase();
@@ -132,7 +134,7 @@ namespace NadekoBot.Modules.Utility.Services
                 if (data == null)
                     return 0;
 
-                var amount = data.Reward.attributes.amount_cents;
+                var amount = (int)(data.Reward.attributes.amount_cents * _bc.BotConfig.PatreonCurrencyPerCent);
 
                 using (var uow = _db.UnitOfWork)
                 {

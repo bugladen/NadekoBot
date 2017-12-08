@@ -11,7 +11,6 @@ using NadekoBot.Modules.Gambling.Common.AnimalRacing.Exceptions;
 using NadekoBot.Modules.Gambling.Common.AnimalRacing;
 using NadekoBot.Modules.Gambling.Services;
 using NadekoBot.Core.Modules.Gambling.Common.AnimalRacing;
-using CommandLine;
 using NadekoBot.Core.Common;
 
 namespace NadekoBot.Modules.Gambling
@@ -39,7 +38,7 @@ namespace NadekoBot.Modules.Gambling
             [NadekoOptions(typeof(RaceOptions))]
             public Task Race(params string[] args)
             {
-                var options = OptionsParser.Default.ParseFrom(new RaceOptions(), args);
+                var (options, success) = OptionsParser.Default.ParseFrom(new RaceOptions(), args);
 
                 var ar = new AnimalRace(options, _cs, _bc.BotConfig.RaceAnimals.Shuffle().ToArray());
                 if (!_service.AnimalRaces.TryAdd(Context.Guild.Id, ar))

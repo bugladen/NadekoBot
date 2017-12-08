@@ -1,15 +1,12 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using NadekoBot.Extensions;
-using System;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using NadekoBot.Common.Attributes;
-using NadekoBot.Core.Services.Impl;
 using NadekoBot.Modules.Games.Services;
 using NadekoBot.Modules.Games.Common;
+using NadekoBot.Core.Common;
 
 namespace NadekoBot.Modules.Games
 {
@@ -28,8 +25,10 @@ namespace NadekoBot.Modules.Games
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task TicTacToe()
+            [NadekoOptions(typeof(TicTacToe.Options))]
+            public async Task TicTacToe(params string[] args)
             {
+                var (options, _) = OptionsParser.Default.ParseFrom(new TicTacToe.Options(), args);
                 var channel = (ITextChannel)Context.Channel;
 
                 await _sem.WaitAsync(1000);
@@ -43,7 +42,7 @@ namespace NadekoBot.Modules.Games
                         });
                         return;
                     }
-                    game = new TicTacToe(base._strings, this._client, channel, (IGuildUser)Context.User);
+                    game = new TicTacToe(base._strings, this._client, channel, (IGuildUser)Context.User, options);
                     _service.TicTacToeGames.Add(channel.Id, game);
                     await ReplyConfirmLocalized("ttt_created").ConfigureAwait(false);
 

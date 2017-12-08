@@ -162,6 +162,9 @@ namespace NadekoBot.Core.Services.Database
             botConfigEntity.Property(x => x.XpPerMessage)
                 .HasDefaultValue(3);
 
+            botConfigEntity.Property(x => x.PatreonCurrencyPerCent)
+                .HasDefaultValue(1.0f);
+
             //botConfigEntity
             //    .HasMany(c => c.ModulePrefixes)
             //    .WithOne(mp => mp.BotConfig)

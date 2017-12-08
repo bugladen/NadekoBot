@@ -9,11 +9,25 @@ using NadekoBot.Common;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Games.Services;
 using NLog;
+using CommandLine;
+using NadekoBot.Core.Common;
 
 namespace NadekoBot.Modules.Games.Common
 {
     public class TypingGame
     {
+        public class Options : INadekoCommandOptions
+        {
+            [Option('s', "start-time", Default = 5, Required = false, HelpText = "How long does it take for the race to start. Default 5.")]
+            public int StartTime { get; set; } = 5;
+
+            public void NormalizeOptions()
+            {
+                if (StartTime < 3 || StartTime > 30)
+                    StartTime = 5;
+            }
+        }
+
         public const float WORD_VALUE = 4.5f;
         public ITextChannel Channel { get; }
         public string CurrentSentence { get; private set; }
@@ -23,15 +37,18 @@ namespace NadekoBot.Modules.Games.Common
         private readonly DiscordSocketClient _client;
         private readonly GamesService _games;
         private readonly string _prefix;
+        private readonly Options _options;
 
         private Logger _log { get; }
 
-        public TypingGame(GamesService games, DiscordSocketClient client, ITextChannel channel, string prefix) //kek@prefix
+        public TypingGame(GamesService games, DiscordSocketClient client, ITextChannel channel, 
+            string prefix, Options options) //kek@prefix
         {
             _log = LogManager.GetCurrentClassLogger();
             _games = games;
             _client = client;
             _prefix = prefix;
+            _options = options;
 
             this.Channel = channel;
             IsActive = false;
@@ -62,18 +79,23 @@ namespace NadekoBot.Modules.Games.Common
                 await Channel.SendConfirmAsync($@":clock2: Next contest will last for {i} seconds. Type the bolded text as fast as you can.").ConfigureAwait(false);
 
 
-                var msg = await Channel.SendMessageAsync("Starting new typing contest in **3**...").ConfigureAwait(false);
-                await Task.Delay(1000).ConfigureAwait(false);
-                try
-                {
-                    await msg.ModifyAsync(m => m.Content = "Starting new typing contest in **2**...").ConfigureAwait(false);
-                    await Task.Delay(1000).ConfigureAwait(false);
-                    await msg.ModifyAsync(m => m.Content = "Starting new typing contest in **1**...").ConfigureAwait(false);
-                    await Task.Delay(1000).ConfigureAwait(false);
-                }
-                catch (Exception ex) { _log.Warn(ex); }
+                var time = _options.StartTime;
 
-                await msg.ModifyAsync(m => m.Content = Format.Bold(Format.Sanitize(CurrentSentence.Replace(" ", " \x200B")).SanitizeMentions())).ConfigureAwait(false);
+                var msg = await Channel.SendMessageAsync($"Starting new typing contest in **{time}**...", options: new RequestOptions()
+                {
+                    RetryMode = RetryMode.AlwaysRetry
+                }).ConfigureAwait(false);
+
+                do
+                {
+                    await Task.Delay(2000).ConfigureAwait(false);
+                    time -= 2;
+                    try { await msg.ModifyAsync(m => m.Content = $"Starting new typing contest in **{time}**..").ConfigureAwait(false); } catch { }
+                } while (time > 2);
+
+                await msg.ModifyAsync(m => {
+                    m.Content = CurrentSentence.Replace(" ", " \x200B");
+                }).ConfigureAwait(false);
                 sw.Start();
                 HandleAnswers();
 
