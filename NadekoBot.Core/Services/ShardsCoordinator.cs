@@ -234,6 +234,16 @@ namespace NadekoBot.Core.Services
                         {
                             _log.Warn("Auto-restarting shard {0}", id);
                         }
+                        var rem = _shardProcesses[id];
+                        if(rem != null)
+                        {
+                            try
+                            {
+                                rem.KillTree();
+                                rem.Dispose();
+                            }
+                            catch { }
+                        }
                         _shardProcesses[id] = StartShard(id);
                         _shardStartQueue.TryDequeue(out var __);
                         await Task.Delay(6000).ConfigureAwait(false);
