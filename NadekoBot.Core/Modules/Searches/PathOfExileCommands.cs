@@ -148,8 +148,8 @@ namespace NadekoBot.Modules.Searches
 					await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
 				}
 			}
-
-			// League names: Standard, Hardcore, tmpstandard, tmphardcore
+			
+			// TODO: Include shorthands for various currencies?
 			[NadekoCommand, Usage, Description, Aliases]
 			public async Task PathOfExileCurrency(string leagueName, string currencyName, string convertName = "Chaos Orb")
 			{
@@ -173,38 +173,32 @@ namespace NadekoBot.Modules.Searches
 						var res = $"{_ponURL}{leagueName}";
 						var obj = JObject.Parse(await http.GetStringAsync(res).ConfigureAwait(false));
 
-						double chaosEquivalent = 0.0D;
-						double conversionEquivalent = 0.0D;
-						string currencyTypeName = "";
-						
-						foreach (var currency in obj["lines"])
+						float chaosEquivalent = 0.0F;
+						float conversionEquivalent = 0.0F;
+
+						//	poe.ninja API does not include a "chaosEquivalent" property for Chaos Orbs.
+						if (currencyName == "Chaos Orb")
 						{
-							currencyTypeName = currency["currencyTypeName"].ToString();
-
-							if (currencyName == "Chaos Orb")
-							{
-								chaosEquivalent = 1.0;
-							}
-							else if (currencyTypeName == currencyName)
-							{
-								chaosEquivalent = Convert.ToDouble(currency["chaosEquivalent"].ToString());
-							}
-
-							if (convertName == "Chaos Orb")
-							{
-								conversionEquivalent = 1.0;
-							}
-							else if (currencyTypeName == convertName)
-							{
-								conversionEquivalent = Convert.ToDouble(currency["chaosEquivalent"].ToString());
-							}
+							chaosEquivalent = 1.0F;
 						}
-
-						// TODO: Include shorthands for various currencies?
-						//		 poe.ninja API does not include a "chaosEquivalent" property for Chaos Orbs.
-						if (chaosEquivalent == 0 || conversionEquivalent == 0)
+						else
 						{
-							throw new KeyNotFoundException("Invalid currency name.");
+							var currencyInput = obj["lines"].Values<JObject>()
+															.Where(i => i["currencyTypeName"].Value<string>() == currencyName)
+															.FirstOrDefault();
+							chaosEquivalent = float.Parse(currencyInput["chaosEquivalent"].ToString(), System.Globalization.CultureInfo.InvariantCulture);
+						}
+						
+						if (convertName == "Chaos Orb")
+						{
+							conversionEquivalent = 1.0F;
+						}
+						else
+						{
+							var currencyOutput = obj["lines"].Values<JObject>()
+															.Where(i => i["currencyTypeName"].Value<string>() == convertName)
+															.FirstOrDefault();
+							conversionEquivalent = float.Parse(currencyOutput["chaosEquivalent"].ToString(), System.Globalization.CultureInfo.InvariantCulture);
 						}
 												
 						var embed = new EmbedBuilder().WithAuthor(eau => eau.WithName($"{leagueName} Currency Exchange")
