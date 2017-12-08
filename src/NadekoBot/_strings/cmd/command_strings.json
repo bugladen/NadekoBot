@@ -3173,7 +3173,14 @@
     "cmd": "pathofexile poe",
     "desc": "Searches characters for a given Path of Exile account.",
     "usage": [
-      "{0}poe damnfan"
+      "{0}poe \"Zizaran\""
+    ]
+  },
+  "pathofexileleagues": {
+    "cmd": "pathofexileleagues poel",
+    "desc": "Returns a list of the main Path of Exile leagues.",
+    "usage": [
+      "{0}poel"
     ]
   },
   "pathofexileitem": {

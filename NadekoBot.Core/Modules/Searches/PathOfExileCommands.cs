@@ -8,10 +8,13 @@ using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using NadekoBot.Common.Attributes;
+using NadekoBot.Core.Modules.Searches.Common;
 using Newtonsoft.Json;
 using AngleSharp;
 using AngleSharp.Dom.Html;
+using AngleSharp.Parser.Html;
 
 namespace NadekoBot.Modules.Searches
 {
@@ -21,6 +24,10 @@ namespace NadekoBot.Modules.Searches
 		public class PathOfExileCommands : NadekoSubmodule
 		{
 			private const string _poeURL = "https://www.pathofexile.com/character-window/get-characters?accountName=";
+			private const string _ponURL = "http://poe.ninja/api/Data/GetCurrencyOverview?league=";
+			private const string _pogsURL = "http://pathofexile.gamepedia.com/api.php?action=opensearch&search=";
+			private const string _pogURL = "https://pathofexile.gamepedia.com/api.php?action=browsebysubject&format=json&subject=";
+			private const string _pogiURL = "https://pathofexile.gamepedia.com/api.php?action=query&prop=imageinfo&iiprop=url&format=json&titles=File:";
 			private const string _profileURL = "https://www.pathofexile.com/account/view-profile/";
 
 			private readonly DiscordSocketClient _client;
@@ -37,7 +44,7 @@ namespace NadekoBot.Modules.Searches
 					return;
 
 				var channel = (ITextChannel)Context.Channel;
-				var characters = new System.Collections.Generic.List<Account>();
+				var characters = new List<Account>();
 
 				if (string.IsNullOrWhiteSpace(usr))
 				{
@@ -50,12 +57,15 @@ namespace NadekoBot.Modules.Searches
 					try
 					{
 						var res = await http.GetStringAsync($"{_poeURL}{usr}").ConfigureAwait(false);
-						characters = JsonConvert.DeserializeObject<System.Collections.Generic.List<Account>>(res);
+						characters = JsonConvert.DeserializeObject<List<Account>>(res);
 					}
-					catch (Exception ex)
+					catch
 					{
-						await ReplyErrorLocalized("something_went_wrong").ConfigureAwait(false);
-						_log.Warn(ex);
+						var embed = new EmbedBuilder()
+										.WithDescription(GetText("account_not_found"))
+										.WithErrorColor();
+						await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+						return;
 					}
 				}
 
@@ -92,9 +102,56 @@ namespace NadekoBot.Modules.Searches
 				}, characters.Count, 9, true);
 			}
 
+			[NadekoCommand, Usage, Description, Aliases]
+			public async Task PathOfExileLeagues()
+			{
+				var leagues = new List<Leagues>();
+				using (var http = new HttpClient())
+				{
+					try
+					{
+						var res = await http.GetStringAsync("http://api.pathofexile.com/leagues?type=main&compact=1").ConfigureAwait(false);
+						leagues = JsonConvert.DeserializeObject<List<Leagues>>(res);
+					}
+					catch
+					{
+						var eembed = new EmbedBuilder()
+										.WithDescription(GetText("leagues_not_found"))
+										.WithErrorColor();
+						await Context.Channel.EmbedAsync(eembed).ConfigureAwait(false);
+						return;
+					}
+
+					var embed = new EmbedBuilder()
+								.WithAuthor(eau => eau.WithName($"Path of Exile Leagues")
+								.WithUrl("https://www.pathofexile.com")
+								.WithIconUrl("https://web.poecdn.com/image/favicon/ogimage.png"))
+								.WithOkColor();
+
+					foreach (var item in leagues)
+					{
+						Console.WriteLine(item.Id);
+					}
+
+					var sb = new System.Text.StringBuilder();
+					sb.AppendLine($"```{"#",-5}{"League Name",-23}");
+					for (int i = 0; i < leagues.Count; i++)
+					{
+						var league = leagues[i];
+
+						sb.AppendLine($"#{i + 1,-4}{league.Id,-23}");
+					}
+					sb.AppendLine("```");
+
+					embed.WithDescription(sb.ToString());
+
+					await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+				}
+			}
+
 			// League names: Standard, Hardcore, tmpstandard, tmphardcore
 			[NadekoCommand, Usage, Description, Aliases]
-			public async Task PathOfExileCurrency(string leagueName, string currencyName)
+			public async Task PathOfExileCurrency(string leagueName, string currencyName, string convertName = "Chaos Orb")
 			{
 				var channel = (ITextChannel)Context.Channel;
 
@@ -113,30 +170,57 @@ namespace NadekoBot.Modules.Searches
 				{
 					try
 					{
-						var reqString = $"http://poe.ninja/api/Data/GetCurrencyOverview?league={leagueName}";
-						var obj = JObject.Parse(await http.GetStringAsync(reqString).ConfigureAwait(false));
+						var res = $"{_ponURL}{leagueName}";
+						var obj = JObject.Parse(await http.GetStringAsync(res).ConfigureAwait(false));
 
+						double chaosEquivalent = 0.0;
+						double conversionEquivalent = 0.0;
+						string currencyTypeName = "";
+						
 						foreach (var currency in obj["lines"])
 						{
-							string currencyTypeName = currency["currencyTypeName"].ToString();
+							currencyTypeName = currency["currencyTypeName"].ToString();
 
-							if (currencyTypeName == currencyName)
+							if (currencyName == "Chaos Orb")
 							{
-								string chaosEquivalent = currency["chaosEquivalent"].ToString();
+								chaosEquivalent = 1.0;
+							}
+							else if (currencyTypeName == currencyName)
+							{
+								chaosEquivalent = Convert.ToDouble(currency["chaosEquivalent"].ToString());
+							}
 
-								var embed = new EmbedBuilder().WithColor(NadekoBot.OkColor)
-															  .WithTitle($"{leagueName} Currency Exchange")
-															  .AddField(efb => efb.WithName("Currency Type").WithValue(currencyTypeName).WithIsInline(true))
-															  .AddField(efb => efb.WithName("Chaos Equivalent").WithValue(chaosEquivalent).WithIsInline(true));
-
-								var sent = await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+							if (convertName == "Chaos Orb")
+							{
+								conversionEquivalent = 1.0;
+							}
+							else if (currencyTypeName == convertName)
+							{
+								conversionEquivalent = Convert.ToDouble(currency["chaosEquivalent"].ToString());
 							}
 						}
+
+						// TODO: Include shorthands for various currencies?
+						if (chaosEquivalent == 0 || conversionEquivalent == 0)
+						{
+							throw new KeyNotFoundException("Invalid currency name.");
+						}
+												
+						var embed = new EmbedBuilder().WithAuthor(eau => eau.WithName($"{leagueName} Currency Exchange")
+													  .WithUrl("http://poe.ninja")
+													  .WithIconUrl("https://web.poecdn.com/image/favicon/ogimage.png"))
+													  .AddField(efb => efb.WithName("Currency Type").WithValue(currencyName).WithIsInline(true))
+													  .AddField(efb => efb.WithName($"{convertName} Equivalent").WithValue(chaosEquivalent / conversionEquivalent).WithIsInline(true))
+													  .WithOkColor();
+
+						var sent = await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
 					}
-					catch (Exception ex)
+					catch
 					{
-						await ReplyErrorLocalized("something_went_wrong").ConfigureAwait(false);
-						_log.Warn(ex);
+						var embed = new EmbedBuilder()
+										.WithDescription(GetText("ninja_not_found"))
+										.WithErrorColor();
+						await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
 					}
 				}
 			}
@@ -144,71 +228,97 @@ namespace NadekoBot.Modules.Searches
 			[NadekoCommand, Usage, Description, Aliases]
 			public async Task PathOfExileItem(string itemName)
 			{
+				var channel = (ITextChannel)Context.Channel;
+
 				if (string.IsNullOrWhiteSpace(itemName))
-					return;
-
-				var parsedName = itemName.Replace(" ", "_");
-				var fullQueryLink = "https://pathofexile.gamepedia.com/" + parsedName;
-
-				var config = Configuration.Default.WithDefaultLoader();
-				var document = await BrowsingContext.New(config).OpenAsync(fullQueryLink);
-
-				var imageElem = document.QuerySelector("span.item-box > a.image > img");
-				var imageUrl = ((IHtmlImageElement)imageElem)?.Source ?? "http://icecream.me/uploads/870b03f36b59cc16ebfe314ef2dde781.png";
-
-				var sb = new System.Text.StringBuilder();
-				var itemStats = document.QuerySelector("span.item-box.-unique");
-				var names = itemStats.QuerySelector("span.header.-double").InnerHtml.Split("<br>");
-
-				var itemInformation = itemStats.QuerySelector("span.item-stats");
-
-				var itemImplicits = itemStats.QuerySelector("span.group").InnerHtml.Replace("<br>", "\n");
-				itemImplicits = Regex.Replace(itemImplicits, "<.*?>", String.Empty);
-
-				var itemMods = itemInformation.QuerySelector("span.group.-mod").InnerHtml.Replace("<br>", "\n");
-				itemMods = Regex.Replace(itemMods, "<.*?>", String.Empty);
-				
-				var flavorText = "";
-
-				if (itemInformation.QuerySelector("span.group.-flavour") != null)
 				{
-					flavorText = itemInformation.QuerySelector("span.group.-flavour").InnerHtml.Replace("<br>", "\n");
+					await channel.SendErrorAsync("Please provide an item name.").ConfigureAwait(false);
+					return;
 				}
 
-				sb.AppendLine($"{names[1]}\n");
-				sb.AppendLine($"{itemImplicits}\n");
-				sb.AppendLine($"{itemMods}\n");
-				sb.AppendLine($"{flavorText}\n");
+				// TODO: Wiki API is not friendly.
+				using (var http = new HttpClient())
+				{
+					try
+					{
+						string flavorText = String.Empty;
+						string imgUrl = String.Empty;
+						var parser = new HtmlParser();
+						var itemInfobox = new System.Text.StringBuilder();
+						var itemModsBuilder = new System.Text.StringBuilder();
 
-				var embed = new EmbedBuilder()
-							.WithOkColor()
-							.WithTitle($"{names[0]}")
-							.WithDescription(sb.ToString())
-							.WithImageUrl(imageUrl);
+						string res = $"{_pogsURL}{itemName}";
+						var itemNameJson = JArray.Parse($"{await http.GetStringAsync(res).ConfigureAwait(false)}");					
+						string parsedName = itemNameJson[1][0].ToString().Replace(" ", "_");
+						string fullQueryLink = "https://pathofexile.gamepedia.com/" + parsedName;
 
-				await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+						res = $"{_pogURL}{parsedName}";
+						var obj = JObject.Parse(await http.GetStringAsync(res).ConfigureAwait(false));
+
+						var infoboxProperty = obj["query"]["data"].Values<JObject>()
+															  .Where(i => i["property"].Value<string>() == "Has_infobox_HTML")
+															  .FirstOrDefault();
+						string infobox = infoboxProperty["dataitem"][0]["item"].ToString();
+						
+						res = $"{_pogiURL}{parsedName}_inventory_icon.png";
+						var img = JObject.Parse(await http.GetStringAsync(res).ConfigureAwait(false));
+
+						// TODO: LINQ
+						foreach (var x in img["query"]["pages"].Children())
+						{
+							var name = x.ToList();
+							imgUrl = name[0]["imageinfo"][0]["url"].ToString();
+						}
+						
+						var imageUrl = imgUrl ?? "http://icecream.me/uploads/870b03f36b59cc16ebfe314ef2dde781.png";
+
+						infobox = Regex.Replace(infobox, @"[\[\]']+", "");
+						var document = parser.Parse(infobox);
+
+						var itemStats = document.QuerySelector("span.item-box.-unique");
+						var names = itemStats.QuerySelector("span.header.-double").InnerHtml.Split("<br>");
+						var itemInformation = itemStats.QuerySelector("span.item-stats");
+						var itemImplicits = itemStats.QuerySelector("span.group").InnerHtml.Replace("<br>", "\n");
+						var itemModsList = itemInformation.QuerySelectorAll("span.group.-mod");
+
+						foreach (var span in itemModsList)
+						{
+							itemModsBuilder.Append(span.InnerHtml.Replace("<br>", "\n"));
+							itemModsBuilder.Append("\n");
+						}
+
+						if (itemInformation.QuerySelector("span.group.-flavour") != null)
+						{
+							flavorText = itemInformation.QuerySelector("span.group.-flavour").InnerHtml.Replace("<br>", "\n");
+						}
+
+						itemImplicits = Regex.Replace(itemImplicits, "<.*?>", String.Empty);
+						var itemMods = Regex.Replace(itemModsBuilder.ToString(), "<.*?>", String.Empty);
+
+						itemInfobox.AppendLine($"{names[1]}\n");
+						itemInfobox.AppendLine($"{itemImplicits}\n");
+						itemInfobox.AppendLine($"{itemModsBuilder}");
+						itemInfobox.AppendLine($"*{flavorText}*\n");
+
+						var embed = new EmbedBuilder()
+									.WithAuthor(eau => eau.WithName($"{itemName.ToTitleCase()}")
+									.WithUrl(fullQueryLink)
+									.WithIconUrl("https://web.poecdn.com/image/favicon/ogimage.png"))
+									.WithDescription(itemInfobox.ToString())
+									.WithImageUrl(imageUrl)
+									.WithOkColor();
+
+						await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+					}
+					catch
+					{
+						var eembed = new EmbedBuilder()
+										.WithDescription(GetText("pog_not_found"))
+										.WithErrorColor();
+						await Context.Channel.EmbedAsync(eembed).ConfigureAwait(false);
+					}
+				}
 			}
-		}
-
-		public class Account
-		{
-			[JsonProperty("name")]
-			public string Name { get; set; }
-
-			[JsonProperty("league")]
-			public string League { get; set; }
-
-			[JsonProperty("classId")]
-			public int ClassId { get; set; }
-
-			[JsonProperty("ascendancyClass")]
-			public int AscendancyClass { get; set; }
-
-			[JsonProperty("class")]
-			public string Class { get; set; }
-
-			[JsonProperty("level")]
-			public int Level { get; set; }
 		}
 	}
 }
