@@ -140,9 +140,10 @@
   },
   "addplaying": {
     "Cmd": "addplaying adpl",
-    "Desc": "Adds a specified string to the list of playing strings to rotate. Supported placeholders: `%servers%`, `%users%`, `%playing%`, `%queued%`, `%time%`, `%shardid%`, `%shardcount%`, `%shardguilds%`.",
+    "Desc": "Adds a specified string to the list of playing strings to rotate. You have to pick either 'Playing', 'Watching' or 'ListeningTo' as the first parameter. Supported placeholders: `%servers%`, `%users%`, `%playing%`, `%queued%`, `%time%`, `%shardid%`, `%shardcount%`, `%shardguilds%`.",
     "Usage": [
-      "{0}adpl"
+      "{0}adpl Playing with you",
+      "{0}adpl Watching you sleep"
     ]
   },
   "listplaying": {
