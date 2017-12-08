@@ -1,8 +1,9 @@
 ## Setting Up NadekoBot on OSX (macOS)
 
 #### Prerequisites 
+- macOS 10.12 (Sierra) or higher (needed for .NET Core 2.x).
 - [Homebrew](http://brew.sh/). Install it with `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"` or update it with `brew update`.
-- Text Editor (TextWrangler, or equivalent) or outside editor such as [Atom](https://atom.io/)
+- Text Editor (TextWrangler, or equivalent) or outside editor such as [Atom](https://atom.io/).
 - [Create Discord Bot application](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#creating-discord-bot-application) and [Invite the bot to your server](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#inviting-your-bot-to-your-server). 
 
 **Installing dependencies with Homebrew**
