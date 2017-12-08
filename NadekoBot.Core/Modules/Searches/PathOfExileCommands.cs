@@ -173,8 +173,8 @@ namespace NadekoBot.Modules.Searches
 						var res = $"{_ponURL}{leagueName}";
 						var obj = JObject.Parse(await http.GetStringAsync(res).ConfigureAwait(false));
 
-						double chaosEquivalent = 0.0;
-						double conversionEquivalent = 0.0;
+						double chaosEquivalent = 0.0D;
+						double conversionEquivalent = 0.0D;
 						string currencyTypeName = "";
 						
 						foreach (var currency in obj["lines"])
@@ -201,6 +201,7 @@ namespace NadekoBot.Modules.Searches
 						}
 
 						// TODO: Include shorthands for various currencies?
+						//		 poe.ninja API does not include a "chaosEquivalent" property for Chaos Orbs.
 						if (chaosEquivalent == 0 || conversionEquivalent == 0)
 						{
 							throw new KeyNotFoundException("Invalid currency name.");
@@ -213,7 +214,7 @@ namespace NadekoBot.Modules.Searches
 													  .AddField(efb => efb.WithName($"{convertName} Equivalent").WithValue(chaosEquivalent / conversionEquivalent).WithIsInline(true))
 													  .WithOkColor();
 
-						var sent = await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+						await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
 					}
 					catch
 					{
@@ -235,22 +236,15 @@ namespace NadekoBot.Modules.Searches
 					await channel.SendErrorAsync("Please provide an item name.").ConfigureAwait(false);
 					return;
 				}
-
-				// TODO: Wiki API is not friendly.
+				
 				using (var http = new HttpClient())
 				{
 					try
 					{
-						string flavorText = String.Empty;
-						string imgUrl = String.Empty;
-						var parser = new HtmlParser();
-						var itemInfobox = new System.Text.StringBuilder();
-						var itemModsBuilder = new System.Text.StringBuilder();
-
-						string res = $"{_pogsURL}{itemName}";
+						var res = $"{_pogsURL}{itemName}";
 						var itemNameJson = JArray.Parse($"{await http.GetStringAsync(res).ConfigureAwait(false)}");					
-						string parsedName = itemNameJson[1][0].ToString().Replace(" ", "_");
-						string fullQueryLink = "https://pathofexile.gamepedia.com/" + parsedName;
+						var parsedName = itemNameJson[1][0].ToString().Replace(" ", "_");
+						var fullQueryLink = "https://pathofexile.gamepedia.com/" + parsedName;
 
 						res = $"{_pogURL}{parsedName}";
 						var obj = JObject.Parse(await http.GetStringAsync(res).ConfigureAwait(false));
@@ -258,20 +252,28 @@ namespace NadekoBot.Modules.Searches
 						var infoboxProperty = obj["query"]["data"].Values<JObject>()
 															  .Where(i => i["property"].Value<string>() == "Has_infobox_HTML")
 															  .FirstOrDefault();
-						string infobox = infoboxProperty["dataitem"][0]["item"].ToString();
-						
+						var infobox = infoboxProperty["dataitem"][0]["item"].ToString();
+
+						// Vessel of Vinktar has multiple variants; separate pages for each but same image.
+						if (parsedName.Contains("Vessel_of_Vinktar"))
+						{
+							parsedName = Regex.Replace(parsedName, @" ?\(.*?\)", string.Empty);
+							parsedName = parsedName.Remove(parsedName.Length - 1);
+						}
+
 						res = $"{_pogiURL}{parsedName}_inventory_icon.png";
 						var img = JObject.Parse(await http.GetStringAsync(res).ConfigureAwait(false));
-
-						// TODO: LINQ
-						foreach (var x in img["query"]["pages"].Children())
-						{
-							var name = x.ToList();
-							imgUrl = name[0]["imageinfo"][0]["url"].ToString();
-						}
 						
+						var imgContainer = img.Descendants()
+													.OfType<JProperty>()
+													.Where(p => p.Name == "url")
+													.Select(p => p.Parent)
+													.ToList();
+
+						var imgUrl = imgContainer[0]["url"].ToString();						
 						var imageUrl = imgUrl ?? "http://icecream.me/uploads/870b03f36b59cc16ebfe314ef2dde781.png";
 
+						var parser = new HtmlParser();
 						infobox = Regex.Replace(infobox, @"[\[\]']+", "");
 						var document = parser.Parse(infobox);
 
@@ -281,24 +283,27 @@ namespace NadekoBot.Modules.Searches
 						var itemImplicits = itemStats.QuerySelector("span.group").InnerHtml.Replace("<br>", "\n");
 						var itemModsList = itemInformation.QuerySelectorAll("span.group.-mod");
 
+						var itemModsBuilder = new System.Text.StringBuilder();
 						foreach (var span in itemModsList)
 						{
 							itemModsBuilder.Append(span.InnerHtml.Replace("<br>", "\n"));
 							itemModsBuilder.Append("\n");
 						}
-
+						
+						var flavorText = String.Empty;
 						if (itemInformation.QuerySelector("span.group.-flavour") != null)
 						{
-							flavorText = itemInformation.QuerySelector("span.group.-flavour").InnerHtml.Replace("<br>", "\n");
+							flavorText = "*" + itemInformation.QuerySelector("span.group.-flavour").InnerHtml.Replace("<br>", "\n") + "*\n";
 						}
 
 						itemImplicits = Regex.Replace(itemImplicits, "<.*?>", String.Empty);
 						var itemMods = Regex.Replace(itemModsBuilder.ToString(), "<.*?>", String.Empty);
 
+						var itemInfobox = new System.Text.StringBuilder();
 						itemInfobox.AppendLine($"{names[1]}\n");
 						itemInfobox.AppendLine($"{itemImplicits}\n");
 						itemInfobox.AppendLine($"{itemModsBuilder}");
-						itemInfobox.AppendLine($"*{flavorText}*\n");
+						itemInfobox.AppendLine($"{flavorText}");
 
 						var embed = new EmbedBuilder()
 									.WithAuthor(eau => eau.WithName($"{itemName.ToTitleCase()}")
