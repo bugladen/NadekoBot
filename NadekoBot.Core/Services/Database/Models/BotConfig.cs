@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using NadekoBot.Core.Common;
+using System.Collections.Generic;
 
 namespace NadekoBot.Core.Services.Database.Models
 {
@@ -71,6 +72,8 @@ Nadeko Support Server: https://discord.gg/nadekobot";
         public int XpPerMessage { get; set; } = 3;
         public int XpMinutesTimeout { get; set; } = 5;
         public HashSet<LoadedPackage> LoadedPackages { get; set; } = new HashSet<LoadedPackage>();
+        public int DivorcePriceMultiplier { get; set; } = 150;
+        public float PatreonCurrencyPerCent { get; set; } = 1.0f;
     }
 
     public class BlockedCmdOrMdl : DbEntity
@@ -105,6 +108,7 @@ Nadeko Support Server: https://discord.gg/nadekobot";
     public class PlayingStatus :DbEntity
     {
         public string Status { get; set; }
+        public PlayingType Type { get; set; }
     }
 
     public class BlacklistItem : DbEntity

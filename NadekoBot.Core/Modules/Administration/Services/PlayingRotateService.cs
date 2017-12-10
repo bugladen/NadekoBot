@@ -59,7 +59,8 @@ namespace NadekoBot.Modules.Administration.Services
 
                         if (!BotConfig.RotatingStatusMessages.Any())
                             return;
-                        var status = BotConfig.RotatingStatusMessages[state.Index++].Status;
+                        var msg = BotConfig.RotatingStatusMessages[state.Index++];
+                        var status = msg.Status;
                         if (string.IsNullOrWhiteSpace(status))
                             return;
 
@@ -67,7 +68,7 @@ namespace NadekoBot.Modules.Administration.Services
 
                         try
                         {
-                            await bot.SetGameAsync(status).ConfigureAwait(false);
+                            await bot.SetGameAsync(status, msg.Type).ConfigureAwait(false);
                         }
                         catch (Exception ex)
                         {

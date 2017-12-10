@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
-using NadekoBot.Core.Common;
 using NadekoBot.Core.Services.Database;
 using NadekoBot.Core.Services.Database.Models;
 using System;
@@ -13,9 +12,10 @@ using System;
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoContext))]
-    partial class NadekoSqliteContextModelSnapshot : ModelSnapshot
+    [Migration("20171203174321_waifureset-multiplier")]
+    partial class waifuresetmultiplier
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -181,10 +181,6 @@ namespace NadekoBot.Migrations
                     b.Property<int>("MinimumBetAmount");
 
                     b.Property<string>("OkColor");
-
-                    b.Property<float>("PatreonCurrencyPerCent")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(1f);
 
                     b.Property<int>("PermissionVersion");
 
@@ -394,26 +390,6 @@ namespace NadekoBot.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CustomReactions");
-                });
-
-            modelBuilder.Entity("NadekoBot.Core.Services.Database.Models.DelMsgOnCmdChannel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<ulong>("ChannelId");
-
-                    b.Property<DateTime?>("DateAdded");
-
-                    b.Property<int?>("GuildConfigId");
-
-                    b.Property<bool>("State");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GuildConfigId");
-
-                    b.ToTable("DelMsgOnCmdChannel");
                 });
 
             modelBuilder.Entity("NadekoBot.Core.Services.Database.Models.DiscordUser", b =>
@@ -997,8 +973,6 @@ namespace NadekoBot.Migrations
                     b.Property<DateTime?>("DateAdded");
 
                     b.Property<string>("Status");
-
-                    b.Property<int>("Type");
 
                     b.HasKey("Id");
 
@@ -1759,13 +1733,6 @@ namespace NadekoBot.Migrations
                     b.HasOne("NadekoBot.Core.Services.Database.Models.BotConfig")
                         .WithMany("CommandPrices")
                         .HasForeignKey("BotConfigId");
-                });
-
-            modelBuilder.Entity("NadekoBot.Core.Services.Database.Models.DelMsgOnCmdChannel", b =>
-                {
-                    b.HasOne("NadekoBot.Core.Services.Database.Models.GuildConfig")
-                        .WithMany("DelMsgOnCmdChannels")
-                        .HasForeignKey("GuildConfigId");
                 });
 
             modelBuilder.Entity("NadekoBot.Core.Services.Database.Models.DiscordUser", b =>

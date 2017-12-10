@@ -28,7 +28,8 @@ namespace NadekoBot.Core.Services.Database.Models
         Mute,
         Kick,
         Ban,
-        Softban
+        Softban,
+        RemoveRoles,
     }
 
     public class AntiSpamIgnore : DbEntity

@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
-using NadekoBot.Core.Common;
 using NadekoBot.Core.Services.Database;
 using NadekoBot.Core.Services.Database.Models;
 using System;
@@ -13,9 +12,10 @@ using System;
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoContext))]
-    partial class NadekoSqliteContextModelSnapshot : ModelSnapshot
+    [Migration("20171205103735_delmsgoncmd-channel")]
+    partial class delmsgoncmdchannel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -181,10 +181,6 @@ namespace NadekoBot.Migrations
                     b.Property<int>("MinimumBetAmount");
 
                     b.Property<string>("OkColor");
-
-                    b.Property<float>("PatreonCurrencyPerCent")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(1f);
 
                     b.Property<int>("PermissionVersion");
 
@@ -997,8 +993,6 @@ namespace NadekoBot.Migrations
                     b.Property<DateTime?>("DateAdded");
 
                     b.Property<string>("Status");
-
-                    b.Property<int>("Type");
 
                     b.HasKey("Id");
 

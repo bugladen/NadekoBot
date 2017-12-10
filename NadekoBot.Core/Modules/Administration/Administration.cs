@@ -9,6 +9,8 @@ using NadekoBot.Common.Attributes;
 using NadekoBot.Core.Services;
 using NadekoBot.Modules.Administration.Services;
 using NadekoBot.Core.Services.Database.Models;
+using Microsoft.EntityFrameworkCore;
+using Discord.WebSocket;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -22,11 +24,57 @@ namespace NadekoBot.Modules.Administration
             _db = db;
         }
 
+        public enum List { List = 0, Ls = 0 }
+
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [RequireUserPermission(GuildPermission.Administrator)]
         [RequireBotPermission(GuildPermission.ManageMessages)]
-        public async Task Delmsgoncmd()
+        [Priority(2)]
+        public async Task Delmsgoncmd(List _)
+        {
+            var guild = (SocketGuild)Context.Guild;
+            GuildConfig conf;
+            using (var uow = _db.UnitOfWork)
+            {
+                conf = uow.GuildConfigs.For(Context.Guild.Id,
+                    set => set.Include(x => x.DelMsgOnCmdChannels));
+            }
+
+            var embed = new EmbedBuilder()
+                .WithOkColor()
+                .WithTitle(GetText("server_delmsgoncmd"))
+                .WithDescription(conf.DeleteMessageOnCommand
+                    ? "✅"
+                    : "❌");
+
+            var str = string.Join("\n", conf.DelMsgOnCmdChannels
+                .Select(x =>
+                {
+                    var ch = guild.GetChannel(x.ChannelId)?.ToString()
+                        ?? x.ChannelId.ToString();
+                    var prefix = x.State
+                        ? "✅ "
+                        : "❌ ";
+                    return prefix + ch;
+                }));
+
+            if (string.IsNullOrWhiteSpace(str))
+                str = "-";
+
+            embed.AddField(GetText("channel_delmsgoncmd"), str);
+
+            await Context.Channel.EmbedAsync(embed)
+                .ConfigureAwait(false);
+        }
+
+        public enum Server { Server }
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        [RequireBotPermission(GuildPermission.ManageMessages)]
+        [Priority(1)]
+        public async Task Delmsgoncmd(Server _ = Server.Server)
         {
             bool enabled;
             using (var uow = _db.UnitOfWork)
@@ -45,6 +93,58 @@ namespace NadekoBot.Modules.Administration
             {
                 _service.DeleteMessagesOnCommand.TryRemove(Context.Guild.Id);
                 await ReplyConfirmLocalized("delmsg_off").ConfigureAwait(false);
+            }
+        }
+
+        public enum Channel { Channel }
+        public enum State { Enable, Disable, Inherit }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        [RequireBotPermission(GuildPermission.ManageMessages)]
+        [Priority(0)]
+        public Task Delmsgoncmd(Channel _, State s, ITextChannel ch)
+            => Delmsgoncmd(_, s, ch.Id);
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        [RequireBotPermission(GuildPermission.ManageMessages)]
+        [Priority(0)]
+        public async Task Delmsgoncmd(Channel _, State s, ulong? chId = null)
+        {
+            chId = chId ?? Context.Channel.Id;
+            using (var uow = _db.UnitOfWork)
+            {
+                var conf = uow.GuildConfigs.For(Context.Guild.Id, 
+                    set => set.Include(x => x.DelMsgOnCmdChannels));
+
+                var obj = new DelMsgOnCmdChannel()
+                {
+                    ChannelId = chId.Value,
+                    State = s == State.Enable,
+                };
+                conf.DelMsgOnCmdChannels.Remove(obj);
+                if (s != State.Inherit)
+                    conf.DelMsgOnCmdChannels.Add(obj);
+
+                await uow.CompleteAsync();
+            }
+            if (s == State.Disable)
+            {
+                _service.DeleteMessagesOnCommandChannels.AddOrUpdate(chId.Value, false, delegate { return false; });
+                await ReplyConfirmLocalized("delmsg_channel_off").ConfigureAwait(false);
+            }
+            else if (s == State.Enable)
+            {
+                _service.DeleteMessagesOnCommandChannels.AddOrUpdate(chId.Value, true, delegate { return true; });
+                await ReplyConfirmLocalized("delmsg_channel_on").ConfigureAwait(false);
+            }
+            else
+            {
+                _service.DeleteMessagesOnCommandChannels.TryRemove(chId.Value, out var _);
+                await ReplyConfirmLocalized("delmsg_channel_inherit").ConfigureAwait(false);
             }
         }
 
