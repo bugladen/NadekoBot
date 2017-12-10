@@ -115,7 +115,7 @@ There is an automated script built in the Nadeko installer so installation and s
 
 We can then run the script: `sudo sh linuxAIO.sh` and you will be presented with the normal Nadeko installer options.
 
-**Make sure you have installed Nadeko with the first option [1] before doing this, and also have installed the prerequsites.** 
+**Make sure you have installed Nadeko with the first option [1] before doing this, and also have installed the prerequisites.** 
 
 Simply choose **Option 6** to setup pm2 and install it along with NodeJS. This will update your NodeJS so there's no harm running it even if you have NodeJS on your system. It will also install pm2 and then exit to the installer menu again.
 
@@ -151,7 +151,7 @@ Simply choose one of these and Nadeko will start in pm2! If you did everything c
 
 This is the reccomended way to keep Nadeko running smoothly.
 
-#### Part VI - Running Nadeko on tmux [if you wish not to use pm2]
+#### Part VII - Running Nadeko on tmux [if you wish not to use pm2]
 
 If your bot is working properly in your server, type `.die` to **shut down the bot**, then press `6` on the console to **exit**.
 Next, [Run your bot again with **tmux**.](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#running-nadekobot)	
