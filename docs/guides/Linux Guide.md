@@ -101,7 +101,7 @@ You should see the options again.
 Next, press `2` to **Run Nadeko (Normally)**.
 Check in your discord server if your new bot is working properly.	
 
-#### Part VI - Setup, Running Nadeko and Updating with [pm2](https://github.com/Unitech/pm2/blob/master/README.md) [strongly reccomended]
+#### Part VI - Setup, Running Nadeko and Updating with [pm2](https://github.com/Unitech/pm2/blob/master/README.md) [strongly recommended]
 
 Nadeko can be run using [pm2](https://github.com/Unitech/pm2), a process manager that seamlessly handles keeping your bot up. Besides this, it handles disconnections and shutdowns gracefully, ensuring any leftover processes are properly killed. It also persists on server restart, so you can restart your server or VPS/computer and pm2 will manage the startup of your bot. Lastly, there is proper error logging and overall logging. These are just a few features of pm2, and it is a great way to run Nadeko with stability.
 
