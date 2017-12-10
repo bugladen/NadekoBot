@@ -109,7 +109,7 @@ Nadeko can be run using [pm2](https://github.com/Unitech/pm2), a process manager
 
 > If you already have NodeJS and pm2 installed on your system, you can skip the *Option 6* for installing pm2 which is a one-time thing. Scroll down to see startup instructions.
 
-There is an automated script built in the Nadeko installer so installation and startup is a breeze. You should already have the `linuxAIO.sh` file downloaded from the first step. If not, you can download it again:
+There is an automated script built in the Nadeko installer so installation and startup is a breeze. You may already have the `linuxAIO.sh` file downloaded from the first step, but you should download it again to keep up to date for potential changes in the installer. Download `linuxAIO.sh`:
 
 `cd ~ && wget -N https://github.com/Kwoth/NadekoBot-BashScript/raw/1.9/linuxAIO.sh`
 
@@ -149,7 +149,7 @@ Simply choose one of these and Nadeko will start in pm2! If you did everything c
 `sudo pm2 stop Nadeko` will stop Nadeko properly and ensure it is shut down. `sudo pm2 restart Nadeko` will restart Nadeko properly as well, shutting it down first and promptly restarting.
 
 
-This is the reccomended way to keep Nadeko running smoothly.
+This is the recommended way to keep Nadeko running smoothly.
 
 #### Part VII - Running Nadeko on tmux [if you wish not to use pm2]
 
