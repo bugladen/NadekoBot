@@ -49,9 +49,11 @@ You should see these following options after using the above command:
 1. Download NadekoBot
 2. Run Nadeko (Normally)
 3. Run Nadeko with Auto Restart (Run Nadeko normally before using this.)
-4. Auto-Install Prerequisites (for Ubuntu, Debian and CentOS)
-5. Set up credentials.json (if you have downloaded the bot already)
-6. To exit
+4. Auto-Install Prerequisites (For Ubuntu, Debian and CentOS)
+5. Set up credentials.json (If you have downloaded NadekoBot already)
+6. Set up pm2 for NadekoBot (see README)
+7. Start Nadeko in pm2 (complete option 6 first)
+8. Exit
 ```
 ##### Part II - Downloading Nadekobot prerequisites
 
