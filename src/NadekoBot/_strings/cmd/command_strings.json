@@ -285,10 +285,10 @@
   },
   "autoassignrole": {
     "Cmd": "autoassignrole aar",
-    "Desc": "Automaticaly assigns a specified role to every user who joins the server.",
+    "Desc": "Automaticaly assigns a specified role to every user who joins the server. Provide no arguments to disable.",
     "Usage": [
-      "{0}aar to disable",
-      "{0}aar Role Name to enable"
+      "{0}aar",
+      "{0}aar RoleName"
     ]
   },
   "leave": {
