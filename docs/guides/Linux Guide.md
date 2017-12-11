@@ -105,6 +105,10 @@ Check in your discord server if your new bot is working properly.
 
 #### Part VI - Setup, Running Nadeko and Updating with [pm2](https://github.com/Unitech/pm2/blob/master/README.md) [strongly recommended]
 
+**If you followed Part V and started Nadeko, make sure to exit the bot by using `.die` if it is running in your server, and/or by pressing `8` in the console to exit.** 
+
+You may be presented with the installer main menu from Step I. If not, simply download it again as described in the following section.
+
 Nadeko can be run using [pm2](https://github.com/Unitech/pm2), a process manager that seamlessly handles keeping your bot up. Besides this, it handles disconnections and shutdowns gracefully, ensuring any leftover processes are properly killed. It also persists on server restart, so you can restart your server or VPS/computer and pm2 will manage the startup of your bot. Lastly, there is proper error logging and overall logging. These are just a few features of pm2, and it is a great way to run Nadeko with stability.
 
 ##### Setting up pm2/NodeJS for Nadeko
@@ -115,9 +119,9 @@ There is an automated script built in the Nadeko installer so installation and s
 
 `cd ~ && wget -N https://github.com/Kwoth/NadekoBot-BashScript/raw/1.9/linuxAIO.sh`
 
-We can then run the script: `sudo sh linuxAIO.sh` and you will be presented with the normal Nadeko installer options.
+We can then run the script: `sudo bash linuxAIO.sh` and you will be presented with the normal Nadeko installer options.
 
-**Make sure you have installed Nadeko with the first option [1] before doing this, and also have installed the prerequisites.** 
+**Make sure you have installed Nadeko with the first option [1] before doing this, and also have installed the prerequisites with step [4].** 
 
 Simply choose **Option 6** to setup pm2 and install it along with NodeJS. This will update your NodeJS so there's no harm running it even if you have NodeJS on your system. It will also install pm2 and then exit to the installer menu again.
 
@@ -155,7 +159,7 @@ This is the recommended way to keep Nadeko running smoothly.
 
 #### Part VII - Running Nadeko on tmux [if you wish not to use pm2]
 
-If your bot is working properly in your server, type `.die` to **shut down the bot**, then press `6` on the console to **exit**.
+If your bot is working properly in your server, type `.die` to **shut down the bot**, then press `8` on the console to **exit**.
 Next, [Run your bot again with **tmux**.](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#running-nadekobot)	
 
 [Check this when you need to **restart** your **NadekoBot** anytime later along with tmux session.](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#restarting-nadeko)
