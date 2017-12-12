@@ -3171,7 +3171,7 @@
   },
   "pathofexile": {
     "cmd": "pathofexile poe",
-    "desc": "Searches characters for a given Path of Exile account.",
+    "desc": "Searches characters for a given Path of Exile account. May specify league name to filter results.",
     "usage": [
       "{0}poe \"Zizaran\""
     ]
@@ -3185,14 +3185,14 @@
   },
   "pathofexileitem": {
     "cmd": "pathofexileitem poei",
-    "desc": "Searches for a Path of Exile item.",
+    "desc": "Searches for a Path of Exile item from the Path of Exile GamePedia.",
     "usage": [
       "{0}poei \"Quill Rain\""
     ]
   },
   "pathofexilecurrency": {
     "cmd": "pathofexilecurrency poec",
-    "desc": "Returns the chaos equivalent of a given currency.",
+    "desc": "Returns the chaos equivalent of a given currency or exchange rate between two currencies.",
     "usage": [
       "{0}poec Standard \"Mirror of Kalandra\""
     ]
