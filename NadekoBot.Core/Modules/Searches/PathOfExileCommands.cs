@@ -159,7 +159,7 @@ namespace NadekoBot.Modules.Searches
 
 				var cleanCurrency = ShortCurrencyName(currencyName);
 				var cleanConvert = ShortCurrencyName(convertName);
-
+				
 				try
 				{
 					var res = $"{_ponURL}{leagueName}";
@@ -306,7 +306,7 @@ namespace NadekoBot.Modules.Searches
 				}
 			}
 			
-			Dictionary<string, string> currencyDictionary = new Dictionary<string, string>
+			Dictionary<string, string> currencyDictionary = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
 				{
 					{"Chaos Orb", "Chaos Orb" },
 					{"Orb of Alchemy", "Orb of Alchemy" },
@@ -396,13 +396,8 @@ namespace NadekoBot.Modules.Searches
 					return str;
 				}
 
-				var currency = str.ToTitleCase();
-
-				foreach (var kvp in currencyDictionary)
-				{
-					currency = Regex.Replace(currency, $@"\b{kvp.Key}\b", kvp.Value, RegexOptions.IgnoreCase);
-				}
-				
+				var currency = currencyDictionary[str];
+								
 				return currency;
 			}
 			
