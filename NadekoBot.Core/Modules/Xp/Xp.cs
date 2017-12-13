@@ -33,16 +33,12 @@ namespace NadekoBot.Modules.Xp
         public async Task Experience([Remainder]IUser user = null)
         {
             user = user ?? Context.User;
-            var sw = Stopwatch.StartNew();
             await Context.Channel.TriggerTypingAsync();
-            var img = await _service.GenerateImageAsync((IGuildUser)user);
-            sw.Stop();
-            _log.Info("Generating finished in {0:F2}s", sw.Elapsed.TotalSeconds);
-            sw.Restart();
-            await Context.Channel.SendFileAsync(img, $"{user.Id}_xp.png")
-                .ConfigureAwait(false);
-            sw.Stop();
-            _log.Info("Sending finished in {0:F2}s", sw.Elapsed.TotalSeconds);
+            using (var img = await _service.GenerateImageAsync((IGuildUser)user))
+            {
+                await Context.Channel.SendFileAsync(img, $"{user.Id}_xp.png")
+                    .ConfigureAwait(false);
+            }
         }
 
         [NadekoCommand, Usage, Description, Aliases]

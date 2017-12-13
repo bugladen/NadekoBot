@@ -599,9 +599,8 @@ namespace NadekoBot.Modules.Xp.Services
 
         public Task<MemoryStream> GenerateImageAsync(FullUserStats stats) => Task.Run(async () =>
         {
-            using (var img = Image.Load(_images.XpCard.ToArray()))
+            using (var img = Image.Load(_images.XpCard))
             {
-
                 var username = stats.User.ToString();
                 var usernameFont = _fonts.UsernameFontFamily
                     .CreateFont(username.Length <= 6
@@ -709,13 +708,13 @@ namespace NadekoBot.Modules.Xp.Services
 
                             await _cache.SetImageDataAsync(avatarUrl, data);
                         }
-                        var toDraw = Image.Load(data);
-
-
-                        img.DrawImage(toDraw,
-                            1,
-                            new Size(69, 70),
-                            new Point(32, 10));
+                        using (var toDraw = Image.Load(data))
+                        {
+                            img.DrawImage(toDraw,
+                                1,
+                                new Size(69, 70),
+                                new Point(32, 10));
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -756,12 +755,13 @@ namespace NadekoBot.Modules.Xp.Services
 
                         await _cache.SetImageDataAsync(imgUrl, data);
                     }
-                    var toDraw = Image.Load(data);
-
-                    img.DrawImage(toDraw,
-                        1,
-                        new Size(45, 45),
-                        new Point(722, 25));
+                    using (var toDraw = Image.Load(data))
+                    {
+                        img.DrawImage(toDraw,
+                            1,
+                            new Size(45, 45),
+                            new Point(722, 25));
+                    }
                 }
                 catch (Exception ex)
                 {
