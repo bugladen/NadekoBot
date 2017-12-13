@@ -3170,6 +3170,34 @@
       "{0}masskill BadPerson#1234 Toxic person"
     ]
   },
+  "pathofexile": {
+    "cmd": "pathofexile poe",
+    "desc": "Searches characters for a given Path of Exile account. May specify league name to filter results.",
+    "usage": [
+      "{0}poe \"Zizaran\""
+    ]
+  },
+  "pathofexileleagues": {
+    "cmd": "pathofexileleagues poel",
+    "desc": "Returns a list of the main Path of Exile leagues.",
+    "usage": [
+      "{0}poel"
+    ]
+  },
+  "pathofexileitem": {
+    "cmd": "pathofexileitem poei",
+    "desc": "Searches for a Path of Exile item from the Path of Exile GamePedia.",
+    "usage": [
+      "{0}poei \"Quill Rain\""
+    ]
+  },
+  "pathofexilecurrency": {
+    "cmd": "pathofexilecurrency poec",
+    "desc": "Returns the chaos equivalent of a given currency or exchange rate between two currencies.",
+    "usage": [
+      "{0}poec Standard \"Mirror of Kalandra\""
+    ]
+  },
   "rollduel": {
     "cmd": "rollduel",
     "desc": "Challenge someone to a roll duel by specifying the amount and the user you wish to challenge as the parameters. To accept the challenge, just specify the name of the user who challenged you, without the amount.",
