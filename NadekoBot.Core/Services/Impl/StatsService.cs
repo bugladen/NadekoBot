@@ -198,7 +198,7 @@ namespace NadekoBot.Core.Services.Impl
         {
             var guilds = _client.Guilds.ToArray();
             _textChannels = guilds.Sum(g => g.Channels.Count(cx => cx is ITextChannel));
-            _voiceChannels = guilds.Sum(g => g.Channels.Count) - _textChannels;
+            _voiceChannels = guilds.Sum(g => g.Channels.Count(cx => cx is IVoiceChannel));
         }
 
         public Task<string> Print()

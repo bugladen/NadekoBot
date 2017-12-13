@@ -418,6 +418,10 @@ Commands and aliases | Description | Usage
 `.autotranslang` `.atl` | Sets your source and target language to be used with `.at`. Specify no arguments to remove previously set value.  | `.atl en>fr`
 `.translangs` | Lists the valid languages for translation.  | `.translangs`
 `.xkcd` | Shows a XKCD comic. No arguments will retrieve random one. Number argument will retrieve a specific comic, and "latest" will get the latest one.  | `.xkcd` or `.xkcd 1400` or `.xkcd latest`
+`.pathofexile` `.poe` | Retrieves character list from the specified account name. Can filter by league name. Paginated, 10 characters per page. | `.poe "Zizaran"` or '.poe "Zizaran" "Standard"'
+`.pathofexileleagues` `.poel` | Retrieves the list of current main league names. Non-SSF names are valid for the `.poec` command. | `.poel`
+`.pathofexilecurrency` `.poec` | By default, shows the Chaos Orb equivalent of the input currency. Specify two currencies to determine the exchange rate between them. Some common shorthand currency names can be used. Data is retrieved from https://poe.ninja | `.poec Standard "Mirror of Kalandra"` or `.poec Standard "Orb of Alchemy" "Vaal Orb"`
+`.pathofexileitem` `.poei` | Retrieves tooltip for the specified unique item. | `.poei "Headhunter"`
 
 ###### [Back to ToC](#table-of-contents)
 
