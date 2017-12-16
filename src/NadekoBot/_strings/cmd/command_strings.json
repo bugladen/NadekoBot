@@ -285,10 +285,10 @@
   },
   "autoassignrole": {
     "Cmd": "autoassignrole aar",
-    "Desc": "Automaticaly assigns a specified role to every user who joins the server.",
+    "Desc": "Automaticaly assigns a specified role to every user who joins the server. Provide no arguments to disable.",
     "Usage": [
-      "{0}aar to disable",
-      "{0}aar Role Name to enable"
+      "{0}aar",
+      "{0}aar RoleName"
     ]
   },
   "leave": {
@@ -3168,6 +3168,34 @@
     "desc": "Specify a new-line separated list of `userid reason`. You can use Username#discrim instead of UserId. Specified users will be banned from the current server, blacklisted from the bot, and have all of their flowers taken away.",
     "usage": [
       "{0}masskill BadPerson#1234 Toxic person"
+    ]
+  },
+  "pathofexile": {
+    "cmd": "pathofexile poe",
+    "desc": "Searches characters for a given Path of Exile account. May specify league name to filter results.",
+    "usage": [
+      "{0}poe \"Zizaran\""
+    ]
+  },
+  "pathofexileleagues": {
+    "cmd": "pathofexileleagues poel",
+    "desc": "Returns a list of the main Path of Exile leagues.",
+    "usage": [
+      "{0}poel"
+    ]
+  },
+  "pathofexileitem": {
+    "cmd": "pathofexileitem poei",
+    "desc": "Searches for a Path of Exile item from the Path of Exile GamePedia.",
+    "usage": [
+      "{0}poei \"Quill Rain\""
+    ]
+  },
+  "pathofexilecurrency": {
+    "cmd": "pathofexilecurrency poec",
+    "desc": "Returns the chaos equivalent of a given currency or exchange rate between two currencies.",
+    "usage": [
+      "{0}poec Standard \"Mirror of Kalandra\""
     ]
   },
   "rollduel": {

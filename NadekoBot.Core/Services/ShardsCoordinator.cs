@@ -239,7 +239,7 @@ namespace NadekoBot.Core.Services
                         {
                             try
                             {
-                                rem.Kill();
+                                rem.KillTree();
                                 rem.Dispose();
                             }
                             catch { }

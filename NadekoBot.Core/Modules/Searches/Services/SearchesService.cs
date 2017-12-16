@@ -175,11 +175,13 @@ namespace NadekoBot.Modules.Searches.Services
             //avatar 82, 139
             if (data != null)
             {
-                var avatar = Image.Load(data).Resize(85, 85);
-                bg.DrawImage(avatar, 
-                    default, 
-                    new Point(82, 139),
-                    GraphicsOptions.Default);
+                using (var avatar = Image.Load(data).Resize(85, 85))
+                {
+                    bg.DrawImage(avatar,
+                        default,
+                        new Point(82, 139),
+                        GraphicsOptions.Default);
+                }
             }
             //text 63, 241
             bg.DrawText(text, 
@@ -193,11 +195,13 @@ namespace NadekoBot.Modules.Searches.Services
                 });
 
             //flowa
-            var flowers = Image.Load(_imgs.FlowerCircle.ToArray());
-            bg.DrawImage(flowers,
-                default,
-                new Point(0, 0),
-                GraphicsOptions.Default);
+            using (var flowers = Image.Load(_imgs.FlowerCircle.ToArray()))
+            {
+                bg.DrawImage(flowers,
+                    default,
+                    new Point(0, 0),
+                    GraphicsOptions.Default);
+            }
 
             return bg;
         }

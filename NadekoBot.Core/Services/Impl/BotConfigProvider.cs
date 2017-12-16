@@ -118,7 +118,7 @@ namespace NadekoBot.Core.Services.Impl
                             return false;
                         break;
                     case BotConfigEditType.BetflipMultiplier:
-                        if (int.TryParse(newValue, out var bf) && bf > 0)
+                        if (float.TryParse(newValue, out var bf) && bf > 0)
                             bc.BetflipMultiplier = bf;
                         else
                             return false;

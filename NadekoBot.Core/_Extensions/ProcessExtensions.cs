@@ -13,7 +13,7 @@ namespace NadekoBot.Extensions
     public static class ProcessExtensions
     {
         private static readonly bool _isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-        private static readonly TimeSpan _defaultTimeout = TimeSpan.FromSeconds(30);
+        private static readonly TimeSpan _defaultTimeout = TimeSpan.FromSeconds(10);
 
         public static void KillTree(this Process process)
         {
