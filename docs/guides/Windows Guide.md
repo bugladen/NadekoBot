@@ -2,7 +2,7 @@
 
 #### Prerequisites 
 - [Notepad++][Notepad++] (or some other decent text editor)
-- Windows 8 or later
+- Windows 8 or later, 64 bit. If you have Windows 7, use the [Docker Guide](https://nadekobot.readthedocs.io/en/latest/guides/Docker%20Guide/). If you have a 32 bit Windows machine, use the [From Source](https://nadekobot.readthedocs.io/en/latest/guides/From%20Source/) guide.   
 - [Create Discord Bot application](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#creating-discord-bot-application) and [Invite the bot to your server](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#inviting-your-bot-to-your-server). 
 
 #### Guide 
