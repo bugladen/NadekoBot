@@ -122,7 +122,7 @@ namespace NadekoBot.Modules.Utility
                 keyword = keyword.ToUpperInvariant();
 
                 IEnumerable<Quote> quotes;
-                using (var uow = DbHandler.UnitOfWork())
+                using (var uow = _db.UnitOfWork)
                 {
                     quotes = uow.Quotes.GetGroupKeyword(Context.Guild.Id, keyword, page * 16, 16);
                 }
