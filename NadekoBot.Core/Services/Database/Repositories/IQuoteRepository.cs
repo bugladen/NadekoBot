@@ -1,4 +1,4 @@
-using NadekoBot.Core.Services.Database.Models;
+﻿using NadekoBot.Core.Services.Database.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,8 +9,7 @@ namespace NadekoBot.Core.Services.Database.Repositories
         IEnumerable<Quote> GetAllQuotesByKeyword(ulong guildId, string keyword);
         Task<Quote> GetRandomQuoteByKeywordAsync(ulong guildId, string keyword);
         Task<Quote> SearchQuoteKeywordTextAsync(ulong guildId, string keyword, string text);
-		IEnumerable<Quote> GetGroup(ulong guildId, int page, OrderType order);
-		IEnumerable<Quote> GetGroupKeyword(ulong guildId, string keyword, int skip, int take);
+        IEnumerable<Quote> GetGroup(ulong guildId, int page, OrderType order);
         void RemoveAllByKeyword(ulong guildId, string keyword);
     }
 }

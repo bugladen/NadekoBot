@@ -109,31 +109,6 @@ namespace NadekoBot.Modules.Utility
                 await Context.Channel.SendMessageAsync($"`#{keywordquote.Id}` 💬 " + keyword.ToLowerInvariant() + ":  " +
                                                        keywordquote.Text.SanitizeMentions());
             }
-			
-			[NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
-            public async Task ListQuotesKeyword(string keyword, int page = 1)
-            {
-                page -= 1;
-
-                if (page < 0 || string.IsNullOrWhiteSpace(keyword))
-                    return;
-                
-                keyword = keyword.ToUpperInvariant();
-
-                IEnumerable<Quote> quotes;
-                using (var uow = _db.UnitOfWork)
-                {
-                    quotes = uow.Quotes.GetGroupKeyword(Context.Guild.Id, keyword, page * 16, 16);
-                }
-
-                if (quotes.Any())
-                    await Context.Channel.SendConfirmAsync(GetText("quotes_page", page + 1),
-                            string.Join("\n", quotes.Select(q => $"`#{q.Id}` {Format.Bold(q.Keyword.SanitizeMentions()),-20} by {q.AuthorName.SanitizeMentions()}")))
-                        .ConfigureAwait(false);
-                else
-                    await ReplyErrorLocalized("quotes_page_none").ConfigureAwait(false);
-			}
             
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
