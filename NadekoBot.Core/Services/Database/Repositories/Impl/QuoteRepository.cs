@@ -28,6 +28,9 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
 
             return q.Skip(15 * page).Take(15).ToArray();
         }
+		
+		public IEnumerable<Quote> GetGroupKeyword(ulong guildId, string keyword, int skip, int take) => 
+			_set.Where(q=>q.GuildId == guildId && q.Keyword == keyword).OrderBy(q => q.Id).Skip(skip).Take(take).ToList();
 
         public Task<Quote> GetRandomQuoteByKeywordAsync(ulong guildId, string keyword)
         {
