@@ -950,5 +950,9 @@
   "searches_account_not_found": "That account does not exist or is set to private.",
   "searches_ninja_not_found": "Currency with that name was not found or an invalid league name was provided.",
   "searches_leagues_not_found": "Unable to retrieve data from Path of Exile API.",
-  "searches_pog_not_found": "Unable to retrieve data from Path of Exile Wiki or invalid unique item."
+  "searches_pog_not_found": "Unable to retrieve data from Path of Exile Wiki or invalid unique item.",
+  "administration_reaction_roles_message": "**Roles:** {0}\n**Content:** {1}",
+  "administration_no_reaction_roles": "There are no ReactionRole features enabled on this server.",
+  "administration_reaction_role_removed": "Removed ReactionRole message #{0}",
+  "administration_reaction_roles_full": "You've reached the limit on ReactionRole messages. You have to delete some."
 }

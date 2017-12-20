@@ -3205,5 +3205,27 @@
       "{0}rollduel 50 @SomeGuy",
       "{0}rollduel @Challenger"
     ]
+  },
+  "reactionroles": {
+    "cmd": "reactionroles rero",
+    "desc": "Specify role names and server emojis with which they're represented, the bot will then add those emojis to the previous message in the channel, and users will be able to get the roles by clicking on the emoji. You can set 'excl' as the first argument to make them exclusive. You can have up to 5 of these enabled on one server at a time.",
+    "usage": [
+      "{0}reactionroles Gamer :SomeServerEmoji: Streamer :Other: Watcher :Other2:",
+      "{0}reactionroles excl Horde :Horde: Alliance :Alliance:"
+    ]
+  },
+  "reactionroleslist": {
+    "cmd": "reactionroleslist reroli",
+    "desc": "Lists all ReactionRole messages on this channel and their indexes.",
+    "usage": [
+      "{0}reactionroleslist"
+    ]
+  },
+  "reactionrolesremove": {
+    "cmd": "reactionrolesremove rerorm",
+    "desc": "Removed a ReactionRole message on the specified index.",
+    "usage": [
+      "{0}reactionrolesrm 1"
+    ]
   }
 }

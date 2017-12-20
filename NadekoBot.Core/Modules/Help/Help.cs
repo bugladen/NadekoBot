@@ -77,24 +77,51 @@ namespace NadekoBot.Modules.Help
                                                 .Where(c => !_perms.BlockedCommands.Contains(c.Aliases.First().ToLowerInvariant()))
                                                   .OrderBy(c => c.Aliases.First())
                                                   .Distinct(new CommandTextEqualityComparer())
-                                                  .AsEnumerable();
-
-            var cmdsArray = cmds as CommandInfo[] ?? cmds.ToArray();
-            if (!cmdsArray.Any())
+                                                  .GroupBy(c => c.Module.Name.Replace("Commands", ""));
+            cmds = cmds.OrderBy(x => x.Key == x.First().Module.Name ? int.MaxValue : x.Count());
+            if (!cmds.Any())
             {
                 await ReplyErrorLocalized("module_not_found").ConfigureAwait(false);
                 return;
             }
-            var j = 0;
-            var groups = cmdsArray.GroupBy(x => j++ / 48).ToArray();
-
-            for (int i = 0; i < groups.Count(); i++)
+            var i = 0;
+            var groups = cmds.GroupBy(x => i++ / 48).ToArray();
+            var embed = new EmbedBuilder().WithOkColor();
+            foreach (var g in groups)
             {
-                await channel.SendTableAsync(i == 0 ? $"📃 **{GetText("list_of_commands")}**\n" : "", groups.ElementAt(i), el => $"{Prefix + el.Aliases.First(),-15} {"[" + el.Aliases.Skip(1).FirstOrDefault() + "]",-8}").ConfigureAwait(false);
-            }
+                var last = g.Count();
+                for (i = 0; i < last; i++)
+                {
+                    var transformed = g.ElementAt(i).Select(x =>
+                    {
+                        return $"{Prefix + x.Aliases.First(),-15} {"[" + x.Aliases.Skip(1).FirstOrDefault() + "]",-8}";
+                        var str = $"{Prefix + x.Aliases.First(),-18}";
+                        var al = x.Aliases.Skip(1).FirstOrDefault();
+                        if (al != null)
+                            str += $" {"(" + Prefix + al + ")", -9}";
+                        return str;
+                    });
 
-            await ConfirmLocalized("commands_instr", Prefix).ConfigureAwait(false);
+                    if (i == last - 1 && (i + 1) % 2 != 0)
+                    {
+                        var grp = 0;
+                        var count = transformed.Count();
+                        transformed = transformed
+                            .GroupBy(x => grp++ % count / 2)
+                            .Select(x => {
+                                if (x.Count() == 1)
+                                    return $"{x.First()}";
+                                else
+                                    return String.Concat(x);
+                            });                        
+                    }
+                    embed.AddField(g.ElementAt(i).Key, "```css\n" + string.Join("\n", transformed) + "\n```", true);
+                }
+            }
+            embed.WithFooter(GetText("commands_instr", Prefix));
+            await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
+
         [NadekoCommand, Usage, Description, Aliases]
         [Priority(0)]
         public async Task H([Remainder] string fail)
