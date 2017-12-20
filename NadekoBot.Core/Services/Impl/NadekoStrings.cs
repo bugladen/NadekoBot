@@ -43,7 +43,6 @@ namespace NadekoBot.Core.Services.Impl
 
             _log.Info("Loaded {0} languages in {1:F2}s",
                 responseStrings.Count,
-                //string.Join(",", responseStrings.Keys),
                 sw.Elapsed.TotalSeconds);
 
             ////improper string format checks

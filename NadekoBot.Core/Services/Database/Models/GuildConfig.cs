@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NadekoBot.Common.Collections;
+using System;
 using System.Collections.Generic;
 
 namespace NadekoBot.Core.Services.Database.Models
@@ -94,6 +95,7 @@ namespace NadekoBot.Core.Services.Database.Models
         public List<FeedSub> FeedSubs { get; set; } = new List<FeedSub>();
         public bool AutoDcFromVc { get; set; }
         public MusicSettings MusicSettings { get; set; } = new MusicSettings();
+        public IndexedCollection<ReactionRoleMessage> ReactionRoleMessages { get; set; } = new IndexedCollection<ReactionRoleMessage>();
     }
 
     public class DelMsgOnCmdChannel : DbEntity
