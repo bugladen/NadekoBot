@@ -67,6 +67,21 @@ namespace NadekoBot.Modules.Administration.Services
                                 .Select(x => gusr.Guild.GetRole(x))
                                 .Where(x => x != null);
 
+                            var __ = Task.Run(async () =>
+                            {
+                                try
+                                {
+                                    //if the role is exclusive, 
+                                    // remove all other reactions user added to the message
+                                    var dl = await msg.GetOrDownloadAsync().ConfigureAwait(false);
+                                    foreach (var r in dl.Reactions)
+                                    {
+                                        try { await dl.RemoveReactionAsync(r.Key, gusr); } catch { }
+                                        await Task.Delay(100).ConfigureAwait(false);
+                                    }                                        
+                                }
+                                catch { }
+                            });
                             await gusr.RemoveRolesAsync(roleIds).ConfigureAwait(false);
                         }
 
