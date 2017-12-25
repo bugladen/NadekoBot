@@ -144,7 +144,8 @@ namespace NadekoBot.Modules.Gambling
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Give(long amount, [Remainder] IGuildUser receiver)
+        [Priority(0)]
+        public async Task Give(long amount, IGuildUser receiver, [Remainder] string msg = null)
         {
             if (amount <= 0 || Context.User.Id == receiver.Id)
                 return;
@@ -154,27 +155,40 @@ namespace NadekoBot.Modules.Gambling
                 await ReplyErrorLocalized("not_enough", CurrencyPluralName).ConfigureAwait(false);
                 return;
             }
-            await _cs.AddAsync(receiver, $"Gift from {Context.User.Username} ({Context.User.Id}).", amount, true).ConfigureAwait(false);
-            await ReplyConfirmLocalized("gifted", amount + CurrencySign, Format.Bold(receiver.ToString()))
+            await _cs.AddAsync(receiver, $"Gift from {Context.User.Username} ({Context.User.Id}).", amount, true, msg).ConfigureAwait(false);
+            await ReplyConfirmLocalized("gifted", amount + CurrencySign, Format.Bold(receiver.ToString()), msg)
                 .ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        [Priority(1)]
+        public Task Give(long amount, [Remainder] IGuildUser receiver)
+            => Give(amount, receiver, null);
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
         [OwnerOnly]
         [Priority(0)]
+        public Task Award(int amount, IGuildUser usr, [Remainder] string msg) =>
+            Award(amount, usr.Id, msg);
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [OwnerOnly]
+        [Priority(1)]
         public Task Award(int amount, [Remainder] IGuildUser usr) =>
             Award(amount, usr.Id);
 
         [NadekoCommand, Usage, Description, Aliases]
         [OwnerOnly]
-        [Priority(1)]
-        public async Task Award(int amount, ulong usrId)
+        [Priority(2)]
+        public async Task Award(int amount, ulong usrId, [Remainder] string msg = null)
         {
             if (amount <= 0)
                 return;
 
-            await _cs.AddAsync(usrId, $"Awarded by bot owner. ({Context.User.Username}/{Context.User.Id})", amount).ConfigureAwait(false);
+            await _cs.AddAsync(usrId, $"Awarded by bot owner. ({Context.User.Username}/{Context.User.Id}) {(msg ?? "")}", amount).ConfigureAwait(false);
             await ReplyConfirmLocalized("awarded", amount + CurrencySign, $"<@{usrId}>").ConfigureAwait(false);
         }
 

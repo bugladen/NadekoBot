@@ -81,12 +81,12 @@ namespace NadekoBot.Core.Services
             }
         }
 
-        public async Task AddAsync(IUser author, string reason, long amount, bool sendMessage)
+        public async Task AddAsync(IUser author, string reason, long amount, bool sendMessage, string note = null)
         {
             await AddAsync(author.Id, reason, amount);
 
             if (sendMessage)
-                try { await author.SendConfirmAsync($"`You received:` {amount} {_config.BotConfig.CurrencySign}\n`Reason:` {reason}").ConfigureAwait(false); } catch { }
+                try { await author.SendConfirmAsync($"`You received:` {amount} {_config.BotConfig.CurrencySign}\n`Reason:` {reason}\n`Note:`{(note ?? "-")}").ConfigureAwait(false); } catch { }
         }
 
         public async Task AddAsync(ulong receiverId, string reason, long amount, IUnitOfWork uow = null)
