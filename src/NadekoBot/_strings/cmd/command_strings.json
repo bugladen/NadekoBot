@@ -963,14 +963,15 @@
   },
   "give": {
     "Cmd": "give",
-    "Desc": "Give someone a certain amount of currency.",
+    "Desc": "Give someone a certain amount of currency. You can specify the reason after the mention.",
     "Usage": [
-      "{0}give 1 @SomeGuy"
+      "{0}give 1 @SomeGuy",
+      "{0}give 5 @CootGurl Ur so pwetty"
     ]
   },
   "award": {
     "Cmd": "award",
-    "Desc": "Awards someone a certain amount of currency.  You can also specify a role name to award currency to all users in a role.",
+    "Desc": "Awards someone a certain amount of currency. You can specify the reason after the Username. You can also specify a role name to award currency to all users in a role.",
     "Usage": [
       "{0}award 100 @person",
       "{0}award 5 Role Of Gamblers"

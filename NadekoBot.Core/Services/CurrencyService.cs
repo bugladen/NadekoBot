@@ -4,7 +4,6 @@ using Discord;
 using NadekoBot.Extensions;
 using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Core.Services.Database;
-using NadekoBot.Core.Services;
 
 namespace NadekoBot.Core.Services
 {
