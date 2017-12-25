@@ -33,7 +33,7 @@ namespace NadekoBot.Modules.Gambling
                 long cur;
                 using (var uow = _db.UnitOfWork)
                 {
-                    cur = uow.Currency.GetUserCurrency(Context.User.Id);
+                    cur = uow.DiscordUsers.GetUserCurrency(Context.User.Id);
                 }
                 return WheelOfFortune(cur);
             }

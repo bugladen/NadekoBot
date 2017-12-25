@@ -17,6 +17,8 @@ namespace NadekoBot.Core.Services.Database.Models
         public DateTime LastXpGain { get; set; } = DateTime.MinValue;
         public XpNotificationType NotifyOnLevelUp { get; set; }
 
+        public long CurrencyAmount { get; set; }
+
         public override bool Equals(object obj)
         {
             return obj is DiscordUser du

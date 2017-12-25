@@ -38,7 +38,7 @@ namespace NadekoBot.Modules.Gambling
         {
             using (var uow = _db.UnitOfWork)
             {
-                return uow.Currency.GetUserCurrency(id);
+                return uow.DiscordUsers.GetUserCurrency(id);
             }
         }
 
@@ -452,7 +452,7 @@ namespace NadekoBot.Modules.Gambling
             long cur;
             using (var uow = _db.UnitOfWork)
             {
-                cur = uow.Currency.GetUserCurrency(Context.User.Id);
+                cur = uow.DiscordUsers.GetUserCurrency(Context.User.Id);
             }
             return InternallBetroll(cur);
         }
@@ -463,10 +463,10 @@ namespace NadekoBot.Modules.Gambling
             if (page < 1)
                 return;
 
-            List<Currency> richest;
+            List<DiscordUser> richest;
             using (var uow = _db.UnitOfWork)
             {
-                richest = uow.Currency.GetTopRichest(9, 9 * (page - 1)).ToList();
+                richest = uow.DiscordUsers.GetTopRichest(9, 9 * (page - 1)).ToList();
             }
 
             var embed = new EmbedBuilder()
@@ -485,14 +485,11 @@ namespace NadekoBot.Modules.Gambling
             for (var i = 0; i < richest.Count; i++)
             {
                 var x = richest[i];
-                var usr = await Context.Guild.GetUserAsync(x.UserId).ConfigureAwait(false);
-                var usrStr = usr == null 
-                    ? x.UserId.ToString() 
-                    : usr.Username?.TrimTo(20, true);
+                var usrStr = x.ToString().TrimTo(20, true);
 
                 var j = i;
                 embed.AddField(efb => efb.WithName("#" + (9 * (page - 1) + j + 1) + " " + usrStr)
-                                         .WithValue(x.Amount.ToString() + " " + CurrencySign)
+                                         .WithValue(x.CurrencyAmount.ToString() + " " + CurrencySign)
                                          .WithIsInline(true));
             }
 
