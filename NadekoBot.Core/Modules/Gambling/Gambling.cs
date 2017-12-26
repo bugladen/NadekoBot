@@ -147,7 +147,7 @@ namespace NadekoBot.Modules.Gambling
         [Priority(0)]
         public async Task Give(long amount, IGuildUser receiver, [Remainder] string msg = null)
         {
-            if (amount <= 0 || Context.User.Id == receiver.Id)
+            if (amount <= 0 || Context.User.Id == receiver.Id || receiver.IsBot)
                 return;
             var success = await _cs.RemoveAsync((IGuildUser)Context.User, $"Gift to {receiver.Username} ({receiver.Id}).", amount, false).ConfigureAwait(false);
             if (!success)

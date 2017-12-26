@@ -4,6 +4,7 @@ using Discord;
 using NadekoBot.Extensions;
 using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Core.Services.Database;
+using Discord.WebSocket;
 
 namespace NadekoBot.Core.Services
 {
@@ -11,11 +12,13 @@ namespace NadekoBot.Core.Services
     {
         private readonly IBotConfigProvider _config;
         private readonly DbService _db;
+        private readonly ulong _botId;
 
-        public CurrencyService(IBotConfigProvider config, DbService db)
+        public CurrencyService(IBotConfigProvider config, DbService db, DiscordSocketClient c)
         {
             _config = config;
             _db = db;
+            _botId = c.CurrentUser.Id;
         }
 
         public async Task<bool> RemoveAsync(IUser author, string reason, long amount, bool sendMessage)
@@ -28,7 +31,7 @@ namespace NadekoBot.Core.Services
             return success;
         }
 
-        public async Task<bool> RemoveAsync(ulong authorId, string reason, long amount, IUnitOfWork uow = null)
+        public async Task<bool> RemoveAsync(ulong authorId, string reason, long amount, IUnitOfWork uow = null, bool gamble = false)
         {
             if (amount < 0)
                 throw new ArgumentNullException(nameof(amount));
@@ -37,20 +40,22 @@ namespace NadekoBot.Core.Services
             {
                 using (uow = _db.UnitOfWork)
                 {
-                    var toReturn = InternalRemoveCurrency(authorId, reason, amount, uow);
+                    var toReturn = InternalRemoveCurrency(authorId, reason, amount, uow, gamble);
                     await uow.CompleteAsync().ConfigureAwait(false);
                     return toReturn;
                 }
             }
 
-            return InternalRemoveCurrency(authorId, reason, amount, uow);
+            return InternalRemoveCurrency(authorId, reason, amount, uow, gamble);
         }
 
-        private bool InternalRemoveCurrency(ulong authorId, string reason, long amount, IUnitOfWork uow)
+        private bool InternalRemoveCurrency(ulong authorId, string reason, long amount, IUnitOfWork uow, bool addToBot)
         {
             var success = uow.DiscordUsers.TryUpdateCurrencyState(authorId, -amount);
             if (!success)
                 return false;
+            else if (addToBot)
+                uow.DiscordUsers.TryUpdateCurrencyState(_botId, -amount);
             uow.CurrencyTransactions.Add(new CurrencyTransaction()
             {
                 UserId = authorId,
@@ -80,15 +85,15 @@ namespace NadekoBot.Core.Services
             }
         }
 
-        public async Task AddAsync(IUser author, string reason, long amount, bool sendMessage, string note = null)
+        public async Task AddAsync(IUser author, string reason, long amount, bool sendMessage, string note = null, bool gamble = false)
         {
-            await AddAsync(author.Id, reason, amount);
+            await AddAsync(author.Id, reason, amount, removeFromBot: gamble);
 
             if (sendMessage)
                 try { await author.SendConfirmAsync($"`You received:` {amount} {_config.BotConfig.CurrencySign}\n`Reason:` {reason}\n`Note:`{(note ?? "-")}").ConfigureAwait(false); } catch { }
         }
 
-        public async Task AddAsync(ulong receiverId, string reason, long amount, IUnitOfWork uow = null)
+        public async Task AddAsync(ulong receiverId, string reason, long amount, IUnitOfWork uow = null, bool removeFromBot = false)
         {
             if (amount < 0)
                 throw new ArgumentNullException(nameof(amount));
@@ -104,12 +109,14 @@ namespace NadekoBot.Core.Services
                 using (uow = _db.UnitOfWork)
                 {
                     uow.DiscordUsers.TryUpdateCurrencyState(receiverId, amount);
+                    uow.DiscordUsers.TryUpdateCurrencyState(_botId, -amount, true);
                     uow.CurrencyTransactions.Add(transaction);
                     await uow.CompleteAsync();
                 }
             else
             {
                 uow.DiscordUsers.TryUpdateCurrencyState(receiverId, amount);
+                uow.DiscordUsers.TryUpdateCurrencyState(_botId, -amount, true);
                 uow.CurrencyTransactions.Add(transaction);
             }
         }

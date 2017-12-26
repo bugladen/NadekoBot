@@ -78,7 +78,7 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
             _set.RemoveRange(_set.Where(x => ids.Contains((long)x.UserId)));
         }
 
-        public bool TryUpdateCurrencyState(ulong userId, long change)
+        public bool TryUpdateCurrencyState(ulong userId, long change, bool allowNegative = false)
         {
             var cur = GetOrCreate(userId, "Unknown", "????", "");
 
@@ -91,12 +91,14 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
                 return true;
             }
             //change is negative
-            if (cur.CurrencyAmount + change >= 0)
+            if (cur.CurrencyAmount + change < 0)
             {
-                cur.CurrencyAmount += change;
-                return true;
+                if (allowNegative)
+                    cur.CurrencyAmount += change;
+                return false;
             }
-            return false;
+            cur.CurrencyAmount += change;
+            return true;
         }
     }
 }
