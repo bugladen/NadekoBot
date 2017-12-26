@@ -43,7 +43,6 @@ namespace NadekoBot.Common.Replacements
 
         public ReplacementBuilder WithServer(DiscordSocketClient client, IGuild g)
         {
-
             _reps.TryAdd("%sid%", () => g == null ? "DM" : g.Id.ToString());
             _reps.TryAdd("%server%", () => g == null ? "DM" : g.Name);
             _reps.TryAdd("%members%", () => g != null && g is SocketGuild sg ? sg.MemberCount.ToString() : "?");

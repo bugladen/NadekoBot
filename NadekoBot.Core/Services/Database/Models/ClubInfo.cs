@@ -20,6 +20,7 @@ namespace NadekoBot.Core.Services.Database.Models
 
         public List<ClubApplicants> Applicants { get; set; } = new List<ClubApplicants>();
         public List<ClubBans> Bans { get; set; } = new List<ClubBans>();
+        public string Description { get; set; }
 
         public override string ToString()
         {
