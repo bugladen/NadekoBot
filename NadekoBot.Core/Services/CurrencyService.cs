@@ -21,9 +21,9 @@ namespace NadekoBot.Core.Services
             _botId = c.CurrentUser.Id;
         }
 
-        public async Task<bool> RemoveAsync(IUser author, string reason, long amount, bool sendMessage)
+        public async Task<bool> RemoveAsync(IUser author, string reason, long amount, bool sendMessage, bool gamble = false)
         {
-            var success = await RemoveAsync(author.Id, reason, amount);
+            var success = await RemoveAsync(author.Id, reason, amount, gamble: gamble);
 
             if (success && sendMessage)
                 try { await author.SendErrorAsync($"`You lost:` {amount} {_config.BotConfig.CurrencySign}\n`Reason:` {reason}").ConfigureAwait(false); } catch { }
@@ -87,13 +87,13 @@ namespace NadekoBot.Core.Services
 
         public async Task AddAsync(IUser author, string reason, long amount, bool sendMessage, string note = null, bool gamble = false)
         {
-            await AddAsync(author.Id, reason, amount, removeFromBot: gamble);
+            await AddAsync(author.Id, reason, amount, gamble: gamble);
 
             if (sendMessage)
                 try { await author.SendConfirmAsync($"`You received:` {amount} {_config.BotConfig.CurrencySign}\n`Reason:` {reason}\n`Note:`{(note ?? "-")}").ConfigureAwait(false); } catch { }
         }
 
-        public async Task AddAsync(ulong receiverId, string reason, long amount, IUnitOfWork uow = null, bool removeFromBot = false)
+        public async Task AddAsync(ulong receiverId, string reason, long amount, IUnitOfWork uow = null, bool gamble = false)
         {
             if (amount < 0)
                 throw new ArgumentNullException(nameof(amount));

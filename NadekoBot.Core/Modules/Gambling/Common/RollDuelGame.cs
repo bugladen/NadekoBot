@@ -11,6 +11,9 @@ namespace NadekoBot.Core.Modules.Gambling.Common
     {
         public ulong P1 { get; }
         public ulong P2 { get; }
+
+        private readonly ulong _botId;
+
         public long Amount { get; }
 
         private readonly CurrencyService _cs;
@@ -40,10 +43,11 @@ namespace NadekoBot.Core.Modules.Gambling.Common
         public State CurrentState { get; private set; }
         public ulong Winner { get; private set; }
 
-        public RollDuelGame(CurrencyService cs, ulong p1, ulong p2, long amount)
+        public RollDuelGame(CurrencyService cs, ulong botId, ulong p1, ulong p2, long amount)
         {
             this.P1 = p1;
             this.P2 = p2;
+            this._botId = botId;
             this.Amount = amount;
             _cs = cs;
 
@@ -110,7 +114,11 @@ namespace NadekoBot.Core.Modules.Gambling.Common
                     {
                         Winner = P2;
                     }
-                    await _cs.AddAsync(Winner, "Roll Duel win", (long)(Amount * 2 * 0.98f))
+                    var won = (long)(Amount * 2 * 0.98f);
+                    await _cs.AddAsync(Winner, "Roll Duel win", won)
+                        .ConfigureAwait(false);
+
+                    await _cs.AddAsync(_botId, "Roll Duel fee", Amount * 2 - won)
                         .ConfigureAwait(false);
                 }
                 try { await OnGameTick?.Invoke(this); } catch { }

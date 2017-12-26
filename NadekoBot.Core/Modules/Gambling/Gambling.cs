@@ -11,6 +11,7 @@ using NadekoBot.Common.Attributes;
 using System;
 using NadekoBot.Modules.Gambling.Services;
 using NadekoBot.Core.Modules.Gambling.Common;
+using Discord.WebSocket;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -20,18 +21,20 @@ namespace NadekoBot.Modules.Gambling
         private readonly DbService _db;
         private readonly CurrencyService _cs;
         private readonly IDataCache _cache;
+        private readonly DiscordSocketClient _client;
 
         private string CurrencyName => _bc.BotConfig.CurrencyName;
         private string CurrencyPluralName => _bc.BotConfig.CurrencyPluralName;
         private string CurrencySign => _bc.BotConfig.CurrencySign;
 
         public Gambling(IBotConfigProvider bc, DbService db, CurrencyService currency,
-            IDataCache cache)
+            IDataCache cache, DiscordSocketClient client)
         {
             _bc = bc;
             _db = db;
             _cs = currency;
             _cache = cache;
+            _client = client;
         }
 
         public long GetCurrency(ulong id)
@@ -268,7 +271,7 @@ namespace NadekoBot.Modules.Gambling
                     .WithOkColor()
                     .WithTitle(GetText("roll_duel"));
 
-            var game = new RollDuelGame(_cs, Context.User.Id, u.Id, amount);
+            var game = new RollDuelGame(_cs, _client.CurrentUser.Id, Context.User.Id, u.Id, amount);
             //means challenge is just created
             if(_service.Duels.TryGetValue((Context.User.Id, u.Id), out var other))
             {
@@ -406,7 +409,7 @@ namespace NadekoBot.Modules.Gambling
             if (amount < 1)
                 return;
 
-            if (!await _cs.RemoveAsync(Context.User, "Betroll Gamble", amount, false).ConfigureAwait(false))
+            if (!await _cs.RemoveAsync(Context.User, "Betroll Gamble", amount, false, gamble: true).ConfigureAwait(false))
             {
                 await ReplyErrorLocalized("not_enough", CurrencyPluralName).ConfigureAwait(false);
                 return;
@@ -424,19 +427,19 @@ namespace NadekoBot.Modules.Gambling
                 {
                     str += GetText("br_win", (amount * _bc.BotConfig.Betroll67Multiplier) + CurrencySign, 66);
                     await _cs.AddAsync(Context.User, "Betroll Gamble",
-                        (int)(amount * _bc.BotConfig.Betroll67Multiplier), false).ConfigureAwait(false);
+                        (int)(amount * _bc.BotConfig.Betroll67Multiplier), false, gamble: true).ConfigureAwait(false);
                 }
                 else if (rnd < 100)
                 {
                     str += GetText("br_win", (amount * _bc.BotConfig.Betroll91Multiplier) + CurrencySign, 90);
                     await _cs.AddAsync(Context.User, "Betroll Gamble",
-                        (int)(amount * _bc.BotConfig.Betroll91Multiplier), false).ConfigureAwait(false);
+                        (int)(amount * _bc.BotConfig.Betroll91Multiplier), false, gamble: true).ConfigureAwait(false);
                 }
                 else
                 {
                     str += GetText("br_win", (amount * _bc.BotConfig.Betroll100Multiplier) + CurrencySign, 99) + " 👑";
                     await _cs.AddAsync(Context.User, "Betroll Gamble",
-                        (int)(amount * _bc.BotConfig.Betroll100Multiplier), false).ConfigureAwait(false);
+                        (int)(amount * _bc.BotConfig.Betroll100Multiplier), false, gamble: true).ConfigureAwait(false);
                 }
             }
             await Context.Channel.SendConfirmAsync(str).ConfigureAwait(false);
