@@ -70,7 +70,7 @@ namespace NadekoBot.Modules.Utility
             }
             var rng = new NadekoRandom();
             var arr = await Task.Run(() => socketGuild.Users
-                    .Where(u => u.Game?.Name?.ToUpperInvariant() == game)
+                    .Where(u => u.Activity?.Name?.ToUpperInvariant() == game)
                     .Select(u => u.Username)
                     .OrderBy(x => rng.Next())
                     .Take(60)
