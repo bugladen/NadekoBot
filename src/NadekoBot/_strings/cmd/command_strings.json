@@ -2970,6 +2970,13 @@
       "{0}clublevelreq 7"
     ]
   },
+  "clubdescription": {
+    "Cmd": "clubdesc",
+    "Desc": "Sets the club description. Maximum 150 characters. Club owner only.",
+    "Usage": [
+      "{0}clubdesc This is the best club please join."
+    ]
+  },
   "clubicon": {
     "Cmd": "clubicon",
     "Desc": "Sets the club icon.",
