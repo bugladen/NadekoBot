@@ -460,7 +460,7 @@ namespace NadekoBot.Modules.Music.Common
                 // if player is stopped, and user uses .n, it should play current song.  
                 // It's a bit weird, but that's the least annoying solution
                 if (!Stopped)
-                    if (!RepeatPlaylist && Queue.IsLast()) // if it's the last song in the queue, and repeat playlist is disabled
+                    if (!RepeatPlaylist && Queue.IsLast() && !Autoplay) // if it's the last song in the queue, and repeat playlist is disabled
                     { //stop the queue
                         Stop();
                         return;
