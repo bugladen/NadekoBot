@@ -10,6 +10,7 @@
 - [git][git]  
 - [redis][redis] for windows, or `apt-get install redis-server` for linux. For 32 bit windows, download [redis-server.exe](https://github.com/MaybeGoogle/NadekoFiles/blob/master/x86%20Prereqs/redis-server.exe?raw=true).  
 - In addition, for 32-bit Windows, download [libsodium](https://github.com/MaybeGoogle/NadekoFiles/blob/master/x86%20Prereqs/NadekoBot_Music/libsodium.dll?raw=true) and (lib)[opus](https://github.com/MaybeGoogle/NadekoFiles/blob/master/x86%20Prereqs/NadekoBot_Music/opus.dll?raw=true).  
+- [Create Discord Bot application](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#creating-discord-bot-application) and [Invite the bot to your server](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#inviting-your-bot-to-your-server).   
 
 #### Getting Nadeko Ready to Run  
 `git clone -b 1.9 https://github.com/Kwoth/NadekoBot`  
