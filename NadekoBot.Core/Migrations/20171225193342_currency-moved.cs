@@ -13,7 +13,7 @@ namespace NadekoBot.Migrations
                 table: "DiscordUser",
                 nullable: false,
                 defaultValue: 0L);
-           //todo needs testing
+
             migrationBuilder.Sql(@"UPDATE DiscordUser
 SET CurrencyAmount=ifnull((SELECT Amount 
                     FROM Currency 
@@ -24,8 +24,8 @@ INSERT INTO DiscordUser(UserId, Username, Discriminator, AvatarId)
     WHERE UserId NOT IN (
         SELECT UserId FROM DiscordUser)");
 
-            migrationBuilder.DropTable(
-                name: "Currency");
+            //migrationBuilder.DropTable(
+            //    name: "Currency");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -34,26 +34,26 @@ INSERT INTO DiscordUser(UserId, Username, Discriminator, AvatarId)
                 name: "CurrencyAmount",
                 table: "DiscordUser");
 
-            migrationBuilder.CreateTable(
-                name: "Currency",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Amount = table.Column<long>(nullable: false),
-                    DateAdded = table.Column<DateTime>(nullable: true),
-                    UserId = table.Column<ulong>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Currency", x => x.Id);
-                });
+            //migrationBuilder.CreateTable(
+            //    name: "Currency",
+            //    columns: table => new
+            //    {
+            //        Id = table.Column<int>(nullable: false)
+            //            .Annotation("Sqlite:Autoincrement", true),
+            //        Amount = table.Column<long>(nullable: false),
+            //        DateAdded = table.Column<DateTime>(nullable: true),
+            //        UserId = table.Column<ulong>(nullable: false)
+            //    },
+            //    constraints: table =>
+            //    {
+            //        table.PrimaryKey("PK_Currency", x => x.Id);
+            //    });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Currency_UserId",
-                table: "Currency",
-                column: "UserId",
-                unique: true);
+            //migrationBuilder.CreateIndex(
+            //    name: "IX_Currency_UserId",
+            //    table: "Currency",
+            //    column: "UserId",
+            //    unique: true);
         }
     }
 }

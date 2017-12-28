@@ -1774,6 +1774,14 @@
       "{0}$ @SomeGuy"
     ]
   },
+  "currencytransactions": {
+    "Cmd": "curtrs",
+    "Desc": "Shows your currency transactions on the specified page. Bot owner can see other people's transactions too.",
+    "Usage": [
+      "{0}curtrs 2",
+      "{0}curtrs @SomeUser 2"
+    ]
+  },
   "listperms": {
     "Cmd": "listperms lp",
     "Desc": "Lists whole permission chain with their indexes. You can specify an optional page number if there are a lot of permissions.",
