@@ -218,7 +218,7 @@ namespace NadekoBot.Modules.Utility.Services
 
         private async Task RescanUser(IGuildUser user, StreamRoleSettings setting, IRole addRole = null)
         {
-            if (user.Activity is Game g 
+            if (user.Activity is StreamingGame g 
                 && g != null
                 && setting.Enabled
                 && !setting.Blacklist.Any(x => x.UserId == user.Id)
