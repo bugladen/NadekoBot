@@ -17,7 +17,8 @@ namespace NadekoBot.Modules.Utility
             [NadekoCommand, Usage, Description, Aliases]
             public async Task ConvertList()
             {
-                var res = _service.Units.GroupBy(x => x.UnitType)
+                var units = _service.Units;
+                var res = units.GroupBy(x => x.UnitType)
                                .Aggregate(new EmbedBuilder().WithTitle(GetText("convertlist"))
                                                             .WithColor(NadekoBot.OkColor),
                                           (embed, g) => embed.AddField(efb =>

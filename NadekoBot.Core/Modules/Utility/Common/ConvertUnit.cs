@@ -1,5 +1,8 @@
-﻿namespace NadekoBot.Modules.Utility.Common
+﻿using System.Diagnostics;
+
+namespace NadekoBot.Modules.Utility.Common
 {
+    [DebuggerDisplay("Type: {UnitType} Trigger: {Triggers[0]} Mod: {Modifier}")]
     public class ConvertUnit
     {
         public string[] Triggers { get; set; }
