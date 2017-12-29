@@ -15,5 +15,13 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
         {
             return _set.Where(x => guildIds.Contains((long)x.ServerId)).ToList();
         }
+
+        public IEnumerable<Reminder> RemindersFor(ulong userId, int page)
+        {
+            return _set.Where(x => x.UserId == userId)
+                .OrderBy(x => x.DateAdded)
+                .Skip(page * 10)
+                .Take(10);
+        }
     }
 }
