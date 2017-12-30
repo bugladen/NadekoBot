@@ -957,5 +957,9 @@
   "administration_reaction_roles_message": "**Roles:** {0}\n**Content:** {1}",
   "administration_no_reaction_roles": "There are no ReactionRole features enabled on this server.",
   "administration_reaction_role_removed": "Removed ReactionRole message #{0}",
-  "administration_reaction_roles_full": "You've reached the limit on ReactionRole messages. You have to delete some."
+  "administration_reaction_roles_full": "You've reached the limit on ReactionRole messages. You have to delete some.",
+  "utility_reminder_list": "List of reminders",
+  "utility_reminder_deleted": "Reminder #{0} was deleted.",
+  "utility_reminder_not_exist": "Reminder at that index does not exist.",
+  "utility_reminders_none": "No reminder on this page."
 }

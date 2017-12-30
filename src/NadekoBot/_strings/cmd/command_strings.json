@@ -551,6 +551,20 @@
       "{0}remind #general 1m Start now!"
     ]
   },
+  "reminddelete": {
+    "Cmd": "reminddel remindrm",
+    "Desc": "Deletes a reminder on the specified index.",
+    "Usage": [
+      "{0}remindrm 3"
+    ]
+  },
+  "remindlist": {
+    "Cmd": "remindlist remindl remindlst",
+    "Desc": "Lists all reminders you created. Paginated.",
+    "Usage": [
+      "{0}remindlist 1"
+    ]
+  },
   "remindtemplate": {
     "Cmd": "remindtemplate",
     "Desc": "Sets message for when the remind is triggered.  Available placeholders are `%user%` - user who ran the command, `%message%` - Message specified in the remind, `%target%` - target channel of the remind.",
