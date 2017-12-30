@@ -68,7 +68,7 @@ DELETE FROM WaifuInfo;");
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public Task DeleteCurrency() =>
-                ExecSql("DELETE FROM Currency; DELETE FROM CurrencyTransactions;");
+                ExecSql("UPDATE DiscordUser SET CurrencyAmount=0; DELETE FROM CurrencyTransactions;");
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
