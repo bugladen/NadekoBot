@@ -308,26 +308,45 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.MentionEveryone)]
-            public async Task MentionRole(params IRole[] roles)
+            [RequireBotPermission(GuildPermission.ManageRoles)]
+            public async Task MentionRole(IRole role)
             {
-                string send = "❕" + GetText("menrole", Context.User.Mention);
-                foreach (var role in roles)
-                {
-                    send += $"\n**{role.Name}**\n";
-                    send += string.Join(", ", (await Context.Guild.GetUsersAsync())
-                        .Where(u => u.GetRoles().Contains(role))
-                        .Take(50).Select(u => u.Mention));
-                }
+                //string send = "❕" + GetText("menrole", Context.User.Mention);
+                //foreach (var role in roles)
+                //{
+                //    try
+                //    {
+                //        await role.ModifyAsync(x => x.Mentionable = true);
 
-                while (send.Length > 2000)
+                //    }
+                //    catch
+                //    {
+                //        send += $"\n**{role.Name}**\n";
+                //        send += string.Join(", ", (await Context.Guild.GetUsersAsync())
+                //            .Where(u => u.GetRoles().Contains(role))
+                //            .Take(50).Select(u => u.Mention));
+                //    }
+                //}
+
+                //while (send.Length > 2000)
+                //{
+                //    var curstr = send.Substring(0, 2000);
+                //    await Context.Channel.SendMessageAsync(curstr.Substring(0,
+                //            curstr.LastIndexOf(", ", StringComparison.Ordinal) + 1)).ConfigureAwait(false);
+                //    send = curstr.Substring(curstr.LastIndexOf(", ", StringComparison.Ordinal) + 1) +
+                //           send.Substring(2000);
+                //}
+
+                if(!role.IsMentionable)
                 {
-                    var curstr = send.Substring(0, 2000);
-                    await Context.Channel.SendMessageAsync(curstr.Substring(0,
-                            curstr.LastIndexOf(", ", StringComparison.Ordinal) + 1)).ConfigureAwait(false);
-                    send = curstr.Substring(curstr.LastIndexOf(", ", StringComparison.Ordinal) + 1) +
-                           send.Substring(2000);
+                    await role.ModifyAsync(x => x.Mentionable = true);
+                    await Context.Channel.SendMessageAsync(role.Mention);
+                    await role.ModifyAsync(x => x.Mentionable = false);
                 }
-                await Context.Channel.SendMessageAsync(send).ConfigureAwait(false);
+                else
+                {
+                    await Context.Channel.SendMessageAsync(role.Mention);
+                }
             }
         }
     }

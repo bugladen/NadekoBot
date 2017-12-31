@@ -510,7 +510,7 @@
   },
   "mentionrole": {
     "Cmd": "mentionrole menro",
-    "Desc": "Mentions every person from the provided role or roles (separated by a ',') on this server.",
+    "Desc": "Mentions a role. If the role is not mentionable, bot will make it mentionable for a moment.",
     "Usage": [
       "{0}menro RoleName"
     ]

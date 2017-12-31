@@ -58,6 +58,10 @@ namespace NadekoBot.Modules.Utility.Services
 
             if (time.TotalMilliseconds > int.MaxValue)
                 return;
+
+            if (time.TotalMilliseconds < 0)
+                time = TimeSpan.FromSeconds(5);
+                
             var remT = new Timer(ReminderTimerAction, r, (int)time.TotalMilliseconds, Timeout.Infinite);
             if (!Reminders.TryAdd(r.Id, remT))
             {
