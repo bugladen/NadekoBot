@@ -46,7 +46,7 @@ namespace NadekoBot.Core.Modules.Gambling.Services
                 {
                     //remove money, and stop the game if this 
                     // user created it and doesn't have the money
-                    if (!await _cs.RemoveAsync(user.Id, "Currency Raffle Join", amount, uow).ConfigureAwait(false))
+                    if (!_cs.Remove(user.Id, "Currency Raffle Join", amount, uow))
                     {
                         if (newGame)
                             Games.Remove(channelId);

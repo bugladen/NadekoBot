@@ -23,7 +23,7 @@ namespace NadekoBot.Core.Services
 
         public async Task<bool> RemoveAsync(IUser author, string reason, long amount, bool sendMessage, bool gamble = false)
         {
-            var success = await RemoveAsync(author.Id, reason, amount, gamble: gamble, user: author);
+            var success = Remove(author.Id, reason, amount, gamble: gamble, user: author);
 
             if (success && sendMessage)
                 try { await author.SendErrorAsync($"`You lost:` {amount} {_config.BotConfig.CurrencySign}\n`Reason:` {reason}").ConfigureAwait(false); } catch { }
@@ -31,7 +31,7 @@ namespace NadekoBot.Core.Services
             return success;
         }
 
-        public async Task<bool> RemoveAsync(ulong authorId, string reason, long amount, IUnitOfWork uow = null, bool gamble = false, IUser user = null)
+        public bool Remove(ulong authorId, string reason, long amount, IUnitOfWork uow = null, bool gamble = false, IUser user = null)
         {
             if (amount < 0)
                 throw new ArgumentNullException(nameof(amount));
@@ -43,7 +43,7 @@ namespace NadekoBot.Core.Services
                     if (user != null)
                         uow.DiscordUsers.GetOrCreate(user);
                     var toReturn = InternalRemoveCurrency(authorId, reason, amount, uow, gamble);
-                    await uow.CompleteAsync().ConfigureAwait(false);
+                    uow.Complete();
                     return toReturn;
                 }
             }

@@ -86,7 +86,7 @@ namespace NadekoBot.Modules.Gambling.Common.AnimalRacing
                 if (CurrentPhase != Phase.WaitingForPlayers)
                     throw new AlreadyStartedException();
 
-                if (!await _currency.RemoveAsync(userId, "BetRace", bet).ConfigureAwait(false))
+                if (!_currency.Remove(userId, "BetRace", bet))
                     throw new NotEnoughFundsException();
 
                 if (_users.Contains(user))

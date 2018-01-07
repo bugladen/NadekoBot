@@ -3257,5 +3257,33 @@
     "usage": [
       "{0}reactionrolesrm 1"
     ]
+  },
+  "blackjack": {
+    "cmd": "blackjack bj",
+    "desc": "Start or join a blackjack game. You must specify the amount you're betting. Use `.hit`, `.stand` and `.double` commands to play. Game is played with 4 decks.",
+    "usage": [
+      "{0}bj 50"
+    ]
+  },
+  "hit": {
+    "cmd": "hit",
+    "desc": "In the blackjack game, ask the dealer for an extra card.",
+    "usage": [
+      "{0}hit"
+    ]
+  },
+  "stand": {
+    "cmd": "stand",
+    "desc": "Finish your turn in the blackjack game.",
+    "usage": [
+      "{0}stand"
+    ]
+  },
+  "double": {
+    "cmd": "double",
+    "desc": "In the blackjack game, double your bet in order to receive exactly one more card, and your turn ends.",
+    "usage": [
+      "{0}double"
+    ]
   }
 }

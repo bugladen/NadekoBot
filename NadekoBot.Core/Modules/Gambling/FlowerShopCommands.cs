@@ -111,7 +111,7 @@ namespace NadekoBot.Modules.Gambling
                         return;
                     }
 
-                    if (await _cs.RemoveAsync(Context.User.Id, $"Shop purchase - {entry.Type}", entry.Price))
+                    if (_cs.Remove(Context.User.Id, $"Shop purchase - {entry.Type}", entry.Price))
                     {
                         try
                         {
@@ -144,7 +144,7 @@ namespace NadekoBot.Modules.Gambling
 
                     var item = entry.Items.ToArray()[new NadekoRandom().Next(0, entry.Items.Count)];
 
-                    if (await _cs.RemoveAsync(Context.User.Id, $"Shop purchase - {entry.Type}", entry.Price))
+                    if (_cs.Remove(Context.User.Id, $"Shop purchase - {entry.Type}", entry.Price))
                     {
                         int removed;
                         using (var uow = _db.UnitOfWork)

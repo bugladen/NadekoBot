@@ -279,7 +279,7 @@ namespace NadekoBot.Modules.Gambling
             if (amount <= 0)
                 return;
 
-            if (await _cs.RemoveAsync(usrId, $"Taken by bot owner.({Context.User.Username}/{Context.User.Id})", amount).ConfigureAwait(false))
+            if (_cs.Remove(usrId, $"Taken by bot owner.({Context.User.Username}/{Context.User.Id})", amount))
                 await ReplyConfirmLocalized("take", amount + CurrencySign, $"<@{usrId}>").ConfigureAwait(false);
             else
                 await ReplyErrorLocalized("take_fail", amount + CurrencySign, Format.Code(usrId.ToString()), CurrencyPluralName).ConfigureAwait(false);
@@ -444,7 +444,7 @@ namespace NadekoBot.Modules.Gambling
         //    });
         //    return Task.CompletedTask;
         //}
-        public enum Allin { Allin = int.MinValue, All = int.MinValue }
+        public enum Allin { Allin = int.MinValue / 3, All = int.MinValue / 3 }
 
         private async Task InternallBetroll(long amount)
         {

@@ -961,5 +961,7 @@
   "utility_reminder_list": "List of reminders",
   "utility_reminder_deleted": "Reminder #{0} was deleted.",
   "utility_reminder_not_exist": "Reminder at that index does not exist.",
-  "utility_reminders_none": "No reminder on this page."
+  "utility_reminders_none": "No reminder on this page.",
+  "gambling_bj_created": "has created a new BlackJack game in this channel.",
+  "gambling_bj_joined": "has joined the BlackJack game"
 }

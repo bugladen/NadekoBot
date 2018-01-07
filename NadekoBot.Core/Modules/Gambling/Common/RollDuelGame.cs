@@ -84,13 +84,13 @@ namespace NadekoBot.Core.Modules.Gambling.Common
                 _locker.Release();
             }
 
-            if(!await _cs.RemoveAsync(P1, "Roll Duel", Amount))
+            if(!_cs.Remove(P1, "Roll Duel", Amount))
             {
                 await OnEnded?.Invoke(this, Reason.NoFunds);
                 CurrentState = State.Ended;
                 return;
             }
-            if(!await _cs.RemoveAsync(P2, "Roll Duel", Amount))
+            if(!_cs.Remove(P2, "Roll Duel", Amount))
             {
                 await _cs.AddAsync(P1, "Roll Duel - refund", Amount);
                 await OnEnded?.Invoke(this, Reason.NoFunds);
