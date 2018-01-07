@@ -20,7 +20,7 @@ namespace NadekoBot.Modules.Administration
 
             public async Task InternalReactionRoles(bool exclusive, params string[] input)
             {
-                var msgs = await ((SocketTextChannel)Context.Channel).GetMessagesAsync().Flatten();
+                var msgs = await ((SocketTextChannel)Context.Channel).GetMessagesAsync().FlattenAsync();
                 var prev = (IUserMessage)msgs.FirstOrDefault(x => x is IUserMessage && x.Id != Context.Message.Id);
 
                 if (prev == null)

@@ -49,7 +49,7 @@ namespace NadekoBot.Modules.Utility
             public async Task Remind(ITextChannel channel, string timeStr, [Remainder] string message)
             {
                 var perms = ((IGuildUser)Context.User).GetPermissions((ITextChannel)channel);
-                if (!perms.SendMessages || !perms.ReadMessages)
+                if (!perms.SendMessages || !perms.ViewChannel)
                 {
                     await ReplyErrorLocalized("cant_read_or_send").ConfigureAwait(false);
                     return;
