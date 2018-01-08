@@ -74,7 +74,8 @@ namespace NadekoBot.Modules.Utility.Services
                     }).ToArray();
 
                     var fileData = JsonConvert.DeserializeObject<ConvertUnit[]>(
-                            File.ReadAllText("data/units.json"));
+                            File.ReadAllText("data/units.json"))
+                            .Where(x => x.UnitType != "currency");
 
                     var data = JsonConvert.SerializeObject(range.Append(baseType).Concat(fileData).ToList());
                     _cache.Redis.GetDatabase()

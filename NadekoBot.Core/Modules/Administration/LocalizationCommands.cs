@@ -43,6 +43,7 @@ namespace NadekoBot.Modules.Administration
                 {"sv-SE", "Svenska, Sverige"},
                 {"tr-TR", "Türkçe, Türkiye"},
                 {"ts-TS", "Tsundere, You Baka"},
+                {"uk-UA", "Українська, Україна" }
             }.ToImmutableDictionary();
 
             [NadekoCommand, Usage, Description, Aliases]

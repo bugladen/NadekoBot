@@ -510,7 +510,7 @@
   },
   "mentionrole": {
     "Cmd": "mentionrole menro",
-    "Desc": "Mentions every person from the provided role or roles (separated by a ',') on this server.",
+    "Desc": "Mentions a role. If the role is not mentionable, bot will make it mentionable for a moment.",
     "Usage": [
       "{0}menro RoleName"
     ]
@@ -549,6 +549,20 @@
     "Usage": [
       "{0}remind me 1d5h Do something",
       "{0}remind #general 1m Start now!"
+    ]
+  },
+  "reminddelete": {
+    "Cmd": "reminddel remindrm",
+    "Desc": "Deletes a reminder on the specified index.",
+    "Usage": [
+      "{0}remindrm 3"
+    ]
+  },
+  "remindlist": {
+    "Cmd": "remindlist remindl remindlst",
+    "Desc": "Lists all reminders you created. Paginated.",
+    "Usage": [
+      "{0}remindlist 1"
     ]
   },
   "remindtemplate": {
@@ -963,14 +977,15 @@
   },
   "give": {
     "Cmd": "give",
-    "Desc": "Give someone a certain amount of currency.",
+    "Desc": "Give someone a certain amount of currency. You can specify the reason after the mention.",
     "Usage": [
-      "{0}give 1 @SomeGuy"
+      "{0}give 1 @SomeGuy",
+      "{0}give 5 @CootGurl Ur so pwetty"
     ]
   },
   "award": {
     "Cmd": "award",
-    "Desc": "Awards someone a certain amount of currency.  You can also specify a role name to award currency to all users in a role.",
+    "Desc": "Awards someone a certain amount of currency. You can specify the reason after the Username. You can also specify a role name to award currency to all users in a role.",
     "Usage": [
       "{0}award 100 @person",
       "{0}award 5 Role Of Gamblers"
@@ -1771,6 +1786,14 @@
     "Usage": [
       "{0}$",
       "{0}$ @SomeGuy"
+    ]
+  },
+  "currencytransactions": {
+    "Cmd": "curtrs",
+    "Desc": "Shows your currency transactions on the specified page. Bot owner can see other people's transactions too.",
+    "Usage": [
+      "{0}curtrs 2",
+      "{0}curtrs @SomeUser 2"
     ]
   },
   "listperms": {
@@ -2969,6 +2992,13 @@
       "{0}clublevelreq 7"
     ]
   },
+  "clubdescription": {
+    "Cmd": "clubdesc",
+    "Desc": "Sets the club description. Maximum 150 characters. Club owner only.",
+    "Usage": [
+      "{0}clubdesc This is the best club please join."
+    ]
+  },
   "clubicon": {
     "Cmd": "clubicon",
     "Desc": "Sets the club icon.",
@@ -3226,6 +3256,34 @@
     "desc": "Removed a ReactionRole message on the specified index.",
     "usage": [
       "{0}reactionrolesrm 1"
+    ]
+  },
+  "blackjack": {
+    "cmd": "blackjack bj",
+    "desc": "Start or join a blackjack game. You must specify the amount you're betting. Use `.hit`, `.stand` and `.double` commands to play. Game is played with 4 decks.",
+    "usage": [
+      "{0}bj 50"
+    ]
+  },
+  "hit": {
+    "cmd": "hit",
+    "desc": "In the blackjack game, ask the dealer for an extra card.",
+    "usage": [
+      "{0}hit"
+    ]
+  },
+  "stand": {
+    "cmd": "stand",
+    "desc": "Finish your turn in the blackjack game.",
+    "usage": [
+      "{0}stand"
+    ]
+  },
+  "double": {
+    "cmd": "double",
+    "desc": "In the blackjack game, double your bet in order to receive exactly one more card, and your turn ends.",
+    "usage": [
+      "{0}double"
     ]
   }
 }

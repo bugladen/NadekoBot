@@ -6,23 +6,41 @@ using NadekoBot.Extensions;
 
 namespace NadekoBot.Modules.Gambling.Common
 {
-    public class Cards
+    public class QuadDeck : Deck
+    {
+        protected override void RefillPool()
+        {
+            cardPool = new List<Card>(52 * 4);
+            for (var j = 1; j < 14; j++)
+            {
+                for (var i = 1; i < 5; i++)
+                {
+                    cardPool.Add(new Card((CardSuit)i, j));
+                    cardPool.Add(new Card((CardSuit)i, j));
+                    cardPool.Add(new Card((CardSuit)i, j));
+                    cardPool.Add(new Card((CardSuit)i, j));
+                }
+            }
+        }
+    }
+
+    public class Deck
     {
         private static readonly Dictionary<int, string> cardNames = new Dictionary<int, string>() {
-        { 1, "Ace" },
-        { 2, "Two" },
-        { 3, "Three" },
-        { 4, "Four" },
-        { 5, "Five" },
-        { 6, "Six" },
-        { 7, "Seven" },
-        { 8, "Eight" },
-        { 9, "Nine" },
-        { 10, "Ten" },
-        { 11, "Jack" },
-        { 12, "Queen" },
-        { 13, "King" }
-    };
+            { 1, "Ace" },
+            { 2, "Two" },
+            { 3, "Three" },
+            { 4, "Four" },
+            { 5, "Five" },
+            { 6, "Six" },
+            { 7, "Seven" },
+            { 8, "Eight" },
+            { 9, "Nine" },
+            { 10, "Ten" },
+            { 11, "Jack" },
+            { 12, "Queen" },
+            { 13, "King" }
+        };
         private static Dictionary<string, Func<List<Card>, bool>> handValues;
 
 
@@ -49,7 +67,8 @@ namespace NadekoBot.Modules.Gambling.Common
                     {
                         str += "_" + Number;
                     }
-                    else {
+                    else
+                    {
                         str += GetName().ToLower();
                     }
                     return str + "_of_" + Suit.ToString().ToLower();
@@ -72,9 +91,84 @@ namespace NadekoBot.Modules.Gambling.Common
                 var c = (Card)obj;
                 return this.Number - c.Number;
             }
+
+            public Card Parse(string input)
+            {
+                if (string.IsNullOrWhiteSpace(input))
+                    throw new ArgumentNullException(nameof(input));
+
+                if (input.Length != 2
+                    || !_numberCharToNumber.TryGetValue(input[0], out var n)
+                    || !_suitCharToSuit.TryGetValue(input[1].ToString(), out var s))
+                {
+                    throw new ArgumentException(nameof(input));
+                }
+
+                return new Card(s, n);
+            }
+
+            public string GetEmojiString()
+            {
+                var str = "";
+
+                str += _regIndicators[this.Number - 1];
+                str += _suitToSuitChar[this.Suit];
+
+                return str;
+            }
+            private readonly string[] _regIndicators = new[]
+            {
+                "🇦",
+                ":two:",
+                ":three:",
+                ":four:",
+                ":five:",
+                ":six:",
+                ":seven:",
+                ":eight:",
+                ":nine:",
+                ":keycap_ten:",
+                "🇯",
+                "🇶",
+                "🇰"
+            };
+            private static IReadOnlyDictionary<CardSuit, string> _suitToSuitChar = new Dictionary<CardSuit, string>
+            {
+                {CardSuit.Diamonds, "♦"},
+                {CardSuit.Clubs, "♣"},
+                {CardSuit.Spades, "♠"},
+                {CardSuit.Hearts, "♥"},
+            };
+            private static IReadOnlyDictionary<string, CardSuit> _suitCharToSuit = new Dictionary<string, CardSuit>
+            {
+                {"♦", CardSuit.Diamonds },
+                {"d", CardSuit.Diamonds },
+                {"♣", CardSuit.Clubs },
+                {"c", CardSuit.Clubs },
+                {"♠", CardSuit.Spades },
+                {"s", CardSuit.Spades },
+                {"♥", CardSuit.Hearts },
+                {"h", CardSuit.Hearts },
+            };
+            private static IReadOnlyDictionary<char, int> _numberCharToNumber = new Dictionary<char, int>()
+            {
+                {'a', 1 },
+                {'2', 2 },
+                {'3', 3 },
+                {'4', 4 },
+                {'5', 5 },
+                {'6', 6 },
+                {'7', 7 },
+                {'8', 8 },
+                {'9', 9 },
+                {'t', 10 },
+                {'j', 11 },
+                {'q', 12 },
+                {'k', 13 },
+            };
         }
 
-        private List<Card> cardPool;
+        protected List<Card> cardPool;
         public List<Card> CardPool
         {
             get { return cardPool; }
@@ -84,10 +178,12 @@ namespace NadekoBot.Modules.Gambling.Common
         /// <summary>
         /// Creates a new instance of the BlackJackGame, this allows you to create multiple games running at one time.
         /// </summary>
-        public Cards()
+        public Deck()
         {
-            cardPool = new List<Card>(52);
             RefillPool();
+        }
+        static Deck()
+        {
             InitHandValues();
         }
         /// <summary>
@@ -100,9 +196,9 @@ namespace NadekoBot.Modules.Gambling.Common
         /// Removes all cards from the pool and refills the pool with all of the possible cards. NOTE: I think this is too expensive.
         /// We should probably make it so it copies another premade list with all the cards, or something.
         /// </summary>
-        private void RefillPool()
+        protected virtual void RefillPool()
         {
-            cardPool.Clear();
+            cardPool = new List<Card>(52);
             //foreach suit
             for (var j = 1; j < 14; j++)
             {
@@ -121,7 +217,7 @@ namespace NadekoBot.Modules.Gambling.Common
         /// Take a card from the pool, you either take it from the top if the deck is shuffled, or from a random place if the deck is in the default order.
         /// </summary>
         /// <returns>A card from the pool</returns>
-        public Card DrawACard()
+        public Card Draw()
         {
             if (CardPool.Count == 0)
                 Restart();

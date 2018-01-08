@@ -9,13 +9,13 @@
 ----
 **Answer:** You must have the `.permrole` (by default this is the `Nadeko` role, for more details on permissions check [here](http://nadekobot.readthedocs.io/en/latest/Permissions%20System/ "Permissions"). If you have a role called `Nadeko` but can't assign it it's probably the Bot Role so, just create a **New Role** called `Nadeko` and assign that to yourself instead.)
 
-###Question 3: I want to disable NSFW on my server.
+###Question 3: I want to enable NSFW on a channel.
 ----
-**Answer:** To disable the NSFW Module for your server type, `.sm NSFW disable`. If this does not work refer to Question 2.
+**Answer:** To enable the NSFW Module on one channel, type `.cm NSFW enable #channel-name`. If this does not work refer to Question 2. To enable NSFW for your **entire server**, type `.sm NSFW enable`.
 
 ###Question 4: How do I get NadekoFlowers/Currency?
 ----
-**Answer:** You can get NadekoFlowers by picking them up after they have been generated with `.gc`, which you can then either plant (give away to a channel so that someone can pick it), or gamble with for potentinal profit with `.betflip`, `.betroll` and `.jr`
+**Answer:** You can get NadekoFlowers by picking them up after they have been generated with `.gc`, which you can then either plant (give away to a channel so that someone can pick it), or gamble with for potentinal profit with `.betflip`, `.betroll` and `.jr`. You can get flowers on the public bot by reacting on reaction events or by donating on [Patreon](https://patreon.com/nadekobot) or [PayPal](https://paypal.me/Kwoth). 
 
 ###Question 5: I have an issue/bug/suggestion, where do I put it so it gets noticed?
 -----------
@@ -52,7 +52,7 @@ The whole list of commands can be found [here](http://nadekobot.readthedocs.io/e
 ----
 **Answer:** You need to use oauth link to add it to you server, just copy your **CLIENT ID** (that's in the same [Developer page](https://discordapp.com/developers/applications/me) where you brought your token) and replace `12345678` in the link below: **https://discordapp.com/oauth2/authorize?client_id=`12345678`&scope=bot&permissions=66186303**
 
-Follow this Detailed [Guide](http://discord.kongslien.net/guide.html).
+Follow this Detailed [Guide](https://tukimoop.pw/s/guide.html).
 
 ###Question 12:  I'm building NadekoBot from source, but I get hundreds of (namespace) errors without changing anything!?
 -----

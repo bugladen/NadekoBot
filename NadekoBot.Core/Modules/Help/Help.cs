@@ -95,11 +95,6 @@ namespace NadekoBot.Modules.Help
                     var transformed = g.ElementAt(i).Select(x =>
                     {
                         return $"{Prefix + x.Aliases.First(),-15} {"[" + x.Aliases.Skip(1).FirstOrDefault() + "]",-8}";
-                        var str = $"{Prefix + x.Aliases.First(),-18}";
-                        var al = x.Aliases.Skip(1).FirstOrDefault();
-                        if (al != null)
-                            str += $" {"(" + Prefix + al + ")", -9}";
-                        return str;
                     });
 
                     if (i == last - 1 && (i + 1) % 2 != 0)

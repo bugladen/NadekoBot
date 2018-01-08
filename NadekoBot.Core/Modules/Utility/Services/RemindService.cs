@@ -5,13 +5,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
-using NadekoBot.Common.Replacements;
 using NadekoBot.Extensions;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Core.Services.Impl;
 using NLog;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 
 namespace NadekoBot.Modules.Utility.Services
 {
@@ -23,11 +23,11 @@ namespace NadekoBot.Modules.Utility.Services
         public string RemindMessageFormat { get; }
 
         private readonly Logger _log;
-        private readonly CancellationTokenSource cancelSource;
-        private readonly CancellationToken cancelAllToken;
         private readonly IBotConfigProvider _config;
         private readonly DiscordSocketClient _client;
         private readonly DbService _db;
+
+        public ConcurrentDictionary<int, Timer> Reminders { get; } = new ConcurrentDictionary<int, Timer>();
 
         public RemindService(DiscordSocketClient client, 
             IBotConfigProvider config, 
@@ -39,9 +39,6 @@ namespace NadekoBot.Modules.Utility.Services
             _log = LogManager.GetCurrentClassLogger();
             _db = db;
 
-            cancelSource = new CancellationTokenSource();
-            cancelAllToken = cancelSource.Token;
-
             List<Reminder> reminders;
             using (var uow = _db.UnitOfWork)
             {
@@ -51,21 +48,31 @@ namespace NadekoBot.Modules.Utility.Services
 
             foreach (var r in reminders)
             {
-                Task.Run(() => StartReminder(r));
+                StartReminder(r);
             }
         }
 
-        public async Task StartReminder(Reminder r)
+        public void StartReminder(Reminder r)
         {
-            var t = cancelAllToken;
-            var now = DateTime.UtcNow;
-
-            var time = r.When - now;
+            var time = r.When - DateTime.UtcNow;
 
             if (time.TotalMilliseconds > int.MaxValue)
                 return;
 
-            await Task.Delay(time, t).ConfigureAwait(false);
+            if (time.TotalMilliseconds < 0)
+                time = TimeSpan.FromSeconds(5);
+                
+            var remT = new Timer(ReminderTimerAction, r, (int)time.TotalMilliseconds, Timeout.Infinite);
+            if (!Reminders.TryAdd(r.Id, remT))
+            {
+                remT.Change(Timeout.Infinite, Timeout.Infinite);
+            }
+        }
+
+        private async void ReminderTimerAction(object rObj)
+        {
+            var r = (Reminder)rObj;
+                       
             try
             {
                 IMessageChannel ch;
@@ -83,13 +90,12 @@ namespace NadekoBot.Modules.Utility.Services
                 if (ch == null)
                     return;
 
-                var rep = new ReplacementBuilder()
-                    .WithOverride("%user%", () => $"<@!{r.UserId}>")
-                    .WithOverride("%message%", () => r.Message)
-                    .WithOverride("%target%", () => r.IsPrivate ? "Direct Message" : $"<#{r.ChannelId}>")
-                    .Build();
-
-                await ch.SendMessageAsync(rep.Replace(RemindMessageFormat).SanitizeMentions()).ConfigureAwait(false); //it works trust me
+                await ch.EmbedAsync(new EmbedBuilder()
+                    .WithOkColor()
+                    .WithTitle("Reminder")
+                    .WithDescription(r.Message)
+                    .AddField("Created At", r.DateAdded.HasValue ? r.DateAdded.Value.ToLongDateString() : "?")
+                    .AddField("By", (await ch.GetUserAsync(r.UserId))?.ToString() ?? r.UserId.ToString()));
             }
             catch (Exception ex) { _log.Warn(ex); }
             finally
@@ -99,6 +105,18 @@ namespace NadekoBot.Modules.Utility.Services
                     uow.Reminders.Remove(r);
                     await uow.CompleteAsync();
                 }
+                var _ = Task.Run(() =>
+                {
+                    RemoveReminder(r.Id);
+                });
+            }
+        }
+
+        public void RemoveReminder(int id)
+        {
+            if (Reminders.TryRemove(id, out var t))
+            {
+                t.Change(Timeout.Infinite, Timeout.Infinite);
             }
         }
     }

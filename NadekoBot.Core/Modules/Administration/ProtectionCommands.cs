@@ -185,7 +185,16 @@ namespace NadekoBot.Modules.Administration
                 {
                     var gc = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(x => x.AntiSpamSetting));
 
-                    gc.AntiSpamSetting = stats.AntiSpamSettings;
+                    if (gc.AntiSpamSetting != null)
+                    {
+                        gc.AntiSpamSetting.Action = stats.AntiSpamSettings.Action;
+                        gc.AntiSpamSetting.MessageThreshold = stats.AntiSpamSettings.MessageThreshold;
+                        gc.AntiSpamSetting.MuteTime = stats.AntiSpamSettings.MuteTime;
+                    }
+                    else
+                    {
+                        gc.AntiSpamSetting = stats.AntiSpamSettings;
+                    }
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
 

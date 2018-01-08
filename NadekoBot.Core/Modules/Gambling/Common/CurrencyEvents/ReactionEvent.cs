@@ -111,7 +111,7 @@ namespace NadekoBot.Modules.Gambling.Common
             {
                 try
                 {
-                    if (r.UserId == _botUser.Id)
+                    if ((r.User.IsSpecified && r.User.Value.IsBot) || r.UserId == _botUser.Id)
                         return;
 
                     if (r.Emote.Name == iemote.Name && r.User.IsSpecified && ((DateTime.UtcNow - r.User.Value.CreatedAt).TotalDays > 5) && _reactionAwardedUsers.Add(r.User.Value.Id))

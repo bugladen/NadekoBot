@@ -158,7 +158,7 @@ namespace NadekoBot.Modules.Gambling
                         return;
                     }
 
-                    if (!await _cs.RemoveAsync(Context.User, "Slot Machine", amount, false))
+                    if (!await _cs.RemoveAsync(Context.User, "Slot Machine", amount, false, gamble: true))
                     {
                         await ReplyErrorLocalized("not_enough", _bc.BotConfig.CurrencySign).ConfigureAwait(false);
                         return;
@@ -210,7 +210,7 @@ namespace NadekoBot.Modules.Gambling
                         var msg = GetText("better_luck");
                         if (result.Multiplier != 0)
                         {
-                            await _cs.AddAsync(Context.User, $"Slot Machine x{result.Multiplier}", amount * result.Multiplier, false);
+                            await _cs.AddAsync(Context.User, $"Slot Machine x{result.Multiplier}", amount * result.Multiplier, false, gamble: true);
                             Interlocked.Add(ref _totalPaidOut, amount * result.Multiplier);
                             if (result.Multiplier == 1)
                                 msg = GetText("slot_single", _bc.BotConfig.CurrencySign, 1);
