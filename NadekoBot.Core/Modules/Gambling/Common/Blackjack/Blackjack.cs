@@ -54,9 +54,10 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
                 State = GameState.Playing;
             }
             await PrintState();
-
+            //if no users joined the game, end it
             if (!Players.Any())
             {
+                State = GameState.Ended;
                 var end = GameEnded?.Invoke(this);
                 return;
             }
@@ -92,6 +93,8 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
             CurrentUser = usr;
             _currentUserMove = new TaskCompletionSource<bool>();
             await PrintState();
+            // either wait for the user to make an action and
+            // if he doesn't - stand
             var finished = await Task.WhenAny(pause, _currentUserMove.Task);
             if (finished == pause)
             {
@@ -111,6 +114,9 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
                 if (Players.Count >= 5)
                     return false;
 
+                //paid flag is only for the user who created the game, he already paid 
+                //for his join in the command code, because otherwise people who don't have
+                //enough currency to gamble will be able to start games to spam the chat
                 if (!paid && !_cs.Remove(user.Id, "BlackJack-gamble", bet, gamble: true, user: user))
                 {
                     return false;
@@ -153,8 +159,27 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
         {
             var hw = Dealer.GetHandValue();
             while (hw < 17
-                /*|| (hw == 17 && Dealer.Cards.Any(x => x.Number == 1))*/) //todo hit on soft 17
+                || (hw == 17 && Dealer.Cards.Count(x => x.Number == 1) > (Dealer.GetRawHandValue() - 17) / 10))// hit on soft 17
             {
+                /* Dealer has
+                     A 6
+                     That's 17, soft
+                     hw == 17 => true
+                     number of aces = 1
+                     1 > 17-17 /10 => true
+                    
+                     AA 5
+                     That's 17, again soft, since one ace is worth 11, even though another one is 1
+                     hw == 17 => true
+                     number of aces = 2
+                     2 > 27 - 17 / 10 => true
+
+                     AA Q 5
+                     That's 17, but not soft, since both aces are worth 1
+                     hw == 17 => true
+                     number of aces = 2
+                     2 > 37 - 17 / 10 => false
+                 * */
                 Dealer.Cards.Add(Deck.Draw());
                 hw = Dealer.GetHandValue();
             }
