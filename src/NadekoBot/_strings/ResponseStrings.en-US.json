@@ -257,6 +257,7 @@
   "gambling_tails": "Tail",
   "gambling_take": "successfully took {0} from {1}",
   "gambling_take_fail": "was unable to take {0} from{1} because the user doesn't have that much {2}!",
+  "gambling_transactions": "Transactions of user {0}",
   "help_back_to_toc": "Back to ToC",
   "help_bot_owner_only": "Bot owner only",
   "help_channel_permission": "Requires {0} channel permission.",
@@ -882,6 +883,8 @@
   "xp_club_user_unban_fail": "Failed to unban. You're either not the club owner, or that user is not in your club or applied to it.",
   "xp_club_level_req_changed": "Changed club's level requirement to {0}",
   "xp_club_level_req_change_error": "Failed changing level requirement.",
+  "xp_club_desc_updated": "Updated club description to {0}",
+  "xp_club_desc_update_failed": "Failed changing club description.",
   "xp_club_disbanded": "Club {0} has been disbanded",
   "xp_club_disband_error": "Error. You are either not in a club, or you are not the owner of your club.",
   "xp_club_icon_error": "Not a valid image url or you're not the club owner.",
@@ -954,5 +957,11 @@
   "administration_reaction_roles_message": "**Roles:** {0}\n**Content:** {1}",
   "administration_no_reaction_roles": "There are no ReactionRole features enabled on this server.",
   "administration_reaction_role_removed": "Removed ReactionRole message #{0}",
-  "administration_reaction_roles_full": "You've reached the limit on ReactionRole messages. You have to delete some."
+  "administration_reaction_roles_full": "You've reached the limit on ReactionRole messages. You have to delete some.",
+  "utility_reminder_list": "List of reminders",
+  "utility_reminder_deleted": "Reminder #{0} was deleted.",
+  "utility_reminder_not_exist": "Reminder at that index does not exist.",
+  "utility_reminders_none": "No reminder on this page.",
+  "gambling_bj_created": "has created a new BlackJack game in this channel.",
+  "gambling_bj_joined": "has joined the BlackJack game"
 }

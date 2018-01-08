@@ -33,10 +33,10 @@ namespace NadekoBot.Modules.Gambling.Services
                 if (waifu == null || waifu.ClaimerId != ownerUser.Id)
                     return false;
 
-                if (!await _cs.RemoveAsync(owner.Id,
+                if (!_cs.Remove(owner.Id,
                     "Waifu Transfer",
                     waifu.Price / 10,
-                    uow).ConfigureAwait(false))
+                    uow))
                 {
                     return false;
                 }
@@ -69,13 +69,13 @@ namespace NadekoBot.Modules.Gambling.Services
             }
         }
 
-        public async Task<bool> TryReset(IUser user)
+        public Task<bool> TryReset(IUser user)
         {
             using (var uow = _db.UnitOfWork)
             {
                 var price = GetResetPrice(user);
-                if (!await _cs.RemoveAsync(user.Id, "Waifu Reset", price, uow))
-                    return false;
+                if (!_cs.Remove(user.Id, "Waifu Reset", price, uow))
+                    return Task.FromResult(false);
 
                 var affs = uow._context.WaifuUpdates
                     .Where(w => w.User.UserId == user.Id
@@ -104,7 +104,7 @@ namespace NadekoBot.Modules.Gambling.Services
                 uow.Complete();
             }
 
-            return true;
+            return Task.FromResult(true);
         }
     }
 }

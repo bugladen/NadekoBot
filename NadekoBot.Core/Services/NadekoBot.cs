@@ -72,7 +72,7 @@ namespace NadekoBot
             Client = new DiscordSocketClient(new DiscordSocketConfig
             {
                 MessageCacheSize = 10,
-                LogLevel = LogSeverity.Warning,
+                LogLevel = LogSeverity.Info,
                 ConnectionTimeout = int.MaxValue,
                 TotalShards = Credentials.TotalShards,
                 ShardId = shardId,
@@ -93,7 +93,7 @@ namespace NadekoBot
 
             SetupShard(parentProcessId);
 
-#if GLOBAL_NADEKO
+#if GLOBAL_NADEKO || DEBUG
             Client.Log += Client_Log;
 #endif
         }

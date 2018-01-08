@@ -18,7 +18,7 @@ namespace NadekoBot.Modules.Gambling
         [Group]
         public class DrawCommands : NadekoSubmodule
         {
-            private static readonly ConcurrentDictionary<IGuild, Cards> _allDecks = new ConcurrentDictionary<IGuild, Cards>();
+            private static readonly ConcurrentDictionary<IGuild, Deck> _allDecks = new ConcurrentDictionary<IGuild, Deck>();
             private const string _cardsPath = "data/images/cards";
 
             
@@ -27,9 +27,9 @@ namespace NadekoBot.Modules.Gambling
                 if (num < 1 || num > 10)
                     throw new ArgumentOutOfRangeException(nameof(num));
 
-                Cards cards = guildId == null ? new Cards() : _allDecks.GetOrAdd(Context.Guild, (s) => new Cards());
+                Deck cards = guildId == null ? new Deck() : _allDecks.GetOrAdd(Context.Guild, (s) => new Deck());
                 var images = new List<Image<Rgba32>>();
-                var cardObjects = new List<Cards.Card>();
+                var cardObjects = new List<Deck.Card>();
                 for (var i = 0; i < num; i++)
                 {
                     if (cards.CardPool.Count == 0 && i != 0)
@@ -44,7 +44,7 @@ namespace NadekoBot.Modules.Gambling
                         }
                         break;
                     }
-                    var currentCard = cards.DrawACard();
+                    var currentCard = cards.Draw();
                     cardObjects.Add(currentCard);
                     using (var stream = File.OpenRead(Path.Combine(_cardsPath, currentCard.ToString().ToLowerInvariant() + ".jpg").Replace(' ', '_')))
                         images.Add(Image.Load(stream));
@@ -55,7 +55,7 @@ namespace NadekoBot.Modules.Gambling
 
                 var toSend = $"{Context.User.Mention}";
                 if (cardObjects.Count == 5)
-                    toSend += $" drew `{Cards.GetHandValue(cardObjects)}`";
+                    toSend += $" drew `{Deck.GetHandValue(cardObjects)}`";
 
                 return (bitmapStream, toSend);
             }
@@ -92,7 +92,7 @@ namespace NadekoBot.Modules.Gambling
                 //var channel = (ITextChannel)Context.Channel;
 
                 _allDecks.AddOrUpdate(Context.Guild,
-                        (g) => new Cards(),
+                        (g) => new Deck(),
                         (g, c) =>
                         {
                             c.Restart();

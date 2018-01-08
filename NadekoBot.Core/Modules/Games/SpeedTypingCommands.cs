@@ -112,7 +112,7 @@ namespace NadekoBot.Modules.Games
 
                 var removed = _games.TypingArticles[index];
                 _games.TypingArticles.RemoveAt(index);
-
+                
                 File.WriteAllText(_games.TypingArticlesPath, JsonConvert.SerializeObject(_games.TypingArticles));
 
                 await channel.SendConfirmAsync($"`Removed typing article:` #{index + 1} - {removed.Text.TrimTo(50)}")

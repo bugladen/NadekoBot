@@ -31,9 +31,9 @@ namespace NadekoBot.Modules.Xp
             {
                 var club = _service.TransferClub(Context.User, newOwner);
 
-                if(club != null)
-                    await ReplyConfirmLocalized("club_transfered", 
-                        Format.Bold(club.Name), 
+                if (club != null)
+                    await ReplyConfirmLocalized("club_transfered",
+                        Format.Bold(club.Name),
                         Format.Bold(newOwner.ToString())).ConfigureAwait(false);
                 else
                     await ReplyErrorLocalized("club_transfer_failed").ConfigureAwait(false);
@@ -53,7 +53,7 @@ namespace NadekoBot.Modules.Xp
                     return;
                 }
 
-                if(admin)
+                if (admin)
                     await ReplyConfirmLocalized("club_admin_add", Format.Bold(toAdmin.ToString())).ConfigureAwait(false);
                 else
                     await ReplyConfirmLocalized("club_admin_remove", Format.Bold(toAdmin.ToString())).ConfigureAwait(false);
@@ -126,6 +126,7 @@ namespace NadekoBot.Modules.Xp
                         .WithOkColor()
                         .WithTitle($"{club.ToString()}")
                         .WithDescription(GetText("level_x", lvl.Level) + $" ({club.Xp} xp)")
+                        .AddField("Description", string.IsNullOrWhiteSpace(club.Description) ? "-" : club.Description, false)
                         .AddField("Owner", club.Owner.ToString(), true)
                         .AddField("Level Req.", club.MinimumLevelReq.ToString(), true)
                         .AddField("Members", string.Join("\n", club.Users
@@ -325,6 +326,19 @@ namespace NadekoBot.Modules.Xp
                 else
                 {
                     await ReplyErrorLocalized("club_level_req_change_error").ConfigureAwait(false);
+                }
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            public async Task ClubDescription([Remainder] string desc = null)
+            {
+                if (_service.ChangeClubDescription(Context.User.Id, desc))
+                {
+                    await ReplyConfirmLocalized("club_desc_updated", Format.Bold(desc ?? "-")).ConfigureAwait(false);
+                }
+                else
+                {
+                    await ReplyErrorLocalized("club_desc_update_failed").ConfigureAwait(false);
                 }
             }
 

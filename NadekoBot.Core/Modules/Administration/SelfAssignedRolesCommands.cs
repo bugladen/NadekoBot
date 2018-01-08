@@ -204,7 +204,6 @@ namespace NadekoBot.Modules.Administration
                 bool notExists = false;
                 using (var uow = _db.UnitOfWork)
                 {
-                    //todo add firacode font to visual studio
                     var roles = uow.SelfAssignedRoles.GetFromGuild(Context.Guild.Id);
                     var sar = roles.SelectMany(x => x).FirstOrDefault(x => x.RoleId == role.Id);
                     if (sar != null)

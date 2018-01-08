@@ -43,7 +43,7 @@ namespace NadekoBot.Modules.Administration.Services
                     if (gUser == null)
                         return;
 
-                    var game = gUser.Game?.Name?.TrimTo(50).ToLowerInvariant();
+                    var game = gUser.Activity?.Name?.TrimTo(50).ToLowerInvariant();
 
                     if (oldState.VoiceChannel == newState.VoiceChannel ||
                         newState.VoiceChannel == null)

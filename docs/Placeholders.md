@@ -9,6 +9,7 @@ Some features have their own specific placeholders which are noted in that featu
 - `%shardid%` - Shard id
 - `%server%` - Server name  
 - `%sid%` - Server Id  
+- `%members%` - Number of members in the guild
 - `%channel%` - Channel mention  
 - `%chname%` - Channel mention
 - `%cid%` - Channel Id  

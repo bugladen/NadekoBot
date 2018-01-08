@@ -15,7 +15,6 @@ namespace NadekoBot.Core.Services.Database
         ISelfAssignedRolesRepository SelfAssignedRoles { get; }
         IBotConfigRepository BotConfig { get; }
         ICustomReactionRepository CustomReactions { get; }
-        ICurrencyRepository Currency { get; }
         ICurrencyTransactionsRepository CurrencyTransactions { get; }
         IMusicPlaylistRepository MusicPlaylists { get; }
         IPokeGameRepository PokeGame { get; }

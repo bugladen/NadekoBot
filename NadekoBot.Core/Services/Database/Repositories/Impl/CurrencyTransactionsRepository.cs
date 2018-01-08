@@ -1,5 +1,7 @@
 ﻿using NadekoBot.Core.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NadekoBot.Core.Services.Database.Repositories.Impl
 {
@@ -8,5 +10,14 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
         public CurrencyTransactionsRepository(DbContext context) : base(context)
         {
         }
+
+        public List<CurrencyTransaction> GetPageFor(ulong userId, int page)
+        {
+            return _set.Where(x => x.UserId == userId)
+                .OrderByDescending(x => x.DateAdded)
+                .Skip(10 * page)
+                .Take(10)
+                .ToList();
+        }
     }
-}
+}   
