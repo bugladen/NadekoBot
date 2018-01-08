@@ -7,5 +7,7 @@ namespace NadekoBot.Core.Services.Database.Repositories
         UserXpStats GetOrCreateUser(ulong guildId, ulong userId);
         int GetUserGuildRanking(ulong userId, ulong guildId);
         UserXpStats[] GetUsersFor(ulong guildId, int page);
+        void ResetGuildUserXp(ulong userId, ulong guildId);
+        void ResetGuildXp(ulong guildId);
     }
 }

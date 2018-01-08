@@ -69,22 +69,12 @@ namespace NadekoBot.Modules.Searches
 
             if (nearest != null)
             {
-                //wrap this into some class, ther'es the same code in execsql too
-                var msg = await Context.Channel.EmbedAsync(new EmbedBuilder()
-                        .WithOkColor()
+                var embed = new EmbedBuilder()
                         .WithTitle(GetText("crypto_not_found"))
-                        .WithDescription(GetText("did_you_mean", Format.Bold($"{crypto.Name} ({crypto.Symbol})")))
-                        .WithFooter("Y/n")).ConfigureAwait(false);
+                        .WithDescription(GetText("did_you_mean", Format.Bold($"{crypto.Name} ({crypto.Symbol})")));
 
-                var input = await GetUserInputAsync(Context.User.Id, Context.Channel.Id);
-                input = input?.ToLowerInvariant().ToString();
-
-                if (input != "yes" && input != "y")
-                {
-                    var __ = msg.DeleteAsync();
+                if (!await PromptUserConfirmAsync(embed))
                     return;
-                }
-                var _ = msg.DeleteAsync();
             }
 
             await Context.Channel.EmbedAsync(new EmbedBuilder()

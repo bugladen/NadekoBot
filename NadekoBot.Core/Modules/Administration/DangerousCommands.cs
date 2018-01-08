@@ -29,20 +29,15 @@ namespace NadekoBot.Modules.Administration
             {
                 try
                 {
-                    var msg = await Context.Channel.EmbedAsync(new EmbedBuilder()
-                        .WithOkColor()
+
+                    var embed = new EmbedBuilder()
                         .WithTitle(GetText("sql_confirm_exec"))
-                        .WithDescription(Format.Code(sql))
-                        .WithFooter("yes/no")).ConfigureAwait(false);
+                        .WithDescription(Format.Code(sql));
 
-                    var input = await GetUserInputAsync(Context.User.Id, Context.Channel.Id);
-                    input = input?.ToLowerInvariant().ToString();
-
-                    if (input != "yes" && input != "y")
+                    if (!await PromptUserConfirmAsync(embed))
                     {
                         return;
                     }
-                    var _ = msg.DeleteAsync();
 
                     int res;
                     using (var uow = _db.UnitOfWork)

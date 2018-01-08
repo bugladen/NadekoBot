@@ -56,5 +56,15 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
                     .DefaultIfEmpty()
                     .Sum())) + 1;
         }
+
+        public void ResetGuildUserXp(ulong userId, ulong guildId)
+        {
+            _context.Database.ExecuteSqlCommand($"DELETE FROM UserXpStats WHERE UserId={userId} AND GuildId={guildId};");
+        }
+
+        public void ResetGuildXp(ulong guildId)
+        {
+            _context.Database.ExecuteSqlCommand($"DELETE FROM UserXpStats WHERE GuildId={guildId};");
+        }
     }
 }

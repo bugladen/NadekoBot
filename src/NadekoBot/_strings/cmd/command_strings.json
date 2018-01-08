@@ -3285,5 +3285,13 @@
     "usage": [
       "{0}double"
     ]
+  },
+  "xpreset": {
+    "cmd": "xpreset",
+    "desc": "Resets specified user's XP, or the XP of all users in the server. You can't reverse this action.",
+    "usage": [
+      "{0}xpreset @b1nzy",
+      "{0}xpreset"
+    ]
   }
 }
