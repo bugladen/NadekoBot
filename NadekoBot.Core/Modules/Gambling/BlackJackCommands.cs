@@ -16,6 +16,7 @@ namespace NadekoBot.Modules.Gambling
         {
             private readonly CurrencyService _cs;
             private readonly DbService _db;
+            private readonly IBotConfigProvider _bc;
             private IUserMessage _msg;
 
             public enum BjAction
@@ -25,10 +26,11 @@ namespace NadekoBot.Modules.Gambling
                 Double,
             }
 
-            public BlackJackCommands(CurrencyService cs, DbService db)
+            public BlackJackCommands(CurrencyService cs, DbService db, IBotConfigProvider bc)
             {
                 _cs = cs;
                 _db = db;
+                _bc = bc;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -55,10 +57,10 @@ namespace NadekoBot.Modules.Gambling
                 Blackjack bj;
                 if (newBj == (bj = _service.Games.GetOrAdd(Context.Channel.Id, newBj)))
                 {
-                    if(!_cs.Remove(Context.User.Id, "BlackJack-bet", amount, gamble: true, user: Context.User))
+                    if (!bj.Join(Context.User, amount))
                     {
                         _service.Games.TryRemove(Context.Channel.Id, out _);
-                        await ReplyErrorLocalized("not_enough").ConfigureAwait(false);
+                        await ReplyErrorLocalized("not_enough", _bc.BotConfig.CurrencySign).ConfigureAwait(false);
                         return;
                     }
                     bj.Start();

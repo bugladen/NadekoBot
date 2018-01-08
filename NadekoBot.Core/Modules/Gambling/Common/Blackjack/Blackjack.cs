@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using NadekoBot.Core.Services;
+using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Modules.Gambling.Common;
 
 namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
@@ -24,6 +25,7 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
         public User CurrentUser { get; private set; }
 
         private TaskCompletionSource<bool> _currentUserMove;
+        private readonly List<Stake> _stakes = new List<Stake>();
         private readonly CurrencyService _cs;
         private readonly DbService _db;
 
@@ -34,10 +36,9 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
 
         public Blackjack(IUser starter, long bet, CurrencyService cs, DbService db)
         {
-            Dealer = new Dealer();
-            Join(starter, bet, paid: true);
             _cs = cs;
             _db = db;
+            Dealer = new Dealer();
         }
 
         public void Start()
@@ -104,7 +105,7 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
             _currentUserMove = null;
         }
 
-        public bool Join(IUser user, long bet, bool paid = false)
+        public bool Join(IUser user, long bet)
         {
             lock (locker)
             {
@@ -113,13 +114,25 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
 
                 if (Players.Count >= 5)
                     return false;
-
-                //paid flag is only for the user who created the game, he already paid 
-                //for his join in the command code, because otherwise people who don't have
-                //enough currency to gamble will be able to start games to spam the chat
-                if (!paid && !_cs.Remove(user.Id, "BlackJack-gamble", bet, gamble: true, user: user))
+                
+                if (!_cs.Remove(user.Id, "BlackJack-gamble", bet, gamble: true, user: user))
                 {
                     return false;
+                }
+
+                //add it to the stake, in case bot crashes or gets restarted during the game
+                //funds will be refunded to the players on next startup
+                using (var uow = _db.UnitOfWork)
+                {
+                    var s = new Stake()
+                    {
+                        Amount = bet,
+                        UserId = user.Id,
+                        Source = "BlackJack",
+                    };
+                    s = uow._context.Set<Stake>().Add(s).Entity;
+                    _stakes.Add(s);
+                    uow.Complete();
                 }
 
                 Players.Add(new User(user, bet));
@@ -210,6 +223,7 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
             }
             using (var uow = _db.UnitOfWork)
             {
+                uow._context.Set<Stake>().RemoveRange(_stakes);
                 foreach (var usr in Players)
                 {
                     if (usr.State == User.UserState.Won || usr.State == User.UserState.Blackjack)
@@ -244,6 +258,20 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
 
                 if (!_cs.Remove(u.DiscordUser.Id, "Blackjack-double", u.Bet))
                     return false;
+
+                //read up in Join() why this is done
+                using (var uow = _db.UnitOfWork)
+                {
+                    var s = new Stake()
+                    {
+                        Amount = u.Bet,
+                        UserId = u.DiscordUser.Id,
+                        Source = "BlackJack",
+                    };
+                    s = uow._context.Set<Stake>().Add(s).Entity;
+                    _stakes.Add(s);
+                    uow.Complete();
+                }
 
                 u.Bet *= 2;
 
