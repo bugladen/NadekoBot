@@ -70,25 +70,17 @@ namespace NadekoBot.Modules.Gambling
                 _cache = cache;
                 _client = client;
             }
-
+            
             [NadekoCommand, Usage, Description, Aliases]
             public async Task WaifuReset()
             {
                 var price = _service.GetResetPrice(Context.User);
-                var msg = await Context.Channel.EmbedAsync(new EmbedBuilder()
-                        .WithOkColor()
+                var embed = new EmbedBuilder()
                         .WithTitle(GetText("waifu_reset_confirm"))
-                        .WithDescription(GetText("cost", Format.Bold(price + _bc.BotConfig.CurrencySign)))
-                        .WithFooter("yes/no")).ConfigureAwait(false);
+                        .WithDescription(GetText("cost", Format.Bold(price + _bc.BotConfig.CurrencySign)));
 
-                var input = await GetUserInputAsync(Context.User.Id, Context.Channel.Id);
-                input = input?.ToLowerInvariant().ToString();
-
-                if (input != "yes" && input != "y")
-                {
+                if (!await PromptUserConfirmAsync(embed))
                     return;
-                }
-                var _ = msg.DeleteAsync();
 
                 if (await _service.TryReset(Context.User).ConfigureAwait(false))
                 {

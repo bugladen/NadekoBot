@@ -86,6 +86,30 @@ namespace NadekoBot.Modules
             var text = GetText(textKey, replacements);
             return Context.Channel.SendConfirmAsync(Context.User.Mention + " " + text);
         }
+
+        public async Task<bool> PromptUserConfirmAsync(EmbedBuilder embed)
+        {
+            embed.WithOkColor()
+                .WithFooter("yes/no");
+
+            var msg = await Context.Channel.EmbedAsync(embed);
+            try
+            {
+                var input = await GetUserInputAsync(Context.User.Id, Context.Channel.Id);
+                input = input?.ToLowerInvariant().ToString();
+
+                if (input != "yes" && input != "y")
+                {
+                    return false;
+                }
+
+                return true;
+            }
+            finally
+            {
+                var _ = Task.Run(() => msg.DeleteAsync());
+            }
+        }
         
         // TypeConverter typeConverter = TypeDescriptor.GetConverter(propType); ?
         public async Task<string> GetUserInputAsync(ulong userId, ulong channelId)
