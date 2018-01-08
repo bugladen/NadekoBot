@@ -60,7 +60,7 @@ Nadeko Support Server: https://discord.gg/nadekobot";
 
         public int MigrationVersion { get; set; }
 
-        public string OkColor { get; set; } = "71cd40";
+        public string OkColor { get; set; } = "00d084";
         public string ErrorColor { get; set; } = "ee281f";
         public string Locale { get; set; } = null;
         public List<StartupCommand> StartupCommands { get; set; }

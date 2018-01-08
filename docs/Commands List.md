@@ -73,7 +73,7 @@ Commands and aliases | Description | Usage
 `.createrole` `.cr` | Creates a role with a given name. **Requires ManageRoles server permission.** | `.cr Awesome Role`
 `.rolehoist` `.rh` | Toggles whether this role is displayed in the sidebar or not. **Requires ManageRoles server permission.** | `.rh Guests` or `.rh "Space Wizards"`
 `.rolecolor` `.roleclr` | Set a role's color to the hex or 0-255 rgb color value provided. **Requires ManageRoles server permission.** | `.roleclr Admin 255 200 100` or `.roleclr Admin ffba55`
-`.mentionrole` `.menro` | Mentions every person from the provided role or roles (separated by a ',') on this server. **Requires MentionEveryone server permission.** | `.menro RoleName`
+`.mentionrole` `.menro` | Mentions a role. If the role is not mentionable, bot will make it mentionable for a moment. **Requires MentionEveryone server permission.** | `.menro RoleName`
 `.adsarm` | Toggles the automatic deletion of confirmations for `.iam` and `.iamn` commands. **Requires ManageMessages server permission.** | `.adsarm`
 `.asar` | Adds a role to the list of self-assignable roles. You can also specify a group. If 'Exclusive self-assignable roles' feature is enabled, users will be able to pick one role per group. **Requires ManageRoles server permission.** | `.asar Gamer` or `.asar 1 Alliance` or `.asar 1 Horde`
 `.rsar` | Removes a specified role from the list of self-assignable roles. **Requires ManageRoles server permission.** | `.rsar`
@@ -157,6 +157,7 @@ Commands and aliases | Description | Usage
 `.raffle` | Prints a name and ID of a random online user from the server, or from the online user in the specified role.  | `.raffle` or `.raffle RoleName`
 `.raffleany` | Prints a name and ID of a random user from the server, or from the specified role.  | `.raffleany` or `.raffleany  RoleName`
 `.$` `.currency` `.$$` `.$$$` `.cash` `.cur` | Check how much currency a person has. (Defaults to yourself)  | `.$` or `.$ @SomeGuy`
+`.curtrs` | Shows your currency transactions on the specified page. Bot owner can see other people's transactions too.  | `.curtrs 2` or `.curtrs @SomeUser 2`
 `.give` | Give someone a certain amount of currency. You can specify the reason after the mention.  | `.give 1 @SomeGuy` or `.give 5 @CootGurl Ur so pwetty`
 `.award` | Awards someone a certain amount of currency. You can specify the reason after the Username. You can also specify a role name to award currency to all users in a role. **Bot owner only** | `.award 100 @person` or `.award 5 Role Of Gamblers`
 `.take` | Takes a certain amount of currency from someone. **Bot owner only** | `.take 1 @SomeGuy`
@@ -165,6 +166,10 @@ Commands and aliases | Description | Usage
 `.leaderboard` `.lb` | Displays the bot's currency leaderboard.  | `.lb`
 `.race` | Starts a new animal race.  | `.race`
 `.joinrace` `.jr` | Joins a new race. You can specify an amount of currency for betting (optional). You will get YourBet*(participants-1) back if you win.  | `.jr` or `.jr 5`
+`.blackjack` `.bj` | Start or join a blackjack game. You must specify the amount you're betting. Use `.hit`, `.stand` and `.double` commands to play. Game is played with 4 decks.  | `.bj 50`
+`.hit` | In the blackjack game, ask the dealer for an extra card.  | `.hit`
+`.stand` | Finish your turn in the blackjack game.  | `.stand`
+`.double` | In the blackjack game, double your bet in order to receive exactly one more card, and your turn ends.  | `.double`
 `.startevent` | Starts one of the events seen on public nadeko. `reaction` and `sneakygamestatus` are the only 2 available now. **Bot owner only** | `.startevent reaction`
 `.rafflecur` | Starts or joins a currency raffle with a specified amount. Users who join the raffle will lose the amount of currency specified and add it to the pot. After 30 seconds, random winner will be selected who will receive the whole pot. There is also a `mixed` mode in which the users will be able to join the game with any amount of currency, and have their chances be proportional to the amount they've bet.  | `.rafflecur 20` or `.rafflecur mixed 15`
 `.roll` | Rolls 0-100. If you supply a number `X` it rolls up to 30 normal dice. If you split 2 numbers with letter `d` (`xdy`) it will roll `X` dice from 1 to `y`. `Y` can be a letter 'F' if you want to roll fate dice instead of dnd.  | `.roll` or `.roll 7` or `.roll 3d5` or `.roll 5dF`
@@ -465,6 +470,8 @@ Commands and aliases | Description | Usage
 `.quotedel` `.qdel` | Deletes a quote with the specified ID. You have to be either server Administrator or the creator of the quote to delete it.  | `.qdel 123456`
 `.delallq` `.daq` | Deletes all quotes on a specified keyword. **Requires Administrator server permission.** | `.delallq kek`
 `.remind` | Sends a message to you or a channel after certain amount of time. First argument is `me`/`here`/'channelname'. Second argument is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third argument is a (multiword) message.  | `.remind me 1d5h Do something` or `.remind #general 1m Start now!`
+`.remindlist` `.remindl` `.remindlst` | Lists all reminders you created. Paginated.  | `.remindlist 1`
+`.reminddel` `.remindrm` | Deletes a reminder on the specified index.  | `.remindrm 3`
 `.remindtemplate` | Sets message for when the remind is triggered.  Available placeholders are `%user%` - user who ran the command, `%message%` - Message specified in the remind, `%target%` - target channel of the remind. **Bot owner only** | `.remindtemplate %user%, do %message%!`
 `.repeatinvoke` `.repinv` | Immediately shows the repeat message on a certain index and restarts its timer. **Requires ManageMessages server permission.** | `.repinv 1`
 `.repeatremove` `.reprm` | Removes a repeating message on a specified index. Use `.repeatlist` to see indexes. **Requires ManageMessages server permission.** | `.reprm 2`
@@ -507,5 +514,7 @@ Commands and aliases | Description | Usage
 `.clubban` | Bans the user from the club. You must be the club owner. They will not be able to apply again.  | `.clubban b1nzy#1337`
 `.clubunban` | Unbans the previously banned user from the club. You must be the club owner.  | `.clubunban b1nzy#1337`
 `.clublevelreq` | Sets the club required level to apply to join the club. You must be club owner. You can't set this number below 5.  | `.clublevelreq 7`
+`.clubdesc` | Sets the club description. Maximum 150 characters. Club owner only.  | `.clubdesc This is the best club please join.`
 `.clubdisband` | Disbands the club you're the owner of. This action is irreversible.  | `.clubdisband`
 `.clublb` | Shows club rankings on the specified page.  | `.clublb 2`
+`.xpreset` | Resets specified user's XP, or the XP of all users in the server. You can't reverse this action. **Requires Administrator server permission.** | `.xpreset @b1nzy` or `.xpreset`
