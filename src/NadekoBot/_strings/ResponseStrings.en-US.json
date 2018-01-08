@@ -963,5 +963,10 @@
   "utility_reminder_not_exist": "Reminder at that index does not exist.",
   "utility_reminders_none": "No reminder on this page.",
   "gambling_bj_created": "has created a new BlackJack game in this channel.",
-  "gambling_bj_joined": "has joined the BlackJack game"
+  "gambling_bj_joined": "has joined the BlackJack game",
+  "xp_reset": "Xp Reset",
+  "xp_reset_server_confirm": "Are you sure that you want to reset the XP of all users on the server?",
+  "xp_reset_user_confirm": "Are you sure that you want to reset specified user's XP on this server?",
+  "xp_reset_user": "User with id {0} has had their XP reset on this server.",
+  "xp_reset_server": "XP of all users on the server has been reset."
 }
