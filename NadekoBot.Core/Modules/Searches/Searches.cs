@@ -112,7 +112,7 @@ namespace NadekoBot.Modules.Searches
                 return;
 
             var rep = new ReplacementBuilder()
-                        .WithDefault(Context.User, Context.Channel, Context.Guild, (DiscordSocketClient)Context.Client)
+                        .WithDefault(Context.User, Context.Channel, (SocketGuild)Context.Guild, (DiscordSocketClient)Context.Client)
                         .Build();
 
             if (CREmbed.TryParse(message, out var embedData))

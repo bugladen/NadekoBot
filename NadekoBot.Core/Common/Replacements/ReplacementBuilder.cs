@@ -22,7 +22,7 @@ namespace NadekoBot.Common.Replacements
             WithRngRegex();
         }
 
-        public ReplacementBuilder WithDefault(IUser usr, IMessageChannel ch, IGuild g, DiscordSocketClient client)
+        public ReplacementBuilder WithDefault(IUser usr, IMessageChannel ch, SocketGuild g, DiscordSocketClient client)
         {
             return this.WithUser(usr)
                 .WithChannel(ch)
@@ -31,7 +31,7 @@ namespace NadekoBot.Common.Replacements
         }
 
         public ReplacementBuilder WithDefault(ICommandContext ctx) =>
-            WithDefault(ctx.User, ctx.Channel, ctx.Guild, (DiscordSocketClient)ctx.Client);
+            WithDefault(ctx.User, ctx.Channel, ctx.Guild as SocketGuild, (DiscordSocketClient)ctx.Client);
 
         public ReplacementBuilder WithClient(DiscordSocketClient client)
         {
@@ -41,8 +41,9 @@ namespace NadekoBot.Common.Replacements
             return this;
         }
 
-        public ReplacementBuilder WithServer(DiscordSocketClient client, IGuild g)
+        public ReplacementBuilder WithServer(DiscordSocketClient client, SocketGuild g)
         {
+            //WithOverride("%mention%", () => g.CurrentUser.Mention);
             _reps.TryAdd("%sid%", () => g == null ? "DM" : g.Id.ToString());
             _reps.TryAdd("%server%", () => g == null ? "DM" : g.Name);
             _reps.TryAdd("%members%", () => g != null && g is SocketGuild sg ? sg.MemberCount.ToString() : "?");
