@@ -109,8 +109,8 @@ namespace NadekoBot.Modules.Utility
                 await Context.Channel.SendMessageAsync($"`#{keywordquote.Id}` 💬 " + keyword.ToLowerInvariant() + ":  " +
                                                        keywordquote.Text.SanitizeMentions());
             }
-			
-	    [NadekoCommand, Usage, Description, Aliases]
+
+	    	[NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task ListQuotesKeyword(string keyword, int page = 1)
             {
@@ -134,7 +134,7 @@ namespace NadekoBot.Modules.Utility
                 else
                     await ReplyErrorLocalized("quotes_page_none").ConfigureAwait(false);
 	    }
-            
+
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task QuoteId(int id)

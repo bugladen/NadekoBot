@@ -13,6 +13,7 @@ using NadekoBot.Modules.Help.Services;
 using NadekoBot.Modules.Permissions.Services;
 using NadekoBot.Common;
 using NadekoBot.Common.Replacements;
+using Newtonsoft.Json;
 
 namespace NadekoBot.Modules.Help
 {
@@ -159,6 +160,7 @@ namespace NadekoBot.Modules.Help
                 .Select(m => string.Format("- [{0}](#{1})", m, m.ToLowerInvariant()))));
             helpstr.AppendLine();
             string lastModule = null;
+            Dictionary<string, List<object>> cmdData = new Dictionary<string, List<object>>();
             foreach (var com in _cmds.Commands.OrderBy(com => com.Module.GetTopLevelModule().Name).GroupBy(c => c.Aliases.First()).Select(g => g.First()))
             {
                 var module = com.Module.GetTopLevelModule();
@@ -178,8 +180,22 @@ namespace NadekoBot.Modules.Help
                 helpstr.AppendLine($"{string.Join(" ", com.Aliases.Select(a => "`" + Prefix + a + "`"))} |" +
                                    $" {string.Format(com.Summary, Prefix)} {_service.GetCommandRequirements(com, Context.Guild)} |" +
                                    $" {string.Format(com.Remarks, Prefix)}");
+                var obj = new
+                {
+                    Aliases = com.Aliases.ToArray(),
+                    Description = string.Format(com.Summary, Prefix) + _service.GetCommandRequirements(com, Context.Guild),
+                    Usage = string.Format(com.Remarks, Prefix),
+                };
+                if (cmdData.TryGetValue(module.Name, out var cmds))
+                    cmds.Add(obj);
+                else
+                    cmdData.Add(module.Name, new List<object>
+                    {
+                        obj
+                    });
             }
             File.WriteAllText("../../docs/Commands List.md", helpstr.ToString());
+            File.WriteAllText("../../docs/cmds.json", JsonConvert.SerializeObject(cmdData));
             await ReplyConfirmLocalized("commandlist_regen").ConfigureAwait(false);
         }
 
@@ -204,5 +220,12 @@ namespace NadekoBot.Modules.Help
 
         public int GetHashCode(CommandInfo obj) => obj.Aliases.First().GetHashCode();
 
+    }
+    
+    public class JsonCommandData
+    {
+        public string[] Aliases { get; set; }
+        public string Description { get; set; }
+        public string Usage { get; set; }
     }
 }

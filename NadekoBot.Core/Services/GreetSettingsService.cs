@@ -50,7 +50,7 @@ namespace NadekoBot.Core.Services
                         return;
 
                     var rep = new ReplacementBuilder()
-                        .WithDefault(user, channel, user.Guild, _client)
+                        .WithDefault(user, channel, (SocketGuild)user.Guild, _client)
                         .Build();
 
                     if (CREmbed.TryParse(conf.ChannelByeMessageText, out var embedData))
@@ -104,7 +104,7 @@ namespace NadekoBot.Core.Services
                         if (channel != null) //maybe warn the server owner that the channel is missing
                         {
                             var rep = new ReplacementBuilder()
-                                .WithDefault(user, channel, user.Guild, _client)
+                                .WithDefault(user, channel, (SocketGuild)user.Guild, _client)
                                 .Build();
 
                             if (CREmbed.TryParse(conf.ChannelGreetMessageText, out var embedData))
@@ -146,7 +146,7 @@ namespace NadekoBot.Core.Services
                         if (channel != null)
                         {
                             var rep = new ReplacementBuilder()
-                                .WithDefault(user, channel, user.Guild, _client)
+                                .WithDefault(user, channel, (SocketGuild)user.Guild, _client)
                                 .Build();
                             if (CREmbed.TryParse(conf.DmGreetMessageText, out var embedData))
                             {
