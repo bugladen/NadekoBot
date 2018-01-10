@@ -49,9 +49,11 @@ You should see these following options after using the above command:
 1. Download NadekoBot
 2. Run Nadeko (Normally)
 3. Run Nadeko with Auto Restart (Run Nadeko normally before using this.)
-4. Auto-Install Prerequisites (for Ubuntu, Debian and CentOS)
-5. Set up credentials.json (if you have downloaded the bot already)
-6. To exit
+4. Auto-Install Prerequisites (For Ubuntu, Debian and CentOS)
+5. Set up credentials.json (If you have downloaded NadekoBot already)
+6. Set up pm2 for NadekoBot (see README)
+7. Start Nadeko in pm2 (complete option 6 first)
+8. Exit
 ```
 ##### Part II - Downloading Nadekobot prerequisites
 
@@ -100,13 +102,69 @@ Once done,
 You should see the options again.	
 Next, press `2` to **Run Nadeko (Normally)**.
 Check in your discord server if your new bot is working properly.	
-##### Part VI - Running Nadeko on tmux
-If your bot is working properly in your server, type `.die` to **shut down the bot**, then press `6` on the console to **exit**.
+
+#### Part VI - Setup, Running Nadeko and Updating with [pm2](https://github.com/Unitech/pm2/blob/master/README.md) [strongly recommended]
+
+**If you followed Part V and started Nadeko, make sure to exit the bot by using `.die` if it is running in your server, and/or by pressing `8` in the console to exit.** 
+
+You may be presented with the installer main menu from Step I. If not, simply download it again as described in the following section.
+
+Nadeko can be run using [pm2](https://github.com/Unitech/pm2), a process manager that seamlessly handles keeping your bot up. Besides this, it handles disconnections and shutdowns gracefully, ensuring any leftover processes are properly killed. It also persists on server restart, so you can restart your server or VPS/computer and pm2 will manage the startup of your bot. Lastly, there is proper error logging and overall logging. These are just a few features of pm2, and it is a great way to run Nadeko with stability.
+
+##### Setting up pm2/NodeJS for Nadeko
+
+> If you already have NodeJS and pm2 installed on your system, you can skip the *Option 6* for installing pm2 which is a one-time thing. Scroll down to see startup instructions.
+
+There is an automated script built in the Nadeko installer so installation and startup is a breeze. You may already have the `linuxAIO.sh` file downloaded from the first step, but you should download it again to keep up to date for potential changes in the installer. Download `linuxAIO.sh`:
+
+`cd ~ && wget -N https://github.com/Kwoth/NadekoBot-BashScript/raw/1.9/linuxAIO.sh`
+
+We can then run the script: `sudo bash linuxAIO.sh` and you will be presented with the normal Nadeko installer options.
+
+**Make sure you have installed Nadeko with the first option [1] before doing this, and also have installed the prerequisites with step [4].** 
+
+Simply choose **Option 6** to setup pm2 and install it along with NodeJS. This will update your NodeJS so there's no harm running it even if you have NodeJS on your system. It will also install pm2 and then exit to the installer menu again.
+
+##### Running Nadeko with pm2 and Updating Nadeko within pm2
+
+Once you are done installing pm2 with NodeJS, then you can select **Option 7** which will bring you to a menu of choices. These are the normal choices you have for running Nadeko. 
+
+- [1] Start with auto-restart with `.die` and no auto-update.
+- [2] Start with auto-restart with `.die` *and* auto-update on restart as well.
+- [3] Run normally without any auto-restart or auto-update functionality.
+
+Simply choose one of these and Nadeko will start in pm2! If you did everything correctly, you can run the following to check your Nadeko setup:
+
+`sudo pm2 status` to see all pm2 processes
+
+`sudo pm2 info Nadeko` information about Nadeko 
+
+`sudo pm2 logs Nadeko` to view real-time logs of Nadeko (you can do `sudo pm2 logs Nadeko --lines <number>`) (number = how many lines you wish to output) for viewing more lines of the log. The logfile is also stored and presented at the top of these commands.
+
+> **Updating Nadeko within pm2:**
+
+**If you don't auto-update Nadeko and manually do, one simply needs to run the linuxAIO.sh script: `sudo sh linuxAIO.sh` as we normally would and choose [1] Download NadekoBot, then after downloading is complete/build is done, just `pm2 restart Nadeko` -- that's all!** 
+
+**NOTE:**  If you did the pm2 setup, you are done! You do not need to follow the startup instructions later in the guide, as we've used the script and pm2 to start Nadeko up already. Wasn't that easy? :-)
+
+
+**Some other useful pm2 commands:**
+
+`sudo pm2 startup && sudo pm2 save` will setup pm2 to persist even on system reboot by saving the process ID information as a system service. Just need to do this once if you wish.
+
+`sudo pm2 stop Nadeko` will stop Nadeko properly and ensure it is shut down. `sudo pm2 restart Nadeko` will restart Nadeko properly as well, shutting it down first and promptly restarting.
+
+
+This is the recommended way to keep Nadeko running smoothly.
+
+#### Part VII - Running Nadeko on tmux [if you wish not to use pm2]
+
+If your bot is working properly in your server, type `.die` to **shut down the bot**, then press `8` on the console to **exit**.
 Next, [Run your bot again with **tmux**.](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#running-nadekobot)	
 
 [Check this when you need to **restart** your **NadekoBot** anytime later along with tmux session.](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#restarting-nadeko)
 
-#### Running NadekoBot
+##### Running NadekoBot
 
 **Create a new Session:**
 
