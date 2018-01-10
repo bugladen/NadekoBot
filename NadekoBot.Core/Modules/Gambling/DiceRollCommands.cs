@@ -18,7 +18,7 @@ namespace NadekoBot.Modules.Gambling
     public partial class Gambling
     {
         [Group]
-        public class DriceRollCommands : NadekoSubmodule
+        public class DiceRollCommands : NadekoSubmodule
         {
             private static readonly Regex dndRegex  = new Regex(@"^(?<n1>\d+)d(?<n2>\d+)(?:\+(?<add>\d+))?(?:\-(?<sub>\d+))?$", RegexOptions.Compiled);
             private static readonly Regex fudgeRegex  = new Regex(@"^(?<n1>\d+)d(?:F|f)$", RegexOptions.Compiled);
@@ -26,7 +26,7 @@ namespace NadekoBot.Modules.Gambling
             private static readonly char[] _fateRolls = { '-', ' ', '+' };
             private readonly IImageCache _images;
 
-            public DriceRollCommands(IDataCache data)
+            public DiceRollCommands(IDataCache data)
             {
                 _images = data.LocalImages;
             }

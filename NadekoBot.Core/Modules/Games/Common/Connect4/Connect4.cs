@@ -33,8 +33,8 @@ namespace NadekoBot.Modules.Games.Common.Connect4
             OtherPlayerWon,
         }
 
-        public const int NumberOfColumns = 6;
-        public const int NumberOfRows = 7;
+        public const int NumberOfColumns = 7;
+        public const int NumberOfRows = 6;
 
         public Phase CurrentPhase { get; private set; } = Phase.Joining;
 
