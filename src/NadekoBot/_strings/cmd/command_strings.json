@@ -3260,7 +3260,7 @@
   },
   "blackjack": {
     "cmd": "blackjack bj",
-    "desc": "Start or join a blackjack game. You must specify the amount you're betting. Use `.hit`, `.stand` and `.double` commands to play. Game is played with 4 decks.",
+    "desc": "Start or join a blackjack game. You must specify the amount you're betting. Use `.hit`, `.stand` and `.double` commands to play. Game is played with 4 decks. Dealer hits on soft 17 and wins draws.",
     "usage": [
       "{0}bj 50"
     ]
