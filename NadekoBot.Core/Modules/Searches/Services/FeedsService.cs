@@ -43,8 +43,9 @@ namespace NadekoBot.Modules.Searches.Services
                 // only the updates from after the bot has started
                 _lastPosts.AddOrUpdate(kvp.Key, DateTime.UtcNow, (k, old) => DateTime.UtcNow);
             }
-
+#if !GLOBAL_NADEKO
             var _ = Task.Run(TrackFeeds);
+#endif
         }
         
         public async Task<EmbedBuilder> TrackFeeds()
