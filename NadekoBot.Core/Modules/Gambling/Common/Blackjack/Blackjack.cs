@@ -6,6 +6,7 @@ using Discord;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Modules.Gambling.Common;
+using NLog;
 
 namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
 {
@@ -20,6 +21,9 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
 
         private Deck Deck { get; set; } = new QuadDeck();
         public Dealer Dealer { get; set; }
+
+        private readonly Logger _log;
+
         public List<User> Players { get; set; } = new List<User>();
         public GameState State { get; set; } = GameState.Starting;
         public User CurrentUser { get; private set; }
@@ -39,6 +43,7 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
             _cs = cs;
             _db = db;
             Dealer = new Dealer();
+            _log = LogManager.GetCurrentClassLogger();
         }
 
         public void Start()
@@ -48,44 +53,53 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
 
         public async Task GameLoop()
         {
-            //wait for players to join
-            await Task.Delay(20000);
-            lock (locker)
+            try
             {
-                State = GameState.Playing;
-            }
-            await PrintState();
-            //if no users joined the game, end it
-            if (!Players.Any())
-            {
-                State = GameState.Ended;
-                var end = GameEnded?.Invoke(this);
-                return;
-            }
-            //give 1 card to the dealer and 2 to each player
-            Dealer.Cards.Add(Deck.Draw());
-            foreach (var usr in Players)
-            {
-                usr.Cards.Add(Deck.Draw());
-                usr.Cards.Add(Deck.Draw());
-
-                if (usr.GetHandValue() == 21)
-                    usr.State = User.UserState.Blackjack;
-            }
-            //go through all users and ask them what they want to do
-            foreach (var usr in Players.Where(x => !x.Done))
-            {
-                while (!usr.Done)
+                //wait for players to join
+                await Task.Delay(20000);
+                lock (locker)
                 {
-                    await PromptUserMove(usr);
+                    State = GameState.Playing;
                 }
+                await PrintState();
+                //if no users joined the game, end it
+                if (!Players.Any())
+                {
+                    State = GameState.Ended;
+                    var end = GameEnded?.Invoke(this);
+                    return;
+                }
+                //give 1 card to the dealer and 2 to each player
+                Dealer.Cards.Add(Deck.Draw());
+                foreach (var usr in Players)
+                {
+                    usr.Cards.Add(Deck.Draw());
+                    usr.Cards.Add(Deck.Draw());
+
+                    if (usr.GetHandValue() == 21)
+                        usr.State = User.UserState.Blackjack;
+                }
+                //go through all users and ask them what they want to do
+                foreach (var usr in Players.Where(x => !x.Done))
+                {
+                    while (!usr.Done)
+                    {
+                        _log.Info($"Waiting for {usr.DiscordUser}'s move");
+                        await PromptUserMove(usr);
+                    }
+                }
+                await PrintState();
+                State = GameState.Ended;
+                await Task.Delay(2500);
+                _log.Info("Dealer moves");
+                await DealerMoves();
+                await PrintState();
+                var _ = GameEnded?.Invoke(this);
             }
-            await PrintState();
-            State = GameState.Ended;
-            await Task.Delay(2500);
-            await DealerMoves();
-            await PrintState();
-            var _ = GameEnded?.Invoke(this);
+            catch(Exception ex)
+            {
+                _log.Warn(ex);
+            }
         }
 
         private async Task PromptUserMove(User usr)
