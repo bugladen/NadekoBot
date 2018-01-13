@@ -17,7 +17,7 @@ namespace NadekoBot.Core.Services.Database.Models
 
         public bool RotatingStatuses { get; set; } = false;
         public string RemindMessageFormat { get; set; } = "❗⏰**I've been told to remind you to '%message%' now by %user%.**⏰❗";
-        
+
         //currency
         public string CurrencySign { get; set; } = "🌸";
         public string CurrencyName { get; set; } = "Nadeko Flower";
@@ -105,7 +105,7 @@ Nadeko Support Server: https://discord.gg/nadekobot";
         public string VoiceChannelName { get; set; }
     }
 
-    public class PlayingStatus :DbEntity
+    public class PlayingStatus : DbEntity
     {
         public string Status { get; set; }
         public PlayingType Type { get; set; }
