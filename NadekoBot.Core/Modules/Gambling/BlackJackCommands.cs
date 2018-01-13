@@ -73,6 +73,10 @@ namespace NadekoBot.Modules.Gambling
                 {
                     if(bj.Join(Context.User, amount))
                         await ReplyConfirmLocalized("bj_joined").ConfigureAwait(false);
+                    else
+                    {
+                        _log.Info($"{Context.User} can't join a blackjack game as it's in " + bj.State.ToString() + " state already.");
+                    }
                 }
 
                 await Context.Message.DeleteAsync();
@@ -155,19 +159,17 @@ namespace NadekoBot.Modules.Gambling
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public Task Hit() => BlackJack(BjAction.Hit);
+            public Task Hit() => InternalBlackJack(BjAction.Hit);
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public Task Stand() => BlackJack(BjAction.Stand);
+            public Task Stand() => InternalBlackJack(BjAction.Stand);
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public Task Double() => BlackJack(BjAction.Double);
-
-            [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
-            public async Task BlackJack(BjAction a)
+            public Task Double() => InternalBlackJack(BjAction.Double);
+            
+            public async Task InternalBlackJack(BjAction a)
             {
                 if (!_service.Games.TryGetValue(Context.Channel.Id, out var bj))
                     return;

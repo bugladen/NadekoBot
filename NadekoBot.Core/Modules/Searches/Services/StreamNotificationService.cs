@@ -19,7 +19,6 @@ namespace NadekoBot.Modules.Searches.Services
 {
     public class StreamNotificationService : INService
     {
-        private readonly Timer _streamCheckTimer;
         private bool firstStreamNotifPass { get; set; } = true;
         private readonly ConcurrentDictionary<string, IStreamResponse> _cachedStatuses = new ConcurrentDictionary<string, IStreamResponse>();
         private readonly DbService _db;
