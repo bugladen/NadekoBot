@@ -1,4 +1,4 @@
-﻿using NLog;
+using NLog;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -21,7 +21,7 @@ namespace NadekoBot.Core.Services.Impl
                 StartInfo = new ProcessStartInfo()
                 {
                     FileName = "youtube-dl",
-                    Arguments = $"-f bestaudio -e --get-url --get-id --get-thumbnail --get-duration --no-check-certificate --default-search \"ytsearch:\" \"{url}\"",
+                    Arguments = $"-4 --geo-bypass -f bestaudio -e --get-url --get-id --get-thumbnail --get-duration --no-check-certificate --default-search \"ytsearch:\" \"{url}\"",
                     UseShellExecute = false,
                     RedirectStandardError = true,
                     RedirectStandardOutput = true,
