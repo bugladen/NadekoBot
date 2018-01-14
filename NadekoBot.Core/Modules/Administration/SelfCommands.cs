@@ -415,7 +415,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task SetGame(PlayingType type, [Remainder] string game = null)
+            public async Task SetGame(ActivityType type, [Remainder] string game = null)
             {
                 await _bot.SetGameAsync(game, type).ConfigureAwait(false);
 
@@ -428,7 +428,7 @@ namespace NadekoBot.Modules.Administration
             {
                 name = name ?? "";
 
-                await _client.SetGameAsync(name, url, StreamType.Twitch).ConfigureAwait(false);
+                await _client.SetGameAsync(name, url, ActivityType.Streaming).ConfigureAwait(false);
 
                 await ReplyConfirmLocalized("set_stream").ConfigureAwait(false);
             }

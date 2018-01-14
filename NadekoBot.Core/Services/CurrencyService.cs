@@ -58,14 +58,25 @@ namespace NadekoBot.Core.Services
             var success = uow.DiscordUsers.TryUpdateCurrencyState(authorId, -amount);
             if (!success)
                 return false;
-            else if (addToBot)
-                uow.DiscordUsers.TryUpdateCurrencyState(_botId, amount);
-            uow.CurrencyTransactions.Add(new CurrencyTransaction()
+
+            var transaction = new CurrencyTransaction()
             {
                 UserId = authorId,
                 Reason = reason,
                 Amount = -amount,
-            });
+            };
+
+            if (addToBot)
+            {
+                var botTr = transaction.Clone();
+                botTr.UserId = _botId;
+                botTr.Amount *= -1;
+
+                uow.DiscordUsers.TryUpdateCurrencyState(_botId, amount);
+                uow.CurrencyTransactions.Add(botTr);
+            }
+
+            uow.CurrencyTransactions.Add(transaction);
             return true;
         }
 
@@ -115,14 +126,30 @@ namespace NadekoBot.Core.Services
                     if (user != null)
                         uow.DiscordUsers.GetOrCreate(user);
                     uow.DiscordUsers.TryUpdateCurrencyState(receiverId, amount);
-                    uow.DiscordUsers.TryUpdateCurrencyState(_botId, -amount, true);
+                    if (gamble)
+                    {
+                        var botTr = transaction.Clone();
+                        botTr.UserId = _botId;
+                        botTr.Amount *= -1;
+
+                        uow.DiscordUsers.TryUpdateCurrencyState(_botId, -amount, true);
+                        uow.CurrencyTransactions.Add(botTr);
+                    }
                     uow.CurrencyTransactions.Add(transaction);
                     await uow.CompleteAsync();
                 }
             else
             {
                 uow.DiscordUsers.TryUpdateCurrencyState(receiverId, amount);
-                uow.DiscordUsers.TryUpdateCurrencyState(_botId, -amount, true);
+                if (gamble)
+                {
+                    var botTr = transaction.Clone();
+                    botTr.UserId = _botId;
+                    botTr.Amount *= -1;
+
+                    uow.DiscordUsers.TryUpdateCurrencyState(_botId, -amount, true);
+                    uow.CurrencyTransactions.Add(botTr);
+                }
                 uow.CurrencyTransactions.Add(transaction);
             }
         }
