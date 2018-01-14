@@ -364,7 +364,7 @@ namespace NadekoBot
                 {
                     var obj = new { Name = "", Url = "" };
                     obj = JsonConvert.DeserializeAnonymousType(streamData, obj);
-                    await Client.SetGameAsync(obj.Name, obj.Url, StreamType.Twitch).ConfigureAwait(false);
+                    await Client.SetGameAsync(obj.Name, obj.Url).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
