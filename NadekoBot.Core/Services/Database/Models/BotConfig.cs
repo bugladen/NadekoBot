@@ -1,4 +1,5 @@
-﻿using NadekoBot.Core.Common;
+﻿using Discord;
+using NadekoBot.Core.Common;
 using System.Collections.Generic;
 
 namespace NadekoBot.Core.Services.Database.Models
@@ -108,7 +109,7 @@ Nadeko Support Server: https://discord.gg/nadekobot";
     public class PlayingStatus : DbEntity
     {
         public string Status { get; set; }
-        public PlayingType Type { get; set; }
+        public ActivityType Type { get; set; }
     }
 
     public class BlacklistItem : DbEntity
