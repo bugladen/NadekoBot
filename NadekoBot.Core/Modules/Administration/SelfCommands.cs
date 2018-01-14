@@ -428,7 +428,7 @@ namespace NadekoBot.Modules.Administration
             {
                 name = name ?? "";
 
-                await _client.SetGameAsync(name, url, StreamType.Twitch).ConfigureAwait(false);
+                await _client.SetGameAsync(name, url).ConfigureAwait(false);
 
                 await ReplyConfirmLocalized("set_stream").ConfigureAwait(false);
             }
