@@ -375,7 +375,7 @@ namespace NadekoBot
 
         public Task SetGameAsync(string game, ActivityType type)
         {
-            var obj = new { Name = game, PlayingType = type };
+            var obj = new { Name = game, Activity = type };
             var sub = Services.GetService<IDataCache>().Redis.GetSubscriber();
             return sub.PublishAsync(Client.CurrentUser.Id + "_status.game_set", JsonConvert.SerializeObject(obj));
         }
