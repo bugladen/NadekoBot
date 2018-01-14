@@ -1,4 +1,4 @@
-﻿using Discord;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Core.Services;
@@ -350,7 +350,7 @@ namespace NadekoBot
                 {
                     var obj = new { Name = default(string), PlayingType = PlayingType.Playing };
                     obj = JsonConvert.DeserializeAnonymousType(game, obj);
-                    await Client.SetGameAsync(obj.Name, streamType: StreamType.NotStreaming + (int)obj.PlayingType).ConfigureAwait(false);
+                    await Client.SetGameAsync(obj.Name, type: ActivityType.Playing + (int)obj.PlayingType).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
@@ -364,7 +364,7 @@ namespace NadekoBot
                 {
                     var obj = new { Name = "", Url = "" };
                     obj = JsonConvert.DeserializeAnonymousType(streamData, obj);
-                    await Client.SetGameAsync(obj.Name, obj.Url, StreamType.Twitch).ConfigureAwait(false);
+                    await Client.SetGameAsync(obj.Name, obj.Url).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
