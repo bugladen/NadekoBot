@@ -86,7 +86,7 @@
     "administration_greet_off": "Karşılama duyuruları devre dışı.",
     "administration_greet_on": "Karşılama duyuruları bu kanalda aktif edildi.",
     "administration_hierarchy": "Bu komutu, rol hiyerarşisinde sizinle aynı veya daha yüksek bir rolü olan kullanıcılar üzerinde kullanamazsınız.",
-    "administration_images_loaded": "Resimler {0} saniye sonra yüklendi!",
+    "administration_images_loaded": "Resimler {0} saniye sonra yüklendi.",
     "administration_invalid_format": "Geçersiz giriş biçimi.",
     "administration_invalid_params": "Geçersiz parametreler.",
     "administration_joined": "{0} {1}'e katıldı.",
