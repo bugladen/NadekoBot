@@ -1,5 +1,4 @@
-﻿
-#if !GLOBAL_NADEKO
+﻿#if !GLOBAL_NADEKO
 using Discord;
 using Discord.Commands;
 using NadekoBot.Extensions;
