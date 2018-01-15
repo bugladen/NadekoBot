@@ -494,11 +494,11 @@
   },
   "setgame": {
     "Cmd": "setgame",
-    "Desc": "Sets the bots game status to either Playing, ListeningTo, or Watching.",
+    "Desc": "Sets the bots game status to either Playing, Listening, or Watching.",
     "Usage": [
       "{0}setgame Playing with snakes.",
       "{0}setgame Watching anime.",
-      "{0}setgame ListeningTo music."
+      "{0}setgame Listening music."
     ]
   },
   "send": {
