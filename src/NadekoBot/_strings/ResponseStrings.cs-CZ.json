@@ -936,7 +936,7 @@
     "gambling_waifu_reset_confirm": "",
     "gambling_cost": "",
     "music_unset_music_channel": "",
-    "searches_city_not_found": "",
+    "searches_city_not_found": "Město nebylo nalezeno.",
     "administration_joined_discord": "",
     "administration_joined_server": "",
     "administration_bot_config_reloaded": "",
