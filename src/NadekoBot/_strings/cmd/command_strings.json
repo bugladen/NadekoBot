@@ -2786,7 +2786,7 @@
   },
   "prefix": {
     "Cmd": "prefix",
-    "Desc": "Sets this server's prefix for all bot commands. Provide no arguments to see the current server prefix.",
+    "Desc": "Sets this server's prefix for all bot commands. Provide no arguments to see the current server prefix. **Setting prefix requires Administrator server permission.**",
     "Usage": [
       "{0}prefix +"
     ]
