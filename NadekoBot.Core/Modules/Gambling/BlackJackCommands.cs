@@ -63,9 +63,9 @@ namespace NadekoBot.Modules.Gambling
                         await ReplyErrorLocalized("not_enough", _bc.BotConfig.CurrencySign).ConfigureAwait(false);
                         return;
                     }
-                    bj.Start();
                     bj.StateUpdated += Bj_StateUpdated;
                     bj.GameEnded += Bj_GameEnded;
+                    bj.Start();
 
                     await ReplyConfirmLocalized("bj_created").ConfigureAwait(false);
                 }
