@@ -114,7 +114,7 @@ namespace NadekoBot.Modules.Gambling
                     var embed = new EmbedBuilder()
                         .WithOkColor()
                         .WithTitle("BlackJack")
-                        .AddField($"{dealerIcon} | Dealer's Hand | Value: {bj.Dealer.GetHandValue()}", cStr);
+                        .AddField($"{dealerIcon} Dealer's Hand | Value: {bj.Dealer.GetHandValue()}", cStr);
 
                     if (bj.CurrentUser != null)
                     {
