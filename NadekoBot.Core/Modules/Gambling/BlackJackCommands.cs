@@ -98,12 +98,23 @@ namespace NadekoBot.Modules.Gambling
                     }
 
                     var c = bj.Dealer.Cards.Select(x => x.GetEmojiString());
+                    var dealerIcon = "❔ ";
+                    if (bj.State == Blackjack.GameState.Ended)
+                    {
+                        if (bj.Dealer.GetHandValue() == 21)
+                            dealerIcon = "💰 ";
+                        else if (bj.Dealer.GetHandValue() > 21)
+                            dealerIcon = "💥 ";
+                        else
+                            dealerIcon = "🏁 ";
+                    }
+
                     var cStr = string.Concat(c.Select(x => x.Substring(0, x.Length - 1) + " "));
                     cStr += "\n" + string.Concat(c.Select(x => x.Last() + " "));
                     var embed = new EmbedBuilder()
                         .WithOkColor()
                         .WithTitle("BlackJack")
-                        .AddField($"Dealer's Hand", cStr);
+                        .AddField($"{dealerIcon} | Dealer's Hand | Value: {bj.Dealer.GetHandValue()}", cStr);
 
                     if (bj.CurrentUser != null)
                     {
@@ -115,7 +126,7 @@ namespace NadekoBot.Modules.Gambling
                         c = p.Cards.Select(x => x.GetEmojiString());
                         cStr = "-\t" + string.Concat(c.Select(x => x.Substring(0, x.Length - 1) + " "));
                         cStr += "\n-\t" + string.Concat(c.Select(x => x.Last() + " "));
-                        var full = $"{p.DiscordUser.ToString().TrimTo(20)} | Bet: {p.Bet}";
+                        var full = $"{p.DiscordUser.ToString().TrimTo(20)} | Bet: {p.Bet} | Value: {p.GetHandValue()}";
                         if (bj.State == Blackjack.GameState.Ended)
                         {
                             if (p.State == User.UserState.Lost)
