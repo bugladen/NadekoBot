@@ -179,12 +179,12 @@ namespace NadekoBot.Modules.Help
                 }
                 helpstr.AppendLine($"{string.Join(" ", com.Aliases.Select(a => "`" + Prefix + a + "`"))} |" +
                                    $" {string.Format(com.Summary, Prefix)} {_service.GetCommandRequirements(com, Context.Guild)} |" +
-                                   $" {string.Format(com.Remarks, Prefix)}");
+                                   $" {com.RealRemarks(Prefix)}");
                 var obj = new
                 {
-                    Aliases = com.Aliases.ToArray(),
+                    Aliases = com.Aliases.Select(x => Prefix + x).ToArray(),
                     Description = string.Format(com.Summary, Prefix) + _service.GetCommandRequirements(com, Context.Guild),
-                    Usage = string.Format(com.Remarks, Prefix),
+                    Usage = JsonConvert.DeserializeObject<string[]>(com.Remarks).Select(x => string.Format(x, Prefix)).ToArray(),
                 };
                 if (cmdData.TryGetValue(module.Name, out var cmds))
                     cmds.Add(obj);
@@ -211,6 +211,11 @@ namespace NadekoBot.Modules.Help
         public async Task Donate()
         {
             await ReplyConfirmLocalized("donate", PatreonUrl, PaypalUrl).ConfigureAwait(false);
+        }
+
+        private string GetRemarks(string[] arr)
+        {
+            return string.Join(" or ", arr.Select(x => Format.Code(x)));
         }
     }
 
