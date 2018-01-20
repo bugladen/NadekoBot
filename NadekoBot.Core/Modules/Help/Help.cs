@@ -185,6 +185,8 @@ namespace NadekoBot.Modules.Help
                     Aliases = com.Aliases.Select(x => Prefix + x).ToArray(),
                     Description = string.Format(com.Summary, Prefix) + _service.GetCommandRequirements(com, Context.Guild),
                     Usage = JsonConvert.DeserializeObject<string[]>(com.Remarks).Select(x => string.Format(x, Prefix)).ToArray(),
+                    Submodule = com.Module.Name,
+                    Module = com.Module.GetTopLevelModule().Name,
                 };
                 if (cmdData.TryGetValue(module.Name, out var cmds))
                     cmds.Add(obj);
