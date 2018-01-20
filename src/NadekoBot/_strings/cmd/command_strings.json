@@ -2578,7 +2578,7 @@
     "Cmd": "alias cmdmap",
     "Desc": "Create a custom alias for a certain Nadeko command. Provide no alias to remove the existing one.",
     "Usage": [
-      "{0}alias allin $bf 100 h",
+      "{0}alias allin .bf all h",
       "{0}alias \"linux thingy\" >loonix Spyware Windows"
     ]
   },
