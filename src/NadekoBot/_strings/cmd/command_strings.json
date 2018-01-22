@@ -831,17 +831,17 @@
     ]
   },
   "addquote": {
-    "Cmd": ".",
+    "Cmd": "qadd",
     "Desc": "Adds a new quote with the specified name and message.",
     "Usage": [
-      "{0}. sayhi Hi"
+      "{0}qadd sayhi Hi"
     ]
   },
   "showquote": {
-    "Cmd": "..",
+    "Cmd": "qshow",
     "Desc": "Shows a random quote with a specified name.",
     "Usage": [
-      "{0}.. abc"
+      "{0}qshow abc"
     ]
   },
   "quotesearch": {
