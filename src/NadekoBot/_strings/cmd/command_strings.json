@@ -948,7 +948,7 @@
   },
   "nunchi": {
     "Cmd": "nunchi",
-    "Desc": "Creates or joins an existing nunchi game. Users have to count up by 1 from the starting number shown by the bot. If someone makes a mistake (types an incorrent number, or repeats the same number) they are out of the game and a new round starts without them.  Minimum 3 users required.",
+    "Desc": "Creates or joins an existing nunchi game. Users have to count up by 1 from the starting number shown by the bot. If someone makes a mistake (types an incorrect number, or repeats the same number) they are out of the game and a new round starts without them.  Minimum 3 users required.",
     "Usage": [
       "{0}nunchi"
     ]
