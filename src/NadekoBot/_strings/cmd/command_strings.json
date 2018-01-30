@@ -3294,5 +3294,12 @@
       "{0}xpreset @b1nzy",
       "{0}xpreset"
     ]
+  },
+  "bible": {
+    "cmd": "bible",
+    "desc": "Shows bible verse. You need to supply book name and chapter:verse",
+    "usage": [
+      "{0}bible genesis 3:19"
+    ]
   }
 }
