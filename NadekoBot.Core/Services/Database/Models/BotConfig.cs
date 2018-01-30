@@ -34,6 +34,7 @@ namespace NadekoBot.Core.Services.Database.Models
         public float Betroll100Multiplier { get; set; } = 10;
         public int TimelyCurrency { get; set; } = 0;
         public int TimelyCurrencyPeriod { get; set; } = 0;
+        public int MinWaifuPrice { get; set; } = 50;
         //public HashSet<CommandCost> CommandCosts { get; set; } = new HashSet<CommandCost>();
 
         /// <summary>
