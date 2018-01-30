@@ -593,23 +593,23 @@ namespace NadekoBot.Modules.Gambling
                     title = ClaimTitles.Lonely;
                 else if (count == 1)
                     title = ClaimTitles.Devoted;
-                else if (count < 4)
+                else if (count < 3)
                     title = ClaimTitles.Rookie;
                 else if (count < 6)
                     title = ClaimTitles.Schemer;
-                else if (count < 8)
-                    title = ClaimTitles.Dilettante;
                 else if (count < 10)
-                    title = ClaimTitles.Intermediate;
-                else if (count < 12)
-                    title = ClaimTitles.Seducer;
-                else if (count < 15)
-                    title = ClaimTitles.Expert;
+                    title = ClaimTitles.Dilettante;
                 else if (count < 17)
-                    title = ClaimTitles.Veteran;
+                    title = ClaimTitles.Intermediate;
                 else if (count < 25)
-                    title = ClaimTitles.Incubis;
+                    title = ClaimTitles.Seducer;
+                else if (count < 35)
+                    title = ClaimTitles.Expert;
                 else if (count < 50)
+                    title = ClaimTitles.Veteran;
+                else if (count < 75)
+                    title = ClaimTitles.Incubis;
+                else if (count < 100)
                     title = ClaimTitles.Harem_King;
                 else
                     title = ClaimTitles.Harem_God;
@@ -635,17 +635,17 @@ namespace NadekoBot.Modules.Gambling
                     title = AffinityTitles.Faithful;
                 else if (count < 4)
                     title = AffinityTitles.Defiled;
-                else if (count < 7)
-                    title = AffinityTitles.Cheater;
                 else if (count < 9)
+                    title = AffinityTitles.Cheater;
+                else if (count < 12)
                     title = AffinityTitles.Tainted;
-                else if (count < 11)
+                else if (count < 16)
                     title = AffinityTitles.Corrupted;
-                else if (count < 13)
+                else if (count < 20)
                     title = AffinityTitles.Lewd;
-                else if (count < 15)
+                else if (count < 25)
                     title = AffinityTitles.Sloot;
-                else if (count < 17)
+                else if (count < 35)
                     title = AffinityTitles.Depraved;
                 else
                     title = AffinityTitles.Harlot;
