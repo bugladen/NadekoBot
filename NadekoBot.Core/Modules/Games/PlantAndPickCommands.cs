@@ -77,7 +77,7 @@ namespace NadekoBot.Modules.Games
                 IUserMessage msg = null;
                 try
                 {
-                    var imgData = _service.GetRandomCurrencyImage();
+                    var imgUrl = _service.GetRandomCurrencyImage();
 
                     var msgToSend = GetText("planted",
                         Format.Bold(Context.User.ToString()),
@@ -89,13 +89,10 @@ namespace NadekoBot.Modules.Games
                     else
                         msgToSend += " " + GetText("pick_sn", Prefix);
 
-                    using (var toSend = imgData.ToStream())
-                    {
-                        msg = await Context.Channel.SendFileAsync(toSend, "plant.gif", msgToSend, options: new RequestOptions()
-                        {
-                            RetryMode = RetryMode.AlwaysRetry
-                        }).ConfigureAwait(false);
-                    }
+                    msg = await Context.Channel.EmbedAsync(new EmbedBuilder()
+                        .WithOkColor()
+                        .WithDescription(msgToSend)
+                        .WithImageUrl(imgUrl));
                 }
                 catch (Exception ex)
                 {

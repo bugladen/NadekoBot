@@ -20,8 +20,7 @@ namespace NadekoBot.Core.Services.Impl
         private IDatabase _db => _con.GetDatabase();
 
         private const string _basePath = "data/images/";
-
-        private const string _currencyImagesPath = _basePath + "currency";
+        
         private const string _diceImagesPath = _basePath + "dice";
 
         private const string _slotBackgroundPath = _basePath + "slots/background2.png";
@@ -60,18 +59,6 @@ namespace NadekoBot.Core.Services.Impl
             set
             {
                 Set("tails", value);
-            }
-        }
-
-        public byte[][] Currency
-        {
-            get
-            {
-                return Get<byte[][]>("currency");
-            }
-            set
-            {
-                Set("currency", value);
             }
         }
 
@@ -206,10 +193,6 @@ namespace NadekoBot.Core.Services.Impl
                     .Select(x => _http.GetByteArrayAsync(x)));
                 Tails = await Task.WhenAll(ImageUrls.Coins.Tails
                     .Select(x => _http.GetByteArrayAsync(x)));
-
-                Currency = Directory.GetFiles(_currencyImagesPath)
-                    .Select(x => File.ReadAllBytes(x))
-                    .ToArray();
 
                 Dice = Directory.GetFiles(_diceImagesPath)
                                 .OrderBy(x => int.Parse(Path.GetFileNameWithoutExtension(x)))
