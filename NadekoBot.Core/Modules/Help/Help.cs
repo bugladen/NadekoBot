@@ -149,37 +149,10 @@ namespace NadekoBot.Modules.Help
         [OwnerOnly]
         public async Task Hgit()
         {
-            var helpstr = new StringBuilder();
-            helpstr.AppendLine(GetText("cmdlist_donate", PatreonUrl, PaypalUrl) + "\n");
-            helpstr.AppendLine("##"+ GetText("table_of_contents"));
-            helpstr.AppendLine(string.Join("\n", _cmds.Modules.Where(m => m.GetTopLevelModule().Name.ToLowerInvariant() != "help")
-                .Select(m => m.GetTopLevelModule().Name)
-                .Distinct()
-                .OrderBy(m => m)
-                .Prepend("Help")
-                .Select(m => string.Format("- [{0}](#{1})", m, m.ToLowerInvariant()))));
-            helpstr.AppendLine();
-            string lastModule = null;
             Dictionary<string, List<object>> cmdData = new Dictionary<string, List<object>>();
             foreach (var com in _cmds.Commands.OrderBy(com => com.Module.GetTopLevelModule().Name).GroupBy(c => c.Aliases.First()).Select(g => g.First()))
             {
                 var module = com.Module.GetTopLevelModule();
-                if (module.Name != lastModule)
-                {
-                    if (lastModule != null)
-                    {
-                        helpstr.AppendLine();
-                        helpstr.AppendLine($"###### [{GetText("back_to_toc")}](#{GetText("table_of_contents").ToLowerInvariant().Replace(' ', '-')})");
-                    }
-                    helpstr.AppendLine();
-                    helpstr.AppendLine("### " + module.Name + "  ");
-                    helpstr.AppendLine($"{GetText("cmd_and_alias")} | {GetText("desc")} | {GetText("usage")}");
-                    helpstr.AppendLine("----------------|--------------|-------");
-                    lastModule = module.Name;
-                }
-                helpstr.AppendLine($"{string.Join(" ", com.Aliases.Select(a => "`" + Prefix + a + "`"))} |" +
-                                   $" {string.Format(com.Summary, Prefix)} {_service.GetCommandRequirements(com, Context.Guild)} |" +
-                                   $" {com.RealRemarks(Prefix)}");
                 var obj = new
                 {
                     Aliases = com.Aliases.Select(x => Prefix + x).ToArray(),
@@ -196,7 +169,6 @@ namespace NadekoBot.Modules.Help
                         obj
                     });
             }
-            File.WriteAllText("../../docs/Commands List.md", helpstr.ToString());
             File.WriteAllText("../../docs/cmds.json", JsonConvert.SerializeObject(cmdData));
             await ReplyConfirmLocalized("commandlist_regen").ConfigureAwait(false);
         }
