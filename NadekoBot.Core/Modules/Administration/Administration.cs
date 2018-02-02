@@ -330,7 +330,6 @@ namespace NadekoBot.Modules.Administration
                 await msg.ModifyAsync(x => x.Content = text.SanitizeMentions())
                     .ConfigureAwait(false);
             }
-
         }
     }
 }
