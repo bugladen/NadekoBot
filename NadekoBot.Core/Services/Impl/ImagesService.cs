@@ -20,17 +20,10 @@ namespace NadekoBot.Core.Services.Impl
         private IDatabase _db => _con.GetDatabase();
 
         private const string _basePath = "data/images/";
-        
-        private const string _diceImagesPath = _basePath + "dice";
 
         private const string _slotBackgroundPath = _basePath + "slots/background2.png";
         private const string _slotNumbersPath = _basePath + "slots/numbers/";
         private const string _slotEmojisPath = _basePath + "slots/emojis/";
-
-        private const string _wifeMatrixPath = _basePath + "rategirl/wifematrix.png";
-        private const string _rategirlDot = _basePath + "rategirl/dot.png";
-
-        private const string _xpCardPath = _basePath + "xp/xp.png";
 
         private const string _ripPath = _basePath + "rip/rip.png";
         private const string _ripFlowersPath = _basePath + "rip/rose_overlay.png";
@@ -97,6 +90,7 @@ namespace NadekoBot.Core.Services.Impl
                 Set("slotnumbers", value);
             }
         }
+
         public byte[][] SlotEmojis
         {
             get
@@ -189,16 +183,20 @@ namespace NadekoBot.Core.Services.Impl
             {
                 realImageUrls = JsonConvert.DeserializeObject<ImageUrls>(
                     File.ReadAllText(Path.Combine(_basePath, "images.json")));
-                Heads = await Task.WhenAll(ImageUrls.Coins.Heads
-                    .Select(x => _http.GetByteArrayAsync(x)));
-                Tails = await Task.WhenAll(ImageUrls.Coins.Tails
-                    .Select(x => _http.GetByteArrayAsync(x)));
 
-                Dice = Directory.GetFiles(_diceImagesPath)
-                                .OrderBy(x => int.Parse(Path.GetFileNameWithoutExtension(x)))
-                                .Select(x => File.ReadAllBytes(x))
-                                .ToArray();
-                
+                var loadCoins = Task.Run(async () =>
+                {
+                    Heads = await Task.WhenAll(ImageUrls.Coins.Heads
+                        .Select(x => _http.GetByteArrayAsync(x)));
+                    Tails = await Task.WhenAll(ImageUrls.Coins.Tails
+                        .Select(x => _http.GetByteArrayAsync(x)));
+                });
+
+                var loadDice = Task.Run(async () =>
+                    Dice = (await Task.WhenAll(ImageUrls.Dice
+                        .Select(x => _http.GetByteArrayAsync(x))))
+                        .ToArray());
+
                 SlotBackground = File.ReadAllBytes(_slotBackgroundPath);
 
                 SlotNumbers = Directory.GetFiles(_slotNumbersPath)
@@ -211,13 +209,21 @@ namespace NadekoBot.Core.Services.Impl
                     .Select(x => File.ReadAllBytes(x))
                     .ToArray();
 
-                WifeMatrix = File.ReadAllBytes(_wifeMatrixPath);
-                RategirlDot = File.ReadAllBytes(_rategirlDot);
+                var loadRategirl = Task.Run(async () =>
+                {
+                    WifeMatrix = await _http.GetByteArrayAsync(ImageUrls.Rategirl.Matrix);
+                    RategirlDot = await _http.GetByteArrayAsync(ImageUrls.Rategirl.Dot);
+                });
 
-                XpCard = File.ReadAllBytes(_xpCardPath);
+                var loadXp = Task.Run(async () => 
+                    XpCard = await _http.GetByteArrayAsync(ImageUrls.Xp.Bg)
+                );
 
                 Rip = File.ReadAllBytes(_ripPath);
                 FlowerCircle = File.ReadAllBytes(_ripFlowersPath);
+
+                await Task.WhenAll(loadCoins, loadRategirl, 
+                    loadXp, loadDice);
             }
             catch (Exception ex)
             {
