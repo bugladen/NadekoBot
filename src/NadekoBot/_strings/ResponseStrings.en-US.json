@@ -658,6 +658,7 @@
   "utility_togtub_room_link": "Here is your room link:",
   "utility_uptime": "Uptime",
   "utility_userid": "{0} of the user {1} is {2}",
+  "utility_roleid": "{0} of the role {1} is {2}",
   "utility_users": "Users",
   "utility_voice_channels": "Voice channels",
   "gambling_animal_race_already_in": "You've already joined this race!",
