@@ -1,4 +1,3 @@
-
 {
   "h": {
     "Cmd": "help h",
@@ -3315,6 +3314,13 @@
     "desc": "Edits bot's message, you have to specify message ID and new text. Supports embeds.",
     "usage": [
       ".edit 7479498384 Hi :^)"
+    ]
+  },
+  "roleid": {
+    "cmd": "roleid rid",
+    "desc": "Shows the id of the specified role.",
+    "usage": [
+      ".rid Some Role"
     ]
   }
 }

@@ -37,12 +37,16 @@ namespace NadekoBot.Extensions
             await (await user.GetOrCreateDMChannelAsync().ConfigureAwait(false)).SendFileAsync(fileStream, fileName, caption, isTTS).ConfigureAwait(false);
 
         public static string RealAvatarUrl(this IUser usr) =>
-            usr.AvatarId.StartsWith("a_")
+            usr.AvatarId == null 
+                ? null
+                : usr.AvatarId.StartsWith("a_")
                     ? $"{DiscordConfig.CDNUrl}avatars/{usr.Id}/{usr.AvatarId}.gif"
                     : usr.GetAvatarUrl(ImageFormat.Auto);
 
         public static string RealAvatarUrl(this DiscordUser usr) =>
-            usr.AvatarId.StartsWith("a_")
+            usr.AvatarId == null
+                ? null
+                : usr.AvatarId.StartsWith("a_")
                     ? $"{DiscordConfig.CDNUrl}avatars/{usr.UserId}/{usr.AvatarId}.gif"
                     : $"{DiscordConfig.CDNUrl}avatars/{usr.UserId}/{usr.AvatarId}.png";
     }

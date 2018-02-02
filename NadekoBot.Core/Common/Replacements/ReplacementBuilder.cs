@@ -77,6 +77,7 @@ namespace NadekoBot.Common.Replacements
             _reps.TryAdd("%userfull%", () => user.ToString());
             _reps.TryAdd("%username%", () => user.Username);
             _reps.TryAdd("%userdiscrim%", () => user.Discriminator);
+            _reps.TryAdd("%useravatar%", () => user.RealAvatarUrl());
             _reps.TryAdd("%id%", () => user.Id.ToString());
             _reps.TryAdd("%uid%", () => user.Id.ToString());
             return this;
