@@ -12,7 +12,7 @@ namespace NadekoBot.Migrations
                 name: "MinWaifuPrice",
                 table: "BotConfig",
                 nullable: false,
-                defaultValue: 0);
+                defaultValue: 50);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
