@@ -3302,5 +3302,19 @@
       "{0}xpreset @b1nzy",
       "{0}xpreset"
     ]
+  },
+  "bible": {
+    "cmd": "bible",
+    "desc": "Shows bible verse. You need to supply book name and chapter:verse",
+    "usage": [
+      "{0}bible genesis 3:19"
+    ]
+  },
+  "edit": {
+    "cmd": "edit",
+    "desc": "Edits bot's message, you have to specify message ID and new text. Supports embeds.",
+    "usage": [
+      ".edit 7479498384 Hi :^)"
+    ]
   }
 }

@@ -80,7 +80,7 @@ namespace NadekoBot.Core.Services
             _key = _creds.RedisKey();
             _redis = ConnectionMultiplexer.Connect("127.0.0.1");
 
-            new RedisImagesCache(_redis, _creds).Reload(); //reload images into redis
+            new RedisImagesCache(_redis, _creds).Reload().GetAwaiter().GetResult(); //reload images into redis
 
             //setup initial shard statuses
             _defaultShardState = new ShardComMessage()
