@@ -471,7 +471,7 @@ namespace NadekoBot.Modules.Administration
                             .ConfigureAwait(false);
                         return;
                     }
-                    await ch.SendMessageAsync($"`#{msg}` 📣 " + rep.Replace()?.SanitizeMentions());
+                    await ch.SendMessageAsync($"`#{msg}` 📣 " + rep.Replace(msg)?.SanitizeMentions());
                 }
                 else if (ids[1].ToUpperInvariant().StartsWith("U:"))
                 {
@@ -490,7 +490,7 @@ namespace NadekoBot.Modules.Administration
                         return;
                     }
 
-                    await (await user.GetOrCreateDMChannelAsync()).SendMessageAsync($"`#{msg}` 📣 " + rep.Replace()?.SanitizeMentions());
+                    await (await user.GetOrCreateDMChannelAsync()).SendMessageAsync($"`#{msg}` 📣 " + rep.Replace(msg)?.SanitizeMentions());
                 }
                 else
                 {
