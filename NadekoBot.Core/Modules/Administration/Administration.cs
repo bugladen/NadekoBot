@@ -11,6 +11,8 @@ using NadekoBot.Modules.Administration.Services;
 using NadekoBot.Core.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Discord.WebSocket;
+using NadekoBot.Common;
+using NadekoBot.Common.Replacements;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -117,7 +119,7 @@ namespace NadekoBot.Modules.Administration
             chId = chId ?? Context.Channel.Id;
             using (var uow = _db.UnitOfWork)
             {
-                var conf = uow.GuildConfigs.For(Context.Guild.Id, 
+                var conf = uow.GuildConfigs.For(Context.Guild.Id,
                     set => set.Include(x => x.DelMsgOnCmdChannels));
 
                 var obj = new DelMsgOnCmdChannel()
@@ -290,6 +292,45 @@ namespace NadekoBot.Modules.Administration
                 await uow.CompleteAsync();
             }
             await ReplyConfirmLocalized("donadd", don.Amount).ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [RequireUserPermission(GuildPermission.ManageMessages)]
+        public async Task Edit(ulong messageId, [Remainder] string text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+                return;
+
+            var msgs = await Context.Channel.GetMessagesAsync().FlattenAsync()
+                .ConfigureAwait(false);
+
+            IUserMessage msg = (IUserMessage)msgs.FirstOrDefault(x => x.Id == messageId
+                && x.Author.Id == Context.Client.CurrentUser.Id
+                && x is IUserMessage);
+
+            if (msg == null)
+                return;
+
+            var rep = new ReplacementBuilder()
+                    .WithDefault(Context)
+                    .Build();
+
+            if (CREmbed.TryParse(text, out var crembed))
+            {
+                rep.Replace(crembed);
+                await msg.ModifyAsync(x =>
+                {
+                    x.Embed = crembed.ToEmbed().Build();
+                    x.Content = crembed.PlainText?.SanitizeMentions() ?? "";
+                }).ConfigureAwait(false);
+            }
+            else
+            {
+                await msg.ModifyAsync(x => x.Content = text.SanitizeMentions())
+                    .ConfigureAwait(false);
+            }
+
         }
     }
 }

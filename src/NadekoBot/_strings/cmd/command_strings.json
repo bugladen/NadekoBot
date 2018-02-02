@@ -3301,5 +3301,12 @@
     "usage": [
       "{0}bible genesis 3:19"
     ]
+  },
+  "edit": {
+    "cmd": "edit",
+    "desc": "Edits bot's message, you have to specify message ID and new text. Supports embeds.",
+    "usage": [
+      ".edit 7479498384 Hi :^)"
+    ]
   }
 }
