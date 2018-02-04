@@ -10,7 +10,7 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
         public CurrencyTransactionsRepository(DbContext context) : base(context)
         {
         }
-
+        
         public List<CurrencyTransaction> GetPageFor(ulong userId, int page)
         {
             return _set.Where(x => x.UserId == userId)

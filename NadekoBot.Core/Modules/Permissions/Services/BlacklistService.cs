@@ -24,7 +24,7 @@ namespace NadekoBot.Modules.Permissions.Services
 
         public Task<bool> TryBlockEarly(IGuild guild, IUserMessage usrMsg)
             => Task.FromResult((guild != null && BlacklistedGuilds.Contains(guild.Id)) ||
-            BlacklistedChannels.Contains(usrMsg.Channel.Id) ||
-            BlacklistedUsers.Contains(usrMsg.Author.Id));
+                BlacklistedChannels.Contains(usrMsg.Channel.Id) ||
+                BlacklistedUsers.Contains(usrMsg.Author.Id));
     }
 }

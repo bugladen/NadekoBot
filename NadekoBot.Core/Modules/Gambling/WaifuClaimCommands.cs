@@ -509,7 +509,7 @@ namespace NadekoBot.Modules.Gambling
 
                     Enum.GetValues(typeof(WaifuItem.ItemName))
                                         .Cast<WaifuItem.ItemName>()
-                                        .Select(x => WaifuItem.GetItem(x))
+                                        .Select(x => WaifuItem.GetItem(x, _bc.BotConfig.WaifuGiftMultiplier))
                                         .OrderBy(x => x.Price)
                                         .Skip(9 * cur)
                                         .Take(9)
@@ -527,7 +527,7 @@ namespace NadekoBot.Modules.Gambling
                 if (waifu.Id == Context.User.Id)
                     return;
 
-                var itemObj = WaifuItem.GetItem(item);
+                var itemObj = WaifuItem.GetItem(item, _bc.BotConfig.WaifuGiftMultiplier);
 
                 using (var uow = _db.UnitOfWork)
                 {
