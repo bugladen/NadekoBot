@@ -1,4 +1,3 @@
-
 {
   "h": {
     "Cmd": "help h",
@@ -948,7 +947,7 @@
   },
   "nunchi": {
     "Cmd": "nunchi",
-    "Desc": "Creates or joins an existing nunchi game. Users have to count up by 1 from the starting number shown by the bot. If someone makes a mistake (types an incorrent number, or repeats the same number) they are out of the game and a new round starts without them.  Minimum 3 users required.",
+    "Desc": "Creates or joins an existing nunchi game. Users have to count up by 1 from the starting number shown by the bot. If someone makes a mistake (types an incorrect number, or repeats the same number) they are out of the game and a new round starts without them.  Minimum 3 users required.",
     "Usage": [
       "{0}nunchi"
     ]
@@ -2578,7 +2577,7 @@
     "Cmd": "alias cmdmap",
     "Desc": "Create a custom alias for a certain Nadeko command. Provide no alias to remove the existing one.",
     "Usage": [
-      "{0}alias allin $bf 100 h",
+      "{0}alias allin .bf all h",
       "{0}alias \"linux thingy\" >loonix Spyware Windows"
     ]
   },
@@ -2786,7 +2785,7 @@
   },
   "prefix": {
     "Cmd": "prefix",
-    "Desc": "Sets this server's prefix for all bot commands. Provide no arguments to see the current server prefix.",
+    "Desc": "Sets this server's prefix for all bot commands. Provide no arguments to see the current server prefix. **Setting prefix requires Administrator server permission.**",
     "Usage": [
       "{0}prefix +"
     ]
@@ -3293,6 +3292,27 @@
     "usage": [
       "{0}xpreset @b1nzy",
       "{0}xpreset"
+    ]
+  },
+  "bible": {
+    "cmd": "bible",
+    "desc": "Shows bible verse. You need to supply book name and chapter:verse",
+    "usage": [
+      "{0}bible genesis 3:19"
+    ]
+  },
+  "edit": {
+    "cmd": "edit",
+    "desc": "Edits bot's message, you have to specify message ID and new text. Supports embeds.",
+    "usage": [
+      ".edit 7479498384 Hi :^)"
+    ]
+  },
+  "roleid": {
+    "cmd": "roleid rid",
+    "desc": "Shows the id of the specified role.",
+    "usage": [
+      ".rid Some Role"
     ]
   }
 }

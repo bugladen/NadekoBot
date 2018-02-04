@@ -1,13 +1,15 @@
-﻿using System.Collections.Immutable;
+﻿using NadekoBot.Core.Common;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Core.Services
 {
     public interface IImageCache
     {
-        byte[] Heads { get; }
-        byte[] Tails { get; }
+        ImageUrls ImageUrls { get; }
 
-        byte[][] Currency { get; }
+        byte[][] Heads { get; }
+        byte[][] Tails { get; }
+        
         byte[][] Dice { get; }
 
         byte[] SlotBackground { get; }
@@ -22,6 +24,6 @@ namespace NadekoBot.Core.Services
         byte[] Rip { get; }
         byte[] FlowerCircle { get; }
 
-        void Reload();
+        Task Reload();
     }
 }

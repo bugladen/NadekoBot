@@ -34,6 +34,7 @@ namespace NadekoBot.Core.Services.Database.Models
         public float Betroll100Multiplier { get; set; } = 10;
         public int TimelyCurrency { get; set; } = 0;
         public int TimelyCurrencyPeriod { get; set; } = 0;
+        public int MinWaifuPrice { get; set; } = 50;
         //public HashSet<CommandCost> CommandCosts { get; set; } = new HashSet<CommandCost>();
 
         /// <summary>
@@ -75,6 +76,7 @@ Nadeko Support Server: https://discord.gg/nadekobot";
         public HashSet<LoadedPackage> LoadedPackages { get; set; } = new HashSet<LoadedPackage>();
         public int DivorcePriceMultiplier { get; set; } = 150;
         public float PatreonCurrencyPerCent { get; set; } = 1.0f;
+        public int WaifuGiftMultiplier { get; set; } = 5;
     }
 
     public class BlockedCmdOrMdl : DbEntity

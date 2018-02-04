@@ -36,6 +36,8 @@ namespace NadekoBot.Core.Services.Impl
         public int ShardRunPort { get; }
 
         public string PatreonCampaignId { get; }
+        public string MiningProxyUrl { get; }
+        public string MiningProxyCreds { get; }
 
         public BotCredentials()
         {
@@ -69,6 +71,8 @@ namespace NadekoBot.Core.Services.Impl
                 ShardRunCommand = data[nameof(ShardRunCommand)];
                 ShardRunArguments = data[nameof(ShardRunArguments)];
                 CleverbotApiKey = data[nameof(CleverbotApiKey)];
+                MiningProxyUrl = data[nameof(MiningProxyUrl)];
+                MiningProxyCreds = data[nameof(MiningProxyCreds)];
 
                 var restartSection = data.GetSection(nameof(RestartCommand));
                 var cmd = restartSection["cmd"];
@@ -143,6 +147,8 @@ namespace NadekoBot.Core.Services.Impl
             public string ShardRunCommand { get; set; } = "";
             public string ShardRunArguments { get; set; } = "";
             public int? ShardRunPort { get; set; } = null;
+            public string MiningProxyUrl { get; set; } = null;
+            public string MiningProxyCreds { get; set; } = null;
         }
 
         private class DbModel

@@ -93,9 +93,9 @@ namespace NadekoBot.Modules.Utility.Services
                 await ch.EmbedAsync(new EmbedBuilder()
                     .WithOkColor()
                     .WithTitle("Reminder")
-                    .WithDescription(r.Message)
                     .AddField("Created At", r.DateAdded.HasValue ? r.DateAdded.Value.ToLongDateString() : "?")
-                    .AddField("By", (await ch.GetUserAsync(r.UserId))?.ToString() ?? r.UserId.ToString()));
+                    .AddField("By", (await ch.GetUserAsync(r.UserId))?.ToString() ?? r.UserId.ToString()),
+                    msg: r.Message.SanitizeMentions());
             }
             catch (Exception ex) { _log.Warn(ex); }
             finally

@@ -20,6 +20,8 @@
         XpPerMessage,
         XpMinutesTimeout,
         PatreonCurrencyPerCent,
+        MinWaifuPrice,
+        WaifuGiftMultiplier,
         
         //ErrorColor, //after i fix the nadekobot.cs static variables
         //OkColor

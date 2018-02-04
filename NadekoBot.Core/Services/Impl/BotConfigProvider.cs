@@ -141,6 +141,18 @@ namespace NadekoBot.Core.Services.Impl
                         else
                             return false;
                         break;
+                    case BotConfigEditType.MinWaifuPrice:
+                        if (int.TryParse(newValue, out var price) && price > 0)
+                            bc.MinWaifuPrice = price;
+                        else
+                            return false;
+                        break;
+                    case BotConfigEditType.WaifuGiftMultiplier:
+                        if (int.TryParse(newValue, out var mult) && mult > 0)
+                            bc.WaifuGiftMultiplier = mult;
+                        else
+                            return false;
+                        break;
                     default:
                         return false;
                 }

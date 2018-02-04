@@ -124,7 +124,9 @@ namespace NadekoBot.Modules.Gambling
                             await ReplyErrorLocalized("shop_role_purchase_error").ConfigureAwait(false);
                             return;
                         }
-                        await _cs.AddAsync(entry.AuthorId, $"Shop sell item - {entry.Type}", GetProfitAmount(entry.Price));
+                        var profit = GetProfitAmount(entry.Price);
+                        await _cs.AddAsync(entry.AuthorId, $"Shop sell item - {entry.Type}", profit);
+                        await _cs.AddAsync(Context.Client.CurrentUser.Id, $"Shop sell item - cut", entry.Price - profit);
                         await ReplyConfirmLocalized("shop_role_purchase", Format.Bold(role.Name)).ConfigureAwait(false);
                         return;
                     }

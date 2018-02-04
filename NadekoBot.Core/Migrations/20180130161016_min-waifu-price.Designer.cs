@@ -13,9 +13,10 @@ using System;
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoContext))]
-    partial class NadekoSqliteContextModelSnapshot : ModelSnapshot
+    [Migration("20180130161016_min-waifu-price")]
+    partial class minwaifuprice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -199,10 +200,6 @@ namespace NadekoBot.Migrations
                     b.Property<int>("TimelyCurrencyPeriod");
 
                     b.Property<int>("TriviaCurrencyReward");
-
-                    b.Property<int>("WaifuGiftMultiplier")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(5);
 
                     b.Property<int>("XpMinutesTimeout")
                         .ValueGeneratedOnAdd()

@@ -1,0 +1,34 @@
+{
+    "coins": {
+        "heads": [
+            "https://i.imgur.com/rlLWef6.png"
+        ],
+        "tails": [
+            "https://i.imgur.com/RZbqSXA.png"
+        ]
+    },
+    "currency": [
+        "https://i.imgur.com/ggMhmK8.jpg",
+        "https://i.imgur.com/xa4iOCh.jpg",
+        "https://i.imgur.com/jNYTMV7.jpg"
+    ],
+    "dice": [
+        "https://i.imgur.com/KyOfDw1.png",
+        "https://i.imgur.com/IX8xjZ3.png",
+        "https://i.imgur.com/k9GqKp5.png",
+        "https://i.imgur.com/rmhTSnp.png",
+        "https://i.imgur.com/93PUmFr.png",
+        "https://i.imgur.com/CMBCJRC.png",
+        "https://i.imgur.com/VqhUpsV.png",
+        "https://i.imgur.com/r6rFCuT.png",
+        "https://i.imgur.com/eIxuOpg.png",
+        "https://i.imgur.com/At9YgRO.png"
+    ],
+    "rategirl": {
+        "matrix": "https://i.imgur.com/z7yySqA.png",
+        "dot": "https://i.imgur.com/TpubajW.png"
+    },
+    "xp": {
+        "bg": "https://i.imgur.com/ozgFffJ.png"
+    }
+}

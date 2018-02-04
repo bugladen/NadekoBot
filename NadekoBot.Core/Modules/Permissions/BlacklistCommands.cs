@@ -13,19 +13,17 @@ namespace NadekoBot.Modules.Permissions
     public partial class Permissions
     {
         [Group]
-        public class BlacklistCommands : NadekoSubmodule
+        public class BlacklistCommands : NadekoSubmodule<BlacklistService>
         {
-            private readonly BlacklistService _bs;
             private readonly DbService _db;
             private readonly IBotCredentials _creds;
 
-            private ConcurrentHashSet<ulong> BlacklistedUsers => _bs.BlacklistedUsers;
-            private ConcurrentHashSet<ulong> BlacklistedGuilds => _bs.BlacklistedGuilds;
-            private ConcurrentHashSet<ulong> BlacklistedChannels => _bs.BlacklistedChannels;
+            private ConcurrentHashSet<ulong> BlacklistedUsers => _service.BlacklistedUsers;
+            private ConcurrentHashSet<ulong> BlacklistedGuilds => _service.BlacklistedGuilds;
+            private ConcurrentHashSet<ulong> BlacklistedChannels => _service.BlacklistedChannels;
 
-            public BlacklistCommands(BlacklistService bs, DbService db, IBotCredentials creds)
+            public BlacklistCommands(DbService db, IBotCredentials creds)
             {
-                _bs = bs;
                 _db = db;
                 _creds = creds;
             }

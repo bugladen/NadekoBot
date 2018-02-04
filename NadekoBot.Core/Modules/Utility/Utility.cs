@@ -134,6 +134,14 @@ namespace NadekoBot.Modules.Utility
         }
 
         [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task RoleId([Remainder] IRole role)
+        {
+            await ReplyConfirmLocalized("roleid", "🆔", Format.Bold(role.ToString()),
+                Format.Code(role.Id.ToString())).ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
         public async Task ChannelId()
         {
             await ReplyConfirmLocalized("channelid", "🆔", Format.Code(Context.Channel.Id.ToString()))
