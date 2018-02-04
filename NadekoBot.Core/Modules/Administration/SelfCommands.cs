@@ -469,6 +469,7 @@ namespace NadekoBot.Modules.Administration
                         rep.Replace(crembed);
                         await ch.EmbedAsync(crembed.ToEmbed(), "📣" + crembed.PlainText?.SanitizeMentions())
                             .ConfigureAwait(false);
+						 await ReplyConfirmLocalized("message_sent").ConfigureAwait(false);
                         return;
                     }
                     await ch.SendMessageAsync($"`#{msg}` 📣 " + rep.Replace(msg)?.SanitizeMentions());
@@ -487,6 +488,7 @@ namespace NadekoBot.Modules.Administration
                         rep.Replace(crembed);
                         await (await user.GetOrCreateDMChannelAsync()).EmbedAsync(crembed.ToEmbed(), "📣" + crembed.PlainText?.SanitizeMentions())
                             .ConfigureAwait(false);
+						 await ReplyConfirmLocalized("message_sent").ConfigureAwait(false);
                         return;
                     }
 
