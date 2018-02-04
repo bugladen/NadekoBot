@@ -165,6 +165,9 @@ namespace NadekoBot.Core.Services.Database
             botConfigEntity.Property(x => x.PatreonCurrencyPerCent)
                 .HasDefaultValue(1.0f);
 
+            botConfigEntity.Property(x => x.WaifuGiftMultiplier)
+                .HasDefaultValue(1);
+
             //botConfigEntity
             //    .HasMany(c => c.ModulePrefixes)
             //    .WithOne(mp => mp.BotConfig)

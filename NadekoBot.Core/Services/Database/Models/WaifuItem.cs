@@ -51,67 +51,97 @@ namespace NadekoBot.Core.Services.Database.Models
             Item = item;
         }
 
-        public static WaifuItem GetItem(ItemName itemName)
+        public static WaifuItem GetItem(ItemName itemName, int mult)
         {
+            WaifuItem wi;
             switch (itemName)
             {
                 case ItemName.Cookie:
-                    return new WaifuItem("🍪", 10, itemName);
+                    wi = new WaifuItem("🍪", 10, itemName);
+                    break;
                 case ItemName.Rose:
-                    return new WaifuItem("🌹", 50, itemName);
+                    wi = new WaifuItem("🌹", 50, itemName);
+                    break;
                 case ItemName.LoveLetter:
-                    return new WaifuItem("💌", 100, itemName);
+                    wi = new WaifuItem("💌", 100, itemName);
+                    break;
                 case ItemName.Chocolate:
-                    return new WaifuItem("🍫", 200, itemName);
+                    wi = new WaifuItem("🍫", 200, itemName);
+                    break;
                 case ItemName.Rice:
-                    return new WaifuItem("🍚", 400, itemName);
+                    wi = new WaifuItem("🍚", 400, itemName);
+                    break;
                 case ItemName.MovieTicket:
-                    return new WaifuItem("🎟", 800, itemName);
+                    wi = new WaifuItem("🎟", 800, itemName);
+                    break;
                 case ItemName.Book:
-                    return new WaifuItem("📔", 1500, itemName);
+                    wi = new WaifuItem("📔", 1500, itemName);
+                    break;
                 case ItemName.Lipstick:
-                    return new WaifuItem("💄", 3000, itemName);
+                    wi = new WaifuItem("💄", 3000, itemName);
+                    break;
                 case ItemName.Laptop:
-                    return new WaifuItem("💻", 5000, itemName);
+                    wi = new WaifuItem("💻", 5000, itemName);
+                    break;
                 case ItemName.Violin:
-                    return new WaifuItem("🎻", 7500, itemName);
+                    wi = new WaifuItem("🎻", 7500, itemName);
+                    break;
                 case ItemName.Ring:
-                    return new WaifuItem("💍", 10000, itemName);
+                    wi = new WaifuItem("💍", 10000, itemName);
+                    break;
                 case ItemName.Helicopter:
-                    return new WaifuItem("🚁", 20000, itemName);
+                    wi = new WaifuItem("🚁", 20000, itemName);
+                    break;
                 case ItemName.Iphone:
-                    return new WaifuItem("📱", 4000, itemName);
+                    wi = new WaifuItem("📱", 4000, itemName);
+                    break;
                 case ItemName.Cat:
-                    return new WaifuItem("🐱", 2000, itemName);
+                    wi = new WaifuItem("🐱", 2000, itemName);
+                    break;
                 case ItemName.Dog:
-                    return new WaifuItem("🐶", 2001, itemName);
+                    wi = new WaifuItem("🐶", 2001, itemName);
+                    break;
                 case ItemName.Lollipop:
-                    return new WaifuItem("🍭", 30, itemName);
+                    wi = new WaifuItem("🍭", 30, itemName);
+                    break;
                 case ItemName.Purse:
-                    return new WaifuItem("👛", 3500, itemName);
+                    wi = new WaifuItem("👛", 3500, itemName);
+                    break;
                 case ItemName.Sushi:
-                    return new WaifuItem("🍣", 300, itemName);
+                    wi = new WaifuItem("🍣", 300, itemName);
+                    break;
                 case ItemName.Icecream:
-                    return new WaifuItem("🍦", 200, itemName);
+                    wi = new WaifuItem("🍦", 200, itemName);
+                    break;
                 case ItemName.Piano:
-                    return new WaifuItem("🎹", 8000, itemName);
+                    wi = new WaifuItem("🎹", 8000, itemName);
+                    break;
                 case ItemName.Yacht:
-                    return new WaifuItem("🛳", 12000, itemName);
+                    wi = new WaifuItem("🛳", 12000, itemName);
+                    break;
                 case ItemName.Car:
-                    return new WaifuItem("🚗", 9000, itemName);
+                    wi = new WaifuItem("🚗", 9000, itemName);
+                    break;
                 case ItemName.House:
-                    return new WaifuItem("🏠", 15000, itemName);
+                    wi = new WaifuItem("🏠", 15000, itemName);
+                    break;
                 case ItemName.Spaceship:
-                    return new WaifuItem("🚀", 30000, itemName);
+                    wi = new WaifuItem("🚀", 30000, itemName);
+                    break;
                 case ItemName.Beer:
-                    return new WaifuItem("🍺", 75, itemName);
+                    wi = new WaifuItem("🍺", 75, itemName);
+                    break;
                 case ItemName.Pizza:
-                    return new WaifuItem("🍕", 150, itemName);
+                    wi = new WaifuItem("🍕", 150, itemName);
+                    break;
                 case ItemName.Milk:
-                    return new WaifuItem("🥛", 125, itemName);
+                    wi = new WaifuItem("🥛", 125, itemName);
+                    break;
                 default:
                     throw new ArgumentException(nameof(itemName));
             }
+            wi.Price = wi.Price * mult;
+            return wi;
         }
     }
 }
