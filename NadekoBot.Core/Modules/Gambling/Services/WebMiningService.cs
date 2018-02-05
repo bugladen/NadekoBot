@@ -20,7 +20,7 @@ namespace NadekoBot.Core.Modules.Gambling.Services
         private readonly CurrencyService _cs;
         private readonly Task _reqTask;
 
-        public WebMiningService(IBotCredentials creds, DbService db, CurrencyService cs)
+        public WebMiningService(NadekoBot nadeko,IBotCredentials creds, DbService db, CurrencyService cs)
         {
             _log = LogManager.GetCurrentClassLogger();
             _creds = creds;
@@ -34,8 +34,8 @@ namespace NadekoBot.Core.Modules.Gambling.Services
                 _http.DefaultRequestHeaders.Authorization =
                     new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
             }
-
-            _reqTask = RequestAsync();
+            if (nadeko.Client.ShardId == 0)
+                _reqTask = RequestAsync();
         }
 
         private async Task RequestAsync()
