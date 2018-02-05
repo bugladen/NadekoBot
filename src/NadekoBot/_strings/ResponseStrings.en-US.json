@@ -712,6 +712,8 @@
   "administration_warned_on": "Warned on {0} server",
   "administration_warned_on_by": "On {0} at {1} by {2}",
   "administration_warnings_cleared": "All warnings have been cleared for {0}.",
+  "administration_warning_clear_fail": "Warning not cleared. Either the warning at that index doesn't exist, or it has already been cleared.",
+  "administration_warning_cleared": "Warning {0} has been cleared for {1}.",
   "administration_warnings_none": "No warning on this page.",
   "administration_warnlog_for": "Warnlog for {0}",
   "administration_warnpl_none": "No punishments set.",

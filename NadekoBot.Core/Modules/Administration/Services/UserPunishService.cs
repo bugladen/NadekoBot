@@ -70,13 +70,13 @@ namespace NadekoBot.Modules.Administration.Services
                             await _mute.TimedMute(user, TimeSpan.FromMinutes(p.Time)).ConfigureAwait(false);
                         break;
                     case PunishmentAction.Kick:
-                        await user.KickAsync().ConfigureAwait(false);
+                        await user.KickAsync("Warned too many times.").ConfigureAwait(false);
                         break;
                     case PunishmentAction.Ban:
-                        await guild.AddBanAsync(user).ConfigureAwait(false);
+                        await guild.AddBanAsync(user, reason: "Warned too many times.").ConfigureAwait(false);
                         break;
                     case PunishmentAction.Softban:
-                        await guild.AddBanAsync(user, 7).ConfigureAwait(false);
+                        await guild.AddBanAsync(user, 7, reason: "Warned too many times").ConfigureAwait(false);
                         try
                         {
                             await guild.RemoveBanAsync(user).ConfigureAwait(false);
