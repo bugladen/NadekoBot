@@ -17,6 +17,7 @@ Some features have their own specific placeholders which are noted in that featu
 - `%id%` or `%uid%` -  User Id
 - `%userfull%` - Username#discriminator
 - `%userdiscrim%` - discriminator (for example 1234)
+- `%useravatar%` - User's avatar 
 - `%rngX-Y%` - Replace X and Y with the range (for example `%rng5-10%` - random between 5 and 10)
 - `%time%` - Bot time
 - `%server_time%` - Time on this server, set with `.timezone` command
@@ -24,4 +25,4 @@ Some features have their own specific placeholders which are noted in that featu
 
 **If you're using placeholders in embeds, don't use %user% and %mention% in titles, footers and field names. They will not show properly.**
 
-![img](http://i.imgur.com/lNNNfs1.png)
+![img](https://i.imgur.com/ucJXIcu.png)
