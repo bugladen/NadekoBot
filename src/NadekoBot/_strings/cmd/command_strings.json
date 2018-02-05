@@ -2648,8 +2648,9 @@
   },
   "warnclear": {
     "Cmd": "warnclear warnc",
-    "Desc": "Clears all warnings from a certain user.",
+    "Desc": "Clears all warnings from a certain user. You can specify a number to clear a specific one.",
     "Usage": [
+      "{0}warnclear @PoorDude 3",
       "{0}warnclear @PoorDude"
     ]
   },
