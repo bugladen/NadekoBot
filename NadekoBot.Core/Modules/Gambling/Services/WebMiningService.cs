@@ -42,7 +42,7 @@ namespace NadekoBot.Core.Modules.Gambling.Services
         {
             while (true)
             {
-                await Task.Delay(TimeSpan.FromMinutes(30)).ConfigureAwait(false);
+                await Task.Delay(TimeSpan.FromMinutes(60)).ConfigureAwait(false);
                 await PayoutRewards();
             }
         }
