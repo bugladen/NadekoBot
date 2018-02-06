@@ -35,19 +35,48 @@ namespace NadekoBot.Common.Replacements
 
         public ReplacementBuilder WithClient(DiscordSocketClient client)
         {
+            /*OBSOLETE*/
             _reps.TryAdd("%mention%", () => $"<@{client.CurrentUser.Id}>");
             _reps.TryAdd("%shardid%", () => client.ShardId.ToString());
             _reps.TryAdd("%time%", () => DateTime.Now.ToString("HH:mm " + TimeZoneInfo.Local.StandardName.GetInitials()));
+            
+            /*NEW*/
+            _reps.TryAdd("%bot.status%", () => client.Status.ToString());
+            _reps.TryAdd("%bot.latency%", () => client.Latency.ToString());
+            _reps.TryAdd("%bot.name%", () => client.CurrentUser.Username);
+            _reps.TryAdd("%bot.mention%", () => client.CurrentUser.Mention);
+            _reps.TryAdd("%bot.fullname%", () => client.CurrentUser.ToString());
+            _reps.TryAdd("%bot.time%", () => DateTime.Now.ToString("HH:mm " + TimeZoneInfo.Local.StandardName.GetInitials()));
+            _reps.TryAdd("%bot.discrim%", () => client.CurrentUser.Discriminator);
+
+            WithStats(client);
             return this;
         }
 
         public ReplacementBuilder WithServer(DiscordSocketClient client, SocketGuild g)
         {
-            //WithOverride("%mention%", () => g.CurrentUser.Mention);
+            /*OBSOLETE*/
             _reps.TryAdd("%sid%", () => g == null ? "DM" : g.Id.ToString());
             _reps.TryAdd("%server%", () => g == null ? "DM" : g.Name);
             _reps.TryAdd("%members%", () => g != null && g is SocketGuild sg ? sg.MemberCount.ToString() : "?");
             _reps.TryAdd("%server_time%", () =>
+            {
+                TimeZoneInfo to = TimeZoneInfo.Local;
+                if (g != null)
+                {
+                    if (GuildTimezoneService.AllServices.TryGetValue(client.CurrentUser.Id, out var tz))
+                        to = tz.GetTimeZoneOrDefault(g.Id) ?? TimeZoneInfo.Local;
+                }
+
+                return TimeZoneInfo.ConvertTime(DateTime.UtcNow,
+                    TimeZoneInfo.Utc,
+                    to).ToString("HH:mm ") + to.StandardName.GetInitials();
+            });
+            /*NEW*/
+            _reps.TryAdd("%server.id%", () => g == null ? "DM" : g.Id.ToString());
+            _reps.TryAdd("%server.name%", () => g == null ? "DM" : g.Name);
+            _reps.TryAdd("%server.members%", () => g != null && g is SocketGuild sg ? sg.MemberCount.ToString() : "?");
+            _reps.TryAdd("%server.time%", () =>
             {
                 TimeZoneInfo to = TimeZoneInfo.Local;
                 if (g != null)
@@ -65,14 +94,23 @@ namespace NadekoBot.Common.Replacements
 
         public ReplacementBuilder WithChannel(IMessageChannel ch)
         {
+            /*OBSOLETE*/
             _reps.TryAdd("%channel%", () => (ch as ITextChannel)?.Mention ?? "#" + ch.Name);
             _reps.TryAdd("%chname%", () => ch.Name);
             _reps.TryAdd("%cid%", () => ch?.Id.ToString());
+            /*NEW*/
+            _reps.TryAdd("%channel.mention%", () => (ch as ITextChannel)?.Mention ?? "#" + ch.Name);
+            _reps.TryAdd("%channel.name%", () => ch.Name);
+            _reps.TryAdd("%channel.id%", () => ch.Id.ToString());
+            _reps.TryAdd("%channel.created%", () => ch.CreatedAt.ToString("HH:mm dd.MM.YYYY"));
+            _reps.TryAdd("%channel.nsfw%", () => (ch as ITextChannel)?.IsNsfw.ToString() ?? "-");
+            _reps.TryAdd("%channel.topic%", () => (ch as ITextChannel)?.Topic ?? "-");
             return this;
         }
 
         public ReplacementBuilder WithUser(IUser user)
         {
+            /*OBSOLETE*/
             _reps.TryAdd("%user%", () => user.Mention);
             _reps.TryAdd("%userfull%", () => user.ToString());
             _reps.TryAdd("%username%", () => user.Username);
@@ -80,13 +118,30 @@ namespace NadekoBot.Common.Replacements
             _reps.TryAdd("%useravatar%", () => user.RealAvatarUrl());
             _reps.TryAdd("%id%", () => user.Id.ToString());
             _reps.TryAdd("%uid%", () => user.Id.ToString());
+            /*NEW*/
+            _reps.TryAdd("%user.mention%", () => user.Mention);
+            _reps.TryAdd("%user.fullname%", () => user.ToString());
+            _reps.TryAdd("%user.name%", () => user.Username);
+            _reps.TryAdd("%user.discrim%", () => user.Discriminator);
+            _reps.TryAdd("%user.avatar%", () => user.RealAvatarUrl());
+            _reps.TryAdd("%user.id%", () => user.Id.ToString());
             return this;
         }
 
-        public ReplacementBuilder WithStats(DiscordSocketClient c)
+        private ReplacementBuilder WithStats(DiscordSocketClient c)
         {
+            /*OBSOLETE*/
             _reps.TryAdd("%servers%", () => c.Guilds.Count.ToString());
+#if !GLOBAL_NADEKO
             _reps.TryAdd("%users%", () => c.Guilds.Sum(s => s.Users.Count).ToString());
+#endif
+
+            /*NEW*/
+            _reps.TryAdd("%shard.servercount%", () => c.Guilds.Count.ToString());
+#if !GLOBAL_NADEKO
+            _reps.TryAdd("%shard.usercount%", () => c.Guilds.Sum(s => s.Users.Count).ToString());
+#endif
+            _reps.TryAdd("%shard.id%", () => c.ShardId.ToString());
             return this;
         }
 
@@ -108,6 +163,23 @@ namespace NadekoBot.Common.Replacements
                 }
             });
             _reps.TryAdd("%queued%", () => ms.MusicPlayers.Sum(kvp => kvp.Value.QueueArray().Songs.Length).ToString());
+
+            _reps.TryAdd("%music.queued%", () => ms.MusicPlayers.Sum(kvp => kvp.Value.QueueArray().Songs.Length).ToString());
+            _reps.TryAdd("%music.playing%", () =>
+            {
+                var cnt = ms.MusicPlayers.Count(kvp => kvp.Value.Current.Current != null);
+                if (cnt != 1) return cnt.ToString();
+                try
+                {
+                    var mp = ms.MusicPlayers.FirstOrDefault();
+                    var title = mp.Value?.Current.Current?.Title;
+                    return title ?? "No songs";
+                }
+                catch
+                {
+                    return "error";
+                }
+            });
             return this;
         }
 
