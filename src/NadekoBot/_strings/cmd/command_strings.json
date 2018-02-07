@@ -221,9 +221,10 @@
   },
   "lsar": {
     "Cmd": "lsar",
-    "Desc": "Lists all self-assignable roles.",
+    "Desc": "Lists self-assignable roles. Shows 20 roles per page.",
     "Usage": [
-      "{0}lsar"
+      "{0}lsar",
+      "{0}lsar 2"
     ]
   },
   "tesar": {
