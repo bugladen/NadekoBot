@@ -579,29 +579,29 @@ namespace NadekoBot.Modules.Searches
                 return;
 
             await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
-            using (var http = new HttpClient())
+            var res = await _service.Http.GetStringAsync($"http://api.urbandictionary.com/v0/define?term={Uri.EscapeUriString(query)}").ConfigureAwait(false);
+            try
             {
-                http.DefaultRequestHeaders.Clear();
-                http.DefaultRequestHeaders.Add("Accept", "application/json");
-                var res = await http.GetStringAsync($"http://api.urbandictionary.com/v0/define?term={Uri.EscapeUriString(query)}").ConfigureAwait(false);
-                try
+                var items = JsonConvert.DeserializeObject<UrbanResponse>(res).List;
+                if (items.Any())
                 {
-                    var items = JObject.Parse(res);
-                    var item = items["list"][0];
-                    var word = item["word"].ToString();
-                    var def = item["definition"].ToString();
-                    var link = item["permalink"].ToString();
-                    var embed = new EmbedBuilder().WithOkColor()
-                                     .WithUrl(link)
-                                     .WithAuthor(eab => eab.WithIconUrl("http://i.imgur.com/nwERwQE.jpg").WithName(word))
-                                     .WithDescription(def);
-                    await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
-                }
-                catch
-                {
-                    await ReplyErrorLocalized("ud_error").ConfigureAwait(false);
+
+                    await Context.Channel.SendPaginatedConfirmAsync((DiscordSocketClient)Context.Client, 0, (p) =>
+                    {
+                        var item = items[p];
+                        return new EmbedBuilder().WithOkColor()
+                                     .WithUrl(item.Permalink)
+                                     .WithAuthor(eab => eab.WithIconUrl("http://i.imgur.com/nwERwQE.jpg").WithName(item.Word))
+                                     .WithDescription(item.Definition);
+                    }, items.Length, 1);
+                    return;
                 }
             }
+            catch
+            {
+            }
+            await ReplyErrorLocalized("ud_error").ConfigureAwait(false);
+
         }
 
         [NadekoCommand, Usage, Description, Aliases]
