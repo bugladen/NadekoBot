@@ -25,10 +25,10 @@ namespace NadekoBot.Modules.Gambling.Common.CurrencyEvents
         private readonly ICurrencyService _cs;
         private readonly DiscordSocketClient _client;
         private readonly IBotConfigProvider _bc;
-        private readonly int _length;
+        private readonly long _length;
 
         public SneakyEvent(ICurrencyService cs, DiscordSocketClient client,
-            IBotConfigProvider bc, int len)
+            IBotConfigProvider bc, long len)
         {
             _cs = cs;
             _client = client;
@@ -44,7 +44,7 @@ namespace NadekoBot.Modules.Gambling.Common.CurrencyEvents
             _client.MessageReceived += SneakyGameMessageReceivedEventHandler;
             await _client.SetGameAsync($"type {Code} for " + _bc.BotConfig.CurrencyPluralName)
                 .ConfigureAwait(false);
-            await Task.Delay(_length * 1000).ConfigureAwait(false);
+            await Task.Delay((int)_length * 1000).ConfigureAwait(false);
             await Stop().ConfigureAwait(false);
         }
 

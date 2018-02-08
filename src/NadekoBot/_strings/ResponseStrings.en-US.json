@@ -972,5 +972,6 @@
   "xp_reset_user_confirm": "Are you sure that you want to reset specified user's XP on this server?",
   "xp_reset_user": "User with id {0} has had their XP reset on this server.",
   "xp_reset_server": "XP of all users on the server has been reset.",
-  "searches_distance": "Distance between {0} and {1} is {2}km"
+  "searches_distance": "Distance between {0} and {1} is {2}km",
+  "gambling_bot_list_awarded": "Awarded {0} to {1} users!"
 }

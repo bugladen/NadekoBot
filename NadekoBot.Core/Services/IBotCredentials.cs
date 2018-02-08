@@ -27,6 +27,7 @@ namespace NadekoBot.Core.Services
         RestartConfig RestartCommand { get; }
         string MiningProxyUrl { get; }
         string MiningProxyCreds { get; }
+        string BotListToken { get; }
     }
 
     public class RestartConfig

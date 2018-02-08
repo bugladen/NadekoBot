@@ -8,6 +8,9 @@ using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Gambling.Common;
 using NadekoBot.Modules.Gambling.Services;
 using NadekoBot.Modules.Gambling.Common.CurrencyEvents;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Linq;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -19,22 +22,25 @@ namespace NadekoBot.Modules.Gambling
             public enum CurrencyEvent
             {
                 Reaction,
-                SneakyGameStatus
+                SneakyGameStatus,
+                BotListUpvoters
             }
 
             private readonly DiscordSocketClient _client;
+            private readonly IBotCredentials _creds;
             private readonly ICurrencyService _cs;
 
-            public CurrencyEventsCommands(DiscordSocketClient client, ICurrencyService cs)
+            public CurrencyEventsCommands(DiscordSocketClient client, ICurrencyService cs, IBotCredentials creds)
             {
                 _client = client;
+                _creds = creds;
                 _cs = cs;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [OwnerOnly]
-            public async Task StartEvent(CurrencyEvent e, int arg = -1)
+            public async Task StartEvent(CurrencyEvent e, long arg = -1)
             {
                 switch (e)
                 {
@@ -44,10 +50,30 @@ namespace NadekoBot.Modules.Gambling
                     case CurrencyEvent.SneakyGameStatus:
                         await SneakyGameStatusEvent(Context, arg).ConfigureAwait(false);
                         break;
+                    case CurrencyEvent.BotListUpvoters:
+                        await BotListUpvoters(arg);
+                    break;
                 }
             }
 
-            private async Task SneakyGameStatusEvent(ICommandContext context, int num)
+            private async Task BotListUpvoters(long amount)
+            {
+                if (amount <= 0 || string.IsNullOrWhiteSpace(_creds.BotListToken))
+                    return;
+                string res;
+                using (var http = new HttpClient())
+                {
+                    http.DefaultRequestHeaders.Add("Authorization", _creds.BotListToken);
+                    res = await http.GetStringAsync($"https://discordbots.org/api/bots/{Context.Client.CurrentUser.Id}/votes?onlyids=true");
+                }
+                var ids = JsonConvert.DeserializeObject<ulong[]>(res);
+                await _cs.AddBulkAsync(ids, ids.Select(x => "Botlist Upvoter Event"), ids.Select(x => amount), true);
+                await ReplyConfirmLocalized("bot_list_awarded",
+                    Format.Bold(amount.ToString()),
+                    Format.Bold(ids.Length.ToString())).ConfigureAwait(false);
+            }
+
+            private async Task SneakyGameStatusEvent(ICommandContext context, long num)
             {
                 if (num < 10 || num > 600)
                     num = 60;
@@ -70,7 +96,7 @@ namespace NadekoBot.Modules.Gambling
                 }
             }
 
-            public async Task ReactionEvent(ICommandContext context, int amount)
+            public async Task ReactionEvent(ICommandContext context, long amount)
             {
                 if (amount <= 0)
                     amount = 100;
