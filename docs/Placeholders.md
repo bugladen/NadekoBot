@@ -5,7 +5,7 @@ They can be used to make the message more user friendly, generate random numbers
 Some features have their own specific placeholders which are noted in that feature's command help. Some placeholders are not available in certain features because they don't make sense there.
 
 ### Here is a list of the usual placeholders:  
-**Bot placeholders**
+**Bot placeholders**  
 - `%bot.status%` - Bot's status (Online, Idle, AFK, Invisible)
 - `%bot.latency%` - Bot latency
 - `%bot.name%` - Bot username
@@ -14,13 +14,13 @@ Some features have their own specific placeholders which are noted in that featu
 - `%bot.time%` - Bot time (usually the time of the server it's hosted on)
 - `%bot.discrim%` - Bot's discriminator
 
-**Server placeholders**
+**Server placeholders**  
 - `%server.id%` - Server ID
 - `%server.name%` - Server name
 - `%server.members%` - Member count
 - `%server.time%` -  Server time (set using `.timezone`)
 
-**Channel placeholders**
+**Channel placeholders**  
 - `%channel.mention%` - Channel mention (clickable)
 - `%channel.name%` - Channel name
 - `%channel.id%` - Channel ID
@@ -28,7 +28,7 @@ Some features have their own specific placeholders which are noted in that featu
 - `%channel.nsfw%` - Returns either `True` or `False`, depending on if the channel is designated as NSFW using discord
 - `%channel.topic%` - Channel topic
 
-**User placeholders**
+**User placeholders**  
 - `%user.mention%` - User mention
 - `%user.fullname%` - Username#discriminator
 - `%user.name%` - Username
@@ -36,16 +36,16 @@ Some features have their own specific placeholders which are noted in that featu
 - `%user.avatar%` - User's avatar url
 - `%user.id%` - User ID
 
-**Bot stats placeholders**
+**Bot stats placeholders**  
 - `%servers%` - Server count bot has joined
 - `%users%` - Combined user count on servers the bot has joined
 
-**Shard stats placeholders**
+**Shard stats placeholders**  
 - `%shard.servercount%` - Server count on current shard
 - `%shard.usercount%` - Combined user count on current shard
 - `%shard.id%` - Shard ID
 
-**Music placeholders**
+**Music placeholders**  
 *Note: These placeholders will only work in rotating playing statuses.*
 - `%music.queued%` - Amount of songs currently queued
 - `%music.playing%` - Current song name
