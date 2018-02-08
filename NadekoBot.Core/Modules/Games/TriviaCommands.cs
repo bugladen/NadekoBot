@@ -44,6 +44,10 @@ namespace NadekoBot.Modules.Games
 
                 var (opts, _) = OptionsParser.Default.ParseFrom(new TriviaOptions(), args);
 
+                if (_bc.BotConfig.MinimumTriviaWinReq > 0 && _bc.BotConfig.MinimumTriviaWinReq > opts.WinRequirement)
+                {
+                    return;
+                }
                 var trivia = new TriviaGame(_strings, _client, _bc, _cache, _cs, channel.Guild, channel, opts);
                 if (_service.RunningTrivias.TryAdd(channel.Guild.Id, trivia))
                 {

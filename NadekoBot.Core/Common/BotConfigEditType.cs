@@ -22,6 +22,7 @@
         PatreonCurrencyPerCent,
         MinWaifuPrice,
         WaifuGiftMultiplier,
+        MinimumTriviaWinReq
         
         //ErrorColor, //after i fix the nadekobot.cs static variables
         //OkColor

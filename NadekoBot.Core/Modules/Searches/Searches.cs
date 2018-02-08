@@ -137,6 +137,43 @@ namespace NadekoBot.Modules.Searches
             }
         }
 
+        //[NadekoCommand, Usage, Description, Aliases]
+        //public async Task Distance(string p1, string p2)
+        //{
+        //    if (string.IsNullOrWhiteSpace(p1) || string.IsNullOrWhiteSpace(p2))
+        //        return;
+
+        //    var embed = new EmbedBuilder();
+        //    string[] response;
+        //    try
+        //    {
+        //        response = await Task.WhenAll(
+        //            _service.Http.GetStringAsync($"http://api.openweathermap.org/data/2.5/weather?q={p1}&appid=42cd627dd60debf25a5739e50a217d74&units=metric"),
+        //            _service.Http.GetStringAsync($"http://api.openweathermap.org/data/2.5/weather?q={p2}&appid=42cd627dd60debf25a5739e50a217d74&units=metric"));
+
+
+        //        var d1 = JsonConvert.DeserializeObject<WeatherData>(response[0]);
+        //        var d2 = JsonConvert.DeserializeObject<WeatherData>(response[1]);
+
+        //        double R = 6371000; // metres
+        //        var φ1 = 0.0174533 * d1.Coord.Lat;
+        //        var φ2 = 0.0174533 * d2.Coord.Lat;
+        //        var Δφ = 0.0174533 * (d2.Coord.Lat - d1.Coord.Lat);
+        //        var Δλ = 0.0174533 * (d2.Coord.Lon - d1.Coord.Lon);
+
+        //        var a = Math.Sin(Δφ / 2) * Math.Sin(Δφ / 2) +
+        //                Math.Cos(φ1) * Math.Cos(φ2) *
+        //                Math.Sin(Δλ / 2) * Math.Sin(Δλ / 2);
+        //        var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+
+        //        await ReplyConfirmLocalized("distance", p1, p2, R * c).ConfigureAwait(false);
+        //    }
+        //    catch
+        //    {
+
+        //    }
+        //}
+
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Weather([Remainder] string query)
         {

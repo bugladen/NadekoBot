@@ -153,6 +153,12 @@ namespace NadekoBot.Core.Services.Impl
                         else
                             return false;
                         break;
+                    case BotConfigEditType.MinimumTriviaWinReq:
+                        if (int.TryParse(newValue, out var req) && req > 0)
+                            bc.MinimumTriviaWinReq = req;
+                        else
+                            return false;
+                        break;
                     default:
                         return false;
                 }

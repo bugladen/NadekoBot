@@ -76,7 +76,8 @@ Nadeko Support Server: https://discord.gg/nadekobot";
         public HashSet<LoadedPackage> LoadedPackages { get; set; } = new HashSet<LoadedPackage>();
         public int DivorcePriceMultiplier { get; set; } = 150;
         public float PatreonCurrencyPerCent { get; set; } = 1.0f;
-        public int WaifuGiftMultiplier { get; set; } = 5;
+        public int WaifuGiftMultiplier { get; set; } = 1;
+        public int MinimumTriviaWinReq { get; set; }
     }
 
     public class BlockedCmdOrMdl : DbEntity
