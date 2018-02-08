@@ -76,59 +76,6 @@ namespace NadekoBot.Modules.Games
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task Rps(string input)
-        {
-            Func<int,string> getRpsPick = (p) =>
-            {
-                switch (p)
-                {
-                    case 0:
-                        return "🚀";
-                    case 1:
-                        return "📎";
-                    default:
-                        return "✂️";
-                }
-            };
-
-            int pick;
-            switch (input)
-            {
-                case "r":
-                case "rock":
-                case "rocket":
-                    pick = 0;
-                    break;
-                case "p":
-                case "paper":
-                case "paperclip":
-                    pick = 1;
-                    break;
-                case "scissors":
-                case "s":
-                    pick = 2;
-                    break;
-                default:
-                    return;
-            }
-            var nadekoPick = new NadekoRandom().Next(0, 3);
-            string msg;
-            if (pick == nadekoPick)
-                msg = GetText("rps_draw", getRpsPick(pick));
-            else if ((pick == 0 && nadekoPick == 1) ||
-                     (pick == 1 && nadekoPick == 2) ||
-                     (pick == 2 && nadekoPick == 0))
-                msg = GetText("rps_win", Context.Client.CurrentUser.Mention,
-                    getRpsPick(nadekoPick), getRpsPick(pick));
-            else
-                msg = GetText("rps_win", Context.User.Mention, getRpsPick(pick),
-                    getRpsPick(nadekoPick));
-
-            await Context.Channel.SendConfirmAsync(msg).ConfigureAwait(false);
-        }
-
-
-        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task RateGirl(IGuildUser usr)
         {

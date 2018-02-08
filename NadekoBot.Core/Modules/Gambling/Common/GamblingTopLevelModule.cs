@@ -13,6 +13,10 @@ namespace NadekoBot.Core.Modules.Gambling.Common
 
         private async Task<bool> InternalCheckBet(long amount)
         {
+            if (amount < 1)
+            {
+                return false;
+            }
             if (amount < _bc.BotConfig.MinBet)
             {
                 await ReplyErrorLocalized("min_bet_limit", Format.Bold(_bc.BotConfig.MinBet.ToString()) + _bc.BotConfig.CurrencySign).ConfigureAwait(false);

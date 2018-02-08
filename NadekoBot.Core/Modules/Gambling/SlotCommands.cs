@@ -218,7 +218,7 @@ namespace NadekoBot.Modules.Gambling
                                 msg = GetText("slot_jackpot", 30);
                         }
 
-                        await Context.Channel.SendFileAsync(bgImage.ToStream(), "result.png", Context.User.Mention + " " + msg + $"\n`{GetText("slot_bet")}:`{amount} `{GetText("slot_won")}:` {amount * result.Multiplier}{_bc.BotConfig.CurrencySign}").ConfigureAwait(false);
+                        await Context.Channel.SendFileAsync(bgImage.ToStream(), "result.png", Context.User.Mention + " " + msg + $"\n`{GetText("slot_bet")}:`{amount} `{GetText("won")}:` {amount * result.Multiplier}{_bc.BotConfig.CurrencySign}").ConfigureAwait(false);
                     }
                 }
                 finally

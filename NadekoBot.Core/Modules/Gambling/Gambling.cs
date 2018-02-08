@@ -541,5 +541,82 @@ namespace NadekoBot.Modules.Gambling
 
             await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
+
+
+        public enum RpsPick
+        {
+            R = 0,
+            Rock = 0,
+            Rocket = 0,
+            P = 1,
+            Paper = 1,
+            Paperclip = 1,
+            S = 2,
+            Scissors = 2
+        }
+
+        public enum RpsResult
+        {
+            Win,
+            Loss,
+            Draw,
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        public async Task Rps(RpsPick pick, long amount = 0)
+        {
+            long oldAmount = amount;
+            if (!await CheckBetOptional(amount) || (amount == 1))
+                return;
+
+            Func<RpsPick, string> getRpsPick = (p) =>
+            {
+                switch (p)
+                {
+                    case RpsPick.R:
+                        return "🚀";
+                    case RpsPick.P:
+                        return "📎";
+                    default:
+                        return "✂️";
+                }
+            };
+            var embed = new EmbedBuilder();
+
+            var nadekoPick = (RpsPick)new NadekoRandom().Next(0, 3);
+            string msg;
+            if (pick == nadekoPick)
+            {
+                embed.WithOkColor();
+                msg = GetText("rps_draw", getRpsPick(pick));
+            }
+            else if ((pick == RpsPick.Paper && nadekoPick == RpsPick.Rock) ||
+                     (pick == RpsPick.Rock && nadekoPick == RpsPick.Scissors) ||
+                     (pick == RpsPick.Scissors && nadekoPick == RpsPick.Paper))
+            {
+                embed.WithOkColor();
+                amount = (long)(amount * _bc.BotConfig.BetflipMultiplier);
+                msg = GetText("rps_win", Context.Client.CurrentUser.Mention,
+                    getRpsPick(nadekoPick), getRpsPick(pick));
+
+            }
+            else
+            {
+                embed.WithErrorColor();
+                amount = 0;
+                msg = GetText("rps_win", Context.User.Mention, getRpsPick(pick),
+                    getRpsPick(nadekoPick));
+            }
+
+            embed
+                .WithDescription(msg);
+
+            if(oldAmount > 0)
+            {
+                embed.AddField(GetText("won"), amount);
+            }
+
+            await Context.Channel.SendConfirmAsync(msg).ConfigureAwait(false);
+        }
     }
 }
