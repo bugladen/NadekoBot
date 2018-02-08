@@ -616,7 +616,7 @@ namespace NadekoBot.Modules.Gambling
                 embed.AddField(GetText("won"), amount);
             }
 
-            await Context.Channel.SendConfirmAsync(msg).ConfigureAwait(false);
+            await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
     }
 }

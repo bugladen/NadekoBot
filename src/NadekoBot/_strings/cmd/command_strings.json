@@ -1108,8 +1108,9 @@
   },
   "rps": {
     "Cmd": "rps",
-    "Desc": "Play a game of Rocket-Paperclip-Scissors with Nadeko.",
+    "Desc": "Play a game of Rocket-Paperclip-Scissors with Nadeko. You can bet on it. Multiplier is the same as on betflip.",
     "Usage": [
+      "{0}rps r 100",
       "{0}rps scissors"
     ]
   },
