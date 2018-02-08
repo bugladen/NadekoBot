@@ -58,9 +58,9 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
             {
                 //wait for players to join
                 await Task.Delay(20000);
+                await locker.WaitAsync();
                 try
                 {
-                    await locker.WaitAsync();
                     State = GameState.Playing;
                 }
                 finally
@@ -173,18 +173,22 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
         public async Task<bool> Stand(IUser u)
         {
             await locker.WaitAsync();
-            {
+            try {
                 if (CurrentUser.DiscordUser == u)
                     return await Stand(CurrentUser);
 
                 return false;
+            }
+            finally
+            {
+                locker.Release();
             }
         }
 
         public async Task<bool> Stand(User u)
         {
             await locker.WaitAsync();
-            {
+            try {
                 if (State != GameState.Playing)
                     return false;
 
@@ -194,6 +198,10 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
                 u.State = User.UserState.Stand;
                 _currentUserMove.TrySetResult(true);
                 return true;
+            }
+            finally
+            {
+                locker.Release();
             }
         }
 
