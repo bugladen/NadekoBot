@@ -13,14 +13,14 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
         }
 
         //temp is only used in updatecurrencystate, so that i don't overwrite real usernames/discrims with Unknown
-        public DiscordUser GetOrCreate(ulong userId, string username, string discrim, string avatarId, bool temp = false)
+        public DiscordUser GetOrCreate(ulong userId, string username, string discrim, string avatarId)
         {
             DiscordUser toReturn;
 
             toReturn = _set.Include(x => x.Club)
                 .FirstOrDefault(u => u.UserId == userId);
 
-            if (toReturn != null && !temp)
+            if (toReturn != null && username != null)
             {
                 toReturn.AvatarId = avatarId;
                 toReturn.Username = username;
@@ -79,9 +79,9 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
             _set.RemoveRange(_set.Where(x => ids.Contains((long)x.UserId)));
         }
 
-        public bool TryUpdateCurrencyState(ulong userId, long change, bool allowNegative = false)
+        public bool TryUpdateCurrencyState(ulong userId, string name, string discrim, string avatarId, long change, bool allowNegative = false)
         {
-            var cur = GetOrCreate(userId, "Unknown", "????", "", true);
+            var cur = GetOrCreate(userId, name ?? "Unknown", discrim ?? "????", avatarId ?? "");
 
             if (change == 0)
                 return true;

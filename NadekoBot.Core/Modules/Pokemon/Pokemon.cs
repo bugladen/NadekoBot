@@ -17,9 +17,9 @@ namespace NadekoBot.Modules.Pokemon
     {
         private readonly DbService _db;
         private readonly IBotConfigProvider _bc;
-        private readonly CurrencyService _cs;
+        private readonly ICurrencyService _cs;
 
-        public Pokemon(DbService db, IBotConfigProvider bc, CurrencyService cs)
+        public Pokemon(DbService db, IBotConfigProvider bc, ICurrencyService cs)
         {
             _db = db;
             _bc = bc;

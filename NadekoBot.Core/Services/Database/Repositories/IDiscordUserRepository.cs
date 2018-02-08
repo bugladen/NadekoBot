@@ -11,7 +11,7 @@ namespace NadekoBot.Core.Services.Database.Repositories
         DiscordUser[] GetUsersXpLeaderboardFor(int page);
 
         long GetUserCurrency(ulong userId);
-        bool TryUpdateCurrencyState(ulong userId, long change, bool allowNegative = false);
+        bool TryUpdateCurrencyState(ulong userId, string name, string discrim, string avatar, long change, bool allowNegative = false);
         IEnumerable<DiscordUser> GetTopRichest(int count, int skip);
         void RemoveFromMany(List<long> ids);
     }

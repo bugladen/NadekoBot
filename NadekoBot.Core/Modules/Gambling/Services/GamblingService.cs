@@ -10,12 +10,12 @@ namespace NadekoBot.Modules.Gambling.Services
     public class GamblingService : INService
     {
         private readonly DbService _db;
-        private readonly CurrencyService _cs;
+        private readonly ICurrencyService _cs;
         private readonly Logger _log;
 
         public ConcurrentDictionary<(ulong, ulong), RollDuelGame> Duels { get; } = new ConcurrentDictionary<(ulong, ulong), RollDuelGame>();
 
-        public GamblingService(DbService db, CurrencyService cs)
+        public GamblingService(DbService db, ICurrencyService cs)
         {
             _db = db;
             _cs = cs;
@@ -29,9 +29,15 @@ namespace NadekoBot.Modules.Gambling.Services
                 var stakes = uow._context.Set<Stake>()
                     .ToArray();
 
+                var userIds = stakes.Select(x => x.UserId).ToArray();
+                var reasons = stakes.Select(x => "Stake-" + x.Source).ToArray();
+                var amounts = stakes.Select(x => x.Amount).ToArray();
+
+                _cs.AddBulkAsync(userIds, reasons, amounts, gamble: true).ConfigureAwait(false);
+
                 foreach (var s in stakes)
                 {
-                    _cs.AddAsync(s.UserId, "Stake-" + s.Source, s.Amount, uow, gamble: true)
+                    _cs.AddAsync(s.UserId, "Stake-" + s.Source, s.Amount, gamble: true)
                         .GetAwaiter()
                         .GetResult();
                 }

@@ -19,11 +19,11 @@ namespace NadekoBot.Modules.Administration
         public class UserPunishCommands : NadekoSubmodule<UserPunishService>
         {
             private readonly DbService _db;
-            private readonly CurrencyService _cs;
+            private readonly ICurrencyService _cs;
             private readonly IBotConfigProvider _bc;
 
             public UserPunishCommands(DbService db, MuteService muteService,
-                CurrencyService cs, IBotConfigProvider bc)
+                ICurrencyService cs, IBotConfigProvider bc)
             {
                 _db = db;
                 _cs = cs;

@@ -38,7 +38,7 @@ namespace NadekoBot.Modules.Games.Services
         private readonly IImageCache _images;
         private readonly Logger _log;
         private readonly NadekoRandom _rng;
-        private readonly CurrencyService _cs;
+        private readonly ICurrencyService _cs;
         public readonly string TypingArticlesPath = "data/typing_articles3.json";
         private readonly CommandHandler _cmdHandler;
 
@@ -58,7 +58,7 @@ namespace NadekoBot.Modules.Games.Services
 
         public GamesService(CommandHandler cmd, IBotConfigProvider bc, NadekoBot bot,
             NadekoStrings strings, IDataCache data, CommandHandler cmdHandler,
-            CurrencyService cs)
+            ICurrencyService cs)
         {
             _bc = bc;
             _cmd = cmd;

@@ -37,7 +37,7 @@ namespace NadekoBot.Modules.Xp.Services
         private readonly IDataCache _cache;
         private readonly FontProvider _fonts;
         private readonly IBotCredentials _creds;
-        private readonly CurrencyService _cs;
+        private readonly ICurrencyService _cs;
         public const int XP_REQUIRED_LVL_1 = 36;
 
         private readonly ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>> _excludedRoles
@@ -62,7 +62,7 @@ namespace NadekoBot.Modules.Xp.Services
 
         public XpService(CommandHandler cmd, IBotConfigProvider bc,
             NadekoBot bot, DbService db, NadekoStrings strings, IDataCache cache,
-            FontProvider fonts, IBotCredentials creds, CurrencyService cs)
+            FontProvider fonts, IBotCredentials creds, ICurrencyService cs)
         {
             _db = db;
             _cmd = cmd;
@@ -186,7 +186,7 @@ namespace NadekoBot.Modules.Xp.Services
                                 if (crew != null)
                                 {
                                     //give the user the reward if it exists
-                                    await _cs.AddAsync(item.Key.User.Id, "Level-up Reward", crew.Amount, uow);
+                                    await _cs.AddAsync(item.Key.User.Id, "Level-up Reward", crew.Amount);
                                 }
                             }
                         }

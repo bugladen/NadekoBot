@@ -14,7 +14,7 @@ namespace NadekoBot.Modules.Gambling
     {
         public class BlackJackCommands : NadekoSubmodule<BlackJackService>
         {
-            private readonly CurrencyService _cs;
+            private readonly ICurrencyService _cs;
             private readonly DbService _db;
             private readonly IBotConfigProvider _bc;
             private IUserMessage _msg;
@@ -26,7 +26,7 @@ namespace NadekoBot.Modules.Gambling
                 Double,
             }
 
-            public BlackJackCommands(CurrencyService cs, DbService db, IBotConfigProvider bc)
+            public BlackJackCommands(ICurrencyService cs, DbService db, IBotConfigProvider bc)
             {
                 _cs = cs;
                 _db = db;
@@ -57,7 +57,7 @@ namespace NadekoBot.Modules.Gambling
                 Blackjack bj;
                 if (newBj == (bj = _service.Games.GetOrAdd(Context.Channel.Id, newBj)))
                 {
-                    if (!bj.Join(Context.User, amount))
+                    if (!await bj.Join(Context.User, amount))
                     {
                         _service.Games.TryRemove(Context.Channel.Id, out _);
                         await ReplyErrorLocalized("not_enough", _bc.BotConfig.CurrencySign).ConfigureAwait(false);
@@ -71,7 +71,7 @@ namespace NadekoBot.Modules.Gambling
                 }
                 else
                 {
-                    if(bj.Join(Context.User, amount))
+                    if(await bj.Join(Context.User, amount))
                         await ReplyConfirmLocalized("bj_joined").ConfigureAwait(false);
                     else
                     {
@@ -186,12 +186,12 @@ namespace NadekoBot.Modules.Gambling
                     return;
 
                 if (a == BjAction.Hit)
-                    bj.Hit(Context.User);
+                    await bj.Hit(Context.User);
                 else if (a == BjAction.Stand)
-                    bj.Stand(Context.User);
+                    await bj.Stand(Context.User);
                 else if (a == BjAction.Double)
                 {
-                    if(!bj.Double(Context.User))
+                    if(!await bj.Double(Context.User))
                     {
                         await ReplyErrorLocalized("not_enough").ConfigureAwait(false);
                     }

@@ -36,12 +36,12 @@ namespace NadekoBot.Modules.Gambling.Common.AnimalRacing
 
         private readonly SemaphoreSlim _locker = new SemaphoreSlim(1, 1);
         private readonly HashSet<AnimalRacingUser> _users = new HashSet<AnimalRacingUser>();
-        private readonly CurrencyService _currency;
+        private readonly ICurrencyService _currency;
         private readonly RaceOptions _options;
         private readonly Queue<RaceAnimal> _animalsQueue;
         public int MaxUsers { get; }
 
-        public AnimalRace(RaceOptions options, CurrencyService currency, RaceAnimal[] availableAnimals)
+        public AnimalRace(RaceOptions options, ICurrencyService currency, RaceAnimal[] availableAnimals)
         {
             this._currency = currency;
             this._options = options;
@@ -86,7 +86,7 @@ namespace NadekoBot.Modules.Gambling.Common.AnimalRacing
                 if (CurrentPhase != Phase.WaitingForPlayers)
                     throw new AlreadyStartedException();
 
-                if (!_currency.Remove(userId, "BetRace", bet))
+                if (!await _currency.RemoveAsync(userId, "BetRace", bet))
                     throw new NotEnoughFundsException();
 
                 if (_users.Contains(user))

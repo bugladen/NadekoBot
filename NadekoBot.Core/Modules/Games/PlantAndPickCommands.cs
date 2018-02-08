@@ -26,11 +26,11 @@ namespace NadekoBot.Modules.Games
         public class PlantPickCommands : NadekoSubmodule<GamesService>
         {
             //todo rewrite
-            private readonly CurrencyService _cs;
+            private readonly ICurrencyService _cs;
             private readonly IBotConfigProvider _bc;
             private readonly DbService _db;
 
-            public PlantPickCommands(IBotConfigProvider bc, CurrencyService cs,
+            public PlantPickCommands(IBotConfigProvider bc, ICurrencyService cs,
                 DbService db)
             {
                 _bc = bc;

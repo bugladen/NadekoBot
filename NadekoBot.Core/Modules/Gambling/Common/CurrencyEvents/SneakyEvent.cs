@@ -22,12 +22,12 @@ namespace NadekoBot.Modules.Gambling.Common.CurrencyEvents
             .Select(x => (char)x)
             .ToArray();
 
-        private readonly CurrencyService _cs;
+        private readonly ICurrencyService _cs;
         private readonly DiscordSocketClient _client;
         private readonly IBotConfigProvider _bc;
         private readonly int _length;
 
-        public SneakyEvent(CurrencyService cs, DiscordSocketClient client,
+        public SneakyEvent(ICurrencyService cs, DiscordSocketClient client,
             IBotConfigProvider bc, int len)
         {
             _cs = cs;

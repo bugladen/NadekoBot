@@ -17,9 +17,9 @@ namespace NadekoBot.Modules.Utility
             private readonly IBotCredentials _creds;
             private readonly IBotConfigProvider _config;
             private readonly DbService _db;
-            private readonly CurrencyService _currency;
+            private readonly ICurrencyService _currency;
 
-            public PatreonCommands(IBotCredentials creds, IBotConfigProvider config, DbService db, CurrencyService currency)
+            public PatreonCommands(IBotCredentials creds, IBotConfigProvider config, DbService db, ICurrencyService currency)
             {
                 _creds = creds;
                 _config = config;

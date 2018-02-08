@@ -11,6 +11,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace NadekoBot.Modules.Gambling.Common
 {
@@ -20,7 +21,7 @@ namespace NadekoBot.Modules.Gambling.Common
         private readonly BotConfig _bc;
         private readonly Logger _log;
         private readonly DiscordSocketClient _client;
-        private readonly CurrencyService _cs;
+        private readonly ICurrencyService _cs;
         private readonly SocketSelfUser _botUser;
 
         private IUserMessage StartingMessage { get; set; }
@@ -29,9 +30,9 @@ namespace NadekoBot.Modules.Gambling.Common
         private CancellationToken CancelToken { get; }
 
         private readonly ConcurrentQueue<ulong> _toGiveTo = new ConcurrentQueue<ulong>();
-        private readonly int _amount;
+        private readonly long _amount;
 
-        public ReactionEvent(BotConfig bc, DiscordSocketClient client, CurrencyService cs, int amount)
+        public ReactionEvent(BotConfig bc, DiscordSocketClient client, ICurrencyService cs, long amount)
         {
             _bc = bc;
             _log = LogManager.GetCurrentClassLogger();
@@ -55,7 +56,8 @@ namespace NadekoBot.Modules.Gambling.Common
 
                     if (users.Count > 0)
                     {
-                        await _cs.AddToManyAsync("Reaction Event", _amount, users.ToArray()).ConfigureAwait(false);
+                        var usrs = users.ToArray();
+                        await _cs.AddBulkAsync(usrs, usrs.Select(x => "Reaction Event"), usrs.Select(x => _amount)).ConfigureAwait(false);
                     }
 
                     users.Clear();

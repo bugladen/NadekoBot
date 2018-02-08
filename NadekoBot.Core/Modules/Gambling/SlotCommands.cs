@@ -33,9 +33,9 @@ namespace NadekoBot.Modules.Gambling
             //thanks to judge for helping me with this
 
             private readonly IImageCache _images;
-            private readonly CurrencyService _cs;
+            private readonly ICurrencyService _cs;
 
-            public SlotCommands(IDataCache data, IBotConfigProvider bc, CurrencyService cs)
+            public SlotCommands(IDataCache data, IBotConfigProvider bc, ICurrencyService cs)
             {
                 _images = data.LocalImages;
                 _bc = bc;

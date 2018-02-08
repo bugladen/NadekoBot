@@ -19,7 +19,7 @@ namespace NadekoBot.Modules.Gambling
     {
         private readonly IBotConfigProvider _bc;
         private readonly DbService _db;
-        private readonly CurrencyService _cs;
+        private readonly ICurrencyService _cs;
         private readonly IDataCache _cache;
         private readonly DiscordSocketClient _client;
 
@@ -27,7 +27,7 @@ namespace NadekoBot.Modules.Gambling
         private string CurrencyPluralName => _bc.BotConfig.CurrencyPluralName;
         private string CurrencySign => _bc.BotConfig.CurrencySign;
 
-        public Gambling(IBotConfigProvider bc, DbService db, CurrencyService currency,
+        public Gambling(IBotConfigProvider bc, DbService db, ICurrencyService currency,
             IDataCache cache, DiscordSocketClient client)
         {
             _bc = bc;
@@ -200,7 +200,7 @@ namespace NadekoBot.Modules.Gambling
                 await ReplyErrorLocalized("not_enough", CurrencyPluralName).ConfigureAwait(false);
                 return;
             }
-            await _cs.AddAsync(receiver, $"Gift from {Context.User.Username} ({Context.User.Id}).", amount, true, msg).ConfigureAwait(false);
+            await _cs.AddAsync(receiver, $"Gift from {Context.User.Username} ({Context.User.Id}) - {msg}.", amount, true).ConfigureAwait(false);
             await ReplyConfirmLocalized("gifted", amount + CurrencySign, Format.Bold(receiver.ToString()), msg)
                 .ConfigureAwait(false);
         }
@@ -279,7 +279,7 @@ namespace NadekoBot.Modules.Gambling
             if (amount <= 0)
                 return;
 
-            if (_cs.Remove(usrId, $"Taken by bot owner.({Context.User.Username}/{Context.User.Id})", amount))
+            if (await _cs.RemoveAsync(usrId, $"Taken by bot owner.({Context.User.Username}/{Context.User.Id})", amount))
                 await ReplyConfirmLocalized("take", amount + CurrencySign, $"<@{usrId}>").ConfigureAwait(false);
             else
                 await ReplyErrorLocalized("take_fail", amount + CurrencySign, Format.Code(usrId.ToString()), CurrencyPluralName).ConfigureAwait(false);

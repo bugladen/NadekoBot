@@ -18,12 +18,12 @@ namespace NadekoBot.Modules.Games
         public class TriviaCommands : NadekoSubmodule<GamesService>
         {
             private readonly IDataCache _cache;
-            private readonly CurrencyService _cs;
+            private readonly ICurrencyService _cs;
             private readonly DiscordSocketClient _client;
             private readonly IBotConfigProvider _bc;
 
             public TriviaCommands(DiscordSocketClient client, IDataCache cache,
-                IBotConfigProvider bc, CurrencyService cs)
+                IBotConfigProvider bc, ICurrencyService cs)
             {
                 _cache = cache;
                 _cs = cs;

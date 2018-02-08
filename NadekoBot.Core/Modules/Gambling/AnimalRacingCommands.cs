@@ -21,10 +21,10 @@ namespace NadekoBot.Modules.Gambling
         public class AnimalRacingCommands : NadekoSubmodule<AnimalRaceService>
         {
             private readonly IBotConfigProvider _bc;
-            private readonly CurrencyService _cs;
+            private readonly ICurrencyService _cs;
             private readonly DiscordSocketClient _client;
 
-            public AnimalRacingCommands(IBotConfigProvider bc, CurrencyService cs, DiscordSocketClient client)
+            public AnimalRacingCommands(IBotConfigProvider bc, ICurrencyService cs, DiscordSocketClient client)
             {
                 _bc = bc;
                 _cs = cs;
