@@ -1,27 +1,25 @@
 ﻿using Discord;
-using Discord.Commands;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Gambling.Common.WheelOfFortune;
 using NadekoBot.Core.Services;
 using System.Threading.Tasks;
 using Wof = NadekoBot.Modules.Gambling.Common.WheelOfFortune.WheelOfFortune;
+using NadekoBot.Modules.Gambling.Services;
+using NadekoBot.Core.Modules.Gambling.Common;
 
 namespace NadekoBot.Modules.Gambling
 {
     public partial class Gambling
     {
-        public class WheelOfFortuneCommands : NadekoSubmodule
+        public class WheelOfFortuneCommands : GamblingSubmodule<GamblingService>
         {
             private readonly ICurrencyService _cs;
-            private readonly IBotConfigProvider _bc;
             private readonly DbService _db;
 
-            public WheelOfFortuneCommands(ICurrencyService cs, IBotConfigProvider bc,
-                DbService db)
+            public WheelOfFortuneCommands(ICurrencyService cs, DbService db)
             {
                 _cs = cs;
-                _bc = bc;
                 _db = db;
             }
 
@@ -39,16 +37,12 @@ namespace NadekoBot.Modules.Gambling
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            public async Task WheelOfFortune(long bet)
+            public async Task WheelOfFortune(long amount)
             {
-                const int minBet = 10;
-                if (bet < minBet)
-                {
-                    await ReplyErrorLocalized("min_bet_limit", minBet + _bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                if (!await CheckBetMandatory(amount))
                     return;
-                }
 
-                if (!await _cs.RemoveAsync(Context.User.Id, "Wheel Of Fortune - bet", bet, gamble: true))
+                if (!await _cs.RemoveAsync(Context.User.Id, "Wheel Of Fortune - bet", amount, gamble: true))
                 {
                     await ReplyErrorLocalized("not_enough", _bc.BotConfig.CurrencySign).ConfigureAwait(false);
                     return;
@@ -56,7 +50,7 @@ namespace NadekoBot.Modules.Gambling
 
                 var wof = new WheelOfFortune();
 
-                var amount = (int)(bet * wof.Multiplier);
+                amount = (long)(amount * wof.Multiplier);
 
                 if (amount > 0)
                     await _cs.AddAsync(Context.User.Id, "Wheel Of Fortune - won", amount, gamble: true).ConfigureAwait(false);

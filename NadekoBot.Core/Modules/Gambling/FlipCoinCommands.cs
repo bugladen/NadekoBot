@@ -8,25 +8,24 @@ using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
 using Image = ImageSharp.Image;
 using ImageSharp;
+using NadekoBot.Core.Modules.Gambling.Common;
+using NadekoBot.Modules.Gambling.Services;
 
 namespace NadekoBot.Modules.Gambling
 {
     public partial class Gambling
     {
         [Group]
-        public class FlipCoinCommands : NadekoSubmodule
+        public class FlipCoinCommands : GamblingSubmodule<GamblingService>
         {
             private readonly IImageCache _images;
-            private readonly IBotConfigProvider _bc;
             private readonly ICurrencyService _cs;
             private readonly DbService _db;
             private static readonly NadekoRandom rng = new NadekoRandom();
 
-            public FlipCoinCommands(IDataCache data, ICurrencyService cs,
-                IBotConfigProvider bc, DbService db)
+            public FlipCoinCommands(IDataCache data, ICurrencyService cs, DbService db)
             {
                 _images = data.LocalImages;
-                _bc = bc;
                 _cs = cs;
                 _db = db;
             }
@@ -103,11 +102,9 @@ namespace NadekoBot.Modules.Gambling
             [NadekoCommand, Usage, Description, Aliases]
             public async Task Betflip(long amount, BetFlipGuess guess)
             {
-                if (amount < _bc.BotConfig.MinimumBetAmount)
-                {
-                    await ReplyErrorLocalized("min_bet_limit", _bc.BotConfig.MinimumBetAmount + _bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                if (!await CheckBetMandatory(amount))
                     return;
-                }
+
                 var removed = await _cs.RemoveAsync(Context.User, "Betflip Gamble", amount, false, gamble: true).ConfigureAwait(false);
                 if (!removed)
                 {

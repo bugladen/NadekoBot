@@ -22,7 +22,6 @@ namespace NadekoBot.Modules.Help
         public const string PatreonUrl = "https://patreon.com/nadekobot";
         public const string PaypalUrl = "https://paypal.me/Kwoth";
         private readonly IBotCredentials _creds;
-        private readonly IBotConfigProvider _config;
         private readonly CommandService _cmds;
         private readonly GlobalPermissionService _perms;
 
@@ -35,19 +34,18 @@ namespace NadekoBot.Modules.Help
                 .Build();
 
 
-            if (!CREmbed.TryParse(_config.BotConfig.HelpString, out var embed))
+            if (!CREmbed.TryParse(_bc.BotConfig.HelpString, out var embed))
                 return new EmbedBuilder().WithOkColor()
-                    .WithDescription(String.Format(_config.BotConfig.HelpString, _creds.ClientId, Prefix));
+                    .WithDescription(String.Format(_bc.BotConfig.HelpString, _creds.ClientId, Prefix));
 
             r.Replace(embed);
 
             return embed.ToEmbed();
         }
 
-        public Help(IBotCredentials creds, GlobalPermissionService perms, IBotConfigProvider config, CommandService cmds)
+        public Help(IBotCredentials creds, GlobalPermissionService perms, CommandService cmds)
         {
             _creds = creds;
-            _config = config;
             _cmds = cmds;
             _perms = perms;
         }

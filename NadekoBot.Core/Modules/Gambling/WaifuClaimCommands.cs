@@ -55,16 +55,14 @@ namespace NadekoBot.Modules.Gambling
                 NotEnoughFunds,
                 InsufficientAmount
             }
-            private readonly IBotConfigProvider _bc;
+
             private readonly ICurrencyService _cs;
             private readonly DbService _db;
             private readonly IDataCache _cache;
             private readonly DiscordSocketClient _client;
 
-            public WaifuClaimCommands(IDataCache cache, IBotConfigProvider bc,
-                ICurrencyService cs, DbService db, DiscordSocketClient client)
+            public WaifuClaimCommands(IDataCache cache, ICurrencyService cs, DbService db, DiscordSocketClient client)
             {
-                _bc = bc;
                 _cs = cs;
                 _db = db;
                 _cache = cache;

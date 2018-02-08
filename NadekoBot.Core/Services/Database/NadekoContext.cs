@@ -168,13 +168,19 @@ namespace NadekoBot.Core.Services.Database
             botConfigEntity.Property(x => x.WaifuGiftMultiplier)
                 .HasDefaultValue(1);
 
+            botConfigEntity.Property(x => x.OkColor)
+                .HasDefaultValue("00e584");
+
+            botConfigEntity.Property(x => x.ErrorColor)
+                .HasDefaultValue("ee281f");
+
             //botConfigEntity
             //    .HasMany(c => c.ModulePrefixes)
             //    .WithOne(mp => mp.BotConfig)
             //    .HasForeignKey(mp => mp.BotConfigId);
 
             #endregion
-            
+
             #region Self Assignable Roles
 
             var selfassignableRolesEntity = modelBuilder.Entity<SelfAssignedRole>();

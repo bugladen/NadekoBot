@@ -20,7 +20,6 @@ namespace NadekoBot.Modules.Gambling
         {
             private static readonly ConcurrentDictionary<IGuild, Deck> _allDecks = new ConcurrentDictionary<IGuild, Deck>();
             private const string _cardsPath = "data/images/cards";
-
             
             private async Task<(Stream ImageStream, string ToSend)> InternalDraw(int num, ulong? guildId = null)
             {

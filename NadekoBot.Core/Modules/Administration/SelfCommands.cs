@@ -33,18 +33,16 @@ namespace NadekoBot.Modules.Administration
             private static readonly object _locker = new object();
             private readonly DiscordSocketClient _client;
             private readonly IImageCache _images;
-            private readonly IBotConfigProvider _bc;
             private readonly NadekoBot _bot;
             private readonly IBotCredentials _creds;
             private readonly IDataCache _cache;
 
             public SelfCommands(DbService db, NadekoBot bot, DiscordSocketClient client,
-                IBotConfigProvider bc, IBotCredentials creds, IDataCache cache)
+                IBotCredentials creds, IDataCache cache)
             {
                 _db = db;
                 _client = client;
                 _images = cache.LocalImages;
-                _bc = bc;
                 _bot = bot;
                 _creds = creds;
                 _cache = cache;

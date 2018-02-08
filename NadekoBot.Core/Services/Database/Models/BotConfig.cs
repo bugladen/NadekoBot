@@ -1,5 +1,6 @@
 ﻿using Discord;
 using NadekoBot.Core.Common;
+using System;
 using System.Collections.Generic;
 
 namespace NadekoBot.Core.Services.Database.Models
@@ -25,6 +26,10 @@ namespace NadekoBot.Core.Services.Database.Models
         public string CurrencyPluralName { get; set; } = "Nadeko Flowers";
 
         public int TriviaCurrencyReward { get; set; } = 0;
+        /// <summary>
+        /// UNUSED
+        /// </summary>
+        [Obsolete]
         public int MinimumBetAmount { get; set; } = 2;
         public float BetflipMultiplier { get; set; } = 1.95f;
         public int CurrencyDropAmount { get; set; } = 1;
@@ -62,7 +67,7 @@ Nadeko Support Server: https://discord.gg/nadekobot";
 
         public int MigrationVersion { get; set; }
 
-        public string OkColor { get; set; } = "00d084";
+        public string OkColor { get; set; } = "00e584";
         public string ErrorColor { get; set; } = "ee281f";
         public string Locale { get; set; } = null;
         public List<StartupCommand> StartupCommands { get; set; }
@@ -78,6 +83,8 @@ Nadeko Support Server: https://discord.gg/nadekobot";
         public float PatreonCurrencyPerCent { get; set; } = 1.0f;
         public int WaifuGiftMultiplier { get; set; } = 1;
         public int MinimumTriviaWinReq { get; set; }
+        public int MinBet { get; set; } = 0;
+        public int MaxBet { get; set; } = 0;
     }
 
     public class BlockedCmdOrMdl : DbEntity

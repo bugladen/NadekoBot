@@ -1,5 +1,7 @@
-﻿using NadekoBot.Common;
+﻿using Discord;
+using NadekoBot.Common;
 using NadekoBot.Core.Services.Database.Models;
+using System;
 
 namespace NadekoBot.Core.Services.Impl
 {
@@ -87,12 +89,6 @@ namespace NadekoBot.Core.Services.Impl
                         else
                             return false;
                         break;
-                    case BotConfigEditType.MinimumBetAmount:
-                        if (int.TryParse(newValue, out var minBetAmount) && minBetAmount > 0)
-                            bc.MinimumBetAmount = minBetAmount;
-                        else
-                            return false;
-                        break;
                     case BotConfigEditType.TriviaCurrencyReward:
                         if (int.TryParse(newValue, out var triviaReward) && triviaReward > 0)
                             bc.TriviaCurrencyReward = triviaReward;
@@ -154,11 +150,49 @@ namespace NadekoBot.Core.Services.Impl
                             return false;
                         break;
                     case BotConfigEditType.MinimumTriviaWinReq:
-                        if (int.TryParse(newValue, out var req) && req > 0)
+                        if (int.TryParse(newValue, out var req) && req >= 0)
                             bc.MinimumTriviaWinReq = req;
                         else
                             return false;
                         break;
+                    case BotConfigEditType.MinBet:
+                        if (int.TryParse(newValue, out var gmin) && gmin >= 0)
+                            bc.MinBet = gmin;
+                        else
+                            return false;
+                        break;
+                    case BotConfigEditType.MaxBet:
+                        if (int.TryParse(newValue, out var gmax) && gmax >= 0)
+                            bc.MaxBet = gmax;
+                        else
+                            return false;
+                        break;
+                    case BotConfigEditType.OkColor:
+                        try
+                        {
+                            newValue = newValue.Replace("#", "");
+                            var c = new Color(Convert.ToUInt32(newValue, 16));
+                            NadekoBot.OkColor = c;
+                            bc.OkColor = newValue;
+                            return true;
+                        }
+                        catch
+                        {
+                        }
+                        return false;
+                    case BotConfigEditType.ErrorColor:
+                        try
+                        {
+                            newValue = newValue.Replace("#", "");
+                            var c = new Color(Convert.ToUInt32(newValue, 16));
+                            NadekoBot.ErrorColor = c;
+                            bc.ErrorColor = newValue;
+                            return true;
+                        }
+                        catch
+                        {
+                        }
+                        return false;
                     default:
                         return false;
                 }

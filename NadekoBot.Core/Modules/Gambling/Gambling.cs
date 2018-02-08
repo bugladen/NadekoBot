@@ -15,9 +15,8 @@ using Discord.WebSocket;
 
 namespace NadekoBot.Modules.Gambling
 {
-    public partial class Gambling : NadekoTopLevelModule<GamblingService>
+    public partial class Gambling : GamblingTopLevelModule<GamblingService>
     {
-        private readonly IBotConfigProvider _bc;
         private readonly DbService _db;
         private readonly ICurrencyService _cs;
         private readonly IDataCache _cache;
@@ -27,10 +26,9 @@ namespace NadekoBot.Modules.Gambling
         private string CurrencyPluralName => _bc.BotConfig.CurrencyPluralName;
         private string CurrencySign => _bc.BotConfig.CurrencySign;
 
-        public Gambling(IBotConfigProvider bc, DbService db, ICurrencyService currency,
+        public Gambling(DbService db, ICurrencyService currency,
             IDataCache cache, DiscordSocketClient client)
         {
-            _bc = bc;
             _db = db;
             _cs = currency;
             _cache = cache;
@@ -309,6 +307,9 @@ namespace NadekoBot.Modules.Gambling
             if (Context.User.Id == u.Id)
                 return;
 
+            if (amount <= 0)
+                return;
+
             var embed = new EmbedBuilder()
                     .WithOkColor()
                     .WithTitle(GetText("roll_duel"));
@@ -448,7 +449,7 @@ namespace NadekoBot.Modules.Gambling
 
         private async Task InternallBetroll(long amount)
         {
-            if (amount < 1)
+            if (!await CheckBetMandatory(amount))
                 return;
 
             if (!await _cs.RemoveAsync(Context.User, "Betroll Gamble", amount, false, gamble: true).ConfigureAwait(false))

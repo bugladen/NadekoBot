@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Common.Attributes;
+using NadekoBot.Core.Modules.Gambling.Common;
 using NadekoBot.Core.Modules.Gambling.Common.Blackjack;
 using NadekoBot.Core.Modules.Gambling.Services;
 using NadekoBot.Core.Services;
@@ -12,11 +13,10 @@ namespace NadekoBot.Modules.Gambling
 {
     public partial class Gambling
     {
-        public class BlackJackCommands : NadekoSubmodule<BlackJackService>
+        public class BlackJackCommands : GamblingSubmodule<BlackJackService>
         {
             private readonly ICurrencyService _cs;
             private readonly DbService _db;
-            private readonly IBotConfigProvider _bc;
             private IUserMessage _msg;
 
             public enum BjAction
@@ -26,11 +26,10 @@ namespace NadekoBot.Modules.Gambling
                 Double,
             }
 
-            public BlackJackCommands(ICurrencyService cs, DbService db, IBotConfigProvider bc)
+            public BlackJackCommands(ICurrencyService cs, DbService db)
             {
                 _cs = cs;
                 _db = db;
-                _bc = bc;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -50,9 +49,9 @@ namespace NadekoBot.Modules.Gambling
             [RequireContext(ContextType.Guild)]
             public async Task BlackJack(long amount)
             {
-                if (amount < 0)
+                if (!await CheckBetMandatory(amount))
                     return;
-                
+
                 var newBj = new Blackjack(Context.User, amount, _cs, _db);
                 Blackjack bj;
                 if (newBj == (bj = _service.Games.GetOrAdd(Context.Channel.Id, newBj)))

@@ -12,19 +12,20 @@ using System.Threading.Tasks;
 using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
 using SixLabors.Primitives;
+using NadekoBot.Modules.Gambling.Services;
+using NadekoBot.Core.Modules.Gambling.Common;
 
 namespace NadekoBot.Modules.Gambling
 {
     public partial class Gambling
     {
         [Group]
-        public class SlotCommands : NadekoSubmodule
+        public class SlotCommands : GamblingSubmodule<GamblingService>
         {
             private static int _totalBet;
             private static int _totalPaidOut;
 
             private static readonly HashSet<ulong> _runningUsers = new HashSet<ulong>();
-            private readonly IBotConfigProvider _bc;
 
             private const int _alphaCutOut = byte.MaxValue / 3;
 
@@ -35,10 +36,9 @@ namespace NadekoBot.Modules.Gambling
             private readonly IImageCache _images;
             private readonly ICurrencyService _cs;
 
-            public SlotCommands(IDataCache data, IBotConfigProvider bc, ICurrencyService cs)
+            public SlotCommands(IDataCache data, ICurrencyService cs)
             {
                 _images = data.LocalImages;
-                _bc = bc;
                 _cs = cs;
             }
 
@@ -145,11 +145,8 @@ namespace NadekoBot.Modules.Gambling
                     return;
                 try
                 {
-                    if (amount < 1)
-                    {
-                        await ReplyErrorLocalized("min_bet_limit", 1 + _bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                    if (!await CheckBetMandatory(amount))
                         return;
-                    }
                     const int maxAmount = 9999;
                     if (amount > maxAmount)
                     {

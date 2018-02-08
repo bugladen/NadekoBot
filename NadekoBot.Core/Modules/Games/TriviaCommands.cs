@@ -20,15 +20,12 @@ namespace NadekoBot.Modules.Games
             private readonly IDataCache _cache;
             private readonly ICurrencyService _cs;
             private readonly DiscordSocketClient _client;
-            private readonly IBotConfigProvider _bc;
 
-            public TriviaCommands(DiscordSocketClient client, IDataCache cache,
-                IBotConfigProvider bc, ICurrencyService cs)
+            public TriviaCommands(DiscordSocketClient client, IDataCache cache, ICurrencyService cs)
             {
                 _cache = cache;
                 _cs = cs;
                 _client = client;
-                _bc = bc;
             }
 
             [NadekoCommand, Usage, Description, Aliases]

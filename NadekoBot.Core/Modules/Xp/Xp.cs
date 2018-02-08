@@ -17,13 +17,11 @@ namespace NadekoBot.Modules.Xp
     {
         private readonly DiscordSocketClient _client;
         private readonly DbService _db;
-        private readonly IBotConfigProvider _bc;
 
-        public Xp(DiscordSocketClient client,DbService db, IBotConfigProvider bc)
+        public Xp(DiscordSocketClient client,DbService db)
         {
             _client = client;
             _db = db;
-            _bc = bc;
         }
         
         [NadekoCommand, Usage, Description, Aliases]

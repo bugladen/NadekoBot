@@ -12,21 +12,20 @@ using NadekoBot.Modules.Gambling.Common.AnimalRacing;
 using NadekoBot.Modules.Gambling.Services;
 using NadekoBot.Core.Modules.Gambling.Common.AnimalRacing;
 using NadekoBot.Core.Common;
+using NadekoBot.Core.Modules.Gambling.Common;
 
 namespace NadekoBot.Modules.Gambling
 {
     public partial class Gambling
     {
         [Group]
-        public class AnimalRacingCommands : NadekoSubmodule<AnimalRaceService>
+        public class AnimalRacingCommands : GamblingSubmodule<AnimalRaceService>
         {
-            private readonly IBotConfigProvider _bc;
             private readonly ICurrencyService _cs;
             private readonly DiscordSocketClient _client;
 
-            public AnimalRacingCommands(IBotConfigProvider bc, ICurrencyService cs, DiscordSocketClient client)
+            public AnimalRacingCommands(ICurrencyService cs, DiscordSocketClient client)
             {
-                _bc = bc;
                 _cs = cs;
                 _client = client;
             }
@@ -136,6 +135,9 @@ namespace NadekoBot.Modules.Gambling
             [RequireContext(ContextType.Guild)]
             public async Task JoinRace(int amount = 0)
             {
+                if (!await CheckBetOptional(amount))
+                    return;
+
                 if (!_service.AnimalRaces.TryGetValue(Context.Guild.Id, out var ar))
                 {
                     await ReplyErrorLocalized("race_not_exist").ConfigureAwait(false);

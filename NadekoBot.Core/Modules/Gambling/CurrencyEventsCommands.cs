@@ -23,13 +23,11 @@ namespace NadekoBot.Modules.Gambling
             }
 
             private readonly DiscordSocketClient _client;
-            private readonly IBotConfigProvider _bc;
             private readonly ICurrencyService _cs;
 
-            public CurrencyEventsCommands(DiscordSocketClient client, IBotConfigProvider bc, ICurrencyService cs)
+            public CurrencyEventsCommands(DiscordSocketClient client, ICurrencyService cs)
             {
                 _client = client;
-                _bc = bc;
                 _cs = cs;
             }
 

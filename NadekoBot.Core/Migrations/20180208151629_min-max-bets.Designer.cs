@@ -13,9 +13,10 @@ using System;
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoContext))]
-    partial class NadekoSqliteContextModelSnapshot : ModelSnapshot
+    [Migration("20180208151629_min-max-bets")]
+    partial class minmaxbets
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -166,9 +167,7 @@ namespace NadekoBot.Migrations
 
                     b.Property<int>("DivorcePriceMultiplier");
 
-                    b.Property<string>("ErrorColor")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue("ee281f");
+                    b.Property<string>("ErrorColor");
 
                     b.Property<bool>("ForwardMessages");
 
@@ -190,9 +189,7 @@ namespace NadekoBot.Migrations
 
                     b.Property<int>("MinimumTriviaWinReq");
 
-                    b.Property<string>("OkColor")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue("00e584");
+                    b.Property<string>("OkColor");
 
                     b.Property<float>("PatreonCurrencyPerCent")
                         .ValueGeneratedOnAdd()

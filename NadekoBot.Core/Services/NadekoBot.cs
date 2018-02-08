@@ -20,7 +20,6 @@ using NadekoBot.Common.ShardCom;
 using NadekoBot.Core.Services.Database;
 using StackExchange.Redis;
 using Newtonsoft.Json;
-using NadekoBot.Core.Common;
 
 namespace NadekoBot
 {
@@ -41,8 +40,8 @@ namespace NadekoBot
          * I don't want to pass botconfig every time I 
          * want to send a confirm or error message, so
          * I'll keep this for now */
-        public static Color OkColor { get; private set; }
-        public static Color ErrorColor { get; private set; }
+        public static Color OkColor { get; set; }
+        public static Color ErrorColor { get; set; }
 
         public TaskCompletionSource<bool> Ready { get; private set; } = new TaskCompletionSource<bool>();
 

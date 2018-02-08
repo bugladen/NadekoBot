@@ -20,7 +20,6 @@ namespace NadekoBot.Modules.Gambling
         [Group]
         public class FlowerShopCommands : NadekoSubmodule
         {
-            private readonly IBotConfigProvider _bc;
             private readonly DbService _db;
             private readonly ICurrencyService _cs;
             private readonly DiscordSocketClient _client;
@@ -35,10 +34,9 @@ namespace NadekoBot.Modules.Gambling
                 List
             }
 
-            public FlowerShopCommands(IBotConfigProvider bc, DbService db, ICurrencyService cs, DiscordSocketClient client)
+            public FlowerShopCommands(DbService db, ICurrencyService cs, DiscordSocketClient client)
             {
                 _db = db;
-                _bc = bc;
                 _cs = cs;
                 _client = client;
             }
