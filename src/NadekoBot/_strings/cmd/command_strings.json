@@ -1662,7 +1662,7 @@
     ]
   },
   "color": {
-    "Cmd": "color",
+    "Cmd": "color clr",
     "Desc": "Shows you what color corresponds to that hex.",
     "Usage": [
       "{0}color 00ff00"
