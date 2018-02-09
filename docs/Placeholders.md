@@ -18,7 +18,7 @@ Some features have their own specific placeholders which are noted in that featu
 - `%server.id%` - Server ID   
 - `%server.name%` - Server name   
 - `%server.members%` - Member count   
-- `%server.time%` -  Server time (set using `.timezone`)   
+- `%server.time%` -  Server time (requires `.timezone` to be set)   
 
 **Channel placeholders**  
 - `%channel.mention%` - Channel mention (clickable)   
@@ -35,6 +35,10 @@ Some features have their own specific placeholders which are noted in that featu
 - `%user.discrim%` - Discriminator   
 - `%user.avatar%` - User's avatar url   
 - `%user.id%` - User ID   
+- `%user.created_time%` - Account creation time (local time)   
+- `%user.created_date%` - Account creation date   
+- `%user.joined_time%` - Account join time (local time)   
+- `%user.joined_date%` - Account join date   
 
 **Bot stats placeholders**  
 - `%servers%` - Server count bot has joined   
@@ -53,4 +57,4 @@ Some features have their own specific placeholders which are noted in that featu
 
 **If you're using placeholders in embeds, don't use %user.mention% and %bot.mention% in titles, footers and field names. They will not show properly.**
 
-![img](https://i.imgur.com/PIY9UOa.png)
+![img](https://i.imgur.com/Lr2wa3k.png)
