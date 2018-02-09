@@ -125,6 +125,10 @@ namespace NadekoBot.Common.Replacements
             _reps.TryAdd("%user.discrim%", () => user.Discriminator);
             _reps.TryAdd("%user.avatar%", () => user.RealAvatarUrl());
             _reps.TryAdd("%user.id%", () => user.Id.ToString());
+            _reps.TryAdd("%user.created_time%", () => user.CreatedAt.ToString("HH:mm"));
+            _reps.TryAdd("%user.created_date%", () => user.CreatedAt.ToString("dd.MM.yyyy"));
+            _reps.TryAdd("%user.joined_time%", () => (user as IGuildUser)?.JoinedAt?.ToString("HH:mm") ?? "-");
+            _reps.TryAdd("%user.joined_date%", () => (user as IGuildUser)?.JoinedAt?.ToString("dd.MM.yyyy") ?? "-");
             return this;
         }
 

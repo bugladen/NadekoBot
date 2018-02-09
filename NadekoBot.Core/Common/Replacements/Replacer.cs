@@ -39,6 +39,8 @@ namespace NadekoBot.Common.Replacements
             embedData.PlainText = Replace(embedData.PlainText);
             embedData.Description = Replace(embedData.Description);
             embedData.Title = Replace(embedData.Title);
+            embedData.Thumbnail = Replace(embedData.Thumbnail);
+            embedData.Image = Replace(embedData.Image);
 
             if (embedData.Fields != null)
                 foreach (var f in embedData.Fields)
