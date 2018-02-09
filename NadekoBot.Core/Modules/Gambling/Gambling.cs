@@ -239,15 +239,16 @@ namespace NadekoBot.Modules.Gambling
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
         [Priority(2)]
-        public async Task Award(int amount, [Remainder] IRole role)
+        public async Task Award(long amount, [Remainder] IRole role)
         {
             var users = (await Context.Guild.GetUsersAsync())
                                .Where(u => u.GetRoles().Contains(role))
                                .ToList();
-            await Task.WhenAll(users.Select(u => _cs.AddAsync(u.Id,
-                                                      $"Awarded by bot owner to **{role.Name}** role. ({Context.User.Username}/{Context.User.Id})",
-                                                      amount)))
-                         .ConfigureAwait(false);
+
+            await _cs.AddBulkAsync(users.Select(x => x.Id),
+                users.Select(x => $"Awarded by bot owner to **{role.Name}** role. ({Context.User.Username}/{Context.User.Id})"),
+                users.Select(x => amount))
+                .ConfigureAwait(false);
 
             await ReplyConfirmLocalized("mass_award", 
                 amount + CurrencySign, 
