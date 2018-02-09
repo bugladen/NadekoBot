@@ -50,9 +50,13 @@ namespace NadekoBot.Modules.Gambling
                     case CurrencyEvent.SneakyGameStatus:
                         await SneakyGameStatusEvent(Context, arg).ConfigureAwait(false);
                         break;
+#if GLOBAL_NADEKO
                     case CurrencyEvent.BotListUpvoters:
                         await BotListUpvoters(arg);
-                    break;
+                        break;
+#endif
+                    default:
+                        return;
                 }
             }
 
