@@ -37,6 +37,7 @@ namespace NadekoBot.Modules.Utility
             }
 
             [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.DM)]
             public async Task ClaimPatreonRewards()
             {
                 if (string.IsNullOrWhiteSpace(_creds.PatreonAccessToken))
