@@ -12,11 +12,13 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using StackExchange.Redis;
+using NLog;
 
 namespace NadekoBot.Core.Services.Impl
 {
     public class StatsService : IStatsService
     {
+        private readonly Logger _log;
         private readonly DiscordSocketClient _client;
         private readonly IBotCredentials _creds;
         private readonly DateTime _started;
@@ -47,6 +49,7 @@ namespace NadekoBot.Core.Services.Impl
             IBotCredentials creds, NadekoBot nadeko,
             IDataCache cache)
         {
+            _log = LogManager.GetCurrentClassLogger();
             _client = client;
             _creds = creds;
             _redis = cache.Redis;
@@ -177,17 +180,18 @@ namespace NadekoBot.Core.Services.Impl
                         {
                             content.Headers.Clear();
                             content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-                            content.Headers.Add("Authorization", _creds.BotListToken);
+                            http.DefaultRequestHeaders.Add("Authorization", _creds.BotListToken);
 
                             await http.PostAsync($"https://discordbots.org/api/bots/{client.CurrentUser.Id}/stats", content).ConfigureAwait(false);
                         }
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
+                    _log.Error(ex);
                     // ignored
                 }
-            }, null, TimeSpan.FromHours(1), TimeSpan.FromHours(1));
+            }, null, TimeSpan.FromMinutes(5), TimeSpan.FromHours(1));
 #endif
 
             var platform = "other";
