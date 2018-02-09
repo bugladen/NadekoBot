@@ -1,6 +1,7 @@
 ﻿using NadekoBot.Core.Services.Database.Models;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Core.Services.Database.Repositories.Impl
 {
@@ -37,20 +38,19 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
                 .ToArray();
         }
 
-        public int GetUserGuildRanking(ulong userId, ulong guildId)
+        public async Task<int> GetUserGuildRankingAsync(ulong userId, ulong guildId)
         {
             if (!_set.Where(x => x.GuildId == guildId && x.UserId == userId).Any())
             {
-                var cnt = _set.Count(x => x.GuildId == guildId);
+                var cnt = await _set.CountAsync(x => x.GuildId == guildId);
                 if (cnt == 0)
                     return 1;
                 else
                     return cnt;
             }
-
-            return _set
+            return await _set
                 .Where(x => x.GuildId == guildId)
-                .Count(x => x.Xp > (_set
+                .CountAsync(x => x.Xp > (_set
                     .Where(y => y.UserId == userId && y.GuildId == guildId)
                     .Select(y => y.Xp)
                     .DefaultIfEmpty()

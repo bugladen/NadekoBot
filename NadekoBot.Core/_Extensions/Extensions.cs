@@ -19,11 +19,15 @@ using NadekoBot.Common;
 using NadekoBot.Core.Services;
 using SixLabors.Shapes;
 using System.Numerics;
+using System.Diagnostics;
+using NLog;
 
 namespace NadekoBot.Extensions
 {
     public static class Extensions
     {
+        private static Logger _log = LogManager.GetCurrentClassLogger();
+
         // https://github.com/SixLabors/ImageSharp/tree/master/samples/AvatarWithRoundedCorner
         public static void ApplyRoundedCorners(this Image<Rgba32> img, float cornerRadius)
         {
@@ -255,6 +259,12 @@ namespace NadekoBot.Extensions
             }
 
             return canvas;
+        }
+
+        public static void LogAndReset(this Stopwatch sw, string name = "")
+        {
+            _log.Info(name + " | " + sw.Elapsed.TotalSeconds.ToString("F2"));
+            sw.Reset();
         }
     }
 }

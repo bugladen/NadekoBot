@@ -3,6 +3,8 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Discord;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Core.Services.Database.Repositories.Impl
 {
@@ -43,13 +45,13 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
         public DiscordUser GetOrCreate(IUser original)
             => GetOrCreate(original.Id, original.Username, original.Discriminator, original.AvatarId);
 
-        public int GetUserGlobalRanking(ulong id)
+        public async Task<int> GetUserGlobalRankingAsync(ulong id)
         {
             if (!_set.Where(y => y.UserId == id).Any())
             {
-                return _set.Count() + 1;
+                return await _set.CountAsync() + 1;
             }
-            return _set.Count(x => x.TotalXp >= 
+            return await _set.CountAsync(x => x.TotalXp >=
                 _set.Where(y => y.UserId == id)
                     .DefaultIfEmpty()
                     .Sum(y => y.TotalXp));
@@ -65,8 +67,14 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
                 .ToArray();
         }
 
-        public IEnumerable<DiscordUser> GetTopRichest(int count, int skip = 0) =>
-            _set.Where(c => c.CurrencyAmount > 0).OrderByDescending(c => c.CurrencyAmount).Skip(skip).Take(count).ToList();
+        public IEnumerable<DiscordUser> GetTopRichest(int count, int skip = 0)
+        {
+            return _set.Where(c => c.CurrencyAmount > 0)
+                .OrderByDescending(c => c.CurrencyAmount)
+                .Skip(skip)
+                .Take(count)
+                .ToList();
+        }
 
         public long GetUserCurrency(ulong userId) =>
             _set.FirstOrDefault(x => x.UserId == userId)?.CurrencyAmount ?? 0;

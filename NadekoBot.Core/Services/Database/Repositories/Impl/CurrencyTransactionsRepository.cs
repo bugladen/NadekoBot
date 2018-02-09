@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics;
 
 namespace NadekoBot.Core.Services.Database.Repositories.Impl
 {
@@ -10,7 +11,7 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
         public CurrencyTransactionsRepository(DbContext context) : base(context)
         {
         }
-        
+
         public List<CurrencyTransaction> GetPageFor(ulong userId, int page)
         {
             return _set.Where(x => x.UserId == userId)
@@ -20,4 +21,4 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
                 .ToList();
         }
     }
-}   
+}

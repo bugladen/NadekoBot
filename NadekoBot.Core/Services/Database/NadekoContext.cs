@@ -111,7 +111,9 @@ namespace NadekoBot.Core.Services.Database
         {
             #region QUOTES
             
-            //var quoteEntity = modelBuilder.Entity<Quote>();
+            var quoteEntity = modelBuilder.Entity<Quote>();
+            quoteEntity.HasIndex(x => x.GuildId);
+            quoteEntity.HasIndex(x => x.Keyword);
 
             #endregion
             
@@ -121,6 +123,8 @@ namespace NadekoBot.Core.Services.Database
             donatorEntity
                 .HasIndex(d => d.UserId)
                 .IsUnique();
+
+            donatorEntity.HasIndex(d => d.Amount);
 
             #endregion
 
@@ -254,6 +258,9 @@ namespace NadekoBot.Core.Services.Database
             var wi = modelBuilder.Entity<WaifuInfo>();
             wi.HasOne(x => x.Waifu)
                 .WithOne();
+
+            wi.HasIndex(x => x.Price);
+            wi.HasIndex(x => x.ClaimerId);
             //    //.HasForeignKey<WaifuInfo>(w => w.WaifuId)
             //    //.IsRequired(true);
 
@@ -271,14 +278,21 @@ namespace NadekoBot.Core.Services.Database
                .WithMany(x => x.Users)
                .IsRequired(false);
 
-            modelBuilder.Entity<DiscordUser>()
-                .Property(x => x.LastLevelUp)
+            du.Property(x => x.LastLevelUp)
                 .HasDefaultValue(new DateTime(2017, 9, 21, 20, 53, 13, 305, DateTimeKind.Local));
+
+            du.HasIndex(x => x.TotalXp);
+            du.HasIndex(x => x.CurrencyAmount);
+            du.HasIndex(x => x.UserId);
+                
 
             #endregion
 
             #region Warnings
             var warn = modelBuilder.Entity<Warning>();
+            warn.HasIndex(x => x.GuildId);
+            warn.HasIndex(x => x.UserId);
+            warn.HasIndex(x => x.DateAdded);
             #endregion
 
             #region PatreonRewards
@@ -288,13 +302,19 @@ namespace NadekoBot.Core.Services.Database
             #endregion
 
             #region XpStats
-            modelBuilder.Entity<UserXpStats>()
+            var xps = modelBuilder.Entity<UserXpStats>();
+            xps
                 .HasIndex(x => new { x.UserId, x.GuildId })
                 .IsUnique();
 
-            modelBuilder.Entity<UserXpStats>()
+            xps
                 .Property(x => x.LastLevelUp)
                 .HasDefaultValue(new DateTime(2017, 9, 21, 20, 53, 13, 307, DateTimeKind.Local));
+
+            xps.HasIndex(x => x.UserId);
+            xps.HasIndex(x => x.GuildId);
+            xps.HasIndex(x => x.Xp);
+            xps.HasIndex(x => x.AwardedXp);
             
             #endregion
 
@@ -350,6 +370,16 @@ namespace NadekoBot.Core.Services.Database
             modelBuilder.Entity<Poll>()
                 .HasIndex(x => x.GuildId)
                 .IsUnique();
+            #endregion
+
+            #region CurrencyTransactions
+            modelBuilder.Entity<CurrencyTransaction>()
+                .HasIndex(x => x.DateAdded);
+            #endregion
+
+            #region Reminders
+            modelBuilder.Entity<Reminder>()
+                .HasIndex(x => x.DateAdded);
             #endregion
         }
     }

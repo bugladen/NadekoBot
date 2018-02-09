@@ -32,7 +32,6 @@ namespace NadekoBot.Modules.Permissions.Services
             _cmd = cmd;
             _strings = strings;
 
-            var sw = Stopwatch.StartNew();
             if (client.ShardId == 0)
                 TryMigratePermissions();
 

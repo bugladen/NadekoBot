@@ -75,6 +75,5 @@ namespace NadekoBot.Modules.Utility
                     .ConfigureAwait(false);
             }
         }
-
     }
 }
