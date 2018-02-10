@@ -68,7 +68,7 @@ namespace NadekoBot.Modules.Gambling
                 using (var http = new HttpClient())
                 {
                     http.DefaultRequestHeaders.Add("Authorization", _creds.BotListToken);
-                    res = await http.GetStringAsync($"https://discordbots.org/api/bots/{Context.Client.CurrentUser.Id}/votes?onlyids=true");
+                    res = await http.GetStringAsync($"https://discordbots.org/api/bots/116275390695079945/votes?onlyids=true");
                 }
                 var ids = JsonConvert.DeserializeObject<ulong[]>(res);
                 await _cs.AddBulkAsync(ids, ids.Select(x => "Botlist Upvoter Event"), ids.Select(x => amount), true);

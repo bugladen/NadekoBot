@@ -256,7 +256,7 @@
   "gambling_sneakygamestatus_title": "SneakyGameStatus event started",
   "gambling_tails": "Tail",
   "gambling_take": "successfully took {0} from {1}",
-  "gambling_take_fail": "was unable to take {0} from{1} because the user doesn't have that much {2}!",
+  "gambling_take_fail": "was unable to take {0} from {1} because the user doesn't have that much {2}!",
   "gambling_transactions": "Transactions of user {0}",
   "help_back_to_toc": "Back to ToC",
   "help_bot_owner_only": "Bot owner only",

@@ -247,7 +247,8 @@ namespace NadekoBot.Modules.Gambling
 
             await _cs.AddBulkAsync(users.Select(x => x.Id),
                 users.Select(x => $"Awarded by bot owner to **{role.Name}** role. ({Context.User.Username}/{Context.User.Id})"),
-                users.Select(x => amount))
+                users.Select(x => amount),
+                gamble: true)
                 .ConfigureAwait(false);
 
             await ReplyConfirmLocalized("mass_award", 
