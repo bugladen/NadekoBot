@@ -231,7 +231,10 @@ namespace NadekoBot.Modules.Gambling
             if (amount <= 0)
                 return;
 
-            await _cs.AddAsync(usrId, $"Awarded by bot owner. ({Context.User.Username}/{Context.User.Id}) {(msg ?? "")}", amount).ConfigureAwait(false);
+            await _cs.AddAsync(usrId,
+                $"Awarded by bot owner. ({Context.User.Username}/{Context.User.Id}) {(msg ?? "")}", 
+                amount, 
+                gamble: true).ConfigureAwait(false);
             await ReplyConfirmLocalized("awarded", amount + CurrencySign, $"<@{usrId}>").ConfigureAwait(false);
         }
 
@@ -265,7 +268,7 @@ namespace NadekoBot.Modules.Gambling
             if (amount <= 0)
                 return;
 
-            if (await _cs.RemoveAsync(user, $"Taken by bot owner.({Context.User.Username}/{Context.User.Id})", amount, true).ConfigureAwait(false))
+            if (await _cs.RemoveAsync(user, $"Taken by bot owner.({Context.User.Username}/{Context.User.Id})", amount, gamble: true).ConfigureAwait(false))
                 await ReplyConfirmLocalized("take", amount+CurrencySign, Format.Bold(user.ToString())).ConfigureAwait(false);
             else
                 await ReplyErrorLocalized("take_fail", amount + CurrencySign, Format.Bold(user.ToString()), CurrencyPluralName).ConfigureAwait(false);
@@ -279,7 +282,7 @@ namespace NadekoBot.Modules.Gambling
             if (amount <= 0)
                 return;
 
-            if (await _cs.RemoveAsync(usrId, $"Taken by bot owner.({Context.User.Username}/{Context.User.Id})", amount))
+            if (await _cs.RemoveAsync(usrId, $"Taken by bot owner.({Context.User.Username}/{Context.User.Id})", amount, gamble: true))
                 await ReplyConfirmLocalized("take", amount + CurrencySign, $"<@{usrId}>").ConfigureAwait(false);
             else
                 await ReplyErrorLocalized("take_fail", amount + CurrencySign, Format.Code(usrId.ToString()), CurrencyPluralName).ConfigureAwait(false);
