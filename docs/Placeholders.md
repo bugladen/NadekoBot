@@ -6,7 +6,7 @@ Some features have their own specific placeholders which are noted in that featu
 
 ### Here is a list of the usual placeholders:   
 **Bot placeholders**  
-- `%bot.status%` - Bot's status (Online, Idle, AFK, Invisible)   
+- `%bot.status%` - Bot's status (Online, Idle, DoNotDisturb, Invisible)   
 - `%bot.latency%` - Bot latency   
 - `%bot.name%` - Bot username   
 - `%bot.mention%` - Bot mention (clickable)   
