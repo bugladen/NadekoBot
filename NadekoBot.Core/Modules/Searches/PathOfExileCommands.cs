@@ -69,7 +69,7 @@ namespace NadekoBot.Modules.Searches
 					characters.RemoveAll(c => c.League != league);
 				}
 
-				await Context.Channel.SendPaginatedConfirmAsync(_client, page, (curPage) =>
+				await Context.SendPaginatedConfirmAsync(page, (curPage) =>
 				{
 					var embed = new EmbedBuilder()
 									.WithAuthor(eau => eau.WithName($"Characters on {usr}'s account")

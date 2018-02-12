@@ -198,7 +198,7 @@ namespace NadekoBot.Modules.Xp
             if (--page < 0 || page > 100)
                 return Task.CompletedTask;
 
-            return Context.Channel.SendPaginatedConfirmAsync(_client, page, async (curPage) =>
+            return Context.SendPaginatedConfirmAsync(page, (curPage) =>
             {
                 var users = _service.GetUserXps(Context.Guild.Id, curPage);
 
@@ -213,7 +213,7 @@ namespace NadekoBot.Modules.Xp
                     for (int i = 0; i < users.Length; i++)
                     {
                         var levelStats = LevelStats.FromXp(users[i].Xp + users[i].AwardedXp);
-                        var user = await Context.Guild.GetUserAsync(users[i].UserId).ConfigureAwait(false);
+                        var user = ((SocketGuild)Context.Guild).GetUser(users[i].UserId);
 
                         var userXpData = users[i];
 

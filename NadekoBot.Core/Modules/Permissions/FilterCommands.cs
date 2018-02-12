@@ -205,12 +205,10 @@ namespace NadekoBot.Modules.Permissions
 
                 var fws = fwHash.ToArray();
 
-                await channel.SendPaginatedConfirmAsync((DiscordSocketClient)Context.Client,
-                    page,
-                    (curPage) =>
-                        new EmbedBuilder()
-                            .WithTitle(GetText("filter_word_list"))
-                            .WithDescription(string.Join("\n", fws.Skip(curPage * 10).Take(10)))
+                await Context.SendPaginatedConfirmAsync(page,
+                    (curPage) => new EmbedBuilder()
+                        .WithTitle(GetText("filter_word_list"))
+                        .WithDescription(string.Join("\n", fws.Skip(curPage * 10).Take(10)))
                 , fws.Length, 10).ConfigureAwait(false);
             }
         }

@@ -124,7 +124,7 @@ namespace NadekoBot.Modules.Administration
                         embed.AddField(x => x
                             .WithName($"#`{i}` " + name)
                             .WithValue(w.Reason.TrimTo(1020)));
-                    }   
+                    }
                 }
 
                 await Context.Channel.EmbedAsync(embed);
@@ -143,23 +143,23 @@ namespace NadekoBot.Modules.Administration
                     warnings = uow.Warnings.GetForGuild(Context.Guild.Id).GroupBy(x => x.UserId).ToArray();
                 }
 
-                await Context.Channel.SendPaginatedConfirmAsync((DiscordSocketClient)Context.Client, page, async (curPage) =>
+                await Context.SendPaginatedConfirmAsync(page, (curPage) =>
                 {
-                    var ws = await Task.WhenAll(warnings.Skip(curPage * 15)
+                    var ws = warnings.Skip(curPage * 15)
                         .Take(15)
                         .ToArray()
-                        .Select(async x =>
+                        .Select(x =>
                         {
                             var all = x.Count();
                             var forgiven = x.Count(y => y.Forgiven);
                             var total = all - forgiven;
-                            return ((await Context.Guild.GetUserAsync(x.Key))?.ToString() ?? x.Key.ToString()) + $" | {total} ({all} - {forgiven})";
-                        }));
+                            var usr = ((SocketGuild)Context.Guild).GetUser(x.Key);
+                            return (usr?.ToString() ?? x.Key.ToString()) + $" | {total} ({all} - {forgiven})";
+                        });
 
                     return new EmbedBuilder()
                         .WithTitle(GetText("warnings_list"))
                         .WithDescription(string.Join("\n", ws));
-
                 }, warnings.Length, 15);
             }
 
@@ -450,10 +450,10 @@ namespace NadekoBot.Modules.Administration
                         if (ulong.TryParse(split[0], out var id))
                             return (Original: split[0], Id: id, Reason: reason);
 
-                        return (Original: split[0], 
+                        return (Original: split[0],
                             Id: gusers
                                 .FirstOrDefault(u => u.ToString().ToLowerInvariant() == x)
-                                ?.Id, 
+                                ?.Id,
                             Reason: reason);
                     })
                     .ToArray();
@@ -495,11 +495,12 @@ namespace NadekoBot.Modules.Administration
                 }
 
                 _bc.Reload();
-                
+
                 //do the banning
                 await Task.WhenAll(bans
                     .Where(x => x.Id.HasValue)
-                    .Select(x => Context.Guild.AddBanAsync(x.Id.Value, 7, x.Reason, new RequestOptions() {
+                    .Select(x => Context.Guild.AddBanAsync(x.Id.Value, 7, x.Reason, new RequestOptions()
+                    {
                         RetryMode = RetryMode.AlwaysRetry,
                     })))
                     .ConfigureAwait(false);

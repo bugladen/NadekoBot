@@ -152,7 +152,7 @@ namespace NadekoBot.Modules.CustomReactions
                 return;
             }
 
-            await Context.Channel.SendPaginatedConfirmAsync(_client, page, curPage =>
+            await Context.SendPaginatedConfirmAsync(page, curPage =>
                 new EmbedBuilder().WithOkColor()
                     .WithTitle(GetText("name"))
                     .WithDescription(string.Join("\n", customReactions.OrderBy(cr => cr.Trigger)
@@ -230,7 +230,7 @@ namespace NadekoBot.Modules.CustomReactions
                     .OrderBy(cr => cr.Key)
                     .ToList();
                 
-                await Context.Channel.SendPaginatedConfirmAsync(_client, page, (curPage) =>
+                await Context.SendPaginatedConfirmAsync(page, (curPage) =>
                     new EmbedBuilder().WithOkColor()
                         .WithTitle(GetText("name"))
                         .WithDescription(string.Join("\r\n", ordered
@@ -490,7 +490,7 @@ namespace NadekoBot.Modules.CustomReactions
             var ordered = _service.ReactionStats.OrderByDescending(x => x.Value).ToArray();
             if (!ordered.Any())
                 return;
-            await Context.Channel.SendPaginatedConfirmAsync(_client, page,
+            await Context.SendPaginatedConfirmAsync(page,
                 (curPage) => ordered.Skip(curPage * 9)
                                     .Take(9)
                                     .Aggregate(new EmbedBuilder().WithOkColor().WithTitle(GetText("stats")),

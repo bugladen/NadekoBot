@@ -1,4 +1,5 @@
 ﻿using Discord;
+using Discord.Commands;
 using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
@@ -55,15 +56,16 @@ namespace NadekoBot.Extensions
         private static readonly IEmote arrow_left = new Emoji("⬅");
         private static readonly IEmote arrow_right = new Emoji("➡");
 
-        public static Task SendPaginatedConfirmAsync(this IMessageChannel channel, DiscordSocketClient client, 
-            int currentPage, Func<int, EmbedBuilder> pageFunc, int totalElements, 
-            int itemsPerPage, bool addPaginatedFooter = true) =>
-            channel.SendPaginatedConfirmAsync(client, currentPage, 
+        public static Task SendPaginatedConfirmAsync(this ICommandContext ctx,
+            int currentPage, Func<int, EmbedBuilder> pageFunc, int totalElements,
+            int itemsPerPage, bool addPaginatedFooter = true)
+            => ctx.SendPaginatedConfirmAsync(currentPage,
                 (x) => Task.FromResult(pageFunc(x)), totalElements, itemsPerPage, addPaginatedFooter);
         /// <summary>
         /// danny kamisama
         /// </summary>
-        public static async Task SendPaginatedConfirmAsync(this IMessageChannel channel, DiscordSocketClient client, int currentPage, Func<int, Task<EmbedBuilder>> pageFunc, int totalElements, int itemsPerPage, bool addPaginatedFooter = true)
+        public static async Task SendPaginatedConfirmAsync(this ICommandContext ctx, int currentPage, 
+            Func<int, Task<EmbedBuilder>> pageFunc, int totalElements, int itemsPerPage, bool addPaginatedFooter = true)
         {
             var embed = await pageFunc(currentPage).ConfigureAwait(false);
 
@@ -72,7 +74,7 @@ namespace NadekoBot.Extensions
             if (addPaginatedFooter)
                 embed.AddPaginatedFooter(currentPage, lastPage);
 
-            var msg = await channel.EmbedAsync(embed) as IUserMessage;
+            var msg = await ctx.Channel.EmbedAsync(embed) as IUserMessage;
 
             if (lastPage == 0)
                 return;
@@ -88,9 +90,9 @@ namespace NadekoBot.Extensions
             {
                 try
                 {
-                    if (r.UserId != r.UserId)
+                    if (r.UserId != ctx.User.Id)
                         return;
-                    if (DateTime.UtcNow - lastPageChange < TimeSpan.FromMilliseconds(500))
+                    if (DateTime.UtcNow - lastPageChange < TimeSpan.FromSeconds(1))
                         return;
                     if (r.Emote.Name == arrow_left.Name)
                     {
@@ -120,7 +122,7 @@ namespace NadekoBot.Extensions
                 }
             };
 
-            using (msg.OnReaction(client, changePage, changePage))
+            using (msg.OnReaction((DiscordSocketClient)ctx.Client, changePage, changePage))
             {
                 await Task.Delay(30000).ConfigureAwait(false);
             }

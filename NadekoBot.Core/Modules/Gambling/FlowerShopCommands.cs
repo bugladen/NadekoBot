@@ -55,7 +55,7 @@ namespace NadekoBot.Modules.Gambling
                                   .ThenInclude(x => x.Items)).ShopEntries);
                 }
 
-                await Context.Channel.SendPaginatedConfirmAsync(_client, page, (curPage) =>
+                await Context.SendPaginatedConfirmAsync(page, (curPage) =>
                 {
                     var theseEntries = entries.Skip(curPage * 9).Take(9).ToArray();
 

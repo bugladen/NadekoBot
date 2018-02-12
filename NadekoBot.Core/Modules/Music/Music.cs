@@ -308,7 +308,7 @@ namespace NadekoBot.Modules.Music
 
                 return embed;
             };
-            await Context.Channel.SendPaginatedConfirmAsync(_client, 
+            await Context.SendPaginatedConfirmAsync(
                 page, printAction, songs.Length, itemsPerPage, false).ConfigureAwait(false);
         }
 

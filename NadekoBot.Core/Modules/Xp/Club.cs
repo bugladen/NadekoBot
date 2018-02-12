@@ -120,7 +120,7 @@ namespace NadekoBot.Modules.Xp
 
                 var lvl = new LevelStats(club.Xp);
 
-                await Context.Channel.SendPaginatedConfirmAsync(_client, 0, (page) =>
+                await Context.SendPaginatedConfirmAsync(0, (page) =>
                 {
                     var embed = new EmbedBuilder()
                         .WithOkColor()
@@ -175,7 +175,7 @@ namespace NadekoBot.Modules.Xp
                     .Select(x => x.User)
                     .ToArray();
 
-                return Context.Channel.SendPaginatedConfirmAsync(_client, page,
+                return Context.SendPaginatedConfirmAsync(page,
                     curPage =>
                     {
                         var toShow = string.Join("\n", bans
@@ -207,7 +207,7 @@ namespace NadekoBot.Modules.Xp
                     .Select(x => x.User)
                     .ToArray();
 
-                return Context.Channel.SendPaginatedConfirmAsync(_client, page,
+                return Context.SendPaginatedConfirmAsync(page,
                     curPage =>
                     {
                         var toShow = string.Join("\n", apps

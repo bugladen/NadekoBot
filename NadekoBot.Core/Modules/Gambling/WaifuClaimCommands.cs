@@ -499,7 +499,7 @@ namespace NadekoBot.Modules.Gambling
                 if (--page < 0 || page > 2)
                     return;
 
-                await Context.Channel.SendPaginatedConfirmAsync(_client, page, (cur) =>
+                await Context.SendPaginatedConfirmAsync(page, (cur) =>
                 {
                     var embed = new EmbedBuilder()
                         .WithTitle(GetText("waifu_gift_shop"))

@@ -623,7 +623,7 @@ namespace NadekoBot.Modules.Searches
                 if (items.Any())
                 {
 
-                    await Context.Channel.SendPaginatedConfirmAsync((DiscordSocketClient)Context.Client, 0, (p) =>
+                    await Context.SendPaginatedConfirmAsync(0, (p) =>
                     {
                         var item = items[p];
                         return new EmbedBuilder().WithOkColor()
