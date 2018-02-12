@@ -591,9 +591,18 @@ namespace NadekoBot.Modules.Gambling
             var embed = new EmbedBuilder();
 
             var nadekoPick = (RpsPick)new NadekoRandom().Next(0, 3);
+
+            if(amount > 0)
+            {
+                await _cs.RemoveAsync(Context.User.Id,
+                    "Rps-bet", amount, gamble: true);
+            }
+
             string msg;
             if (pick == nadekoPick)
             {
+                await _cs.AddAsync(Context.User.Id,
+                    "Rps-draw", amount, gamble: true);
                 embed.WithOkColor();
                 msg = GetText("rps_draw", getRpsPick(pick));
             }
@@ -601,27 +610,24 @@ namespace NadekoBot.Modules.Gambling
                      (pick == RpsPick.Rock && nadekoPick == RpsPick.Scissors) ||
                      (pick == RpsPick.Scissors && nadekoPick == RpsPick.Paper))
             {
-                embed.WithOkColor();
                 amount = (long)(amount * _bc.BotConfig.BetflipMultiplier);
-                msg = GetText("rps_win", Context.Client.CurrentUser.Mention,
+                await _cs.AddAsync(Context.User.Id,
+                    "Rps-draw", amount, gamble: true);
+                embed.WithOkColor();
+                embed.AddField(GetText("won"), amount);
+                msg = GetText("rps_win", Context.User.Mention,
                     getRpsPick(nadekoPick), getRpsPick(pick));
-
             }
             else
             {
                 embed.WithErrorColor();
                 amount = 0;
-                msg = GetText("rps_win", Context.User.Mention, getRpsPick(pick),
+                msg = GetText("rps_win", Context.Client.CurrentUser.Mention, getRpsPick(pick),
                     getRpsPick(nadekoPick));
             }
 
             embed
                 .WithDescription(msg);
-
-            if(oldAmount > 0)
-            {
-                embed.AddField(GetText("won"), amount);
-            }
 
             await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
