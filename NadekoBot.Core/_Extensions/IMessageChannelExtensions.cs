@@ -86,6 +86,8 @@ namespace NadekoBot.Extensions
             {
                 try
                 {
+                    if (r.UserId != r.UserId)
+                        return;
                     if (r.Emote.Name == arrow_left.Name)
                     {
                         if (currentPage == 0)
