@@ -82,16 +82,21 @@ namespace NadekoBot.Extensions
 
             await Task.Delay(2000).ConfigureAwait(false);
 
+            var lastPageChange = DateTime.MinValue;
+
             Action<SocketReaction> changePage = async r =>
             {
                 try
                 {
                     if (r.UserId != r.UserId)
                         return;
+                    if (DateTime.UtcNow - lastPageChange < TimeSpan.FromMilliseconds(500))
+                        return;
                     if (r.Emote.Name == arrow_left.Name)
                     {
                         if (currentPage == 0)
                             return;
+                        lastPageChange = DateTime.UtcNow;
                         var toSend = await pageFunc(--currentPage).ConfigureAwait(false);
                         if (addPaginatedFooter)
                             toSend.AddPaginatedFooter(currentPage, lastPage);
@@ -101,6 +106,7 @@ namespace NadekoBot.Extensions
                     {
                         if (lastPage > currentPage)
                         {
+                            lastPageChange = DateTime.UtcNow;
                             var toSend = await pageFunc(++currentPage).ConfigureAwait(false);
                             if (addPaginatedFooter)
                                 toSend.AddPaginatedFooter(currentPage, lastPage);
