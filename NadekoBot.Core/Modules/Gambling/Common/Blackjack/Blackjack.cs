@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using NadekoBot.Core.Services;
-using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Modules.Gambling.Common;
 using NLog;
 
@@ -250,7 +249,6 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
 
         public async Task<bool> Double(IUser u)
         {
-
             var cu = CurrentUser;
             if (CurrentUser.DiscordUser == u)
                 return await Double(cu);
@@ -309,7 +307,6 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
             return false;
         }
 
-
         public async Task<bool> Hit(User u)
         {
             await locker.WaitAsync();
@@ -320,7 +317,6 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
 
                 if (CurrentUser != u)
                     return false;
-
 
                 u.Cards.Add(Deck.Draw());
 

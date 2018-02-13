@@ -1,18 +1,17 @@
-using Discord;
-using Discord.Commands;
-using NadekoBot.Extensions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NadekoBot.Common.Attributes;
-using NadekoBot.Core.Services;
-using NadekoBot.Modules.Administration.Services;
-using NadekoBot.Core.Services.Database.Models;
-using Microsoft.EntityFrameworkCore;
+using Discord;
+using Discord.Commands;
 using Discord.WebSocket;
+using Microsoft.EntityFrameworkCore;
 using NadekoBot.Common;
+using NadekoBot.Common.Attributes;
 using NadekoBot.Common.Replacements;
+using NadekoBot.Core.Services;
+using NadekoBot.Core.Services.Database.Models;
+using NadekoBot.Extensions;
+using NadekoBot.Modules.Administration.Services;
 
 namespace NadekoBot.Modules.Administration
 {

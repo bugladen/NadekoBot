@@ -41,8 +41,10 @@ namespace NadekoBot.Common.Collections
         /// <remarks>Count has snapshot semantics and represents the number of items in the <see
         /// cref="ConcurrentHashSet{T}"/>
         /// at the moment when Count was accessed.</remarks>
-        public int Count {
-            get {
+        public int Count
+        {
+            get
+            {
                 var count = 0;
                 var acquiredLocks = 0;
                 try
@@ -68,8 +70,10 @@ namespace NadekoBot.Common.Collections
         /// </summary>
         /// <value>true if the <see cref="ConcurrentHashSet{T}"/> is empty; otherwise,
         /// false.</value>
-        public bool IsEmpty {
-            get {
+        public bool IsEmpty
+        {
+            get
+            {
                 var acquiredLocks = 0;
                 try
                 {
@@ -331,8 +335,7 @@ namespace NadekoBot.Common.Collections
             {
                 var tables = _tables;
 
-                int bucketNo, lockNo;
-                GetBucketAndLockNo(hashcode, out bucketNo, out lockNo, tables.Buckets.Length, tables.Locks.Length);
+                GetBucketAndLockNo(hashcode, out var bucketNo, out var lockNo, tables.Buckets.Length, tables.Locks.Length);
 
                 lock (tables.Locks[lockNo])
                 {
@@ -451,10 +454,8 @@ namespace NadekoBot.Common.Collections
         {
             while (true)
             {
-                int bucketNo, lockNo;
-
                 var tables = _tables;
-                GetBucketAndLockNo(hashcode, out bucketNo, out lockNo, tables.Buckets.Length, tables.Locks.Length);
+                GetBucketAndLockNo(hashcode, out var bucketNo, out var lockNo, tables.Buckets.Length, tables.Locks.Length);
 
                 var resizeDesired = false;
                 var lockTaken = false;
@@ -645,8 +646,7 @@ namespace NadekoBot.Common.Collections
                     while (current != null)
                     {
                         var next = current.Next;
-                        int newBucketNo, newLockNo;
-                        GetBucketAndLockNo(current.Hashcode, out newBucketNo, out newLockNo, newBuckets.Length, newLocks.Length);
+                        GetBucketAndLockNo(current.Hashcode, out var newBucketNo, out var newLockNo, newBuckets.Length, newLocks.Length);
 
                         newBuckets[newBucketNo] = new Node(current.Item, current.Hashcode, newBuckets[newBucketNo]);
 

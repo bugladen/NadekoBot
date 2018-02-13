@@ -1,17 +1,17 @@
-﻿using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
-using Microsoft.EntityFrameworkCore;
-using NadekoBot.Extensions;
-using NadekoBot.Core.Services;
-using NadekoBot.Core.Services.Database.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
+using Discord.WebSocket;
+using Microsoft.EntityFrameworkCore;
 using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Common.Collections;
+using NadekoBot.Core.Services;
+using NadekoBot.Core.Services.Database.Models;
+using NadekoBot.Extensions;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -50,7 +50,7 @@ namespace NadekoBot.Modules.Gambling
                 List<ShopEntry> entries;
                 using (var uow = _db.UnitOfWork)
                 {
-                    entries = new IndexedCollection<ShopEntry>(uow.GuildConfigs.For(Context.Guild.Id, 
+                    entries = new IndexedCollection<ShopEntry>(uow.GuildConfigs.For(Context.Guild.Id,
                         set => set.Include(x => x.ShopEntries)
                                   .ThenInclude(x => x.Items)).ShopEntries);
                 }
@@ -191,7 +191,7 @@ namespace NadekoBot.Modules.Gambling
 
             }
 
-            private long GetProfitAmount(int price) => 
+            private long GetProfitAmount(int price) =>
                 (int)(Math.Ceiling(0.90 * price));
 
             [NadekoCommand, Usage, Description, Aliases]
