@@ -6,10 +6,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-// taken from 
-// http://www.codeproject.com/Tips/207582/L-t-Tr-nsl-t-r-Leet-Translator (thanks)
-// because i don't want to waste my time on this cancerous command
-//* |-|0\/\/ Ð4®3 ¥0µ!?
 namespace NadekoBot.Modules.Games
 {
     public partial class Games
@@ -20,26 +16,10 @@ namespace NadekoBot.Modules.Games
             [NadekoCommand, Usage, Description, Aliases]
             public async Task Leet(int level, [Remainder] string text = null)
             {
-                if (string.IsNullOrWhiteSpace(text = text?.Trim()))
-                    return;
-                await Context.Channel.SendConfirmAsync("L33t", ToLeet(text, level).SanitizeMentions()).ConfigureAwait(false);
+                if (!string.IsNullOrEmpty(text = text?.Trim()))
+                    await Context.Channel.SendConfirmAsync("L33t", Translate(text, level).SanitizeMentions()).ConfigureAwait(false);
             }
 
-            /// <summary>
-            /// Translate text to Leet - Extension methods for string class
-            /// </summary>
-            /// <param name="text">Orginal text</param>
-            /// <param name="degree">Degree of translation (1 - 6)</param>
-            /// <returns>Leet translated text</returns>
-            private static string ToLeet(string text, int degree = 1) =>
-                Translate(text, degree);
-
-            /// <summary>
-            /// Translate text to Leet
-            /// </summary>
-            /// <param name="text">Orginal text</param>
-            /// <param name="degree">Degree of translation (1 - 6)</param>
-            /// <returns>Leet translated text</returns>
             private static string Translate(string text, int degree = 1)
             {
                 if (degree < 1)
