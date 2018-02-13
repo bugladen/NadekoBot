@@ -1,305 +1,89 @@
 ﻿using Discord.Commands;
+using NadekoBot.Common.Attributes;
 using NadekoBot.Extensions;
+using NadekoBot.Modules.Games.Services;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using NadekoBot.Common.Attributes;
 
-// taken from 
-// http://www.codeproject.com/Tips/207582/L-t-Tr-nsl-t-r-Leet-Translator (thanks)
-// because i don't want to waste my time on this cancerous command
 namespace NadekoBot.Modules.Games
 {
     public partial class Games
     {
-        [NadekoCommand, Usage, Description, Aliases]
-        public async Task Leet(int level, [Remainder] string text = null)
+        [Group]
+        public class LeetCommands : NadekoSubmodule<GamesService>
         {
-            text = text.Trim();
-            if (string.IsNullOrWhiteSpace(text))
-                return;
-            await Context.Channel.SendConfirmAsync("L33t", ToLeet(text, level).SanitizeMentions()).ConfigureAwait(false);
-        }
-
-
-        /// <summary>
-        /// Translate text to Leet - Extension methods for string class
-        /// </summary>
-        /// <param name="text">Orginal text</param>
-        /// <param name="degree">Degree of translation (1 - 3)</param>
-        /// <returns>Leet translated text</returns>
-        private static string ToLeet(string text, int degree = 1) =>
-            Translate(text, degree);
-
-        /// <summary>
-        /// Translate text to Leet
-        /// </summary>
-        /// <param name="text">Orginal text</param>
-        /// <param name="degree">Degree of translation (1 - 3)</param>
-        /// <returns>Leet translated text</returns>
-        private static string Translate(string text, int degree = 1)
-        {
-            if (degree > 6)
-                degree = 6;
-            if (degree <= 0)
-                return text;
-
-            // StringBuilder to store result.
-            StringBuilder sb = new StringBuilder(text.Length);
-            foreach (char c in text)
+            [NadekoCommand, Usage, Description, Aliases]
+            public async Task Leet(int level, [Remainder] string text = null)
             {
-                #region Degree 1
-                if (degree == 1)
-                {
-                    switch (c)
-                    {
-                        case 'a': sb.Append("4"); break;
-                        case 'e': sb.Append("3"); break;
-                        case 'i': sb.Append("1"); break;
-                        case 'o': sb.Append("0"); break;
-                        case 'A': sb.Append("4"); break;
-                        case 'E': sb.Append("3"); break;
-                        case 'I': sb.Append("1"); break;
-                        case 'O': sb.Append("0"); break;
-                        default: sb.Append(c); break;
-                    }
-                }
-                #endregion
-                #region Degree 2
-                else if (degree == 2)
-                {
-                    switch (c)
-                    {
-                        case 'a': sb.Append("4"); break;
-                        case 'e': sb.Append("3"); break;
-                        case 'i': sb.Append("1"); break;
-                        case 'o': sb.Append("0"); break;
-                        case 'A': sb.Append("4"); break;
-                        case 'E': sb.Append("3"); break;
-                        case 'I': sb.Append("1"); break;
-                        case 'O': sb.Append("0"); break;
-                        case 's': sb.Append("$"); break;
-                        case 'S': sb.Append("$"); break;
-                        case 'l': sb.Append("£"); break;
-                        case 'L': sb.Append("£"); break;
-                        case 'c': sb.Append("("); break;
-                        case 'C': sb.Append("("); break;
-                        case 'y': sb.Append("¥"); break;
-                        case 'Y': sb.Append("¥"); break;
-                        case 'u': sb.Append("µ"); break;
-                        case 'U': sb.Append("µ"); break;
-                        case 'd': sb.Append("Ð"); break;
-                        case 'D': sb.Append("Ð"); break;
-                        default: sb.Append(c); break;
-                    }
-                }
-                #endregion
-                #region Degree 3
-                else if (degree == 3)
-                {
-                    switch (c)
-                    {
-                        case 'a': sb.Append("4"); break;
-                        case 'e': sb.Append("3"); break;
-                        case 'i': sb.Append("1"); break;
-                        case 'o': sb.Append("0"); break;
-                        case 'A': sb.Append("4"); break;
-                        case 'E': sb.Append("3"); break;
-                        case 'I': sb.Append("1"); break;
-                        case 'O': sb.Append("0"); break;
-                        case 'k': sb.Append("|{"); break;
-                        case 'K': sb.Append("|{"); break;
-                        case 's': sb.Append("$"); break;
-                        case 'S': sb.Append("$"); break;
-                        case 'g': sb.Append("9"); break;
-                        case 'G': sb.Append("9"); break;
-                        case 'l': sb.Append("£"); break;
-                        case 'L': sb.Append("£"); break;
-                        case 'c': sb.Append("("); break;
-                        case 'C': sb.Append("("); break;
-                        case 't': sb.Append("7"); break;
-                        case 'T': sb.Append("7"); break;
-                        case 'z': sb.Append("2"); break;
-                        case 'Z': sb.Append("2"); break;
-                        case 'y': sb.Append("¥"); break;
-                        case 'Y': sb.Append("¥"); break;
-                        case 'u': sb.Append("µ"); break;
-                        case 'U': sb.Append("µ"); break;
-                        case 'f': sb.Append("ƒ"); break;
-                        case 'F': sb.Append("ƒ"); break;
-                        case 'd': sb.Append("Ð"); break;
-                        case 'D': sb.Append("Ð"); break;
-                        default: sb.Append(c); break;
-                    }
-                }
-                #endregion
-                #region Degree 4
-                else if (degree == 4)
-                {
-                    switch (c)
-                    {
-                        case 'a': sb.Append("4"); break;
-                        case 'e': sb.Append("3"); break;
-                        case 'i': sb.Append("1"); break;
-                        case 'o': sb.Append("0"); break;
-                        case 'A': sb.Append("4"); break;
-                        case 'E': sb.Append("3"); break;
-                        case 'I': sb.Append("1"); break;
-                        case 'O': sb.Append("0"); break;
-                        case 'k': sb.Append("|{"); break;
-                        case 'K': sb.Append("|{"); break;
-                        case 's': sb.Append("$"); break;
-                        case 'S': sb.Append("$"); break;
-                        case 'g': sb.Append("9"); break;
-                        case 'G': sb.Append("9"); break;
-                        case 'l': sb.Append("£"); break;
-                        case 'L': sb.Append("£"); break;
-                        case 'c': sb.Append("("); break;
-                        case 'C': sb.Append("("); break;
-                        case 't': sb.Append("7"); break;
-                        case 'T': sb.Append("7"); break;
-                        case 'z': sb.Append("2"); break;
-                        case 'Z': sb.Append("2"); break;
-                        case 'y': sb.Append("¥"); break;
-                        case 'Y': sb.Append("¥"); break;
-                        case 'u': sb.Append("µ"); break;
-                        case 'U': sb.Append("µ"); break;
-                        case 'f': sb.Append("ƒ"); break;
-                        case 'F': sb.Append("ƒ"); break;
-                        case 'd': sb.Append("Ð"); break;
-                        case 'D': sb.Append("Ð"); break;
-                        case 'n': sb.Append(@"|\\|"); break;
-                        case 'N': sb.Append(@"|\\|"); break;
-                        case 'w': sb.Append(@"\\/\\/"); break;
-                        case 'W': sb.Append(@"\\/\\/"); break;
-                        case 'h': sb.Append(@"|-|"); break;
-                        case 'H': sb.Append(@"|-|"); break;
-                        case 'v': sb.Append(@"\\/"); break;
-                        case 'V': sb.Append(@"\\/"); break;
-                        case 'm': sb.Append(@"|\\/|"); break;
-                        case 'M': sb.Append(@"|\/|"); break;
-                        default: sb.Append(c); break;
-                    }
-                }
-                #endregion
-                #region Degree 5
-                else if (degree == 5)
-                {
-                    switch (c)
-                    {
-                        case 'a': sb.Append("4"); break;
-                        case 'e': sb.Append("3"); break;
-                        case 'i': sb.Append("1"); break;
-                        case 'o': sb.Append("0"); break;
-                        case 'A': sb.Append("4"); break;
-                        case 'E': sb.Append("3"); break;
-                        case 'I': sb.Append("1"); break;
-                        case 'O': sb.Append("0"); break;
-                        case 's': sb.Append("$"); break;
-                        case 'S': sb.Append("$"); break;
-                        case 'g': sb.Append("9"); break;
-                        case 'G': sb.Append("9"); break;
-                        case 'l': sb.Append("£"); break;
-                        case 'L': sb.Append("£"); break;
-                        case 'c': sb.Append("("); break;
-                        case 'C': sb.Append("("); break;
-                        case 't': sb.Append("7"); break;
-                        case 'T': sb.Append("7"); break;
-                        case 'z': sb.Append("2"); break;
-                        case 'Z': sb.Append("2"); break;
-                        case 'y': sb.Append("¥"); break;
-                        case 'Y': sb.Append("¥"); break;
-                        case 'u': sb.Append("µ"); break;
-                        case 'U': sb.Append("µ"); break;
-                        case 'f': sb.Append("ƒ"); break;
-                        case 'F': sb.Append("ƒ"); break;
-                        case 'd': sb.Append("Ð"); break;
-                        case 'D': sb.Append("Ð"); break;
-                        case 'n': sb.Append(@"|\\|"); break;
-                        case 'N': sb.Append(@"|\\|"); break;
-                        case 'w': sb.Append(@"\\/\\/"); break;
-                        case 'W': sb.Append(@"\\/\\/"); break;
-                        case 'h': sb.Append("|-|"); break;
-                        case 'H': sb.Append("|-|"); break;
-                        case 'v': sb.Append("\\/"); break;
-                        case 'V': sb.Append(@"\\/"); break;
-                        case 'k': sb.Append("|{"); break;
-                        case 'K': sb.Append("|{"); break;
-                        case 'r': sb.Append("®"); break;
-                        case 'R': sb.Append("®"); break;
-                        case 'm': sb.Append(@"|\\/|"); break;
-                        case 'M': sb.Append(@"|\\/|"); break;
-                        case 'b': sb.Append("ß"); break;
-                        case 'B': sb.Append("ß"); break;
-                        case 'q': sb.Append("Q"); break;
-                        case 'Q': sb.Append("Q¸"); break;
-                        case 'x': sb.Append(")("); break;
-                        case 'X': sb.Append(")("); break;
-                        default: sb.Append(c); break;
-                    }
-                }
-                #endregion
-                #region Degree 6
-                else if (degree == 6)
-                {
-                    switch (c)
-                    {
-                        case 'a': sb.Append("4"); break;
-                        case 'e': sb.Append("3"); break;
-                        case 'i': sb.Append("1"); break;
-                        case 'o': sb.Append("0"); break;
-                        case 'A': sb.Append("4"); break;
-                        case 'E': sb.Append("3"); break;
-                        case 'I': sb.Append("1"); break;
-                        case 'O': sb.Append("0"); break;
-                        case 's': sb.Append("$"); break;
-                        case 'S': sb.Append("$"); break;
-                        case 'g': sb.Append("9"); break;
-                        case 'G': sb.Append("9"); break;
-                        case 'l': sb.Append("£"); break;
-                        case 'L': sb.Append("£"); break;
-                        case 'c': sb.Append("("); break;
-                        case 'C': sb.Append("("); break;
-                        case 't': sb.Append("7"); break;
-                        case 'T': sb.Append("7"); break;
-                        case 'z': sb.Append("2"); break;
-                        case 'Z': sb.Append("2"); break;
-                        case 'y': sb.Append("¥"); break;
-                        case 'Y': sb.Append("¥"); break;
-                        case 'u': sb.Append("µ"); break;
-                        case 'U': sb.Append("µ"); break;
-                        case 'f': sb.Append("ƒ"); break;
-                        case 'F': sb.Append("ƒ"); break;
-                        case 'd': sb.Append("Ð"); break;
-                        case 'D': sb.Append("Ð"); break;
-                        case 'n': sb.Append(@"|\\|"); break;
-                        case 'N': sb.Append(@"|\\|"); break;
-                        case 'w': sb.Append(@"\\/\\/"); break;
-                        case 'W': sb.Append(@"\\/\\/"); break;
-                        case 'h': sb.Append("|-|"); break;
-                        case 'H': sb.Append("|-|"); break;
-                        case 'v': sb.Append(@"\\/"); break;
-                        case 'V': sb.Append(@"\\/"); break;
-                        case 'k': sb.Append("|{"); break;
-                        case 'K': sb.Append("|{"); break;
-                        case 'r': sb.Append("®"); break;
-                        case 'R': sb.Append("®"); break;
-                        case 'm': sb.Append(@"|\\/|"); break;
-                        case 'M': sb.Append(@"|\\/|"); break;
-                        case 'b': sb.Append("ß"); break;
-                        case 'B': sb.Append("ß"); break;
-                        case 'j': sb.Append("_|"); break;
-                        case 'J': sb.Append("_|"); break;
-                        case 'P': sb.Append("|°"); break;
-                        case 'q': sb.Append("¶"); break;
-                        case 'Q': sb.Append("¶¸"); break;
-                        case 'x': sb.Append(")("); break;
-                        case 'X': sb.Append(")("); break;
-                        default: sb.Append(c); break;
-                    }
-                }
-                #endregion
+                if (!string.IsNullOrEmpty(text = text?.Trim()))
+                    await Context.Channel.SendConfirmAsync("L33t", Translate(text, level).SanitizeMentions()).ConfigureAwait(false);
             }
-            return sb.ToString().TrimTo(1995); // Return result.
+
+            private static string Translate(string text, int degree = 1)
+            {
+                if (degree < 1)
+                    return text;
+                if (degree > 6)
+                    degree = 6;
+
+                var degrees = new List<char[]>
+                {
+                    new[] { 'a', 'e', 'i', 'o', },
+                    new[] { 's', 'l', 'c', 'y', 'u', 'd', },
+                    new[] { 'k', 'g', 't', 'z', 'f', },
+                    new[] { 'n', 'w', 'h', 'v', 'm', },
+                    new[] { 'r', 'b', 'q', 'x' },
+                    new[] { 'j', 'p' }
+                };
+
+                var validChars = new List<char>(degrees[0]);
+                for (var i = 1; i < degree; i++)
+                    validChars.AddRange(degrees[i]);
+
+                var sb = new StringBuilder(text.Length);
+                foreach (char c in text)
+                {
+                    var letter = char.ToLower(c);
+
+                    if (validChars.Contains(letter))
+                        sb.Append(leetLookoup[letter]);
+                    else
+                        sb.Append(c);
+                }
+
+                return sb.ToString().TrimTo(1995);
+            }
+
+            private static readonly SortedList<char, string> leetLookoup = new SortedList<char, string>
+            {
+                ['a'] = @"4",
+                ['b'] = @"ß",
+                ['c'] = @"(",
+                ['d'] = @"Ð",
+                ['e'] = @"3",
+                ['f'] = @"ƒ",
+                ['g'] = @"9",
+                ['h'] = @"|-|",
+                ['i'] = @"1",
+                ['j'] = @"_|",
+                ['k'] = @"|{",
+                ['l'] = @"£",
+                ['m'] = @"|\/|",
+                ['n'] = @"|\|",
+                ['o'] = @"0",
+                ['p'] = @"|°",
+                ['q'] = @"¶",
+                ['r'] = @"®",
+                ['s'] = @"$",
+                ['t'] = @"7",
+                ['u'] = @"µ",
+                ['v'] = @"\/",
+                ['w'] = @"\/\/",
+                ['x'] = @"(",
+                ['y'] = @"¥",
+                ['z'] = @"2"
+            };
         }
     }
 }
