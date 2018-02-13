@@ -1,19 +1,18 @@
-using Discord;
-using Discord.WebSocket;
-using NadekoBot.Extensions;
-using NadekoBot.Core.Services;
-using NadekoBot.Core.Services.Database.Models;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
+using Discord;
+using Discord.WebSocket;
+using NadekoBot.Core.Services;
+using NadekoBot.Core.Services.Database.Models;
+using NadekoBot.Core.Services.Impl;
+using NadekoBot.Extensions;
 using NadekoBot.Modules.Searches.Common;
 using NadekoBot.Modules.Searches.Common.Exceptions;
-using NadekoBot.Core.Services.Impl;
+using Newtonsoft.Json;
 
 namespace NadekoBot.Modules.Searches.Services
 {
@@ -56,8 +55,7 @@ namespace NadekoBot.Modules.Searches.Services
                                 return;
                             }
 
-                            IStreamResponse oldResponse;
-                            if (oldCachedStatuses.TryGetValue(newStatus.Url, out oldResponse) &&
+                            if (oldCachedStatuses.TryGetValue(newStatus.Url, out var oldResponse) &&
                             oldResponse.Live != newStatus.Live)
                             {
                                 var server = _client.GetGuild(fs.GuildId);
@@ -70,14 +68,14 @@ namespace NadekoBot.Modules.Searches.Services
                                 }
                                 catch
                                 {
-                                // ignored
-                            }
+                                    // ignored
+                                }
                             }
                         }
                         catch
                         {
-                        // ignored
-                    }
+                            // ignored
+                        }
                     }));
 
                    firstStreamNotifPass = false;
@@ -137,7 +135,7 @@ namespace NadekoBot.Modules.Searches.Services
                         return result;
 
                     var paResponse = await _http.GetAsync(picartoUrl).ConfigureAwait(false);
-                    if(!paResponse.IsSuccessStatusCode)
+                    if (!paResponse.IsSuccessStatusCode)
                         throw new StreamNotFoundException($"{stream.Username} [{stream.Type}]");
                     var paData = JsonConvert.DeserializeObject<PicartoResponse>(await paResponse.Content.ReadAsStringAsync());
                     _cachedStatuses.AddOrUpdate(picartoUrl, paData, (key, old) => paData);

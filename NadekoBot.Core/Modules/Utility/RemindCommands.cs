@@ -1,15 +1,15 @@
-﻿using Discord;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Discord;
 using Discord.Commands;
-using NadekoBot.Extensions;
+using NadekoBot.Common.Attributes;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using NadekoBot.Common.Attributes;
+using NadekoBot.Extensions;
 using NadekoBot.Modules.Administration.Services;
 using NadekoBot.Modules.Utility.Services;
-using System.Linq;
 
 namespace NadekoBot.Modules.Utility
 {
@@ -29,7 +29,7 @@ namespace NadekoBot.Modules.Utility
 
             public enum MeOrHere
             {
-                Me,Here
+                Me, Here
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -149,8 +149,7 @@ namespace NadekoBot.Modules.Utility
                 foreach (var groupName in _service.Regex.GetGroupNames())
                 {
                     if (groupName == "0") continue;
-                    int value;
-                    int.TryParse(m.Groups[groupName].Value, out value);
+                    int.TryParse(m.Groups[groupName].Value, out var value);
 
                     if (string.IsNullOrEmpty(m.Groups[groupName].Value))
                     {
@@ -209,7 +208,7 @@ namespace NadekoBot.Modules.Utility
                 }
                 _service.StartReminder(rem);
             }
-            
+
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public async Task RemindTemplate([Remainder] string arg)

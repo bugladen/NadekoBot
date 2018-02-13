@@ -1,13 +1,13 @@
-﻿using CommandLine;
-using NadekoBot.Common;
-using NadekoBot.Core.Common;
-using NadekoBot.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CommandLine;
+using NadekoBot.Common;
+using NadekoBot.Core.Common;
+using NadekoBot.Extensions;
 
 namespace NadekoBot.Modules.Games.Common.Acrophobia
 {
@@ -102,7 +102,7 @@ namespace NadekoBot.Modules.Games.Common.Acrophobia
             try
             {
                 CurrentPhase = Phase.Ended;
-                await OnEnded(this, submissions.ToArray().ToImmutableArray()).ConfigureAwait(false) ;
+                await OnEnded(this, submissions.ToArray().ToImmutableArray()).ConfigureAwait(false);
             }
             finally { locker.Release(); }
         }

@@ -1,18 +1,18 @@
-﻿using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
-using NadekoBot.Extensions;
-using NadekoBot.Core.Services;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
+using Discord.WebSocket;
 using NadekoBot.Common.Attributes;
-using NadekoBot.Modules.Gambling.Common.AnimalRacing.Exceptions;
-using NadekoBot.Modules.Gambling.Common.AnimalRacing;
-using NadekoBot.Modules.Gambling.Services;
-using NadekoBot.Core.Modules.Gambling.Common.AnimalRacing;
 using NadekoBot.Core.Common;
 using NadekoBot.Core.Modules.Gambling.Common;
+using NadekoBot.Core.Modules.Gambling.Common.AnimalRacing;
+using NadekoBot.Core.Services;
+using NadekoBot.Extensions;
+using NadekoBot.Modules.Gambling.Common.AnimalRacing;
+using NadekoBot.Modules.Gambling.Common.AnimalRacing.Exceptions;
+using NadekoBot.Modules.Gambling.Services;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -48,12 +48,13 @@ namespace NadekoBot.Modules.Gambling
                 var count = 0;
                 Task _client_MessageReceived(SocketMessage arg)
                 {
-                    var _ = Task.Run(() => {
+                    var _ = Task.Run(() =>
+                    {
                         try
                         {
                             if (arg.Channel.Id == Context.Channel.Id)
                             {
-                                if (ar.CurrentPhase  == AnimalRace.Phase.Running && ++count % 9 == 0)
+                                if (ar.CurrentPhase == AnimalRace.Phase.Running && ++count % 9 == 0)
                                 {
                                     raceMessage = null;
                                 }
@@ -94,7 +95,7 @@ namespace NadekoBot.Modules.Gambling
 
             private Task Ar_OnStarted(AnimalRace race)
             {
-                if(race.Users.Length == race.MaxUsers)
+                if (race.Users.Length == race.MaxUsers)
                     return Context.Channel.SendConfirmAsync(GetText("animal_race"), GetText("animal_race_full"));
                 else
                     return Context.Channel.SendConfirmAsync(GetText("animal_race"), GetText("animal_race_starting_with_x", race.Users.Length));
