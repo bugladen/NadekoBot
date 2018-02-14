@@ -56,7 +56,7 @@ namespace NadekoBot.Modules.Searches.Services
                             }
 
                             if (oldCachedStatuses.TryGetValue(newStatus.ApiUrl, out var oldResponse) &&
-                            oldResponse.Live != newStatus.Live)
+                                oldResponse.Live != newStatus.Live)
                             {
                                 var server = _client.GetGuild(fs.GuildId);
                                 var channel = server?.GetTextChannel(fs.ChannelId);
