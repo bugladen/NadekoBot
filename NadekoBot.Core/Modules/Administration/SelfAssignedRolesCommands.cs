@@ -1,16 +1,15 @@
-﻿using Discord;
-using Discord.Commands;
-using NadekoBot.Extensions;
-using NadekoBot.Core.Services;
-using NadekoBot.Core.Services.Database.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Common.Collections;
-using Microsoft.EntityFrameworkCore;
+using NadekoBot.Core.Services;
+using NadekoBot.Core.Services.Database.Models;
+using NadekoBot.Extensions;
 using NadekoBot.Modules.Xp.Common;
 
 namespace NadekoBot.Modules.Administration
@@ -148,7 +147,7 @@ namespace NadekoBot.Modules.Administration
                         rolesStr.AppendLine("\t\t\t\t『" + Format.Bold(GetText("self_assign_group", kvp.Key)) + "』");
                         foreach (var roleModel in kvp.AsEnumerable())
                         {
-                            if(skip-- > 0)
+                            if (skip-- > 0)
                             {
                                 continue;
                             }
@@ -173,7 +172,7 @@ namespace NadekoBot.Modules.Administration
                             }
                         }
                     }
-                    if(toRemove.Any())
+                    if (toRemove.Any())
                         rolesStr.AppendLine("\t\t\t\t『』");
                     foreach (var role in toRemove)
                     {
@@ -183,7 +182,7 @@ namespace NadekoBot.Modules.Administration
                 }
 
                 await Context.Channel.SendConfirmAsync("",
-                    Format.Bold(GetText("self_assign_list", roleCnt)) 
+                    Format.Bold(GetText("self_assign_list", roleCnt))
                     + "\n\n" + rolesStr.ToString(),
                     footer: exclusive
                     ? GetText("self_assign_are_exclusive")
@@ -239,8 +238,8 @@ namespace NadekoBot.Modules.Administration
                     return;
                 }
 
-                await ReplyConfirmLocalized("self_assign_level_req", 
-                    Format.Bold(role.Name), 
+                await ReplyConfirmLocalized("self_assign_level_req",
+                    Format.Bold(role.Name),
                     Format.Bold(level.ToString())).ConfigureAwait(false);
             }
 

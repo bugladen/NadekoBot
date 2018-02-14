@@ -6,8 +6,8 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Extensions;
-using NadekoBot.Modules.Music.Services;
 using NadekoBot.Modules.Administration.Services;
+using NadekoBot.Modules.Music.Services;
 
 namespace NadekoBot.Common.Replacements
 {
@@ -39,7 +39,7 @@ namespace NadekoBot.Common.Replacements
             _reps.TryAdd("%mention%", () => $"<@{client.CurrentUser.Id}>");
             _reps.TryAdd("%shardid%", () => client.ShardId.ToString());
             _reps.TryAdd("%time%", () => DateTime.Now.ToString("HH:mm " + TimeZoneInfo.Local.StandardName.GetInitials()));
-            
+
             /*NEW*/
             _reps.TryAdd("%bot.status%", () => client.Status.ToString());
             _reps.TryAdd("%bot.latency%", () => client.Latency.ToString());
@@ -192,16 +192,11 @@ namespace NadekoBot.Common.Replacements
             var rng = new NadekoRandom();
             _regex.TryAdd(rngRegex, (match) =>
             {
-                int from = 0;
-                int.TryParse(match.Groups["from"].ToString(), out from);
-
-                int to = 0;
-                int.TryParse(match.Groups["to"].ToString(), out to);
+                int.TryParse(match.Groups["from"].ToString(), out var from);
+                int.TryParse(match.Groups["to"].ToString(), out var to);
 
                 if (from == 0 && to == 0)
-                {
                     return rng.Next(0, 11).ToString();
-                }
 
                 if (from >= to)
                     return string.Empty;

@@ -1,66 +1,48 @@
-﻿using Discord;
-using Discord.Commands;
-using NadekoBot.Modules.Gambling.Common;
-using NadekoBot.Modules.Gambling.Common.CurrencyEvents;
-using NadekoBot.Core.Services;
+﻿using NadekoBot.Core.Services;
+using NadekoBot.Core.Modules.Gambling.Common.Events;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Threading;
+using NadekoBot.Modules.Gambling.Common;
+using Discord;
+using Discord.WebSocket;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Gambling.Services
 {
-    public class CurrencyEventsService : INService, IUnloadableService
+    public class CurrencyEventsService : INService
     {
-        public ConcurrentDictionary<ulong, List<ReactionEvent>> ReactionEvents { get; }
+        private readonly DbService _db;
+        private readonly DiscordSocketClient _client;
+        private readonly ConcurrentDictionary<ulong, ICurrencyEvent> _events =
+            new ConcurrentDictionary<ulong, ICurrencyEvent>();
 
-        public SneakyEvent SneakyEvent { get; private set; } = null;
-        private SemaphoreSlim _sneakyLock = new SemaphoreSlim(1, 1);
-
-        public CurrencyEventsService()
+        public CurrencyEventsService(DbService db, DiscordSocketClient client)
         {
-            ReactionEvents = new ConcurrentDictionary<ulong, List<ReactionEvent>>();
+            _db = db;
+            _client = client;
         }
 
-        public async Task<bool> StartSneakyEvent(SneakyEvent ev, IUserMessage msg, ICommandContext ctx)
+        public async Task<bool> TryCreateEvent(ulong guildId, ulong channelId, 
+            ulong messageId, EventOptions opts)
         {
-            await _sneakyLock.WaitAsync().ConfigureAwait(false);
-            try
-            {
-                if (SneakyEvent != null)
-                    return false;
+            SocketGuild g = _client.GetGuild(guildId);
+            SocketTextChannel ch = g?.GetChannel(channelId) as SocketTextChannel;
+            if (ch == null)
+                return false;
+            var msg = await ch.GetMessageAsync(messageId) as IUserMessage;
+            if (msg == null)
+                return false;
 
-                SneakyEvent = ev;
-                ev.OnEnded += () => SneakyEvent = null;
-                var _ = SneakyEvent.Start(msg, ctx).ConfigureAwait(false);
-            }
-            finally
+            if(opts.Type == Core.Services.Database.Models.Event.Type.Reaction)
             {
-                _sneakyLock.Release();
+                ce = new ReactionEvent(_client, g, msg);
             }
+            else //todo
+            {
+                ce = new ReactionEvent(_client, )
+            }
+
+            return _events.TryAdd(guildId, )
             return true;
-        }
-
-        public async Task Unload()
-        {
-            foreach (var kvp in ReactionEvents)
-            {
-                foreach (var ev in kvp.Value)
-                {
-                    try { await ev.Stop().ConfigureAwait(false); } catch { }
-                }
-            }
-            ReactionEvents.Clear();
-
-            await _sneakyLock.WaitAsync().ConfigureAwait(false);
-            try
-            {
-                await SneakyEvent.Stop().ConfigureAwait(false);
-            }
-            finally
-            {
-                _sneakyLock.Release();
-            }
         }
     }
 }

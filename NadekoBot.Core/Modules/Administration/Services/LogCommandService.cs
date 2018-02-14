@@ -7,25 +7,24 @@ using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
-using NadekoBot.Extensions;
-using NadekoBot.Modules.Administration.Common;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Core.Services.Impl;
+using NadekoBot.Extensions;
+using NadekoBot.Modules.Administration.Common;
 using NLog;
 
 namespace NadekoBot.Modules.Administration.Services
 {
     public class LogCommandService : INService
     {
-
         private readonly DiscordSocketClient _client;
         private readonly Logger _log;
 
         private string PrettyCurrentTime(IGuild g)
         {
             var time = DateTime.UtcNow;
-            if(g != null)
+            if (g != null)
                 time = TimeZoneInfo.ConvertTime(time, _tz.GetTimeZoneOrUtc(g.Id));
             return $"【{time:HH:mm:ss}】";
         }
@@ -135,7 +134,6 @@ namespace NadekoBot.Modules.Administration.Services
                         return;
 
                     var embed = new EmbedBuilder();
-
 
                     if (before.Username != after.Username)
                     {
@@ -902,7 +900,7 @@ namespace NadekoBot.Modules.Administration.Services
             VoicePresence,
             VoicePresenceTTS,
             UserMuted
-        };
+        }
 
         private async Task<ITextChannel> TryGetLogChannel(IGuild guild, LogSetting logSetting, LogType logChannelType)
         {
@@ -1030,6 +1028,5 @@ namespace NadekoBot.Modules.Administration.Services
             }
         }
     }
-
 }
 #endif

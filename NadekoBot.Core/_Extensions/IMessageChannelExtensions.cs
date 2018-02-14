@@ -86,7 +86,7 @@ namespace NadekoBot.Extensions
 
             var lastPageChange = DateTime.MinValue;
 
-            Action<SocketReaction> changePage = async r =>
+            async Task changePage(SocketReaction r)
             {
                 try
                 {
@@ -120,7 +120,7 @@ namespace NadekoBot.Extensions
                 {
                     //ignored
                 }
-            };
+            }
 
             using (msg.OnReaction((DiscordSocketClient)ctx.Client, changePage, changePage))
             {

@@ -22,14 +22,13 @@ namespace NadekoBot.Extensions
 
         public static void KillTree(this Process process, TimeSpan timeout)
         {
-            string stdout;
             if (_isWindows)
             {
                 RunProcessAndWaitForExit(
                     "taskkill",
                     $"/T /F /PID {process.Id}",
                     timeout,
-                    out stdout);
+                    out var stdout);
             }
             else
             {
@@ -45,12 +44,11 @@ namespace NadekoBot.Extensions
 
         private static void GetAllChildIdsUnix(int parentId, ISet<int> children, TimeSpan timeout)
         {
-            string stdout;
             var exitCode = RunProcessAndWaitForExit(
                 "pgrep",
                 $"-P {parentId}",
                 timeout,
-                out stdout);
+                out var stdout);
 
             if (exitCode == 0 && !string.IsNullOrEmpty(stdout))
             {
@@ -64,8 +62,7 @@ namespace NadekoBot.Extensions
                             return;
                         }
 
-                        int id;
-                        if (int.TryParse(text, out id))
+                        if (int.TryParse(text, out var id))
                         {
                             children.Add(id);
                             // Recursively get the children
@@ -78,12 +75,11 @@ namespace NadekoBot.Extensions
 
         private static void KillProcessUnix(int processId, TimeSpan timeout)
         {
-            string stdout;
             RunProcessAndWaitForExit(
                 "kill",
                 $"-TERM {processId}",
                 timeout,
-                out stdout);
+                out var stdout);
         }
 
         private static int RunProcessAndWaitForExit(string fileName, string arguments, TimeSpan timeout, out string stdout)

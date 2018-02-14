@@ -116,10 +116,10 @@ namespace NadekoBot.Extensions
         public static EmbedBuilder WithErrorColor(this EmbedBuilder eb) =>
             eb.WithColor(NadekoBot.ErrorColor);
 
-        public static ReactionEventWrapper OnReaction(this IUserMessage msg, DiscordSocketClient client, Action<SocketReaction> reactionAdded, Action<SocketReaction> reactionRemoved = null)
+        public static ReactionEventWrapper OnReaction(this IUserMessage msg, DiscordSocketClient client, Func<SocketReaction, Task> reactionAdded, Func<SocketReaction, Task> reactionRemoved = null)
         {
             if (reactionRemoved == null)
-                reactionRemoved = delegate { };
+                reactionRemoved = _ => Task.CompletedTask;
 
             var wrap = new ReactionEventWrapper(client, msg);
             wrap.OnReactionAdded += (r) => { var _ = Task.Run(() => reactionAdded(r)); };

@@ -1,25 +1,24 @@
-using Discord;
-using Discord.Commands;
-using NadekoBot.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
+using Discord.Net;
 using Discord.WebSocket;
+using Microsoft.EntityFrameworkCore;
+using NadekoBot.Common;
+using NadekoBot.Common.Attributes;
+using NadekoBot.Common.Replacements;
+using NadekoBot.Common.ShardCom;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
-using NadekoBot.Common.Attributes;
+using NadekoBot.Extensions;
 using NadekoBot.Modules.Administration.Services;
 using Newtonsoft.Json;
-using NadekoBot.Common.ShardCom;
-using Discord.Net;
-using NadekoBot.Core.Common;
-using NadekoBot.Common;
-using NadekoBot.Common.Replacements;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -109,16 +108,14 @@ namespace NadekoBot.Modules.Administration
                 }
                 else
                 {
-                    await Context.Channel.SendConfirmAsync("", string.Join("\n", scmds.Select(x =>
-                    {
-                        string str = $"```css\n[{GetText("server") + "]: " + (x.GuildId == null ? "-" : x.GuildName + " #" + x.GuildId)}";
-
-                        str += $@"
+                    await Context.Channel.SendConfirmAsync(
+                        text: string.Join("\n", scmds.Select(x => $@"```css
+[{GetText("server")}]: {(x.GuildId.HasValue ? $"{x.GuildName} #{x.GuildId}" : "-")}
 [{GetText("channel")}]: {x.ChannelName} #{x.ChannelId}
-[{GetText("command_text")}]: {x.CommandText}```";
-                        return str;
-                    })), footer: GetText("page", page + 1))
-                         .ConfigureAwait(false);
+[{GetText("command_text")}]: {x.CommandText}```")),
+                        title: string.Empty,
+                        footer: GetText("page", page + 1))
+                    .ConfigureAwait(false);
                 }
             }
 
@@ -195,7 +192,7 @@ namespace NadekoBot.Modules.Administration
                     uow.Complete();
                 }
                 _bc.Reload();
-                
+
                 if (_service.ForwardDMs)
                     await ReplyConfirmLocalized("fwdm_start").ConfigureAwait(false);
                 else
@@ -262,7 +259,7 @@ namespace NadekoBot.Modules.Administration
                         .WithDescription(str);
                 }, allShardStrings.Length, 25);
             }
-            
+
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public async Task RestartShard(int shardid)
@@ -273,7 +270,7 @@ namespace NadekoBot.Modules.Administration
                     return;
                 }
                 var pub = _cache.Redis.GetSubscriber();
-                pub.Publish(_creds.RedisKey() + "_shardcoord_stop", 
+                pub.Publish(_creds.RedisKey() + "_shardcoord_stop",
                     JsonConvert.SerializeObject(_client.ShardId),
                     StackExchange.Redis.CommandFlags.FireAndForget);
                 await ReplyConfirmLocalized("shard_reconnecting", Format.Bold("#" + shardid)).ConfigureAwait(false);
@@ -505,7 +502,7 @@ namespace NadekoBot.Modules.Administration
             public async Task ImagesReload()
             {
                 var sub = _cache.Redis.GetSubscriber();
-                sub.Publish(_creds.RedisKey() + "_reload_images", 
+                sub.Publish(_creds.RedisKey() + "_reload_images",
                     "",
                     StackExchange.Redis.CommandFlags.FireAndForget);
                 await ReplyConfirmLocalized("images_loaded", 0).ConfigureAwait(false);

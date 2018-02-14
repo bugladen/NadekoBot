@@ -1,19 +1,18 @@
-using Discord;
-using Discord.WebSocket;
-using NadekoBot.Extensions;
-using NadekoBot.Core.Services;
-using NadekoBot.Core.Services.Database.Models;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
+using Discord;
+using Discord.WebSocket;
+using NadekoBot.Core.Services;
+using NadekoBot.Core.Services.Database.Models;
+using NadekoBot.Core.Services.Impl;
+using NadekoBot.Extensions;
 using NadekoBot.Modules.Searches.Common;
 using NadekoBot.Modules.Searches.Common.Exceptions;
-using NadekoBot.Core.Services.Impl;
+using Newtonsoft.Json;
 
 namespace NadekoBot.Modules.Searches.Services
 {
@@ -56,8 +55,7 @@ namespace NadekoBot.Modules.Searches.Services
                                 return;
                             }
 
-                            IStreamResponse oldResponse;
-                            if (oldCachedStatuses.TryGetValue(newStatus.Url, out oldResponse) &&
+                            if (oldCachedStatuses.TryGetValue(newStatus.ApiUrl, out var oldResponse) &&
                             oldResponse.Live != newStatus.Live)
                             {
                                 var server = _client.GetGuild(fs.GuildId);
@@ -70,14 +68,14 @@ namespace NadekoBot.Modules.Searches.Services
                                 }
                                 catch
                                 {
-                                // ignored
-                            }
+                                    // ignored
+                                }
                             }
                         }
                         catch
                         {
-                        // ignored
-                    }
+                            // ignored
+                        }
                     }));
 
                    firstStreamNotifPass = false;
@@ -88,64 +86,42 @@ namespace NadekoBot.Modules.Searches.Services
 
         public async Task<IStreamResponse> GetStreamStatus(FollowedStream stream, bool checkCache = true)
         {
-            string response;
-            IStreamResponse result;
+            string url = string.Empty;
+            IStreamResponse obj = null;
+            Type type = null;
             switch (stream.Type)
             {
-                case FollowedStream.FollowedStreamType.Smashcast:
-                    var smashcastUrl = $"https://api.smashcast.tv/user/{stream.Username.ToLowerInvariant()}";
-                    if (checkCache && _cachedStatuses.TryGetValue(smashcastUrl, out result))
-                        return result;
-                    response = await _http.GetStringAsync(smashcastUrl).ConfigureAwait(false);
-
-                    var scData = JsonConvert.DeserializeObject<SmashcastResponse>(response);
-                    if (!scData.Success)
-                        throw new StreamNotFoundException($"{stream.Username} [{stream.Type}]");
-                    scData.Url = smashcastUrl;
-                    _cachedStatuses.AddOrUpdate(smashcastUrl, scData, (key, old) => scData);
-                    return scData;
                 case FollowedStream.FollowedStreamType.Twitch:
-                    var twitchUrl = $"https://api.twitch.tv/kraken/streams/{Uri.EscapeUriString(stream.Username.ToLowerInvariant())}?client_id=67w6z9i09xv2uoojdm9l0wsyph4hxo6";
-                    if (checkCache && _cachedStatuses.TryGetValue(twitchUrl, out result))
-                        return result;
-                    response = await _http.GetStringAsync(twitchUrl).ConfigureAwait(false);
-
-                    var twData = JsonConvert.DeserializeObject<TwitchResponse>(response);
-                    if (twData.Error != null)
-                    {
-                        throw new StreamNotFoundException($"{stream.Username} [{stream.Type}]");
-                    }
-                    twData.Url = twitchUrl;
-                    _cachedStatuses.AddOrUpdate(twitchUrl, twData, (key, old) => twData);
-                    return twData;
+                    url = $"https://api.twitch.tv/kraken/streams/{Uri.EscapeUriString(stream.Username.ToLowerInvariant())}?client_id=67w6z9i09xv2uoojdm9l0wsyph4hxo6";
+                    type = typeof(TwitchResponse);
+                    break;
+                case FollowedStream.FollowedStreamType.Smashcast:
+                    url = $"https://api.smashcast.tv/user/{stream.Username.ToLowerInvariant()}";
+                    type = typeof(SmashcastResponse);
+                    break;
                 case FollowedStream.FollowedStreamType.Mixer:
-                    var beamUrl = $"https://mixer.com/api/v1/channels/{stream.Username.ToLowerInvariant()}";
-                    if (checkCache && _cachedStatuses.TryGetValue(beamUrl, out result))
-                        return result;
-                    response = await _http.GetStringAsync(beamUrl).ConfigureAwait(false);
-
-
-                    var bmData = JsonConvert.DeserializeObject<MixerResponse>(response);
-                    if (bmData.Error != null)
-                        throw new StreamNotFoundException($"{stream.Username} [{stream.Type}]");
-                    bmData.Url = beamUrl;
-                    _cachedStatuses.AddOrUpdate(beamUrl, bmData, (key, old) => bmData);
-                    return bmData;
+                    url = $"https://mixer.com/api/v1/channels/{stream.Username.ToLowerInvariant()}";
+                    type = typeof(MixerResponse);
+                    break;
                 case FollowedStream.FollowedStreamType.Picarto:
-                    var picartoUrl = $"https://api.picarto.tv/v1/channel/name/{stream.Username.ToLowerInvariant()}";
-                    if (checkCache && _cachedStatuses.TryGetValue(picartoUrl, out result))
-                        return result;
-
-                    var paResponse = await _http.GetAsync(picartoUrl).ConfigureAwait(false);
-                    if(!paResponse.IsSuccessStatusCode)
-                        throw new StreamNotFoundException($"{stream.Username} [{stream.Type}]");
-                    var paData = JsonConvert.DeserializeObject<PicartoResponse>(await paResponse.Content.ReadAsStringAsync());
-                    _cachedStatuses.AddOrUpdate(picartoUrl, paData, (key, old) => paData);
-                    return paData;
+                    url = $"https://api.picarto.tv/v1/channel/name/{stream.Username.ToLowerInvariant()}";
+                    type = typeof(PicartoResponse);
+                    break;
                 default:
                     break;
             }
-            return null;
+
+            if (checkCache && _cachedStatuses.TryGetValue(url, out var result))
+                return result;
+
+            var response = await _http.GetAsync(url).ConfigureAwait(false);
+            if (!response.IsSuccessStatusCode)
+                throw new StreamNotFoundException($"{stream.Username} [{stream.Type}]");
+            var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            var data = JsonConvert.DeserializeObject(responseString, type) as IStreamResponse;
+            data.ApiUrl = url;
+            _cachedStatuses.AddOrUpdate(url, data, (key, old) => data);
+            return data;
         }
 
         public EmbedBuilder GetEmbed(FollowedStream fs, IStreamResponse status, ulong guildId)
