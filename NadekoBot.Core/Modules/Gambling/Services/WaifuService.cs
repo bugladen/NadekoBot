@@ -33,9 +33,8 @@ namespace NadekoBot.Modules.Gambling.Services
                 if (waifu == null || waifu.ClaimerId != ownerUser.Id)
                     return false;
 
-                if (!await _cs.RemoveAsync(owner.Id,
-                    "Waifu Transfer",
-                    waifu.Price / 10))
+                if (!await _cs.RemoveAsync(owner.Id, "Waifu Transfer",  
+                    waifu.Price / 10, gamble: true))
                 {
                     return false;
                 }
@@ -73,7 +72,7 @@ namespace NadekoBot.Modules.Gambling.Services
             using (var uow = _db.UnitOfWork)
             {
                 var price = GetResetPrice(user);
-                if (!await _cs.RemoveAsync(user.Id, "Waifu Reset", price))
+                if (!await _cs.RemoveAsync(user.Id, "Waifu Reset", price, gamble: true))
                     return false;
 
                 var affs = uow._context.WaifuUpdates
