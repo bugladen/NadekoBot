@@ -29,7 +29,7 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(ChannelPermission.ManageMessages)]
-            [RequireBotPermission(GuildPermission.ManageMessages)]
+            [RequireBotPermission(ChannelPermission.ManageMessages)]
             [Priority(1)]
             public async Task Prune(int count)
             {
@@ -45,7 +45,7 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(ChannelPermission.ManageMessages)]
-            [RequireBotPermission(GuildPermission.ManageMessages)]
+            [RequireBotPermission(ChannelPermission.ManageMessages)]
             [Priority(0)]
             public async Task Prune(IGuildUser user, int count = 100)
             {

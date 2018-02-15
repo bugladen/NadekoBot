@@ -2318,11 +2318,12 @@
       "{0}cmdcost 1 {0}8ball"
     ]
   },
-  "startevent": {
-    "Cmd": "startevent",
-    "Desc": "Starts one of the events seen on public nadeko. Events: `reaction`, `sneakygamestatus` and `botlistupvoters` (for which you need botlisttoken in credentials).",
+  "eventstart": {
+    "Cmd": "eventstart",
+    "Desc": "Starts one of the events seen on public nadeko. Events: `reaction`",
     "Usage": [
-      "{0}startevent reaction"
+      "{0}eventstart reaction",
+      "{0}eventstart reaction -d 1 -a 50 --pot-size 1500"
     ]
   },
   "slotstats": {

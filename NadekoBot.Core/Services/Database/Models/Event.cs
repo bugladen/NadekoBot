@@ -12,8 +12,6 @@ namespace NadekoBot.Core.Services.Database.Models
         public enum Type
         {
             Reaction,
-            GameStatus,
-            ServerJoin
         }
 
         public ulong ServerId { get; set; }

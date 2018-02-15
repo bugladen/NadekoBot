@@ -5,15 +5,14 @@ using NadekoBot.Core.Services;
 using System.Threading.Tasks;
 using Discord.WebSocket;
 using NadekoBot.Common.Attributes;
-using NadekoBot.Modules.Gambling.Common;
 using NadekoBot.Modules.Gambling.Services;
-using NadekoBot.Modules.Gambling.Common.CurrencyEvents;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Linq;
 using NadekoBot.Core.Common;
 using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Core.Modules.Gambling.Common.Events;
+using System;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -40,36 +39,55 @@ namespace NadekoBot.Modules.Gambling
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
+            [NadekoOptions(typeof(EventOptions))]
             [OwnerOnly]
-            public async Task StartEvent(Event.Type ev, params string[] options)
+            public async Task EventStart(Event.Type ev, params string[] options)
             {
                 var (opts, _) = OptionsParser.Default.ParseFrom(new EventOptions(), options);
-                if (!_service.TryCreateEvent(Context.Guild.Id, Context.Channel.Id, Context.Message.Id, opts))
+                if (!await _service.TryCreateEventAsync(Context.Guild.Id,
+                    Context.Channel.Id,
+                    ev,
+                    opts,
+                    GetEmbed
+                    ))
                 {
                     await ReplyErrorLocalized("start_event_fail").ConfigureAwait(false);
                     return;
                 }
+            }
 
-                switch (ev)
+            private EmbedBuilder GetEmbed(Event.Type type, EventOptions opts, long currentPot)
+            {
+
+                switch (type)
                 {
                     case Event.Type.Reaction:
-                        await ReplyConfirmLocalized("reaction_event").ConfigureAwait(false);
-                        break;
-                    case Event.Type.GameStatus:
-                        await ReplyConfirmLocalized("game_status_event").ConfigureAwait(false);
-                        break;
-                    case Event.Type.ServerJoin:
-                        await ReplyConfirmLocalized("server_join_event").ConfigureAwait(false);
-                        break;
+                        return new EmbedBuilder()
+                                    .WithOkColor()
+                                    .WithTitle(GetText("reaction_title"))
+                                    .WithDescription(GetDescription(opts.Amount, currentPot))
+                                    .WithFooter(GetText("new_reaction_footer", opts.Hours));
                     default:
                         break;
                 }
+                throw new ArgumentOutOfRangeException(nameof(type));
+            }
+
+            private string GetDescription(long amount, long potSize)
+            {
+                string potSizeStr = Format.Bold(potSize == 0
+                    ? "∞"
+                    : potSize.ToString() + _bc.BotConfig.CurrencySign);
+                return GetText("new_reaction_event",
+                                   _bc.BotConfig.CurrencySign,
+                                   Format.Bold(amount + _bc.BotConfig.CurrencySign),
+                                   potSize);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [OwnerOnly]
-            public async Task StartEvent(OtherEvent e)
+            public async Task EventStart(OtherEvent e)
             {
                 switch (e)
                 {
@@ -123,22 +141,6 @@ namespace NadekoBot.Modules.Gambling
             //            // ignored
             //        }
             //    }
-
-            //    public async Task ReactionEvent(ICommandContext context, long amount)
-            //    {
-            //        if (amount <= 0)
-            //            amount = 100;
-
-            //        var title = GetText("reaction_title");
-            //        var desc = GetText("reaction_desc", _bc.BotConfig.CurrencySign, Format.Bold(amount.ToString()) + _bc.BotConfig.CurrencySign);
-            //        var footer = GetText("reaction_footer", 24);
-            //        var re = new OldReactionEvent(_bc.BotConfig, _client, _cs, amount);
-            //        var msg = await context.Channel.SendConfirmAsync(title,
-            //                desc, footer: footer)
-            //            .ConfigureAwait(false);
-            //        await re.Start(msg, context);
-            //    }
-            //}
         }
     }
 }

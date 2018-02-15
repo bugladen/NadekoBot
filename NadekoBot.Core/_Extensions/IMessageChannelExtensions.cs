@@ -11,7 +11,8 @@ namespace NadekoBot.Extensions
     public static class IMessageChannelExtensions
     {
         public static Task<IUserMessage> EmbedAsync(this IMessageChannel ch, EmbedBuilder embed, string msg = "")
-            => ch.SendMessageAsync(msg, embed: embed.Build());
+            => ch.SendMessageAsync(msg, embed: embed.Build(),
+                options: new RequestOptions() { RetryMode  = RetryMode.AlwaysRetry });
 
         public static Task<IUserMessage> SendErrorAsync(this IMessageChannel ch, string title, string error, string url = null, string footer = null)
         {

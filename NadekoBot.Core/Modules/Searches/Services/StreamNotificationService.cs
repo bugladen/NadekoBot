@@ -87,7 +87,6 @@ namespace NadekoBot.Modules.Searches.Services
         public async Task<IStreamResponse> GetStreamStatus(FollowedStream stream, bool checkCache = true)
         {
             string url = string.Empty;
-            IStreamResponse obj = null;
             Type type = null;
             switch (stream.Type)
             {

@@ -116,7 +116,7 @@
 //                    if ((r.User.IsSpecified && r.User.Value.IsBot) || r.UserId == _botUser.Id)
 //                        return Task.CompletedTask;
 
-//                    if (r.Emote.Name == iemote.Name && r.User.IsSpecified && ((DateTime.UtcNow - r.User.Value.CreatedAt).TotalDays > 5) && _reactionAwardedUsers.Add(r.User.Value.Id))
+//                    if (r.Emote.Name == iemote.Name && ((DateTime.UtcNow - r.User.Value.CreatedAt).TotalDays > 5) && _reactionAwardedUsers.Add(r.User.Value.Id))
 //                    {
 //                        _toGiveTo.Enqueue(r.UserId);
 //                    }
