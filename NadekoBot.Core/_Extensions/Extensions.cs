@@ -147,6 +147,7 @@ namespace NadekoBot.Extensions
 
         public static ModuleInfo GetTopLevelModule(this ModuleInfo module)
         {
+            _log.Info(module.Name);
             while (module.Parent != null)
             {
                 module = module.Parent;
