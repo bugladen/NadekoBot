@@ -1,3 +1,4 @@
+
 {
   "h": {
     "Cmd": "help h",
@@ -1663,9 +1664,10 @@
   },
   "color": {
     "Cmd": "color clr",
-    "Desc": "Shows you what color corresponds to that hex.",
+    "Desc": "Shows you which colors correspond to the inputed hexes.",
     "Usage": [
-      "{0}color 00ff00"
+      "{0}color 00ff00",
+      "{0}color f00 0f0 00f"
     ]
   },
   "videocall": {

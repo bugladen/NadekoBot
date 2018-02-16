@@ -23,6 +23,7 @@ using NadekoBot.Modules.Searches.Services;
 using NadekoBot.Common.Replacements;
 using Discord.WebSocket;
 using NadekoBot.Core.Modules.Searches.Common;
+using SixLabors.Primitives;
 
 namespace NadekoBot.Modules.Searches
 {
@@ -97,7 +98,7 @@ namespace NadekoBot.Modules.Searches
                 await Context.Channel.SendFileAsync(
                     picStream,
                     "rip.png",
-                    $"Rip {Format.Bold(usr.ToString())} \n\t- " + 
+                    $"Rip {Format.Bold(usr.ToString())} \n\t- " +
                         Format.Italics(Context.User.ToString()))
                     .ConfigureAwait(false);
             }
@@ -768,28 +769,37 @@ namespace NadekoBot.Modules.Searches
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task Color([Remainder] string color = null)
+        public async Task Color(params string[] colors)
         {
-            color = color?.Trim().Replace("#", "");
-            if (string.IsNullOrWhiteSpace(color))
+            if (!colors.Any())
                 return;
-            Rgba32 clr;
-            try
+
+            var colorObjects = colors.Take(10).Select(x => x.Trim().Replace("#", ""))
+                .Select(x =>
+                {
+                    try
+                    {
+                        return Rgba32.FromHex(x);
+                    }
+                    catch
+                    {
+                        return Rgba32.FromHex("000");
+                    }
+                }).ToArray();
+            using (var img = new Image<Rgba32>(colorObjects.Length * 50, 50))
             {
-                clr = Rgba32.FromHex(color);
+                for (int i = 0; i < colorObjects.Length; i++)
+                {
+                    var x = i * 50;
+                    img.FillPolygon(colorObjects[i], new PointF[] {
+                        new PointF(x, 0),
+                        new PointF(x + 50, 0),
+                        new PointF(x + 50, 50),
+                        new PointF(x, 50)
+                    });
+                }
+                await Context.Channel.SendFileAsync(img.ToStream(), $"colors.png").ConfigureAwait(false);
             }
-            catch
-            {
-                await ReplyErrorLocalized("hex_invalid").ConfigureAwait(false);
-                return;
-            }
-            
-
-            var img = new ImageSharp.Image<Rgba32>(50, 50);
-
-            img.BackgroundColor(clr);
-
-            await Context.Channel.SendFileAsync(img.ToStream(), $"{color}.png").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
