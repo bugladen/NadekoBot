@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Common.Attributes;
+using NadekoBot.Core.Modules.Gambling.Common;
 using NadekoBot.Core.Modules.Gambling.Common.Blackjack;
 using NadekoBot.Core.Modules.Gambling.Services;
 using NadekoBot.Core.Services;
@@ -12,11 +13,10 @@ namespace NadekoBot.Modules.Gambling
 {
     public partial class Gambling
     {
-        public class BlackJackCommands : NadekoSubmodule<BlackJackService>
+        public class BlackJackCommands : GamblingSubmodule<BlackJackService>
         {
-            private readonly CurrencyService _cs;
+            private readonly ICurrencyService _cs;
             private readonly DbService _db;
-            private readonly IBotConfigProvider _bc;
             private IUserMessage _msg;
 
             public enum BjAction
@@ -26,11 +26,10 @@ namespace NadekoBot.Modules.Gambling
                 Double,
             }
 
-            public BlackJackCommands(CurrencyService cs, DbService db, IBotConfigProvider bc)
+            public BlackJackCommands(ICurrencyService cs, DbService db)
             {
                 _cs = cs;
                 _db = db;
-                _bc = bc;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -50,14 +49,14 @@ namespace NadekoBot.Modules.Gambling
             [RequireContext(ContextType.Guild)]
             public async Task BlackJack(long amount)
             {
-                if (amount < 0)
+                if (!await CheckBetMandatory(amount))
                     return;
-                
+
                 var newBj = new Blackjack(Context.User, amount, _cs, _db);
                 Blackjack bj;
                 if (newBj == (bj = _service.Games.GetOrAdd(Context.Channel.Id, newBj)))
                 {
-                    if (!bj.Join(Context.User, amount))
+                    if (!await bj.Join(Context.User, amount))
                     {
                         _service.Games.TryRemove(Context.Channel.Id, out _);
                         await ReplyErrorLocalized("not_enough", _bc.BotConfig.CurrencySign).ConfigureAwait(false);
@@ -71,7 +70,7 @@ namespace NadekoBot.Modules.Gambling
                 }
                 else
                 {
-                    if(bj.Join(Context.User, amount))
+                    if (await bj.Join(Context.User, amount))
                         await ReplyConfirmLocalized("bj_joined").ConfigureAwait(false);
                     else
                     {
@@ -179,19 +178,19 @@ namespace NadekoBot.Modules.Gambling
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public Task Double() => InternalBlackJack(BjAction.Double);
-            
+
             public async Task InternalBlackJack(BjAction a)
             {
                 if (!_service.Games.TryGetValue(Context.Channel.Id, out var bj))
                     return;
 
                 if (a == BjAction.Hit)
-                    bj.Hit(Context.User);
+                    await bj.Hit(Context.User);
                 else if (a == BjAction.Stand)
-                    bj.Stand(Context.User);
+                    await bj.Stand(Context.User);
                 else if (a == BjAction.Double)
                 {
-                    if(!bj.Double(Context.User))
+                    if (!await bj.Double(Context.User))
                     {
                         await ReplyErrorLocalized("not_enough").ConfigureAwait(false);
                     }

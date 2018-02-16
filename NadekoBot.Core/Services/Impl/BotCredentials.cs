@@ -1,12 +1,12 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.IO;
-using Discord;
-using System.Linq;
-using NLog;
-using Microsoft.Extensions.Configuration;
+﻿using System;
 using System.Collections.Immutable;
+using System.IO;
+using System.Linq;
+using Discord;
+using Microsoft.Extensions.Configuration;
 using NadekoBot.Common;
+using Newtonsoft.Json;
+using NLog;
 
 namespace NadekoBot.Core.Services.Impl
 {
@@ -39,12 +39,14 @@ namespace NadekoBot.Core.Services.Impl
         public string MiningProxyUrl { get; }
         public string MiningProxyCreds { get; }
 
+        public string BotListToken { get; set; }
+
         public BotCredentials()
         {
             _log = LogManager.GetCurrentClassLogger();
 
             try { File.WriteAllText("./credentials_example.json", JsonConvert.SerializeObject(new CredentialsModel(), Formatting.Indented)); } catch { }
-            if(!File.Exists(_credsFileName))
+            if (!File.Exists(_credsFileName))
                 _log.Warn($"credentials.json is missing. Attempting to load creds from environment variables prefixed with 'NadekoBot_'. Example is in {Path.GetFullPath("./credentials_example.json")}");
             try
             {
@@ -74,6 +76,8 @@ namespace NadekoBot.Core.Services.Impl
                 MiningProxyUrl = data[nameof(MiningProxyUrl)];
                 MiningProxyCreds = data[nameof(MiningProxyCreds)];
 
+                BotListToken = data[nameof(BotListToken)];
+
                 var restartSection = data.GetSection(nameof(RestartCommand));
                 var cmd = restartSection["cmd"];
                 var args = restartSection["args"];
@@ -94,15 +98,14 @@ namespace NadekoBot.Core.Services.Impl
                     if (string.IsNullOrWhiteSpace(ShardRunArguments))
                         ShardRunArguments = "{0} {1}";
                 }
-                
+
                 var portStr = data[nameof(ShardRunPort)];
                 if (string.IsNullOrWhiteSpace(portStr))
                     ShardRunPort = new NadekoRandom().Next(5000, 6000);
                 else
                     ShardRunPort = int.Parse(portStr);
 
-                int ts = 1;
-                int.TryParse(data[nameof(TotalShards)], out ts);
+                int.TryParse(data[nameof(TotalShards)], out var ts);
                 TotalShards = ts < 1 ? 1 : ts;
 
                 ulong.TryParse(data[nameof(ClientId)], out ulong clId);
@@ -110,10 +113,10 @@ namespace NadekoBot.Core.Services.Impl
 
                 CarbonKey = data[nameof(CarbonKey)];
                 var dbSection = data.GetSection("db");
-                Db = new DBConfig(string.IsNullOrWhiteSpace(dbSection["Type"]) 
-                                ? "sqlite" 
-                                : dbSection["Type"], 
-                            string.IsNullOrWhiteSpace(dbSection["ConnectionString"]) 
+                Db = new DBConfig(string.IsNullOrWhiteSpace(dbSection["Type"])
+                                ? "sqlite"
+                                : dbSection["Type"],
+                            string.IsNullOrWhiteSpace(dbSection["ConnectionString"])
                                 ? "Data Source=data/NadekoBot.db"
                                 : dbSection["ConnectionString"]);
             }
@@ -123,7 +126,7 @@ namespace NadekoBot.Core.Services.Impl
                 _log.Fatal(ex);
                 throw;
             }
-            
+
         }
 
         private class CredentialsModel
@@ -149,6 +152,8 @@ namespace NadekoBot.Core.Services.Impl
             public int? ShardRunPort { get; set; } = null;
             public string MiningProxyUrl { get; set; } = null;
             public string MiningProxyCreds { get; set; } = null;
+
+            public string BotListToken { get; set; }
         }
 
         private class DbModel

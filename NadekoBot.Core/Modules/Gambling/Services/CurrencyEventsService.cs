@@ -1,66 +1,76 @@
-﻿using Discord;
-using Discord.Commands;
-using NadekoBot.Modules.Gambling.Common;
-using NadekoBot.Modules.Gambling.Common.CurrencyEvents;
-using NadekoBot.Core.Services;
+﻿using NadekoBot.Core.Services;
+using NadekoBot.Core.Modules.Gambling.Common.Events;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Threading;
+using NadekoBot.Modules.Gambling.Common;
+using Discord;
+using Discord.WebSocket;
 using System.Threading.Tasks;
+using System;
+using NLog;
+using NadekoBot.Core.Services.Database.Models;
 
 namespace NadekoBot.Modules.Gambling.Services
 {
-    public class CurrencyEventsService : INService, IUnloadableService
+    public class CurrencyEventsService : INService
     {
-        public ConcurrentDictionary<ulong, List<ReactionEvent>> ReactionEvents { get; }
+        private readonly DbService _db;
+        private readonly DiscordSocketClient _client;
+        private readonly ICurrencyService _cs;
+        private readonly IBotConfigProvider _bc;
+        private readonly Logger _log;
+        private readonly ConcurrentDictionary<ulong, ICurrencyEvent> _events =
+            new ConcurrentDictionary<ulong, ICurrencyEvent>();
 
-        public SneakyEvent SneakyEvent { get; private set; } = null;
-        private SemaphoreSlim _sneakyLock = new SemaphoreSlim(1, 1);
-
-        public CurrencyEventsService()
+        public CurrencyEventsService(DbService db, DiscordSocketClient client, ICurrencyService cs, IBotConfigProvider bc)
         {
-            ReactionEvents = new ConcurrentDictionary<ulong, List<ReactionEvent>>();
+            _db = db;
+            _client = client;
+            _cs = cs;
+            _bc = bc;
+            _log = LogManager.GetCurrentClassLogger();
         }
 
-        public async Task<bool> StartSneakyEvent(SneakyEvent ev, IUserMessage msg, ICommandContext ctx)
+        public async Task<bool> TryCreateEventAsync(ulong guildId, ulong channelId, Event.Type type,
+            EventOptions opts, Func<Event.Type, EventOptions, long, EmbedBuilder> embed)
         {
-            await _sneakyLock.WaitAsync().ConfigureAwait(false);
-            try
-            {
-                if (SneakyEvent != null)
-                    return false;
+            SocketGuild g = _client.GetGuild(guildId);
+            SocketTextChannel ch = g?.GetChannel(channelId) as SocketTextChannel;
+            if (ch == null)
+                return false;
 
-                SneakyEvent = ev;
-                ev.OnEnded += () => SneakyEvent = null;
-                var _ = SneakyEvent.Start(msg, ctx).ConfigureAwait(false);
-            }
-            finally
-            {
-                _sneakyLock.Release();
-            }
-            return true;
-        }
+            ICurrencyEvent ce;
 
-        public async Task Unload()
-        {
-            foreach (var kvp in ReactionEvents)
+            if (type == Event.Type.Reaction)
             {
-                foreach (var ev in kvp.Value)
+                ce = new ReactionEvent(_client, _cs, _bc, g, ch, opts, embed);
+            }
+            else //todo
+            {
+                ce = new ReactionEvent(_client, _cs, _bc, g, ch, opts, embed);
+            }
+
+            var added = _events.TryAdd(guildId, ce);
+            if (added)
+            {
+                try
                 {
-                    try { await ev.Stop().ConfigureAwait(false); } catch { }
+                    ce.OnEnded += OnEventEnded;
+                    await ce.Start();
+                }
+                catch (Exception ex)
+                {
+                    _log.Warn(ex);
+                    _events.TryRemove(guildId, out ce);
+                    return false;
                 }
             }
-            ReactionEvents.Clear();
+            return added;
+        }
 
-            await _sneakyLock.WaitAsync().ConfigureAwait(false);
-            try
-            {
-                await SneakyEvent.Stop().ConfigureAwait(false);
-            }
-            finally
-            {
-                _sneakyLock.Release();
-            }
+        private Task OnEventEnded(ulong gid)
+        {
+            _events.TryRemove(gid, out _);
+            return Task.CompletedTask;
         }
     }
 }

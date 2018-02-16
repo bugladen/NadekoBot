@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using NadekoBot.Core.Services;
-using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Modules.Gambling.Common;
 using NLog;
 
@@ -29,16 +29,15 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
         public User CurrentUser { get; private set; }
 
         private TaskCompletionSource<bool> _currentUserMove;
-        private readonly List<Stake> _stakes = new List<Stake>();
-        private readonly CurrencyService _cs;
+        private readonly ICurrencyService _cs;
         private readonly DbService _db;
 
         public event Func<Blackjack, Task> StateUpdated;
         public event Func<Blackjack, Task> GameEnded;
 
-        private readonly object locker = new object();
+        private readonly SemaphoreSlim locker = new SemaphoreSlim(1, 1);
 
-        public Blackjack(IUser starter, long bet, CurrencyService cs, DbService db)
+        public Blackjack(IUser starter, long bet, ICurrencyService cs, DbService db)
         {
             _cs = cs;
             _db = db;
@@ -57,9 +56,14 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
             {
                 //wait for players to join
                 await Task.Delay(20000);
-                lock (locker)
+                await locker.WaitAsync();
+                try
                 {
                     State = GameState.Playing;
+                }
+                finally
+                {
+                    locker.Release();
                 }
                 await PrintState();
                 //if no users joined the game, end it
@@ -117,62 +121,52 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
             var finished = await Task.WhenAny(pause, _currentUserMove.Task);
             if (finished == pause)
             {
-                Stand(usr);
+                await Stand(usr);
             }
             CurrentUser = null;
             _currentUserMove = null;
         }
 
-        public bool Join(IUser user, long bet)
+        public async Task<bool> Join(IUser user, long bet)
         {
-            lock (locker)
+            await locker.WaitAsync();
+            try
             {
                 if (State != GameState.Starting)
                     return false;
 
                 if (Players.Count >= 5)
                     return false;
-                
-                if (!_cs.Remove(user.Id, "BlackJack-gamble", bet, gamble: true, user: user))
+
+                if (!await _cs.RemoveAsync(user, "BlackJack-gamble", bet, gamble: true))
                 {
                     return false;
                 }
 
-                //add it to the stake, in case bot crashes or gets restarted during the game
-                //funds will be refunded to the players on next startup
-                using (var uow = _db.UnitOfWork)
-                {
-                    var s = new Stake()
-                    {
-                        Amount = bet,
-                        UserId = user.Id,
-                        Source = "BlackJack",
-                    };
-                    s = uow._context.Set<Stake>().Add(s).Entity;
-                    _stakes.Add(s);
-                    uow.Complete();
-                }
-
                 Players.Add(new User(user, bet));
-                PrintState();
+                var _ = PrintState();
                 return true;
             }
-        }
-
-        public bool Stand(IUser u)
-        {
-            lock (locker)
+            finally
             {
-                if (CurrentUser.DiscordUser == u)
-                    return Stand(CurrentUser);
-
-                return false;
+                locker.Release();
             }
         }
 
-        public bool Stand(User u)
+        public async Task<bool> Stand(IUser u)
         {
-            lock (locker)
+            var cu = CurrentUser;
+
+            if (cu.DiscordUser == u)
+                return await Stand(cu);
+            else
+                return false;
+        }
+
+        public async Task<bool> Stand(User u)
+        {
+            await locker.WaitAsync();
+            try
             {
                 if (State != GameState.Playing)
                     return false;
@@ -183,6 +177,10 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
                 u.State = User.UserState.Stand;
                 _currentUserMove.TrySetResult(true);
                 return true;
+            }
+            finally
+            {
+                locker.Release();
             }
         }
 
@@ -239,34 +237,28 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
                         usr.State = User.UserState.Lost;
                 }
             }
-            using (var uow = _db.UnitOfWork)
+
+            foreach (var usr in Players)
             {
-                uow._context.Set<Stake>().RemoveRange(_stakes);
-                foreach (var usr in Players)
+                if (usr.State == User.UserState.Won || usr.State == User.UserState.Blackjack)
                 {
-                    if (usr.State == User.UserState.Won || usr.State == User.UserState.Blackjack)
-                    {
-                        await _cs.AddAsync(usr.DiscordUser.Id, "BlackJack-win", usr.Bet * 2, uow, gamble: true);
-                    }
+                    await _cs.AddAsync(usr.DiscordUser.Id, "BlackJack-win", usr.Bet * 2, gamble: true);
                 }
-                uow.Complete();
             }
         }
 
-        public bool Double(IUser u)
+        public async Task<bool> Double(IUser u)
         {
-            lock (locker)
-            {
-                if (CurrentUser.DiscordUser == u)
-                    return Double(CurrentUser);
-
-                return false;
-            }
+            var cu = CurrentUser;
+            if (CurrentUser.DiscordUser == u)
+                return await Double(cu);
+            return false;
         }
 
-        public bool Double(User u)
+        public async Task<bool> Double(User u)
         {
-            lock (locker)
+            await locker.WaitAsync();
+            try
             {
                 if (State != GameState.Playing)
                     return false;
@@ -274,22 +266,8 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
                 if (CurrentUser != u)
                     return false;
 
-                if (!_cs.Remove(u.DiscordUser.Id, "Blackjack-double", u.Bet))
+                if (!await _cs.RemoveAsync(u.DiscordUser.Id, "Blackjack-double", u.Bet))
                     return false;
-
-                //read up in Join() why this is done
-                using (var uow = _db.UnitOfWork)
-                {
-                    var s = new Stake()
-                    {
-                        Amount = u.Bet,
-                        UserId = u.DiscordUser.Id,
-                        Source = "BlackJack",
-                    };
-                    s = uow._context.Set<Stake>().Add(s).Entity;
-                    _stakes.Add(s);
-                    uow.Complete();
-                }
 
                 u.Bet *= 2;
 
@@ -314,30 +292,31 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
 
                 return true;
             }
-        }
-
-        public bool Hit(IUser u)
-        {
-            lock (locker)
+            finally
             {
-                if (CurrentUser.DiscordUser == u)
-                    return Hit(CurrentUser);
-
-                return false;
+                locker.Release();
             }
         }
 
-
-        public bool Hit(User u)
+        public async Task<bool> Hit(IUser u)
         {
-            lock (locker)
+            var cu = CurrentUser;
+            if (cu.DiscordUser == u)
+                return await Hit(cu);
+
+            return false;
+        }
+
+        public async Task<bool> Hit(User u)
+        {
+            await locker.WaitAsync();
+            try
             {
                 if (State != GameState.Playing)
                     return false;
 
                 if (CurrentUser != u)
                     return false;
-
 
                 u.Cards.Add(Deck.Draw());
 
@@ -358,6 +337,10 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
                 _currentUserMove.TrySetResult(true);
 
                 return true;
+            }
+            finally
+            {
+                locker.Release();
             }
         }
 

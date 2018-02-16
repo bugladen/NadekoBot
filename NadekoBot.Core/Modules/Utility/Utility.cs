@@ -98,7 +98,7 @@ namespace NadekoBot.Modules.Utility
                 .Select(u => u.ToString())
                 .ToArray();
 
-            await Context.Channel.SendPaginatedConfirmAsync(_client, 0, (cur) =>
+            await Context.SendPaginatedConfirmAsync(0, (cur) =>
             {
                 return new EmbedBuilder().WithOkColor()
                     .WithTitle(Format.Bold(GetText("inrole_list", Format.Bold(role.Name))) + $" - {roleUsers.Length}")

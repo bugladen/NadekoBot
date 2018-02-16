@@ -3,6 +3,8 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Discord;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Core.Services.Database.Repositories.Impl
 {
@@ -13,43 +15,33 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
         }
 
         //temp is only used in updatecurrencystate, so that i don't overwrite real usernames/discrims with Unknown
-        public DiscordUser GetOrCreate(ulong userId, string username, string discrim, string avatarId, bool temp = false)
+        public DiscordUser GetOrCreate(ulong userId, string username, string discrim, string avatarId)
         {
-            DiscordUser toReturn;
+            _context.Database.ExecuteSqlCommand($@"
+UPDATE OR IGNORE DiscordUser 
+SET Username={username},
+    Discriminator={discrim},
+    AvatarId={avatarId}
+WHERE UserId={userId};
 
-            toReturn = _set.Include(x => x.Club)
-                .FirstOrDefault(u => u.UserId == userId);
-
-            if (toReturn != null && !temp)
-            {
-                toReturn.AvatarId = avatarId;
-                toReturn.Username = username;
-                toReturn.Discriminator = discrim;
-            }
-
-            if (toReturn == null)
-                _set.Add(toReturn = new DiscordUser()
-                {
-                    AvatarId = avatarId,
-                    Discriminator = discrim,
-                    UserId = userId,
-                    Username = username,
-                    Club = null,
-                });
-
-            return toReturn;
+INSERT OR IGNORE INTO DiscordUser (UserId, Username, Discriminator, AvatarId)
+VALUES ({userId}, {username}, {discrim}, {avatarId});
+");
+            return _set
+                .Include(x => x.Club)
+                .First(u => u.UserId == userId);
         }
 
         public DiscordUser GetOrCreate(IUser original)
             => GetOrCreate(original.Id, original.Username, original.Discriminator, original.AvatarId);
 
-        public int GetUserGlobalRanking(ulong id)
+        public async Task<int> GetUserGlobalRankingAsync(ulong id)
         {
             if (!_set.Where(y => y.UserId == id).Any())
             {
-                return _set.Count() + 1;
+                return await _set.CountAsync() + 1;
             }
-            return _set.Count(x => x.TotalXp >= 
+            return await _set.CountAsync(x => x.TotalXp >=
                 _set.Where(y => y.UserId == id)
                     .DefaultIfEmpty()
                     .Sum(y => y.TotalXp));
@@ -65,8 +57,14 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
                 .ToArray();
         }
 
-        public IEnumerable<DiscordUser> GetTopRichest(int count, int skip = 0) =>
-            _set.Where(c => c.CurrencyAmount > 0).OrderByDescending(c => c.CurrencyAmount).Skip(skip).Take(count).ToList();
+        public IEnumerable<DiscordUser> GetTopRichest(int count, int skip = 0)
+        {
+            return _set.Where(c => c.CurrencyAmount > 0)
+                .OrderByDescending(c => c.CurrencyAmount)
+                .Skip(skip)
+                .Take(count)
+                .ToList();
+        }
 
         public long GetUserCurrency(ulong userId) =>
             _set.FirstOrDefault(x => x.UserId == userId)?.CurrencyAmount ?? 0;
@@ -79,26 +77,70 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
             _set.RemoveRange(_set.Where(x => ids.Contains((long)x.UserId)));
         }
 
-        public bool TryUpdateCurrencyState(ulong userId, long change, bool allowNegative = false)
+        public bool TryUpdateCurrencyState(ulong userId, string name, string discrim, string avatarId, long amount, bool allowNegative = false)
         {
-            var cur = GetOrCreate(userId, "Unknown", "????", "", true);
-
-            if (change == 0)
+            if (amount == 0)
                 return true;
 
-            if (change > 0)
+            // if remove - try to remove if he has more or equal than the amount
+            // and return number of rows > 0 (was there a change)
+            if (amount < 0 && !allowNegative)
             {
-                cur.CurrencyAmount += change;
-                return true;
+                var rows = _context.Database.ExecuteSqlCommand($@"
+UPDATE DiscordUser
+SET CurrencyAmount=CurrencyAmount+{amount}
+WHERE UserId={userId} AND CurrencyAmount>={-amount}");
+                return rows > 0;
             }
-            //change is negative
-            if (cur.CurrencyAmount + change < 0)
+
+            // if remove and negative is allowed, just remove without any condition
+            if (amount < 0 && allowNegative)
             {
-                if (allowNegative)
-                    cur.CurrencyAmount += change;
-                return false;
+                var rows = _context.Database.ExecuteSqlCommand($@"
+UPDATE DiscordUser
+SET CurrencyAmount=CurrencyAmount+{amount}
+WHERE UserId={userId}");
+                return rows > 0;
             }
-            cur.CurrencyAmount += change;
+
+            // if add - create a new user with default values if it doesn't exist
+            // if it exists, sum current amount with the new one, if it doesn't
+            // he just has the new amount
+            var updatedUserData = !string.IsNullOrWhiteSpace(name);
+            name = name ?? "Unknown";
+            discrim = discrim ?? "????";
+            avatarId = avatarId ?? "";
+
+            // just update the amount, there is no new user data
+            if (!updatedUserData)
+            {
+                _context.Database.ExecuteSqlCommand($@"
+UPDATE OR IGNORE DiscordUser 
+SET CurrencyAmount=CurrencyAmount+{amount}
+WHERE UserId={userId};
+
+INSERT OR IGNORE INTO DiscordUser (UserId, Username, Discriminator, AvatarId, CurrencyAmount)
+VALUES ({userId}, {name}, {discrim}, {avatarId}, {amount});
+");
+            }
+            else
+            {
+                _context.Database.ExecuteSqlCommand($@"
+UPDATE OR IGNORE DiscordUser 
+SET CurrencyAmount=CurrencyAmount+{amount},
+    Username={name},
+    Discriminator={discrim},
+    AvatarId={avatarId}
+WHERE UserId={userId};
+
+INSERT OR IGNORE INTO DiscordUser (UserId, Username, Discriminator, AvatarId, CurrencyAmount)
+VALUES ({userId}, {name}, {discrim}, {avatarId}, {amount});
+");
+            }
+
+            
+
+
             return true;
         }
     }

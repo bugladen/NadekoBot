@@ -2,24 +2,17 @@
 using NadekoBot.Core.Modules.Gambling.Services;
 using System.Threading.Tasks;
 using Discord;
-using NadekoBot.Core.Services;
 using NadekoBot.Extensions;
 using System.Linq;
 using Discord.Commands;
+using NadekoBot.Core.Modules.Gambling.Common;
 
 namespace NadekoBot.Modules.Gambling
 {
     public partial class Gambling
     {
-        public class CurrencyRaffleCommands : NadekoSubmodule<CurrencyRaffleService>
+        public class CurrencyRaffleCommands : GamblingSubmodule<CurrencyRaffleService>
         {
-            private readonly IBotConfigProvider _bc;
-
-            public CurrencyRaffleCommands(IBotConfigProvider bc)
-            {
-                _bc = bc;
-            }
-
             public enum Mixed { Mixed }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -33,7 +26,7 @@ namespace NadekoBot.Modules.Gambling
             [Priority(1)]
             public async Task RaffleCur(int amount, bool mixed = false)
             {
-                if (amount < 1)
+                if (!await CheckBetMandatory(amount))
                     return;
                 async Task OnEnded(IUser arg, int won)
                 {

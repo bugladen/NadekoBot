@@ -1,10 +1,5 @@
-﻿using NadekoBot.Common;
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Immutable;
+using NadekoBot.Common;
 
 namespace NadekoBot.Modules.Gambling.Common.WheelOfFortune
 {

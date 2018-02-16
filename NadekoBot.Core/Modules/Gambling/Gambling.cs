@@ -15,11 +15,10 @@ using Discord.WebSocket;
 
 namespace NadekoBot.Modules.Gambling
 {
-    public partial class Gambling : NadekoTopLevelModule<GamblingService>
+    public partial class Gambling : GamblingTopLevelModule<GamblingService>
     {
-        private readonly IBotConfigProvider _bc;
         private readonly DbService _db;
-        private readonly CurrencyService _cs;
+        private readonly ICurrencyService _cs;
         private readonly IDataCache _cache;
         private readonly DiscordSocketClient _client;
 
@@ -27,10 +26,9 @@ namespace NadekoBot.Modules.Gambling
         private string CurrencyPluralName => _bc.BotConfig.CurrencyPluralName;
         private string CurrencySign => _bc.BotConfig.CurrencySign;
 
-        public Gambling(IBotConfigProvider bc, DbService db, CurrencyService currency,
+        public Gambling(DbService db, ICurrencyService currency,
             IDataCache cache, DiscordSocketClient client)
         {
-            _bc = bc;
             _db = db;
             _cs = currency;
             _cache = cache;
@@ -200,7 +198,7 @@ namespace NadekoBot.Modules.Gambling
                 await ReplyErrorLocalized("not_enough", CurrencyPluralName).ConfigureAwait(false);
                 return;
             }
-            await _cs.AddAsync(receiver, $"Gift from {Context.User.Username} ({Context.User.Id}).", amount, true, msg).ConfigureAwait(false);
+            await _cs.AddAsync(receiver, $"Gift from {Context.User.Username} ({Context.User.Id}) - {msg}.", amount, true).ConfigureAwait(false);
             await ReplyConfirmLocalized("gifted", amount + CurrencySign, Format.Bold(receiver.ToString()), msg)
                 .ConfigureAwait(false);
         }
@@ -233,7 +231,10 @@ namespace NadekoBot.Modules.Gambling
             if (amount <= 0)
                 return;
 
-            await _cs.AddAsync(usrId, $"Awarded by bot owner. ({Context.User.Username}/{Context.User.Id}) {(msg ?? "")}", amount).ConfigureAwait(false);
+            await _cs.AddAsync(usrId,
+                $"Awarded by bot owner. ({Context.User.Username}/{Context.User.Id}) {(msg ?? "")}", 
+                amount, 
+                gamble: (Context.Client.CurrentUser.Id != usrId)).ConfigureAwait(false);
             await ReplyConfirmLocalized("awarded", amount + CurrencySign, $"<@{usrId}>").ConfigureAwait(false);
         }
 
@@ -241,15 +242,17 @@ namespace NadekoBot.Modules.Gambling
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
         [Priority(2)]
-        public async Task Award(int amount, [Remainder] IRole role)
+        public async Task Award(long amount, [Remainder] IRole role)
         {
             var users = (await Context.Guild.GetUsersAsync())
                                .Where(u => u.GetRoles().Contains(role))
                                .ToList();
-            await Task.WhenAll(users.Select(u => _cs.AddAsync(u.Id,
-                                                      $"Awarded by bot owner to **{role.Name}** role. ({Context.User.Username}/{Context.User.Id})",
-                                                      amount)))
-                         .ConfigureAwait(false);
+
+            await _cs.AddBulkAsync(users.Select(x => x.Id),
+                users.Select(x => $"Awarded by bot owner to **{role.Name}** role. ({Context.User.Username}/{Context.User.Id})"),
+                users.Select(x => amount),
+                gamble: true)
+                .ConfigureAwait(false);
 
             await ReplyConfirmLocalized("mass_award", 
                 amount + CurrencySign, 
@@ -265,7 +268,8 @@ namespace NadekoBot.Modules.Gambling
             if (amount <= 0)
                 return;
 
-            if (await _cs.RemoveAsync(user, $"Taken by bot owner.({Context.User.Username}/{Context.User.Id})", amount, true).ConfigureAwait(false))
+            if (await _cs.RemoveAsync(user, $"Taken by bot owner.({Context.User.Username}/{Context.User.Id})", amount, 
+                gamble: (Context.Client.CurrentUser.Id != user.Id)).ConfigureAwait(false))
                 await ReplyConfirmLocalized("take", amount+CurrencySign, Format.Bold(user.ToString())).ConfigureAwait(false);
             else
                 await ReplyErrorLocalized("take_fail", amount + CurrencySign, Format.Bold(user.ToString()), CurrencyPluralName).ConfigureAwait(false);
@@ -279,7 +283,8 @@ namespace NadekoBot.Modules.Gambling
             if (amount <= 0)
                 return;
 
-            if (_cs.Remove(usrId, $"Taken by bot owner.({Context.User.Username}/{Context.User.Id})", amount))
+            if (await _cs.RemoveAsync(usrId, $"Taken by bot owner.({Context.User.Username}/{Context.User.Id})", amount, 
+                gamble: (Context.Client.CurrentUser.Id != usrId)))
                 await ReplyConfirmLocalized("take", amount + CurrencySign, $"<@{usrId}>").ConfigureAwait(false);
             else
                 await ReplyErrorLocalized("take_fail", amount + CurrencySign, Format.Code(usrId.ToString()), CurrencyPluralName).ConfigureAwait(false);
@@ -307,6 +312,9 @@ namespace NadekoBot.Modules.Gambling
         public async Task RollDuel(int amount, IUser u)
         {
             if (Context.User.Id == u.Id)
+                return;
+
+            if (amount <= 0)
                 return;
 
             var embed = new EmbedBuilder()
@@ -448,7 +456,7 @@ namespace NadekoBot.Modules.Gambling
 
         private async Task InternallBetroll(long amount)
         {
-            if (amount < 1)
+            if (!await CheckBetMandatory(amount))
                 return;
 
             if (!await _cs.RemoveAsync(Context.User, "Betroll Gamble", amount, false, gamble: true).ConfigureAwait(false))
@@ -537,6 +545,89 @@ namespace NadekoBot.Modules.Gambling
                                          .WithValue(x.CurrencyAmount.ToString() + " " + CurrencySign)
                                          .WithIsInline(true));
             }
+
+            await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+        }
+
+
+        public enum RpsPick
+        {
+            R = 0,
+            Rock = 0,
+            Rocket = 0,
+            P = 1,
+            Paper = 1,
+            Paperclip = 1,
+            S = 2,
+            Scissors = 2
+        }
+
+        public enum RpsResult
+        {
+            Win,
+            Loss,
+            Draw,
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        public async Task Rps(RpsPick pick, long amount = 0)
+        {
+            long oldAmount = amount;
+            if (!await CheckBetOptional(amount) || (amount == 1))
+                return;
+
+            Func<RpsPick, string> getRpsPick = (p) =>
+            {
+                switch (p)
+                {
+                    case RpsPick.R:
+                        return "🚀";
+                    case RpsPick.P:
+                        return "📎";
+                    default:
+                        return "✂️";
+                }
+            };
+            var embed = new EmbedBuilder();
+
+            var nadekoPick = (RpsPick)new NadekoRandom().Next(0, 3);
+
+            if(amount > 0)
+            {
+                await _cs.RemoveAsync(Context.User.Id,
+                    "Rps-bet", amount, gamble: true);
+            }
+
+            string msg;
+            if (pick == nadekoPick)
+            {
+                await _cs.AddAsync(Context.User.Id,
+                    "Rps-draw", amount, gamble: true);
+                embed.WithOkColor();
+                msg = GetText("rps_draw", getRpsPick(pick));
+            }
+            else if ((pick == RpsPick.Paper && nadekoPick == RpsPick.Rock) ||
+                     (pick == RpsPick.Rock && nadekoPick == RpsPick.Scissors) ||
+                     (pick == RpsPick.Scissors && nadekoPick == RpsPick.Paper))
+            {
+                amount = (long)(amount * _bc.BotConfig.BetflipMultiplier);
+                await _cs.AddAsync(Context.User.Id,
+                    "Rps-draw", amount, gamble: true);
+                embed.WithOkColor();
+                embed.AddField(GetText("won"), amount);
+                msg = GetText("rps_win", Context.User.Mention,
+                    getRpsPick(nadekoPick), getRpsPick(pick));
+            }
+            else
+            {
+                embed.WithErrorColor();
+                amount = 0;
+                msg = GetText("rps_win", Context.Client.CurrentUser.Mention, getRpsPick(pick),
+                    getRpsPick(nadekoPick));
+            }
+
+            embed
+                .WithDescription(msg);
 
             await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }

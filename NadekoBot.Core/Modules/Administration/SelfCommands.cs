@@ -1,25 +1,24 @@
-using Discord;
-using Discord.Commands;
-using NadekoBot.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
+using Discord.Net;
 using Discord.WebSocket;
+using Microsoft.EntityFrameworkCore;
+using NadekoBot.Common;
+using NadekoBot.Common.Attributes;
+using NadekoBot.Common.Replacements;
+using NadekoBot.Common.ShardCom;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
-using NadekoBot.Common.Attributes;
+using NadekoBot.Extensions;
 using NadekoBot.Modules.Administration.Services;
 using Newtonsoft.Json;
-using NadekoBot.Common.ShardCom;
-using Discord.Net;
-using NadekoBot.Core.Common;
-using NadekoBot.Common;
-using NadekoBot.Common.Replacements;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -33,18 +32,16 @@ namespace NadekoBot.Modules.Administration
             private static readonly object _locker = new object();
             private readonly DiscordSocketClient _client;
             private readonly IImageCache _images;
-            private readonly IBotConfigProvider _bc;
             private readonly NadekoBot _bot;
             private readonly IBotCredentials _creds;
             private readonly IDataCache _cache;
 
             public SelfCommands(DbService db, NadekoBot bot, DiscordSocketClient client,
-                IBotConfigProvider bc, IBotCredentials creds, IDataCache cache)
+                IBotCredentials creds, IDataCache cache)
             {
                 _db = db;
                 _client = client;
                 _images = cache.LocalImages;
-                _bc = bc;
                 _bot = bot;
                 _creds = creds;
                 _cache = cache;
@@ -111,16 +108,14 @@ namespace NadekoBot.Modules.Administration
                 }
                 else
                 {
-                    await Context.Channel.SendConfirmAsync("", string.Join("\n", scmds.Select(x =>
-                    {
-                        string str = $"```css\n[{GetText("server") + "]: " + (x.GuildId == null ? "-" : x.GuildName + " #" + x.GuildId)}";
-
-                        str += $@"
+                    await Context.Channel.SendConfirmAsync(
+                        text: string.Join("\n", scmds.Select(x => $@"```css
+[{GetText("server")}]: {(x.GuildId.HasValue ? $"{x.GuildName} #{x.GuildId}" : "-")}
 [{GetText("channel")}]: {x.ChannelName} #{x.ChannelId}
-[{GetText("command_text")}]: {x.CommandText}```";
-                        return str;
-                    })), footer: GetText("page", page + 1))
-                         .ConfigureAwait(false);
+[{GetText("command_text")}]: {x.CommandText}```")),
+                        title: string.Empty,
+                        footer: GetText("page", page + 1))
+                    .ConfigureAwait(false);
                 }
             }
 
@@ -197,7 +192,7 @@ namespace NadekoBot.Modules.Administration
                     uow.Complete();
                 }
                 _bc.Reload();
-                
+
                 if (_service.ForwardDMs)
                     await ReplyConfirmLocalized("fwdm_start").ConfigureAwait(false);
                 else
@@ -249,7 +244,7 @@ namespace NadekoBot.Modules.Administration
                     })
                     .ToArray();
 
-                await Context.Channel.SendPaginatedConfirmAsync(_client, page, (curPage) =>
+                await Context.SendPaginatedConfirmAsync(page, (curPage) =>
                 {
 
                     var str = string.Join("\n", allShardStrings.Skip(25 * curPage).Take(25));
@@ -264,7 +259,7 @@ namespace NadekoBot.Modules.Administration
                         .WithDescription(str);
                 }, allShardStrings.Length, 25);
             }
-            
+
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public async Task RestartShard(int shardid)
@@ -275,7 +270,7 @@ namespace NadekoBot.Modules.Administration
                     return;
                 }
                 var pub = _cache.Redis.GetSubscriber();
-                pub.Publish(_creds.RedisKey() + "_shardcoord_stop", 
+                pub.Publish(_creds.RedisKey() + "_shardcoord_stop",
                     JsonConvert.SerializeObject(_client.ShardId),
                     StackExchange.Redis.CommandFlags.FireAndForget);
                 await ReplyConfirmLocalized("shard_reconnecting", Format.Bold("#" + shardid)).ConfigureAwait(false);
@@ -467,12 +462,12 @@ namespace NadekoBot.Modules.Administration
                     if (CREmbed.TryParse(msg, out var crembed))
                     {
                         rep.Replace(crembed);
-                        await ch.EmbedAsync(crembed.ToEmbed(), $"`#{Context.User}` 📣 " + crembed.PlainText?.SanitizeMentions())
+                        await ch.EmbedAsync(crembed.ToEmbed(), crembed.PlainText?.SanitizeMentions() ?? "")
                             .ConfigureAwait(false);
                         await ReplyConfirmLocalized("message_sent").ConfigureAwait(false);
                         return;
                     }
-                    await ch.SendMessageAsync($"`#{Context.User}` 📣 " + rep.Replace(msg)?.SanitizeMentions());
+                    await ch.SendMessageAsync(rep.Replace(msg).SanitizeMentions());
                 }
                 else if (ids[1].ToUpperInvariant().StartsWith("U:"))
                 {
@@ -486,13 +481,13 @@ namespace NadekoBot.Modules.Administration
                     if (CREmbed.TryParse(msg, out var crembed))
                     {
                         rep.Replace(crembed);
-                        await (await user.GetOrCreateDMChannelAsync()).EmbedAsync(crembed.ToEmbed(), $"`{Context.User}` 📣 " + crembed.PlainText?.SanitizeMentions())
+                        await (await user.GetOrCreateDMChannelAsync()).EmbedAsync(crembed.ToEmbed(), crembed.PlainText?.SanitizeMentions() ?? "")
                             .ConfigureAwait(false);
                         await ReplyConfirmLocalized("message_sent").ConfigureAwait(false);
                         return;
                     }
 
-                    await (await user.GetOrCreateDMChannelAsync()).SendMessageAsync($"`{Context.User}` 📣 " + rep.Replace(msg)?.SanitizeMentions());
+                    await (await user.GetOrCreateDMChannelAsync()).SendMessageAsync(rep.Replace(msg).SanitizeMentions());
                 }
                 else
                 {
@@ -507,7 +502,7 @@ namespace NadekoBot.Modules.Administration
             public async Task ImagesReload()
             {
                 var sub = _cache.Redis.GetSubscriber();
-                sub.Publish(_creds.RedisKey() + "_reload_images", 
+                sub.Publish(_creds.RedisKey() + "_reload_images",
                     "",
                     StackExchange.Redis.CommandFlags.FireAndForget);
                 await ReplyConfirmLocalized("images_loaded", 0).ConfigureAwait(false);

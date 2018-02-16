@@ -18,11 +18,11 @@ namespace NadekoBot.Core.Modules.Gambling.Services
         }
         private readonly SemaphoreSlim _locker = new SemaphoreSlim(1, 1);
         private readonly DbService _db;
-        private readonly CurrencyService _cs;
+        private readonly ICurrencyService _cs;
 
         public Dictionary<ulong, CurrencyRaffleGame> Games { get; } = new Dictionary<ulong, CurrencyRaffleGame>();
 
-        public CurrencyRaffleService(DbService db, CurrencyService cs)
+        public CurrencyRaffleService(DbService db, ICurrencyService cs)
         {
             _db = db;
             _cs = cs;
@@ -37,7 +37,7 @@ namespace NadekoBot.Core.Modules.Gambling.Services
                 if (!Games.TryGetValue(channelId, out var crg))
                 {
                     newGame = true;
-                    crg = new CurrencyRaffleGame(mixed 
+                    crg = new CurrencyRaffleGame(mixed
                         ? CurrencyRaffleGame.Type.Mixed
                         : CurrencyRaffleGame.Type.Normal);
                     Games.Add(channelId, crg);
@@ -46,7 +46,7 @@ namespace NadekoBot.Core.Modules.Gambling.Services
                 {
                     //remove money, and stop the game if this 
                     // user created it and doesn't have the money
-                    if (!_cs.Remove(user.Id, "Currency Raffle Join", amount, uow))
+                    if (!await _cs.RemoveAsync(user.Id, "Currency Raffle Join", amount))
                     {
                         if (newGame)
                             Games.Remove(channelId);
@@ -55,7 +55,7 @@ namespace NadekoBot.Core.Modules.Gambling.Services
 
                     if (!crg.AddUser(user, amount))
                     {
-                        await _cs.AddAsync(user.Id, "Curency Raffle Refund", amount, uow).ConfigureAwait(false);
+                        await _cs.AddAsync(user.Id, "Curency Raffle Refund", amount).ConfigureAwait(false);
                         return (null, JoinErrorType.AlreadyJoinedOrInvalidAmount);
                     }
 
@@ -72,13 +72,8 @@ namespace NadekoBot.Core.Modules.Gambling.Services
                             var winner = crg.GetWinner();
                             var won = crg.Users.Sum(x => x.Amount);
 
-                            using (var uow = _db.UnitOfWork)
-                            {
-                                await _cs.AddAsync(winner.DiscordUser.Id, "Currency Raffle Win",
-                                    won, uow);
-
-                                uow.Complete();
-                            }
+                            await _cs.AddAsync(winner.DiscordUser.Id, "Currency Raffle Win",
+                                won);
                             Games.Remove(channelId, out _);
                             var oe = onEnded(winner.DiscordUser, won);
                         }

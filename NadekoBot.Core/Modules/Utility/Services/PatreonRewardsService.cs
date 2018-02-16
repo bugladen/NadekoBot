@@ -29,7 +29,7 @@ namespace NadekoBot.Modules.Utility.Services
         public readonly TimeSpan Interval = TimeSpan.FromMinutes(3);
         private readonly IBotCredentials _creds;
         private readonly DbService _db;
-        private readonly CurrencyService _currency;
+        private readonly ICurrencyService _currency;
         private readonly IDataCache _cache;
         private readonly string _key;
         private readonly IBotConfigProvider _bc;
@@ -37,7 +37,7 @@ namespace NadekoBot.Modules.Utility.Services
         public DateTime LastUpdate { get; private set; } = DateTime.UtcNow;
 
         public PatreonRewardsService(IBotCredentials creds, DbService db, 
-            CurrencyService currency,
+            ICurrencyService currency,
             DiscordSocketClient client, IDataCache cache, IBotConfigProvider bc)
         {
             _log = LogManager.GetCurrentClassLogger();
@@ -151,7 +151,7 @@ namespace NadekoBot.Modules.Utility.Services
                             AmountRewardedThisMonth = amount,
                         });
 
-                        await _currency.AddAsync(userId, "Patreon reward - new", amount, uow).ConfigureAwait(false);
+                        await _currency.AddAsync(userId, "Patreon reward - new", amount, gamble: true).ConfigureAwait(false);
 
                         await uow.CompleteAsync().ConfigureAwait(false);
                         return amount;
@@ -163,7 +163,7 @@ namespace NadekoBot.Modules.Utility.Services
                         usr.AmountRewardedThisMonth = amount;
                         usr.PatreonUserId = data.User.id;
 
-                        await _currency.AddAsync(userId, "Patreon reward - recurring", amount, uow).ConfigureAwait(false);
+                        await _currency.AddAsync(userId, "Patreon reward - recurring", amount, gamble: true).ConfigureAwait(false);
 
                         await uow.CompleteAsync().ConfigureAwait(false);
                         return amount;
@@ -177,7 +177,7 @@ namespace NadekoBot.Modules.Utility.Services
                         usr.AmountRewardedThisMonth = amount;
                         usr.PatreonUserId = data.User.id;
 
-                        await _currency.AddAsync(usr.UserId, "Patreon reward - update", toAward, uow).ConfigureAwait(false);
+                        await _currency.AddAsync(usr.UserId, "Patreon reward - update", toAward, gamble: true).ConfigureAwait(false);
 
                         await uow.CompleteAsync().ConfigureAwait(false);
                         return toAward;

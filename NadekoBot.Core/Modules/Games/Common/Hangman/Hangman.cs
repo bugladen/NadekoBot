@@ -1,10 +1,10 @@
-﻿using NadekoBot.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using NadekoBot.Extensions;
 
 namespace NadekoBot.Modules.Games.Common.Hangman
 {
@@ -66,8 +66,7 @@ namespace NadekoBot.Modules.Games.Common.Hangman
 
         private void AddError()
         {
-            Errors++;
-            if (Errors > MaxErrors)
+            if (++Errors > MaxErrors)
             {
                 var _ = OnGameEnded(this, null);
                 CurrentPhase = Phase.Ended;
@@ -110,16 +109,15 @@ namespace NadekoBot.Modules.Games.Common.Hangman
 
                 var ch = input[0];
 
-                if (!(char.IsLetterOrDigit(ch)))
+                if (!char.IsLetterOrDigit(ch))
                     return;
 
                 if (!_recentUsers.Add(userId)) // don't let a single user spam guesses
                     return;
 
-                if (!_previousGuesses.Add(ch)) // that latter was already guessed
+                if (!_previousGuesses.Add(ch)) // that letter was already guessed
                 {
                     var _ = OnLetterAlreadyUsed?.Invoke(this, userName, ch);
-                    AddError();
                 }
                 else if (!Term.Word.Contains(ch)) // guessed letter doesn't exist
                 {
@@ -127,12 +125,12 @@ namespace NadekoBot.Modules.Games.Common.Hangman
                     AddError();
                 }
                 else if (Term.Word.All(x => _previousGuesses.IsSupersetOf(Term.Word.ToLowerInvariant()
-                                                                            .Where(c => char.IsLetterOrDigit(c)))))
+                                                                            .Where(char.IsLetterOrDigit))))
                 {
-                    var _ = OnGameEnded.Invoke(this, userName); //if all letters are guessed
+                    var _ = OnGameEnded.Invoke(this, userName); // if all letters are guessed
                     CurrentPhase = Phase.Ended;
                 }
-                else //guessed but not last letter
+                else // guessed but not last letter
                 {
                     var _ = OnGuessSucceeded?.Invoke(this, userName, ch);
                     _recentUsers.Remove(userId); // he can guess again right away

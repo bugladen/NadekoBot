@@ -645,16 +645,12 @@ namespace NadekoBot.Modules.Music.Common
 
         public async Task UpdateSongDurationsAsync()
         {
-            var sw = Stopwatch.StartNew();
             var (_, songs) = Queue.ToArray();
             var toUpdate = songs
                 .Where(x => x.ProviderType == MusicType.YouTube
                     && x.TotalTime == TimeSpan.Zero);
 
             var vIds = toUpdate.Select(x => x.VideoId);
-
-            sw.Stop();
-            _log.Info(sw.Elapsed.TotalSeconds);
             if (!vIds.Any())
                 return;
 

@@ -37,7 +37,6 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
                 throw new ArgumentOutOfRangeException(nameof(count));
             if (count == 0)
                 return new List<WaifuInfo>();
-
             return _set.Include(wi => wi.Waifu)
                         .Include(wi => wi.Affinity)
                         .Include(wi => wi.Claimer)
@@ -45,6 +44,7 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
                     .Skip(skip)
                     .Take(count)
                     .ToList();
+
         }
     }
 }

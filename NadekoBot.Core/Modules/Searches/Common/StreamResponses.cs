@@ -9,7 +9,7 @@ namespace NadekoBot.Modules.Searches.Common
         bool Live { get; }
         string Game { get; }
         int Followers { get; }
-        string Url { get; }
+        string ApiUrl { get; set; }
         string Icon { get; }
     }
 
@@ -30,7 +30,7 @@ namespace NadekoBot.Modules.Searches.Common
             ? "https://edge.sf.hitbox.tv" + UserLogo
             : "";
 
-        public string Url { get; set; }
+        public string ApiUrl { get; set; }
     }
 
     public class PicartoResponse : IStreamResponse
@@ -47,7 +47,7 @@ namespace NadekoBot.Modules.Searches.Common
 
         public int Followers { get; set; }
 
-        public string Url => "https://picarto.tv/" + Name;
+        public string ApiUrl { get; set; }
         [JsonProperty("thumbnail")]
         public string Icon { get; set; }
     }
@@ -77,7 +77,7 @@ namespace NadekoBot.Modules.Searches.Common
         public bool Live => IsLive;
         public string Game => Stream?.Game;
         public int Followers => Stream?.Channel?.Followers ?? 0;
-        public string Url { get; set; }
+        public string ApiUrl { get; set; }
         public string Icon => Stream?.Channel?.Logo;
     }
 
@@ -92,7 +92,7 @@ namespace NadekoBot.Modules.Searches.Common
         {
             public string Url { get; set; }
         }
-        public string Url { get; set; }
+        public string ApiUrl { get; set; }
         public string Error { get; set; } = null;
 
         [JsonProperty("online")]

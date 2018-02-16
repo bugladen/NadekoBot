@@ -1,12 +1,12 @@
-﻿using Discord;
-using Discord.Commands;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Gambling.Common
 {
-    public abstract class CurrencyEvent
+    public interface ICurrencyEvent
     {
-        public abstract Task Stop();
-        public abstract Task Start(IUserMessage msg, ICommandContext channel);
+        event Func<ulong, Task> OnEnded;
+        Task Stop();
+        Task Start();
     }
 }

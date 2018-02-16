@@ -12,16 +12,18 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using StackExchange.Redis;
+using NLog;
 
 namespace NadekoBot.Core.Services.Impl
 {
     public class StatsService : IStatsService
     {
+        private readonly Logger _log;
         private readonly DiscordSocketClient _client;
         private readonly IBotCredentials _creds;
         private readonly DateTime _started;
 
-        public const string BotVersion = "2.14.2";
+        public const string BotVersion = "2.16";
         public string Author => "Kwoth#2560";
         public string Library => "Discord.Net";
 
@@ -39,13 +41,17 @@ namespace NadekoBot.Core.Services.Impl
         public long CommandsRan => Interlocked.Read(ref _commandsRan);
 
         private readonly Timer _carbonitexTimer;
+#if GLOBAL_NADEKO
+        private readonly Timer _botlistTimer;
+#endif
         private readonly Timer _dataTimer;
         private readonly ConnectionMultiplexer _redis;
 
-        public StatsService(DiscordSocketClient client, CommandHandler cmdHandler, 
+        public StatsService(DiscordSocketClient client, CommandHandler cmdHandler,
             IBotCredentials creds, NadekoBot nadeko,
             IDataCache cache)
         {
+            _log = LogManager.GetCurrentClassLogger();
             _client = client;
             _creds = creds;
             _redis = cache.Redis;
@@ -157,41 +163,72 @@ namespace NadekoBot.Core.Services.Impl
                         // ignored
                     }
                 }, null, TimeSpan.FromHours(1), TimeSpan.FromHours(1));
-
-                var platform = "other";
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                    platform = "linux";
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                    platform = "osx";
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                    platform = "windows";
-
-                _dataTimer = new Timer(async (state) =>
+            }
+#if GLOBAL_NADEKO
+            _botlistTimer = new Timer(async (state) =>
+            {
+                if (string.IsNullOrWhiteSpace(_creds.BotListToken))
+                    return;
+                try
                 {
-                    try
+                    using (var http = new HttpClient())
                     {
-                        using (var http = new HttpClient())
+                        using (var content = new FormUrlEncodedContent(
+                            new Dictionary<string, string> {
+                                    { "shard_count",  _creds.TotalShards.ToString()},
+                                    { "shard_id", client.ShardId.ToString() },
+                                    { "server_count", client.Guilds.Count().ToString() }
+                            }))
                         {
-                            using (var content = new FormUrlEncodedContent(
-                                new Dictionary<string, string> {
+                            content.Headers.Clear();
+                            content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+                            http.DefaultRequestHeaders.Add("Authorization", _creds.BotListToken);
+
+                            await http.PostAsync($"https://discordbots.org/api/bots/{client.CurrentUser.Id}/stats", content).ConfigureAwait(false);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex);
+                    // ignored
+                }
+            }, null, TimeSpan.FromMinutes(5), TimeSpan.FromHours(1));
+#endif
+
+            var platform = "other";
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                platform = "linux";
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                platform = "osx";
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                platform = "windows";
+
+            _dataTimer = new Timer(async (state) =>
+            {
+                try
+                {
+                    using (var http = new HttpClient())
+                    {
+                        using (var content = new FormUrlEncodedContent(
+                            new Dictionary<string, string> {
                                     { "id", string.Concat(MD5.Create().ComputeHash(Encoding.ASCII.GetBytes(_creds.ClientId.ToString())).Select(x => x.ToString("X2"))) },
                                     { "guildCount", nadeko.GuildCount.ToString() },
                                     { "version", BotVersion },
                                     { "platform", platform }}))
-                            {
-                                content.Headers.Clear();
-                                content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+                        {
+                            content.Headers.Clear();
+                            content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
 
-                                await http.PostAsync("https://selfstats.nadekobot.me/", content).ConfigureAwait(false);
-                            }
+                            await http.PostAsync("https://selfstats.nadekobot.me/", content).ConfigureAwait(false);
                         }
                     }
-                    catch
-                    {
-                        // ignored
-                    }
-                }, null, TimeSpan.FromSeconds(1), TimeSpan.FromHours(1));
-            }
+                }
+                catch
+                {
+                    // ignored
+                }
+            }, null, TimeSpan.FromSeconds(1), TimeSpan.FromHours(1));
         }
 
         public void Initialize()

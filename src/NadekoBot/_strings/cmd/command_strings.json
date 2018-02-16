@@ -1,3 +1,4 @@
+
 {
   "h": {
     "Cmd": "help h",
@@ -221,9 +222,10 @@
   },
   "lsar": {
     "Cmd": "lsar",
-    "Desc": "Lists all self-assignable roles.",
+    "Desc": "Lists self-assignable roles. Shows 20 roles per page.",
     "Usage": [
-      "{0}lsar"
+      "{0}lsar",
+      "{0}lsar 2"
     ]
   },
   "tesar": {
@@ -1115,8 +1117,9 @@
   },
   "rps": {
     "Cmd": "rps",
-    "Desc": "Play a game of Rocket-Paperclip-Scissors with Nadeko.",
+    "Desc": "Play a game of Rocket-Paperclip-Scissors with Nadeko. You can bet on it. Multiplier is the same as on betflip.",
     "Usage": [
+      "{0}rps r 100",
       "{0}rps scissors"
     ]
   },
@@ -1668,10 +1671,11 @@
     ]
   },
   "color": {
-    "Cmd": "color",
-    "Desc": "Shows you what color corresponds to that hex.",
+    "Cmd": "color clr",
+    "Desc": "Shows you which colors correspond to the inputed hexes.",
     "Usage": [
-      "{0}color 00ff00"
+      "{0}color 00ff00",
+      "{0}color f00 0f0 00f"
     ]
   },
   "videocall": {
@@ -2324,11 +2328,12 @@
       "{0}cmdcost 1 {0}8ball"
     ]
   },
-  "startevent": {
-    "Cmd": "startevent",
-    "Desc": "Starts one of the events seen on public nadeko. `reaction` and `sneakygamestatus` are the only 2 available now.",
+  "eventstart": {
+    "Cmd": "eventstart",
+    "Desc": "Starts one of the events seen on public nadeko. Events: `reaction`",
     "Usage": [
-      "{0}startevent reaction"
+      "{0}eventstart reaction",
+      "{0}eventstart reaction -d 1 -a 50 --pot-size 1500"
     ]
   },
   "slotstats": {

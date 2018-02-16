@@ -41,7 +41,6 @@ namespace NadekoBot.Modules.Administration.Services
 
                 _rep = new ReplacementBuilder()
                     .WithClient(client)
-                    .WithStats(client)
                     .WithMusic(music)
                     .Build();
 

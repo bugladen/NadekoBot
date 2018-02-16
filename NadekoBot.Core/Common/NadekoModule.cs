@@ -19,6 +19,7 @@ namespace NadekoBot.Modules
         public readonly string LowerModuleTypeName;
 
         public NadekoStrings _strings { get; set; }
+        public IBotConfigProvider _bc { get; set; }
         public CommandHandler _cmdHandler { get; set; }
         public ILocalization _localization { get; set; }
 

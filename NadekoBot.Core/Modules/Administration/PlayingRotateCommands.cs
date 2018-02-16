@@ -18,12 +18,10 @@ namespace NadekoBot.Modules.Administration
         {
             private static readonly object _locker = new object();
             private readonly DbService _db;
-            private readonly IBotConfigProvider _bcp;
 
-            public PlayingRotateCommands(DbService db, IBotConfigProvider bcp)
+            public PlayingRotateCommands(DbService db)
             {
                 _db = db;
-                _bcp = bcp;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -56,7 +54,7 @@ namespace NadekoBot.Modules.Administration
                     await uow.CompleteAsync();
                 }
 
-                _bcp.Reload();
+                _bc.Reload();
 
                 await ReplyConfirmLocalized("ropl_added").ConfigureAwait(false);
             }
@@ -95,7 +93,7 @@ namespace NadekoBot.Modules.Administration
                     await uow.CompleteAsync();
                 }
 
-                _bcp.Reload();
+                _bc.Reload();
                 await ReplyConfirmLocalized("reprm", msg).ConfigureAwait(false);
             }
         }

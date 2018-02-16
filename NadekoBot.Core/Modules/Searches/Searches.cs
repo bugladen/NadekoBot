@@ -23,6 +23,7 @@ using NadekoBot.Modules.Searches.Services;
 using NadekoBot.Common.Replacements;
 using Discord.WebSocket;
 using NadekoBot.Core.Modules.Searches.Common;
+using SixLabors.Primitives;
 
 namespace NadekoBot.Modules.Searches
 {
@@ -97,7 +98,7 @@ namespace NadekoBot.Modules.Searches
                 await Context.Channel.SendFileAsync(
                     picStream,
                     "rip.png",
-                    $"Rip {Format.Bold(usr.ToString())} \n\t- " + 
+                    $"Rip {Format.Bold(usr.ToString())} \n\t- " +
                         Format.Italics(Context.User.ToString()))
                     .ConfigureAwait(false);
             }
@@ -136,6 +137,43 @@ namespace NadekoBot.Modules.Searches
                 }
             }
         }
+
+        //[NadekoCommand, Usage, Description, Aliases]
+        //public async Task Distance(string p1, string p2)
+        //{
+        //    if (string.IsNullOrWhiteSpace(p1) || string.IsNullOrWhiteSpace(p2))
+        //        return;
+
+        //    var embed = new EmbedBuilder();
+        //    string[] response;
+        //    try
+        //    {
+        //        response = await Task.WhenAll(
+        //            _service.Http.GetStringAsync($"http://api.openweathermap.org/data/2.5/weather?q={p1}&appid=42cd627dd60debf25a5739e50a217d74&units=metric"),
+        //            _service.Http.GetStringAsync($"http://api.openweathermap.org/data/2.5/weather?q={p2}&appid=42cd627dd60debf25a5739e50a217d74&units=metric"));
+
+
+        //        var d1 = JsonConvert.DeserializeObject<WeatherData>(response[0]);
+        //        var d2 = JsonConvert.DeserializeObject<WeatherData>(response[1]);
+
+        //        double R = 6371000; // metres
+        //        var φ1 = 0.0174533 * d1.Coord.Lat;
+        //        var φ2 = 0.0174533 * d2.Coord.Lat;
+        //        var Δφ = 0.0174533 * (d2.Coord.Lat - d1.Coord.Lat);
+        //        var Δλ = 0.0174533 * (d2.Coord.Lon - d1.Coord.Lon);
+
+        //        var a = Math.Sin(Δφ / 2) * Math.Sin(Δφ / 2) +
+        //                Math.Cos(φ1) * Math.Cos(φ2) *
+        //                Math.Sin(Δλ / 2) * Math.Sin(Δλ / 2);
+        //        var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+
+        //        await ReplyConfirmLocalized("distance", p1, p2, R * c).ConfigureAwait(false);
+        //    }
+        //    catch
+        //    {
+
+        //    }
+        //}
 
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Weather([Remainder] string query)
@@ -387,7 +425,7 @@ namespace NadekoBot.Modules.Searches
 
             terms = WebUtility.UrlEncode(terms).Replace(' ', '+');
 
-            var fullQueryLink = $"https://www.google.ca/search?q={ terms }&gws_rd=cr,ssl";
+            var fullQueryLink = $"https://www.google.ca/search?q={ terms }&gws_rd=cr,ssl&cr=countryUS";
             var config = Configuration.Default.WithDefaultLoader();
             var document = await BrowsingContext.New(config).OpenAsync(fullQueryLink);
 
@@ -579,29 +617,29 @@ namespace NadekoBot.Modules.Searches
                 return;
 
             await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
-            using (var http = new HttpClient())
+            var res = await _service.Http.GetStringAsync($"http://api.urbandictionary.com/v0/define?term={Uri.EscapeUriString(query)}").ConfigureAwait(false);
+            try
             {
-                http.DefaultRequestHeaders.Clear();
-                http.DefaultRequestHeaders.Add("Accept", "application/json");
-                var res = await http.GetStringAsync($"http://api.urbandictionary.com/v0/define?term={Uri.EscapeUriString(query)}").ConfigureAwait(false);
-                try
+                var items = JsonConvert.DeserializeObject<UrbanResponse>(res).List;
+                if (items.Any())
                 {
-                    var items = JObject.Parse(res);
-                    var item = items["list"][0];
-                    var word = item["word"].ToString();
-                    var def = item["definition"].ToString();
-                    var link = item["permalink"].ToString();
-                    var embed = new EmbedBuilder().WithOkColor()
-                                     .WithUrl(link)
-                                     .WithAuthor(eab => eab.WithIconUrl("http://i.imgur.com/nwERwQE.jpg").WithName(word))
-                                     .WithDescription(def);
-                    await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
-                }
-                catch
-                {
-                    await ReplyErrorLocalized("ud_error").ConfigureAwait(false);
+
+                    await Context.SendPaginatedConfirmAsync(0, (p) =>
+                    {
+                        var item = items[p];
+                        return new EmbedBuilder().WithOkColor()
+                                     .WithUrl(item.Permalink)
+                                     .WithAuthor(eab => eab.WithIconUrl("http://i.imgur.com/nwERwQE.jpg").WithName(item.Word))
+                                     .WithDescription(item.Definition);
+                    }, items.Length, 1);
+                    return;
                 }
             }
+            catch
+            {
+            }
+            await ReplyErrorLocalized("ud_error").ConfigureAwait(false);
+
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -731,28 +769,37 @@ namespace NadekoBot.Modules.Searches
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task Color([Remainder] string color = null)
+        public async Task Color(params string[] colors)
         {
-            color = color?.Trim().Replace("#", "");
-            if (string.IsNullOrWhiteSpace(color))
+            if (!colors.Any())
                 return;
-            Rgba32 clr;
-            try
+
+            var colorObjects = colors.Take(10).Select(x => x.Trim().Replace("#", ""))
+                .Select(x =>
+                {
+                    try
+                    {
+                        return Rgba32.FromHex(x);
+                    }
+                    catch
+                    {
+                        return Rgba32.FromHex("000");
+                    }
+                }).ToArray();
+            using (var img = new Image<Rgba32>(colorObjects.Length * 50, 50))
             {
-                clr = Rgba32.FromHex(color);
+                for (int i = 0; i < colorObjects.Length; i++)
+                {
+                    var x = i * 50;
+                    img.FillPolygon(colorObjects[i], new PointF[] {
+                        new PointF(x, 0),
+                        new PointF(x + 50, 0),
+                        new PointF(x + 50, 50),
+                        new PointF(x, 50)
+                    });
+                }
+                await Context.Channel.SendFileAsync(img.ToStream(), $"colors.png").ConfigureAwait(false);
             }
-            catch
-            {
-                await ReplyErrorLocalized("hex_invalid").ConfigureAwait(false);
-                return;
-            }
-            
-
-            var img = new ImageSharp.Image<Rgba32>(50, 50);
-
-            img.BackgroundColor(clr);
-
-            await Context.Channel.SendFileAsync(img.ToStream(), $"{color}.png").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]

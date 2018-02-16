@@ -24,7 +24,7 @@ namespace NadekoBot.Modules.Games.Common.Trivia
         private readonly NadekoStrings _strings;
         private readonly DiscordSocketClient _client;
         private readonly IBotConfigProvider _bc;
-        private readonly CurrencyService _cs;
+        private readonly ICurrencyService _cs;
         private readonly TriviaOptions _options;
 
         public IGuild Guild { get; }
@@ -44,7 +44,7 @@ namespace NadekoBot.Modules.Games.Common.Trivia
         private int _timeoutCount = 0;
 
         public TriviaGame(NadekoStrings strings, DiscordSocketClient client, IBotConfigProvider bc,
-            IDataCache cache, CurrencyService cs, IGuild guild, ITextChannel channel,
+            IDataCache cache, ICurrencyService cs, IGuild guild, ITextChannel channel,
             TriviaOptions options)
         {
             _log = LogManager.GetCurrentClassLogger();

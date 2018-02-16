@@ -119,7 +119,7 @@ namespace NadekoBot.Modules.Utility
 
                 var arr = maps.ToArray();
 
-                await Context.Channel.SendPaginatedConfirmAsync(_client, page, (curPage) =>
+                await Context.SendPaginatedConfirmAsync(page, (curPage) =>
                 {
                     return new EmbedBuilder().WithOkColor()
                     .WithTitle(GetText("alias_list"))

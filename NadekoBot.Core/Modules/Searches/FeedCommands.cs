@@ -92,7 +92,7 @@ namespace NadekoBot.Modules.Searches
                     return;
                 }
 
-                await Context.Channel.SendPaginatedConfirmAsync(_client, 0, (cur) =>
+                await Context.SendPaginatedConfirmAsync(0, (cur) =>
                 {
                     var embed = new EmbedBuilder()
                        .WithOkColor();

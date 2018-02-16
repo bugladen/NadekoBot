@@ -32,7 +32,6 @@ namespace NadekoBot.Modules.Permissions.Services
             _cmd = cmd;
             _strings = strings;
 
-            var sw = Stopwatch.StartNew();
             if (client.ShardId == 0)
                 TryMigratePermissions();
 
@@ -210,7 +209,8 @@ secondaryTargetName LIKE '!%';");
                 if (moduleName == "Permissions")
                 {
                     var roles = (user as SocketGuildUser)?.Roles ?? ((IGuildUser)user).RoleIds.Select(x => guild.GetRole(x)).Where(x => x != null);
-                    if (!roles.Any(r => r.Name.Trim().ToLowerInvariant() == pc.PermRole.Trim().ToLowerInvariant()) && user.Id != ((IGuildUser)user).Guild.OwnerId)
+                    if (!((IGuildUser)user).GuildPermissions.Administrator 
+                        && !roles.Any(r => r.Name.Trim().ToLowerInvariant() == pc.PermRole.Trim().ToLowerInvariant()))
                     {
                         var returnMsg = $"You need the **{pc.PermRole}** role in order to use permission commands.";
                         if (pc.Verbose)

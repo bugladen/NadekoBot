@@ -1,4 +1,5 @@
 ﻿using Discord;
+using Discord.Commands;
 using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,8 @@ namespace NadekoBot.Extensions
     public static class IMessageChannelExtensions
     {
         public static Task<IUserMessage> EmbedAsync(this IMessageChannel ch, EmbedBuilder embed, string msg = "")
-            => ch.SendMessageAsync(msg, embed: embed.Build());
+            => ch.SendMessageAsync(msg, embed: embed.Build(),
+                options: new RequestOptions() { RetryMode  = RetryMode.AlwaysRetry });
 
         public static Task<IUserMessage> SendErrorAsync(this IMessageChannel ch, string title, string error, string url = null, string footer = null)
         {
@@ -55,15 +57,16 @@ namespace NadekoBot.Extensions
         private static readonly IEmote arrow_left = new Emoji("⬅");
         private static readonly IEmote arrow_right = new Emoji("➡");
 
-        public static Task SendPaginatedConfirmAsync(this IMessageChannel channel, DiscordSocketClient client, 
-            int currentPage, Func<int, EmbedBuilder> pageFunc, int totalElements, 
-            int itemsPerPage, bool addPaginatedFooter = true) =>
-            channel.SendPaginatedConfirmAsync(client, currentPage, 
+        public static Task SendPaginatedConfirmAsync(this ICommandContext ctx,
+            int currentPage, Func<int, EmbedBuilder> pageFunc, int totalElements,
+            int itemsPerPage, bool addPaginatedFooter = true)
+            => ctx.SendPaginatedConfirmAsync(currentPage,
                 (x) => Task.FromResult(pageFunc(x)), totalElements, itemsPerPage, addPaginatedFooter);
         /// <summary>
         /// danny kamisama
         /// </summary>
-        public static async Task SendPaginatedConfirmAsync(this IMessageChannel channel, DiscordSocketClient client, int currentPage, Func<int, Task<EmbedBuilder>> pageFunc, int totalElements, int itemsPerPage, bool addPaginatedFooter = true)
+        public static async Task SendPaginatedConfirmAsync(this ICommandContext ctx, int currentPage, 
+            Func<int, Task<EmbedBuilder>> pageFunc, int totalElements, int itemsPerPage, bool addPaginatedFooter = true)
         {
             var embed = await pageFunc(currentPage).ConfigureAwait(false);
 
@@ -72,7 +75,7 @@ namespace NadekoBot.Extensions
             if (addPaginatedFooter)
                 embed.AddPaginatedFooter(currentPage, lastPage);
 
-            var msg = await channel.EmbedAsync(embed) as IUserMessage;
+            var msg = await ctx.Channel.EmbedAsync(embed) as IUserMessage;
 
             if (lastPage == 0)
                 return;
@@ -82,14 +85,21 @@ namespace NadekoBot.Extensions
 
             await Task.Delay(2000).ConfigureAwait(false);
 
-            Action<SocketReaction> changePage = async r =>
+            var lastPageChange = DateTime.MinValue;
+
+            async Task changePage(SocketReaction r)
             {
                 try
                 {
+                    if (r.UserId != ctx.User.Id)
+                        return;
+                    if (DateTime.UtcNow - lastPageChange < TimeSpan.FromSeconds(1))
+                        return;
                     if (r.Emote.Name == arrow_left.Name)
                     {
                         if (currentPage == 0)
                             return;
+                        lastPageChange = DateTime.UtcNow;
                         var toSend = await pageFunc(--currentPage).ConfigureAwait(false);
                         if (addPaginatedFooter)
                             toSend.AddPaginatedFooter(currentPage, lastPage);
@@ -99,6 +109,7 @@ namespace NadekoBot.Extensions
                     {
                         if (lastPage > currentPage)
                         {
+                            lastPageChange = DateTime.UtcNow;
                             var toSend = await pageFunc(++currentPage).ConfigureAwait(false);
                             if (addPaginatedFooter)
                                 toSend.AddPaginatedFooter(currentPage, lastPage);
@@ -110,9 +121,9 @@ namespace NadekoBot.Extensions
                 {
                     //ignored
                 }
-            };
+            }
 
-            using (msg.OnReaction(client, changePage, changePage))
+            using (msg.OnReaction((DiscordSocketClient)ctx.Client, changePage, changePage))
             {
                 await Task.Delay(30000).ConfigureAwait(false);
             }

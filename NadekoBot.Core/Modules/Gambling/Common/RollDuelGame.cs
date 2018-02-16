@@ -16,7 +16,7 @@ namespace NadekoBot.Core.Modules.Gambling.Common
 
         public long Amount { get; }
 
-        private readonly CurrencyService _cs;
+        private readonly ICurrencyService _cs;
 
         public enum State
         {
@@ -43,7 +43,7 @@ namespace NadekoBot.Core.Modules.Gambling.Common
         public State CurrentState { get; private set; }
         public ulong Winner { get; private set; }
 
-        public RollDuelGame(CurrencyService cs, ulong botId, ulong p1, ulong p2, long amount)
+        public RollDuelGame(ICurrencyService cs, ulong botId, ulong p1, ulong p2, long amount)
         {
             this.P1 = p1;
             this.P2 = p2;
@@ -84,13 +84,13 @@ namespace NadekoBot.Core.Modules.Gambling.Common
                 _locker.Release();
             }
 
-            if(!_cs.Remove(P1, "Roll Duel", Amount))
+            if(!await _cs.RemoveAsync(P1, "Roll Duel", Amount))
             {
                 await OnEnded?.Invoke(this, Reason.NoFunds);
                 CurrentState = State.Ended;
                 return;
             }
-            if(!_cs.Remove(P2, "Roll Duel", Amount))
+            if(!await _cs.RemoveAsync(P2, "Roll Duel", Amount))
             {
                 await _cs.AddAsync(P1, "Roll Duel - refund", Amount);
                 await OnEnded?.Invoke(this, Reason.NoFunds);

@@ -21,6 +21,7 @@ using SixLabors.Primitives;
 using System.Net.Http;
 using ImageSharp.Drawing.Pens;
 using ImageSharp.Drawing.Brushes;
+using System.Diagnostics;
 
 namespace NadekoBot.Modules.Xp.Services
 {
@@ -37,7 +38,7 @@ namespace NadekoBot.Modules.Xp.Services
         private readonly IDataCache _cache;
         private readonly FontProvider _fonts;
         private readonly IBotCredentials _creds;
-        private readonly CurrencyService _cs;
+        private readonly ICurrencyService _cs;
         public const int XP_REQUIRED_LVL_1 = 36;
 
         private readonly ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>> _excludedRoles
@@ -62,7 +63,7 @@ namespace NadekoBot.Modules.Xp.Services
 
         public XpService(CommandHandler cmd, IBotConfigProvider bc,
             NadekoBot bot, DbService db, NadekoStrings strings, IDataCache cache,
-            FontProvider fonts, IBotCredentials creds, CurrencyService cs)
+            FontProvider fonts, IBotCredentials creds, ICurrencyService cs)
         {
             _db = db;
             _cmd = cmd;
@@ -186,7 +187,7 @@ namespace NadekoBot.Modules.Xp.Services
                                 if (crew != null)
                                 {
                                     //give the user the reward if it exists
-                                    await _cs.AddAsync(item.Key.User.Id, "Level-up Reward", crew.Amount, uow);
+                                    await _cs.AddAsync(item.Key.User.Id, "Level-up Reward", crew.Amount);
                                 }
                             }
                         }
@@ -455,20 +456,25 @@ namespace NadekoBot.Modules.Xp.Services
                 StackExchange.Redis.When.NotExists);
         }
 
-        public FullUserStats GetUserStats(IGuildUser user)
+        public async Task<FullUserStats> GetUserStatsAsync(IGuildUser user)
         {
             DiscordUser du;
-            UserXpStats stats;
+            UserXpStats stats = null;
             int totalXp;
             int globalRank;
             int guildRank;
             using (var uow = _db.UnitOfWork)
             {
                 du = uow.DiscordUsers.GetOrCreate(user);
-                stats = uow.Xp.GetOrCreateUser(user.GuildId, user.Id);
                 totalXp = du.TotalXp;
-                globalRank = uow.DiscordUsers.GetUserGlobalRanking(user.Id);
-                guildRank = uow.Xp.GetUserGuildRanking(user.Id, user.GuildId);
+
+                var t1 = Task.Run(() => stats = uow.Xp.GetOrCreateUser(user.GuildId, user.Id));
+                var ranks = await Task.WhenAll(
+                    uow.DiscordUsers.GetUserGlobalRankingAsync(user.Id),
+                    uow.Xp.GetUserGuildRankingAsync(user.Id, user.GuildId));
+                await t1;
+                globalRank = ranks[0];
+                guildRank = ranks[1];
             }
 
             return new FullUserStats(du,
@@ -591,9 +597,10 @@ namespace NadekoBot.Modules.Xp.Services
             }
         }
 
-        public Task<MemoryStream> GenerateImageAsync(IGuildUser user)
+        public async Task<MemoryStream> GenerateImageAsync(IGuildUser user)
         {
-            return GenerateImageAsync(GetUserStats(user));
+            var stats = await GetUserStatsAsync(user);
+            return await GenerateImageAsync(stats);
         }
 
 
@@ -609,7 +616,6 @@ namespace NadekoBot.Modules.Xp.Services
 
                 img.DrawText("@" + username, usernameFont, Rgba32.White,
                     new PointF(130, 5));
-
                 // level
 
                 img.DrawText(stats.Global.Level.ToString(), _fonts.LevelFont, Rgba32.White,
@@ -687,7 +693,6 @@ namespace NadekoBot.Modules.Xp.Services
 
                 img.DrawText(GetTimeSpent(stats.FullGuildStats.LastLevelUp), _fonts.TimeFont, Rgba32.White,
                     new PointF(50, 344));
-
                 //avatar
 
                 if (stats.User.AvatarId != null)
@@ -724,8 +729,8 @@ namespace NadekoBot.Modules.Xp.Services
 
                 //club image
                 await DrawClubImage(img, stats).ConfigureAwait(false);
-
-                return img.Resize(432, 211).ToStream();
+                var s = img.Resize(432, 211).ToStream();
+                return s;
             }
         });
 
