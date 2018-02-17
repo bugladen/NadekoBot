@@ -14,7 +14,7 @@ namespace NadekoBot.Modules.Searches.Common
         int Followers { get; }
         string ApiUrl { get; set; }
         string Icon { get; }
-        string Thumbnail { get; }
+        string Preview { get; }
     }
 
     public class StreamResponse : IStreamResponse
@@ -28,7 +28,7 @@ namespace NadekoBot.Modules.Searches.Common
         public int Followers { get; set; }
         public string ApiUrl { get; set; }
         public string Icon { get; set; }
-        public string Thumbnail { get; set; }
+        public string Preview { get; set; }
     }
 
     public class SmashcastResponse : IStreamResponse
@@ -54,7 +54,11 @@ namespace NadekoBot.Modules.Searches.Common
 
         public FollowedStream.FType StreamType => FollowedStream.FType.Smashcast;
 
-        public string Thumbnail => null;
+        [JsonProperty("user_cover")]
+        public string ThumbnailPath { get; set; }
+        public string Preview => !string.IsNullOrWhiteSpace(ThumbnailPath)
+            ? "https://edge.sf.hitbox.tv" + ThumbnailPath
+            : "";
     }
 
     public class PicartoResponse : IStreamResponse
@@ -77,13 +81,13 @@ namespace NadekoBot.Modules.Searches.Common
         public int Followers { get; set; }
 
         public string ApiUrl { get; set; }
-        [JsonProperty("thumbnail")]
+        [JsonProperty("avatar")]
         public string Icon { get; set; }
 
         public FollowedStream.FType StreamType => FollowedStream.FType.Picarto;
 
         public PThumbnail Thumbnails { get; set; }
-        public string Thumbnail => Thumbnails?.Web;
+        public string Preview => Thumbnails?.Web;
     }
 
     public class TwitchResponse : IStreamResponse
@@ -98,6 +102,8 @@ namespace NadekoBot.Modules.Searches.Common
             public int Viewers { get; set; }
             public string Game { get; set; }
             public ChannelInfo Channel { get; set; }
+            [JsonProperty("preview")]
+            public TwitchPreview PreviewData { get; set; }
 
             public class ChannelInfo
             {
@@ -106,6 +112,11 @@ namespace NadekoBot.Modules.Searches.Common
                 public string Logo { get; set; }
                 public int Followers { get; set; }
             }
+        }
+
+        public class TwitchPreview
+        {
+            public string Large { get; set; }
         }
 
         public int Viewers => Stream?.Viewers ?? 0;
@@ -118,7 +129,7 @@ namespace NadekoBot.Modules.Searches.Common
 
         public FollowedStream.FType StreamType => FollowedStream.FType.Twitch;
 
-        public string Thumbnail => null;
+        public string Preview => Stream?.PreviewData?.Large;
     }
 
     public class MixerResponse : IStreamResponse
@@ -128,10 +139,16 @@ namespace NadekoBot.Modules.Searches.Common
             public string Parent { get; set; }
             public string Name { get; set; }
         }
+        public class MixerUser
+        {
+            public string AvatarUrl { get; set; }
+        }
         public class MixerThumbnail
         {
             public string Url { get; set; }
         }
+        [JsonProperty("thumbnail")]
+        public MixerThumbnail ThumbnailData { get; set; }
         public string ApiUrl { get; set; }
         public string Error { get; set; } = null;
 
@@ -141,17 +158,16 @@ namespace NadekoBot.Modules.Searches.Common
         public string Name { get; set; }
         public int NumFollowers { get; set; }
         public MixerType Type { get; set; }
-        [JsonProperty("thumbnail")]
-        public MixerThumbnail IconData { get; set; }
+        public MixerUser User { get; set; }
 
         public int Viewers => ViewersCurrent;
         public string Title => Name;
         public bool Live => IsLive;
         public string Game => Type?.Name ?? "";
         public int Followers => NumFollowers;
-        public string Icon => IconData?.Url;
+        public string Icon => User?.AvatarUrl;
 
         public FollowedStream.FType StreamType => FollowedStream.FType.Mixer;
-        public string Thumbnail => null;
+        public string Preview => ThumbnailData?.Url;
     }
 }

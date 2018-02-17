@@ -162,30 +162,38 @@ namespace NadekoBot.Modules.Searches.Services
                 default:
                     break;
             }
-
-            if (checkCache && _cache.TryGetStreamData(url, out string dataStr))
-                return JsonConvert.DeserializeObject<StreamResponse>(dataStr);
-
-            var response = await _http.GetAsync(url).ConfigureAwait(false);
-            if (!response.IsSuccessStatusCode)
-                throw new StreamNotFoundException($"{username} [{type}]");
-            var responseStr = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            var data = JsonConvert.DeserializeObject(responseStr, type) as IStreamResponse;
-            data.ApiUrl = url;
-            var sr = new StreamResponse
+            try
             {
-                ApiUrl = data.ApiUrl,
-                Followers = data.Followers,
-                Game = data.Game,
-                Icon = data.Icon,
-                Live = data.Live,
-                Name = data.Name,
-                StreamType = data.StreamType,
-                Title = data.Title,
-                Viewers = data.Viewers,
-            };
-            await _cache.SetStreamDataAsync(url, JsonConvert.SerializeObject(sr));
-            return sr;
+                if (checkCache && _cache.TryGetStreamData(url, out string dataStr))
+                    return JsonConvert.DeserializeObject<StreamResponse>(dataStr);
+
+                var response = await _http.GetAsync(url).ConfigureAwait(false);
+                if (!response.IsSuccessStatusCode)
+                    throw new StreamNotFoundException($"{username} [{type}]");
+                var responseStr = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                var data = JsonConvert.DeserializeObject(responseStr, type) as IStreamResponse;
+                data.ApiUrl = url;
+                var sr = new StreamResponse
+                {
+                    ApiUrl = data.ApiUrl,
+                    Followers = data.Followers,
+                    Game = data.Game,
+                    Icon = data.Icon,
+                    Live = data.Live,
+                    Name = data.Name,
+                    StreamType = data.StreamType,
+                    Title = data.Title,
+                    Viewers = data.Viewers,
+                    Preview = data.Preview,
+                };
+                await _cache.SetStreamDataAsync(url, JsonConvert.SerializeObject(sr));
+                return sr;
+            }
+            catch (Exception ex)
+            {
+                _log.Warn(ex);
+                throw;
+            }
         }
 
         public void UntrackStream(FollowedStream fs)
@@ -224,6 +232,9 @@ namespace NadekoBot.Modules.Searches.Services
 
             if (!string.IsNullOrWhiteSpace(status.Icon))
                 embed.WithThumbnailUrl(status.Icon);
+
+            if (!string.IsNullOrWhiteSpace(status.Preview))
+                embed.WithImageUrl(status.Preview);
 
             return embed;
         }

@@ -31,7 +31,9 @@ namespace NadekoBot.Modules.Searches
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
             public Task Smashcast([Remainder] string username) =>
-                TrackStream((ITextChannel)Context.Channel,
+                smashcastRegex.IsMatch(username)
+                ? StreamAdd(username)
+                : TrackStream((ITextChannel)Context.Channel,
                     username,
                     FollowedStream.FType.Smashcast);
 
@@ -39,7 +41,9 @@ namespace NadekoBot.Modules.Searches
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
             public Task Twitch([Remainder] string username) =>
-                TrackStream((ITextChannel)Context.Channel,
+                twitchRegex.IsMatch(username)
+                ? StreamAdd(username)
+                : TrackStream((ITextChannel)Context.Channel,
                     username,
                     FollowedStream.FType.Twitch);
 
@@ -47,7 +51,9 @@ namespace NadekoBot.Modules.Searches
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
             public Task Picarto([Remainder] string username) =>
-                TrackStream((ITextChannel)Context.Channel,
+                picartoRegex.IsMatch(username)
+                ? StreamAdd(username)
+                : TrackStream((ITextChannel)Context.Channel,
                     username,
                     FollowedStream.FType.Picarto);
 
@@ -55,7 +61,9 @@ namespace NadekoBot.Modules.Searches
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
             public Task Mixer([Remainder] string username) =>
-                TrackStream((ITextChannel)Context.Channel,
+                mixerRegex.IsMatch(username)
+                ? StreamAdd(username)
+                : TrackStream((ITextChannel)Context.Channel,
                     username,
                     FollowedStream.FType.Mixer);
 
@@ -200,8 +208,8 @@ namespace NadekoBot.Modules.Searches
                     if (streamStatus.Live)
                     {
                         await ReplyConfirmLocalized("streamer_online",
-                                username,
-                                streamStatus.Viewers)
+                                Format.Bold(username),
+                                Format.Bold(streamStatus.Viewers.ToString()))
                             .ConfigureAwait(false);
                     }
                     else
