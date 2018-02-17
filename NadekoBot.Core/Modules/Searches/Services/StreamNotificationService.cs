@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
+using NadekoBot.Common.Collections;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Core.Services.Impl;
@@ -13,114 +15,185 @@ using NadekoBot.Extensions;
 using NadekoBot.Modules.Searches.Common;
 using NadekoBot.Modules.Searches.Common.Exceptions;
 using Newtonsoft.Json;
+using NLog;
 
 namespace NadekoBot.Modules.Searches.Services
 {
     public class StreamNotificationService : INService
     {
         private bool firstStreamNotifPass { get; set; } = true;
-        private readonly ConcurrentDictionary<string, IStreamResponse> _cachedStatuses = new ConcurrentDictionary<string, IStreamResponse>();
+
         private readonly DbService _db;
         private readonly DiscordSocketClient _client;
         private readonly NadekoStrings _strings;
+        private readonly IDataCache _cache;
         private readonly HttpClient _http;
+        private readonly Logger _log;
+        private readonly ConcurrentDictionary<
+            (FollowedStream.FType Type, string Username),
+            ConcurrentHashSet<(ulong GuildId, FollowedStream fs)>> _followedStreams;
 
-        public StreamNotificationService(DbService db, DiscordSocketClient client, NadekoStrings strings)
+        public StreamNotificationService(NadekoBot bot, DbService db, DiscordSocketClient client,
+            NadekoStrings strings, IDataCache cache)
         {
             _db = db;
             _client = client;
             _strings = strings;
+            _cache = cache;
             _http = new HttpClient();
-#if !GLOBAL_NADEKO
-            var _ = Task.Run(async () =>
-           {
-               while (true)
-               {
-                   await Task.Delay(60000);
-                   var oldCachedStatuses = new ConcurrentDictionary<string, IStreamResponse>(_cachedStatuses);
-                   _cachedStatuses.Clear();
-                   IEnumerable<FollowedStream> streams;
-                   using (var uow = _db.UnitOfWork)
-                   {
-                       streams = uow.GuildConfigs.GetAllFollowedStreams(client.Guilds.Select(x => (long)x.Id).ToList());
-                   }
+            _log = LogManager.GetCurrentClassLogger();
 
-                   await Task.WhenAll(streams.Select(async fs =>
+            _followedStreams = bot.AllGuildConfigs.SelectMany(x => x.FollowedStreams)
+                .GroupBy(x => (x.Type, x.Username))
+                .ToDictionary(x => x.Key, x => new ConcurrentHashSet<(ulong, FollowedStream)>(x.Select(y => (y.GuildId, y))))
+                .ToConcurrent();
+
+            _cache.SubscribeToStreamUpdates(OnStreamsUpdated);
+
+            if (_client.ShardId == 0)
+            {
+                var _ = Task.Run(async () =>
+                {
+                    var sw = Stopwatch.StartNew();
+                    while (true)
                     {
+                        sw.Restart();
                         try
                         {
-                            var newStatus = await GetStreamStatus(fs).ConfigureAwait(false);
+                            // get old statuses' live data
+                            var oldStreamStatuses = (await _cache.GetAllStreamDataAsync())
+                                .ToDictionary(x => x.ApiUrl, x => x.Live);
+                            // clear old statuses
+                            await _cache.ClearAllStreamData();
+                            // get a list of streams which are followed right now.
+                            IEnumerable<FollowedStream> fss;
+                            using (var uow = _db.UnitOfWork)
+                            {
+                                fss = uow.GuildConfigs.GetFollowedStreams()
+                                    .Distinct(fs => (fs.Type, fs.Username.ToLowerInvariant()));
+                                uow.Complete();
+                            }
+                            // get new statuses for those streams
+                            var newStatuses = await Task.WhenAll(fss.Select(f => GetStreamStatus(f.Type, f.Username, false)));
                             if (firstStreamNotifPass)
                             {
-                                return;
+                                firstStreamNotifPass = false;
+                                continue;
                             }
 
-                            if (oldCachedStatuses.TryGetValue(newStatus.ApiUrl, out var oldResponse) &&
-                                oldResponse.Live != newStatus.Live)
+                            // for each new one, if there is an old one with a different status, add it to the list
+                            List<StreamResponse> toPublish = new List<StreamResponse>();
+                            foreach (var s in newStatuses)
                             {
-                                var server = _client.GetGuild(fs.GuildId);
-                                var channel = server?.GetTextChannel(fs.ChannelId);
-                                if (channel == null)
-                                    return;
-                                try
+                                if (oldStreamStatuses.TryGetValue(s.ApiUrl, out var live) &&
+                                    live != s.Live)
                                 {
-                                    await channel.EmbedAsync(GetEmbed(fs, newStatus, channel.Guild.Id)).ConfigureAwait(false);
-                                }
-                                catch
-                                {
-                                    // ignored
+                                    toPublish.Add(s);
                                 }
                             }
+                            // publish the list
+                            if (toPublish.Any())
+                            {
+                                await _cache.PublishStreamUpdates(toPublish);
+                                sw.Stop();
+                                _log.Info("Retreived and published stream statuses in {0:F2}s", sw.Elapsed.TotalSeconds);
+                            }
                         }
-                        catch
+                        catch (Exception ex)
                         {
-                            // ignored
+                            _log.Warn(ex);
                         }
-                    }));
-
-                   firstStreamNotifPass = false;
-               }
-           });
-#endif
+                        finally
+                        {
+                            await Task.Delay(30000);
+                        }
+                    }
+                });
+            }
         }
 
-        public async Task<IStreamResponse> GetStreamStatus(FollowedStream stream, bool checkCache = true)
+        private async Task OnStreamsUpdated(StreamResponse[] updates)
+        {
+            List<Task> sendTasks = new List<Task>();
+            //going through all of the updates
+            foreach (var u in updates)
+            {
+                // get the list of channels which need to be notified for this stream
+                if (_followedStreams.TryGetValue((u.StreamType, u.Name.Trim().ToLowerInvariant()), out var locs))
+                {
+                    // notify them all
+                    var tasks = locs.Select(x =>
+                    {
+                        return _client.GetGuild(x.GuildId)
+                            ?.GetTextChannel(x.fs.ChannelId)
+                            ?.EmbedAsync(GetEmbed(x.fs, u, x.GuildId));
+                    }).Where(x => x != null);
+
+                    sendTasks.AddRange(tasks);
+                }
+            }
+            // wait for all messages to be sent out
+            await Task.WhenAll(sendTasks);
+        }
+
+        public async Task<StreamResponse> GetStreamStatus(FollowedStream.FType t, string username, bool checkCache = true)
         {
             string url = string.Empty;
             Type type = null;
-            switch (stream.Type)
+            username = username.ToLowerInvariant();
+            switch (t)
             {
-                case FollowedStream.FollowedStreamType.Twitch:
-                    url = $"https://api.twitch.tv/kraken/streams/{Uri.EscapeUriString(stream.Username.ToLowerInvariant())}?client_id=67w6z9i09xv2uoojdm9l0wsyph4hxo6";
+                case FollowedStream.FType.Twitch:
+                    url = $"https://api.twitch.tv/kraken/streams/{Uri.EscapeUriString(username)}?client_id=67w6z9i09xv2uoojdm9l0wsyph4hxo6";
                     type = typeof(TwitchResponse);
                     break;
-                case FollowedStream.FollowedStreamType.Smashcast:
-                    url = $"https://api.smashcast.tv/user/{stream.Username.ToLowerInvariant()}";
+                case FollowedStream.FType.Smashcast:
+                    url = $"https://api.smashcast.tv/user/{username}";
                     type = typeof(SmashcastResponse);
                     break;
-                case FollowedStream.FollowedStreamType.Mixer:
-                    url = $"https://mixer.com/api/v1/channels/{stream.Username.ToLowerInvariant()}";
+                case FollowedStream.FType.Mixer:
+                    url = $"https://mixer.com/api/v1/channels/{username}";
                     type = typeof(MixerResponse);
                     break;
-                case FollowedStream.FollowedStreamType.Picarto:
-                    url = $"https://api.picarto.tv/v1/channel/name/{stream.Username.ToLowerInvariant()}";
+                case FollowedStream.FType.Picarto:
+                    url = $"https://api.picarto.tv/v1/channel/name/{username}";
                     type = typeof(PicartoResponse);
                     break;
                 default:
                     break;
             }
 
-            if (checkCache && _cachedStatuses.TryGetValue(url, out var result))
-                return result;
+            if (checkCache && _cache.TryGetStreamData(url, out string dataStr))
+                return JsonConvert.DeserializeObject<StreamResponse>(dataStr);
 
             var response = await _http.GetAsync(url).ConfigureAwait(false);
             if (!response.IsSuccessStatusCode)
-                throw new StreamNotFoundException($"{stream.Username} [{stream.Type}]");
-            var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            var data = JsonConvert.DeserializeObject(responseString, type) as IStreamResponse;
+                throw new StreamNotFoundException($"{username} [{type}]");
+            var responseStr = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            var data = JsonConvert.DeserializeObject(responseStr, type) as IStreamResponse;
             data.ApiUrl = url;
-            _cachedStatuses.AddOrUpdate(url, data, (key, old) => data);
-            return data;
+            var sr = new StreamResponse
+            {
+                ApiUrl = data.ApiUrl,
+                Followers = data.Followers,
+                Game = data.Game,
+                Icon = data.Icon,
+                Live = data.Live,
+                Name = data.Name,
+                StreamType = data.StreamType,
+                Title = data.Title,
+                Viewers = data.Viewers,
+            };
+            await _cache.SetStreamDataAsync(url, JsonConvert.SerializeObject(sr));
+            return sr;
+        }
+
+        public void UntrackStream(FollowedStream fs)
+        {
+            if (_followedStreams.TryGetValue((fs.Type, fs.Username), out var data))
+            {
+                data.TryRemove((fs.GuildId, fs));
+            }
         }
 
         public EmbedBuilder GetEmbed(FollowedStream fs, IStreamResponse status, ulong guildId)
@@ -155,6 +228,17 @@ namespace NadekoBot.Modules.Searches.Services
             return embed;
         }
 
+        public void TrackStream(FollowedStream fs)
+        {
+            _followedStreams.AddOrUpdate((fs.Type, fs.Username),
+                (k) => new ConcurrentHashSet<(ulong, FollowedStream)>(new[] { (fs.GuildId, fs) }),
+                (k, old) =>
+                {
+                    old.Add((fs.GuildId, fs));
+                    return old;
+                });
+        }
+
         public string GetText(FollowedStream fs, string key, params object[] replacements) =>
             _strings.GetText(key,
                 fs.GuildId,
@@ -163,13 +247,13 @@ namespace NadekoBot.Modules.Searches.Services
 
         public string GetLink(FollowedStream fs)
         {
-            if (fs.Type == FollowedStream.FollowedStreamType.Smashcast)
+            if (fs.Type == FollowedStream.FType.Smashcast)
                 return $"https://www.smashcast.tv/{fs.Username}/";
-            if (fs.Type == FollowedStream.FollowedStreamType.Twitch)
+            if (fs.Type == FollowedStream.FType.Twitch)
                 return $"https://www.twitch.tv/{fs.Username}/";
-            if (fs.Type == FollowedStream.FollowedStreamType.Mixer)
+            if (fs.Type == FollowedStream.FType.Mixer)
                 return $"https://www.mixer.com/{fs.Username}/";
-            if (fs.Type == FollowedStream.FollowedStreamType.Picarto)
+            if (fs.Type == FollowedStream.FType.Picarto)
                 return $"https://www.picarto.tv/{fs.Username}";
             return "??";
         }
