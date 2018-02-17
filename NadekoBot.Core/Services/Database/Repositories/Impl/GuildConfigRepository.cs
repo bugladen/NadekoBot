@@ -181,12 +181,22 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
             return config;
         }
 
-        public IEnumerable<FollowedStream> GetAllFollowedStreams(List<long> included) =>
-            _set
+        public IEnumerable<FollowedStream> GetFollowedStreams()
+        {
+            return _set
+                .Include(x => x.FollowedStreams)
+                .SelectMany(gc => gc.FollowedStreams)
+                .ToArray();
+        }
+
+        public IEnumerable<FollowedStream> GetFollowedStreams(List<long> included)
+        {
+            return _set
                 .Where(gc => included.Contains((long)gc.GuildId))
                 .Include(gc => gc.FollowedStreams)
                 .SelectMany(gc => gc.FollowedStreams)
                 .ToList();
+        }
 
         public void SetCleverbotEnabled(ulong id, bool cleverbotEnabled)
         {

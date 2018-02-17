@@ -82,10 +82,9 @@ namespace NadekoBot.Modules.Utility.Services
                         .StringSet("converter_units", data);
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                _log.Warn("Ignore the message below");
-                _log.Warn(ex);
+                // ignored
             }
         }
 

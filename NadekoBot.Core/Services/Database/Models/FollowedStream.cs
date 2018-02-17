@@ -4,10 +4,10 @@
     {
         public ulong ChannelId { get; set; }
         public string Username { get; set; }
-        public FollowedStreamType Type { get; set; }
+        public FType Type { get; set; }
         public ulong GuildId { get; set; }
 
-        public enum FollowedStreamType
+        public enum FType
         {
             Twitch, Smashcast, Mixer,
             Picarto
@@ -15,7 +15,7 @@
 
         public override int GetHashCode() => 
             ChannelId.GetHashCode() ^ 
-            Username.GetHashCode() ^ 
+            Username.ToLowerInvariant().GetHashCode() ^ 
             Type.GetHashCode();
 
         public override bool Equals(object obj)
