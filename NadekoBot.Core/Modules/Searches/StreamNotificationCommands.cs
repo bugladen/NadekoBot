@@ -96,6 +96,32 @@ namespace NadekoBot.Modules.Searches
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.ManageMessages)]
+            public async Task StreamRemove(string link)
+            {
+                var streamRegexes = new(Func<string, Task> Func, Regex Regex)[]
+                {
+                    ((u) => StreamRemove(FollowedStream.FType.Twitch, u), twitchRegex),
+                    ((u) => StreamRemove(FollowedStream.FType.Mixer, u), mixerRegex),
+                    ((u) => StreamRemove(FollowedStream.FType.Smashcast, u), smashcastRegex),
+                    ((u) => StreamRemove(FollowedStream.FType.Picarto, u), picartoRegex),
+                };
+
+                foreach (var s in streamRegexes)
+                {
+                    var m = s.Regex.Match(link);
+                    if (m.Captures.Count != 0)
+                    {
+                        await s.Func(m.Groups["name"].ToString());
+                        return;
+                    }
+                }
+
+                await ReplyErrorLocalized("stream_not_exist").ConfigureAwait(false);
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
             public async Task ListStreams()
             {
                 IEnumerable<FollowedStream> streams;
@@ -129,7 +155,7 @@ namespace NadekoBot.Modules.Searches
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
-            public async Task RemoveStream(FollowedStream.FType type, [Remainder] string username)
+            public async Task StreamRemove(FollowedStream.FType type, [Remainder] string username)
             {
                 username = username.ToLowerInvariant().Trim();
 

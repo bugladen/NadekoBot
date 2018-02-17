@@ -1,4 +1,3 @@
-
 {
   "h": {
     "Cmd": "help h",
@@ -1408,12 +1407,19 @@
       "{0}mixer SomeStreamer"
     ]
   },
-  "removestream": {
-    "Cmd": "removestream rms",
-    "Desc": "Removes notifications of a certain streamer from a certain platform on this channel.",
+  "streamremove": {
+    "Cmd": "streamremove strm",
+    "Desc": "Removes notifications of a specified stream on the specified platform on this channel. You can also just specify an url.",
     "Usage": [
-      "{0}rms Twitch SomeGuy",
-      "{0}rms mixer SomeOtherGuy"
+      "{0}strm Twitch SomeGuy",
+      "{0}strm twitch.tv/someguy"
+    ]
+  },
+  "streamadd": {
+    "Cmd": "streamadd stadd",
+    "Desc": "Notifies this channel when the user's stream on the specified URL goes online or offline.",
+    "Usage": [
+      "{0}strm twitch.tv/someguy"
     ]
   },
   "liststreams": {
