@@ -174,7 +174,7 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Events
                 if (_awardedUsers.Add(r.UserId) && TryTakeFromPot())
                 {
                     _toAward.Enqueue(r.UserId);
-                    if (PotSize < _amount)
+                    if (_isPotLimited && PotSize < _amount)
                         PotEmptied = true;
                 }
             });
