@@ -178,12 +178,14 @@ namespace NadekoBot.Modules.Gambling
                     ((SocketGuild)Context.Guild).GetUser(userId)?.ToString() ?? $"{userId}"))
                 .WithOkColor();
 
+            var desc = "";
             foreach (var tr in trs)
             {
                 var type = tr.Amount > 0 ? "🔵" : "🔴";
-                embed.AddField($"*{tr.DateAdded:HH:mm yyyy-MM-dd}* {type} {tr.Amount}", tr.Reason);
+                desc += $"\\{type} 〖{tr.DateAdded:HH:mm yyyy-MM-dd}〗 {tr.Amount}\n\t{tr.Reason}\n";
             }
 
+            embed.WithDescription(desc);
             embed.WithFooter(GetText("page", page + 1));
             await Context.Channel.EmbedAsync(embed);
         }
@@ -574,7 +576,7 @@ namespace NadekoBot.Modules.Gambling
             if (!await CheckBetOptional(amount) || (amount == 1))
                 return;
 
-            Func<RpsPick, string> getRpsPick = (p) =>
+            string getRpsPick(RpsPick p)
             {
                 switch (p)
                 {
@@ -585,7 +587,7 @@ namespace NadekoBot.Modules.Gambling
                     default:
                         return "✂️";
                 }
-            };
+            }
             var embed = new EmbedBuilder();
 
             var nadekoPick = (RpsPick)new NadekoRandom().Next(0, 3);

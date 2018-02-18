@@ -320,20 +320,20 @@ namespace NadekoBot.Core.Services
             // execute the command and measure the time it took
             if (messageContent.StartsWith(prefix) || isPrefixCommand)
             {
-                var result = await ExecuteCommandAsync(new CommandContext(_client, usrMsg), messageContent, isPrefixCommand ? 1 : prefix.Length, _services, MultiMatchHandling.Best);
+                var (Success, Error, Info) = await ExecuteCommandAsync(new CommandContext(_client, usrMsg), messageContent, isPrefixCommand ? 1 : prefix.Length, _services, MultiMatchHandling.Best);
                 execTime = Environment.TickCount - execTime;
 
-                if (result.Success)
+                if (Success)
                 {
                     await LogSuccessfulExecution(usrMsg, channel as ITextChannel, exec2, exec3, execTime).ConfigureAwait(false);
-                    await CommandExecuted(usrMsg, result.Info).ConfigureAwait(false);
+                    await CommandExecuted(usrMsg, Info).ConfigureAwait(false);
                     return;
                 }
-                else if (result.Error != null)
+                else if (Error != null)
                 {
-                    LogErroredExecution(result.Error, usrMsg, channel as ITextChannel, exec2, exec3, execTime);
+                    LogErroredExecution(Error, usrMsg, channel as ITextChannel, exec2, exec3, execTime);
                     if (guild != null)
-                        await CommandErrored(result.Info, channel as ITextChannel, result.Error);
+                        await CommandErrored(Info, channel as ITextChannel, Error);
                 }
             }
             else
