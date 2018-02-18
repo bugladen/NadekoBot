@@ -14,6 +14,7 @@ using NadekoBot.Common.Attributes;
 using SixLabors.Primitives;
 using NadekoBot.Modules.Gambling.Services;
 using NadekoBot.Core.Modules.Gambling.Common;
+using NadekoBot.Core.Common;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -22,8 +23,8 @@ namespace NadekoBot.Modules.Gambling
         [Group]
         public class SlotCommands : GamblingSubmodule<GamblingService>
         {
-            private static int _totalBet;
-            private static int _totalPaidOut;
+            private static long _totalBet;
+            private static long _totalPaidOut;
 
             private static readonly HashSet<ulong> _runningUsers = new HashSet<ulong>();
 
@@ -139,7 +140,7 @@ namespace NadekoBot.Modules.Gambling
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            public async Task Slot(int amount = 0)
+            public async Task Slot(ShmartNumber amount)
             {
                 if (!_runningUsers.Add(Context.User.Id))
                     return;
@@ -159,7 +160,7 @@ namespace NadekoBot.Modules.Gambling
                         await ReplyErrorLocalized("not_enough", _bc.BotConfig.CurrencySign).ConfigureAwait(false);
                         return;
                     }
-                    Interlocked.Add(ref _totalBet, amount);
+                    Interlocked.Add(ref _totalBet, amount.Value);
                     using (var bgFileStream = _images.SlotBackground.ToStream())
                     {
                         var bgImage = ImageSharp.Image.Load(bgFileStream);

@@ -28,7 +28,7 @@ namespace NadekoBot.Core.Modules.Gambling.Services
             _cs = cs;
         }
 
-        public async Task<(CurrencyRaffleGame, JoinErrorType?)> JoinOrCreateGame(ulong channelId, IUser user, int amount, bool mixed, Func<IUser, int, Task> onEnded)
+        public async Task<(CurrencyRaffleGame, JoinErrorType?)> JoinOrCreateGame(ulong channelId, IUser user, long amount, bool mixed, Func<IUser, long, Task> onEnded)
         {
             await _locker.WaitAsync().ConfigureAwait(false);
             try

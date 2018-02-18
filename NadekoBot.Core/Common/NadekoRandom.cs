@@ -40,6 +40,18 @@ namespace NadekoBot.Common
             return (sign * BitConverter.ToInt32(bytes, 0)) % (maxValue - minValue) + minValue;
         }
 
+        public long NextLong(long minValue, long maxValue)
+        {
+            if (minValue > maxValue)
+                throw new ArgumentOutOfRangeException();
+            if (minValue == maxValue)
+                return minValue;
+            var bytes = new byte[sizeof(long)];
+            _rng.GetBytes(bytes);
+            var sign = Math.Sign(BitConverter.ToInt64(bytes, 0));
+            return (sign * BitConverter.ToInt64(bytes, 0)) % (maxValue - minValue) + minValue;
+        }
+
         public override void NextBytes(byte[] buffer)
         {
             _rng.GetBytes(buffer);

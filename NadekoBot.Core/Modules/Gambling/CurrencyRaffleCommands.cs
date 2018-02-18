@@ -6,6 +6,7 @@ using NadekoBot.Extensions;
 using System.Linq;
 using Discord.Commands;
 using NadekoBot.Core.Modules.Gambling.Common;
+using NadekoBot.Core.Common;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -18,17 +19,17 @@ namespace NadekoBot.Modules.Gambling
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [Priority(0)]
-            public Task RaffleCur(Mixed _, int amount) =>
+            public Task RaffleCur(Mixed _, ShmartNumber amount) =>
                 RaffleCur(amount, true);
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [Priority(1)]
-            public async Task RaffleCur(int amount, bool mixed = false)
+            public async Task RaffleCur(ShmartNumber amount, bool mixed = false)
             {
                 if (!await CheckBetMandatory(amount))
                     return;
-                async Task OnEnded(IUser arg, int won)
+                async Task OnEnded(IUser arg, long won)
                 {
                     await Context.Channel.SendConfirmAsync(GetText("rafflecur_ended", _bc.BotConfig.CurrencyName, Format.Bold(arg.ToString()), won + _bc.BotConfig.CurrencySign));
                 }
