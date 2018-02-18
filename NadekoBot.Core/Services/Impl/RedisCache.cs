@@ -163,6 +163,7 @@ namespace NadekoBot.Core.Services.Impl
             var _db = Redis.GetDatabase();
             var dataStrs = await Task.WhenAll(server.Keys(pattern: $"{_redisKey}_stream_*")
                 .Select(k => _db.StringGetAsync(k)));
+            await Task.Delay(1);
             return dataStrs
                 .Select(x => JsonConvert.DeserializeObject<StreamResponse>(x))
                 .Where(x => !string.IsNullOrWhiteSpace(x.ApiUrl))
