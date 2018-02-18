@@ -4,11 +4,13 @@ using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Core.Services;
+using NLog;
 
 namespace NadekoBot.Core.Common.TypeReaders
 {
     public class ShmartNumberTypeReader : NadekoTypeReader<ShmartNumber>
     {
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
         public ShmartNumberTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds)
         {
         }
@@ -35,7 +37,8 @@ namespace NadekoBot.Core.Common.TypeReaders
             }
             catch(Exception ex)
             {
-                return TypeReaderResult.FromError(CommandError.ParseFailed, ex.Message);
+                _log.Info(ex);
+                return TypeReaderResult.FromError(CommandError.ParseFailed, "Invalid input");
             }
         }
 
