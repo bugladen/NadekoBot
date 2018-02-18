@@ -592,8 +592,12 @@ namespace NadekoBot.Modules.Gambling
 
             if (amount > 0)
             {
-                await _cs.RemoveAsync(Context.User.Id,
-                    "Rps-bet", amount, gamble: true);
+                if (!await _cs.RemoveAsync(Context.User.Id,
+                    "Rps-bet", amount, gamble: true))
+                {
+                    await ReplyErrorLocalized("not_enough", _bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                    return;
+                }
             }
 
             string msg;

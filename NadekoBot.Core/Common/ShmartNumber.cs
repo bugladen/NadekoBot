@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NadekoBot.Core.Common
+﻿namespace NadekoBot.Core.Common
 {
     public struct ShmartNumber
     {
@@ -29,6 +23,11 @@ namespace NadekoBot.Core.Common
         public static implicit operator ShmartNumber(int num)
         {
             return new ShmartNumber(num);
+        }
+
+        public override string ToString()
+        {
+            return Value.ToString();
         }
     }
 }
