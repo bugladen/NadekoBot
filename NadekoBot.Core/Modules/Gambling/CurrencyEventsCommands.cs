@@ -58,7 +58,6 @@ namespace NadekoBot.Modules.Gambling
 
             private EmbedBuilder GetEmbed(Event.Type type, EventOptions opts, long currentPot)
             {
-
                 switch (type)
                 {
                     case Event.Type.Reaction:
@@ -76,12 +75,12 @@ namespace NadekoBot.Modules.Gambling
             private string GetDescription(long amount, long potSize)
             {
                 string potSizeStr = Format.Bold(potSize == 0
-                    ? "∞"
+                    ? "∞" + _bc.BotConfig.CurrencySign
                     : potSize.ToString() + _bc.BotConfig.CurrencySign);
                 return GetText("new_reaction_event",
                                    _bc.BotConfig.CurrencySign,
                                    Format.Bold(amount + _bc.BotConfig.CurrencySign),
-                                   potSize);
+                                   potSizeStr);
             }
 
             [NadekoCommand, Usage, Description, Aliases]

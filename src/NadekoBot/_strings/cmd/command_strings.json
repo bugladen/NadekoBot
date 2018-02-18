@@ -1419,7 +1419,7 @@
     "Cmd": "streamadd stadd",
     "Desc": "Notifies this channel when the user's stream on the specified URL goes online or offline.",
     "Usage": [
-      "{0}strm twitch.tv/someguy"
+      "{0}stadd twitch.tv/someguy"
     ]
   },
   "liststreams": {
