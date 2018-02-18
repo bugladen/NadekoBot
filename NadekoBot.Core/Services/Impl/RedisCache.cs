@@ -159,10 +159,15 @@ namespace NadekoBot.Core.Services.Impl
 
         public async Task<StreamResponse[]> GetAllStreamDataAsync()
         {
+            await Task.Yield();
             var server = Redis.GetServer("127.0.0.1", 6379);
             var _db = Redis.GetDatabase();
-            var dataStrs = await Task.WhenAll(server.Keys(pattern: $"{_redisKey}_stream_*")
-                .Select(k => _db.StringGetAsync(k)));
+            List<RedisValue> dataStrs = new List<RedisValue>();
+            foreach (var k in server.Keys(pattern: $"{_redisKey}_stream_*"))
+            {
+                dataStrs.Add(_db.StringGet(k));
+            }
+
             return dataStrs
                 .Select(x => JsonConvert.DeserializeObject<StreamResponse>(x))
                 .Where(x => !string.IsNullOrWhiteSpace(x.ApiUrl))
