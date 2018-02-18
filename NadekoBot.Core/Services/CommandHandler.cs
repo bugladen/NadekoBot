@@ -45,7 +45,7 @@ namespace NadekoBot.Core.Services
         private ConcurrentDictionary<ulong, string> _prefixes { get; } = new ConcurrentDictionary<ulong, string>();
 
         private ImmutableArray<AsyncLazy<IDMChannel>> OwnerChannels { get; set; } = new ImmutableArray<AsyncLazy<IDMChannel>>();
-        
+
         public event Func<IUserMessage, CommandInfo, Task> CommandExecuted = delegate { return Task.CompletedTask; };
         public event Func<CommandInfo, ITextChannel, string, Task> CommandErrored = delegate { return Task.CompletedTask; };
         public event Func<IUserMessage, Task> OnMessageNoTrigger = delegate { return Task.CompletedTask; };
@@ -56,8 +56,8 @@ namespace NadekoBot.Core.Services
         public ConcurrentHashSet<ulong> UsersOnShortCooldown { get; } = new ConcurrentHashSet<ulong>();
         private readonly Timer _clearUsersOnShortCooldown;
 
-        public CommandHandler(DiscordSocketClient client, DbService db, 
-            IBotConfigProvider bc, CommandService commandService, 
+        public CommandHandler(DiscordSocketClient client, DbService db,
+            IBotConfigProvider bcp, CommandService commandService,
             IBotCredentials credentials, NadekoBot bot)
         {
             _client = client;
@@ -65,6 +65,7 @@ namespace NadekoBot.Core.Services
             _creds = credentials;
             _bot = bot;
             _db = db;
+            _bcp = bcp;
 
             _log = LogManager.GetCurrentClassLogger();
 
@@ -73,7 +74,7 @@ namespace NadekoBot.Core.Services
                 UsersOnShortCooldown.Clear();
             }, null, GlobalCommandsCooldown, GlobalCommandsCooldown);
 
-            DefaultPrefix = bc.BotConfig.DefaultPrefix;
+            DefaultPrefix = bcp.BotConfig.DefaultPrefix;
             _prefixes = bot.AllGuildConfigs
                 .Where(x => x.Prefix != null)
                 .ToDictionary(x => x.GuildId, x => x.Prefix)
@@ -187,10 +188,13 @@ namespace NadekoBot.Core.Services
 
         private const float _oneThousandth = 1.0f / 1000;
         private readonly DbService _db;
+        private readonly IBotConfigProvider _bcp;
 
         private Task LogSuccessfulExecution(IUserMessage usrMsg, ITextChannel channel, params int[] execPoints)
         {
-            _log.Info($"Command Executed after " + string.Join("/", execPoints.Select(x => x * _oneThousandth)) + "s\n\t" +
+            if (_bcp.BotConfig.ConsoleOutputType == Database.Models.ConsoleOutputType.Normal)
+            {
+                _log.Info($"Command Executed after " + string.Join("/", execPoints.Select(x => x * _oneThousandth)) + "s\n\t" +
                         "User: {0}\n\t" +
                         "Server: {1}\n\t" +
                         "Channel: {2}\n\t" +
@@ -200,24 +204,45 @@ namespace NadekoBot.Core.Services
                         (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), // {2}
                         usrMsg.Content // {3}
                         );
+            }
+            else
+            {
+                _log.Info("Succ | g:{0} | c: {1} | u: {2} | msg: {3}",
+                    channel?.Guild.Id.ToString() ?? "-",
+                    channel?.Id.ToString() ?? "-",
+                    usrMsg.Author.Id,
+                    usrMsg.Content.TrimTo(10));
+            }
             return Task.CompletedTask;
         }
 
         private void LogErroredExecution(string errorMessage, IUserMessage usrMsg, ITextChannel channel, params int[] execPoints)
         {
-            _log.Warn($"Command Errored after " + string.Join("/", execPoints.Select(x => x * _oneThousandth)) + "s\n\t" +
-                        "User: {0}\n\t" +
-                        "Server: {1}\n\t" +
-                        "Channel: {2}\n\t" +
-                        "Message: {3}\n\t" +
-                        "Error: {4}",
-                        usrMsg.Author + " [" + usrMsg.Author.Id + "]", // {0}
-                        (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]"), // {1}
-                        (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), // {2}
-                        usrMsg.Content,// {3}
-                        errorMessage
-                        //exec.Result.ErrorReason // {4}
-                        );
+            if (_bcp.BotConfig.ConsoleOutputType == Database.Models.ConsoleOutputType.Normal)
+            {
+                _log.Warn($"Command Errored after " + string.Join("/", execPoints.Select(x => x * _oneThousandth)) + "s\n\t" +
+                            "User: {0}\n\t" +
+                            "Server: {1}\n\t" +
+                            "Channel: {2}\n\t" +
+                            "Message: {3}\n\t" +
+                            "Error: {4}",
+                            usrMsg.Author + " [" + usrMsg.Author.Id + "]", // {0}
+                            (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]"), // {1}
+                            (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), // {2}
+                            usrMsg.Content,// {3}
+                            errorMessage
+                            //exec.Result.ErrorReason // {4}
+                            );
+            }
+            else
+            {
+                _log.Warn("Err | g:{0} | c: {1} | u: {2} | msg: {3}\n\tErr: {4}",
+                    channel?.Guild.Id.ToString() ?? "-",
+                    channel?.Id.ToString() ?? "-",
+                    usrMsg.Author.Id,
+                    usrMsg.Content.TrimTo(10),
+                    errorMessage);
+            }
         }
 
         private async Task MessageReceivedHandler(SocketMessage msg)
@@ -267,7 +292,7 @@ namespace NadekoBot.Core.Services
                 }
             }
 
-            var exec2 = Environment.TickCount - execTime;            
+            var exec2 = Environment.TickCount - execTime;
 
             foreach (var exec in _earlyBlockingExecutors)
             {
