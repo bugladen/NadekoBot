@@ -167,8 +167,7 @@ namespace NadekoBot.Core.Services.Impl
             {
                 dataStrs.Add(_db.StringGet(k));
             }
-            var dataStrs = await Task.WhenAll(server.Keys(pattern: $"{_redisKey}_stream_*")
-                .Select(k => _db.StringGetAsync(k)));
+
             return dataStrs
                 .Select(x => JsonConvert.DeserializeObject<StreamResponse>(x))
                 .Where(x => !string.IsNullOrWhiteSpace(x.ApiUrl))
@@ -183,4 +182,4 @@ namespace NadekoBot.Core.Services.Impl
                 .Select(x => _db.KeyDeleteAsync(x, CommandFlags.FireAndForget)));
         }
     }
-}
+	}
