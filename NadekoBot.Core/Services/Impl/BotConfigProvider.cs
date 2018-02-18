@@ -194,7 +194,7 @@ namespace NadekoBot.Core.Services.Impl
                         }
                         return false;
                     case BotConfigEditType.ConsoleOutputType:
-                        if (!Enum.TryParse<ConsoleOutputType>(newValue, ignoreCase: true, out var val))
+                        if (!Enum.TryParse<ConsoleOutputType>(newValue, true, out var val))
                             return false;
                         bc.ConsoleOutputType = val;
                         break;
