@@ -134,7 +134,7 @@ namespace NadekoBot.Modules.Gambling
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task JoinRace(int amount = 0)
+            public async Task JoinRace(ShmartNumber amount)
             {
                 if (!await CheckBetOptional(amount))
                     return;

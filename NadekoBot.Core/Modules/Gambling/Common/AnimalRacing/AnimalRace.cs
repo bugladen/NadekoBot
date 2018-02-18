@@ -70,7 +70,7 @@ namespace NadekoBot.Modules.Gambling.Common.AnimalRacing
             });
         }
 
-        public async Task<AnimalRacingUser> JoinRace(ulong userId, string userName, int bet = 0)
+        public async Task<AnimalRacingUser> JoinRace(ulong userId, string userName, long bet = 0)
         {
             if (bet < 0)
                 throw new ArgumentOutOfRangeException(nameof(bet));

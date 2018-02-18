@@ -36,6 +36,8 @@ namespace NadekoBot.Modules.Utility
                     case "e":
                         args.Result = Math.E;
                         break;
+                    default:
+                        break;
                 }
             }
 

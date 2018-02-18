@@ -1,6 +1,7 @@
 ﻿using Discord;
 using NadekoBot.Common;
 using NLog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,7 +17,7 @@ namespace NadekoBot.Core.Modules.Gambling.Common
         public class User
         {
             public IUser DiscordUser { get; set; }
-            public int Amount { get; set; }
+            public long Amount { get; set; }
 
             public override int GetHashCode()
             {
@@ -42,7 +43,7 @@ namespace NadekoBot.Core.Modules.Gambling.Common
             _log = LogManager.GetCurrentClassLogger();
         }
 
-        public bool AddUser(IUser usr, int amount)
+        public bool AddUser(IUser usr, long amount)
         {
             // if game type is normal, and someone already joined the game 
             // (that's the user who created it)
@@ -67,8 +68,8 @@ namespace NadekoBot.Core.Modules.Gambling.Common
             var rng = new NadekoRandom();
             if (GameType == Type.Mixed)
             {
-                var num = rng.Next(0, Users.Sum(x => x.Amount));
-                var sum = 0;
+                var num = rng.NextLong(0L, Users.Sum(x => x.Amount));
+                var sum = 0L;
                 foreach (var u in Users)
                 {
                     sum += u.Amount;

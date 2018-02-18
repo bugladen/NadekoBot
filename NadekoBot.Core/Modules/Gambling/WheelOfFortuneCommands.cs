@@ -1,12 +1,12 @@
 ﻿using Discord;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Extensions;
-using NadekoBot.Modules.Gambling.Common.WheelOfFortune;
 using NadekoBot.Core.Services;
 using System.Threading.Tasks;
 using Wof = NadekoBot.Modules.Gambling.Common.WheelOfFortune.WheelOfFortune;
 using NadekoBot.Modules.Gambling.Services;
 using NadekoBot.Core.Modules.Gambling.Common;
+using NadekoBot.Core.Common;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -23,21 +23,8 @@ namespace NadekoBot.Modules.Gambling
                 _db = db;
             }
 
-            public enum Allin { Allin = int.MinValue, All = int.MinValue }
-
             [NadekoCommand, Usage, Description, Aliases]
-            public Task WheelOfFortune(Allin _)
-            {
-                long cur;
-                using (var uow = _db.UnitOfWork)
-                {
-                    cur = uow.DiscordUsers.GetUserCurrency(Context.User.Id);
-                }
-                return WheelOfFortune(cur);
-            }
-
-            [NadekoCommand, Usage, Description, Aliases]
-            public async Task WheelOfFortune(long amount)
+            public async Task WheelOfFortune(ShmartNumber amount)
             {
                 if (!await CheckBetMandatory(amount))
                     return;
@@ -48,7 +35,7 @@ namespace NadekoBot.Modules.Gambling
                     return;
                 }
 
-                var wof = new WheelOfFortune();
+                var wof = new Wof();
 
                 amount = (long)(amount * wof.Multiplier);
 

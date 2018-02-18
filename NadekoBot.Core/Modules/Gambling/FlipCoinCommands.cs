@@ -9,6 +9,7 @@ using Image = ImageSharp.Image;
 using ImageSharp;
 using NadekoBot.Core.Modules.Gambling.Common;
 using NadekoBot.Modules.Gambling.Services;
+using NadekoBot.Core.Common;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -88,18 +89,7 @@ namespace NadekoBot.Modules.Gambling
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            public Task Betflip(Allin _, BetFlipGuess guess)
-            {
-                long cur;
-                using (var uow = _db.UnitOfWork)
-                {
-                    cur = uow.DiscordUsers.GetUserCurrency(Context.User.Id);
-                }
-                return Betflip(cur, guess);
-            }
-
-            [NadekoCommand, Usage, Description, Aliases]
-            public async Task Betflip(long amount, BetFlipGuess guess)
+            public async Task Betflip(ShmartNumber amount, BetFlipGuess guess)
             {
                 if (!await CheckBetMandatory(amount) || amount == 1)
                     return;
