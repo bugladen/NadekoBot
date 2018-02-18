@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Core.Services.Impl;
 using NLog;
+using YoutubeExplode;
 
 namespace NadekoBot.Modules.Music.Common.SongResolver.Strategies
 {
@@ -18,7 +20,67 @@ namespace NadekoBot.Modules.Music.Common.SongResolver.Strategies
 
         public async Task<SongInfo> ResolveSong(string query)
         {
-            _log.Info("Getting link");
+            var val = Environment.GetEnvironmentVariable("NADEKO_MUSIC_EXPERIMENTAL");
+            if (val == "1")
+            {
+                SongInfo s = await ResolveWithYtExplode(query);
+                if (s != null)
+                    return s;
+                _log.Info("Can't find. Using youtube-dl as a fallback.");
+            }
+            return await ResolveWithYtDl(query);
+        }
+
+        private async Task<SongInfo> ResolveWithYtExplode(string query)
+        {
+            YoutubeExplode.Models.Video video;
+            var client = new YoutubeClient();
+            if (!YoutubeClient.TryParseVideoId(query, out var id))
+            {
+                _log.Info("Searching for video");
+                var videos = await client.SearchVideosAsync(query, 1);
+
+                video = videos.FirstOrDefault();
+            }
+            else
+            {
+                _log.Info("Getting video with id");
+                video = await client.GetVideoAsync(id);
+            }
+
+            if (video == null)
+                return null;
+
+            _log.Info("Video found");
+            var streamInfo = await client.GetVideoMediaStreamInfosAsync(video.Id);
+            var stream = streamInfo.Audio
+                .OrderByDescending(x => x.Bitrate)
+                .FirstOrDefault();
+
+            _log.Info("Got stream info");
+
+            if (stream == null)
+                return null;
+
+            return new SongInfo
+            {
+                Provider = "YouTube",
+                ProviderType = MusicType.YouTube,
+                Query = "https://youtube.com/watch?v=" + id,
+                Thumbnail = video.Thumbnails.MediumResUrl,
+                TotalTime = video.Duration,
+                Uri = async () =>
+                {
+                    await Task.Yield();
+                    return stream.Url;
+                },
+                VideoId = video.Id,
+                Title = video.Title,
+            };
+        }
+
+        private async Task<SongInfo> ResolveWithYtDl(string query)
+        {
             string[] data;
             try
             {
@@ -65,6 +127,7 @@ namespace NadekoBot.Modules.Music.Common.SongResolver.Strategies
                 _log.Warn(ex);
                 return null;
             }
+
         }
     }
 }

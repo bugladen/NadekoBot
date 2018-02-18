@@ -1,4 +1,5 @@
-﻿using NLog;
+﻿using NadekoBot.Core.Modules.Music.Common;
+using NLog;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -10,6 +11,7 @@ namespace NadekoBot.Modules.Music.Common
     {
         const int readSize = 81920;
         private Process p;
+        private readonly PoopyBufferReborn _buffer;
         private Stream _outStream;
 
         private readonly SemaphoreSlim _lock = new SemaphoreSlim(1, 1);
@@ -27,6 +29,7 @@ namespace NadekoBot.Modules.Music.Common
             {
                 this.p = StartFFmpegProcess(SongUri, 0);
                 this._outStream = this.p.StandardOutput.BaseStream;
+                this._buffer = new PoopyBufferReborn(this._outStream);
             }
             catch (System.ComponentModel.Win32Exception)
             {
@@ -64,10 +67,9 @@ Check the guides for your platform on how to setup ffmpeg correctly:
         private readonly object locker = new object();
         private readonly bool _isLocal;
 
-        public int Read(byte[] b, int offset, int toRead)
+        public byte[] Read(int toRead)
         {
-            lock (locker)
-                return _outStream.Read(b, offset, toRead);
+            return this._buffer.Read(toRead).ToArray();
         }
 
         public void Dispose()
@@ -88,8 +90,14 @@ Check the guides for your platform on how to setup ffmpeg correctly:
             catch
             {
             }
+            _buffer.Stop();
             _outStream.Dispose();
             this.p.Dispose();
+        }
+
+        public void StartBuffering()
+        {
+            this._buffer.StartBuffering();
         }
     }
 }

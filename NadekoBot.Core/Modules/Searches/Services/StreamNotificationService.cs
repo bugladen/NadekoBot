@@ -198,8 +198,8 @@ namespace NadekoBot.Modules.Searches.Services
             }
             catch (Exception ex)
             {
-                _log.Warn(ex);
-                throw;
+                _log.Warn(ex.Message);
+                return null;
             }
         }
 
