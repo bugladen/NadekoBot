@@ -205,6 +205,11 @@ namespace NadekoBot.Modules.Searches
                 try
                 {
                     var streamStatus = await _service.GetStreamStatus(platform, username);
+                    if (streamStatus == null)
+                    {
+                        await ReplyErrorLocalized("no_channel_found").ConfigureAwait(false);
+                        return;
+                    }
                     if (streamStatus.Live)
                     {
                         await ReplyConfirmLocalized("streamer_online",
@@ -241,6 +246,12 @@ namespace NadekoBot.Modules.Searches
                     status = await _service.GetStreamStatus(fs.Type, fs.Username).ConfigureAwait(false);
                 }
                 catch
+                {
+                    await ReplyErrorLocalized("stream_not_exist").ConfigureAwait(false);
+                    return;
+                }
+
+                if (status == null)
                 {
                     await ReplyErrorLocalized("stream_not_exist").ConfigureAwait(false);
                     return;

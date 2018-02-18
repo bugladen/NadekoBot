@@ -75,7 +75,8 @@ namespace NadekoBot.Modules.Searches.Services
                                 uow.Complete();
                             }
                             // get new statuses for those streams
-                            var newStatuses = await Task.WhenAll(fss.Select(f => GetStreamStatus(f.Type, f.Username, false)));
+                            var newStatuses = (await Task.WhenAll(fss.Select(f => GetStreamStatus(f.Type, f.Username, false))))
+                                .Where(x => x != null);
                             if (_firstStreamNotifPass)
                             {
                                 _firstStreamNotifPass = false;
@@ -170,7 +171,7 @@ namespace NadekoBot.Modules.Searches.Services
 
                 var response = await _http.GetAsync(url).ConfigureAwait(false);
                 if (!response.IsSuccessStatusCode)
-                    throw new StreamNotFoundException($"{username} [{type}]");
+                    throw new StreamNotFoundException($"Stream Not Found: {username} [{type.Name}]");
                 var responseStr = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 var data = JsonConvert.DeserializeObject(responseStr, type) as IStreamResponse;
                 data.ApiUrl = url;
@@ -189,6 +190,11 @@ namespace NadekoBot.Modules.Searches.Services
                 };
                 await _cache.SetStreamDataAsync(url, JsonConvert.SerializeObject(sr));
                 return sr;
+            }
+            catch (StreamNotFoundException ex)
+            {
+                _log.Warn(ex.Message);
+                return null;
             }
             catch (Exception ex)
             {
