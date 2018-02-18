@@ -23,18 +23,6 @@ namespace NadekoBot.Core.Common.TypeReaders
                 return TypeReaderResult.FromError(CommandError.ParseFailed, "Input is empty.");
 
             var i = input.Trim().ToLowerInvariant();
-            if (i == "all" || i == "allin")
-            {
-                i = "100%";
-            }
-            else if (i == "half" || i == "halfin" || i == "half-in")
-            {
-                i = "50%";
-            }
-            else if (i == "fourth" || i == "quarter")
-            {
-                i = "25%";
-            }
 
             if (TryHandlePercentage(services, context.User.Id, i, out var num))
                 return TypeReaderResult.FromSuccess(new ShmartNumber(num, i));
@@ -55,7 +43,6 @@ namespace NadekoBot.Core.Common.TypeReaders
         {
             if (name.ToLowerInvariant() == "all")
             {
-                args.Result = Cur;
             }
 
             switch (name.ToLowerInvariant())
@@ -65,6 +52,16 @@ namespace NadekoBot.Core.Common.TypeReaders
                     break;
                 case "e":
                     args.Result = Math.E;
+                    break;
+                case "all":
+                case "allin":
+                    args.Result = Cur;
+                    break;
+                case "half":
+                    args.Result = Cur;
+                    break;
+                case "max":
+                    args.Result = Max;
                     break;
                 default:
                     break;
@@ -92,6 +89,22 @@ namespace NadekoBot.Core.Common.TypeReaders
                     return savedCur = cur;
                 }
                 return savedCur;
+            }
+        }
+
+        private long savedMax = -1;
+        private long Max
+        {
+            get
+            {
+                if (savedMax == -1)
+                {
+                    var _bc = (IBotConfigProvider)_services.GetService(typeof(IBotConfigProvider));
+                    savedMax = _bc.BotConfig.MaxBet;
+                }
+                return savedMax == 0
+                    ? savedCur
+                    : Max;
             }
         }
 
