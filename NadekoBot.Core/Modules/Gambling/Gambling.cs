@@ -610,18 +610,18 @@ namespace NadekoBot.Modules.Gambling
             {
                 amount = (long)(amount * _bc.BotConfig.BetflipMultiplier);
                 await _cs.AddAsync(Context.User.Id,
-                    "Rps-draw", amount, gamble: true);
+                    "Rps-win", amount, gamble: true);
                 embed.WithOkColor();
                 embed.AddField(GetText("won"), amount);
                 msg = GetText("rps_win", Context.User.Mention,
-                    getRpsPick(nadekoPick), getRpsPick(pick));
+                    getRpsPick(pick), getRpsPick(nadekoPick));
             }
             else
             {
                 embed.WithErrorColor();
                 amount = 0;
-                msg = GetText("rps_win", Context.Client.CurrentUser.Mention, getRpsPick(pick),
-                    getRpsPick(nadekoPick));
+                msg = GetText("rps_win", Context.Client.CurrentUser.Mention, getRpsPick(nadekoPick),
+                    getRpsPick(pick));
             }
 
             embed

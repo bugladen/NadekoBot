@@ -68,7 +68,7 @@ namespace NadekoBot.Core.Modules.Gambling.Common
             var rng = new NadekoRandom();
             if (GameType == Type.Mixed)
             {
-                var num = rng.Next(0L, Users.Sum(x => x.Amount));
+                var num = rng.NextLong(0L, Users.Sum(x => x.Amount));
                 var sum = 0L;
                 foreach (var u in Users)
                 {
