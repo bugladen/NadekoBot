@@ -21,7 +21,7 @@ namespace NadekoBot.Modules.Searches.Services
 {
     public class StreamNotificationService : INService
     {
-        private bool firstStreamNotifPass { get; set; } = true;
+        private bool _firstStreamNotifPass = true;
 
         private readonly DbService _db;
         private readonly DiscordSocketClient _client;
@@ -54,6 +54,7 @@ namespace NadekoBot.Modules.Searches.Services
             {
                 var _ = Task.Run(async () =>
                 {
+                    await Task.Delay(20000);
                     var sw = Stopwatch.StartNew();
                     while (true)
                     {
@@ -75,9 +76,9 @@ namespace NadekoBot.Modules.Searches.Services
                             }
                             // get new statuses for those streams
                             var newStatuses = await Task.WhenAll(fss.Select(f => GetStreamStatus(f.Type, f.Username, false)));
-                            if (firstStreamNotifPass)
+                            if (_firstStreamNotifPass)
                             {
-                                firstStreamNotifPass = false;
+                                _firstStreamNotifPass = false;
                                 continue;
                             }
 
