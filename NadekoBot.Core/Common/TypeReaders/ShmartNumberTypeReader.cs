@@ -58,7 +58,7 @@ namespace NadekoBot.Core.Common.TypeReaders
                     args.Result = Cur;
                     break;
                 case "half":
-                    args.Result = Cur;
+                    args.Result = Cur / 2;
                     break;
                 case "max":
                     args.Result = Max;
