@@ -1,4 +1,4 @@
-﻿using NadekoBot.Extensions;
+using NadekoBot.Extensions;
 using NadekoBot.Modules.Searches.Common;
 using Newtonsoft.Json;
 using NLog;
@@ -167,7 +167,8 @@ namespace NadekoBot.Core.Services.Impl
             {
                 dataStrs.Add(_db.StringGet(k));
             }
-
+            var dataStrs = await Task.WhenAll(server.Keys(pattern: $"{_redisKey}_stream_*")
+                .Select(k => _db.StringGetAsync(k)));
             return dataStrs
                 .Select(x => JsonConvert.DeserializeObject<StreamResponse>(x))
                 .Where(x => !string.IsNullOrWhiteSpace(x.ApiUrl))
