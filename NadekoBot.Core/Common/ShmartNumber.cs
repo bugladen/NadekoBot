@@ -24,5 +24,10 @@
         {
             return new ShmartNumber(num);
         }
+
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
     }
 }
