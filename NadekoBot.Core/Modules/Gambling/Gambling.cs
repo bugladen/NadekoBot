@@ -182,7 +182,8 @@ namespace NadekoBot.Modules.Gambling
             foreach (var tr in trs)
             {
                 var type = tr.Amount > 0 ? "🔵" : "🔴";
-                desc += $"\\{type} 〖{tr.DateAdded:HH:mm yyyy-MM-dd}〗 {tr.Amount}\n\t{tr.Reason}\n";
+                var date = Format.Code($"〖{tr.DateAdded:HH:mm yyyy-MM-dd}〗");
+                desc += $"\\{type} {date} {Format.Bold(tr.Amount.ToString())}\n\t{tr.Reason?.Trim()}\n";
             }
 
             embed.WithDescription(desc);
