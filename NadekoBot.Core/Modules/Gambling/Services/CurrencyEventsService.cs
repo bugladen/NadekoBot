@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 using System;
 using NLog;
 using NadekoBot.Core.Services.Database.Models;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Linq;
 
 namespace NadekoBot.Modules.Gambling.Services
 {
@@ -17,17 +20,59 @@ namespace NadekoBot.Modules.Gambling.Services
         private readonly DiscordSocketClient _client;
         private readonly ICurrencyService _cs;
         private readonly IBotConfigProvider _bc;
+        private readonly IBotCredentials _creds;
+        private readonly HttpClient _http;
         private readonly Logger _log;
         private readonly ConcurrentDictionary<ulong, ICurrencyEvent> _events =
             new ConcurrentDictionary<ulong, ICurrencyEvent>();
 
-        public CurrencyEventsService(DbService db, DiscordSocketClient client, ICurrencyService cs, IBotConfigProvider bc)
+        public CurrencyEventsService(DbService db, DiscordSocketClient client,
+            IBotCredentials creds, ICurrencyService cs, IBotConfigProvider bc)
         {
             _db = db;
             _client = client;
             _cs = cs;
             _bc = bc;
+            _creds = creds;
+            _http = new HttpClient();
             _log = LogManager.GetCurrentClassLogger();
+
+#if GLOBAL_NADEKO
+            Task t = BotlistUpvoteLoop();
+#endif
+        }
+
+        private async Task BotlistUpvoteLoop()
+        {
+            if (string.IsNullOrWhiteSpace(_creds.BotListToken))
+                return;
+            while (true)
+            {
+                await Task.Delay(TimeSpan.FromHours(1));
+                try
+                {
+                    var req = new HttpRequestMessage(HttpMethod.Get,
+                        $"https://discordbots.org/api/bots/116275390695079945/votes?onlyids=true&days=1");
+                    req.Headers.Add("Authorization", _creds.BotListToken);
+                    var res = await _http.SendAsync(req);
+                    if (!res.IsSuccessStatusCode)
+                    {
+                        _log.Warn("Botlist API not reached.");
+                        continue;
+                    }
+                    var resStr = await res.Content.ReadAsStringAsync();
+                    var ids = JsonConvert.DeserializeObject<ulong[]>(resStr);
+                    await _cs.AddBulkAsync(ids, ids.Select(x => "Voted - <https://discordbots.org/bot/nadeko/vote>"), ids.Select(x => 10L), true);
+
+                }
+                catch (Exception ex)
+                {
+                    _log.Warn(ex);
+                }
+            }
+            //await ReplyConfirmLocalized("bot_list_awarded",
+            //    Format.Bold(amount.ToString()),
+            //    Format.Bold(ids.Length.ToString())).ConfigureAwait(false);
         }
 
         public async Task<bool> TryCreateEventAsync(ulong guildId, ulong channelId, Event.Type type,

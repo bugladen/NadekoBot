@@ -83,41 +83,6 @@ namespace NadekoBot.Modules.Gambling
                                    potSizeStr);
             }
 
-            [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
-            [OwnerOnly]
-            public async Task EventStart(OtherEvent e)
-            {
-                switch (e)
-                {
-#if GLOBAL_NADEKO
-                    case CurrencyEvent.BotListUpvoters:
-                        await BotListUpvoters(arg);
-                        break;
-#endif
-                    default:
-                        await Task.CompletedTask;
-                        return;
-                }
-            }
-
-            private async Task BotListUpvoters(long amount)
-            {
-                if (amount <= 0 || string.IsNullOrWhiteSpace(_creds.BotListToken))
-                    return;
-                string res;
-                using (var http = new HttpClient())
-                {
-                    http.DefaultRequestHeaders.Add("Authorization", _creds.BotListToken);
-                    res = await http.GetStringAsync($"https://discordbots.org/api/bots/116275390695079945/votes?onlyids=true");
-                }
-                var ids = JsonConvert.DeserializeObject<ulong[]>(res);
-                await _cs.AddBulkAsync(ids, ids.Select(x => "Botlist Upvoter Event"), ids.Select(x => amount), true);
-                await ReplyConfirmLocalized("bot_list_awarded",
-                    Format.Bold(amount.ToString()),
-                    Format.Bold(ids.Length.ToString())).ConfigureAwait(false);
-            }
-
             //    private async Task SneakyGameStatusEvent(ICommandContext context, long num)
             //    {
             //        if (num < 10 || num > 600)
