@@ -38,7 +38,10 @@ namespace NadekoBot.Modules.Gambling.Services
             _log = LogManager.GetCurrentClassLogger();
 
 #if GLOBAL_NADEKO
-            Task t = BotlistUpvoteLoop();
+            if (_client.ShardId == 0)
+            {
+                Task t = BotlistUpvoteLoop();
+            }
 #endif
         }
 
