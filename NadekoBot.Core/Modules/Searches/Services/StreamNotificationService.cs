@@ -182,7 +182,7 @@ namespace NadekoBot.Modules.Searches.Services
                     Game = data.Game,
                     Icon = data.Icon,
                     Live = data.Live,
-                    Name = data.Name,
+                    Name = data.Name ?? username.ToLowerInvariant(),
                     StreamType = data.StreamType,
                     Title = data.Title,
                     Viewers = data.Viewers,
