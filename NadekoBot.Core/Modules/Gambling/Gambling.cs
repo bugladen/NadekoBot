@@ -175,7 +175,7 @@ namespace NadekoBot.Modules.Gambling
 
             var embed = new EmbedBuilder()
                 .WithTitle(GetText("transactions",
-                    ((SocketGuild)Context.Guild).GetUser(userId)?.ToString() ?? $"{userId}"))
+                    ((SocketGuild)Context.Guild)?.GetUser(userId)?.ToString() ?? $"{userId}"))
                 .WithOkColor();
 
             var desc = "";

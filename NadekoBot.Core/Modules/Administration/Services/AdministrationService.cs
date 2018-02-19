@@ -56,7 +56,9 @@ namespace NadekoBot.Modules.Administration.Services
                         //if state is false, that means do not do it
                     }
                     else if (DeleteMessagesOnCommand.Contains(channel.Guild.Id) && cmd.Name != "prune" && cmd.Name != "pick")
-                        await msg.DeleteAsync().ConfigureAwait(false);
+                    {
+                        try { await msg.DeleteAsync().ConfigureAwait(false); } catch { }
+                    }
                 }
                 catch (Exception ex)
                 {
