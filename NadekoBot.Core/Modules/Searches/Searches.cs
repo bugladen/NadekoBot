@@ -264,14 +264,18 @@ namespace NadekoBot.Modules.Searches
         public async Task RandomCat()
         {
             var res = JObject.Parse(await _service.Http.GetStringAsync("http://www.random.cat/meow").ConfigureAwait(false));
-            await Context.Channel.SendMessageAsync(Uri.EscapeUriString(res["file"].ToString())).ConfigureAwait(false);
+            await Context.Channel.EmbedAsync(new EmbedBuilder()
+                .WithOkColor()
+                .WithImageUrl(Uri.EscapeUriString(res["file"].ToString())))
+                    .ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         public async Task RandomDog()
         {
-            await Context.Channel.SendMessageAsync("http://random.dog/" + await _service.Http.GetStringAsync("http://random.dog/woof")
-                            .ConfigureAwait(false)).ConfigureAwait(false);
+            await Context.Channel.EmbedAsync(new EmbedBuilder()
+                .WithOkColor()
+                .WithImageUrl("https://random.dog/" + await _service.Http.GetStringAsync("http://random.dog/woof")));
         }
 
         [NadekoCommand, Usage, Description, Aliases]
