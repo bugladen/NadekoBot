@@ -263,14 +263,21 @@ namespace NadekoBot.Modules.Xp
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [RequireUserPermission(GuildPermission.Administrator)]
-        public async Task XpAdd(int amount, [Remainder] IGuildUser user)
+        public async Task XpAdd(int amount, ulong userId)
         {
             if (amount == 0)
                 return;
 
-            _service.AddXp(user.Id, Context.Guild.Id, amount);
-
-            await ReplyConfirmLocalized("modified", Format.Bold(user.ToString()), Format.Bold(amount.ToString())).ConfigureAwait(false);
+            _service.AddXp(userId, Context.Guild.Id, amount);
+            var usr = ((SocketGuild)Context.Guild).GetUser(userId)?.ToString()
+                ?? userId.ToString();
+            await ReplyConfirmLocalized("modified", Format.Bold(usr), Format.Bold(amount.ToString())).ConfigureAwait(false);
         }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public Task XpAdd(int amount, [Remainder] IGuildUser user) 
+            => XpAdd(amount, user.Id);
     }
 }

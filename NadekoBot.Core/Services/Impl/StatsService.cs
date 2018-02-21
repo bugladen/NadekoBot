@@ -23,7 +23,7 @@ namespace NadekoBot.Core.Services.Impl
         private readonly IBotCredentials _creds;
         private readonly DateTime _started;
 
-        public const string BotVersion = "2.16.6";
+        public const string BotVersion = "2.16.7";
         public string Author => "Kwoth#2560";
         public string Library => "Discord.Net";
 
@@ -236,22 +236,6 @@ namespace NadekoBot.Core.Services.Impl
             var guilds = _client.Guilds.ToArray();
             _textChannels = guilds.Sum(g => g.Channels.Count(cx => cx is ITextChannel));
             _voiceChannels = guilds.Sum(g => g.Channels.Count(cx => cx is IVoiceChannel));
-        }
-
-        public Task<string> Print()
-        {
-            SocketSelfUser curUser;
-            while ((curUser = _client.CurrentUser) == null) Task.Delay(1000).ConfigureAwait(false);
-
-            return Task.FromResult($@"
-Author: [{Author}] | Library: [{Library}]
-Bot Version: [{BotVersion}]
-Bot ID: {curUser.Id}
-Owner ID(s): {string.Join(", ", _creds.OwnerIds)}
-Uptime: {GetUptimeString()}
-Servers: {_client.Guilds.Count} | TextChannels: {TextChannels} | VoiceChannels: {VoiceChannels}
-Commands Ran this session: {CommandsRan}
-Messages: {MessageCounter} [{MessagesPerSecond:F2}/sec] Heap: [{Heap} MB]");
         }
 
         public TimeSpan GetUptime() =>
