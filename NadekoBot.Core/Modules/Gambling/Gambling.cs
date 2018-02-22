@@ -224,20 +224,20 @@ namespace NadekoBot.Modules.Gambling
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [OwnerOnly]
+        [RequireUserPermission(GuildPermission.Administrator)]
         [Priority(0)]
         public Task Award(ShmartNumber amount, IGuildUser usr, [Remainder] string msg) =>
             Award(amount, usr.Id, msg);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [OwnerOnly]
+        [RequireUserPermission(GuildPermission.Administrator)]
         [Priority(1)]
         public Task Award(ShmartNumber amount, [Remainder] IGuildUser usr) =>
             Award(amount, usr.Id);
 
         [NadekoCommand, Usage, Description, Aliases]
-        [OwnerOnly]
+        [RequireUserPermission(GuildPermission.Administrator)]
         [Priority(2)]
         public async Task Award(ShmartNumber amount, ulong usrId, [Remainder] string msg = null)
         {
@@ -245,7 +245,7 @@ namespace NadekoBot.Modules.Gambling
                 return;
 
             await _cs.AddAsync(usrId,
-                $"Awarded by bot owner. ({Context.User.Username}/{Context.User.Id}) {(msg ?? "")}",
+                $"Awarded by bot owner or admin. ({Context.User.Username}/{Context.User.Id}) {(msg ?? "")}",
                 amount,
                 gamble: (Context.Client.CurrentUser.Id != usrId)).ConfigureAwait(false);
             await ReplyConfirmLocalized("awarded", amount + CurrencySign, $"<@{usrId}>").ConfigureAwait(false);
@@ -253,7 +253,7 @@ namespace NadekoBot.Modules.Gambling
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [OwnerOnly]
+        [RequireUserPermission(GuildPermission.Administrator)]
         [Priority(2)]
         public async Task Award(ShmartNumber amount, [Remainder] IRole role)
         {
@@ -262,7 +262,7 @@ namespace NadekoBot.Modules.Gambling
                                .ToList();
 
             await _cs.AddBulkAsync(users.Select(x => x.Id),
-                users.Select(x => $"Awarded by bot owner to **{role.Name}** role. ({Context.User.Username}/{Context.User.Id})"),
+                users.Select(x => $"Awarded by bot owner or admin to **{role.Name}** role. ({Context.User.Username}/{Context.User.Id})"),
                 users.Select(x => amount.Value),
                 gamble: true)
                 .ConfigureAwait(false);
@@ -275,13 +275,13 @@ namespace NadekoBot.Modules.Gambling
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [OwnerOnly]
+        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task Take(ShmartNumber amount, [Remainder] IGuildUser user)
         {
             if (amount <= 0)
                 return;
 
-            if (await _cs.RemoveAsync(user, $"Taken by bot owner.({Context.User.Username}/{Context.User.Id})", amount,
+            if (await _cs.RemoveAsync(user, $"Taken by bot owner or admin. ({Context.User.Username}/{Context.User.Id})", amount,
                 gamble: (Context.Client.CurrentUser.Id != user.Id)).ConfigureAwait(false))
                 await ReplyConfirmLocalized("take", amount + CurrencySign, Format.Bold(user.ToString())).ConfigureAwait(false);
             else
@@ -290,13 +290,13 @@ namespace NadekoBot.Modules.Gambling
 
 
         [NadekoCommand, Usage, Description, Aliases]
-        [OwnerOnly]
+        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task Take(ShmartNumber amount, [Remainder] ulong usrId)
         {
             if (amount <= 0)
                 return;
 
-            if (await _cs.RemoveAsync(usrId, $"Taken by bot owner.({Context.User.Username}/{Context.User.Id})", amount,
+            if (await _cs.RemoveAsync(usrId, $"Taken by bot owner or admin. ({Context.User.Username}/{Context.User.Id})", amount,
                 gamble: (Context.Client.CurrentUser.Id != usrId)))
                 await ReplyConfirmLocalized("take", amount + CurrencySign, $"<@{usrId}>").ConfigureAwait(false);
             else
