@@ -318,34 +318,8 @@ namespace NadekoBot.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.MentionEveryone)]
             [RequireBotPermission(GuildPermission.ManageRoles)]
-            public async Task MentionRole(IRole role)
+            public async Task MentionRole([Remainder] IRole role)
             {
-                //string send = "❕" + GetText("menrole", Context.User.Mention);
-                //foreach (var role in roles)
-                //{
-                //    try
-                //    {
-                //        await role.ModifyAsync(x => x.Mentionable = true);
-
-                //    }
-                //    catch
-                //    {
-                //        send += $"\n**{role.Name}**\n";
-                //        send += string.Join(", ", (await Context.Guild.GetUsersAsync())
-                //            .Where(u => u.GetRoles().Contains(role))
-                //            .Take(50).Select(u => u.Mention));
-                //    }
-                //}
-
-                //while (send.Length > 2000)
-                //{
-                //    var curstr = send.Substring(0, 2000);
-                //    await Context.Channel.SendMessageAsync(curstr.Substring(0,
-                //            curstr.LastIndexOf(", ", StringComparison.Ordinal) + 1)).ConfigureAwait(false);
-                //    send = curstr.Substring(curstr.LastIndexOf(", ", StringComparison.Ordinal) + 1) +
-                //           send.Substring(2000);
-                //}
-
                 if(!role.IsMentionable)
                 {
                     await role.ModifyAsync(x => x.Mentionable = true);
