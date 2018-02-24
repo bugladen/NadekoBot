@@ -902,6 +902,7 @@
   "gambling_new_reaction_event": "Add {0} reaction to this message to get {1}\n{2} left to be awarded.",
   "gambling_new_reaction_event_fail": "Failed starting the event. Either the event is already running in this server, or your CurrencySign is not a valid emoji.",
   "gambling_new_reaction_footer": "This event is active for up to {0} hours.",
+  "gmabling_start_event_fail": "Event failed to start. Another event is running, or there was an error starting the event.",
   "gambling_reaction_title": "Reaction event started!",
   "administration_no_shards_on_page": "No shards on this page.",
   "administration_shard_stats": "Shard stats",
