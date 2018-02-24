@@ -53,7 +53,7 @@
   },
   "greetmsg": {
     "Cmd": "greetmsg",
-    "Desc": "Sets a new join announcement message which will be shown in the server's channel. Type `%user%` if you want to mention the new member. Using it with no message will show the current greet message. You can use embed json from <http://nadekobot.me/embedbuilder/> instead of a regular text, if you want the message to be embedded.",
+    "Desc": "Sets a new join announcement message which will be shown in the server's channel. Type `%user%` if you want to mention the new member. Using it with no message will show the current greet message. You can use embed json from <https://embedbuilder.nadekobot.me/> instead of a regular text, if you want the message to be embedded.",
     "Usage": [
       "{0}greetmsg Welcome, %user%."
     ]
@@ -67,7 +67,7 @@
   },
   "byemsg": {
     "Cmd": "byemsg",
-    "Desc": "Sets a new leave announcement message. Type `%user%` if you want to show the name the user who left. Type `%id%` to show id. Using this command with no message will show the current bye message. You can use embed json from <http://nadekobot.me/embedbuilder/> instead of a regular text, if you want the message to be embedded.",
+    "Desc": "Sets a new leave announcement message. Type `%user%` if you want to show the name the user who left. Type `%id%` to show id. Using this command with no message will show the current bye message. You can use embed json from <https://embedbuilder.nadekobot.me/> instead of a regular text, if you want the message to be embedded.",
     "Usage": [
       "{0}byemsg %user% has left."
     ]
@@ -353,10 +353,11 @@
   },
   "rolecolor": {
     "Cmd": "rolecolor roleclr",
-    "Desc": "Set a role's color to the hex or 0-255 rgb color value provided.",
+    "Desc": "Set a role's color to the hex or 0-255 rgb color value provided. Provide no color in order to see the hex of the color of the specified role.",
     "Usage": [
-      "{0}roleclr Admin 255 200 100",
-      "{0}roleclr Admin ffba55"
+      "{0}roleclr Admin",
+      "{0}roleclr Admin ffba55",
+      "{0}roleclr Admin 255 128 0"
     ]
   },
   "ban": {
@@ -1785,7 +1786,7 @@
   },
   "greetdmmsg": {
     "Cmd": "greetdmmsg",
-    "Desc": "Sets a new join announcement message which will be sent to the user who joined. Type `%user%` if you want to mention the new member. Using it with no message will show the current DM greet message. You can use embed json from <http://nadekobot.me/embedbuilder/> instead of a regular text, if you want the message to be embedded.",
+    "Desc": "Sets a new join announcement message which will be sent to the user who joined. Type `%user%` if you want to mention the new member. Using it with no message will show the current DM greet message. You can use embed json from <https://embedbuilder.nadekobot.me> instead of a regular text, if you want the message to be embedded.",
     "Usage": [
       "{0}greetdmmsg Welcome to the server, %user%"
     ]
