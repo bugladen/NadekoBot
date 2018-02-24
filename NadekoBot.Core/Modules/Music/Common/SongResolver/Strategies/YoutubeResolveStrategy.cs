@@ -20,14 +20,9 @@ namespace NadekoBot.Modules.Music.Common.SongResolver.Strategies
 
         public async Task<SongInfo> ResolveSong(string query)
         {
-            var val = Environment.GetEnvironmentVariable("NADEKO_MUSIC_EXPERIMENTAL");
-            if (val == "1")
-            {
-                SongInfo s = await ResolveWithYtExplode(query);
-                if (s != null)
-                    return s;
-                _log.Info("Can't find. Using youtube-dl as a fallback.");
-            }
+            SongInfo s = await ResolveWithYtExplode(query);
+            if (s != null)
+                return s;
             return await ResolveWithYtDl(query);
         }
 
