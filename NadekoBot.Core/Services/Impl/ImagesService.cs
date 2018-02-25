@@ -184,16 +184,20 @@ namespace NadekoBot.Core.Services.Impl
                 realImageUrls = JsonConvert.DeserializeObject<ImageUrls>(
                     File.ReadAllText(Path.Combine(_basePath, "images.json")));
 
+                byte[][] _heads = null;
+                byte[][] _tails = null;
+                byte[][] _dice = null;
+
                 var loadCoins = Task.Run(async () =>
                 {
-                    Heads = await Task.WhenAll(ImageUrls.Coins.Heads
+                    _heads = await Task.WhenAll(ImageUrls.Coins.Heads
                         .Select(x => _http.GetByteArrayAsync(x)));
-                    Tails = await Task.WhenAll(ImageUrls.Coins.Tails
+                    _tails = await Task.WhenAll(ImageUrls.Coins.Tails
                         .Select(x => _http.GetByteArrayAsync(x)));
                 });
 
                 var loadDice = Task.Run(async () =>
-                    Dice = (await Task.WhenAll(ImageUrls.Dice
+                    _dice = (await Task.WhenAll(ImageUrls.Dice
                         .Select(x => _http.GetByteArrayAsync(x))))
                         .ToArray());
 
@@ -209,14 +213,17 @@ namespace NadekoBot.Core.Services.Impl
                     .Select(x => File.ReadAllBytes(x))
                     .ToArray();
 
+                byte[] _wifeMatrix = null;
+                byte[] _rategirlDot = null;
+                byte[] _xpCard = null;
                 var loadRategirl = Task.Run(async () =>
                 {
-                    WifeMatrix = await _http.GetByteArrayAsync(ImageUrls.Rategirl.Matrix);
-                    RategirlDot = await _http.GetByteArrayAsync(ImageUrls.Rategirl.Dot);
+                    _wifeMatrix = await _http.GetByteArrayAsync(ImageUrls.Rategirl.Matrix);
+                    _rategirlDot = await _http.GetByteArrayAsync(ImageUrls.Rategirl.Dot);
                 });
 
                 var loadXp = Task.Run(async () => 
-                    XpCard = await _http.GetByteArrayAsync(ImageUrls.Xp.Bg)
+                    _xpCard = await _http.GetByteArrayAsync(ImageUrls.Xp.Bg)
                 );
 
                 Rip = File.ReadAllBytes(_ripPath);
@@ -224,6 +231,13 @@ namespace NadekoBot.Core.Services.Impl
 
                 await Task.WhenAll(loadCoins, loadRategirl, 
                     loadXp, loadDice);
+
+                WifeMatrix = _wifeMatrix;
+                RategirlDot = _rategirlDot;
+                Heads = _heads;
+                Tails = _tails;
+                Dice = _dice;
+                XpCard = _xpCard;
             }
             catch (Exception ex)
             {
@@ -231,7 +245,7 @@ namespace NadekoBot.Core.Services.Impl
                 throw;
             }
         }
-
+        //todo add byte[] overload
         private T Get<T>(string key) where T : class
         {
             return JsonConvert.DeserializeObject<T>(_db.StringGet($"{_creds.RedisKey()}_localimg_{key}"));
