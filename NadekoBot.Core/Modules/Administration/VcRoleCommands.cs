@@ -29,7 +29,7 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.ManageRoles)]
             [RequireUserPermission(GuildPermission.ManageChannels)]
             [RequireBotPermission(GuildPermission.ManageRoles)]
-            //todo 999 discord.net [RequireBotPermission(GuildPermission.ManageChannels)]
+            [RequireBotPermission(GuildPermission.ManageChannels)]
             [RequireContext(ContextType.Guild)]
             public async Task VcRole([Remainder]IRole role = null)
             {
