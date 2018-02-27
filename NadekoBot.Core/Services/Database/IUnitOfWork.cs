@@ -10,7 +10,6 @@ namespace NadekoBot.Core.Services.Database
 
         IQuoteRepository Quotes { get; }
         IGuildConfigRepository GuildConfigs { get; }
-        IDonatorsRepository Donators { get; }
         IReminderRepository Reminders { get; }
         ISelfAssignedRolesRepository SelfAssignedRoles { get; }
         IBotConfigRepository BotConfig { get; }

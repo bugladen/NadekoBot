@@ -84,7 +84,7 @@ namespace NadekoBot.Core.Services.Database.Models
                     wi = new WaifuItem("🍺", 70, itemName);
                     break;
                 case ItemName.Taco:
-                    wi = new WaifuItem("🍺", 85, itemName);
+                    wi = new WaifuItem("🌮", 85, itemName);
                     break;
                 case ItemName.LoveLetter:
                     wi = new WaifuItem("💌", 100, itemName);
@@ -141,7 +141,7 @@ namespace NadekoBot.Core.Services.Database.Models
                     wi = new WaifuItem("📱", 4000, itemName);
                     break;
                 case ItemName.Dress:
-                    wi = new WaifuItem("📱", 4500, itemName);
+                    wi = new WaifuItem("👗", 4500, itemName);
                     break;
                 case ItemName.Laptop:
                     wi = new WaifuItem("💻", 5000, itemName);
