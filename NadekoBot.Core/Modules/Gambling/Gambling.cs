@@ -520,13 +520,12 @@ namespace NadekoBot.Modules.Gambling
             List<DiscordUser> richest;
             using (var uow = _db.UnitOfWork)
             {
-                richest = uow.DiscordUsers.GetTopRichest(9, 9 * (page - 1)).ToList();
+                richest = uow.DiscordUsers.GetTopRichest(_client.CurrentUser.Id, 9, 9 * (page - 1)).ToList();
             }
 
             var embed = new EmbedBuilder()
                 .WithOkColor()
-                .WithTitle(CurrencySign +
-                           " " + GetText("leaderboard"))
+                .WithTitle(CurrencySign +" " + GetText("leaderboard"))
                 .WithFooter(efb => efb.WithText(GetText("page", page)));
 
             if (!richest.Any())
