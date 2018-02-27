@@ -259,41 +259,6 @@ namespace NadekoBot.Modules.Administration
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task Donators()
-        {
-            IEnumerable<Donator> donatorsOrdered;
-
-            using (var uow = _db.UnitOfWork)
-            {
-                donatorsOrdered = uow.Donators.GetDonatorsOrdered();
-            }
-            await Context.Channel.SendConfirmAsync(GetText("donators"), string.Join("⭐", donatorsOrdered.Select(d => d.Name))).ConfigureAwait(false);
-
-            _nadekoSupportServer = _nadekoSupportServer ?? (await Context.Client.GetGuildAsync(117523346618318850));
-
-            var patreonRole = _nadekoSupportServer?.GetRole(236667642088259585);
-            if (patreonRole == null)
-                return;
-
-            var usrs = (await _nadekoSupportServer.GetUsersAsync()).Where(u => u.RoleIds.Contains(236667642088259585u));
-            await Context.Channel.SendConfirmAsync("Patreon supporters", string.Join("⭐", usrs.Select(d => d.Username))).ConfigureAwait(false);
-        }
-
-
-        [NadekoCommand, Usage, Description, Aliases]
-        [OwnerOnly]
-        public async Task Donadd(IUser donator, int amount)
-        {
-            Donator don;
-            using (var uow = _db.UnitOfWork)
-            {
-                don = uow.Donators.AddOrUpdateDonator(donator.Id, donator.Username, amount);
-                await uow.CompleteAsync();
-            }
-            await ReplyConfirmLocalized("donadd", don.Amount).ConfigureAwait(false);
-        }
-
-        [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [RequireUserPermission(GuildPermission.ManageMessages)]
         public async Task Edit(ulong messageId, [Remainder] string text)

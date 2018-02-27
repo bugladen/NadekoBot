@@ -27,7 +27,6 @@ namespace NadekoBot.Core.Services.Database
     public class NadekoContext : DbContext
     {
         public DbSet<Quote> Quotes { get; set; }
-        public DbSet<Donator> Donators { get; set; }
         public DbSet<GuildConfig> GuildConfigs { get; set; }
         public DbSet<Reminder> Reminders { get; set; }
         public DbSet<SelfAssignedRole> SelfAssignableRoles { get; set; }
@@ -114,17 +113,6 @@ namespace NadekoBot.Core.Services.Database
             var quoteEntity = modelBuilder.Entity<Quote>();
             quoteEntity.HasIndex(x => x.GuildId);
             quoteEntity.HasIndex(x => x.Keyword);
-
-            #endregion
-            
-            #region Donators
-
-            var donatorEntity = modelBuilder.Entity<Donator>();
-            donatorEntity
-                .HasIndex(d => d.UserId)
-                .IsUnique();
-
-            donatorEntity.HasIndex(d => d.Amount);
 
             #endregion
 
