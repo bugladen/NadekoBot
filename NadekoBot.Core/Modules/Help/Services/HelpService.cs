@@ -75,7 +75,7 @@ namespace NadekoBot.Modules.Help.Services
             return em;
         }
 
-        private string GetCommandOptionHelp(Type opt)
+        public string GetCommandOptionHelp(Type opt)
         {
             var strs = opt.GetProperties()
                 .Select(x => x.GetCustomAttributes(true).FirstOrDefault(a => a is OptionAttribute))
