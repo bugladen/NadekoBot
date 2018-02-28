@@ -194,7 +194,7 @@ namespace NadekoBot.Modules.Administration
                     uow.Complete();
                 }
                 var userStr = Format.Bold((Context.Guild as SocketGuild)?.GetUser(userId)?.ToString() ?? userId.ToString());
-                if (index == -1)
+                if (index == 0)
                 {
                     await ReplyConfirmLocalized("warnings_cleared", userStr).ConfigureAwait(false);
                 }
