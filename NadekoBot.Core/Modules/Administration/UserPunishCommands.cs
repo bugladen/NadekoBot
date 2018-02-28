@@ -72,8 +72,12 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [Priority(3)]
-            public Task Warnlog(IGuildUser user)
-                => Context.User.Id == user.Id || ((IGuildUser)Context.User).GuildPermissions.BanMembers ? Warnlog(user.Id) : Task.CompletedTask;
+            public Task Warnlog(IGuildUser user = null)
+            {
+                if (user == null)
+                    user = (IGuildUser)Context.User;
+                return Context.User.Id == user.Id || ((IGuildUser)Context.User).GuildPermissions.BanMembers ? Warnlog(user.Id) : Task.CompletedTask;
+            }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
@@ -190,7 +194,7 @@ namespace NadekoBot.Modules.Administration
                     uow.Complete();
                 }
                 var userStr = Format.Bold((Context.Guild as SocketGuild)?.GetUser(userId)?.ToString() ?? userId.ToString());
-                if (index == -1)
+                if (index == 0)
                 {
                     await ReplyConfirmLocalized("warnings_cleared", userStr).ConfigureAwait(false);
                 }
