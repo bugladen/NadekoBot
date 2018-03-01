@@ -477,6 +477,17 @@ namespace NadekoBot.Modules.Gambling
                 var rng = new NadekoRandom();
 
                 var nobody = GetText("nobody");
+                var i = 0;
+                var itemsStr = !w.Items.Any()
+                    ? "-"
+                    : string.Join("\n", w.Items
+                        .OrderBy(x => x.Price)
+                        .GroupBy(x => x.ItemEmoji)
+                        .Select(x => $"{x.Key} x{x.Count(),-3}")
+                        .GroupBy(x => i++ / 2)
+                        .Select(x => string.Join(" ", x)));
+
+
                 var embed = new EmbedBuilder()
                     .WithOkColor()
                     .WithTitle("Waifu " + w.Waifu + " - \"the " + claimInfo.Title + "\"")
@@ -485,7 +496,7 @@ namespace NadekoBot.Modules.Gambling
                     .AddField(efb => efb.WithName(GetText("likes")).WithValue(w.Affinity?.ToString() ?? nobody).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("changes_of_heart")).WithValue($"{affInfo.Count} - \"the {affInfo.Title}\"").WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("divorces")).WithValue(divorces.ToString()).WithIsInline(true))
-                    .AddField(efb => efb.WithName(GetText("gifts")).WithValue(!w.Items.Any() ? "-" : string.Join("\n", w.Items.OrderBy(x => x.Price).GroupBy(x => x.ItemEmoji).Select(x => $"{x.Key} x{x.Count()}"))).WithIsInline(false))
+                    .AddField(efb => efb.WithName(GetText("gifts")).WithValue(itemsStr).WithIsInline(false))
                     .AddField(efb => efb.WithName($"Waifus ({claims.Count})").WithValue(claims.Count == 0 ? nobody : string.Join("\n", claims.OrderBy(x => rng.Next()).Take(30).Select(x => x.Waifu))).WithIsInline(false));
 
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
