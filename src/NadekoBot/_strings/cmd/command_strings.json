@@ -168,20 +168,6 @@
       "{0}slowmode"
     ]
   },
-  "cleanvplust": {
-    "Cmd": "cleanvplust cv+t",
-    "Desc": "Deletes all text channels ending in `-voice` for which voicechannels are not found. Use at your own risk.",
-    "Usage": [
-      "{0}cleanv+t"
-    ]
-  },
-  "voiceplustext": {
-    "Cmd": "voice+text v+t",
-    "Desc": "Creates a text channel for each voice channel only users in that voice channel can see. If you are server owner, keep in mind you will see them all the time regardless.",
-    "Usage": [
-      "{0}v+t"
-    ]
-  },
   "scsc": {
     "Cmd": "scsc",
     "Desc": "Starts an instance of cross server channel. You will get a token as a DM that other people will use to tune in to the same instance.",
