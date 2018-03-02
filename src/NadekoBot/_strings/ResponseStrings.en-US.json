@@ -277,6 +277,7 @@
   "help_table_of_contents": "Table of contents",
   "help_usage": "Usage",
   "help_options": "Options",
+  "help_requires": "Requires",
   "nsfw_autohentai_started": "Autohentai started. Reposting every {0}s with one of the following tags:\n{1}",
   "nsfw_tag": "Tag",
   "gambling_animal_race": "Animal race",
