@@ -53,14 +53,27 @@ namespace NadekoBot.Modules.Help.Services
         public EmbedBuilder GetCommandHelp(CommandInfo com, IGuild guild)
         {
             var prefix = _ch.GetPrefix(guild);
-
+            
             var str = string.Format("**`{0}`**", prefix + com.Aliases.First());
             var alias = com.Aliases.Skip(1).FirstOrDefault();
             if (alias != null)
                 str += string.Format(" **/ `{0}`**", prefix + alias);
             var em = new EmbedBuilder()
-                .AddField(fb => fb.WithName(str).WithValue($"{com.RealSummary(prefix)} {GetCommandRequirements(com, guild)}").WithIsInline(true))
-                .AddField(fb => fb.WithName(GetText("usage", guild)).WithValue(com.RealRemarks(prefix)).WithIsInline(false))
+                .AddField(fb => fb.WithName(str)
+                    .WithValue($"{com.RealSummary(prefix)}")
+                    .WithIsInline(true));
+
+            var reqs = GetCommandRequirements(com);
+            if(reqs.Any())
+            {
+                em.AddField(GetText("requires", guild),
+                    string.Join("\n", reqs));
+            }
+
+            em
+                .AddField(fb => fb.WithName(GetText("usage", guild))
+                    .WithValue(com.RealRemarks(prefix))
+                    .WithIsInline(false))
                 .WithFooter(efb => efb.WithText(GetText("module", guild, com.Module.GetTopLevelModule().Name)))
                 .WithColor(NadekoBot.OkColor);
 
@@ -95,20 +108,27 @@ namespace NadekoBot.Modules.Help.Services
             return string.Join("\n", strs);
         }
 
-        public string GetCommandRequirements(CommandInfo cmd, IGuild guild) =>
-            string.Join(" ", cmd.Preconditions
+        public string[] GetCommandRequirements(CommandInfo cmd) =>
+            cmd.Preconditions
                   .Where(ca => ca is OwnerOnlyAttribute || ca is RequireUserPermissionAttribute)
                   .Select(ca =>
                   {
                       if (ca is OwnerOnlyAttribute)
-                          return Format.Bold(GetText("bot_owner_only", guild));
+                      {
+                          return "Bot Owner Only";
+                      }
+
                       var cau = (RequireUserPermissionAttribute)ca;
                       if (cau.GuildPermission != null)
-                          return Format.Bold(GetText("server_permission", guild, cau.GuildPermission))
+                      {
+                          return (cau.GuildPermission.ToString() + " Server Permission")
                                        .Replace("Guild", "Server");
-                      return Format.Bold(GetText("channel_permission", guild, cau.ChannelPermission))
+                      }
+
+                      return (cau.ChannelPermission + " Channel Permission")
                                        .Replace("Guild", "Server");
-                  }));
+                  })
+                .ToArray();
 
         private string GetText(string text, IGuild guild, params object[] replacements) =>
             _strings.GetText(text, guild?.Id, "Help".ToLowerInvariant(), replacements);
