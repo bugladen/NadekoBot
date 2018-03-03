@@ -52,7 +52,7 @@ namespace NadekoBot.Modules.Administration
                     await Context.Channel.SendErrorAsync(ex.ToString());
                 }
             }
-
+            
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public Task DeleteWaifus() =>
