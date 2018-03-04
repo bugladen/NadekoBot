@@ -2605,14 +2605,14 @@
     "Cmd": "scadd",
     "Desc": "Adds a command to the list of commands which will be executed automatically in the current channel, in the order they were added in, by the bot when it startups up.",
     "Usage": [
-      "{0}scadd .stats"
+      "{0}scadd {0}stats"
     ]
   },
   "startupcommandremove": {
     "Cmd": "scrm",
     "Desc": "Removes a startup command with the provided command text.",
     "Usage": [
-      "{0}scrm .stats"
+      "{0}scrm {0}stats"
     ]
   },
   "startupcommandsclear": {
@@ -3102,7 +3102,7 @@
     "cmd": "execsql",
     "desc": "Executes an sql command and returns the number of affected rows. Dangerous.",
     "usage": [
-      "{0}execsql UPDATE Currency SET Amount=Amount+1234"
+      "{0}execsql UPDATE DiscordUser SET CurrencyAmount=CurrencyAmount+1234"
     ]
   },
   "deletewaifus": {
