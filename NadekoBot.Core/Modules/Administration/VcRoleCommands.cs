@@ -49,13 +49,13 @@ namespace NadekoBot.Modules.Administration
                 {
                     if (guildVcRoles.TryRemove(vc.Id, out role))
                     {
-                        await ReplyConfirmLocalized("vcrole_removed", Format.Bold(vc.Name)).ConfigureAwait(false);
                         using (var uow = _db.UnitOfWork)
                         {
                             var conf = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(x => x.VcRoleInfos));
                             conf.VcRoleInfos.RemoveWhere(x => x.VoiceChannelId == vc.Id);
                             uow.Complete();
                         }
+                        await ReplyConfirmLocalized("vcrole_removed", Format.Bold(vc.Name)).ConfigureAwait(false);
                     }
                 }
                 else
