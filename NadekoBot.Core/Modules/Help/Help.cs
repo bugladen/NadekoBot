@@ -120,6 +120,13 @@ namespace NadekoBot.Modules.Help
         [Priority(0)]
         public async Task H([Remainder] string fail)
         {
+            var prefixless = _cmds.Commands.FirstOrDefault(x => x.Name.ToLowerInvariant() == fail);
+            if(prefixless!= null)
+            {
+                await H(prefixless);
+                return;
+            }
+
             await ReplyErrorLocalized("command_not_found").ConfigureAwait(false);
         }
 
