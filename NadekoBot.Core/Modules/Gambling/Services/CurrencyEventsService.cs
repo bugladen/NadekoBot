@@ -11,6 +11,7 @@ using NadekoBot.Core.Services.Database.Models;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Linq;
+using NadekoBot.Core.Modules.Gambling.Common.CurrencyEvents;
 
 namespace NadekoBot.Modules.Gambling.Services
 {
@@ -92,9 +93,13 @@ namespace NadekoBot.Modules.Gambling.Services
             {
                 ce = new ReactionEvent(_client, _cs, _bc, g, ch, opts, embed);
             }
-            else //todo
+            //else if (type == Event.Type.NotRaid)
+            //{
+            //    ce = new NotRaidEvent(_client, _cs, _bc, g, ch, opts, embed);
+            //}
+            else
             {
-                ce = new ReactionEvent(_client, _cs, _bc, g, ch, opts, embed);
+                return false;
             }
 
             var added = _events.TryAdd(guildId, ce);
