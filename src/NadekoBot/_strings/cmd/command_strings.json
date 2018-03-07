@@ -1340,9 +1340,16 @@
   },
   "playlists": {
     "Cmd": "playlists pls",
-    "Desc": "Lists all playlists. Paginated, 20 per page. Default page is 0.",
+    "Desc": "Lists all playlists. Paginated, 20 per page.",
     "Usage": [
       "{0}pls 1"
+    ]
+  },
+  "playlistshow": {
+    "Cmd": "playlistshow plshow",
+    "Desc": "Lists all songs in a playlist spepcified by its id. Paginated, 20 per page.",
+    "Usage": [
+      "{0}plshow 1"
     ]
   },
   "deleteplaylist": {
