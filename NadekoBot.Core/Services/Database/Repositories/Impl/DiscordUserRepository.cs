@@ -137,10 +137,6 @@ INSERT OR IGNORE INTO DiscordUser (UserId, Username, Discriminator, AvatarId, Cu
 VALUES ({userId}, {name}, {discrim}, {avatarId}, {amount});
 ");
             }
-
-            
-
-
             return true;
         }
     }

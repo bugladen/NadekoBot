@@ -183,5 +183,19 @@ namespace NadekoBot.Core.Services.Impl
             return Task.WhenAll(server.Keys(pattern: $"{_redisKey}_stream_*")
                 .Select(x => _db.KeyDeleteAsync(x, CommandFlags.FireAndForget)));
         }
+
+        public TimeSpan? TryAddRatelimit(ulong id, string name, int expireIn)
+        {
+            var _db = Redis.GetDatabase();
+            if(_db.StringSet($"{_redisKey}_ratelimit_{id}_{name}",
+                0, // i don't use the value
+                TimeSpan.FromSeconds(expireIn),
+                When.NotExists))
+            {
+                return null;
+            }
+
+            return _db.KeyTimeToLive($"{_redisKey}_ratelimit_{id}_{name}");
+        }
     }
 }
