@@ -74,7 +74,11 @@ VALUES ({userId}, {username}, {discrim}, {avatarId});
 
         public void RemoveFromMany(List<long> ids)
         {
-            _set.RemoveRange(_set.Where(x => ids.Contains((long)x.UserId)));
+            var items = _set.Where(x => ids.Contains((long)x.UserId));
+            foreach (var item in items)
+            {
+                item.CurrencyAmount = 0;
+            }
         }
 
         public bool TryUpdateCurrencyState(ulong userId, string name, string discrim, string avatarId, long amount, bool allowNegative = false)
