@@ -19,6 +19,7 @@ namespace NadekoBot.Modules.Administration.Services
         private readonly DiscordSocketClient _client;
 
         public ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, IRole>> VcRoles { get; }
+        public ConcurrentDictionary<ulong, ConcurrentQueue<(bool, IGuildUser, IRole)>> ToAssign { get; }
 
         public VcRoleService(DiscordSocketClient client, NadekoBot bot, DbService db)
         {
@@ -28,6 +29,7 @@ namespace NadekoBot.Modules.Administration.Services
 
             _client.UserVoiceStateUpdated += ClientOnUserVoiceStateUpdated;
             VcRoles = new ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, IRole>>();
+            ToAssign = new ConcurrentDictionary<ulong, ConcurrentQueue<(bool, IGuildUser, IRole)>>();
             var missingRoles = new ConcurrentBag<VcRoleInfo>();
 
             Task.WhenAll(bot.AllGuildConfigs.Select(gconf => Task.Run(() =>
@@ -61,6 +63,38 @@ namespace NadekoBot.Modules.Administration.Services
                         }
                     }
                 });
+
+            Task.Run(async () =>
+            {
+                while(true)
+                {
+                    var tasks = ToAssign.Values.Select(queue => Task.Run(async () =>
+                    {
+                        while (queue.TryDequeue(out var item))
+                        {
+                            var (add, user, role) = item;
+                            if (add)
+                            {
+                                if (!user.RoleIds.Contains(role.Id))
+                                {
+                                    try { await user.AddRoleAsync(role); } catch { }
+                                }
+                            }
+                            else
+                            {
+                                if (user.RoleIds.Contains(role.Id))
+                                {
+                                    try { await user.RemoveRoleAsync(role); } catch { }
+                                }
+                            }
+
+                            await Task.Delay(250);
+                        }
+                    }));
+
+                    await Task.WhenAll(tasks.Append(Task.Delay(1000)));
+                }
+            });
         }
 
         public void AddVcRole(ulong guildId, IRole role, ulong vcId)
@@ -112,7 +146,7 @@ namespace NadekoBot.Modules.Administration.Services
 
             var oldVc = oldState.VoiceChannel;
             var newVc = newState.VoiceChannel;
-            var _ = Task.Run(async () =>
+            var _ = Task.Run(() =>
             {
                 try
                 {
@@ -126,28 +160,12 @@ namespace NadekoBot.Modules.Administration.Services
                             //remove old
                             if (oldVc != null && guildVcRoles.TryGetValue(oldVc.Id, out IRole role))
                             {
-                                try
-                                {
-                                    await gusr.RemoveRoleAsync(role).ConfigureAwait(false);
-                                }
-                                catch
-                                {
-                                    try
-                                    {
-                                        await Task.Delay(500).ConfigureAwait(false);
-                                        await gusr.RemoveRoleAsync(role).ConfigureAwait(false);
-                                    }
-                                    catch { }
-                                }
+                                Assign(false, gusr, role);
                             }
                             //add new
                             if (newVc != null && guildVcRoles.TryGetValue(newVc.Id, out role))
                             {
-                                if (!gusr.Roles.Contains(role))
-                                {
-                                    await Task.Delay(500).ConfigureAwait(false);
-                                    await gusr.AddRoleAsync(role).ConfigureAwait(false);
-                                }
+                                Assign(true, gusr, role);
                             }
 
                         }
@@ -159,6 +177,12 @@ namespace NadekoBot.Modules.Administration.Services
                 }
             });
             return Task.CompletedTask;
+        }
+
+        private void Assign(bool v, SocketGuildUser gusr, IRole role)
+        {
+            var queue = ToAssign.GetOrAdd(gusr.Guild.Id, new ConcurrentQueue<(bool, IGuildUser, IRole)>());
+            queue.Enqueue((v, gusr, role));
         }
     }
 }
