@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
+using Microsoft.EntityFrameworkCore;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
 using NLog;
@@ -27,12 +28,13 @@ namespace NadekoBot.Modules.Administration.Services
 
             _client.UserVoiceStateUpdated += ClientOnUserVoiceStateUpdated;
             VcRoles = new ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, IRole>>();
-            var missingRoles = new List<VcRoleInfo>();
-            foreach (var gconf in bot.AllGuildConfigs)
+            var missingRoles = new ConcurrentBag<VcRoleInfo>();
+
+            Task.WhenAll(bot.AllGuildConfigs.Select(gconf => Task.Run(() =>
             {
                 var g = _client.GetGuild(gconf.GuildId);
                 if (g == null)
-                    continue;
+                    return;
 
                 var infos = new ConcurrentDictionary<ulong, IRole>();
                 VcRoles.TryAdd(gconf.GuildId, infos);
@@ -47,14 +49,57 @@ namespace NadekoBot.Modules.Administration.Services
 
                     infos.TryAdd(ri.VoiceChannelId, role);
                 }
-            }
-            if(missingRoles.Any())
-                using (var uow = _db.UnitOfWork)
+            }))).ContinueWith(async _ =>
                 {
-                    _log.Warn($"Removing {missingRoles.Count} missing roles from {nameof(VcRoleService)}");
-                    uow._context.RemoveRange(missingRoles);
-                    uow.Complete();
-                }
+                    if (missingRoles.Any())
+                    {
+                        using (var uow = _db.UnitOfWork)
+                        {
+                            _log.Warn($"Removing {missingRoles.Count} missing roles from {nameof(VcRoleService)}");
+                            uow._context.RemoveRange(missingRoles);
+                            await uow.CompleteAsync();
+                        }
+                    }
+                });
+        }
+
+        public void AddVcRole(ulong guildId, IRole role, ulong vcId)
+        {
+            if (role == null)
+                throw new ArgumentNullException(nameof(role));
+
+            var guildVcRoles = VcRoles.GetOrAdd(guildId, new ConcurrentDictionary<ulong, IRole>());
+
+            guildVcRoles.AddOrUpdate(vcId, role, (key, old) => role);
+            using (var uow = _db.UnitOfWork)
+            {
+                var conf = uow.GuildConfigs.For(guildId, set => set.Include(x => x.VcRoleInfos));
+                conf.VcRoleInfos.RemoveWhere(x => x.VoiceChannelId == vcId); // remove old one
+                conf.VcRoleInfos.Add(new VcRoleInfo()
+                {
+                    VoiceChannelId = vcId,
+                    RoleId = role.Id,
+                }); // add new one
+                uow.Complete();
+            }
+        }
+
+        public bool RemoveVcRole(ulong guildId, ulong vcId)
+        {
+            if (!VcRoles.TryGetValue(guildId, out var guildVcRoles))
+                return false;
+
+            if (!guildVcRoles.TryGetValue(vcId, out _))
+                return false;
+
+            using (var uow = _db.UnitOfWork)
+            {
+                var conf = uow.GuildConfigs.For(guildId, set => set.Include(x => x.VcRoleInfos));
+                conf.VcRoleInfos.RemoveWhere(x => x.VoiceChannelId == vcId);
+                uow.Complete();
+            }
+
+            return true;
         }
 
         private Task ClientOnUserVoiceStateUpdated(SocketUser usr, SocketVoiceState oldState,
