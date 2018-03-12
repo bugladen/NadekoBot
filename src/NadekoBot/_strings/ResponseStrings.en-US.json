@@ -173,6 +173,8 @@
   "administration_self_assign_rem": "{0} has been removed from the list of self-assignable roles.",
   "administration_self_assign_remove": "You no longer have {0} role.",
   "administration_self_assign_success": "You now have {0} role.",
+  "administration_adsarm_enable": "Automatic deletion of `{0}iam` and `{0}iamn` responses has been enabled.",
+  "administration_adsarm_disable": "Bot will no longer delete `{0}iam` and `{0}iamn` responses.",
   "administration_setrole": "Successfully added role {0} to user {1}",
   "administration_setrole_err": "Failed to add role. I have insufficient permissions.",
   "administration_set_avatar": "New avatar set!",
