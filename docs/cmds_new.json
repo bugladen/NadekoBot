@@ -186,7 +186,7 @@
       ],
       "Description": "Executes an sql command and returns the number of affected rows. Dangerous.",
       "Usage": [
-        ".execsql UPDATE Currency SET Amount=Amount+1234"
+        ".execsql UPDATE DiscordUser SET CurrencyAmount=CurrencyAmount+1234"
       ],
       "Submodule": "DangerousCommands",
       "Module": "Administration",
@@ -2039,7 +2039,7 @@
       ],
       "Submodule": "AnimalRacingCommands",
       "Module": "Gambling",
-      "Options": "--start-time (-s)   ",
+      "Options": "--start-time (-s)     ",
       "Requirements": []
     },
     {
@@ -2121,7 +2121,7 @@
       ],
       "Submodule": "CurrencyEventsCommands",
       "Module": "Gambling",
-      "Options": "--amount (-a)   Amount of currency each user receives.\n--pot-size (-p)   The maximum amount of currency that can be rewarded. 0 means no limit.\n--duration (-d)   Number of hours the event should run for. Default 24.",
+      "Options": "--amount (-a)   Amount of currency each user receives.  \n--pot-size (-p)   The maximum amount of currency that can be rewarded. 0 means no limit.  \n--duration (-d)   Number of hours the event should run for. Default 24.  ",
       "Requirements": [
         "Bot Owner Only"
       ]
@@ -2565,7 +2565,7 @@
       ],
       "Submodule": "AcropobiaCommands",
       "Module": "Games",
-      "Options": "--submission-time (-s)   Time after which the submissions are closed and voting starts.\n--vote-time (-v)   Time after which the voting is closed and the winner is declared.",
+      "Options": "--submission-time (-s)   Time after which the submissions are closed and voting starts.  \n--vote-time (-v)   Time after which the voting is closed and the winner is declared.  ",
       "Requirements": []
     },
     {
@@ -2594,7 +2594,7 @@
       ],
       "Submodule": "Connect4Commands",
       "Module": "Games",
-      "Options": "--turn-timer (-t)   Turn time in seconds. Default 15.",
+      "Options": "--turn-timer (-t)   Turn time in seconds. Default 15.  ",
       "Requirements": []
     },
     {
@@ -2762,7 +2762,7 @@
       ],
       "Submodule": "SpeedTypingCommands",
       "Module": "Games",
-      "Options": "--start-time (-s)   How long does it take for the race to start. Default 5.",
+      "Options": "--start-time (-s)   How long does it take for the race to start. Default 5.  ",
       "Requirements": []
     },
     {
@@ -2833,7 +2833,7 @@
       ],
       "Submodule": "TicTacToeCommands",
       "Module": "Games",
-      "Options": "--turn-timer (-t)   Turn time in seconds. Default 15.",
+      "Options": "--turn-timer (-t)   Turn time in seconds. Default 15.  ",
       "Requirements": []
     },
     {
@@ -2848,7 +2848,7 @@
       ],
       "Submodule": "TriviaCommands",
       "Module": "Games",
-      "Options": "--pokemon (-p)   Whether it's 'Who's that pokemon?' trivia.\n--nohint   Don't show any hints.\n--win-req (-w)   Winning requirement. Set 0 for an infinite game. Default 10.\n--question-timer (-q)   How long until the question ends. Default 30.\n--timeout (-t)   Number of questions of inactivity in order stop. Set 0 for never. Default 10.",
+      "Options": "--pokemon (-p)   Whether it's 'Who's that pokemon?' trivia.  \n--nohint   Don't show any hints.  \n--win-req (-w)   Winning requirement. Set 0 for an infinite game. Default 10.  \n--question-timer (-q)   How long until the question ends. Default 30.  \n--timeout (-t)   Number of questions of inactivity in order stop. Set 0 for never. Default 10.  ",
       "Requirements": []
     },
     {
@@ -3161,7 +3161,7 @@
         ".playlists",
         ".pls"
       ],
-      "Description": "Lists all playlists. Paginated, 20 per page. Default page is 0.",
+      "Description": "Lists all playlists. Paginated, 20 per page.",
       "Usage": [
         ".pls 1"
       ],
@@ -3178,6 +3178,20 @@
       "Description": "Deletes a saved playlist using its id. Works only if you made it or if you are the bot owner.",
       "Usage": [
         ".delpls 5"
+      ],
+      "Submodule": "Music",
+      "Module": "Music",
+      "Options": null,
+      "Requirements": []
+    },
+    {
+      "Aliases": [
+        ".playlistshow",
+        ".plshow"
+      ],
+      "Description": "Lists all songs in a playlist spepcified by its id. Paginated, 20 per page.",
+      "Usage": [
+        ".plshow 1"
       ],
       "Submodule": "Music",
       "Module": "Music",

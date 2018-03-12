@@ -62,17 +62,34 @@ namespace NadekoBot.Modules.Gambling
                 {
                     case Event.Type.Reaction:
                         return new EmbedBuilder()
-                                    .WithOkColor()
-                                    .WithTitle(GetText("reaction_title"))
-                                    .WithDescription(GetDescription(opts.Amount, currentPot))
-                                    .WithFooter(GetText("new_reaction_footer", opts.Hours));
+                            .WithOkColor()
+                            .WithTitle(GetText("reaction_title"))
+                            .WithDescription(GetReactionDescription(opts.Amount, currentPot))
+                            .WithFooter(GetText("new_reaction_footer", opts.Hours));
+                    //case Event.Type.NotRaid:
+                    //    return new EmbedBuilder()
+                    //        .WithOkColor()
+                    //        .WithTitle(GetText("notraid_title"))
+                    //        .WithDescription(GetNotRaidDescription(opts.Amount, currentPot))
+                    //        .WithFooter(GetText("notraid_footer", opts.Hours));
                     default:
                         break;
                 }
                 throw new ArgumentOutOfRangeException(nameof(type));
             }
 
-            private string GetDescription(long amount, long potSize)
+            private string GetReactionDescription(long amount, long potSize)
+            {
+                string potSizeStr = Format.Bold(potSize == 0
+                    ? "∞" + _bc.BotConfig.CurrencySign
+                    : potSize.ToString() + _bc.BotConfig.CurrencySign);
+                return GetText("new_reaction_event",
+                                   _bc.BotConfig.CurrencySign,
+                                   Format.Bold(amount + _bc.BotConfig.CurrencySign),
+                                   potSizeStr);
+            }
+
+            private string GetNotRaidDescription(long amount, long potSize)
             {
                 string potSizeStr = Format.Bold(potSize == 0
                     ? "∞" + _bc.BotConfig.CurrencySign

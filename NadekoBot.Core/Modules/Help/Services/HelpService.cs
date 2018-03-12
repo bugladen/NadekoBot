@@ -101,7 +101,7 @@ namespace NadekoBot.Modules.Help.Services
                     if (!string.IsNullOrWhiteSpace(x.ShortName))
                         toReturn += $" (-{x.ShortName})";
 
-                    toReturn += $"   {x.HelpText}";
+                    toReturn += $"   {x.HelpText}  ";
                     return toReturn;
                 });
 
