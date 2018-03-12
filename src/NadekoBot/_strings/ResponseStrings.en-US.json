@@ -59,6 +59,7 @@
   "administration_cleaned_up": "Cleaned up.",
   "administration_content": "Content",
   "administration_cr": "Successfully created role {0}",
+  "administration_dr": "Role {0} has been deleted.",
   "administration_createtextchan": "Text channel {0} created.",
   "administration_createvoich": "Voice channel {0} created.",
   "administration_deafen": "Deafen successful.",

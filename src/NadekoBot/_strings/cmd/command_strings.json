@@ -352,6 +352,13 @@
       "{0}cr Awesome Role"
     ]
   },
+  "deleterole": {
+    "Cmd": "deleterole dr",
+    "Desc": "Deletes a role with a given name.",
+    "Usage": [
+      "{0}dr Awesome Role"
+    ]
+  },
   "rolecolor": {
     "Cmd": "rolecolor roleclr",
     "Desc": "Set a role's color to the hex or 0-255 rgb color value provided. Provide no color in order to see the hex of the color of the specified role.",
