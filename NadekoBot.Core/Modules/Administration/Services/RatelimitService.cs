@@ -11,6 +11,7 @@ using NadekoBot.Modules.Administration.Common;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
 using NLog;
+using Microsoft.EntityFrameworkCore;
 
 namespace NadekoBot.Modules.Administration.Services
 {
@@ -19,11 +20,11 @@ namespace NadekoBot.Modules.Administration.Services
         public ConcurrentDictionary<ulong, Ratelimiter> RatelimitingChannels = new ConcurrentDictionary<ulong, Ratelimiter>();
         public ConcurrentDictionary<ulong, HashSet<ulong>> IgnoredRoles = new ConcurrentDictionary<ulong, HashSet<ulong>>();
         public ConcurrentDictionary<ulong, HashSet<ulong>> IgnoredUsers = new ConcurrentDictionary<ulong, HashSet<ulong>>();
-
+        private readonly DbService _db;
         private readonly Logger _log;
         private readonly DiscordSocketClient _client;
 
-        public SlowmodeService(DiscordSocketClient client, NadekoBot bot)
+        public SlowmodeService(DiscordSocketClient client, NadekoBot bot, DbService db)
         {
             _log = LogManager.GetCurrentClassLogger();
             _client = client;
@@ -35,6 +36,13 @@ namespace NadekoBot.Modules.Administration.Services
             IgnoredUsers = new ConcurrentDictionary<ulong, HashSet<ulong>>(
                 bot.AllGuildConfigs.ToDictionary(x => x.GuildId,
                                  x => new HashSet<ulong>(x.SlowmodeIgnoredUsers.Select(y => y.UserId))));
+
+            _db = db;
+        }
+
+        public bool StopSlowmode(ulong id)
+        {
+           return RatelimitingChannels.TryRemove(id, out var x);
         }
 
         public async Task<bool> TryBlockEarly(IGuild guild, IUserMessage usrMsg)
@@ -62,6 +70,76 @@ namespace NadekoBot.Modules.Administration.Services
                 
             }
             return false;
+        }
+
+        public bool ToggleWhitelistUser(ulong guildId, ulong userId)
+        {
+            var siu = new SlowmodeIgnoredUser
+            {
+                UserId = userId
+            };
+
+            HashSet<SlowmodeIgnoredUser> usrs;
+            bool removed;
+            using (var uow = _db.UnitOfWork)
+            {
+                usrs = uow.GuildConfigs.For(guildId, set => set.Include(x => x.SlowmodeIgnoredUsers))
+                    .SlowmodeIgnoredUsers;
+
+                if (!(removed = usrs.Remove(siu)))
+                    usrs.Add(siu);
+
+                uow.Complete();
+            }
+
+            IgnoredUsers.AddOrUpdate(guildId,
+                new HashSet<ulong>(usrs.Select(x => x.UserId)),
+                (key, old) => new HashSet<ulong>(usrs.Select(x => x.UserId)));
+
+            return !removed;
+        }
+
+        public bool ToggleWhitelistRole(ulong guildId, ulong roleId)
+        {
+            var sir = new SlowmodeIgnoredRole
+            {
+                RoleId = roleId
+            };
+
+            HashSet<SlowmodeIgnoredRole> roles;
+            bool removed;
+            using (var uow = _db.UnitOfWork)
+            {
+                roles = uow.GuildConfigs.For(guildId, set => set.Include(x => x.SlowmodeIgnoredRoles))
+                    .SlowmodeIgnoredRoles;
+
+                if (!(removed = roles.Remove(sir)))
+                    roles.Add(sir);
+
+                uow.Complete();
+            }
+
+            IgnoredRoles.AddOrUpdate(guildId,
+                new HashSet<ulong>(roles.Select(x => x.RoleId)),
+                (key, old) => new HashSet<ulong>(roles.Select(x => x.RoleId)));
+
+            return !removed;
+        }
+
+        public bool StartSlowmode(ulong id, int msgCount, int perSec)
+        {
+            var rl = new Ratelimiter(this)
+            {
+                MaxMessages = msgCount,
+                PerSeconds = perSec,
+            };
+
+            return RatelimitingChannels.TryAdd(id, rl);
+        }
+
+        public bool HasSlowMode(ulong guildId)
+        {
+            return RatelimitingChannels.ContainsKey(guildId);
         }
     }
 }
