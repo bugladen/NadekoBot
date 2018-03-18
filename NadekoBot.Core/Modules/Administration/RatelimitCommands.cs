@@ -25,16 +25,9 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.ManageMessages)]
             public Task Slowmode()
             {
-                if (_service.HasSlowMode(Context.Guild.Id))
+                if (_service.StopSlowmode(Context.Guild.Id))
                 {
-                    if(_service.StopSlowmode(Context.Guild.Id))
-                    {
-                        return ReplyConfirmLocalized("slowmode_disabled");
-                    }
-                    else
-                    {
-                        return Task.CompletedTask;
-                    }
+                    return ReplyConfirmLocalized("slowmode_disabled");
                 }
                 else
                 {
@@ -45,16 +38,14 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
-            public async Task Slowmode(int msgCount, int perSec)
+            public async Task Slowmode(uint msgCount, int perSec)
             {
-                await Slowmode().ConfigureAwait(false); // disable if exists
-                
                 if (msgCount < 1 || perSec < 1 || msgCount > 100 || perSec > 3600)
                 {
                     await ReplyErrorLocalized("invalid_params").ConfigureAwait(false);
                     return;
                 }
-                if(_service.StartSlowmode(Context.Guild.Id, msgCount, perSec))
+                if (_service.StartSlowmode(Context.Channel.Id, msgCount, perSec))
                 {
                     await Context.Channel.SendConfirmAsync(GetText("slowmode_init"),
                             GetText("slowmode_desc", Format.Bold(msgCount.ToString()), Format.Bold(perSec.ToString())))

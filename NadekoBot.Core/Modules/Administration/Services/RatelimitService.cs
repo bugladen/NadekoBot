@@ -45,8 +45,9 @@ namespace NadekoBot.Modules.Administration.Services
            return RatelimitingChannels.TryRemove(id, out var x);
         }
 
-        public async Task<bool> TryBlockEarly(IGuild guild, IUserMessage usrMsg)
+        public async Task<bool> TryBlockEarly(IGuild g, IUserMessage usrMsg)
         {
+            var guild = g as SocketGuild;
             if (guild == null)
                 return false;
             try
@@ -55,10 +56,12 @@ namespace NadekoBot.Modules.Administration.Services
 
                 if (channel == null || usrMsg == null || usrMsg.IsAuthor(_client))
                     return false;
+                if (guild.GetUser(usrMsg.Author.Id).GuildPermissions.ManageMessages)
+                    return false;
                 if (!RatelimitingChannels.TryGetValue(channel.Id, out Ratelimiter limiter))
                     return false;
 
-                if (limiter.CheckUserRatelimit(usrMsg.Author.Id, channel.Guild.Id, usrMsg.Author as SocketGuildUser))
+                if (CheckUserRatelimit(limiter, channel.Guild.Id, usrMsg.Author.Id, usrMsg.Author as SocketGuildUser))
                 {
                     await usrMsg.DeleteAsync();
                     return true;
@@ -69,6 +72,30 @@ namespace NadekoBot.Modules.Administration.Services
                 _log.Warn(ex);
                 
             }
+            return false;
+        }
+
+        private bool CheckUserRatelimit(Ratelimiter rl, ulong guildId, ulong userId, SocketGuildUser optUser)
+        {
+            if ((IgnoredUsers.TryGetValue(guildId, out HashSet<ulong> ignoreUsers) && ignoreUsers.Contains(userId)) ||
+                   (optUser != null && IgnoredRoles.TryGetValue(guildId, out HashSet<ulong> ignoreRoles) && optUser.Roles.Any(x => ignoreRoles.Contains(x.Id))))
+                return false;
+
+            var msgCount = rl.Users.AddOrUpdate(userId, 1, (key, old) => ++old);
+
+            if(msgCount > rl.MaxMessages)
+            {
+                var test = rl.Users.AddOrUpdate(userId, 0, (key, old) => --old);
+                _log.Info("Not allowed: {0}", test);
+                return true;
+            }
+
+            var _ = Task.Run(async () =>
+            {
+                await Task.Delay(rl.PerSeconds * 1000);
+                var newVal = rl.Users.AddOrUpdate(userId, 0, (key, old) => --old);
+                _log.Info("Decreased: {0}", newVal);
+            });
             return false;
         }
 
@@ -126,20 +153,15 @@ namespace NadekoBot.Modules.Administration.Services
             return !removed;
         }
 
-        public bool StartSlowmode(ulong id, int msgCount, int perSec)
+        public bool StartSlowmode(ulong id, uint msgCount, int perSec)
         {
-            var rl = new Ratelimiter(this)
+            var rl = new Ratelimiter
             {
                 MaxMessages = msgCount,
                 PerSeconds = perSec,
             };
 
             return RatelimitingChannels.TryAdd(id, rl);
-        }
-
-        public bool HasSlowMode(ulong guildId)
-        {
-            return RatelimitingChannels.ContainsKey(guildId);
         }
     }
 }
