@@ -32,41 +32,11 @@ namespace NadekoBot.Modules.Administration.Services
             ToAssign = new ConcurrentDictionary<ulong, ConcurrentQueue<(bool, IGuildUser, IRole)>>();
             var missingRoles = new ConcurrentBag<VcRoleInfo>();
 
-            Task.WhenAll(bot.AllGuildConfigs.Select(gconf => Task.Run(() =>
-            {
-                var g = _client.GetGuild(gconf.GuildId);
-                if (g == null)
-                    return;
-
-                var infos = new ConcurrentDictionary<ulong, IRole>();
-                VcRoles.TryAdd(gconf.GuildId, infos);
-                foreach (var ri in gconf.VcRoleInfos)
-                {
-                    var role = g.GetRole(ri.RoleId);
-                    if (role == null)
-                    {
-                        missingRoles.Add(ri);
-                        continue;
-                    }
-
-                    infos.TryAdd(ri.VoiceChannelId, role);
-                }
-            }))).ContinueWith(async _ =>
-                {
-                    if (missingRoles.Any())
-                    {
-                        using (var uow = _db.UnitOfWork)
-                        {
-                            _log.Warn($"Removing {missingRoles.Count} missing roles from {nameof(VcRoleService)}");
-                            uow._context.RemoveRange(missingRoles);
-                            await uow.CompleteAsync();
-                        }
-                    }
-                });
+            Task.WhenAll(bot.AllGuildConfigs.Select(InitializeVcRole));
 
             Task.Run(async () =>
             {
-                while(true)
+                while (true)
                 {
                     var tasks = ToAssign.Values.Select(queue => Task.Run(async () =>
                     {
@@ -95,6 +65,55 @@ namespace NadekoBot.Modules.Administration.Services
                     await Task.WhenAll(tasks.Append(Task.Delay(1000)));
                 }
             });
+
+            _client.LeftGuild += _client_LeftGuild;
+            bot.JoinedGuild += Bot_JoinedGuild;
+        }
+
+        private Task Bot_JoinedGuild(GuildConfig arg)
+        {
+            var _ = InitializeVcRole(arg);
+            return Task.CompletedTask;
+        }
+
+        private Task _client_LeftGuild(SocketGuild arg)
+        {
+            VcRoles.TryRemove(arg.Id, out _);
+            ToAssign.TryRemove(arg.Id, out _);
+            return Task.CompletedTask;
+        }
+
+        private async Task InitializeVcRole(GuildConfig gconf)
+        {
+            await Task.Yield();
+            var g = _client.GetGuild(gconf.GuildId);
+            if (g == null)
+                return;
+
+            var infos = new ConcurrentDictionary<ulong, IRole>();
+            var missingRoles = new List<VcRoleInfo>();
+            VcRoles.AddOrUpdate(gconf.GuildId, infos, delegate { return infos; });
+            foreach (var ri in gconf.VcRoleInfos)
+            {
+                var role = g.GetRole(ri.RoleId);
+                if (role == null)
+                {
+                    missingRoles.Add(ri);
+                    continue;
+                }
+
+                infos.TryAdd(ri.VoiceChannelId, role);
+            }
+
+            if (missingRoles.Any())
+            {
+                using (var uow = _db.UnitOfWork)
+                {
+                    _log.Warn($"Removing {missingRoles.Count} missing roles from {nameof(VcRoleService)}");
+                    uow._context.RemoveRange(missingRoles);
+                    await uow.CompleteAsync();
+                }
+            }
         }
 
         public void AddVcRole(ulong guildId, IRole role, ulong vcId)

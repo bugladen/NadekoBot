@@ -128,7 +128,6 @@ namespace NadekoBot.Modules.Administration.Services
             };
         }
 
-
         private async Task PunishUsers(PunishmentAction action, ProtectionType pt, int muteTime, params IGuildUser[] gus)
         {
             _log.Info($"[{pt}] - Punishing [{gus.Length}] users with [{action}] in {gus[0].Guild.Name} guild");
