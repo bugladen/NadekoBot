@@ -2,7 +2,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Discord;
@@ -11,7 +10,6 @@ using NadekoBot.Core.Modules.Gambling.Common.Events;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Extensions;
-using NadekoBot.Modules.Gambling.Common;
 using NLog;
 
 namespace NadekoBot.Core.Modules.Gambling.Common.CurrencyEvents

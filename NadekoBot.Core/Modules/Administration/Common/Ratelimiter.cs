@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Discord.WebSocket;
-using NadekoBot.Modules.Administration.Services;
+﻿using System.Collections.Concurrent;
 
 namespace NadekoBot.Modules.Administration.Common
 {
