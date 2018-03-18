@@ -64,6 +64,8 @@ namespace NadekoBot
                 .Select(x => x.Guilds)
                 .ToArray();
 
+        public event Func<GuildConfig, Task> JoinedGuild = delegate { return Task.CompletedTask; };
+
         public NadekoBot(int shardId, int parentProcessId)
         {
             if (shardId < 0)
@@ -247,6 +249,15 @@ namespace NadekoBot
         private Task Client_JoinedGuild(SocketGuild arg)
         {
             _log.Info("Joined server: {0} [{1}]", arg?.Name, arg?.Id);
+            var _ = Task.Run(async () =>
+            {
+                GuildConfig gc;
+                using (var uow = _db.UnitOfWork)
+                {
+                    gc = uow.GuildConfigs.For(arg.Id);
+                }
+                await JoinedGuild.Invoke(gc);
+            });
             return Task.CompletedTask;
         }
 

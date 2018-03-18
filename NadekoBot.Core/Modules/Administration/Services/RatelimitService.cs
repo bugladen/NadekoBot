@@ -18,16 +18,27 @@ namespace NadekoBot.Modules.Administration.Services
 {
     public class SlowmodeService : IEarlyBlocker, INService
     {
-        // todo merge into one dictionary
-        public ConcurrentDictionary<ulong, Ratelimiter> RatelimitingChannels = new ConcurrentDictionary<ulong, Ratelimiter>();
-        public ConcurrentDictionary<ulong, HashSet<ulong>> IgnoredRoles = new ConcurrentDictionary<ulong, HashSet<ulong>>();
-        public ConcurrentDictionary<ulong, HashSet<ulong>> IgnoredUsers = new ConcurrentDictionary<ulong, HashSet<ulong>>();
-        private Timer _deleteTimer;
-        public readonly ConcurrentDictionary<(ulong GuildId, ulong ChannelId), ConcurrentQueue<ulong>> _slowmodeToDelete 
-            = new ConcurrentDictionary<(ulong, ulong), ConcurrentQueue<ulong>>();
+        public class SlowmodeIgnores
+        {
+            public HashSet<ulong> IgnoredRoles { get; set; }
+            public HashSet<ulong> IgnoredUsers { get; set; }
+        }
+
         private readonly DbService _db;
         private readonly Logger _log;
         private readonly DiscordSocketClient _client;
+
+        private Timer _deleteTimer;
+        // channels with a queue of messages scheduled for deletion
+        public readonly ConcurrentDictionary<(ulong GuildId, ulong ChannelId), ConcurrentQueue<ulong>> _slowmodeToDelete
+            = new ConcurrentDictionary<(ulong, ulong), ConcurrentQueue<ulong>>();
+
+        // ignored roles and users
+        private readonly ConcurrentDictionary<ulong, SlowmodeIgnores> _ignores =
+            new ConcurrentDictionary<ulong, SlowmodeIgnores>();
+
+        // where the slowmode is actually running
+        public ConcurrentDictionary<ulong, Slowmoder> SlowmodeChannels = new ConcurrentDictionary<ulong, Slowmoder>();
 
         public SlowmodeService(DiscordSocketClient client, NadekoBot bot, DbService db)
         {
@@ -35,15 +46,40 @@ namespace NadekoBot.Modules.Administration.Services
             _client = client;
             _db = db;
 
-            IgnoredRoles = new ConcurrentDictionary<ulong, HashSet<ulong>>(
-                bot.AllGuildConfigs.ToDictionary(x => x.GuildId,
-                                 x => new HashSet<ulong>(x.SlowmodeIgnoredRoles.Select(y => y.RoleId))));
-
-            IgnoredUsers = new ConcurrentDictionary<ulong, HashSet<ulong>>(
-                bot.AllGuildConfigs.ToDictionary(x => x.GuildId,
-                                 x => new HashSet<ulong>(x.SlowmodeIgnoredUsers.Select(y => y.UserId))));
+            _ignores = new ConcurrentDictionary<ulong, SlowmodeIgnores>(bot.AllGuildConfigs
+                .ToDictionary(x => x.GuildId,
+                    x => GetIgnores(x)));
 
             _deleteTimer = new Timer(TimerFunc, null, TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(1));
+
+            _client.LeftGuild += _client_LeftGuild;
+            bot.JoinedGuild += Bot_JoinedGuild;
+        }
+
+        private SlowmodeIgnores GetIgnores(GuildConfig gc)
+        {
+            return new SlowmodeIgnores()
+            {
+                IgnoredRoles = new HashSet<ulong>(gc.SlowmodeIgnoredRoles.Select(y => y.RoleId)),
+                IgnoredUsers = new HashSet<ulong>(gc.SlowmodeIgnoredUsers.Select(y => y.UserId)),
+            };
+        }
+
+        private Task Bot_JoinedGuild(GuildConfig gc)
+        {
+            _ignores.AddOrUpdate(gc.GuildId,
+                GetIgnores(gc),
+                delegate
+                {
+                    return GetIgnores(gc);
+                });
+            return Task.CompletedTask;
+        }
+
+        private Task _client_LeftGuild(SocketGuild guild)
+        {
+            _ignores.TryRemove(guild.Id, out _);
+            return Task.CompletedTask;
         }
 
         public async void TimerFunc(object _)
@@ -55,10 +91,10 @@ namespace NadekoBot.Modules.Administration.Services
                     .Select(async x =>
                     {
                         await Task.Yield();
-                        if(_slowmodeToDelete.TryRemove(x, out var q))
+                        if (_slowmodeToDelete.TryRemove(x, out var q))
                         {
                             var list = new List<ulong>();
-                            while(q.TryDequeue(out var id))
+                            while (q.TryDequeue(out var id))
                             {
                                 list.Add(id);
                             }
@@ -98,17 +134,20 @@ namespace NadekoBot.Modules.Administration.Services
                 if (guild == null || channel == null || usrMsg == null || usrMsg.IsAuthor(_client))
                     return false;
 
-                var user = guild.GetUser(usrMsg.Author.Id);
-                // ignore users with managemessages permission
-                if (guild.OwnerId == user.Id || user.GetPermissions(channel).ManageMessages)
-                    return false;
-                // see if there is a ratelimiter active
-                if (!RatelimitingChannels.TryGetValue(channel.Id, out Ratelimiter limiter))
+                var user = usrMsg.Author as SocketGuildUser;
+                if (user != null)
+                {
+                    // ignore users with managemessages permission
+                    if (guild.OwnerId == user.Id || user.GetPermissions(channel).ManageMessages)
+                        return false;
+                }
+                // see if there is a slowmode active
+                if (!SlowmodeChannels.TryGetValue(channel.Id, out Slowmoder limiter))
                     return false;
 
-                if (CheckUserRatelimit(limiter, channel.Guild.Id, usrMsg.Author.Id, usrMsg.Author as SocketGuildUser))
+                if (CheckUserSlowmode(limiter, channel.Guild.Id, usrMsg.Author.Id, user))
                 {
-                    // if message is ratelimited, schedule it for deletion
+                    // if message is falls under slowmode, schedule it for deletion
                     _slowmodeToDelete.AddOrUpdate((channel.Guild.Id, channel.Id),
                         new ConcurrentQueue<ulong>(new[] { usrMsg.Id }),
                         (key, old) =>
@@ -122,21 +161,33 @@ namespace NadekoBot.Modules.Administration.Services
             catch (Exception ex)
             {
                 _log.Warn(ex);
-                
+
             }
             return false;
         }
 
-        private bool CheckUserRatelimit(Ratelimiter rl, ulong guildId, ulong userId, SocketGuildUser optUser)
+        private bool CheckUserSlowmode(Slowmoder rl, ulong guildId, ulong userId, SocketGuildUser optUser)
         {
-            if ((IgnoredUsers.TryGetValue(guildId, out HashSet<ulong> ignoreUsers) && ignoreUsers.Contains(userId)) ||
-                   (optUser != null && IgnoredRoles.TryGetValue(guildId, out HashSet<ulong> ignoreRoles) && optUser.Roles.Any(x => ignoreRoles.Contains(x.Id))))
-                return false;
+            if (_ignores.TryGetValue(guildId, out var ig))
+            {
+                // if user is ignored, ignore him
+                if (ig.IgnoredUsers.Contains(userId))
+                    return false;
 
+                // if user has any of the roles which are ignored, ignore him
+                if (optUser != null && optUser.Roles.Any(x => ig.IgnoredRoles.Contains(x.Id)))
+                    return false;
+            }
+
+            // increment users message count
             var msgCount = rl.Users.AddOrUpdate(userId, 1, (key, old) => ++old);
 
-            if(msgCount > rl.MaxMessages)
+            //if the message count is greater than allowed, decrement it and block the message
+            if (msgCount > rl.MaxMessages)
             {
+                // we're decrementing here because otherwise even the blocked messages will increase the value,
+                // and if user is spamming, he will never get unblocked
+                // (this can be kinda cool, punishing people who spam on slowmode, but not the point here)
                 var test = rl.Users.AddOrUpdate(userId, 0, (key, old) => --old);
                 return true;
             }
@@ -172,9 +223,17 @@ namespace NadekoBot.Modules.Administration.Services
             }
 
             // update ignored users in the dictionary
-            IgnoredUsers.AddOrUpdate(guildId,
-                new HashSet<ulong>(usrs.Select(x => x.UserId)),
-                (key, old) => new HashSet<ulong>(usrs.Select(x => x.UserId)));
+            _ignores.AddOrUpdate(guildId,
+                new SlowmodeIgnores
+                {
+                    IgnoredRoles = new HashSet<ulong>(),
+                    IgnoredUsers = new HashSet<ulong>(usrs.Select(x => x.UserId)),
+                },
+                (key, old) => new SlowmodeIgnores
+                {
+                    IgnoredRoles = old.IgnoredRoles,
+                    IgnoredUsers = new HashSet<ulong>(usrs.Select(x => x.UserId)),
+                });
 
             return !removed;
         }
@@ -200,9 +259,17 @@ namespace NadekoBot.Modules.Administration.Services
                 uow.Complete();
             }
             // completely update the ignored roles in the dictionary
-            IgnoredRoles.AddOrUpdate(guildId,
-                new HashSet<ulong>(roles.Select(x => x.RoleId)),
-                (key, old) => new HashSet<ulong>(roles.Select(x => x.RoleId)));
+            _ignores.AddOrUpdate(guildId,
+                new SlowmodeIgnores
+                {
+                    IgnoredUsers = new HashSet<ulong>(),
+                    IgnoredRoles = new HashSet<ulong>(roles.Select(x => x.RoleId)),
+                },
+                (key, old) => new SlowmodeIgnores
+                {
+                    IgnoredUsers = old.IgnoredUsers,
+                    IgnoredRoles = new HashSet<ulong>(roles.Select(x => x.RoleId)),
+                });
 
             return !removed;
         }
@@ -210,19 +277,19 @@ namespace NadekoBot.Modules.Administration.Services
         public bool StartSlowmode(ulong id, uint msgCount, int perSec)
         {
             // create a new ratelimiter object which holds the settings
-            var rl = new Ratelimiter
+            var rl = new Slowmoder
             {
                 MaxMessages = msgCount,
                 PerSeconds = perSec,
             };
             // return whether it's added. If it's not added, the new settings are not applied
-            return RatelimitingChannels.TryAdd(id, rl);
+            return SlowmodeChannels.TryAdd(id, rl);
         }
 
         public bool StopSlowmode(ulong id)
         {
             // all we need to do to stop is to remove the settings object from the dictionary
-            return RatelimitingChannels.TryRemove(id, out var x);
+            return SlowmodeChannels.TryRemove(id, out var x);
         }
     }
 }

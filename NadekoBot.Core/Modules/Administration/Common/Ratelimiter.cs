@@ -2,7 +2,7 @@
 
 namespace NadekoBot.Modules.Administration.Common
 {
-    public class Ratelimiter
+    public class Slowmoder
     {
         public ConcurrentDictionary<ulong, uint> Users { get; set; } = new ConcurrentDictionary<ulong, uint>();
         public uint MaxMessages { get; set; }
