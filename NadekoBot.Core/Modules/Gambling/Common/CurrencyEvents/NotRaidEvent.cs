@@ -16,7 +16,7 @@ using NLog;
 
 namespace NadekoBot.Core.Modules.Gambling.Common.CurrencyEvents
 {
-    public class NotRaidEvent : ICurrencyEvent
+    public class NotRaidEvent
     {
         private DiscordSocketClient _client;
         private ICurrencyService _cs;
