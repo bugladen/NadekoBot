@@ -34,12 +34,12 @@ namespace NadekoBot.Core.Services
         private bool InternalChange(ulong userId, string userName, string discrim, string avatar, string reason, long amount, bool gamble, IUnitOfWork uow)
         {
             var result = uow.DiscordUsers.TryUpdateCurrencyState(userId, userName, discrim, avatar, amount);
-            if(result)
+            if (result)
             {
                 var t = GetCurrencyTransaction(userId, reason, amount);
                 uow.CurrencyTransactions.Add(t);
 
-                if(gamble)
+                if (gamble)
                 {
                     var t2 = GetCurrencyTransaction(_bot.Id, reason, -amount);
                     uow.CurrencyTransactions.Add(t2);
@@ -71,7 +71,7 @@ namespace NadekoBot.Core.Services
         public async Task AddAsync(IUser user, string reason, long amount, bool sendMessage = false, bool gamble = false)
         {
             await InternalAddAsync(user.Id, user.Username, user.Discriminator, user.AvatarId, reason, amount, gamble);
-            if(sendMessage)
+            if (sendMessage)
             {
                 try
                 {
@@ -97,13 +97,15 @@ namespace NadekoBot.Core.Services
 
             if (idArray.Length != reasonArray.Length || reasonArray.Length != amountArray.Length)
                 throw new ArgumentException("Cannot perform bulk operation. Arrays are not of equal length.");
-            
+
+            var userIdHashSet = new HashSet<ulong>(idArray.Length);
             using (var uow = _db.UnitOfWork)
             {
                 for (int i = 0; i < idArray.Length; i++)
                 {
-                    //todo if there is a duplicate id, it will fail as 2 user objects for the same id will be created
-                    InternalChange(idArray[i], null, null, null, reasonArray[i], amountArray[i], gamble, uow);
+                    // i have to prevent same user changing more than once as it will cause db error
+                    if (userIdHashSet.Add(idArray[i]))
+                        InternalChange(idArray[i], null, null, null, reasonArray[i], amountArray[i], gamble, uow);
                 }
                 await uow.CompleteAsync();
             }
@@ -111,7 +113,7 @@ namespace NadekoBot.Core.Services
 
         private async Task<bool> InternalRemoveAsync(ulong userId, string userName, string userDiscrim, string avatar, string reason, long amount, bool gamble = false)
         {
-            if(amount < 0)
+            if (amount < 0)
             {
                 throw new ArgumentException("You can't remove negative amounts. Use AddAsync method for that.", nameof(amount));
             }
@@ -132,139 +134,7 @@ namespace NadekoBot.Core.Services
 
         public Task<bool> RemoveAsync(IUser user, string reason, long amount, bool sendMessage = false, bool gamble = false)
         {
-            return InternalRemoveAsync(user.Id, user.Username, user.Discriminator,user.AvatarId, reason, amount, gamble);
+            return InternalRemoveAsync(user.Id, user.Username, user.Discriminator, user.AvatarId, reason, amount, gamble);
         }
-        //public async Task<bool> RemoveAsync(IUser author, string reason, long amount, bool sendMessage, bool gamble = false)
-        //{
-        //    var success = Remove(author.Id, reason, amount, gamble: gamble, user: author);
-
-        //    if (success && sendMessage)
-        //        try { await author.SendErrorAsync($"`You lost:` {amount} {_config.BotConfig.CurrencySign}\n`Reason:` {reason}").ConfigureAwait(false); } catch { }
-
-        //    return success;
-        //}
-
-        //public bool Remove(ulong authorId, string reason, long amount, IUnitOfWork uow = null, bool gamble = false, IUser user = null)
-        //{
-        //    if (amount < 0)
-        //        throw new ArgumentNullException(nameof(amount));
-
-        //    if (uow == null)
-        //    {
-        //        using (uow = _db.UnitOfWork)
-        //        {
-        //            if (user != null)
-        //                uow.DiscordUsers.GetOrCreate(user);
-        //            var toReturn = InternalRemoveCurrency(authorId, reason, amount, uow, gamble);
-        //            uow.Complete();
-        //            return toReturn;
-        //        }
-        //    }
-
-        //    if (user != null)
-        //        uow.DiscordUsers.GetOrCreate(user);
-        //    return InternalRemoveCurrency(authorId, reason, amount, uow, gamble);
-        //}
-
-        //private bool InternalRemoveCurrency(ulong authorId, string reason, long amount, IUnitOfWork uow, bool addToBot)
-        //{
-        //    var success = uow.DiscordUsers.TryUpdateCurrencyState(authorId, -amount);
-        //    if (!success)
-        //        return false;
-
-        //    var transaction = new CurrencyTransaction()
-        //    {
-        //        UserId = authorId,
-        //        Reason = reason,
-        //        Amount = -amount,
-        //    };
-
-        //    if (addToBot)
-        //    {
-        //        var botTr = transaction.Clone();
-        //        botTr.UserId = _botId;
-        //        botTr.Amount *= -1;
-
-        //        uow.DiscordUsers.TryUpdateCurrencyState(_botId, amount);
-        //        uow.CurrencyTransactions.Add(botTr);
-        //    }
-
-        //    uow.CurrencyTransactions.Add(transaction);
-        //    return true;
-        //}
-
-        //public async Task AddToManyAsync(string reason, long amount, params ulong[] userIds)
-        //{
-        //    using (var uow = _db.UnitOfWork)
-        //    {
-        //        foreach (var userId in userIds)
-        //        {
-        //            var transaction = new CurrencyTransaction()
-        //            {
-        //                UserId = userId,
-        //                Reason = reason,
-        //                Amount = amount,
-        //            };
-        //            uow.DiscordUsers.TryUpdateCurrencyState(userId, amount);
-        //            uow.CurrencyTransactions.Add(transaction);
-        //        }
-
-        //        await uow.CompleteAsync();
-        //    }
-        //}
-
-        //public async Task AddAsync(IUser author, string reason, long amount, bool sendMessage, string note = null, bool gamble = false)
-        //{
-        //    await AddAsync(author.Id, reason, amount, gamble: gamble, user: author);
-
-        //    if (sendMessage)
-        //        try { await author.SendConfirmAsync($"`You received:` {amount} {_config.BotConfig.CurrencySign}\n`Reason:` {reason}\n`Note:`{(note ?? "-")}").ConfigureAwait(false); } catch { }
-        //}
-
-        //public async Task AddAsync(ulong receiverId, string reason, long amount, IUnitOfWork uow = null, bool gamble = false, IUser user = null)
-        //{
-        //    if (amount < 0)
-        //        throw new ArgumentNullException(nameof(amount));
-
-        //    var transaction = new CurrencyTransaction()
-        //    {
-        //        UserId = receiverId,
-        //        Reason = reason,
-        //        Amount = amount,
-        //    };
-
-        //    if (uow == null)
-        //        using (uow = _db.UnitOfWork)
-        //        {
-        //            if (user != null)
-        //                uow.DiscordUsers.GetOrCreate(user);
-        //            uow.DiscordUsers.TryUpdateCurrencyState(receiverId, amount);
-        //            if (gamble)
-        //            {
-        //                var botTr = transaction.Clone();
-        //                botTr.UserId = _botId;
-        //                botTr.Amount *= -1;
-
-        //                uow.DiscordUsers.TryUpdateCurrencyState(_botId, -amount, true);
-        //                uow.CurrencyTransactions.Add(botTr);
-        //            }
-        //            uow.CurrencyTransactions.Add(transaction);
-        //            await uow.CompleteAsync();
-        //        }
-        //    else
-        //    {
-        //        uow.DiscordUsers.TryUpdateCurrencyState(receiverId, amount);
-        //        if (gamble)
-        //        {
-        //            var botTr = transaction.Clone();
-        //            botTr.UserId = _botId;
-        //            botTr.Amount *= -1;
-
-        //            uow.DiscordUsers.TryUpdateCurrencyState(_botId, -amount, true);
-        //            uow.CurrencyTransactions.Add(botTr);
-        //        }
-        //        uow.CurrencyTransactions.Add(transaction);
-        //    }
-        //}
     }
 }

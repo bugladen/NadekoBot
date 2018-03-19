@@ -1,7 +1,7 @@
 {
   "h": {
     "Cmd": "help h",
-    "Desc": "Either shows a help for a single command, or DMs you help link if no arguments are specified.",
+    "Desc": "Either shows a help for a single command, or DMs you help link if no parameters are specified.",
     "Usage": [
       "{0}h {0}cmds",
       "{0}h"
@@ -258,7 +258,7 @@
   },
   "listcustreact": {
     "Cmd": "listcustreact lcr",
-    "Desc": "Lists global or server custom reactions (20 commands per page). Running the command in DM will list global custom reactions, while running it in server will list that server's custom reactions. Specifying `all` argument instead of the number will DM you a text file with a list of all custom reactions.",
+    "Desc": "Lists global or server custom reactions (20 commands per page). Running the command in DM will list global custom reactions, while running it in server will list that server's custom reactions. Specifying `all` parameter instead of the number will DM you a text file with a list of all custom reactions.",
     "Usage": [
       "{0}lcr 1",
       "{0}lcr all"
@@ -287,7 +287,7 @@
   },
   "autoassignrole": {
     "Cmd": "autoassignrole aar",
-    "Desc": "Automaticaly assigns a specified role to every user who joins the server. Provide no arguments to disable.",
+    "Desc": "Automaticaly assigns a specified role to every user who joins the server. Provide no parameters to disable.",
     "Usage": [
       "{0}aar",
       "{0}aar RoleName"
@@ -496,7 +496,7 @@
   },
   "setavatar": {
     "Cmd": "setavatar setav",
-    "Desc": "Sets a new avatar image for the NadekoBot. Argument is a direct link to an image.",
+    "Desc": "Sets a new avatar image for the NadekoBot. Parameter is a direct link to an image.",
     "Usage": [
       "{0}setav http://i.imgur.com/xTG3a1I.jpg"
     ]
@@ -555,7 +555,7 @@
   },
   "remind": {
     "Cmd": "remind",
-    "Desc": "Sends a message to you or a channel after certain amount of time. First argument is `me`/`here`/'channelname'. Second argument is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third argument is a (multiword) message.",
+    "Desc": "Sends a message to you or a channel after certain amount of time. First parameter is `me`/`here`/'channelname'. Second parameter is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third parameter is a (multiword) message.",
     "Usage": [
       "{0}remind me 1d5h Do something",
       "{0}remind #general 1m Start now!"
@@ -1140,7 +1140,7 @@
   },
   "play": {
     "Cmd": "play start",
-    "Desc": "If no arguments are specified, acts as `{0}next 1` command. If you specify a song number, it will jump to that song. If you specify a search query, acts as a `{0}q` command",
+    "Desc": "If no parameters are specified, acts as `{0}next 1` command. If you specify a song number, it will jump to that song. If you specify a search query, acts as a `{0}q` command",
     "Usage": [
       "{0}play",
       "{0}play 5",
@@ -1297,7 +1297,7 @@
   },
   "setmaxqueue": {
     "Cmd": "setmaxqueue smq",
-    "Desc": "Sets a maximum queue size. Supply 0 or no argument to have no limit.",
+    "Desc": "Sets a maximum queue size. Specify no parameters to have no limit.",
     "Usage": [
       "{0}smq 50",
       "{0}smq"
@@ -1333,7 +1333,7 @@
   },
   "streamrole": {
     "Cmd": "streamrole",
-    "Desc": "Sets a role which is monitored for streamers (FromRole), and a role to add if a user from 'FromRole' is streaming (AddRole). When a user from 'FromRole' starts streaming, they will receive an 'AddRole'. Provide no arguments to disable",
+    "Desc": "Sets a role which is monitored for streamers (FromRole), and a role to add if a user from 'FromRole' is streaming (AddRole). When a user from 'FromRole' starts streaming, they will receive an 'AddRole'. Provide no parameters to disable",
     "Usage": [
       "{0}streamrole \"Eligible Streamers\" \"Featured Streams\""
     ]
@@ -1902,18 +1902,19 @@
   },
   "antiraid": {
     "Cmd": "antiraid",
-    "Desc": "Sets an anti-raid protection on the server. First argument is number of people which will trigger the protection. Second one is a time interval in which that number of people needs to join in order to trigger the protection, and third argument is punishment for those people (Kick, Ban, Mute)",
+    "Desc": "Sets an anti-raid protection on the server. Provide no parameters to disable. First parameter is number of people which will trigger the protection. Second parameter is a time interval in which that number of people needs to join in order to trigger the protection, and third parameter is punishment for those people (Kick, Ban, Mute)",
     "Usage": [
-      "{0}antiraid 5 20 Kick"
+      "{0}antiraid 5 20 Kick",
+      "{0}antiraid"
     ]
   },
   "antispam": {
     "Cmd": "antispam",
-    "Desc": "Stops people from repeating same message X times in a row. You can specify to either mute, kick or ban the offenders. If you're using mute, you can add a number of seconds at the end to use a timed mute. Max message count is 10.",
+    "Desc": "Stops people from repeating same message X times in a row. Provide no parameters to disable. You can specify to either mute, kick or ban the offenders. If you're using mute, you can add a number of seconds at the end to use a timed mute. Max message count is 10.",
     "Usage": [
       "{0}antispam 3 Mute",
       "{0}antispam 4 Kick",
-      "{0}antispam 6 Ban"
+      "{0}antispam"
     ]
   },
   "chatmute": {
@@ -1953,7 +1954,7 @@
   },
   "setstream": {
     "Cmd": "setstream",
-    "Desc": "Sets the bots stream. First argument is the twitch link, second argument is stream name.",
+    "Desc": "Sets the bots stream. First parameter is the twitch link, second parameter is stream name.",
     "Usage": [
       "{0}setstream TWITCHLINK Hello"
     ]
@@ -1974,7 +1975,7 @@
   },
   "xkcd": {
     "Cmd": "xkcd",
-    "Desc": "Shows a XKCD comic. No arguments will retrieve random one. Number argument will retrieve a specific comic, and \"latest\" will get the latest one.",
+    "Desc": "Shows a XKCD comic. Specify no parameters to retrieve a random one. Number parameter will retrieve a specific comic, and \"latest\" will get the latest one.",
     "Usage": [
       "{0}xkcd",
       "{0}xkcd 1400",
@@ -1990,7 +1991,7 @@
   },
   "place": {
     "Cmd": "place",
-    "Desc": "Shows a placeholder image of a given tag. Use `{0}placelist` to see all available tags. You can specify the width and height of the image as the last two optional arguments.",
+    "Desc": "Shows a placeholder image of a given tag. Use `{0}placelist` to see all available tags. You can specify the width and height of the image as the last two optional parameters.",
     "Usage": [
       "{0}place Cage",
       "{0}place steven 500 400"
@@ -2012,14 +2013,14 @@
   },
   "autotranslang": {
     "Cmd": "autotranslang atl",
-    "Desc": "Sets your source and target language to be used with `{0}at`. Specify no arguments to remove previously set value.",
+    "Desc": "Sets your source and target language to be used with `{0}at`. Specify no parameters to remove previously set value.",
     "Usage": [
       "{0}atl en>fr"
     ]
   },
   "autotranslate": {
     "Cmd": "autotrans at",
-    "Desc": "Starts automatic translation of all messages by users who set their `{0}atl` in this channel. You can set \"del\" argument to automatically delete all translated user messages.",
+    "Desc": "Starts automatic translation of all messages by users who set their `{0}atl` in this channel. You can set \"del\" parameter to automatically delete all translated user messages.",
     "Usage": [
       "{0}at",
       "{0}at del"
@@ -2143,7 +2144,7 @@
   },
   "settype": {
     "Cmd": "settype",
-    "Desc": "Set your poketype. Costs one Currency. Provide no arguments to see a list of available types.",
+    "Desc": "Set your poketype. Costs one Currency. Provide no parameters to see a list of available types.",
     "Usage": [
       "{0}settype fire",
       "{0}settype"
@@ -2263,7 +2264,7 @@
   },
   "autohentai": {
     "Cmd": "autohentai",
-    "Desc": "Posts a hentai every X seconds with a random tag from the provided tags. Use `|` to separate tags. 20 seconds minimum. Provide no arguments to disable.",
+    "Desc": "Posts a hentai every X seconds with a random tag from the provided tags. Use `|` to separate tags. 20 seconds minimum. Provide no parameters to disable.",
     "Usage": [
       "{0}autohentai 30 yuri|tail|long_hair",
       "{0}autohentai"
@@ -2278,7 +2279,7 @@
   },
   "rotaterolecolor": {
     "Cmd": "rotaterolecolor rrc",
-    "Desc": "Rotates a roles color on an interval with a list of supplied colors. First argument is interval in seconds (Minimum 60). Second argument is a role, followed by a space-separated list of colors in hex. Provide a rolename with a 0 interval to disable.",
+    "Desc": "Rotates a roles color on an interval with a list of supplied colors. First parameter is interval in seconds (Minimum 60). Second parameter is a role, followed by a space-separated list of colors in hex. Provide a rolename with a 0 interval to disable.",
     "Usage": [
       "{0}rrc 60 MyLsdRole #ff0000 #00ff00 #0000ff",
       "{0}rrc 0 MyLsdRole"
@@ -2373,7 +2374,7 @@
   },
   "waifuclaimeraffinity": {
     "Cmd": "affinity",
-    "Desc": "Sets your affinity towards someone you want to be claimed by. Setting affinity will reduce their `{0}claim` on you by 20%. You can leave second argument empty to clear your affinity. 30 minutes cooldown.",
+    "Desc": "Sets your affinity towards someone you want to be claimed by. Setting affinity will reduce their `{0}claim` on you by 20%. Provide no parameters to clear your affinity. 30 minutes cooldown.",
     "Usage": [
       "{0}affinity @MyHusband",
       "{0}affinity"
@@ -2402,7 +2403,7 @@
   },
   "waifugift": {
     "Cmd": "waifugift gift gifts",
-    "Desc": "Gift an item to someone. This will increase their waifu value by 50% of the gifted item's value if they don't have affinity set towards you, or 100% if they do. Provide no arguments to see a list of items that you can gift.",
+    "Desc": "Gift an item to someone. This will increase their waifu value by 50% of the gifted item's value if they don't have affinity set towards you, or 100% if they do. Provide no parameters to see a list of items that you can gift.",
     "Usage": [
       "{0}gifts",
       "{0}gift Rose @Himesama"
@@ -2512,7 +2513,7 @@
   },
   "languagesetdefault": {
     "Cmd": "langsetdefault langsetd",
-    "Desc": "Sets the bot's default response language. All servers which use a default locale will use this one. Setting to `default` will use the host's current culture. Provide no arguments to see currently set language.",
+    "Desc": "Sets the bot's default response language. All servers which use a default locale will use this one. Setting to `default` will use the host's current culture. Provide no parameters to see currently set language.",
     "Usage": [
       "{0}langsetd en-US",
       "{0}langsetd default"
@@ -2520,7 +2521,7 @@
   },
   "languageset": {
     "Cmd": "languageset langset",
-    "Desc": "Sets this server's response language. If bot's response strings have been translated to that language, bot will use that language in this server. Reset by using `default` as the locale name. Provide no arguments to see currently set language.",
+    "Desc": "Sets this server's response language. If bot's response strings have been translated to that language, bot will use that language in this server. Reset by using `default` as the locale name. Provide no parameters to see currently set language.",
     "Usage": [
       "{0}langset de-DE ",
       "{0}langset default"
@@ -2798,14 +2799,14 @@
   },
   "prefix": {
     "Cmd": "prefix",
-    "Desc": "Sets this server's prefix for all bot commands. Provide no arguments to see the current server prefix. **Setting prefix requires Administrator server permission.**",
+    "Desc": "Sets this server's prefix for all bot commands. Provide no parameters to see the current server prefix. **Setting prefix requires Administrator server permission.**",
     "Usage": [
       "{0}prefix +"
     ]
   },
   "defprefix": {
     "Cmd": "defprefix",
-    "Desc": "Sets bot's default prefix for all bot commands. Provide no arguments to see the current default prefix. This will not change this server's current prefix.",
+    "Desc": "Sets bot's default prefix for all bot commands. Provide no parameters to see the current default prefix. This will not change this server's current prefix.",
     "Usage": [
       "{0}defprefix +"
     ]
@@ -3056,7 +3057,7 @@
   },
   "autoboobs": {
     "Cmd": "autoboobs",
-    "Desc": "Posts a boobs every X seconds. 20 seconds minimum. Provide no arguments to disable.",
+    "Desc": "Posts a boobs every X seconds. 20 seconds minimum. Provide no parameters to disable.",
     "Usage": [
       "{0}autoboobs 30",
       "{0}autoboobs"
@@ -3064,7 +3065,7 @@
   },
   "autobutts": {
     "Cmd": "autobutts",
-    "Desc": "Posts a butts every X seconds. 20 seconds minimum. Provide no arguments to disable.",
+    "Desc": "Posts a butts every X seconds. 20 seconds minimum. Provide no parameters to disable.",
     "Usage": [
       "{0}autobutts 30",
       "{0}autobutts"
@@ -3164,7 +3165,7 @@
   },
   "timelyset": {
     "cmd": "timelyset",
-    "desc": "Sets the 'timely' currency allowance amount for users. Second argument is period in hours, default is 24 hours.",
+    "desc": "Sets the 'timely' currency allowance amount for users. Second parameter is period in hours, default is 24 hours.",
     "usage": [
       "{0}timelyset 100",
       "{0}timelyset 50 12"
@@ -3251,7 +3252,7 @@
   },
   "reactionroles": {
     "cmd": "reactionroles rero",
-    "desc": "Specify role names and server emojis with which they're represented, the bot will then add those emojis to the previous message in the channel, and users will be able to get the roles by clicking on the emoji. You can set 'excl' as the first argument to make them exclusive. You can have up to 5 of these enabled on one server at a time.",
+    "desc": "Specify role names and server emojis with which they're represented, the bot will then add those emojis to the previous message in the channel, and users will be able to get the roles by clicking on the emoji. You can set 'excl' as the first parameter to make them exclusive. You can have up to 5 of these enabled on one server at a time.",
     "usage": [
       "{0}reactionroles Gamer :SomeServerEmoji: Streamer :Other: Watcher :Other2:",
       "{0}reactionroles excl Horde :Horde: Alliance :Alliance:"

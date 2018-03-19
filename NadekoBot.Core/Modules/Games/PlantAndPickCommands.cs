@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Games.Services;
 using System;
+using Discord.WebSocket;
 
 namespace NadekoBot.Modules.Games
 {
@@ -39,10 +40,10 @@ namespace NadekoBot.Modules.Games
             [RequireContext(ContextType.Guild)]
             public async Task Pick()
             {
+                var guild = (SocketGuild)Context.Guild;
                 var channel = (ITextChannel)Context.Channel;
-
-                ///waaaaaat
-                if (!(await channel.Guild.GetCurrentUserAsync()).GetPermissions(channel).ManageMessages)
+                
+                if (!guild.CurrentUser.GetPermissions(channel).ManageMessages)
                     return;
 
                 try { await Context.Message.DeleteAsync().ConfigureAwait(false); } catch { }
