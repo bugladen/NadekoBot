@@ -18,7 +18,7 @@ namespace NadekoBot.Modules.Permissions
     public partial class Permissions : NadekoTopLevelModule<PermissionService>
     {
         private readonly DbService _db;
-        // todo chane .pr
+        // todo change .pr
 
         public Permissions(DbService db)
         {

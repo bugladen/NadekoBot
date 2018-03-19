@@ -34,7 +34,7 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.Administrator)]
-            public async Task AntiRaid(int userThreshold = 5, int seconds = 10, PunishmentAction action = PunishmentAction.Mute)
+            public async Task AntiRaid(int userThreshold, int seconds = 10, PunishmentAction action = PunishmentAction.Mute)
             {
                 if (userThreshold < 2 || userThreshold > 30)
                 {

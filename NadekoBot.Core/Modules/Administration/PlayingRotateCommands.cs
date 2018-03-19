@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Administration.Services;
 using Microsoft.EntityFrameworkCore;
-using NadekoBot.Core.Common;
 using Discord;
 
 namespace NadekoBot.Modules.Administration
