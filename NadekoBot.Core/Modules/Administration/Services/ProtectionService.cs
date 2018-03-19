@@ -41,24 +41,48 @@ namespace NadekoBot.Modules.Administration.Services
 
             _client.MessageReceived += HandleAntiSpam;
             _client.UserJoined += HandleAntiRaid;
+
+            _bot.JoinedGuild += _bot_JoinedGuild;
+            _client.LeftGuild += _client_LeftGuild;
+        }
+
+        private Task _client_LeftGuild(SocketGuild arg)
+        {
+            var _ = Task.Run(() =>
+            {
+                TryStopAntiRaid(arg.Id);
+                TryStopAntiSpam(arg.Id);
+            });
+            return Task.CompletedTask;
+        }
+
+        private Task _bot_JoinedGuild(GuildConfig gc)
+        {
+            Initialize(gc);
+            return Task.CompletedTask;
         }
 
         private void Initialize()
         {
             foreach (var gc in _bot.AllGuildConfigs)
             {
-                var raid = gc.AntiRaidSetting;
-                var spam = gc.AntiSpamSetting;
-
-                if (raid != null)
-                {
-                    var raidStats = new AntiRaidStats() { AntiRaidSettings = raid };
-                    _antiRaidGuilds.TryAdd(gc.GuildId, raidStats);
-                }
-
-                if (spam != null)
-                    _antiSpamGuilds.TryAdd(gc.GuildId, new AntiSpamStats() { AntiSpamSettings = spam });
+                Initialize(gc);
             }
+        }
+
+        private void Initialize(GuildConfig gc)
+        {
+            var raid = gc.AntiRaidSetting;
+            var spam = gc.AntiSpamSetting;
+
+            if (raid != null)
+            {
+                var raidStats = new AntiRaidStats() { AntiRaidSettings = raid };
+                _antiRaidGuilds.TryAdd(gc.GuildId, raidStats);
+            }
+
+            if (spam != null)
+                _antiSpamGuilds.TryAdd(gc.GuildId, new AntiSpamStats() { AntiSpamSettings = spam });
         }
 
         private Task HandleAntiRaid(SocketGuildUser usr)
