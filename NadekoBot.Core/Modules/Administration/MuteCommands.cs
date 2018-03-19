@@ -30,13 +30,8 @@ namespace NadekoBot.Modules.Administration
                 if (string.IsNullOrWhiteSpace(name))
                     return;
 
-                using (var uow = _db.UnitOfWork)
-                {
-                    var config = uow.GuildConfigs.For(Context.Guild.Id, set => set);
-                    config.MuteRoleName = name;
-                    _service.GuildMuteRoles.AddOrUpdate(Context.Guild.Id, name, (id, old) => name);
-                    await uow.CompleteAsync().ConfigureAwait(false);
-                }
+                await _service.SetMuteRoleAsync(Context.Guild.Id, name);
+                
                 await ReplyConfirmLocalized("mute_role_set").ConfigureAwait(false);
             }
 
