@@ -86,21 +86,10 @@ namespace NadekoBot.Core.Services.Database.Models
             State = true,
             Index = 0,
         };
-        [NotMapped]
-        private static Permissionv2 BlockNsfwPerm => new Permissionv2()
-        {
-            PrimaryTarget = PrimaryPermissionType.Server,
-            PrimaryTargetId = 0,
-            SecondaryTarget = SecondaryPermissionType.Module,
-            SecondaryTargetName = "nsfw",
-            State = false,
-            Index = 1
-        };
 
         public static List<Permissionv2> GetDefaultPermlist =>
             new List<Permissionv2>
             {
-                BlockNsfwPerm,
                 AllowAllPerm
             };
 

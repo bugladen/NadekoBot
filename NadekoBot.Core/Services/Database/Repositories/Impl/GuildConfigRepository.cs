@@ -132,6 +132,7 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
             }
             return config;
         }
+
         public IEnumerable<GuildConfig> Permissionsv2ForAll(List<long> include)
         {
             var query = _set

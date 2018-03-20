@@ -123,8 +123,8 @@ namespace NadekoBot.Core.Services.Database
                 .HasIndex(c => c.GuildId)
                 .IsUnique();
 
-            configEntity.Property(x => x.PermissionRole)
-                .HasDefaultValue(null);
+            //configEntity.Property(x => x.PermissionRole)
+            //    .HasDefaultValue(null);
 
             modelBuilder.Entity<AntiSpamSetting>()
                 .HasOne(x => x.GuildConfig)
@@ -169,8 +169,8 @@ namespace NadekoBot.Core.Services.Database
             botConfigEntity.Property(x => x.ErrorColor)
                 .HasDefaultValue("ee281f");
 
-            botConfigEntity.Property(x => x.PermissionVersion)
-                .HasDefaultValue(2);
+            //botConfigEntity.Property(x => x.PermissionVersion)
+            //    .HasDefaultValue(2);
 
             //botConfigEntity
             //    .HasMany(c => c.ModulePrefixes)
