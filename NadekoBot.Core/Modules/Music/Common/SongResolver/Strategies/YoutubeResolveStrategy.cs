@@ -20,9 +20,13 @@ namespace NadekoBot.Modules.Music.Common.SongResolver.Strategies
 
         public async Task<SongInfo> ResolveSong(string query)
         {
-            SongInfo s = await ResolveWithYtExplode(query);
-            if (s != null)
-                return s;
+            try
+            {
+                SongInfo s = await ResolveWithYtExplode(query);
+                if (s != null)
+                    return s;
+            }
+            catch { }
             return await ResolveWithYtDl(query);
         }
 
