@@ -10,7 +10,6 @@ namespace NadekoBot.Core.Services.Database.Repositories
     {
         GuildConfig For(ulong guildId, Func<DbSet<GuildConfig>, IQueryable<GuildConfig>> includes = null);
         GuildConfig LogSettingsFor(ulong guildId);
-        IEnumerable<GuildConfig> OldPermissionsForAll();
         IEnumerable<GuildConfig> GetAllGuildConfigs(List<long> availableGuilds);
         IEnumerable<FollowedStream> GetFollowedStreams(List<long> included);
         IEnumerable<FollowedStream> GetFollowedStreams();
