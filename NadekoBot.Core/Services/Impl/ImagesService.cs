@@ -71,7 +71,7 @@ namespace NadekoBot.Core.Services.Impl
         {
             get
             {
-                return Get<byte[]>("slot_background");
+                return Get("slot_background");
             }
             set
             {
@@ -107,7 +107,7 @@ namespace NadekoBot.Core.Services.Impl
         {
             get
             {
-                return Get<byte[]>("wife_matrix");
+                return Get("wife_matrix");
             }
             set
             {
@@ -118,7 +118,7 @@ namespace NadekoBot.Core.Services.Impl
         {
             get
             {
-                return Get<byte[]>("rategirl_dot");
+                return Get("rategirl_dot");
             }
             set
             {
@@ -130,7 +130,7 @@ namespace NadekoBot.Core.Services.Impl
         {
             get
             {
-                return Get<byte[]>("xp_card");
+                return Get("xp_card");
             }
             set
             {
@@ -142,7 +142,7 @@ namespace NadekoBot.Core.Services.Impl
         {
             get
             {
-                return Get<byte[]>("rip");
+                return Get("rip");
             }
             set
             {
@@ -153,7 +153,7 @@ namespace NadekoBot.Core.Services.Impl
         {
             get
             {
-                return Get<byte[]>("flower_circle");
+                return Get("flower_circle");
             }
             set
             {
@@ -245,7 +245,17 @@ namespace NadekoBot.Core.Services.Impl
                 throw;
             }
         }
-        //todo add byte[] overload
+
+        private byte[] Get(string key)
+        {
+            return _db.StringGet($"{_creds.RedisKey()}_localimg_{key}");
+        }
+
+        private void Set(string key, byte[] bytes)
+        {
+            _db.StringSet($"{_creds.RedisKey()}_localimg_{key}", bytes);
+        }
+
         private T Get<T>(string key) where T : class
         {
             return JsonConvert.DeserializeObject<T>(_db.StringGet($"{_creds.RedisKey()}_localimg_{key}"));
