@@ -470,6 +470,8 @@
   "permissions_of_module": "module",
   "permissions_page": "Permissions page {0}",
   "permissions_permrole": "Current permissions role is {0}.",
+  "permissions_permrole_not_set": "Permission role is not set.",
+  "permissions_permrole_reset": "Permission role is reset.",
   "permissions_permrole_changed": "Users now require {0} role in order to edit permissions.",
   "permissions_perm_out_of_range": "No permission found on that index.",
   "permissions_removed": "removed permission #{0} - {1}",

@@ -713,9 +713,10 @@
   },
   "permrole": {
     "Cmd": "permrole pr",
-    "Desc": "Sets a role which can change permissions. Supply no parameters to see the current one. Default is 'Nadeko'.",
+    "Desc": "Sets a role which can change permissions. Supply no parameters to see the current one. Type 'reset' instead of the role name to reset the currently set permission role. Users with Administrator server permissions can use permission commands regardless of whether they have the specified role. There is no default permission role.",
     "Usage": [
-      "{0}pr role"
+      "{0}pr Some Role",
+      "{0}pr reset"
     ]
   },
   "verbose": {
