@@ -102,7 +102,7 @@ namespace NadekoBot.Modules.Gambling.Common.Connect4
                     {
                         var __ = OnGameFailedToStart?.Invoke(this);
                         CurrentPhase = Phase.Ended;
-                        await _cs.AddAsync(_players[0].Value.UserId, "Connect4-refund", this._options.Bet);
+                        await _cs.AddAsync(_players[0].Value.UserId, "Connect4-refund", this._options.Bet, true);
                         return;
                     }
                 }
@@ -124,7 +124,7 @@ namespace NadekoBot.Modules.Gambling.Common.Connect4
                 if (bet != _options.Bet) // can't join if bet amount is not the same
                     return false;
 
-                if (!await _cs.RemoveAsync(userId, "Connect4-bet", bet)) // user doesn't have enough money to gamble
+                if (!await _cs.RemoveAsync(userId, "Connect4-bet", bet, true)) // user doesn't have enough money to gamble
                     return false;
 
                 if (_rng.Next(0, 2) == 0) //rolling from 0-1, if number is 0, join as first player
@@ -403,9 +403,9 @@ namespace NadekoBot.Modules.Gambling.Common.Connect4
                     Bet = 0;
             }
 
-            [Option('t', "turn-timer", Required = false, Default = 15, HelpText = "Turn time in seconds. Default 15.")]
+            [Option('t', "turn-timer", Required = false, Default = 15, HelpText = "Turn time in seconds. It has to be between 5 and 60. Default 15.")]
             public int TurnTimer { get; set; } = 15;
-            [Option('b', "bet", Required = false, Default = 0, HelpText = "Turn time in seconds. Default 15.")]
+            [Option('b', "bet", Required = false, Default = 0, HelpText = "Amount you bet. Default 0.")]
             public int Bet { get; set; } = 0;
         }
     }

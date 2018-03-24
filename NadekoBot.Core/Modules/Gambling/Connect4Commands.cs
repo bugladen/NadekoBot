@@ -51,14 +51,31 @@ namespace NadekoBot.Modules.Gambling
                     return;
                 }
 
+                if (options.Bet > 0)
+                {
+                    if (!await _cs.RemoveAsync(Context.User.Id, "Connect4-bet", options.Bet, true))
+                    {
+                        await ReplyErrorLocalized("not_enough", _bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                        _service.Connect4Games.TryRemove(Context.Channel.Id, out _);
+                        game.Dispose();
+                        return;
+                    }
+                }
+
                 game.OnGameStateUpdated += Game_OnGameStateUpdated;
                 game.OnGameFailedToStart += Game_OnGameFailedToStart;
                 game.OnGameEnded += Game_OnGameEnded;
                 _client.MessageReceived += _client_MessageReceived;
 
                 game.Initialize();
-
-                await ReplyConfirmLocalized("connect4_created").ConfigureAwait(false);
+                if (options.Bet == 0)
+                {
+                    await ReplyConfirmLocalized("connect4_created").ConfigureAwait(false);
+                }
+                else
+                {
+                    await ReplyConfirmLocalized("connect4_created_bet", options.Bet + _bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                }
 
                 Task _client_MessageReceived(SocketMessage arg)
                 {
@@ -145,7 +162,7 @@ namespace NadekoBot.Modules.Gambling
             private async Task Game_OnGameStateUpdated(Connect4Game game)
             {
                 var embed = new EmbedBuilder()
-                    .WithTitle($"{game.CurrentPlayer} vs {game.OtherPlayer}")
+                    .WithTitle($"{game.CurrentPlayer.Username} vs {game.OtherPlayer.Username}")
                     .WithDescription(GetGameStateText(game))
                     .WithOkColor();
 
