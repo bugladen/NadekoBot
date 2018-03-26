@@ -1744,9 +1744,9 @@
   },
   "e621": {
     "Cmd": "e621",
-    "Desc": "Shows a random hentai image from e621.net with a given tag. Tag is optional but preferred. Use spaces for multiple tags.",
+    "Desc": "Shows a random hentai image from e621.net with a given tag. Tag is optional but preferred. (multiple tags are appended with +)",
     "Usage": [
-      "{0}e621 yuri kissing"
+      "{0}e621 yuri+kissing"
     ]
   },
   "boobs": {
