@@ -577,8 +577,11 @@ namespace NadekoBot.Modules.Music
                     try
                     {
                         await Task.Yield();
-
-                        await Task.WhenAll(Task.Delay(1000), InternalQueue(mp, await _service.ResolveSong(item.Query, Context.User.ToString(), item.ProviderType), true)).ConfigureAwait(false);
+                        var song = await _service.ResolveSong(item.Query,
+                            Context.User.ToString(),
+                            item.ProviderType);
+                        var queueTask = InternalQueue(mp, song, true);
+                        await Task.WhenAll(Task.Delay(1000), queueTask).ConfigureAwait(false);
                     }
                     catch (SongNotFoundException) { }
                     catch { break; }

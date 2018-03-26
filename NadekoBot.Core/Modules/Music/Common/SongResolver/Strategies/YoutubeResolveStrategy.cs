@@ -65,7 +65,7 @@ namespace NadekoBot.Modules.Music.Common.SongResolver.Strategies
             {
                 Provider = "YouTube",
                 ProviderType = MusicType.YouTube,
-                Query = "https://youtube.com/watch?v=" + id,
+                Query = "https://youtube.com/watch?v=" + video.Id,
                 Thumbnail = video.Thumbnails.MediumResUrl,
                 TotalTime = video.Duration,
                 Uri = async () =>
