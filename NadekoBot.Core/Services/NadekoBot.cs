@@ -98,6 +98,7 @@ namespace NadekoBot
                 _botConfig = uow.BotConfig.GetOrCreate();
                 OkColor = new Color(Convert.ToUInt32(_botConfig.OkColor, 16));
                 ErrorColor = new Color(Convert.ToUInt32(_botConfig.ErrorColor, 16));
+                uow.Complete();
             }
 
             SetupShard(parentProcessId);
@@ -305,9 +306,9 @@ namespace NadekoBot
                     .Where(x => x.Preconditions.Any(y => y.GetType() == typeof(NoPublicBot)))
                     .ForEach(x => CommandService.RemoveModuleAsync(x));
 
-            Ready.TrySetResult(true);
             HandleStatusChanges();
             StartSendingData();
+            Ready.TrySetResult(true);
             _log.Info($"Shard {Client.ShardId} ready.");
         }
 
