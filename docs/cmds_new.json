@@ -168,7 +168,7 @@
         ".autoassignrole",
         ".aar"
       ],
-      "Description": "Automaticaly assigns a specified role to every user who joins the server. Provide no arguments to disable.",
+      "Description": "Automaticaly assigns a specified role to every user who joins the server. Provide no parameters to disable.",
       "Usage": [
         ".aar",
         ".aar RoleName"
@@ -275,7 +275,7 @@
         ".languageset",
         ".langset"
       ],
-      "Description": "Sets this server's response language. If bot's response strings have been translated to that language, bot will use that language in this server. Reset by using `default` as the locale name. Provide no arguments to see currently set language.",
+      "Description": "Sets this server's response language. If bot's response strings have been translated to that language, bot will use that language in this server. Reset by using `default` as the locale name. Provide no parameters to see currently set language.",
       "Usage": [
         ".langset de-DE ",
         ".langset default"
@@ -290,7 +290,7 @@
         ".langsetdefault",
         ".langsetd"
       ],
-      "Description": "Sets the bot's default response language. All servers which use a default locale will use this one. Setting to `default` will use the host's current culture. Provide no arguments to see currently set language.",
+      "Description": "Sets the bot's default response language. All servers which use a default locale will use this one. Setting to `default` will use the host's current culture. Provide no parameters to see currently set language.",
       "Usage": [
         ".langsetd en-US",
         ".langsetd default"
@@ -558,7 +558,7 @@
       "Aliases": [
         ".prefix"
       ],
-      "Description": "Sets this server's prefix for all bot commands. Provide no arguments to see the current server prefix. **Setting prefix requires Administrator server permission.**",
+      "Description": "Sets this server's prefix for all bot commands. Provide no parameters to see the current server prefix. **Setting prefix requires Administrator server permission.**",
       "Usage": [
         ".prefix +"
       ],
@@ -571,7 +571,7 @@
       "Aliases": [
         ".defprefix"
       ],
-      "Description": "Sets bot's default prefix for all bot commands. Provide no arguments to see the current default prefix. This will not change this server's current prefix.",
+      "Description": "Sets bot's default prefix for all bot commands. Provide no parameters to see the current default prefix. This will not change this server's current prefix.",
       "Usage": [
         ".defprefix +"
       ],
@@ -586,9 +586,10 @@
       "Aliases": [
         ".antiraid"
       ],
-      "Description": "Sets an anti-raid protection on the server. First argument is number of people which will trigger the protection. Second one is a time interval in which that number of people needs to join in order to trigger the protection, and third argument is punishment for those people (Kick, Ban, Mute)",
+      "Description": "Sets an anti-raid protection on the server. Provide no parameters to disable. First parameter is number of people which will trigger the protection. Second parameter is a time interval in which that number of people needs to join in order to trigger the protection, and third parameter is punishment for those people (Kick, Ban, Mute)",
       "Usage": [
-        ".antiraid 5 20 Kick"
+        ".antiraid 5 20 Kick",
+        ".antiraid"
       ],
       "Submodule": "ProtectionCommands",
       "Module": "Administration",
@@ -601,11 +602,11 @@
       "Aliases": [
         ".antispam"
       ],
-      "Description": "Stops people from repeating same message X times in a row. You can specify to either mute, kick or ban the offenders. If you're using mute, you can add a number of seconds at the end to use a timed mute. Max message count is 10.",
+      "Description": "Stops people from repeating same message X times in a row. Provide no parameters to disable. You can specify to either mute, kick or ban the offenders. If you're using mute, you can add a number of seconds at the end to use a timed mute. Max message count is 10.",
       "Usage": [
         ".antispam 3 Mute",
         ".antispam 4 Kick",
-        ".antispam 6 Ban"
+        ".antispam"
       ],
       "Submodule": "ProtectionCommands",
       "Module": "Administration",
@@ -664,7 +665,7 @@
       "Aliases": [
         ".slowmode"
       ],
-      "Description": "Toggles slowmode. Disable by specifying no parameters. To enable, specify a number of messages each user can send, and an interval in seconds. For example 1 message every 5 seconds.",
+      "Description": "Toggles slowmode. Disable by specifying no parameters. Slowmode deletes any excess messages users type over the specified limit of messages per X seconds. To enable, specify a number of messages each user can send, followed by an interval in seconds. For example 1 message every 5 seconds.",
       "Usage": [
         ".slowmode 1 5",
         ".slowmode"
@@ -697,7 +698,7 @@
         ".reactionroles",
         ".rero"
       ],
-      "Description": "Specify role names and server emojis with which they're represented, the bot will then add those emojis to the previous message in the channel, and users will be able to get the roles by clicking on the emoji. You can set 'excl' as the first argument to make them exclusive. You can have up to 5 of these enabled on one server at a time.",
+      "Description": "Specify role names and server emojis with which they're represented, the bot will then add those emojis to the previous message in the channel, and users will be able to get the roles by clicking on the emoji. You can set 'excl' as the first parameter to make them exclusive. You can have up to 5 of these enabled on one server at a time.",
       "Usage": [
         ".reactionroles Gamer :SomeServerEmoji: Streamer :Other: Watcher :Other2:",
         ".reactionroles excl Horde :Horde: Alliance :Alliance:"
@@ -813,6 +814,22 @@
       "Description": "Creates a role with a given name.",
       "Usage": [
         ".cr Awesome Role"
+      ],
+      "Submodule": "RoleCommands",
+      "Module": "Administration",
+      "Options": null,
+      "Requirements": [
+        "ManageRoles Server Permission"
+      ]
+    },
+    {
+      "Aliases": [
+        ".deleterole",
+        ".dr"
+      ],
+      "Description": "Deletes a role with a given name.",
+      "Usage": [
+        ".dr Awesome Role"
       ],
       "Submodule": "RoleCommands",
       "Module": "Administration",
@@ -1221,7 +1238,7 @@
         ".setavatar",
         ".setav"
       ],
-      "Description": "Sets a new avatar image for the NadekoBot. Argument is a direct link to an image.",
+      "Description": "Sets a new avatar image for the NadekoBot. Parameter is a direct link to an image.",
       "Usage": [
         ".setav http://i.imgur.com/xTG3a1I.jpg"
       ],
@@ -1253,7 +1270,7 @@
       "Aliases": [
         ".setstream"
       ],
-      "Description": "Sets the bots stream. First argument is the twitch link, second argument is stream name.",
+      "Description": "Sets the bots stream. First parameter is the twitch link, second parameter is stream name.",
       "Usage": [
         ".setstream TWITCHLINK Hello"
       ],
@@ -1648,8 +1665,7 @@
       "Module": "Administration",
       "Options": null,
       "Requirements": [
-        "ManageRoles Server Permission",
-        "ManageChannels Server Permission"
+        "ManageRoles Server Permission"
       ]
     },
     {
@@ -1700,7 +1716,7 @@
         ".listcustreact",
         ".lcr"
       ],
-      "Description": "Lists global or server custom reactions (20 commands per page). Running the command in DM will list global custom reactions, while running it in server will list that server's custom reactions. Specifying `all` argument instead of the number will DM you a text file with a list of all custom reactions.",
+      "Description": "Lists global or server custom reactions (20 commands per page). Running the command in DM will list global custom reactions, while running it in server will list that server's custom reactions. Specifying `all` parameter instead of the number will DM you a text file with a list of all custom reactions.",
       "Usage": [
         ".lcr 1",
         ".lcr all"
@@ -1855,7 +1871,7 @@
       "Aliases": [
         ".timelyset"
       ],
-      "Description": "Sets the 'timely' currency allowance amount for users. Second argument is period in hours, default is 24 hours.",
+      "Description": "Sets the 'timely' currency allowance amount for users. Second parameter is period in hours, default is 24 hours.",
       "Usage": [
         ".timelyset 100",
         ".timelyset 50 12"
@@ -2108,6 +2124,20 @@
       "Submodule": "BlackJackCommands",
       "Module": "Gambling",
       "Options": null,
+      "Requirements": []
+    },
+    {
+      "Aliases": [
+        ".connect4",
+        ".con4"
+      ],
+      "Description": "Creates or joins an existing connect4 game. 2 players are required for the game. Objective of the game is to get 4 of your pieces next to each other in a vertical, horizontal or diagonal line. You can specify a bet when you create a game and only users who bet the same amount will be able to join your game.",
+      "Usage": [
+        ".connect4"
+      ],
+      "Submodule": "Connect4Commands",
+      "Module": "Gambling",
+      "Options": "--turn-timer (-t)   Turn time in seconds. It has to be between 5 and 60. Default 15.  \n--bet (-b)   Amount you bet. Default 0.  ",
       "Requirements": []
     },
     {
@@ -2429,7 +2459,7 @@
       "Aliases": [
         ".affinity"
       ],
-      "Description": "Sets your affinity towards someone you want to be claimed by. Setting affinity will reduce their `.claim` on you by 20%. You can leave second argument empty to clear your affinity. 30 minutes cooldown.",
+      "Description": "Sets your affinity towards someone you want to be claimed by. Setting affinity will reduce their `.claim` on you by 20%. Provide no parameters to clear your affinity. 30 minutes cooldown.",
       "Usage": [
         ".affinity @MyHusband",
         ".affinity"
@@ -2475,7 +2505,7 @@
         ".gift",
         ".gifts"
       ],
-      "Description": "Gift an item to someone. This will increase their waifu value by 50% of the gifted item's value if they don't have affinity set towards you, or 100% if they do. Provide no arguments to see a list of items that you can gift.",
+      "Description": "Gift an item to someone. This will increase their waifu value by 50% of the gifted item's value if they don't have affinity set towards you, or 100% if they do. Provide no parameters to see a list of items that you can gift.",
       "Usage": [
         ".gifts",
         ".gift Rose @Himesama"
@@ -2582,20 +2612,6 @@
       "Requirements": [
         "ManageMessages Server Permission"
       ]
-    },
-    {
-      "Aliases": [
-        ".connect4",
-        ".con4"
-      ],
-      "Description": "Creates or joins an existing connect4 game. 2 players are required for the game. Objective of the game is to get 4 of your pieces next to each other in a vertical, horizontal or diagonal line.",
-      "Usage": [
-        ".connect4"
-      ],
-      "Submodule": "Connect4Commands",
-      "Module": "Games",
-      "Options": "--turn-timer (-t)   Turn time in seconds. Default 15.  ",
-      "Requirements": []
     },
     {
       "Aliases": [
@@ -2913,7 +2929,7 @@
         ".help",
         ".h"
       ],
-      "Description": "Either shows a help for a single command, or DMs you help link if no arguments are specified.",
+      "Description": "Either shows a help for a single command, or DMs you help link if no parameters are specified.",
       "Usage": [
         ".h .cmds",
         ".h"
@@ -2973,7 +2989,7 @@
         ".play",
         ".start"
       ],
-      "Description": "If no arguments are specified, acts as `.next 1` command. If you specify a song number, it will jump to that song. If you specify a search query, acts as a `.q` command",
+      "Description": "If no parameters are specified, acts as `.next 1` command. If you specify a song number, it will jump to that song. If you specify a search query, acts as a `.q` command",
       "Usage": [
         ".play",
         ".play 5",
@@ -3402,7 +3418,7 @@
         ".setmaxqueue",
         ".smq"
       ],
-      "Description": "Sets a maximum queue size. Supply 0 or no argument to have no limit.",
+      "Description": "Sets a maximum queue size. Specify no parameters to have no limit.",
       "Usage": [
         ".smq 50",
         ".smq"
@@ -3507,7 +3523,7 @@
       "Aliases": [
         ".autohentai"
       ],
-      "Description": "Posts a hentai every X seconds with a random tag from the provided tags. Use `|` to separate tags. 20 seconds minimum. Provide no arguments to disable.",
+      "Description": "Posts a hentai every X seconds with a random tag from the provided tags. Use `|` to separate tags. 20 seconds minimum. Provide no parameters to disable.",
       "Usage": [
         ".autohentai 30 yuri|tail|long_hair",
         ".autohentai"
@@ -3523,7 +3539,7 @@
       "Aliases": [
         ".autoboobs"
       ],
-      "Description": "Posts a boobs every X seconds. 20 seconds minimum. Provide no arguments to disable.",
+      "Description": "Posts a boobs every X seconds. 20 seconds minimum. Provide no parameters to disable.",
       "Usage": [
         ".autoboobs 30",
         ".autoboobs"
@@ -3539,7 +3555,7 @@
       "Aliases": [
         ".autobutts"
       ],
-      "Description": "Posts a butts every X seconds. 20 seconds minimum. Provide no arguments to disable.",
+      "Description": "Posts a butts every X seconds. 20 seconds minimum. Provide no parameters to disable.",
       "Usage": [
         ".autobutts 30",
         ".autobutts"
@@ -3607,9 +3623,9 @@
       "Aliases": [
         ".e621"
       ],
-      "Description": "Shows a random hentai image from e621.net with a given tag. Tag is optional but preferred. Use spaces for multiple tags.",
+      "Description": "Shows a random hentai image from e621.net with a given tag. Tag is optional but preferred. (multiple tags are appended with +)",
       "Usage": [
-        ".e621 yuri kissing"
+        ".e621 yuri+kissing"
       ],
       "Submodule": "NSFW",
       "Module": "NSFW",
@@ -3734,14 +3750,17 @@
         ".permrole",
         ".pr"
       ],
-      "Description": "Sets a role which can change permissions. Supply no parameters to see the current one. Default is 'Nadeko'.",
+      "Description": "Sets a role which can change permissions. Supply no parameters to see the current one. Type 'reset' instead of the role name to reset the currently set permission role. Users with Administrator server permissions can use permission commands regardless of whether they have the specified role. There is no default permission role.",
       "Usage": [
-        ".pr role"
+        ".pr Some Role",
+        ".pr reset"
       ],
       "Submodule": "Permissions",
       "Module": "Permissions",
       "Options": null,
-      "Requirements": []
+      "Requirements": [
+        "Administrator Server Permission"
+      ]
     },
     {
       "Aliases": [
@@ -4249,7 +4268,7 @@
       "Aliases": [
         ".settype"
       ],
-      "Description": "Set your poketype. Costs one Currency. Provide no arguments to see a list of available types.",
+      "Description": "Set your poketype. Costs one Currency. Provide no parameters to see a list of available types.",
       "Usage": [
         ".settype fire",
         ".settype"
@@ -5015,7 +5034,7 @@
       "Aliases": [
         ".place"
       ],
-      "Description": "Shows a placeholder image of a given tag. Use `.placelist` to see all available tags. You can specify the width and height of the image as the last two optional arguments.",
+      "Description": "Shows a placeholder image of a given tag. Use `.placelist` to see all available tags. You can specify the width and height of the image as the last two optional parameters.",
       "Usage": [
         ".place Cage",
         ".place steven 500 400"
@@ -5197,7 +5216,7 @@
         ".autotrans",
         ".at"
       ],
-      "Description": "Starts automatic translation of all messages by users who set their `.atl` in this channel. You can set \"del\" argument to automatically delete all translated user messages.",
+      "Description": "Starts automatic translation of all messages by users who set their `.atl` in this channel. You can set \"del\" parameter to automatically delete all translated user messages.",
       "Usage": [
         ".at",
         ".at del"
@@ -5215,7 +5234,7 @@
         ".autotranslang",
         ".atl"
       ],
-      "Description": "Sets your source and target language to be used with `.at`. Specify no arguments to remove previously set value.",
+      "Description": "Sets your source and target language to be used with `.at`. Specify no parameters to remove previously set value.",
       "Usage": [
         ".atl en>fr"
       ],
@@ -5241,7 +5260,7 @@
       "Aliases": [
         ".xkcd"
       ],
-      "Description": "Shows a XKCD comic. No arguments will retrieve random one. Number argument will retrieve a specific comic, and \"latest\" will get the latest one.",
+      "Description": "Shows a XKCD comic. Specify no parameters to retrieve a random one. Number parameter will retrieve a specific comic, and \"latest\" will get the latest one.",
       "Usage": [
         ".xkcd",
         ".xkcd 1400",
@@ -5743,7 +5762,7 @@
       "Aliases": [
         ".remind"
       ],
-      "Description": "Sends a message to you or a channel after certain amount of time. First argument is `me`/`here`/'channelname'. Second argument is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third argument is a (multiword) message.",
+      "Description": "Sends a message to you or a channel after certain amount of time. First parameter is `me`/`here`/'channelname'. Second parameter is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third parameter is a (multiword) message.",
       "Usage": [
         ".remind me 1d5h Do something",
         ".remind #general 1m Start now!"
@@ -5865,7 +5884,7 @@
       "Aliases": [
         ".streamrole"
       ],
-      "Description": "Sets a role which is monitored for streamers (FromRole), and a role to add if a user from 'FromRole' is streaming (AddRole). When a user from 'FromRole' starts streaming, they will receive an 'AddRole'. Provide no arguments to disable",
+      "Description": "Sets a role which is monitored for streamers (FromRole), and a role to add if a user from 'FromRole' is streaming (AddRole). When a user from 'FromRole' starts streaming, they will receive an 'AddRole'. Provide no parameters to disable",
       "Usage": [
         ".streamrole \"Eligible Streamers\" \"Featured Streams\""
       ],
