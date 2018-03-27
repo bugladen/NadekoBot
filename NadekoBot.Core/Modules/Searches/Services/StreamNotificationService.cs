@@ -29,18 +29,21 @@ namespace NadekoBot.Modules.Searches.Services
         private readonly IDataCache _cache;
         private readonly HttpClient _http;
         private readonly Logger _log;
+        private readonly IBotCredentials _creds;
         private readonly ConcurrentDictionary<
             (FollowedStream.FType Type, string Username),
             ConcurrentHashSet<(ulong GuildId, FollowedStream fs)>> _followedStreams;
 
         public StreamNotificationService(NadekoBot bot, DbService db, DiscordSocketClient client,
-            NadekoStrings strings, IDataCache cache)
+            NadekoStrings strings, IDataCache cache, IBotCredentials creds)
         {
             _db = db;
             _client = client;
             _strings = strings;
             _cache = cache;
+            _creds = creds;
             _http = new HttpClient();
+            _http.DefaultRequestHeaders.TryAddWithoutValidation("Client-ID", _creds.TwitchClientId);
             _log = LogManager.GetCurrentClassLogger();
 
             _followedStreams = bot.AllGuildConfigs.SelectMany(x => x.FollowedStreams)
@@ -146,7 +149,7 @@ namespace NadekoBot.Modules.Searches.Services
             switch (t)
             {
                 case FollowedStream.FType.Twitch:
-                    url = $"https://api.twitch.tv/kraken/streams/{Uri.EscapeUriString(username)}?client_id=67w6z9i09xv2uoojdm9l0wsyph4hxo6";
+                    url = $"https://api.twitch.tv/kraken/streams/{Uri.EscapeUriString(username)}";
                     type = typeof(TwitchResponse);
                     break;
                 case FollowedStream.FType.Smashcast:

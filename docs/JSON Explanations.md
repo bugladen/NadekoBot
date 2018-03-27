@@ -23,7 +23,8 @@ If you do not see `credentials.json` you will need to rename `credentials_exampl
   "RestartCommand": null,
   "ShardRunCommand": "",
   "ShardRunArguments": "",
-  "ShardRunPort": null
+  "ShardRunPort": null,
+  "TwitchClientId": null,
 }
 ```
 -----
@@ -159,6 +160,8 @@ It should look like:
 	- For Patreon creators only.
 - **PatreonCampaignId**
 	- For Patreon creators only. Id of your campaign.
+- **TwitchClientId**
+	- Optional. In order to avoid ratelimits that may happen if you use .twitch/.stadd function extensively.
 
 ##### Additional Settings
 
