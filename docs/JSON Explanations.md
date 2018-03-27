@@ -162,6 +162,10 @@ It should look like:
 	- For Patreon creators only. Id of your campaign.
 - **TwitchClientId**
 	- Optional. In order to avoid ratelimits that may happen if you use .twitch/.stadd function extensively.
+	- [How to get it](https://blog.twitch.tv/client-id-required-for-kraken-api-calls-afbb8e95f843)
+		- Go to [connections page](https://www.twitch.tv/settings/connections) on twitch and register you applicaiton.
+		- Once registered, find your application under Other Connections on the Connections page. Click Edit
+		- You will see your Client ID on the edit page.
 
 ##### Additional Settings
 
