@@ -507,7 +507,7 @@ namespace NadekoBot.Modules.Gambling
             [Priority(1)]
             public async Task WaifuGift(int page = 1)
             {
-                if (--page < 0 || page > 2)
+                if (--page < 0 || page > 3)
                     return;
 
                 await Context.SendPaginatedConfirmAsync(page, (cur) =>
