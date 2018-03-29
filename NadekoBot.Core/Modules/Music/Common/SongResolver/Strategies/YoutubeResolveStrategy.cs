@@ -20,9 +20,13 @@ namespace NadekoBot.Modules.Music.Common.SongResolver.Strategies
 
         public async Task<SongInfo> ResolveSong(string query)
         {
-            SongInfo s = await ResolveWithYtExplode(query);
-            if (s != null)
-                return s;
+            try
+            {
+                SongInfo s = await ResolveWithYtExplode(query);
+                if (s != null)
+                    return s;
+            }
+            catch { }
             return await ResolveWithYtDl(query);
         }
 
@@ -61,7 +65,7 @@ namespace NadekoBot.Modules.Music.Common.SongResolver.Strategies
             {
                 Provider = "YouTube",
                 ProviderType = MusicType.YouTube,
-                Query = "https://youtube.com/watch?v=" + id,
+                Query = "https://youtube.com/watch?v=" + video.Id,
                 Thumbnail = video.Thumbnails.MediumResUrl,
                 TotalTime = video.Duration,
                 Uri = async () =>

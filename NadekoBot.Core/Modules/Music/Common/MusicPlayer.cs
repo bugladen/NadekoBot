@@ -153,8 +153,10 @@ namespace NadekoBot.Modules.Music.Common
             this.AutoDelete = ms.SongAutoDelete;
             this._google = google;
 
-            _player = new Thread(new ThreadStart(PlayerLoop));
-            _player.Priority = ThreadPriority.AboveNormal;
+            _player = new Thread(new ThreadStart(PlayerLoop))
+            {
+                Priority = ThreadPriority.AboveNormal
+            };
             _player.Start();
         }
 

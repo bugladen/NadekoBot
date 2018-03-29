@@ -76,9 +76,9 @@ namespace NadekoBot.Modules.Games
             public EmbedBuilder GetStats(Poll poll, string title)
             {
                 var results = poll.Votes.GroupBy(kvp => kvp.VoteIndex)
-                                    .ToDictionary(x => x.Key, x => x.Sum(kvp => 1))
-                                    .OrderByDescending(kvp => kvp.Value)
-                                    .ToArray();
+                                    .ToDictionary(x => x.Key, x => x.Sum(kvp => 1));
+
+                var totalVotesCast = results.Sum(x => x.Value);
 
                 var eb = new EmbedBuilder().WithTitle(title);
 
@@ -86,22 +86,23 @@ namespace NadekoBot.Modules.Games
                     .AppendLine(Format.Bold(poll.Question))
                     .AppendLine();
 
-                var totalVotesCast = 0;
-                if (results.Length == 0)
-                {
-                    sb.AppendLine(GetText("no_votes_cast"));
-                }
-                else
-                {
-                    for (int i = 0; i < results.Length; i++)
+                var stats = poll.Answers
+                    .Select(x =>
                     {
-                        var result = results[i];
-                        sb.AppendLine(GetText("poll_result",
-                            result.Key + 1,
-                            Format.Bold(poll.Answers[result.Key].Text),
-                            Format.Bold(result.Value.ToString())));
-                        totalVotesCast += result.Value;
-                    }
+                        results.TryGetValue(x.Index, out var votes);
+
+                        return (x.Index, votes, x.Text);
+                    })
+                    .OrderByDescending(x => x.votes)
+                    .ToArray();
+
+                for (int i = 0; i < stats.Length; i++)
+                {
+                    var (Index, votes, Text) = stats[i];
+                    sb.AppendLine(GetText("poll_result",
+                        Index + 1,
+                        Format.Bold(Text),
+                        Format.Bold(votes.ToString())));
                 }
 
                 return eb.WithDescription(sb.ToString())

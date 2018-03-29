@@ -7,6 +7,9 @@ using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
 using NLog;
 using NadekoBot.Modules.Music.Services;
+using Discord;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace NadekoBot.Modules.Administration.Services
 {
@@ -80,6 +83,54 @@ namespace NadekoBot.Modules.Administration.Services
                     }
                 }, new TimerState(), TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1));
             }
+        }
+
+        public async Task<string> RemovePlayingAsync(int index)
+        {
+            if (index < 0)
+                throw new ArgumentOutOfRangeException(nameof(index));
+
+            string msg;
+            using (var uow = _db.UnitOfWork)
+            {
+                var config = uow.BotConfig.GetOrCreate(set => set.Include(x => x.RotatingStatusMessages));
+
+                if (index >= config.RotatingStatusMessages.Count)
+                    return null;
+                msg = config.RotatingStatusMessages[index].Status;
+                config.RotatingStatusMessages.RemoveAt(index);
+                await uow.CompleteAsync();
+            }
+
+            _bcp.Reload();
+
+            return msg;
+        }
+
+        public async Task AddPlaying(ActivityType t, string status)
+        {
+            using (var uow = _db.UnitOfWork)
+            {
+                var config = uow.BotConfig.GetOrCreate(set => set.Include(x => x.RotatingStatusMessages));
+                var toAdd = new PlayingStatus { Status = status, Type = t };
+                config.RotatingStatusMessages.Add(toAdd);
+                await uow.CompleteAsync();
+            }
+
+            _bcp.Reload();
+        }
+
+        public bool ToggleRotatePlaying()
+        {
+            bool enabled;
+            using (var uow = _db.UnitOfWork)
+            {
+                var config = uow.BotConfig.GetOrCreate(set => set);
+
+                enabled = config.RotatingStatuses = !config.RotatingStatuses;
+                uow.Complete();
+            }
+            return enabled;
         }
     }
 }

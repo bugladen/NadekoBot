@@ -21,7 +21,6 @@ using SixLabors.Primitives;
 using System.Net.Http;
 using ImageSharp.Drawing.Pens;
 using ImageSharp.Drawing.Brushes;
-using System.Diagnostics;
 
 namespace NadekoBot.Modules.Xp.Services
 {

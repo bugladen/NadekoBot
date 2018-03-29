@@ -133,20 +133,6 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
             return config;
         }
 
-        public IEnumerable<GuildConfig> OldPermissionsForAll()
-        {
-            var query = _set
-                .Where(gc => gc.RootPermission != null)
-                .Include(gc => gc.RootPermission);
-
-            for (int i = 0; i < 60; i++)
-            {
-                query = query.ThenInclude(gc => gc.Next);
-            }
-
-            return query.ToList();
-        }
-
         public IEnumerable<GuildConfig> Permissionsv2ForAll(List<long> include)
         {
             var query = _set

@@ -4,12 +4,10 @@ using Discord;
 using Discord.Commands;
 using System.Threading.Tasks;
 using Discord.WebSocket;
-using Microsoft.EntityFrameworkCore;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Administration.Services;
 using NadekoBot.Core.Services;
-using NadekoBot.Core.Services.Database.Models;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -27,13 +25,11 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireUserPermission(GuildPermission.ManageRoles)]
-            [RequireUserPermission(GuildPermission.ManageChannels)]
             [RequireBotPermission(GuildPermission.ManageRoles)]
-            [RequireBotPermission(GuildPermission.ManageChannels)]
             [RequireContext(ContextType.Guild)]
             public async Task VcRole([Remainder]IRole role = null)
             {
-                var user = (IGuildUser) Context.User;
+                var user = (IGuildUser)Context.User;
 
                 var vc = user.VoiceChannel;
 
@@ -43,35 +39,16 @@ namespace NadekoBot.Modules.Administration
                     return;
                 }
 
-                var guildVcRoles = _service.VcRoles.GetOrAdd(user.GuildId, new ConcurrentDictionary<ulong, IRole>());
-
                 if (role == null)
                 {
-                    if (guildVcRoles.TryRemove(vc.Id, out role))
+                    if (_service.RemoveVcRole(Context.Guild.Id, vc.Id))
                     {
-                        using (var uow = _db.UnitOfWork)
-                        {
-                            var conf = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(x => x.VcRoleInfos));
-                            conf.VcRoleInfos.RemoveWhere(x => x.VoiceChannelId == vc.Id);
-                            uow.Complete();
-                        }
                         await ReplyConfirmLocalized("vcrole_removed", Format.Bold(vc.Name)).ConfigureAwait(false);
                     }
                 }
                 else
                 {
-                    guildVcRoles.AddOrUpdate(vc.Id, role, (key, old) => role);
-                    using (var uow = _db.UnitOfWork)
-                    {
-                        var conf = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(x => x.VcRoleInfos));
-                        conf.VcRoleInfos.RemoveWhere(x => x.VoiceChannelId == vc.Id); // remove old one
-                        conf.VcRoleInfos.Add(new VcRoleInfo() 
-                        {
-                            VoiceChannelId = vc.Id,
-                            RoleId = role.Id,
-                        }); // add new one
-                        uow.Complete();
-                    }
+                    _service.AddVcRole(Context.Guild.Id, role, vc.Id);
                     await ReplyConfirmLocalized("vcrole_added", Format.Bold(vc.Name), Format.Bold(role.Name)).ConfigureAwait(false);
                 }
             }
@@ -80,7 +57,7 @@ namespace NadekoBot.Modules.Administration
             [RequireContext(ContextType.Guild)]
             public async Task VcRoleList()
             {
-                var guild = (SocketGuild) Context.Guild;
+                var guild = (SocketGuild)Context.Guild;
                 string text;
                 if (_service.VcRoles.TryGetValue(Context.Guild.Id, out ConcurrentDictionary<ulong, IRole> roles))
                 {

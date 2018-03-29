@@ -17,7 +17,6 @@ using NadekoBot.Core.Services.Impl;
 using Newtonsoft.Json;
 using NLog;
 using NadekoBot.Modules.Games.Common.Acrophobia;
-using NadekoBot.Modules.Games.Common.Connect4;
 using NadekoBot.Modules.Games.Common.Hangman;
 using NadekoBot.Modules.Games.Common.Trivia;
 using NadekoBot.Modules.Games.Common.Nunchi;
@@ -46,7 +45,6 @@ namespace NadekoBot.Modules.Games.Services
 
         //channelId, game
         public ConcurrentDictionary<ulong, Acrophobia> AcrophobiaGames { get; } = new ConcurrentDictionary<ulong, Acrophobia>();
-        public ConcurrentDictionary<ulong, Connect4Game> Connect4Games { get; } = new ConcurrentDictionary<ulong, Connect4Game>();
 
         public ConcurrentDictionary<ulong, Hangman> HangmanGames { get; } = new ConcurrentDictionary<ulong, Hangman>();
         public TermPool TermPool { get; } = new TermPool();
@@ -103,8 +101,6 @@ namespace NadekoBot.Modules.Games.Services
 
             AcrophobiaGames.ForEach(x => x.Value.Dispose());
             AcrophobiaGames.Clear();
-            Connect4Games.ForEach(x => x.Value.Dispose());
-            Connect4Games.Clear();
             HangmanGames.ForEach(x => x.Value.Dispose());
             HangmanGames.Clear();
             await Task.WhenAll(RunningTrivias.Select(x => x.Value.StopGame()));

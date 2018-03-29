@@ -7,6 +7,6 @@ namespace NadekoBot.Core.Services.Database.Repositories
     public interface ISelfAssignedRolesRepository : IRepository<SelfAssignedRole>
     {
         bool DeleteByGuildAndRoleId(ulong guildId, ulong roleId);
-        IGrouping<int, SelfAssignedRole>[] GetFromGuild(ulong guildId);
+        IEnumerable<SelfAssignedRole> GetFromGuild(ulong guildId);
     }
 }

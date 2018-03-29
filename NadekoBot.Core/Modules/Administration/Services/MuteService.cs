@@ -30,6 +30,18 @@ namespace NadekoBot.Modules.Administration.Services
             = new ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, Timer>>();
 
         public event Action<IGuildUser, MuteType> UserMuted = delegate { };
+
+        public async Task SetMuteRoleAsync(ulong guildId, string name)
+        {
+            using (var uow = _db.UnitOfWork)
+            {
+                var config = uow.GuildConfigs.For(guildId, set => set);
+                config.MuteRoleName = name;
+                GuildMuteRoles.AddOrUpdate(guildId, name, (id, old) => name);
+                await uow.CompleteAsync().ConfigureAwait(false);
+            }
+        }
+
         public event Action<IGuildUser, MuteType> UserUnmuted = delegate { };
 
         private static readonly OverwritePermissions denyOverwrite = new OverwritePermissions(addReactions: PermValue.Deny, sendMessages: PermValue.Deny, attachFiles: PermValue.Deny);
@@ -170,6 +182,9 @@ namespace NadekoBot.Modules.Administration.Services
 
         public async Task<IRole> GetMuteRole(IGuild guild)
         {
+            if (guild == null)
+                throw new ArgumentNullException(nameof(guild));
+
             const string defaultMuteRoleName = "nadeko-mute";
 
             var muteRoleName = GuildMuteRoles.GetOrAdd(guild.Id, defaultMuteRoleName);

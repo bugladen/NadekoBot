@@ -33,6 +33,31 @@ namespace NadekoBot.Modules.Administration.Services
 
         }
 
+        public ulong? ToggleGameVoiceChannel(ulong guildId, ulong vchId)
+        {
+            ulong? id;
+            using (var uow = _db.UnitOfWork)
+            {
+                var gc = uow.GuildConfigs.For(guildId, set => set);
+
+                if (gc.GameVoiceChannel == vchId)
+                {
+                    GameVoiceChannels.TryRemove(vchId);
+                    id = gc.GameVoiceChannel = null;
+                }
+                else
+                {
+                    if (gc.GameVoiceChannel != null)
+                        GameVoiceChannels.TryRemove(gc.GameVoiceChannel.Value);
+                    GameVoiceChannels.Add(vchId);
+                    id = gc.GameVoiceChannel = vchId;
+                }
+
+                uow.Complete();
+            }
+            return id;
+        }
+
         private Task Client_UserVoiceStateUpdated(SocketUser usr, SocketVoiceState oldState, SocketVoiceState newState)
         {
             var _ = Task.Run(async () =>

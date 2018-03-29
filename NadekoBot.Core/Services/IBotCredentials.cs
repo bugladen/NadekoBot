@@ -28,6 +28,7 @@ namespace NadekoBot.Core.Services
         string MiningProxyUrl { get; }
         string MiningProxyCreds { get; }
         string BotListToken { get; }
+        string TwitchClientId { get; }
     }
 
     public class RestartConfig

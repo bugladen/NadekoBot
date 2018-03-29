@@ -1,13 +1,14 @@
 ﻿using CommandLine;
 using NadekoBot.Common;
 using NadekoBot.Core.Common;
+using NadekoBot.Core.Services;
 using System;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules.Games.Common.Connect4
+namespace NadekoBot.Modules.Gambling.Common.Connect4
 {
     public class Connect4Game : IDisposable
     {
@@ -45,13 +46,13 @@ namespace NadekoBot.Modules.Games.Common.Connect4
         public ImmutableArray<Field> GameState => _gameState.ToImmutableArray();
         public ImmutableArray<(ulong UserId, string Username)?> Players => _players.ToImmutableArray();
 
-        public string CurrentPlayer => CurrentPhase == Phase.P1Move
-            ? _players[0].Value.Username
-            : _players[1].Value.Username;
+        public (ulong UserId, string Username) CurrentPlayer => CurrentPhase == Phase.P1Move
+            ? _players[0].Value
+            : _players[1].Value;
 
-        public string OtherPlayer => CurrentPhase == Phase.P2Move
-            ? _players[0].Value.Username
-            : _players[1].Value.Username;
+        public (ulong UserId, string Username) OtherPlayer => CurrentPhase == Phase.P2Move
+            ? _players[0].Value
+            : _players[1].Value;
 
         //public event Func<Connect4Game, Task> OnGameStarted;
         public event Func<Connect4Game, Task> OnGameStateUpdated;
@@ -60,6 +61,7 @@ namespace NadekoBot.Modules.Games.Common.Connect4
 
         private readonly SemaphoreSlim _locker = new SemaphoreSlim(1, 1);
         private readonly Options _options;
+        private readonly ICurrencyService _cs;
         private readonly NadekoRandom _rng;
 
         private Timer _playerTimeoutTimer;
@@ -73,10 +75,11 @@ namespace NadekoBot.Modules.Games.Common.Connect4
          * [ ][ ][ ][ ][ ][ ]
          */
 
-        public Connect4Game(ulong userId, string userName, Options options)
+        public Connect4Game(ulong userId, string userName, Options options, ICurrencyService cs)
         {
             _players[0] = (userId, userName);
             _options = options;
+            _cs = cs;
 
             _rng = new NadekoRandom();
             for (int i = 0; i < NumberOfColumns * NumberOfRows; i++)
@@ -99,6 +102,7 @@ namespace NadekoBot.Modules.Games.Common.Connect4
                     {
                         var __ = OnGameFailedToStart?.Invoke(this);
                         CurrentPhase = Phase.Ended;
+                        await _cs.AddAsync(_players[0].Value.UserId, "Connect4-refund", this._options.Bet, true);
                         return;
                     }
                 }
@@ -106,7 +110,7 @@ namespace NadekoBot.Modules.Games.Common.Connect4
             });
         }
 
-        public async Task<bool> Join(ulong userId, string userName)
+        public async Task<bool> Join(ulong userId, string userName, int bet)
         {
             await _locker.WaitAsync().ConfigureAwait(false);
             try
@@ -115,6 +119,12 @@ namespace NadekoBot.Modules.Games.Common.Connect4
                     return false;
 
                 if (_players[0].Value.UserId == userId) // same user can't join own game
+                    return false;
+
+                if (bet != _options.Bet) // can't join if bet amount is not the same
+                    return false;
+
+                if (!await _cs.RemoveAsync(userId, "Connect4-bet", bet, true)) // user doesn't have enough money to gamble
                     return false;
 
                 if (_rng.Next(0, 2) == 0) //rolling from 0-1, if number is 0, join as first player
@@ -173,7 +183,7 @@ namespace NadekoBot.Modules.Games.Common.Connect4
 
                 //check winnning condition
                 // ok, i'll go from [0-2] in rows (and through all columns) and check upward if 4 are connected
-                
+
                 for (int i = 0; i < NumberOfRows - 3; i++)
                 {
                     if (CurrentPhase == Phase.Ended)
@@ -339,6 +349,22 @@ namespace NadekoBot.Modules.Games.Common.Connect4
                 return;
             var _ = OnGameEnded?.Invoke(this, result);
             CurrentPhase = Phase.Ended;
+
+
+            if (result == Result.Draw)
+            {
+                _cs.AddAsync(CurrentPlayer.UserId, "Connect4-draw", this._options.Bet, true);
+                _cs.AddAsync(OtherPlayer.UserId, "Connect4-draw", this._options.Bet, true);
+                return;
+            }
+
+            ulong winId;
+            if (result == Result.CurrentPlayerWon)
+                winId = CurrentPlayer.UserId;
+            else
+                winId = OtherPlayer.UserId;
+
+            _cs.AddAsync(winId, "Connnect4-win", (long)(this._options.Bet * 1.98), true);
         }
 
         private Field GetPlayerPiece(ulong userId) => _players[0].Value.UserId == userId
@@ -372,10 +398,15 @@ namespace NadekoBot.Modules.Games.Common.Connect4
             {
                 if (TurnTimer < 5 || TurnTimer > 60)
                     TurnTimer = 15;
+
+                if (Bet < 0)
+                    Bet = 0;
             }
 
-            [Option('t', "turn-timer", Required = false, Default = 15, HelpText = "Turn time in seconds. Default 15.")]
+            [Option('t', "turn-timer", Required = false, Default = 15, HelpText = "Turn time in seconds. It has to be between 5 and 60. Default 15.")]
             public int TurnTimer { get; set; } = 15;
+            [Option('b', "bet", Required = false, Default = 0, HelpText = "Amount you bet. Default 0.")]
+            public int Bet { get; set; } = 0;
         }
     }
 }

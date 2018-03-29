@@ -75,15 +75,7 @@ namespace NadekoBot.Modules.Administration
         [Priority(1)]
         public async Task Delmsgoncmd(Server _ = Server.Server)
         {
-            bool enabled;
-            using (var uow = _db.UnitOfWork)
-            {
-                var conf = uow.GuildConfigs.For(Context.Guild.Id, set => set);
-                enabled = conf.DeleteMessageOnCommand = !conf.DeleteMessageOnCommand;
-
-                await uow.CompleteAsync();
-            }
-            if (enabled)
+            if (_service.ToggleDeleteMessageOnCommand(Context.Guild.Id))
             {
                 _service.DeleteMessagesOnCommand.Add(Context.Guild.Id);
                 await ReplyConfirmLocalized("delmsg_on").ConfigureAwait(false);

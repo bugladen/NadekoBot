@@ -40,6 +40,7 @@ namespace NadekoBot.Core.Services.Impl
         public string MiningProxyCreds { get; }
 
         public string BotListToken { get; set; }
+        public string TwitchClientId { get; set; }
 
         public BotCredentials()
         {
@@ -119,6 +120,12 @@ namespace NadekoBot.Core.Services.Impl
                             string.IsNullOrWhiteSpace(dbSection["ConnectionString"])
                                 ? "Data Source=data/NadekoBot.db"
                                 : dbSection["ConnectionString"]);
+
+                TwitchClientId = data[nameof(TwitchClientId)];
+                if(string.IsNullOrWhiteSpace(TwitchClientId))
+                {
+                    TwitchClientId = "67w6z9i09xv2uoojdm9l0wsyph4hxo6";
+                }
             }
             catch (Exception ex)
             {
@@ -154,6 +161,7 @@ namespace NadekoBot.Core.Services.Impl
             public string MiningProxyCreds { get; set; } = null;
 
             public string BotListToken { get; set; }
+            public string TwitchClientId { get; set; }
         }
 
         private class DbModel

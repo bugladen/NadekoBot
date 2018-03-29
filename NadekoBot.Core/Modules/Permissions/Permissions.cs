@@ -47,25 +47,56 @@ namespace NadekoBot.Modules.Permissions
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        [Priority(0)]
         public async Task PermRole([Remainder] IRole role = null)
         {
             if (role != null && role == role.Guild.EveryoneRole)
                 return;
+            
+            if (role == null)
+            {
+                var cache = _service.GetCache(Context.Guild.Id);
+                if (!ulong.TryParse(cache.PermRole, out var roleId) ||
+                    (role = ((SocketGuild)Context.Guild).GetRole(roleId)) == null)
+                {
+                    await ReplyConfirmLocalized("permrole_not_set", Format.Bold(cache.PermRole)).ConfigureAwait(false);
+                }
+                else
+                {
+                    await ReplyConfirmLocalized("permrole", Format.Bold(role.ToString())).ConfigureAwait(false);
+                }
+                return;
+            }
 
             using (var uow = _db.UnitOfWork)
             {
                 var config = uow.GuildConfigs.GcWithPermissionsv2For(Context.Guild.Id);
-                if (role == null)
-                {
-                    await ReplyConfirmLocalized("permrole", Format.Bold(config.PermissionRole)).ConfigureAwait(false);
-                    return;
-                }
-                config.PermissionRole = role.Name.Trim();
-                await uow.CompleteAsync().ConfigureAwait(false);
+                config.PermissionRole = role.Id.ToString();
+                uow.Complete();
                 _service.UpdateCache(config);
             }
 
             await ReplyConfirmLocalized("permrole_changed", Format.Bold(role.Name)).ConfigureAwait(false);
+        }
+
+        public enum Reset { Reset };
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        [Priority(1)]
+        public async Task PermRole(Reset _)
+        {
+            using (var uow = _db.UnitOfWork)
+            {
+                var config = uow.GuildConfigs.GcWithPermissionsv2For(Context.Guild.Id);
+                config.PermissionRole = null;
+                await uow.CompleteAsync().ConfigureAwait(false);
+                _service.UpdateCache(config);
+            }
+
+            await ReplyConfirmLocalized("permrole_reset").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -94,7 +125,7 @@ namespace NadekoBot.Modules.Permissions
                                  .Select(p =>
                                  {
                                      var str =
-                                         $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(Prefix, (SocketGuild) Context.Guild))}";
+                                         $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(Prefix, (SocketGuild)Context.Guild))}";
                                      if (p.Index == 0)
                                          str += $" [{GetText("uneditable")}]";
                                      return str;
@@ -125,7 +156,7 @@ namespace NadekoBot.Modules.Permissions
                 }
                 await ReplyConfirmLocalized("removed",
                     index + 1,
-                    Format.Code(p.GetCommand(Prefix, (SocketGuild) Context.Guild))).ConfigureAwait(false);
+                    Format.Code(p.GetCommand(Prefix, (SocketGuild)Context.Guild))).ConfigureAwait(false);
             }
             catch (IndexOutOfRangeException)
             {
@@ -171,7 +202,7 @@ namespace NadekoBot.Modules.Permissions
                         _service.UpdateCache(config);
                     }
                     await ReplyConfirmLocalized("moved_permission",
-                            Format.Code(fromPerm.GetCommand(Prefix, (SocketGuild) Context.Guild)),
+                            Format.Code(fromPerm.GetCommand(Prefix, (SocketGuild)Context.Guild)),
                             ++from,
                             ++to)
                         .ConfigureAwait(false);

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
@@ -12,7 +11,6 @@ using NadekoBot.Modules.Permissions.Common;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Core.Services.Impl;
-using NLog;
 
 namespace NadekoBot.Modules.Permissions.Services
 {
@@ -31,9 +29,6 @@ namespace NadekoBot.Modules.Permissions.Services
             _db = db;
             _cmd = cmd;
             _strings = strings;
-
-            if (client.ShardId == 0)
-                TryMigratePermissions();
 
             using (var uow = _db.UnitOfWork)
             {
@@ -64,92 +59,6 @@ namespace NadekoBot.Modules.Permissions.Services
                     throw new Exception("Cache is null.");
             }
             return pc;
-        }
-
-        private void TryMigratePermissions()
-        {
-            using (var uow = _db.UnitOfWork)
-            {
-                var bc = uow.BotConfig.GetOrCreate(set => set);
-                var log = LogManager.GetCurrentClassLogger();
-                if (bc.PermissionVersion <= 1)
-                {
-                    log.Info("Permission version is 1, upgrading to 2.");
-                    var oldCache = new ConcurrentDictionary<ulong, OldPermissionCache>(uow.GuildConfigs
-                        .OldPermissionsForAll()
-                        .Where(x => x.RootPermission != null) // there is a check inside already, but just in case
-                        .ToDictionary(k => k.GuildId,
-                            v => new OldPermissionCache()
-                            {
-                                RootPermission = v.RootPermission,
-                                Verbose = v.VerbosePermissions,
-                                PermRole = v.PermissionRole
-                            }));
-
-                    if (oldCache.Any())
-                    {
-                        log.Info("Old permissions found. Performing one-time migration to v2.");
-                        var i = 0;
-                        foreach (var oc in oldCache)
-                        {
-                            if (i % 3 == 0)
-                                log.Info("Migrating Permissions #" + i + " - GuildId: " + oc.Key);
-                            i++;
-                            var gc = uow.GuildConfigs.GcWithPermissionsv2For(oc.Key);
-
-                            var oldPerms = oc.Value.RootPermission.AsEnumerable().Reverse().ToList();
-                            uow._context.Set<Permission>().RemoveRange(oldPerms);
-                            gc.RootPermission = null;
-                            if (oldPerms.Count > 2)
-                            {
-
-                                var newPerms = oldPerms.Take(oldPerms.Count - 1)
-                                    .Select(x => x.Tov2())
-                                    .ToList();
-
-                                var allowPerm = Permissionv2.AllowAllPerm;
-                                var firstPerm = newPerms[0];
-                                if (allowPerm.State != firstPerm.State ||
-                                    allowPerm.PrimaryTarget != firstPerm.PrimaryTarget ||
-                                    allowPerm.SecondaryTarget != firstPerm.SecondaryTarget ||
-                                    allowPerm.PrimaryTargetId != firstPerm.PrimaryTargetId ||
-                                    allowPerm.SecondaryTargetName != firstPerm.SecondaryTargetName)
-                                    newPerms.Insert(0, Permissionv2.AllowAllPerm);
-                                Cache.TryAdd(oc.Key, new PermissionCache
-                                {
-                                    Permissions = new PermissionsCollection<Permissionv2>(newPerms),
-                                    Verbose = gc.VerbosePermissions,
-                                    PermRole = gc.PermissionRole,
-                                });
-                                gc.Permissions = newPerms;
-                            }
-                        }
-                        log.Info("Permission migration to v2 is done.");
-                    }
-
-                    bc.PermissionVersion = 2;
-                    uow.Complete();
-                }
-                if (bc.PermissionVersion <= 2)
-                {
-                    var oldPrefixes = new[] { ".", ";", "!!", "!m", "!", "+", "-", "$", ">" };
-                    uow._context.Database.ExecuteSqlCommand(
-    @"UPDATE Permissionv2
-SET secondaryTargetName=trim(substr(secondaryTargetName, 3))
-WHERE secondaryTargetName LIKE '!!%' OR secondaryTargetName LIKE '!m%';
-
-UPDATE Permissionv2
-SET secondaryTargetName=substr(secondaryTargetName, 2)
-WHERE secondaryTargetName LIKE '.%' OR
-secondaryTargetName LIKE '~%' OR
-secondaryTargetName LIKE ';%' OR
-secondaryTargetName LIKE '>%' OR
-secondaryTargetName LIKE '-%' OR
-secondaryTargetName LIKE '!%';");
-                    bc.PermissionVersion = 3;
-                    uow.Complete();
-                }
-            }
         }
 
         public async Task AddPermissions(ulong guildId, params Permissionv2[] perms)
@@ -190,7 +99,6 @@ secondaryTargetName LIKE '!%';");
             await Task.Yield();
             if (guild == null)
             {
-
                 return false;
             }
             else
@@ -208,11 +116,27 @@ secondaryTargetName LIKE '!%';");
 
                 if (moduleName == "Permissions")
                 {
-                    var roles = (user as SocketGuildUser)?.Roles ?? ((IGuildUser)user).RoleIds.Select(x => guild.GetRole(x)).Where(x => x != null);
-                    if (!((IGuildUser)user).GuildPermissions.Administrator 
-                        && !roles.Any(r => r.Name.Trim().ToLowerInvariant() == pc.PermRole.Trim().ToLowerInvariant()))
+                    var guildUser = user as IGuildUser;
+                    if (guildUser == null)
+                        return true;
+
+                    var permRole = pc.PermRole;
+                    ulong rid = 0;
+                    if (!(guildUser.GuildPermissions.Administrator
+                        && (string.IsNullOrWhiteSpace(permRole)
+                            || !ulong.TryParse(permRole, out rid)
+                            || !guildUser.RoleIds.Contains(rid))))
                     {
-                        var returnMsg = $"You need the **{pc.PermRole}** role in order to use permission commands.";
+                        string returnMsg;
+                        IRole role;
+                        if (string.IsNullOrWhiteSpace(permRole) || (role = guild.GetRole(rid)) == null)
+                        {
+                            returnMsg = $"You need Admin permissions in order to use permission commands.";
+                        }
+                        else
+                        {
+                            returnMsg = $"You need the {Format.Bold(role.Name)} role in order to use permission commands.";
+                        }
                         if (pc.Verbose)
                             try { await channel.SendErrorAsync(returnMsg).ConfigureAwait(false); } catch { }
                         return true;

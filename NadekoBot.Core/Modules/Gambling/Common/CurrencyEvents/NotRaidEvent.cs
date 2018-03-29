@@ -2,7 +2,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Discord;
@@ -11,12 +10,11 @@ using NadekoBot.Core.Modules.Gambling.Common.Events;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Extensions;
-using NadekoBot.Modules.Gambling.Common;
 using NLog;
 
 namespace NadekoBot.Core.Modules.Gambling.Common.CurrencyEvents
 {
-    public class NotRaidEvent : ICurrencyEvent
+    public class NotRaidEvent
     {
         private DiscordSocketClient _client;
         private ICurrencyService _cs;
@@ -36,7 +34,7 @@ namespace NadekoBot.Core.Modules.Gambling.Common.CurrencyEvents
         private readonly Logger _log;
         private readonly Timer _t;
 
-        public event Func<ulong, Task> OnEnded;
+        //public event Func<ulong, Task> OnEnded;
 
         public NotRaidEvent(DiscordSocketClient client, ICurrencyService cs, IBotConfigProvider bc,
             SocketGuild g, SocketTextChannel ch, EventOptions opts,

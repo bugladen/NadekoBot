@@ -1,9 +1,8 @@
 ﻿using NadekoBot.Core.Modules.Gambling.Common;
 using NadekoBot.Core.Services;
-using NadekoBot.Core.Services.Database.Models;
+using NadekoBot.Modules.Gambling.Common.Connect4;
 using NLog;
 using System.Collections.Concurrent;
-using System.Linq;
 
 namespace NadekoBot.Modules.Gambling.Services
 {
@@ -14,6 +13,7 @@ namespace NadekoBot.Modules.Gambling.Services
         private readonly Logger _log;
 
         public ConcurrentDictionary<(ulong, ulong), RollDuelGame> Duels { get; } = new ConcurrentDictionary<(ulong, ulong), RollDuelGame>();
+        public ConcurrentDictionary<ulong, Connect4Game> Connect4Games { get; } = new ConcurrentDictionary<ulong, Connect4Game>();
 
         public GamblingService(DbService db, ICurrencyService cs)
         {
