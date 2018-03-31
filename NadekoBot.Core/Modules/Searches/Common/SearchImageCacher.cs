@@ -79,12 +79,12 @@ namespace NadekoBot.Modules.Searches.Common
 #if !GLOBAL_NADEKO
                     foreach (var dledImg in images)
                     {
-                        if(dledImg != toReturn)
+                        if (dledImg != toReturn)
                             _cache.Add(dledImg);
                     }
 #endif
                     return toReturn;
-                }                    
+                }
             }
             finally
             {
@@ -127,8 +127,8 @@ namespace NadekoBot.Modules.Searches.Common
                     website = $"https://yande.re/post.json?limit=100&tags={tag}";
                     break;
             }
-                
-            if (type == DapiSearchType.Konachan || type == DapiSearchType.Yandere || 
+
+            if (type == DapiSearchType.Konachan || type == DapiSearchType.Yandere ||
                 type == DapiSearchType.E621 || type == DapiSearchType.Danbooru)
             {
                 var data = await _http.GetStringAsync(website).ConfigureAwait(false);
@@ -159,7 +159,7 @@ namespace NadekoBot.Modules.Searches.Common
                             File_Url = reader["file_url"],
                             Tags = reader["tags"],
                             Rating = reader["rating"] ?? "e"
-                               
+
                         }, type));
                     }
                 }
@@ -182,10 +182,14 @@ namespace NadekoBot.Modules.Searches.Common
 
         public ImageCacherObject(DapiImageObject obj, DapiSearchType type)
         {
-            if (type == DapiSearchType.Danbooru)
+            if (type == DapiSearchType.Danbooru && !Uri.IsWellFormedUriString(obj.File_Url, UriKind.Absolute))
+            {
                 this.FileUrl = "https://danbooru.donmai.us" + obj.File_Url;
+            }
             else
+            {
                 this.FileUrl = obj.File_Url.StartsWith("http") ? obj.File_Url : "https:" + obj.File_Url;
+            }
             this.SearchType = type;
             this.Rating = obj.Rating;
             this.Tags = new HashSet<string>((obj.Tags ?? obj.Tag_String).Split(' '));
