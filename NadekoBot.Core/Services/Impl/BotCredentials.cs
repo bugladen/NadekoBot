@@ -39,10 +39,11 @@ namespace NadekoBot.Core.Services.Impl
         public string MiningProxyUrl { get; }
         public string MiningProxyCreds { get; }
 
-        public string TwitchClientId { get; set; }
+        public string TwitchClientId { get; }
 
         public string VotesUrl { get; }
         public string VotesToken { get; }
+        public string BotListToken { get; }
 
         public BotCredentials()
         {
@@ -81,6 +82,7 @@ namespace NadekoBot.Core.Services.Impl
 
                 VotesToken = data[nameof(VotesToken)];
                 VotesUrl = data[nameof(VotesUrl)];
+                BotListToken = data[nameof(BotListToken)];
 
                 var restartSection = data.GetSection(nameof(RestartCommand));
                 var cmd = restartSection["cmd"];
