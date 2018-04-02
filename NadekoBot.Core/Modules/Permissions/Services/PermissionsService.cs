@@ -114,33 +114,36 @@ namespace NadekoBot.Modules.Permissions.Services
                 }
 
 
-                if (moduleName == "Permissions")
+                if (moduleName == nameof(Permissions))
                 {
                     var guildUser = user as IGuildUser;
                     if (guildUser == null)
                         return true;
 
+                    if (guildUser.GuildPermissions.Administrator)
+                        return false;
+
                     var permRole = pc.PermRole;
-                    ulong rid = 0;
-                    if (!(guildUser.GuildPermissions.Administrator
-                        && (string.IsNullOrWhiteSpace(permRole)
-                            || !ulong.TryParse(permRole, out rid)
-                            || !guildUser.RoleIds.Contains(rid))))
+                    ulong.TryParse(permRole, out var rid);
+                    string returnMsg;
+                    IRole role;
+                    if (string.IsNullOrWhiteSpace(permRole) || (role = guild.GetRole(rid)) == null)
                     {
-                        string returnMsg;
-                        IRole role;
-                        if (string.IsNullOrWhiteSpace(permRole) || (role = guild.GetRole(rid)) == null)
-                        {
-                            returnMsg = $"You need Admin permissions in order to use permission commands.";
-                        }
-                        else
-                        {
-                            returnMsg = $"You need the {Format.Bold(role.Name)} role in order to use permission commands.";
-                        }
+                        returnMsg = $"You need Admin permissions in order to use permission commands.";
                         if (pc.Verbose)
                             try { await channel.SendErrorAsync(returnMsg).ConfigureAwait(false); } catch { }
+
                         return true;
                     }
+                    else if (!guildUser.RoleIds.Contains(rid))
+                    {
+                        returnMsg = $"You need the {Format.Bold(role.Name)} role in order to use permission commands.";
+                        if (pc.Verbose)
+                            try { await channel.SendErrorAsync(returnMsg).ConfigureAwait(false); } catch { }
+
+                        return true;
+                    }
+                    return false;
                 }
             }
 
