@@ -118,7 +118,7 @@ namespace NadekoBot.Modules.Gambling
                 if (guess == result)
                 {
                     var toWin = (long)(amount * _bc.BotConfig.BetflipMultiplier);
-                    str = Context.User.Mention + " " + GetText("flip_guess", toWin + _bc.BotConfig.CurrencySign);
+                    str = Format.Bold(Context.User.ToString()) + " " + GetText("flip_guess", toWin + _bc.BotConfig.CurrencySign);
                     await _cs.AddAsync(Context.User, "Betflip Gamble", toWin, false, gamble: true).ConfigureAwait(false);
                 }
                 else
