@@ -54,33 +54,37 @@ namespace NadekoBot.Modules.Gambling.Services
                 return;
             while (true)
             {
-                await Task.Delay(TimeSpan.FromHours(1));
-                try
+                await Task.Delay(TimeSpan.FromHours(1)).ConfigureAwait(false);
+                await TriggerVoteCheck().ConfigureAwait(false);
+            }
+        }
+
+        private async Task TriggerVoteCheck()
+        {
+            try
+            {
+                using (var req = new HttpRequestMessage(HttpMethod.Get, _creds.VotesUrl))
                 {
-                    var req = new HttpRequestMessage(HttpMethod.Get, _creds.VotesUrl);
                     if (!string.IsNullOrWhiteSpace(_creds.VotesToken))
                         req.Headers.Add("Authorization", _creds.VotesToken);
                     var res = await _http.SendAsync(req).ConfigureAwait(false);
                     if (!res.IsSuccessStatusCode)
                     {
                         _log.Warn("Botlist API not reached.");
-                        continue;
+                        return;
                     }
                     var resStr = await res.Content.ReadAsStringAsync();
                     var ids = JsonConvert.DeserializeObject<VoteModel[]>(resStr)
                         .Select(x => x.User)
                         .Distinct();
                     await _cs.AddBulkAsync(ids, ids.Select(x => "Voted - <https://discordbots.org/bot/nadeko/vote>"), ids.Select(x => 10L), true);
+                }
 
-                }
-                catch (Exception ex)
-                {
-                    _log.Warn(ex);
-                }
             }
-            //await ReplyConfirmLocalized("bot_list_awarded",
-            //    Format.Bold(amount.ToString()),
-            //    Format.Bold(ids.Length.ToString())).ConfigureAwait(false);
+            catch (Exception ex)
+            {
+                _log.Warn(ex);
+            }
         }
 
         public async Task<bool> TryCreateEventAsync(ulong guildId, ulong channelId, Event.Type type,
