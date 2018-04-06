@@ -5,29 +5,32 @@
 
 #### Prerequisites  
 - [.net core sdk 2.x][.netcore]  
-- [ffmpeg][ffmpeg] either download or install using your distro's package manager. For 32 bit Windows, download [this ffmpeg](https://github.com/MaybeGoogle/NadekoFiles/blob/master/x86%20Prereqs/NadekoBot_Music/ffmpeg.exe?raw=true).  
-- [youtube-dl](http://rg3.github.io/youtube-dl/download.html)  
-- [git][git]  
-- [redis][redis] for windows, or `apt-get install redis-server` for linux. For 32 bit windows, download [redis-server.exe](https://github.com/MaybeGoogle/NadekoFiles/blob/master/x86%20Prereqs/redis-server.exe?raw=true).  
+- [ffmpeg][ffmpeg]. Optional, needed for music. Download the static, release version for your architecture and store.  
+- [youtube-dl](http://rg3.github.io/youtube-dl/download.html). Optional, needed for music. Download and store the exe. Install Microsoft Visual C++ 2010 Redistributable Package.  
+- [Git][git]  
+- Redis  
+  - Windows 64 bit: Download and install the [latest msi][redis].  
+  - Windows 32 bit: Download [redis-server.exe](https://github.com/MaybeGoogle/NadekoFiles/blob/master/x86%20Prereqs/redis-server.exe?raw=true) and store.  
+  - Linux: `apt-get install redis-server`  
 - In addition, for 32-bit Windows, download [libsodium](https://github.com/MaybeGoogle/NadekoFiles/blob/master/x86%20Prereqs/NadekoBot_Music/libsodium.dll?raw=true) and (lib)[opus](https://github.com/MaybeGoogle/NadekoFiles/blob/master/x86%20Prereqs/NadekoBot_Music/opus.dll?raw=true).  
-- [Create Discord Bot application](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#creating-discord-bot-application) and [Invite the bot to your server](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#inviting-your-bot-to-your-server).   
+- [Create Discord Bot application](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#creating-discord-bot-application) and [Invite the bot to your server](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#inviting-your-bot-to-your-server).  
 
 #### Getting Nadeko Ready to Run  
-`git clone -b 1.9 https://github.com/Kwoth/NadekoBot`  
+- Download the source: `git clone -b 1.9 https://github.com/Kwoth/NadekoBot`  
 - Edit the `credentials.json` in `NadekoBot/src/NadekoBot` according to this [guide](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-credentialsjson-file).  
-- Move `youtube-dl.exe` and `ffmpeg.exe` into `NadekoBot/src/NadekoBot`. For 32-bit Windows, also replace `libsodium.dll` and `opus.dll` with the ones you downloaded.   
+- Move `youtube-dl.exe` and `ffmpeg.exe` into `NadekoBot/src/NadekoBot`. 
+- For 32-bit Windows, replace `libsodium.dll` and `opus.dll` with the ones you downloaded.   
 
 #### Running NadekoBot  
-- For 32-bit Windows, run the `redis-server.exe` that you downloaded. You must have this window open when you use NadekoBot.
-`cd NadekoBot/src/NadekoBot`   
-
-`dotnet run -c Release`  
+- For 32-bit Windows, run the `redis-server.exe` that you downloaded. You must have this window open when you use NadekoBot.  
+- Move to the correct directory. `cd NadekoBot/src/NadekoBot`  
+- Build and run. `dotnet run -c Release`  
+- The bot should now start up and show as online in your Discord server.
 
 #### Updating Nadeko  
-- Might not work if you've made custom edits to the source, make sure you know how git works)  
-
-`git pull`  
-`dotnet run -c Release`
+- Might not work if you've made custom edits to the source, make sure you know how git works  
+- Download updates. `git pull`  
+- Run again. `dotnet run -c Release`
 
 **!!! NOTE FOR WINDOWS USERS  !!!**  
 If you're running from source on windows, you will have to add these 2 extra lines to your credentials, after the first open bracket:
