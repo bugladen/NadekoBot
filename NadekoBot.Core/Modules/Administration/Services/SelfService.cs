@@ -1,16 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
-using NadekoBot.Common;
 using NadekoBot.Common.ModuleBehaviors;
 using NadekoBot.Extensions;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Impl;
 using NLog;
 using StackExchange.Redis;
+using System.Collections.Generic;
 
 namespace NadekoBot.Modules.Administration.Services
 {
@@ -28,7 +27,7 @@ namespace NadekoBot.Modules.Administration.Services
         private readonly NadekoStrings _strings;
         private readonly DiscordSocketClient _client;
         private readonly IBotCredentials _creds;
-        private ImmutableArray<AsyncLazy<IDMChannel>> ownerChannels = new ImmutableArray<AsyncLazy<IDMChannel>>();
+        private ImmutableDictionary<ulong, IDMChannel> ownerChannels = new Dictionary<ulong, IDMChannel>().ToImmutableDictionary();
         private readonly IBotConfigProvider _bc;
         private readonly IImageCache _imgs;
 
@@ -73,51 +72,38 @@ namespace NadekoBot.Modules.Administration.Services
             {
                 await bot.Ready.Task.ConfigureAwait(false);
 
-                await Task.Delay(5000);
+                await Task.Delay(5000).ConfigureAwait(false);
 
-                if(client.ShardId == 0)
-                    LoadOwnerChannels();                
+                if (client.ShardId == 0)
+                    await LoadOwnerChannels().ConfigureAwait(false);
             });
         }
 
-        private void LoadOwnerChannels()
+        private async Task LoadOwnerChannels()
         {
-            var hs = new HashSet<ulong>(_creds.OwnerIds);
-            var channels = new Dictionary<ulong, AsyncLazy<IDMChannel>>();
-
-            if (hs.Count > 0)
+            var channels = await Task.WhenAll(_creds.OwnerIds.Select(id =>
             {
-                foreach (var g in _client.Guilds)
-                {
-                    if (hs.Count == 0)
-                        break;
+                var user = _client.GetUser(id);
+                if (user == null)
+                    return Task.FromResult<IDMChannel>(null);
 
-                    foreach (var u in g.Users)
-                    {
-                        if (hs.Remove(u.Id))
-                        {
-                            channels.Add(u.Id, new AsyncLazy<IDMChannel>(async () => await u.GetOrCreateDMChannelAsync()));
-                            if (hs.Count == 0)
-                                break;
-                        }
-                    }
-                }
-            }
+                return user.GetOrCreateDMChannelAsync();
+            }));
 
-            ownerChannels = channels.OrderBy(x => _creds.OwnerIds.IndexOf(x.Key))
-                    .Select(x => x.Value)
-                    .ToImmutableArray();
+            ownerChannels = channels.Where(x => x != null)
+                .ToDictionary(x => x.Recipient.Id, x => x)
+                .ToImmutableDictionary();
 
             if (!ownerChannels.Any())
                 _log.Warn("No owner channels created! Make sure you've specified correct OwnerId in the credentials.json file.");
             else
-                _log.Info($"Created {ownerChannels.Length} out of {_creds.OwnerIds.Length} owner message channels.");
+                _log.Info($"Created {ownerChannels.Count} out of {_creds.OwnerIds.Length} owner message channels.");
         }
 
         // forwards dms
         public async Task LateExecute(DiscordSocketClient client, IGuild guild, IUserMessage msg)
         {
-            if (msg.Channel is IDMChannel && ForwardDMs && ownerChannels.Length > 0)
+            if (msg.Channel is IDMChannel && ForwardDMs && ownerChannels.Any())
             {
                 var title = _strings.GetText("dm_from",
                                 _localization.DefaultCultureInfo,
@@ -138,9 +124,7 @@ namespace NadekoBot.Modules.Administration.Services
 
                 if (ForwardDMsToAllOwners)
                 {
-                    var allOwnerChannels = await Task.WhenAll(ownerChannels
-                        .Select(x => x.Value))
-                        .ConfigureAwait(false);
+                    var allOwnerChannels = ownerChannels.Values;
 
                     foreach (var ownerCh in allOwnerChannels.Where(ch => ch.Recipient.Id != msg.Author.Id))
                     {
@@ -156,7 +140,7 @@ namespace NadekoBot.Modules.Administration.Services
                 }
                 else
                 {
-                    var firstOwnerChannel = await ownerChannels[0];
+                    var firstOwnerChannel = ownerChannels.Values.First();
                     if (firstOwnerChannel.Recipient.Id != msg.Author.Id)
                     {
                         try

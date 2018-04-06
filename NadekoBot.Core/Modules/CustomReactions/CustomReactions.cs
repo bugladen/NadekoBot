@@ -109,7 +109,7 @@ namespace NadekoBot.Modules.CustomReactions
             {
                 if (channel == null)
                 {
-                    await _service.EditGcr(id, message).ConfigureAwait(false);
+                    await _service.PublishEditedCr(cr).ConfigureAwait(false);
                 }
                 else
                 {
@@ -123,7 +123,7 @@ namespace NadekoBot.Modules.CustomReactions
 
                 await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                     .WithTitle(GetText("edited_cust_react"))
-                    .WithDescription($"#{cr.Id}")
+                    .WithDescription($"#{id}")
                     .AddField(efb => efb.WithName(GetText("trigger")).WithValue(cr.Trigger))
                     .AddField(efb => efb.WithName(GetText("response")).WithValue(message.Length > 1024 ? GetText("redacted_too_long") : message))
                     ).ConfigureAwait(false);
@@ -349,7 +349,7 @@ namespace NadekoBot.Modules.CustomReactions
 
                 var setValue = reaction.ContainsAnywhere = !reaction.ContainsAnywhere;
                 
-                await _service.SetCrCaAsync(reaction.Id, setValue).ConfigureAwait(false);
+                await _service.EditCrAsync(reaction.Id, setValue, CustomReactionsService.CrField.ContainsAnywhere).ConfigureAwait(false);
 
                 if (setValue)
                 {
@@ -396,7 +396,7 @@ namespace NadekoBot.Modules.CustomReactions
 
                 var setValue = reaction.DmResponse = !reaction.DmResponse;
 
-                await _service.SetCrDmAsync(reaction.Id, setValue).ConfigureAwait(false);
+                await _service.EditCrAsync(reaction.Id, setValue, CustomReactionsService.CrField.DmResponse).ConfigureAwait(false);
 
                 if (setValue)
                 {
@@ -443,7 +443,7 @@ namespace NadekoBot.Modules.CustomReactions
 
                 var setValue = reaction.AutoDeleteTrigger = !reaction.AutoDeleteTrigger;
                 
-                await _service.SetCrAdAsync(reaction.Id, setValue).ConfigureAwait(false);
+                await _service.EditCrAsync(reaction.Id, setValue, CustomReactionsService.CrField.AutoDelete).ConfigureAwait(false);
 
                 if (setValue)
                 {
