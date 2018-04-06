@@ -38,7 +38,7 @@ namespace NadekoBot.Modules.CustomReactions.Services
 
         public CustomReactionsService(PermissionService perms, DbService db, NadekoStrings strings,
             DiscordSocketClient client, CommandHandler cmd, IBotConfigProvider bc, IUnitOfWork uow,
-            IDataCache cache, GlobalPermissionService gperm)
+            IDataCache cache, GlobalPermissionService gperm, NadekoBot bot)
         {
             _log = LogManager.GetCurrentClassLogger();
             _db = db;
@@ -95,10 +95,35 @@ namespace NadekoBot.Modules.CustomReactions.Services
             }, StackExchange.Redis.CommandFlags.FireAndForget);
 
 
-            var items = uow.CustomReactions.GetAll();
+            var items = uow.CustomReactions.GetGlobalAndFor(bot.AllGuildConfigs.Select(x => (long)x.GuildId));
 
-            GuildReactions = new ConcurrentDictionary<ulong, CustomReaction[]>(items.Where(g => g.GuildId != null && g.GuildId != 0).GroupBy(k => k.GuildId.Value).ToDictionary(g => g.Key, g => g.ToArray()));
+            GuildReactions = new ConcurrentDictionary<ulong, CustomReaction[]>(items
+                .Where(g => g.GuildId != null && g.GuildId != 0)
+                .GroupBy(k => k.GuildId.Value)
+                .ToDictionary(g => g.Key, g => g.ToArray()));
             GlobalReactions = items.Where(g => g.GuildId == null || g.GuildId == 0).ToArray();
+
+            bot.JoinedGuild += Bot_JoinedGuild;
+            _client.LeftGuild += _client_LeftGuild;
+        }
+
+        private Task _client_LeftGuild(SocketGuild arg)
+        {
+            GuildReactions.TryRemove(arg.Id, out _);
+            return Task.CompletedTask;
+        }
+
+        private Task Bot_JoinedGuild(GuildConfig gc)
+        {
+            var _ = Task.Run(() =>
+            {
+                using (var uow = _db.UnitOfWork)
+                {
+                    var crs = uow.CustomReactions.For(gc.GuildId);
+                    GuildReactions.AddOrUpdate(gc.GuildId, crs, (key, old) => crs);
+                }
+            });
+            return Task.CompletedTask;
         }
 
         public Task EditGcr(int id, string message)
