@@ -10,8 +10,6 @@ using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
 using Newtonsoft.Json;
 using NLog;
-using NadekoBot.Extensions;
-using NadekoBot.Core.Common.Caching;
 
 namespace NadekoBot.Modules.Utility.Services
 {
@@ -19,8 +17,7 @@ namespace NadekoBot.Modules.Utility.Services
     {
         private readonly SemaphoreSlim getPledgesLocker = new SemaphoreSlim(1, 1);
 
-        private readonly FactoryCache<PatreonUserAndReward[]> _pledges;
-        public PatreonUserAndReward[] Pledges => _pledges.GetValue();
+        private PatreonUserAndReward[] _pledges;
 
         public readonly Timer Updater;
         private readonly SemaphoreSlim claimLockJustInCase = new SemaphoreSlim(1, 1);
@@ -45,20 +42,7 @@ namespace NadekoBot.Modules.Utility.Services
             _db = db;
             _currency = currency;
             _cache = cache;
-            _key = _creds.RedisKey() + "_patreon_rewards";
             _bc = bc;
-            
-            _pledges = new FactoryCache<PatreonUserAndReward[]>(() =>
-            {
-                var r = _cache.Redis.GetDatabase();
-                var data = r.StringGet(_key);
-                if (data.IsNullOrEmpty)
-                    return null;
-                else
-                {
-                    return JsonConvert.DeserializeObject<PatreonUserAndReward[]>(data);
-                }
-            }, TimeSpan.FromSeconds(20));
 
             if(client.ShardId == 0)
                 Updater = new Timer(async _ => await RefreshPledges(),
@@ -103,14 +87,13 @@ namespace NadekoBot.Modules.Utility.Services
                         }
                     } while (!string.IsNullOrWhiteSpace(data.Links.next));
                 }
-                var db = _cache.Redis.GetDatabase();
-                var toSet = JsonConvert.SerializeObject(rewards.Join(users, (r) => r.relationships?.patron?.data?.id, (u) => u.id, (x, y) => new PatreonUserAndReward()
+                var toSet = rewards.Join(users, (r) => r.relationships?.patron?.data?.id, (u) => u.id, (x, y) => new PatreonUserAndReward()
                 {
                     User = y,
                     Reward = x,
-                }).ToArray());
+                }).ToArray();
 
-                db.StringSet(_key, toSet);
+                _pledges = toSet;
             }
             catch (Exception ex)
             {
@@ -129,7 +112,7 @@ namespace NadekoBot.Modules.Utility.Services
             var now = DateTime.UtcNow;
             try
             {
-                var data = Pledges?.FirstOrDefault(x => x.User.attributes?.social_connections?.discord?.user_id == userId.ToString());
+                var data = _pledges?.FirstOrDefault(x => x.User.attributes?.social_connections?.discord?.user_id == userId.ToString());
 
                 if (data == null)
                     return 0;
