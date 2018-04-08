@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using ImageSharp;
 using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Core.Services.Database.Models;
@@ -296,31 +297,11 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.ManageRoles)]
             [RequireBotPermission(GuildPermission.ManageRoles)]
             [Priority(0)]
-            public async Task RoleColor(params string[] args)
+            public async Task RoleColor(IRole role, Rgba32 color)
             {
-                if (args.Length != 2 && args.Length != 4)
-                {
-                    await ReplyErrorLocalized("rc_params").ConfigureAwait(false);
-                    return;
-                }
-                var roleName = args[0].ToUpperInvariant();
-                var role = Context.Guild.Roles.FirstOrDefault(r => r.Name.ToUpperInvariant() == roleName);
-
-                if (role == null)
-                {
-                    await ReplyErrorLocalized("rc_not_exist").ConfigureAwait(false);
-                    return;
-                }
                 try
                 {
-                    var rgb = args.Length == 4;
-                    var arg1 = args[1].Replace("#", "");
-
-                    var red = Convert.ToByte(rgb ? int.Parse(arg1) : Convert.ToInt32(arg1.Substring(0, 2), 16));
-                    var green = Convert.ToByte(rgb ? int.Parse(args[2]) : Convert.ToInt32(arg1.Substring(2, 2), 16));
-                    var blue = Convert.ToByte(rgb ? int.Parse(args[3]) : Convert.ToInt32(arg1.Substring(4, 2), 16));
-
-                    await role.ModifyAsync(r => r.Color = new Color(red, green, blue)).ConfigureAwait(false);
+                    await role.ModifyAsync(r => r.Color = new Color(color.R, color.G, color.B)).ConfigureAwait(false);
                     await ReplyConfirmLocalized("rc", Format.Bold(role.Name)).ConfigureAwait(false);
                 }
                 catch (Exception)

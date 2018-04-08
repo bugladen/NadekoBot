@@ -361,11 +361,10 @@
   },
   "rolecolor": {
     "Cmd": "rolecolor roleclr",
-    "Desc": "Set a role's color to the hex or 0-255 rgb color value provided. Provide no color in order to see the hex of the color of the specified role.",
+    "Desc": "Set a role's color using its hex value. Provide no color in order to see the hex value of the color of the specified role.",
     "Usage": [
       "{0}roleclr Admin",
-      "{0}roleclr Admin ffba55",
-      "{0}roleclr Admin 255 128 0"
+      "{0}roleclr Admin ffba55"
     ]
   },
   "ban": {
@@ -1687,7 +1686,7 @@
   },
   "color": {
     "Cmd": "color clr",
-    "Desc": "Shows you which colors correspond to the inputed hexes.",
+    "Desc": "Shows you pictures of colors which correspond to the inputed hex values. Max 10.",
     "Usage": [
       "{0}color 00ff00",
       "{0}color f00 0f0 00f"

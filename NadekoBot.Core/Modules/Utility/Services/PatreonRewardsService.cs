@@ -27,21 +27,18 @@ namespace NadekoBot.Modules.Utility.Services
         private readonly IBotCredentials _creds;
         private readonly DbService _db;
         private readonly ICurrencyService _currency;
-        private readonly IDataCache _cache;
-        private readonly string _key;
         private readonly IBotConfigProvider _bc;
 
         public DateTime LastUpdate { get; private set; } = DateTime.UtcNow;
 
         public PatreonRewardsService(IBotCredentials creds, DbService db, 
             ICurrencyService currency,
-            DiscordSocketClient client, IDataCache cache, IBotConfigProvider bc)
+            DiscordSocketClient client, IBotConfigProvider bc)
         {
             _log = LogManager.GetCurrentClassLogger();
             _creds = creds;
             _db = db;
             _currency = currency;
-            _cache = cache;
             _bc = bc;
 
             if(client.ShardId == 0)

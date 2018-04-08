@@ -148,8 +148,6 @@
   "administration_rar": "Successfully removed all roles from user {0}",
   "administration_rar_err": "Failed to remove roles. I have insufficient permissions.",
   "administration_rc": "Color of {0} role has been changed.",
-  "administration_rc_not_exist": "That role does not exist.",
-  "administration_rc_params": "The parameters specified are invalid.",
   "administration_rc_perms": "Error occurred due to invalid color or insufficient permissions.",
   "administration_remrole": "Successfully removed role {0} from user {1}",
   "administration_remrole_err": "Failed to remove role. I have insufficient permissions.",

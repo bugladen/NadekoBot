@@ -10,6 +10,12 @@ using NadekoBot.Core.Services.Impl;
 using NLog;
 using StackExchange.Redis;
 using System.Collections.Generic;
+using System;
+using System.Diagnostics;
+using Newtonsoft.Json;
+using NadekoBot.Common.ShardCom;
+using Microsoft.EntityFrameworkCore;
+using NadekoBot.Core.Services.Database.Models;
 
 namespace NadekoBot.Modules.Administration.Services
 {
@@ -29,6 +35,7 @@ namespace NadekoBot.Modules.Administration.Services
         private readonly IBotCredentials _creds;
         private ImmutableDictionary<ulong, IDMChannel> ownerChannels = new Dictionary<ulong, IDMChannel>().ToImmutableDictionary();
         private readonly IBotConfigProvider _bc;
+        private readonly IDataCache _cache;
         private readonly IImageCache _imgs;
 
         public SelfService(DiscordSocketClient client, NadekoBot bot, CommandHandler cmdHandler, DbService db,
@@ -45,6 +52,7 @@ namespace NadekoBot.Modules.Administration.Services
             _client = client;
             _creds = creds;
             _bc = bc;
+            _cache = cache;
             _imgs = cache.LocalImages;
 
             var sub = _redis.GetSubscriber();
@@ -77,6 +85,30 @@ namespace NadekoBot.Modules.Administration.Services
                 if (client.ShardId == 0)
                     await LoadOwnerChannels().ConfigureAwait(false);
             });
+        }
+
+        public void AddNewStartupCommand(StartupCommand cmd)
+        {
+            using (var uow = _db.UnitOfWork)
+            {
+                uow.BotConfig
+                   .GetOrCreate(set => set.Include(x => x.StartupCommands))
+                   .StartupCommands
+                   .Add(cmd);
+                uow.Complete();
+            }
+        }
+
+        public IEnumerable<StartupCommand> GetStartupCommands()
+        {
+            using (var uow = _db.UnitOfWork)
+            {
+                return uow.BotConfig
+                   .GetOrCreate(set => set.Include(x => x.StartupCommands))
+                   .StartupCommands
+                   .OrderBy(x => x.Id)
+                   .ToArray();
+            }
         }
 
         private async Task LoadOwnerChannels()
@@ -154,6 +186,104 @@ namespace NadekoBot.Modules.Administration.Services
                     }
                 }
             }
+        }
+
+        public bool RemoveStartupCommand(string cmdText, out StartupCommand cmd)
+        {
+            using (var uow = _db.UnitOfWork)
+            {
+                var cmds = uow.BotConfig
+                   .GetOrCreate(set => set.Include(x => x.StartupCommands))
+                   .StartupCommands;
+                cmd = cmds
+                   .FirstOrDefault(x => x.CommandText.ToLowerInvariant() == cmdText.ToLowerInvariant());
+
+                if (cmd != null)
+                {
+                    cmds.Remove(cmd);
+                    uow.Complete();
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public void ClearStartupCommands()
+        {
+            using (var uow = _db.UnitOfWork)
+            {
+                uow.BotConfig
+                   .GetOrCreate(set => set.Include(x => x.StartupCommands))
+                   .StartupCommands
+                   .Clear();
+                uow.Complete();
+            }
+        }
+
+        public void ReloadBotConfig()
+        {
+            var sub = _cache.Redis.GetSubscriber();
+            sub.Publish(_creds.RedisKey() + "_reload_bot_config",
+                "",
+                CommandFlags.FireAndForget);
+        }
+
+        public void ReloadImages()
+        {
+            var sub = _cache.Redis.GetSubscriber();
+            sub.Publish(_creds.RedisKey() + "_reload_images",
+                "",
+                CommandFlags.FireAndForget);
+        }
+
+        public void Die()
+        {
+            var sub = _cache.Redis.GetSubscriber();
+            sub.Publish(_creds.RedisKey() + "_die", "", CommandFlags.FireAndForget);
+        }
+
+        public void ForwardMessages()
+        {
+            using (var uow = _db.UnitOfWork)
+            {
+                var config = uow.BotConfig.GetOrCreate(set => set);
+                config.ForwardMessages = !config.ForwardMessages;
+                uow.Complete();
+            }
+            _bc.Reload();
+        }
+
+        public void Restart()
+        {
+            Process.Start(_creds.RestartCommand.Cmd, _creds.RestartCommand.Args);
+            var sub = _cache.Redis.GetSubscriber();
+            sub.Publish(_creds.RedisKey() + "_die", "", CommandFlags.FireAndForget);
+        }
+
+        public void RestartShard(int shardId)
+        {
+            var pub = _cache.Redis.GetSubscriber();
+            pub.Publish(_creds.RedisKey() + "_shardcoord_stop",
+                JsonConvert.SerializeObject(shardId),
+                CommandFlags.FireAndForget);
+        }
+
+        public void ForwardToAll()
+        {
+            using (var uow = _db.UnitOfWork)
+            {
+                var config = uow.BotConfig.GetOrCreate(set => set);
+                config.ForwardToAllOwners = !config.ForwardToAllOwners;
+                uow.Complete();
+            }
+            _bc.Reload();
+        }
+
+        public IEnumerable<ShardComMessage> GetAllShardStatuses(int page)
+        {
+            var db = _cache.Redis.GetDatabase();
+            return db.ListRange(_creds.RedisKey() + "_shardstats")
+                .Select(x => JsonConvert.DeserializeObject<ShardComMessage>(x));
         }
     }
 }
