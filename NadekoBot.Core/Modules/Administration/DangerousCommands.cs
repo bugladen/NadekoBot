@@ -29,7 +29,6 @@ namespace NadekoBot.Modules.Administration
             {
                 try
                 {
-
                     var embed = new EmbedBuilder()
                         .WithTitle(GetText("sql_confirm_exec"))
                         .WithDescription(Format.Code(sql));

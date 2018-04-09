@@ -98,11 +98,17 @@ namespace NadekoBot.Modules.Administration
                 if (--page < 0)
                     return;
 
-                var (exclusive, roles) = _service.GetRoles(Context.Guild, page);
+                var (exclusive, roles) =  _service.GetRoles(Context.Guild);
 
                 var rolesStr = new StringBuilder();
+                var roleGroups = roles
+                    .OrderBy(x => x.Model.Group)
+                    .Skip(page * 20)
+                    .Take(20)
+                    .GroupBy(x => x.Model.Group)
+                    .OrderBy(x => x.Key);
 
-                foreach (var kvp in roles.GroupBy(x => x.Model.Group))
+                foreach (var kvp in roleGroups)
                 {
                     rolesStr.AppendLine("\t\t\t\t『" + Format.Bold(GetText("self_assign_group", kvp.Key)) + "』");
                     foreach (var (Model, Role) in kvp.AsEnumerable())

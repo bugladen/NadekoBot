@@ -5,7 +5,6 @@ using NadekoBot.Modules.Xp.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Core.Modules.Administration.Services
@@ -212,63 +211,23 @@ namespace NadekoBot.Core.Modules.Administration.Services
             return areExclusive;
         }
 
-        public (bool Exclusive, List<(SelfAssignedRole Model, IRole Role)> roles) GetRoles(IGuild guild, int page)
+        public (bool Exclusive, IEnumerable<(SelfAssignedRole Model, IRole Role)> roles) GetRoles(IGuild guild)
         {
             var exclusive = false;
 
-            List<(SelfAssignedRole, IRole)> roles = new List<(SelfAssignedRole, IRole)>();
-            IEnumerable<SelfAssignedRole> roleModels;
+            IEnumerable<(SelfAssignedRole Model, IRole Role)> roles;
             using (var uow = _db.UnitOfWork)
             {
                 exclusive = uow.GuildConfigs.For(guild.Id, set => set)
                     .ExclusiveSelfAssignedRoles;
-                roleModels = uow.SelfAssignedRoles.GetFromGuild(guild.Id);
-
-                foreach (var rm in roleModels)
-                {
-                    var role = guild.Roles.FirstOrDefault(r => r.Id == rm.RoleId);
-                    if (role == null)
-                    {
-                        uow.SelfAssignedRoles.Remove(rm);
-                    }
-                }
+                var roleModels = uow.SelfAssignedRoles.GetFromGuild(guild.Id);
+                roles = roleModels
+                    .Select(x => (Model: x, Role: guild.GetRole(x.RoleId)));
+                uow.SelfAssignedRoles.RemoveRange(roles.Where(x => x.Role == null).Select(x => x.Model).ToArray());
                 uow.Complete();
             }
 
-            var skip = page * 20;
-            foreach (var kvp in roleModels.GroupBy(x => x.Group))
-            {
-                var cnt = kvp.Count();
-                if (skip >= cnt)
-                {
-                    skip -= cnt;
-                    continue;
-                }
-                if (skip < -20)
-                    break;
-                foreach (var roleModel in kvp.AsEnumerable())
-                {
-                    if (skip-- > 0)
-                    {
-                        continue;
-                    }
-                    if (skip < -20)
-                    {
-                        break;
-                    }
-
-                    var role = guild.Roles.FirstOrDefault(r => r.Id == roleModel.RoleId);
-                    if (role == null)
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        roles.Add((roleModel, role));
-                    }
-                }
-            }
-            return (exclusive, roles);
+            return (exclusive, roles.Where(x => x.Role != null));
         }
     }
 }
