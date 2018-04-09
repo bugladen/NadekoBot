@@ -141,7 +141,7 @@ namespace NadekoBot.Modules.Gambling.Common.Connect4
                     await _locker.WaitAsync().ConfigureAwait(false);
                     try
                     {
-                        EndGame(Result.OtherPlayerWon);
+                        EndGame(Result.OtherPlayerWon, OtherPlayer.UserId);
                     }
                     finally { _locker.Release(); }
                 }, null, TimeSpan.FromSeconds(_options.TurnTimer), TimeSpan.FromSeconds(_options.TurnTimer));
@@ -205,7 +205,7 @@ namespace NadekoBot.Modules.Gambling.Common.Connect4
                                 {
                                     //Console.WriteLine(i + k + j * NumberOfRows);
                                     if (k == 3)
-                                        EndGame(Result.CurrentPlayerWon);
+                                        EndGame(Result.CurrentPlayerWon, CurrentPlayer.UserId);
                                     else
                                         continue;
                                 }
@@ -234,7 +234,7 @@ namespace NadekoBot.Modules.Gambling.Common.Connect4
                                 var next = _gameState[j + (i + k) * NumberOfRows];
                                 if (next == first)
                                     if (k == 3)
-                                        EndGame(Result.CurrentPlayerWon);
+                                        EndGame(Result.CurrentPlayerWon, CurrentPlayer.UserId);
                                     else
                                         continue;
                                 else break;
@@ -282,7 +282,7 @@ namespace NadekoBot.Modules.Gambling.Common.Connect4
                             if (same == 4)
                             {
                                 Console.WriteLine($"Won top left diagonal starting from {row + col * NumberOfRows}");
-                                EndGame(Result.CurrentPlayerWon);
+                                EndGame(Result.CurrentPlayerWon, CurrentPlayer.UserId);
                                 break;
                             }
 
@@ -310,7 +310,7 @@ namespace NadekoBot.Modules.Gambling.Common.Connect4
                             if (same == 4)
                             {
                                 Console.WriteLine($"Won top right diagonal starting from {row + col * NumberOfRows}");
-                                EndGame(Result.CurrentPlayerWon);
+                                EndGame(Result.CurrentPlayerWon, CurrentPlayer.UserId);
                                 break;
                             }
                         }
@@ -320,7 +320,7 @@ namespace NadekoBot.Modules.Gambling.Common.Connect4
                 //check draw? if it's even possible
                 if (_gameState.All(x => x != Field.Empty))
                 {
-                    EndGame(Result.Draw);
+                    EndGame(Result.Draw, null);
                 }
 
                 if (CurrentPhase != Phase.Ended)
@@ -343,13 +343,12 @@ namespace NadekoBot.Modules.Gambling.Common.Connect4
             _playerTimeoutTimer.Change(TimeSpan.FromSeconds(_options.TurnTimer), TimeSpan.FromSeconds(_options.TurnTimer));
         }
 
-        private void EndGame(Result result)
+        private void EndGame(Result result, ulong? winId)
         {
             if (CurrentPhase == Phase.Ended)
                 return;
             var _ = OnGameEnded?.Invoke(this, result);
             CurrentPhase = Phase.Ended;
-
 
             if (result == Result.Draw)
             {
@@ -357,14 +356,8 @@ namespace NadekoBot.Modules.Gambling.Common.Connect4
                 _cs.AddAsync(OtherPlayer.UserId, "Connect4-draw", this._options.Bet, true);
                 return;
             }
-
-            ulong winId;
-            if (result == Result.CurrentPlayerWon)
-                winId = CurrentPlayer.UserId;
-            else
-                winId = OtherPlayer.UserId;
-
-            _cs.AddAsync(winId, "Connnect4-win", (long)(this._options.Bet * 1.98), true);
+            if (winId != null)
+                _cs.AddAsync(winId.Value, "Connnect4-win", (long)(this._options.Bet * 1.98), true);
         }
 
         private Field GetPlayerPiece(ulong userId) => _players[0].Value.UserId == userId
