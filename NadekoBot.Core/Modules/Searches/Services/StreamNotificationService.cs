@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
+using Microsoft.EntityFrameworkCore;
 using NadekoBot.Common.Collections;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
@@ -46,7 +47,8 @@ namespace NadekoBot.Modules.Searches.Services
             _http.DefaultRequestHeaders.TryAddWithoutValidation("Client-ID", _creds.TwitchClientId);
             _log = LogManager.GetCurrentClassLogger();
 
-            _followedStreams = bot.AllGuildConfigs.SelectMany(x => x.FollowedStreams)
+            _followedStreams = bot.AllGuildConfigs
+                .SelectMany(x => x.FollowedStreams)
                 .GroupBy(x => (x.Type, x.Username))
                 .ToDictionary(x => x.Key, x => new ConcurrentHashSet<(ulong, FollowedStream)>(x.Select(y => (y.GuildId, y))))
                 .ToConcurrent();
@@ -129,9 +131,18 @@ namespace NadekoBot.Modules.Searches.Services
                     // notify them all
                     var tasks = locs.Select(x =>
                     {
+                        string msg;
+                        if(string.IsNullOrWhiteSpace(x.fs.Message))
+                        {
+                            msg = "";
+                        }
+                        else
+                        {
+                            msg = x.fs.Message;
+                        }
                         return _client.GetGuild(x.GuildId)
                             ?.GetTextChannel(x.fs.ChannelId)
-                            ?.EmbedAsync(GetEmbed(x.fs, u, x.GuildId));
+                            ?.EmbedAsync(GetEmbed(x.fs, u, x.GuildId), msg: msg);
                     }).Where(x => x != null);
 
                     sendTasks.AddRange(tasks);
@@ -204,6 +215,45 @@ namespace NadekoBot.Modules.Searches.Services
                 _log.Warn(ex);
                 return null;
             }
+        }
+
+        public bool SetStreamMessage(ulong guildId, string name, FollowedStream.FType type, string message)
+        {
+            name = name.ToLowerInvariant();
+            IEnumerable<FollowedStream> streams;
+            using (var uow = _db.UnitOfWork)
+            {
+                streams = uow.GuildConfigs.For(guildId, set => set.Include(x => x.FollowedStreams))
+                    .FollowedStreams
+                    .Where(x => x.GuildId == guildId);
+
+                var stream = streams.FirstOrDefault(x => x.Username == name.ToLowerInvariant() && x.Type == type);
+                if (stream == null)
+                    return false;
+
+                stream.Message = message;
+
+                uow.Complete();
+            }
+            var newVal = new ConcurrentHashSet<(ulong GuildId, FollowedStream fs)>(streams.Select(x => (x.GuildId, x)));
+            _followedStreams.AddOrUpdate((type, name),
+                newVal,
+                (key, old) => newVal);
+            return true;
+        }
+
+        public bool ToggleStreamOffline(ulong guildId)
+        {
+            bool val;
+            using (var uow = _db.UnitOfWork)
+            {
+                var config = uow.GuildConfigs
+                    .For(guildId, set => set);
+
+                val = config.NotifyStreamOffline = !config.NotifyStreamOffline;
+                uow.Complete();
+            }
+            return val;
         }
 
         public void UntrackStream(FollowedStream fs)

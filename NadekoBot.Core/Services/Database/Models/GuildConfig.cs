@@ -96,6 +96,7 @@ namespace NadekoBot.Core.Services.Database.Models
         public bool AutoDcFromVc { get; set; }
         public MusicSettings MusicSettings { get; set; } = new MusicSettings();
         public IndexedCollection<ReactionRoleMessage> ReactionRoleMessages { get; set; } = new IndexedCollection<ReactionRoleMessage>();
+        public bool NotifyStreamOffline { get; set; }
     }
 
     public class DelMsgOnCmdChannel : DbEntity
