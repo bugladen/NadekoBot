@@ -79,7 +79,7 @@ namespace NadekoBot.Modules.Searches
 
             private static readonly Dictionary<FollowedStream.FType, Regex> typesWithRegex = new Dictionary<FollowedStream.FType, Regex>()
             {
-                { FollowedStream.FType.Mixer, twitchRegex },
+                { FollowedStream.FType.Mixer, mixerRegex },
                 { FollowedStream.FType.Picarto, picartoRegex },
                 { FollowedStream.FType.Smashcast, smashcastRegex },
                 { FollowedStream.FType.Twitch, twitchRegex },
@@ -200,7 +200,7 @@ namespace NadekoBot.Modules.Searches
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
-            public async Task StreamMessage(string url, string message)
+            public async Task StreamMessage(string url, [Remainder] string message)
             {
                 if (!GetNameAndType(url, out var info))
                 {

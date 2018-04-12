@@ -34,6 +34,7 @@ namespace NadekoBot.Modules.Searches.Services
         private readonly ConcurrentDictionary<
             (FollowedStream.FType Type, string Username),
             ConcurrentHashSet<(ulong GuildId, FollowedStream fs)>> _followedStreams;
+        private readonly ConcurrentHashSet<ulong> _noOffline = new ConcurrentHashSet<ulong>();
 
         public StreamNotificationService(NadekoBot bot, DbService db, DiscordSocketClient client,
             NadekoStrings strings, IDataCache cache, IBotCredentials creds)
@@ -129,7 +130,9 @@ namespace NadekoBot.Modules.Searches.Services
                 if (_followedStreams.TryGetValue((u.StreamType, u.Name.Trim().ToLowerInvariant()), out var locs))
                 {
                     // notify them all
-                    var tasks = locs.Select(x =>
+                    var tasks = locs
+                        .Where(x => u.Live || !_noOffline.Contains(x.GuildId))
+                        .Select(x =>
                     {
                         string msg;
                         if(string.IsNullOrWhiteSpace(x.fs.Message))
@@ -223,11 +226,11 @@ namespace NadekoBot.Modules.Searches.Services
             IEnumerable<FollowedStream> streams;
             using (var uow = _db.UnitOfWork)
             {
-                streams = uow.GuildConfigs.For(guildId, set => set.Include(x => x.FollowedStreams))
-                    .FollowedStreams
-                    .Where(x => x.GuildId == guildId);
+                streams = uow.GuildConfigs
+                    .For(guildId, set => set.Include(x => x.FollowedStreams))
+                    .FollowedStreams;
 
-                var stream = streams.FirstOrDefault(x => x.Username == name.ToLowerInvariant() && x.Type == type);
+                var stream = streams.FirstOrDefault(x => x.Username.Trim().ToLowerInvariant() == name.Trim().ToLowerInvariant() && x.Type == type);
                 if (stream == null)
                     return false;
 

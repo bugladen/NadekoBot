@@ -3319,14 +3319,28 @@
     "cmd": "edit",
     "desc": "Edits bot's message, you have to specify message ID and new text. Supports embeds.",
     "usage": [
-      ".edit 7479498384 Hi :^)"
+      "{0}edit 7479498384 Hi :^)"
     ]
   },
   "roleid": {
     "cmd": "roleid rid",
     "desc": "Shows the id of the specified role.",
     "usage": [
-      ".rid Some Role"
+      "{0}rid Some Role"
+    ]
+  },
+  "streamoffline": {
+    "cmd": "streamoff stoff",
+    "desc": "Toggles whether the bot will notify about streams going offline.",
+    "usage": [
+      "{0}stoff"
+    ]
+  },
+  "streammessage": {
+    "cmd": "streammsg",
+    "desc": "Specify an url of a stream you're already following, and a message in order to set a stream notification message which will show up every time stream comes online.",
+    "usage": [
+      "{0}streammsg https://www.twitch.tv/trolhamonas/ Hello world"
     ]
   }
 }
