@@ -50,13 +50,13 @@ namespace NadekoBot.Modules.Administration
                 TimeZoneInfo tz;
                 try { tz = TimeZoneInfo.FindSystemTimeZoneById(id); } catch { tz = null; }
 
-                _service.SetTimeZone(Context.Guild.Id, tz);
 
                 if (tz == null)
                 {
                     await ReplyErrorLocalized("timezone_not_found").ConfigureAwait(false);
                     return;
                 }
+                _service.SetTimeZone(Context.Guild.Id, tz);
 
                 await Context.Channel.SendConfirmAsync(tz.ToString()).ConfigureAwait(false);
             }

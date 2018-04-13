@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -9,16 +7,13 @@ using Discord;
 using Discord.Commands;
 using Discord.Net;
 using Discord.WebSocket;
-using Microsoft.EntityFrameworkCore;
 using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Common.Replacements;
-using NadekoBot.Common.ShardCom;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Administration.Services;
-using Newtonsoft.Json;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -27,24 +22,16 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class SelfCommands : NadekoSubmodule<SelfService>
         {
-            private readonly DbService _db;
-
-            private static readonly object _locker = new object();
             private readonly DiscordSocketClient _client;
-            private readonly IImageCache _images;
             private readonly NadekoBot _bot;
             private readonly IBotCredentials _creds;
-            private readonly IDataCache _cache;
 
             public SelfCommands(DbService db, NadekoBot bot, DiscordSocketClient client,
                 IBotCredentials creds, IDataCache cache)
             {
-                _db = db;
                 _client = client;
-                _images = cache.LocalImages;
                 _bot = bot;
                 _creds = creds;
-                _cache = cache;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -66,13 +53,7 @@ namespace NadekoBot.Modules.Administration
                     VoiceChannelId = guser.VoiceChannel?.Id,
                     VoiceChannelName = guser.VoiceChannel?.Name,
                 };
-                using (var uow = _db.UnitOfWork)
-                {
-                    uow.BotConfig
-                       .GetOrCreate(set => set.Include(x => x.StartupCommands))
-                       .StartupCommands.Add(cmd);
-                    await uow.CompleteAsync().ConfigureAwait(false);
-                }
+                _service.AddNewStartupCommand(cmd);
 
                 await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                     .WithTitle(GetText("scadd"))
@@ -89,19 +70,12 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task StartupCommands(int page = 1)
             {
-                if (page < 1)
+                if (page-- < 1)
                     return;
-                page -= 1;
-                IEnumerable<StartupCommand> scmds;
-                using (var uow = _db.UnitOfWork)
-                {
-                    scmds = uow.BotConfig
-                       .GetOrCreate(set => set.Include(x => x.StartupCommands))
-                       .StartupCommands
-                       .OrderBy(x => x.Id)
-                       .ToArray();
-                }
-                scmds = scmds.Skip(page * 5).Take(5);
+
+                var scmds = _service.GetStartupCommands()
+                    .Skip(page * 5)
+                    .Take(5);
                 if (!scmds.Any())
                 {
                     await ReplyErrorLocalized("startcmdlist_none").ConfigureAwait(false);
@@ -129,7 +103,7 @@ namespace NadekoBot.Modules.Administration
                 try
                 {
                     var msg = await Context.Channel.SendConfirmAsync($"⏲ {miliseconds}ms")
-                   .ConfigureAwait(false);
+                        .ConfigureAwait(false);
                     msg.DeleteAfter(miliseconds / 1000);
                 }
                 catch { }
@@ -142,23 +116,7 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task StartupCommandRemove([Remainder] string cmdText)
             {
-                StartupCommand cmd;
-                using (var uow = _db.UnitOfWork)
-                {
-                    var cmds = uow.BotConfig
-                       .GetOrCreate(set => set.Include(x => x.StartupCommands))
-                       .StartupCommands;
-                    cmd = cmds
-                       .FirstOrDefault(x => x.CommandText.ToLowerInvariant() == cmdText.ToLowerInvariant());
-
-                    if (cmd != null)
-                    {
-                        cmds.Remove(cmd);
-                        await uow.CompleteAsync().ConfigureAwait(false);
-                    }
-                }
-
-                if (cmd == null)
+                if (!_service.RemoveStartupCommand(cmdText, out _))
                     await ReplyErrorLocalized("scrm_fail").ConfigureAwait(false);
                 else
                     await ReplyConfirmLocalized("scrm").ConfigureAwait(false);
@@ -169,14 +127,7 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task StartupCommandsClear()
             {
-                using (var uow = _db.UnitOfWork)
-                {
-                    uow.BotConfig
-                       .GetOrCreate(set => set.Include(x => x.StartupCommands))
-                       .StartupCommands
-                       .Clear();
-                    uow.Complete();
-                }
+                _service.ClearStartupCommands();
 
                 await ReplyConfirmLocalized("startcmds_cleared").ConfigureAwait(false);
             }
@@ -185,13 +136,7 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task ForwardMessages()
             {
-                using (var uow = _db.UnitOfWork)
-                {
-                    var config = uow.BotConfig.GetOrCreate(set => set);
-                    config.ForwardMessages = !config.ForwardMessages;
-                    uow.Complete();
-                }
-                _bc.Reload();
+                _service.ForwardMessages();
 
                 if (_service.ForwardDMs)
                     await ReplyConfirmLocalized("fwdm_start").ConfigureAwait(false);
@@ -203,14 +148,7 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task ForwardToAll()
             {
-                using (var uow = _db.UnitOfWork)
-                {
-                    var config = uow.BotConfig.GetOrCreate(set => set);
-                    lock (_locker)
-                        config.ForwardToAllOwners = !config.ForwardToAllOwners;
-                    uow.Complete();
-                }
-                _bc.Reload();
+                _service.ForwardToAll();
 
                 if (_service.ForwardDMsToAllOwners)
                     await ReplyConfirmLocalized("fwall_start").ConfigureAwait(false);
@@ -224,9 +162,8 @@ namespace NadekoBot.Modules.Administration
             {
                 if (--page < 0)
                     return;
-                var db = _cache.Redis.GetDatabase();
-                var statuses = db.ListRange(_creds.RedisKey() + "_shardstats")
-                    .Select(x => JsonConvert.DeserializeObject<ShardComMessage>(x));
+
+                var statuses = _service.GetAllShardStatuses(page);
 
                 var status = string.Join(", ", statuses
                     .GroupBy(x => x.ConnectionState)
@@ -262,18 +199,15 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task RestartShard(int shardid)
+            public async Task RestartShard(int shardId)
             {
-                if (shardid < 0 || shardid >= _creds.TotalShards)
+                if (shardId < 0 || shardId >= _creds.TotalShards)
                 {
                     await ReplyErrorLocalized("no_shard_id").ConfigureAwait(false);
                     return;
                 }
-                var pub = _cache.Redis.GetSubscriber();
-                pub.Publish(_creds.RedisKey() + "_shardcoord_stop",
-                    JsonConvert.SerializeObject(_client.ShardId),
-                    StackExchange.Redis.CommandFlags.FireAndForget);
-                await ReplyConfirmLocalized("shard_reconnecting", Format.Bold("#" + shardid)).ConfigureAwait(false);
+                _service.RestartShard(shardId);
+                await ReplyConfirmLocalized("shard_reconnecting", Format.Bold("#" + shardId)).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -315,8 +249,7 @@ namespace NadekoBot.Modules.Administration
                     // ignored
                 }
                 await Task.Delay(2000).ConfigureAwait(false);
-                var sub = _cache.Redis.GetSubscriber();
-                sub.Publish(_creds.RedisKey() + "_die", "", StackExchange.Redis.CommandFlags.FireAndForget);
+                _service.Die();
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -330,10 +263,8 @@ namespace NadekoBot.Modules.Administration
                     return;
                 }
 
-                await ReplyConfirmLocalized("restarting").ConfigureAwait(false);
-                Process.Start(cmd.Cmd, cmd.Args);
-                var sub = _cache.Redis.GetSubscriber();
-                sub.Publish(_creds.RedisKey() + "_die", "", StackExchange.Redis.CommandFlags.FireAndForget);
+                try { await ReplyConfirmLocalized("restarting").ConfigureAwait(false); } catch { }
+                _service.Restart();
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -501,10 +432,7 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task ImagesReload()
             {
-                var sub = _cache.Redis.GetSubscriber();
-                sub.Publish(_creds.RedisKey() + "_reload_images",
-                    "",
-                    StackExchange.Redis.CommandFlags.FireAndForget);
+                _service.ReloadImages();
                 await ReplyConfirmLocalized("images_loaded", 0).ConfigureAwait(false);
             }
 
@@ -512,10 +440,7 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task BotConfigReload()
             {
-                var sub = _cache.Redis.GetSubscriber();
-                sub.Publish(_creds.RedisKey() + "_reload_bot_config",
-                    "",
-                    StackExchange.Redis.CommandFlags.FireAndForget);
+                _service.ReloadBotConfig();
                 await ReplyConfirmLocalized("bot_config_reloaded").ConfigureAwait(false);
             }
 

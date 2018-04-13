@@ -33,7 +33,8 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.BanMembers)]
             public async Task Warn(IGuildUser user, [Remainder] string reason = null)
             {
-                if (Context.User.Id != user.Guild.OwnerId && (user.GetRoles().Select(r => r.Position).Max() >= ((IGuildUser)Context.User).GetRoles().Select(r => r.Position).Max()))
+                if (Context.User.Id != user.Guild.OwnerId
+                    && (user.GetRoles().Select(r => r.Position).Max() >= ((IGuildUser)Context.User).GetRoles().Select(r => r.Position).Max()))
                 {
                     await ReplyErrorLocalized("hierarchy").ConfigureAwait(false);
                     return;
