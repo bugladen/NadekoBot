@@ -52,8 +52,9 @@ namespace NadekoBot.Modules.Administration
                     GuildName = Context.Guild?.Name,
                     VoiceChannelId = guser.VoiceChannel?.Id,
                     VoiceChannelName = guser.VoiceChannel?.Name,
+                    Interval = 0,
                 };
-                _service.AddNewStartupCommand(cmd);
+                _service.AddNewAutoCommand(cmd);
 
                 await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                     .WithTitle(GetText("scadd"))
@@ -68,12 +69,41 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [OwnerOnly]
+            public async Task AutoCommandAdd(int interval, [Remainder] string cmdText)
+            {
+                if (cmdText.StartsWith(Prefix + "die"))
+                    return;
+
+                if (interval < 5)
+                    return;
+
+                var guser = ((IGuildUser)Context.User);
+                var cmd = new StartupCommand()
+                {
+                    CommandText = cmdText,
+                    ChannelId = Context.Channel.Id,
+                    ChannelName = Context.Channel.Name,
+                    GuildId = Context.Guild?.Id,
+                    GuildName = Context.Guild?.Name,
+                    VoiceChannelId = guser.VoiceChannel?.Id,
+                    VoiceChannelName = guser.VoiceChannel?.Name,
+                    Interval = interval,
+                };
+                _service.AddNewAutoCommand(cmd);
+
+                await ReplyConfirmLocalized("autocmd_add", Format.Code(Format.Sanitize(cmdText)), cmd.Interval).ConfigureAwait(false);
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [OwnerOnly]
             public async Task StartupCommands(int page = 1)
             {
                 if (page-- < 1)
                     return;
 
                 var scmds = _service.GetStartupCommands()
+                    .Where(x => x.Interval <= 0)
                     .Skip(page * 5)
                     .Take(5);
                 if (!scmds.Any())
@@ -83,7 +113,9 @@ namespace NadekoBot.Modules.Administration
                 else
                 {
                     await Context.Channel.SendConfirmAsync(
-                        text: string.Join("\n", scmds.Select(x => $@"```css
+                        text: string.Join("\n", scmds
+                        .Select(x => $@"```css
+#{x.Index}
 [{GetText("server")}]: {(x.GuildId.HasValue ? $"{x.GuildName} #{x.GuildId}" : "-")}
 [{GetText("channel")}]: {x.ChannelName} #{x.ChannelId}
 [{GetText("command_text")}]: {x.CommandText}```")),
@@ -91,6 +123,43 @@ namespace NadekoBot.Modules.Administration
                         footer: GetText("page", page + 1))
                     .ConfigureAwait(false);
                 }
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [OwnerOnly]
+            public async Task AutoCommands(int page = 1)
+            {
+                if (page-- < 1)
+                    return;
+
+                var scmds = _service.GetStartupCommands()
+                    .Where(x => x.Interval >= 5)
+                    .Skip(page * 5)
+                    .Take(5);
+                if (!scmds.Any())
+                {
+                    await ReplyErrorLocalized("autocmdlist_none").ConfigureAwait(false);
+                }
+                else
+                {
+                    await Context.Channel.SendConfirmAsync(
+                        text: string.Join("\n", scmds
+                        .Select(x => $@"```css
+#{x.Index}
+[{GetText("server")}]: {(x.GuildId.HasValue ? $"{x.GuildName} #{x.GuildId}" : "-")}
+[{GetText("channel")}]: {x.ChannelName} #{x.ChannelId}
+{GetIntervalText(x.Interval)}
+[{GetText("command_text")}]: {x.CommandText}```")),
+                        title: string.Empty,
+                        footer: GetText("page", page + 1))
+                    .ConfigureAwait(false);
+                }
+            }
+
+            private string GetIntervalText(int interval)
+            {
+                return $"[{GetText("interval")}]: {interval}";
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -114,9 +183,9 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [OwnerOnly]
-            public async Task StartupCommandRemove([Remainder] string cmdText)
+            public async Task StartupCommandRemove([Remainder] int index)
             {
-                if (!_service.RemoveStartupCommand(cmdText, out _))
+                if (!_service.RemoveStartupCommand(index, out _))
                     await ReplyErrorLocalized("scrm_fail").ConfigureAwait(false);
                 else
                     await ReplyConfirmLocalized("scrm").ConfigureAwait(false);

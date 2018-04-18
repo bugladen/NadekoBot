@@ -2623,9 +2623,16 @@
       "{0}scadd {0}stats"
     ]
   },
+  "autocommandadd": {
+    "Cmd": "autocmdadd",
+    "Desc": "Adds a command to the list of commands which will be executed automatically every X seconds.",
+    "Usage": [
+      "{0}autocmdadd 60 {0}prune 1000"
+    ]
+  },
   "startupcommandremove": {
     "Cmd": "scrm",
-    "Desc": "Removes a startup command with the provided command text.",
+    "Desc": "Removes a startup or auto command with the provided command text.",
     "Usage": [
       "{0}scrm {0}stats"
     ]
@@ -2642,6 +2649,13 @@
     "Desc": "Lists all startup commands in the order they will be executed in.",
     "Usage": [
       "{0}sclist"
+    ]
+  },
+  "autocommands": {
+    "Cmd": "autocmds autolist autocmdlist",
+    "Desc": "Lists all auto commands and the intervals in which they execute.",
+    "Usage": [
+      "{0}autolist"
     ]
   },
   "unban": {
