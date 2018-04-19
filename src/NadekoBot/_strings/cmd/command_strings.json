@@ -125,10 +125,10 @@
   },
   "repeat": {
     "Cmd": "repeat",
-    "Desc": "Repeat a message every `X` minutes in the current channel. You can instead specify time of day for the message to be repeated at daily (make sure you've set your server's timezone). You can have up to 5 repeating messages on the server in total.",
+    "Desc": "Repeat a message every specified number of minutes in the current channel. You can instead specify time of day for the message to be repeated at daily (make sure you've set your server's timezone). You can have up to 5 repeating messages on the server in total.",
     "Usage": [
-      "{0}repeat 5 Hello there",
-      "{0}repeat 17:30 tea time"
+      "{0}repeat -i 5 -m \"Hello there\" -n",
+      "{0}repeat 17:30 -m \"tea time\""
     ]
   },
   "rotateplaying": {
@@ -2632,9 +2632,9 @@
   },
   "startupcommandremove": {
     "Cmd": "scrm",
-    "Desc": "Removes a startup or auto command with the provided command text.",
+    "Desc": "Removes a startup or auto command with the provided index.",
     "Usage": [
-      "{0}scrm {0}stats"
+      "{0}scrm 3"
     ]
   },
   "startupcommandsclear": {

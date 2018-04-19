@@ -15,13 +15,22 @@ namespace NadekoBot.Common.TypeReaders
 
         public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider services)
         {
-            var _gts = (GuildTimezoneService)services.GetService(typeof(GuildTimezoneService));
-            if (!DateTime.TryParse(input, out var dt))
+            var gdt = Parse(services, context.Guild.Id, input);
+            if(gdt == null)
                 return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "Input string is in an incorrect format."));
 
-            var tz = _gts.GetTimeZoneOrUtc(context.Guild.Id);
+            return Task.FromResult(TypeReaderResult.FromSuccess(gdt));
+        }
 
-            return Task.FromResult(TypeReaderResult.FromSuccess(new GuildDateTime(tz, dt)));
+        public static GuildDateTime Parse(IServiceProvider services, ulong guildId, string input)
+        {
+            var _gts = (GuildTimezoneService)services.GetService(typeof(GuildTimezoneService));
+            if (!DateTime.TryParse(input, out var dt))
+                return null;
+
+            var tz = _gts.GetTimeZoneOrUtc(guildId);
+
+            return new GuildDateTime(tz, dt);
         }
     }
 

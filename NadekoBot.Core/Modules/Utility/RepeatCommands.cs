@@ -14,6 +14,7 @@ using NadekoBot.Common.Attributes;
 using NadekoBot.Common.TypeReaders;
 using NadekoBot.Modules.Utility.Common;
 using NadekoBot.Modules.Utility.Services;
+using NadekoBot.Core.Common;
 
 namespace NadekoBot.Modules.Utility
 {
@@ -101,23 +102,25 @@ namespace NadekoBot.Modules.Utility
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
+            [NadekoOptions(typeof(Repeater.Options))]
             [Priority(0)]
-            public async Task Repeat(int minutes, [Remainder] string message)
+            public async Task Repeat(params string[] options)
             {
                 if (!_service.RepeaterReady)
                     return;
-                if (minutes < 1 || minutes > 10080)
-                    return;
 
-                if (string.IsNullOrWhiteSpace(message))
+                var (opts, _) = OptionsParser.Default.ParseFrom(new Repeater.Options(), options);
+
+                if (string.IsNullOrWhiteSpace(opts.Message))
                     return;
 
                 var toAdd = new GuildRepeater()
                 {
                     ChannelId = Context.Channel.Id,
                     GuildId = Context.Guild.Id,
-                    Interval = TimeSpan.FromMinutes(minutes),
-                    Message = message
+                    Interval = TimeSpan.FromMinutes(opts.Interval),
+                    Message = opts.Message,
+                    NoRedundant = opts.NoRedundant,
                 };
 
                 using (var uow = _db.UnitOfWork)
@@ -150,22 +153,26 @@ namespace NadekoBot.Modules.Utility
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
+            [NadekoOptions(typeof(Repeater.Options))]
             [Priority(1)]
-            public async Task Repeat(GuildDateTime gt, [Remainder] string message)
+            public async Task Repeat(GuildDateTime gt, params string[] options)
             {
                 if (!_service.RepeaterReady)
                     return;
 
-                if (string.IsNullOrWhiteSpace(message))
+                var (opts, _) = OptionsParser.Default.ParseFrom(new Repeater.Options(), options);
+
+                if (string.IsNullOrWhiteSpace(opts.Message))
                     return;
 
-                var toAdd = new GuildRepeater()
+                var toAdd = new GuildRepeater() 
                 {
                     ChannelId = Context.Channel.Id,
                     GuildId = Context.Guild.Id,
                     Interval = TimeSpan.FromHours(24),
                     StartTimeOfDay = gt.InputTimeUtc.TimeOfDay,
-                    Message = message
+                    Message = opts.Message,
+                    NoRedundant = opts.NoRedundant,
                 };
 
                 using (var uow = _db.UnitOfWork)
