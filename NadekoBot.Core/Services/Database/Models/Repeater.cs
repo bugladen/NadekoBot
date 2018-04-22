@@ -19,6 +19,10 @@ namespace NadekoBot.Core.Services.Database.Models
             [Option('i', "interval", Required = false, Default = 5,
                 HelpText = "How frequently the repeating message is posted, in minutes.")]
             public int Interval { get; set; } = 5;
+            //[Option('s', "start-time", Required = false, Default = null,
+            //    HelpText = "At what time will the repeater first run.")]
+            //public string StrStartTimeOfDay { get; set; } = null;
+            //public TimeSpan StartTimeOfDay { get; set; }
 
             public void NormalizeOptions()
             {

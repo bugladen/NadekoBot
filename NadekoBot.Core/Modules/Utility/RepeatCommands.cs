@@ -103,8 +103,16 @@ namespace NadekoBot.Modules.Utility
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
             [NadekoOptions(typeof(Repeater.Options))]
+            [Priority(1)]
+            public Task Repeat(params string[] options)
+                => Repeat(null, options);
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.ManageMessages)]
+            [NadekoOptions(typeof(Repeater.Options))]
             [Priority(0)]
-            public async Task Repeat(params string[] options)
+            public async Task Repeat(GuildDateTime dt, params string[] options)
             {
                 if (!_service.RepeaterReady)
                     return;
@@ -121,6 +129,7 @@ namespace NadekoBot.Modules.Utility
                     Interval = TimeSpan.FromMinutes(opts.Interval),
                     Message = opts.Message,
                     NoRedundant = opts.NoRedundant,
+                    StartTimeOfDay = dt?.InputTimeUtc.TimeOfDay,
                 };
 
                 using (var uow = _db.UnitOfWork)
@@ -142,61 +151,13 @@ namespace NadekoBot.Modules.Utility
                     return old;
                 });
 
-                await Context.Channel.SendConfirmAsync(
-                    "🔁 " + GetText("repeater",
-                        Format.Bold(((IGuildUser)Context.User).GuildPermissions.MentionEveryone ? rep.Repeater.Message : rep.Repeater.Message.SanitizeMentions()),
-                        Format.Bold(rep.Repeater.Interval.Days.ToString()),
-                        Format.Bold(rep.Repeater.Interval.Hours.ToString()),
-                        Format.Bold(rep.Repeater.Interval.Minutes.ToString()))).ConfigureAwait(false);
-            }
-
-            [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageMessages)]
-            [NadekoOptions(typeof(Repeater.Options))]
-            [Priority(1)]
-            public async Task Repeat(GuildDateTime gt, params string[] options)
-            {
-                if (!_service.RepeaterReady)
-                    return;
-
-                var (opts, _) = OptionsParser.Default.ParseFrom(new Repeater.Options(), options);
-
-                if (string.IsNullOrWhiteSpace(opts.Message))
-                    return;
-
-                var toAdd = new GuildRepeater() 
+                string secondPart = "";
+                if (dt != null)
                 {
-                    ChannelId = Context.Channel.Id,
-                    GuildId = Context.Guild.Id,
-                    Interval = TimeSpan.FromHours(24),
-                    StartTimeOfDay = gt.InputTimeUtc.TimeOfDay,
-                    Message = opts.Message,
-                    NoRedundant = opts.NoRedundant,
-                };
-
-                using (var uow = _db.UnitOfWork)
-                {
-                    var gc = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(x => x.GuildRepeaters));
-
-                    if (gc.GuildRepeaters.Count >= 5)
-                        return;
-                    gc.GuildRepeaters.Add(toAdd);
-
-                    await uow.CompleteAsync().ConfigureAwait(false);
+                    secondPart = GetText("repeater_initial",
+                        Format.Bold(rep.InitialInterval.Hours.ToString()),
+                        Format.Bold(rep.InitialInterval.Minutes.ToString()));
                 }
-
-                var rep = new RepeatRunner(_client, (SocketGuild)Context.Guild, toAdd);
-
-                _service.Repeaters.AddOrUpdate(Context.Guild.Id, new ConcurrentQueue<RepeatRunner>(new[] { rep }), (key, old) =>
-                {
-                    old.Enqueue(rep);
-                    return old;
-                });
-
-                var secondPart = GetText("repeater_initial",
-                    Format.Bold(rep.InitialInterval.Hours.ToString()),
-                    Format.Bold(rep.InitialInterval.Minutes.ToString()));
 
                 await Context.Channel.SendConfirmAsync(
                     "🔁 " + GetText("repeater",
