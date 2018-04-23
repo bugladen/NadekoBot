@@ -1,11 +1,9 @@
 ﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord.WebSocket;
 using NadekoBot.Modules.Utility.Common;
 using NadekoBot.Core.Services;
-using NadekoBot.Core.Services.Database.Models;
 
 namespace NadekoBot.Modules.Utility.Services
 {
