@@ -79,7 +79,7 @@ namespace NadekoBot.Modules.Utility
                 if (CREmbed.TryParse(quote.Text, out var crembed))
                 {
                     rep.Replace(crembed);
-                    await Context.Channel.EmbedAsync(crembed.ToEmbed(), crembed.PlainText?.SanitizeMentions() ?? "")
+                    await Context.Channel.EmbedAsync(crembed.ToEmbed(), $"`#{quote.Id}` 📣 " + crembed.PlainText?.SanitizeMentions() ?? "")
                         .ConfigureAwait(false);
                     return;
                 }
