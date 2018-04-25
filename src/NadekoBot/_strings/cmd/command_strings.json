@@ -369,9 +369,10 @@
   },
   "ban": {
     "Cmd": "ban b",
-    "Desc": "Bans a user by ID or name with an optional message.",
+    "Desc": "Bans a user by ID or name with an optional message. You can specify a time string before the user name to ban the user temporarily.",
     "Usage": [
-      "{0}b \"@some Guy\" Your behaviour is toxic."
+      "{0}b \"@some Guy\" Your behaviour is toxic.",
+      "{0}b 1d12h @b1nzy Come back when u chill"
     ]
   },
   "softban": {

@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Administration.Services;
-using System;
+using NadekoBot.Core.Common.TypeReaders.Models;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -20,12 +20,13 @@ namespace NadekoBot.Modules.Administration
         {
             private readonly DbService _db;
             private readonly ICurrencyService _cs;
+            private readonly MuteService _mute;
 
-            public UserPunishCommands(DbService db, MuteService muteService,
-                ICurrencyService cs)
+            public UserPunishCommands(DbService db, MuteService mute, ICurrencyService cs)
             {
                 _db = db;
                 _cs = cs;
+                _mute = mute;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -297,6 +298,40 @@ namespace NadekoBot.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.BanMembers)]
             [RequireBotPermission(GuildPermission.BanMembers)]
+            [Priority(0)]
+            public async Task Ban(StoopidTime time, IGuildUser user, [Remainder] string msg = null)
+            {
+                if (Context.User.Id != user.Guild.OwnerId && (user.GetRoles().Select(r => r.Position).Max() >= ((IGuildUser)Context.User).GetRoles().Select(r => r.Position).Max()))
+                {
+                    await ReplyErrorLocalized("hierarchy").ConfigureAwait(false);
+                    return;
+                }
+                if (!string.IsNullOrWhiteSpace(msg))
+                {
+                    try
+                    {
+                        await user.SendErrorAsync(GetText("bandm", Format.Bold(Context.Guild.Name), msg));
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                }
+
+                await _mute.TimedBan(user, time.Time, Context.User.ToString() + " | " + msg);
+                await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                        .WithTitle("⛔️ " + GetText("banned_user"))
+                        .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
+                        .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true))
+                        .WithFooter($"{time.Time.Days}d {time.Time.Hours}h {time.Time.Minutes}m"))
+                    .ConfigureAwait(false);
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.BanMembers)]
+            [RequireBotPermission(GuildPermission.BanMembers)]
+            [Priority(1)]
             public async Task Ban(IGuildUser user, [Remainder] string msg = null)
             {
                 if (Context.User.Id != user.Guild.OwnerId && (user.GetRoles().Select(r => r.Position).Max() >= ((IGuildUser)Context.User).GetRoles().Select(r => r.Position).Max()))

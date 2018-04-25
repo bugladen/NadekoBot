@@ -37,11 +37,11 @@ namespace NadekoBot.Core.Common.TypeReaders.Models
                     continue;
                 }
                 if (value < 1 ||
-                    (groupName == "months" && value > 2) ||
-                    (groupName == "weeks" && value > 10) ||
-                    (groupName == "days" && value >= 70) ||
-                    (groupName == "hours" && value > 2000) ||
-                    (groupName == "minutes" && value > 12000))
+                    (groupName == "months" && value > 3) ||
+                    (groupName == "weeks" && value > 15) ||
+                    (groupName == "days" && value >= 95) ||
+                    (groupName == "hours" && value > 3000) ||
+                    (groupName == "minutes" && value > 15000))
                 {
                     throw new ArgumentException($"Invalid {groupName} value.");
                 }
@@ -54,6 +54,10 @@ namespace NadekoBot.Core.Common.TypeReaders.Models
                                                     namesAndValues["hours"],
                                                     namesAndValues["minutes"],
                                                     0);
+            if(ts > TimeSpan.FromDays(90))
+            {
+                throw new ArgumentException("Time is too long.");
+            }
 
             return new StoopidTime()
             {

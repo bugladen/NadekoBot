@@ -25,7 +25,7 @@ namespace NadekoBot.Modules.Administration.Services
     {
         public ConcurrentDictionary<ulong, string> GuildMuteRoles { get; }
         public ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>> MutedUsers { get; }
-        public ConcurrentDictionary<ulong, ConcurrentDictionary<(ulong, TimerType), Timer>> UnmuteTimers { get; }
+        public ConcurrentDictionary<ulong, ConcurrentDictionary<(ulong, TimerType), Timer>> Un_Timers { get; }
             = new ConcurrentDictionary<ulong, ConcurrentDictionary<(ulong, TimerType), Timer>>();
 
         public event Action<IGuildUser, MuteType> UserMuted = delegate { };
@@ -254,11 +254,27 @@ namespace NadekoBot.Modules.Administration.Services
             StartUn_Timer(user.GuildId, user.Id, after, TimerType.Mute); // start the timer
         }
 
+        public async Task TimedBan(IGuildUser user, TimeSpan after, string reason)
+        {
+            await user.Guild.AddBanAsync(user.Id, 0, reason);
+            using (var uow = _db.UnitOfWork)
+            {
+                var config = uow.GuildConfigs.For(user.GuildId, set => set.Include(x => x.UnbanTimer));
+                config.UnbanTimer.Add(new UnbanTimer()
+                {
+                    UserId = user.Id,
+                    UnbanAt = DateTime.UtcNow + after,
+                }); // add teh unmute timer to the database
+                uow.Complete();
+            }
+            StartUn_Timer(user.GuildId, user.Id, after, TimerType.Ban); // start the timer
+        }
+
         public enum TimerType { Mute, Ban }
         public void StartUn_Timer(ulong guildId, ulong userId, TimeSpan after, TimerType type)
         {
             //load the unmute timers for this guild
-            var userUnmuteTimers = UnmuteTimers.GetOrAdd(guildId, new ConcurrentDictionary<(ulong, TimerType), Timer>());
+            var userUnmuteTimers = Un_Timers.GetOrAdd(guildId, new ConcurrentDictionary<(ulong, TimerType), Timer>());
 
             //unmute timer to be added
             var toAdd = new Timer(async _ =>
@@ -309,7 +325,7 @@ namespace NadekoBot.Modules.Administration.Services
 
         public void StopTimer(ulong guildId, ulong userId, TimerType type)
         {
-            if (!UnmuteTimers.TryGetValue(guildId, out ConcurrentDictionary<(ulong, TimerType), Timer> userTimer))
+            if (!Un_Timers.TryGetValue(guildId, out ConcurrentDictionary<(ulong, TimerType), Timer> userTimer))
                 return;
 
             if (userTimer.TryRemove((userId, type), out Timer removed))
