@@ -10,12 +10,13 @@ using NadekoBot.Core.Services.Impl;
 using NLog;
 using StackExchange.Redis;
 using System.Collections.Generic;
-using System;
 using System.Diagnostics;
 using Newtonsoft.Json;
 using NadekoBot.Common.ShardCom;
 using Microsoft.EntityFrameworkCore;
 using NadekoBot.Core.Services.Database.Models;
+using System.Threading;
+using System.Collections.Concurrent;
 
 namespace NadekoBot.Modules.Administration.Services
 {
@@ -34,6 +35,7 @@ namespace NadekoBot.Modules.Administration.Services
         private readonly DiscordSocketClient _client;
         private readonly IBotCredentials _creds;
         private ImmutableDictionary<ulong, IDMChannel> ownerChannels = new Dictionary<ulong, IDMChannel>().ToImmutableDictionary();
+        private ConcurrentDictionary<ulong?, ConcurrentDictionary<int, Timer>> _autoCommands = new ConcurrentDictionary<ulong?, ConcurrentDictionary<int, Timer>>();
         private readonly IBotConfigProvider _bc;
         private readonly IDataCache _cache;
         private readonly IImageCache _imgs;
@@ -65,15 +67,22 @@ namespace NadekoBot.Modules.Administration.Services
             {
                 await bot.Ready.Task.ConfigureAwait(false);
 
-                foreach (var cmd in bc.BotConfig.StartupCommands)
+                foreach (var cmd in bc.BotConfig.StartupCommands.Where(x => x.Interval <= 0))
                 {
-                    var prefix = _cmdHandler.GetPrefix(cmd.GuildId);
-                    //if someone already has .die as their startup command, ignore it
-                    if (cmd.CommandText.StartsWith(prefix + "die"))
-                        continue;
-                    await cmdHandler.ExecuteExternal(cmd.GuildId, cmd.ChannelId, cmd.CommandText);
-                    await Task.Delay(400).ConfigureAwait(false);
+                    await ExecuteCommand(cmd);
                 }
+
+                _autoCommands = bc.BotConfig
+                    .StartupCommands
+                    .Where(x => x.Interval >= 5)
+                    .GroupBy(x => x.GuildId)
+                    .ToDictionary(
+                        x => x.Key,
+                        y => y.ToDictionary(x => x.Id,
+                            x => TimerFromStartupCommand((StartupCommand)x))
+                    .ToConcurrent())
+                    .ToConcurrent();
+
             });
 
             Task.Run(async () =>
@@ -87,7 +96,25 @@ namespace NadekoBot.Modules.Administration.Services
             });
         }
 
-        public void AddNewStartupCommand(StartupCommand cmd)
+        private Timer TimerFromStartupCommand(StartupCommand x)
+        {
+            return new Timer(async (obj) => await ExecuteCommand((StartupCommand)obj),
+                x,
+                x.Interval * 1000,
+                x.Interval * 1000);
+        }
+
+        private async Task ExecuteCommand(StartupCommand cmd)
+        {
+            var prefix = _cmdHandler.GetPrefix(cmd.GuildId);
+            //if someone already has .die as their startup command, ignore it
+            if (cmd.CommandText.StartsWith(prefix + "die"))
+                return;
+            await _cmdHandler.ExecuteExternal(cmd.GuildId, cmd.ChannelId, cmd.CommandText);
+            await Task.Delay(400).ConfigureAwait(false);
+        }
+
+        public void AddNewAutoCommand(StartupCommand cmd)
         {
             using (var uow = _db.UnitOfWork)
             {
@@ -95,6 +122,13 @@ namespace NadekoBot.Modules.Administration.Services
                    .GetOrCreate(set => set.Include(x => x.StartupCommands))
                    .StartupCommands
                    .Add(cmd);
+
+                var autos = _autoCommands.GetOrAdd(cmd.GuildId, new ConcurrentDictionary<int, Timer>());
+                autos.AddOrUpdate(cmd.Id, key => TimerFromStartupCommand(cmd), (key, old) =>
+                {
+                    old.Change(Timeout.Infinite, Timeout.Infinite);
+                    return TimerFromStartupCommand(cmd);
+                });
                 uow.Complete();
             }
         }
@@ -188,7 +222,7 @@ namespace NadekoBot.Modules.Administration.Services
             }
         }
 
-        public bool RemoveStartupCommand(string cmdText, out StartupCommand cmd)
+        public bool RemoveStartupCommand(int index, out StartupCommand cmd)
         {
             using (var uow = _db.UnitOfWork)
             {
@@ -196,11 +230,15 @@ namespace NadekoBot.Modules.Administration.Services
                    .GetOrCreate(set => set.Include(x => x.StartupCommands))
                    .StartupCommands;
                 cmd = cmds
-                   .FirstOrDefault(x => x.CommandText.ToLowerInvariant() == cmdText.ToLowerInvariant());
+                   .FirstOrDefault(x => x.Index == index);
 
                 if (cmd != null)
                 {
                     cmds.Remove(cmd);
+                    if (_autoCommands.TryGetValue(cmd.GuildId, out var autos))
+                        if (autos.TryRemove(cmd.Id, out var timer))
+                            timer.Change(Timeout.Infinite, Timeout.Infinite);
+
                     uow.Complete();
                     return true;
                 }

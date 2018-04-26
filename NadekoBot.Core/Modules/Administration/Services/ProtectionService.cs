@@ -58,7 +58,7 @@ namespace NadekoBot.Modules.Administration.Services
 
         private Task _bot_JoinedGuild(GuildConfig gc)
         {
-            Initialize(gc);
+            var _ = Task.Run(() => Initialize(gc));
             return Task.CompletedTask;
         }
 

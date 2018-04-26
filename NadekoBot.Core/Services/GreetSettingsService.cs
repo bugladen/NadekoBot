@@ -315,7 +315,7 @@ namespace NadekoBot.Core.Services
             bool greetMsgEnabled;
             using (var uow = _db.UnitOfWork)
             {
-                var conf = uow.GuildConfigs.For(guildId);
+                var conf = uow.GuildConfigs.For(guildId, set => set);
                 conf.DmGreetMessageText = message;
                 greetMsgEnabled = conf.SendDmGreetMessage;
 

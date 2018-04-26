@@ -80,7 +80,11 @@ namespace NadekoBot
             _db = new DbService(Credentials);
             Client = new DiscordSocketClient(new DiscordSocketConfig
             {
+#if GLOBAL_NADEKO
                 MessageCacheSize = 0,
+#else
+                MessageCacheSize = 50,
+#endif
                 LogLevel = LogSeverity.Info,
                 ConnectionTimeout = int.MaxValue,
                 TotalShards = Credentials.TotalShards,

@@ -7,6 +7,7 @@ using Discord.WebSocket;
 using NadekoBot.Extensions;
 using NadekoBot.Core.Services.Database.Models;
 using NLog;
+using System.Linq;
 
 namespace NadekoBot.Modules.Utility.Common
 {
@@ -51,9 +52,12 @@ namespace NadekoBot.Modules.Utility.Common
         public async Task Trigger()
         {
             var toSend = "🔄 " + Repeater.Message;
-            //var lastMsgInChannel = (await Channel.GetMessagesAsync(2)).FirstOrDefault();
-            // if (lastMsgInChannel.Id == oldMsg?.Id) //don't send if it's the same message in the channel
-            //     continue;
+            if (Repeater.NoRedundant)
+            {
+                var lastMsgInChannel = (await Channel.GetMessagesAsync(2).FlattenAsync()).FirstOrDefault();
+                if (lastMsgInChannel != null && lastMsgInChannel.Id == oldMsg?.Id) //don't send if it's the same message in the channel
+                    return;
+            }
 
             if (oldMsg != null)
                 try
@@ -101,6 +105,7 @@ namespace NadekoBot.Modules.Utility.Common
 
         public override string ToString() =>
             $"{Channel?.Mention ?? $"⚠<#{Repeater.ChannelId}>" } " +
+            (this.Repeater.NoRedundant ? "| ✍" : "") +
             $"| {(int)Repeater.Interval.TotalHours}:{Repeater.Interval:mm} " +
             $"| {Repeater.Message.TrimTo(33)}";
     }

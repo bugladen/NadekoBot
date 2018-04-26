@@ -95,7 +95,7 @@ namespace NadekoBot.Modules.Administration
                     GuildConfig config;
                     using (var uow = _db.UnitOfWork)
                     {
-                        config = uow.GuildConfigs.For(Context.Guild.Id);
+                        config = uow.GuildConfigs.For(Context.Guild.Id, set => set);
                     }
                     await ReplyConfirmLocalized("greetdmmsg_cur", config.DmGreetMessageText?.SanitizeMentions()).ConfigureAwait(false);
                     return;

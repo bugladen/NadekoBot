@@ -13,9 +13,10 @@ using System;
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoContext))]
-    partial class NadekoSqliteContextModelSnapshot : ModelSnapshot
+    [Migration("20180411212225_stream-offline-and-message")]
+    partial class streamofflineandmessage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -714,8 +715,6 @@ namespace NadekoBot.Migrations
 
                     b.Property<string>("Message");
 
-                    b.Property<bool>("NoRedundant");
-
                     b.Property<TimeSpan?>("StartTimeOfDay");
 
                     b.HasKey("Id");
@@ -1379,8 +1378,6 @@ namespace NadekoBot.Migrations
                     b.Property<string>("GuildName");
 
                     b.Property<int>("Index");
-
-                    b.Property<int>("Interval");
 
                     b.Property<ulong?>("VoiceChannelId");
 

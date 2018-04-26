@@ -125,10 +125,10 @@
   },
   "repeat": {
     "Cmd": "repeat",
-    "Desc": "Repeat a message every `X` minutes in the current channel. You can instead specify time of day for the message to be repeated at daily (make sure you've set your server's timezone). You can have up to 5 repeating messages on the server in total.",
+    "Desc": "Repeat a message every specified number of minutes in the current channel. You can instead specify time of day for the message to be repeated at daily (make sure you've set your server's timezone). You can have up to 5 repeating messages on the server in total.",
     "Usage": [
-      "{0}repeat 5 Hello there",
-      "{0}repeat 17:30 tea time"
+      "{0}repeat -i 5 -m \"Hello there\" -n",
+      "{0}repeat 17:30 -m \"tea time\""
     ]
   },
   "rotateplaying": {
@@ -2631,11 +2631,18 @@
       "{0}scadd {0}stats"
     ]
   },
+  "autocommandadd": {
+    "Cmd": "autocmdadd",
+    "Desc": "Adds a command to the list of commands which will be executed automatically every X seconds.",
+    "Usage": [
+      "{0}autocmdadd 60 {0}prune 1000"
+    ]
+  },
   "startupcommandremove": {
     "Cmd": "scrm",
-    "Desc": "Removes a startup command with the provided command text.",
+    "Desc": "Removes a startup or auto command with the provided index.",
     "Usage": [
-      "{0}scrm {0}stats"
+      "{0}scrm 3"
     ]
   },
   "startupcommandsclear": {
@@ -2650,6 +2657,13 @@
     "Desc": "Lists all startup commands in the order they will be executed in.",
     "Usage": [
       "{0}sclist"
+    ]
+  },
+  "autocommands": {
+    "Cmd": "autocmds autolist autocmdlist",
+    "Desc": "Lists all auto commands and the intervals in which they execute.",
+    "Usage": [
+      "{0}autolist"
     ]
   },
   "unban": {
@@ -3327,14 +3341,28 @@
     "cmd": "edit",
     "desc": "Edits bot's message, you have to specify message ID and new text. Supports embeds.",
     "usage": [
-      ".edit 7479498384 Hi :^)"
+      "{0}edit 7479498384 Hi :^)"
     ]
   },
   "roleid": {
     "cmd": "roleid rid",
     "desc": "Shows the id of the specified role.",
     "usage": [
-      ".rid Some Role"
+      "{0}rid Some Role"
+    ]
+  },
+  "streamoffline": {
+    "cmd": "streamoff stoff",
+    "desc": "Toggles whether the bot will notify about streams going offline.",
+    "usage": [
+      "{0}stoff"
+    ]
+  },
+  "streammessage": {
+    "cmd": "streammsg",
+    "desc": "Specify an url of a stream you're already following, and a message in order to set a stream notification message which will show up every time stream comes online.",
+    "usage": [
+      "{0}streammsg https://www.twitch.tv/trolhamonas/ Hello world"
     ]
   }
 }

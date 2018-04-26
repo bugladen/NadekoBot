@@ -13,9 +13,10 @@ using System;
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoContext))]
-    partial class NadekoSqliteContextModelSnapshot : ModelSnapshot
+    [Migration("20180416004151_sc_interval")]
+    partial class sc_interval
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -713,8 +714,6 @@ namespace NadekoBot.Migrations
                     b.Property<TimeSpan>("Interval");
 
                     b.Property<string>("Message");
-
-                    b.Property<bool>("NoRedundant");
 
                     b.Property<TimeSpan?>("StartTimeOfDay");
 

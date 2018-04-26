@@ -25,8 +25,13 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
             };
 
         public IEnumerable<GuildConfig> GetAllGuildConfigs(List<long> availableGuilds) =>
-            _set
+            IncludeEverything()
                 .Where(gc => availableGuilds.Contains((long)gc.GuildId))
+                .ToList();
+
+        private IQueryable<GuildConfig> IncludeEverything()
+        {
+            return _set
                 .Include(gc => gc.LogSetting)
                     .ThenInclude(ls => ls.IgnoredChannels)
                 .Include(gc => gc.MutedUsers)
@@ -54,8 +59,8 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
                 .Include(gc => gc.MusicSettings)
                 .Include(gc => gc.DelMsgOnCmdChannels)
                 .Include(gc => gc.ReactionRoleMessages)
-                    .ThenInclude(x => x.ReactionRoles)
-                .ToList();
+                    .ThenInclude(x => x.ReactionRoles);
+        }
 
         /// <summary>
         /// Gets and creates if it doesn't exist a config for a guild.
@@ -69,15 +74,7 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
 
             if (includes == null)
             {
-                config = _set
-                    .Include(gc => gc.FollowedStreams)
-                    .Include(gc => gc.LogSetting)
-                        .ThenInclude(ls => ls.IgnoredChannels)
-                    .Include(gc => gc.FilterInvitesChannelIds)
-                    .Include(gc => gc.FilterWordsChannelIds)
-                    .Include(gc => gc.FilteredWords)
-                    .Include(gc => gc.GenerateCurrencyChannelIds)
-                    .Include(gc => gc.CommandCooldowns)
+                config = IncludeEverything()
                     .FirstOrDefault(c => c.GuildId == guildId);
             }
             else
