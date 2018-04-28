@@ -109,22 +109,23 @@ namespace NadekoBot.Modules.Utility
                 await Context.Channel.SendMessageAsync($"`#{keywordquote.Id}` 💬 " + keyword.ToLowerInvariant() + ":  " +
                                                        keywordquote.Text.SanitizeMentions());
             }
-            
+
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task QuoteId(int id)
-            {  
+            {
                 if (id < 0)
                     return;
-                
+
                 using (var uow = _db.UnitOfWork)
-                { 
+                {
                     var qfromid = uow.Quotes.Get(id);
 
                     var rep = new ReplacementBuilder()
                         .WithDefault(Context)
                         .Build();
 
+                    var infoText = $"`#{qfromid.Id} added by {qfromid.AuthorName.SanitizeMentions()}` 🗯️ " + qfromid.Keyword.ToLowerInvariant().SanitizeMentions() + ":\n";
                     if (qfromid == null)
                     {
                         await Context.Channel.SendErrorAsync(GetText("quotes_notfound"));
@@ -133,19 +134,17 @@ namespace NadekoBot.Modules.Utility
                     {
                         rep.Replace(crembed);
 
-                        await Context.Channel.EmbedAsync(crembed.ToEmbed(), crembed.PlainText?.SanitizeMentions() ?? "")
+                        await Context.Channel.EmbedAsync(crembed.ToEmbed(), infoText + crembed.PlainText?.SanitizeMentions())
                             .ConfigureAwait(false);
                     }
                     else
                     {
-                        await Context.Channel.SendMessageAsync($"`#{qfromid.Id} added by {qfromid.AuthorName.SanitizeMentions()}` 🗯️ " + qfromid.Keyword.ToLowerInvariant().SanitizeMentions() + ":  " +
-                            rep.Replace(qfromid.Text)?.SanitizeMentions());
-
+                        await Context.Channel.SendMessageAsync(infoText + rep.Replace(qfromid.Text)?.SanitizeMentions())
+                            .ConfigureAwait(false);
                     }
-
                 }
-            }        
-                          
+            }
+
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task AddQuote(string keyword, [Remainder] string text)
@@ -174,8 +173,8 @@ namespace NadekoBot.Modules.Utility
             [RequireContext(ContextType.Guild)]
             public async Task QuoteDelete(int id)
             {
-                var isAdmin = ((IGuildUser) Context.Message.Author).GuildPermissions.Administrator;
-                
+                var isAdmin = ((IGuildUser)Context.Message.Author).GuildPermissions.Administrator;
+
                 var success = false;
                 string response;
                 using (var uow = _db.UnitOfWork)
