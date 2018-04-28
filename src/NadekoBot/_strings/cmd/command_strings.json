@@ -391,10 +391,10 @@
   },
   "mute": {
     "Cmd": "mute",
-    "Desc": "Mutes a mentioned user both from speaking and chatting. You can also specify time in minutes (up to 1440) for how long the user should be muted.",
+    "Desc": "Mutes a mentioned user both from speaking and chatting. You can also specify time string for how long the user should be muted.",
     "Usage": [
       "{0}mute @Someone",
-      "{0}mute 30 @Someone"
+      "{0}mute 1h30m @Someone"
     ]
   },
   "voiceunmute": {
@@ -2691,10 +2691,11 @@
   },
   "warnpunish": {
     "Cmd": "warnpunish warnp",
-    "Desc": "Sets a punishment for a certain number of warnings. Provide no punishment to remove.",
+    "Desc": "Sets a punishment for a certain number of warnings. You can specify a time string after 'Ban' or 'Mute' punishment to make it a temporary mute/ban. Provide no punishment to remove.",
     "Usage": [
-      "{0}warnpunish 5 Ban",
-      "{0}warnpunish 3"
+      "{0}warnp 5 Ban",
+      "{0}warnp 3",
+      "{0}warnp 5 Mute 2d12h"
     ]
   },
   "claimpatreonrewards": {
