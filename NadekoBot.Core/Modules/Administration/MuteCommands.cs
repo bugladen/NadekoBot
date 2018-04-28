@@ -13,13 +13,6 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class MuteCommands : NadekoSubmodule<MuteService>
         {
-            private readonly DbService _db;
-
-            public MuteCommands(DbService db)
-            {
-                _db = db;
-            }
-
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageRoles)]

@@ -276,6 +276,7 @@
   "help_list_of_modules": "List of modules",
   "help_modules_footer": "Type `{0}cmds ModuleName` to get a list of commands in that module. eg `{0}cmds games`",
   "help_module_not_found": "That module does not exist.",
+  "help_module_not_found_or_cant_exec": "Either the module doesn't exist, or you can't run any of the commands in the specified module.",
   "help_server_permission": "Requires {0} server permission.",
   "help_table_of_contents": "Table of contents",
   "help_usage": "Usage",

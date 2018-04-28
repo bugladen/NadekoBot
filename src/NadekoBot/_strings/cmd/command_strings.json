@@ -32,8 +32,8 @@
     "Cmd": "commands cmds",
     "Desc": "List all of the bot's commands from a certain module. You can either specify the full name or only the first few letters of the module name.",
     "Usage": [
-      "{0}commands Administration",
-      "{0}cmds Admin"
+      "{0}cmds Admin",
+      "{0}cmds Admin --view 1"
     ]
   },
   "greetdel": {
@@ -369,9 +369,10 @@
   },
   "ban": {
     "Cmd": "ban b",
-    "Desc": "Bans a user by ID or name with an optional message.",
+    "Desc": "Bans a user by ID or name with an optional message. You can specify a time string before the user name to ban the user temporarily.",
     "Usage": [
-      "{0}b \"@some Guy\" Your behaviour is toxic."
+      "{0}b \"@some Guy\" Your behaviour is toxic.",
+      "{0}b 1d12h @b1nzy Come back when u chill"
     ]
   },
   "softban": {

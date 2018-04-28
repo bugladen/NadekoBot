@@ -113,7 +113,6 @@ namespace NadekoBot.Modules.Music.Common
         public event Action<MusicPlayer, bool> OnPauseChanged;
         #endregion
 
-
         private bool manualSkip = false;
         private bool manualIndex = false;
         private bool newVoiceChannel = false;
@@ -415,24 +414,44 @@ namespace NadekoBot.Modules.Music.Common
             return _audioClient;
         }
 
-        public int Enqueue(SongInfo song)
+        public int Enqueue(SongInfo song, bool forcePlay = false)
         {
             lock (locker)
             {
                 if (Exited)
                     return -1;
                 Queue.Add(song);
-                return Queue.Count - 1;
+                var result = Queue.Count - 1;
+
+                if(forcePlay)
+                {
+                    if (Stopped)
+                    {
+                        Stopped = false;
+                        SetIndex(result);
+                    }
+                    Unpause();
+                }
+                return result;
             }
         }
 
-        public int EnqueueNext(SongInfo song)
+        public int EnqueueNext(SongInfo song, bool forcePlay = false)
         {
             lock (locker)
             {
                 if (Exited)
                     return -1;
-                return Queue.AddNext(song);
+                var toReturn = Queue.AddNext(song);
+                if(forcePlay)
+                {
+                    Unpause();
+                    if (Stopped)
+                    {
+                        SetIndex(toReturn);
+                    }
+                }
+                return toReturn;
             }
         }
 

@@ -8,6 +8,8 @@ using NadekoBot.Common.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Games.Common;
 using NadekoBot.Modules.Games.Services;
+using System.Collections.Generic;
+using Discord.WebSocket;
 
 namespace NadekoBot.Modules.Games
 {
@@ -23,35 +25,179 @@ namespace NadekoBot.Modules.Games
         {
             _images = data.LocalImages;
         }
-//#if GLOBAL_NADEKO
-//        [NadekoCommand, Usage, Description, Aliases]
-//        [RequireContext(ContextType.Guild)]
-//        public async Task TrickOrTreat()
-//        {
-//            if (DateTime.UtcNow.Day != 31 ||
-//                DateTime.UtcNow.Month != 10
-//                || !_service.HalloweenAwardedUsers.Add(Context.User.Id)
-//        )
-//            {
-//                return;
-//            }
-//            if (await _service.GetTreat(Context.User.Id))
-//            {
-//                await Context.Channel
-//                    .SendConfirmAsync($"You've got a treat of 10🍬! Happy Halloween!")
-//                    .ConfigureAwait(false);
-//            }
-//            else
-//            {
-//                await Context.Channel
-//                    .EmbedAsync(new EmbedBuilder()
-//                    .WithDescription("No treat for you :c Happy Halloween!")
-//                    .WithImageUrl("http://tinyurl.com/ybntddbb")
-//                    .WithErrorColor())
-//                    .ConfigureAwait(false);
-//            }
-//        }
-//#endif
+        //#if GLOBAL_NADEKO
+        //        [NadekoCommand, Usage, Description, Aliases]
+        //        [RequireContext(ContextType.Guild)]
+        //        public async Task TrickOrTreat()
+        //        {
+        //            if (DateTime.UtcNow.Day != 31 ||
+        //                DateTime.UtcNow.Month != 10
+        //                || !_service.HalloweenAwardedUsers.Add(Context.User.Id)
+        //        )
+        //            {
+        //                return;
+        //            }
+        //            if (await _service.GetTreat(Context.User.Id))
+        //            {
+        //                await Context.Channel
+        //                    .SendConfirmAsync($"You've got a treat of 10🍬! Happy Halloween!")
+        //                    .ConfigureAwait(false);
+        //            }
+        //            else
+        //            {
+        //                await Context.Channel
+        //                    .EmbedAsync(new EmbedBuilder()
+        //                    .WithDescription("No treat for you :c Happy Halloween!")
+        //                    .WithImageUrl("http://tinyurl.com/ybntddbb")
+        //                    .WithErrorColor())
+        //                    .ConfigureAwait(false);
+        //            }
+        //        }
+        //#endif
+
+        //public class Gugl
+        //{
+        //    public string Text { get; set; }
+        //    public Gugl Parent { get; set; }
+        //    public List<Gugl> Options { get; set; } = new List<Gugl>();
+
+        //    public Gugl Add(params Gugl[] gs)
+        //    {
+        //        Options.AddRange(gs);
+        //        gs.ForEach(x => x.Parent = this);
+        //        return this;
+        //    }
+        //}
+
+        //public class Stuff
+        //{
+        //    public Gugl Current { get; set; }
+        //    public ushort Index { get; set; } = 0;
+
+        //    public void Up()
+        //    {
+        //        if (Index == 0)
+        //            return;
+        //        Index--;
+        //    }
+
+        //    public void Down()
+        //    {
+        //        if (Index >= Current.Options.Count)
+        //            return;
+        //        Index++;
+        //    }
+
+        //    public void Ok()
+        //    {
+        //        if (Current != null && Index < Current.Options.Count)
+        //            Current = Current.Options[Index];
+        //    }
+
+        //    public void Back()
+        //    {
+        //        if (Current.Parent != null)
+        //            Current = Current.Parent;
+        //    }
+
+        //    public EmbedBuilder GetEmbed()
+        //    {
+        //        var eb = new EmbedBuilder()
+        //            .WithTitle(Current.Text);
+        //        var str = "";
+        //        for (int i = 0; i < Current.Options.Count; i++)
+        //        {
+        //            var op = Current.Options[i];
+        //            if (Index == i)
+        //                str += "-> ";
+        //            str += $"`{i + 1}.` {Format.Bold(op.Text)}\n";
+        //        }
+        //        if (!string.IsNullOrWhiteSpace(str))
+        //        {
+        //            eb.WithDescription(str);
+        //        }
+        //        return eb;
+        //    }
+        //}
+
+        //[NadekoCommand, Usage, Description, Aliases]
+        //public async Task gugl()
+        //{
+        //    var _1 = new Gugl()
+        //    {
+        //        Text = "Does this work?",
+        //    };
+
+        //    _1.Add(new Gugl()
+        //    {
+        //        Text = "No",
+        //        Parent = _1
+        //    }.Add(new Gugl()
+        //    {
+        //        Text = "Well, too bad."
+        //    }), new Gugl()
+        //    {
+        //        Text = "Yes",
+        //        Parent = _1
+        //    }.Add(new Gugl()
+        //    {
+        //        Text = "Insult google."
+        //    }.Add(new Gugl() { Text = "Google u sux uwu" }),
+        //    new Gugl()
+        //    {
+        //        Text = "Praise google."
+        //    }.Add(new Gugl() { Text = "Google u rox uwu" })));
+
+
+        //    var menu = new Stuff() { Current = _1 };
+
+        //    var msg = await Context.Channel.EmbedAsync(menu.GetEmbed());
+        //    var back = new Emoji("⬅");
+        //    var up = new Emoji("⬆");
+        //    var down = new Emoji("⬇");
+        //    var ok = new Emoji("🔵");
+
+        //    await Task.WhenAll(msg.AddReactionAsync(back),
+        //        msg.AddReactionAsync(up),
+        //        msg.AddReactionAsync(down),
+        //        msg.AddReactionAsync(ok));
+
+        //    msg.OnReaction((DiscordSocketClient)Context.Client, async (x) =>
+        //    {
+        //        if (x.UserId != Context.User.Id)
+        //            return;
+        //        try
+        //        {
+        //            if (x.Emote.Name == back.Name)
+        //            {
+        //                menu.Back();
+        //                await msg.ModifyAsync(y => y.Embed = menu.GetEmbed().Build());
+        //            }
+        //            else if (x.Emote.Name == up.Name)
+        //            {
+        //                menu.Up();
+        //                await msg.ModifyAsync(y => y.Embed = menu.GetEmbed().Build());
+        //            }
+        //            else if (x.Emote.Name == down.Name)
+        //            {
+        //                menu.Down();
+        //                await msg.ModifyAsync(y => y.Embed = menu.GetEmbed().Build());
+        //            }
+        //            else if (x.Emote.Name == ok.Name)
+        //            {
+        //                menu.Ok();
+        //                await msg.ModifyAsync(y => y.Embed = menu.GetEmbed().Build());
+        //            }
+        //        }
+        //        finally
+        //        {
+        //            if (x.User.IsSpecified)
+        //                await msg.RemoveReactionAsync(x.Emote, x.User.Value);
+        //        }
+        //    });
+
+        //}
+
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Choose([Remainder] string list = null)
         {
@@ -71,7 +217,7 @@ namespace NadekoBot.Modules.Games
                 return;
 
             await Context.Channel.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
-                               .AddField(efb => efb.WithName("❓ " + GetText("question") ).WithValue(question).WithIsInline(false))
+                               .AddField(efb => efb.WithName("❓ " + GetText("question")).WithValue(question).WithIsInline(false))
                                .AddField(efb => efb.WithName("🎱 " + GetText("8ball")).WithValue(_service.EightBallResponses[new NadekoRandom().Next(0, _service.EightBallResponses.Length)]).WithIsInline(false)));
         }
 
@@ -113,7 +259,7 @@ namespace NadekoBot.Modules.Games
             {
                 hot = NextDouble(0, 5);
                 crazy = NextDouble(4, 10);
-                advice = 
+                advice =
                     "This is your NO-GO ZONE. We do not hang around, and date, and marry women who are at least, in our mind, a 5. " +
                     "So, this is your no-go zone. You don't go here. You just rule this out. Life is better this way, that's the way it is.";
             }

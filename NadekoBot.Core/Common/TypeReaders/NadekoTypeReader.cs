@@ -5,8 +5,8 @@ namespace NadekoBot.Core.Common.TypeReaders
 {
     public abstract class NadekoTypeReader<T> : TypeReader
     {
-        protected readonly DiscordSocketClient _client;
-        protected readonly CommandService _cmds;
+        private readonly DiscordSocketClient _client;
+        private readonly CommandService _cmds;
 
         private NadekoTypeReader() { }
         public NadekoTypeReader(DiscordSocketClient client, CommandService cmds)
