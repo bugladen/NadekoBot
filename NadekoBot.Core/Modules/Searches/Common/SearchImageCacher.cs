@@ -126,6 +126,9 @@ namespace NadekoBot.Modules.Searches.Common
                 case DapiSearchType.Yandere:
                     website = $"https://yande.re/post.json?limit=100&tags={tag}";
                     break;
+                case DapiSearchType.Derpibooru:
+                    website = $"https://derpibooru.org/search.json?q={tag?.Replace('+', ',')}&perpage=49";
+                    break;
             }
 
             if (type == DapiSearchType.Konachan || type == DapiSearchType.Yandere ||
@@ -135,6 +138,17 @@ namespace NadekoBot.Modules.Searches.Common
                 return JsonConvert.DeserializeObject<DapiImageObject[]>(data)
                     .Where(x => x.File_Url != null)
                     .Select(x => new ImageCacherObject(x, type))
+                    .ToArray();
+            }
+
+            if (type == DapiSearchType.Derpibooru)
+            {
+                var data = await _http.GetStringAsync(website).ConfigureAwait(false);
+                return JsonConvert.DeserializeObject<DerpiContainer>(data)
+                    .Search
+                    .Where(x => !string.IsNullOrWhiteSpace(x.Image))
+                    .Select(x => new ImageCacherObject("https:" + x.Image,
+                        type, x.Tags, x.Score))
                     .ToArray();
             }
 
@@ -195,6 +209,14 @@ namespace NadekoBot.Modules.Searches.Common
             this.Tags = new HashSet<string>((obj.Tags ?? obj.Tag_String).Split(' '));
         }
 
+        public ImageCacherObject(string url, DapiSearchType type, string tags, string rating)
+        {
+            this.SearchType = type;
+            this.FileUrl = url;
+            this.Tags = new HashSet<string>(tags.Split(' '));
+            this.Rating = rating;
+        }
+
         public override string ToString()
         {
             return FileUrl;
@@ -214,6 +236,18 @@ namespace NadekoBot.Modules.Searches.Common
         public string Rating { get; set; }
     }
 
+    public class DerpiContainer
+    {
+        public DerpiImageObject[] Search { get; set; }
+    }
+
+    public class DerpiImageObject
+    {
+        public string Image { get; set; }
+        public string Tags { get; set; }
+        public string Score { get; set; }
+    }
+
     public enum DapiSearchType
     {
         Safebooru,
@@ -222,6 +256,7 @@ namespace NadekoBot.Modules.Searches.Common
         Konachan,
         Rule34,
         Yandere,
-        Danbooru
+        Danbooru,
+        Derpibooru,
     }
 }

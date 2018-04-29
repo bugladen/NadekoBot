@@ -1721,11 +1721,11 @@
       "{0}danbooru yuri+kissing"
     ]
   },
-  "atfbooru": {
-    "Cmd": "atfbooru atf",
-    "Desc": "Shows a random hentai image from atfbooru with a given tag. Tag is optional but preferred.",
+  "derpibooru": {
+    "Cmd": "derpibooru derpi",
+    "Desc": "Shows a random image from derpibooru with a given tag. Tag is optional but preferred.",
     "Usage": [
-      "{0}atfbooru yuri+kissing"
+      "{0}derpi yuri+kissing"
     ]
   },
   "gelbooru": {
