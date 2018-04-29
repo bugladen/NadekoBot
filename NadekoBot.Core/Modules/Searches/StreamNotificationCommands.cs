@@ -114,6 +114,7 @@ namespace NadekoBot.Modules.Searches
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
+            [Priority(0)]
             public async Task StreamRemove(string link)
             {
                 var streamRegexes = new(Func<string, Task> Func, Regex Regex)[]
@@ -242,6 +243,7 @@ namespace NadekoBot.Modules.Searches
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
+            [Priority(1)]
             public async Task StreamRemove(FollowedStream.FType type, [Remainder] string username)
             {
                 username = username.ToLowerInvariant().Trim();
