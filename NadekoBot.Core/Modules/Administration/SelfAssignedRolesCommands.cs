@@ -29,8 +29,8 @@ namespace NadekoBot.Modules.Administration
             public async Task AdSarm()
             {
                 var newVal = _service.ToggleAdSarm(Context.Guild.Id);
-                
-                if(newVal)
+
+                if (newVal)
                 {
                     await ReplyConfirmLocalized("adsarm_enable", Prefix).ConfigureAwait(false);
                 }
@@ -98,41 +98,45 @@ namespace NadekoBot.Modules.Administration
                 if (--page < 0)
                     return;
 
-                var (exclusive, roles) =  _service.GetRoles(Context.Guild);
+                var (exclusive, roles) = _service.GetRoles(Context.Guild);
 
-                var rolesStr = new StringBuilder();
-                var roleGroups = roles
-                    .OrderBy(x => x.Model.Group)
-                    .Skip(page * 20)
-                    .Take(20)
-                    .GroupBy(x => x.Model.Group)
-                    .OrderBy(x => x.Key);
-
-                foreach (var kvp in roleGroups)
+                await Context.SendPaginatedConfirmAsync(page, (cur) =>
                 {
-                    rolesStr.AppendLine("\t\t\t\t『" + Format.Bold(GetText("self_assign_group", kvp.Key)) + "』");
-                    foreach (var (Model, Role) in kvp.AsEnumerable())
+                    var rolesStr = new StringBuilder();
+                    var roleGroups = roles
+                        .OrderBy(x => x.Model.Group)
+                        .Skip(cur * 20)
+                        .Take(20)
+                        .GroupBy(x => x.Model.Group)
+                        .OrderBy(x => x.Key);
+
+                    foreach (var kvp in roleGroups)
                     {
-                        if (Role == null)
+                        rolesStr.AppendLine("\t\t\t\t『" + Format.Bold(GetText("self_assign_group", kvp.Key)) + "』");
+                        foreach (var (Model, Role) in kvp.AsEnumerable())
                         {
-                            continue;
-                        }
-                        else
-                        {
-                            if (Model.LevelRequirement == 0)
-                                rolesStr.AppendLine(Format.Bold(Role.Name));
+                            if (Role == null)
+                            {
+                                continue;
+                            }
                             else
-                                rolesStr.AppendLine(Format.Bold(Role.Name) + $" (lvl {Model.LevelRequirement}+)");
+                            {
+                                if (Model.LevelRequirement == 0)
+                                    rolesStr.AppendLine(Format.Bold(Role.Name));
+                                else
+                                    rolesStr.AppendLine(Format.Bold(Role.Name) + $" (lvl {Model.LevelRequirement}+)");
+                            }
                         }
                     }
-                }
 
-                await Context.Channel.SendConfirmAsync("",
-                    Format.Bold(GetText("self_assign_list", roles.Count()))
-                    + "\n\n" + rolesStr.ToString(),
-                    footer: exclusive
-                    ? GetText("self_assign_are_exclusive")
-                    : GetText("self_assign_are_not_exclusive")).ConfigureAwait(false);
+                return new EmbedBuilder()
+                    .WithTitle(Format.Bold(GetText("self_assign_list", roles.Count())))
+                    .WithDescription(rolesStr.ToString())
+                    .WithFooter(exclusive
+                        ? GetText("self_assign_are_exclusive")
+                        : GetText("self_assign_are_not_exclusive"));
+                }, roles.Count(), 20);
+
             }
 
             [NadekoCommand, Usage, Description, Aliases]
