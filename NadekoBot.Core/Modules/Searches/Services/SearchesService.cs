@@ -78,7 +78,7 @@ namespace NadekoBot.Modules.Searches.Services
             return JsonConvert.DeserializeObject<CryptoData[]>(data);
         }
 
-        public SearchesService(DiscordSocketClient client, IGoogleApiService google, 
+        public SearchesService(DiscordSocketClient client, IGoogleApiService google,
             DbService db, NadekoBot bot, IDataCache cache,
             FontProvider fonts)
         {
@@ -184,9 +184,9 @@ namespace NadekoBot.Modules.Searches.Services
                 }
             }
             //text 63, 241
-            bg.DrawText(text, 
-                _fonts.RipNameFont, 
-                Rgba32.Black, 
+            bg.DrawText(text,
+                _fonts.RipNameFont,
+                Rgba32.Black,
                 new PointF(25, 225),
                 new ImageSharp.Drawing.TextGraphicsOptions()
                 {
@@ -287,14 +287,15 @@ namespace NadekoBot.Modules.Searches.Services
         public async Task<(string Text, string BaseUri)> GetRandomJoke()
         {
             var config = AngleSharp.Configuration.Default.WithDefaultLoader();
-            var document = await BrowsingContext.New(config).OpenAsync("http://www.goodbadjokes.com/random");
+            using (var document = await BrowsingContext.New(config).OpenAsync("http://www.goodbadjokes.com/random"))
+            {
+                var html = document.QuerySelector(".post > .joke-body-wrap > .joke-content");
 
-            var html = document.QuerySelector(".post > .joke-content");
+                var part1 = html.QuerySelector("dt").TextContent;
+                var part2 = html.QuerySelector("dd").TextContent;
 
-            var part1 = html.QuerySelector("dt").TextContent;
-            var part2 = html.QuerySelector("dd").TextContent;
-
-            return (part1 + "\n\n" + part2, document.BaseUri);
+                return (part1 + "\n\n" + part2, document.BaseUri);
+            }
         }
 
         public async Task<string> GetChuckNorrisJoke()
@@ -316,7 +317,7 @@ namespace NadekoBot.Modules.Searches.Services
             return Task.CompletedTask;
         }
     }
-    
+
     public struct UserChannelPair
     {
         public ulong UserId { get; set; }
