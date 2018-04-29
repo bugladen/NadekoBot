@@ -68,7 +68,8 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [OwnerOnly]
+            [RequireUserPermission(GuildPermission.Administrator)]
+            // [OwnerOnly]
             public async Task AutoCommandAdd(int interval, [Remainder] string cmdText)
             {
                 if (cmdText.StartsWith(Prefix + "die"))
@@ -127,7 +128,8 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [OwnerOnly]
+            [RequireUserPermission(GuildPermission.Administrator)]
+            // [OwnerOnly]
             public async Task AutoCommands(int page = 1)
             {
                 if (page-- < 1)
