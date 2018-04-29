@@ -119,6 +119,12 @@ namespace NadekoBot.Core.Services.Impl
                         else
                             return false;
                         break;
+                    case BotConfigEditType.DailyCurrencyDecay:
+                        if (float.TryParse(newValue, out var decay) && decay > 0)
+                            bc.DailyCurrencyDecay = decay;
+                        else
+                            return false;
+                        break;
                     case BotConfigEditType.XpPerMessage:
                         if (int.TryParse(newValue, out var xp) && xp > 0)
                             bc.XpPerMessage = xp;
