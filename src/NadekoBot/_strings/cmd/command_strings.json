@@ -285,6 +285,34 @@
       "{0}dcr 5"
     ]
   },
+  "crclear": {
+    "cmd": "crclear",
+    "desc": "Deletes all custom reactions on this server.",
+    "Usage": [
+      "{0}crclear"
+    ]
+  },
+  "fwclear": {
+    "cmd": "fwclear",
+    "desc": "Deletes all filtered words on this server.",
+    "Usage": [
+      "{0}fwclear"
+    ]
+  },
+  "aliasesclear": {
+    "cmd": "aliasesclear aliasclear",
+    "desc": "Deletes all aliases on this server.",
+    "Usage": [
+      "{0}aliasclear"
+    ]
+  },
+  "streamsclear": {
+    "cmd": "streamsclear",
+    "desc": "Deletes all followed streams on this server.",
+    "Usage": [
+      "{0}streamsclear"
+    ]
+  },
   "autoassignrole": {
     "Cmd": "autoassignrole aar",
     "Desc": "Automaticaly assigns a specified role to every user who joins the server. Provide no parameters to disable.",

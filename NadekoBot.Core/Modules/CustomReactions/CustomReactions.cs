@@ -187,7 +187,7 @@ namespace NadekoBot.Modules.CustomReactions
             if (Context.Guild == null)
                 customReactions = _service.GlobalReactions.Where(cr => cr != null).ToArray();
             else
-                customReactions = _service.GuildReactions.GetOrAdd(Context.Guild.Id, new CustomReaction[]{ }).Where(cr => cr != null).ToArray();
+                customReactions = _service.GuildReactions.GetOrAdd(Context.Guild.Id, new CustomReaction[] { }).Where(cr => cr != null).ToArray();
 
             if (customReactions == null || !customReactions.Any())
             {
@@ -217,7 +217,7 @@ namespace NadekoBot.Modules.CustomReactions
             if (Context.Guild == null)
                 customReactions = _service.GlobalReactions.Where(cr => cr != null).ToArray();
             else
-                customReactions = _service.GuildReactions.GetOrAdd(Context.Guild.Id, new CustomReaction[]{ }).Where(cr => cr != null).ToArray();
+                customReactions = _service.GuildReactions.GetOrAdd(Context.Guild.Id, new CustomReaction[] { }).Where(cr => cr != null).ToArray();
 
             if (customReactions == null || !customReactions.Any())
             {
@@ -229,14 +229,14 @@ namespace NadekoBot.Modules.CustomReactions
                     .GroupBy(cr => cr.Trigger)
                     .OrderBy(cr => cr.Key)
                     .ToList();
-                
+
                 await Context.SendPaginatedConfirmAsync(page, (curPage) =>
                     new EmbedBuilder().WithOkColor()
                         .WithTitle(GetText("name"))
                         .WithDescription(string.Join("\r\n", ordered
                                                          .Skip(curPage * 20)
                                                          .Take(20)
-                                                         .Select(cr => $"**{cr.Key.Trim().ToLowerInvariant()}** `x{cr.Count()}`"))), 
+                                                         .Select(cr => $"**{cr.Key.Trim().ToLowerInvariant()}** `x{cr.Count()}`"))),
                     ordered.Count, 20).ConfigureAwait(false);
             }
         }
@@ -248,7 +248,7 @@ namespace NadekoBot.Modules.CustomReactions
             if (Context.Guild == null)
                 customReactions = _service.GlobalReactions;
             else
-                customReactions = _service.GuildReactions.GetOrAdd(Context.Guild.Id, new CustomReaction[]{ });
+                customReactions = _service.GuildReactions.GetOrAdd(Context.Guild.Id, new CustomReaction[] { });
 
             var found = customReactions.FirstOrDefault(cr => cr?.Id == id);
 
@@ -348,7 +348,7 @@ namespace NadekoBot.Modules.CustomReactions
                 }
 
                 var setValue = reaction.ContainsAnywhere = !reaction.ContainsAnywhere;
-                
+
                 await _service.EditCrAsync(reaction.Id, setValue, CustomReactionsService.CrField.ContainsAnywhere).ConfigureAwait(false);
 
                 if (setValue)
@@ -369,7 +369,7 @@ namespace NadekoBot.Modules.CustomReactions
         [NadekoCommand, Usage, Description, Aliases]
         public async Task CrDm(int id)
         {
-            if ((Context.Guild == null && !_creds.IsOwner(Context.User)) || 
+            if ((Context.Guild == null && !_creds.IsOwner(Context.User)) ||
                 (Context.Guild != null && !((IGuildUser)Context.User).GuildPermissions.Administrator))
             {
                 await ReplyErrorLocalized("insuff_perms").ConfigureAwait(false);
@@ -442,7 +442,7 @@ namespace NadekoBot.Modules.CustomReactions
                 }
 
                 var setValue = reaction.AutoDeleteTrigger = !reaction.AutoDeleteTrigger;
-                
+
                 await _service.EditCrAsync(reaction.Id, setValue, CustomReactionsService.CrField.AutoDelete).ConfigureAwait(false);
 
                 if (setValue)
@@ -497,6 +497,20 @@ namespace NadekoBot.Modules.CustomReactions
                                             (agg, cur) => agg.AddField(efb => efb.WithName(cur.Key).WithValue(cur.Value.ToString()).WithIsInline(true))),
                 ordered.Length, 9)
                 .ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task CrClear()
+        {
+            if (await PromptUserConfirmAsync(new EmbedBuilder()
+                .WithTitle("Custom reaction clear")
+                .WithDescription("This will delete all custom reactions on this server.")))
+            {
+                var count = _service.ClearCustomReactions(Context.Guild.Id);
+                await ReplyConfirmLocalized("cleared", count).ConfigureAwait(false);
+            }
         }
     }
 }
