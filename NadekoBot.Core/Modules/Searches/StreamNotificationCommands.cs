@@ -140,8 +140,13 @@ namespace NadekoBot.Modules.Searches
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task ListStreams()
+            public async Task ListStreams(int page = 1)
             {
+                if (page-- < 1)
+                {
+                    return;
+                }
+
                 IEnumerable<FollowedStream> streams;
                 using (var uow = _db.UnitOfWork)
                 {
@@ -162,24 +167,29 @@ namespace NadekoBot.Modules.Searches
                         uow.Complete();
                     }
                 }
-
-                if (!streams.Any())
+                await Context.SendPaginatedConfirmAsync(page, async (cur) =>
                 {
-                    await ReplyErrorLocalized("streams_none").ConfigureAwait(false);
-                    return;
-                }
+                    var thisPage = streams.Skip(cur * 15).Take(15);
+                    if (!thisPage.Any())
+                    {
+                        return new EmbedBuilder()
+                            .WithDescription(GetText("streams_none"))
+                            .WithErrorColor();
+                    }
 
-                var text = string.Join("\n", await Task.WhenAll(streams.Select(async snc =>
-                {
-                    var ch = await Context.Guild.GetTextChannelAsync(snc.ChannelId);
-                    return string.Format("{0}'s stream on {1} channel. 【{2}】",
-                        Format.Code(snc.Username),
-                        Format.Bold(ch?.Name ?? "deleted-channel"),
-                        Format.Code(snc.Type.ToString()));
-                })));
+                    var text = string.Join("\n", await Task.WhenAll(thisPage.Select(async snc =>
+                    {
+                        var ch = await Context.Guild.GetTextChannelAsync(snc.ChannelId);
+                        return string.Format("{0}'s stream on {1} channel. 【{2}】",
+                            Format.Code(snc.Username),
+                            Format.Bold(ch?.Name ?? "deleted-channel"),
+                            Format.Code(snc.Type.ToString()));
+                    })));
 
-                await Context.Channel.SendConfirmAsync(GetText("streams_following", streams.Count()) + "\n\n" + text)
-                    .ConfigureAwait(false);
+                    return new EmbedBuilder()
+                        .WithDescription(GetText("streams_following", thisPage.Count()) + "\n\n" + text)
+                        .WithOkColor();
+                }, streams.Count(), 15);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -208,7 +218,7 @@ namespace NadekoBot.Modules.Searches
                     await ReplyErrorLocalized("stream_not_exist").ConfigureAwait(false);
                     return;
                 }
-                if(!_service.SetStreamMessage(Context.Guild.Id, info.Value.Item1, info.Value.Item2, message))
+                if (!_service.SetStreamMessage(Context.Guild.Id, info.Value.Item1, info.Value.Item2, message))
                 {
                     await ReplyConfirmLocalized("stream_not_following").ConfigureAwait(false);
                     return;
