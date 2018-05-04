@@ -27,11 +27,6 @@ namespace NadekoBot.Modules.Permissions.Services
         public ConcurrentHashSet<ulong> WordFilteringChannels { get; }
         public ConcurrentHashSet<ulong> WordFilteringServers { get; }
 
-        public FilterService(DbService db)
-        {
-            _db = db;
-        }
-
         public ConcurrentHashSet<string> FilteredWordsForChannel(ulong channelId, ulong guildId)
         {
             ConcurrentHashSet<string> words = new ConcurrentHashSet<string>();
@@ -72,9 +67,10 @@ namespace NadekoBot.Modules.Permissions.Services
             return words;
         }
 
-        public FilterService(DiscordSocketClient _client, NadekoBot bot)
+        public FilterService(DiscordSocketClient _client, NadekoBot bot, DbService db)
         {
             _log = LogManager.GetCurrentClassLogger();
+            _db = db;
 
             InviteFilteringServers = new ConcurrentHashSet<ulong>(bot.AllGuildConfigs.Where(gc => gc.FilterInvites).Select(gc => gc.GuildId));
             InviteFilteringChannels = new ConcurrentHashSet<ulong>(bot.AllGuildConfigs.SelectMany(gc => gc.FilterInvitesChannelIds.Select(fci => fci.ChannelId)));
