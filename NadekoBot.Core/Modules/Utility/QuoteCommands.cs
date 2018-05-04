@@ -110,8 +110,7 @@ namespace NadekoBot.Modules.Utility
                                                        keywordquote.Text.SanitizeMentions());
             }
 
-<<<<<<< HEAD
-	    	[NadekoCommand, Usage, Description, Aliases]
+	    [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task ListQuotesKeyword(string keyword, int page = 1)
             {
@@ -136,8 +135,6 @@ namespace NadekoBot.Modules.Utility
                     await ReplyErrorLocalized("quotes_page_none").ConfigureAwait(false);
 	    }
 
-=======
->>>>>>> Kwoth/1.9
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task QuoteId(int id)
