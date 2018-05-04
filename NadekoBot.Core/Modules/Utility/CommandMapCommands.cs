@@ -29,6 +29,15 @@ namespace NadekoBot.Modules.Utility
             }
 
             [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.Administrator)]
+            public async Task AliasesClear()
+            {
+                var count = _service.ClearAliases(Context.Guild.Id);
+                await ReplyConfirmLocalized("aliases_cleared", count).ConfigureAwait(false);
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
             [RequireUserPermission(GuildPermission.Administrator)]
             [RequireContext(ContextType.Guild)]
             public async Task Alias(string trigger, [Remainder] string mapping = null)
@@ -110,7 +119,7 @@ namespace NadekoBot.Modules.Utility
 
                 if (page < 0)
                     return;
-                
+
                 if (!_service.AliasMaps.TryGetValue(Context.Guild.Id, out var maps) || !maps.Any())
                 {
                     await ReplyErrorLocalized("aliases_none").ConfigureAwait(false);

@@ -267,5 +267,16 @@ namespace NadekoBot.Modules.CustomReactions.Services
             };
             return sub.PublishAsync(_client.CurrentUser.Id + "_gcr.edited", JsonConvert.SerializeObject(data));
         }
+
+        public int ClearCustomReactions(ulong id)
+        {
+            using (var uow = _db.UnitOfWork)
+            {
+                var count = uow.CustomReactions.ClearFromGuild(id);
+                GuildReactions.TryRemove(id, out _);
+                uow.Complete();
+                return count;
+            }
+        }
     }
 }

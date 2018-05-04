@@ -64,59 +64,60 @@ namespace NadekoBot.Modules.Searches.Services
                 if (!ok)
                 {
                     var config = Configuration.Default.WithDefaultLoader();
-                    var document = await BrowsingContext.New(config).OpenAsync(link);
-
-                    var imageElem = document.QuerySelector("div.seriesimg > img");
-                    if (imageElem == null)
-                        return null;
-                    var imageUrl = ((IHtmlImageElement)imageElem).Source;
-
-                    var descElem = document.QuerySelector("div#editdescription > p");
-                    var desc = descElem.InnerHtml;
-
-                    var genres = document.QuerySelector("div#seriesgenre").Children
-                        .Select(x => x as IHtmlAnchorElement)
-                        .Where(x => x != null)
-                        .Select(x => $"[{x.InnerHtml}]({x.Href})")
-                        .ToArray();
-
-                    var authors = document
-                        .QuerySelector("div#showauthors")
-                        .Children
-                        .Select(x => x as IHtmlAnchorElement)
-                        .Where(x => x != null)
-                        .Select(x => $"[{x.InnerHtml}]({x.Href})")
-                        .ToArray();
-
-                    var score = ((IHtmlSpanElement)document
-                        .QuerySelector("h5.seriesother > span.uvotes"))
-                        .InnerHtml;
-
-                    var status = document
-                        .QuerySelector("div#editstatus")
-                        .InnerHtml;
-                    var title = document
-                        .QuerySelector("div.w-blog-content > div.seriestitlenu")
-                        .InnerHtml;
-
-                    var obj = new NovelResult()
+                    using (var document = await BrowsingContext.New(config).OpenAsync(link))
                     {
-                        Description = desc,
-                        Authors = authors,
-                        Genres = genres,
-                        ImageUrl = imageUrl,
-                        Link = link,
-                        Score = score,
-                        Status = status,
-                        Title = title,
-                    };
+                        var imageElem = document.QuerySelector("div.seriesimg > img");
+                        if (imageElem == null)
+                            return null;
+                        var imageUrl = ((IHtmlImageElement)imageElem).Source;
 
-                    await _cache.SetNovelDataAsync(link,
-                        JsonConvert.SerializeObject(obj)).ConfigureAwait(false);
+                        var descElem = document.QuerySelector("div#editdescription > p");
+                        var desc = descElem.InnerHtml;
 
-                    return obj;
+                        var genres = document.QuerySelector("div#seriesgenre").Children
+                            .Select(x => x as IHtmlAnchorElement)
+                            .Where(x => x != null)
+                            .Select(x => $"[{x.InnerHtml}]({x.Href})")
+                            .ToArray();
+
+                        var authors = document
+                            .QuerySelector("div#showauthors")
+                            .Children
+                            .Select(x => x as IHtmlAnchorElement)
+                            .Where(x => x != null)
+                            .Select(x => $"[{x.InnerHtml}]({x.Href})")
+                            .ToArray();
+
+                        var score = ((IHtmlSpanElement)document
+                            .QuerySelector("h5.seriesother > span.uvotes"))
+                            .InnerHtml;
+
+                        var status = document
+                            .QuerySelector("div#editstatus")
+                            .InnerHtml;
+                        var title = document
+                            .QuerySelector("div.w-blog-content > div.seriestitlenu")
+                            .InnerHtml;
+
+                        var obj = new NovelResult()
+                        {
+                            Description = desc,
+                            Authors = authors,
+                            Genres = genres,
+                            ImageUrl = imageUrl,
+                            Link = link,
+                            Score = score,
+                            Status = status,
+                            Title = title,
+                        };
+
+                        await _cache.SetNovelDataAsync(link,
+                            JsonConvert.SerializeObject(obj)).ConfigureAwait(false);
+
+                        return obj;
+                    }
                 }
-                
+
                 return JsonConvert.DeserializeObject<NovelResult>(data);
             }
             catch (Exception ex)
@@ -133,7 +134,7 @@ namespace NadekoBot.Modules.Searches.Services
             try
             {
 
-                 var link = "https://aniapi.nadekobot.me/manga/" + Uri.EscapeDataString(query.Replace("/", " "));
+                var link = "https://aniapi.nadekobot.me/manga/" + Uri.EscapeDataString(query.Replace("/", " "));
                 link = link.ToLowerInvariant();
                 var (ok, data) = await _cache.TryGetAnimeDataAsync(link).ConfigureAwait(false);
                 if (!ok)

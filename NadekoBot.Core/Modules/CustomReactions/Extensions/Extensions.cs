@@ -30,19 +30,20 @@ namespace NadekoBot.Modules.CustomReactions.Extensions
 
                 var fullQueryLink = $"http://imgur.com/search?q={ tag }";
                 var config = Configuration.Default.WithDefaultLoader();
-                var document = await BrowsingContext.New(config).OpenAsync(fullQueryLink);
+                using(var document = await BrowsingContext.New(config).OpenAsync(fullQueryLink))
+                {
+                    var elems = document.QuerySelectorAll("a.image-list-link").ToArray();
 
-                var elems = document.QuerySelectorAll("a.image-list-link").ToArray();
+                    if (!elems.Any())
+                        return "";
 
-                if (!elems.Any())
-                    return "";
+                    var img = (elems.ElementAtOrDefault(new NadekoRandom().Next(0, elems.Length))?.Children?.FirstOrDefault() as IHtmlImageElement);
 
-                var img = (elems.ElementAtOrDefault(new NadekoRandom().Next(0, elems.Length))?.Children?.FirstOrDefault() as IHtmlImageElement);
+                    if (img?.Source == null)
+                        return "";
 
-                if (img?.Source == null)
-                    return "";
-
-                return " " + img.Source.Replace("b.", ".") + " ";
+                    return " " + img.Source.Replace("b.", ".") + " ";
+                }
             } }
         };
 

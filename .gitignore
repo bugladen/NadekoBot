@@ -361,3 +361,5 @@ NadekoBot.Core/Modules/Utility/QuoteCommands.cs
 NadekoBot.Core/Services/Database/Repositories/Impl/QuoteRepository.cs
 
 NadekoBot.Core/Services/Database/Repositories/IQuoteRepository.cs
+
+NadekoBot.Core/Modules/Utility/QuoteCommands.cs

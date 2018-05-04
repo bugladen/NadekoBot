@@ -3,8 +3,8 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Discord;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
+using System;
 
 namespace NadekoBot.Core.Services.Database.Repositories.Impl
 {
@@ -142,6 +142,19 @@ VALUES ({userId}, {name}, {discrim}, {avatarId}, {amount});
 ");
             }
             return true;
+        }
+
+        public void CurrencyDecay(float decay, ulong botId)
+        {
+            _context.Database.ExecuteSqlCommand($@"
+UPDATE DiscordUser
+SET CurrencyAmount=CurrencyAmount-ROUND(CurrencyAmount*{decay}-0.5)
+WHERE UserId!={botId};");
+        }
+
+        public long GetCurrencyDecayAmount(float decay)
+        {
+            return (long)_set.Sum(x => Math.Round(x.CurrencyAmount * decay - 0.5));
         }
     }
 }

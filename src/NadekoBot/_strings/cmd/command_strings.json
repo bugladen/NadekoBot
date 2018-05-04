@@ -285,6 +285,34 @@
       "{0}dcr 5"
     ]
   },
+  "crclear": {
+    "cmd": "crclear",
+    "desc": "Deletes all custom reactions on this server.",
+    "Usage": [
+      "{0}crclear"
+    ]
+  },
+  "fwclear": {
+    "cmd": "fwclear",
+    "desc": "Deletes all filtered words on this server.",
+    "Usage": [
+      "{0}fwclear"
+    ]
+  },
+  "aliasesclear": {
+    "cmd": "aliasesclear aliasclear",
+    "desc": "Deletes all aliases on this server.",
+    "Usage": [
+      "{0}aliasclear"
+    ]
+  },
+  "streamsclear": {
+    "cmd": "streamsclear",
+    "desc": "Deletes all followed streams on this server.",
+    "Usage": [
+      "{0}streamsclear"
+    ]
+  },
   "autoassignrole": {
     "Cmd": "autoassignrole aar",
     "Desc": "Automaticaly assigns a specified role to every user who joins the server. Provide no parameters to disable.",
@@ -391,10 +419,10 @@
   },
   "mute": {
     "Cmd": "mute",
-    "Desc": "Mutes a mentioned user both from speaking and chatting. You can also specify time in minutes (up to 1440) for how long the user should be muted.",
+    "Desc": "Mutes a mentioned user both from speaking and chatting. You can also specify time string for how long the user should be muted.",
     "Usage": [
       "{0}mute @Someone",
-      "{0}mute 30 @Someone"
+      "{0}mute 1h30m @Someone"
     ]
   },
   "voiceunmute": {
@@ -1729,11 +1757,11 @@
       "{0}danbooru yuri+kissing"
     ]
   },
-  "atfbooru": {
-    "Cmd": "atfbooru atf",
-    "Desc": "Shows a random hentai image from atfbooru with a given tag. Tag is optional but preferred.",
+  "derpibooru": {
+    "Cmd": "derpibooru derpi",
+    "Desc": "Shows a random image from derpibooru with a given tag. Tag is optional but preferred.",
     "Usage": [
-      "{0}atfbooru yuri+kissing"
+      "{0}derpi yuri+kissing"
     ]
   },
   "gelbooru": {
@@ -2699,10 +2727,11 @@
   },
   "warnpunish": {
     "Cmd": "warnpunish warnp",
-    "Desc": "Sets a punishment for a certain number of warnings. Provide no punishment to remove.",
+    "Desc": "Sets a punishment for a certain number of warnings. You can specify a time string after 'Ban' or 'Mute' punishment to make it a temporary mute/ban. Provide no punishment to remove.",
     "Usage": [
-      "{0}warnpunish 5 Ban",
-      "{0}warnpunish 3"
+      "{0}warnp 5 Ban",
+      "{0}warnp 3",
+      "{0}warnp 5 Mute 2d12h"
     ]
   },
   "claimpatreonrewards": {

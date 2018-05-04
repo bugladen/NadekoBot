@@ -67,6 +67,8 @@ namespace NadekoBot.Modules.Administration.Services
                     v => new ConcurrentHashSet<ulong>(v.MutedUsers.Select(m => m.UserId))
             ));
 
+            var max = TimeSpan.FromDays(49);
+
             foreach (var conf in bot.AllGuildConfigs)
             {
                 foreach (var x in conf.UnmuteTimers)
@@ -78,7 +80,9 @@ namespace NadekoBot.Modules.Administration.Services
                     }
                     else
                     {
-                        after = x.UnmuteAt - DateTime.UtcNow;
+                        var unmute = x.UnmuteAt - DateTime.UtcNow;
+                        after = unmute > max ?
+                            max : unmute;
                     }
                     StartUn_Timer(conf.GuildId, x.UserId, after, TimerType.Mute);
                 }
@@ -92,7 +96,9 @@ namespace NadekoBot.Modules.Administration.Services
                     }
                     else
                     {
-                        after = x.UnbanAt - DateTime.UtcNow;
+                        var unban = x.UnbanAt - DateTime.UtcNow;
+                        after = unban > max ?
+                            max : unban;
                     }
                     StartUn_Timer(conf.GuildId, x.UserId, after, TimerType.Ban);
                 }

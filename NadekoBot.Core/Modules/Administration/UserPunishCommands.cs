@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Administration.Services;
 using NadekoBot.Core.Common.TypeReaders.Models;
+using System;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -217,11 +218,11 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.BanMembers)]
-            public async Task WarnPunish(int number, PunishmentAction punish, int time = 0)
+            public async Task WarnPunish(int number, PunishmentAction punish, StoopidTime time = null)
             {
-                if (punish != PunishmentAction.Mute && time != 0)
+                if ((punish != PunishmentAction.Ban && punish != PunishmentAction.Mute) && time != null)
                     return;
-                if (number <= 0)
+                if (number <= 0 || time.Time > TimeSpan.FromDays(49))
                     return;
 
                 using (var uow = _db.UnitOfWork)
@@ -233,7 +234,7 @@ namespace NadekoBot.Modules.Administration
                     {
                         Count = number,
                         Punishment = punish,
-                        Time = time,
+                        Time = (int?)(time?.Time.TotalMinutes) ?? 0,
                     });
                     uow.Complete();
                 }
@@ -301,6 +302,8 @@ namespace NadekoBot.Modules.Administration
             [Priority(0)]
             public async Task Ban(StoopidTime time, IGuildUser user, [Remainder] string msg = null)
             {
+                if (time.Time > TimeSpan.FromDays(49))
+                    return;
                 if (Context.User.Id != user.Guild.OwnerId && (user.GetRoles().Select(r => r.Position).Max() >= ((IGuildUser)Context.User).GetRoles().Select(r => r.Position).Max()))
                 {
                     await ReplyErrorLocalized("hierarchy").ConfigureAwait(false);
