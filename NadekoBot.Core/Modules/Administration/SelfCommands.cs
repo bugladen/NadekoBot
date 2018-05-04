@@ -414,7 +414,11 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task SetGame(ActivityType type, [Remainder] string game = null)
             {
-                await _bot.SetGameAsync(game, type).ConfigureAwait(false);
+                var rep = new ReplacementBuilder()
+                    .WithDefault(Context)
+                    .Build();
+
+                await _bot.SetGameAsync(game == null ? game : rep.Replace(game), type).ConfigureAwait(false);
 
                 await ReplyConfirmLocalized("set_game").ConfigureAwait(false);
             }
