@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using Microsoft.EntityFrameworkCore;
 using NadekoBot.Extensions;
 using NadekoBot.Core.Services;
@@ -25,15 +24,14 @@ namespace NadekoBot.Modules.Permissions
                 _db = db;
             }
 
-            //[NadekoCommand, Usage, Description, Aliases]
-            //[RequireContext(ContextType.Guild)]
-            //public async Task SrvrFilterLinks()
-            //{
-            //    using (var uow = _db.UnitOfWork)
-            //    {
-            //        var config = 
-            //    }
-            //}
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.Administrator)]
+            public async Task FwClear()
+            {
+                _service.ClearFilteredWords(Context.Guild.Id);
+                await ReplyConfirmLocalized("fw_cleared").ConfigureAwait(false);
+            }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]

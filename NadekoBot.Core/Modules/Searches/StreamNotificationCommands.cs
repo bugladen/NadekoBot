@@ -140,6 +140,15 @@ namespace NadekoBot.Modules.Searches
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.Administrator)]
+            public async Task StreamsClear()
+            {
+                var count = _service.ClearAllStreams(Context.Guild.Id);
+                await ReplyConfirmLocalized("streams_cleared").ConfigureAwait(false);
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
             public async Task ListStreams(int page = 1)
             {
                 if (page-- < 1)

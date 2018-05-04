@@ -159,6 +159,19 @@ namespace NadekoBot.Modules.Searches.Services
             await Task.WhenAll(sendTasks);
         }
 
+        public int ClearAllStreams(ulong guildId)
+        {
+            int count;
+            using (var uow = _db.UnitOfWork)
+            {
+                var gc = uow.GuildConfigs.For(guildId, set => set.Include(x => x.FollowedStreams));
+                count = gc.FollowedStreams.Count;
+                gc.FollowedStreams.Clear();
+                uow.Complete();
+            }
+            return count;
+        }
+
         public async Task<StreamResponse> GetStreamStatus(FollowedStream.FType t, string username, bool checkCache = true)
         {
             string url = string.Empty;

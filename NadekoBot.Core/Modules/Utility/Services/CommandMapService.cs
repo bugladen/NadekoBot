@@ -8,6 +8,8 @@ using NadekoBot.Extensions;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
 using NLog;
+using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace NadekoBot.Modules.Utility.Services
 {
@@ -16,8 +18,11 @@ namespace NadekoBot.Modules.Utility.Services
         private readonly Logger _log;
 
         public ConcurrentDictionary<ulong, ConcurrentDictionary<string, string>> AliasMaps { get; } = new ConcurrentDictionary<ulong, ConcurrentDictionary<string, string>>();
+
+        private readonly DbService _db;
+
         //commandmap
-        public CommandMapService(NadekoBot bot)
+        public CommandMapService(NadekoBot bot, DbService db)
         {
             _log = LogManager.GetCurrentClassLogger();
             AliasMaps = new ConcurrentDictionary<ulong, ConcurrentDictionary<string, string>>(
@@ -26,6 +31,23 @@ namespace NadekoBot.Modules.Utility.Services
                         x => new ConcurrentDictionary<string, string>(x.CommandAliases
                             .Distinct(new CommandAliasEqualityComparer())
                             .ToDictionary(ca => ca.Trigger, ca => ca.Mapping))));
+
+            _db = db;
+        }
+
+        public int ClearAliases(ulong guildId)
+        {
+            AliasMaps.TryRemove(guildId, out _);
+
+            int count;
+            using (var uow = _db.UnitOfWork)
+            {
+                var gc = uow.GuildConfigs.For(guildId, set => set.Include(x => x.CommandAliases));
+                count = gc.CommandAliases.Count;
+                gc.CommandAliases.Clear();
+                uow.Complete();
+            }
+            return count;
         }
 
         public async Task<string> TransformInput(IGuild guild, IMessageChannel channel, IUser user, string input)
@@ -34,7 +56,7 @@ namespace NadekoBot.Modules.Utility.Services
 
             if (guild == null || string.IsNullOrWhiteSpace(input))
                 return input;
-            
+
             if (guild != null)
             {
                 input = input.ToLowerInvariant();
@@ -59,13 +81,14 @@ namespace NadekoBot.Modules.Utility.Services
                             var _ = Task.Run(async () =>
                             {
                                 await Task.Delay(1500);
-                                await toDelete.DeleteAsync(new RequestOptions() {
+                                await toDelete.DeleteAsync(new RequestOptions()
+                                {
                                     RetryMode = RetryMode.AlwaysRetry
                                 });
                             });
                         }
                         catch { }
-                        return newInput; 
+                        return newInput;
                     }
                 }
             }
