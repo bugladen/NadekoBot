@@ -222,7 +222,7 @@ namespace NadekoBot.Modules.Administration
             {
                 if ((punish != PunishmentAction.Ban && punish != PunishmentAction.Mute) && time != null)
                     return;
-                if (number <= 0 || time.Time > TimeSpan.FromDays(49))
+                if (number <= 0 || (time != null && time.Time > TimeSpan.FromDays(49)))
                     return;
 
                 using (var uow = _db.UnitOfWork)
@@ -284,7 +284,7 @@ namespace NadekoBot.Modules.Administration
                 string list;
                 if (ps.Any())
                 {
-                    list = string.Join("\n", ps.Select(x => $"{x.Count} -> {x.Punishment}"));
+                    list = string.Join("\n", ps.Select(x => $"{x.Count} -> {x.Punishment} {(x.Time <= 0 ? "" : x.Time.ToString() + "m")} "));
                 }
                 else
                 {
