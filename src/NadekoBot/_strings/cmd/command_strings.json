@@ -3313,7 +3313,7 @@
     "cmd": "reactionrolesremove rerorm",
     "desc": "Removed a ReactionRole message on the specified index.",
     "usage": [
-      "{0}reactionrolesrm 1"
+      "{0}rerorm 1"
     ]
   },
   "blackjack": {
