@@ -79,13 +79,12 @@ namespace NadekoBot.Modules.Administration.Services
                     {
                         await ch.SendConfirmAsync("New Bot Update", data).ConfigureAwait(false);
                     }
-
                 }
                 catch (Exception ex)
                 {
                     _log.Warn(ex);
                 }
-            }, null, TimeSpan.FromSeconds(10), TimeSpan.FromMinutes(2));
+            }, null, TimeSpan.FromHours(8), TimeSpan.FromHours(8));
 
             var sub = _redis.GetSubscriber();
             sub.Subscribe(_creds.RedisKey() + "_reload_images",

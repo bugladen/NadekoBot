@@ -3386,5 +3386,13 @@
     "usage": [
       "{0}streammsg https://www.twitch.tv/trolhamonas/ Hello world"
     ]
+  },
+  "updatescheck": {
+    "cmd": "updatescheck",
+    "desc": "Select which kind of updates you want to be notified of every 8 hours. You can specify 'release' to check only for new windows releases, 'commit' to be notified of new commits, or 'none' to not get notified.",
+    "usage": [
+      "{0}updatescheck commit",
+      "{0}updatescheck release"
+    ]
   }
 }
