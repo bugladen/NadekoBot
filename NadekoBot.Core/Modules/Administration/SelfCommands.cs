@@ -26,12 +26,20 @@ namespace NadekoBot.Modules.Administration
             private readonly NadekoBot _bot;
             private readonly IBotCredentials _creds;
 
-            public SelfCommands(DbService db, NadekoBot bot, DiscordSocketClient client,
-                IBotCredentials creds, IDataCache cache)
+            public SelfCommands(NadekoBot bot, DiscordSocketClient client,
+                IBotCredentials creds)
             {
                 _client = client;
                 _bot = bot;
                 _creds = creds;
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [OwnerOnly]
+            public async Task UpdatesCheck(UpdateCheckType type)
+            {
+                _service.SetUpdateCheck(type);
+                await ReplyConfirmLocalized("updates_check_set", type.ToString()).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]

@@ -12,7 +12,6 @@ using System.Threading;
 using System.Collections.Immutable;
 using System.IO;
 using Discord.Net;
-using NadekoBot.Common;
 using NadekoBot.Common.Collections;
 using NadekoBot.Common.ModuleBehaviors;
 

@@ -11,7 +11,7 @@ using System.IO;
 namespace NadekoBot.Core.Services.Database
 {
     public class NadekoContextFactory : IDesignTimeDbContextFactory<NadekoContext>
-    {        
+    {
         public NadekoContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<NadekoContext>();
@@ -109,7 +109,7 @@ namespace NadekoBot.Core.Services.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region QUOTES
-            
+
             var quoteEntity = modelBuilder.Entity<Quote>();
             quoteEntity.HasIndex(x => x.GuildId);
             quoteEntity.HasIndex(x => x.Keyword);
@@ -169,6 +169,9 @@ namespace NadekoBot.Core.Services.Database
             botConfigEntity.Property(x => x.ErrorColor)
                 .HasDefaultValue("ee281f");
 
+            botConfigEntity.Property(x => x.LastUpdate)
+                .HasDefaultValue(new DateTime(2018, 5, 5, 0, 0, 0, 0, DateTimeKind.Utc));
+
             //botConfigEntity.Property(x => x.PermissionVersion)
             //    .HasDefaultValue(2);
 
@@ -192,7 +195,7 @@ namespace NadekoBot.Core.Services.Database
                 .HasDefaultValue(0);
 
             #endregion
-            
+
             #region Permission
             var permissionEntity = modelBuilder.Entity<Permission>();
             permissionEntity
@@ -265,7 +268,7 @@ namespace NadekoBot.Core.Services.Database
             #endregion
 
             #region DiscordUser
-            
+
             var du = modelBuilder.Entity<DiscordUser>();
             du.HasAlternateKey(w => w.UserId);
             du.HasOne(x => x.Club)
@@ -278,7 +281,7 @@ namespace NadekoBot.Core.Services.Database
             du.HasIndex(x => x.TotalXp);
             du.HasIndex(x => x.CurrencyAmount);
             du.HasIndex(x => x.UserId);
-                
+
 
             #endregion
 
@@ -309,7 +312,7 @@ namespace NadekoBot.Core.Services.Database
             xps.HasIndex(x => x.GuildId);
             xps.HasIndex(x => x.Xp);
             xps.HasIndex(x => x.AwardedXp);
-            
+
             #endregion
 
             #region XpSettings
@@ -317,7 +320,7 @@ namespace NadekoBot.Core.Services.Database
                 .HasOne(x => x.GuildConfig)
                 .WithOne(x => x.XpSettings);
             #endregion
-            
+
             #region XpRoleReward
             modelBuilder.Entity<XpRoleReward>()
                 .HasIndex(x => new { x.XpSettingsId, x.Level })
