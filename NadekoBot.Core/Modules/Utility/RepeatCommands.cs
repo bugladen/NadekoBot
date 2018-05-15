@@ -103,7 +103,7 @@ namespace NadekoBot.Modules.Utility
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
             [NadekoOptions(typeof(Repeater.Options))]
-            [Priority(1)]
+            [Priority(0)]
             public Task Repeat(params string[] options)
                 => Repeat(null, options);
 
@@ -111,7 +111,7 @@ namespace NadekoBot.Modules.Utility
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
             [NadekoOptions(typeof(Repeater.Options))]
-            [Priority(0)]
+            [Priority(1)]
             public async Task Repeat(GuildDateTime dt, params string[] options)
             {
                 if (!_service.RepeaterReady)
