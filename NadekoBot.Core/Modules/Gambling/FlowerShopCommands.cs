@@ -146,12 +146,10 @@ namespace NadekoBot.Modules.Gambling
 
                     if (await _cs.RemoveAsync(Context.User.Id, $"Shop purchase - {entry.Type}", entry.Price))
                     {
-                        int removed;
                         using (var uow = _db.UnitOfWork)
                         {
                             var x = uow._context.Set<ShopEntryItem>().Remove(item);
-
-                            removed = uow.Complete();
+                            uow.Complete();
                         }
                         try
                         {
@@ -174,8 +172,17 @@ namespace NadekoBot.Modules.Gambling
                                 entry.Price).ConfigureAwait(false);
                             using (var uow = _db.UnitOfWork)
                             {
-                                uow._context.Set<ShopEntryItem>().Add(item);
-                                uow.Complete();
+                                var entries = new IndexedCollection<ShopEntry>(uow.GuildConfigs.For(Context.Guild.Id,
+                                    set => set.Include(x => x.ShopEntries)
+                                              .ThenInclude(x => x.Items)).ShopEntries);
+                                entry = entries.ElementAtOrDefault(index);
+                                if (entry != null)
+                                {
+                                    if (entry.Items.Add(item))
+                                    {
+                                        uow.Complete();
+                                    }
+                                }
                             }
                             await ReplyErrorLocalized("shop_buy_error").ConfigureAwait(false);
                             return;

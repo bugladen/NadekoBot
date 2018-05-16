@@ -674,10 +674,10 @@ namespace NadekoBot.Modules.Searches
             var embed = new EmbedBuilder().WithOkColor()
                 .WithTitle(GetText("define") + " " + word)
                 .WithDescription(definition)
-                .WithFooter(efb => efb.WithText(sense.Gramatical_info?.type));
+                .WithFooter(efb => efb.WithText(sense.Gramatical_info?.Type));
 
             if (sense.Examples != null)
-                embed.AddField(efb => efb.WithName(GetText("example")).WithValue(sense.Examples.First().text));
+                embed.AddField(efb => efb.WithName(GetText("example")).WithValue(sense.Examples.First().Text));
 
             await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
 
