@@ -17,12 +17,14 @@ namespace NadekoBot.Migrations
                 name: "LastUpdate",
                 table: "BotConfig",
                 nullable: false,
-                defaultValue: new DateTime(2018, 5, 5, 0, 0, 0, 0, DateTimeKind.Utc));
+                defaultValue: DateTime.UtcNow);
 
             migrationBuilder.AddColumn<string>(
                 name: "UpdateString",
                 table: "BotConfig",
                 nullable: true);
+
+            migrationBuilder.Sql(@"delete from followedstream where username like '%/';");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
