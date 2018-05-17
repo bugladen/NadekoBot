@@ -37,7 +37,15 @@ namespace NadekoBot.Extensions
                 return string.Concat(str.Select(c => '.'));
             if (str.Length < maxLength)
                 return str;
-            return string.Concat(str.Take(maxLength - 3)) + (hideDots ? "" : "...");
+
+            if (hideDots)
+            {
+                return string.Concat(str.Take(maxLength));
+            }
+            else
+            {
+                return string.Concat(str.Take(maxLength - 3)) + "...";
+            }
         }
 
         public static string ToTitleCase(this string str)

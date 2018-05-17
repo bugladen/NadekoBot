@@ -53,11 +53,11 @@ namespace NadekoBot.Modules.Utility
                     await ReplyErrorLocalized("index_out_of_range").ConfigureAwait(false);
                     return;
                 }
-                var repeater = repList[index].Repeater;
-                repList[index].Reset();
-                await repList[index].Trigger();
+                var repeater = repList[index];
+                repeater.Reset();
+                await repeater.Trigger().ConfigureAwait(false);
 
-                await Context.Channel.SendMessageAsync("🔄").ConfigureAwait(false);
+                try { await Context.Message.AddReactionAsync(new Emoji("🔄")).ConfigureAwait(false); } catch { }
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -70,7 +70,7 @@ namespace NadekoBot.Modules.Utility
                 if (index < 1)
                     return;
                 index -= 1;
-                
+
                 if (!_service.Repeaters.TryGetValue(Context.Guild.Id, out var rep))
                     return;
 
@@ -103,7 +103,7 @@ namespace NadekoBot.Modules.Utility
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
             [NadekoOptions(typeof(Repeater.Options))]
-            [Priority(1)]
+            [Priority(0)]
             public Task Repeat(params string[] options)
                 => Repeat(null, options);
 
@@ -111,7 +111,7 @@ namespace NadekoBot.Modules.Utility
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
             [NadekoOptions(typeof(Repeater.Options))]
-            [Priority(0)]
+            [Priority(1)]
             public async Task Repeat(GuildDateTime dt, params string[] options)
             {
                 if (!_service.RepeaterReady)
@@ -145,11 +145,11 @@ namespace NadekoBot.Modules.Utility
 
                 var rep = new RepeatRunner(_client, (SocketGuild)Context.Guild, toAdd);
 
-                _service.Repeaters.AddOrUpdate(Context.Guild.Id, new ConcurrentQueue<RepeatRunner>(new[] {rep}), (key, old) =>
-                {
-                    old.Enqueue(rep);
-                    return old;
-                });
+                _service.Repeaters.AddOrUpdate(Context.Guild.Id, new ConcurrentQueue<RepeatRunner>(new[] { rep }), (key, old) =>
+                  {
+                      old.Enqueue(rep);
+                      return old;
+                  });
 
                 string secondPart = "";
                 if (dt != null)

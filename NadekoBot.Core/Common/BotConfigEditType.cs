@@ -27,6 +27,7 @@
         ErrorColor,
         OkColor,
         ConsoleOutputType,
-        DailyCurrencyDecay
+        DailyCurrencyDecay,
+        CheckForUpdates,
     }
 }

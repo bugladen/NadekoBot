@@ -17,10 +17,10 @@ namespace NadekoBot.Modules.Utility
             [NadekoCommand, Usage, Description, Aliases]
             public async Task Calculate([Remainder] string expression)
             {
-                var expr = new NCalc.Expression(expression, NCalc.EvaluateOptions.IgnoreCase);
+                var expr = new NCalc.Expression(expression, NCalc.EvaluateOptions.IgnoreCase | NCalc.EvaluateOptions.NoCache);
                 expr.EvaluateParameter += Expr_EvaluateParameter;
                 var result = expr.Evaluate();
-                if (expr.Error == null)
+                if (!expr.HasErrors())
                     await Context.Channel.SendConfirmAsync("⚙ " + GetText("result"), result.ToString());
                 else
                     await Context.Channel.SendErrorAsync("⚙ " + GetText("error"), expr.Error);

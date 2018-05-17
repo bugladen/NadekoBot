@@ -68,13 +68,13 @@ namespace NadekoBot.Modules.Searches
                     username,
                     FollowedStream.FType.Mixer);
 
-            private static readonly Regex twitchRegex = new Regex(@"twitch.tv/(?<name>.+)/?",
+            private static readonly Regex twitchRegex = new Regex(@"twitch.tv/(?<name>.+[^/])/?",
                 RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            private static readonly Regex mixerRegex = new Regex(@"mixer.com/(?<name>.+)/?",
+            private static readonly Regex mixerRegex = new Regex(@"mixer.com/(?<name>.+[^/])/?",
                 RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            private static readonly Regex smashcastRegex = new Regex(@"smashcast.tv/(?<name>.+)/?",
+            private static readonly Regex smashcastRegex = new Regex(@"smashcast.tv/(?<name>.+[^/])/?",
                 RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            private static readonly Regex picartoRegex = new Regex(@"picarto.tv/(?<name>.+)/?",
+            private static readonly Regex picartoRegex = new Regex(@"picarto.tv/(?<name>.+[^/])/?",
                 RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
             private static readonly Dictionary<FollowedStream.FType, Regex> typesWithRegex = new Dictionary<FollowedStream.FType, Regex>()

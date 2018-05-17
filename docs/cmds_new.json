@@ -399,10 +399,10 @@
       "Aliases": [
         ".mute"
       ],
-      "Description": "Mutes a mentioned user both from speaking and chatting. You can also specify time in minutes (up to 1440) for how long the user should be muted.",
+      "Description": "Mutes a mentioned user both from speaking and chatting. You can also specify time string for how long the user should be muted.",
       "Usage": [
         ".mute @Someone",
-        ".mute 30 @Someone"
+        ".mute 1h30m @Someone"
       ],
       "Submodule": "MuteCommands",
       "Module": "Administration",
@@ -733,7 +733,7 @@
       ],
       "Description": "Removed a ReactionRole message on the specified index.",
       "Usage": [
-        ".reactionrolesrm 1"
+        ".rerorm 1"
       ],
       "Submodule": "RoleCommands",
       "Module": "Administration",
@@ -860,11 +860,10 @@
         ".rolecolor",
         ".roleclr"
       ],
-      "Description": "Set a role's color to the hex or 0-255 rgb color value provided. Provide no color in order to see the hex of the color of the specified role.",
+      "Description": "Set a role's color using its hex value. Provide no color in order to see the hex value of the color of the specified role.",
       "Usage": [
         ".roleclr Admin",
-        ".roleclr Admin ffba55",
-        ".roleclr Admin 255 128 0"
+        ".roleclr Admin ffba55"
       ],
       "Submodule": "RoleCommands",
       "Module": "Administration",
@@ -1009,6 +1008,22 @@
     },
     {
       "Aliases": [
+        ".updatescheck"
+      ],
+      "Description": "Select which kind of updates you want to be notified of every 8 hours. You can specify 'release' to check only for new windows releases, 'commit' to be notified of new commits, or 'none' to not get notified.",
+      "Usage": [
+        ".updatescheck commit",
+        ".updatescheck release"
+      ],
+      "Submodule": "SelfCommands",
+      "Module": "Administration",
+      "Options": null,
+      "Requirements": [
+        "Bot Owner Only"
+      ]
+    },
+    {
+      "Aliases": [
         ".scadd"
       ],
       "Description": "Adds a command to the list of commands which will be executed automatically in the current channel, in the order they were added in, by the bot when it startups up.",
@@ -1024,11 +1039,43 @@
     },
     {
       "Aliases": [
+        ".autocmdadd"
+      ],
+      "Description": "Adds a command to the list of commands which will be executed automatically every X seconds.",
+      "Usage": [
+        ".autocmdadd 60 .prune 1000"
+      ],
+      "Submodule": "SelfCommands",
+      "Module": "Administration",
+      "Options": null,
+      "Requirements": [
+        "Bot Owner Only"
+      ]
+    },
+    {
+      "Aliases": [
         ".sclist"
       ],
       "Description": "Lists all startup commands in the order they will be executed in.",
       "Usage": [
         ".sclist"
+      ],
+      "Submodule": "SelfCommands",
+      "Module": "Administration",
+      "Options": null,
+      "Requirements": [
+        "Bot Owner Only"
+      ]
+    },
+    {
+      "Aliases": [
+        ".autocmds",
+        ".autolist",
+        ".autocmdlist"
+      ],
+      "Description": "Lists all auto commands and the intervals in which they execute.",
+      "Usage": [
+        ".autolist"
       ],
       "Submodule": "SelfCommands",
       "Module": "Administration",
@@ -1056,9 +1103,9 @@
       "Aliases": [
         ".scrm"
       ],
-      "Description": "Removes a startup command with the provided command text.",
+      "Description": "Removes a startup or auto command with the provided index.",
       "Usage": [
-        ".scrm .stats"
+        ".scrm 3"
       ],
       "Submodule": "SelfCommands",
       "Module": "Administration",
@@ -1545,10 +1592,11 @@
         ".warnpunish",
         ".warnp"
       ],
-      "Description": "Sets a punishment for a certain number of warnings. Provide no punishment to remove.",
+      "Description": "Sets a punishment for a certain number of warnings. You can specify a time string after 'Ban' or 'Mute' punishment to make it a temporary mute/ban. Provide no punishment to remove.",
       "Usage": [
-        ".warnpunish 5 Ban",
-        ".warnpunish 3"
+        ".warnp 5 Ban",
+        ".warnp 3",
+        ".warnp 5 Mute 2d12h"
       ],
       "Submodule": "UserPunishCommands",
       "Module": "Administration",
@@ -1576,9 +1624,10 @@
         ".ban",
         ".b"
       ],
-      "Description": "Bans a user by ID or name with an optional message.",
+      "Description": "Bans a user by ID or name with an optional message. You can specify a time string before the user name to ban the user temporarily.",
       "Usage": [
-        ".b \"@some Guy\" Your behaviour is toxic."
+        ".b \"@some Guy\" Your behaviour is toxic.",
+        ".b 1d12h @b1nzy Come back when u chill"
       ],
       "Submodule": "UserPunishCommands",
       "Module": "Administration",
@@ -1836,6 +1885,21 @@
       "Module": "CustomReactions",
       "Options": null,
       "Requirements": []
+    },
+    {
+      "Aliases": [
+        ".crclear"
+      ],
+      "Description": "Deletes all custom reactions on this server.",
+      "Usage": [
+        ".crclear"
+      ],
+      "Submodule": "CustomReactions",
+      "Module": "CustomReactions",
+      "Options": null,
+      "Requirements": [
+        "Administrator Server Permission"
+      ]
     }
   ],
   "Gambling": [
@@ -2916,12 +2980,12 @@
       ],
       "Description": "List all of the bot's commands from a certain module. You can either specify the full name or only the first few letters of the module name.",
       "Usage": [
-        ".commands Administration",
-        ".cmds Admin"
+        ".cmds Admin",
+        ".cmds Admin --view 1"
       ],
       "Submodule": "Help",
       "Module": "Help",
-      "Options": null,
+      "Options": "--view (-v)   Specifies how to output the list of commands. 0 - Hide commands which you can't use, 1 - Cross out commands which you can't use, 2 - Show all.  ",
       "Requirements": []
     },
     {
@@ -3673,6 +3737,20 @@
     },
     {
       "Aliases": [
+        ".derpibooru",
+        ".derpi"
+      ],
+      "Description": "Shows a random image from derpibooru with a given tag. Tag is optional but preferred.",
+      "Usage": [
+        ".derpi yuri+kissing"
+      ],
+      "Submodule": "NSFW",
+      "Module": "NSFW",
+      "Options": null,
+      "Requirements": []
+    },
+    {
+      "Aliases": [
         ".boobs"
       ],
       "Description": "Real adult content.",
@@ -4047,6 +4125,21 @@
       "Module": "Permissions",
       "Options": null,
       "Requirements": []
+    },
+    {
+      "Aliases": [
+        ".fwclear"
+      ],
+      "Description": "Deletes all filtered words on this server.",
+      "Usage": [
+        ".fwclear"
+      ],
+      "Submodule": "FilterCommands",
+      "Module": "Permissions",
+      "Options": null,
+      "Requirements": [
+        "Administrator Server Permission"
+      ]
     },
     {
       "Aliases": [
@@ -4642,7 +4735,7 @@
         ".color",
         ".clr"
       ],
-      "Description": "Shows you which colors correspond to the inputed hexes.",
+      "Description": "Shows you pictures of colors which correspond to the inputed hex values. Max 10.",
       "Usage": [
         ".color 00ff00",
         ".color f00 0f0 00f"
@@ -5171,6 +5264,21 @@
     },
     {
       "Aliases": [
+        ".streamsclear"
+      ],
+      "Description": "Deletes all followed streams on this server.",
+      "Usage": [
+        ".streamsclear"
+      ],
+      "Submodule": "StreamNotificationCommands",
+      "Module": "Searches",
+      "Options": null,
+      "Requirements": [
+        "Administrator Server Permission"
+      ]
+    },
+    {
+      "Aliases": [
         ".liststreams",
         ".ls"
       ],
@@ -5182,6 +5290,37 @@
       "Module": "Searches",
       "Options": null,
       "Requirements": []
+    },
+    {
+      "Aliases": [
+        ".streamoff",
+        ".stoff"
+      ],
+      "Description": "Toggles whether the bot will notify about streams going offline.",
+      "Usage": [
+        ".stoff"
+      ],
+      "Submodule": "StreamNotificationCommands",
+      "Module": "Searches",
+      "Options": null,
+      "Requirements": [
+        "ManageMessages Server Permission"
+      ]
+    },
+    {
+      "Aliases": [
+        ".streammsg"
+      ],
+      "Description": "Specify an url of a stream you're already following, and a message in order to set a stream notification message which will show up every time stream comes online.",
+      "Usage": [
+        ".streammsg https://www.twitch.tv/trolhamonas/ Hello world"
+      ],
+      "Submodule": "StreamNotificationCommands",
+      "Module": "Searches",
+      "Options": null,
+      "Requirements": [
+        "ManageMessages Server Permission"
+      ]
     },
     {
       "Aliases": [
@@ -5545,6 +5684,22 @@
     },
     {
       "Aliases": [
+        ".aliasesclear",
+        ".aliasclear"
+      ],
+      "Description": "Deletes all aliases on this server.",
+      "Usage": [
+        ".aliasclear"
+      ],
+      "Submodule": "CommandMapCommands",
+      "Module": "Utility",
+      "Options": null,
+      "Requirements": [
+        "Administrator Server Permission"
+      ]
+    },
+    {
+      "Aliases": [
         ".alias",
         ".cmdmap"
       ],
@@ -5644,7 +5799,9 @@
       "Submodule": "PatreonCommands",
       "Module": "Utility",
       "Options": null,
-      "Requirements": []
+      "Requirements": [
+        "Bot Owner Only"
+      ]
     },
     {
       "Aliases": [
@@ -5852,14 +6009,14 @@
       "Aliases": [
         ".repeat"
       ],
-      "Description": "Repeat a message every `X` minutes in the current channel. You can instead specify time of day for the message to be repeated at daily (make sure you've set your server's timezone). You can have up to 5 repeating messages on the server in total.",
+      "Description": "Repeat a message every specified number of minutes in the current channel. You can instead specify time of day for the message to be repeated at daily (make sure you've set your server's timezone). You can have up to 5 repeating messages on the server in total.",
       "Usage": [
-        ".repeat 5 Hello there",
-        ".repeat 17:30 tea time"
+        ".repeat -i 5 -m \"Hello there\" -n",
+        ".repeat 17:30 -m \"tea time\""
       ],
       "Submodule": "RepeatCommands",
       "Module": "Utility",
-      "Options": null,
+      "Options": "--message (-m)   Message to be repeated  \n--no-redundant (-n)   Whether the message should be reposted if the last message in the channel is this same message.  \n--interval (-i)   How frequently the repeating message is posted, in minutes.  ",
       "Requirements": [
         "ManageMessages Server Permission"
       ]

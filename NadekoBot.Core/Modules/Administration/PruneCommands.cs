@@ -47,9 +47,18 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(ChannelPermission.ManageMessages)]
             [RequireBotPermission(ChannelPermission.ManageMessages)]
             [Priority(0)]
-            public async Task Prune(IGuildUser user, int count = 100)
+            public Task Prune(IGuildUser user, int count = 100)
+                => Prune(user.Id, count);
+
+            //prune userid [x]
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(ChannelPermission.ManageMessages)]
+            [RequireBotPermission(ChannelPermission.ManageMessages)]
+            [Priority(0)]
+            public async Task Prune(ulong userId, int count = 100)
             {
-                if (user.Id == Context.User.Id)
+                if (userId == Context.User.Id)
                     count++;
 
                 if (count < 1)
@@ -57,7 +66,7 @@ namespace NadekoBot.Modules.Administration
 
                 if (count > 1000)
                     count = 1000;
-                await _service.PruneWhere((ITextChannel)Context.Channel, count, m => m.Author.Id == user.Id && DateTime.UtcNow - m.CreatedAt < twoWeeks);
+                await _service.PruneWhere((ITextChannel)Context.Channel, count, m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < twoWeeks);
             }
         }
     }

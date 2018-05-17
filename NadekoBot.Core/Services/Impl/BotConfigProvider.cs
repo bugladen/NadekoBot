@@ -204,6 +204,11 @@ namespace NadekoBot.Core.Services.Impl
                             return false;
                         bc.ConsoleOutputType = val;
                         break;
+                    case BotConfigEditType.CheckForUpdates:
+                        if (!Enum.TryParse<UpdateCheckType>(newValue, true, out var up))
+                            return false;
+                        bc.CheckForUpdates = up;
+                        break;
                     default:
                         return false;
                 }
