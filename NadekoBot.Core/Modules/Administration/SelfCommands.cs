@@ -35,6 +35,7 @@ namespace NadekoBot.Modules.Administration
             }
 
             [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.DM)]
             [OwnerOnly]
             public async Task UpdatesCheck(UpdateCheckType type)
             {

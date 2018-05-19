@@ -60,31 +60,34 @@ namespace NadekoBot.Modules.Administration.Services
             _bc = bc;
             _cache = cache;
             _imgs = cache.LocalImages;
-            _updateTimer = new Timer(async _ =>
+            if (_client.ShardId == 0)
             {
-                try
+                _updateTimer = new Timer(async _ =>
                 {
-                    var ch = ownerChannels?.Values.FirstOrDefault();
-
-                    if (ch == null) // no owner channels
-                        return;
-
-                    var cfo = _bc.BotConfig.CheckForUpdates;
-                    if (cfo == UpdateCheckType.None)
-                        return;
-
-                    string data;
-                    if ((cfo == UpdateCheckType.Commit && (data = await GetNewCommit()) != null)
-                        || (cfo == UpdateCheckType.Release && (data = await GetNewRelease()) != null))
+                    try
                     {
-                        await ch.SendConfirmAsync("New Bot Update", data).ConfigureAwait(false);
+                        var ch = ownerChannels?.Values.FirstOrDefault();
+
+                        if (ch == null) // no owner channels
+                        return;
+
+                        var cfo = _bc.BotConfig.CheckForUpdates;
+                        if (cfo == UpdateCheckType.None)
+                            return;
+
+                        string data;
+                        if ((cfo == UpdateCheckType.Commit && (data = await GetNewCommit()) != null)
+                            || (cfo == UpdateCheckType.Release && (data = await GetNewRelease()) != null))
+                        {
+                            await ch.SendConfirmAsync("New Bot Update", data).ConfigureAwait(false);
+                        }
                     }
-                }
-                catch (Exception ex)
-                {
-                    _log.Warn(ex);
-                }
-            }, null, TimeSpan.FromHours(8), TimeSpan.FromHours(8));
+                    catch (Exception ex)
+                    {
+                        _log.Warn(ex);
+                    }
+                }, null, TimeSpan.FromHours(8), TimeSpan.FromHours(8));
+            }
 
             var sub = _redis.GetSubscriber();
             sub.Subscribe(_creds.RedisKey() + "_reload_images",
