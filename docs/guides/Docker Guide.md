@@ -26,6 +26,7 @@ For Mac [[Download Link](https://download.docker.com/mac/stable/DockerToolbox.pk
 Just copy everything down below (in one block of text), and paste it to your console, and it should perform it's magic on its own.
 
 ```
+cd ~
 docker pull willysunny/nadecker:latest
 docker stop nadeko
 docker cp nadeko:/root/nadeko/credentials.json credentials.json
@@ -40,6 +41,12 @@ docker start -a nadeko
 First time install might encounter a few errors along the way (Namely step 2, 3, 4, 5, 8), this is to be expected, as you do not have the settings/files set up.
 
 ## Step-by-step Explanation
+
+### 0. Going to the home directory
+
+**Command:** `cd ~`
+
+There has been an increase of users who's default folder is not set on the windows user folder, hence by doing this way, it'll force everyone at the same location.
 
 ### 1. Grabbing the latest build
 
