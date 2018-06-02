@@ -31,6 +31,12 @@ namespace NadekoBot.Modules.Searches
     {
         private readonly IBotCredentials _creds;
         private readonly IGoogleApiService _google;
+        private static readonly NadekoRandom _rng;
+
+        static Searches()
+        {
+            _rng = new NadekoRandom();
+        }
 
         public Searches(IBotCredentials creds, IGoogleApiService google)
         {
@@ -275,7 +281,15 @@ namespace NadekoBot.Modules.Searches
         {
             await Context.Channel.EmbedAsync(new EmbedBuilder()
                 .WithOkColor()
-                .WithImageUrl("https://random.dog/" + await _service.Http.GetStringAsync("http://random.dog/woof")));
+                .WithImageUrl("https://nadeko-pictures.nyc3.digitaloceanspaces.com/dogs/" + _rng.Next(1, 750).ToString("000") + ".png"));
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        public async Task RandomFood()
+        {
+            await Context.Channel.EmbedAsync(new EmbedBuilder()
+                .WithOkColor()
+                .WithImageUrl("https://nadeko-pictures.nyc3.digitaloceanspaces.com/food/" + _rng.Next(1,883).ToString("000") + ".png"));
         }
 
         [NadekoCommand, Usage, Description, Aliases]
