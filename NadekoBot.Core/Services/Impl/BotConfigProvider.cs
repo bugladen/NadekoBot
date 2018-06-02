@@ -120,7 +120,7 @@ namespace NadekoBot.Core.Services.Impl
                             return false;
                         break;
                     case BotConfigEditType.DailyCurrencyDecay:
-                        if (float.TryParse(newValue, out var decay) && decay > 0)
+                        if (float.TryParse(newValue, out var decay) && decay >= 0)
                             bc.DailyCurrencyDecay = decay;
                         else
                             return false;
