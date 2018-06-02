@@ -2674,7 +2674,7 @@
     ]
   },
   "startupcommandremove": {
-    "Cmd": "scrm",
+    "Cmd": "scrm autocmdrm autorm",
     "Desc": "Removes a startup or auto command with the provided index.",
     "Usage": [
       "{0}scrm 3"
