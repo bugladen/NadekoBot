@@ -1608,6 +1608,13 @@
       "{0}yum"
     ]
   },
+  "randombird": {
+    "Cmd": "randombird birb bird",
+    "Desc": "Shows a random bird image.",
+    "Usage": [
+      "{0}birb"
+    ]
+  },
   "image": {
     "Cmd": "image img",
     "Desc": "Pulls the first image found using a search parameter. Use `{0}rimg` for different results.",
