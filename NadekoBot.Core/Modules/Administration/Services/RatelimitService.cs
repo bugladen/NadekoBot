@@ -13,11 +13,30 @@ using NadekoBot.Core.Services.Database.Models;
 using NLog;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
+using NadekoBot.Core.Common;
+using CommandLine;
 
 namespace NadekoBot.Modules.Administration.Services
 {
     public class SlowmodeService : IEarlyBlocker, INService
     {
+        public class Options : INadekoCommandOptions
+        {
+            [Option('m', "message-count", Required = false, Default = 1, HelpText = "Number of messages user can send.")]
+            public uint MessageCount { get; set; } = 1;
+
+            [Option('s', "seconds", Required = false, Default = 5, HelpText = "Interval in which the user can send the specified number of messages.")]
+            public int PerSec { get; set; } = 5;
+
+            public void NormalizeOptions()
+            {
+                if (MessageCount < 1 || MessageCount > 100)
+                    MessageCount = 1;
+                if (PerSec < 1 || PerSec > 3600)
+                    PerSec = 5;
+            }
+        }
+
         public class SlowmodeIgnores
         {
             public HashSet<ulong> IgnoredRoles { get; set; }
