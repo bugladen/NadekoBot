@@ -238,7 +238,7 @@ namespace NadekoBot.Modules.Utility
                 new EmbedBuilder().WithOkColor()
                     .WithAuthor(eab => eab.WithName($"NadekoBot v{StatsService.BotVersion}")
                                           .WithUrl("http://nadekobot.readthedocs.io/en/latest/")
-                                          .WithIconUrl("https://cdn.discordapp.com/avatars/116275390695079945/b21045e778ef21c96d175400e779f0fb.jpg"))
+                                          .WithIconUrl("https://nadeko-pictures.nyc3.digitaloceanspaces.com/_other/avatar.png"))
                     .AddField(efb => efb.WithName(GetText("author")).WithValue(_stats.Author).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("botid")).WithValue(_client.CurrentUser.Id.ToString()).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("shard")).WithValue($"#{_client.ShardId} / {_creds.TotalShards}").WithIsInline(true))
