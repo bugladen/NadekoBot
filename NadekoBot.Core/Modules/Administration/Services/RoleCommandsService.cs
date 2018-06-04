@@ -160,7 +160,7 @@ namespace NadekoBot.Modules.Administration.Services
                 var gc = uow.GuildConfigs.For(id, set => set
                     .Include(x => x.ReactionRoleMessages)
                     .ThenInclude(x => x.ReactionRoles));
-                if (gc.ReactionRoleMessages.Count >= 5)
+                if (gc.ReactionRoleMessages.Count >= 20)
                     return false;
                 gc.ReactionRoleMessages.Add(rrm);
                 _models.AddOrUpdate(id, 
