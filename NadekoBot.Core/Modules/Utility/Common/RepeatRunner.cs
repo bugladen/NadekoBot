@@ -52,26 +52,32 @@ namespace NadekoBot.Modules.Utility.Common
         public async Task Trigger()
         {
             var toSend = "🔄 " + Repeater.Message;
-            if (Repeater.NoRedundant)
-            {
-                var lastMsgInChannel = (await Channel.GetMessagesAsync(2).FlattenAsync()).FirstOrDefault();
-                if (lastMsgInChannel != null && lastMsgInChannel.Id == oldMsg?.Id) //don't send if it's the same message in the channel
-                    return;
-            }
 
-            if (oldMsg != null)
+            if (oldMsg != null && !Repeater.NoRedundant)
+            {
                 try
                 {
                     await oldMsg.DeleteAsync();
+                    oldMsg = null;
                 }
                 catch
                 {
                     // ignored
                 }
+            }
+
             try
             {
                 if (Channel == null)
                     Channel = Guild.GetTextChannel(Repeater.ChannelId);
+
+
+                if (Repeater.NoRedundant)
+                {
+                    var lastMsgInChannel = (await Channel.GetMessagesAsync(2).FlattenAsync()).FirstOrDefault();
+                    if (lastMsgInChannel != null && lastMsgInChannel.Id == oldMsg?.Id) //don't send if it's the same message in the channel
+                        return;
+                }
 
                 if (Channel != null)
                     oldMsg = await Channel.SendMessageAsync(toSend.SanitizeMentions()).ConfigureAwait(false);

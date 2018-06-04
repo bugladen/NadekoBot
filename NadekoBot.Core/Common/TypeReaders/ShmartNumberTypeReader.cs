@@ -42,10 +42,6 @@ namespace NadekoBot.Core.Common.TypeReaders
 
         private void EvaluateParam(string name, NCalc.ParameterArgs args, ICommandContext ctx, IServiceProvider svc)
         {
-            if (name.ToLowerInvariant() == "all")
-            {
-            }
-
             switch (name.ToLowerInvariant())
             {
                 case "pi":

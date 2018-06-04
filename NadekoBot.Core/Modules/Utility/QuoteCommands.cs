@@ -181,7 +181,7 @@ namespace NadekoBot.Modules.Utility
                 {
                     var q = uow.Quotes.Get(id);
 
-                    if (q == null || (!isAdmin && q.AuthorId != Context.Message.Author.Id))
+                    if ((q?.GuildId != Context.Guild.Id) || (!isAdmin && q.AuthorId != Context.Message.Author.Id))
                     {
                         response = GetText("quotes_remove_none");
                     }
