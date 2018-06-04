@@ -31,6 +31,12 @@ namespace NadekoBot.Modules.Searches
     {
         private readonly IBotCredentials _creds;
         private readonly IGoogleApiService _google;
+        private static readonly NadekoRandom _rng;
+
+        static Searches()
+        {
+            _rng = new NadekoRandom();
+        }
 
         public Searches(IBotCredentials creds, IGoogleApiService google)
         {
@@ -263,11 +269,9 @@ namespace NadekoBot.Modules.Searches
         [NadekoCommand, Usage, Description, Aliases]
         public async Task RandomCat()
         {
-            var res = JObject.Parse(await _service.Http.GetStringAsync("http://aws.random.cat/meow").ConfigureAwait(false));
             await Context.Channel.EmbedAsync(new EmbedBuilder()
                 .WithOkColor()
-                .WithImageUrl(Uri.EscapeUriString(res["file"].ToString())))
-                    .ConfigureAwait(false);
+                .WithImageUrl("https://nadeko-pictures.nyc3.digitaloceanspaces.com/cats/" + _rng.Next(1, 773).ToString("000") + ".png"));
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -275,7 +279,23 @@ namespace NadekoBot.Modules.Searches
         {
             await Context.Channel.EmbedAsync(new EmbedBuilder()
                 .WithOkColor()
-                .WithImageUrl("https://random.dog/" + await _service.Http.GetStringAsync("http://random.dog/woof")));
+                .WithImageUrl("https://nadeko-pictures.nyc3.digitaloceanspaces.com/dogs/" + _rng.Next(1, 750).ToString("000") + ".png"));
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        public async Task RandomFood()
+        {
+            await Context.Channel.EmbedAsync(new EmbedBuilder()
+                .WithOkColor()
+                .WithImageUrl("https://nadeko-pictures.nyc3.digitaloceanspaces.com/food/" + _rng.Next(1,883).ToString("000") + ".png"));
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        public async Task RandomBird()
+        {
+            await Context.Channel.EmbedAsync(new EmbedBuilder()
+                .WithOkColor()
+                .WithImageUrl("https://nadeko-pictures.nyc3.digitaloceanspaces.com/birds/" + _rng.Next(1, 883).ToString("000") + ".png"));
         }
 
         [NadekoCommand, Usage, Description, Aliases]

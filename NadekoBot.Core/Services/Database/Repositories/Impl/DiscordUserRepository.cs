@@ -149,7 +149,7 @@ VALUES ({userId}, {name}, {discrim}, {avatarId}, {amount});
             _context.Database.ExecuteSqlCommand($@"
 UPDATE DiscordUser
 SET CurrencyAmount=CurrencyAmount-ROUND(CurrencyAmount*{decay}-0.5)
-WHERE UserId!={botId};");
+WHERE CurrencyAmount>0 AND UserId!={botId};");
         }
 
         public long GetCurrencyDecayAmount(float decay)

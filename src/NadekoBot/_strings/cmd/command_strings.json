@@ -162,9 +162,9 @@
   },
   "slowmode": {
     "Cmd": "slowmode",
-    "Desc": "Toggles slowmode. Disable by specifying no parameters. Slowmode deletes any excess messages users type over the specified limit of messages per X seconds. To enable, specify a number of messages each user can send, followed by an interval in seconds. For example 1 message every 5 seconds.",
+    "Desc": "Toggles slowmode. Disable by specifying no parameters. Slowmode deletes any excess messages users type over the specified limit of messages per X seconds. To enable, specify a number of messages each user can send, and an interval in seconds.",
     "Usage": [
-      "{0}slowmode 1 5",
+      "{0}slowmode -i 1 -m 5",
       "{0}slowmode"
     ]
   },
@@ -1609,6 +1609,20 @@
       "{0}woof"
     ]
   },
+  "randomfood": {
+    "Cmd": "randomfood yum",
+    "Desc": "Shows a random food image.",
+    "Usage": [
+      "{0}yum"
+    ]
+  },
+  "randombird": {
+    "Cmd": "randombird birb bird",
+    "Desc": "Shows a random bird image.",
+    "Usage": [
+      "{0}birb"
+    ]
+  },
   "image": {
     "Cmd": "image img",
     "Desc": "Pulls the first image found using a search parameter. Use `{0}rimg` for different results.",
@@ -2668,7 +2682,7 @@
     ]
   },
   "startupcommandremove": {
-    "Cmd": "scrm",
+    "Cmd": "scrm autocmdrm autorm",
     "Desc": "Removes a startup or auto command with the provided index.",
     "Usage": [
       "{0}scrm 3"

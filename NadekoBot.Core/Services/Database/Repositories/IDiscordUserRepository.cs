@@ -7,6 +7,7 @@ namespace NadekoBot.Core.Services.Database.Repositories
 {
     public interface IDiscordUserRepository : IRepository<DiscordUser>
     {
+        DiscordUser GetOrCreate(ulong userId, string username, string discrim, string avatarId);
         DiscordUser GetOrCreate(IUser original);
         Task<int> GetUserGlobalRankingAsync(ulong id);
         DiscordUser[] GetUsersXpLeaderboardFor(int page);
