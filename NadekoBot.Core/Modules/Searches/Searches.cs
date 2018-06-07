@@ -287,7 +287,7 @@ namespace NadekoBot.Modules.Searches
         {
             await Context.Channel.EmbedAsync(new EmbedBuilder()
                 .WithOkColor()
-                .WithImageUrl("https://nadeko-pictures.nyc3.digitaloceanspaces.com/food/" + _rng.Next(1,883).ToString("000") + ".png"));
+                .WithImageUrl("https://nadeko-pictures.nyc3.digitaloceanspaces.com/food/" + _rng.Next(1, 883).ToString("000") + ".png"));
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -498,37 +498,36 @@ namespace NadekoBot.Modules.Searches
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task MagicTheGathering([Remainder] string name)
+        public async Task MagicTheGathering([Remainder] string search)
         {
-            var arg = name;
-            if (string.IsNullOrWhiteSpace(arg))
+            if (string.IsNullOrWhiteSpace(search))
                 return;
 
             await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
             using (var http = new HttpClient())
             {
                 http.DefaultRequestHeaders.Clear();
-                var response = await http.GetStringAsync($"https://api.deckbrew.com/mtg/cards?name={Uri.EscapeUriString(arg)}")
+                var response = await http.GetStringAsync($"https://api.magicthegathering.io/v1/cards?name={Uri.EscapeUriString(search)}")
                     .ConfigureAwait(false);
                 try
                 {
-                    var items = JArray.Parse(response).ToArray();
+                    var items = JObject.Parse(response)["cards"].ToArray();
                     if (items == null || items.Length == 0)
                         throw new KeyNotFoundException("Cannot find a card by that name");
                     var item = items[new NadekoRandom().Next(0, items.Length)];
-                    var storeUrl = await _google.ShortenUrl(item["store_url"].ToString());
-                    var cost = item["cost"].ToString();
+                    var name = item["name"].ToString();
+                    var storeUrl = await _google.ShortenUrl($"https://shop.tcgplayer.com/productcatalog/product/show?newSearch=false&ProductType=All&IsProductNameExact=false&ProductName={Uri.EscapeUriString(name)}");
+                    var cost = item["manaCost"].ToString();
                     var desc = item["text"].ToString();
                     var types = string.Join(",\n", item["types"].ToObject<string[]>());
-                    var img = item["editions"][0]["image_url"].ToString();
+                    var img = item["imageUrl"].ToString();
                     var embed = new EmbedBuilder().WithOkColor()
-                                    .WithTitle(item["name"].ToString())
+                                    .WithTitle(name)
                                     .WithDescription(desc)
                                     .WithImageUrl(img)
                                     .AddField(efb => efb.WithName(GetText("store_url")).WithValue(storeUrl).WithIsInline(true))
                                     .AddField(efb => efb.WithName(GetText("cost")).WithValue(cost).WithIsInline(true))
                                     .AddField(efb => efb.WithName(GetText("types")).WithValue(types).WithIsInline(true));
-                    //.AddField(efb => efb.WithName("Store Url").WithValue(await _google.ShortenUrl(items[0]["store_url"].ToString())).WithIsInline(true));
 
                     await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
                 }
