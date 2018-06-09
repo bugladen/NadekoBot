@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
@@ -10,7 +9,6 @@ using NadekoBot.Extensions;
 using NadekoBot.Modules.Permissions.Common;
 using NadekoBot.Modules.Permissions.Services;
 using NadekoBot.Core.Services;
-using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Core.Services.Impl;
 using NLog;
 using NadekoBot.Modules.Games.Common.ChatterBot;
@@ -28,8 +26,8 @@ namespace NadekoBot.Modules.Games.Services
 
         public ConcurrentDictionary<ulong, Lazy<IChatterBotSession>> ChatterBotGuilds { get; }
 
-        public ChatterBotService(DiscordSocketClient client, PermissionService perms, 
-            NadekoBot bot, CommandHandler cmd, NadekoStrings strings, 
+        public ChatterBotService(DiscordSocketClient client, PermissionService perms,
+            NadekoBot bot, CommandHandler cmd, NadekoStrings strings,
             IBotCredentials creds)
         {
             _client = client;
@@ -47,10 +45,10 @@ namespace NadekoBot.Modules.Games.Services
 
         public IChatterBotSession CreateSession()
         {
-            if (string.IsNullOrWhiteSpace(_creds.CleverbotApiKey))
-                return new ChatterBotSession();
-            else
+            if (!string.IsNullOrWhiteSpace(_creds.CleverbotApiKey))
                 return new OfficialCleverbotSession(_creds.CleverbotApiKey);
+            else
+                return new CleverbotIOSession("GAh3wUfzDCpDpdpT", "RStKgqn7tcO9blbrv4KbXM8NDlb7H37C");
         }
 
         public string PrepareMessage(IUserMessage msg, out IChatterBotSession cleverbot)
@@ -111,7 +109,7 @@ namespace NadekoBot.Modules.Games.Services
                 var message = PrepareMessage(usrMsg, out IChatterBotSession cbs);
                 if (message == null || cbs == null)
                     return false;
-                
+
                 var pc = _perms.GetCache(guild.Id);
                 if (!pc.Permissions.CheckPermissions(usrMsg,
                     "cleverbot",
@@ -138,7 +136,11 @@ Message: {usrMsg.Content}");
                     return true;
                 }
             }
-            catch (Exception ex) { _log.Warn(ex, "Error in cleverbot"); }
+            catch (Exception ex)
+            {
+                _log.Warn("Error in cleverbot");
+                _log.Warn(ex);
+            }
             return false;
         }
     }
