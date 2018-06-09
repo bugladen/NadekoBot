@@ -226,6 +226,7 @@ namespace NadekoBot.Modules.Permissions
                 SecondaryTarget = SecondaryPermissionType.Command,
                 SecondaryTargetName = command.Name.ToLowerInvariant(),
                 State = action.Value,
+                IsCustomCommand = command.IsCustom,
             });
 
             if (action.Value)
@@ -280,6 +281,7 @@ namespace NadekoBot.Modules.Permissions
                 SecondaryTarget = SecondaryPermissionType.Command,
                 SecondaryTargetName = command.Name.ToLowerInvariant(),
                 State = action.Value,
+                IsCustomCommand = command.IsCustom,
             });
 
             if (action.Value)
@@ -341,6 +343,7 @@ namespace NadekoBot.Modules.Permissions
                 SecondaryTarget = SecondaryPermissionType.Command,
                 SecondaryTargetName = command.Name.ToLowerInvariant(),
                 State = action.Value,
+                IsCustomCommand = command.IsCustom,
             });
 
             if (action.Value)
@@ -403,6 +406,7 @@ namespace NadekoBot.Modules.Permissions
                 SecondaryTarget = SecondaryPermissionType.Command,
                 SecondaryTargetName = command.Name.ToLowerInvariant(),
                 State = action.Value,
+                IsCustomCommand = command.IsCustom,
             });
 
             if (action.Value)
