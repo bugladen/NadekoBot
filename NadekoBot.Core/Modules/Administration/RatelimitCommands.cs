@@ -24,6 +24,7 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
+            [NadekoOptions(typeof(SlowmodeService.Options))]
             public Task Slowmode()
             {
                 if (_service.StopSlowmode(Context.Channel.Id))
