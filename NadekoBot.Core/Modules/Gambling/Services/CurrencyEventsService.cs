@@ -67,19 +67,20 @@ namespace NadekoBot.Modules.Gambling.Services
                 {
                     if (!string.IsNullOrWhiteSpace(_creds.VotesToken))
                         req.Headers.Add("Authorization", _creds.VotesToken);
-                    var res = await _http.SendAsync(req).ConfigureAwait(false);
-                    if (!res.IsSuccessStatusCode)
+                    using (var res = await _http.SendAsync(req).ConfigureAwait(false))
                     {
-                        _log.Warn("Botlist API not reached.");
-                        return;
+                        if (!res.IsSuccessStatusCode)
+                        {
+                            _log.Warn("Botlist API not reached.");
+                            return;
+                        }
+                        var resStr = await res.Content.ReadAsStringAsync();
+                        var ids = JsonConvert.DeserializeObject<VoteModel[]>(resStr)
+                            .Select(x => x.User)
+                            .Distinct();
+                        await _cs.AddBulkAsync(ids, ids.Select(x => "Voted - <https://discordbots.org/bot/nadeko/vote>"), ids.Select(x => 10L), true);
                     }
-                    var resStr = await res.Content.ReadAsStringAsync();
-                    var ids = JsonConvert.DeserializeObject<VoteModel[]>(resStr)
-                        .Select(x => x.User)
-                        .Distinct();
-                    await _cs.AddBulkAsync(ids, ids.Select(x => "Voted - <https://discordbots.org/bot/nadeko/vote>"), ids.Select(x => 10L), true);
                 }
-
             }
             catch (Exception ex)
             {
