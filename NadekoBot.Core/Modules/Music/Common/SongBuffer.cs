@@ -7,19 +7,17 @@ using System.Threading;
 
 namespace NadekoBot.Modules.Music.Common
 {
-    public class SongBuffer : IDisposable
+    public sealed class SongBuffer : IDisposable
     {
-        const int readSize = 81920;
         private Process p;
         private readonly PoopyBufferReborn _buffer;
         private Stream _outStream;
 
-        private readonly SemaphoreSlim _lock = new SemaphoreSlim(1, 1);
         private readonly Logger _log;
 
         public string SongUri { get; private set; }
 
-        public SongBuffer(string songUri, string skipTo, bool isLocal)
+        public SongBuffer(string songUri, bool isLocal)
         {
             _log = LogManager.GetCurrentClassLogger();
             this.SongUri = songUri;
@@ -27,7 +25,7 @@ namespace NadekoBot.Modules.Music.Common
 
             try
             {
-                this.p = StartFFmpegProcess(SongUri, 0);
+                this.p = StartFFmpegProcess(SongUri);
                 this._outStream = this.p.StandardOutput.BaseStream;
                 this._buffer = new PoopyBufferReborn(this._outStream);
             }
@@ -47,7 +45,7 @@ Check the guides for your platform on how to setup ffmpeg correctly:
             }
         }
 
-        private Process StartFFmpegProcess(string songUri, float skipTo = 0)
+        private Process StartFFmpegProcess(string songUri)
         {
             var args = $"-err_detect ignore_err -i {songUri} -f s16le -ar 48000 -vn -ac 2 pipe:1 -loglevel error";
             if (!_isLocal)
@@ -64,7 +62,6 @@ Check the guides for your platform on how to setup ffmpeg correctly:
             });
         }
 
-        private readonly object locker = new object();
         private readonly bool _isLocal;
 
         public byte[] Read(int toRead)
@@ -84,7 +81,7 @@ Check the guides for your platform on how to setup ffmpeg correctly:
             }
             try
             {
-                if(!this.p.HasExited)
+                if (!this.p.HasExited)
                     this.p.Kill();
             }
             catch

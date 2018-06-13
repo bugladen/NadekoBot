@@ -181,7 +181,7 @@ namespace NadekoBot.Modules.Music.Common
                     SongBuffer b = null;
                     try
                     {
-                        b = new SongBuffer(await data.Song.Uri(), "", data.Song.ProviderType == MusicType.Local);
+                        b = new SongBuffer(await data.Song.Uri().ConfigureAwait(false), data.Song.ProviderType == MusicType.Local);
                         //_log.Info("Created buffer, buffering...");
 
                         //var bufferTask = b.StartBuffering(cancelToken);
@@ -197,22 +197,22 @@ namespace NadekoBot.Modules.Music.Common
                         //    continue;
                         //}
                         //_log.Info("Buffered. Getting audio client...");
-                        var ac = await GetAudioClient();
+                        var ac = await GetAudioClient().ConfigureAwait(false);
                         _log.Info("Got Audio client");
                         if (ac == null)
                         {
                             _log.Info("Can't join");
-                            await Task.Delay(900, cancelToken);
+                            await Task.Delay(900, cancelToken).ConfigureAwait(false);
                             // just wait some time, maybe bot doesn't even have perms to join that voice channel, 
                             // i don't want to spam connection attempts
                             continue;
                         }
                         b.StartBuffering();
-                        await Task.Delay(1000);
+                        await Task.Delay(1000).ConfigureAwait(false);
                         pcm = ac.CreatePCMStream(AudioApplication.Music, bufferMillis: 1);
                         _log.Info("Created pcm stream");
                         OnStarted?.Invoke(this, data);
-                        
+
                         while (MaxPlaytimeSeconds <= 0 || MaxPlaytimeSeconds >= CurrentTime.TotalSeconds)
                         {
                             var buffer = b.Read(3840);
@@ -222,7 +222,7 @@ namespace NadekoBot.Modules.Music.Common
                             await pcm.WriteAsync(buffer, 0, buffer.Length, cancelToken).ConfigureAwait(false);
                             unchecked { _bytesSent += buffer.Length; }
 
-                            await (PauseTaskSource?.Task ?? Task.CompletedTask);
+                            await ((PauseTaskSource?.Task ?? Task.CompletedTask).ConfigureAwait(false));
                         }
                     }
                     catch (OperationCanceledException)
@@ -243,7 +243,7 @@ namespace NadekoBot.Modules.Music.Common
                             var flushCancel = new CancellationTokenSource();
                             var flushToken = flushCancel.Token;
                             var flushDelay = Task.Delay(1000, flushToken);
-                            await Task.WhenAny(flushDelay, pcm.FlushAsync(flushToken));
+                            await Task.WhenAny(flushDelay, pcm.FlushAsync(flushToken)).ConfigureAwait(false);
                             flushCancel.Cancel();
                             pcm.Dispose();
                         }
@@ -297,7 +297,7 @@ namespace NadekoBot.Modules.Music.Common
                                     try
                                     {
                                         _log.Info("Loading related song");
-                                        await _musicService.TryQueueRelatedSongAsync(data.Song, OutputTextChannel, VoiceChannel);
+                                        await _musicService.TryQueueRelatedSongAsync(data.Song, OutputTextChannel, VoiceChannel).ConfigureAwait(false);
                                         if (!AutoDelete)
                                             Queue.Next();
                                     }
@@ -362,7 +362,7 @@ namespace NadekoBot.Modules.Music.Common
                 }
                 do
                 {
-                    await Task.Delay(500);
+                    await Task.Delay(500).ConfigureAwait(false);
                 }
                 while ((Queue.Count == 0 || Stopped) && !Exited);
             }
@@ -383,7 +383,7 @@ namespace NadekoBot.Modules.Music.Common
                         {
 
                             _log.Info("Stopping audio client");
-                            await t;
+                            await t.ConfigureAwait(false);
 
                             _log.Info("Disposing audio client");
                             _audioClient.Dispose();
@@ -394,18 +394,18 @@ namespace NadekoBot.Modules.Music.Common
                     }
                     newVoiceChannel = false;
 
-                    var curUser = await VoiceChannel.Guild.GetCurrentUserAsync();
+                    var curUser = await VoiceChannel.Guild.GetCurrentUserAsync().ConfigureAwait(false);
                     if (curUser.VoiceChannel != null)
                     {
                         _log.Info("Connecting");
-                        var ac = await VoiceChannel.ConnectAsync();
+                        var ac = await VoiceChannel.ConnectAsync().ConfigureAwait(false);
                         _log.Info("Connected, stopping");
-                        await ac.StopAsync();
+                        await ac.StopAsync().ConfigureAwait(false);
                         _log.Info("Disconnected");
-                        await Task.Delay(1000);
+                        await Task.Delay(1000).ConfigureAwait(false);
                     }
                     _log.Info("Connecting");
-                    _audioClient = await VoiceChannel.ConnectAsync();
+                    _audioClient = await VoiceChannel.ConnectAsync().ConfigureAwait(false);
                 }
                 catch
                 {
@@ -423,7 +423,7 @@ namespace NadekoBot.Modules.Music.Common
                 Queue.Add(song);
                 var result = Queue.Count - 1;
 
-                if(forcePlay)
+                if (forcePlay)
                 {
                     if (Stopped)
                     {
@@ -443,7 +443,7 @@ namespace NadekoBot.Modules.Music.Common
                 if (Exited)
                     return -1;
                 var toReturn = Queue.AddNext(song);
-                if(forcePlay)
+                if (forcePlay)
                 {
                     Unpause();
                     if (Stopped)
@@ -627,7 +627,7 @@ namespace NadekoBot.Modules.Music.Common
             }
             var ac = _audioClient;
             if (ac != null)
-                await ac.StopAsync();
+                await ac.StopAsync().ConfigureAwait(false);
         }
 
         public bool ToggleShuffle()
@@ -662,7 +662,7 @@ namespace NadekoBot.Modules.Music.Common
                     return;
                 VoiceChannel = vch;
             }
-            _audioClient = await vch.ConnectAsync();
+            _audioClient = await vch.ConnectAsync().ConfigureAwait(false);
         }
 
         public async Task UpdateSongDurationsAsync()
@@ -676,7 +676,7 @@ namespace NadekoBot.Modules.Music.Common
             if (!vIds.Any())
                 return;
 
-            var durations = await _google.GetVideoDurationsAsync(vIds);
+            var durations = await _google.GetVideoDurationsAsync(vIds).ConfigureAwait(false);
 
             foreach (var x in toUpdate)
             {

@@ -96,7 +96,7 @@ namespace NadekoBot.Modules.CustomReactions
             CustomReaction cr;
             using (var uow = _db.UnitOfWork)
             {
-                cr = uow.CustomReactions.Get(id);
+                cr = uow.CustomReactions.GetById(id);
 
                 if (cr != null)
                 {
@@ -181,13 +181,13 @@ namespace NadekoBot.Modules.CustomReactions
 
         [NadekoCommand, Usage, Description, Aliases]
         [Priority(0)]
-        public async Task ListCustReact(All x)
+        public async Task ListCustReact(All _)
         {
             CustomReaction[] customReactions;
             if (Context.Guild == null)
                 customReactions = _service.GlobalReactions.Where(cr => cr != null).ToArray();
             else
-                customReactions = _service.GuildReactions.GetOrAdd(Context.Guild.Id, new CustomReaction[] { }).Where(cr => cr != null).ToArray();
+                customReactions = _service.GuildReactions.GetOrAdd(Context.Guild.Id, Array.Empty<CustomReaction>()).Where(cr => cr != null).ToArray();
 
             if (customReactions == null || !customReactions.Any())
             {
@@ -217,7 +217,7 @@ namespace NadekoBot.Modules.CustomReactions
             if (Context.Guild == null)
                 customReactions = _service.GlobalReactions.Where(cr => cr != null).ToArray();
             else
-                customReactions = _service.GuildReactions.GetOrAdd(Context.Guild.Id, new CustomReaction[] { }).Where(cr => cr != null).ToArray();
+                customReactions = _service.GuildReactions.GetOrAdd(Context.Guild.Id, Array.Empty<CustomReaction>()).Where(cr => cr != null).ToArray();
 
             if (customReactions == null || !customReactions.Any())
             {
@@ -248,7 +248,7 @@ namespace NadekoBot.Modules.CustomReactions
             if (Context.Guild == null)
                 customReactions = _service.GlobalReactions;
             else
-                customReactions = _service.GuildReactions.GetOrAdd(Context.Guild.Id, new CustomReaction[] { });
+                customReactions = _service.GuildReactions.GetOrAdd(Context.Guild.Id, Array.Empty<CustomReaction>());
 
             var found = customReactions.FirstOrDefault(cr => cr?.Id == id);
 
@@ -280,7 +280,7 @@ namespace NadekoBot.Modules.CustomReactions
             CustomReaction toDelete;
             using (var uow = _db.UnitOfWork)
             {
-                toDelete = uow.CustomReactions.Get(id);
+                toDelete = uow.CustomReactions.GetById(id);
                 if (toDelete == null) //not found
                     success = false;
                 else
@@ -288,13 +288,13 @@ namespace NadekoBot.Modules.CustomReactions
                     if ((toDelete.GuildId == null || toDelete.GuildId == 0) && Context.Guild == null)
                     {
                         uow.CustomReactions.Remove(toDelete);
-                        await _service.DelGcr(toDelete.Id);
+                        await _service.DelGcr(toDelete.Id).ConfigureAwait(false);
                         success = true;
                     }
                     else if ((toDelete.GuildId != null && toDelete.GuildId != 0) && Context.Guild.Id == toDelete.GuildId)
                     {
                         uow.CustomReactions.Remove(toDelete);
-                        _service.GuildReactions.AddOrUpdate(Context.Guild.Id, new CustomReaction[] { }, (key, old) =>
+                        _service.GuildReactions.AddOrUpdate(Context.Guild.Id, Array.Empty<CustomReaction>(), (key, old) =>
                         {
                             return old.Where(cr => cr?.Id != toDelete.Id).ToArray();
                         });
@@ -311,7 +311,7 @@ namespace NadekoBot.Modules.CustomReactions
                     .WithTitle(GetText("deleted"))
                     .WithDescription("#" + toDelete.Id)
                     .AddField(efb => efb.WithName(GetText("trigger")).WithValue(toDelete.Trigger))
-                    .AddField(efb => efb.WithName(GetText("response")).WithValue(toDelete.Response)));
+                    .AddField(efb => efb.WithName(GetText("response")).WithValue(toDelete.Response))).ConfigureAwait(false);
             }
             else
             {
@@ -329,7 +329,7 @@ namespace NadekoBot.Modules.CustomReactions
                 return;
             }
 
-            CustomReaction[] reactions = new CustomReaction[0];
+            CustomReaction[] reactions = Array.Empty<CustomReaction>();
 
             if (Context.Guild == null)
                 reactions = _service.GlobalReactions;
@@ -376,7 +376,7 @@ namespace NadekoBot.Modules.CustomReactions
                 return;
             }
 
-            CustomReaction[] reactions = new CustomReaction[0];
+            CustomReaction[] reactions = Array.Empty<CustomReaction>();
 
             if (Context.Guild == null)
                 reactions = _service.GlobalReactions;
@@ -423,7 +423,7 @@ namespace NadekoBot.Modules.CustomReactions
                 return;
             }
 
-            CustomReaction[] reactions = new CustomReaction[0];
+            CustomReaction[] reactions = Array.Empty<CustomReaction>();
 
             if (Context.Guild == null)
                 reactions = _service.GlobalReactions;
@@ -506,7 +506,7 @@ namespace NadekoBot.Modules.CustomReactions
         {
             if (await PromptUserConfirmAsync(new EmbedBuilder()
                 .WithTitle("Custom reaction clear")
-                .WithDescription("This will delete all custom reactions on this server.")))
+                .WithDescription("This will delete all custom reactions on this server.")).ConfigureAwait(false))
             {
                 var count = _service.ClearCustomReactions(Context.Guild.Id);
                 await ReplyConfirmLocalized("cleared", count).ConfigureAwait(false);

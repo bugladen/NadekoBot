@@ -69,15 +69,15 @@ namespace NadekoBot.Modules.Administration.Services
                         var ch = ownerChannels?.Values.FirstOrDefault();
 
                         if (ch == null) // no owner channels
-                        return;
+                            return;
 
                         var cfo = _bc.BotConfig.CheckForUpdates;
                         if (cfo == UpdateCheckType.None)
                             return;
 
                         string data;
-                        if ((cfo == UpdateCheckType.Commit && (data = await GetNewCommit()) != null)
-                            || (cfo == UpdateCheckType.Release && (data = await GetNewRelease()) != null))
+                        if ((cfo == UpdateCheckType.Commit && (data = await GetNewCommit().ConfigureAwait(false)) != null)
+                            || (cfo == UpdateCheckType.Release && (data = await GetNewRelease().ConfigureAwait(false)) != null))
                         {
                             await ch.SendConfirmAsync("New Bot Update", data).ConfigureAwait(false);
                         }
@@ -112,7 +112,7 @@ namespace NadekoBot.Modules.Administration.Services
 
                 foreach (var cmd in bc.BotConfig.StartupCommands.Where(x => x.Interval <= 0))
                 {
-                    try { await ExecuteCommand(cmd); } catch { }
+                    try { await ExecuteCommand(cmd).ConfigureAwait(false); } catch { }
                 }
             });
 
@@ -134,7 +134,7 @@ namespace NadekoBot.Modules.Administration.Services
             var commits = await client.Repository.Commit.GetAll("Kwoth", "NadekoBot", new CommitRequest()
             {
                 Since = lu,
-            });
+            }).ConfigureAwait(false);
 
             commits = commits.Where(x => x.Commit.Committer.Date.UtcDateTime > lu)
                 .Take(10)
@@ -143,7 +143,7 @@ namespace NadekoBot.Modules.Administration.Services
             if (!commits.Any())
                 return null;
 
-            SetNewLastUpdate(commits.First().Commit.Committer.Date.UtcDateTime);
+            SetNewLastUpdate(commits[0].Commit.Committer.Date.UtcDateTime);
 
             var newCommits = commits
                 .Select(x => $"[{x.Sha.TrimTo(6, true)}]({x.HtmlUrl})  {x.Commit.Message.TrimTo(50)}");
@@ -167,7 +167,7 @@ namespace NadekoBot.Modules.Administration.Services
         {
             var client = new GitHubClient(new ProductHeaderValue("nadekobot"));
             var lu = _bc.BotConfig.LastUpdate;
-            var release = (await client.Repository.Release.GetAll("Kwoth", "NadekoBot")).FirstOrDefault();
+            var release = (await client.Repository.Release.GetAll("Kwoth", "NadekoBot").ConfigureAwait(false)).FirstOrDefault();
 
             if (release == null || release.CreatedAt.UtcDateTime <= lu)
                 return null;
@@ -196,7 +196,7 @@ namespace NadekoBot.Modules.Administration.Services
 
         private Timer TimerFromStartupCommand(StartupCommand x)
         {
-            return new Timer(async (obj) => await ExecuteCommand((StartupCommand)obj),
+            return new Timer(async (obj) => await ExecuteCommand((StartupCommand)obj).ConfigureAwait(false),
                 x,
                 x.Interval * 1000,
                 x.Interval * 1000);
@@ -208,9 +208,9 @@ namespace NadekoBot.Modules.Administration.Services
             {
                 var prefix = _cmdHandler.GetPrefix(cmd.GuildId);
                 //if someone already has .die as their startup command, ignore it
-                if (cmd.CommandText.StartsWith(prefix + "die"))
+                if (cmd.CommandText.StartsWith(prefix + "die", StringComparison.InvariantCulture))
                     return;
-                await _cmdHandler.ExecuteExternal(cmd.GuildId, cmd.ChannelId, cmd.CommandText);
+                await _cmdHandler.ExecuteExternal(cmd.GuildId, cmd.ChannelId, cmd.CommandText).ConfigureAwait(false);
                 await Task.Delay(400).ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -259,7 +259,7 @@ namespace NadekoBot.Modules.Administration.Services
                     return Task.FromResult<IDMChannel>(null);
 
                 return user.GetOrCreateDMChannelAsync();
-            }));
+            })).ConfigureAwait(false);
 
             ownerChannels = channels.Where(x => x != null)
                 .ToDictionary(x => x.Recipient.Id, x => x)
@@ -422,7 +422,7 @@ namespace NadekoBot.Modules.Administration.Services
             _bc.Reload();
         }
 
-        public IEnumerable<ShardComMessage> GetAllShardStatuses(int page)
+        public IEnumerable<ShardComMessage> GetAllShardStatuses()
         {
             var db = _cache.Redis.GetDatabase();
             return db.ListRange(_creds.RedisKey() + "_shardstats")

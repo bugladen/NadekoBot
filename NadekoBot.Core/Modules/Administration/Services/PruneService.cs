@@ -28,7 +28,7 @@ namespace NadekoBot.Modules.Administration.Services
             {
                 IMessage[] msgs;
                 IMessage lastMessage = null;
-                msgs = (await channel.GetMessagesAsync(50).FlattenAsync()).Where(predicate).Take(amount).ToArray();
+                msgs = (await channel.GetMessagesAsync(50).FlattenAsync().ConfigureAwait(false)).Where(predicate).Take(amount).ToArray();
                 while (amount > 0 && msgs.Any())
                 {
                     lastMessage = msgs[msgs.Length - 1];
@@ -54,7 +54,7 @@ namespace NadekoBot.Modules.Administration.Services
                     //100 messages, Maybe this needs to be reduced by msgs.Length instead of 100
                     amount -= 50;
                     if(amount > 0)
-                        msgs = (await channel.GetMessagesAsync(lastMessage, Direction.Before, 50).FlattenAsync()).Where(predicate).Take(amount).ToArray();
+                        msgs = (await channel.GetMessagesAsync(lastMessage, Direction.Before, 50).FlattenAsync().ConfigureAwait(false)).Where(predicate).Take(amount).ToArray();
                 }
             }
             catch

@@ -29,7 +29,7 @@ namespace NadekoBot.Modules.Searches
                 try
                 {
                     await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
-                    var translation = await _searches.Translate(langs, text);
+                    var translation = await _searches.Translate(langs, text).ConfigureAwait(false);
                     await Context.Channel.SendConfirmAsync(GetText("translation") + " " + langs, translation).ConfigureAwait(false);
                 }
                 catch
@@ -95,11 +95,7 @@ namespace NadekoBot.Modules.Searches
             [RequireContext(ContextType.Guild)]
             public async Task AutoTransLang([Remainder] string langs = null)
             {
-                var ucp = new UserChannelPair
-                {
-                    UserId = Context.User.Id,
-                    ChannelId = Context.Channel.Id,
-                };
+                var ucp = (Context.User.Id, Context.Channel.Id);
 
                 if (string.IsNullOrWhiteSpace(langs))
                 {
@@ -129,7 +125,7 @@ namespace NadekoBot.Modules.Searches
             [RequireContext(ContextType.Guild)]
             public async Task Translangs()
             {
-                await Context.Channel.SendTableAsync(_google.Languages, str => $"{str,-15}", 3);
+                await Context.Channel.SendTableAsync(_google.Languages, str => $"{str,-15}", 3).ConfigureAwait(false);
             }
 
         }

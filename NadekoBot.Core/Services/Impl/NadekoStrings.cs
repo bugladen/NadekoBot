@@ -22,8 +22,6 @@ namespace NadekoBot.Core.Services.Impl
         private readonly CultureInfo _usCultureInfo = new CultureInfo("en-US");
         private readonly ILocalization _localization;
 
-        private readonly Regex formatFinder = new Regex(@"{\d}", RegexOptions.Compiled);
-
         public NadekoStrings(ILocalization loc)
         {
             _log = LogManager.GetCurrentClassLogger();
@@ -35,7 +33,7 @@ namespace NadekoBot.Core.Services.Impl
             {
                 var langDict = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(file));
 
-                allLangsDict.Add(GetLocaleName(file).ToLowerInvariant(), langDict.ToImmutableDictionary());
+                allLangsDict.Add(GetLocaleName(file).ToUpperInvariant(), langDict.ToImmutableDictionary());
             }
 
             responseStrings = allLangsDict.ToImmutableDictionary();
@@ -72,7 +70,7 @@ namespace NadekoBot.Core.Services.Impl
             //    _log.Warn($"Improperly Formatted strings:\n{str}");
         }
 
-        private string GetLocaleName(string fileName)
+        private static string GetLocaleName(string fileName)
         {
             var dotIndex = fileName.IndexOf('.') + 1;
             var secondDotINdex = fileName.LastIndexOf('.');
@@ -81,7 +79,7 @@ namespace NadekoBot.Core.Services.Impl
 
         private string GetString(string text, CultureInfo cultureInfo)
         {
-            if (!responseStrings.TryGetValue(cultureInfo.Name.ToLowerInvariant(), out ImmutableDictionary<string, string> strings))
+            if (!responseStrings.TryGetValue(cultureInfo.Name.ToUpperInvariant(), out ImmutableDictionary<string, string> strings))
                 return null;
 
             strings.TryGetValue(text, out string val);

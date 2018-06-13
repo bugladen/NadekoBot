@@ -51,7 +51,7 @@ namespace NadekoBot.Modules.Utility
                 .WithAuthor(eab => eab.WithIconUrl("https://togethertube.com/assets/img/favicons/favicon-32x32.png")
                 .WithName("Together Tube")
                 .WithUrl("https://togethertube.com/"))
-                .WithDescription(Context.User.Mention + " " + GetText("togtub_room_link") +  "\n" + target));
+                .WithDescription(Context.User.Mention + " " + GetText("togtub_room_link") +  "\n" + target)).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -92,7 +92,7 @@ namespace NadekoBot.Modules.Utility
         public async Task InRole([Remainder] IRole role)
         {
             var rng = new NadekoRandom();
-            var usrs = (await Context.Guild.GetUsersAsync()).ToArray();
+            var usrs = (await Context.Guild.GetUsersAsync().ConfigureAwait(false)).ToArray();
             var roleUsers = usrs
                 .Where(u => u.RoleIds.Contains(role.Id))
                 .Select(u => u.ToString())
@@ -121,7 +121,7 @@ namespace NadekoBot.Modules.Utility
             {
                 builder.AppendLine($"{p.Name} : {p.GetValue(perms, null)}");
             }
-            await Context.Channel.SendConfirmAsync(builder.ToString());
+            await Context.Channel.SendConfirmAsync(builder.ToString()).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -222,9 +222,9 @@ namespace NadekoBot.Modules.Utility
         [RequireUserPermission(ChannelPermission.CreateInstantInvite)]
         public async Task CreateInvite()
         {
-            var invite = await ((ITextChannel)Context.Channel).CreateInviteAsync(0, null, isUnique: true);
+            var invite = await ((ITextChannel)Context.Channel).CreateInviteAsync(0, null, isUnique: true).ConfigureAwait(false);
 
-            await Context.Channel.SendConfirmAsync($"{Context.User.Mention} https://discord.gg/{invite.Code}");
+            await Context.Channel.SendConfirmAsync($"{Context.User.Mention} https://discord.gg/{invite.Code}").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -249,11 +249,11 @@ namespace NadekoBot.Modules.Utility
                     .AddField(efb => efb.WithName(GetText("uptime")).WithValue(_stats.GetUptimeString("\n")).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("presence")).WithValue(
                         GetText("presence_txt",
-                            _bot.GuildCount, _stats.TextChannels, _stats.VoiceChannels)).WithIsInline(true)));
+                            _bot.GuildCount, _stats.TextChannels, _stats.VoiceChannels)).WithIsInline(true))).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task Showemojis([Remainder] string emojis)
+        public async Task Showemojis([Remainder] string _) // need to have the parameter so that the message.tags gets populated
         {
             var tags = Context.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(t => (Emote)t.Value);
 

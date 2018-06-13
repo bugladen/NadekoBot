@@ -75,7 +75,7 @@ namespace NadekoBot.Extensions
             if (addPaginatedFooter)
                 embed.AddPaginatedFooter(currentPage, lastPage);
 
-            var msg = await ctx.Channel.EmbedAsync(embed) as IUserMessage;
+            var msg = await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false) as IUserMessage;
 
             if (lastPage == 0)
                 return;

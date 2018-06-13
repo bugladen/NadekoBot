@@ -12,18 +12,18 @@ namespace NadekoBot.Modules
 {
     public abstract class NadekoTopLevelModule : ModuleBase
     {
-        protected readonly Logger _log;
-        protected CultureInfo _cultureInfo;
+        protected Logger _log { get; }
+        protected CultureInfo _cultureInfo { get; set; }
 
-        public readonly string ModuleTypeName;
-        public readonly string LowerModuleTypeName;
+        public string ModuleTypeName { get; }
+        public string LowerModuleTypeName { get; }
 
-        public NadekoStrings _strings { get; set; }
-        public IBotConfigProvider _bc { get; set; }
-        public CommandHandler _cmdHandler { get; set; }
-        public ILocalization _localization { get; set; }
+        public NadekoStrings Strings { get; set; }
+        public IBotConfigProvider Bc { get; set; }
+        public CommandHandler CmdHandler { get; set; }
+        public ILocalization Localization { get; set; }
 
-        public string Prefix => _cmdHandler.GetPrefix(Context.Guild);
+        public string Prefix => CmdHandler.GetPrefix(Context.Guild);
 
         protected NadekoTopLevelModule(bool isTopLevelModule = true)
         {
@@ -35,7 +35,7 @@ namespace NadekoBot.Modules
 
         protected override void BeforeExecute(CommandInfo cmd)
         {
-            _cultureInfo = _localization.GetCultureInfo(Context.Guild?.Id);
+            _cultureInfo = Localization.GetCultureInfo(Context.Guild?.Id);
         }
 
         //public Task<IUserMessage> ReplyConfirmLocalized(string titleKey, string textKey, string url = null, string footer = null)
@@ -59,10 +59,10 @@ namespace NadekoBot.Modules
         //}
 
         protected string GetText(string key) =>
-            _strings.GetText(key, _cultureInfo, LowerModuleTypeName);
+            Strings.GetText(key, _cultureInfo, LowerModuleTypeName);
 
         protected string GetText(string key, params object[] replacements) =>
-            _strings.GetText(key, _cultureInfo, LowerModuleTypeName, replacements);
+            Strings.GetText(key, _cultureInfo, LowerModuleTypeName, replacements);
 
         public Task<IUserMessage> ErrorLocalized(string textKey, params object[] replacements)
         {
@@ -93,13 +93,13 @@ namespace NadekoBot.Modules
             embed.WithOkColor()
                 .WithFooter("yes/no");
 
-            var msg = await Context.Channel.EmbedAsync(embed);
+            var msg = await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
             try
             {
-                var input = await GetUserInputAsync(Context.User.Id, Context.Channel.Id);
-                input = input?.ToLowerInvariant().ToString();
+                var input = await GetUserInputAsync(Context.User.Id, Context.Channel.Id).ConfigureAwait(false);
+                input = input?.ToUpperInvariant();
 
-                if (input != "yes" && input != "y")
+                if (input != "YES" && input != "Y")
                 {
                     return false;
                 }
@@ -121,12 +121,12 @@ namespace NadekoBot.Modules
             {
                 dsc.MessageReceived += MessageReceived;
 
-                if ((await Task.WhenAny(userInputTask.Task, Task.Delay(10000))) != userInputTask.Task)
+                if ((await Task.WhenAny(userInputTask.Task, Task.Delay(10000)).ConfigureAwait(false)) != userInputTask.Task)
                 {
                     return null;
                 }
 
-                return await userInputTask.Task;
+                return await userInputTask.Task.ConfigureAwait(false);
             }
             finally
             {
@@ -160,7 +160,7 @@ namespace NadekoBot.Modules
     {
         public TService _service { get; set; }
 
-        public NadekoTopLevelModule(bool isTopLevel = true) : base(isTopLevel)
+        protected NadekoTopLevelModule(bool isTopLevel = true) : base(isTopLevel)
         {
         }
     }

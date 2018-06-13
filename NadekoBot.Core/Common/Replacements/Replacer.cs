@@ -23,7 +23,7 @@ namespace NadekoBot.Common.Replacements
             foreach (var item in _replacements)
             {
                 if (input.Contains(item.Key))
-                    input = input.Replace(item.Key, item.Text());
+                    input = input.Replace(item.Key, item.Text(), StringComparison.InvariantCulture);
             }
 
             foreach (var item in _regex)

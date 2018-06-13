@@ -31,11 +31,11 @@ namespace NadekoBot.Modules.Gambling
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [NadekoOptions(typeof(Connect4Game.Options))]
+            [NadekoOptionsAttribute(typeof(Connect4Game.Options))]
             public async Task Connect4(params string[] args)
             {
-                var (options, _) = OptionsParser.Default.ParseFrom(new Connect4Game.Options(), args);
-                if (!await CheckBetOptional(options.Bet))
+                var (options, _) = OptionsParser.ParseFrom(new Connect4Game.Options(), args);
+                if (!await CheckBetOptional(options.Bet).ConfigureAwait(false))
                     return;
 
                 var newGame = new Connect4Game(Context.User.Id, Context.User.ToString(), options, _cs);
@@ -53,9 +53,9 @@ namespace NadekoBot.Modules.Gambling
 
                 if (options.Bet > 0)
                 {
-                    if (!await _cs.RemoveAsync(Context.User.Id, "Connect4-bet", options.Bet, true))
+                    if (!await _cs.RemoveAsync(Context.User.Id, "Connect4-bet", options.Bet, true).ConfigureAwait(false))
                     {
-                        await ReplyErrorLocalized("not_enough", _bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                        await ReplyErrorLocalized("not_enough", Bc.BotConfig.CurrencySign).ConfigureAwait(false);
                         _service.Connect4Games.TryRemove(Context.Channel.Id, out _);
                         game.Dispose();
                         return;
@@ -74,7 +74,7 @@ namespace NadekoBot.Modules.Gambling
                 }
                 else
                 {
-                    await ReplyConfirmLocalized("connect4_created_bet", options.Bet + _bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                    await ReplyConfirmLocalized("connect4_created_bet", options.Bet + Bc.BotConfig.CurrencySign).ConfigureAwait(false);
                 }
 
                 Task _client_MessageReceived(SocketMessage arg)
@@ -87,7 +87,7 @@ namespace NadekoBot.Modules.Gambling
                         bool success = false;
                         if (int.TryParse(arg.Content, out var col))
                         {
-                            success = await game.Input(arg.Author.Id, arg.Author.ToString(), col).ConfigureAwait(false);
+                            success = await game.Input(arg.Author.Id, col).ConfigureAwait(false);
                         }
 
                         if (success)
@@ -101,7 +101,7 @@ namespace NadekoBot.Modules.Gambling
                             }
                             RepostCounter++;
                             if (RepostCounter == 0)
-                                try { msg = await Context.Channel.SendMessageAsync("", embed: (Embed)msg.Embeds.First()); } catch { }
+                                try { msg = await Context.Channel.SendMessageAsync("", embed: (Embed)msg.Embeds.First()).ConfigureAwait(false); } catch { }
                         }
                     });
                     return Task.CompletedTask;

@@ -12,7 +12,7 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
         {
         }
 
-        public Warning[] For(ulong guildId, ulong userId)
+        public Warning[] ForId(ulong guildId, ulong userId)
         {
             var query = _set.Where(x => x.GuildId == guildId && x.UserId == userId)
                 .OrderByDescending(x => x.DateAdded);

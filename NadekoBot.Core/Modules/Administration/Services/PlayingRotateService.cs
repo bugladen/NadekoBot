@@ -99,7 +99,7 @@ namespace NadekoBot.Modules.Administration.Services
                     return null;
                 msg = config.RotatingStatusMessages[index].Status;
                 config.RotatingStatusMessages.RemoveAt(index);
-                await uow.CompleteAsync();
+                await uow.CompleteAsync().ConfigureAwait(false);
             }
 
             _bcp.Reload();
@@ -114,7 +114,7 @@ namespace NadekoBot.Modules.Administration.Services
                 var config = uow.BotConfig.GetOrCreate(set => set.Include(x => x.RotatingStatusMessages));
                 var toAdd = new PlayingStatus { Status = status, Type = t };
                 config.RotatingStatusMessages.Add(toAdd);
-                await uow.CompleteAsync();
+                await uow.CompleteAsync().ConfigureAwait(false);
             }
 
             _bcp.Reload();

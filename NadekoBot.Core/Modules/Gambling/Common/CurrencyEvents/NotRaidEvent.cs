@@ -22,7 +22,7 @@ namespace NadekoBot.Core.Modules.Gambling.Common.CurrencyEvents
         private SocketGuild g;
         private SocketTextChannel ch;
         private EventOptions opts;
-        private Func<Event.Type, EventOptions, long, EmbedBuilder> embed;
+        private Func<CurrencyEvent.Type, EventOptions, long, EmbedBuilder> embed;
         private IUserMessage _msg;
         private readonly long _amount;
         public bool PotEmptied { get; private set; } = false;
@@ -38,7 +38,7 @@ namespace NadekoBot.Core.Modules.Gambling.Common.CurrencyEvents
 
         public NotRaidEvent(DiscordSocketClient client, ICurrencyService cs, IBotConfigProvider bc,
             SocketGuild g, SocketTextChannel ch, EventOptions opts,
-            Func<Event.Type, EventOptions, long, EmbedBuilder> embed)
+            Func<CurrencyEvent.Type, EventOptions, long, EmbedBuilder> embed)
         {
             _client = client;
             _cs = cs;
@@ -72,14 +72,14 @@ namespace NadekoBot.Core.Modules.Gambling.Common.CurrencyEvents
                 await _cs.AddBulkAsync(toAward,
                     toAward.Select(x => "Reaction Event"),
                     toAward.Select(x => _amount),
-                    gamble: true);
+                    gamble: true).ConfigureAwait(false);
 
                 if (_isPotLimited)
                 {
                     await _msg.ModifyAsync(m =>
                     {
                         m.Embed = GetEmbed(PotSize).Build();
-                    }, new RequestOptions() { RetryMode = RetryMode.AlwaysRetry });
+                    }, new RequestOptions() { RetryMode = RetryMode.AlwaysRetry }).ConfigureAwait(false);
                 }
 
                 _log.Info("Awarded {0} users {1} currency.{2}",
@@ -101,12 +101,12 @@ namespace NadekoBot.Core.Modules.Gambling.Common.CurrencyEvents
 
         private EmbedBuilder GetEmbed(long pot)
         {
-            return embed(Event.Type.Reaction, opts, pot);
+            return embed(CurrencyEvent.Type.Reaction, opts, pot);
         }
 
         public async Task Start()
         {
-            _msg = await ch.EmbedAsync(GetEmbed(opts.PotSize));
+            _msg = await ch.EmbedAsync(GetEmbed(opts.PotSize)).ConfigureAwait(false);
         }
 
         public async Task Stop()

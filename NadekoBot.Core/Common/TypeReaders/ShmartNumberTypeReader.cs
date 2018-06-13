@@ -22,9 +22,9 @@ namespace NadekoBot.Core.Common.TypeReaders
             if (string.IsNullOrWhiteSpace(input))
                 return TypeReaderResult.FromError(CommandError.ParseFailed, "Input is empty.");
 
-            var i = input.Trim().ToLowerInvariant();
+            var i = input.Trim().ToUpperInvariant();
 
-            if (TryHandlePercentage(services, context, context.User.Id, i, out var num))
+            if (TryHandlePercentage(services, context, i, out var num))
                 return TypeReaderResult.FromSuccess(new ShmartNumber(num, i));
             try
             {
@@ -40,24 +40,24 @@ namespace NadekoBot.Core.Common.TypeReaders
             }
         }
 
-        private void EvaluateParam(string name, NCalc.ParameterArgs args, ICommandContext ctx, IServiceProvider svc)
+        private static void EvaluateParam(string name, NCalc.ParameterArgs args, ICommandContext ctx, IServiceProvider svc)
         {
-            switch (name.ToLowerInvariant())
+            switch (name.ToUpperInvariant())
             {
-                case "pi":
+                case "PI":
                     args.Result = Math.PI;
                     break;
-                case "e":
+                case "E":
                     args.Result = Math.E;
                     break;
-                case "all":
-                case "allin":
+                case "ALL":
+                case "ALLIN":
                     args.Result = Cur(svc, ctx);
                     break;
-                case "half":
+                case "HALF":
                     args.Result = Cur(svc, ctx) / 2;
                     break;
-                case "max":
+                case "MAX":
                     args.Result = Max(svc, ctx);
                     break;
                 default:
@@ -67,7 +67,7 @@ namespace NadekoBot.Core.Common.TypeReaders
 
         private static readonly Regex percentRegex = new Regex(@"^((?<num>100|\d{1,2})%)$");
 
-        private long Cur(IServiceProvider services, ICommandContext ctx)
+        private static long Cur(IServiceProvider services, ICommandContext ctx)
         {
             var _db = (DbService)services.GetService(typeof(DbService));
             long cur;
@@ -79,7 +79,7 @@ namespace NadekoBot.Core.Common.TypeReaders
             return cur;
         }
 
-        private long Max(IServiceProvider services, ICommandContext ctx)
+        private static long Max(IServiceProvider services, ICommandContext ctx)
         {
             var _bc = (IBotConfigProvider)services.GetService(typeof(IBotConfigProvider));
             var max = _bc.BotConfig.MaxBet;
@@ -88,7 +88,7 @@ namespace NadekoBot.Core.Common.TypeReaders
                 : max;
         }
 
-        private bool TryHandlePercentage(IServiceProvider services, ICommandContext ctx, ulong userId, string input, out long num)
+        private static bool TryHandlePercentage(IServiceProvider services, ICommandContext ctx, string input, out long num)
         {
             num = 0;
             var m = percentRegex.Match(input);

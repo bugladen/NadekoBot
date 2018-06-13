@@ -14,7 +14,7 @@ namespace NadekoBot.Modules.Utility.Extensions
         /// <returns></returns>
         public static StreamRoleSettings GetStreamRoleSettings(this IGuildConfigRepository gc, ulong guildId)
         {
-            var conf = gc.For(guildId, set => set.Include(y => y.StreamRole)
+            var conf = gc.ForId(guildId, set => set.Include(y => y.StreamRole)
                 .Include(y => y.StreamRole.Whitelist)
                 .Include(y => y.StreamRole.Blacklist));
 

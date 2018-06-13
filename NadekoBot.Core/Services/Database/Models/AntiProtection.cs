@@ -40,13 +40,9 @@ namespace NadekoBot.Core.Services.Database.Models
 
         public override bool Equals(object obj)
         {
-            var inst = obj as AntiSpamIgnore;
-
-            if (inst == null)
-                return false;
-
-            return inst.ChannelId == ChannelId;
-            
+            return obj is AntiSpamIgnore inst
+                ? inst.ChannelId == ChannelId
+                : false;
         }
     }
 }

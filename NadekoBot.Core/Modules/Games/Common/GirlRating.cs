@@ -58,8 +58,8 @@ namespace NadekoBot.Modules.Games.Common
                             var byteContent = new ByteArrayContent(imgStream.ToArray());
                             http.AddFakeHeaders();
 
-                            var reponse = await http.PutAsync("https://transfer.sh/img.png", byteContent);
-                            url = await reponse.Content.ReadAsStringAsync();
+                            var reponse = await http.PutAsync("https://transfer.sh/img.png", byteContent).ConfigureAwait(false);
+                            url = await reponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                         }
                         return url;
                     }

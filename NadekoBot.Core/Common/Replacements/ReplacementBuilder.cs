@@ -115,7 +115,7 @@ namespace NadekoBot.Common.Replacements
             _reps.TryAdd("%userfull%", () => user.ToString());
             _reps.TryAdd("%username%", () => user.Username);
             _reps.TryAdd("%userdiscrim%", () => user.Discriminator);
-            _reps.TryAdd("%useravatar%", () => user.RealAvatarUrl());
+            _reps.TryAdd("%useravatar%", () => user.RealAvatarUrl()?.ToString());
             _reps.TryAdd("%id%", () => user.Id.ToString());
             _reps.TryAdd("%uid%", () => user.Id.ToString());
             /*NEW*/
@@ -123,7 +123,7 @@ namespace NadekoBot.Common.Replacements
             _reps.TryAdd("%user.fullname%", () => user.ToString());
             _reps.TryAdd("%user.name%", () => user.Username);
             _reps.TryAdd("%user.discrim%", () => user.Discriminator);
-            _reps.TryAdd("%user.avatar%", () => user.RealAvatarUrl());
+            _reps.TryAdd("%user.avatar%", () => user.RealAvatarUrl()?.ToString());
             _reps.TryAdd("%user.id%", () => user.Id.ToString());
             _reps.TryAdd("%user.created_time%", () => user.CreatedAt.ToString("HH:mm"));
             _reps.TryAdd("%user.created_date%", () => user.CreatedAt.ToString("dd.MM.yyyy"));
@@ -192,8 +192,10 @@ namespace NadekoBot.Common.Replacements
             var rng = new NadekoRandom();
             _regex.TryAdd(rngRegex, (match) =>
             {
-                int.TryParse(match.Groups["from"].ToString(), out var from);
-                int.TryParse(match.Groups["to"].ToString(), out var to);
+                if (!int.TryParse(match.Groups["from"].ToString(), out var from))
+                    from = 0;
+                if (!int.TryParse(match.Groups["to"].ToString(), out var to))
+                    to = 0;
 
                 if (from == 0 && to == 0)
                     return rng.Next(0, 11).ToString();

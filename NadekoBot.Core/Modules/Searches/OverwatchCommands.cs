@@ -27,10 +27,10 @@ namespace NadekoBot.Modules.Searches
             {
                 if (string.IsNullOrWhiteSpace(query))
                     return;
-                var battletag = query.Replace("#", "-");
+                var battletag = query.Replace("#", "-", StringComparison.InvariantCulture);
 
                 await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
-                var model = (await GetProfile(region, battletag))?.Stats;
+                var model = (await GetProfile(region, battletag).ConfigureAwait(false))?.Stats;
 
                 if (model != null)
                 {
@@ -41,11 +41,11 @@ namespace NadekoBot.Modules.Searches
                             .WithAuthor(eau => eau.WithName(query)
                             .WithUrl($"https://www.overbuff.com/players/pc/{battletag}")
                             .WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/255653487512256512/YZ4w2ey.png"))
-                            .WithThumbnailUrl(qp.OverallStats.avatar)
-                            .AddField(fb => fb.WithName(GetText("level")).WithValue((qp.OverallStats.level + (qp.OverallStats.prestige * 100)).ToString()).WithIsInline(true))
-                            .AddField(fb => fb.WithName(GetText("quick_wins")).WithValue(qp.OverallStats.wins.ToString()).WithIsInline(true))
+                            .WithThumbnailUrl(qp.OverallStats.Avatar)
+                            .AddField(fb => fb.WithName(GetText("level")).WithValue((qp.OverallStats.Level + (qp.OverallStats.Prestige * 100)).ToString()).WithIsInline(true))
+                            .AddField(fb => fb.WithName(GetText("quick_wins")).WithValue(qp.OverallStats.Wins.ToString()).WithIsInline(true))
                             .AddField(fb => fb.WithName(GetText("compet_rank")).WithValue("0").WithIsInline(true))
-                            .AddField(fb => fb.WithName(GetText("quick_playtime")).WithValue($"{qp.GameStats.timePlayed}hrs").WithIsInline(true))
+                            .AddField(fb => fb.WithName(GetText("quick_playtime")).WithValue($"{qp.GameStats.TimePlayed}hrs").WithIsInline(true))
                             .WithOkColor();
                         await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
                     }
@@ -56,16 +56,16 @@ namespace NadekoBot.Modules.Searches
                         var embed = new EmbedBuilder()
                             .WithAuthor(eau => eau.WithName(query)
                                 .WithUrl($"https://www.overbuff.com/players/pc/{battletag}")
-                                .WithIconUrl(compet.OverallStats.rank_image))
-                            .WithThumbnailUrl(compet.OverallStats.avatar)
-                            .AddField(fb => fb.WithName(GetText("level")).WithValue((qp.OverallStats.level + (qp.OverallStats.prestige * 100)).ToString()).WithIsInline(true))
-                            .AddField(fb => fb.WithName(GetText("quick_wins")).WithValue(qp.OverallStats.wins.ToString()).WithIsInline(true))
-                            .AddField(fb => fb.WithName(GetText("compet_wins")).WithValue(compet.OverallStats.wins.ToString()).WithIsInline(true))
-                            .AddField(fb => fb.WithName(GetText("compet_loses")).WithValue(compet.OverallStats.losses.ToString()).WithIsInline(true))
-                            .AddField(fb => fb.WithName(GetText("compet_played")).WithValue(compet.OverallStats.games.ToString() ?? "-").WithIsInline(true))
-                            .AddField(fb => fb.WithName(GetText("compet_rank")).WithValue(compet.OverallStats.comprank?.ToString() ?? "-").WithIsInline(true))
-                            .AddField(fb => fb.WithName(GetText("compet_playtime")).WithValue(compet.GameStats.timePlayed + "hrs").WithIsInline(true))
-                            .AddField(fb => fb.WithName(GetText("quick_playtime")).WithValue(qp.GameStats.timePlayed.ToString("F1") + "hrs").WithIsInline(true))
+                                .WithIconUrl(compet.OverallStats.RankImage))
+                            .WithThumbnailUrl(compet.OverallStats.Avatar)
+                            .AddField(fb => fb.WithName(GetText("level")).WithValue((qp.OverallStats.Level + (qp.OverallStats.Prestige * 100)).ToString()).WithIsInline(true))
+                            .AddField(fb => fb.WithName(GetText("quick_wins")).WithValue(qp.OverallStats.Wins.ToString()).WithIsInline(true))
+                            .AddField(fb => fb.WithName(GetText("compet_wins")).WithValue(compet.OverallStats.Wins.ToString()).WithIsInline(true))
+                            .AddField(fb => fb.WithName(GetText("compet_loses")).WithValue(compet.OverallStats.Losses.ToString()).WithIsInline(true))
+                            .AddField(fb => fb.WithName(GetText("compet_played")).WithValue(compet.OverallStats.Games.ToString() ?? "-").WithIsInline(true))
+                            .AddField(fb => fb.WithName(GetText("compet_rank")).WithValue(compet.OverallStats.Comprank?.ToString() ?? "-").WithIsInline(true))
+                            .AddField(fb => fb.WithName(GetText("compet_playtime")).WithValue(compet.GameStats.TimePlayed + "hrs").WithIsInline(true))
+                            .AddField(fb => fb.WithName(GetText("quick_playtime")).WithValue(qp.GameStats.TimePlayed.ToString("F1") + "hrs").WithIsInline(true))
                             .WithColor(NadekoBot.OkColor);
                         await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
                     }
@@ -86,7 +86,7 @@ namespace NadekoBot.Modules.Searches
                         {
                             http.AddFakeHeaders();
                             var url = $"https://owapi.nadekobot.me/api/v3/u/{battletag}/stats";
-                            var res = await http.GetStringAsync($"https://owapi.nadekobot.me/api/v3/u/{battletag}/stats");
+                            var res = await http.GetStringAsync($"https://owapi.nadekobot.me/api/v3/u/{battletag}/stats").ConfigureAwait(false);
                             var model = JsonConvert.DeserializeObject<OverwatchApiModel.OverwatchResponse>(res);
                             switch (region)
                             {

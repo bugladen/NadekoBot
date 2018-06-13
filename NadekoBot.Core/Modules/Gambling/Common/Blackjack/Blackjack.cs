@@ -37,7 +37,7 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
 
         private readonly SemaphoreSlim locker = new SemaphoreSlim(1, 1);
 
-        public Blackjack(IUser starter, long bet, ICurrencyService cs, DbService db)
+        public Blackjack(ICurrencyService cs, DbService db)
         {
             _cs = cs;
             _db = db;
@@ -55,8 +55,8 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
             try
             {
                 //wait for players to join
-                await Task.Delay(20000);
-                await locker.WaitAsync();
+                await Task.Delay(20000).ConfigureAwait(false);
+                await locker.WaitAsync().ConfigureAwait(false);
                 try
                 {
                     State = GameState.Playing;
@@ -65,7 +65,7 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
                 {
                     locker.Release();
                 }
-                await PrintState();
+                await PrintState().ConfigureAwait(false);
                 //if no users joined the game, end it
                 if (!Players.Any())
                 {
@@ -89,15 +89,15 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
                     while (!usr.Done)
                     {
                         _log.Info($"Waiting for {usr.DiscordUser}'s move");
-                        await PromptUserMove(usr);
+                        await PromptUserMove(usr).ConfigureAwait(false);
                     }
                 }
-                await PrintState();
+                await PrintState().ConfigureAwait(false);
                 State = GameState.Ended;
-                await Task.Delay(2500);
+                await Task.Delay(2500).ConfigureAwait(false);
                 _log.Info("Dealer moves");
-                await DealerMoves();
-                await PrintState();
+                await DealerMoves().ConfigureAwait(false);
+                await PrintState().ConfigureAwait(false);
                 var _ = GameEnded?.Invoke(this);
             }
             catch (Exception ex)
@@ -114,13 +114,13 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
             var pause = Task.Delay(20000); //10 seconds to decide
             CurrentUser = usr;
             _currentUserMove = new TaskCompletionSource<bool>();
-            await PrintState();
+            await PrintState().ConfigureAwait(false);
             // either wait for the user to make an action and
             // if he doesn't - stand
-            var finished = await Task.WhenAny(pause, _currentUserMove.Task);
+            var finished = await Task.WhenAny(pause, _currentUserMove.Task).ConfigureAwait(false);
             if (finished == pause)
             {
-                await Stand(usr);
+                await Stand(usr).ConfigureAwait(false);
             }
             CurrentUser = null;
             _currentUserMove = null;
@@ -128,7 +128,7 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
 
         public async Task<bool> Join(IUser user, long bet)
         {
-            await locker.WaitAsync();
+            await locker.WaitAsync().ConfigureAwait(false);
             try
             {
                 if (State != GameState.Starting)
@@ -137,7 +137,7 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
                 if (Players.Count >= 5)
                     return false;
 
-                if (!await _cs.RemoveAsync(user, "BlackJack-gamble", bet, gamble: true))
+                if (!await _cs.RemoveAsync(user, "BlackJack-gamble", bet, gamble: true).ConfigureAwait(false))
                 {
                     return false;
                 }
@@ -157,14 +157,14 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
             var cu = CurrentUser;
 
             if (cu.DiscordUser == u)
-                return await Stand(cu);
+                return await Stand(cu).ConfigureAwait(false);
             else
                 return false;
         }
 
         public async Task<bool> Stand(User u)
         {
-            await locker.WaitAsync();
+            await locker.WaitAsync().ConfigureAwait(false);
             try
             {
                 if (State != GameState.Playing)
@@ -241,7 +241,7 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
             {
                 if (usr.State == User.UserState.Won || usr.State == User.UserState.Blackjack)
                 {
-                    await _cs.AddAsync(usr.DiscordUser.Id, "BlackJack-win", usr.Bet * 2, gamble: true);
+                    await _cs.AddAsync(usr.DiscordUser.Id, "BlackJack-win", usr.Bet * 2, gamble: true).ConfigureAwait(false);
                 }
             }
         }
@@ -250,13 +250,13 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
         {
             var cu = CurrentUser;
             if (CurrentUser.DiscordUser == u)
-                return await Double(cu);
+                return await Double(cu).ConfigureAwait(false);
             return false;
         }
 
         public async Task<bool> Double(User u)
         {
-            await locker.WaitAsync();
+            await locker.WaitAsync().ConfigureAwait(false);
             try
             {
                 if (State != GameState.Playing)
@@ -265,7 +265,7 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
                 if (CurrentUser != u)
                     return false;
 
-                if (!await _cs.RemoveAsync(u.DiscordUser.Id, "Blackjack-double", u.Bet))
+                if (!await _cs.RemoveAsync(u.DiscordUser.Id, "Blackjack-double", u.Bet).ConfigureAwait(false))
                     return false;
 
                 u.Bet *= 2;
@@ -301,14 +301,14 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Blackjack
         {
             var cu = CurrentUser;
             if (cu.DiscordUser == u)
-                return await Hit(cu);
+                return await Hit(cu).ConfigureAwait(false);
 
             return false;
         }
 
         public async Task<bool> Hit(User u)
         {
-            await locker.WaitAsync();
+            await locker.WaitAsync().ConfigureAwait(false);
             try
             {
                 if (State != GameState.Playing)

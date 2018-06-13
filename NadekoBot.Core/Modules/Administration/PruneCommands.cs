@@ -66,7 +66,7 @@ namespace NadekoBot.Modules.Administration
 
                 if (count > 1000)
                     count = 1000;
-                await _service.PruneWhere((ITextChannel)Context.Channel, count, m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < twoWeeks);
+                await _service.PruneWhere((ITextChannel)Context.Channel, count, m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < twoWeeks).ConfigureAwait(false);
             }
         }
     }

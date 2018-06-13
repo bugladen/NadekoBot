@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Common
 {
-    public class ReactionEventWrapper : IDisposable
+    public sealed class ReactionEventWrapper : IDisposable
     {
         public IUserMessage Message { get; }
         public event Action<SocketReaction> OnReactionAdded = delegate { };

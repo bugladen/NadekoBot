@@ -17,7 +17,7 @@ namespace NadekoBot.Common.Collections
     {
     }
 
-    public class DisposableReadOnlyList<T> : IDisposableReadOnlyList<T>
+    public sealed class DisposableReadOnlyList<T> : IDisposableReadOnlyList<T>
         where T : IDisposable
     {
         private readonly IReadOnlyList<T> _arr;
@@ -46,7 +46,7 @@ namespace NadekoBot.Common.Collections
         }
     }
 
-    public class DisposableReadOnlyList<T, U> : IDisposableReadOnlyList<KeyValuePair<T, U>>
+    public sealed class DisposableReadOnlyList<T, U> : IDisposableReadOnlyList<KeyValuePair<T, U>>
         where U : IDisposable
     {
         private readonly IReadOnlyList<KeyValuePair<T, U>> _arr;

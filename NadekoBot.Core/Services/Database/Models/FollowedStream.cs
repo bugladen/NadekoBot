@@ -16,17 +16,16 @@
 
         public override int GetHashCode() => 
             ChannelId.GetHashCode() ^ 
-            Username.ToLowerInvariant().GetHashCode() ^ 
+            Username.ToUpperInvariant().GetHashCode(System.StringComparison.InvariantCulture) ^ 
             Type.GetHashCode();
 
         public override bool Equals(object obj)
         {
-            var fs = obj as FollowedStream;
-            if (fs == null)
+            if (!(obj is FollowedStream fs))
                 return false;
 
             return fs.ChannelId == ChannelId && 
-                   fs.Username.ToLowerInvariant().Trim() == Username.ToLowerInvariant().Trim() &&
+                   fs.Username.ToUpperInvariant().Trim() == Username.ToUpperInvariant().Trim() &&
                    fs.Type == Type;
         }
     }

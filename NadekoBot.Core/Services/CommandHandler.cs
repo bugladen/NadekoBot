@@ -93,8 +93,6 @@ namespace NadekoBot.Core.Services
             if (string.IsNullOrWhiteSpace(prefix))
                 throw new ArgumentNullException(nameof(prefix));
 
-            prefix = prefix.ToLowerInvariant();
-
             using (var uow = _db.UnitOfWork)
             {
                 uow.BotConfig.GetOrCreate(set => set).DefaultPrefix = prefix;
@@ -110,11 +108,9 @@ namespace NadekoBot.Core.Services
             if (guild == null)
                 throw new ArgumentNullException(nameof(guild));
 
-            prefix = prefix.ToLowerInvariant();
-
             using (var uow = _db.UnitOfWork)
             {
-                var gc = uow.GuildConfigs.For(guild.Id, set => set);
+                var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
                 gc.Prefix = prefix;
                 uow.Complete();
             }
@@ -159,8 +155,7 @@ namespace NadekoBot.Core.Services
             if (guildId != null)
             {
                 var guild = _client.GetGuild(guildId.Value);
-                var channel = guild?.GetChannel(channelId) as SocketTextChannel;
-                if (channel == null)
+                if (!(guild?.GetChannel(channelId) is SocketTextChannel channel))
                 {
                     _log.Warn("Channel for external execution not found.");
                     return;
@@ -259,7 +254,7 @@ namespace NadekoBot.Core.Services
                 var channel = msg.Channel as ISocketMessageChannel;
                 var guild = (msg.Channel as SocketTextChannel)?.Guild;
 
-                await TryRunCommand(guild, channel, usrMsg);
+                await TryRunCommand(guild, channel, usrMsg).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -313,11 +308,11 @@ namespace NadekoBot.Core.Services
                 }
             }
             var prefix = GetPrefix(guild?.Id);
-            var isPrefixCommand = messageContent.StartsWith(".prefix");
+            var isPrefixCommand = messageContent.StartsWith(".prefix", StringComparison.InvariantCultureIgnoreCase);
             // execute the command and measure the time it took
-            if (messageContent.StartsWith(prefix) || isPrefixCommand)
+            if (messageContent.StartsWith(prefix, StringComparison.InvariantCulture) || isPrefixCommand)
             {
-                var (Success, Error, Info) = await ExecuteCommandAsync(new CommandContext(_client, usrMsg), messageContent, isPrefixCommand ? 1 : prefix.Length, _services, MultiMatchHandling.Best);
+                var (Success, Error, Info) = await ExecuteCommandAsync(new CommandContext(_client, usrMsg), messageContent, isPrefixCommand ? 1 : prefix.Length, _services, MultiMatchHandling.Best).ConfigureAwait(false);
                 execTime = Environment.TickCount - execTime;
 
                 if (Success)
@@ -330,7 +325,7 @@ namespace NadekoBot.Core.Services
                 {
                     LogErroredExecution(Error, usrMsg, channel as ITextChannel, exec2, exec3, execTime);
                     if (guild != null)
-                        await CommandErrored(Info, channel as ITextChannel, Error);
+                        await CommandErrored(Info, channel as ITextChannel, Error).ConfigureAwait(false);
                 }
             }
             else

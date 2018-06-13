@@ -18,7 +18,9 @@ namespace NadekoBot.Core.Services
         Task<ImageResult> GetImageAsync(string query, int start = 1);
         Task<string> Translate(string sourceText, string sourceLanguage, string targetLanguage);
 
+        //todo remove this overload
         Task<string> ShortenUrl(string url);
+        Task<string> ShortenUrl(Uri url);
     }
 
     public struct ImageResult

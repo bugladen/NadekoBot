@@ -30,6 +30,8 @@ namespace NadekoBot.Common.Collections
         public static implicit operator List<T>(IndexedCollection<T> x) =>
             x.Source;
 
+        public List<T> ToList() => Source.ToList();
+
         public IEnumerator<T> GetEnumerator() =>
             Source.GetEnumerator();
 
@@ -117,9 +119,11 @@ namespace NadekoBot.Common.Collections
             }
         }
 
-        public virtual T this[int index] {
+        public virtual T this[int index]
+        {
             get { return Source[index]; }
-            set {
+            set
+            {
                 lock (_locker)
                 {
                     value.Index = index;

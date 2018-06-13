@@ -28,7 +28,8 @@ namespace NadekoBot.Core.Services.Impl
         private const string _ripPath = _basePath + "rip/rip.png";
         private const string _ripFlowersPath = _basePath + "rip/rose_overlay.png";
 
-        private static ImageUrls realImageUrls;
+        private static ImageUrls realImageUrls = JsonConvert.DeserializeObject<ImageUrls>(
+                        File.ReadAllText(Path.Combine(_basePath, "images.json")));
         public ImageUrls ImageUrls => realImageUrls;
 
         public byte[][] Heads
@@ -163,13 +164,6 @@ namespace NadekoBot.Core.Services.Impl
 
         private static readonly HttpClient _http = new HttpClient();
 
-        static RedisImagesCache()
-        {
-            realImageUrls = JsonConvert.DeserializeObject<ImageUrls>(
-                        File.ReadAllText(Path.Combine(_basePath, "images.json")));
-
-        }
-
         public RedisImagesCache(ConnectionMultiplexer con, IBotCredentials creds)
         {
             _con = con;
@@ -191,14 +185,14 @@ namespace NadekoBot.Core.Services.Impl
                 var loadCoins = Task.Run(async () =>
                 {
                     _heads = await Task.WhenAll(ImageUrls.Coins.Heads
-                        .Select(x => _http.GetByteArrayAsync(x)));
+                        .Select(x => _http.GetByteArrayAsync(x))).ConfigureAwait(false);
                     _tails = await Task.WhenAll(ImageUrls.Coins.Tails
-                        .Select(x => _http.GetByteArrayAsync(x)));
+                        .Select(x => _http.GetByteArrayAsync(x))).ConfigureAwait(false);
                 });
 
                 var loadDice = Task.Run(async () =>
                     _dice = (await Task.WhenAll(ImageUrls.Dice
-                        .Select(x => _http.GetByteArrayAsync(x))))
+                        .Select(x => _http.GetByteArrayAsync(x))).ConfigureAwait(false))
                         .ToArray());
 
                 SlotBackground = File.ReadAllBytes(_slotBackgroundPath);
@@ -218,19 +212,19 @@ namespace NadekoBot.Core.Services.Impl
                 byte[] _xpCard = null;
                 var loadRategirl = Task.Run(async () =>
                 {
-                    _wifeMatrix = await _http.GetByteArrayAsync(ImageUrls.Rategirl.Matrix);
-                    _rategirlDot = await _http.GetByteArrayAsync(ImageUrls.Rategirl.Dot);
+                    _wifeMatrix = await _http.GetByteArrayAsync(ImageUrls.Rategirl.Matrix).ConfigureAwait(false);
+                    _rategirlDot = await _http.GetByteArrayAsync(ImageUrls.Rategirl.Dot).ConfigureAwait(false);
                 });
 
-                var loadXp = Task.Run(async () => 
-                    _xpCard = await _http.GetByteArrayAsync(ImageUrls.Xp.Bg)
+                var loadXp = Task.Run(async () =>
+                    _xpCard = await _http.GetByteArrayAsync(ImageUrls.Xp.Bg).ConfigureAwait(false)
                 );
 
                 Rip = File.ReadAllBytes(_ripPath);
                 FlowerCircle = File.ReadAllBytes(_ripFlowersPath);
 
-                await Task.WhenAll(loadCoins, loadRategirl, 
-                    loadXp, loadDice);
+                await Task.WhenAll(loadCoins, loadRategirl,
+                    loadXp, loadDice).ConfigureAwait(false);
 
                 WifeMatrix = _wifeMatrix;
                 RategirlDot = _rategirlDot;

@@ -39,8 +39,8 @@ namespace NadekoBot.Common.TypeReaders
 
         public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider _)
         {
-            input = input.ToLowerInvariant();
-            var module = _cmds.Modules.GroupBy(m => m.GetTopLevelModule()).FirstOrDefault(m => m.Key.Name.ToLowerInvariant() == input)?.Key;
+            input = input.ToUpperInvariant();
+            var module = _cmds.Modules.GroupBy(m => m.GetTopLevelModule()).FirstOrDefault(m => m.Key.Name.ToUpperInvariant() == input)?.Key;
             if (module == null && input != "actualcustomreactions")
                 return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "No such module found."));
 

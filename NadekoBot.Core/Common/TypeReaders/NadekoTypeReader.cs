@@ -9,7 +9,7 @@ namespace NadekoBot.Core.Common.TypeReaders
         private readonly CommandService _cmds;
 
         private NadekoTypeReader() { }
-        public NadekoTypeReader(DiscordSocketClient client, CommandService cmds)
+        protected NadekoTypeReader(DiscordSocketClient client, CommandService cmds)
         {
             _client = client;
             _cmds = cmds;

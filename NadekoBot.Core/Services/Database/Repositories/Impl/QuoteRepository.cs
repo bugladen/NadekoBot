@@ -44,7 +44,7 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
 
         public void RemoveAllByKeyword(ulong guildId, string keyword)
         {
-            _set.RemoveRange(_set.Where(x => x.GuildId == guildId && x.Keyword.ToUpper() == keyword));
+            _set.RemoveRange(_set.Where(x => x.GuildId == guildId && x.Keyword.ToUpperInvariant() == keyword));
         }
 
     }

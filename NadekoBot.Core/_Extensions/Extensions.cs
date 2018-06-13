@@ -88,9 +88,9 @@ namespace NadekoBot.Extensions
             return sb.ToString();
         }
 
-        public static void ThrowIfNull<T>(this T obj, string name) where T : class
+        public static void ThrowIfNull<T>(this T o, string name) where T : class
         {
-            if (obj == null)
+            if (o == null)
                 throw new ArgumentNullException(nameof(name));
         }
 
@@ -142,7 +142,7 @@ namespace NadekoBot.Extensions
         {
             Task.Run(async () =>
             {
-                await Task.Delay(seconds * 1000);
+                await Task.Delay(seconds * 1000).ConfigureAwait(false);
                 try { await msg.DeleteAsync().ConfigureAwait(false); }
                 catch { }
             });
@@ -177,7 +177,7 @@ namespace NadekoBot.Extensions
         public static double UnixTimestamp(this DateTime dt) => dt.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0)).TotalSeconds;
 
         public static async Task<IEnumerable<IGuildUser>> GetMembersAsync(this IRole role) =>
-            (await role.Guild.GetUsersAsync(CacheMode.CacheOnly)).Where(u => u.RoleIds.Contains(role.Id)) ?? Enumerable.Empty<IGuildUser>();
+            (await role.Guild.GetUsersAsync(CacheMode.CacheOnly).ConfigureAwait(false)).Where(u => u.RoleIds.Contains(role.Id)) ?? Enumerable.Empty<IGuildUser>();
         
         public static string ToJson<T>(this T any, Formatting formatting = Formatting.Indented) =>
             JsonConvert.SerializeObject(any, formatting);

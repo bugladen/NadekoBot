@@ -36,7 +36,7 @@ namespace NadekoBot.Modules.Administration
             GuildConfig conf;
             using (var uow = _db.UnitOfWork)
             {
-                conf = uow.GuildConfigs.For(Context.Guild.Id,
+                conf = uow.GuildConfigs.ForId(Context.Guild.Id,
                     set => set.Include(x => x.DelMsgOnCmdChannels));
             }
 
@@ -108,7 +108,7 @@ namespace NadekoBot.Modules.Administration
             chId = chId ?? Context.Channel.Id;
             using (var uow = _db.UnitOfWork)
             {
-                var conf = uow.GuildConfigs.For(Context.Guild.Id,
+                var conf = uow.GuildConfigs.ForId(Context.Guild.Id,
                     set => set.Include(x => x.DelMsgOnCmdChannels));
 
                 var obj = new DelMsgOnCmdChannel()
@@ -120,7 +120,7 @@ namespace NadekoBot.Modules.Administration
                 if (s != State.Inherit)
                     conf.DelMsgOnCmdChannels.Add(obj);
 
-                await uow.CompleteAsync();
+                await uow.CompleteAsync().ConfigureAwait(false);
             }
             if (s == State.Disable)
             {
@@ -233,7 +233,7 @@ namespace NadekoBot.Modules.Administration
         {
             var channel = (ITextChannel)Context.Channel;
             topic = topic ?? "";
-            await channel.ModifyAsync(c => c.Topic = topic);
+            await channel.ModifyAsync(c => c.Topic = topic).ConfigureAwait(false);
             await ReplyConfirmLocalized("set_topic").ConfigureAwait(false);
 
         }

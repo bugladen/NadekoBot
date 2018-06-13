@@ -1,4 +1,6 @@
-﻿namespace NadekoBot.Core.Services.Database.Models
+﻿using System;
+
+namespace NadekoBot.Core.Services.Database.Models
 {
     public class LoadedPackage : DbEntity
     {
@@ -13,7 +15,7 @@
 
         public override int GetHashCode()
         {
-            return Name.GetHashCode();
+            return Name.GetHashCode(StringComparison.InvariantCulture);
         }
     }
 }

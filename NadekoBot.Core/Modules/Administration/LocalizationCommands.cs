@@ -51,7 +51,7 @@ namespace NadekoBot.Modules.Administration
             [Priority(0)]
             public async Task LanguageSet()
             {
-                var cul = _localization.GetCultureInfo(Context.Guild);
+                var cul = Localization.GetCultureInfo(Context.Guild);
                 await ReplyConfirmLocalized("lang_set_show", Format.Bold(cul.ToString()), Format.Bold(cul.NativeName))
                     .ConfigureAwait(false);
             }
@@ -67,13 +67,13 @@ namespace NadekoBot.Modules.Administration
                     CultureInfo ci;
                     if (name.Trim().ToLowerInvariant() == "default")
                     {
-                        _localization.RemoveGuildCulture(Context.Guild);
-                        ci = _localization.DefaultCultureInfo;
+                        Localization.RemoveGuildCulture(Context.Guild);
+                        ci = Localization.DefaultCultureInfo;
                     }
                     else
                     {
                         ci = new CultureInfo(name);
-                        _localization.SetGuildCulture(Context.Guild, ci);
+                        Localization.SetGuildCulture(Context.Guild, ci);
                     }
 
                     await ReplyConfirmLocalized("lang_set", Format.Bold(ci.ToString()), Format.Bold(ci.NativeName)).ConfigureAwait(false);
@@ -87,7 +87,7 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             public async Task LanguageSetDefault()
             {
-                var cul = _localization.DefaultCultureInfo;
+                var cul = Localization.DefaultCultureInfo;
                 await ReplyConfirmLocalized("lang_set_bot_show", cul, cul.NativeName).ConfigureAwait(false);
             }
 
@@ -100,13 +100,13 @@ namespace NadekoBot.Modules.Administration
                     CultureInfo ci;
                     if (name.Trim().ToLowerInvariant() == "default")
                     {
-                        _localization.ResetDefaultCulture();
-                        ci = _localization.DefaultCultureInfo;
+                        Localization.ResetDefaultCulture();
+                        ci = Localization.DefaultCultureInfo;
                     }
                     else
                     {
                         ci = new CultureInfo(name);
-                        _localization.SetDefaultCulture(ci);
+                        Localization.SetDefaultCulture(ci);
                     }
                     await ReplyConfirmLocalized("lang_set_bot", Format.Bold(ci.ToString()), Format.Bold(ci.NativeName)).ConfigureAwait(false);
                 }
@@ -122,7 +122,7 @@ namespace NadekoBot.Modules.Administration
                 await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                     .WithTitle(GetText("lang_list"))
                     .WithDescription(string.Join("\n",
-                        supportedLocales.Select(x => $"{Format.Code(x.Key), -10} => {x.Value}"))));
+                        supportedLocales.Select(x => $"{Format.Code(x.Key), -10} => {x.Value}")))).ConfigureAwait(false);
             }
         }
     }

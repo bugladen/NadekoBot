@@ -12,11 +12,11 @@ namespace NadekoBot.Modules.Pokemon.Common
             Multipliers = multi;
         }
         public string Name { get; set; }
-        public List<PokemonMultiplier> Multipliers { get; set; }
+        public List<PokemonMultiplier> Multipliers { get; }
         public string Icon { get; set; }
         public string[] Moves { get; set; }
 
-        public override string ToString() => 
+        public override string ToString() =>
             Icon + "**" + Name.ToLowerInvariant() + "**" + Icon;
     }
     public class PokemonMultiplier

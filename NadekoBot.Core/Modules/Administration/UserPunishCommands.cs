@@ -43,7 +43,7 @@ namespace NadekoBot.Modules.Administration
                 }
                 try
                 {
-                    await (await user.GetOrCreateDMChannelAsync()).EmbedAsync(new EmbedBuilder().WithErrorColor()
+                    await (await user.GetOrCreateDMChannelAsync().ConfigureAwait(false)).EmbedAsync(new EmbedBuilder().WithErrorColor()
                                      .WithDescription(GetText("warned_on", Context.Guild.ToString()))
                                      .AddField(efb => efb.WithName(GetText("moderator")).WithValue(Context.User.ToString()))
                                      .AddField(efb => efb.WithName(GetText("reason")).WithValue(reason ?? "-")))
@@ -103,7 +103,7 @@ namespace NadekoBot.Modules.Administration
                 Warning[] warnings;
                 using (var uow = _db.UnitOfWork)
                 {
-                    warnings = uow.Warnings.For(Context.Guild.Id, userId);
+                    warnings = uow.Warnings.ForId(Context.Guild.Id, userId);
                 }
 
                 warnings = warnings.Skip(page * 9)
@@ -134,7 +134,7 @@ namespace NadekoBot.Modules.Administration
                     }
                 }
 
-                await Context.Channel.EmbedAsync(embed);
+                await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -167,7 +167,7 @@ namespace NadekoBot.Modules.Administration
                     return new EmbedBuilder()
                         .WithTitle(GetText("warnings_list"))
                         .WithDescription(string.Join("\n", ws));
-                }, warnings.Length, 15);
+                }, warnings.Length, 15).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -227,7 +227,7 @@ namespace NadekoBot.Modules.Administration
 
                 using (var uow = _db.UnitOfWork)
                 {
-                    var ps = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(x => x.WarnPunishments)).WarnPunishments;
+                    var ps = uow.GuildConfigs.ForId(Context.Guild.Id, set => set.Include(x => x.WarnPunishments)).WarnPunishments;
                     ps.RemoveAll(x => x.Count == number);
 
                     ps.Add(new WarningPunishment()
@@ -254,7 +254,7 @@ namespace NadekoBot.Modules.Administration
 
                 using (var uow = _db.UnitOfWork)
                 {
-                    var ps = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(x => x.WarnPunishments)).WarnPunishments;
+                    var ps = uow.GuildConfigs.ForId(Context.Guild.Id, set => set.Include(x => x.WarnPunishments)).WarnPunishments;
                     var p = ps.FirstOrDefault(x => x.Count == number);
 
                     if (p != null)
@@ -275,7 +275,7 @@ namespace NadekoBot.Modules.Administration
                 WarningPunishment[] ps;
                 using (var uow = _db.UnitOfWork)
                 {
-                    ps = uow.GuildConfigs.For(Context.Guild.Id, gc => gc.Include(x => x.WarnPunishments))
+                    ps = uow.GuildConfigs.ForId(Context.Guild.Id, gc => gc.Include(x => x.WarnPunishments))
                         .WarnPunishments
                         .OrderBy(x => x.Count)
                         .ToArray();
@@ -313,7 +313,7 @@ namespace NadekoBot.Modules.Administration
                 {
                     try
                     {
-                        await user.SendErrorAsync(GetText("bandm", Format.Bold(Context.Guild.Name), msg));
+                        await user.SendErrorAsync(GetText("bandm", Format.Bold(Context.Guild.Name), msg)).ConfigureAwait(false);
                     }
                     catch
                     {
@@ -321,7 +321,7 @@ namespace NadekoBot.Modules.Administration
                     }
                 }
 
-                await _mute.TimedBan(user, time.Time, Context.User.ToString() + " | " + msg);
+                await _mute.TimedBan(user, time.Time, Context.User.ToString() + " | " + msg).ConfigureAwait(false);
                 await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                         .WithTitle("⛔️ " + GetText("banned_user"))
                         .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
@@ -346,7 +346,7 @@ namespace NadekoBot.Modules.Administration
                 {
                     try
                     {
-                        await user.SendErrorAsync(GetText("bandm", Format.Bold(Context.Guild.Name), msg));
+                        await user.SendErrorAsync(GetText("bandm", Format.Bold(Context.Guild.Name), msg)).ConfigureAwait(false);
                     }
                     catch
                     {
@@ -368,7 +368,7 @@ namespace NadekoBot.Modules.Administration
             [RequireBotPermission(GuildPermission.BanMembers)]
             public async Task Unban([Remainder]string user)
             {
-                var bans = await Context.Guild.GetBansAsync();
+                var bans = await Context.Guild.GetBansAsync().ConfigureAwait(false);
 
                 var bun = bans.FirstOrDefault(x => x.User.ToString().ToLowerInvariant() == user.ToLowerInvariant());
 
@@ -387,7 +387,7 @@ namespace NadekoBot.Modules.Administration
             [RequireBotPermission(GuildPermission.BanMembers)]
             public async Task Unban(ulong userId)
             {
-                var bans = await Context.Guild.GetBansAsync();
+                var bans = await Context.Guild.GetBansAsync().ConfigureAwait(false);
 
                 var bun = bans.FirstOrDefault(x => x.User.Id == userId);
 
@@ -424,7 +424,7 @@ namespace NadekoBot.Modules.Administration
                 {
                     try
                     {
-                        await user.SendErrorAsync(GetText("sbdm", Format.Bold(Context.Guild.Name), msg));
+                        await user.SendErrorAsync(GetText("sbdm", Format.Bold(Context.Guild.Name), msg)).ConfigureAwait(false);
                     }
                     catch
                     {
@@ -458,7 +458,7 @@ namespace NadekoBot.Modules.Administration
                 {
                     try
                     {
-                        await user.SendErrorAsync(GetText("kickdm", Format.Bold(Context.Guild.Name), msg));
+                        await user.SendErrorAsync(GetText("kickdm", Format.Bold(Context.Guild.Name), msg)).ConfigureAwait(false);
                     }
                     catch { }
                 }
@@ -537,7 +537,7 @@ namespace NadekoBot.Modules.Administration
                     uow.Complete();
                 }
 
-                _bc.Reload();
+                Bc.Reload();
 
                 //do the banning
                 await Task.WhenAll(bans

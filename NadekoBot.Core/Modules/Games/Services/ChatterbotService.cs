@@ -68,11 +68,11 @@ namespace NadekoBot.Modules.Games.Services
             var normalMention = $"<@{nadekoId}> ";
             var nickMention = $"<@!{nadekoId}> ";
             string message;
-            if (msg.Content.StartsWith(normalMention))
+            if (msg.Content.StartsWith(normalMention, StringComparison.InvariantCulture))
             {
                 message = msg.Content.Substring(normalMention.Length).Trim();
             }
-            else if (msg.Content.StartsWith(nickMention))
+            else if (msg.Content.StartsWith(nickMention, StringComparison.InvariantCulture))
             {
                 message = msg.Content.Substring(nickMention.Length).Trim();
             }
@@ -84,7 +84,7 @@ namespace NadekoBot.Modules.Games.Services
             return message;
         }
 
-        public async Task<bool> TryAsk(IChatterBotSession cleverbot, ITextChannel channel, string message)
+        public static async Task<bool> TryAsk(IChatterBotSession cleverbot, ITextChannel channel, string message)
         {
             await channel.TriggerTypingAsync().ConfigureAwait(false);
 
@@ -110,7 +110,7 @@ namespace NadekoBot.Modules.Games.Services
                 if (message == null || cbs == null)
                     return false;
 
-                var pc = _perms.GetCache(guild.Id);
+                var pc = _perms.GetCacheFor(guild.Id);
                 if (!pc.Permissions.CheckPermissions(usrMsg,
                     "cleverbot",
                     "Games".ToLowerInvariant(),

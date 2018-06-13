@@ -83,7 +83,7 @@ namespace NadekoBot.Modules.Utility
                         .ConfigureAwait(false);
                     return;
                 }
-                await Context.Channel.SendMessageAsync($"`#{quote.Id}` 📣 " + rep.Replace(quote.Text)?.SanitizeMentions());
+                await Context.Channel.SendMessageAsync($"`#{quote.Id}` 📣 " + rep.Replace(quote.Text)?.SanitizeMentions()).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -107,7 +107,7 @@ namespace NadekoBot.Modules.Utility
                     return;
 
                 await Context.Channel.SendMessageAsync($"`#{keywordquote.Id}` 💬 " + keyword.ToLowerInvariant() + ":  " +
-                                                       keywordquote.Text.SanitizeMentions());
+                                                       keywordquote.Text.SanitizeMentions()).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -119,7 +119,7 @@ namespace NadekoBot.Modules.Utility
 
                 using (var uow = _db.UnitOfWork)
                 {
-                    var qfromid = uow.Quotes.Get(id);
+                    var qfromid = uow.Quotes.GetById(id);
 
                     var rep = new ReplacementBuilder()
                         .WithDefault(Context)
@@ -128,7 +128,7 @@ namespace NadekoBot.Modules.Utility
                     var infoText = $"`#{qfromid.Id} added by {qfromid.AuthorName.SanitizeMentions()}` 🗯️ " + qfromid.Keyword.ToLowerInvariant().SanitizeMentions() + ":\n";
                     if (qfromid == null)
                     {
-                        await Context.Channel.SendErrorAsync(GetText("quotes_notfound"));
+                        await Context.Channel.SendErrorAsync(GetText("quotes_notfound")).ConfigureAwait(false);
                     }
                     else if (CREmbed.TryParse(qfromid.Text, out var crembed))
                     {
@@ -179,7 +179,7 @@ namespace NadekoBot.Modules.Utility
                 string response;
                 using (var uow = _db.UnitOfWork)
                 {
-                    var q = uow.Quotes.Get(id);
+                    var q = uow.Quotes.GetById(id);
 
                     if ((q?.GuildId != Context.Guild.Id) || (!isAdmin && q.AuthorId != Context.Message.Author.Id))
                     {
@@ -194,9 +194,9 @@ namespace NadekoBot.Modules.Utility
                     }
                 }
                 if (success)
-                    await Context.Channel.SendConfirmAsync(response);
+                    await Context.Channel.SendConfirmAsync(response).ConfigureAwait(false);
                 else
-                    await Context.Channel.SendErrorAsync(response);
+                    await Context.Channel.SendErrorAsync(response).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -213,7 +213,7 @@ namespace NadekoBot.Modules.Utility
                 {
                     uow.Quotes.RemoveAllByKeyword(Context.Guild.Id, keyword.ToUpperInvariant());
 
-                    await uow.CompleteAsync();
+                    await uow.CompleteAsync().ConfigureAwait(false);
                 }
 
                 await ReplyConfirmLocalized("quotes_deleted", Format.Bold(keyword.SanitizeMentions())).ConfigureAwait(false);

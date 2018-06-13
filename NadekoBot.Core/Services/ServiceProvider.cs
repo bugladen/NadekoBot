@@ -17,7 +17,7 @@ namespace NadekoBot.Core.Services
     {
         T GetService<T>();
         IEnumerable<Type> LoadFrom(Assembly assembly);
-        INServiceProvider AddManual<T>(T obj);
+        INServiceProvider AddManual<T>(T o);
         object Unload(Type t);
     }
 
@@ -26,7 +26,7 @@ namespace NadekoBot.Core.Services
         private readonly object _locker = new object();
         private readonly Logger _log;
 
-        public readonly Dictionary<Type, object> _services = new Dictionary<Type, object>();
+        public Dictionary<Type, object> _services { get; } = new Dictionary<Type, object>();
         public IReadOnlyDictionary<Type, object> Services => _services;
 
         public NServiceProvider()
@@ -54,12 +54,12 @@ namespace NadekoBot.Core.Services
             return this;
         }
 
-        public INServiceProvider UpdateManual<T>(T obj)
+        public INServiceProvider UpdateManual<T>(T o)
         {
             lock (_locker)
             {
                 _services.Remove(typeof(T));
-                _services.TryAdd(typeof(T), obj);
+                _services.TryAdd(typeof(T), o);
             }
             return this;
         }

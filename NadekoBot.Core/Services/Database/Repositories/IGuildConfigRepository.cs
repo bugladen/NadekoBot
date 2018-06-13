@@ -8,7 +8,7 @@ namespace NadekoBot.Core.Services.Database.Repositories
 {
     public interface IGuildConfigRepository : IRepository<GuildConfig>
     {
-        GuildConfig For(ulong guildId, Func<DbSet<GuildConfig>, IQueryable<GuildConfig>> includes = null);
+        GuildConfig ForId(ulong guildId, Func<DbSet<GuildConfig>, IQueryable<GuildConfig>> includes = null);
         GuildConfig LogSettingsFor(ulong guildId);
         IEnumerable<GuildConfig> GetAllGuildConfigs(List<long> availableGuilds);
         IEnumerable<FollowedStream> GetFollowedStreams(List<long> included);

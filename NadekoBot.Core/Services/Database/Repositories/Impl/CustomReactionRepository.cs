@@ -16,7 +16,7 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
             return _context.Database.ExecuteSqlCommand($"DELETE FROM CustomReactions WHERE GuildId={id};");
         }
 
-        public CustomReaction[] For(ulong id)
+        public CustomReaction[] ForId(ulong id)
         {
             return _set.Where(x => x.GuildId == id)
                 .ToArray();

@@ -24,7 +24,7 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
-            [NadekoOptions(typeof(SlowmodeService.Options))]
+            [NadekoOptionsAttribute(typeof(SlowmodeService.Options))]
             public Task Slowmode()
             {
                 if (_service.StopSlowmode(Context.Channel.Id))
@@ -40,10 +40,10 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
-            [NadekoOptions(typeof(SlowmodeService.Options))]
+            [NadekoOptionsAttribute(typeof(SlowmodeService.Options))]
             public async Task Slowmode(params string[] args)
             {
-                var (opts, succ) = OptionsParser.Default.ParseFrom(new SlowmodeService.Options(), args);
+                var (opts, succ) = OptionsParser.ParseFrom(new SlowmodeService.Options(), args);
                 if (!succ)
                 {
                     await ReplyErrorLocalized("invalid_params").ConfigureAwait(false);

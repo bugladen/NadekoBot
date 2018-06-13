@@ -62,7 +62,7 @@ namespace NadekoBot.Core.Services
             using (var uow = _db.UnitOfWork)
             {
                 InternalChange(userId, userName, discrim, avatar, reason, amount, gamble, uow);
-                await uow.CompleteAsync();
+                await uow.CompleteAsync().ConfigureAwait(false);
             }
         }
 
@@ -82,17 +82,17 @@ namespace NadekoBot.Core.Services
 
         public async Task AddAsync(IUser user, string reason, long amount, bool sendMessage = false, bool gamble = false)
         {
-            await InternalAddAsync(user.Id, user.Username, user.Discriminator, user.AvatarId, reason, amount, gamble);
+            await InternalAddAsync(user.Id, user.Username, user.Discriminator, user.AvatarId, reason, amount, gamble).ConfigureAwait(false);
             if (sendMessage)
             {
                 try
                 {
-                    await (await user.GetOrCreateDMChannelAsync())
+                    await (await user.GetOrCreateDMChannelAsync().ConfigureAwait(false))
                         .EmbedAsync(new EmbedBuilder()
                             .WithOkColor()
                             .WithTitle($"Received {_config.BotConfig.CurrencySign}")
                             .AddField("Amount", amount)
-                            .AddField("Reason", reason));
+                            .AddField("Reason", reason)).ConfigureAwait(false);
                 }
                 catch
                 {
@@ -122,7 +122,7 @@ namespace NadekoBot.Core.Services
                     if (userIdHashSet.Add(idArray[i]))
                         InternalChange(idArray[i], null, null, null, reasonArray[i], amountArray[i], gamble, uow);
                 }
-                await uow.CompleteAsync();
+                await uow.CompleteAsync().ConfigureAwait(false);
             }
         }
 
@@ -139,7 +139,7 @@ namespace NadekoBot.Core.Services
             using (var uow = _db.UnitOfWork)
             {
                 result = InternalChange(userId, userName, userDiscrim, avatar, reason, -amount, gamble, uow);
-                await uow.CompleteAsync();
+                await uow.CompleteAsync().ConfigureAwait(false);
             }
             return result;
         }

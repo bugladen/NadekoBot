@@ -88,7 +88,7 @@ namespace NadekoBot.Modules.Utility
 
                 using (var uow = _db.UnitOfWork)
                 {
-                    var guildConfig = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
+                    var guildConfig = uow.GuildConfigs.ForId(Context.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
 
                     guildConfig.GuildRepeaters.RemoveWhere(r => r.Id == repeater.Repeater.Id);
                     await uow.CompleteAsync().ConfigureAwait(false);
@@ -102,7 +102,7 @@ namespace NadekoBot.Modules.Utility
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
-            [NadekoOptions(typeof(Repeater.Options))]
+            [NadekoOptionsAttribute(typeof(Repeater.Options))]
             [Priority(0)]
             public Task Repeat(params string[] options)
                 => Repeat(null, options);
@@ -110,14 +110,14 @@ namespace NadekoBot.Modules.Utility
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
-            [NadekoOptions(typeof(Repeater.Options))]
+            [NadekoOptionsAttribute(typeof(Repeater.Options))]
             [Priority(1)]
             public async Task Repeat(GuildDateTime dt, params string[] options)
             {
                 if (!_service.RepeaterReady)
                     return;
 
-                var (opts, _) = OptionsParser.Default.ParseFrom(new Repeater.Options(), options);
+                var (opts, _) = OptionsParser.ParseFrom(new Repeater.Options(), options);
 
                 if (string.IsNullOrWhiteSpace(opts.Message))
                     return;
@@ -134,7 +134,7 @@ namespace NadekoBot.Modules.Utility
 
                 using (var uow = _db.UnitOfWork)
                 {
-                    var gc = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(x => x.GuildRepeaters));
+                    var gc = uow.GuildConfigs.ForId(Context.Guild.Id, set => set.Include(x => x.GuildRepeaters));
 
                     if (gc.GuildRepeaters.Count >= 5)
                         return;
@@ -143,7 +143,7 @@ namespace NadekoBot.Modules.Utility
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
 
-                var rep = new RepeatRunner(_client, (SocketGuild)Context.Guild, toAdd);
+                var rep = new RepeatRunner((SocketGuild)Context.Guild, toAdd);
 
                 _service.Repeaters.AddOrUpdate(Context.Guild.Id, new ConcurrentQueue<RepeatRunner>(new[] { rep }), (key, old) =>
                   {

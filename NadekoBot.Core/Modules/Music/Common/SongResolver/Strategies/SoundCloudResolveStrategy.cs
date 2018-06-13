@@ -21,7 +21,7 @@ namespace NadekoBot.Modules.Music.Common.SongResolver.Strategies
 
             if (svideo == null)
                 return null;
-            return await svideo.GetSongInfo();
+            return await svideo.GetSongInfo().ConfigureAwait(false);
         }
     }
 }

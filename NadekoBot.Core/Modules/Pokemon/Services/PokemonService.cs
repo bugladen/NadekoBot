@@ -10,8 +10,8 @@ namespace NadekoBot.Modules.Pokemon.Services
 {
     public class PokemonService : INService
     {
-        public readonly List<PokemonType> PokemonTypes = new List<PokemonType>();
-        public readonly ConcurrentDictionary<ulong, PokeStats> Stats = new ConcurrentDictionary<ulong, PokeStats>();
+        public List<PokemonType> PokemonTypes { get; } = new List<PokemonType>();
+        public ConcurrentDictionary<ulong, PokeStats> Stats { get; } = new ConcurrentDictionary<ulong, PokeStats>();
 
         public const string PokemonTypesFile = "data/pokemon_types.json";
 

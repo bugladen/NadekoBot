@@ -39,7 +39,7 @@ namespace NadekoBot.Modules.Administration.Services
             return Task.CompletedTask;
         }
 
-        private (ulong GuildId, TimeZoneInfo Timezone) GetTimzezoneTuple(GuildConfig x)
+        private static (ulong GuildId, TimeZoneInfo Timezone) GetTimzezoneTuple(GuildConfig x)
         {
             TimeZoneInfo tz;
             try
@@ -67,7 +67,7 @@ namespace NadekoBot.Modules.Administration.Services
         {
             using (var uow = _db.UnitOfWork)
             {
-                var gc = uow.GuildConfigs.For(guildId, set => set);
+                var gc = uow.GuildConfigs.ForId(guildId, set => set);
 
                 gc.TimeZoneId = tz?.Id;
                 uow.Complete();

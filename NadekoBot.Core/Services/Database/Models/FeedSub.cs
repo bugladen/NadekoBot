@@ -1,4 +1,6 @@
-﻿namespace NadekoBot.Core.Services.Database.Models
+﻿using System;
+
+namespace NadekoBot.Core.Services.Database.Models
 {
     public class FeedSub : DbEntity
     {
@@ -10,7 +12,7 @@
 
         public override int GetHashCode()
         {
-            return Url.GetHashCode() ^ GuildConfigId.GetHashCode();
+            return Url.GetHashCode(StringComparison.InvariantCulture) ^ GuildConfigId.GetHashCode();
         }
 
         public override bool Equals(object obj)

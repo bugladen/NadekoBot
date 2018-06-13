@@ -4,7 +4,7 @@ using NLog.Targets;
 
 namespace NadekoBot.Core.Services
 {
-    public class LogSetup
+    public static class LogSetup
     {
         public static void SetupLogger(int shardId)
         {

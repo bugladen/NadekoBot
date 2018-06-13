@@ -16,7 +16,7 @@ namespace NadekoBot.Modules.Music.Extensions
                 Uri = () => svideo.StreamLink(),
                 ProviderType = MusicType.Soundcloud,
                 Query = svideo.TrackLink,
-                Thumbnail = svideo.artwork_url,
+                Thumbnail = svideo.ArtworkUrl,
                 TotalTime = TimeSpan.FromMilliseconds(svideo.Duration)
             });
     }

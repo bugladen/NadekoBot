@@ -135,7 +135,7 @@ namespace NadekoBot.Modules.Administration
                         .WithFooter(exclusive
                             ? GetText("self_assign_are_exclusive")
                             : GetText("self_assign_are_not_exclusive"));
-                }, roles.Count(), 20);
+                }, roles.Count(), 20).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -179,7 +179,7 @@ namespace NadekoBot.Modules.Administration
             {
                 var guildUser = (IGuildUser)Context.User;
 
-                var (result, autoDelete, extra) = await _service.Assign(guildUser, role);
+                var (result, autoDelete, extra) = await _service.Assign(guildUser, role).ConfigureAwait(false);
 
                 IUserMessage msg;
                 if (result == SelfAssignedRolesService.AssignResult.Err_Not_Assignable)
@@ -216,7 +216,7 @@ namespace NadekoBot.Modules.Administration
             {
                 var guildUser = (IGuildUser)Context.User;
 
-                var (result, autoDelete) = await _service.Remove(guildUser, role);
+                var (result, autoDelete) = await _service.Remove(guildUser, role).ConfigureAwait(false);
 
                 IUserMessage msg;
                 if (result == SelfAssignedRolesService.RemoveResult.Err_Not_Assignable)

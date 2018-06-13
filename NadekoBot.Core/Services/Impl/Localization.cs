@@ -19,13 +19,8 @@ namespace NadekoBot.Core.Services.Impl
         public ConcurrentDictionary<ulong, CultureInfo> GuildCultureInfos { get; }
         public CultureInfo DefaultCultureInfo { get; private set; } = CultureInfo.CurrentCulture;
 
-        private static readonly Dictionary<string, CommandData> _commandData;
-        
-        static Localization()
-        {
-            _commandData = JsonConvert.DeserializeObject<Dictionary<string, CommandData>>(
+        private static readonly Dictionary<string, CommandData> _commandData = JsonConvert.DeserializeObject<Dictionary<string, CommandData>>(
                 File.ReadAllText("./_strings/cmd/command_strings.json"));
-        }
 
         private Localization() { }
         public Localization(IBotConfigProvider bcp, NadekoBot bot, DbService db)
@@ -78,7 +73,7 @@ namespace NadekoBot.Core.Services.Impl
 
             using (var uow = _db.UnitOfWork)
             {
-                var gc = uow.GuildConfigs.For(guildId, set => set);
+                var gc = uow.GuildConfigs.ForId(guildId, set => set);
                 gc.Locale = ci.Name;
                 uow.Complete();
             }
@@ -86,16 +81,17 @@ namespace NadekoBot.Core.Services.Impl
             GuildCultureInfos.AddOrUpdate(guildId, ci, (id, old) => ci);
         }
 
-        public void RemoveGuildCulture(IGuild guild) => 
+        public void RemoveGuildCulture(IGuild guild) =>
             RemoveGuildCulture(guild.Id);
 
-        public void RemoveGuildCulture(ulong guildId) {
+        public void RemoveGuildCulture(ulong guildId)
+        {
 
             if (GuildCultureInfos.TryRemove(guildId, out var _))
             {
                 using (var uow = _db.UnitOfWork)
                 {
-                    var gc = uow.GuildConfigs.For(guildId, set => set);
+                    var gc = uow.GuildConfigs.ForId(guildId, set => set);
                     gc.Locale = null;
                     uow.Complete();
                 }

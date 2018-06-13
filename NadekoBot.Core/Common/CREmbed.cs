@@ -2,13 +2,11 @@ using System;
 using Discord;
 using NadekoBot.Extensions;
 using Newtonsoft.Json;
-using NLog;
 
 namespace NadekoBot.Common
 {
     public class CREmbed
     {
-        private static readonly Logger _log;
         public CREmbedAuthor Author { get; set; }
         public string PlainText { get; set; }
         public string Title { get; set; }
@@ -19,11 +17,6 @@ namespace NadekoBot.Common
         public string Image { get; set; }
         public CREmbedField[] Fields { get; set; }
         public uint Color { get; set; } = 7458112;
-
-        static CREmbed()
-        {
-            _log = LogManager.GetCurrentClassLogger();
-        }
 
         public bool IsValid =>
             !string.IsNullOrWhiteSpace(Title) ||
@@ -55,7 +48,7 @@ namespace NadekoBot.Common
 
             if (Thumbnail != null && Uri.IsWellFormedUriString(Thumbnail, UriKind.Absolute))
                 embed.WithThumbnailUrl(Thumbnail);
-            if(Image != null && Uri.IsWellFormedUriString(Image, UriKind.Absolute))
+            if (Image != null && Uri.IsWellFormedUriString(Image, UriKind.Absolute))
                 embed.WithImageUrl(Image);
             if (Author != null && !string.IsNullOrWhiteSpace(Author.Name))
             {
@@ -70,7 +63,7 @@ namespace NadekoBot.Common
             if (Fields != null)
                 foreach (var f in Fields)
                 {
-                    if(!string.IsNullOrWhiteSpace(f.Name) && !string.IsNullOrWhiteSpace(f.Value))
+                    if (!string.IsNullOrWhiteSpace(f.Name) && !string.IsNullOrWhiteSpace(f.Value))
                         embed.AddField(efb => efb.WithName(f.Name).WithValue(f.Value).WithIsInline(f.Inline));
                 }
 
@@ -86,8 +79,8 @@ namespace NadekoBot.Common
             try
             {
                 var crembed = JsonConvert.DeserializeObject<CREmbed>(input);
-                
-                if(crembed.Fields != null && crembed.Fields.Length > 0)
+
+                if (crembed.Fields != null && crembed.Fields.Length > 0)
                     foreach (var f in crembed.Fields)
                     {
                         f.Name = f.Name.TrimTo(256);
@@ -113,7 +106,8 @@ namespace NadekoBot.Common
         public bool Inline { get; set; }
     }
 
-    public class CREmbedFooter {
+    public class CREmbedFooter
+    {
         public string Text { get; set; }
         public string IconUrl { get; set; }
         [JsonProperty("icon_url")]

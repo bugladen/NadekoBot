@@ -74,11 +74,11 @@ namespace NadekoBot.Modules.Gambling.Services
                             _log.Warn("Botlist API not reached.");
                             return;
                         }
-                        var resStr = await res.Content.ReadAsStringAsync();
+                        var resStr = await res.Content.ReadAsStringAsync().ConfigureAwait(false);
                         var ids = JsonConvert.DeserializeObject<VoteModel[]>(resStr)
                             .Select(x => x.User)
                             .Distinct();
-                        await _cs.AddBulkAsync(ids, ids.Select(x => "Voted - <https://discordbots.org/bot/nadeko/vote>"), ids.Select(x => 10L), true);
+                        await _cs.AddBulkAsync(ids, ids.Select(x => "Voted - <https://discordbots.org/bot/nadeko/vote>"), ids.Select(x => 10L), true).ConfigureAwait(false);
                     }
                 }
             }
@@ -88,8 +88,8 @@ namespace NadekoBot.Modules.Gambling.Services
             }
         }
 
-        public async Task<bool> TryCreateEventAsync(ulong guildId, ulong channelId, Event.Type type,
-            EventOptions opts, Func<Event.Type, EventOptions, long, EmbedBuilder> embed)
+        public async Task<bool> TryCreateEventAsync(ulong guildId, ulong channelId, CurrencyEvent.Type type,
+            EventOptions opts, Func<CurrencyEvent.Type, EventOptions, long, EmbedBuilder> embed)
         {
             SocketGuild g = _client.GetGuild(guildId);
             SocketTextChannel ch = g?.GetChannel(channelId) as SocketTextChannel;
@@ -98,7 +98,7 @@ namespace NadekoBot.Modules.Gambling.Services
 
             ICurrencyEvent ce;
 
-            if (type == Event.Type.Reaction)
+            if (type == CurrencyEvent.Type.Reaction)
             {
                 ce = new ReactionEvent(_client, _cs, _bc, g, ch, opts, embed);
             }
@@ -117,7 +117,7 @@ namespace NadekoBot.Modules.Gambling.Services
                 try
                 {
                     ce.OnEnded += OnEventEnded;
-                    await ce.Start();
+                    await ce.StartEvent().ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {

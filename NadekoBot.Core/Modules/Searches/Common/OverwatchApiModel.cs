@@ -8,7 +8,8 @@ namespace NadekoBot.Modules.Searches.Common
 
         public class OverwatchResponse
         {
-            public object _request;
+            [JsonProperty("_request")]
+            public object Request { get; set; }
             public OverwatchPlayer Eu { get; set; }
             public OverwatchPlayer Kr { get; set; }
             public OverwatchPlayer Us { get; set; }
@@ -35,20 +36,21 @@ namespace NadekoBot.Modules.Searches.Common
 
         public class OverallStats
         {
-            public int? comprank;
-            public int level;
-            public int prestige;
-            public string avatar;
-            public int wins;
-            public int losses;
-            public int games;
-            public string rank_image;
+            public int? Comprank { get; set; }
+            public int Level { get; set; }
+            public int Prestige { get; set; }
+            public string Avatar { get; set; }
+            public int Wins { get; set; }
+            public int Losses { get; set; }
+            public int Games { get; set; }
+            [JsonProperty("rank_image")]
+            public string RankImage { get; set; }
         }
 
         public class GameStats
         {
             [JsonProperty("time_played")]
-            public float timePlayed;
+            public float TimePlayed { get; set; }
         }
 
 

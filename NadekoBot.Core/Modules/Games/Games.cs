@@ -219,7 +219,7 @@ namespace NadekoBot.Modules.Games
             await Context.Channel.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
                 .WithDescription(Context.User.ToString())
                 .AddField(efb => efb.WithName("❓ " + GetText("question")).WithValue(question).WithIsInline(false))
-                .AddField(efb => efb.WithName("🎱 " + GetText("8ball")).WithValue(_service.EightBallResponses[new NadekoRandom().Next(0, _service.EightBallResponses.Length)]).WithIsInline(false)));
+                .AddField(efb => efb.WithName("🎱 " + GetText("8ball")).WithValue(_service.EightBallResponses[new NadekoRandom().Next(0, _service.EightBallResponses.Length)]).WithIsInline(false))).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -236,9 +236,9 @@ namespace NadekoBot.Modules.Games
                 .WithImageUrl(img)).ConfigureAwait(false);
         }
 
-        private double NextDouble(double x, double y)
+        private static double NextDouble(double x, double y)
         {
-            var rng = new Random();
+            var rng = new NadekoRandom();
             return rng.NextDouble() * (y - x) + x;
         }
 

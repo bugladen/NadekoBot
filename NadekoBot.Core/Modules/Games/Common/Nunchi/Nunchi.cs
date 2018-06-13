@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Games.Common.Nunchi
 {
-    public class Nunchi : IDisposable
+    public sealed class NunchiGame : IDisposable
     {
         public enum Phase
         {
@@ -21,11 +21,11 @@ namespace NadekoBot.Modules.Games.Common.Nunchi
         public int CurrentNumber { get; private set; } = new NadekoRandom().Next(0, 100);
         public Phase CurrentPhase { get; private set; } = Phase.Joining;
 
-        public event Func<Nunchi, Task> OnGameStarted;
-        public event Func<Nunchi, int, Task> OnRoundStarted;
-        public event Func<Nunchi, Task> OnUserGuessed;
-        public event Func<Nunchi, (ulong Id, string Name)?, Task> OnRoundEnded; // tuple of the user who failed
-        public event Func<Nunchi, string, Task> OnGameEnded; // name of the user who won
+        public event Func<NunchiGame, Task> OnGameStarted;
+        public event Func<NunchiGame, int, Task> OnRoundStarted;
+        public event Func<NunchiGame, Task> OnUserGuessed;
+        public event Func<NunchiGame, (ulong Id, string Name)?, Task> OnRoundEnded; // tuple of the user who failed
+        public event Func<NunchiGame, string, Task> OnGameEnded; // name of the user who won
 
         private readonly SemaphoreSlim _locker = new SemaphoreSlim(1, 1);
 
@@ -39,7 +39,7 @@ namespace NadekoBot.Modules.Games.Common.Nunchi
         private const int _nextRoundTimeout = 5 * 1000;
         private Timer _killTimer;
 
-        public Nunchi(ulong creatorId, string creatorName)
+        public NunchiGame(ulong creatorId, string creatorName)
         {
             _participants.Add((creatorId, creatorName));
         }

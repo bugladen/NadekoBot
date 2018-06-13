@@ -61,7 +61,7 @@ namespace NadekoBot.Modules.Games.Common.ChatterBot
                 new KeyValuePair<string, string>("key", _key),
             });
             var data = await _http.PostAsync(_createEndpoint, msg).ConfigureAwait(false);
-            var str = await data.Content.ReadAsStringAsync();
+            var str = await data.Content.ReadAsStringAsync().ConfigureAwait(false);
             var obj = JsonConvert.DeserializeObject<CleverbotIOCreateResponse>(str);
             if (obj.Status != "success")
                 throw new OperationCanceledException(obj.Status);
@@ -79,7 +79,7 @@ namespace NadekoBot.Modules.Games.Common.ChatterBot
                 new KeyValuePair<string, string>("text", input),
             });
             var data = await _http.PostAsync(_askEndpoint, msg).ConfigureAwait(false);
-            var str = await data.Content.ReadAsStringAsync();
+            var str = await data.Content.ReadAsStringAsync().ConfigureAwait(false);
             var obj = JsonConvert.DeserializeObject<CleverbotIOAskResponse>(str);
             if (obj.Status != "success")
                 throw new OperationCanceledException(obj.Status);

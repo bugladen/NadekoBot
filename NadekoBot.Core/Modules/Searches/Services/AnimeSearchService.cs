@@ -31,7 +31,7 @@ namespace NadekoBot.Modules.Searches.Services
             try
             {
 
-                var link = "https://aniapi.nadekobot.me/anime/" + Uri.EscapeDataString(query.Replace("/", " "));
+                var link = "https://aniapi.nadekobot.me/anime/" + Uri.EscapeDataString(query.Replace("/", " ", StringComparison.InvariantCulture));
                 link = link.ToLowerInvariant();
                 var (ok, data) = await _cache.TryGetAnimeDataAsync(link).ConfigureAwait(false);
                 if (!ok)
@@ -54,17 +54,17 @@ namespace NadekoBot.Modules.Searches.Services
             if (string.IsNullOrWhiteSpace(query))
                 throw new ArgumentNullException(nameof(query));
 
-            query = query.Replace(" ", "-");
+            query = query.Replace(" ", "-", StringComparison.InvariantCulture);
             try
             {
 
-                var link = "http://www.novelupdates.com/series/" + Uri.EscapeDataString(query.Replace("/", " "));
+                var link = "http://www.novelupdates.com/series/" + Uri.EscapeDataString(query.Replace("/", " ", StringComparison.InvariantCulture));
                 link = link.ToLowerInvariant();
                 var (ok, data) = await _cache.TryGetNovelDataAsync(link).ConfigureAwait(false);
                 if (!ok)
                 {
                     var config = Configuration.Default.WithDefaultLoader();
-                    using (var document = await BrowsingContext.New(config).OpenAsync(link))
+                    using (var document = await BrowsingContext.New(config).OpenAsync(link).ConfigureAwait(false))
                     {
                         var imageElem = document.QuerySelector("div.seriesimg > img");
                         if (imageElem == null)
@@ -134,7 +134,7 @@ namespace NadekoBot.Modules.Searches.Services
             try
             {
 
-                var link = "https://aniapi.nadekobot.me/manga/" + Uri.EscapeDataString(query.Replace("/", " "));
+                var link = "https://aniapi.nadekobot.me/manga/" + Uri.EscapeDataString(query.Replace("/", " ", StringComparison.InvariantCulture));
                 link = link.ToLowerInvariant();
                 var (ok, data) = await _cache.TryGetAnimeDataAsync(link).ConfigureAwait(false);
                 if (!ok)

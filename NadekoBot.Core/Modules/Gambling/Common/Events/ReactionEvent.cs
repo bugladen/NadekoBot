@@ -29,7 +29,7 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Events
         public bool Stopped { get; private set; }
         public bool PotEmptied { get; private set; } = false;
 
-        private readonly Func<Event.Type, EventOptions, long, EmbedBuilder> _embedFunc;
+        private readonly Func<CurrencyEvent.Type, EventOptions, long, EmbedBuilder> _embedFunc;
         private readonly bool _isPotLimited;
         private readonly ITextChannel _channel;
         private readonly ConcurrentHashSet<ulong> _awardedUsers = new ConcurrentHashSet<ulong>();
@@ -44,7 +44,7 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Events
         public ReactionEvent(DiscordSocketClient client, ICurrencyService cs,
             IBotConfigProvider bc, SocketGuild g, ITextChannel ch,
             EventOptions opt,
-            Func<Event.Type, EventOptions, long, EmbedBuilder> embedFunc)
+            Func<CurrencyEvent.Type, EventOptions, long, EmbedBuilder> embedFunc)
         {
             _log = LogManager.GetCurrentClassLogger();
             _client = client;
@@ -79,14 +79,14 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Events
                 await _cs.AddBulkAsync(toAward,
                     toAward.Select(x => "Reaction Event"),
                     toAward.Select(x => _amount),
-                    gamble: true);
+                    gamble: true).ConfigureAwait(false);
 
                 if (_isPotLimited)
                 {
                     await _msg.ModifyAsync(m =>
                     {
                         m.Embed = GetEmbed(PotSize).Build();
-                    }, new RequestOptions() { RetryMode = RetryMode.AlwaysRetry });
+                    }, new RequestOptions() { RetryMode = RetryMode.AlwaysRetry }).ConfigureAwait(false);
                 }
 
                 _log.Info("Awarded {0} users {1} currency.{2}",
@@ -96,7 +96,7 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Events
 
                 if (potEmpty)
                 {
-                    var _ = Stop();
+                    var _ = StopEvent();
                 }
 
             }
@@ -106,7 +106,7 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Events
             }
         }
 
-        public async Task Start()
+        public async Task StartEvent()
         {
             if (Emote.TryParse(_bc.BotConfig.CurrencySign, out var emote))
             {
@@ -116,8 +116,8 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Events
             {
                 _emote = new Emoji(_bc.BotConfig.CurrencySign);
             }
-            _msg = await _channel.EmbedAsync(GetEmbed(_opts.PotSize));
-            await _msg.AddReactionAsync(_emote);
+            _msg = await _channel.EmbedAsync(GetEmbed(_opts.PotSize)).ConfigureAwait(false);
+            await _msg.AddReactionAsync(_emote).ConfigureAwait(false);
             _client.MessageDeleted += OnMessageDeleted;
             _client.ReactionAdded += HandleReaction;
             _t.Change(TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(2));
@@ -125,19 +125,19 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Events
 
         private EmbedBuilder GetEmbed(long pot)
         {
-            return _embedFunc(Event.Type.Reaction, _opts, pot);
+            return _embedFunc(CurrencyEvent.Type.Reaction, _opts, pot);
         }
 
         private async Task OnMessageDeleted(Cacheable<IMessage, ulong> msg, ISocketMessageChannel _)
         {
             if (msg.Id == _msg.Id)
             {
-                await Stop();
+                await StopEvent().ConfigureAwait(false);
             }
         }
 
         private readonly object stopLock = new object();
-        public async Task Stop()
+        public async Task StopEvent()
         {
             await Task.Yield();
             lock (stopLock)

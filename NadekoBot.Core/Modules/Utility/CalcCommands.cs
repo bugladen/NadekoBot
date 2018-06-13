@@ -21,9 +21,9 @@ namespace NadekoBot.Modules.Utility
                 expr.EvaluateParameter += Expr_EvaluateParameter;
                 var result = expr.Evaluate();
                 if (!expr.HasErrors())
-                    await Context.Channel.SendConfirmAsync("⚙ " + GetText("result"), result.ToString());
+                    await Context.Channel.SendConfirmAsync("⚙ " + GetText("result"), result.ToString()).ConfigureAwait(false);
                 else
-                    await Context.Channel.SendErrorAsync("⚙ " + GetText("error"), expr.Error);
+                    await Context.Channel.SendErrorAsync("⚙ " + GetText("error"), expr.Error).ConfigureAwait(false);
             }
 
             private static void Expr_EvaluateParameter(string name, NCalc.ParameterArgs args)
@@ -55,7 +55,7 @@ namespace NadekoBot.Modules.Utility
                         "GetHashCode",
                         "GetType"
                     });
-                await Context.Channel.SendConfirmAsync(GetText("calcops", Prefix), string.Join(", ", selection));
+                await Context.Channel.SendConfirmAsync(GetText("calcops", Prefix), string.Join(", ", selection)).ConfigureAwait(false);
             }
         }
 
@@ -63,7 +63,7 @@ namespace NadekoBot.Modules.Utility
         {
             public bool Equals(MethodInfo x, MethodInfo y) => x.Name == y.Name;
 
-            public int GetHashCode(MethodInfo obj) => obj.Name.GetHashCode();
+            public int GetHashCode(MethodInfo obj) => obj.Name.GetHashCode(StringComparison.InvariantCulture);
         }
     }
 }

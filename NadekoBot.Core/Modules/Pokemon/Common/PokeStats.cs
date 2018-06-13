@@ -10,6 +10,6 @@ namespace NadekoBot.Modules.Pokemon.Common
         //Amount of moves made since last time attacked
         public int MovesMade { get; set; } = 0;
         //Last people attacked
-        public List<ulong> LastAttacked { get; set; } = new List<ulong>();
+        public List<ulong> LastAttacked { get; } = new List<ulong>();
     }
 }

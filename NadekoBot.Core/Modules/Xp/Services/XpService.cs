@@ -186,7 +186,7 @@ namespace NadekoBot.Modules.Xp.Services
                                 if (crew != null)
                                 {
                                     //give the user the reward if it exists
-                                    await _cs.AddAsync(item.Key.User.Id, "Level-up Reward", crew.Amount);
+                                    await _cs.AddAsync(item.Key.User.Id, "Level-up Reward", crew.Amount).ConfigureAwait(false);
                                 }
                             }
                         }
@@ -235,7 +235,7 @@ namespace NadekoBot.Modules.Xp.Services
                                           x.User.Mention, Format.Bold(x.Level.ToString())))
                                             .ConfigureAwait(false);
                         }
-                    }));
+                    })).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
@@ -253,7 +253,7 @@ namespace NadekoBot.Modules.Xp.Services
                 {
                     _rewardedUsers.Clear();
                     
-                    await Task.Delay(TimeSpan.FromMinutes(_bc.BotConfig.XpMinutesTimeout));
+                    await Task.Delay(TimeSpan.FromMinutes(_bc.BotConfig.XpMinutesTimeout)).ConfigureAwait(false);
                 }
             }, token);
         }
@@ -470,8 +470,8 @@ namespace NadekoBot.Modules.Xp.Services
                 var t1 = Task.Run(() => stats = uow.Xp.GetOrCreateUser(user.GuildId, user.Id));
                 var ranks = await Task.WhenAll(
                     uow.DiscordUsers.GetUserGlobalRankingAsync(user.Id),
-                    uow.Xp.GetUserGuildRankingAsync(user.Id, user.GuildId));
-                await t1;
+                    uow.Xp.GetUserGuildRankingAsync(user.Id, user.GuildId)).ConfigureAwait(false);
+                await t1.ConfigureAwait(false);
                 globalRank = ranks[0];
                 guildRank = ranks[1];
             }
@@ -598,8 +598,8 @@ namespace NadekoBot.Modules.Xp.Services
 
         public async Task<MemoryStream> GenerateImageAsync(IGuildUser user)
         {
-            var stats = await GetUserStatsAsync(user);
-            return await GenerateImageAsync(stats);
+            var stats = await GetUserStatsAsync(user).ConfigureAwait(false);
+            return await GenerateImageAsync(stats).ConfigureAwait(false);
         }
 
 
@@ -700,17 +700,17 @@ namespace NadekoBot.Modules.Xp.Services
                     {
                         var avatarUrl = stats.User.RealAvatarUrl();
 
-                        var (succ, data) = await _cache.TryGetImageDataAsync(avatarUrl);
+                        var (succ, data) = await _cache.TryGetImageDataAsync(avatarUrl).ConfigureAwait(false);
                         if (!succ)
                         {
-                            using (var temp = await http.GetStreamAsync(avatarUrl))
+                            using (var temp = await http.GetStreamAsync(avatarUrl).ConfigureAwait(false))
                             using (var tempDraw = Image.Load(temp).Resize(69, 70))
                             {
                                 tempDraw.ApplyRoundedCorners(35);
                                 data = tempDraw.ToStream().ToArray();
                             }
 
-                            await _cache.SetImageDataAsync(avatarUrl, data);
+                            await _cache.SetImageDataAsync(avatarUrl, data).ConfigureAwait(false);
                         }
                         using (var toDraw = Image.Load(data))
                         {
@@ -738,26 +738,26 @@ namespace NadekoBot.Modules.Xp.Services
         {
             if (!string.IsNullOrWhiteSpace(stats.User.Club?.ImageUrl))
             {
-                var imgUrl = stats.User.Club.ImageUrl;
                 try
                 {
-                    var (succ, data) = await _cache.TryGetImageDataAsync(imgUrl);
+                    var imgUrl = new Uri(stats.User.Club.ImageUrl);
+                    var (succ, data) = await _cache.TryGetImageDataAsync(imgUrl).ConfigureAwait(false);
                     if (!succ)
                     {
-                        using (var temp = await http.GetAsync(imgUrl, HttpCompletionOption.ResponseHeadersRead))
+                        using (var temp = await http.GetAsync(imgUrl, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
                         {
                             if (temp.Content.Headers.ContentType.MediaType != "image/png"
                                 && temp.Content.Headers.ContentType.MediaType != "image/jpeg"
                                 && temp.Content.Headers.ContentType.MediaType != "image/gif")
                                 return;
-                            using (var tempDraw = Image.Load(await temp.Content.ReadAsStreamAsync()).Resize(45, 45))
+                            using (var tempDraw = Image.Load(await temp.Content.ReadAsStreamAsync().ConfigureAwait(false)).Resize(45, 45))
                             {
                                 tempDraw.ApplyRoundedCorners(22.5f);
                                 data = tempDraw.ToStream().ToArray();
                             }
                         }
 
-                        await _cache.SetImageDataAsync(imgUrl, data);
+                        await _cache.SetImageDataAsync(imgUrl, data).ConfigureAwait(false);
                     }
                     using (var toDraw = Image.Load(data))
                     {

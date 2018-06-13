@@ -46,7 +46,7 @@ namespace NadekoBot.Core.Modules.Gambling.Services
                 {
                     //remove money, and stop the game if this 
                     // user created it and doesn't have the money
-                    if (!await _cs.RemoveAsync(user.Id, "Currency Raffle Join", amount))
+                    if (!await _cs.RemoveAsync(user.Id, "Currency Raffle Join", amount).ConfigureAwait(false))
                     {
                         if (newGame)
                             Games.Remove(channelId);
@@ -73,7 +73,7 @@ namespace NadekoBot.Core.Modules.Gambling.Services
                             var won = crg.Users.Sum(x => x.Amount);
 
                             await _cs.AddAsync(winner.DiscordUser.Id, "Currency Raffle Win",
-                                won);
+                                won).ConfigureAwait(false);
                             Games.Remove(channelId, out _);
                             var oe = onEnded(winner.DiscordUser, won);
                         }

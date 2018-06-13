@@ -39,28 +39,28 @@ namespace NadekoBot.Modules.Gambling
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [NadekoOptions(typeof(EventOptions))]
+            [NadekoOptionsAttribute(typeof(EventOptions))]
             [OwnerOnly]
-            public async Task EventStart(Event.Type ev, params string[] options)
+            public async Task EventStart(CurrencyEvent.Type ev, params string[] options)
             {
-                var (opts, _) = OptionsParser.Default.ParseFrom(new EventOptions(), options);
+                var (opts, _) = OptionsParser.ParseFrom(new EventOptions(), options);
                 if (!await _service.TryCreateEventAsync(Context.Guild.Id,
                     Context.Channel.Id,
                     ev,
                     opts,
                     GetEmbed
-                    ))
+                    ).ConfigureAwait(false))
                 {
                     await ReplyErrorLocalized("start_event_fail").ConfigureAwait(false);
                     return;
                 }
             }
 
-            private EmbedBuilder GetEmbed(Event.Type type, EventOptions opts, long currentPot)
+            private EmbedBuilder GetEmbed(CurrencyEvent.Type type, EventOptions opts, long currentPot)
             {
                 switch (type)
                 {
-                    case Event.Type.Reaction:
+                    case CurrencyEvent.Type.Reaction:
                         return new EmbedBuilder()
                             .WithOkColor()
                             .WithTitle(GetText("reaction_title"))
@@ -81,22 +81,22 @@ namespace NadekoBot.Modules.Gambling
             private string GetReactionDescription(long amount, long potSize)
             {
                 string potSizeStr = Format.Bold(potSize == 0
-                    ? "∞" + _bc.BotConfig.CurrencySign
-                    : potSize.ToString() + _bc.BotConfig.CurrencySign);
+                    ? "∞" + Bc.BotConfig.CurrencySign
+                    : potSize.ToString() + Bc.BotConfig.CurrencySign);
                 return GetText("new_reaction_event",
-                                   _bc.BotConfig.CurrencySign,
-                                   Format.Bold(amount + _bc.BotConfig.CurrencySign),
+                                   Bc.BotConfig.CurrencySign,
+                                   Format.Bold(amount + Bc.BotConfig.CurrencySign),
                                    potSizeStr);
             }
 
             private string GetNotRaidDescription(long amount, long potSize)
             {
                 string potSizeStr = Format.Bold(potSize == 0
-                    ? "∞" + _bc.BotConfig.CurrencySign
-                    : potSize.ToString() + _bc.BotConfig.CurrencySign);
+                    ? "∞" + Bc.BotConfig.CurrencySign
+                    : potSize.ToString() + Bc.BotConfig.CurrencySign);
                 return GetText("new_reaction_event",
-                                   _bc.BotConfig.CurrencySign,
-                                   Format.Bold(amount + _bc.BotConfig.CurrencySign),
+                                   Bc.BotConfig.CurrencySign,
+                                   Format.Bold(amount + Bc.BotConfig.CurrencySign),
                                    potSizeStr);
             }
 

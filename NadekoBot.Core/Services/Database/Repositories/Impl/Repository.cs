@@ -7,8 +7,8 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
 {
     public class Repository<T> : IRepository<T> where T : DbEntity
     {
-        protected DbContext _context;
-        protected DbSet<T> _set;
+        protected DbContext _context { get; set; }
+        protected DbSet<T> _set { get; set; }
 
         public Repository(DbContext context)
         {
@@ -22,14 +22,14 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
         public void AddRange(params T[] objs) =>
             _set.AddRange(objs);
 
-        public T Get(int id) =>
+        public T GetById(int id) =>
             _set.FirstOrDefault(e => e.Id == id);
 
         public IEnumerable<T> GetAll() =>
             _set.ToList();
 
         public void Remove(int id) =>
-            _set.Remove(this.Get(id));
+            _set.Remove(this.GetById(id));
 
         public void Remove(T obj) =>
             _set.Remove(obj);

@@ -154,7 +154,7 @@ namespace NadekoBot.Modules.Utility
                 using (var uow = _db.UnitOfWork)
                 {
                     uow.Reminders.Add(rem);
-                    await uow.CompleteAsync();
+                    await uow.CompleteAsync().ConfigureAwait(false);
                 }
 
                 var gTime = TimeZoneInfo.ConvertTime(time, _tz.GetTimeZoneOrUtc(Context.Guild.Id));

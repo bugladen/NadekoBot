@@ -59,7 +59,7 @@ namespace NadekoBot.Modules.Administration
                     string channelGreetMessageText;
                     using (var uow = _db.UnitOfWork)
                     {
-                        channelGreetMessageText = uow.GuildConfigs.For(Context.Guild.Id, set => set).ChannelGreetMessageText;
+                        channelGreetMessageText = uow.GuildConfigs.ForId(Context.Guild.Id, set => set).ChannelGreetMessageText;
                     }
                     await ReplyConfirmLocalized("greetmsg_cur", channelGreetMessageText?.SanitizeMentions()).ConfigureAwait(false);
                     return;
@@ -95,7 +95,7 @@ namespace NadekoBot.Modules.Administration
                     GuildConfig config;
                     using (var uow = _db.UnitOfWork)
                     {
-                        config = uow.GuildConfigs.For(Context.Guild.Id, set => set);
+                        config = uow.GuildConfigs.ForId(Context.Guild.Id, set => set);
                     }
                     await ReplyConfirmLocalized("greetdmmsg_cur", config.DmGreetMessageText?.SanitizeMentions()).ConfigureAwait(false);
                     return;
@@ -131,7 +131,7 @@ namespace NadekoBot.Modules.Administration
                     string byeMessageText;
                     using (var uow = _db.UnitOfWork)
                     {
-                        byeMessageText = uow.GuildConfigs.For(Context.Guild.Id, set => set).ChannelByeMessageText;
+                        byeMessageText = uow.GuildConfigs.ForId(Context.Guild.Id, set => set).ChannelByeMessageText;
                     }
                     await ReplyConfirmLocalized("byemsg_cur", byeMessageText?.SanitizeMentions()).ConfigureAwait(false);
                     return;

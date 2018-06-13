@@ -20,7 +20,7 @@ namespace NadekoBot.Modules.Searches.Common
                 var movie = JsonConvert.DeserializeObject<OmdbMovie>(res);
                 if (movie?.Title == null)
                     return null;
-                movie.Poster = await google.ShortenUrl(movie.Poster);
+                movie.Poster = await google.ShortenUrl(movie.Poster).ConfigureAwait(false);
                 return movie;
             }
         }

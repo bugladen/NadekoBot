@@ -26,7 +26,7 @@ namespace NadekoBot.Modules.Utility
                 if (string.IsNullOrWhiteSpace(newValue))
                     newValue = null;
 
-                var success = _bc.Edit(type, newValue);
+                var success = Bc.Edit(type, newValue);
 
                 if (!success)
                     await ReplyErrorLocalized("bot_config_edit_fail", Format.Bold(type.ToString()), Format.Bold(newValue ?? "NULL")).ConfigureAwait(false);

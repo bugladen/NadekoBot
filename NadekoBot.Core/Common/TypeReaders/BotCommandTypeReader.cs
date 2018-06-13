@@ -21,7 +21,7 @@ namespace NadekoBot.Common.TypeReaders
             var _cmdHandler = ((INServiceProvider)services).GetService<CommandHandler>();
             input = input.ToUpperInvariant();
             var prefix = _cmdHandler.GetPrefix(context.Guild);
-            if (!input.StartsWith(prefix.ToUpperInvariant()))
+            if (!input.StartsWith(prefix.ToUpperInvariant(), StringComparison.InvariantCulture))
                 return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "No such command found."));
 
             input = input.Substring(prefix.Length);
@@ -67,7 +67,7 @@ namespace NadekoBot.Common.TypeReaders
                 }
             }
 
-            var cmd = await new CommandTypeReader(_client, _cmds).ReadAsync(context, input, services);
+            var cmd = await new CommandTypeReader(_client, _cmds).ReadAsync(context, input, services).ConfigureAwait(false);
             if (cmd.IsSuccess)
             {
                 return TypeReaderResult.FromSuccess(new CommandOrCrInfo(((CommandInfo)cmd.Values.First().Value).Name, CommandOrCrInfo.Type.Normal));

@@ -8,5 +8,13 @@ namespace NadekoBot.Modules.Searches.Exceptions
         {
 
         }
+
+        public TagBlacklistedException(string message) : base(message)
+        {
+        }
+
+        public TagBlacklistedException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
     }
 }

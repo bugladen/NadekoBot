@@ -180,7 +180,7 @@ namespace NadekoBot.Modules.Xp.Services
                 if (club == null)
                     return false;
 
-                var applicant = club.Applicants.FirstOrDefault(x => x.User.ToString().ToLowerInvariant() == userName.ToLowerInvariant());
+                var applicant = club.Applicants.FirstOrDefault(x => x.User.ToString().ToUpperInvariant() == userName.ToUpperInvariant());
                 if (applicant == null)
                     return false;
 
@@ -276,8 +276,8 @@ namespace NadekoBot.Modules.Xp.Services
                 if (club == null)
                     return false;
 
-                var usr = club.Users.FirstOrDefault(x => x.ToString().ToLowerInvariant() == userName.ToLowerInvariant())
-                    ?? club.Applicants.FirstOrDefault(x => x.User.ToString().ToLowerInvariant() == userName.ToLowerInvariant())?.User;
+                var usr = club.Users.FirstOrDefault(x => x.ToString().ToUpperInvariant() == userName.ToUpperInvariant())
+                    ?? club.Applicants.FirstOrDefault(x => x.User.ToString().ToUpperInvariant() == userName.ToUpperInvariant())?.User;
                 if (usr == null)
                     return false;
 
@@ -309,7 +309,7 @@ namespace NadekoBot.Modules.Xp.Services
                 if (club == null)
                     return false;
 
-                var ban = club.Bans.FirstOrDefault(x => x.User.ToString().ToLowerInvariant() == userName.ToLowerInvariant());
+                var ban = club.Bans.FirstOrDefault(x => x.User.ToString().ToUpperInvariant() == userName.ToUpperInvariant());
                 if (ban == null)
                     return false;
 
@@ -328,7 +328,7 @@ namespace NadekoBot.Modules.Xp.Services
                 if (club == null)
                     return false;
 
-                var usr = club.Users.FirstOrDefault(x => x.ToString().ToLowerInvariant() == userName.ToLowerInvariant());
+                var usr = club.Users.FirstOrDefault(x => x.ToString().ToUpperInvariant() == userName.ToUpperInvariant());
                 if (usr == null)
                     return false;
 

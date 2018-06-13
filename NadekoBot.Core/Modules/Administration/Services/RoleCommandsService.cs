@@ -78,7 +78,7 @@ namespace NadekoBot.Modules.Administration.Services
                                     {
                                         if (r.Key.Name == reaction.Emote.Name)
                                             continue;
-                                        try { await dl.RemoveReactionAsync(r.Key, gusr); } catch { }
+                                        try { await dl.RemoveReactionAsync(r.Key, gusr).ConfigureAwait(false); } catch { }
                                         await Task.Delay(100).ConfigureAwait(false);
                                     }                                        
                                 }
@@ -90,7 +90,7 @@ namespace NadekoBot.Modules.Administration.Services
                         var toAdd = gusr.Guild.GetRole(reactionRole.RoleId);
                         if (toAdd != null && !gusr.Roles.Contains(toAdd))
                         {
-                            await gusr.AddRolesAsync(new[] { toAdd });
+                            await gusr.AddRolesAsync(new[] { toAdd }).ConfigureAwait(false);
                         }
                     }
                     else
@@ -100,7 +100,7 @@ namespace NadekoBot.Modules.Administration.Services
                             new RequestOptions()
                             {
                                 RetryMode = RetryMode.RetryRatelimit | RetryMode.Retry502
-                            });
+                            }).ConfigureAwait(false);
                         _log.Warn("User {0} is adding unrelated reactions to the reaction roles message.", dl.Author);
                     }
                 }
@@ -157,7 +157,7 @@ namespace NadekoBot.Modules.Administration.Services
         {
             using (var uow = _db.UnitOfWork)
             {
-                var gc = uow.GuildConfigs.For(id, set => set
+                var gc = uow.GuildConfigs.ForId(id, set => set
                     .Include(x => x.ReactionRoleMessages)
                     .ThenInclude(x => x.ReactionRoles));
                 if (gc.ReactionRoleMessages.Count >= 5)
@@ -175,7 +175,7 @@ namespace NadekoBot.Modules.Administration.Services
         {
             using (var uow = _db.UnitOfWork)
             {
-                var gc = uow.GuildConfigs.For(id, 
+                var gc = uow.GuildConfigs.ForId(id, 
                     set => set.Include(x => x.ReactionRoleMessages)
                         .ThenInclude(x => x.ReactionRoles));
                 uow._context.Set<ReactionRole>()

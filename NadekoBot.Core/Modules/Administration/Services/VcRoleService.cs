@@ -47,22 +47,22 @@ namespace NadekoBot.Modules.Administration.Services
                             {
                                 if (!user.RoleIds.Contains(role.Id))
                                 {
-                                    try { await user.AddRoleAsync(role); } catch { }
+                                    try { await user.AddRoleAsync(role).ConfigureAwait(false); } catch { }
                                 }
                             }
                             else
                             {
                                 if (user.RoleIds.Contains(role.Id))
                                 {
-                                    try { await user.RemoveRoleAsync(role); } catch { }
+                                    try { await user.RemoveRoleAsync(role).ConfigureAwait(false); } catch { }
                                 }
                             }
 
-                            await Task.Delay(250);
+                            await Task.Delay(250).ConfigureAwait(false);
                         }
                     }));
 
-                    await Task.WhenAll(tasks.Append(Task.Delay(1000)));
+                    await Task.WhenAll(tasks.Append(Task.Delay(1000))).ConfigureAwait(false);
                 }
             });
 
@@ -111,7 +111,7 @@ namespace NadekoBot.Modules.Administration.Services
                 {
                     _log.Warn($"Removing {missingRoles.Count} missing roles from {nameof(VcRoleService)}");
                     uow._context.RemoveRange(missingRoles);
-                    await uow.CompleteAsync();
+                    await uow.CompleteAsync().ConfigureAwait(false);
                 }
             }
         }
@@ -126,7 +126,7 @@ namespace NadekoBot.Modules.Administration.Services
             guildVcRoles.AddOrUpdate(vcId, role, (key, old) => role);
             using (var uow = _db.UnitOfWork)
             {
-                var conf = uow.GuildConfigs.For(guildId, set => set.Include(x => x.VcRoleInfos));
+                var conf = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.VcRoleInfos));
                 conf.VcRoleInfos.RemoveWhere(x => x.VoiceChannelId == vcId); // remove old one
                 conf.VcRoleInfos.Add(new VcRoleInfo()
                 {
@@ -147,7 +147,7 @@ namespace NadekoBot.Modules.Administration.Services
 
             using (var uow = _db.UnitOfWork)
             {
-                var conf = uow.GuildConfigs.For(guildId, set => set.Include(x => x.VcRoleInfos));
+                var conf = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.VcRoleInfos));
                 conf.VcRoleInfos.RemoveWhere(x => x.VoiceChannelId == vcId);
                 uow.Complete();
             }

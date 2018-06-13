@@ -28,8 +28,6 @@ namespace NadekoBot.Modules.Gambling
 
             private static readonly HashSet<ulong> _runningUsers = new HashSet<ulong>();
 
-            private const int _alphaCutOut = byte.MaxValue / 3;
-
             //here is a payout chart
             //https://lh6.googleusercontent.com/-i1hjAJy_kN4/UswKxmhrbPI/AAAAAAAAB1U/82wq_4ZZc-Y/DE6B0895-6FC1-48BE-AC4F-14D1B91AB75B.jpg
             //thanks to judge for helping me with this
@@ -43,7 +41,7 @@ namespace NadekoBot.Modules.Gambling
                 _cs = cs;
             }
 
-            public class SlotMachine
+            public sealed class SlotMachine
             {
                 public const int MaxValue = 5;
 
@@ -136,7 +134,7 @@ namespace NadekoBot.Modules.Gambling
                     payout += key * dict[key];
                 }
                 await Context.Channel.SendConfirmAsync("Slot Test Results", sb.ToString(),
-                    footer: $"Total Bet: {tests * bet} | Payout: {payout * bet} | {payout * 1.0f / tests * 100}%");
+                    footer: $"Total Bet: {tests * bet} | Payout: {payout * bet} | {payout * 1.0f / tests * 100}%").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -146,18 +144,18 @@ namespace NadekoBot.Modules.Gambling
                     return;
                 try
                 {
-                    if (!await CheckBetMandatory(amount))
+                    if (!await CheckBetMandatory(amount).ConfigureAwait(false))
                         return;
                     const int maxAmount = 9999;
                     if (amount > maxAmount)
                     {
-                        await ReplyErrorLocalized("max_bet_limit", maxAmount + _bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                        await ReplyErrorLocalized("max_bet_limit", maxAmount + Bc.BotConfig.CurrencySign).ConfigureAwait(false);
                         return;
                     }
 
-                    if (!await _cs.RemoveAsync(Context.User, "Slot Machine", amount, false, gamble: true))
+                    if (!await _cs.RemoveAsync(Context.User, "Slot Machine", amount, false, gamble: true).ConfigureAwait(false))
                     {
-                        await ReplyErrorLocalized("not_enough", _bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                        await ReplyErrorLocalized("not_enough", Bc.BotConfig.CurrencySign).ConfigureAwait(false);
                         return;
                     }
                     Interlocked.Add(ref _totalBet, amount.Value);
@@ -207,26 +205,26 @@ namespace NadekoBot.Modules.Gambling
                         var msg = GetText("better_luck");
                         if (result.Multiplier != 0)
                         {
-                            await _cs.AddAsync(Context.User, $"Slot Machine x{result.Multiplier}", amount * result.Multiplier, false, gamble: true);
+                            await _cs.AddAsync(Context.User, $"Slot Machine x{result.Multiplier}", amount * result.Multiplier, false, gamble: true).ConfigureAwait(false);
                             Interlocked.Add(ref _totalPaidOut, amount * result.Multiplier);
                             if (result.Multiplier == 1)
-                                msg = GetText("slot_single", _bc.BotConfig.CurrencySign, 1);
+                                msg = GetText("slot_single", Bc.BotConfig.CurrencySign, 1);
                             else if (result.Multiplier == 4)
-                                msg = GetText("slot_two", _bc.BotConfig.CurrencySign, 4);
+                                msg = GetText("slot_two", Bc.BotConfig.CurrencySign, 4);
                             else if (result.Multiplier == 10)
                                 msg = GetText("slot_three", 10);
                             else if (result.Multiplier == 30)
                                 msg = GetText("slot_jackpot", 30);
                         }
 
-                        await Context.Channel.SendFileAsync(bgImage.ToStream(), "result.png", Context.User.Mention + " " + msg + $"\n`{GetText("slot_bet")}:`{amount} `{GetText("won")}:` {amount * result.Multiplier}{_bc.BotConfig.CurrencySign}").ConfigureAwait(false);
+                        await Context.Channel.SendFileAsync(bgImage.ToStream(), "result.png", Context.User.Mention + " " + msg + $"\n`{GetText("slot_bet")}:`{amount} `{GetText("won")}:` {amount * result.Multiplier}{Bc.BotConfig.CurrencySign}").ConfigureAwait(false);
                     }
                 }
                 finally
                 {
                     var _ = Task.Run(async () =>
                     {
-                        await Task.Delay(1500);
+                        await Task.Delay(1500).ConfigureAwait(false);
                         _runningUsers.Remove(Context.User.Id);
                     });
                 }

@@ -54,7 +54,7 @@ namespace NadekoBot.Modules.Games
                 if (!_service.ActivePolls.TryGetValue(Context.Guild.Id, out var pr))
                     return;
 
-                await Context.Channel.EmbedAsync(GetStats(pr.Poll, GetText("current_poll_results")));
+                await Context.Channel.EmbedAsync(GetStats(pr.Poll, GetText("current_poll_results"))).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]

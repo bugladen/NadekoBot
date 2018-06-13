@@ -42,7 +42,7 @@ namespace NadekoBot.Modules.Games.Common
 
         private readonly string[] _numbers = { ":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:", ":nine:" };
 
-        public Action<TicTacToe> OnEnded;
+        public event Action<TicTacToe> OnEnded;
 
         private IUserMessage _previousMessage;
         private Timer _timeoutTimer;
@@ -50,7 +50,7 @@ namespace NadekoBot.Modules.Games.Common
         private readonly DiscordSocketClient _client;
         private readonly Options _options;
 
-        public TicTacToe(NadekoStrings strings, DiscordSocketClient client, ITextChannel channel, 
+        public TicTacToe(NadekoStrings strings, DiscordSocketClient client, ITextChannel channel,
             IGuildUser firstUser, Options options)
         {
             _channel = channel;
@@ -152,7 +152,7 @@ namespace NadekoBot.Modules.Games.Common
 
             _timeoutTimer = new Timer(async (_) =>
             {
-                await _moveLock.WaitAsync();
+                await _moveLock.WaitAsync().ConfigureAwait(false);
                 try
                 {
                     if (_phase == Phase.Ended)
@@ -272,9 +272,9 @@ namespace NadekoBot.Modules.Games.Common
                         {
                             var del1 = msg.DeleteAsync();
                             var del2 = _previousMessage?.DeleteAsync();
-                            try { _previousMessage = await _channel.EmbedAsync(GetEmbed(reason)); } catch { }
-                            try { await del1; } catch { }
-                            try { if (del2 != null) await del2; } catch { }
+                            try { _previousMessage = await _channel.EmbedAsync(GetEmbed(reason)).ConfigureAwait(false); } catch { }
+                            try { await del1.ConfigureAwait(false); } catch { }
+                            try { if (del2 != null) await del2.ConfigureAwait(false); } catch { }
                         });
                         _curUserIndex ^= 1;
 

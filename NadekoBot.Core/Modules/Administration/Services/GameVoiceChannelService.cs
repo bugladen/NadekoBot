@@ -11,7 +11,7 @@ namespace NadekoBot.Modules.Administration.Services
 {
     public class GameVoiceChannelService : INService
     {
-        public readonly ConcurrentHashSet<ulong> GameVoiceChannels = new ConcurrentHashSet<ulong>();
+        public ConcurrentHashSet<ulong> GameVoiceChannels { get; } = new ConcurrentHashSet<ulong>();
 
         private readonly Logger _log;
         private readonly DbService _db;
@@ -36,7 +36,7 @@ namespace NadekoBot.Modules.Administration.Services
             ulong? id;
             using (var uow = _db.UnitOfWork)
             {
-                var gc = uow.GuildConfigs.For(guildId, set => set);
+                var gc = uow.GuildConfigs.ForId(guildId, set => set);
 
                 if (gc.GameVoiceChannel == vchId)
                 {
@@ -62,8 +62,7 @@ namespace NadekoBot.Modules.Administration.Services
             {
                 try
                 {
-                    var gUser = usr as SocketGuildUser;
-                    if (gUser == null)
+                    if (!(usr is SocketGuildUser gUser))
                         return;
 
                     var game = gUser.Activity?.Name?.TrimTo(50).ToLowerInvariant();
