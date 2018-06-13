@@ -24,6 +24,7 @@ using NadekoBot.Common.Replacements;
 using Discord.WebSocket;
 using NadekoBot.Core.Modules.Searches.Common;
 using SixLabors.Primitives;
+using AngleSharp.Parser.Html;
 
 namespace NadekoBot.Modules.Searches
 {
@@ -439,9 +440,6 @@ namespace NadekoBot.Modules.Searches
                                                             .ConfigureAwait(false);
         }
 
-        //private readonly Regex googleSearchRegex = new Regex(@"<h3 class=""r""><a href=""(?:\/url?q=)?(?<link>.*?)"".*?>(?<title>.*?)<\/a>.*?class=""st"">(?<text>.*?)<\/span>", RegexOptions.Compiled);
-        //private readonly Regex htmlReplace = new Regex(@"(?:<b>(.*?)<\/b>|<em>(.*?)<\/em>)", RegexOptions.Compiled);
-
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Google([Remainder] string terms = null)
         {
@@ -451,49 +449,57 @@ namespace NadekoBot.Modules.Searches
 
             terms = WebUtility.UrlEncode(terms).Replace(' ', '+');
 
-            var fullQueryLink = $"https://www.google.ca/search?q={ terms }&gws_rd=cr,ssl&cr=countryUS";
-            var config = Configuration.Default.WithDefaultLoader();
-            using (var document = await BrowsingContext.New(config).OpenAsync(fullQueryLink))
+            var fullQueryLink = $"https://www.google.ca/search?q={ terms }&safe=on&lr=lang_eng&hl=en";
+
+            using (var msg = new HttpRequestMessage(HttpMethod.Get, fullQueryLink))
             {
-                var elems = document.QuerySelectorAll("div.g");
-
-                var resultsElem = document.QuerySelectorAll("#resultStats").FirstOrDefault();
-                var totalResults = resultsElem?.TextContent;
-                //var time = resultsElem.Children.FirstOrDefault()?.TextContent
-                //^ this doesn't work for some reason, <nobr> is completely missing in parsed collection
-                if (!elems.Any())
-                    return;
-
-                var results = elems.Select<IElement, GoogleSearchResult?>(elem =>
+                msg.Headers.AddFakeHeaders();
+                var config = Configuration.Default.WithDefaultLoader();
+                var parser = new HtmlParser(config);
+                var test = "";
+                using (var response = await _service.Http.SendAsync(msg).ConfigureAwait(false))
+                using (var document = await parser.ParseAsync(test = await response.Content.ReadAsStringAsync()))
                 {
-                    var aTag = (elem.Children.FirstOrDefault()?.Children.FirstOrDefault() as IHtmlAnchorElement); // <h3> -> <a>
-                    var href = aTag?.Href;
-                    var name = aTag?.TextContent;
-                    if (href == null || name == null)
-                        return null;
+                    var elems = document.QuerySelectorAll("div.g");
 
-                    var txt = elem.QuerySelectorAll(".st").FirstOrDefault()?.TextContent;
+                    var resultsElem = document.QuerySelectorAll("#resultStats").FirstOrDefault();
+                    var totalResults = resultsElem?.TextContent;
+                    //var time = resultsElem.Children.FirstOrDefault()?.TextContent
+                    //^ this doesn't work for some reason, <nobr> is completely missing in parsed collection
+                    if (!elems.Any())
+                        return;
 
-                    if (txt == null)
-                        return null;
+                    var results = elems.Select<IElement, GoogleSearchResult?>(elem =>
+                    {
+                        var aTag = elem.QuerySelector("a") as IHtmlAnchorElement; // <h3> -> <a>
+                        var href = aTag?.Href;
+                        var name = aTag?.TextContent;
+                        if (href == null || name == null)
+                            return null;
 
-                    return new GoogleSearchResult(name, href, txt);
-                }).Where(x => x != null).Take(5);
+                        var txt = elem.QuerySelectorAll(".st").FirstOrDefault()?.TextContent;
 
-                var embed = new EmbedBuilder()
-                    .WithOkColor()
-                    .WithAuthor(eab => eab.WithName(GetText("search_for") + " " + terms.TrimTo(50))
-                        .WithUrl(fullQueryLink)
-                        .WithIconUrl("http://i.imgur.com/G46fm8J.png"))
-                    .WithTitle(Context.User.ToString())
-                    .WithFooter(efb => efb.WithText(totalResults));
+                        if (txt == null)
+                            return null;
 
-                var desc = await Task.WhenAll(results.Select(async res =>
-                        $"[{Format.Bold(res?.Title)}]({(await _google.ShortenUrl(res?.Link))})\n{res?.Text?.TrimTo(400 - res.Value.Title.Length - res.Value.Link.Length)}\n\n"))
-                    .ConfigureAwait(false);
-                var descStr = string.Concat(desc);
-                _log.Info(descStr.Length);
-                await Context.Channel.EmbedAsync(embed.WithDescription(descStr)).ConfigureAwait(false);
+                        return new GoogleSearchResult(name, href, txt);
+                    }).Where(x => x != null).Take(5);
+
+                    var embed = new EmbedBuilder()
+                        .WithOkColor()
+                        .WithAuthor(eab => eab.WithName(GetText("search_for") + " " + terms.TrimTo(50))
+                            .WithUrl(fullQueryLink)
+                            .WithIconUrl("http://i.imgur.com/G46fm8J.png"))
+                        .WithTitle(Context.User.ToString())
+                        .WithFooter(efb => efb.WithText(totalResults));
+
+                    var desc = await Task.WhenAll(results.Select(async res =>
+                            $"[{Format.Bold(res?.Title)}]({(await _google.ShortenUrl(res?.Link))})\n{res?.Text?.TrimTo(400 - res.Value.Title.Length - res.Value.Link.Length)}\n\n"))
+                        .ConfigureAwait(false);
+                    var descStr = string.Concat(desc);
+                    _log.Info(descStr.Length);
+                    await Context.Channel.EmbedAsync(embed.WithDescription(descStr)).ConfigureAwait(false);
+                }
             }
         }
 

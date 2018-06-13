@@ -21,6 +21,7 @@ using SixLabors.Shapes;
 using System.Numerics;
 using System.Diagnostics;
 using NLog;
+using System.Net.Http.Headers;
 
 namespace NadekoBot.Extensions
 {
@@ -128,10 +129,13 @@ namespace NadekoBot.Extensions
         }
 
         public static void AddFakeHeaders(this HttpClient http)
+            => AddFakeHeaders(http.DefaultRequestHeaders);
+
+        public static void AddFakeHeaders(this HttpHeaders dict)
         {
-            http.DefaultRequestHeaders.Clear();
-            http.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.202 Safari/535.1");
-            http.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+            dict.Clear();
+            dict.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+            dict.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.202 Safari/535.1");
         }
 
         public static IMessage DeleteAfter(this IUserMessage msg, int seconds)
