@@ -490,7 +490,7 @@ namespace NadekoBot.Modules.Gambling
 
                 var embed = new EmbedBuilder()
                     .WithOkColor()
-                    .WithTitle("Waifu " + w.Waifu + " - \"the " + claimInfo.Title + "\"")
+                    .WithTitle(GetText("waifu") + " " + w.Waifu + " - \"the " + claimInfo.Title + "\"")
                     .AddField(efb => efb.WithName(GetText("price")).WithValue(w.Price.ToString()).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("claimed_by")).WithValue(w.Claimer?.ToString() ?? nobody).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("likes")).WithValue(w.Affinity?.ToString() ?? nobody).WithIsInline(true))
