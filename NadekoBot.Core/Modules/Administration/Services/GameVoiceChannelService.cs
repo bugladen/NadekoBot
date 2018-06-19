@@ -28,7 +28,36 @@ namespace NadekoBot.Modules.Administration.Services
                                          .Select(gc => gc.GameVoiceChannel.Value));
 
             _client.UserVoiceStateUpdated += Client_UserVoiceStateUpdated;
+            _client.GuildMemberUpdated += _client_GuildMemberUpdated;
+        }
 
+        private Task _client_GuildMemberUpdated(SocketGuildUser before, SocketGuildUser after)
+        {
+            var _ = Task.Run(async () =>
+            {
+                try
+                {
+                    //if the user is in the voice channel and that voice channel is gvc
+                    var vc = after.VoiceChannel;
+                    if (vc == null || !GameVoiceChannels.Contains(vc.Id))
+                        return;
+
+                    //if the activity has changed, and is a playing activity
+                    if (before.Activity != after.Activity
+                        && after.Activity != null
+                        && after.Activity.Type == Discord.ActivityType.Playing)
+                    {
+                        //trigger gvc
+                        await TriggerGvc(after, after.Activity.Name);
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    _log.Warn(ex);
+                }
+            });
+            return Task.CompletedTask;
         }
 
         public ulong? ToggleGameVoiceChannel(ulong guildId, ulong vchId)
@@ -65,7 +94,7 @@ namespace NadekoBot.Modules.Administration.Services
                     if (!(usr is SocketGuildUser gUser))
                         return;
 
-                    var game = gUser.Activity?.Name?.TrimTo(50).ToLowerInvariant();
+                    var game = gUser.Activity?.Name;
 
                     if (oldState.VoiceChannel == newState.VoiceChannel ||
                         newState.VoiceChannel == null)
@@ -75,14 +104,7 @@ namespace NadekoBot.Modules.Administration.Services
                         string.IsNullOrWhiteSpace(game))
                         return;
 
-                    var vch = gUser.Guild.VoiceChannels
-                        .FirstOrDefault(x => x.Name.ToLowerInvariant() == game);
-
-                    if (vch == null)
-                        return;
-
-                    await Task.Delay(1000).ConfigureAwait(false);
-                    await gUser.ModifyAsync(gu => gu.Channel = vch).ConfigureAwait(false);
+                    await TriggerGvc(gUser, game);
                 }
                 catch (Exception ex)
                 {
@@ -91,6 +113,22 @@ namespace NadekoBot.Modules.Administration.Services
             });
 
             return Task.CompletedTask;
+        }
+
+        private async Task TriggerGvc(SocketGuildUser gUser, string game)
+        {
+            if (string.IsNullOrWhiteSpace(game))
+                return;
+
+            game = game.TrimTo(50).ToLowerInvariant();
+            var vch = gUser.Guild.VoiceChannels
+                .FirstOrDefault(x => x.Name.ToLowerInvariant() == game);
+
+            if (vch == null)
+                return;
+
+            await Task.Delay(1000).ConfigureAwait(false);
+            await gUser.ModifyAsync(gu => gu.Channel = vch).ConfigureAwait(false);
         }
     }
 }
