@@ -59,7 +59,6 @@ namespace NadekoBot.Modules.Utility.Services
 
             if (guild != null)
             {
-                input = input.ToLowerInvariant();
                 if (AliasMaps.TryGetValue(guild.Id, out ConcurrentDictionary<string, string> maps))
                 {
                     var keys = maps.Keys
@@ -68,7 +67,7 @@ namespace NadekoBot.Modules.Utility.Services
                     foreach (var k in keys)
                     {
                         string newInput;
-                        if (input.StartsWith(k + " ", StringComparison.InvariantCulture))
+                        if (input.StartsWith(k + " ", StringComparison.InvariantCultureIgnoreCase))
                             newInput = maps[k] + input.Substring(k.Length, input.Length - k.Length);
                         else if (input == k)
                             newInput = maps[k];
