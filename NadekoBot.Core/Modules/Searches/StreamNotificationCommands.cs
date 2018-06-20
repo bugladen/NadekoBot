@@ -1,4 +1,5 @@
-﻿using Discord.Commands;
+﻿#if !GLOBAL_NADEKO
+using Discord.Commands;
 using Discord;
 using System.Linq;
 using System.Threading.Tasks;
@@ -371,3 +372,4 @@ namespace NadekoBot.Modules.Searches
         }
     }
 }
+#endif

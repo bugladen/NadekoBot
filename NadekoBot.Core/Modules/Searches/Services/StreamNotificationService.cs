@@ -48,6 +48,7 @@ namespace NadekoBot.Modules.Searches.Services
             _http.DefaultRequestHeaders.TryAddWithoutValidation("Client-ID", _creds.TwitchClientId);
             _log = LogManager.GetCurrentClassLogger();
 
+#if !GLOBAL_NADEKO
             _followedStreams = bot.AllGuildConfigs
                 .SelectMany(x => x.FollowedStreams)
                 .GroupBy(x => (x.Type, x.Username))
@@ -122,6 +123,7 @@ namespace NadekoBot.Modules.Searches.Services
                     }
                 });
             }
+#endif
         }
 
         private async Task OnStreamsUpdated(StreamResponse[] updates)
