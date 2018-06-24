@@ -41,6 +41,11 @@ namespace NadekoBot.Common.Replacements
             embedData.Title = Replace(embedData.Title);
             embedData.Thumbnail = Replace(embedData.Thumbnail);
             embedData.Image = Replace(embedData.Image);
+            if(embedData.Author != null)
+            {
+                embedData.Author.Name = Replace(embedData.Author.Name);
+                embedData.Author.IconUrl = Replace(embedData.Author.Name);
+            }
 
             if (embedData.Fields != null)
                 foreach (var f in embedData.Fields)
