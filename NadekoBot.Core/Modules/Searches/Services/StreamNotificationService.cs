@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Microsoft.EntityFrameworkCore;
+using NadekoBot.Common;
 using NadekoBot.Common.Collections;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
@@ -31,6 +32,7 @@ namespace NadekoBot.Modules.Searches.Services
         private readonly HttpClient _http;
         private readonly Logger _log;
         private readonly IBotCredentials _creds;
+        private readonly Random _rng = new NadekoRandom();
         private readonly ConcurrentDictionary<
             (FollowedStream.FType Type, string Username),
             ConcurrentHashSet<(ulong GuildId, FollowedStream fs)>> _followedStreams;
@@ -324,7 +326,7 @@ namespace NadekoBot.Modules.Searches.Services
                 embed.WithThumbnailUrl(status.Icon);
 
             if (!string.IsNullOrWhiteSpace(status.Preview))
-                embed.WithImageUrl(status.Preview);
+                embed.WithImageUrl(status.Preview + "?dv=" + _rng.Next());
 
             return embed;
         }
