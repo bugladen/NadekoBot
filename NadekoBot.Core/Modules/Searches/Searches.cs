@@ -112,13 +112,14 @@ namespace NadekoBot.Modules.Searches
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [RequireUserPermission(GuildPermission.ManageMessages)]
-        public async Task Say([Remainder]string message)
+        [Priority(1)]
+        public async Task Say(ITextChannel channel, [Remainder]string message)
         {
             if (string.IsNullOrWhiteSpace(message))
                 return;
 
             var rep = new ReplacementBuilder()
-                        .WithDefault(Context.User, Context.Channel, (SocketGuild)Context.Guild, (DiscordSocketClient)Context.Client)
+                        .WithDefault(Context.User, channel, (SocketGuild)Context.Guild, (DiscordSocketClient)Context.Client)
                         .Build();
 
             if (CREmbed.TryParse(message, out var embedData))
@@ -126,7 +127,7 @@ namespace NadekoBot.Modules.Searches
                 rep.Replace(embedData);
                 try
                 {
-                    await Context.Channel.EmbedAsync(embedData.ToEmbed(), embedData.PlainText?.SanitizeMentions() ?? "").ConfigureAwait(false);
+                    await channel.EmbedAsync(embedData.ToEmbed(), embedData.PlainText?.SanitizeMentions() ?? "").ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
@@ -138,10 +139,17 @@ namespace NadekoBot.Modules.Searches
                 var msg = rep.Replace(message);
                 if (!string.IsNullOrWhiteSpace(msg))
                 {
-                    await Context.Channel.SendConfirmAsync(msg).ConfigureAwait(false);
+                    await channel.SendConfirmAsync(msg).ConfigureAwait(false);
                 }
             }
         }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [RequireUserPermission(GuildPermission.ManageMessages)]
+        [Priority(0)]
+        public Task Say([Remainder]string message) =>
+            Say((ITextChannel)Context.Channel, message);
 
         //[NadekoCommand, Usage, Description, Aliases]
         //public async Task Distance(string p1, string p2)
