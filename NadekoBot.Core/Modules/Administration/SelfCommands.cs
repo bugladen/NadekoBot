@@ -292,10 +292,10 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task Leave([Remainder] string guildStr)
+            public Task Leave([Remainder] string guildStr)
             {
                 var sub = _cache.Redis.GetSubscriber();
-                sub.Publish(_creds.RedisKey() + "_leave_guild", guildStr);
+                return sub.PublishAsync(_creds.RedisKey() + "_leave_guild", guildStr);
             }
 
 
