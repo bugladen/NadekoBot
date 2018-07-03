@@ -648,6 +648,7 @@
   "utility_remind": "I will remind {0} to {1} in {2} `({3:d.M.yyyy.} at {4:HH:mm})`",
   "utility_remind_invalid_format": "Not a valid time format. Check the commandlist.",
   "utility_remind_template": "New remind template set.",
+  "utility_remind_too_long": "Remind time has exceeded maximum.",
   "utility_repeater": "Repeating {0} every {1} day(s), {2} hour(s) and {3} minute(s).",
   "utility_repeaters_list": "List of repeaters",
   "utility_repeaters_none": "No repeaters running on this server.",

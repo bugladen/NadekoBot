@@ -583,7 +583,7 @@
   },
   "remind": {
     "Cmd": "remind",
-    "Desc": "Sends a message to you or a channel after certain amount of time. First parameter is `me`/`here`/'channelname'. Second parameter is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third parameter is a (multiword) message.",
+    "Desc": "Sends a message to you or a channel after certain amount of time (max 2 months). First parameter is `me`/`here`/'channelname'. Second parameter is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third parameter is a (multiword) message.",
     "Usage": [
       "{0}remind me 1d5h Do something",
       "{0}remind #general 1m Start now!"
