@@ -25,13 +25,15 @@ namespace NadekoBot.Modules.Administration
             private readonly DiscordSocketClient _client;
             private readonly NadekoBot _bot;
             private readonly IBotCredentials _creds;
+            private readonly IDataCache _cache;
 
             public SelfCommands(NadekoBot bot, DiscordSocketClient client,
-                IBotCredentials creds)
+                IBotCredentials creds, IDataCache cache)
             {
                 _client = client;
                 _bot = bot;
                 _creds = creds;
+                _cache = cache;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -292,25 +294,8 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task Leave([Remainder] string guildStr)
             {
-                guildStr = guildStr.Trim().ToUpperInvariant();
-                var server = _client.Guilds.FirstOrDefault(g => g.Id.ToString() == guildStr) ??
-                    _client.Guilds.FirstOrDefault(g => g.Name.Trim().ToUpperInvariant() == guildStr);
-
-                if (server == null)
-                {
-                    await ReplyErrorLocalized("no_server").ConfigureAwait(false);
-                    return;
-                }
-                if (server.OwnerId != _client.CurrentUser.Id)
-                {
-                    await server.LeaveAsync().ConfigureAwait(false);
-                    await ReplyConfirmLocalized("left_server", Format.Bold(server.Name)).ConfigureAwait(false);
-                }
-                else
-                {
-                    await server.DeleteAsync().ConfigureAwait(false);
-                    await ReplyConfirmLocalized("deleted_server", Format.Bold(server.Name)).ConfigureAwait(false);
-                }
+                var sub = _cache.Redis.GetSubscriber();
+                sub.Publish(_creds.RedisKey() + "_leave_guild", guildStr);
             }
 
 
