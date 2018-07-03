@@ -194,7 +194,7 @@ namespace NadekoBot.Modules.Searches.Services
                 });
 
             //flowa
-            using (var flowers = Image.Load(_imgs.FlowerCircle.ToArray()))
+            using (var flowers = Image.Load(_imgs.RipOverlay.ToArray()))
             {
                 bg.DrawImage(flowers,
                     default,
