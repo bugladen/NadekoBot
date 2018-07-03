@@ -268,11 +268,11 @@ namespace NadekoBot.Modules.Xp.Services
             return true;
         }
 
-        public bool Ban(ulong ownerUserId, string userName, out ClubInfo club)
+        public bool Ban(ulong bannerId, string userName, out ClubInfo club)
         {
             using (var uow = _db.UnitOfWork)
             {
-                club = uow.Clubs.GetByOwnerOrAdmin(ownerUserId);
+                club = uow.Clubs.GetByOwnerOrAdmin(bannerId);
                 if (club == null)
                     return false;
 
@@ -281,7 +281,7 @@ namespace NadekoBot.Modules.Xp.Services
                 if (usr == null)
                     return false;
 
-                if (club.OwnerId == usr.Id) // can't ban the owner kek, whew
+                if (club.OwnerId == usr.Id || (usr.IsClubAdmin && club.Owner.UserId != bannerId)) // can't ban the owner kek, whew
                     return false;
 
                 club.Bans.Add(new ClubBans
@@ -320,11 +320,11 @@ namespace NadekoBot.Modules.Xp.Services
             return true;
         }
 
-        public bool Kick(ulong ownerUserId, string userName, out ClubInfo club)
+        public bool Kick(ulong kickerId, string userName, out ClubInfo club)
         {
             using (var uow = _db.UnitOfWork)
             {
-                club = uow.Clubs.GetByOwnerOrAdmin(ownerUserId);
+                club = uow.Clubs.GetByOwnerOrAdmin(kickerId);
                 if (club == null)
                     return false;
 
@@ -332,7 +332,7 @@ namespace NadekoBot.Modules.Xp.Services
                 if (usr == null)
                     return false;
 
-                if (club.OwnerId == usr.Id)
+                if (club.OwnerId == usr.Id || (usr.IsClubAdmin && club.Owner.UserId != kickerId))
                     return false;
 
                 club.Users.Remove(usr);
