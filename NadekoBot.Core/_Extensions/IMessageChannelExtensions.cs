@@ -128,7 +128,22 @@ namespace NadekoBot.Extensions
                 await Task.Delay(30000).ConfigureAwait(false);
             }
 
-            await msg.RemoveAllReactionsAsync().ConfigureAwait(false);
+            try
+            {
+                if(msg.Channel is ITextChannel && ((SocketGuild)ctx.Guild).CurrentUser.GuildPermissions.ManageMessages)
+                {
+                    await msg.RemoveAllReactionsAsync().ConfigureAwait(false);
+                }
+                else
+                {
+                    await Task.WhenAll(msg.Reactions.Where(x => x.Value.IsMe)
+                        .Select(x => msg.RemoveReactionAsync(x.Key, ctx.Client.CurrentUser)));
+                }
+            }
+            catch
+            {
+                // ignored
+            }
         }
     }
 }
