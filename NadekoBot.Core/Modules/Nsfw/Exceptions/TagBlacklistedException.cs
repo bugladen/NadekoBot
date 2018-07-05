@@ -1,5 +1,3 @@
-﻿using System;
-
-namespace NadekoBot.Modules.NSFW.Exceptions
+﻿namespace NadekoBot.Modules.NSFW.Exceptions
 {
 }

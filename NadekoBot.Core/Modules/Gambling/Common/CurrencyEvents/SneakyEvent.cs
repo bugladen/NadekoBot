@@ -1,14 +1,4 @@
-﻿using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
-using NadekoBot.Common;
-using NadekoBot.Common.Collections;
-using NadekoBot.Core.Services;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace NadekoBot.Modules.Gambling.Common.CurrencyEvents
+﻿namespace NadekoBot.Modules.Gambling.Common.CurrencyEvents
 {
     //public class SneakyEvent : ICurrencyEvent
     //{

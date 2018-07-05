@@ -11,7 +11,6 @@ using NadekoBot.Common.Attributes;
 using NadekoBot.Common.Collections;
 using NadekoBot.Modules.Searches.Common;
 using NadekoBot.Modules.Searches.Services;
-using NadekoBot.Modules.NSFW.Exceptions;
 using NadekoBot.Modules.Searches.Exceptions;
 
 namespace NadekoBot.Modules.NSFW

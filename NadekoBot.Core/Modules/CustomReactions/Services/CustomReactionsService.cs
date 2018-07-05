@@ -83,7 +83,7 @@ namespace NadekoBot.Modules.CustomReactions.Services
                 }
             }, StackExchange.Redis.CommandFlags.FireAndForget);
 
-            var items = uow.CustomReactions.GetGlobalAndFor(bot.AllGuildConfigs.Select(x => (long)x.GuildId));
+            var items = uow.CustomReactions.GetGlobalAndFor(bot.AllGuildConfigs.Select(x => x.GuildId));
 
             GuildReactions = new ConcurrentDictionary<ulong, CustomReaction[]>(items
                 .Where(g => g.GuildId != null && g.GuildId != 0)

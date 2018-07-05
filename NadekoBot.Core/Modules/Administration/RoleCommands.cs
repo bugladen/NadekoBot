@@ -1,12 +1,12 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using ImageSharp;
 using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Administration.Services;
+using SixLabors.ImageSharp.PixelFormats;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

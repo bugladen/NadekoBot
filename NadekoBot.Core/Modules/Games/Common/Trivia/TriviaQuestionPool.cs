@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NadekoBot.Common;
 using NadekoBot.Extensions;
 using NadekoBot.Core.Services;

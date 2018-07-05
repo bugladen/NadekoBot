@@ -2,12 +2,15 @@
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using ImageSharp;
 using NadekoBot.Common;
 using NadekoBot.Extensions;
 using NadekoBot.Core.Services;
 using NLog;
 using SixLabors.Primitives;
+using Image = SixLabors.ImageSharp.Image;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.Processing.Drawing;
 
 namespace NadekoBot.Modules.Games.Common
 {
@@ -47,7 +50,7 @@ namespace NadekoBot.Modules.Games.Common
                         using (var pointMs = new MemoryStream(_images.RategirlDot.ToArray(), false))
                         using (var pointImg = Image.Load(pointMs))
                         {
-                            img.DrawImage(pointImg, 100, default, new Point(pointx - 10, pointy - 10));
+                            img.Mutate(x => x.DrawImage(GraphicsOptions.Default, pointImg, new Point(pointx - 10, pointy - 10)));
                         }
 
                         string url;
@@ -55,11 +58,13 @@ namespace NadekoBot.Modules.Games.Common
                         using (var imgStream = new MemoryStream())
                         {
                             img.SaveAsPng(imgStream);
-                            var byteContent = new ByteArrayContent(imgStream.ToArray());
-                            http.AddFakeHeaders();
+                            using (var byteContent = new ByteArrayContent(imgStream.ToArray()))
+                            {
+                                http.AddFakeHeaders();
 
-                            var reponse = await http.PutAsync("https://transfer.sh/img.png", byteContent).ConfigureAwait(false);
-                            url = await reponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                                var reponse = await http.PutAsync("https://transfer.sh/img.png", byteContent).ConfigureAwait(false);
+                                url = await reponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            }
                         }
                         return url;
                     }

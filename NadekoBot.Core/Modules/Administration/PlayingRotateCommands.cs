@@ -1,11 +1,9 @@
 ﻿using Discord.Commands;
 using NadekoBot.Core.Services;
-using NadekoBot.Core.Services.Database.Models;
 using System.Linq;
 using System.Threading.Tasks;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Administration.Services;
-using Microsoft.EntityFrameworkCore;
 using Discord;
 
 namespace NadekoBot.Modules.Administration

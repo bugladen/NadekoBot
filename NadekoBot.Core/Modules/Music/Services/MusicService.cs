@@ -15,7 +15,6 @@ using NadekoBot.Modules.Music.Common;
 using NadekoBot.Modules.Music.Common.Exceptions;
 using NadekoBot.Modules.Music.Common.SongResolver;
 using NadekoBot.Common.Collections;
-using System;
 using Microsoft.EntityFrameworkCore;
 
 namespace NadekoBot.Modules.Music.Services

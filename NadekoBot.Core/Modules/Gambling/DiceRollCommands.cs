@@ -6,12 +6,13 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
-using ImageSharp;
 using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Core.Services;
 using NadekoBot.Extensions;
-using Image = ImageSharp.Image;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using Image = SixLabors.ImageSharp.Image;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -39,17 +40,15 @@ namespace NadekoBot.Modules.Gambling
 
                 var num1 = gen / 10;
                 var num2 = gen % 10;
-                var imageStream = await Task.Run(() =>
-                {
-                    var ms = new MemoryStream();
-                    new[] { GetDice(num1), GetDice(num2) }.Merge().SaveAsPng(ms);
-                    ms.Position = 0;
-                    return ms;
-                }).ConfigureAwait(false);
 
-                await Context.Channel.SendFileAsync(imageStream,
-                    "dice.png",
-                    Context.User.Mention + " " + GetText("dice_rolled", Format.Code(gen.ToString()))).ConfigureAwait(false);
+
+                using (var img = new[] { GetDice(num1), GetDice(num2) }.Merge())
+                using (var ms = img.ToStream())
+                {
+                    await Context.Channel.SendFileAsync(ms,
+                        "dice.png",
+                        Context.User.Mention + " " + GetText("dice_rolled", Format.Code(gen.ToString()))).ConfigureAwait(false);
+                }
             }
 
             public enum RollOrderType
@@ -125,16 +124,16 @@ namespace NadekoBot.Modules.Gambling
                     values.Insert(toInsert, randomNumber);
                 }
 
-                var bitmap = dice.Merge();
-                var ms = new MemoryStream();
-                bitmap.SaveAsPng(ms);
-                ms.Position = 0;
-                await Context.Channel.SendFileAsync(ms, "dice.png",
-                    Context.User.Mention + " " +
-                    GetText("dice_rolled_num", Format.Bold(values.Count.ToString())) +
-                    " " + GetText("total_average",
-                        Format.Bold(values.Sum().ToString()),
-                        Format.Bold((values.Sum() / (1.0f * values.Count)).ToString("N2")))).ConfigureAwait(false);
+                using (var bitmap = dice.Merge())
+                using (var ms = bitmap.ToStream())
+                {
+                    await Context.Channel.SendFileAsync(ms, "dice.png",
+                        Context.User.Mention + " " +
+                        GetText("dice_rolled_num", Format.Bold(values.Count.ToString())) +
+                        " " + GetText("total_average",
+                            Format.Bold(values.Sum().ToString()),
+                            Format.Bold((values.Sum() / (1.0f * values.Count)).ToString("N2")))).ConfigureAwait(false);
+                }
             }
 
             private async Task InternallDndRoll(string arg, bool ordered)
@@ -222,16 +221,14 @@ namespace NadekoBot.Modules.Gambling
                     using (var imgOneStream = images[1].ToStream())
                     using (var imgZeroStream = images[0].ToStream())
                     {
-                        var imgOne = Image.Load(imgOneStream);
-                        var imgZero = Image.Load(imgZeroStream);
-
-                        return new[] { imgOne, imgZero }.Merge();
+                        using (var imgOne = Image.Load(imgOneStream))
+                        using (var imgZero = Image.Load(imgZeroStream))
+                        {
+                            return new[] { imgOne, imgZero }.Merge();
+                        }
                     }
                 }
-                using (var die = _images.Dice[num].ToStream())
-                {
-                    return Image.Load(die);
-                }
+                return Image.Load(_images.Dice[num]);
             }
         }
     }

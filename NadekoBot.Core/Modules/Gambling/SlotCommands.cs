@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using ImageSharp;
 using NadekoBot.Extensions;
 using NadekoBot.Core.Services;
 using System;
@@ -15,6 +14,10 @@ using SixLabors.Primitives;
 using NadekoBot.Modules.Gambling.Services;
 using NadekoBot.Core.Modules.Gambling.Common;
 using NadekoBot.Core.Common;
+using Image = SixLabors.ImageSharp.Image;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.Processing.Drawing;
+using SixLabors.ImageSharp;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -160,18 +163,17 @@ namespace NadekoBot.Modules.Gambling
                     }
                     Interlocked.Add(ref _totalBet, amount.Value);
                     using (var bgFileStream = _images.SlotBackground.ToStream())
+                    using (var bgImage = Image.Load(bgFileStream))
                     {
-                        var bgImage = ImageSharp.Image.Load(bgFileStream);
-
                         var result = SlotMachine.Pull();
                         int[] numbers = result.Numbers;
 
                         for (int i = 0; i < 3; i++)
                         {
                             using (var file = _images.SlotEmojis[numbers[i]].ToStream())
-                            using (var randomImage = ImageSharp.Image.Load(file))
+                            using (var randomImage = Image.Load(file))
                             {
-                                bgImage.DrawImage(randomImage, 100, default, new Point(95 + 142 * i, 330));
+                                bgImage.Mutate(x => x.DrawImage(GraphicsOptions.Default, randomImage, new Point(95 + 142 * i, 330)));
                             }
                         }
 
@@ -182,9 +184,9 @@ namespace NadekoBot.Modules.Gambling
                         {
                             var digit = printWon % 10;
                             using (var fs = _images.SlotNumbers[digit].ToStream())
-                            using (var img = ImageSharp.Image.Load(fs))
+                            using (var img = Image.Load(fs))
                             {
-                                bgImage.DrawImage(img, 100, default, new Point(230 - n * 16, 462));
+                                bgImage.Mutate(x => x.DrawImage(GraphicsOptions.Default, img, new Point(230 - n * 16, 462)));
                             }
                             n++;
                         } while ((printWon /= 10) != 0);
@@ -195,9 +197,9 @@ namespace NadekoBot.Modules.Gambling
                         {
                             var digit = printAmount % 10;
                             using (var fs = _images.SlotNumbers[digit].ToStream())
-                            using (var img = ImageSharp.Image.Load(fs))
+                            using (var img = Image.Load(fs))
                             {
-                                bgImage.DrawImage(img, 100, default, new Point(395 - n * 16, 462));
+                                bgImage.Mutate(x => x.DrawImage(GraphicsOptions.Default, img, new Point(395 - n * 16, 462)));
                             }
                             n++;
                         } while ((printAmount /= 10) != 0);
