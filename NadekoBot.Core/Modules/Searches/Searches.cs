@@ -15,7 +15,6 @@ using AngleSharp.Dom.Html;
 using AngleSharp.Dom;
 using Configuration = AngleSharp.Configuration;
 using Discord.Commands;
-using ImageSharp;
 using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Searches.Common;
@@ -25,6 +24,10 @@ using Discord.WebSocket;
 using NadekoBot.Core.Modules.Searches.Common;
 using SixLabors.Primitives;
 using AngleSharp.Parser.Html;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.Processing.Drawing;
 
 namespace NadekoBot.Modules.Searches
 {
@@ -585,7 +588,7 @@ namespace NadekoBot.Modules.Searches
                                 var imgStream = new MemoryStream();
                                 await sr.CopyToAsync(imgStream).ConfigureAwait(false);
                                 imgStream.Position = 0;
-                                images.Add(ImageSharp.Image.Load(imgStream));
+                                images.Add(SixLabors.ImageSharp.Image.Load(imgStream));
                             }
                         }).ConfigureAwait(false);
                     }
@@ -594,10 +597,11 @@ namespace NadekoBot.Modules.Searches
                     {
                         msg = GetText("hs_over_x", 4);
                     }
-                    var ms = new MemoryStream();
-                    await Task.Run(() => images.AsEnumerable().Merge().SaveAsPng(ms)).ConfigureAwait(false);
-                    ms.Position = 0;
-                    await Context.Channel.SendFileAsync(ms, arg + ".png", msg).ConfigureAwait(false);
+                    using (var img = images.AsEnumerable().Merge())
+                    using (var ms = img.ToStream())
+                    {
+                        await Context.Channel.SendFileAsync(ms, arg + ".png", msg).ConfigureAwait(false);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -825,14 +829,17 @@ namespace NadekoBot.Modules.Searches
                 for (int i = 0; i < colorObjects.Length; i++)
                 {
                     var x = i * 50;
-                    img.FillPolygon(colorObjects[i], new PointF[] {
+                    img.Mutate(m => m.FillPolygon(colorObjects[i], new PointF[] {
                         new PointF(x, 0),
                         new PointF(x + 50, 0),
                         new PointF(x + 50, 50),
                         new PointF(x, 50)
-                    });
+                    }));
                 }
-                await Context.Channel.SendFileAsync(img.ToStream(), $"colors.png").ConfigureAwait(false);
+                using (var ms = img.ToStream())
+                {
+                    await Context.Channel.SendFileAsync(ms, $"colors.png").ConfigureAwait(false);
+                }
             }
         }
 

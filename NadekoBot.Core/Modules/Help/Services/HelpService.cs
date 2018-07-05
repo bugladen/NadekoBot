@@ -12,7 +12,6 @@ using NadekoBot.Core.Services.Impl;
 using NadekoBot.Common;
 using NLog;
 using CommandLine;
-using CommandLine.Text;
 
 namespace NadekoBot.Modules.Help.Services
 {

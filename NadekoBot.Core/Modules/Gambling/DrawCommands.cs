@@ -8,8 +8,9 @@ using System.IO;
 using System.Threading.Tasks;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Gambling.Common;
-using Image = ImageSharp.Image;
-using ImageSharp;
+using Image = SixLabors.ImageSharp.Image;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -20,7 +21,7 @@ namespace NadekoBot.Modules.Gambling
         {
             private static readonly ConcurrentDictionary<IGuild, Deck> _allDecks = new ConcurrentDictionary<IGuild, Deck>();
             private const string _cardsPath = "data/images/cards";
-            
+
             private async Task<(Stream ImageStream, string ToSend)> InternalDraw(int num, ulong? guildId = null)
             {
                 if (num < 1 || num > 10)
@@ -48,15 +49,14 @@ namespace NadekoBot.Modules.Gambling
                     using (var stream = File.OpenRead(Path.Combine(_cardsPath, currentCard.ToString().ToLowerInvariant() + ".jpg").Replace(' ', '_')))
                         images.Add(Image.Load(stream));
                 }
-                MemoryStream bitmapStream = new MemoryStream();
-                images.Merge().SaveAsPng(bitmapStream);
-                bitmapStream.Position = 0;
+                using (var img = images.Merge())
+                {
+                    var toSend = $"{Context.User.Mention}";
+                    if (cardObjects.Count == 5)
+                        toSend += $" drew `{Deck.GetHandValue(cardObjects)}`";
 
-                var toSend = $"{Context.User.Mention}";
-                if (cardObjects.Count == 5)
-                    toSend += $" drew `{Deck.GetHandValue(cardObjects)}`";
-
-                return (bitmapStream, toSend);
+                    return (img.ToStream(), toSend);
+                }
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -80,8 +80,11 @@ namespace NadekoBot.Modules.Gambling
                 if (num > 10)
                     num = 10;
 
-                var data = await InternalDraw(num).ConfigureAwait(false);
-                await Context.Channel.SendFileAsync(data.ImageStream, num + " cards.jpg", data.ToSend).ConfigureAwait(false);
+                var (ImageStream, ToSend) = await InternalDraw(num).ConfigureAwait(false);
+                using (ImageStream)
+                {
+                    await Context.Channel.SendFileAsync(ImageStream, num + " cards.jpg", ToSend).ConfigureAwait(false);
+                }
             }
 
             [NadekoCommand, Usage, Description, Aliases]

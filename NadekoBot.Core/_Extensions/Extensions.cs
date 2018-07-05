@@ -1,7 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using ImageSharp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
@@ -22,6 +21,11 @@ using System.Numerics;
 using System.Diagnostics;
 using NLog;
 using System.Net.Http.Headers;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Formats.Png;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.Processing.Drawing;
 
 namespace NadekoBot.Extensions
 {
@@ -34,16 +38,17 @@ namespace NadekoBot.Extensions
         {
             var corners = BuildCorners(img.Width, img.Height, cornerRadius);
             // now we have our corners time to draw them
-            img.Fill(Rgba32.Transparent, corners, new GraphicsOptions(true)
+            img.Mutate(x => x.Fill(new GraphicsOptions(true)
             {
-                BlenderMode = ImageSharp.PixelFormats.PixelBlenderMode.Src // enforces that any part of this shape that has color is punched out of the background
-            });
+                BlenderMode = PixelBlenderMode.Src // enforces that any part of this shape that has color is punched out of the background
+            },
+            Rgba32.Transparent, corners));
         }
 
         public static IPathCollection BuildCorners(int imageWidth, int imageHeight, float cornerRadius)
         {
             // first create a square
-            var rect = new RectangularePolygon(-0.5f, -0.5f, cornerRadius, cornerRadius);
+            var rect = new RectangularPolygon(-0.5f, -0.5f, cornerRadius, cornerRadius);
 
             // then cut out of the square a circle so we are left with a corner
             var cornerToptLeft = rect.Clip(new EllipsePolygon(cornerRadius - 0.5f, cornerRadius - 0.5f, cornerRadius));
@@ -178,14 +183,14 @@ namespace NadekoBot.Extensions
 
         public static async Task<IEnumerable<IGuildUser>> GetMembersAsync(this IRole role) =>
             (await role.Guild.GetUsersAsync(CacheMode.CacheOnly).ConfigureAwait(false)).Where(u => u.RoleIds.Contains(role.Id)) ?? Enumerable.Empty<IGuildUser>();
-        
+
         public static string ToJson<T>(this T any, Formatting formatting = Formatting.Indented) =>
             JsonConvert.SerializeObject(any, formatting);
 
-        public static MemoryStream ToStream(this ImageSharp.Image<Rgba32> img)
+        public static MemoryStream ToStream(this Image<Rgba32> img)
         {
             var imageStream = new MemoryStream();
-            img.SaveAsPng(imageStream, new ImageSharp.Formats.PngEncoder() { CompressionLevel = 9});
+            img.SaveAsPng(imageStream, new PngEncoder() { CompressionLevel = 9 });
             imageStream.Position = 0;
             return imageStream;
         }
@@ -258,8 +263,8 @@ namespace NadekoBot.Extensions
             var xOffset = 0;
             for (int i = 0; i < imgs.Length; i++)
             {
-                canvas.DrawImage(imgs[i], 100, default, new Point(xOffset, 0));
-                xOffset += imgs[i].Bounds.Width;
+                canvas.Mutate(x => x.DrawImage(GraphicsOptions.Default, imgs[i], new Point(xOffset, 0)));
+                xOffset += imgs[i].Bounds().Width;
             }
 
             return canvas;

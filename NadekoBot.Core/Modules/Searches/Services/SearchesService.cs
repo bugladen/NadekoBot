@@ -17,12 +17,17 @@ using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using AngleSharp;
 using System.Threading;
-using ImageSharp;
-using Image = ImageSharp.Image;
+using Image = SixLabors.ImageSharp.Image;
 using SixLabors.Primitives;
 using SixLabors.Fonts;
 using NadekoBot.Core.Services.Impl;
 using NadekoBot.Core.Modules.Searches.Common;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing.Text;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.Processing.Transforms;
+using SixLabors.ImageSharp.Processing.Drawing;
 
 namespace NadekoBot.Modules.Searches.Services
 {
@@ -159,8 +164,9 @@ namespace NadekoBot.Modules.Searches.Services
                         data = null;
                     else
                     {
-                        using (var tempDraw = ImageSharp.Image.Load(await temp.Content.ReadAsStreamAsync().ConfigureAwait(false)).Resize(69, 70))
+                        using (var tempDraw = Image.Load(await temp.Content.ReadAsStreamAsync().ConfigureAwait(false)))
                         {
+                            tempDraw.Mutate(x => x.Resize(69, 70));
                             tempDraw.ApplyRoundedCorners(35);
                             data = tempDraw.ToStream().ToArray();
                         }
@@ -169,37 +175,38 @@ namespace NadekoBot.Modules.Searches.Services
 
                 await _cache.SetImageDataAsync(imgUrl, data).ConfigureAwait(false);
             }
-            var bg = ImageSharp.Image.Load(_imgs.Rip.ToArray());
+            var bg = Image.Load(_imgs.Rip.ToArray());
 
             //avatar 82, 139
             if (data != null)
             {
-                using (var avatar = Image.Load(data).Resize(85, 85))
+                using (var avatar = Image.Load(data))
                 {
-                    bg.DrawImage(avatar,
-                        default,
-                        new Point(82, 139),
-                        GraphicsOptions.Default);
+                    avatar.Mutate(x => x.Resize(85, 85));
+                    bg.Mutate(x => x
+                        .DrawImage(GraphicsOptions.Default,
+                            avatar,
+                            new Point(82, 139)));
                 }
             }
             //text 63, 241
-            bg.DrawText(text,
-                _fonts.RipNameFont,
-                Rgba32.Black,
-                new PointF(25, 225),
-                new ImageSharp.Drawing.TextGraphicsOptions()
+            bg.Mutate(x => x.DrawText(
+                new TextGraphicsOptions()
                 {
                     HorizontalAlignment = HorizontalAlignment.Center,
                     WrapTextWidth = 190,
-                });
+                },
+                text,
+                _fonts.RipNameFont,
+                Rgba32.Black,
+                new PointF(25, 225)));
 
             //flowa
             using (var flowers = Image.Load(_imgs.RipOverlay.ToArray()))
             {
-                bg.DrawImage(flowers,
-                    default,
-                    new Point(0, 0),
-                    GraphicsOptions.Default);
+                bg.Mutate(x => x.DrawImage(GraphicsOptions.Default,
+                    flowers,
+                    new Point(0, 0)));
             }
 
             return bg;

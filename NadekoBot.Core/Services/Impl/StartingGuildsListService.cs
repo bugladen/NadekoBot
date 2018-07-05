@@ -6,16 +6,16 @@ using System.Collections;
 
 namespace NadekoBot.Core.Services.Impl
 {
-    public class StartingGuildsService : IEnumerable<long>, INService
+    public class StartingGuildsService : IEnumerable<ulong>, INService
     {
-        private readonly ImmutableList<long> _guilds;
+        private readonly ImmutableList<ulong> _guilds;
 
         public StartingGuildsService(DiscordSocketClient client)
         {
-            this._guilds = client.Guilds.Select(x => (long)x.Id).ToImmutableList();
+            this._guilds = client.Guilds.Select(x => x.Id).ToImmutableList();
         }
 
-        public IEnumerator<long> GetEnumerator() =>
+        public IEnumerator<ulong> GetEnumerator() =>
             _guilds.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() =>

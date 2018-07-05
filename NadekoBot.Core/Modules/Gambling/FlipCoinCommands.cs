@@ -5,12 +5,13 @@ using NadekoBot.Core.Services;
 using System.Threading.Tasks;
 using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
-using Image = ImageSharp.Image;
-using ImageSharp;
+using Image = SixLabors.ImageSharp.Image;
 using NadekoBot.Core.Modules.Gambling.Common;
 using NadekoBot.Modules.Gambling.Services;
 using NadekoBot.Core.Common;
 using System;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -76,7 +77,11 @@ namespace NadekoBot.Modules.Gambling
                         }
                     }
                 }
-                await Context.Channel.SendFileAsync(imgs.Merge().ToStream(), $"{count} coins.png").ConfigureAwait(false);
+                using (var img = imgs.Merge())
+                using (var stream = img.ToStream())
+                {
+                    await Context.Channel.SendFileAsync(stream, $"{count} coins.png").ConfigureAwait(false);
+                }
             }
 
             public enum BetFlipGuess

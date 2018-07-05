@@ -1,13 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Text;
 
 namespace NadekoBot.Core.Modules.Searches.Common
 {
 
-	public class Account
+    public class Account
 	{
 		[JsonProperty("name")]
 		public string Name { get; set; }

@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Linq;
 using Discord;
 using NLog;
-using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Common;
 using Newtonsoft.Json;
 using System.IO;

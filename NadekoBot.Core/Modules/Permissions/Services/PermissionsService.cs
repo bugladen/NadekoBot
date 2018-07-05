@@ -32,7 +32,7 @@ namespace NadekoBot.Modules.Permissions.Services
 
             using (var uow = _db.UnitOfWork)
             {
-                foreach (var x in uow.GuildConfigs.Permissionsv2ForAll(client.Guilds.ToArray().Select(x => (long)x.Id).ToList()))
+                foreach (var x in uow.GuildConfigs.Permissionsv2ForAll(client.Guilds.ToArray().Select(x => x.Id).ToList()))
                 {
                     Cache.TryAdd(x.GuildId, new PermissionCache()
                     {

@@ -11,9 +11,9 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
         {
         }
 
-        public IEnumerable<Reminder> GetIncludedReminders(IEnumerable<long> guildIds)
+        public IEnumerable<Reminder> GetIncludedReminders(IEnumerable<ulong> guildIds)
         {
-            return _set.Where(x => guildIds.Contains((long)x.ServerId)).ToList();
+            return _set.Where(x => guildIds.Contains(x.ServerId)).ToList();
         }
 
         public IEnumerable<Reminder> RemindersFor(ulong userId, int page)

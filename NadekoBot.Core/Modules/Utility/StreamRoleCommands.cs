@@ -5,7 +5,6 @@ using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Utility.Services;
 using NadekoBot.Common.TypeReaders;
 using NadekoBot.Modules.Utility.Common;
-using NadekoBot.Common;
 
 namespace NadekoBot.Modules.Utility
 {

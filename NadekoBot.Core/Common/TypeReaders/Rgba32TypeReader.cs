@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.WebSocket;
-using ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace NadekoBot.Core.Common.TypeReaders
 {
