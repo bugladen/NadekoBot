@@ -39,10 +39,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Modules\Pokemon\Common\" />
   </ItemGroup>
   
