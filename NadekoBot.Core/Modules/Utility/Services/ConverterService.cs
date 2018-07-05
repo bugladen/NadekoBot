@@ -48,7 +48,7 @@ namespace NadekoBot.Modules.Utility.Services
 
         private async Task<Rates> GetCurrencyRates()
         {
-            var res = await _http.GetStringAsync("http://api.fixer.io/latest").ConfigureAwait(false);
+            var res = await _http.GetStringAsync("https://convertapi.nadekobot.me/latest").ConfigureAwait(false);
             return JsonConvert.DeserializeObject<Rates>(res);
         }
 
