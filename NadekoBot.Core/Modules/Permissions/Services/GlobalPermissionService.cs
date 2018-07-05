@@ -10,8 +10,8 @@ namespace NadekoBot.Modules.Permissions.Services
 {
     public class GlobalPermissionService : ILateBlocker, INService
     {
-        public readonly ConcurrentHashSet<string> BlockedModules;
-        public readonly ConcurrentHashSet<string> BlockedCommands;
+        public ConcurrentHashSet<string> BlockedModules { get; }
+        public ConcurrentHashSet<string> BlockedCommands { get; }
 
         public GlobalPermissionService(IBotConfigProvider bc)
         {

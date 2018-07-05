@@ -64,7 +64,7 @@ namespace NadekoBot.Modules.Searches
 					return;
 				}
 				
-				if (league != String.Empty)
+				if (!string.IsNullOrWhiteSpace(league))
 				{
 					characters.RemoveAll(c => c.League != league);
 				}
@@ -99,7 +99,7 @@ namespace NadekoBot.Modules.Searches
 
 						return embed;
 					}
-				}, characters.Count, 9, true);
+				}, characters.Count, 9, true).ConfigureAwait(false);
 			}
 
 			[NadekoCommand, Usage, Description, Aliases]
@@ -223,13 +223,13 @@ namespace NadekoBot.Modules.Searches
 
 				try
 				{
-					var res = $"{_pogsURL}{itemName}";
-					var itemNameJson = JArray.Parse($"{await _service.Http.GetStringAsync(res).ConfigureAwait(false)}");
-					var parsedName = itemNameJson[1][0].ToString().Replace(" ", "_");
+					var url = new Uri($"{_pogsURL}{itemName}");
+					var itemNameJson = JArray.Parse($"{await _service.Http.GetStringAsync(url).ConfigureAwait(false)}");
+					var parsedName = itemNameJson[1][0].ToString().Replace(" ", "_", StringComparison.InvariantCulture);
 					var fullQueryLink = "https://pathofexile.gamepedia.com/" + parsedName;
 
-					res = $"{_pogURL}{parsedName}";
-					var obj = JObject.Parse(await _service.Http.GetStringAsync(res).ConfigureAwait(false));
+					url = new Uri($"{_pogURL}{parsedName}");
+					var obj = JObject.Parse(await _service.Http.GetStringAsync(url).ConfigureAwait(false));
 
 					var infoboxProperty = obj["query"]["data"].Values<JObject>()
 														  .Where(i => i["property"].Value<string>() == "Has_infobox_HTML")
@@ -243,8 +243,8 @@ namespace NadekoBot.Modules.Searches
 						parsedName = parsedName.Remove(parsedName.Length - 1);
 					}
 
-					res = $"{_pogiURL}{parsedName}_inventory_icon.png";
-					var img = JObject.Parse(await _service.Http.GetStringAsync(res).ConfigureAwait(false));
+					url = new Uri($"{_pogiURL}{parsedName}_inventory_icon.png");
+					var img = JObject.Parse(await _service.Http.GetStringAsync(url).ConfigureAwait(false));
 
 					var imgContainer = img.Descendants()
 						.OfType<JProperty>()
@@ -262,20 +262,20 @@ namespace NadekoBot.Modules.Searches
 					var itemStats = document.QuerySelector("span.item-box.-unique");
 					var names = itemStats.QuerySelector("span.header.-double").InnerHtml.Split("<br>");
 					var itemInformation = itemStats.QuerySelector("span.item-stats");
-					var itemImplicits = itemStats.QuerySelector("span.group").InnerHtml.Replace("<br>", "\n");
+					var itemImplicits = itemStats.QuerySelector("span.group").InnerHtml.Replace("<br>", "\n", StringComparison.InvariantCulture);
 					var itemModsList = itemInformation.QuerySelectorAll("span.group.-mod");
 
 					var itemModsBuilder = new System.Text.StringBuilder();
 					foreach (var span in itemModsList)
 					{
-						itemModsBuilder.Append(span.InnerHtml.Replace("<br>", "\n"));
+						itemModsBuilder.Append(span.InnerHtml.Replace("<br>", "\n", StringComparison.InvariantCulture));
 						itemModsBuilder.Append("\n");
 					}
 
 					var flavorText = String.Empty;
 					if (itemInformation.QuerySelector("span.group.-flavour") != null)
 					{
-						flavorText = "*" + itemInformation.QuerySelector("span.group.-flavour").InnerHtml.Replace("<br>", "\n") + "*\n";
+						flavorText = "*" + itemInformation.QuerySelector("span.group.-flavour").InnerHtml.Replace("<br>", "\n", StringComparison.InvariantCulture) + "*\n";
 					}
 
 					itemImplicits = Regex.Replace(itemImplicits, "<.*?>", String.Empty);
@@ -401,7 +401,7 @@ namespace NadekoBot.Modules.Searches
 				return currency;
 			}
 			
-			private string ShortLeagueName(string str)
+			private static string ShortLeagueName(string str)
 			{
 				var league = Regex.Replace(str, "Hardcore", "HC", RegexOptions.IgnoreCase);
 

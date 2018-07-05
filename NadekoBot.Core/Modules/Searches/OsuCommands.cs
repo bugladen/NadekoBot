@@ -184,22 +184,22 @@ namespace NadekoBot.Modules.Searches
                 var m = new Regex(@"&m=", RegexOptions.IgnoreCase).Match(mapLink);
                 if (s.Success)
                 {
-                    var mapId = mapLink.Substring(mapLink.IndexOf("/s/") + 3);
+                    var mapId = mapLink.Substring(mapLink.IndexOf("/s/", StringComparison.InvariantCulture) + 3);
                     return $"s={mapId}";
                 }
                 else if (b.Success)
                 {
                     if (m.Success)
-                        return $"b={mapLink.Substring(mapLink.IndexOf("/b/") + 3, mapLink.IndexOf("&m") - (mapLink.IndexOf("/b/") + 3))}";
+                        return $"b={mapLink.Substring(mapLink.IndexOf("/b/", StringComparison.InvariantCulture) + 3, mapLink.IndexOf("&m", StringComparison.InvariantCulture) - (mapLink.IndexOf("/b/", StringComparison.InvariantCulture + 3)))}";
                     else
-                        return $"b={mapLink.Substring(mapLink.IndexOf("/b/") + 3)}";
+                        return $"b={mapLink.Substring(mapLink.IndexOf("/b/", StringComparison.InvariantCulture) + 3)}";
                 }
                 else if (p.Success)
                 {
                     if (m.Success)
-                        return $"b={mapLink.Substring(mapLink.IndexOf("?b=") + 3, mapLink.IndexOf("&m") - (mapLink.IndexOf("?b=") + 3))}";
+                        return $"b={mapLink.Substring(mapLink.IndexOf("?b=", StringComparison.InvariantCulture) + 3, mapLink.IndexOf("&m", StringComparison.InvariantCulture) - (mapLink.IndexOf("?b=", StringComparison.InvariantCulture) + 3))}";
                     else
-                        return $"b={mapLink.Substring(mapLink.IndexOf("?b=") + 3)}";
+                        return $"b={mapLink.Substring(mapLink.IndexOf("?b=", StringComparison.InvariantCulture) + 3)}";
                 }
                 else
                 {
@@ -209,18 +209,18 @@ namespace NadekoBot.Modules.Searches
 
             private static int ResolveGameMode(string mode)
             {
-                switch (mode.ToLower())
+                switch (mode.ToUpperInvariant())
                 {
-                    case "std":
-                    case "standard":
+                    case "STD":
+                    case "STANDARD":
                         return 0;
-                    case "taiko":
+                    case "TAIKO":
                         return 1;
-                    case "ctb":
-                    case "catchthebeat":
+                    case "CTB":
+                    case "CATCHTHEBEAT":
                         return 2;
-                    case "mania":
-                    case "osu!mania":
+                    case "MANIA":
+                    case "OSU!MANIA":
                         return 3;
                     default:
                         return 0;

@@ -176,7 +176,7 @@ namespace NadekoBot.Core.Services.Impl
                     case BotConfigEditType.OkColor:
                         try
                         {
-                            newValue = newValue.Replace("#", "");
+                            newValue = newValue.Replace("#", "", StringComparison.InvariantCulture);
                             var c = new Color(Convert.ToUInt32(newValue, 16));
                             NadekoBot.OkColor = c;
                             bc.OkColor = newValue;
@@ -189,7 +189,7 @@ namespace NadekoBot.Core.Services.Impl
                     case BotConfigEditType.ErrorColor:
                         try
                         {
-                            newValue = newValue.Replace("#", "");
+                            newValue = newValue.Replace("#", "", StringComparison.InvariantCulture);
                             var c = new Color(Convert.ToUInt32(newValue, 16));
                             NadekoBot.ErrorColor = c;
                             bc.ErrorColor = newValue;

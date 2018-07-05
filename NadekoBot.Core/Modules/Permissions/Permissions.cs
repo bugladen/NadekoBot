@@ -56,7 +56,7 @@ namespace NadekoBot.Modules.Permissions
             
             if (role == null)
             {
-                var cache = _service.GetCache(Context.Guild.Id);
+                var cache = _service.GetCacheFor(Context.Guild.Id);
                 if (!ulong.TryParse(cache.PermRole, out var roleId) ||
                     (role = ((SocketGuild)Context.Guild).GetRole(roleId)) == null)
                 {
@@ -226,7 +226,8 @@ namespace NadekoBot.Modules.Permissions
                 SecondaryTarget = SecondaryPermissionType.Command,
                 SecondaryTargetName = command.Name.ToLowerInvariant(),
                 State = action.Value,
-            });
+                IsCustomCommand = command.IsCustom,
+            }).ConfigureAwait(false);
 
             if (action.Value)
             {
@@ -253,7 +254,7 @@ namespace NadekoBot.Modules.Permissions
                 SecondaryTarget = SecondaryPermissionType.Module,
                 SecondaryTargetName = module.Name.ToLowerInvariant(),
                 State = action.Value,
-            });
+            }).ConfigureAwait(false);
 
             if (action.Value)
             {
@@ -280,7 +281,8 @@ namespace NadekoBot.Modules.Permissions
                 SecondaryTarget = SecondaryPermissionType.Command,
                 SecondaryTargetName = command.Name.ToLowerInvariant(),
                 State = action.Value,
-            });
+                IsCustomCommand = command.IsCustom,
+            }).ConfigureAwait(false);
 
             if (action.Value)
             {
@@ -309,7 +311,7 @@ namespace NadekoBot.Modules.Permissions
                 SecondaryTarget = SecondaryPermissionType.Module,
                 SecondaryTargetName = module.Name.ToLowerInvariant(),
                 State = action.Value,
-            });
+            }).ConfigureAwait(false);
 
             if (action.Value)
             {
@@ -341,7 +343,8 @@ namespace NadekoBot.Modules.Permissions
                 SecondaryTarget = SecondaryPermissionType.Command,
                 SecondaryTargetName = command.Name.ToLowerInvariant(),
                 State = action.Value,
-            });
+                IsCustomCommand = command.IsCustom,
+            }).ConfigureAwait(false);
 
             if (action.Value)
             {
@@ -373,7 +376,7 @@ namespace NadekoBot.Modules.Permissions
                 SecondaryTarget = SecondaryPermissionType.Module,
                 SecondaryTargetName = module.Name.ToLowerInvariant(),
                 State = action.Value,
-            });
+            }).ConfigureAwait(false);
 
 
             if (action.Value)
@@ -403,7 +406,8 @@ namespace NadekoBot.Modules.Permissions
                 SecondaryTarget = SecondaryPermissionType.Command,
                 SecondaryTargetName = command.Name.ToLowerInvariant(),
                 State = action.Value,
-            });
+                IsCustomCommand = command.IsCustom,
+            }).ConfigureAwait(false);
 
             if (action.Value)
             {
@@ -432,7 +436,7 @@ namespace NadekoBot.Modules.Permissions
                 SecondaryTarget = SecondaryPermissionType.Module,
                 SecondaryTargetName = module.Name.ToLowerInvariant(),
                 State = action.Value,
-            });
+            }).ConfigureAwait(false);
 
             if (action.Value)
             {
@@ -461,7 +465,7 @@ namespace NadekoBot.Modules.Permissions
                 SecondaryTarget = SecondaryPermissionType.AllModules,
                 SecondaryTargetName = "*",
                 State = action.Value,
-            });
+            }).ConfigureAwait(false);
 
             if (action.Value)
             {
@@ -489,7 +493,7 @@ namespace NadekoBot.Modules.Permissions
                 SecondaryTarget = SecondaryPermissionType.AllModules,
                 SecondaryTargetName = "*",
                 State = action.Value,
-            });
+            }).ConfigureAwait(false);
 
             if (action.Value)
             {
@@ -514,7 +518,7 @@ namespace NadekoBot.Modules.Permissions
                 SecondaryTarget = SecondaryPermissionType.AllModules,
                 SecondaryTargetName = "*",
                 State = action.Value,
-            });
+            }).ConfigureAwait(false);
 
             if (action.Value)
             {
@@ -552,7 +556,7 @@ namespace NadekoBot.Modules.Permissions
 
             await _service.AddPermissions(Context.Guild.Id,
                 newPerm,
-                allowUser);
+                allowUser).ConfigureAwait(false);
 
             if (action.Value)
             {

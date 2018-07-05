@@ -71,21 +71,21 @@ namespace NadekoBot.Modules.Searches.Services
                                 .WithAuthor(kvp.Key)
                                 .WithOkColor();
 
-                            while (await feedReader.Read() && feedReader.ElementType != SyndicationElementType.Item)
+                            while (await feedReader.Read().ConfigureAwait(false) && feedReader.ElementType != SyndicationElementType.Item)
                             {
                                 switch (feedReader.ElementType)
                                 {
                                     case SyndicationElementType.Link:
-                                        var uri = await feedReader.ReadLink();
+                                        var uri = await feedReader.ReadLink().ConfigureAwait(false);
                                         embed.WithAuthor(kvp.Key, url: uri.Uri.AbsoluteUri);
                                         break;
                                     case SyndicationElementType.Content:
-                                        var content = await feedReader.ReadContent();
+                                        var content = await feedReader.ReadContent().ConfigureAwait(false);
                                         break;
                                     case SyndicationElementType.Category:
                                         break;
                                     case SyndicationElementType.Image:
-                                        ISyndicationImage image = await feedReader.ReadImage();
+                                        ISyndicationImage image = await feedReader.ReadImage().ConfigureAwait(false);
                                         embed.WithThumbnailUrl(image.Url.AbsoluteUri);
                                         break;
                                     default:
@@ -93,7 +93,7 @@ namespace NadekoBot.Modules.Searches.Services
                                 }
                             }
 
-                            ISyndicationItem item = await feedReader.ReadItem();
+                            ISyndicationItem item = await feedReader.ReadItem().ConfigureAwait(false);
                             if (item.Published.UtcDateTime <= lastTime)
                                 continue;
 
@@ -130,7 +130,7 @@ namespace NadekoBot.Modules.Searches.Services
                     catch { }
                 }
 
-                await Task.Delay(10000);
+                await Task.Delay(10000).ConfigureAwait(false);
             }
         }
 
@@ -138,7 +138,7 @@ namespace NadekoBot.Modules.Searches.Services
         {
             using (var uow = _db.UnitOfWork)
             {
-                return uow.GuildConfigs.For(guildId, set => set.Include(x => x.FeedSubs))
+                return uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.FeedSubs))
                     .FeedSubs
                     .OrderBy(x => x.Id)
                     .ToList();
@@ -157,7 +157,7 @@ namespace NadekoBot.Modules.Searches.Services
 
             using (var uow = _db.UnitOfWork)
             {
-                var gc = uow.GuildConfigs.For(guildId, set => set.Include(x => x.FeedSubs));
+                var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.FeedSubs));
 
                 if (gc.FeedSubs.Contains(fs))
                 {
@@ -193,7 +193,7 @@ namespace NadekoBot.Modules.Searches.Services
 
             using (var uow = _db.UnitOfWork)
             {
-                var items = uow.GuildConfigs.For(guildId, set => set.Include(x => x.FeedSubs))
+                var items = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.FeedSubs))
                     .FeedSubs
                     .OrderBy(x => x.Id)
                     .ToList();

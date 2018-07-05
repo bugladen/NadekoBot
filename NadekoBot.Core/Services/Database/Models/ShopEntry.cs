@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace NadekoBot.Core.Services.Database.Models
 {
@@ -40,6 +41,6 @@ namespace NadekoBot.Core.Services.Database.Models
         }
 
         public override int GetHashCode() =>
-            Text.GetHashCode();
+            Text.GetHashCode(StringComparison.InvariantCulture);
     }
 }

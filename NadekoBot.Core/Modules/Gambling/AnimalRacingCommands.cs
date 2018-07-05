@@ -34,12 +34,12 @@ namespace NadekoBot.Modules.Gambling
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [NadekoOptions(typeof(RaceOptions))]
+            [NadekoOptionsAttribute(typeof(RaceOptions))]
             public Task Race(params string[] args)
             {
-                var (options, success) = OptionsParser.Default.ParseFrom(new RaceOptions(), args);
+                var (options, success) = OptionsParser.ParseFrom(new RaceOptions(), args);
 
-                var ar = new AnimalRace(options, _cs, _bc.BotConfig.RaceAnimals.Shuffle().ToArray());
+                var ar = new AnimalRace(options, _cs, Bc.BotConfig.RaceAnimals.Shuffle().ToArray());
                 if (!_service.AnimalRaces.TryAdd(Context.Guild.Id, ar))
                     return Context.Channel.SendErrorAsync(GetText("animal_race"), GetText("animal_race_already_started"));
 
@@ -74,7 +74,7 @@ namespace NadekoBot.Modules.Gambling
                     {
                         return Context.Channel.SendConfirmAsync(GetText("animal_race"),
                                             GetText("animal_race_won_money", Format.Bold(winner.Username),
-                                                winner.Animal.Icon, (race.FinishedUsers[0].Bet * (race.Users.Length - 1)) + _bc.BotConfig.CurrencySign));
+                                                winner.Animal.Icon, (race.FinishedUsers[0].Bet * (race.Users.Length - 1)) + Bc.BotConfig.CurrencySign));
                     }
                     else
                     {
@@ -136,7 +136,7 @@ namespace NadekoBot.Modules.Gambling
             [RequireContext(ContextType.Guild)]
             public async Task JoinRace(ShmartNumber amount = default)
             {
-                if (!await CheckBetOptional(amount))
+                if (!await CheckBetOptional(amount).ConfigureAwait(false))
                     return;
 
                 if (!_service.AnimalRaces.TryGetValue(Context.Guild.Id, out var ar))
@@ -149,7 +149,7 @@ namespace NadekoBot.Modules.Gambling
                     var user = await ar.JoinRace(Context.User.Id, Context.User.ToString(), amount)
                         .ConfigureAwait(false);
                     if (amount > 0)
-                        await Context.Channel.SendConfirmAsync(GetText("animal_race_join_bet", Context.User.Mention, user.Animal.Icon, amount + _bc.BotConfig.CurrencySign)).ConfigureAwait(false);
+                        await Context.Channel.SendConfirmAsync(GetText("animal_race_join_bet", Context.User.Mention, user.Animal.Icon, amount + Bc.BotConfig.CurrencySign)).ConfigureAwait(false);
                     else
                         await Context.Channel.SendConfirmAsync(GetText("animal_race_join", Context.User.Mention, user.Animal.Icon)).ConfigureAwait(false);
                 }
@@ -172,7 +172,7 @@ namespace NadekoBot.Modules.Gambling
                 }
                 catch (NotEnoughFundsException)
                 {
-                    await Context.Channel.SendErrorAsync(GetText("not_enough", _bc.BotConfig.CurrencySign)).ConfigureAwait(false);
+                    await Context.Channel.SendErrorAsync(GetText("not_enough", Bc.BotConfig.CurrencySign)).ConfigureAwait(false);
                 }
             }
         }

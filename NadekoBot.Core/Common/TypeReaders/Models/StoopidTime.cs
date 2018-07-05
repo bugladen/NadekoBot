@@ -29,13 +29,12 @@ namespace NadekoBot.Core.Common.TypeReaders.Models
             foreach (var groupName in _regex.GetGroupNames())
             {
                 if (groupName == "0") continue;
-                int.TryParse(m.Groups[groupName].Value, out var value);
-
-                if (string.IsNullOrEmpty(m.Groups[groupName].Value))
+                if (!int.TryParse(m.Groups[groupName].Value, out var value))
                 {
                     namesAndValues[groupName] = 0;
                     continue;
                 }
+
                 if (value < 1 ||
                     (groupName == "months" && value > 3) ||
                     (groupName == "weeks" && value > 15) ||
@@ -54,7 +53,7 @@ namespace NadekoBot.Core.Common.TypeReaders.Models
                                                     namesAndValues["hours"],
                                                     namesAndValues["minutes"],
                                                     0);
-            if(ts > TimeSpan.FromDays(90))
+            if (ts > TimeSpan.FromDays(90))
             {
                 throw new ArgumentException("Time is too long.");
             }

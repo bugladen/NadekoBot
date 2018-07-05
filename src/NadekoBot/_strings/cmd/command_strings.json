@@ -162,9 +162,9 @@
   },
   "slowmode": {
     "Cmd": "slowmode",
-    "Desc": "Toggles slowmode. Disable by specifying no parameters. Slowmode deletes any excess messages users type over the specified limit of messages per X seconds. To enable, specify a number of messages each user can send, and an interval in seconds.",
+    "Desc": "Toggles slowmode. Slowmode deletes any excess messages users type over the specified limit of messages per X seconds. To enable, specify a number of messages (-m) each user can send, and an interval in seconds (-i).  Disable by specifying no parameters.",
     "Usage": [
-      "{0}slowmode -i 1 -m 5",
+      "{0}slowmode -m 1 -s 5",
       "{0}slowmode"
     ]
   },
@@ -583,7 +583,7 @@
   },
   "remind": {
     "Cmd": "remind",
-    "Desc": "Sends a message to you or a channel after certain amount of time. First parameter is `me`/`here`/'channelname'. Second parameter is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third parameter is a (multiword) message.",
+    "Desc": "Sends a message to you or a channel after certain amount of time (max 2 months). First parameter is `me`/`here`/'channelname'. Second parameter is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third parameter is a (multiword) message.",
     "Usage": [
       "{0}remind me 1d5h Do something",
       "{0}remind #general 1m Start now!"
@@ -2454,7 +2454,7 @@
   },
   "waifugift": {
     "Cmd": "waifugift gift gifts",
-    "Desc": "Gift an item to someone. This will increase their waifu value by 50% of the gifted item's value if they don't have affinity set towards you, or 100% if they do. Provide no parameters to see a list of items that you can gift.",
+    "Desc": "Gift an item to someone. This will increase their waifu value by 50% of the gifted item's value if you are not their waifu, or 95% if you are. Provide no parameters to see a list of items that you can gift.",
     "Usage": [
       "{0}gifts",
       "{0}gift Rose @Himesama"

@@ -6,7 +6,7 @@ using Discord;
 
 namespace NadekoBot.Modules.Administration.Common
 {
-    public class UserSpamStats : IDisposable
+    public sealed class UserSpamStats : IDisposable
     {
         public int Count => timers.Count;
         public string LastMessage { get; set; }

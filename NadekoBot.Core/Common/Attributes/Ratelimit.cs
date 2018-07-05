@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Core.Common.Attributes
 {
-    public class Ratelimit : PreconditionAttribute
+    //todo why is this unused?
+    [AttributeUsage(AttributeTargets.Method)]
+    public sealed class RatelimitAttribute : PreconditionAttribute
     {
         public int Seconds { get; }
 
-        public Ratelimit(int seconds)
+        public RatelimitAttribute(int seconds)
         {
             if (seconds < 0)
                 throw new ArgumentOutOfRangeException(nameof(seconds));

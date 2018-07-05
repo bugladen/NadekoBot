@@ -44,13 +44,13 @@ namespace NadekoBot.Modules.Permissions.Services
             }
         }
 
-        public PermissionCache GetCache(ulong guildId)
+        public PermissionCache GetCacheFor(ulong guildId)
         {
             if (!Cache.TryGetValue(guildId, out var pc))
             {
                 using (var uow = _db.UnitOfWork)
                 {
-                    var config = uow.GuildConfigs.For(guildId,
+                    var config = uow.GuildConfigs.ForId(guildId,
                         set => set.Include(x => x.Permissions));
                     UpdateCache(config);
                 }
@@ -105,7 +105,7 @@ namespace NadekoBot.Modules.Permissions.Services
             {
                 var resetCommand = commandName == "resetperms";
 
-                PermissionCache pc = GetCache(guild.Id);
+                PermissionCache pc = GetCacheFor(guild.Id);
                 if (!resetCommand && !pc.Permissions.CheckPermissions(msg, commandName, moduleName, out int index))
                 {
                     if (pc.Verbose)
@@ -124,7 +124,8 @@ namespace NadekoBot.Modules.Permissions.Services
                         return false;
 
                     var permRole = pc.PermRole;
-                    ulong.TryParse(permRole, out var rid);
+                    if (!ulong.TryParse(permRole, out var rid))
+                        rid = 0;
                     string returnMsg;
                     IRole role;
                     if (string.IsNullOrWhiteSpace(permRole) || (role = guild.GetRole(rid)) == null)

@@ -31,7 +31,7 @@ namespace NadekoBot.Modules.Searches
                 }
 
                 var embed = new EmbedBuilder().WithColor(NadekoBot.OkColor)
-                    .WithDescription(novelData.Description.Replace("<br>", Environment.NewLine))
+                    .WithDescription(novelData.Description.Replace("<br>", Environment.NewLine, StringComparison.InvariantCulture))
                     .WithTitle(novelData.Title)
                     .WithUrl(novelData.Link)
                     .WithImageUrl(novelData.ImageUrl)
@@ -52,7 +52,7 @@ namespace NadekoBot.Modules.Searches
                 var fullQueryLink = "https://myanimelist.net/profile/" + name;
 
                 var config = Configuration.Default.WithDefaultLoader();
-                using (var document = await BrowsingContext.New(config).OpenAsync(fullQueryLink))
+                using (var document = await BrowsingContext.New(config).OpenAsync(fullQueryLink).ConfigureAwait(false))
                 {
                     var imageElem = document.QuerySelector("body > div#myanimelist > div.wrapper > div#contentWrapper > div#content > div.content-container > div.container-left > div.user-profile > div.user-image > img");
                     var imageUrl = ((IHtmlImageElement)imageElem)?.Source ?? "http://icecream.me/uploads/870b03f36b59cc16ebfe314ef2dde781.png";
@@ -160,14 +160,14 @@ namespace NadekoBot.Modules.Searches
                 }
 
                 var embed = new EmbedBuilder().WithColor(NadekoBot.OkColor)
-                    .WithDescription(animeData.Synopsis.Replace("<br>", Environment.NewLine))
-                    .WithTitle(animeData.title_english)
+                    .WithDescription(animeData.Synopsis.Replace("<br>", Environment.NewLine, StringComparison.InvariantCulture))
+                    .WithTitle(animeData.TitleEnglish)
                     .WithUrl(animeData.Link)
-                    .WithImageUrl(animeData.image_url_lge)
-                    .AddField(efb => efb.WithName(GetText("episodes")).WithValue(animeData.total_episodes.ToString()).WithIsInline(true))
+                    .WithImageUrl(animeData.ImageUrlLarge)
+                    .AddField(efb => efb.WithName(GetText("episodes")).WithValue(animeData.TotalEpisodes.ToString()).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("status")).WithValue(animeData.AiringStatus.ToString()).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("genres")).WithValue(string.Join(",\n", animeData.Genres.Any() ? animeData.Genres : new[] { "none" })).WithIsInline(true))
-                    .WithFooter(efb => efb.WithText(GetText("score") + " " + animeData.average_score + " / 100"));
+                    .WithFooter(efb => efb.WithText(GetText("score") + " " + animeData.AverageScore + " / 100"));
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
@@ -187,14 +187,14 @@ namespace NadekoBot.Modules.Searches
                 }
 
                 var embed = new EmbedBuilder().WithColor(NadekoBot.OkColor)
-                    .WithDescription(mangaData.Synopsis.Replace("<br>", Environment.NewLine))
-                    .WithTitle(mangaData.title_english)
+                    .WithDescription(mangaData.Synopsis.Replace("<br>", Environment.NewLine, StringComparison.InvariantCulture))
+                    .WithTitle(mangaData.TitleEnglish)
                     .WithUrl(mangaData.Link)
-                    .WithImageUrl(mangaData.image_url_lge)
-                    .AddField(efb => efb.WithName(GetText("chapters")).WithValue(mangaData.total_chapters.ToString()).WithIsInline(true))
-                    .AddField(efb => efb.WithName(GetText("status")).WithValue(mangaData.publishing_status.ToString()).WithIsInline(true))
+                    .WithImageUrl(mangaData.ImageUrlLge)
+                    .AddField(efb => efb.WithName(GetText("chapters")).WithValue(mangaData.TotalChapters.ToString()).WithIsInline(true))
+                    .AddField(efb => efb.WithName(GetText("status")).WithValue(mangaData.PublishingStatus.ToString()).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("genres")).WithValue(string.Join(",\n", mangaData.Genres.Any() ? mangaData.Genres : new[] { "none" })).WithIsInline(true))
-                    .WithFooter(efb => efb.WithText(GetText("score") + " " + mangaData.average_score + " / 100"));
+                    .WithFooter(efb => efb.WithText(GetText("score") + " " + mangaData.AverageScore + " / 100"));
 
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }

@@ -32,7 +32,7 @@ namespace NadekoBot.Modules.Xp
                     .WithTitle(GetText("reset"))
                     .WithDescription(GetText("reset_user_confirm"));
 
-                if (!await PromptUserConfirmAsync(embed))
+                if (!await PromptUserConfirmAsync(embed).ConfigureAwait(false))
                     return;
                 using (var uow = _db.UnitOfWork)
                 {
@@ -52,7 +52,7 @@ namespace NadekoBot.Modules.Xp
                        .WithTitle(GetText("reset"))
                        .WithDescription(GetText("reset_server_confirm"));
 
-                if (!await PromptUserConfirmAsync(embed))
+                if (!await PromptUserConfirmAsync(embed).ConfigureAwait(false))
                     return;
 
                 using (var uow = _db.UnitOfWork)

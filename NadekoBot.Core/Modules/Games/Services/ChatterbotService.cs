@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
@@ -10,7 +9,6 @@ using NadekoBot.Extensions;
 using NadekoBot.Modules.Permissions.Common;
 using NadekoBot.Modules.Permissions.Services;
 using NadekoBot.Core.Services;
-using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Core.Services.Impl;
 using NLog;
 using NadekoBot.Modules.Games.Common.ChatterBot;
@@ -28,8 +26,8 @@ namespace NadekoBot.Modules.Games.Services
 
         public ConcurrentDictionary<ulong, Lazy<IChatterBotSession>> ChatterBotGuilds { get; }
 
-        public ChatterBotService(DiscordSocketClient client, PermissionService perms, 
-            NadekoBot bot, CommandHandler cmd, NadekoStrings strings, 
+        public ChatterBotService(DiscordSocketClient client, PermissionService perms,
+            NadekoBot bot, CommandHandler cmd, NadekoStrings strings,
             IBotCredentials creds)
         {
             _client = client;
@@ -47,10 +45,10 @@ namespace NadekoBot.Modules.Games.Services
 
         public IChatterBotSession CreateSession()
         {
-            if (string.IsNullOrWhiteSpace(_creds.CleverbotApiKey))
-                return new ChatterBotSession();
-            else
+            if (!string.IsNullOrWhiteSpace(_creds.CleverbotApiKey))
                 return new OfficialCleverbotSession(_creds.CleverbotApiKey);
+            else
+                return new CleverbotIOSession("GAh3wUfzDCpDpdpT", "RStKgqn7tcO9blbrv4KbXM8NDlb7H37C");
         }
 
         public string PrepareMessage(IUserMessage msg, out IChatterBotSession cleverbot)
@@ -70,11 +68,11 @@ namespace NadekoBot.Modules.Games.Services
             var normalMention = $"<@{nadekoId}> ";
             var nickMention = $"<@!{nadekoId}> ";
             string message;
-            if (msg.Content.StartsWith(normalMention))
+            if (msg.Content.StartsWith(normalMention, StringComparison.InvariantCulture))
             {
                 message = msg.Content.Substring(normalMention.Length).Trim();
             }
-            else if (msg.Content.StartsWith(nickMention))
+            else if (msg.Content.StartsWith(nickMention, StringComparison.InvariantCulture))
             {
                 message = msg.Content.Substring(nickMention.Length).Trim();
             }
@@ -86,7 +84,7 @@ namespace NadekoBot.Modules.Games.Services
             return message;
         }
 
-        public async Task<bool> TryAsk(IChatterBotSession cleverbot, ITextChannel channel, string message)
+        public static async Task<bool> TryAsk(IChatterBotSession cleverbot, ITextChannel channel, string message)
         {
             await channel.TriggerTypingAsync().ConfigureAwait(false);
 
@@ -111,8 +109,8 @@ namespace NadekoBot.Modules.Games.Services
                 var message = PrepareMessage(usrMsg, out IChatterBotSession cbs);
                 if (message == null || cbs == null)
                     return false;
-                
-                var pc = _perms.GetCache(guild.Id);
+
+                var pc = _perms.GetCacheFor(guild.Id);
                 if (!pc.Permissions.CheckPermissions(usrMsg,
                     "cleverbot",
                     "Games".ToLowerInvariant(),
@@ -138,7 +136,11 @@ Message: {usrMsg.Content}");
                     return true;
                 }
             }
-            catch (Exception ex) { _log.Warn(ex, "Error in cleverbot"); }
+            catch (Exception ex)
+            {
+                _log.Warn("Error in cleverbot");
+                _log.Warn(ex);
+            }
             return false;
         }
     }

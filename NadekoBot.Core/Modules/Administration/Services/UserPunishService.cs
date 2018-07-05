@@ -41,11 +41,11 @@ namespace NadekoBot.Modules.Administration.Services
             List<WarningPunishment> ps;
             using (var uow = _db.UnitOfWork)
             {
-                ps = uow.GuildConfigs.For(guildId, set => set.Include(x => x.WarnPunishments))
+                ps = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.WarnPunishments))
                     .WarnPunishments;
 
                 warnings += uow.Warnings
-                    .For(guildId, userId)
+                    .ForId(guildId, userId)
                     .Where(w => !w.Forgiven && w.UserId == userId)
                     .Count();
 
@@ -58,7 +58,7 @@ namespace NadekoBot.Modules.Administration.Services
 
             if (p != null)
             {
-                var user = await guild.GetUserAsync(userId);
+                var user = await guild.GetUserAsync(userId).ConfigureAwait(false);
                 if (user == null)
                     return null;
                 switch (p.Punishment)
@@ -90,7 +90,7 @@ namespace NadekoBot.Modules.Administration.Services
                         }
                         break;
                     case PunishmentAction.RemoveRoles:
-                        await user.RemoveRolesAsync(user.GetRoles().Where(x => x.Id != guild.EveryoneRole.Id));
+                        await user.RemoveRolesAsync(user.GetRoles().Where(x => x.Id != guild.EveryoneRole.Id)).ConfigureAwait(false);
                         break;
                     default:
                         break;

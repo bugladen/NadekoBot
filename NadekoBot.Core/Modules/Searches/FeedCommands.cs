@@ -39,7 +39,7 @@ namespace NadekoBot.Modules.Searches
                         var reader = new RssFeedReader(xmlReader);
                         try
                         {
-                            await reader.Read();
+                            await reader.Read().ConfigureAwait(false);
                         }
                         catch (Exception ex)
                         {
@@ -103,7 +103,7 @@ namespace NadekoBot.Modules.Searches
 
                     return embed.WithDescription(fs);
 
-                }, feeds.Count, 10);
+                }, feeds.Count, 10).ConfigureAwait(false);
             }
         }
     }

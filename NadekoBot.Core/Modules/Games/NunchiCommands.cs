@@ -26,14 +26,14 @@ namespace NadekoBot.Modules.Games
             [RequireContext(ContextType.Guild)]
             public async Task Nunchi()
             {
-                var newNunchi = new Nunchi(Context.User.Id, Context.User.ToString());
-                Nunchi nunchi;
+                var newNunchi = new NunchiGame(Context.User.Id, Context.User.ToString());
+                NunchiGame nunchi;
 
                 //if a game was already active
                 if ((nunchi = _service.NunchiGames.GetOrAdd(Context.Guild.Id, newNunchi)) != newNunchi)
                 {
                     // join it
-                    if (!await nunchi.Join(Context.User.Id, Context.User.ToString()))
+                    if (!await nunchi.Join(Context.User.Id, Context.User.ToString()).ConfigureAwait(false))
                     {
                         // if you failed joining, that means game is running or just ended
                         // await ReplyErrorLocalized("nunchi_already_started").ConfigureAwait(false);
@@ -83,7 +83,7 @@ namespace NadekoBot.Modules.Games
                     return Task.CompletedTask;
                 }
 
-                Task Nunchi_OnGameEnded(Nunchi arg1, string arg2)
+                Task Nunchi_OnGameEnded(NunchiGame arg1, string arg2)
                 {
                     if (_service.NunchiGames.TryRemove(Context.Guild.Id, out var game))
                     {
@@ -98,19 +98,19 @@ namespace NadekoBot.Modules.Games
                 }
             }
 
-            private Task Nunchi_OnRoundStarted(Nunchi arg, int cur)
+            private Task Nunchi_OnRoundStarted(NunchiGame arg, int cur)
             {
                 return ConfirmLocalized("nunchi_round_started", 
                     Format.Bold(arg.ParticipantCount.ToString()), 
                     Format.Bold(cur.ToString()));
             }
 
-            private Task Nunchi_OnUserGuessed(Nunchi arg)
+            private Task Nunchi_OnUserGuessed(NunchiGame arg)
             {
                 return ConfirmLocalized("nunchi_next_number", Format.Bold(arg.CurrentNumber.ToString()));
             }
 
-            private Task Nunchi_OnRoundEnded(Nunchi arg1, (ulong Id, string Name)? arg2)
+            private Task Nunchi_OnRoundEnded(NunchiGame arg1, (ulong Id, string Name)? arg2)
             {
                 if(arg2.HasValue)
                     return ConfirmLocalized("nunchi_round_ended", Format.Bold(arg2.Value.Name));
@@ -119,7 +119,7 @@ namespace NadekoBot.Modules.Games
                         Format.Bold("\n" + string.Join("\n, ", arg1.Participants.Select(x => x.Name)))); // this won't work if there are too many users
             }
 
-            private Task Nunchi_OnGameStarted(Nunchi arg)
+            private Task Nunchi_OnGameStarted(NunchiGame arg)
             {
                 return ConfirmLocalized("nunchi_started", Format.Bold(arg.ParticipantCount.ToString()));
             }

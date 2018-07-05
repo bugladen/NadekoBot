@@ -1,4 +1,5 @@
-﻿using Discord.Commands;
+﻿#if !GLOBAL_NADEKO
+using Discord.Commands;
 using Discord;
 using System.Linq;
 using System.Threading.Tasks;
@@ -103,7 +104,7 @@ namespace NadekoBot.Modules.Searches
                     var m = s.Regex.Match(link);
                     if (m.Captures.Count != 0)
                     {
-                        await s.Func(m.Groups["name"].ToString());
+                        await s.Func(m.Groups["name"].ToString()).ConfigureAwait(false);
                         return;
                     }
                 }
@@ -130,7 +131,7 @@ namespace NadekoBot.Modules.Searches
                     var m = s.Regex.Match(link);
                     if (m.Captures.Count != 0)
                     {
-                        await s.Func(m.Groups["name"].ToString());
+                        await s.Func(m.Groups["name"].ToString()).ConfigureAwait(false);
                         return;
                     }
                 }
@@ -160,7 +161,7 @@ namespace NadekoBot.Modules.Searches
                 using (var uow = _db.UnitOfWork)
                 {
                     var all = uow.GuildConfigs
-                                 .For(Context.Guild.Id,
+                                 .ForId(Context.Guild.Id,
                                       set => set.Include(gc => gc.FollowedStreams))
                                  .FollowedStreams;
 
@@ -188,17 +189,17 @@ namespace NadekoBot.Modules.Searches
 
                     var text = string.Join("\n", await Task.WhenAll(thisPage.Select(async snc =>
                     {
-                        var ch = await Context.Guild.GetTextChannelAsync(snc.ChannelId);
+                        var ch = await Context.Guild.GetTextChannelAsync(snc.ChannelId).ConfigureAwait(false);
                         return string.Format("{0}'s stream on {1} channel. 【{2}】",
                             Format.Code(snc.Username),
                             Format.Bold(ch?.Name ?? "deleted-channel"),
                             Format.Code(snc.Type.ToString()));
-                    })));
+                    })).ConfigureAwait(false));
 
                     return new EmbedBuilder()
                         .WithDescription(GetText("streams_following", thisPage.Count()) + "\n\n" + text)
                         .WithOkColor();
-                }, streams.Count(), 15);
+                }, streams.Count(), 15).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -244,7 +245,7 @@ namespace NadekoBot.Modules.Searches
             }
             //todo default message
 
-            private bool GetNameAndType(string url, out (string, FollowedStream.FType)? nameAndType)
+            private static bool GetNameAndType(string url, out (string, FollowedStream.FType)? nameAndType)
             {
                 nameAndType = null;
                 foreach (var kvp in typesWithRegex)
@@ -278,7 +279,7 @@ namespace NadekoBot.Modules.Searches
                 bool removed;
                 using (var uow = _db.UnitOfWork)
                 {
-                    var config = uow.GuildConfigs.For(Context.Guild.Id, set => set.Include(gc => gc.FollowedStreams));
+                    var config = uow.GuildConfigs.ForId(Context.Guild.Id, set => set.Include(gc => gc.FollowedStreams));
                     removed = config.FollowedStreams.Remove(fs);
                     if (removed)
                         await uow.CompleteAsync().ConfigureAwait(false);
@@ -304,7 +305,7 @@ namespace NadekoBot.Modules.Searches
                     return;
                 try
                 {
-                    var streamStatus = await _service.GetStreamStatus(platform, username);
+                    var streamStatus = await _service.GetStreamStatus(platform, username).ConfigureAwait(false);
                     if (streamStatus == null)
                     {
                         await ReplyErrorLocalized("no_channel_found").ConfigureAwait(false);
@@ -359,15 +360,16 @@ namespace NadekoBot.Modules.Searches
 
                 using (var uow = _db.UnitOfWork)
                 {
-                    uow.GuildConfigs.For(channel.Guild.Id, set => set.Include(gc => gc.FollowedStreams))
+                    uow.GuildConfigs.ForId(channel.Guild.Id, set => set.Include(gc => gc.FollowedStreams))
                                     .FollowedStreams
                                     .Add(fs);
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
 
                 _service.TrackStream(fs);
-                await channel.EmbedAsync(_service.GetEmbed(fs, status, Context.Guild.Id), GetText("stream_tracked")).ConfigureAwait(false);
+                await channel.EmbedAsync(_service.GetEmbed(fs, status), GetText("stream_tracked")).ConfigureAwait(false);
             }
         }
     }
 }
+#endif

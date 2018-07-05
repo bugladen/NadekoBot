@@ -15,7 +15,6 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class PlayingRotateCommands : NadekoSubmodule<PlayingRotateService>
         {
-            private static readonly object _locker = new object();
             private readonly DbService _db;
 
             public PlayingRotateCommands(DbService db)
@@ -37,7 +36,7 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task AddPlaying(ActivityType t, [Remainder] string status)
             {
-                await _service.AddPlaying(t, status);
+                await _service.AddPlaying(t, status).ConfigureAwait(false);
 
                 await ReplyConfirmLocalized("ropl_added").ConfigureAwait(false);
             }

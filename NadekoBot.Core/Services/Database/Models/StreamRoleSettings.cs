@@ -46,9 +46,8 @@ namespace NadekoBot.Core.Services.Database.Models
 
         public override bool Equals(object obj)
         {
-            var x = obj as StreamRoleBlacklistedUser;
 
-            if (x == null)
+            if (!(obj is StreamRoleBlacklistedUser x))
                 return false;
 
             return x.UserId == UserId;
@@ -67,12 +66,9 @@ namespace NadekoBot.Core.Services.Database.Models
 
         public override bool Equals(object obj)
         {
-            var x = obj as StreamRoleWhitelistedUser;
-
-            if (x == null)
-                return false;
-
-            return x.UserId == UserId;
+            return obj is StreamRoleWhitelistedUser x
+                ? x.UserId == UserId
+                : false;
         }
 
         public override int GetHashCode()

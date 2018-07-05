@@ -5,7 +5,8 @@ using NadekoBot.Core.Services;
 
 namespace NadekoBot.Common.Attributes
 {
-    public class OwnerOnlyAttribute : PreconditionAttribute
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
+    public sealed class OwnerOnlyAttribute : PreconditionAttribute
     {
         public override Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo executingCommand, IServiceProvider services)
         {

@@ -40,7 +40,10 @@ namespace NadekoBot.Modules.Utility
             {
                 ulong target;
                 target = meorhere == MeOrHere.Me ? Context.User.Id : Context.Channel.Id;
-                await RemindInternal(target, meorhere == MeOrHere.Me, time.Time, message).ConfigureAwait(false);
+                if(!await RemindInternal(target, meorhere == MeOrHere.Me, time.Time, message).ConfigureAwait(false))
+                {
+                    await ReplyErrorLocalized("remind_too_long").ConfigureAwait(false);
+                }
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -57,7 +60,10 @@ namespace NadekoBot.Modules.Utility
                 }
                 else
                 {
-                    var _ = RemindInternal(channel.Id, false, time.Time, message).ConfigureAwait(false);
+                    if(!await RemindInternal(channel.Id, false, time.Time, message).ConfigureAwait(false))
+                    {
+                        await ReplyErrorLocalized("remind_too_long").ConfigureAwait(false);
+                    }
                 }
             }
 
@@ -134,12 +140,12 @@ namespace NadekoBot.Modules.Utility
                 }
             }
 
-            public async Task RemindInternal(ulong targetId, bool isPrivate, TimeSpan ts, [Remainder] string message)
+            public async Task<bool> RemindInternal(ulong targetId, bool isPrivate, TimeSpan ts, [Remainder] string message)
             {
                 var time = DateTime.UtcNow + ts;
 
                 if (ts > TimeSpan.FromDays(60))
-                    return;
+                    return false;
 
                 var rem = new Reminder
                 {
@@ -154,7 +160,7 @@ namespace NadekoBot.Modules.Utility
                 using (var uow = _db.UnitOfWork)
                 {
                     uow.Reminders.Add(rem);
-                    await uow.CompleteAsync();
+                    await uow.CompleteAsync().ConfigureAwait(false);
                 }
 
                 var gTime = TimeZoneInfo.ConvertTime(time, _tz.GetTimeZoneOrUtc(Context.Guild.Id));
@@ -169,9 +175,10 @@ namespace NadekoBot.Modules.Utility
                 }
                 catch
                 {
-                    // ignored
+                    
                 }
                 _service.StartReminder(rem);
+                return true;
             }
 
             [NadekoCommand, Usage, Description, Aliases]

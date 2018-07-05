@@ -16,7 +16,7 @@ namespace NadekoBot.Core.Common.TypeReaders
         {
             await Task.Yield();
 
-            input = input.Replace("#", "");
+            input = input.Replace("#", "", StringComparison.InvariantCulture);
             try
             {
                 return TypeReaderResult.FromSuccess(Rgba32.FromHex(input));

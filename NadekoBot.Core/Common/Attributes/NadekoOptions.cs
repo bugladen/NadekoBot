@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NadekoBot.Common.Attributes
 {
-    public class NadekoOptions : Attribute
+    [AttributeUsage(AttributeTargets.Method)]
+    public sealed class NadekoOptionsAttribute : Attribute
     {
         public Type OptionType { get; set; }
 
-        public NadekoOptions(Type t)
+        public NadekoOptionsAttribute(Type t)
         {
             this.OptionType = t;
         }

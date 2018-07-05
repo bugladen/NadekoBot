@@ -63,7 +63,7 @@ namespace NadekoBot.Modules.Administration.Services
                                 if (role != null)
                                 {
                                     await user.AddRoleAsync(role).ConfigureAwait(false);
-                                    await Task.Delay(250);
+                                    await Task.Delay(250).ConfigureAwait(false);
                                 }
                                 else
                                 {
@@ -83,7 +83,7 @@ namespace NadekoBot.Modules.Administration.Services
                                 _log.Warn(ex);
                             }
                         }
-                    })).Append(Task.Delay(3000)));
+                    })).Append(Task.Delay(3000))).ConfigureAwait(false);
                 }
             });
 
@@ -109,7 +109,7 @@ namespace NadekoBot.Modules.Administration.Services
         {
             using (var uow = _db.UnitOfWork)
             {
-                var gc = uow.GuildConfigs.For(guildId, set => set);
+                var gc = uow.GuildConfigs.ForId(guildId, set => set);
                 gc.AutoAssignRoleId = roleId;
                 uow.Complete();
             }
@@ -122,7 +122,7 @@ namespace NadekoBot.Modules.Administration.Services
         {
             using (var uow = _db.UnitOfWork)
             {
-                var gc = uow.GuildConfigs.For(guildId, set => set);
+                var gc = uow.GuildConfigs.ForId(guildId, set => set);
                 gc.AutoAssignRoleId = 0;
                 uow.Complete();
             }

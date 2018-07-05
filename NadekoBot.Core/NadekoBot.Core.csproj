@@ -16,7 +16,7 @@
     <PackageReference Include="CommandLineParser" Version="2.2.1" />
     <PackageReference Include="Discord.Net" Version="2.0.0-beta2-00937" />
     <PackageReference Include="CoreCLR-NCalc" Version="2.1.3" />
-    <PackageReference Include="Google.Apis.Urlshortener.v1" Version="1.32.2.138" />
+    <PackageReference Include="Google.Apis.Urlshortener.v1" Version="1.34.0.138" />
     <PackageReference Include="Google.Apis.YouTube.v3" Version="1.32.2.1131" />
     <PackageReference Include="Google.Apis.Customsearch.v1" Version="1.32.2.1132" />
     <PackageReference Include="ImageSharp" Version="1.0.0-alpha9-00194" />
@@ -49,6 +49,14 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'GlobalNadeko' ">
     <DefineConstants>$(DefineConstants);GLOBAL_NADEKO</DefineConstants>
     <NoWarn>$(NoWarn);CS1573;CS1591</NoWarn>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <CodeAnalysisRuleSet>NadekoBot.Core.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <CodeAnalysisRuleSet>NadekoBot.Core.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   
 </Project>

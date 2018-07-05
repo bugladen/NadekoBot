@@ -45,8 +45,7 @@ namespace NadekoBot.Modules.Administration.Services
             {
                 try
                 {
-                    var channel = msg.Channel as SocketTextChannel;
-                    if (channel == null)
+                    if (!(msg.Channel is SocketTextChannel channel))
                         return;
 
                     if (DeleteMessagesOnCommandChannels.TryGetValue(channel.Id, out var state))
@@ -76,7 +75,7 @@ namespace NadekoBot.Modules.Administration.Services
             bool enabled;
             using (var uow = _db.UnitOfWork)
             {
-                var conf = uow.GuildConfigs.For(guildId, set => set);
+                var conf = uow.GuildConfigs.ForId(guildId, set => set);
                 enabled = conf.DeleteMessageOnCommand = !conf.DeleteMessageOnCommand;
 
                 uow.Complete();

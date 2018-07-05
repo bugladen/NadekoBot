@@ -665,14 +665,14 @@
       "Aliases": [
         ".slowmode"
       ],
-      "Description": "Toggles slowmode. Disable by specifying no parameters. Slowmode deletes any excess messages users type over the specified limit of messages per X seconds. To enable, specify a number of messages each user can send, followed by an interval in seconds. For example 1 message every 5 seconds.",
+      "Description": "Toggles slowmode. Slowmode deletes any excess messages users type over the specified limit of messages per X seconds. To enable, specify a number of messages (-m) each user can send, and an interval in seconds (-i).  Disable by specifying no parameters.",
       "Usage": [
-        ".slowmode 1 5",
+        ".slowmode -m 1 -s 5",
         ".slowmode"
       ],
       "Submodule": "SlowModeCommands",
       "Module": "Administration",
-      "Options": null,
+      "Options": "--message-count (-m)   Number of messages user can send.  \n--seconds (-s)   Interval in which the user can send the specified number of messages.  ",
       "Requirements": [
         "ManageMessages Server Permission"
       ]
@@ -1101,7 +1101,9 @@
     },
     {
       "Aliases": [
-        ".scrm"
+        ".scrm",
+        ".autocmdrm",
+        ".autorm"
       ],
       "Description": "Removes a startup or auto command with the provided index.",
       "Usage": [
@@ -2569,7 +2571,7 @@
         ".gift",
         ".gifts"
       ],
-      "Description": "Gift an item to someone. This will increase their waifu value by 50% of the gifted item's value if they don't have affinity set towards you, or 100% if they do. Provide no parameters to see a list of items that you can gift.",
+      "Description": "Gift an item to someone. This will increase their waifu value by 50% of the gifted item's value if you are not their waifu, or 95% if you are. Provide no parameters to see a list of items that you can gift.",
       "Usage": [
         ".gifts",
         ".gift Rose @Himesama"
@@ -4506,6 +4508,35 @@
       "Description": "Shows a random dog image.",
       "Usage": [
         ".woof"
+      ],
+      "Submodule": "Searches",
+      "Module": "Searches",
+      "Options": null,
+      "Requirements": []
+    },
+    {
+      "Aliases": [
+        ".randomfood",
+        ".yum"
+      ],
+      "Description": "Shows a random food image.",
+      "Usage": [
+        ".yum"
+      ],
+      "Submodule": "Searches",
+      "Module": "Searches",
+      "Options": null,
+      "Requirements": []
+    },
+    {
+      "Aliases": [
+        ".randombird",
+        ".birb",
+        ".bird"
+      ],
+      "Description": "Shows a random bird image.",
+      "Usage": [
+        ".birb"
       ],
       "Submodule": "Searches",
       "Module": "Searches",

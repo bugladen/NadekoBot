@@ -66,7 +66,7 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
         public int GetNextDiscrim(string clubName)
         {
             return _set
-                .Where(x => x.Name.ToLowerInvariant() == clubName.ToLowerInvariant())
+                .Where(x => x.Name.ToUpperInvariant() == clubName.ToUpperInvariant())
                 .Select(x => x.Discrim)
                 .DefaultIfEmpty()
                 .Max() + 1;

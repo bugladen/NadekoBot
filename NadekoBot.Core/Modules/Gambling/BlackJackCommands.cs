@@ -37,17 +37,17 @@ namespace NadekoBot.Modules.Gambling
             [RequireContext(ContextType.Guild)]
             public async Task BlackJack(ShmartNumber amount)
             {
-                if (!await CheckBetMandatory(amount))
+                if (!await CheckBetMandatory(amount).ConfigureAwait(false))
                     return;
 
-                var newBj = new Blackjack(Context.User, amount, _cs, _db);
+                var newBj = new Blackjack(_cs, _db);
                 Blackjack bj;
                 if (newBj == (bj = _service.Games.GetOrAdd(Context.Channel.Id, newBj)))
                 {
-                    if (!await bj.Join(Context.User, amount))
+                    if (!await bj.Join(Context.User, amount).ConfigureAwait(false))
                     {
                         _service.Games.TryRemove(Context.Channel.Id, out _);
-                        await ReplyErrorLocalized("not_enough", _bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                        await ReplyErrorLocalized("not_enough", Bc.BotConfig.CurrencySign).ConfigureAwait(false);
                         return;
                     }
                     bj.StateUpdated += Bj_StateUpdated;
@@ -58,7 +58,7 @@ namespace NadekoBot.Modules.Gambling
                 }
                 else
                 {
-                    if (await bj.Join(Context.User, amount))
+                    if (await bj.Join(Context.User, amount).ConfigureAwait(false))
                         await ReplyConfirmLocalized("bj_joined").ConfigureAwait(false);
                     else
                     {
@@ -66,7 +66,7 @@ namespace NadekoBot.Modules.Gambling
                     }
                 }
 
-                await Context.Message.DeleteAsync();
+                await Context.Message.DeleteAsync().ConfigureAwait(false);
             }
 
             private Task Bj_GameEnded(Blackjack arg)
@@ -135,7 +135,7 @@ namespace NadekoBot.Modules.Gambling
                             full = "💰 " + full;
                         embed.AddField(full, cStr);
                     }
-                    _msg = await Context.Channel.EmbedAsync(embed);
+                    _msg = await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
                 }
                 catch
                 {
@@ -173,14 +173,14 @@ namespace NadekoBot.Modules.Gambling
                     return;
 
                 if (a == BjAction.Hit)
-                    await bj.Hit(Context.User);
+                    await bj.Hit(Context.User).ConfigureAwait(false);
                 else if (a == BjAction.Stand)
-                    await bj.Stand(Context.User);
+                    await bj.Stand(Context.User).ConfigureAwait(false);
                 else if (a == BjAction.Double)
                 {
-                    if (!await bj.Double(Context.User))
+                    if (!await bj.Double(Context.User).ConfigureAwait(false))
                     {
-                        await ReplyErrorLocalized("not_enough", _bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                        await ReplyErrorLocalized("not_enough", Bc.BotConfig.CurrencySign).ConfigureAwait(false);
                     }
                 }
 

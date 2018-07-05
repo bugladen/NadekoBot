@@ -43,21 +43,16 @@ namespace NadekoBot.Core.Modules.Music.Common
             {
                 var output = new byte[38400];
                 int read = 0;
-                while (!Stopped && (read = await _inStream.ReadAsync(output, 0, 38400)) > 0)
+                while (!Stopped && (read = await _inStream.ReadAsync(output, 0, 38400).ConfigureAwait(false)) > 0)
                 {
                     while (_buffer.Length - ContentLength <= read)
                     {
-                        await Task.Delay(100);
+                        await Task.Delay(100).ConfigureAwait(false);
                     }
 
                     Write(output, read);
                 }
             });
-        }
-
-        public Task Prebuffer()
-        {
-            return Task.CompletedTask;
         }
 
         private void Write(byte[] input, int writeCount)

@@ -25,24 +25,24 @@ namespace NadekoBot.Modules.Games
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [NadekoOptions(typeof(TicTacToe.Options))]
+            [NadekoOptionsAttribute(typeof(TicTacToe.Options))]
             public async Task TicTacToe(params string[] args)
             {
-                var (options, _) = OptionsParser.Default.ParseFrom(new TicTacToe.Options(), args);
+                var (options, _) = OptionsParser.ParseFrom(new TicTacToe.Options(), args);
                 var channel = (ITextChannel)Context.Channel;
 
-                await _sem.WaitAsync(1000);
+                await _sem.WaitAsync(1000).ConfigureAwait(false);
                 try
                 {
                     if (_service.TicTacToeGames.TryGetValue(channel.Id, out TicTacToe game))
                     {
                         var _ = Task.Run(async () =>
                         {
-                            await game.Start((IGuildUser)Context.User);
+                            await game.Start((IGuildUser)Context.User).ConfigureAwait(false);
                         });
                         return;
                     }
-                    game = new TicTacToe(base._strings, this._client, channel, (IGuildUser)Context.User, options);
+                    game = new TicTacToe(base.Strings, this._client, channel, (IGuildUser)Context.User, options);
                     _service.TicTacToeGames.Add(channel.Id, game);
                     await ReplyConfirmLocalized("ttt_created").ConfigureAwait(false);
 

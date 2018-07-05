@@ -42,7 +42,7 @@ namespace NadekoBot.Modules.Utility.Services
             int count;
             using (var uow = _db.UnitOfWork)
             {
-                var gc = uow.GuildConfigs.For(guildId, set => set.Include(x => x.CommandAliases));
+                var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.CommandAliases));
                 count = gc.CommandAliases.Count;
                 gc.CommandAliases.Clear();
                 uow.Complete();
@@ -59,7 +59,6 @@ namespace NadekoBot.Modules.Utility.Services
 
             if (guild != null)
             {
-                input = input.ToLowerInvariant();
                 if (AliasMaps.TryGetValue(guild.Id, out ConcurrentDictionary<string, string> maps))
                 {
                     var keys = maps.Keys
@@ -68,7 +67,7 @@ namespace NadekoBot.Modules.Utility.Services
                     foreach (var k in keys)
                     {
                         string newInput;
-                        if (input.StartsWith(k + " "))
+                        if (input.StartsWith(k + " ", StringComparison.InvariantCultureIgnoreCase))
                             newInput = maps[k] + input.Substring(k.Length, input.Length - k.Length);
                         else if (input == k)
                             newInput = maps[k];
@@ -80,11 +79,11 @@ namespace NadekoBot.Modules.Utility.Services
                             var toDelete = await channel.SendConfirmAsync($"{input} => {newInput}").ConfigureAwait(false);
                             var _ = Task.Run(async () =>
                             {
-                                await Task.Delay(1500);
+                                await Task.Delay(1500).ConfigureAwait(false);
                                 await toDelete.DeleteAsync(new RequestOptions()
                                 {
                                     RetryMode = RetryMode.AlwaysRetry
-                                });
+                                }).ConfigureAwait(false);
                             });
                         }
                         catch { }
@@ -101,6 +100,6 @@ namespace NadekoBot.Modules.Utility.Services
     {
         public bool Equals(CommandAlias x, CommandAlias y) => x.Trigger == y.Trigger;
 
-        public int GetHashCode(CommandAlias obj) => obj.Trigger.GetHashCode();
+        public int GetHashCode(CommandAlias obj) => obj.Trigger.GetHashCode(StringComparison.InvariantCulture);
     }
 }

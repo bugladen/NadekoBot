@@ -8,7 +8,7 @@ using NadekoBot.Common;
 
 namespace NadekoBot.Modules.Music.Common
 {
-    public class MusicQueue : IDisposable
+    public sealed class MusicQueue : IDisposable
     {
         private LinkedList<SongInfo> Songs { get; set; } = new LinkedList<SongInfo>();
         private int _currentIndex = 0;

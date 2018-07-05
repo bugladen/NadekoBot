@@ -24,7 +24,7 @@ namespace NadekoBot.Modules.Pokemon
             _cs = cs;
         }
 
-        private int GetDamage(PokemonType usertype, PokemonType targetType)
+        private static int GetDamage(PokemonType usertype, PokemonType targetType)
         {
             var rng = new Random();
             var damage = rng.Next(40, 60);
@@ -226,7 +226,7 @@ namespace NadekoBot.Modules.Pokemon
                 {
                     if (!await _cs.RemoveAsync(user, $"Poke-Heal {target}", amount, true).ConfigureAwait(false))
                     {
-                        await ReplyErrorLocalized("no_currency", _bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                        await ReplyErrorLocalized("no_currency", Bc.BotConfig.CurrencySign).ConfigureAwait(false);
                         return;
                     }
                 }
@@ -239,17 +239,17 @@ namespace NadekoBot.Modules.Pokemon
                     _service.Stats[targetUser.Id].Hp = (targetStats.MaxHp / 2);
                     if (target == "yourself")
                     {
-                        await ReplyConfirmLocalized("revive_yourself", _bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                        await ReplyConfirmLocalized("revive_yourself", Bc.BotConfig.CurrencySign).ConfigureAwait(false);
                         return;
                     }
 
-                    await ReplyConfirmLocalized("revive_other", Format.Bold(targetUser.ToString()), _bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                    await ReplyConfirmLocalized("revive_other", Format.Bold(targetUser.ToString()), Bc.BotConfig.CurrencySign).ConfigureAwait(false);
                 }
-                await ReplyConfirmLocalized("healed", Format.Bold(targetUser.ToString()), _bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                await ReplyConfirmLocalized("healed", Format.Bold(targetUser.ToString()), Bc.BotConfig.CurrencySign).ConfigureAwait(false);
             }
             else
             {
-                await ErrorLocalized("already_full", Format.Bold(targetUser.ToString()));
+                await ErrorLocalized("already_full", Format.Bold(targetUser.ToString())).ConfigureAwait(false);
             }
         }
 
@@ -291,7 +291,7 @@ namespace NadekoBot.Modules.Pokemon
             {
                 if (!await _cs.RemoveAsync(user, $"{user} change type to {typeTargeted}", amount, true).ConfigureAwait(false))
                 {
-                    await ReplyErrorLocalized("no_currency", _bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                    await ReplyErrorLocalized("no_currency", Bc.BotConfig.CurrencySign).ConfigureAwait(false);
                     return;
                 }
             }
@@ -319,13 +319,13 @@ namespace NadekoBot.Modules.Pokemon
                     pokeUserCmd.type = targetType.Name;
                     uow.PokeGame.Update(pokeUserCmd);
                 }
-                await uow.CompleteAsync();
+                await uow.CompleteAsync().ConfigureAwait(false);
             }
 
             //Now for the response
             await ReplyConfirmLocalized("settype_success",
                 targetType,
-                _bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                Bc.BotConfig.CurrencySign).ConfigureAwait(false);
         }
     }
 }

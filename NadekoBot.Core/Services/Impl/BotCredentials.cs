@@ -111,10 +111,12 @@ namespace NadekoBot.Core.Services.Impl
                 else
                     ShardRunPort = int.Parse(portStr);
 
-                int.TryParse(data[nameof(TotalShards)], out var ts);
+                if (!int.TryParse(data[nameof(TotalShards)], out var ts))
+                    ts = 0;
                 TotalShards = ts < 1 ? 1 : ts;
 
-                ulong.TryParse(data[nameof(ClientId)], out ulong clId);
+                if (!ulong.TryParse(data[nameof(ClientId)], out ulong clId))
+                    clId = 0;
                 ClientId = clId;
 
                 CarbonKey = data[nameof(CarbonKey)];
@@ -169,12 +171,6 @@ namespace NadekoBot.Core.Services.Impl
             public string TwitchClientId { get; set; }
             public string VotesToken { get; set; }
             public string VotesUrl { get; set; }
-        }
-
-        private class DbModel
-        {
-            public string Type { get; set; }
-            public string ConnectionString { get; set; }
         }
 
         public bool IsOwner(IUser u) => OwnerIds.Contains(u.Id);

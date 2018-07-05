@@ -237,7 +237,6 @@ namespace NadekoBot.Common.Collections
         {
             if (concurrencyLevel < 1) throw new ArgumentOutOfRangeException(nameof(concurrencyLevel));
             if (capacity < 0) throw new ArgumentOutOfRangeException(nameof(capacity));
-            if (comparer == null) throw new ArgumentNullException(nameof(comparer));
 
             // The capacity should be at least as large as the concurrency level. Otherwise, we would have locks that don't guard
             // any buckets.
@@ -258,7 +257,7 @@ namespace NadekoBot.Common.Collections
 
             _growLockArray = growLockArray;
             _budget = buckets.Length / locks.Length;
-            _comparer = comparer;
+            _comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
         }
 
         /// <summary>

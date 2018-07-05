@@ -48,7 +48,7 @@ namespace NadekoBot.Modules.Administration
                     return;
                 }
 
-                var stats = await _service.StartAntiRaidAsync(Context.Guild.Id, userThreshold, seconds, action);
+                var stats = await _service.StartAntiRaidAsync(Context.Guild.Id, userThreshold, seconds, action).ConfigureAwait(false);
 
                 await Context.Channel.SendConfirmAsync(GetText("prot_enable", "Anti-Raid"), $"{Context.User.Mention} {GetAntiRaidString(stats)}")
                         .ConfigureAwait(false);
@@ -82,7 +82,7 @@ namespace NadekoBot.Modules.Administration
                 if (time < 0 || time > 60 * 12)
                     return;
 
-                var stats = await _service.StartAntiSpamAsync(Context.Guild.Id, messageCount, time, action);
+                var stats = await _service.StartAntiSpamAsync(Context.Guild.Id, messageCount, time, action).ConfigureAwait(false);
 
                 await Context.Channel.SendConfirmAsync(GetText("prot_enable", "Anti-Spam"), 
                     $"{Context.User.Mention} {GetAntiSpamString(stats)}").ConfigureAwait(false);
@@ -93,7 +93,7 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.Administrator)]
             public async Task AntispamIgnore()
             {
-                var added = await _service.AntiSpamIgnoreAsync(Context.Guild.Id, Context.Channel.Id);
+                var added = await _service.AntiSpamIgnoreAsync(Context.Guild.Id, Context.Channel.Id).ConfigureAwait(false);
 
                 await ReplyConfirmLocalized(added ? "spam_ignore" : "spam_not_ignore", "Anti-Spam").ConfigureAwait(false);
             }

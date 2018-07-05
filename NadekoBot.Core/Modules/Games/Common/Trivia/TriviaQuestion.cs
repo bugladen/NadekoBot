@@ -16,7 +16,7 @@ namespace NadekoBot.Modules.Games.Common.Trivia
             new Tuple<int, int>(19, 2),
             new Tuple<int, int>(22, 3),
         };
-        public static int maxStringLength = 22;
+        public const int maxStringLength = 22;
 
         public string Category { get; set; }
         public string Question { get; set; }
@@ -39,12 +39,12 @@ namespace NadekoBot.Modules.Games.Common.Trivia
 
         public bool IsAnswerCorrect(string guess)
         {
-            if (Answer.Equals(guess))
+            if (Answer.Equals(guess, StringComparison.InvariantCulture))
             {
                 return true;
             }
             var cleanGuess = Clean(guess);
-            if (CleanAnswer.Equals(cleanGuess))
+            if (CleanAnswer.Equals(cleanGuess, StringComparison.InvariantCulture))
             {
                 return true;
             }
@@ -55,7 +55,7 @@ namespace NadekoBot.Modules.Games.Common.Trivia
                 || JudgeGuess(Answer.Length, guess.Length, levDistanceNormal);
         }
 
-        private bool JudgeGuess(int guessLength, int answerLength, int levDistance)
+        private static bool JudgeGuess(int guessLength, int answerLength, int levDistance)
         {
             foreach (Tuple<int, int> level in strictness)
             {
@@ -70,9 +70,9 @@ namespace NadekoBot.Modules.Games.Common.Trivia
             return false;
         }
 
-        private string Clean(string str)
+        private static string Clean(string str)
         {
-            str = " " + str.ToLower() + " ";
+            str = " " + str.ToLowerInvariant() + " ";
             str = Regex.Replace(str, "\\s+", " ");
             str = Regex.Replace(str, "[^\\w\\d\\s]", "");
             //Here's where custom modification can be done
@@ -104,7 +104,7 @@ namespace NadekoBot.Modules.Games.Common.Trivia
                 if (letters[i] != ' ')
                     letters[i] = '_';
             }
-            return string.Join(" ", new string(letters).Replace(" ", " \u2000").AsEnumerable());
+            return string.Join(" ", new string(letters).Replace(" ", " \u2000", StringComparison.InvariantCulture).AsEnumerable());
         }
     }
 }

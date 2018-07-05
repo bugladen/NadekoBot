@@ -86,7 +86,7 @@ namespace NadekoBot.Modules.Music.Services
             {
                 using (var uow = _db.UnitOfWork)
                 {
-                    return uow.GuildConfigs.For(guildId, set => set).DefaultMusicVolume;
+                    return uow.GuildConfigs.ForId(guildId, set => set).DefaultMusicVolume;
                 }
             });
         }
@@ -214,14 +214,14 @@ namespace NadekoBot.Modules.Music.Services
 
         public async Task TryQueueRelatedSongAsync(SongInfo song, ITextChannel txtCh, IVoiceChannel vch)
         {
-            var related = (await _google.GetRelatedVideosAsync(song.VideoId, 4)).ToArray();
+            var related = (await _google.GetRelatedVideosAsync(song.VideoId, 4).ConfigureAwait(false)).ToArray();
             if (!related.Any())
                 return;
 
-            var si = await ResolveSong(related[new NadekoRandom().Next(related.Length)], _client.CurrentUser.ToString(), MusicType.YouTube);
+            var si = await ResolveSong(related[new NadekoRandom().Next(related.Length)], _client.CurrentUser.ToString(), MusicType.YouTube).ConfigureAwait(false);
             if (si == null)
                 throw new SongNotFoundException();
-            var mp = await GetOrCreatePlayer(txtCh.GuildId, vch, txtCh);
+            var mp = await GetOrCreatePlayer(txtCh.GuildId, vch, txtCh).ConfigureAwait(false);
             mp.Enqueue(si);
         }
 
@@ -230,8 +230,8 @@ namespace NadekoBot.Modules.Music.Services
             query.ThrowIfNull(nameof(query));
 
             ISongResolverFactory resolverFactory = new SongResolverFactory(_sc);
-            var strategy = await resolverFactory.GetResolveStrategy(query, musicType);
-            var sinfo = await strategy.ResolveSong(query);
+            var strategy = await resolverFactory.GetResolveStrategy(query, musicType).ConfigureAwait(false);
+            var sinfo = await strategy.ResolveSong(query).ConfigureAwait(false);
 
             if (sinfo == null)
                 return null;
@@ -245,14 +245,14 @@ namespace NadekoBot.Modules.Music.Services
         {
             foreach (var key in MusicPlayers.Keys)
             {
-                await DestroyPlayer(key);
+                await DestroyPlayer(key).ConfigureAwait(false);
             }
         }
 
         public async Task DestroyPlayer(ulong id)
         {
             if (MusicPlayers.TryRemove(id, out var mp))
-                await mp.Destroy();
+                await mp.Destroy().ConfigureAwait(false);
         }
 
         public bool ToggleAutoDc(ulong id)
@@ -260,7 +260,7 @@ namespace NadekoBot.Modules.Music.Services
             bool val;
             using (var uow = _db.UnitOfWork)
             {
-                var gc = uow.GuildConfigs.For(id, set => set);
+                var gc = uow.GuildConfigs.ForId(id, set => set);
                 val = gc.AutoDcFromVc = !gc.AutoDcFromVc;
                 uow.Complete();
             }
@@ -282,7 +282,7 @@ namespace NadekoBot.Modules.Music.Services
         {
             using (var uow = _db.UnitOfWork)
             {
-                var ms = uow.GuildConfigs.For(guildId, set => set.Include(x => x.MusicSettings)).MusicSettings;
+                var ms = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.MusicSettings)).MusicSettings;
                 ms.MusicChannelId = cid;
                 uow.Complete();
             }
@@ -292,7 +292,7 @@ namespace NadekoBot.Modules.Music.Services
         {
             using (var uow = _db.UnitOfWork)
             {
-                var ms = uow.GuildConfigs.For(guildId, set => set.Include(x => x.MusicSettings)).MusicSettings;
+                var ms = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.MusicSettings)).MusicSettings;
                 ms.SongAutoDelete = val;
                 uow.Complete();
             }

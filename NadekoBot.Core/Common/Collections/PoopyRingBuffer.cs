@@ -3,7 +3,7 @@ using System.Threading;
 
 namespace NadekoBot.Common.Collections
 {
-    public class PoopyRingBuffer : IDisposable
+    public sealed class PoopyRingBuffer : IDisposable
     {
         // readpos == writepos means empty
         // writepos == readpos - 1 means full 
@@ -14,16 +14,14 @@ namespace NadekoBot.Common.Collections
         private int ReadPos { get; set; } = 0;
         private int WritePos { get; set; } = 0;
 
-        public int Length => ReadPos <= WritePos 
-            ? WritePos - ReadPos 
+        public int Length => ReadPos <= WritePos
+            ? WritePos - ReadPos
             : Capacity - (ReadPos - WritePos);
 
         public int RemainingCapacity
         {
             get => Capacity - Length - 1;
         }
-
-        private readonly SemaphoreSlim _locker = new SemaphoreSlim(1, 1);
 
         public PoopyRingBuffer(int capacity = 81920 * 100)
         {

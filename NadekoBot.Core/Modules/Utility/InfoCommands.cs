@@ -19,7 +19,7 @@ namespace NadekoBot.Modules.Utility
             private readonly DiscordSocketClient _client;
             private readonly IStatsService _stats;
 
-            public InfoCommands(DiscordSocketClient client, IStatsService stats, CommandHandler ch)
+            public InfoCommands(DiscordSocketClient client, IStatsService stats)
             {
                 _client = client;
                 _stats = stats;
@@ -81,7 +81,7 @@ namespace NadekoBot.Modules.Utility
                 if (ch == null)
                     return;
                 var createdAt = new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(ch.Id >> 22);
-                var usercount = (await ch.GetUsersAsync().FlattenAsync()).Count();
+                var usercount = (await ch.GetUsersAsync().FlattenAsync().ConfigureAwait(false)).Count();
                 var embed = new EmbedBuilder()
                     .WithTitle(ch.Name)
                     .WithDescription(ch.Topic?.SanitizeMentions())
@@ -113,8 +113,9 @@ namespace NadekoBot.Modules.Utility
                     .AddField(fb => fb.WithName(GetText("roles")).WithValue($"**({user.RoleIds.Count - 1})** - {string.Join("\n", user.GetRoles().Take(10).Where(r => r.Id != r.Guild.EveryoneRole.Id).Select(r => r.Name)).SanitizeMentions()}").WithIsInline(true))
                     .WithColor(NadekoBot.OkColor);
 
-                if (user.AvatarId != null)
-                    embed.WithThumbnailUrl(user.RealAvatarUrl());
+                var av = user.RealAvatarUrl();
+                if (av != null && av.IsAbsoluteUri)
+                    embed.WithThumbnailUrl(av.ToString());
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
@@ -132,7 +133,7 @@ namespace NadekoBot.Modules.Utility
                 int startCount = page * activityPerPage;
 
                 StringBuilder str = new StringBuilder();
-                foreach (var kvp in _cmdHandler.UserMessagesSent.OrderByDescending(kvp => kvp.Value).Skip(page * activityPerPage).Take(activityPerPage))
+                foreach (var kvp in CmdHandler.UserMessagesSent.OrderByDescending(kvp => kvp.Value).Skip(page * activityPerPage).Take(activityPerPage))
                 {
                     str.AppendLine(GetText("activity_line",
                         ++startCount,
@@ -144,8 +145,8 @@ namespace NadekoBot.Modules.Utility
                     .WithTitle(GetText("activity_page", page + 1))
                     .WithOkColor()
                     .WithFooter(efb => efb.WithText(GetText("activity_users_total",
-                        _cmdHandler.UserMessagesSent.Count)))
-                    .WithDescription(str.ToString()));
+                        CmdHandler.UserMessagesSent.Count)))
+                    .WithDescription(str.ToString())).ConfigureAwait(false);
             }
         }
     }

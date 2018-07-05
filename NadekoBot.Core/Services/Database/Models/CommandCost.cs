@@ -1,4 +1,6 @@
-﻿namespace NadekoBot.Core.Services.Database.Models
+﻿using System;
+
+namespace NadekoBot.Core.Services.Database.Models
 {
     public class CommandCost : DbEntity
     {
@@ -6,16 +8,13 @@
         public string CommandName { get; set; }
 
         public override int GetHashCode() =>
-            CommandName.GetHashCode();
+            CommandName.GetHashCode(StringComparison.InvariantCulture);
 
         public override bool Equals(object obj)
         {
-            var instance = obj as CommandCost;
-
-            if (instance == null)
-                return false;
-
-            return instance.CommandName == CommandName;
+            return obj is CommandCost cc
+                ? cc.CommandName == CommandName
+                : false;
         }
     }
 }

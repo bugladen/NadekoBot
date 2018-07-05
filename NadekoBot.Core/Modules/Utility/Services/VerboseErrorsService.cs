@@ -61,7 +61,7 @@ namespace NadekoBot.Modules.Utility.Services
             bool enabled;
             using (var uow = _db.UnitOfWork)
             {
-                var gc = uow.GuildConfigs.For(guildId, set => set);
+                var gc = uow.GuildConfigs.ForId(guildId, set => set);
 
                 enabled = gc.VerboseErrors = !gc.VerboseErrors;
 

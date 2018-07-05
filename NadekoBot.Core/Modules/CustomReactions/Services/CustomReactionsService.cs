@@ -28,9 +28,9 @@ namespace NadekoBot.Modules.CustomReactions.Services
             ContainsAnywhere,
             Message,
         }
-
-        public CustomReaction[] GlobalReactions = new CustomReaction[] { };
-        public ConcurrentDictionary<ulong, CustomReaction[]> GuildReactions { get; } = new ConcurrentDictionary<ulong, CustomReaction[]>();
+        //todo move all logic inside and this can become a property
+        public CustomReaction[] GlobalReactions = Array.Empty<CustomReaction>();
+        public ConcurrentDictionary<ulong, CustomReaction[]> GuildReactions = new ConcurrentDictionary<ulong, CustomReaction[]>();
 
         public ConcurrentDictionary<string, uint> ReactionStats { get; } = new ConcurrentDictionary<string, uint>();
 
@@ -107,7 +107,7 @@ namespace NadekoBot.Modules.CustomReactions.Services
             {
                 using (var uow = _db.UnitOfWork)
                 {
-                    var crs = uow.CustomReactions.For(gc.GuildId);
+                    var crs = uow.CustomReactions.ForId(gc.GuildId);
                     GuildReactions.AddOrUpdate(gc.GuildId, crs, (key, old) => crs);
                 }
             });
@@ -148,8 +148,8 @@ namespace NadekoBot.Modules.CustomReactions.Services
                         var trigger = cr.TriggerWithContext(umsg, _client).Trim().ToLowerInvariant();
                         return ((cr.ContainsAnywhere &&
                             (content.GetWordPosition(trigger) != WordPosition.None))
-                            || (hasTarget && content.StartsWith(trigger + " "))
-                            || (_bc.BotConfig.CustomReactionsStartWith && content.StartsWith(trigger + " "))
+                            || (hasTarget && content.StartsWith(trigger + " ", StringComparison.InvariantCulture))
+                            || (_bc.BotConfig.CustomReactionsStartWith && content.StartsWith(trigger + " ", StringComparison.InvariantCulture))
                             || content == trigger);
                     }).ToArray();
 
@@ -173,8 +173,8 @@ namespace NadekoBot.Modules.CustomReactions.Services
                 var trigger = cr.TriggerWithContext(umsg, _client).Trim().ToLowerInvariant();
                 return ((cr.ContainsAnywhere &&
                             (content.GetWordPosition(trigger) != WordPosition.None))
-                        || (hasTarget && content.StartsWith(trigger + " "))
-                        || (_bc.BotConfig.CustomReactionsStartWith && content.StartsWith(trigger + " "))
+                        || (hasTarget && content.StartsWith(trigger + " ", StringComparison.InvariantCulture))
+                        || (_bc.BotConfig.CustomReactionsStartWith && content.StartsWith(trigger + " ", StringComparison.InvariantCulture))
                         || content == trigger);
             }).ToArray();
             if (grs.Length == 0)
@@ -199,7 +199,7 @@ namespace NadekoBot.Modules.CustomReactions.Services
 
                     if (guild is SocketGuild sg)
                     {
-                        var pc = _perms.GetCache(guild.Id);
+                        var pc = _perms.GetCacheFor(guild.Id);
                         if (!pc.Permissions.CheckPermissions(msg, cr.Trigger, "ActualCustomReactions",
                             out int index))
                         {
@@ -234,7 +234,7 @@ namespace NadekoBot.Modules.CustomReactions.Services
             CustomReaction cr;
             using (var uow = _db.UnitOfWork)
             {
-                cr = uow.CustomReactions.Get(id);
+                cr = uow.CustomReactions.GetById(id);
                 if (cr == null)
                     return Task.CompletedTask;
                 if (field == CrField.AutoDelete)

@@ -164,8 +164,10 @@ namespace NadekoBot.Modules.Gambling
                         int.TryParse(match.Groups["n2"].ToString(), out int n2) &&
                         n1 <= 50 && n2 <= 100000 && n1 > 0 && n2 > 0)
                     {
-                        int.TryParse(match.Groups["add"].Value, out int add);
-                        int.TryParse(match.Groups["sub"].Value, out int sub);
+                        if (!int.TryParse(match.Groups["add"].Value, out int add))
+                            add = 0;
+                        if (!int.TryParse(match.Groups["sub"].Value, out int sub))
+                            sub = 0;
 
                         var arr = new int[n1];
                         for (int i = 0; i < n1; i++)

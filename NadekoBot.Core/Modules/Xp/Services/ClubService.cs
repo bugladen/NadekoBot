@@ -180,7 +180,7 @@ namespace NadekoBot.Modules.Xp.Services
                 if (club == null)
                     return false;
 
-                var applicant = club.Applicants.FirstOrDefault(x => x.User.ToString().ToLowerInvariant() == userName.ToLowerInvariant());
+                var applicant = club.Applicants.FirstOrDefault(x => x.User.ToString().ToUpperInvariant() == userName.ToUpperInvariant());
                 if (applicant == null)
                     return false;
 
@@ -268,20 +268,20 @@ namespace NadekoBot.Modules.Xp.Services
             return true;
         }
 
-        public bool Ban(ulong ownerUserId, string userName, out ClubInfo club)
+        public bool Ban(ulong bannerId, string userName, out ClubInfo club)
         {
             using (var uow = _db.UnitOfWork)
             {
-                club = uow.Clubs.GetByOwnerOrAdmin(ownerUserId);
+                club = uow.Clubs.GetByOwnerOrAdmin(bannerId);
                 if (club == null)
                     return false;
 
-                var usr = club.Users.FirstOrDefault(x => x.ToString().ToLowerInvariant() == userName.ToLowerInvariant())
-                    ?? club.Applicants.FirstOrDefault(x => x.User.ToString().ToLowerInvariant() == userName.ToLowerInvariant())?.User;
+                var usr = club.Users.FirstOrDefault(x => x.ToString().ToUpperInvariant() == userName.ToUpperInvariant())
+                    ?? club.Applicants.FirstOrDefault(x => x.User.ToString().ToUpperInvariant() == userName.ToUpperInvariant())?.User;
                 if (usr == null)
                     return false;
 
-                if (club.OwnerId == usr.Id) // can't ban the owner kek, whew
+                if (club.OwnerId == usr.Id || (usr.IsClubAdmin && club.Owner.UserId != bannerId)) // can't ban the owner kek, whew
                     return false;
 
                 club.Bans.Add(new ClubBans
@@ -309,7 +309,7 @@ namespace NadekoBot.Modules.Xp.Services
                 if (club == null)
                     return false;
 
-                var ban = club.Bans.FirstOrDefault(x => x.User.ToString().ToLowerInvariant() == userName.ToLowerInvariant());
+                var ban = club.Bans.FirstOrDefault(x => x.User.ToString().ToUpperInvariant() == userName.ToUpperInvariant());
                 if (ban == null)
                     return false;
 
@@ -320,19 +320,19 @@ namespace NadekoBot.Modules.Xp.Services
             return true;
         }
 
-        public bool Kick(ulong ownerUserId, string userName, out ClubInfo club)
+        public bool Kick(ulong kickerId, string userName, out ClubInfo club)
         {
             using (var uow = _db.UnitOfWork)
             {
-                club = uow.Clubs.GetByOwnerOrAdmin(ownerUserId);
+                club = uow.Clubs.GetByOwnerOrAdmin(kickerId);
                 if (club == null)
                     return false;
 
-                var usr = club.Users.FirstOrDefault(x => x.ToString().ToLowerInvariant() == userName.ToLowerInvariant());
+                var usr = club.Users.FirstOrDefault(x => x.ToString().ToUpperInvariant() == userName.ToUpperInvariant());
                 if (usr == null)
                     return false;
 
-                if (club.OwnerId == usr.Id)
+                if (club.OwnerId == usr.Id || (usr.IsClubAdmin && club.Owner.UserId != kickerId))
                     return false;
 
                 club.Users.Remove(usr);

@@ -978,6 +978,8 @@ namespace NadekoBot.Migrations
 
                     b.Property<int>("Index");
 
+                    b.Property<bool>("IsCustomCommand");
+
                     b.Property<int>("PrimaryTarget");
 
                     b.Property<ulong>("PrimaryTargetId");

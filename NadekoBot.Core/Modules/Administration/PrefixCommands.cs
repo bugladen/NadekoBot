@@ -14,7 +14,7 @@ namespace NadekoBot.Modules.Administration
             [Priority(1)]
             public new async Task Prefix()
             {
-                await ReplyConfirmLocalized("prefix_current", Format.Code(_cmdHandler.GetPrefix(Context.Guild))).ConfigureAwait(false);
+                await ReplyConfirmLocalized("prefix_current", Format.Code(CmdHandler.GetPrefix(Context.Guild))).ConfigureAwait(false);
                 return;
             }
 
@@ -28,7 +28,7 @@ namespace NadekoBot.Modules.Administration
                     return;
 
                 var oldPrefix = base.Prefix;
-                var newPrefix = _cmdHandler.SetPrefix(Context.Guild, prefix);
+                var newPrefix = CmdHandler.SetPrefix(Context.Guild, prefix);
 
                 await ReplyConfirmLocalized("prefix_new", Format.Code(oldPrefix), Format.Code(newPrefix)).ConfigureAwait(false);
             }
@@ -39,12 +39,12 @@ namespace NadekoBot.Modules.Administration
             {
                 if (string.IsNullOrWhiteSpace(prefix))
                 {
-                    await ReplyConfirmLocalized("defprefix_current", _cmdHandler.DefaultPrefix).ConfigureAwait(false);
+                    await ReplyConfirmLocalized("defprefix_current", CmdHandler.DefaultPrefix).ConfigureAwait(false);
                     return;
                 }
 
-                var oldPrefix = _cmdHandler.DefaultPrefix;
-                var newPrefix = _cmdHandler.SetDefaultPrefix(prefix);
+                var oldPrefix = CmdHandler.DefaultPrefix;
+                var newPrefix = CmdHandler.SetDefaultPrefix(prefix);
 
                 await ReplyConfirmLocalized("defprefix_new", Format.Code(oldPrefix), Format.Code(newPrefix)).ConfigureAwait(false);
             }

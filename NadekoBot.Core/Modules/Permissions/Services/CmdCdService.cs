@@ -46,7 +46,7 @@ namespace NadekoBot.Modules.Permissions.Services
                 {
                     try
                     {
-                        await Task.Delay(cdRule.Seconds * 1000);
+                        await Task.Delay(cdRule.Seconds * 1000).ConfigureAwait(false);
                         activeCdsForGuild.RemoveWhere(ac => ac.Command == commandName.ToLowerInvariant() && ac.UserId == user.Id);
                     }
                     catch

@@ -61,7 +61,7 @@ namespace NadekoBot.Core.Modules.Administration.Services
             bool newval;
             using (var uow = _db.UnitOfWork)
             {
-                var config = uow.GuildConfigs.For(guildId, set => set);
+                var config = uow.GuildConfigs.ForId(guildId, set => set);
                 newval = config.AutoDeleteSelfAssignedRoleMessages = !config.AutoDeleteSelfAssignedRoleMessages;
                 uow.Complete();
             }
@@ -169,7 +169,7 @@ namespace NadekoBot.Core.Modules.Administration.Services
         {
             using (var uow = _db.UnitOfWork)
             {
-                var gc = uow.GuildConfigs.For(guildId, set => set);
+                var gc = uow.GuildConfigs.ForId(guildId, set => set);
                 var autoDelete = gc.AutoDeleteSelfAssignedRoleMessages;
                 var exclusive = gc.ExclusiveSelfAssignedRoles;
                 var roles = uow.SelfAssignedRoles.GetFromGuild(guildId);
@@ -203,7 +203,7 @@ namespace NadekoBot.Core.Modules.Administration.Services
             bool areExclusive;
             using (var uow = _db.UnitOfWork)
             {
-                var config = uow.GuildConfigs.For(guildId, set => set);
+                var config = uow.GuildConfigs.ForId(guildId, set => set);
 
                 areExclusive = config.ExclusiveSelfAssignedRoles = !config.ExclusiveSelfAssignedRoles;
                 uow.Complete();
@@ -218,7 +218,7 @@ namespace NadekoBot.Core.Modules.Administration.Services
             IEnumerable<(SelfAssignedRole Model, IRole Role)> roles;
             using (var uow = _db.UnitOfWork)
             {
-                exclusive = uow.GuildConfigs.For(guild.Id, set => set)
+                exclusive = uow.GuildConfigs.ForId(guild.Id, set => set)
                     .ExclusiveSelfAssignedRoles;
                 var roleModels = uow.SelfAssignedRoles.GetFromGuild(guild.Id);
                 roles = roleModels

@@ -27,11 +27,11 @@ namespace NadekoBot.Modules.Gambling
             [Priority(1)]
             public async Task RaffleCur(ShmartNumber amount, bool mixed = false)
             {
-                if (!await CheckBetMandatory(amount))
+                if (!await CheckBetMandatory(amount).ConfigureAwait(false))
                     return;
                 async Task OnEnded(IUser arg, long won)
                 {
-                    await Context.Channel.SendConfirmAsync(GetText("rafflecur_ended", _bc.BotConfig.CurrencyName, Format.Bold(arg.ToString()), won + _bc.BotConfig.CurrencySign));
+                    await Context.Channel.SendConfirmAsync(GetText("rafflecur_ended", Bc.BotConfig.CurrencyName, Format.Bold(arg.ToString()), won + Bc.BotConfig.CurrencySign)).ConfigureAwait(false);
                 }
                 var res = await _service.JoinOrCreateGame(Context.Channel.Id,
                     Context.User, amount, mixed, OnEnded)
@@ -48,7 +48,7 @@ namespace NadekoBot.Modules.Gambling
                     if (res.Item2 == CurrencyRaffleService.JoinErrorType.AlreadyJoinedOrInvalidAmount)
                         await ReplyErrorLocalized("rafflecur_already_joined").ConfigureAwait(false);
                     else if (res.Item2 == CurrencyRaffleService.JoinErrorType.NotEnoughCurrency)
-                        await ReplyErrorLocalized("not_enough", _bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                        await ReplyErrorLocalized("not_enough", Bc.BotConfig.CurrencySign).ConfigureAwait(false);
                 }
             }
         }

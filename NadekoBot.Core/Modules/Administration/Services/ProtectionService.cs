@@ -123,12 +123,10 @@ namespace NadekoBot.Modules.Administration.Services
 
         private Task HandleAntiSpam(SocketMessage arg)
         {
-            var msg = arg as SocketUserMessage;
-            if (msg == null || msg.Author.IsBot)
+            if (!(arg is SocketUserMessage msg) || msg.Author.IsBot)
                 return Task.CompletedTask;
 
-            var channel = msg.Channel as ITextChannel;
-            if (channel == null)
+            if (!(msg.Channel is ITextChannel channel))
                 return Task.CompletedTask;
             var _ = Task.Run(async () =>
             {
@@ -214,7 +212,7 @@ namespace NadekoBot.Modules.Administration.Services
                         catch (Exception ex) { _log.Warn(ex, "I can't apply punishment"); }
                         break;
                     case PunishmentAction.RemoveRoles:
-                        await gu.RemoveRolesAsync(gu.GetRoles().Where(x => x.Id != gu.Guild.EveryoneRole.Id));
+                        await gu.RemoveRolesAsync(gu.GetRoles().Where(x => x.Id != gu.Guild.EveryoneRole.Id)).ConfigureAwait(false);
                         break;
                 }
             }
@@ -241,7 +239,7 @@ namespace NadekoBot.Modules.Administration.Services
 
             using (var uow = _db.UnitOfWork)
             {
-                var gc = uow.GuildConfigs.For(guildId, set => set.Include(x => x.AntiRaidSetting));
+                var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiRaidSetting));
 
                 gc.AntiRaidSetting = stats.AntiRaidSettings;
                 await uow.CompleteAsync().ConfigureAwait(false);
@@ -256,7 +254,7 @@ namespace NadekoBot.Modules.Administration.Services
             {
                 using (var uow = _db.UnitOfWork)
                 {
-                    var gc = uow.GuildConfigs.For(guildId, set => set.Include(x => x.AntiRaidSetting));
+                    var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiRaidSetting));
 
                     gc.AntiRaidSetting = null;
                     uow.Complete();
@@ -273,7 +271,7 @@ namespace NadekoBot.Modules.Administration.Services
                 removed.UserStats.ForEach(x => x.Value.Dispose());
                 using (var uow = _db.UnitOfWork)
                 {
-                    var gc = uow.GuildConfigs.For(guildId, set => set.Include(x => x.AntiSpamSetting)
+                    var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiSpamSetting)
                         .ThenInclude(x => x.IgnoredChannels));
 
                     gc.AntiSpamSetting = null;
@@ -307,7 +305,7 @@ namespace NadekoBot.Modules.Administration.Services
 
             using (var uow = _db.UnitOfWork)
             {
-                var gc = uow.GuildConfigs.For(guildId, set => set.Include(x => x.AntiSpamSetting));
+                var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiSpamSetting));
 
                 if (gc.AntiSpamSetting != null)
                 {
@@ -333,7 +331,7 @@ namespace NadekoBot.Modules.Administration.Services
             bool added;
             using (var uow = _db.UnitOfWork)
             {
-                var gc = uow.GuildConfigs.For(guildId, set => set.Include(x => x.AntiSpamSetting).ThenInclude(x => x.IgnoredChannels));
+                var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiSpamSetting).ThenInclude(x => x.IgnoredChannels));
                 var spam = gc.AntiSpamSetting;
                 if (spam == null)
                 {

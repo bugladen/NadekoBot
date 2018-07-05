@@ -26,7 +26,7 @@ namespace NadekoBot.Core.Services.Impl
             {
                 response = await http.GetStringAsync($"https://scapi.nadekobot.me/resolve?url={url}").ConfigureAwait(false);
             }
-                
+
 
             var responseObj = JsonConvert.DeserializeObject<SoundCloudVideo>(response);
             if (responseObj?.Kind != "track")
@@ -46,7 +46,7 @@ namespace NadekoBot.Core.Services.Impl
             var response = "";
             using (var http = new HttpClient())
             {
-                response = await http.GetStringAsync($"https://scapi.nadekobot.me/tracks?q={Uri.EscapeDataString(query)}").ConfigureAwait(false);
+                response = await http.GetStringAsync(new Uri($"https://scapi.nadekobot.me/tracks?q={Uri.EscapeDataString(query)}")).ConfigureAwait(false);
             }
 
             var responseObj = JsonConvert.DeserializeObject<SoundCloudVideo[]>(response).Where(s => s.Streamable).FirstOrDefault();
@@ -69,12 +69,13 @@ namespace NadekoBot.Core.Services.Impl
         public int Duration { get; set; }
         [JsonProperty("permalink_url")]
         public string TrackLink { get; set; } = "";
-        public string artwork_url { get; set; } = "";
-        public async Task<string> StreamLink()
+        [JsonProperty("artwork_url")]
+        public string ArtworkUrl { get; set; } = "";
+        public Task<string> StreamLink()
         {
             using (var http = new HttpClient())
             {
-                return await http.GetStringAsync($"http://scapi.nadekobot.me/stream/{Id}");
+                return http.GetStringAsync(new Uri($"http://scapi.nadekobot.me/stream/{Id}"));
             }
         }
     }

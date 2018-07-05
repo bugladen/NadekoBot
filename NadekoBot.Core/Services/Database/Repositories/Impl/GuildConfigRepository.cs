@@ -68,7 +68,7 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
         /// <param name="guildId">For which guild</param>
         /// <param name="includes">Use to manipulate the set however you want</param>
         /// <returns>Config for the guild</returns>
-        public GuildConfig For(ulong guildId, Func<DbSet<GuildConfig>, IQueryable<GuildConfig>> includes = null)
+        public GuildConfig ForId(ulong guildId, Func<DbSet<GuildConfig>, IQueryable<GuildConfig>> includes = null)
         {
             GuildConfig config;
 
@@ -193,7 +193,7 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
 
         public XpSettings XpSettingsFor(ulong guildId)
         {
-            var gc = For(guildId,
+            var gc = ForId(guildId,
                 set => set.Include(x => x.XpSettings)
                           .ThenInclude(x => x.RoleRewards)
                           .Include(x => x.XpSettings)

@@ -27,34 +27,6 @@ namespace NadekoBot.Core.Services.Database.Models
                 SecondaryTargetName = SecondaryTargetName,
                 State = State,
             };
-
-        //[NotMapped]
-        //private static Permission AllowAllPerm => new Permission()
-        //{
-        //    PrimaryTarget = PrimaryPermissionType.Server,
-        //    PrimaryTargetId = 0,
-        //    SecondaryTarget = SecondaryPermissionType.AllModules,
-        //    SecondaryTargetName = "*",
-        //    State = true,
-        //};
-        //[NotMapped]
-        //private static Permission BlockNsfwPerm => new Permission()
-        //{
-        //    PrimaryTarget = PrimaryPermissionType.Server,
-        //    PrimaryTargetId = 0,
-        //    SecondaryTarget = SecondaryPermissionType.Module,
-        //    SecondaryTargetName = "nsfw",
-        //    State = false,
-        //};
-
-        //public Permission Clone() => new Permission()
-        //{
-        //    PrimaryTarget = PrimaryTarget,
-        //    SecondaryTarget = SecondaryTarget,
-        //    PrimaryTargetId = PrimaryTargetId,
-        //    SecondaryTargetName = SecondaryTargetName,
-        //    State = State,
-        //};
     }
 
     public interface IIndexed
@@ -73,6 +45,8 @@ namespace NadekoBot.Core.Services.Database.Models
 
         public SecondaryPermissionType SecondaryTarget { get; set; }
         public string SecondaryTargetName { get; set; }
+
+        public bool IsCustomCommand { get; set; }
 
         public bool State { get; set; }
 
@@ -102,6 +76,7 @@ namespace NadekoBot.Core.Services.Database.Models
         //    State = State,
         //};
     }
+
     public enum PrimaryPermissionType
     {
         User,

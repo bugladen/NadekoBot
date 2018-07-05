@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Core.Common.Pokemon;
 using NadekoBot.Core.Services;
+using System;
 
 namespace NadekoBot.Modules.Searches
 {
@@ -43,7 +44,7 @@ namespace NadekoBot.Modules.Searches
                             .WithDescription(p.BaseStats.ToString())
                             .AddField(efb => efb.WithName(GetText("types")).WithValue(string.Join(",\n", p.Types)).WithIsInline(true))
                             .AddField(efb => efb.WithName(GetText("height_weight")).WithValue(GetText("height_weight_val", p.HeightM, p.WeightKg)).WithIsInline(true))
-                            .AddField(efb => efb.WithName(GetText("abilities")).WithValue(string.Join(",\n", p.Abilities.Select(a => a.Value))).WithIsInline(true)));
+                            .AddField(efb => efb.WithName(GetText("abilities")).WithValue(string.Join(",\n", p.Abilities.Select(a => a.Value))).WithIsInline(true))).ConfigureAwait(false);
                         return;
                     }
                 }
@@ -53,7 +54,7 @@ namespace NadekoBot.Modules.Searches
             [NadekoCommand, Usage, Description, Aliases]
             public async Task PokemonAbility([Remainder] string ability = null)
             {
-                ability = ability?.Trim().ToUpperInvariant().Replace(" ", "");
+                ability = ability?.Trim().ToUpperInvariant().Replace(" ", "", StringComparison.InvariantCulture);
                 if (string.IsNullOrWhiteSpace(ability))
                     return;
                 foreach (var kvp in PokemonAbilities)

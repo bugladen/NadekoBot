@@ -157,7 +157,7 @@ namespace NadekoBot.Modules.Xp
                         return embed.WithThumbnailUrl(club.ImageUrl);
 
                     return embed;
-                }, club.Users.Count, 10);
+                }, club.Users.Count, 10).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]

@@ -13,7 +13,7 @@ using NadekoBot.Modules.Gambling.Common.AnimalRacing.Exceptions;
 
 namespace NadekoBot.Modules.Gambling.Common.AnimalRacing
 {
-    public class AnimalRace : IDisposable
+    public sealed class AnimalRace : IDisposable
     {
         public enum Phase
         {
@@ -22,9 +22,7 @@ namespace NadekoBot.Modules.Gambling.Common.AnimalRacing
             Ended,
         }
 
-        private const int _startingDelayMiliseconds = 20_000;
-
-        public Phase CurrentPhase = Phase.WaitingForPlayers;
+        public Phase CurrentPhase { get; private set; } = Phase.WaitingForPlayers;
 
         public event Func<AnimalRace, Task> OnStarted = delegate { return Task.CompletedTask; };
         public event Func<AnimalRace, Task> OnStartingFailed = delegate { return Task.CompletedTask; };
@@ -86,7 +84,7 @@ namespace NadekoBot.Modules.Gambling.Common.AnimalRacing
                 if (CurrentPhase != Phase.WaitingForPlayers)
                     throw new AlreadyStartedException();
 
-                if (!await _currency.RemoveAsync(userId, "BetRace", bet))
+                if (!await _currency.RemoveAsync(userId, "BetRace", bet).ConfigureAwait(false))
                     throw new NotEnoughFundsException();
 
                 if (_users.Contains(user))

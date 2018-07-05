@@ -29,10 +29,10 @@ namespace NadekoBot.Modules.Games
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [NadekoOptions(typeof(TypingGame.Options))]
+            [NadekoOptionsAttribute(typeof(TypingGame.Options))]
             public async Task TypeStart(params string[] args)
             {
-                var (options, _) = OptionsParser.Default.ParseFrom(new TypingGame.Options(), args);
+                var (options, _) = OptionsParser.ParseFrom(new TypingGame.Options(), args);
                 var channel = (ITextChannel)Context.Channel;
 
                 var game = _service.RunningContests.GetOrAdd(channel.Guild.Id, id => new TypingGame(_games, _client, channel, Prefix, options));

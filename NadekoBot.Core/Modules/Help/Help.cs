@@ -36,9 +36,9 @@ namespace NadekoBot.Modules.Help
                 .Build();
 
 
-            if (!CREmbed.TryParse(_bc.BotConfig.HelpString, out var embed))
+            if (!CREmbed.TryParse(Bc.BotConfig.HelpString, out var embed))
                 return new EmbedBuilder().WithOkColor()
-                    .WithDescription(String.Format(_bc.BotConfig.HelpString, _creds.ClientId, Prefix));
+                    .WithDescription(String.Format(Bc.BotConfig.HelpString, _creds.ClientId, Prefix));
 
             r.Replace(embed);
 
@@ -69,12 +69,12 @@ namespace NadekoBot.Modules.Help
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [NadekoOptions(typeof(CommandsOptions))]
+        [NadekoOptionsAttribute(typeof(CommandsOptions))]
         public async Task Commands(string module = null, params string[] args)
         {
             var channel = Context.Channel;
 
-            var (opts, _) = OptionsParser.Default.ParseFrom(new CommandsOptions(), args);
+            var (opts, _) = OptionsParser.ParseFrom(new CommandsOptions(), args);
 
             module = module?.Trim().ToUpperInvariant();
             if (string.IsNullOrWhiteSpace(module))
@@ -83,9 +83,9 @@ namespace NadekoBot.Modules.Help
             // Find commands for that module
             // don't show commands which are blocked
             // order by name
-            var cmds = _cmds.Commands.Where(c => c.Module.GetTopLevelModule().Name.ToUpperInvariant().StartsWith(module))
-                                                .Where(c => !_perms.BlockedCommands.Contains(c.Aliases.First().ToLowerInvariant()))
-                                                  .OrderBy(c => c.Aliases.First())
+            var cmds = _cmds.Commands.Where(c => c.Module.GetTopLevelModule().Name.ToUpperInvariant().StartsWith(module, StringComparison.InvariantCulture))
+                                                .Where(c => !_perms.BlockedCommands.Contains(c.Aliases[0].ToLowerInvariant()))
+                                                  .OrderBy(c => c.Aliases[0])
                                                   .Distinct(new CommandTextEqualityComparer());
 
 
@@ -96,9 +96,9 @@ namespace NadekoBot.Modules.Help
             {
                 succ = new HashSet<CommandInfo>((await Task.WhenAll(cmds.Select(async x =>
                 {
-                    var pre = (await x.CheckPreconditionsAsync(Context, _services));
+                    var pre = (await x.CheckPreconditionsAsync(Context, _services).ConfigureAwait(false));
                     return (Cmd: x, Succ: pre.IsSuccess);
-                })))
+                })).ConfigureAwait(false))
                     .Where(x => x.Succ)
                     .Select(x => x.Cmd));
 
@@ -109,7 +109,7 @@ namespace NadekoBot.Modules.Help
                 }
             }
 
-            var cmdsWithGroup = cmds.GroupBy(c => c.Module.Name.Replace("Commands", ""))
+            var cmdsWithGroup = cmds.GroupBy(c => c.Module.Name.Replace("Commands", "", StringComparison.InvariantCulture))
                 .OrderBy(x => x.Key == x.First().Module.Name ? int.MaxValue : x.Count());
 
             if (!cmds.Any())
@@ -166,7 +166,7 @@ namespace NadekoBot.Modules.Help
             var prefixless = _cmds.Commands.FirstOrDefault(x => x.Name.ToLowerInvariant() == fail);
             if (prefixless != null)
             {
-                await H(prefixless);
+                await H(prefixless).ConfigureAwait(false);
                 return;
             }
 
@@ -182,7 +182,7 @@ namespace NadekoBot.Modules.Help
             if (com == null)
             {
                 IMessageChannel ch = channel is ITextChannel
-                    ? await ((IGuildUser)Context.User).GetOrCreateDMChannelAsync()
+                    ? await ((IGuildUser)Context.User).GetOrCreateDMChannelAsync().ConfigureAwait(false)
                     : channel;
                 await ch.EmbedAsync(GetHelpStringEmbed()).ConfigureAwait(false);
                 return;
@@ -202,10 +202,10 @@ namespace NadekoBot.Modules.Help
             {
                 var module = com.Module.GetTopLevelModule();
                 string optHelpStr = null;
-                var opt = ((NadekoOptions)com.Attributes.FirstOrDefault(x => x is NadekoOptions))?.OptionType;
+                var opt = ((NadekoOptionsAttribute)com.Attributes.FirstOrDefault(x => x is NadekoOptionsAttribute))?.OptionType;
                 if (opt != null)
                 {
-                    optHelpStr = _service.GetCommandOptionHelp(opt);
+                    optHelpStr = HelpService.GetCommandOptionHelp(opt);
                 }
                 var obj = new
                 {
@@ -215,7 +215,7 @@ namespace NadekoBot.Modules.Help
                     Submodule = com.Module.Name,
                     Module = com.Module.GetTopLevelModule().Name,
                     Options = optHelpStr,
-                    Requirements = _service.GetCommandRequirements(com),
+                    Requirements = HelpService.GetCommandRequirements(com),
                 };
                 if (cmdData.TryGetValue(module.Name, out var cmds))
                     cmds.Add(obj);
@@ -251,9 +251,9 @@ namespace NadekoBot.Modules.Help
 
     public class CommandTextEqualityComparer : IEqualityComparer<CommandInfo>
     {
-        public bool Equals(CommandInfo x, CommandInfo y) => x.Aliases.First() == y.Aliases.First();
+        public bool Equals(CommandInfo x, CommandInfo y) => x.Aliases[0] == y.Aliases[0];
 
-        public int GetHashCode(CommandInfo obj) => obj.Aliases.First().GetHashCode();
+        public int GetHashCode(CommandInfo obj) => obj.Aliases[0].GetHashCode(StringComparison.InvariantCulture);
 
     }
 

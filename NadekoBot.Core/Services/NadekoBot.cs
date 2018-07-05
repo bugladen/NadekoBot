@@ -56,13 +56,13 @@ namespace NadekoBot
                 .Select(x => JsonConvert.DeserializeObject<ShardComMessage>(x))
                 .Sum(x => x.Guilds);
 
-        public int[] ShardGuildCounts =>
-            Cache.Redis.GetDatabase()
-                .ListRange(Credentials.RedisKey() + "_shardstats")
-                .Select(x => JsonConvert.DeserializeObject<ShardComMessage>(x))
-                .OrderBy(x => x.ShardId)
-                .Select(x => x.Guilds)
-                .ToArray();
+        //public int[] ShardGuildCounts =>
+        //    Cache.Redis.GetDatabase()
+        //        .ListRange(Credentials.RedisKey() + "_shardstats")
+        //        .Select(x => JsonConvert.DeserializeObject<ShardComMessage>(x))
+        //        .OrderBy(x => x.ShardId)
+        //        .Select(x => x.Guilds)
+        //        .ToArray();
 
         public event Func<GuildConfig, Task> JoinedGuild = delegate { return Task.CompletedTask; };
 
@@ -130,7 +130,7 @@ namespace NadekoBot
                     var msg = JsonConvert.SerializeObject(data);
 
                     await sub.PublishAsync(Credentials.RedisKey() + "_shardcoord_send", msg).ConfigureAwait(false);
-                    await Task.Delay(7500);
+                    await Task.Delay(7500).ConfigureAwait(false);
                 }
             });
         }
@@ -216,7 +216,7 @@ namespace NadekoBot
                     clientReady.TrySetResult(true);
                     try
                     {
-                        foreach (var chan in (await Client.GetDMChannelsAsync()))
+                        foreach (var chan in (await Client.GetDMChannelsAsync().ConfigureAwait(false)))
                         {
                             await chan.CloseAsync().ConfigureAwait(false);
                         }
@@ -259,14 +259,14 @@ namespace NadekoBot
                 GuildConfig gc;
                 using (var uow = _db.UnitOfWork)
                 {
-                    gc = uow.GuildConfigs.For(arg.Id);
+                    gc = uow.GuildConfigs.ForId(arg.Id);
                 }
-                await JoinedGuild.Invoke(gc);
+                await JoinedGuild.Invoke(gc).ConfigureAwait(false);
             });
             return Task.CompletedTask;
         }
 
-        public async Task RunAsync(params string[] args)
+        public async Task RunAsync()
         {
             var sw = Stopwatch.StartNew();
 
@@ -294,7 +294,7 @@ namespace NadekoBot
             // start handling messages received in commandhandler
             await commandHandler.StartHandling().ConfigureAwait(false);
 
-            var _ = await CommandService.AddModulesAsync(this.GetType().GetTypeInfo().Assembly, Services);
+            var _ = await CommandService.AddModulesAsync(this.GetType().GetTypeInfo().Assembly, Services).ConfigureAwait(false);
 
 
             bool isPublicNadeko = false;
@@ -307,7 +307,7 @@ namespace NadekoBot
                 CommandService
                     .Modules
                     .ToArray()
-                    .Where(x => x.Preconditions.Any(y => y.GetType() == typeof(NoPublicBot)))
+                    .Where(x => x.Preconditions.Any(y => y.GetType() == typeof(NoPublicBotAttribute)))
                     .ForEach(x => CommandService.RemoveModuleAsync(x));
 
             HandleStatusChanges();
@@ -325,9 +325,9 @@ namespace NadekoBot
             return Task.CompletedTask;
         }
 
-        public async Task RunAndBlockAsync(params string[] args)
+        public async Task RunAndBlockAsync()
         {
-            await RunAsync(args).ConfigureAwait(false);
+            await RunAsync().ConfigureAwait(false);
             await Task.Delay(-1).ConfigureAwait(false);
         }
 
@@ -346,7 +346,7 @@ namespace NadekoBot
             }
         }
 
-        private void SetupShard(int parentProcessId)
+        private static void SetupShard(int parentProcessId)
         {
             new Thread(new ThreadStart(() =>
             {
@@ -403,9 +403,9 @@ namespace NadekoBot
             return sub.PublishAsync(Client.CurrentUser.Id + "_status.game_set", JsonConvert.SerializeObject(obj));
         }
 
-        public Task SetStreamAsync(string name, string url)
+        public Task SetStreamAsync(string name, string link)
         {
-            var obj = new { Name = name, Url = url };
+            var obj = new { Name = name, Url = link };
             var sub = Services.GetService<IDataCache>().Redis.GetSubscriber();
             return sub.PublishAsync(Client.CurrentUser.Id + "_status.stream_set", JsonConvert.SerializeObject(obj));
         }

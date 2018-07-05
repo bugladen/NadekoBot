@@ -8,5 +8,9 @@ namespace NadekoBot.Modules.Music.Common.Exceptions
         {
         }
         public SongNotFoundException() : base("Song is not found.") { }
+
+        public SongNotFoundException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
     }
 }

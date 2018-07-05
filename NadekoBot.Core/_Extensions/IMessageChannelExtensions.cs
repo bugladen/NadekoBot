@@ -75,7 +75,7 @@ namespace NadekoBot.Extensions
             if (addPaginatedFooter)
                 embed.AddPaginatedFooter(currentPage, lastPage);
 
-            var msg = await ctx.Channel.EmbedAsync(embed) as IUserMessage;
+            var msg = await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false) as IUserMessage;
 
             if (lastPage == 0)
                 return;
@@ -128,7 +128,22 @@ namespace NadekoBot.Extensions
                 await Task.Delay(30000).ConfigureAwait(false);
             }
 
-            await msg.RemoveAllReactionsAsync().ConfigureAwait(false);
+            try
+            {
+                if(msg.Channel is ITextChannel && ((SocketGuild)ctx.Guild).CurrentUser.GuildPermissions.ManageMessages)
+                {
+                    await msg.RemoveAllReactionsAsync().ConfigureAwait(false);
+                }
+                else
+                {
+                    await Task.WhenAll(msg.Reactions.Where(x => x.Value.IsMe)
+                        .Select(x => msg.RemoveReactionAsync(x.Key, ctx.Client.CurrentUser)));
+                }
+            }
+            catch
+            {
+                // ignored
+            }
         }
     }
 }

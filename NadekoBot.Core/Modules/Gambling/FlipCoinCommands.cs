@@ -10,6 +10,7 @@ using ImageSharp;
 using NadekoBot.Core.Modules.Gambling.Common;
 using NadekoBot.Modules.Gambling.Services;
 using NadekoBot.Core.Common;
+using System;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -40,16 +41,16 @@ namespace NadekoBot.Modules.Gambling
                     {
                         await Context.Channel.EmbedAsync(new EmbedBuilder()
                             .WithOkColor()
-                            .WithImageUrl(coins.Heads[rng.Next(0, coins.Heads.Length)])
-                            .WithDescription(Context.User.Mention + " " + GetText("flipped", Format.Bold(GetText("heads")))));
+                            .WithImageUrl(coins.Heads[rng.Next(0, coins.Heads.Length)].ToString())
+                            .WithDescription(Context.User.Mention + " " + GetText("flipped", Format.Bold(GetText("heads"))))).ConfigureAwait(false);
 
                     }
                     else
                     {
                         await Context.Channel.EmbedAsync(new EmbedBuilder()
                             .WithOkColor()
-                            .WithImageUrl(coins.Tails[rng.Next(0, coins.Tails.Length)])
-                            .WithDescription(Context.User.Mention + " " + GetText("flipped", Format.Bold(GetText("tails")))));
+                            .WithImageUrl(coins.Tails[rng.Next(0, coins.Tails.Length)].ToString())
+                            .WithDescription(Context.User.Mention + " " + GetText("flipped", Format.Bold(GetText("tails"))))).ConfigureAwait(false);
 
                     }
                     return;
@@ -91,17 +92,17 @@ namespace NadekoBot.Modules.Gambling
             [NadekoCommand, Usage, Description, Aliases]
             public async Task Betflip(ShmartNumber amount, BetFlipGuess guess)
             {
-                if (!await CheckBetMandatory(amount) || amount == 1)
+                if (!await CheckBetMandatory(amount).ConfigureAwait(false) || amount == 1)
                     return;
 
                 var removed = await _cs.RemoveAsync(Context.User, "Betflip Gamble", amount, false, gamble: true).ConfigureAwait(false);
                 if (!removed)
                 {
-                    await ReplyErrorLocalized("not_enough", _bc.BotConfig.CurrencyPluralName).ConfigureAwait(false);
+                    await ReplyErrorLocalized("not_enough", Bc.BotConfig.CurrencyPluralName).ConfigureAwait(false);
                     return;
                 }
                 BetFlipGuess result;
-                string imageToSend;
+                Uri imageToSend;
                 var coins = _images.ImageUrls.Coins;
                 if (rng.Next(0, 2) == 1)
                 {
@@ -117,8 +118,8 @@ namespace NadekoBot.Modules.Gambling
                 string str;
                 if (guess == result)
                 {
-                    var toWin = (long)(amount * _bc.BotConfig.BetflipMultiplier);
-                    str = Format.Bold(Context.User.ToString()) + " " + GetText("flip_guess", toWin + _bc.BotConfig.CurrencySign);
+                    var toWin = (long)(amount * Bc.BotConfig.BetflipMultiplier);
+                    str = Format.Bold(Context.User.ToString()) + " " + GetText("flip_guess", toWin + Bc.BotConfig.CurrencySign);
                     await _cs.AddAsync(Context.User, "Betflip Gamble", toWin, false, gamble: true).ConfigureAwait(false);
                 }
                 else
@@ -129,7 +130,7 @@ namespace NadekoBot.Modules.Gambling
                 await Context.Channel.EmbedAsync(new EmbedBuilder()
                     .WithDescription(str)
                     .WithOkColor()
-                    .WithImageUrl(imageToSend));
+                    .WithImageUrl(imageToSend.ToString())).ConfigureAwait(false);
             }
         }
     }

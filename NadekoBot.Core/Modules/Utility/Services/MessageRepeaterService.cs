@@ -28,7 +28,7 @@ namespace NadekoBot.Modules.Utility.Services
                             if (guild == null)
                                 return (0, null);
                             return (gc.GuildId, new ConcurrentQueue<RepeatRunner>(gc.GuildRepeaters
-                                .Select(gr => new RepeatRunner(client, guild, gr))
+                                .Select(gr => new RepeatRunner(guild, gr))
                                 .Where(x => x.Guild != null)));
                         })
                         .Where(x => x.Item2 != null)

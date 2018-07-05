@@ -21,6 +21,7 @@ using SixLabors.Shapes;
 using System.Numerics;
 using System.Diagnostics;
 using NLog;
+using System.Net.Http.Headers;
 
 namespace NadekoBot.Extensions
 {
@@ -87,9 +88,9 @@ namespace NadekoBot.Extensions
             return sb.ToString();
         }
 
-        public static void ThrowIfNull<T>(this T obj, string name) where T : class
+        public static void ThrowIfNull<T>(this T o, string name) where T : class
         {
-            if (obj == null)
+            if (o == null)
                 throw new ArgumentNullException(nameof(name));
         }
 
@@ -128,17 +129,20 @@ namespace NadekoBot.Extensions
         }
 
         public static void AddFakeHeaders(this HttpClient http)
+            => AddFakeHeaders(http.DefaultRequestHeaders);
+
+        public static void AddFakeHeaders(this HttpHeaders dict)
         {
-            http.DefaultRequestHeaders.Clear();
-            http.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.202 Safari/535.1");
-            http.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+            dict.Clear();
+            dict.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+            dict.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.202 Safari/535.1");
         }
 
         public static IMessage DeleteAfter(this IUserMessage msg, int seconds)
         {
             Task.Run(async () =>
             {
-                await Task.Delay(seconds * 1000);
+                await Task.Delay(seconds * 1000).ConfigureAwait(false);
                 try { await msg.DeleteAsync().ConfigureAwait(false); }
                 catch { }
             });
@@ -173,7 +177,7 @@ namespace NadekoBot.Extensions
         public static double UnixTimestamp(this DateTime dt) => dt.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0)).TotalSeconds;
 
         public static async Task<IEnumerable<IGuildUser>> GetMembersAsync(this IRole role) =>
-            (await role.Guild.GetUsersAsync(CacheMode.CacheOnly)).Where(u => u.RoleIds.Contains(role.Id)) ?? Enumerable.Empty<IGuildUser>();
+            (await role.Guild.GetUsersAsync(CacheMode.CacheOnly).ConfigureAwait(false)).Where(u => u.RoleIds.Contains(role.Id)) ?? Enumerable.Empty<IGuildUser>();
         
         public static string ToJson<T>(this T any, Formatting formatting = Formatting.Indented) =>
             JsonConvert.SerializeObject(any, formatting);

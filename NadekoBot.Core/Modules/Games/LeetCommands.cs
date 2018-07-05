@@ -44,7 +44,7 @@ namespace NadekoBot.Modules.Games
                 var sb = new StringBuilder(text.Length);
                 foreach (char c in text)
                 {
-                    var letter = char.ToLower(c);
+                    var letter = char.ToLowerInvariant(c);
 
                     if (validChars.Contains(letter))
                         sb.Append(leetLookoup[letter]);

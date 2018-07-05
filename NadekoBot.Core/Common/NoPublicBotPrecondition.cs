@@ -4,7 +4,8 @@ using Discord.Commands;
 
 namespace NadekoBot.Common
 {
-    public class NoPublicBot : PreconditionAttribute
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
+    public sealed class NoPublicBotAttribute : PreconditionAttribute
     {
         public override Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command, IServiceProvider services)
         {

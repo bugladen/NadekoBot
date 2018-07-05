@@ -27,13 +27,13 @@ namespace NadekoBot.Modules.Games
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [NadekoOptions(typeof(Acrophobia.Options))]
+            [NadekoOptionsAttribute(typeof(AcrophobiaGame.Options))]
             public async Task Acro(params string[] args)
             {
-                var (options, _) = OptionsParser.Default.ParseFrom(new Acrophobia.Options(), args);
+                var (options, _) = OptionsParser.ParseFrom(new AcrophobiaGame.Options(), args);
                 var channel = (ITextChannel)Context.Channel;
 
-                var game = new Acrophobia(options);
+                var game = new AcrophobiaGame(options);
                 if (_service.AcrophobiaGames.TryAdd(channel.Id, game))
                 {
                     try
@@ -78,7 +78,7 @@ namespace NadekoBot.Modules.Games
                 }
             }
 
-            private Task Game_OnStarted(Acrophobia game)
+            private Task Game_OnStarted(AcrophobiaGame game)
             {
                 var embed = new EmbedBuilder().WithOkColor()
                         .WithTitle(GetText("acrophobia"))
@@ -95,11 +95,11 @@ namespace NadekoBot.Modules.Games
                     GetText("acro_vote_cast", Format.Bold(user)));
             }
 
-            private async Task Game_OnVotingStarted(Acrophobia game, ImmutableArray<KeyValuePair<AcrophobiaUser, int>> submissions)
+            private async Task Game_OnVotingStarted(AcrophobiaGame game, ImmutableArray<KeyValuePair<AcrophobiaUser, int>> submissions)
             {
                 if (submissions.Length == 0)
                 {
-                    await Context.Channel.SendErrorAsync(GetText("acrophobia"), GetText("acro_ended_no_sub"));
+                    await Context.Channel.SendErrorAsync(GetText("acrophobia"), GetText("acro_ended_no_sub")).ConfigureAwait(false);
                     return;
                 }
                 if (submissions.Length == 1)
@@ -127,7 +127,7 @@ $@"--
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
-            private async Task Game_OnEnded(Acrophobia game, ImmutableArray<KeyValuePair<AcrophobiaUser, int>> votes)
+            private async Task Game_OnEnded(AcrophobiaGame game, ImmutableArray<KeyValuePair<AcrophobiaUser, int>> votes)
             {
                 if (!votes.Any() || votes.All(x => x.Value == 0))
                 {

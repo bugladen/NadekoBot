@@ -192,7 +192,7 @@ namespace NadekoBot.Modules.Utility.Services
 
             UpdateCache(fromRole.Guild.Id, setting);
 
-            foreach (var usr in await fromRole.GetMembersAsync())
+            foreach (var usr in await fromRole.GetMembersAsync().ConfigureAwait(false))
             {
                 if (usr is IGuildUser x)
                     await RescanUser(x, setting, addRole).ConfigureAwait(false);
@@ -224,7 +224,7 @@ namespace NadekoBot.Modules.Utility.Services
                 && !setting.Blacklist.Any(x => x.UserId == user.Id)
                 && user.RoleIds.Contains(setting.FromRoleId)
                 && (string.IsNullOrWhiteSpace(setting.Keyword)
-                    || g.Name.ToLowerInvariant().Contains(setting.Keyword.ToLowerInvariant())
+                    || g.Name.ToUpperInvariant().Contains(setting.Keyword.ToUpperInvariant())
                     || setting.Whitelist.Any(x => x.UserId == user.Id)))
             {
                 try

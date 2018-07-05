@@ -37,14 +37,14 @@ namespace NadekoBot.Core.Services.Impl
         // because it's a good thing if different bots 
         // which are hosted on the same PC
         // can re-use the same image/anime data
-        public async Task<(bool Success, byte[] Data)> TryGetImageDataAsync(string key)
+        public async Task<(bool Success, byte[] Data)> TryGetImageDataAsync(Uri key)
         {
             var _db = Redis.GetDatabase();
-            byte[] x = await _db.StringGetAsync("image_" + key);
+            byte[] x = await _db.StringGetAsync("image_" + key).ConfigureAwait(false);
             return (x != null, x);
         }
 
-        public Task SetImageDataAsync(string key, byte[] data)
+        public Task SetImageDataAsync(Uri key, byte[] data)
         {
             var _db = Redis.GetDatabase();
             return _db.StringSetAsync("image_" + key, data);
@@ -53,7 +53,7 @@ namespace NadekoBot.Core.Services.Impl
         public async Task<(bool Success, string Data)> TryGetAnimeDataAsync(string key)
         {
             var _db = Redis.GetDatabase();
-            string x = await _db.StringGetAsync("anime_" + key);
+            string x = await _db.StringGetAsync("anime_" + key).ConfigureAwait(false);
             return (x != null, x);
         }
 
@@ -66,7 +66,7 @@ namespace NadekoBot.Core.Services.Impl
         public async Task<(bool Success, string Data)> TryGetNovelDataAsync(string key)
         {
             var _db = Redis.GetDatabase();
-            string x = await _db.StringGetAsync("novel_" + key);
+            string x = await _db.StringGetAsync("novel_" + key).ConfigureAwait(false);
             return (x != null, x);
         }
 
@@ -187,7 +187,7 @@ namespace NadekoBot.Core.Services.Impl
         public TimeSpan? TryAddRatelimit(ulong id, string name, int expireIn)
         {
             var _db = Redis.GetDatabase();
-            if(_db.StringSet($"{_redisKey}_ratelimit_{id}_{name}",
+            if (_db.StringSet($"{_redisKey}_ratelimit_{id}_{name}",
                 0, // i don't use the value
                 TimeSpan.FromSeconds(expireIn),
                 When.NotExists))

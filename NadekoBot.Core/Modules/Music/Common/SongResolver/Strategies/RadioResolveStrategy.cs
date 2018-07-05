@@ -23,7 +23,7 @@ namespace NadekoBot.Modules.Music.Common.SongResolver.Strategies
         public async Task<SongInfo> ResolveSong(string query)
         {
             if (IsRadioLink(query))
-                query = await HandleStreamContainers(query);
+                query = await HandleStreamContainers(query).ConfigureAwait(false);
 
             return new SongInfo
             {
@@ -38,8 +38,8 @@ namespace NadekoBot.Modules.Music.Common.SongResolver.Strategies
         }
 
         public static bool IsRadioLink(string query) =>
-            (query.StartsWith("http") ||
-            query.StartsWith("ww"))
+            (query.StartsWith("http", StringComparison.InvariantCulture) ||
+            query.StartsWith("ww", StringComparison.InvariantCulture))
             &&
             (query.Contains(".pls") ||
             query.Contains(".m3u") ||

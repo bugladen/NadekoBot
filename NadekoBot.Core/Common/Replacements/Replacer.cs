@@ -23,7 +23,7 @@ namespace NadekoBot.Common.Replacements
             foreach (var item in _replacements)
             {
                 if (input.Contains(item.Key))
-                    input = input.Replace(item.Key, item.Text());
+                    input = input.Replace(item.Key, item.Text(), StringComparison.InvariantCulture);
             }
 
             foreach (var item in _regex)
@@ -41,6 +41,11 @@ namespace NadekoBot.Common.Replacements
             embedData.Title = Replace(embedData.Title);
             embedData.Thumbnail = Replace(embedData.Thumbnail);
             embedData.Image = Replace(embedData.Image);
+            if(embedData.Author != null)
+            {
+                embedData.Author.Name = Replace(embedData.Author.Name);
+                embedData.Author.IconUrl = Replace(embedData.Author.Name);
+            }
 
             if (embedData.Fields != null)
                 foreach (var f in embedData.Fields)
