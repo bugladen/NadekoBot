@@ -85,8 +85,8 @@ namespace NadekoBot.Modules.Searches
                         using (var http = new HttpClient(handler))
                         {
                             http.AddFakeHeaders();
-                            var url = $"https://owapi.nadekobot.me/api/v3/u/{battletag}/stats";
-                            var res = await http.GetStringAsync($"https://owapi.nadekobot.me/api/v3/u/{battletag}/stats").ConfigureAwait(false);
+                            var url = $"http://owapi.discord.how:2095/api/v3/u/{battletag}/stats";
+                            var res = await http.GetStringAsync(url).ConfigureAwait(false);
                             var model = JsonConvert.DeserializeObject<OverwatchApiModel.OverwatchResponse>(res);
                             switch (region)
                             {
