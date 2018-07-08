@@ -232,7 +232,7 @@ and that will save all the changes.
 - **ShardRunArguments**
 	- Arguments to the shard run command
 	- Required if you're sharding your bot on windows using .exe, or in a custom way. 
-	- This internally defaults to `run -c Release -- {0} {1} {2}` which will be enough to run linux and other 'from source' setups
+	- This internally defaults to `run -c Release --no-build -- {0} {1} {2}` which will be enough to run linux and other 'from source' setups
 	- {0} will be replaced by the `shard ID` of the shard being ran, {1} by the shard 0's process id, and {2} by the port shard communication is happening on
 	- If shard0 (main window) is closed, all other shards will close too
 	- For example, if you want to shard your NadekoBot which you installed using windows installer, you would want to set it to `{0} {1} {2}`

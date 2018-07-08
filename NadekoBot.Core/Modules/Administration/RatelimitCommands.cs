@@ -24,7 +24,7 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
-            [NadekoOptionsAttribute(typeof(SlowmodeService.Options))]
+            [NadekoOptions(typeof(SlowmodeService.Options))]
             [Priority(1)]
             public Task Slowmode()
             {
@@ -41,7 +41,7 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
-            [NadekoOptionsAttribute(typeof(SlowmodeService.Options))]
+            [NadekoOptions(typeof(SlowmodeService.Options))]
             [Priority(0)]
             public async Task Slowmode(params string[] args)
             {
