@@ -93,7 +93,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [NoPublicBotAttribute]
+            [NoPublicBot]
             [RequireUserPermission(GuildPermission.ManageRoles)]
             [RequireBotPermission(GuildPermission.ManageRoles)]
             [Priority(0)]
@@ -102,7 +102,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [NoPublicBotAttribute]
+            [NoPublicBot]
             [RequireUserPermission(GuildPermission.ManageRoles)]
             [RequireBotPermission(GuildPermission.ManageRoles)]
             [Priority(1)]
@@ -111,7 +111,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [NoPublicBotAttribute]
+            [NoPublicBot]
             [RequireUserPermission(GuildPermission.ManageRoles)]
             public async Task ReactionRolesList()
             {
@@ -139,7 +139,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [NoPublicBotAttribute]
+            [NoPublicBot]
             [RequireUserPermission(GuildPermission.ManageRoles)]
             public async Task ReactionRolesRemove(int index)
             {
