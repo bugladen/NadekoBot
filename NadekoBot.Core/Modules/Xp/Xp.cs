@@ -31,7 +31,7 @@ namespace NadekoBot.Modules.Xp
             await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
             using (var img = await _service.GenerateImageAsync((IGuildUser)user).ConfigureAwait(false))
             {
-                await Context.Channel.SendFileAsync(img, $"{user.Id}_xp.png")
+                await Context.Channel.SendFileAsync(img, $"{Context.Guild.Id}_{user.Id}_xp.png")
                     .ConfigureAwait(false);
             }
         }

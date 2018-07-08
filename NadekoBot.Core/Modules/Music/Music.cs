@@ -22,7 +22,7 @@ using Newtonsoft.Json.Linq;
 
 namespace NadekoBot.Modules.Music
 {
-    [NoPublicBotAttribute]
+    [NoPublicBot]
     public class Music : NadekoTopLevelModule<MusicService>
     {
         private readonly DiscordSocketClient _client;

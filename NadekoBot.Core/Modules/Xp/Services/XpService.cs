@@ -618,9 +618,9 @@ namespace NadekoBot.Modules.Xp.Services
                         : 50 - username.Length);
                 img.Mutate(x =>
                 {
-                    x.DrawText("@" + username, usernameFont, Rgba32.White, new PointF(130, 5))
-                        .DrawText(stats.Global.Level.ToString(), _fonts.LevelFont, Rgba32.White, new PointF(47, 137)) //level
-                        .DrawText(stats.Guild.Level.ToString(), _fonts.LevelFont, Rgba32.White, new PointF(47, 285));
+                    x.DrawText("@" + username, usernameFont, Rgba32.White, new PointF(130, 17))
+                        .DrawText(stats.Global.Level.ToString(), _fonts.LevelFont, Rgba32.White, new PointF(47, 149)) //level
+                        .DrawText(stats.Guild.Level.ToString(), _fonts.LevelFont, Rgba32.White, new PointF(47, 297));
                 });
 
                 //club name
@@ -633,7 +633,8 @@ namespace NadekoBot.Modules.Xp.Services
                         : 35 - (clubName.Length / 2));
 
                 img.Mutate(x => x.DrawText(clubName, clubFont, Rgba32.White,
-                    new PointF(650 - clubName.Length * 10, 40)));
+                    new PointF(650 - clubName.Length * 10, 49)));
+
 
                 var pen = new Pen<Rgba32>(Rgba32.Black, 1);
                 var brush = Brushes.Solid<Rgba32>(Rgba32.White);
@@ -651,7 +652,7 @@ namespace NadekoBot.Modules.Xp.Services
                     new PointF(286, 235),
                 })
                 .DrawText($"{global.LevelXp}/{global.RequiredXp}", _fonts.XpFont, brush, pen,
-                    new PointF(430, 130))
+                    new PointF(430, 142))
                 .FillPolygon(xpBgBrush, new[] {
                     new PointF(282, 248),
                     new PointF(282 + (450 * (guild.LevelXp / (float)guild.RequiredXp)), 248),
@@ -659,7 +660,7 @@ namespace NadekoBot.Modules.Xp.Services
                     new PointF(247, 379),
                 })
                 .DrawText($"{guild.LevelXp}/{guild.RequiredXp}", _fonts.XpFont, brush, pen,
-                    new PointF(400, 270)));
+                    new PointF(400, 282)));
 
                 if (stats.FullGuildStats.AwardedXp != 0)
                 {
@@ -667,16 +668,16 @@ namespace NadekoBot.Modules.Xp.Services
                         ? "+ "
                         : "";
                     img.Mutate(x => x.DrawText($"({sign}{stats.FullGuildStats.AwardedXp})", _fonts.AwardedFont, brush, pen,
-                        new PointF(445 - (Math.Max(0, (stats.FullGuildStats.AwardedXp.ToString().Length - 2)) * 5), 335)));
+                        new PointF(445 - (Math.Max(0, (stats.FullGuildStats.AwardedXp.ToString().Length - 2)) * 5), 347)));
                 }
 
                 //ranking
 
                 img.Mutate(x => x.DrawText(stats.GlobalRanking.ToString(), _fonts.RankFont, Rgba32.White,
-                    new PointF(148, 170)));
+                    new PointF(148, 175)));
 
                 img.Mutate(x => x.DrawText(stats.GuildRanking.ToString(), _fonts.RankFont, Rgba32.White,
-                    new PointF(148, 317)));
+                    new PointF(148, 322)));
 
                 //time on this level
 
@@ -687,10 +688,10 @@ namespace NadekoBot.Modules.Xp.Services
                 }
 
                 img.Mutate(x => x.DrawText(GetTimeSpent(stats.User.LastLevelUp), _fonts.TimeFont, Rgba32.White,
-                    new PointF(50, 197)));
+                    new PointF(50, 204)));
 
                 img.Mutate(x => x.DrawText(GetTimeSpent(stats.FullGuildStats.LastLevelUp), _fonts.TimeFont, Rgba32.White,
-                    new PointF(50, 344)));
+                    new PointF(50, 351)));
                 //avatar
 
                 if (stats.User.AvatarId != null)
@@ -728,7 +729,7 @@ namespace NadekoBot.Modules.Xp.Services
 
                 //club image
                 await DrawClubImage(img, stats).ConfigureAwait(false);
-                img.Mutate(x => x.Resize(432, 211));
+                img.Mutate(x => x.Resize(450, 220));
                 return img.ToStream();
             }
         });
