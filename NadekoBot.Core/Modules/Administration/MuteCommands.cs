@@ -82,7 +82,7 @@ namespace NadekoBot.Modules.Administration
             {
                 try
                 {
-                    await _service.UnmuteUser(user).ConfigureAwait(false);
+                    await _service.UnmuteUser(user.GuildId, user.Id).ConfigureAwait(false);
                     await ReplyConfirmLocalized("user_unmuted", Format.Bold(user.ToString())).ConfigureAwait(false);
                 }
                 catch
@@ -114,7 +114,7 @@ namespace NadekoBot.Modules.Administration
             {
                 try
                 {
-                    await _service.UnmuteUser(user, MuteType.Chat).ConfigureAwait(false);
+                    await _service.UnmuteUser(user.Guild.Id, user.Id, MuteType.Chat).ConfigureAwait(false);
                     await ReplyConfirmLocalized("user_chat_unmute", Format.Bold(user.ToString())).ConfigureAwait(false);
                 }
                 catch
@@ -146,7 +146,7 @@ namespace NadekoBot.Modules.Administration
             {
                 try
                 {
-                    await _service.UnmuteUser(user, MuteType.Voice).ConfigureAwait(false);
+                    await _service.UnmuteUser(user.GuildId, user.Id, MuteType.Voice).ConfigureAwait(false);
                     await ReplyConfirmLocalized("user_voice_unmute", Format.Bold(user.ToString())).ConfigureAwait(false);
                 }
                 catch

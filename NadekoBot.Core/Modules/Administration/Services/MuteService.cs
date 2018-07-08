@@ -163,37 +163,45 @@ namespace NadekoBot.Modules.Administration.Services
             }
         }
 
-        public async Task UnmuteUser(IGuildUser usr, MuteType type = MuteType.All)
+        public async Task UnmuteUser(ulong guildId, ulong usrId, MuteType type = MuteType.All)
         {
+            var usr = _client.GetGuild(guildId)?.GetUser(usrId);
             if (type == MuteType.All)
             {
-                StopTimer(usr.GuildId, usr.Id, TimerType.Mute);
-                try { await usr.ModifyAsync(x => x.Mute = false).ConfigureAwait(false); } catch { }
-                try { await usr.RemoveRoleAsync(await GetMuteRole(usr.Guild).ConfigureAwait(false)).ConfigureAwait(false); } catch { /*ignore*/ }
+                StopTimer(guildId, usrId, TimerType.Mute);
                 using (var uow = _db.UnitOfWork)
                 {
-                    var config = uow.GuildConfigs.ForId(usr.Guild.Id, set => set.Include(gc => gc.MutedUsers)
+                    var config = uow.GuildConfigs.ForId(guildId, set => set.Include(gc => gc.MutedUsers)
                         .Include(gc => gc.UnmuteTimers));
                     config.MutedUsers.Remove(new MutedUserId()
                     {
-                        UserId = usr.Id
+                        UserId = usrId
                     });
-                    if (MutedUsers.TryGetValue(usr.Guild.Id, out ConcurrentHashSet<ulong> muted))
-                        muted.TryRemove(usr.Id);
+                    if (MutedUsers.TryGetValue(guildId, out ConcurrentHashSet<ulong> muted))
+                        muted.TryRemove(usrId);
 
-                    config.UnmuteTimers.RemoveWhere(x => x.UserId == usr.Id);
+                    config.UnmuteTimers.RemoveWhere(x => x.UserId == usrId);
 
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
-                UserUnmuted(usr, MuteType.All);
+                if (usr != null)
+                {
+                    try { await usr.ModifyAsync(x => x.Mute = false).ConfigureAwait(false); } catch { }
+                    try { await usr.RemoveRoleAsync(await GetMuteRole(usr.Guild).ConfigureAwait(false)).ConfigureAwait(false); } catch { /*ignore*/ }
+                    UserUnmuted(usr, MuteType.All);
+                }
             }
             else if (type == MuteType.Voice)
             {
+                if (usr == null)
+                    return;
                 await usr.ModifyAsync(x => x.Mute = false).ConfigureAwait(false);
                 UserUnmuted(usr, MuteType.Voice);
             }
             else if (type == MuteType.Chat)
             {
+                if (usr == null)
+                    return;
                 await usr.RemoveRoleAsync(await GetMuteRole(usr.Guild).ConfigureAwait(false)).ConfigureAwait(false);
                 UserUnmuted(usr, MuteType.Chat);
             }
@@ -285,23 +293,21 @@ namespace NadekoBot.Modules.Administration.Services
             //unmute timer to be added
             var toAdd = new Timer(async _ =>
             {
-                var guild = _client.GetGuild(guildId); // load the guild
-                if (guild == null)
-                {
-                    RemoveTimerFromDb(guildId, userId, type);
-                    return; // if guild can't be found, just remove the timer from db
-                }
                 if (type == TimerType.Ban)
                 {
                     try
                     {
+                        RemoveTimerFromDb(guildId, userId, type);
                         // unmute the user, this will also remove the timer from the db
-                        await guild.RemoveBanAsync(userId).ConfigureAwait(false);
+                        var guild = _client.GetGuild(guildId); // load the guild
+                        if (guild != null)
+                        {
+                            await guild.RemoveBanAsync(userId).ConfigureAwait(false);
+                        }
                     }
                     catch (Exception ex)
                     {
-                        RemoveTimerFromDb(guildId, userId, type); // if unmute errored, just remove unmute from db
-                        _log.Warn("Couldn't unmute user {0} in guild {1}", userId, guildId);
+                        _log.Warn("Couldn't unban user {0} in guild {1}", userId, guildId);
                         _log.Warn(ex);
                     }
                 }
@@ -310,7 +316,7 @@ namespace NadekoBot.Modules.Administration.Services
                     try
                     {
                         // unmute the user, this will also remove the timer from the db
-                        await UnmuteUser(guild.GetUser(userId)).ConfigureAwait(false);
+                        await UnmuteUser(guildId, userId).ConfigureAwait(false);
                     }
                     catch (Exception ex)
                     {
