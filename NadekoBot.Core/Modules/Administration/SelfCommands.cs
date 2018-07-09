@@ -393,11 +393,13 @@ namespace NadekoBot.Modules.Administration
                 {
                     using (var sr = await http.GetStreamAsync(img).ConfigureAwait(false))
                     {
-                        var imgStream = new MemoryStream();
-                        await sr.CopyToAsync(imgStream).ConfigureAwait(false);
-                        imgStream.Position = 0;
+                        using (var imgStream = new MemoryStream())
+                        {
+                            await sr.CopyToAsync(imgStream).ConfigureAwait(false);
+                            imgStream.Position = 0;
 
-                        await _client.CurrentUser.ModifyAsync(u => u.Avatar = new Image(imgStream)).ConfigureAwait(false);
+                            await _client.CurrentUser.ModifyAsync(u => u.Avatar = new Image(imgStream)).ConfigureAwait(false);
+                        }
                     }
                 }
 

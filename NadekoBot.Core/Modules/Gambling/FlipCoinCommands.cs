@@ -80,6 +80,10 @@ namespace NadekoBot.Modules.Gambling
                 using (var img = imgs.Merge())
                 using (var stream = img.ToStream())
                 {
+                    foreach (var i in imgs)
+                    {
+                        i.Dispose();
+                    }
                     await Context.Channel.SendFileAsync(stream, $"{count} coins.png").ConfigureAwait(false);
                 }
             }

@@ -159,7 +159,8 @@ namespace NadekoBot.Modules.Searches.Common
         private async Task<ImageCacherObject[]> LoadXmlAsync(string website, DapiSearchType type)
         {
             var list = new List<ImageCacherObject>();
-            using (var reader = XmlReader.Create(await _http.GetStreamAsync(website).ConfigureAwait(false), new XmlReaderSettings()
+            using (var stream = await _http.GetStreamAsync(website).ConfigureAwait(false))
+            using (var reader = XmlReader.Create(stream, new XmlReaderSettings()
             {
                 Async = true,
             }))

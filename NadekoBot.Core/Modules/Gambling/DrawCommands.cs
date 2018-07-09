@@ -51,6 +51,11 @@ namespace NadekoBot.Modules.Gambling
                 }
                 using (var img = images.Merge())
                 {
+                    foreach (var i in images)
+                    {
+                        i.Dispose();
+                    }
+
                     var toSend = $"{Context.User.Mention}";
                     if (cardObjects.Count == 5)
                         toSend += $" drew `{Deck.GetHandValue(cardObjects)}`";
@@ -68,8 +73,11 @@ namespace NadekoBot.Modules.Gambling
                 if (num > 10)
                     num = 10;
 
-                var data = await InternalDraw(num, Context.Guild.Id).ConfigureAwait(false);
-                await Context.Channel.SendFileAsync(data.ImageStream, num + " cards.jpg", data.ToSend).ConfigureAwait(false);
+                var (ImageStream, ToSend) = await InternalDraw(num, Context.Guild.Id).ConfigureAwait(false);
+                using (ImageStream)
+                {
+                    await Context.Channel.SendFileAsync(ImageStream, num + " cards.jpg", ToSend).ConfigureAwait(false);
+                }
             }
 
             [NadekoCommand, Usage, Description, Aliases]

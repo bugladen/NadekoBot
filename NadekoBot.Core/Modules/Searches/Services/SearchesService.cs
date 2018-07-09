@@ -164,11 +164,15 @@ namespace NadekoBot.Modules.Searches.Services
                         data = null;
                     else
                     {
-                        using (var tempDraw = Image.Load(await temp.Content.ReadAsStreamAsync().ConfigureAwait(false)))
+                        using (var stream = await temp.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                        using (var tempDraw = Image.Load(stream))
                         {
                             tempDraw.Mutate(x => x.Resize(69, 70));
                             tempDraw.ApplyRoundedCorners(35);
-                            data = tempDraw.ToStream().ToArray();
+                            using (var tds = tempDraw.ToStream())
+                            {
+                                data = tds.ToArray();
+                            }
                         }
                     }
                 }

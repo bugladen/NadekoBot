@@ -708,14 +708,20 @@ namespace NadekoBot.Modules.Xp.Services
                             {
                                 tempDraw.Mutate(x => x.Resize(69, 70));
                                 tempDraw.ApplyRoundedCorners(35);
-                                data = tempDraw.ToStream().ToArray();
+                                using (var stream = tempDraw.ToStream())
+                                {
+                                    data = stream.ToArray();
+                                }
                             }
 
                             await _cache.SetImageDataAsync(avatarUrl, data).ConfigureAwait(false);
                         }
                         using (var toDraw = Image.Load(data))
                         {
-                            toDraw.Mutate(x => x.Resize(69, 70));
+                            if (toDraw.Size() != new Size(69, 70))
+                            {
+                                toDraw.Mutate(x => x.Resize(69, 70));
+                            }
                             img.Mutate(x => x.DrawImage(GraphicsOptions.Default,
                                 toDraw,
                                 new Point(32, 10)));
@@ -751,11 +757,15 @@ namespace NadekoBot.Modules.Xp.Services
                                 && temp.Content.Headers.ContentType.MediaType != "image/jpeg"
                                 && temp.Content.Headers.ContentType.MediaType != "image/gif")
                                 return;
-                            using (var tempDraw = Image.Load(await temp.Content.ReadAsStreamAsync().ConfigureAwait(false)))
+                            using (var stream = await temp.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                            using (var tempDraw = Image.Load(stream))
                             {
                                 tempDraw.Mutate(x => x.Resize(45, 45));
                                 tempDraw.ApplyRoundedCorners(22.5f);
-                                data = tempDraw.ToStream().ToArray();
+                                using (var tds = tempDraw.ToStream())
+                                {
+                                    data = tds.ToArray();
+                                }
                             }
                         }
 
@@ -763,7 +773,10 @@ namespace NadekoBot.Modules.Xp.Services
                     }
                     using (var toDraw = Image.Load(data))
                     {
-                        toDraw.Mutate(x => x.Resize(45, 45));
+                        if (toDraw.Size() != new Size(45, 45))
+                        {
+                            toDraw.Mutate(x => x.Resize(45, 45));
+                        }
                         img.Mutate(x => x.DrawImage(GraphicsOptions.Default,
                             toDraw,
                             new Point(722, 25)));
