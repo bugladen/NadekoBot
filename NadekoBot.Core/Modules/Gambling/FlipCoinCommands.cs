@@ -35,32 +35,13 @@ namespace NadekoBot.Modules.Gambling
             [NadekoCommand, Usage, Description, Aliases]
             public async Task Flip(int count = 1)
             {
-                if (count == 1)
-                {
-                    var coins = _images.ImageUrls.Coins;
-                    if (rng.Next(0, 2) == 1)
-                    {
-                        await Context.Channel.EmbedAsync(new EmbedBuilder()
-                            .WithOkColor()
-                            .WithImageUrl(coins.Heads[rng.Next(0, coins.Heads.Length)].ToString())
-                            .WithDescription(Context.User.Mention + " " + GetText("flipped", Format.Bold(GetText("heads"))))).ConfigureAwait(false);
-
-                    }
-                    else
-                    {
-                        await Context.Channel.EmbedAsync(new EmbedBuilder()
-                            .WithOkColor()
-                            .WithImageUrl(coins.Tails[rng.Next(0, coins.Tails.Length)].ToString())
-                            .WithDescription(Context.User.Mention + " " + GetText("flipped", Format.Bold(GetText("tails"))))).ConfigureAwait(false);
-
-                    }
-                    return;
-                }
                 if (count > 10 || count < 1)
                 {
                     await ReplyErrorLocalized("flip_invalid", 10).ConfigureAwait(false);
                     return;
                 }
+                var headCount = 0;
+                var tailCount = 0;
                 var imgs = new Image<Rgba32>[count];
                 for (var i = 0; i < count; i++)
                 {
@@ -69,10 +50,12 @@ namespace NadekoBot.Modules.Gambling
                     if (rng.Next(0, 10) < 5)
                     {
                         imgs[i] = Image.Load(headsArr);
+                        headCount++;
                     }
                     else
                     {
                         imgs[i] = Image.Load(tailsArr);
+                        tailCount++;
                     }
                 }
                 using (var img = imgs.Merge())
@@ -82,7 +65,12 @@ namespace NadekoBot.Modules.Gambling
                     {
                         i.Dispose();
                     }
-                    await Context.Channel.SendFileAsync(stream, $"{count} coins.png").ConfigureAwait(false);
+                    var msg = count != 1
+                        ? Format.Bold(Context.User.ToString()) + " " + GetText("flip_results", count, headCount, tailCount)
+                        : Format.Bold(Context.User.ToString()) + " " + GetText("flipped", headCount > 0
+                            ? Format.Bold(GetText("heads"))
+                            : Format.Bold(GetText("tails")));
+                    await Context.Channel.SendFileAsync(stream, $"{count} coins.png", msg).ConfigureAwait(false);
                 }
             }
 

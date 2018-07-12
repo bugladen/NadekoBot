@@ -30,15 +30,24 @@ namespace NadekoBot.Core.Services.Common
             GetKey = getKey;
         }
 
-        private Task<byte[]> GetImageData(Uri uri)
+        private async Task<byte[]> GetImageData(Uri uri)
         {
             if (uri.IsFile)
             {
-                return File.ReadAllBytesAsync(uri.ToString());
+                try
+                {
+                    var bytes = await File.ReadAllBytesAsync(uri.LocalPath);
+                    return bytes;
+                }
+                catch (Exception ex)
+                {
+                    _log.Warn(ex);
+                    return null;
+                }
             }
             else
             {
-                return _http.GetByteArrayAsync(uri);
+                return await _http.GetByteArrayAsync(uri);
             }
         }
 

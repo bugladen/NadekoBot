@@ -698,7 +698,7 @@ namespace NadekoBot.Modules.Xp.Services
                 {
                     try
                     {
-                        var avatarUrl = stats.User.RealAvatarUrl();
+                        var avatarUrl = stats.User.RealAvatarUrl(70);
 
                         var (succ, data) = await _cache.TryGetImageDataAsync(avatarUrl).ConfigureAwait(false);
                         if (!succ)

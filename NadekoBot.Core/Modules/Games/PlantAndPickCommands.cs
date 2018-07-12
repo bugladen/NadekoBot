@@ -75,8 +75,6 @@ namespace NadekoBot.Modules.Games
                 IUserMessage msg = null;
                 try
                 {
-                    var imgUrl = _service.GetRandomCurrencyImage();
-
                     var msgToSend = GetText("planted",
                         Format.Bold(Context.User.ToString()),
                         amount + Bc.BotConfig.CurrencySign,
@@ -86,11 +84,10 @@ namespace NadekoBot.Modules.Games
                         msgToSend += " " + GetText("pick_pl", Prefix);
                     else
                         msgToSend += " " + GetText("pick_sn", Prefix);
-
-                    msg = await Context.Channel.EmbedAsync(new EmbedBuilder()
-                        .WithOkColor()
-                        .WithDescription(msgToSend)
-                        .WithImageUrl(imgUrl.ToString())).ConfigureAwait(false);
+                    using (var stream = _service.GetRandomCurrencyImage().ToStream())
+                    {
+                        msg = await Context.Channel.SendFileAsync(stream, "img.png", msgToSend);
+                    }
                 }
                 catch (Exception ex)
                 {
