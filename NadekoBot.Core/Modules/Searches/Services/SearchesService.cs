@@ -157,10 +157,10 @@ namespace NadekoBot.Modules.Searches.Services
             {
                 using (var temp = await Http.GetAsync(imgUrl, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
                 {
-                    if (temp.Content.Headers.ContentType.MediaType != "image/png"
-                        && temp.Content.Headers.ContentType.MediaType != "image/jpeg"
-                        && temp.Content.Headers.ContentType.MediaType != "image/gif")
+                    if (!temp.IsImage())
+                    {
                         data = null;
+                    }
                     else
                     {
                         var imgData = await temp.Content.ReadAsByteArrayAsync().ConfigureAwait(false);

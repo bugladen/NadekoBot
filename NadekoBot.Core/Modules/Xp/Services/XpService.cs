@@ -753,7 +753,7 @@ namespace NadekoBot.Modules.Xp.Services
                     {
                         using (var temp = await http.GetAsync(imgUrl, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
                         {
-                            if (!temp.IsImage())
+                            if (!temp.IsImage() || temp.GetImageSize() > 11)
                                 return;
                             var imgData = await temp.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
                             using (var tempDraw = Image.Load(imgData))
