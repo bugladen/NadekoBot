@@ -12,6 +12,7 @@ using Image = SixLabors.ImageSharp.Image;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using NadekoBot.Core.Services;
+using System.Linq;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -61,9 +62,12 @@ namespace NadekoBot.Modules.Gambling
                         i.Dispose();
                     }
 
-                    var toSend = $"{Context.User.Mention}";
+                    var toSend = $"{Format.Bold(Context.User.ToString())}";
                     if (cardObjects.Count == 5)
                         toSend += $" drew `{Deck.GetHandValue(cardObjects)}`";
+
+                    if (guildId != null)
+                        toSend += "\n" + GetText("cards_left", Format.Bold(cards.CardPool.Count.ToString()));
 
                     return (img.ToStream(), toSend);
                 }
