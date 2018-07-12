@@ -120,7 +120,7 @@ namespace NadekoBot.Modules.Xp.Services
                     while (_addMessageXp.TryDequeue(out var usr))
                         toAddTo.Add(usr);
 
-                    var group = toAddTo.GroupBy(x => (GuildId: x.Guild.Id, User: x.User));
+                    var group = toAddTo.GroupBy(x => (GuildId: x.Guild.Id, x.User));
                     if (toAddTo.Count == 0)
                         return;
 
@@ -600,7 +600,7 @@ namespace NadekoBot.Modules.Xp.Services
             }
         }
 
-        public async Task<MemoryStream> GenerateImageAsync(IGuildUser user)
+        public async Task<Stream> GenerateImageAsync(IGuildUser user)
         {
             var stats = await GetUserStatsAsync(user).ConfigureAwait(false);
             return await GenerateImageAsync(stats).ConfigureAwait(false);
@@ -609,7 +609,7 @@ namespace NadekoBot.Modules.Xp.Services
 
         public Task<MemoryStream> GenerateImageAsync(FullUserStats stats) => Task.Run(async () =>
         {
-            using (var img = Image.Load(_images.XpCard))
+            using (var img = Image.Load(_images.XpBackground))
             {
                 var username = stats.User.ToString();
                 var usernameFont = _fonts.UsernameFontFamily
@@ -703,8 +703,8 @@ namespace NadekoBot.Modules.Xp.Services
                         var (succ, data) = await _cache.TryGetImageDataAsync(avatarUrl).ConfigureAwait(false);
                         if (!succ)
                         {
-                            using (var temp = await http.GetStreamAsync(avatarUrl).ConfigureAwait(false))
-                            using (var tempDraw = Image.Load(temp))
+                            var avatarData = await http.GetByteArrayAsync(avatarUrl).ConfigureAwait(false);
+                            using (var tempDraw = Image.Load(avatarData))
                             {
                                 tempDraw.Mutate(x => x.Resize(69, 70));
                                 tempDraw.ApplyRoundedCorners(35);
@@ -753,12 +753,10 @@ namespace NadekoBot.Modules.Xp.Services
                     {
                         using (var temp = await http.GetAsync(imgUrl, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
                         {
-                            if (temp.Content.Headers.ContentType.MediaType != "image/png"
-                                && temp.Content.Headers.ContentType.MediaType != "image/jpeg"
-                                && temp.Content.Headers.ContentType.MediaType != "image/gif")
+                            if (!temp.IsImage())
                                 return;
-                            using (var stream = await temp.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                            using (var tempDraw = Image.Load(stream))
+                            var imgData = await temp.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                            using (var tempDraw = Image.Load(imgData))
                             {
                                 tempDraw.Mutate(x => x.Resize(45, 45));
                                 tempDraw.ApplyRoundedCorners(22.5f);

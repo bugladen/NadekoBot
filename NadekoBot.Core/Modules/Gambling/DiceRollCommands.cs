@@ -224,14 +224,10 @@ namespace NadekoBot.Modules.Gambling
                 if (num == 10)
                 {
                     var images = _images.Dice;
-                    using (var imgOneStream = images[1].ToStream())
-                    using (var imgZeroStream = images[0].ToStream())
+                    using (var imgOne = Image.Load(images[1]))
+                    using (var imgZero = Image.Load(images[0]))
                     {
-                        using (var imgOne = Image.Load(imgOneStream))
-                        using (var imgZero = Image.Load(imgZeroStream))
-                        {
-                            return new[] { imgOne, imgZero }.Merge();
-                        }
+                        return new[] { imgOne, imgZero }.Merge();
                     }
                 }
                 return Image.Load(_images.Dice[num]);

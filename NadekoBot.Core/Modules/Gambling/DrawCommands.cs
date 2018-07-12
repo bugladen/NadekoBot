@@ -11,6 +11,7 @@ using NadekoBot.Modules.Gambling.Common;
 using Image = SixLabors.ImageSharp.Image;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
+using NadekoBot.Core.Services;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -20,7 +21,12 @@ namespace NadekoBot.Modules.Gambling
         public class DrawCommands : NadekoSubmodule
         {
             private static readonly ConcurrentDictionary<IGuild, Deck> _allDecks = new ConcurrentDictionary<IGuild, Deck>();
-            private const string _cardsPath = "data/images/cards";
+            private readonly IImageCache _images;
+
+            public DrawCommands(IDataCache data)
+            {
+                _images = data.LocalImages;
+            }
 
             private async Task<(Stream ImageStream, string ToSend)> InternalDraw(int num, ulong? guildId = null)
             {
@@ -46,8 +52,7 @@ namespace NadekoBot.Modules.Gambling
                     }
                     var currentCard = cards.Draw();
                     cardObjects.Add(currentCard);
-                    using (var stream = File.OpenRead(Path.Combine(_cardsPath, currentCard.ToString().ToLowerInvariant() + ".jpg").Replace(' ', '_')))
-                        images.Add(Image.Load(stream));
+                    images.Add(Image.Load(_images.GetCard(currentCard.ToString().ToLowerInvariant().Replace(' ', '_'))));
                 }
                 using (var img = images.Merge())
                 {

@@ -195,17 +195,19 @@ namespace NadekoBot.Modules.CustomReactions
                 return;
             }
 
-            var txtStream = await customReactions.GroupBy(cr => cr.Trigger)
+            using (var txtStream = await customReactions.GroupBy(cr => cr.Trigger)
                                                         .OrderBy(cr => cr.Key)
                                                         .Select(cr => new { Trigger = cr.Key, Responses = cr.Select(y => new { id = y.Id, text = y.Response }).ToList() })
                                                         .ToJson()
                                                         .ToStream()
-                                                        .ConfigureAwait(false);
+                                                        .ConfigureAwait(false))
+            {
 
-            if (Context.Guild == null) // its a private one, just send back
-                await Context.Channel.SendFileAsync(txtStream, "customreactions.txt", GetText("list_all")).ConfigureAwait(false);
-            else
-                await ((IGuildUser)Context.User).SendFileAsync(txtStream, "customreactions.txt", GetText("list_all"), false).ConfigureAwait(false);
+                if (Context.Guild == null) // its a private one, just send back
+                    await Context.Channel.SendFileAsync(txtStream, "customreactions.txt", GetText("list_all")).ConfigureAwait(false);
+                else
+                    await ((IGuildUser)Context.User).SendFileAsync(txtStream, "customreactions.txt", GetText("list_all"), false).ConfigureAwait(false);
+            }
         }
 
         [NadekoCommand, Usage, Description, Aliases]

@@ -64,17 +64,15 @@ namespace NadekoBot.Modules.Gambling
                 var imgs = new Image<Rgba32>[count];
                 for (var i = 0; i < count; i++)
                 {
-                    using (var heads = _images.Heads[rng.Next(0, _images.Heads.Length)].ToStream())
-                    using (var tails = _images.Tails[rng.Next(0, _images.Tails.Length)].ToStream())
+                    var headsArr = _images.Heads[rng.Next(0, _images.Heads.Count)];
+                    var tailsArr = _images.Tails[rng.Next(0, _images.Tails.Count)];
+                    if (rng.Next(0, 10) < 5)
                     {
-                        if (rng.Next(0, 10) < 5)
-                        {
-                            imgs[i] = Image.Load(heads);
-                        }
-                        else
-                        {
-                            imgs[i] = Image.Load(tails);
-                        }
+                        imgs[i] = Image.Load(headsArr);
+                    }
+                    else
+                    {
+                        imgs[i] = Image.Load(tailsArr);
                     }
                 }
                 using (var img = imgs.Merge())

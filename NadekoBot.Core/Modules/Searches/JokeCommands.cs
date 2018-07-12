@@ -23,8 +23,8 @@ namespace NadekoBot.Modules.Searches
             [NadekoCommand, Usage, Description, Aliases]
             public async Task Randjoke()
             {
-                var jokeInfo = await SearchesService.GetRandomJoke().ConfigureAwait(false);
-                await Context.Channel.SendConfirmAsync("", jokeInfo.Text, footer: jokeInfo.BaseUri).ConfigureAwait(false);
+                var (Text, BaseUri) = await SearchesService.GetRandomJoke().ConfigureAwait(false);
+                await Context.Channel.SendConfirmAsync("", Text, footer: BaseUri).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]

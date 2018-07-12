@@ -1,9 +1,12 @@
 ﻿using NadekoBot.Core.Common;
+using NadekoBot.Core.Services.Common;
 using NadekoBot.Extensions;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NLog;
 using StackExchange.Redis;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -12,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Core.Services.Impl
 {
-    public class RedisImagesCache : IImageCache
+    public sealed class RedisImagesCache : IImageCache
     {
         private readonly ConnectionMultiplexer _con;
         private readonly IBotCredentials _creds;
@@ -22,143 +25,51 @@ namespace NadekoBot.Core.Services.Impl
 
         private const string _basePath = "data/";
         private const string _oldBasePath = "data/images/";
+        private const string _cardsPath = "data/images/cards";
 
         public ImageUrls ImageUrls { get; private set; }
 
-        private const string _ripPath = _basePath + "rip/rip.png";
-        private const string _ripFlowersPath = _basePath + "rip/rose_overlay.png";
+        public IReadOnlyList<byte[]> Heads => GetByteArrayData(ImageKey.Coins_Heads);
 
-        #region Getters and Setters
-        public byte[][] Heads
-        {
-            get
-            {
-                return Get<byte[][]>("heads");
-            }
-            set
-            {
-                Set("heads", value);
-            }
-        }
+        public IReadOnlyList<byte[]> Tails => GetByteArrayData(ImageKey.Coins_Tails);
 
-        public byte[][] Tails
-        {
-            get
-            {
-                return Get<byte[][]>("tails");
-            }
-            set
-            {
-                Set("tails", value);
-            }
-        }
+        public IReadOnlyList<byte[]> Dice => GetByteArrayData(ImageKey.Dice);
 
-        public byte[][] Dice
+        public IReadOnlyList<byte[]> SlotEmojis => GetByteArrayData(ImageKey.Slots_Emojis);
+
+        public IReadOnlyList<byte[]> SlotNumbers => GetByteArrayData(ImageKey.Slots_Numbers);
+
+        public byte[] SlotBackground => GetByteData(ImageKey.Slots_Bg);
+
+        public byte[] RategirlMatrix => GetByteData(ImageKey.Rategirl_Matrix);
+
+        public byte[] RategirlDot => GetByteData(ImageKey.Rategirl_Dot);
+
+        public byte[] XpBackground => GetByteData(ImageKey.Xp_Bg);
+
+        public byte[] Rip => GetByteData(ImageKey.Rip_Bg);
+
+        public byte[] RipOverlay => GetByteData(ImageKey.Rip_Overlay);
+
+        public byte[] GetCard(string key)
         {
-            get
-            {
-                return Get<byte[][]>("dice");
-            }
-            set
-            {
-                Set("dice", value);
-            }
+            return _con.GetDatabase().StringGet(GetKey("card_" + key));
         }
 
-        public byte[] SlotBackground
+        public enum ImageKey
         {
-            get
-            {
-                return Get("slot_background");
-            }
-            set
-            {
-                Set("slot_background", value);
-            }
+            Coins_Heads,
+            Coins_Tails,
+            Dice,
+            Slots_Bg,
+            Slots_Numbers,
+            Slots_Emojis,
+            Rategirl_Matrix,
+            Rategirl_Dot,
+            Xp_Bg,
+            Rip_Bg,
+            Rip_Overlay,
         }
-
-        public byte[][] SlotNumbers
-        {
-            get
-            {
-                return Get<byte[][]>("slotnumbers");
-            }
-            set
-            {
-                Set("slotnumbers", value);
-            }
-        }
-
-        public byte[][] SlotEmojis
-        {
-            get
-            {
-                return Get<byte[][]>("slotemojis");
-            }
-            set
-            {
-                Set("slotemojis", value);
-            }
-        }
-
-        public byte[] WifeMatrix
-        {
-            get
-            {
-                return Get("wife_matrix");
-            }
-            set
-            {
-                Set("wife_matrix", value);
-            }
-        }
-        public byte[] RategirlDot
-        {
-            get
-            {
-                return Get("rategirl_dot");
-            }
-            set
-            {
-                Set("rategirl_dot", value);
-            }
-        }
-
-        public byte[] XpCard
-        {
-            get
-            {
-                return Get("xp_card");
-            }
-            set
-            {
-                Set("xp_card", value);
-            }
-        }
-
-        public byte[] Rip
-        {
-            get
-            {
-                return Get("rip");
-            }
-            set
-            {
-                Set("rip", value);
-            }
-        }
-        public byte[] RipOverlay
-        {
-            get
-            {
-                return Get("rip_overlay");
-            }
-            set
-            {
-                Set("rip_overlay", value);
-            }
-        }
-        #endregion
 
         private static readonly HttpClient _http = new HttpClient();
 
@@ -176,12 +87,14 @@ namespace NadekoBot.Core.Services.Impl
         private void Migrate()
         {
             Migrate1();
+            Migrate2();
         }
 
         private void Migrate1()
         {
             if (!File.Exists(Path.Combine(_oldBasePath, "images.json")))
                 return;
+            _log.Info("Migrating images v0 to images v1.");
             // load old images
             var oldUrls = JsonConvert.DeserializeObject<ImageUrls>(
                     File.ReadAllText(Path.Combine(_oldBasePath, "images.json")));
@@ -202,26 +115,54 @@ namespace NadekoBot.Core.Services.Impl
             File.Delete((Path.Combine(_oldBasePath, "images.json")));
         }
 
+        private void Migrate2()
+        {
+            // load new images
+            var urls = JsonConvert.DeserializeObject<ImageUrls>(
+                    File.ReadAllText(Path.Combine(_basePath, "images.json")));
+
+            if (urls.Version >= 2)
+                return;
+            _log.Info("Migrating images v1 to images v2.");
+            urls.Version = 2;
+
+            var prefix = $"{_creds.RedisKey()}_localimg_";
+            _db.KeyDelete(new[] {
+                prefix + "heads",
+                prefix + "tails",
+                prefix + "dice",
+                prefix + "slot_background",
+                prefix + "slotnumbers",
+                prefix + "slotemojis",
+                prefix + "wife_matrix",
+                prefix + "rategirl_dot",
+                prefix + "xp_card",
+                prefix + "rip",
+                prefix + "rip_overlay" }
+            .Select(x => (RedisKey)x).ToArray());
+
+            File.WriteAllText(Path.Combine(_basePath, "images.json"), JsonConvert.SerializeObject(urls, Formatting.Indented));
+        }
+
         public async Task<bool> AllKeysExist()
         {
             try
             {
-                var prefix = $"{_creds.RedisKey()}_localimg_";
-                var results = await Task.WhenAll(_db.KeyExistsAsync(prefix + "heads"),
-                    _db.KeyExistsAsync(prefix + "tails"),
-                    _db.KeyExistsAsync(prefix + "dice"),
-                    _db.KeyExistsAsync(prefix + "slot_background"),
-                    _db.KeyExistsAsync(prefix + "slotnumbers"),
-                    _db.KeyExistsAsync(prefix + "slotemojis"),
-                    _db.KeyExistsAsync(prefix + "wife_matrix"),
-                    _db.KeyExistsAsync(prefix + "rategirl_dot"),
-                    _db.KeyExistsAsync(prefix + "xp_card"),
-                    _db.KeyExistsAsync(prefix + "rip"),
-                    _db.KeyExistsAsync(prefix + "rip_overlay"));
+                var results = await Task.WhenAll(Enum.GetNames(typeof(ImageKey))
+                    .Select(x => x.ToLowerInvariant())
+                    .Select(x => _db.KeyExistsAsync(GetKey(x))))
+                    .ConfigureAwait(false);
 
-                return results.All(x => x);
+                var cardsExist = await Task.WhenAll(GetAllCardNames()
+                    .Select(x => "card_" + x)
+                    .Select(x => _db.KeyExistsAsync(GetKey(x))))
+                    .ConfigureAwait(false);
+
+                var num = results.Where(x => !x).Count();
+
+                return results.All(x => x) && cardsExist.All(x => x);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _log.Warn(ex);
                 return false;
@@ -233,77 +174,29 @@ namespace NadekoBot.Core.Services.Impl
             try
             {
                 var sw = Stopwatch.StartNew();
-                ImageUrls = JsonConvert.DeserializeObject<ImageUrls>(
+                var obj = JObject.Parse(
                     File.ReadAllText(Path.Combine(_basePath, "images.json")));
 
-                byte[][] _heads = null;
-                byte[][] _tails = null;
-                byte[][] _dice = null;
+                ImageUrls = obj.ToObject<ImageUrls>();
 
-                var loadCoins = Task.Run(async () =>
+                var t =  new ImageLoader(_http, _con, GetKey)
+                    .LoadAsync(obj);
+
+                var loadCards = Task.Run(async () =>
                 {
-                    _heads = await Task.WhenAll(ImageUrls.Coins.Heads
-                        .Select(x => _http.GetByteArrayAsync(x))).ConfigureAwait(false);
-                    _tails = await Task.WhenAll(ImageUrls.Coins.Tails
-                        .Select(x => _http.GetByteArrayAsync(x))).ConfigureAwait(false);
+                    var sw2 = Stopwatch.StartNew();
+                    await _db.StringSetAsync(Directory.GetFiles(_cardsPath)
+                        .ToDictionary(
+                            x => GetKey("card_" + Path.GetFileNameWithoutExtension(x)),
+                            x => (RedisValue)File.ReadAllBytes(x)) // loads them and creates <name, bytes> pairs to store in redis
+                        .ToArray())
+                        .ConfigureAwait(false);
+                    sw2.Stop();
+                    _log.Info("Cards loaded in {0:F2}s", sw2.Elapsed.TotalSeconds);
                 });
 
-                var loadDice = Task.Run(async () =>
-                    _dice = (await Task.WhenAll(ImageUrls.Dice
-                        .Select(x => _http.GetByteArrayAsync(x))).ConfigureAwait(false))
-                        .ToArray());
+                await Task.WhenAll(t, loadCards).ConfigureAwait(false);
 
-                byte[][] _slotNumbers = null;
-                byte[][] _slotEmojis = null;
-                byte[] _slotBackground = null;
-                var loadSlot = Task.Run(async () =>
-                {
-                    _slotNumbers = (await Task.WhenAll(ImageUrls.Slots.Numbers
-                        .Select(x => _http.GetByteArrayAsync(x))).ConfigureAwait(false))
-                        .ToArray();
-
-                    _slotEmojis = (await Task.WhenAll(ImageUrls.Slots.Emojis
-                        .Select(x => _http.GetByteArrayAsync(x))).ConfigureAwait(false))
-                        .ToArray();
-
-                    _slotBackground = await _http.GetByteArrayAsync(ImageUrls.Slots.Bg).ConfigureAwait(false);
-                });
-
-                byte[] _wifeMatrix = null;
-                byte[] _rategirlDot = null;
-                byte[] _xpCard = null;
-                var loadRategirl = Task.Run(async () =>
-                {
-                    _wifeMatrix = await _http.GetByteArrayAsync(ImageUrls.Rategirl.Matrix).ConfigureAwait(false);
-                    _rategirlDot = await _http.GetByteArrayAsync(ImageUrls.Rategirl.Dot).ConfigureAwait(false);
-                });
-
-                var loadXp = Task.Run(async () =>
-                    _xpCard = await _http.GetByteArrayAsync(ImageUrls.Xp.Bg).ConfigureAwait(false)
-                );
-
-                byte[] _rip = null;
-                byte[] _overlay = null;
-                var loadOther = Task.Run(async () =>
-                {
-                    _rip = await _http.GetByteArrayAsync(ImageUrls.Rip.Bg).ConfigureAwait(false);
-                    _overlay = await _http.GetByteArrayAsync(ImageUrls.Rip.Overlay).ConfigureAwait(false);
-                });
-
-                await Task.WhenAll(loadCoins, loadRategirl,
-                    loadXp, loadDice, loadSlot, loadOther).ConfigureAwait(false);
-
-                WifeMatrix = _wifeMatrix;
-                RategirlDot = _rategirlDot;
-                Heads = _heads;
-                Tails = _tails;
-                Dice = _dice;
-                XpCard = _xpCard;
-                SlotNumbers = _slotNumbers;
-                SlotBackground = _slotBackground;
-                SlotEmojis = _slotEmojis;
-                Rip = _rip;
-                RipOverlay = _overlay;
                 sw.Stop();
                 _log.Info($"Images reloaded in {sw.Elapsed.TotalSeconds:F2}s");
             }
@@ -314,24 +207,31 @@ namespace NadekoBot.Core.Services.Impl
             }
         }
 
-        private byte[] Get(string key)
+        private IEnumerable<string> GetAllCardNames(bool showExtension = false)
         {
-            return _db.StringGet($"{_creds.RedisKey()}_localimg_{key}");
+            return Directory.GetFiles(_cardsPath) // gets all cards from the cards folder
+                           .Select(x => showExtension
+                                ? Path.GetFileName(x)
+                                : Path.GetFileNameWithoutExtension(x)); // gets their names
         }
 
-        private void Set(string key, byte[] bytes)
+        public RedisKey GetKey(string key)
         {
-            _db.StringSet($"{_creds.RedisKey()}_localimg_{key}", bytes);
+            return $"{_creds.RedisKey()}_localimg_{key.ToLowerInvariant()}";
         }
 
-        private T Get<T>(string key) where T : class
+        public byte[] GetByteData(string key)
         {
-            return JsonConvert.DeserializeObject<T>(_db.StringGet($"{_creds.RedisKey()}_localimg_{key}"));
+            return _db.StringGet(GetKey(key));
         }
 
-        private void Set(string key, object obj)
+        public byte[] GetByteData(ImageKey key) => GetByteData(key.ToString());
+
+        public RedisImageArray GetByteArrayData(string key)
         {
-            _db.StringSet($"{_creds.RedisKey()}_localimg_{key}", JsonConvert.SerializeObject(obj));
+            return new RedisImageArray(GetKey(key), _con);
         }
+
+        public RedisImageArray GetByteArrayData(ImageKey key) => GetByteArrayData(key.ToString());
     }
 }

@@ -61,8 +61,7 @@ namespace NadekoBot.Modules.Utility
             if (string.IsNullOrWhiteSpace(game))
                 return;
 
-            var socketGuild = Context.Guild as SocketGuild;
-            if (socketGuild == null)
+            if (!(Context.Guild is SocketGuild socketGuild))
             {
                 _log.Warn("Can't cast guild to socket guild.");
                 return;
@@ -325,8 +324,10 @@ namespace NadekoBot.Modules.Utility
                         return msg;
                     })
                 });
-            await Context.User.SendFileAsync(
-                await JsonConvert.SerializeObject(grouping, Formatting.Indented).ToStream().ConfigureAwait(false), title, title, false).ConfigureAwait(false);
+            using (var stream = await JsonConvert.SerializeObject(grouping, Formatting.Indented).ToStream().ConfigureAwait(false))
+            {
+                await Context.User.SendFileAsync(stream, title, title, false).ConfigureAwait(false);
+            }
         }
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Ping()

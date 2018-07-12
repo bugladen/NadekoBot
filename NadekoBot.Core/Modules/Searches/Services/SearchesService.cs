@@ -110,8 +110,7 @@ namespace NadekoBot.Modules.Searches.Services
                 {
                     try
                     {
-                        var umsg = msg as SocketUserMessage;
-                        if (umsg == null)
+                        if (!(msg is SocketUserMessage umsg))
                             return;
 
                         if (!TranslatedChannels.TryGetValue(umsg.Channel.Id, out var autoDelete))
@@ -164,8 +163,8 @@ namespace NadekoBot.Modules.Searches.Services
                         data = null;
                     else
                     {
-                        using (var stream = await temp.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                        using (var tempDraw = Image.Load(stream))
+                        var imgData = await temp.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                        using (var tempDraw = Image.Load(imgData))
                         {
                             tempDraw.Mutate(x => x.Resize(69, 70));
                             tempDraw.ApplyRoundedCorners(35);

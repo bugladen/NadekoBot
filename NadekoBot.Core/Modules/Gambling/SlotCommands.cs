@@ -162,16 +162,14 @@ namespace NadekoBot.Modules.Gambling
                         return;
                     }
                     Interlocked.Add(ref _totalBet, amount.Value);
-                    using (var bgFileStream = _images.SlotBackground.ToStream())
-                    using (var bgImage = Image.Load(bgFileStream))
+                    using (var bgImage = Image.Load(_images.SlotBackground))
                     {
                         var result = SlotMachine.Pull();
                         int[] numbers = result.Numbers;
 
                         for (int i = 0; i < 3; i++)
                         {
-                            using (var file = _images.SlotEmojis[numbers[i]].ToStream())
-                            using (var randomImage = Image.Load(file))
+                            using (var randomImage = Image.Load(_images.SlotEmojis[numbers[i]]))
                             {
                                 bgImage.Mutate(x => x.DrawImage(GraphicsOptions.Default, randomImage, new Point(95 + 142 * i, 330)));
                             }
@@ -182,9 +180,8 @@ namespace NadekoBot.Modules.Gambling
                         var n = 0;
                         do
                         {
-                            var digit = printWon % 10;
-                            using (var fs = _images.SlotNumbers[digit].ToStream())
-                            using (var img = Image.Load(fs))
+                            var digit = (int)(printWon % 10);
+                            using (var img = Image.Load(_images.SlotNumbers[digit]))
                             {
                                 bgImage.Mutate(x => x.DrawImage(GraphicsOptions.Default, img, new Point(230 - n * 16, 462)));
                             }
@@ -195,9 +192,8 @@ namespace NadekoBot.Modules.Gambling
                         n = 0;
                         do
                         {
-                            var digit = printAmount % 10;
-                            using (var fs = _images.SlotNumbers[digit].ToStream())
-                            using (var img = Image.Load(fs))
+                            var digit = (int)(printAmount % 10);
+                            using (var img = Image.Load(_images.SlotNumbers[digit]))
                             {
                                 bgImage.Mutate(x => x.DrawImage(GraphicsOptions.Default, img, new Point(395 - n * 16, 462)));
                             }
@@ -219,7 +215,10 @@ namespace NadekoBot.Modules.Gambling
                                 msg = GetText("slot_jackpot", 30);
                         }
 
-                        await Context.Channel.SendFileAsync(bgImage.ToStream(), "result.png", Context.User.Mention + " " + msg + $"\n`{GetText("slot_bet")}:`{amount} `{GetText("won")}:` {amount * result.Multiplier}{Bc.BotConfig.CurrencySign}").ConfigureAwait(false);
+                        using (var imgStream = bgImage.ToStream())
+                        {
+                            await Context.Channel.SendFileAsync(imgStream, "result.png", Context.User.Mention + " " + msg + $"\n`{GetText("slot_bet")}:`{amount} `{GetText("won")}:` {amount * result.Multiplier}{Bc.BotConfig.CurrencySign}").ConfigureAwait(false);
+                        }
                     }
                 }
                 finally

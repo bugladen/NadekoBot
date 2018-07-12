@@ -20,10 +20,10 @@ namespace NadekoBot.Common.Replacements
             if (string.IsNullOrWhiteSpace(input))
                 return input;
 
-            foreach (var item in _replacements)
+            foreach (var (Key, Text) in _replacements)
             {
-                if (input.Contains(item.Key))
-                    input = input.Replace(item.Key, item.Text(), StringComparison.InvariantCulture);
+                if (input.Contains(Key))
+                    input = input.Replace(Key, Text(), StringComparison.InvariantCulture);
             }
 
             foreach (var item in _regex)
