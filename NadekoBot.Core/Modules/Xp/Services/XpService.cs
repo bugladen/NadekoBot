@@ -698,11 +698,12 @@ namespace NadekoBot.Modules.Xp.Services
                 {
                     try
                     {
-                        var avatarUrl = stats.User.RealAvatarUrl(70);
+                        var avatarUrl = stats.User.RealAvatarUrl(128);
 
                         var (succ, data) = await _cache.TryGetImageDataAsync(avatarUrl).ConfigureAwait(false);
                         if (!succ)
                         {
+                            _log.Info(avatarUrl);
                             var avatarData = await http.GetByteArrayAsync(avatarUrl).ConfigureAwait(false);
                             using (var tempDraw = Image.Load(avatarData))
                             {

@@ -76,15 +76,16 @@ namespace NadekoBot.Modules.Xp
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            public Task ClubIcon([Remainder]string url = null)
+            public async Task ClubIcon([Remainder]string url = null)
             {
                 if ((!Uri.IsWellFormedUriString(url, UriKind.Absolute) && url != null)
-                    || !_service.SetClubIcon(Context.User.Id, url))
+                    || !await _service.SetClubIcon(Context.User.Id, url == null ? null : new Uri(url)))
                 {
-                    return ReplyErrorLocalized("club_icon_error");
+                    await ReplyErrorLocalized("club_icon_error").ConfigureAwait(false);
+                    return;
                 }
 
-                return ReplyConfirmLocalized("club_icon_set");
+                await ReplyConfirmLocalized("club_icon_set").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
