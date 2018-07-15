@@ -391,14 +391,21 @@ namespace NadekoBot.Modules.Administration
                 if (string.IsNullOrWhiteSpace(img))
                     return;
 
-                using (var http = new HttpClient())
-                {
-                    using (var sr = await http.GetStreamAsync(img).ConfigureAwait(false))
-                    {
-                        var imgStream = new MemoryStream();
-                        await sr.CopyToAsync(imgStream).ConfigureAwait(false);
-                        imgStream.Position = 0;
+                if (!Uri.IsWellFormedUriString(img, UriKind.Absolute))
+                    return;
 
+                var uri = new Uri(img);
+
+                using (var http = new HttpClient())
+                using (var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
+                {
+                    if (!sr.IsImage())
+                        return;
+
+                    // i can't just do ReadAsStreamAsync because dicord.net's image poops itself
+                    var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                    using (var imgStream = imgData.ToStream())
+                    {
                         await _client.CurrentUser.ModifyAsync(u => u.Avatar = new Image(imgStream)).ConfigureAwait(false);
                     }
                 }

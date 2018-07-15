@@ -5,16 +5,20 @@ using Discord;
 using NadekoBot.Modules.Xp.Common;
 using System.Linq;
 using NadekoBot.Extensions;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Xp.Services
 {
     public class ClubService : INService
     {
         private readonly DbService _db;
+        private readonly HttpClient _http;
 
         public ClubService(DbService db)
         {
             _db = db;
+            _http = new HttpClient();
         }
 
         public bool CreateClub(IUser user, string clubName, out ClubInfo club)
@@ -80,8 +84,8 @@ namespace NadekoBot.Modules.Xp.Services
             {
                 var club = uow.Clubs.GetByOwner(owner.Id);
                 var adminUser = uow.DiscordUsers.GetOrCreate(toAdmin);
-                
-                if (club == null || club.Owner.UserId != owner.Id || 
+
+                if (club == null || club.Owner.UserId != owner.Id ||
                     !club.Users.Contains(adminUser))
                     throw new InvalidOperationException();
 
@@ -102,8 +106,17 @@ namespace NadekoBot.Modules.Xp.Services
             }
         }
 
-        public bool SetClubIcon(ulong ownerUserId, string url)
+        public async Task<bool> SetClubIcon(ulong ownerUserId, Uri url)
         {
+            if (url != null)
+            {
+                using (var temp = await _http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
+                {
+                    if (!temp.IsImage() || temp.GetImageSize() > 11)
+                        return false;
+                }
+            }
+
             using (var uow = _db.UnitOfWork)
             {
                 var club = uow.Clubs.GetByOwner(ownerUserId, set => set);
@@ -111,7 +124,7 @@ namespace NadekoBot.Modules.Xp.Services
                 if (club == null)
                     return false;
 
-                club.ImageUrl = url;
+                club.ImageUrl = url.ToString();
                 uow.Complete();
             }
 

@@ -120,7 +120,7 @@ namespace NadekoBot.Modules.Xp.Services
                     while (_addMessageXp.TryDequeue(out var usr))
                         toAddTo.Add(usr);
 
-                    var group = toAddTo.GroupBy(x => (GuildId: x.Guild.Id, User: x.User));
+                    var group = toAddTo.GroupBy(x => (GuildId: x.Guild.Id, x.User));
                     if (toAddTo.Count == 0)
                         return;
 
@@ -600,7 +600,7 @@ namespace NadekoBot.Modules.Xp.Services
             }
         }
 
-        public async Task<MemoryStream> GenerateImageAsync(IGuildUser user)
+        public async Task<Stream> GenerateImageAsync(IGuildUser user)
         {
             var stats = await GetUserStatsAsync(user).ConfigureAwait(false);
             return await GenerateImageAsync(stats).ConfigureAwait(false);
@@ -609,7 +609,7 @@ namespace NadekoBot.Modules.Xp.Services
 
         public Task<MemoryStream> GenerateImageAsync(FullUserStats stats) => Task.Run(async () =>
         {
-            using (var img = Image.Load(_images.XpCard))
+            using (var img = Image.Load(_images.XpBackground))
             {
                 var username = stats.User.ToString();
                 var usernameFont = _fonts.UsernameFontFamily
@@ -698,24 +698,31 @@ namespace NadekoBot.Modules.Xp.Services
                 {
                     try
                     {
-                        var avatarUrl = stats.User.RealAvatarUrl();
+                        var avatarUrl = stats.User.RealAvatarUrl(128);
 
                         var (succ, data) = await _cache.TryGetImageDataAsync(avatarUrl).ConfigureAwait(false);
                         if (!succ)
                         {
-                            using (var temp = await http.GetStreamAsync(avatarUrl).ConfigureAwait(false))
-                            using (var tempDraw = Image.Load(temp))
+                            _log.Info(avatarUrl);
+                            var avatarData = await http.GetByteArrayAsync(avatarUrl).ConfigureAwait(false);
+                            using (var tempDraw = Image.Load(avatarData))
                             {
                                 tempDraw.Mutate(x => x.Resize(69, 70));
                                 tempDraw.ApplyRoundedCorners(35);
-                                data = tempDraw.ToStream().ToArray();
+                                using (var stream = tempDraw.ToStream())
+                                {
+                                    data = stream.ToArray();
+                                }
                             }
 
                             await _cache.SetImageDataAsync(avatarUrl, data).ConfigureAwait(false);
                         }
                         using (var toDraw = Image.Load(data))
                         {
-                            toDraw.Mutate(x => x.Resize(69, 70));
+                            if (toDraw.Size() != new Size(69, 70))
+                            {
+                                toDraw.Mutate(x => x.Resize(69, 70));
+                            }
                             img.Mutate(x => x.DrawImage(GraphicsOptions.Default,
                                 toDraw,
                                 new Point(32, 10)));
@@ -747,15 +754,17 @@ namespace NadekoBot.Modules.Xp.Services
                     {
                         using (var temp = await http.GetAsync(imgUrl, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
                         {
-                            if (temp.Content.Headers.ContentType.MediaType != "image/png"
-                                && temp.Content.Headers.ContentType.MediaType != "image/jpeg"
-                                && temp.Content.Headers.ContentType.MediaType != "image/gif")
+                            if (!temp.IsImage() || temp.GetImageSize() > 11)
                                 return;
-                            using (var tempDraw = Image.Load(await temp.Content.ReadAsStreamAsync().ConfigureAwait(false)))
+                            var imgData = await temp.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                            using (var tempDraw = Image.Load(imgData))
                             {
                                 tempDraw.Mutate(x => x.Resize(45, 45));
                                 tempDraw.ApplyRoundedCorners(22.5f);
-                                data = tempDraw.ToStream().ToArray();
+                                using (var tds = tempDraw.ToStream())
+                                {
+                                    data = tds.ToArray();
+                                }
                             }
                         }
 
@@ -763,7 +772,10 @@ namespace NadekoBot.Modules.Xp.Services
                     }
                     using (var toDraw = Image.Load(data))
                     {
-                        toDraw.Mutate(x => x.Resize(45, 45));
+                        if (toDraw.Size() != new Size(45, 45))
+                        {
+                            toDraw.Mutate(x => x.Resize(45, 45));
+                        }
                         img.Mutate(x => x.DrawImage(GraphicsOptions.Default,
                             toDraw,
                             new Point(722, 25)));

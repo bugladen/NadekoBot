@@ -31,24 +31,41 @@ namespace NadekoBot.Extensions
         public static async Task<IUserMessage> SendErrorAsync(this IUser user, string error)
              => await (await user.GetOrCreateDMChannelAsync().ConfigureAwait(false)).SendMessageAsync("", embed: new EmbedBuilder().WithErrorColor().WithDescription(error).Build()).ConfigureAwait(false);
 
-        public static async Task<IUserMessage> SendFileAsync(this IUser user, string filePath, string caption = null, string text = null, bool isTTS = false) =>
-            await (await user.GetOrCreateDMChannelAsync().ConfigureAwait(false)).SendFileAsync(File.Open(filePath, FileMode.Open), caption ?? "x", text, isTTS).ConfigureAwait(false);
+        public static async Task<IUserMessage> SendFileAsync(this IUser user, string filePath, string caption = null, string text = null, bool isTTS = false)
+        {
+            using (var file = File.Open(filePath, FileMode.Open))
+            {
+                return await (await user.GetOrCreateDMChannelAsync().ConfigureAwait(false)).SendFileAsync(file, caption ?? "x", text, isTTS).ConfigureAwait(false);
+            }
+        }
 
         public static async Task<IUserMessage> SendFileAsync(this IUser user, Stream fileStream, string fileName, string caption = null, bool isTTS = false) =>
             await (await user.GetOrCreateDMChannelAsync().ConfigureAwait(false)).SendFileAsync(fileStream, fileName, caption, isTTS).ConfigureAwait(false);
 
-        public static Uri RealAvatarUrl(this IUser usr) =>
-            usr.AvatarId == null
-                ? null
-                : new Uri(usr.AvatarId.StartsWith("a_", StringComparison.InvariantCulture)
-                    ? $"{DiscordConfig.CDNUrl}avatars/{usr.Id}/{usr.AvatarId}.gif"
-                    : usr.GetAvatarUrl(ImageFormat.Auto));
+        public static Uri RealAvatarUrl(this IUser usr, int size = 0)
+        {
+            var append = size <= 0
+                ? ""
+                : $"?size={size}";
 
-        public static Uri RealAvatarUrl(this DiscordUser usr) =>
-            usr.AvatarId == null
+            return usr.AvatarId == null
                 ? null
                 : new Uri(usr.AvatarId.StartsWith("a_", StringComparison.InvariantCulture)
-                    ? $"{DiscordConfig.CDNUrl}avatars/{usr.UserId}/{usr.AvatarId}.gif"
-                    : $"{DiscordConfig.CDNUrl}avatars/{usr.UserId}/{usr.AvatarId}.png");
+                    ? $"{DiscordConfig.CDNUrl}avatars/{usr.Id}/{usr.AvatarId}.gif" + append
+                    : usr.GetAvatarUrl(ImageFormat.Auto) + append);
+        }
+
+        public static Uri RealAvatarUrl(this DiscordUser usr, int size = 0)
+        {
+            var append = size <= 0
+                ? ""
+                : $"?size={size}";
+
+            return usr.AvatarId == null
+                ? null
+                : new Uri(usr.AvatarId.StartsWith("a_", StringComparison.InvariantCulture)
+                    ? $"{DiscordConfig.CDNUrl}avatars/{usr.UserId}/{usr.AvatarId}.gif" + append
+                    : $"{DiscordConfig.CDNUrl}avatars/{usr.UserId}/{usr.AvatarId}.png" + append);
+        }
     }
 }

@@ -116,8 +116,7 @@ namespace NadekoBot.Modules.Permissions.Services
 
                 if (moduleName == nameof(Permissions))
                 {
-                    var guildUser = user as IGuildUser;
-                    if (guildUser == null)
+                    if (!(user is IGuildUser guildUser))
                         return true;
 
                     if (guildUser.GuildPermissions.Administrator)

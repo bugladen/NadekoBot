@@ -6,23 +6,24 @@ namespace NadekoBot
 {
     public sealed class Program
     {
-        public static Task Main(string[] args)
+        public static async Task Main(string[] args)
         {
             if (args.Length == 2
                 && int.TryParse(args[0], out int shardId)
                 && int.TryParse(args[1], out int parentProcessId))
             {
-                return new NadekoBot(shardId, parentProcessId)
+                await new NadekoBot(shardId, parentProcessId)
                     .RunAndBlockAsync();
             }
             else
             {
+                await new ShardsCoordinator()
+                    .RunAsync()
+                    .ConfigureAwait(false);
 #if DEBUG
-                var _ = new NadekoBot(0, Process.GetCurrentProcess().Id)
-                       .RunAsync();
-#endif
-                return new ShardsCoordinator()
+                await new NadekoBot(0, Process.GetCurrentProcess().Id)
                     .RunAndBlockAsync();
+#endif
             }
         }
     }

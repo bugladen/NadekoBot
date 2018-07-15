@@ -4,7 +4,7 @@ namespace NadekoBot.Core.Common
 {
     public class ImageUrls
     {
-        public int Version { get; set; }
+        public int Version { get; set; } = 2;
 
         public CoinData Coins { get; set; }
         public Uri[] Currency { get; set; }

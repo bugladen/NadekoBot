@@ -275,5 +275,26 @@ namespace NadekoBot.Extensions
             _log.Info(name + " | " + sw.Elapsed.TotalSeconds.ToString("F2"));
             sw.Reset();
         }
+
+        public static bool IsImage(this HttpResponseMessage msg)
+        {
+            if (msg.Content.Headers.ContentType.MediaType != "image/png"
+                                && msg.Content.Headers.ContentType.MediaType != "image/jpeg"
+                                && msg.Content.Headers.ContentType.MediaType != "image/gif")
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public static long? GetImageSize(this HttpResponseMessage msg)
+        {
+            if (msg.Content.Headers.ContentLength == null)
+            {
+                return null;
+            }
+
+            return msg.Content.Headers.ContentLength / 1.MB();
+        }
     }
 }

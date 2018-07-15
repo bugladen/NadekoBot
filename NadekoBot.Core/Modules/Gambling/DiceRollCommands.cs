@@ -41,8 +41,9 @@ namespace NadekoBot.Modules.Gambling
                 var num1 = gen / 10;
                 var num2 = gen % 10;
 
-
-                using (var img = new[] { GetDice(num1), GetDice(num2) }.Merge())
+                using (var img1 = GetDice(num1))
+                using (var img2 = GetDice(num2))
+                using (var img = new[] { img1, img2 }.Merge())
                 using (var ms = img.ToStream())
                 {
                     await Context.Channel.SendFileAsync(ms,
@@ -127,6 +128,11 @@ namespace NadekoBot.Modules.Gambling
                 using (var bitmap = dice.Merge())
                 using (var ms = bitmap.ToStream())
                 {
+                    foreach (var d in dice)
+                    {
+                        d.Dispose();
+                    }
+
                     await Context.Channel.SendFileAsync(ms, "dice.png",
                         Context.User.Mention + " " +
                         GetText("dice_rolled_num", Format.Bold(values.Count.ToString())) +
@@ -218,14 +224,10 @@ namespace NadekoBot.Modules.Gambling
                 if (num == 10)
                 {
                     var images = _images.Dice;
-                    using (var imgOneStream = images[1].ToStream())
-                    using (var imgZeroStream = images[0].ToStream())
+                    using (var imgOne = Image.Load(images[1]))
+                    using (var imgZero = Image.Load(images[0]))
                     {
-                        using (var imgOne = Image.Load(imgOneStream))
-                        using (var imgZero = Image.Load(imgZeroStream))
-                        {
-                            return new[] { imgOne, imgZero }.Merge();
-                        }
+                        return new[] { imgOne, imgZero }.Merge();
                     }
                 }
                 return Image.Load(_images.Dice[num]);

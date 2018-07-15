@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Collections.Generic;
 using NadekoBot.Extensions;
-using System.IO;
 using AngleSharp;
 using AngleSharp.Dom.Html;
 using AngleSharp.Dom;
@@ -580,25 +579,21 @@ namespace NadekoBot.Modules.Searches
                         throw new KeyNotFoundException("Cannot find a card by that name");
                     foreach (var item in items.Where(item => item.HasValues && item["img"] != null).Take(4))
                     {
-                        await Task.Run(async () =>
-                        {
-                            using (var sr = await http.GetStreamAsync(item["img"].ToString()).ConfigureAwait(false))
-                            {
-                                var imgStream = new MemoryStream();
-                                await sr.CopyToAsync(imgStream).ConfigureAwait(false);
-                                imgStream.Position = 0;
-                                images.Add(SixLabors.ImageSharp.Image.Load(imgStream));
-                            }
-                        }).ConfigureAwait(false);
+                        var arr = await http.GetByteArrayAsync(item["img"].ToString()).ConfigureAwait(false);
+                        images.Add(SixLabors.ImageSharp.Image.Load(arr));
                     }
                     string msg = null;
                     if (items.Count > 4)
                     {
                         msg = GetText("hs_over_x", 4);
                     }
-                    using (var img = images.AsEnumerable().Merge())
+                    using (var img = images.Merge())
                     using (var ms = img.ToStream())
                     {
+                        foreach (var i in images)
+                        {
+                            i.Dispose();
+                        }
                         await Context.Channel.SendFileAsync(ms, arg + ".png", msg).ConfigureAwait(false);
                     }
                 }

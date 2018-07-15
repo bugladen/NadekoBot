@@ -141,11 +141,10 @@ namespace NadekoBot.Modules.Games.Services
         private ConcurrentDictionary<ulong, object> _locks { get; } = new ConcurrentDictionary<ulong, object>();
         public ConcurrentHashSet<ulong> HalloweenAwardedUsers { get; } = new ConcurrentHashSet<ulong>();
 
-        public Uri GetRandomCurrencyImage()
+        public byte[] GetRandomCurrencyImage()
         {
             var rng = new NadekoRandom();
-            var cur = _images.ImageUrls.Currency;
-            return cur[rng.Next(0, cur.Length)];
+            return _images.Currency[rng.Next(0, _images.Currency.Count)];
         }
 
         private string GetText(ITextChannel ch, string key, params object[] rep)
@@ -192,15 +191,11 @@ namespace NadekoBot.Modules.Games.Services
                                     + " " + GetText(channel, "pick_sn", prefix)
                                 : GetText(channel, "curgen_pl", dropAmount, _bc.BotConfig.CurrencySign)
                                     + " " + GetText(channel, "pick_pl", prefix);
-                            var file = GetRandomCurrencyImage();
-
-                            var sent = await channel.EmbedAsync(new EmbedBuilder()
-                                .WithOkColor()
-                                .WithDescription(toSend)
-                                .WithImageUrl(file.ToString())).ConfigureAwait(false);
-
-                            msgs[0] = sent;
-
+                            using (var stream = GetRandomCurrencyImage().ToStream())
+                            {
+                                var sent = await channel.SendFileAsync(stream, "currency_image.png", toSend).ConfigureAwait(false);
+                                msgs[0] = sent;
+                            }
                             PlantedFlowers.AddOrUpdate(channel.Id, msgs.ToList(), (id, old) => { old.AddRange(msgs); return old; });
                         }
                     }

@@ -37,8 +37,7 @@ namespace NadekoBot.Modules.Games.Common
             {
                 try
                 {
-                    using (var ms = new MemoryStream(_images.WifeMatrix.ToArray(), false))
-                    using (var img = Image.Load(ms))
+                    using (var img = Image.Load(_images.RategirlMatrix))
                     {
                         const int minx = 35;
                         const int miny = 385;
@@ -47,8 +46,7 @@ namespace NadekoBot.Modules.Games.Common
                         var pointx = (int)(minx + length * (Hot / 10));
                         var pointy = (int)(miny - length * ((Crazy - 4) / 6));
 
-                        using (var pointMs = new MemoryStream(_images.RategirlDot.ToArray(), false))
-                        using (var pointImg = Image.Load(pointMs))
+                        using (var pointImg = Image.Load(_images.RategirlDot))
                         {
                             img.Mutate(x => x.DrawImage(GraphicsOptions.Default, pointImg, new Point(pointx - 10, pointy - 10)));
                         }
