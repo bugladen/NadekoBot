@@ -2915,6 +2915,13 @@
       "{0}xp"
     ]
   },
+  "xptemplatereload": {
+    "cmd": "xptempreload xptr",
+    "desc": "Reloads the xp template file.",
+    "usage": [
+      "{0}xptr"
+    ]
+  },
   "xpexclusionlist": {
     "Cmd": "xpexclusionlist xpexl",
     "Desc": "Shows the roles and channels excluded from the XP system on this server, as well as whether the whole server is excluded.",

@@ -201,7 +201,7 @@ namespace NadekoBot.Modules.Searches.Services
                     WrapTextWidth = 190,
                 },
                 text,
-                _fonts.RipNameFont,
+                _fonts.WhiteneyBold.CreateFont(20),
                 Rgba32.Black,
                 new PointF(25, 225)));
 

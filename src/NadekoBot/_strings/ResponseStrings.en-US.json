@@ -916,6 +916,7 @@
   "xp_club_bans_for": "Bans for {0} club",
   "xp_club_apps_for": "Applicants for {0} club",
   "xp_club_leaderboard": "Club leaderboard - page {0}",
+  "xp_template_reloaded": "Xp template has been reloaded.",
   "customreactions_edited_cust_react": "Custom Reaction Edited",
   "administration_self_assign_are_exclusive": "You can only choose 1 role from each group.",
   "administration_self_assign_are_not_exclusive": "You can choose any number of roles from any group.",
