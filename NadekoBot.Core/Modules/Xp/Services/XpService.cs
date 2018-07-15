@@ -84,7 +84,7 @@ namespace NadekoBot.Modules.Xp.Services
             _creds = creds;
             _cs = cs;
             _httpFactory = http;
-            ReloadXpTemplate();
+            InternalReloadXpTemplate();
 
             if(client.ShardId == 0)
             {
@@ -92,7 +92,6 @@ namespace NadekoBot.Modules.Xp.Services
                 sub.Subscribe(_creds.RedisKey() + "_reload_xp_template",
                     (ch, val) => InternalReloadXpTemplate());
             }
-
             //load settings
             var allGuildConfigs = bot.AllGuildConfigs.Where(x => x.XpSettings != null);
             _excludedChannels = allGuildConfigs
