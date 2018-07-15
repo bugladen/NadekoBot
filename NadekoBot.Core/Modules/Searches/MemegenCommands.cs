@@ -45,7 +45,7 @@ namespace NadekoBot.Modules.Searches
                     var data = JsonConvert.DeserializeObject<Dictionary<string, string>>(rawJson)
                         .Select(kvp => Path.GetFileName(kvp.Value));
 
-                    await Context.Channel.SendTableAsync(data, x => $"{x,-17}", 3).ConfigureAwait(false);
+                    await Context.Channel.SendTableAsync(data, x => $"{x,-15}", 3).ConfigureAwait(false);
                 }
             }
 

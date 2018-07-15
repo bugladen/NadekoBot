@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace NadekoBot.Modules.Permissions.Services
 {
-    public class FilterService : IEarlyBlocker, INService
+    public class FilterService : IEarlyBehavior, INService
     {
         private readonly Logger _log;
         private readonly DbService _db;
@@ -26,6 +26,9 @@ namespace NadekoBot.Modules.Permissions.Services
 
         public ConcurrentHashSet<ulong> WordFilteringChannels { get; }
         public ConcurrentHashSet<ulong> WordFilteringServers { get; }
+
+        public int Priority => -50;
+        public ModuleBehaviorType BehaviorType => ModuleBehaviorType.Blocker;
 
         public ConcurrentHashSet<string> FilteredWordsForChannel(ulong channelId, ulong guildId)
         {
@@ -95,13 +98,13 @@ namespace NadekoBot.Modules.Permissions.Services
                     if (guild == null || usrMsg == null)
                         return Task.CompletedTask;
 
-                    return TryBlockEarly(guild, usrMsg);
+                    return RunBehavior(null, guild, usrMsg);
                 });
                 return Task.CompletedTask;
             };
         }
 
-        public async Task<bool> TryBlockEarly(IGuild guild, IUserMessage msg)
+        public async Task<bool> RunBehavior(DiscordSocketClient _, IGuild guild, IUserMessage msg)
             => !(msg.Author is IGuildUser gu) //it's never filtered outside of guilds, and never block administrators
                 ? false
                 : !gu.GuildPermissions.Administrator && (await FilterInvites(guild, msg).ConfigureAwait(false) || await FilterWords(guild, msg).ConfigureAwait(false));

@@ -4,6 +4,7 @@ using Discord.Commands;
 using NadekoBot.Modules.Administration.Services;
 using NadekoBot.Core.Common.TypeReaders;
 using Discord.WebSocket;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace NadekoBot.Common.TypeReaders
 {
@@ -24,7 +25,7 @@ namespace NadekoBot.Common.TypeReaders
 
         public static GuildDateTime Parse(IServiceProvider services, ulong guildId, string input)
         {
-            var _gts = (GuildTimezoneService)services.GetService(typeof(GuildTimezoneService));
+            var _gts = services.GetService<GuildTimezoneService>();
             if (!DateTime.TryParse(input, out var dt))
                 return null;
 

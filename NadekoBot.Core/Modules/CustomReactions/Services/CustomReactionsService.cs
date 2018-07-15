@@ -19,7 +19,7 @@ using Newtonsoft.Json;
 
 namespace NadekoBot.Modules.CustomReactions.Services
 {
-    public class CustomReactionsService : IEarlyBlockingExecutor, INService
+    public class CustomReactionsService : IEarlyBehavior, INService
     {
         public enum CrField
         {
@@ -33,6 +33,9 @@ namespace NadekoBot.Modules.CustomReactions.Services
         public ConcurrentDictionary<ulong, CustomReaction[]> GuildReactions = new ConcurrentDictionary<ulong, CustomReaction[]>();
 
         public ConcurrentDictionary<string, uint> ReactionStats { get; } = new ConcurrentDictionary<string, uint>();
+
+        public int Priority => -1;
+        public ModuleBehaviorType BehaviorType => ModuleBehaviorType.Executor;
 
         private readonly Logger _log;
         private readonly DbService _db;
@@ -184,7 +187,7 @@ namespace NadekoBot.Modules.CustomReactions.Services
             return greaction;
         }
 
-        public async Task<bool> TryExecuteEarly(DiscordSocketClient client, IGuild guild, IUserMessage msg)
+        public async Task<bool> RunBehavior(DiscordSocketClient client, IGuild guild, IUserMessage msg)
         {
             // maybe this message is a custom reaction
             var cr = await Task.Run(() => TryGetCustomReaction(msg)).ConfigureAwait(false);

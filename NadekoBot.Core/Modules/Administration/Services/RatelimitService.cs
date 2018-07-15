@@ -18,7 +18,7 @@ using CommandLine;
 
 namespace NadekoBot.Modules.Administration.Services
 {
-    public class SlowmodeService : IEarlyBlocker, INService
+    public class SlowmodeService : IEarlyBehavior, INService
     {
         public class Options : INadekoCommandOptions
         {
@@ -59,6 +59,9 @@ namespace NadekoBot.Modules.Administration.Services
         // where the slowmode is actually running
         public ConcurrentDictionary<ulong, Slowmoder> SlowmodeChannels { get; }
             = new ConcurrentDictionary<ulong, Slowmoder>();
+
+        public int Priority => -49;
+        public ModuleBehaviorType BehaviorType => ModuleBehaviorType.Blocker;
 
         public SlowmodeService(DiscordSocketClient client, NadekoBot bot, DbService db)
         {
@@ -144,7 +147,7 @@ namespace NadekoBot.Modules.Administration.Services
             catch { }
         }
 
-        public async Task<bool> TryBlockEarly(IGuild g, IUserMessage usrMsg)
+        public async Task<bool> RunBehavior(DiscordSocketClient _, IGuild g, IUserMessage usrMsg)
         {
             await Task.Yield();
             try

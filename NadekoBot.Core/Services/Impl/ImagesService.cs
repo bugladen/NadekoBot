@@ -74,8 +74,6 @@ namespace NadekoBot.Core.Services.Impl
             Currency,
         }
 
-        private static readonly HttpClient _http = new HttpClient();
-
         public RedisImagesCache(ConnectionMultiplexer con, IBotCredentials creds)
         {
             _con = con;
@@ -181,24 +179,26 @@ namespace NadekoBot.Core.Services.Impl
                     File.ReadAllText(Path.Combine(_basePath, "images.json")));
 
                 ImageUrls = obj.ToObject<ImageUrls>();
-
-                var t =  new ImageLoader(_http, _con, GetKey)
-                    .LoadAsync(obj);
-
-                var loadCards = Task.Run(async () =>
+                using (var http = new HttpClient())
                 {
-                    var sw2 = Stopwatch.StartNew();
-                    await _db.StringSetAsync(Directory.GetFiles(_cardsPath)
-                        .ToDictionary(
-                            x => GetKey("card_" + Path.GetFileNameWithoutExtension(x)),
-                            x => (RedisValue)File.ReadAllBytes(x)) // loads them and creates <name, bytes> pairs to store in redis
-                        .ToArray())
-                        .ConfigureAwait(false);
-                    sw2.Stop();
-                    _log.Info("Cards loaded in {0:F2}s", sw2.Elapsed.TotalSeconds);
-                });
+                    var t = new ImageLoader(http, _con, GetKey)
+                        .LoadAsync(obj);
 
-                await Task.WhenAll(t, loadCards).ConfigureAwait(false);
+                    var loadCards = Task.Run(async () =>
+                    {
+                        var sw2 = Stopwatch.StartNew();
+                        await _db.StringSetAsync(Directory.GetFiles(_cardsPath)
+                            .ToDictionary(
+                                x => GetKey("card_" + Path.GetFileNameWithoutExtension(x)),
+                                x => (RedisValue)File.ReadAllBytes(x)) // loads them and creates <name, bytes> pairs to store in redis
+                            .ToArray())
+                            .ConfigureAwait(false);
+                        sw2.Stop();
+                        _log.Info("Cards loaded in {0:F2}s", sw2.Elapsed.TotalSeconds);
+                    });
+
+                    await Task.WhenAll(t, loadCards).ConfigureAwait(false);
+                }
 
                 sw.Stop();
                 _log.Info($"Images reloaded in {sw.Elapsed.TotalSeconds:F2}s");

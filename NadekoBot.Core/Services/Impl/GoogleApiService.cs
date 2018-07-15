@@ -26,9 +26,10 @@ namespace NadekoBot.Core.Services.Impl
 
         private Logger _log { get; }
 
-        public GoogleApiService(IBotCredentials creds)
+        public GoogleApiService(IBotCredentials creds, IHttpClientFactory factory)
         {
             _creds = creds;
+            _httpFactory = factory;
 
             var bcs = new BaseClientService.Initializer
             {
@@ -67,6 +68,7 @@ namespace NadekoBot.Core.Services.Impl
 
         //private readonly Regex YtVideoIdRegex = new Regex(@"(?:youtube\.com\/\S*(?:(?:\/e(?:mbed))?\/|watch\?(?:\S*?&?v\=))|youtu\.be\/)(?<id>[a-zA-Z0-9_-]{6,11})", RegexOptions.Compiled);
         private readonly IBotCredentials _creds;
+        private readonly IHttpClientFactory _httpFactory;
 
         public async Task<IEnumerable<string>> GetRelatedVideosAsync(string id, int count = 1)
         {
@@ -368,7 +370,7 @@ namespace NadekoBot.Core.Services.Impl
                                         ConvertToLanguageCode(sourceLanguage),
                                         ConvertToLanguageCode(targetLanguage),
                                        WebUtility.UrlEncode(sourceText)));
-            using (var http = new HttpClient())
+            using (var http = _httpFactory.CreateClient())
             {
                 http.DefaultRequestHeaders.Add("user-agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
                 text = await http.GetStringAsync(url).ConfigureAwait(false);

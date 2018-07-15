@@ -2157,13 +2157,6 @@
       "{0}mtg about face"
     ]
   },
-  "yodify": {
-    "Cmd": "yodify yoda",
-    "Desc": "Translates your normal sentences into Yoda styled sentences!",
-    "Usage": [
-      "{0}yoda my feelings hurt"
-    ]
-  },
   "attack": {
     "Cmd": "attack",
     "Desc": "Attacks a target with the given move. Use `{0}movelist` to see a list of moves your type can use.",

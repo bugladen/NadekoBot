@@ -12,6 +12,7 @@ using NadekoBot.Common.Collections;
 using NadekoBot.Modules.Searches.Common;
 using NadekoBot.Modules.Searches.Services;
 using NadekoBot.Modules.Searches.Exceptions;
+using System.Net.Http;
 
 namespace NadekoBot.Modules.NSFW
 {
@@ -19,6 +20,12 @@ namespace NadekoBot.Modules.NSFW
     public class NSFW : NadekoTopLevelModule<SearchesService>
     {
         private static readonly ConcurrentHashSet<ulong> _hentaiBombBlacklist = new ConcurrentHashSet<ulong>();
+        private readonly IHttpClientFactory _httpFactory;
+
+        public NSFW(IHttpClientFactory factory)
+        {
+            _httpFactory = factory;
+        }
 
         private async Task InternalHentai(IMessageChannel channel, string tag, bool noError)
         {
@@ -53,7 +60,10 @@ namespace NadekoBot.Modules.NSFW
             try
             {
                 JToken obj;
-                obj = JArray.Parse(await _service.Http.GetStringAsync($"http://api.oboobs.ru/boobs/{new NadekoRandom().Next(0, 10330)}").ConfigureAwait(false))[0];
+                using (var http = _httpFactory.CreateClient())
+                {
+                    obj = JArray.Parse(await http.GetStringAsync($"http://api.oboobs.ru/boobs/{new NadekoRandom().Next(0, 10330)}").ConfigureAwait(false))[0];
+                }
                 await Channel.SendMessageAsync($"http://media.oboobs.ru/{obj["preview"]}").ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -61,13 +71,15 @@ namespace NadekoBot.Modules.NSFW
                 await Channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
             }
         }
-
         private async Task InternalButts(IMessageChannel Channel)
         {
             try
             {
                 JToken obj;
-                obj = JArray.Parse(await _service.Http.GetStringAsync($"http://api.obutts.ru/butts/{new NadekoRandom().Next(0, 4335)}").ConfigureAwait(false))[0];
+                using (var http = _httpFactory.CreateClient())
+                {
+                    obj = JArray.Parse(await http.GetStringAsync($"http://api.obutts.ru/butts/{new NadekoRandom().Next(0, 4335)}").ConfigureAwait(false))[0];
+                }
                 await Channel.SendMessageAsync($"http://media.obutts.ru/{obj["preview"]}").ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -282,7 +294,10 @@ namespace NadekoBot.Modules.NSFW
             try
             {
                 JToken obj;
-                obj = JArray.Parse(await _service.Http.GetStringAsync($"http://api.oboobs.ru/boobs/{new NadekoRandom().Next(0, 10330)}").ConfigureAwait(false))[0];
+                using (var http = _httpFactory.CreateClient())
+                {
+                    obj = JArray.Parse(await http.GetStringAsync($"http://api.oboobs.ru/boobs/{new NadekoRandom().Next(0, 10330)}").ConfigureAwait(false))[0];
+                }
                 await Context.Channel.SendMessageAsync($"http://media.oboobs.ru/{obj["preview"]}").ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -298,7 +313,10 @@ namespace NadekoBot.Modules.NSFW
             try
             {
                 JToken obj;
-                obj = JArray.Parse(await _service.Http.GetStringAsync($"http://api.obutts.ru/butts/{new NadekoRandom().Next(0, 4335)}").ConfigureAwait(false))[0];
+                using (var http = _httpFactory.CreateClient())
+                {
+                    obj = JArray.Parse(await http.GetStringAsync($"http://api.obutts.ru/butts/{new NadekoRandom().Next(0, 4335)}").ConfigureAwait(false))[0];
+                }
                 await Context.Channel.SendMessageAsync($"http://media.obutts.ru/{obj["preview"]}").ConfigureAwait(false);
             }
             catch (Exception ex)

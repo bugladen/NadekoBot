@@ -34,12 +34,14 @@ namespace NadekoBot.Modules.Searches
     {
         private readonly IBotCredentials _creds;
         private readonly IGoogleApiService _google;
+        private readonly IHttpClientFactory _httpFactory;
         private static readonly NadekoRandom _rng = new NadekoRandom();
 
-        public Searches(IBotCredentials creds, IGoogleApiService google)
+        public Searches(IBotCredentials creds, IGoogleApiService google, IHttpClientFactory factory)
         {
             _creds = creds;
             _google = google;
+            _httpFactory = factory;
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -153,43 +155,6 @@ namespace NadekoBot.Modules.Searches
         public Task Say([Remainder]string message) =>
             Say((ITextChannel)Context.Channel, message);
 
-        //[NadekoCommand, Usage, Description, Aliases]
-        //public async Task Distance(string p1, string p2)
-        //{
-        //    if (string.IsNullOrWhiteSpace(p1) || string.IsNullOrWhiteSpace(p2))
-        //        return;
-
-        //    var embed = new EmbedBuilder();
-        //    string[] response;
-        //    try
-        //    {
-        //        response = await Task.WhenAll(
-        //            _service.Http.GetStringAsync($"http://api.openweathermap.org/data/2.5/weather?q={p1}&appid=42cd627dd60debf25a5739e50a217d74&units=metric"),
-        //            _service.Http.GetStringAsync($"http://api.openweathermap.org/data/2.5/weather?q={p2}&appid=42cd627dd60debf25a5739e50a217d74&units=metric"));
-
-
-        //        var d1 = JsonConvert.DeserializeObject<WeatherData>(response[0]);
-        //        var d2 = JsonConvert.DeserializeObject<WeatherData>(response[1]);
-
-        //        double R = 6371000; // metres
-        //        var φ1 = 0.0174533 * d1.Coord.Lat;
-        //        var φ2 = 0.0174533 * d2.Coord.Lat;
-        //        var Δφ = 0.0174533 * (d2.Coord.Lat - d1.Coord.Lat);
-        //        var Δλ = 0.0174533 * (d2.Coord.Lon - d1.Coord.Lon);
-
-        //        var a = Math.Sin(Δφ / 2) * Math.Sin(Δφ / 2) +
-        //                Math.Cos(φ1) * Math.Cos(φ2) *
-        //                Math.Sin(Δλ / 2) * Math.Sin(Δλ / 2);
-        //        var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
-
-        //        await ReplyConfirmLocalized("distance", p1, p2, R * c).ConfigureAwait(false);
-        //    }
-        //    catch
-        //    {
-
-        //    }
-        //}
-
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Weather([Remainder] string query)
         {
@@ -200,8 +165,10 @@ namespace NadekoBot.Modules.Searches
             string response;
             try
             {
-                response = await _service.Http.GetStringAsync($"http://api.openweathermap.org/data/2.5/weather?q={query}&appid=42cd627dd60debf25a5739e50a217d74&units=metric").ConfigureAwait(false);
-
+                using (var http = _httpFactory.CreateClient())
+                {
+                    response = await http.GetStringAsync($"http://api.openweathermap.org/data/2.5/weather?q={query}&appid=42cd627dd60debf25a5739e50a217d74&units=metric").ConfigureAwait(false);
+                }
                 var data = JsonConvert.DeserializeObject<WeatherData>(response);
 
                 Func<double, double> f = StandardConversions.CelsiusToFahrenheit;
@@ -233,17 +200,19 @@ namespace NadekoBot.Modules.Searches
             if (string.IsNullOrWhiteSpace(arg) || string.IsNullOrWhiteSpace(_creds.GoogleApiKey))
                 return;
 
-            var res = await _service.Http.GetStringAsync($"https://maps.googleapis.com/maps/api/geocode/json?address={arg}&key={_creds.GoogleApiKey}").ConfigureAwait(false);
-            var obj = JsonConvert.DeserializeObject<GeolocationResult>(res);
+            using (var http = _httpFactory.CreateClient())
+            {
+                var res = await http.GetStringAsync($"https://maps.googleapis.com/maps/api/geocode/json?address={arg}&key={_creds.GoogleApiKey}").ConfigureAwait(false);
+                var obj = JsonConvert.DeserializeObject<GeolocationResult>(res);
 
-            var currentSeconds = DateTime.UtcNow.UnixTimestamp();
-            var timeRes = await _service.Http.GetStringAsync($"https://maps.googleapis.com/maps/api/timezone/json?location={obj.Results[0].Geometry.Location.Lat},{obj.Results[0].Geometry.Location.Lng}&timestamp={currentSeconds}&key={_creds.GoogleApiKey}").ConfigureAwait(false);
-            var timeObj = JsonConvert.DeserializeObject<TimeZoneResult>(timeRes);
+                var currentSeconds = DateTime.UtcNow.UnixTimestamp();
+                var timeRes = await http.GetStringAsync($"https://maps.googleapis.com/maps/api/timezone/json?location={obj.Results[0].Geometry.Location.Lat},{obj.Results[0].Geometry.Location.Lng}&timestamp={currentSeconds}&key={_creds.GoogleApiKey}").ConfigureAwait(false);
+                var timeObj = JsonConvert.DeserializeObject<TimeZoneResult>(timeRes);
 
-            var time = DateTime.UtcNow.AddSeconds(timeObj.DstOffset + timeObj.RawOffset);
+                var time = DateTime.UtcNow.AddSeconds(timeObj.DstOffset + timeObj.RawOffset);
 
-            await ReplyConfirmLocalized("time", Format.Bold(obj.Results[0].FormattedAddress), Format.Code(time.ToString("HH:mm")), timeObj.TimeZoneName).ConfigureAwait(false);
-
+                await ReplyConfirmLocalized("time", Format.Bold(obj.Results[0].FormattedAddress), Format.Code(time.ToString("HH:mm")), timeObj.TimeZoneName).ConfigureAwait(false);
+            }
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -464,7 +433,8 @@ namespace NadekoBot.Modules.Searches
                 var config = Configuration.Default.WithDefaultLoader();
                 var parser = new HtmlParser(config);
                 var test = "";
-                using (var response = await _service.Http.SendAsync(msg).ConfigureAwait(false))
+                using (var http = _httpFactory.CreateClient())
+                using (var response = await http.SendAsync(msg).ConfigureAwait(false))
                 using (var document = await parser.ParseAsync(test = await response.Content.ReadAsStringAsync().ConfigureAwait(false)).ConfigureAwait(false))
                 {
                     var elems = document.QuerySelectorAll("div.g");
@@ -517,7 +487,7 @@ namespace NadekoBot.Modules.Searches
                 return;
 
             await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
-            using (var http = new HttpClient())
+            using (var http = _httpFactory.CreateClient())
             {
                 http.DefaultRequestHeaders.Clear();
                 var response = await http.GetStringAsync($"https://api.magicthegathering.io/v1/cards?name={Uri.EscapeUriString(search)}")
@@ -565,7 +535,7 @@ namespace NadekoBot.Modules.Searches
             }
 
             await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
-            using (var http = new HttpClient())
+            using (var http = _httpFactory.CreateClient())
             {
                 http.DefaultRequestHeaders.Clear();
                 http.DefaultRequestHeaders.Add("X-Mashape-Key", _creds.MashapeKey);
@@ -606,41 +576,6 @@ namespace NadekoBot.Modules.Searches
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task Yodify([Remainder] string query = null)
-        {
-            if (string.IsNullOrWhiteSpace(_creds.MashapeKey))
-            {
-                await ReplyErrorLocalized("mashape_api_missing").ConfigureAwait(false);
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(query))
-                return;
-
-            await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
-            using (var http = new HttpClient())
-            {
-                http.DefaultRequestHeaders.Clear();
-                http.DefaultRequestHeaders.Add("X-Mashape-Key", _creds.MashapeKey);
-                http.DefaultRequestHeaders.Add("Accept", "text/plain");
-                var res = await http.GetStringAsync($"https://yoda.p.mashape.com/yoda?sentence={Uri.EscapeUriString(query)}").ConfigureAwait(false);
-                try
-                {
-                    var embed = new EmbedBuilder()
-                        .WithUrl("http://www.yodaspeak.co.uk/")
-                        .WithAuthor(au => au.WithName("Yoda").WithIconUrl("http://www.yodaspeak.co.uk/yoda-small1.gif"))
-                        .WithDescription(res)
-                        .WithOkColor();
-                    await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
-                }
-                catch
-                {
-                    await ReplyErrorLocalized("yodify_error").ConfigureAwait(false);
-                }
-            }
-        }
-
-        [NadekoCommand, Usage, Description, Aliases]
         public async Task UrbanDict([Remainder] string query = null)
         {
             if (string.IsNullOrWhiteSpace(_creds.MashapeKey))
@@ -653,26 +588,29 @@ namespace NadekoBot.Modules.Searches
                 return;
 
             await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
-            var res = await _service.Http.GetStringAsync($"http://api.urbandictionary.com/v0/define?term={Uri.EscapeUriString(query)}").ConfigureAwait(false);
-            try
+            using (var http = _httpFactory.CreateClient())
             {
-                var items = JsonConvert.DeserializeObject<UrbanResponse>(res).List;
-                if (items.Any())
+                var res = await http.GetStringAsync($"http://api.urbandictionary.com/v0/define?term={Uri.EscapeUriString(query)}").ConfigureAwait(false);
+                try
                 {
-
-                    await Context.SendPaginatedConfirmAsync(0, (p) =>
+                    var items = JsonConvert.DeserializeObject<UrbanResponse>(res).List;
+                    if (items.Any())
                     {
-                        var item = items[p];
-                        return new EmbedBuilder().WithOkColor()
-                                     .WithUrl(item.Permalink)
-                                     .WithAuthor(eab => eab.WithIconUrl("http://i.imgur.com/nwERwQE.jpg").WithName(item.Word))
-                                     .WithDescription(item.Definition);
-                    }, items.Length, 1).ConfigureAwait(false);
-                    return;
+
+                        await Context.SendPaginatedConfirmAsync(0, (p) =>
+                        {
+                            var item = items[p];
+                            return new EmbedBuilder().WithOkColor()
+                                         .WithUrl(item.Permalink)
+                                         .WithAuthor(eab => eab.WithIconUrl("http://i.imgur.com/nwERwQE.jpg").WithName(item.Word))
+                                         .WithDescription(item.Definition);
+                        }, items.Length, 1).ConfigureAwait(false);
+                        return;
+                    }
                 }
-            }
-            catch
-            {
+                catch
+                {
+                }
             }
             await ReplyErrorLocalized("ud_error").ConfigureAwait(false);
 
@@ -683,33 +621,34 @@ namespace NadekoBot.Modules.Searches
         {
             if (string.IsNullOrWhiteSpace(word))
                 return;
-
-            var res = await _service.Http.GetStringAsync("http://api.pearson.com/v2/dictionaries/entries?headword=" + WebUtility.UrlEncode(word.Trim())).ConfigureAwait(false);
-
-            var data = JsonConvert.DeserializeObject<DefineModel>(res);
-
-            var sense = data.Results.FirstOrDefault(x => x.Senses?[0].Definition != null)?.Senses[0];
-
-            if (sense?.Definition == null)
+            using (var http = _httpFactory.CreateClient())
             {
-                await ReplyErrorLocalized("define_unknown").ConfigureAwait(false);
-                return;
+                var res = await http.GetStringAsync("http://api.pearson.com/v2/dictionaries/entries?headword=" + WebUtility.UrlEncode(word.Trim())).ConfigureAwait(false);
+
+                var data = JsonConvert.DeserializeObject<DefineModel>(res);
+
+                var sense = data.Results.FirstOrDefault(x => x.Senses?[0].Definition != null)?.Senses[0];
+
+                if (sense?.Definition == null)
+                {
+                    await ReplyErrorLocalized("define_unknown").ConfigureAwait(false);
+                    return;
+                }
+
+                var definition = sense.Definition.ToString();
+                if (!(sense.Definition is string))
+                    definition = ((JArray)JToken.Parse(sense.Definition.ToString())).First.ToString();
+
+                var embed = new EmbedBuilder().WithOkColor()
+                    .WithTitle(GetText("define") + " " + word)
+                    .WithDescription(definition)
+                    .WithFooter(efb => efb.WithText(sense.Gramatical_info?.Type));
+
+                if (sense.Examples != null)
+                    embed.AddField(efb => efb.WithName(GetText("example")).WithValue(sense.Examples.First().Text));
+
+                await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
-
-            var definition = sense.Definition.ToString();
-            if (!(sense.Definition is string))
-                definition = ((JArray)JToken.Parse(sense.Definition.ToString())).First.ToString();
-
-            var embed = new EmbedBuilder().WithOkColor()
-                .WithTitle(GetText("define") + " " + word)
-                .WithDescription(definition)
-                .WithFooter(efb => efb.WithText(sense.Gramatical_info?.Type));
-
-            if (sense.Examples != null)
-                embed.AddField(efb => efb.WithName(GetText("example")).WithValue(sense.Examples.First().Text));
-
-            await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
-
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -726,7 +665,7 @@ namespace NadekoBot.Modules.Searches
 
             await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
             string res;
-            using (var http = new HttpClient())
+            using (var http = _httpFactory.CreateClient())
             {
                 http.DefaultRequestHeaders.Clear();
                 http.DefaultRequestHeaders.Add("X-Mashape-Key", _creds.MashapeKey);
@@ -756,12 +695,15 @@ namespace NadekoBot.Modules.Searches
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Catfact()
         {
-            var response = await _service.Http.GetStringAsync("https://catfact.ninja/fact").ConfigureAwait(false);
-            if (response == null)
-                return;
+            using (var http = _httpFactory.CreateClient())
+            {
+                var response = await http.GetStringAsync("https://catfact.ninja/fact").ConfigureAwait(false);
+                if (response == null)
+                    return;
 
-            var fact = JObject.Parse(response)["fact"].ToString();
-            await Context.Channel.SendConfirmAsync("🐈" + GetText("catfact"), fact).ConfigureAwait(false);
+                var fact = JObject.Parse(response)["fact"].ToString();
+                await Context.Channel.SendConfirmAsync("🐈" + GetText("catfact"), fact).ConfigureAwait(false);
+            }
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -798,7 +740,7 @@ namespace NadekoBot.Modules.Searches
             query = query?.Trim();
             if (string.IsNullOrWhiteSpace(query))
                 return;
-            using (var http = new HttpClient())
+            using (var http = _httpFactory.CreateClient())
             {
                 var result = await http.GetStringAsync("https://en.wikipedia.org//w/api.php?action=query&format=json&prop=info&redirects=1&formatversion=2&inprop=url&titles=" + Uri.EscapeDataString(query)).ConfigureAwait(false);
                 var data = JsonConvert.DeserializeObject<WikipediaApiModel>(result);
@@ -876,7 +818,7 @@ namespace NadekoBot.Modules.Searches
                 return;
             }
             await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
-            using (var http = new HttpClient())
+            using (var http = _httpFactory.CreateClient())
             {
                 http.DefaultRequestHeaders.Clear();
                 try
@@ -903,10 +845,13 @@ namespace NadekoBot.Modules.Searches
             var obj = new BibleVerses();
             try
             {
-                var res = await _service.Http
-                    .GetStringAsync("https://bible-api.com/" + book + " " + chapterAndVerse).ConfigureAwait(false);
+                using (var http = _httpFactory.CreateClient())
+                {
+                    var res = await http
+                        .GetStringAsync("https://bible-api.com/" + book + " " + chapterAndVerse).ConfigureAwait(false);
 
-                obj = JsonConvert.DeserializeObject<BibleVerses>(res);
+                    obj = JsonConvert.DeserializeObject<BibleVerses>(res);
+                }
             }
             catch
             {
@@ -922,76 +867,6 @@ namespace NadekoBot.Modules.Searches
                     .WithDescription(v.Text)).ConfigureAwait(false);
             }
         }
-        //[NadekoCommand, Usage, Description, Aliases]
-        //public async Task MCPing([Remainder] string query2 = null)
-        //{
-        //    var query = query2;
-        //    if (string.IsNullOrWhiteSpace(query))
-        //        return;
-        //    await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
-        //    using (var http = new HttpClient())
-        //    {
-        //        http.DefaultRequestHeaders.Clear();
-        //        var ip = query.Split(':')[0];
-        //        var port = query.Split(':')[1];
-        //        var res = await http.GetStringAsync($"https://api.minetools.eu/ping/{Uri.EscapeUriString(ip)}/{Uri.EscapeUriString(port)}").ConfigureAwait(false);
-        //        try
-        //        {
-        //            var items = JObject.Parse(res);
-        //            var sb = new StringBuilder();
-        //            var ping = (int)Math.Ceiling(double.Parse(items["latency"].ToString()));
-        //            sb.AppendLine($"`Server:` {query}");
-        //            sb.AppendLine($"`Version:` {items["version"]["name"]} / Protocol {items["version"]["protocol"]}");
-        //            sb.AppendLine($"`Description:` {items["description"]}");
-        //            sb.AppendLine($"`Online Players:` {items["players"]["online"]}/{items["players"]["max"]}");
-        //            sb.Append($"`Latency:` {ping}");
-        //            await Context.Channel.SendMessageAsync(sb.ToString());
-        //        }
-        //        catch
-        //        {
-        //            await Context.Channel.SendErrorAsync($"Failed finding `{query}`.").ConfigureAwait(false);
-        //        }
-        //    }
-        //}
-
-        //[NadekoCommand, Usage, Description, Aliases]
-        //public async Task MCQ([Remainder] string query = null)
-        //{
-        //    var arg = query;
-        //    if (string.IsNullOrWhiteSpace(arg))
-        //    {
-        //        await Context.Channel.SendErrorAsync("Please enter `ip:port`.").ConfigureAwait(false);
-        //        return;
-        //    }
-        //    await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
-        //    using (var http = new HttpClient())
-        //    {
-        //        http.DefaultRequestHeaders.Clear();
-        //        try
-        //        {
-        //            var ip = arg.Split(':')[0];
-        //            var port = arg.Split(':')[1];
-        //            var res = await http.GetStringAsync($"https://api.minetools.eu/query/{Uri.EscapeUriString(ip)}/{Uri.EscapeUriString(port)}").ConfigureAwait(false);
-        //            var items = JObject.Parse(res);
-        //            var sb = new StringBuilder();
-        //            sb.AppendLine($"`Server:` {arg} 〘Status: {items["status"]}〙");
-        //            sb.AppendLine("`Player List (First 5):`");
-        //            foreach (var item in items["Playerlist"].Take(5))
-        //            {
-        //                sb.AppendLine($"〔:rosette: {item}〕");
-        //            }
-        //            sb.AppendLine($"`Online Players:` {items["Players"]} / {items["MaxPlayers"]}");
-        //            sb.AppendLine($"`Plugins:` {items["Plugins"]}");
-        //            sb.Append($"`Version:` {items["Version"]}");
-        //            await Context.Channel.SendMessageAsync(sb.ToString());
-        //        }
-        //        catch
-        //        {
-        //            await Context.Channel.SendErrorAsync($"Failed finding server `{arg}`.").ConfigureAwait(false);
-        //        }
-        //    }
-        //}
-
 
         public async Task InternalDapiCommand(IUserMessage umsg, string tag, DapiSearchType type)
         {

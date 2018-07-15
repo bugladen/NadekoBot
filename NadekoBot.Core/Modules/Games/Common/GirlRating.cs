@@ -23,15 +23,19 @@ namespace NadekoBot.Modules.Games.Common
         public double Hot { get; }
         public int Roll { get; }
         public string Advice { get; }
+
+        private readonly IHttpClientFactory _httpFactory;
+
         public AsyncLazy<string> Url { get; }
 
-        public GirlRating(IImageCache images, double crazy, double hot, int roll, string advice)
+        public GirlRating(IImageCache images, IHttpClientFactory factory, double crazy, double hot, int roll, string advice)
         {
             _images = images;
             Crazy = crazy;
             Hot = hot;
             Roll = roll;
             Advice = advice; // convenient to have it here, even though atm there are only few different ones.
+            _httpFactory = factory;
 
             Url = new AsyncLazy<string>(async () =>
             {
@@ -52,7 +56,7 @@ namespace NadekoBot.Modules.Games.Common
                         }
 
                         string url;
-                        using (var http = new HttpClient())
+                        using (var http = _httpFactory.CreateClient())
                         using (var imgStream = new MemoryStream())
                         {
                             img.SaveAsPng(imgStream);
@@ -60,8 +64,10 @@ namespace NadekoBot.Modules.Games.Common
                             {
                                 http.AddFakeHeaders();
 
-                                var reponse = await http.PutAsync("https://transfer.sh/img.png", byteContent).ConfigureAwait(false);
-                                url = await reponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                                using (var reponse = await http.PutAsync("https://transfer.sh/img.png", byteContent).ConfigureAwait(false))
+                                {
+                                    url = await reponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                                }
                             }
                         }
                         return url;

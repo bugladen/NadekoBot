@@ -12,11 +12,13 @@ namespace NadekoBot.Modules.Games.Common.ChatterBot
         private static NadekoRandom Rng { get; } = new NadekoRandom();
 
         private readonly string _chatterBotId;
+        private readonly IHttpClientFactory _httpFactory;
         private int _botId = 6;
 
-        public ChatterBotSession()
+        public ChatterBotSession(IHttpClientFactory httpFactory)
         {
             _chatterBotId = Rng.Next(0, 1000000).ToString().ToBase64();
+            _httpFactory = httpFactory;
         }
 
         private string apiEndpoint => "http://api.program-o.com/v2/chatbot/" +
@@ -27,7 +29,7 @@ namespace NadekoBot.Modules.Games.Common.ChatterBot
 
         public async Task<string> Think(string message)
         {
-            using (var http = new HttpClient())
+            using (var http = _httpFactory.CreateClient())
             {
                 var res = await http.GetStringAsync(string.Format(apiEndpoint, message)).ConfigureAwait(false);
                 var cbr = JsonConvert.DeserializeObject<ChatterBotResponse>(res);

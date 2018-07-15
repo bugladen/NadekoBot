@@ -6,6 +6,7 @@ using NadekoBot.Core.Services;
 using NadekoBot.Modules.CustomReactions.Services;
 using NadekoBot.Core.Common.TypeReaders;
 using Discord.WebSocket;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace NadekoBot.Common.TypeReaders
 {
@@ -17,8 +18,8 @@ namespace NadekoBot.Common.TypeReaders
 
         public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider services)
         {
-            var _cmds = ((INServiceProvider)services).GetService<CommandService>();
-            var _cmdHandler = ((INServiceProvider)services).GetService<CommandHandler>();
+            var _cmds = services.GetService<CommandService>();
+            var _cmdHandler = services.GetService<CommandHandler>();
             input = input.ToUpperInvariant();
             var prefix = _cmdHandler.GetPrefix(context.Guild);
             if (!input.StartsWith(prefix.ToUpperInvariant(), StringComparison.InvariantCulture))
@@ -49,7 +50,7 @@ namespace NadekoBot.Common.TypeReaders
         {
             input = input.ToUpperInvariant();
 
-            var _crs = ((INServiceProvider)services).GetService<CustomReactionsService>();
+            var _crs = services.GetService<CustomReactionsService>();
 
             if (_crs.GlobalReactions.Any(x => x.Trigger.ToUpperInvariant() == input))
             {

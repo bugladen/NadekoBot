@@ -8,6 +8,7 @@ using NadekoBot.Common.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Games.Common;
 using NadekoBot.Modules.Games.Services;
+using System.Net.Http;
 
 namespace NadekoBot.Modules.Games
 {
@@ -18,11 +19,13 @@ namespace NadekoBot.Modules.Games
     public partial class Games : NadekoTopLevelModule<GamesService>
     {
         private readonly IImageCache _images;
+        private readonly IHttpClientFactory _httpFactory;
         private readonly Random _rng = new Random();
 
-        public Games(IDataCache data)
+        public Games(IDataCache data, IHttpClientFactory factory)
         {
             _images = data.LocalImages;
+            _httpFactory = factory;
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -133,7 +136,7 @@ namespace NadekoBot.Modules.Games
                          "and maybe look at how to replicate that.";
             }
 
-            return new GirlRating(_images, crazy, hot, roll, advice);
+            return new GirlRating(_images, _httpFactory, crazy, hot, roll, advice);
         }
 
         [NadekoCommand, Usage, Description, Aliases]

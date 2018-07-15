@@ -33,8 +33,7 @@ namespace NadekoBot.Modules.Searches.Services
 {
     public class SearchesService : INService, IUnloadableService
     {
-        public HttpClient Http { get; }
-
+        private readonly IHttpClientFactory _httpFactory;
         private readonly DiscordSocketClient _client;
         private readonly IGoogleApiService _google;
         private readonly DbService _db;
@@ -70,9 +69,11 @@ namespace NadekoBot.Modules.Searches.Services
 
                 if (data == null)
                 {
-                    data = await Http.GetStringAsync(new Uri("https://api.coinmarketcap.com/v1/ticker/"))
-                        .ConfigureAwait(false);
-
+                    using (var http = _httpFactory.CreateClient())
+                    {
+                        data = await http.GetStringAsync(new Uri("https://api.coinmarketcap.com/v1/ticker/"))
+                            .ConfigureAwait(false);
+                    }
                     await r.StringSetAsync("crypto_data", data, TimeSpan.FromHours(1)).ConfigureAwait(false);
                 }
             }
@@ -85,11 +86,10 @@ namespace NadekoBot.Modules.Searches.Services
         }
 
         public SearchesService(DiscordSocketClient client, IGoogleApiService google,
-            DbService db, NadekoBot bot, IDataCache cache,
+            DbService db, NadekoBot bot, IDataCache cache, IHttpClientFactory factory,
             FontProvider fonts)
         {
-            Http = new HttpClient();
-            Http.AddFakeHeaders();
+            _httpFactory = factory;
             _client = client;
             _google = google;
             _db = db;
@@ -155,7 +155,8 @@ namespace NadekoBot.Modules.Searches.Services
             var (succ, data) = await _cache.TryGetImageDataAsync(imgUrl).ConfigureAwait(false);
             if (!succ)
             {
-                using (var temp = await Http.GetAsync(imgUrl, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
+                using (var http = _httpFactory.CreateClient())
+                using (var temp = await http.GetAsync(imgUrl, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
                 {
                     if (!temp.IsImage())
                     {
@@ -289,8 +290,11 @@ namespace NadekoBot.Modules.Searches.Services
 
         public async Task<string> GetYomamaJoke()
         {
-            var response = await Http.GetStringAsync(new Uri("http://api.yomomma.info/")).ConfigureAwait(false);
-            return JObject.Parse(response)["joke"].ToString() + " 😆";
+            using (var http = _httpFactory.CreateClient())
+            {
+                var response = await http.GetStringAsync(new Uri("http://api.yomomma.info/")).ConfigureAwait(false);
+                return JObject.Parse(response)["joke"].ToString() + " 😆";
+            }
         }
 
         public static async Task<(string Text, string BaseUri)> GetRandomJoke()
@@ -309,8 +313,11 @@ namespace NadekoBot.Modules.Searches.Services
 
         public async Task<string> GetChuckNorrisJoke()
         {
-            var response = await Http.GetStringAsync(new Uri("http://api.icndb.com/jokes/random/")).ConfigureAwait(false);
-            return JObject.Parse(response)["value"]["joke"].ToString() + " 😆";
+            using (var http = _httpFactory.CreateClient())
+            {
+                var response = await http.GetStringAsync(new Uri("http://api.icndb.com/jokes/random/")).ConfigureAwait(false);
+                return JObject.Parse(response)["value"]["joke"].ToString() + " 😆";
+            }
         }
 
         public Task Unload()

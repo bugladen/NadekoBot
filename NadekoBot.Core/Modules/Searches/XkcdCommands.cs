@@ -15,6 +15,12 @@ namespace NadekoBot.Modules.Searches
         public class XkcdCommands : NadekoSubmodule
         {
             private const string _xkcdUrl = "https://xkcd.com";
+            private readonly IHttpClientFactory _httpFactory;
+
+            public XkcdCommands(IHttpClientFactory factory)
+            {
+                _httpFactory = factory;
+            }
 
             [NadekoCommand, Usage, Description, Aliases]
             [Priority(0)]
@@ -22,13 +28,13 @@ namespace NadekoBot.Modules.Searches
             {
                 if (arg?.ToLowerInvariant().Trim() == "latest")
                 {
-                    using (var http = new HttpClient())
+                    using (var http = _httpFactory.CreateClient())
                     {
                         var res = await http.GetStringAsync($"{_xkcdUrl}/info.0.json").ConfigureAwait(false);
                         var comic = JsonConvert.DeserializeObject<XkcdComic>(res);
                         var embed = new EmbedBuilder().WithColor(NadekoBot.OkColor)
                                                   .WithImageUrl(comic.ImageLink)
-                                                  .WithAuthor(eab => eab.WithName(comic.Title).WithUrl($"{_xkcdUrl}/{comic.Num}").WithIconUrl("http://xkcd.com/s/919f27.ico"))
+                                                  .WithAuthor(eab => eab.WithName(comic.Title).WithUrl($"{_xkcdUrl}/{comic.Num}").WithIconUrl("https://xkcd.com/s/919f27.ico"))
                                                   .AddField(efb => efb.WithName(GetText("comic_number")).WithValue(comic.Num.ToString()).WithIsInline(true))
                                                   .AddField(efb => efb.WithName(GetText("date")).WithValue($"{comic.Month}/{comic.Year}").WithIsInline(true));
                         var sent = await Context.Channel.EmbedAsync(embed)
@@ -50,7 +56,7 @@ namespace NadekoBot.Modules.Searches
                 if (num < 1)
                     return;
 
-                using (var http = new HttpClient())
+                using (var http = _httpFactory.CreateClient())
                 {
                     var res = await http.GetStringAsync($"{_xkcdUrl}/{num}/info.0.json").ConfigureAwait(false);
 

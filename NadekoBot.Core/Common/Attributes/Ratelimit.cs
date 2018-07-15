@@ -3,6 +3,7 @@ using NadekoBot.Core.Services;
 using NadekoBot.Extensions;
 using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace NadekoBot.Core.Common.Attributes
 {
@@ -25,7 +26,7 @@ namespace NadekoBot.Core.Common.Attributes
             if (Seconds == 0)
                 return Task.FromResult(PreconditionResult.FromSuccess());
 
-            var cache = (IDataCache)services.GetService(typeof(IDataCache));
+            var cache = services.GetService<IDataCache>();
             var rem = cache.TryAddRatelimit(context.User.Id, command.Name, Seconds);
 
             if(rem == null)
