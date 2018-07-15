@@ -26,14 +26,16 @@ namespace NadekoBot.Modules.Administration
             private readonly NadekoBot _bot;
             private readonly IBotCredentials _creds;
             private readonly IDataCache _cache;
+            private readonly IHttpClientFactory _http;
 
             public SelfCommands(NadekoBot bot, DiscordSocketClient client,
-                IBotCredentials creds, IDataCache cache)
+                IBotCredentials creds, IDataCache cache, IHttpClientFactory http)
             {
                 _client = client;
                 _bot = bot;
                 _creds = creds;
                 _cache = cache;
+                _http = http;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -396,7 +398,7 @@ namespace NadekoBot.Modules.Administration
 
                 var uri = new Uri(img);
 
-                using (var http = new HttpClient())
+                using (var http = _http.CreateClient())
                 using (var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
                 {
                     if (!sr.IsImage())
@@ -509,7 +511,7 @@ namespace NadekoBot.Modules.Administration
             public async Task ImagesReload()
             {
                 _service.ReloadImages();
-                await ReplyConfirmLocalized("images_loaded", 0).ConfigureAwait(false);
+                await ReplyConfirmLocalized("images_loading", 0).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]

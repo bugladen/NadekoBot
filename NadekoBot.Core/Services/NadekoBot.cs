@@ -17,9 +17,10 @@ using NadekoBot.Extensions;
 using System.Collections.Generic;
 using NadekoBot.Common;
 using NadekoBot.Common.ShardCom;
-using NadekoBot.Core.Services.Database;
 using StackExchange.Redis;
 using Newtonsoft.Json;
+using Microsoft.Extensions.DependencyInjection;
+using System.Net.Http;
 
 namespace NadekoBot
 {
@@ -45,7 +46,7 @@ namespace NadekoBot
 
         public TaskCompletionSource<bool> Ready { get; private set; } = new TaskCompletionSource<bool>();
 
-        public INServiceProvider Services { get; private set; }
+        public IServiceProvider Services { get; private set; }
 
         private readonly BotConfig _botConfig;
         public IDataCache Cache { get; private set; }
@@ -55,14 +56,6 @@ namespace NadekoBot
                 .ListRange(Credentials.RedisKey() + "_shardstats")
                 .Select(x => JsonConvert.DeserializeObject<ShardComMessage>(x))
                 .Sum(x => x.Guilds);
-
-        //public int[] ShardGuildCounts =>
-        //    Cache.Redis.GetDatabase()
-        //        .ListRange(Credentials.RedisKey() + "_shardstats")
-        //        .Select(x => JsonConvert.DeserializeObject<ShardComMessage>(x))
-        //        .OrderBy(x => x.ShardId)
-        //        .Select(x => x.Guilds)
-        //        .ToArray();
 
         public event Func<GuildConfig, Task> JoinedGuild = delegate { return Task.CompletedTask; };
 
@@ -142,29 +135,40 @@ namespace NadekoBot
             //this unit of work will be used for initialization of all modules too, to prevent multiple queries from running
             using (var uow = _db.UnitOfWork)
             {
+                var sw = Stopwatch.StartNew();
+
                 AllGuildConfigs = uow.GuildConfigs.GetAllGuildConfigs(startingGuildIdList).ToImmutableArray();
 
                 IBotConfigProvider botConfigProvider = new BotConfigProvider(_db, _botConfig, Cache);
 
+                var s = new ServiceCollection()
+                    .AddSingleton<IBotCredentials>(Credentials)
+                    .AddSingleton(_db)
+                    .AddSingleton(Client)
+                    .AddSingleton(CommandService)
+                    .AddSingleton(botConfigProvider)
+                    .AddSingleton(this)
+                    .AddSingleton(uow)
+                    .AddSingleton(Cache);
+
+                s.AddHttpClient();
+                s.AddHttpClient("memelist").ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+                {
+                    AllowAutoRedirect = false
+                });
+
+                s.LoadFrom(Assembly.GetAssembly(typeof(CommandHandler)));
+
                 //initialize Services
-                Services = new NServiceProvider()
-                    .AddManual<IBotCredentials>(Credentials)
-                    .AddManual(_db)
-                    .AddManual(Client)
-                    .AddManual(CommandService)
-                    .AddManual(botConfigProvider)
-                    .AddManual<NadekoBot>(this)
-                    .AddManual<IUnitOfWork>(uow)
-                    .AddManual<IDataCache>(Cache);
-
-                Services.LoadFrom(Assembly.GetAssembly(typeof(CommandHandler)));
-
+                Services = s.BuildServiceProvider();
                 var commandHandler = Services.GetService<CommandHandler>();
-                commandHandler.AddServices(Services);
-
+                //what the fluff
+                commandHandler.AddServices(s);
                 LoadTypeReaders(typeof(NadekoBot).Assembly);
+
+                sw.Stop();
+                _log.Info($"All services loaded in {sw.Elapsed.TotalSeconds:F2}s");
             }
-            Services.Unload(typeof(IUnitOfWork)); // unload it after the startup
         }
 
         private IEnumerable<object> LoadTypeReaders(Assembly assembly)
@@ -294,8 +298,8 @@ namespace NadekoBot
             // start handling messages received in commandhandler
             await commandHandler.StartHandling().ConfigureAwait(false);
 
-            var _ = await CommandService.AddModulesAsync(this.GetType().GetTypeInfo().Assembly, Services).ConfigureAwait(false);
-
+            var _ = await CommandService.AddModulesAsync(this.GetType().GetTypeInfo().Assembly, Services)
+                .ConfigureAwait(false);
 
             bool isPublicNadeko = false;
 #if GLOBAL_NADEKO
@@ -409,114 +413,5 @@ namespace NadekoBot
             var sub = Services.GetService<IDataCache>().Redis.GetSubscriber();
             return sub.PublishAsync(Client.CurrentUser.Id + "_status.stream_set", JsonConvert.SerializeObject(obj));
         }
-
-        //private readonly Dictionary<string, (IEnumerable<ModuleInfo> Modules, IEnumerable<Type> Types)> _loadedPackages = new Dictionary<string, (IEnumerable<ModuleInfo>, IEnumerable<Type>)>();
-        //private readonly SemaphoreSlim _packageLocker = new SemaphoreSlim(1, 1);
-        //public IEnumerable<string> LoadedPackages => _loadedPackages.Keys;
-
-        ///// <summary>
-        ///// Unloads a package
-        ///// </summary>
-        ///// <param name="name">Package name. Case sensitive.</param>
-        ///// <returns>Whether the unload is successful.</returns>
-        //public async Task<bool> UnloadPackage(string name)
-        //{
-        //    await _packageLocker.WaitAsync().ConfigureAwait(false);
-        //    try
-        //    {
-        //        if (!_loadedPackages.Remove(name, out var data))
-        //            return false;
-
-        //        var modules = data.Modules;
-        //        var types = data.Types;
-
-        //        var i = 0;
-        //        foreach (var m in modules)
-        //        {
-        //            await CommandService.RemoveModuleAsync(m).ConfigureAwait(false);
-        //            i++;
-        //        }
-        //        _log.Info("Unloaded {0} modules.", i);
-
-        //        if (types != null && types.Any())
-        //        {
-        //            i = 0;
-        //            foreach (var t in types)
-        //            {
-        //                var obj = Services.Unload(t);
-        //                if (obj is IUnloadableService s)
-        //                    await s.Unload().ConfigureAwait(false);
-        //                i++;
-        //            }
-
-        //            _log.Info("Unloaded {0} types.", i);
-        //        }
-        //        using (var uow = _db.UnitOfWork)
-        //        {
-        //            uow.BotConfig.GetOrCreate().LoadedPackages.Remove(new LoadedPackage
-        //            {
-        //                Name = name,
-        //            });
-        //        }
-        //        return true;
-        //    }
-        //    finally
-        //    {
-        //        _packageLocker.Release();
-        //    }
-        //}
-        ///// <summary>
-        ///// Loads a package
-        ///// </summary>
-        ///// <param name="name">Name of the package to load. Case sensitive.</param>
-        ///// <returns>Whether the load is successful.</returns>
-        //public async Task<bool> LoadPackage(string name)
-        //{
-        //    await _packageLocker.WaitAsync().ConfigureAwait(false);
-        //    try
-        //    {
-        //        if (_loadedPackages.ContainsKey(name))
-        //            return false;
-
-        //        var startingGuildIdList = Client.Guilds.Select(x => x.Id).ToList();
-        //        using (var uow = _db.UnitOfWork)
-        //        {
-        //            AllGuildConfigs = uow.GuildConfigs.GetAllGuildConfigs(startingGuildIdList).ToImmutableArray();
-        //        }
-
-        //        var domain = new Context();
-        //        var package = domain.LoadFromAssemblyPath(Path.Combine(AppContext.BaseDirectory,
-        //                                        "modules",
-        //                                        $"NadekoBot.Modules.{name}",
-        //                                        $"NadekoBot.Modules.{name}.dll"));
-        //        //var package = Assembly.LoadFile(Path.Combine(AppContext.BaseDirectory,
-        //        //                                "modules",
-        //        //                                $"NadekoBot.Modules.{name}",
-        //        //                                $"NadekoBot.Modules.{name}.dll"));
-        //        var types = Services.LoadFrom(package);
-        //        var added = await CommandService.AddModulesAsync(package).ConfigureAwait(false);
-        //        var trs = LoadTypeReaders(package); 
-        //        /* i don't have to unload typereaders
-        //         * (and there's no api for it)
-        //         * because they get overwritten anyway, and since 
-        //         * the only time I'd unload typereaders, is when unloading a module
-        //         * which means they won't have a chance to be used
-        //         * */
-        //        _log.Info("Loaded {0} modules and {1} types.", added.Count(), types.Count());
-        //        _loadedPackages.Add(name, (added, types));
-        //        using (var uow = _db.UnitOfWork)
-        //        {
-        //            uow.BotConfig.GetOrCreate().LoadedPackages.Add(new LoadedPackage
-        //            {
-        //                Name = name,
-        //            });
-        //        }
-        //        return true;
-        //    }
-        //    finally
-        //    {
-        //        _packageLocker.Release();
-        //    }
-        //}
     }
 }

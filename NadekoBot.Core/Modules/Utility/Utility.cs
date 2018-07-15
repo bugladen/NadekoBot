@@ -24,25 +24,27 @@ namespace NadekoBot.Modules.Utility
         private readonly IBotCredentials _creds;
         private readonly NadekoBot _bot;
         private readonly DbService _db;
+        private readonly IHttpClientFactory _httpFactory;
 
-        public Utility(NadekoBot nadeko, DiscordSocketClient client, 
+        public Utility(NadekoBot nadeko, DiscordSocketClient client,
             IStatsService stats, IBotCredentials creds,
-            DbService db)
+            DbService db, IHttpClientFactory factory)
         {
             _client = client;
             _stats = stats;
             _creds = creds;
             _bot = nadeko;
-            _db = db;            
+            _db = db;
+            _httpFactory = factory;
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         public async Task TogetherTube()
         {
             Uri target;
-            using (var http = new HttpClient())
+            using (var http = _httpFactory.CreateClient())
+            using (var res = await http.GetAsync("https://togethertube.com/room/create").ConfigureAwait(false))
             {
-                var res = await http.GetAsync("https://togethertube.com/room/create").ConfigureAwait(false);
                 target = res.RequestMessage.RequestUri;
             }
 
@@ -50,7 +52,7 @@ namespace NadekoBot.Modules.Utility
                 .WithAuthor(eab => eab.WithIconUrl("https://togethertube.com/assets/img/favicons/favicon-32x32.png")
                 .WithName("Together Tube")
                 .WithUrl("https://togethertube.com/"))
-                .WithDescription(Context.User.Mention + " " + GetText("togtub_room_link") +  "\n" + target)).ConfigureAwait(false);
+                .WithDescription(Context.User.Mention + " " + GetText("togtub_room_link") + "\n" + target)).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -175,8 +177,8 @@ namespace NadekoBot.Modules.Utility
                 }
                 else
                 {
-                    
-                    await channel.SendConfirmAsync(GetText("roles_page", page, Format.Bold(target.ToString())), 
+
+                    await channel.SendConfirmAsync(GetText("roles_page", page, Format.Bold(target.ToString())),
                         "\n• " + string.Join("\n• ", (IEnumerable<IRole>)roles).SanitizeMentions()).ConfigureAwait(false);
                 }
             }

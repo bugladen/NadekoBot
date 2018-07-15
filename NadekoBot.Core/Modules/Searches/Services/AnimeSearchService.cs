@@ -15,13 +15,13 @@ namespace NadekoBot.Modules.Searches.Services
     {
         private readonly Logger _log;
         private readonly IDataCache _cache;
-        private readonly HttpClient _http;
+        private readonly IHttpClientFactory _httpFactory;
 
-        public AnimeSearchService(IDataCache cache)
+        public AnimeSearchService(IDataCache cache, IHttpClientFactory httpFactory)
         {
             _log = LogManager.GetCurrentClassLogger();
             _cache = cache;
-            _http = new HttpClient();
+            _httpFactory = httpFactory;
         }
 
         public async Task<AnimeResult> GetAnimeData(string query)
@@ -36,7 +36,10 @@ namespace NadekoBot.Modules.Searches.Services
                 var (ok, data) = await _cache.TryGetAnimeDataAsync(link).ConfigureAwait(false);
                 if (!ok)
                 {
-                    data = await _http.GetStringAsync(link).ConfigureAwait(false);
+                    using (var http = _httpFactory.CreateClient())
+                    {
+                        data = await http.GetStringAsync(link).ConfigureAwait(false);
+                    }
                     await _cache.SetAnimeDataAsync(link, data).ConfigureAwait(false);
                 }
 
@@ -139,7 +142,10 @@ namespace NadekoBot.Modules.Searches.Services
                 var (ok, data) = await _cache.TryGetAnimeDataAsync(link).ConfigureAwait(false);
                 if (!ok)
                 {
-                    data = await _http.GetStringAsync(link).ConfigureAwait(false);
+                    using (var http = _httpFactory.CreateClient())
+                    {
+                        data = await http.GetStringAsync(link).ConfigureAwait(false);
+                    }
                     await _cache.SetAnimeDataAsync(link, data).ConfigureAwait(false);
                 }
 

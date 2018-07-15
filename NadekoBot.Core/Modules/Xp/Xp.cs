@@ -276,5 +276,15 @@ namespace NadekoBot.Modules.Xp
         [RequireUserPermission(GuildPermission.Administrator)]
         public Task XpAdd(int amount, [Remainder] IGuildUser user)
             => XpAdd(amount, user.Id);
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [OwnerOnly]
+        public async Task XpTemplateReload()
+        {
+            _service.ReloadXpTemplate();
+            await Task.Delay(1000).ConfigureAwait(false);
+            await ReplyConfirmLocalized("template_reloaded").ConfigureAwait(false);
+        }
     }
 }

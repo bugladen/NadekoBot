@@ -28,11 +28,12 @@ namespace NadekoBot.Modules.Utility.Services
         private readonly DbService _db;
         private readonly ICurrencyService _currency;
         private readonly IBotConfigProvider _bc;
+        private readonly IHttpClientFactory _httpFactory;
 
         public DateTime LastUpdate { get; private set; } = DateTime.UtcNow;
 
         public PatreonRewardsService(IBotCredentials creds, DbService db,
-            ICurrencyService currency,
+            ICurrencyService currency, IHttpClientFactory factory,
             DiscordSocketClient client, IBotConfigProvider bc)
         {
             _log = LogManager.GetCurrentClassLogger();
@@ -40,6 +41,7 @@ namespace NadekoBot.Modules.Utility.Services
             _db = db;
             _currency = currency;
             _bc = bc;
+            _httpFactory = factory;
 
             if (client.ShardId == 0)
                 _updater = new Timer(async _ => await RefreshPledges().ConfigureAwait(false),
@@ -57,7 +59,7 @@ namespace NadekoBot.Modules.Utility.Services
             {
                 var rewards = new List<PatreonPledge>();
                 var users = new List<PatreonUser>();
-                using (var http = new HttpClient())
+                using (var http = _httpFactory.CreateClient())
                 {
                     http.DefaultRequestHeaders.Clear();
                     http.DefaultRequestHeaders.Add("Authorization", "Bearer " + _creds.PatreonAccessToken);

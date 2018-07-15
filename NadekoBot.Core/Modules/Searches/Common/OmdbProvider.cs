@@ -12,9 +12,9 @@ namespace NadekoBot.Modules.Searches.Common
     {
         private const string queryUrl = "https://omdbapi.nadekobot.me/?t={0}&y=&plot=full&r=json";
 
-        public static async Task<OmdbMovie> FindMovie(string name, IGoogleApiService google)
+        public static async Task<OmdbMovie> FindMovie(string name, IGoogleApiService google, IHttpClientFactory factory)
         {
-            using (var http = new HttpClient())
+            using (var http = factory.CreateClient())
             {
                 var res = await http.GetStringAsync(String.Format(queryUrl,name.Trim().Replace(' ','+'))).ConfigureAwait(false);
                 var movie = JsonConvert.DeserializeObject<OmdbMovie>(res);

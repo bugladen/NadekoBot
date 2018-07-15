@@ -30,7 +30,7 @@ namespace NadekoBot.Modules.Searches
         {
             try
             {
-                using (var http = new HttpClient())
+                using (var http = _httpFactory.CreateClient())
                 {
                     var data = JArray.Parse(await http.GetStringAsync($"http://api.champion.gg/v2/champions?champData=general&limit=200&api_key={_creds.LoLApiKey}").ConfigureAwait(false));
 

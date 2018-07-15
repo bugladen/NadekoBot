@@ -23,7 +23,7 @@ namespace NadekoBot.Core.Services.Impl
         private readonly IBotCredentials _creds;
         private readonly DateTime _started;
 
-        public const string BotVersion = "2.24.6";
+        public const string BotVersion = "2.25.1";
         public string Author => "Kwoth#2560";
         public string Library => "Discord.Net";
 
@@ -44,14 +44,16 @@ namespace NadekoBot.Core.Services.Impl
         private readonly Timer _botlistTimer;
         private readonly Timer _dataTimer;
         private readonly ConnectionMultiplexer _redis;
+        private readonly IHttpClientFactory _httpFactory;
 
         public StatsService(DiscordSocketClient client, CommandHandler cmdHandler,
-            IBotCredentials creds, NadekoBot nadeko, IDataCache cache)
+            IBotCredentials creds, NadekoBot nadeko, IDataCache cache, IHttpClientFactory factory)
         {
             _log = LogManager.GetCurrentClassLogger();
             _client = client;
             _creds = creds;
             _redis = cache.Redis;
+            _httpFactory = factory;
 
             _started = DateTime.UtcNow;
             _client.MessageReceived += _ => Task.FromResult(Interlocked.Increment(ref _messageCounter));
@@ -141,7 +143,7 @@ namespace NadekoBot.Core.Services.Impl
                         return;
                     try
                     {
-                        using (var http = new HttpClient())
+                        using (var http = _httpFactory.CreateClient())
                         {
                             using (var content = new FormUrlEncodedContent(
                                 new Dictionary<string, string> {
@@ -151,7 +153,7 @@ namespace NadekoBot.Core.Services.Impl
                                 content.Headers.Clear();
                                 content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
 
-                                await http.PostAsync(new Uri("https://www.carbonitex.net/discord/data/botdata.php"), content).ConfigureAwait(false);
+                                using (await http.PostAsync(new Uri("https://www.carbonitex.net/discord/data/botdata.php"), content).ConfigureAwait(false)) { }
                             }
                         }
                     }
@@ -168,7 +170,7 @@ namespace NadekoBot.Core.Services.Impl
                     return;
                 try
                 {
-                    using (var http = new HttpClient())
+                    using (var http = _httpFactory.CreateClient())
                     {
                         using (var content = new FormUrlEncodedContent(
                             new Dictionary<string, string> {
@@ -181,7 +183,7 @@ namespace NadekoBot.Core.Services.Impl
                             content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
                             http.DefaultRequestHeaders.Add("Authorization", _creds.BotListToken);
 
-                            await http.PostAsync(new Uri($"https://discordbots.org/api/bots/{client.CurrentUser.Id}/stats"), content).ConfigureAwait(false);
+                            using (await http.PostAsync(new Uri($"https://discordbots.org/api/bots/{client.CurrentUser.Id}/stats"), content).ConfigureAwait(false)) { }
                         }
                     }
                 }
@@ -204,7 +206,7 @@ namespace NadekoBot.Core.Services.Impl
             {
                 try
                 {
-                    using (var http = new HttpClient())
+                    using (var http = _httpFactory.CreateClient())
                     {
                         using (var content = new FormUrlEncodedContent(
                             new Dictionary<string, string> {
@@ -216,7 +218,7 @@ namespace NadekoBot.Core.Services.Impl
                             content.Headers.Clear();
                             content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
 
-                            await http.PostAsync(new Uri("https://selfstats.nadekobot.me/"), content).ConfigureAwait(false);
+                            using (await http.PostAsync(new Uri("https://selfstats.nadekobot.me/"), content).ConfigureAwait(false)) { }
                         }
                     }
                 }

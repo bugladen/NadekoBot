@@ -403,9 +403,7 @@ namespace NadekoBot.Modules.Administration.Services
         public void ReloadImages()
         {
             var sub = _cache.Redis.GetSubscriber();
-            sub.Publish(_creds.RedisKey() + "_reload_images",
-                "",
-                CommandFlags.FireAndForget);
+            sub.Publish(_creds.RedisKey() + "_reload_images", "");
         }
 
         public void Die()

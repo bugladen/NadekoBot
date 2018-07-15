@@ -12,10 +12,11 @@ using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Impl;
 using NLog;
 using NadekoBot.Modules.Games.Common.ChatterBot;
+using System.Net.Http;
 
 namespace NadekoBot.Modules.Games.Services
 {
-    public class ChatterBotService : IEarlyBlockingExecutor, INService
+    public class ChatterBotService : IEarlyBehavior, INService
     {
         private readonly DiscordSocketClient _client;
         private readonly Logger _log;
@@ -23,11 +24,15 @@ namespace NadekoBot.Modules.Games.Services
         private readonly CommandHandler _cmd;
         private readonly NadekoStrings _strings;
         private readonly IBotCredentials _creds;
+        private readonly IHttpClientFactory _httpFactory;
 
         public ConcurrentDictionary<ulong, Lazy<IChatterBotSession>> ChatterBotGuilds { get; }
 
+        public int Priority => -1;
+        public ModuleBehaviorType BehaviorType => ModuleBehaviorType.Executor;
+
         public ChatterBotService(DiscordSocketClient client, PermissionService perms,
-            NadekoBot bot, CommandHandler cmd, NadekoStrings strings,
+            NadekoBot bot, CommandHandler cmd, NadekoStrings strings, IHttpClientFactory factory,
             IBotCredentials creds)
         {
             _client = client;
@@ -36,6 +41,7 @@ namespace NadekoBot.Modules.Games.Services
             _cmd = cmd;
             _strings = strings;
             _creds = creds;
+            _httpFactory = factory;
 
             ChatterBotGuilds = new ConcurrentDictionary<ulong, Lazy<IChatterBotSession>>(
                     bot.AllGuildConfigs
@@ -46,9 +52,9 @@ namespace NadekoBot.Modules.Games.Services
         public IChatterBotSession CreateSession()
         {
             if (!string.IsNullOrWhiteSpace(_creds.CleverbotApiKey))
-                return new OfficialCleverbotSession(_creds.CleverbotApiKey);
+                return new OfficialCleverbotSession(_creds.CleverbotApiKey, _httpFactory);
             else
-                return new CleverbotIOSession("GAh3wUfzDCpDpdpT", "RStKgqn7tcO9blbrv4KbXM8NDlb7H37C");
+                return new CleverbotIOSession("GAh3wUfzDCpDpdpT", "RStKgqn7tcO9blbrv4KbXM8NDlb7H37C", _httpFactory);
         }
 
         public string PrepareMessage(IUserMessage msg, out IChatterBotSession cleverbot)
@@ -100,7 +106,7 @@ namespace NadekoBot.Modules.Games.Services
             return true;
         }
 
-        public async Task<bool> TryExecuteEarly(DiscordSocketClient client, IGuild guild, IUserMessage usrMsg)
+        public async Task<bool> RunBehavior(DiscordSocketClient client, IGuild guild, IUserMessage usrMsg)
         {
             if (!(guild is SocketGuild sg))
                 return false;

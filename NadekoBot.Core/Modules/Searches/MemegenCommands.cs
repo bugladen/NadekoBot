@@ -29,23 +29,23 @@ namespace NadekoBot.Modules.Searches
                 {'"', "''"}
 
             }.ToImmutableDictionary();
+            private readonly IHttpClientFactory _httpFactory;
+
+            public MemegenCommands(IHttpClientFactory factory)
+            {
+                _httpFactory = factory;
+            }
 
             [NadekoCommand, Usage, Description, Aliases]
             public async Task Memelist()
             {
-                var handler = new HttpClientHandler
-                {
-                    AllowAutoRedirect = false
-                };
-
-
-                using (var http = new HttpClient(handler))
+                using (var http = _httpFactory.CreateClient("memelist"))
                 {
                     var rawJson = await http.GetStringAsync("https://memegen.link/api/templates/").ConfigureAwait(false);
                     var data = JsonConvert.DeserializeObject<Dictionary<string, string>>(rawJson)
                         .Select(kvp => Path.GetFileName(kvp.Value));
 
-                    await Context.Channel.SendTableAsync(data, x => $"{x,-17}", 3).ConfigureAwait(false);
+                    await Context.Channel.SendTableAsync(data, x => $"{x,-15}", 3).ConfigureAwait(false);
                 }
             }
 

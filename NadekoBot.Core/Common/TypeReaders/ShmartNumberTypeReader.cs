@@ -5,6 +5,7 @@ using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Core.Services;
 using NLog;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace NadekoBot.Core.Common.TypeReaders
 {
@@ -69,7 +70,7 @@ namespace NadekoBot.Core.Common.TypeReaders
 
         private static long Cur(IServiceProvider services, ICommandContext ctx)
         {
-            var _db = (DbService)services.GetService(typeof(DbService));
+            var _db = services.GetService<DbService>();
             long cur;
             using (var uow = _db.UnitOfWork)
             {
@@ -81,7 +82,7 @@ namespace NadekoBot.Core.Common.TypeReaders
 
         private static long Max(IServiceProvider services, ICommandContext ctx)
         {
-            var _bc = (IBotConfigProvider)services.GetService(typeof(IBotConfigProvider));
+            var _bc = services.GetService<IBotConfigProvider>();
             var max = _bc.BotConfig.MaxBet;
             return max == 0
                 ? Cur(services, ctx)

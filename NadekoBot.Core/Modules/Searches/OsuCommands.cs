@@ -20,11 +20,13 @@ namespace NadekoBot.Modules.Searches
         {
             private readonly IGoogleApiService _google;
             private readonly IBotCredentials _creds;
+            private readonly IHttpClientFactory _httpFactory;
 
-            public OsuCommands(IGoogleApiService google, IBotCredentials creds)
+            public OsuCommands(IGoogleApiService google, IBotCredentials creds, IHttpClientFactory factory)
             {
                 _google = google;
                 _creds = creds;
+                _httpFactory = factory;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -33,7 +35,7 @@ namespace NadekoBot.Modules.Searches
                 if (string.IsNullOrWhiteSpace(usr))
                     return;
 
-                using (var http = new HttpClient())
+                using (var http = _httpFactory.CreateClient())
                 {
                     try
                     {
@@ -72,7 +74,7 @@ namespace NadekoBot.Modules.Searches
 
                 try
                 {
-                    using (var http = new HttpClient())
+                    using (var http = _httpFactory.CreateClient())
                     {
                         var mapId = ResolveMap(map);
                         var reqString = $"https://osu.ppy.sh/api/get_beatmaps?k={_creds.OsuApiKey}&{mapId}";
@@ -107,7 +109,7 @@ namespace NadekoBot.Modules.Searches
                     await channel.SendErrorAsync("Please provide a username.").ConfigureAwait(false);
                     return;
                 }
-                using (var http = new HttpClient())
+                using (var http = _httpFactory.CreateClient())
                 {
                     try
                     {

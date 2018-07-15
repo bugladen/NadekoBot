@@ -13,12 +13,12 @@ namespace NadekoBot.Modules.Xp.Services
     public class ClubService : INService
     {
         private readonly DbService _db;
-        private readonly HttpClient _http;
+        private readonly IHttpClientFactory _httpFactory;
 
-        public ClubService(DbService db)
+        public ClubService(DbService db, IHttpClientFactory _httpFactory)
         {
             _db = db;
-            _http = new HttpClient();
+            this._httpFactory = _httpFactory;
         }
 
         public bool CreateClub(IUser user, string clubName, out ClubInfo club)
@@ -110,7 +110,8 @@ namespace NadekoBot.Modules.Xp.Services
         {
             if (url != null)
             {
-                using (var temp = await _http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
+                using (var http = _httpFactory.CreateClient())
+                using (var temp = await http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
                 {
                     if (!temp.IsImage() || temp.GetImageSize() > 11)
                         return false;

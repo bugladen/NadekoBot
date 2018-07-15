@@ -84,7 +84,8 @@ namespace NadekoBot.Modules.Utility
                 }
 
                 var repeater = repeaterList[index];
-                rep.TryRemove(repeater.Value.Repeater.Id, out _);
+                if (rep.TryRemove(repeater.Value.Repeater.Id, out var runner))
+                    runner.Stop();
 
                 using (var uow = _db.UnitOfWork)
                 {
@@ -94,7 +95,7 @@ namespace NadekoBot.Modules.Utility
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
                 await Context.Channel.SendConfirmAsync(GetText("message_repeater"),
-                    GetText("repeater_stopped", index + 1) + $"\n\n{repeater}").ConfigureAwait(false);
+                    GetText("repeater_stopped", index + 1) + $"\n\n{repeater.Value}").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]

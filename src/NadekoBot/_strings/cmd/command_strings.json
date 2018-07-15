@@ -2165,13 +2165,6 @@
       "{0}mtg about face"
     ]
   },
-  "yodify": {
-    "Cmd": "yodify yoda",
-    "Desc": "Translates your normal sentences into Yoda styled sentences!",
-    "Usage": [
-      "{0}yoda my feelings hurt"
-    ]
-  },
   "attack": {
     "Cmd": "attack",
     "Desc": "Attacks a target with the given move. Use `{0}movelist` to see a list of moves your type can use.",
@@ -2927,7 +2920,15 @@
     "Cmd": "experience xp",
     "Desc": "Shows your xp stats. Specify the user to show that user's stats instead.",
     "Usage": [
-      "{0}xp"
+      "{0}xp",
+      "{0}xp @someguy"
+    ]
+  },
+  "xptemplatereload": {
+    "cmd": "xptempreload xptr",
+    "desc": "Reloads the xp template file. Xp template file allows you to customize the position and color of elements on the `{0}xp` card.",
+    "usage": [
+      "{0}xptr"
     ]
   },
   "xpexclusionlist": {
