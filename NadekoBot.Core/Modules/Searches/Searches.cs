@@ -235,7 +235,7 @@ namespace NadekoBot.Modules.Searches
             if (!(await ValidateQuery(Context.Channel, query).ConfigureAwait(false))) return;
             await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
 
-            var movie = await OmdbProvider.FindMovie(query, _google).ConfigureAwait(false);
+            var movie = await OmdbProvider.FindMovie(query, _google, _httpFactory).ConfigureAwait(false);
             if (movie == null)
             {
                 await ReplyErrorLocalized("imdb_fail").ConfigureAwait(false);

@@ -20,7 +20,7 @@ using NadekoBot.Common.ShardCom;
 using StackExchange.Redis;
 using Newtonsoft.Json;
 using Microsoft.Extensions.DependencyInjection;
-using NadekoBot.Core.Services.Database;
+using System.Net.Http;
 
 namespace NadekoBot
 {
@@ -149,8 +149,13 @@ namespace NadekoBot
                     .AddSingleton(botConfigProvider)
                     .AddSingleton(this)
                     .AddSingleton(uow)
-                    .AddSingleton(Cache)
-                    .AddHttpClient();
+                    .AddSingleton(Cache);
+
+                s.AddHttpClient();
+                s.AddHttpClient("memelist").ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+                {
+                    AllowAutoRedirect = false
+                });
 
                 s.LoadFrom(Assembly.GetAssembly(typeof(CommandHandler)));
 

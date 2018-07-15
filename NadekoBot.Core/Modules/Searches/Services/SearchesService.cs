@@ -235,13 +235,13 @@ namespace NadekoBot.Modules.Searches.Services
             {
                 var blacklistedTags = GetBlacklistedTags(guild.Value);
 
-                var cacher = _imageCacher.GetOrAdd(guild.Value, (key) => new SearchImageCacher());
+                var cacher = _imageCacher.GetOrAdd(guild.Value, (key) => new SearchImageCacher(_httpFactory));
 
                 return cacher.GetImage(tag, isExplicit, type, blacklistedTags);
             }
             else
             {
-                var cacher = _imageCacher.GetOrAdd(guild ?? 0, (key) => new SearchImageCacher());
+                var cacher = _imageCacher.GetOrAdd(guild ?? 0, (key) => new SearchImageCacher(_httpFactory));
 
                 return cacher.GetImage(tag, isExplicit, type);
             }

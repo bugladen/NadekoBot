@@ -20,16 +20,14 @@ namespace NadekoBot.Modules.Searches.Common
 
         private readonly SortedSet<ImageCacherObject> _cache;
         private readonly Logger _log;
-        private readonly HttpClient _http;
+        private readonly IHttpClientFactory _httpFactory;
 
-        public SearchImageCacher()
+        public SearchImageCacher(IHttpClientFactory factory)
         {
-            _http = new HttpClient();
-            _http.AddFakeHeaders();
-
             _log = LogManager.GetCurrentClassLogger();
             _rng = new NadekoRandom();
             _cache = new SortedSet<ImageCacherObject>();
+            _httpFactory = factory;
         }
 
         public async Task<ImageCacherObject> GetImage(string tag, bool forceExplicit, DapiSearchType type,
@@ -135,22 +133,28 @@ namespace NadekoBot.Modules.Searches.Common
             if (type == DapiSearchType.Konachan || type == DapiSearchType.Yandere ||
                 type == DapiSearchType.E621 || type == DapiSearchType.Danbooru)
             {
-                var data = await _http.GetStringAsync(website).ConfigureAwait(false);
-                return JsonConvert.DeserializeObject<DapiImageObject[]>(data)
-                    .Where(x => x.FileUrl != null)
-                    .Select(x => new ImageCacherObject(x, type))
-                    .ToArray();
+                using (var http = _httpFactory.CreateClient().AddFakeHeaders())
+                {
+                    var data = await http.GetStringAsync(website).ConfigureAwait(false);
+                    return JsonConvert.DeserializeObject<DapiImageObject[]>(data)
+                        .Where(x => x.FileUrl != null)
+                        .Select(x => new ImageCacherObject(x, type))
+                        .ToArray();
+                }
             }
 
             if (type == DapiSearchType.Derpibooru)
             {
-                var data = await _http.GetStringAsync(website).ConfigureAwait(false);
-                return JsonConvert.DeserializeObject<DerpiContainer>(data)
-                    .Search
-                    .Where(x => !string.IsNullOrWhiteSpace(x.Image))
-                    .Select(x => new ImageCacherObject("https:" + x.Image,
-                        type, x.Tags, x.Score))
-                    .ToArray();
+                using (var http = _httpFactory.CreateClient().AddFakeHeaders())
+                {
+                    var data = await http.GetStringAsync(website).ConfigureAwait(false);
+                    return JsonConvert.DeserializeObject<DerpiContainer>(data)
+                        .Search
+                        .Where(x => !string.IsNullOrWhiteSpace(x.Image))
+                        .Select(x => new ImageCacherObject("https:" + x.Image,
+                            type, x.Tags, x.Score))
+                        .ToArray();
+                }
             }
 
             return (await LoadXmlAsync(website, type).ConfigureAwait(false)).ToArray();
@@ -159,7 +163,8 @@ namespace NadekoBot.Modules.Searches.Common
         private async Task<ImageCacherObject[]> LoadXmlAsync(string website, DapiSearchType type)
         {
             var list = new List<ImageCacherObject>();
-            using (var stream = await _http.GetStreamAsync(website).ConfigureAwait(false))
+            using (var http = _httpFactory.CreateClient().AddFakeHeaders())
+            using (var stream = await http.GetStreamAsync(website).ConfigureAwait(false))
             using (var reader = XmlReader.Create(stream, new XmlReaderSettings()
             {
                 Async = true,
