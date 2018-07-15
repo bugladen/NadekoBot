@@ -23,6 +23,8 @@ namespace NadekoBot
 #if DEBUG
                 await new NadekoBot(0, Process.GetCurrentProcess().Id)
                     .RunAndBlockAsync();
+#else
+                await Task.Delay(-1);
 #endif
             }
         }
