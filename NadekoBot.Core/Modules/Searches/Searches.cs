@@ -663,17 +663,17 @@ namespace NadekoBot.Modules.Searches
                 return;
             }
 
-            await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
-            string res;
-            using (var http = _httpFactory.CreateClient())
-            {
-                http.DefaultRequestHeaders.Clear();
-                http.DefaultRequestHeaders.Add("X-Mashape-Key", _creds.MashapeKey);
-                res = await http.GetStringAsync($"https://tagdef.p.mashape.com/one.{Uri.EscapeUriString(query)}.json").ConfigureAwait(false);
-            }
-
             try
             {
+                await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
+                string res;
+                using (var http = _httpFactory.CreateClient())
+                {
+                    http.DefaultRequestHeaders.Clear();
+                    http.DefaultRequestHeaders.Add("X-Mashape-Key", _creds.MashapeKey);
+                    res = await http.GetStringAsync($"https://tagdef.p.mashape.com/one.{Uri.EscapeUriString(query)}.json").ConfigureAwait(false);
+                }
+
                 var items = JObject.Parse(res);
                 var item = items["defs"]["def"];
                 //var hashtag = item["hashtag"].ToString();
