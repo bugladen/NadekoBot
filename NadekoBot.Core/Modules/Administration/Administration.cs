@@ -3,12 +3,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Microsoft.EntityFrameworkCore;
-using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
-using NadekoBot.Common.Replacements;
-using NadekoBot.Core.Services;
-using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Administration.Services;
 
@@ -16,13 +11,6 @@ namespace NadekoBot.Modules.Administration
 {
     public partial class Administration : NadekoTopLevelModule<AdministrationService>
     {
-        private readonly DbService _db;
-
-        public Administration(DbService db)
-        {
-            _db = db;
-        }
-
         public enum List { List = 0, Ls = 0 }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -33,28 +21,19 @@ namespace NadekoBot.Modules.Administration
         public async Task Delmsgoncmd(List _)
         {
             var guild = (SocketGuild)Context.Guild;
-            GuildConfig conf;
-            using (var uow = _db.UnitOfWork)
-            {
-                conf = uow.GuildConfigs.ForId(Context.Guild.Id,
-                    set => set.Include(x => x.DelMsgOnCmdChannels));
-            }
+            var (enabled, channels) = _service.GetDelMsgOnCmdData(Context.Guild.Id);
 
             var embed = new EmbedBuilder()
                 .WithOkColor()
                 .WithTitle(GetText("server_delmsgoncmd"))
-                .WithDescription(conf.DeleteMessageOnCommand
-                    ? "✅"
-                    : "❌");
+                .WithDescription(enabled ? "✅" : "❌");
 
-            var str = string.Join("\n", conf.DelMsgOnCmdChannels
+            var str = string.Join("\n", channels
                 .Select(x =>
                 {
                     var ch = guild.GetChannel(x.ChannelId)?.ToString()
                         ?? x.ChannelId.ToString();
-                    var prefix = x.State
-                        ? "✅ "
-                        : "❌ ";
+                    var prefix = x.State ? "✅ " : "❌ ";
                     return prefix + ch;
                 }));
 
@@ -63,8 +42,7 @@ namespace NadekoBot.Modules.Administration
 
             embed.AddField(GetText("channel_delmsgoncmd"), str);
 
-            await Context.Channel.EmbedAsync(embed)
-                .ConfigureAwait(false);
+            await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
         public enum Server { Server }
@@ -105,36 +83,19 @@ namespace NadekoBot.Modules.Administration
         [Priority(1)]
         public async Task Delmsgoncmd(Channel _, State s, ulong? chId = null)
         {
-            chId = chId ?? Context.Channel.Id;
-            using (var uow = _db.UnitOfWork)
-            {
-                var conf = uow.GuildConfigs.ForId(Context.Guild.Id,
-                    set => set.Include(x => x.DelMsgOnCmdChannels));
+            var actualChId = chId ?? Context.Channel.Id;
+            await _service.SetDelMsgOnCmdState(Context.Guild.Id, actualChId, s).ConfigureAwait(false);
 
-                var obj = new DelMsgOnCmdChannel()
-                {
-                    ChannelId = chId.Value,
-                    State = s == State.Enable,
-                };
-                conf.DelMsgOnCmdChannels.Remove(obj);
-                if (s != State.Inherit)
-                    conf.DelMsgOnCmdChannels.Add(obj);
-
-                await uow.CompleteAsync().ConfigureAwait(false);
-            }
             if (s == State.Disable)
             {
-                _service.DeleteMessagesOnCommandChannels.AddOrUpdate(chId.Value, false, delegate { return false; });
                 await ReplyConfirmLocalized("delmsg_channel_off").ConfigureAwait(false);
             }
             else if (s == State.Enable)
             {
-                _service.DeleteMessagesOnCommandChannels.AddOrUpdate(chId.Value, true, delegate { return true; });
                 await ReplyConfirmLocalized("delmsg_channel_on").ConfigureAwait(false);
             }
             else
             {
-                _service.DeleteMessagesOnCommandChannels.TryRemove(chId.Value, out var _);
                 await ReplyConfirmLocalized("delmsg_channel_inherit").ConfigureAwait(false);
             }
         }
@@ -145,19 +106,7 @@ namespace NadekoBot.Modules.Administration
         [RequireBotPermission(GuildPermission.DeafenMembers)]
         public async Task Deafen(params IGuildUser[] users)
         {
-            if (!users.Any())
-                return;
-            foreach (var u in users)
-            {
-                try
-                {
-                    await u.ModifyAsync(usr => usr.Deaf = true).ConfigureAwait(false);
-                }
-                catch
-                {
-                    // ignored
-                }
-            }
+            await _service.DeafenUsers(true, users).ConfigureAwait(false);
             await ReplyConfirmLocalized("deafen").ConfigureAwait(false);
 
         }
@@ -168,20 +117,7 @@ namespace NadekoBot.Modules.Administration
         [RequireBotPermission(GuildPermission.DeafenMembers)]
         public async Task UnDeafen(params IGuildUser[] users)
         {
-            if (!users.Any())
-                return;
-
-            foreach (var u in users)
-            {
-                try
-                {
-                    await u.ModifyAsync(usr => usr.Deaf = false).ConfigureAwait(false);
-                }
-                catch
-                {
-                    // ignored
-                }
-            }
+            await _service.DeafenUsers(false, users).ConfigureAwait(false);
             await ReplyConfirmLocalized("undeafen").ConfigureAwait(false);
         }
 
@@ -256,34 +192,7 @@ namespace NadekoBot.Modules.Administration
             if (string.IsNullOrWhiteSpace(text))
                 return;
 
-            var msgs = await Context.Channel.GetMessagesAsync().FlattenAsync()
-                .ConfigureAwait(false);
-
-            IUserMessage msg = (IUserMessage)msgs.FirstOrDefault(x => x.Id == messageId
-                && x.Author.Id == Context.Client.CurrentUser.Id
-                && x is IUserMessage);
-
-            if (msg == null)
-                return;
-
-            var rep = new ReplacementBuilder()
-                    .WithDefault(Context)
-                    .Build();
-
-            if (CREmbed.TryParse(text, out var crembed))
-            {
-                rep.Replace(crembed);
-                await msg.ModifyAsync(x =>
-                {
-                    x.Embed = crembed.ToEmbed().Build();
-                    x.Content = crembed.PlainText?.SanitizeMentions() ?? "";
-                }).ConfigureAwait(false);
-            }
-            else
-            {
-                await msg.ModifyAsync(x => x.Content = text.SanitizeMentions())
-                    .ConfigureAwait(false);
-            }
+            await _service.EditMessage(Context, messageId, text).ConfigureAwait(false);
         }
     }
 }
