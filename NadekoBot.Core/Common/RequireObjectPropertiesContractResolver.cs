@@ -9,7 +9,7 @@ namespace NadekoBot.Common
         protected override JsonObjectContract CreateObjectContract(Type objectType)
         {
             var contract = base.CreateObjectContract(objectType);
-            contract.ItemRequired = Required.Always;
+            contract.ItemRequired = Required.DisallowNull;
             return contract;
         }
     }
