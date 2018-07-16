@@ -52,7 +52,7 @@ namespace NadekoBot.Modules.Games.Common.ChatterBot
             this._user = user;
             this._httpFactory = factory;
 
-            _nick = new AsyncLazy<string>(GetNick);
+            _nick = new AsyncLazy<string>((Func<Task<string>>)GetNick);
         }
 
         private async Task<string> GetNick()
