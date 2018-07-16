@@ -107,6 +107,38 @@ namespace NadekoBot.Core.Modules.Xp.Common
                 Bar = new XpTemplateXpBar
                 {
                     Show = true,
+                    Global = new XpBar
+                    {
+                        Direction = XpTemplateDirection.Right,
+                        Length = 450,
+                        Color = new Rgba32(0, 0, 0, 0.4f),
+                        PointA = new XpTemplatePos
+                        {
+                            X = 321,
+                            Y = 104
+                        },
+                        PointB = new XpTemplatePos
+                        {
+                            X = 286,
+                            Y = 235
+                        }
+                    },
+                    Guild = new XpBar
+                    {
+                        Direction = XpTemplateDirection.Right,
+                        Length = 450,
+                        Color = new Rgba32(0, 0, 0, 0.4f),
+                        PointA = new XpTemplatePos
+                        {
+                            X = 282,
+                            Y = 248
+                        },
+                        PointB = new XpTemplatePos
+                        {
+                            X = 247,
+                            Y = 379
+                        }
+                    }
                 },
                 Global = new XpTemplateText
                 {
@@ -227,6 +259,26 @@ namespace NadekoBot.Core.Modules.Xp.Common
     public class XpTemplateXpBar
     {
         public bool Show { get; set; }
+        public XpBar Global { get; set; }
+        public XpBar Guild { get; set; }
+    }
+
+    public class XpBar
+    {
+        [JsonConverter(typeof(XpRgba32Converter))]
+        public Rgba32 Color { get; set; }
+        public XpTemplatePos PointA { get; set; }
+        public XpTemplatePos PointB { get; set; }
+        public int Length { get; set; }
+        public XpTemplateDirection Direction { get; set; }
+    }
+
+    public enum XpTemplateDirection
+    {
+        Up,
+        Down,
+        Left,
+        Right
     }
 
     public class XpRgba32Converter : JsonConverter<Rgba32>

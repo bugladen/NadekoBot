@@ -86,7 +86,7 @@ namespace NadekoBot.Modules.Xp.Services
             _httpFactory = http;
             InternalReloadXpTemplate();
 
-            if(client.ShardId == 0)
+            if (client.ShardId == 0)
             {
                 var sub = _cache.Redis.GetSubscriber();
                 sub.Subscribe(_creds.RedisKey() + "_reload_xp_template",
@@ -653,7 +653,7 @@ namespace NadekoBot.Modules.Xp.Services
                 if (_template.User.Name.Show)
                 {
                     var username = stats.User.ToString();
-                    var usernameFont = _fonts.WhiteneyBold
+                    var usernameFont = _fonts.NotoSans
                         .CreateFont(username.Length <= 6
                             ? _template.User.Name.FontSize
                             : _template.User.Name.FontSize - username.Length);
@@ -671,7 +671,7 @@ namespace NadekoBot.Modules.Xp.Services
                     img.Mutate(x =>
                     {
                         x.DrawText(stats.Global.Level.ToString(),
-                            _fonts.WhiteneyBold.CreateFont(_template.User.GlobalLevel.FontSize),
+                            _fonts.NotoSans.CreateFont(_template.User.GlobalLevel.FontSize),
                             _template.User.GlobalLevel.Color,
                             new PointF(_template.User.GlobalLevel.Pos.X, _template.User.GlobalLevel.Pos.Y)); //level
                     });
@@ -682,7 +682,7 @@ namespace NadekoBot.Modules.Xp.Services
                     img.Mutate(x =>
                     {
                         x.DrawText(stats.Guild.Level.ToString(),
-                            _fonts.WhiteneyBold.CreateFont(_template.User.GuildLevel.FontSize),
+                            _fonts.NotoSans.CreateFont(_template.User.GuildLevel.FontSize),
                             _template.User.GuildLevel.Color,
                             new PointF(_template.User.GuildLevel.Pos.X, _template.User.GuildLevel.Pos.Y));
                     });
@@ -694,7 +694,7 @@ namespace NadekoBot.Modules.Xp.Services
                 {
                     var clubName = stats.User.Club?.ToString() ?? "-";
 
-                    var clubFont = _fonts.WhiteneyBold
+                    var clubFont = _fonts.NotoSans
                         .CreateFont(clubName.Length <= 8
                             ? _template.Club.Name.FontSize
                             : _template.Club.Name.FontSize - (clubName.Length / 2));
@@ -706,7 +706,6 @@ namespace NadekoBot.Modules.Xp.Services
 
 
                 var pen = new Pen<Rgba32>(Rgba32.Black, 1);
-                var xpBgBrush = Brushes.Solid(new Rgba32(0, 0, 0, 0.4f));
 
                 var global = stats.Global;
                 var guild = stats.Guild;
@@ -714,24 +713,16 @@ namespace NadekoBot.Modules.Xp.Services
                 //xp bar
                 if (_template.User.Xp.Bar.Show)
                 {
-                    img.Mutate(x => x.FillPolygon(xpBgBrush, new[] {
-                        new PointF(321, 104),
-                        new PointF(321 + (450 * (global.LevelXp / (float)global.RequiredXp)), 104),
-                        new PointF(286 + (450 * (global.LevelXp / (float)global.RequiredXp)), 235),
-                        new PointF(286, 235),
-                    }));
-                    img.Mutate(x => x.FillPolygon(xpBgBrush, new[] {
-                        new PointF(282, 248),
-                        new PointF(282 + (450 * (guild.LevelXp / (float)guild.RequiredXp)), 248),
-                        new PointF(247 + (450 * (guild.LevelXp / (float)guild.RequiredXp)), 379),
-                        new PointF(247, 379),
-                    }));
+                    var xpPercent = (global.LevelXp / (float)global.RequiredXp);
+                    DrawXpBar(xpPercent, _template.User.Xp.Bar.Global, img);
+                    xpPercent = (guild.LevelXp / (float)guild.RequiredXp);
+                    DrawXpBar(xpPercent, _template.User.Xp.Bar.Guild, img);
                 }
 
                 if (_template.User.Xp.Global.Show)
                 {
                     img.Mutate(x => x.DrawText($"{global.LevelXp}/{global.RequiredXp}",
-                        _fonts.WhiteneyBold.CreateFont(_template.User.Xp.Global.FontSize),
+                        _fonts.NotoSans.CreateFont(_template.User.Xp.Global.FontSize),
                         Brushes.Solid(_template.User.Xp.Global.Color),
                         pen,
                         new PointF(_template.User.Xp.Global.Pos.X, _template.User.Xp.Global.Pos.Y)));
@@ -739,7 +730,7 @@ namespace NadekoBot.Modules.Xp.Services
                 if (_template.User.Xp.Guild.Show)
                 {
                     img.Mutate(x => x.DrawText($"{guild.LevelXp}/{guild.RequiredXp}",
-                        _fonts.WhiteneyBold.CreateFont(_template.User.Xp.Guild.FontSize),
+                        _fonts.NotoSans.CreateFont(_template.User.Xp.Guild.FontSize),
                         Brushes.Solid(_template.User.Xp.Guild.Color),
                         pen,
                         new PointF(_template.User.Xp.Guild.Pos.X, _template.User.Xp.Guild.Pos.Y)));
@@ -752,7 +743,7 @@ namespace NadekoBot.Modules.Xp.Services
                     var awX = _template.User.Xp.Awarded.Pos.X - (Math.Max(0, (stats.FullGuildStats.AwardedXp.ToString().Length - 2)) * 5);
                     var awY = _template.User.Xp.Awarded.Pos.Y;
                     img.Mutate(x => x.DrawText($"({sign}{stats.FullGuildStats.AwardedXp})",
-                        _fonts.WhiteneyBold.CreateFont(_template.User.Xp.Awarded.FontSize),
+                        _fonts.NotoSans.CreateFont(_template.User.Xp.Awarded.FontSize),
                         Brushes.Solid(_template.User.Xp.Awarded.Color),
                         pen,
                         new PointF(awX, awY)));
@@ -786,7 +777,7 @@ namespace NadekoBot.Modules.Xp.Services
                 if (_template.User.TimeOnLevel.Global.Show)
                 {
                     img.Mutate(x => x.DrawText(GetTimeSpent(stats.User.LastLevelUp, _template.User.TimeOnLevel.Format),
-                        _fonts.WhiteneyBold.CreateFont(_template.User.TimeOnLevel.Global.FontSize),
+                        _fonts.NotoSans.CreateFont(_template.User.TimeOnLevel.Global.FontSize),
                         _template.User.TimeOnLevel.Global.Color,
                         new PointF(_template.User.TimeOnLevel.Global.Pos.X, _template.User.TimeOnLevel.Global.Pos.Y)));
                 }
@@ -794,7 +785,7 @@ namespace NadekoBot.Modules.Xp.Services
                 if (_template.User.TimeOnLevel.Guild.Show)
                 {
                     img.Mutate(x => x.DrawText(GetTimeSpent(stats.FullGuildStats.LastLevelUp, _template.User.TimeOnLevel.Format),
-                        _fonts.WhiteneyBold.CreateFont(_template.User.TimeOnLevel.Guild.FontSize),
+                        _fonts.NotoSans.CreateFont(_template.User.TimeOnLevel.Guild.FontSize),
                         _template.User.TimeOnLevel.Guild.Color,
                         new PointF(_template.User.TimeOnLevel.Guild.Pos.X, _template.User.TimeOnLevel.Guild.Pos.Y)));
                 }
@@ -852,6 +843,55 @@ namespace NadekoBot.Modules.Xp.Services
             }
         });
 
+        void DrawXpBar(float percent, XpBar info, Image<Rgba32> img)
+        {
+            var x1 = info.PointA.X;
+            var y1 = info.PointA.Y;
+
+            var x2 = info.PointB.X;
+            var y2 = info.PointB.Y;
+
+            var length = info.Length * percent;
+
+            float x3 = 0, x4 = 0, y3 = 0, y4 = 0;
+
+            if (info.Direction == XpTemplateDirection.Down)
+            {
+                x3 = x1;
+                x4 = x2;
+                y3 = y1 + length;
+                y4 = y2 + length;
+            }
+            else if (info.Direction == XpTemplateDirection.Up)
+            {
+                x3 = x1;
+                x4 = x2;
+                y3 = y1 - length;
+                y4 = y2 - length;
+            }
+            else if (info.Direction == XpTemplateDirection.Left)
+            {
+                x3 = x1 - length;
+                x4 = x2 - length;
+                y3 = y1;
+                y4 = y2;
+            }
+            else
+            {
+                x3 = x1 + length;
+                x4 = x2 + length;
+                y3 = y1;
+                y4 = y2;
+            }
+
+            img.Mutate(x => x.FillPolygon(info.Color,
+                new[] {
+                            new PointF(x1, y1),
+                            new PointF(x3, y3),
+                            new PointF(x4, y4),
+                            new PointF(x2, y2),
+                }));
+        }
 
         private async Task DrawClubImage(Image<Rgba32> img, FullUserStats stats)
         {

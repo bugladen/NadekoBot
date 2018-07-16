@@ -16,11 +16,11 @@ namespace NadekoBot.Core.Services.Impl
                     _fonts.Install(file);
                 }
 
-            WhiteneyBold = _fonts.Find("Whitney-Bold");
+            NotoSans = _fonts.Find("Noto Sans");
             RankFontFamily = _fonts.Find("Uni Sans Thin CAPS");
         }
 
         public FontFamily RankFontFamily { get; }
-        public FontFamily WhiteneyBold { get; }
+        public FontFamily NotoSans { get; }
     }
 }
