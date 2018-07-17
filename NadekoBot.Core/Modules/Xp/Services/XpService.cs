@@ -1,4 +1,4 @@
-﻿using Discord;
+using Discord;
 using Discord.WebSocket;
 using NadekoBot.Common.Collections;
 using NadekoBot.Extensions;
@@ -656,7 +656,7 @@ namespace NadekoBot.Modules.Xp.Services
                     var usernameFont = _fonts.NotoSans
                         .CreateFont(username.Length <= 6
                             ? _template.User.Name.FontSize
-                            : _template.User.Name.FontSize - username.Length);
+                            : _template.User.Name.FontSize - username.Length, FontStyle.Bold);
 
                     img.Mutate(x =>
                     {
@@ -671,7 +671,7 @@ namespace NadekoBot.Modules.Xp.Services
                     img.Mutate(x =>
                     {
                         x.DrawText(stats.Global.Level.ToString(),
-                            _fonts.NotoSans.CreateFont(_template.User.GlobalLevel.FontSize),
+                            _fonts.NotoSans.CreateFont(_template.User.GlobalLevel.FontSize, FontStyle.Bold),
                             _template.User.GlobalLevel.Color,
                             new PointF(_template.User.GlobalLevel.Pos.X, _template.User.GlobalLevel.Pos.Y)); //level
                     });
@@ -682,7 +682,7 @@ namespace NadekoBot.Modules.Xp.Services
                     img.Mutate(x =>
                     {
                         x.DrawText(stats.Guild.Level.ToString(),
-                            _fonts.NotoSans.CreateFont(_template.User.GuildLevel.FontSize),
+                            _fonts.NotoSans.CreateFont(_template.User.GuildLevel.FontSize, FontStyle.Bold),
                             _template.User.GuildLevel.Color,
                             new PointF(_template.User.GuildLevel.Pos.X, _template.User.GuildLevel.Pos.Y));
                     });
@@ -697,7 +697,7 @@ namespace NadekoBot.Modules.Xp.Services
                     var clubFont = _fonts.NotoSans
                         .CreateFont(clubName.Length <= 8
                             ? _template.Club.Name.FontSize
-                            : _template.Club.Name.FontSize - (clubName.Length / 2));
+                            : _template.Club.Name.FontSize - (clubName.Length / 2), FontStyle.Bold);
 
                     img.Mutate(x => x.DrawText(clubName, clubFont,
                         _template.Club.Name.Color,
@@ -722,7 +722,7 @@ namespace NadekoBot.Modules.Xp.Services
                 if (_template.User.Xp.Global.Show)
                 {
                     img.Mutate(x => x.DrawText($"{global.LevelXp}/{global.RequiredXp}",
-                        _fonts.NotoSans.CreateFont(_template.User.Xp.Global.FontSize),
+                        _fonts.NotoSans.CreateFont(_template.User.Xp.Global.FontSize, FontStyle.Bold),
                         Brushes.Solid(_template.User.Xp.Global.Color),
                         pen,
                         new PointF(_template.User.Xp.Global.Pos.X, _template.User.Xp.Global.Pos.Y)));
@@ -730,7 +730,7 @@ namespace NadekoBot.Modules.Xp.Services
                 if (_template.User.Xp.Guild.Show)
                 {
                     img.Mutate(x => x.DrawText($"{guild.LevelXp}/{guild.RequiredXp}",
-                        _fonts.NotoSans.CreateFont(_template.User.Xp.Guild.FontSize),
+                        _fonts.NotoSans.CreateFont(_template.User.Xp.Guild.FontSize, FontStyle.Bold),
                         Brushes.Solid(_template.User.Xp.Guild.Color),
                         pen,
                         new PointF(_template.User.Xp.Guild.Pos.X, _template.User.Xp.Guild.Pos.Y)));
@@ -743,7 +743,7 @@ namespace NadekoBot.Modules.Xp.Services
                     var awX = _template.User.Xp.Awarded.Pos.X - (Math.Max(0, (stats.FullGuildStats.AwardedXp.ToString().Length - 2)) * 5);
                     var awY = _template.User.Xp.Awarded.Pos.Y;
                     img.Mutate(x => x.DrawText($"({sign}{stats.FullGuildStats.AwardedXp})",
-                        _fonts.NotoSans.CreateFont(_template.User.Xp.Awarded.FontSize),
+                        _fonts.NotoSans.CreateFont(_template.User.Xp.Awarded.FontSize, FontStyle.Bold),
                         Brushes.Solid(_template.User.Xp.Awarded.Color),
                         pen,
                         new PointF(awX, awY)));
@@ -753,7 +753,7 @@ namespace NadekoBot.Modules.Xp.Services
                 if (_template.User.GlobalRank.Show)
                 {
                     img.Mutate(x => x.DrawText(stats.GlobalRanking.ToString(),
-                        _fonts.RankFontFamily.CreateFont(_template.User.GlobalRank.FontSize),
+                        _fonts.RankFontFamily.CreateFont(_template.User.GlobalRank.FontSize, FontStyle.Bold),
                         _template.User.GlobalRank.Color,
                         new PointF(_template.User.GlobalRank.Pos.X, _template.User.GlobalRank.Pos.Y)));
                 }
@@ -761,7 +761,7 @@ namespace NadekoBot.Modules.Xp.Services
                 if (_template.User.GuildRank.Show)
                 {
                     img.Mutate(x => x.DrawText(stats.GuildRanking.ToString(),
-                        _fonts.RankFontFamily.CreateFont(_template.User.GuildRank.FontSize),
+                        _fonts.RankFontFamily.CreateFont(_template.User.GuildRank.FontSize, FontStyle.Bold),
                         _template.User.GuildRank.Color,
                         new PointF(_template.User.GuildRank.Pos.X, _template.User.GuildRank.Pos.Y)));
                 }
@@ -777,7 +777,7 @@ namespace NadekoBot.Modules.Xp.Services
                 if (_template.User.TimeOnLevel.Global.Show)
                 {
                     img.Mutate(x => x.DrawText(GetTimeSpent(stats.User.LastLevelUp, _template.User.TimeOnLevel.Format),
-                        _fonts.NotoSans.CreateFont(_template.User.TimeOnLevel.Global.FontSize),
+                        _fonts.NotoSans.CreateFont(_template.User.TimeOnLevel.Global.FontSize, FontStyle.Bold),
                         _template.User.TimeOnLevel.Global.Color,
                         new PointF(_template.User.TimeOnLevel.Global.Pos.X, _template.User.TimeOnLevel.Global.Pos.Y)));
                 }
@@ -785,7 +785,7 @@ namespace NadekoBot.Modules.Xp.Services
                 if (_template.User.TimeOnLevel.Guild.Show)
                 {
                     img.Mutate(x => x.DrawText(GetTimeSpent(stats.FullGuildStats.LastLevelUp, _template.User.TimeOnLevel.Format),
-                        _fonts.NotoSans.CreateFont(_template.User.TimeOnLevel.Guild.FontSize),
+                        _fonts.NotoSans.CreateFont(_template.User.TimeOnLevel.Guild.FontSize, FontStyle.Bold),
                         _template.User.TimeOnLevel.Guild.Color,
                         new PointF(_template.User.TimeOnLevel.Guild.Pos.X, _template.User.TimeOnLevel.Guild.Pos.Y)));
                 }
