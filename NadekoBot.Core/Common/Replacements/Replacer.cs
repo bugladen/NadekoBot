@@ -44,7 +44,7 @@ namespace NadekoBot.Common.Replacements
             if(embedData.Author != null)
             {
                 embedData.Author.Name = Replace(embedData.Author.Name);
-                embedData.Author.IconUrl = Replace(embedData.Author.Name);
+                embedData.Author.IconUrl = Replace(embedData.Author.IconUrl);
             }
 
             if (embedData.Fields != null)
