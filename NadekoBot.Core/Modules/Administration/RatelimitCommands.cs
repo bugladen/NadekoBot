@@ -14,13 +14,6 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class SlowModeCommands : NadekoSubmodule<SlowmodeService>
         {
-            private readonly DbService _db;
-
-            public SlowModeCommands(DbService db)
-            {
-                _db = db;
-            }
-
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
