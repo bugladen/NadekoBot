@@ -7,7 +7,6 @@ using Discord.WebSocket;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Administration.Services;
-using NadekoBot.Core.Services;
 
 namespace NadekoBot.Modules.Administration
 {

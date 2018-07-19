@@ -69,7 +69,7 @@ namespace NadekoBot.Modules.Utility.Services
                         string newInput;
                         if (input.StartsWith(k + " ", StringComparison.InvariantCultureIgnoreCase))
                             newInput = maps[k] + input.Substring(k.Length, input.Length - k.Length);
-                        else if (input == k)
+                        else if (input.Equals(k, StringComparison.InvariantCultureIgnoreCase))
                             newInput = maps[k];
                         else
                             continue;
