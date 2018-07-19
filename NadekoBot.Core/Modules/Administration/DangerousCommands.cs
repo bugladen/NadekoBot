@@ -1,11 +1,10 @@
 ﻿using Discord.Commands;
-using Microsoft.EntityFrameworkCore;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Extensions;
-using NadekoBot.Core.Services;
 using System;
 using System.Threading.Tasks;
 using Discord;
+using NadekoBot.Core.Modules.Administration.Services;
 
 #if !GLOBAL_NADEKO
 namespace NadekoBot.Modules.Administration
@@ -14,15 +13,8 @@ namespace NadekoBot.Modules.Administration
     {
         [Group]
         [OwnerOnly]
-        public class DangerousCommands : NadekoSubmodule
+        public class DangerousCommands : NadekoSubmodule<DangerousCommandsService>
         {
-            private readonly DbService _db;
-
-            public DangerousCommands(DbService db)
-            {
-                _db = db;
-            }
-
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public async Task ExecSql([Remainder]string sql)
@@ -38,12 +30,7 @@ namespace NadekoBot.Modules.Administration
                         return;
                     }
 
-                    int res;
-                    using (var uow = _db.UnitOfWork)
-                    {
-                        res = uow._context.Database.ExecuteSqlCommand(sql);
-                    }
-
+                    var res = await _service.ExecuteSql(sql).ConfigureAwait(false);
                     await Context.Channel.SendConfirmAsync(res.ToString()).ConfigureAwait(false);
                 }
                 catch (Exception ex)
@@ -55,31 +42,22 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public Task DeleteWaifus() =>
-                ExecSql(@"DELETE FROM WaifuUpdates;
-DELETE FROM WaifuItem;
-DELETE FROM WaifuInfo;");
+                ExecSql(DangerousCommandsService.WaifusDeleteSql);
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public Task DeleteCurrency() =>
-                ExecSql("UPDATE DiscordUser SET CurrencyAmount=0; DELETE FROM CurrencyTransactions;");
+                ExecSql(DangerousCommandsService.CurrencyDeleteSql);
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public Task DeletePlaylists() =>
-                ExecSql("DELETE FROM MusicPlaylists;");
+                ExecSql(DangerousCommandsService.MusicPlaylistDeleteSql);
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public Task DeleteExp() =>
-                ExecSql(@"DELETE FROM UserXpStats;
-UPDATE DiscordUser
-SET ClubId=NULL,
-    IsClubAdmin=0,
-    TotalXp=0;
-DELETE FROM ClubApplicants;
-DELETE FROM ClubBans;
-DELETE FROM Clubs;");
+                ExecSql(DangerousCommandsService.XpDeleteSql);
         }
     }
 }

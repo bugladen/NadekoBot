@@ -21,22 +21,6 @@ namespace NadekoBot.Modules.Administration.Services
         private readonly DiscordSocketClient _client;
         private readonly Logger _log;
 
-        private string PrettyCurrentTime(IGuild g)
-        {
-            var time = DateTime.UtcNow;
-            if (g != null)
-                time = TimeZoneInfo.ConvertTime(time, _tz.GetTimeZoneOrUtc(g.Id));
-            return $"【{time:HH:mm:ss}】";
-        }
-        private string CurrentTime(IGuild g)
-        {
-            DateTime time = DateTime.UtcNow;
-            if (g != null)
-                time = TimeZoneInfo.ConvertTime(time, _tz.GetTimeZoneOrUtc(g.Id));
-
-            return $"{time:HH:mm:ss}";
-        }
-
         public ConcurrentDictionary<ulong, LogSetting> GuildLogSettings { get; }
 
         private ConcurrentDictionary<ITextChannel, List<string>> PresenceUpdates { get; } = new ConcurrentDictionary<ITextChannel, List<string>>();
@@ -109,8 +93,73 @@ namespace NadekoBot.Modules.Administration.Services
             _prot.OnAntiProtectionTriggered += TriggeredAntiProtection;
         }
 
+        public bool LogIgnore(ulong gid, ulong cid)
+        {
+            int removed = 0;
+            using (var uow = _db.UnitOfWork)
+            {
+                var config = uow.GuildConfigs.LogSettingsFor(gid);
+                LogSetting logSetting = GuildLogSettings.GetOrAdd(gid, (id) => config.LogSetting);
+                removed = logSetting.IgnoredChannels.RemoveWhere(ilc => ilc.ChannelId == cid);
+                config.LogSetting.IgnoredChannels.RemoveWhere(ilc => ilc.ChannelId == cid);
+                if (removed == 0)
+                {
+                    var toAdd = new IgnoredLogChannel { ChannelId = cid };
+                    logSetting.IgnoredChannels.Add(toAdd);
+                    config.LogSetting.IgnoredChannels.Add(toAdd);
+                }
+                uow.Complete();
+            }
+            return removed > 0;
+        }
+
         private string GetText(IGuild guild, string key, params object[] replacements) =>
             _strings.GetText(key, guild.Id, "Administration".ToLowerInvariant(), replacements);
+
+
+
+        private string PrettyCurrentTime(IGuild g)
+        {
+            var time = DateTime.UtcNow;
+            if (g != null)
+                time = TimeZoneInfo.ConvertTime(time, _tz.GetTimeZoneOrUtc(g.Id));
+            return $"【{time:HH:mm:ss}】";
+        }
+        private string CurrentTime(IGuild g)
+        {
+            DateTime time = DateTime.UtcNow;
+            if (g != null)
+                time = TimeZoneInfo.ConvertTime(time, _tz.GetTimeZoneOrUtc(g.Id));
+
+            return $"{time:HH:mm:ss}";
+        }
+
+        public async Task LogServer(ulong guildId, ulong channelId, bool value)
+        {
+            LogSetting logSetting;
+            using (var uow = _db.UnitOfWork)
+            {
+                logSetting = uow.GuildConfigs.LogSettingsFor(guildId).LogSetting;
+                GuildLogSettings.AddOrUpdate(guildId, (id) => logSetting, (id, old) => logSetting);
+                logSetting.LogOtherId =
+                logSetting.MessageUpdatedId =
+                logSetting.MessageDeletedId =
+                logSetting.UserJoinedId =
+                logSetting.UserLeftId =
+                logSetting.UserBannedId =
+                logSetting.UserUnbannedId =
+                logSetting.UserUpdatedId =
+                logSetting.ChannelCreatedId =
+                logSetting.ChannelDestroyedId =
+                logSetting.ChannelUpdatedId =
+                logSetting.LogUserPresenceId =
+                logSetting.LogVoicePresenceId =
+                logSetting.UserMutedId =
+                logSetting.LogVoicePresenceTTSId = (value ? channelId : (ulong?)null);
+
+                await uow.CompleteAsync().ConfigureAwait(false);
+            }
+        }
 
         private Task _client_UserUpdated(SocketUser before, SocketUser uAfter)
         {
@@ -185,6 +234,68 @@ namespace NadekoBot.Modules.Administration.Services
                 }
             });
             return Task.CompletedTask;
+        }
+
+        public bool Log(ulong gid, ulong cid, LogType type)
+        {
+            ulong? channelId = null;
+            using (var uow = _db.UnitOfWork)
+            {
+                var logSetting = uow.GuildConfigs.LogSettingsFor(gid).LogSetting;
+                GuildLogSettings.AddOrUpdate(gid, (id) => logSetting, (id, old) => logSetting);
+                switch (type)
+                {
+                    case LogType.Other:
+                        channelId = logSetting.LogOtherId = (logSetting.LogOtherId == null ? cid : default);
+                        break;
+                    case LogType.MessageUpdated:
+                        channelId = logSetting.MessageUpdatedId = (logSetting.MessageUpdatedId == null ? cid : default);
+                        break;
+                    case LogType.MessageDeleted:
+                        channelId = logSetting.MessageDeletedId = (logSetting.MessageDeletedId == null ? cid : default);
+                        break;
+                    case LogType.UserJoined:
+                        channelId = logSetting.UserJoinedId = (logSetting.UserJoinedId == null ? cid : default);
+                        break;
+                    case LogType.UserLeft:
+                        channelId = logSetting.UserLeftId = (logSetting.UserLeftId == null ? cid : default);
+                        break;
+                    case LogType.UserBanned:
+                        channelId = logSetting.UserBannedId = (logSetting.UserBannedId == null ? cid : default);
+                        break;
+                    case LogType.UserUnbanned:
+                        channelId = logSetting.UserUnbannedId = (logSetting.UserUnbannedId == null ? cid : default);
+                        break;
+                    case LogType.UserUpdated:
+                        channelId = logSetting.UserUpdatedId = (logSetting.UserUpdatedId == null ? cid : default);
+                        break;
+                    case LogType.UserMuted:
+                        channelId = logSetting.UserMutedId = (logSetting.UserMutedId == null ? cid : default);
+                        break;
+                    case LogType.ChannelCreated:
+                        channelId = logSetting.ChannelCreatedId = (logSetting.ChannelCreatedId == null ? cid : default);
+                        break;
+                    case LogType.ChannelDestroyed:
+                        channelId = logSetting.ChannelDestroyedId = (logSetting.ChannelDestroyedId == null ? cid : default);
+                        break;
+                    case LogType.ChannelUpdated:
+                        channelId = logSetting.ChannelUpdatedId = (logSetting.ChannelUpdatedId == null ? cid : default);
+                        break;
+                    case LogType.UserPresence:
+                        channelId = logSetting.LogUserPresenceId = (logSetting.LogUserPresenceId == null ? cid : default);
+                        break;
+                    case LogType.VoicePresence:
+                        channelId = logSetting.LogVoicePresenceId = (logSetting.LogVoicePresenceId == null ? cid : default);
+                        break;
+                    case LogType.VoicePresenceTTS:
+                        channelId = logSetting.LogVoicePresenceTTSId = (logSetting.LogVoicePresenceTTSId == null ? cid : default);
+                        break;
+                }
+
+                uow.Complete();
+            }
+
+            return channelId != null;
         }
 
         private Task _client_UserVoiceStateUpdated_TTS(SocketUser iusr, SocketVoiceState before, SocketVoiceState after)

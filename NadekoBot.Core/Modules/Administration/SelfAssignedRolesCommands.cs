@@ -15,13 +15,6 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class SelfAssignedRolesCommands : NadekoSubmodule<SelfAssignedRolesService>
         {
-            private readonly DbService _db;
-
-            public SelfAssignedRolesCommands(DbService db)
-            {
-                _db = db;
-            }
-
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]

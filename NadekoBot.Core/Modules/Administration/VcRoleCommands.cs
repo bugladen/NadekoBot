@@ -7,7 +7,6 @@ using Discord.WebSocket;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Administration.Services;
-using NadekoBot.Core.Services;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -16,13 +15,6 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class VcRoleCommands : NadekoSubmodule<VcRoleService>
         {
-            private readonly DbService _db;
-
-            public VcRoleCommands(DbService db)
-            {
-                _db = db;
-            }
-
             [NadekoCommand, Usage, Description, Aliases]
             [RequireUserPermission(GuildPermission.ManageRoles)]
             [RequireBotPermission(GuildPermission.ManageRoles)]

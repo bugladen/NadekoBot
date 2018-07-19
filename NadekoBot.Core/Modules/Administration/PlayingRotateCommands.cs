@@ -13,13 +13,6 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class PlayingRotateCommands : NadekoSubmodule<PlayingRotateService>
         {
-            private readonly DbService _db;
-
-            public PlayingRotateCommands(DbService db)
-            {
-                _db = db;
-            }
-
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public async Task RotatePlaying()
@@ -61,7 +54,7 @@ namespace NadekoBot.Modules.Administration
             {
                 index -= 1;
 
-                var msg = _service.RemovePlayingAsync(index);
+                var msg = await _service.RemovePlayingAsync(index).ConfigureAwait(false);
 
                 if (msg == null)
                     return;

@@ -2,7 +2,6 @@
 using Discord.Commands;
 using NadekoBot.Extensions;
 using NadekoBot.Core.Services;
-using NadekoBot.Core.Services.Database.Models;
 using System.Threading.Tasks;
 using NadekoBot.Common.Attributes;
 
@@ -13,13 +12,6 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class ServerGreetCommands : NadekoSubmodule<GreetSettingsService>
         {
-            private readonly DbService _db;
-
-            public ServerGreetCommands(DbService db)
-            {
-                _db = db;
-            }
-
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageGuild)]
@@ -52,17 +44,21 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageGuild)]
-            public async Task GreetMsg([Remainder] string text = null)
+            public Task GreetMsg()
+            {
+                string greetMsg = _service.GetGreetMsg(Context.Guild.Id);
+                return ReplyConfirmLocalized("greetmsg_cur", greetMsg?.SanitizeMentions());
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.ManageGuild)]
+            public async Task GreetMsg([Remainder] string text)
             {
                 if (string.IsNullOrWhiteSpace(text))
                 {
-                    string channelGreetMessageText;
-                    using (var uow = _db.UnitOfWork)
-                    {
-                        channelGreetMessageText = uow.GuildConfigs.ForId(Context.Guild.Id, set => set).ChannelGreetMessageText;
-                    }
-                    await ReplyConfirmLocalized("greetmsg_cur", channelGreetMessageText?.SanitizeMentions()).ConfigureAwait(false);
-                    return;
+                    await GreetMsg().ConfigureAwait(false);
+                    return;                    
                 }
 
                 var sendGreetEnabled = _service.SetGreetMessage(Context.Guild.Id, ref text);
@@ -88,16 +84,20 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageGuild)]
+            public Task GreetDmMsg()
+            {
+                var dmGreetMsg = _service.GetDmGreetMsg(Context.Guild.Id);
+                return ReplyConfirmLocalized("greetdmmsg_cur", dmGreetMsg?.SanitizeMentions());
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.ManageGuild)]
             public async Task GreetDmMsg([Remainder] string text = null)
             {
                 if (string.IsNullOrWhiteSpace(text))
                 {
-                    GuildConfig config;
-                    using (var uow = _db.UnitOfWork)
-                    {
-                        config = uow.GuildConfigs.ForId(Context.Guild.Id, set => set);
-                    }
-                    await ReplyConfirmLocalized("greetdmmsg_cur", config.DmGreetMessageText?.SanitizeMentions()).ConfigureAwait(false);
+                    await GreetDmMsg().ConfigureAwait(false);
                     return;
                 }
 
@@ -124,16 +124,20 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageGuild)]
-            public async Task ByeMsg([Remainder] string text = null)
+            public Task ByeMsg()
+            {
+                var byeMsg = _service.GetByteMessage(Context.Guild.Id);
+                return ReplyConfirmLocalized("byemsg_cur", byeMsg?.SanitizeMentions());
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.ManageGuild)]
+            public async Task ByeMsg([Remainder] string text)
             {
                 if (string.IsNullOrWhiteSpace(text))
                 {
-                    string byeMessageText;
-                    using (var uow = _db.UnitOfWork)
-                    {
-                        byeMessageText = uow.GuildConfigs.ForId(Context.Guild.Id, set => set).ChannelByeMessageText;
-                    }
-                    await ReplyConfirmLocalized("byemsg_cur", byeMessageText?.SanitizeMentions()).ConfigureAwait(false);
+                    await ByeMsg().ConfigureAwait(false);
                     return;
                 }
 
