@@ -2749,9 +2749,10 @@
       "Aliases": [
         ".pick"
       ],
-      "Description": "Picks the currency planted in this channel. 60 seconds cooldown.",
+      "Description": "Picks the currency planted in this channel. If the plant has a password, you need to specify it.",
       "Usage": [
-        ".pick"
+        ".pick",
+        ".pick passwd"
       ],
       "Submodule": "PlantPickCommands",
       "Module": "Games",
@@ -2762,10 +2763,10 @@
       "Aliases": [
         ".plant"
       ],
-      "Description": "Spend an amount of currency to plant it in this channel. Default is 1. (If bot is restarted or crashes, the currency will be lost)",
+      "Description": "Spend an amount of currency to plant it in this channel. Default is 1. You can specify the password after the amount. Password has to be alphanumeric and it will be trimmed down to 10 characters if it's longer.",
       "Usage": [
-        ".plant",
-        ".plant 5"
+        ".plant 5",
+        ".plant 10 meow"
       ],
       "Submodule": "PlantPickCommands",
       "Module": "Games",
@@ -4642,20 +4643,6 @@
     },
     {
       "Aliases": [
-        ".yodify",
-        ".yoda"
-      ],
-      "Description": "Translates your normal sentences into Yoda styled sentences!",
-      "Usage": [
-        ".yoda my feelings hurt"
-      ],
-      "Submodule": "Searches",
-      "Module": "Searches",
-      "Options": null,
-      "Requirements": []
-    },
-    {
-      "Aliases": [
         ".urbandict",
         ".ud"
       ],
@@ -5950,7 +5937,7 @@
       "Aliases": [
         ".remind"
       ],
-      "Description": "Sends a message to you or a channel after certain amount of time. First parameter is `me`/`here`/'channelname'. Second parameter is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third parameter is a (multiword) message.",
+      "Description": "Sends a message to you or a channel after certain amount of time (max 2 months). First parameter is `me`/`here`/'channelname'. Second parameter is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third parameter is a (multiword) message.",
       "Usage": [
         ".remind me 1d5h Do something",
         ".remind #general 1m Start now!"
@@ -6185,7 +6172,8 @@
       ],
       "Description": "Shows your xp stats. Specify the user to show that user's stats instead.",
       "Usage": [
-        ".xp"
+        ".xp",
+        ".xp @someguy"
       ],
       "Submodule": "Xp",
       "Module": "Xp",
@@ -6329,6 +6317,22 @@
       "Options": null,
       "Requirements": [
         "Administrator Server Permission"
+      ]
+    },
+    {
+      "Aliases": [
+        ".xptempreload",
+        ".xptr"
+      ],
+      "Description": "Reloads the xp template file. Xp template file allows you to customize the position and color of elements on the `.xp` card.",
+      "Usage": [
+        ".xptr"
+      ],
+      "Submodule": "Xp",
+      "Module": "Xp",
+      "Options": null,
+      "Requirements": [
+        "Bot Owner Only"
       ]
     },
     {

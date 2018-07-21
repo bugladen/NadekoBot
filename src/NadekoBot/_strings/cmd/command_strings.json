@@ -1110,17 +1110,18 @@
   },
   "pick": {
     "Cmd": "pick",
-    "Desc": "Picks the currency planted in this channel. 60 seconds cooldown.",
+    "Desc": "Picks the currency planted in this channel. If the plant has a password, you need to specify it.",
     "Usage": [
-      "{0}pick"
+      "{0}pick",
+      "{0}pick passwd"
     ]
   },
   "plant": {
     "Cmd": "plant",
-    "Desc": "Spend an amount of currency to plant it in this channel. Default is 1. (If bot is restarted or crashes, the currency will be lost)",
+    "Desc": "Spend an amount of currency to plant it in this channel. Default is 1. You can specify the password after the amount. Password has to be alphanumeric and it will be trimmed down to 10 characters if it's longer.",
     "Usage": [
-      "{0}plant",
-      "{0}plant 5"
+      "{0}plant 5",
+      "{0}plant 10 meow"
     ]
   },
   "gencurrency": {
