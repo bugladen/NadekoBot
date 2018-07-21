@@ -150,5 +150,8 @@ namespace NadekoBot.Extensions
 
         public static string GetInitials(this string txt, string glue = "") =>
             string.Join(glue, txt.Split(' ').Select(x => x.FirstOrDefault()));
+
+        public static bool IsAlphaNumeric(this string txt) =>
+            txt.All(c => char.IsLetterOrDigit(c));
     }
 }

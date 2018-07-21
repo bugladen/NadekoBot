@@ -209,6 +209,11 @@ namespace NadekoBot.Core.Services.Impl
                             return false;
                         bc.CheckForUpdates = up;
                         break;
+                    case BotConfigEditType.CurrencyGenerationPassword:
+                        if (!bool.TryParse(newValue, out var pw))
+                            return false;
+                        bc.CurrencyGenerationPassword = pw;
+                        break;
                     default:
                         return false;
                 }

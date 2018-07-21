@@ -6,6 +6,7 @@
         Betroll100Multiplier,
         Betroll67Multiplier,
         Betroll91Multiplier,
+        CurrencyGenerationPassword,
         CurrencyGenerationChance,
         CurrencyGenerationCooldown,
         CurrencyName,

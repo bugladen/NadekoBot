@@ -51,6 +51,7 @@ namespace NadekoBot.Core.Services.Database
         public DbSet<RaceAnimal> RaceAnimals { get; set; }
         public DbSet<RewardedUser> RewardedUsers { get; set; }
         public DbSet<Stake> Stakes { get; set; }
+        public DbSet<PlantedCurrency> PlantedCurrency { get; set; }
 
         public NadekoContext(DbContextOptions<NadekoContext> options) : base(options)
         {
@@ -137,8 +138,12 @@ namespace NadekoBot.Core.Services.Database
             modelBuilder.Entity<FeedSub>()
                 .HasAlternateKey(x => new { x.GuildConfigId, x.Url });
 
-            //modelBuilder.Entity<ProtectionIgnoredChannel>()
-            //    .HasAlternateKey(c => new { c.ChannelId, c.ProtectionType });
+            modelBuilder.Entity<PlantedCurrency>()
+                .HasIndex(x => x.MessageId)
+                .IsUnique();
+
+            modelBuilder.Entity<PlantedCurrency>()
+                .HasIndex(x => x.ChannelId);
 
             #endregion
 
@@ -204,20 +209,6 @@ namespace NadekoBot.Core.Services.Database
                 .IsRequired(false);
             #endregion
 
-            #region LogSettings
-
-            //var logSettingEntity = modelBuilder.Entity<LogSetting>();
-
-            //logSettingEntity
-            //    .HasMany(ls => ls.IgnoredChannels)
-            //    .WithOne(ls => ls.LogSetting)
-            //    .HasPrincipalKey(ls => ls.id;
-
-            //logSettingEntity
-            //    .HasMany(ls => ls.IgnoredVoicePresenceChannelIds)
-            //    .WithOne(ls => ls.LogSetting);
-            #endregion
-
             #region MusicPlaylists
             var musicPlaylistEntity = modelBuilder.Entity<MusicPlaylist>();
 
@@ -239,17 +230,6 @@ namespace NadekoBot.Core.Services.Database
 
             #endregion
 
-            #region CommandPrice
-            //well, i failed
-            modelBuilder.Entity<CommandPrice>()
-                .HasIndex(cp => cp.Price)
-                .IsUnique();
-
-            //modelBuilder.Entity<CommandCost>()
-            //    .HasIndex(cp => cp.CommandName)
-            //    .IsUnique();
-            #endregion
-
             #region Waifus
 
             var wi = modelBuilder.Entity<WaifuInfo>();
@@ -258,13 +238,6 @@ namespace NadekoBot.Core.Services.Database
 
             wi.HasIndex(x => x.Price);
             wi.HasIndex(x => x.ClaimerId);
-            //    //.HasForeignKey<WaifuInfo>(w => w.WaifuId)
-            //    //.IsRequired(true);
-
-            //wi.HasOne(x => x.Claimer)
-            //    .WithOne();
-            //    //.HasForeignKey<WaifuInfo>(w => w.ClaimerId)
-            //    //.IsRequired(false);
             #endregion
 
             #region DiscordUser
