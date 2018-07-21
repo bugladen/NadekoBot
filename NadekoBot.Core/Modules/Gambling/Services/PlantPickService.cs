@@ -124,7 +124,7 @@ namespace NadekoBot.Modules.Gambling.Services
                     var size = TextMeasurer.Measure(pass, new RendererOptions(font, new PointF(0, 0)));
 
                     // fill the background with black, add 5 pixels on each side to make it look better
-                    x.FillPolygon(Rgba32.FromHex("0050"),
+                    x.FillPolygon(Rgba32.FromHex("00000080"),
                         new PointF(0, 0),
                         new PointF(size.Width + 5, 0),
                         new PointF(size.Width + 5, size.Height + 10),
