@@ -28,24 +28,26 @@ namespace NadekoBot.Modules.Administration
                     .ToArray();
                 var timezonesPerPage = 20;
 
-                await Context.SendPaginatedConfirmAsync(page, 
+                await Context.SendPaginatedConfirmAsync(page,
                     (curPage) => new EmbedBuilder()
                         .WithOkColor()
                         .WithTitle(GetText("timezones_available"))
-                        .WithDescription(string.Join("\n", timezones.Skip(curPage * timezonesPerPage).Take(timezonesPerPage).Select(x => $"`{x.Id,-25}` {(x.BaseUtcOffset < TimeSpan.Zero? "-" : "+")}{x.BaseUtcOffset:hhmm}"))),
+                        .WithDescription(string.Join("\n", timezones.Skip(curPage * timezonesPerPage).Take(timezonesPerPage).Select(x => $"`{x.Id,-25}` {(x.BaseUtcOffset < TimeSpan.Zero ? "-" : "+")}{x.BaseUtcOffset:hhmm}"))),
                     timezones.Length, timezonesPerPage).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Timezone([Remainder] string id = null)
+            public async Task Timezone()
             {
-                if (string.IsNullOrWhiteSpace(id))
-                {
-                    await ReplyConfirmLocalized("timezone_guild", _service.GetTimeZoneOrUtc(Context.Guild.Id)).ConfigureAwait(false);
-                    return;
-                }
+                await ReplyConfirmLocalized("timezone_guild", _service.GetTimeZoneOrUtc(Context.Guild.Id)).ConfigureAwait(false);
+            }
 
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.Administrator)]
+            public async Task Timezone([Remainder] string id)
+            {
                 TimeZoneInfo tz;
                 try { tz = TimeZoneInfo.FindSystemTimeZoneById(id); } catch { tz = null; }
 
