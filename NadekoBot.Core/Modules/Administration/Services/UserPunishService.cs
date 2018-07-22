@@ -23,8 +23,10 @@ namespace NadekoBot.Modules.Administration.Services
             _db = db;
         }
 
-        public async Task<PunishmentAction?> Warn(IGuild guild, ulong userId, string modName, string reason)
+        public async Task<PunishmentAction?> Warn(IGuild guild, ulong userId, IUser mod, string reason)
         {
+            var modName = mod.ToString();
+
             if (string.IsNullOrWhiteSpace(reason))
                 reason = "-";
 
@@ -67,9 +69,9 @@ namespace NadekoBot.Modules.Administration.Services
                 {
                     case PunishmentAction.Mute:
                         if (p.Time == 0)
-                            await _mute.MuteUser(user).ConfigureAwait(false);
+                            await _mute.MuteUser(user, mod).ConfigureAwait(false);
                         else
-                            await _mute.TimedMute(user, TimeSpan.FromMinutes(p.Time)).ConfigureAwait(false);
+                            await _mute.TimedMute(user, mod, TimeSpan.FromMinutes(p.Time)).ConfigureAwait(false);
                         break;
                     case PunishmentAction.Kick:
                         await user.KickAsync("Warned too many times.").ConfigureAwait(false);

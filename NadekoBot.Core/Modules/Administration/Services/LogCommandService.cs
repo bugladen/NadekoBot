@@ -345,7 +345,7 @@ namespace NadekoBot.Modules.Administration.Services
             return Task.CompletedTask;
         }
 
-        private void MuteCommands_UserMuted(IGuildUser usr, MuteType muteType)
+        private void MuteCommands_UserMuted(IGuildUser usr, IUser mod, MuteType muteType)
         {
             var _ = Task.Run(async () =>
             {
@@ -363,13 +363,13 @@ namespace NadekoBot.Modules.Administration.Services
                     switch (muteType)
                     {
                         case MuteType.Voice:
-                            mutes = "🔇 " + GetText(logChannel.Guild, "xmuted_voice", mutedLocalized);
+                            mutes = "🔇 " + GetText(logChannel.Guild, "xmuted_voice", mutedLocalized, mod.ToString());
                             break;
                         case MuteType.Chat:
-                            mutes = "🔇 " + GetText(logChannel.Guild, "xmuted_text", mutedLocalized);
+                            mutes = "🔇 " + GetText(logChannel.Guild, "xmuted_text", mutedLocalized, mod.ToString());
                             break;
                         case MuteType.All:
-                            mutes = "🔇 " + GetText(logChannel.Guild, "xmuted_text_and_voice", mutedLocalized);
+                            mutes = "🔇 " + GetText(logChannel.Guild, "xmuted_text_and_voice", mutedLocalized, mod.ToString());
                             break;
                     }
 
@@ -387,7 +387,7 @@ namespace NadekoBot.Modules.Administration.Services
             });
         }
 
-        private void MuteCommands_UserUnmuted(IGuildUser usr, MuteType muteType)
+        private void MuteCommands_UserUnmuted(IGuildUser usr, IUser mod, MuteType muteType)
         {
             var _ = Task.Run(async () =>
             {
@@ -406,13 +406,13 @@ namespace NadekoBot.Modules.Administration.Services
                     switch (muteType)
                     {
                         case MuteType.Voice:
-                            mutes = "🔊 " + GetText(logChannel.Guild, "xmuted_voice", unmutedLocalized);
+                            mutes = "🔊 " + GetText(logChannel.Guild, "xmuted_voice", unmutedLocalized, mod.ToString());
                             break;
                         case MuteType.Chat:
-                            mutes = "🔊 " + GetText(logChannel.Guild, "xmuted_text", unmutedLocalized);
+                            mutes = "🔊 " + GetText(logChannel.Guild, "xmuted_text", unmutedLocalized, mod.ToString());
                             break;
                         case MuteType.All:
-                            mutes = "🔊 " + GetText(logChannel.Guild, "xmuted_text_and_voice", unmutedLocalized);
+                            mutes = "🔊 " + GetText(logChannel.Guild, "xmuted_text_and_voice", unmutedLocalized, mod.ToString());
                             break;
                     }
 

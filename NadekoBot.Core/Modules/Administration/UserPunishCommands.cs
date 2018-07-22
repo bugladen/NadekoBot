@@ -49,7 +49,7 @@ namespace NadekoBot.Modules.Administration
                 {
 
                 }
-                var punishment = await _service.Warn(Context.Guild, user.Id, Context.User.ToString(), reason).ConfigureAwait(false);
+                var punishment = await _service.Warn(Context.Guild, user.Id, Context.User, reason).ConfigureAwait(false);
 
                 if (punishment == null)
                 {

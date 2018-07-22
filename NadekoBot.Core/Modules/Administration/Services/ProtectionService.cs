@@ -174,9 +174,9 @@ namespace NadekoBot.Modules.Administration.Services
                         try
                         {
                             if (muteTime <= 0)
-                                await _mute.MuteUser(gu).ConfigureAwait(false);
+                                await _mute.MuteUser(gu, _client.CurrentUser).ConfigureAwait(false);
                             else
-                                await _mute.TimedMute(gu, TimeSpan.FromSeconds(muteTime)).ConfigureAwait(false);
+                                await _mute.TimedMute(gu, _client.CurrentUser, TimeSpan.FromSeconds(muteTime)).ConfigureAwait(false);
                         }
                         catch (Exception ex) { _log.Warn(ex, "I can't apply punishement"); }
                         break;

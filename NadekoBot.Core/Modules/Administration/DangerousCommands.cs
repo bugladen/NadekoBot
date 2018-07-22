@@ -15,10 +15,10 @@ namespace NadekoBot.Modules.Administration
         [OwnerOnly]
         public class DangerousCommands : NadekoSubmodule<DangerousCommandsService>
         {
-            [NadekoCommand, Usage, Description, Aliases]
-            [OwnerOnly]
-            public async Task ExecSql([Remainder]string sql)
+
+            private async Task InternalExecSql(string sql, params object[] reps)
             {
+                sql = string.Format(sql, reps);
                 try
                 {
                     var embed = new EmbedBuilder()
@@ -38,11 +38,25 @@ namespace NadekoBot.Modules.Administration
                     await Context.Channel.SendErrorAsync(ex.ToString()).ConfigureAwait(false);
                 }
             }
+            [NadekoCommand, Usage, Description, Aliases]
+            [OwnerOnly]
+            public Task ExecSql([Remainder]string sql) =>
+                InternalExecSql(sql);
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public Task DeleteWaifus() =>
                 ExecSql(DangerousCommandsService.WaifusDeleteSql);
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [OwnerOnly]
+            public Task DeleteWaifu(IUser user) =>
+                DeleteWaifu(user.Id);
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [OwnerOnly]
+            public Task DeleteWaifu(ulong userId) =>
+                InternalExecSql(DangerousCommandsService.WaifuDeleteSql, userId);
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]

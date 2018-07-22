@@ -3182,7 +3182,14 @@
   },
   "deletewaifus": {
     "cmd": "deletewaifus",
-    "desc": "Deletes everything from WaifuUpdates and WaifuInfo tables.",
+    "desc": "Deletes everything from WaifuUpdates, WaifuItem and WaifuInfo tables.",
+    "usage": [
+      "{0}deletewaifus"
+    ]
+  },
+  "deletewaifu": {
+    "cmd": "deletewaifu",
+    "desc": "Deletes everything from WaifuUpdates, WaifuItem and WaifuInfo tables for the specified user. Also makes specified user's waifus free.",
     "usage": [
       "{0}deletewaifus"
     ]
