@@ -42,9 +42,10 @@ namespace NadekoBot.Modules.Searches
                         await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                             .WithTitle(kvp.Key.ToTitleCase())
                             .WithDescription(p.BaseStats.ToString())
-                            .AddField(efb => efb.WithName(GetText("types")).WithValue(string.Join(",\n", p.Types)).WithIsInline(true))
+                            .WithThumbnailUrl($"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/{p.Id.ToString("000")}.png")
+                            .AddField(efb => efb.WithName(GetText("types")).WithValue(string.Join("\n", p.Types)).WithIsInline(true))
                             .AddField(efb => efb.WithName(GetText("height_weight")).WithValue(GetText("height_weight_val", p.HeightM, p.WeightKg)).WithIsInline(true))
-                            .AddField(efb => efb.WithName(GetText("abilities")).WithValue(string.Join(",\n", p.Abilities.Select(a => a.Value))).WithIsInline(true))).ConfigureAwait(false);
+                            .AddField(efb => efb.WithName(GetText("abilities")).WithValue(string.Join("\n", p.Abilities.Select(a => a.Value))).WithIsInline(true))).ConfigureAwait(false);
                         return;
                     }
                 }
@@ -63,7 +64,7 @@ namespace NadekoBot.Modules.Searches
                     {
                         await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                             .WithTitle(kvp.Value.Name)
-                            .WithDescription(string.IsNullOrWhiteSpace(kvp.Value.Desc) 
+                            .WithDescription(string.IsNullOrWhiteSpace(kvp.Value.Desc)
                                 ? kvp.Value.ShortDesc
                                 : kvp.Value.Desc)
                             .AddField(efb => efb.WithName(GetText("rating"))
