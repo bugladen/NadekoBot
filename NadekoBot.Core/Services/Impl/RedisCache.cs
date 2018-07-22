@@ -22,7 +22,7 @@ namespace NadekoBot.Core.Services.Impl
 
         private readonly string _redisKey;
 
-        public RedisCache(IBotCredentials creds)
+        public RedisCache(IBotCredentials creds, int shardId)
         {
             _log = LogManager.GetCurrentClassLogger();
             var conf = ConfigurationOptions.Parse("127.0.0.1");
@@ -30,7 +30,7 @@ namespace NadekoBot.Core.Services.Impl
             Redis = ConnectionMultiplexer.Connect(conf);
             Redis.PreserveAsyncOrder = false;
             LocalImages = new RedisImagesCache(Redis, creds);
-            LocalData = new RedisLocalDataCache(Redis, creds);
+            LocalData = new RedisLocalDataCache(Redis, creds, shardId);
             _redisKey = creds.RedisKey();
         }
 

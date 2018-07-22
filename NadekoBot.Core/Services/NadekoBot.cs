@@ -69,7 +69,7 @@ namespace NadekoBot
             TerribleElevatedPermissionCheck();
 
             Credentials = new BotCredentials();
-            Cache = new RedisCache(Credentials);
+            Cache = new RedisCache(Credentials, shardId);
             _db = new DbService(Credentials);
             Client = new DiscordSocketClient(new DiscordSocketConfig
             {
