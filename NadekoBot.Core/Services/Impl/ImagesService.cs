@@ -158,17 +158,20 @@ namespace NadekoBot.Core.Services.Impl
 
             var baseStr = "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/currency/";
 
-            var replacementTable = new Dictionary<string, string>()
+            var replacementTable = new Dictionary<Uri, Uri>()
             {
-                {baseStr + "0.jpg", baseStr + "0.png" },
-                {baseStr + "1.jpg", baseStr + "1.png" },
-                {baseStr + "2.jpg", baseStr + "2.png" }
+                {new Uri(baseStr + "0.jpg"), new Uri(baseStr + "0.png") },
+                {new Uri(baseStr + "1.jpg"), new Uri(baseStr + "1.png") },
+                {new Uri(baseStr + "2.jpg"), new Uri(baseStr + "2.png") }
             };
 
-            urls.Currency = urls.Currency.Select(x => replacementTable.TryGetValue(x.ToString(), out var newStr)
-                ? new Uri(newStr)
-                : x).Append(new Uri(baseStr + "3.png"))
-                .ToArray();
+            if (replacementTable.Keys.Any(x => urls.Currency.Contains(x)))
+            {
+                urls.Currency = urls.Currency.Select(x => replacementTable.TryGetValue(x, out var newUri)
+                    ? newUri
+                    : x).Append(new Uri(baseStr + "3.png"))
+                    .ToArray();
+            }
 
             File.WriteAllText(Path.Combine(_basePath, "images.json"), JsonConvert.SerializeObject(urls, Formatting.Indented));
         }
