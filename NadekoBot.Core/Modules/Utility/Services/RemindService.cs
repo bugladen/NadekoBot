@@ -78,7 +78,7 @@ namespace NadekoBot.Modules.Utility.Services
                 IMessageChannel ch;
                 if (r.IsPrivate)
                 {
-                    var user = _client.GetGuild(r.ServerId).GetUser(r.ChannelId);
+                    var user = _client.GetUser(r.ChannelId);
                     if (user == null)
                         return;
                     ch = await user.GetOrCreateDMChannelAsync().ConfigureAwait(false);
