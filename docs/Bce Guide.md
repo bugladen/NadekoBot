@@ -119,4 +119,4 @@ __Default is Release__
 You need this only if you have a patreon page, and you've specified the PatreonCampaignId and PatreonAccessToken in credentials.json. This value is the amount of currency the users will get with `.clparew` for each cent they've pledged. Also make sure your patreon is set to charge upfront, otherwise people will be able to pledge, claim reward and unpledge without getting charged.
 __Default is 1__
 
-[1]: http://nadekobot.readthedocs.io/en/latest/Embed%20Guide "Embed guide"
+[1]: Embed%20Guide "Embed guide"
