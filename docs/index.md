@@ -28,6 +28,7 @@ If you want to contribute, be sure to PR on the current **[default][repo]** bran
 	- [JSON Explanations](JSON Explanations.md)
 	- [Custom Reactions](Custom Reactions.md)
 	- [Placeholders](Placeholders.md)
+	- [Bot Config](Bce Guide.md)
 - [Frequently Asked Questions](Frequently Asked Questions.md)
 - [Contribution Guide](Contribution Guide.md)
 - [Donate](Donate.md)
