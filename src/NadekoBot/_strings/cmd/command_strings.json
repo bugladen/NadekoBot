@@ -162,7 +162,7 @@
   },
   "slowmode": {
     "Cmd": "slowmode",
-    "Desc": "Toggles slowmode. Slowmode deletes any excess messages users type over the specified limit of messages per X seconds. To enable, specify a number of messages (-m) each user can send, and an interval in seconds (-i).  Disable by specifying no parameters.",
+    "Desc": "Toggles slowmode. Slowmode deletes any excess messages users type over the specified limit of messages per X seconds. To enable, specify a number of messages (-m) each user can send, and an interval in seconds (-s).  Disable by specifying no parameters.",
     "Usage": [
       "{0}slowmode -m 1 -s 5",
       "{0}slowmode"
