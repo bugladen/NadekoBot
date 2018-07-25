@@ -112,7 +112,7 @@ namespace NadekoBot.Modules.Utility.Services
                         success = streamRoleSettings.Blacklist.Add(userObj);
                 }
 
-                await uow.CompleteAsync().ConfigureAwait(false);
+                await uow.CompleteAsync();
                 UpdateCache(guild.Id, streamRoleSettings);
             }
             if (success)
@@ -187,7 +187,7 @@ namespace NadekoBot.Modules.Utility.Services
                 streamRoleSettings.FromRoleId = fromRole.Id;
 
                 setting = streamRoleSettings;
-                await uow.CompleteAsync().ConfigureAwait(false);
+                await uow.CompleteAsync();
             }
 
             UpdateCache(fromRole.Guild.Id, setting);
@@ -209,7 +209,7 @@ namespace NadekoBot.Modules.Utility.Services
             {
                 var streamRoleSettings = uow.GuildConfigs.GetStreamRoleSettings(guild.Id);
                 streamRoleSettings.Enabled = false;
-                await uow.CompleteAsync().ConfigureAwait(false);
+                await uow.CompleteAsync();
             }
 
             if (guildSettings.TryRemove(guild.Id, out var setting) && cleanup)

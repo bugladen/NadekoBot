@@ -186,7 +186,7 @@ namespace NadekoBot.Modules.Gambling
                         result = WaifuClaimResult.InsufficientAmount;
 
 
-                    await uow.CompleteAsync().ConfigureAwait(false);
+                    await uow.CompleteAsync();
                 }
 
                 if (result == WaifuClaimResult.InsufficientAmount)
@@ -289,7 +289,7 @@ namespace NadekoBot.Modules.Gambling
                         });
                     }
 
-                    await uow.CompleteAsync().ConfigureAwait(false);
+                    await uow.CompleteAsync();
                 }
 
                 if (result == DivorceResult.SucessWithPenalty)
@@ -372,7 +372,7 @@ namespace NadekoBot.Modules.Gambling
                         });
                     }
 
-                    await uow.CompleteAsync().ConfigureAwait(false);
+                    await uow.CompleteAsync();
                 }
                 if (!sucess)
                 {
@@ -468,7 +468,7 @@ namespace NadekoBot.Modules.Gambling
 
                     w.Waifu.Username = target.Username;
                     w.Waifu.Discriminator = target.Discriminator;
-                    await uow.CompleteAsync().ConfigureAwait(false);
+                    await uow.CompleteAsync();
                 }
 
                 var claimInfo = GetClaimTitle(target.Id);
@@ -570,7 +570,7 @@ namespace NadekoBot.Modules.Gambling
                     else
                         w.Price += itemObj.Price / 2;
 
-                    await uow.CompleteAsync().ConfigureAwait(false);
+                    await uow.CompleteAsync();
                 }
 
                 await ReplyConfirmLocalized("waifu_gift", Format.Bold(item.ToString() + " " +itemObj.ItemEmoji), Format.Bold(waifu.ToString())).ConfigureAwait(false);

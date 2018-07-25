@@ -472,7 +472,7 @@ namespace NadekoBot.Modules.Music
                         if (_creds.IsOwner(Context.User) || pl.AuthorId == Context.User.Id)
                         {
                             uow.MusicPlaylists.Remove(pl);
-                            await uow.CompleteAsync().ConfigureAwait(false);
+                            await uow.CompleteAsync();
                             success = true;
                         }
                     }
@@ -542,7 +542,7 @@ namespace NadekoBot.Modules.Music
                     Songs = songs.ToList(),
                 };
                 uow.MusicPlaylists.Add(playlist);
-                await uow.CompleteAsync().ConfigureAwait(false);
+                await uow.CompleteAsync();
             }
 
             await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()

@@ -49,7 +49,7 @@ namespace NadekoBot.Modules.Utility.Services
             {
                 var gr = uow.GuildConfigs.ForId(r.GuildId, x => x.Include(y => y.GuildRepeaters)).GuildRepeaters;
                 gr.Remove(r);
-                await uow.CompleteAsync().ConfigureAwait(false);
+                await uow.CompleteAsync();
             }
         }
     }

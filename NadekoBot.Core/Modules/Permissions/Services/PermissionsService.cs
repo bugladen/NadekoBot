@@ -73,7 +73,7 @@ namespace NadekoBot.Modules.Permissions.Services
                     perm.Index = ++max;
                     config.Permissions.Add(perm);
                 }
-                await uow.CompleteAsync().ConfigureAwait(false);
+                await uow.CompleteAsync();
                 UpdateCache(config);
             }
         }

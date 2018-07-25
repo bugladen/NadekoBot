@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace NadekoBot.Core.Services.Database.Repositories.Impl
 {
-    public class Repository<T> : IRepository<T> where T : DbEntity
+    public abstract class Repository<T> : IRepository<T> where T : DbEntity
     {
         protected DbContext _context { get; set; }
         protected DbSet<T> _set { get; set; }

@@ -33,7 +33,7 @@ namespace NadekoBot.Modules.Games
                     using (var uow = _db.UnitOfWork)
                     {
                         uow.GuildConfigs.SetCleverbotEnabled(Context.Guild.Id, false);
-                        await uow.CompleteAsync().ConfigureAwait(false);
+                        await uow.CompleteAsync();
                     }
                     await ReplyConfirmLocalized("cleverbot_disabled").ConfigureAwait(false);
                     return;
@@ -44,7 +44,7 @@ namespace NadekoBot.Modules.Games
                 using (var uow = _db.UnitOfWork)
                 {
                     uow.GuildConfigs.SetCleverbotEnabled(Context.Guild.Id, true);
-                    await uow.CompleteAsync().ConfigureAwait(false);
+                    await uow.CompleteAsync();
                 }
 
                 await ReplyConfirmLocalized("cleverbot_enabled").ConfigureAwait(false);

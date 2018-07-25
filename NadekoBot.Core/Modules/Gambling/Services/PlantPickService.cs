@@ -318,7 +318,7 @@ namespace NadekoBot.Modules.Gambling.Services
                     UserId = uid,
                     MessageId = mid,
                 });
-                await uow.CompleteAsync().ConfigureAwait(false);
+                await uow.CompleteAsync();
             }
         }
     }

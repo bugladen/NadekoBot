@@ -23,7 +23,7 @@ namespace NadekoBot.Modules.Permissions.Services
             {
                 var config = uow.GuildConfigs.GcWithPermissionsv2For(guildId);
                 config.Permissions = Permissionv2.GetDefaultPermlist;
-                await uow.CompleteAsync().ConfigureAwait(false);
+                await uow.CompleteAsync();
                 _perms.UpdateCache(config);
             }
         }
@@ -38,7 +38,7 @@ namespace NadekoBot.Modules.Permissions.Services
 
                 _globalPerms.BlockedCommands.Clear();
                 _globalPerms.BlockedModules.Clear();
-                await uow.CompleteAsync().ConfigureAwait(false);
+                await uow.CompleteAsync();
             }
         }
     }

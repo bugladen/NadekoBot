@@ -32,7 +32,7 @@ namespace NadekoBot.Modules.Permissions
             {
                 var config = uow.GuildConfigs.GcWithPermissionsv2For(Context.Guild.Id);
                 config.VerbosePermissions = action.Value;
-                await uow.CompleteAsync().ConfigureAwait(false);
+                await uow.CompleteAsync();
                 _service.UpdateCache(config);
             }
             if (action.Value)
@@ -92,7 +92,7 @@ namespace NadekoBot.Modules.Permissions
             {
                 var config = uow.GuildConfigs.GcWithPermissionsv2For(Context.Guild.Id);
                 config.PermissionRole = null;
-                await uow.CompleteAsync().ConfigureAwait(false);
+                await uow.CompleteAsync();
                 _service.UpdateCache(config);
             }
 
@@ -151,7 +151,7 @@ namespace NadekoBot.Modules.Permissions
                     p = permsCol[index];
                     permsCol.RemoveAt(index);
                     uow._context.Remove(p);
-                    await uow.CompleteAsync().ConfigureAwait(false);
+                    await uow.CompleteAsync();
                     _service.UpdateCache(config);
                 }
                 await ReplyConfirmLocalized("removed",
@@ -198,7 +198,7 @@ namespace NadekoBot.Modules.Permissions
 
                         permsCol.RemoveAt(from);
                         permsCol.Insert(to, fromPerm);
-                        await uow.CompleteAsync().ConfigureAwait(false);
+                        await uow.CompleteAsync();
                         _service.UpdateCache(config);
                     }
                     await ReplyConfirmLocalized("moved_permission",

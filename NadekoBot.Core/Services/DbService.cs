@@ -16,7 +16,7 @@ namespace NadekoBot.Core.Services
         {
             var builder = new SqliteConnectionStringBuilder(creds.Db.ConnectionString);
             builder.DataSource = Path.Combine(AppContext.BaseDirectory, builder.DataSource);
-            
+
             var optionsBuilder = new DbContextOptionsBuilder<NadekoContext>();
             optionsBuilder.UseSqlite(builder.ToString());
             options = optionsBuilder.Options;
@@ -24,32 +24,45 @@ namespace NadekoBot.Core.Services
             optionsBuilder = new DbContextOptionsBuilder<NadekoContext>();
             optionsBuilder.UseSqlite(builder.ToString(), x => x.SuppressForeignKeyEnforcement());
             migrateOptions = optionsBuilder.Options;
+
+            Setup();
+        }
+
+        private void Setup()
+        {
+            using (var context = new NadekoContext(options))
+            {
+                if (context.Database.GetPendingMigrations().Any())
+                {
+                    var mContext = new NadekoContext(migrateOptions);
+                    mContext.Database.Migrate();
+                    mContext.SaveChanges();
+                    mContext.Dispose();
+                }
+                context.Database.SetCommandTimeout(60);
+                context.EnsureSeedData();
+
+                //set important sqlite stuffs
+                using (var conn = context.Database.GetDbConnection())
+                {
+                    conn.Open();
+
+                    context.Database.ExecuteSqlCommand("PRAGMA journal_mode=WAL");
+                    using (var com = conn.CreateCommand())
+                    {
+                        com.CommandText = "PRAGMA journal_mode=WAL; PRAGMA synchronous=OFF";
+                        com.ExecuteNonQuery();
+                    }
+                    conn.Close();
+                }
+                context.SaveChanges();
+            }
         }
 
         public NadekoContext GetDbContext()
         {
             var context = new NadekoContext(options);
-            if (context.Database.GetPendingMigrations().Any())
-            {
-                var mContext = new NadekoContext(migrateOptions);
-                mContext.Database.Migrate();
-                mContext.SaveChanges();
-                mContext.Dispose();
-            }
             context.Database.SetCommandTimeout(60);
-            context.EnsureSeedData();
-
-            //set important sqlite stuffs
-            var conn = context.Database.GetDbConnection();
-            conn.Open();
-
-            context.Database.ExecuteSqlCommand("PRAGMA journal_mode=WAL");
-            using (var com = conn.CreateCommand())
-            {
-                com.CommandText = "PRAGMA journal_mode=WAL; PRAGMA synchronous=OFF";
-                com.ExecuteNonQuery();
-            }
-
             return context;
         }
 

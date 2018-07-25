@@ -43,7 +43,7 @@ namespace NadekoBot.Modules.Gambling.Services
                 var newOwnerUser = uow.DiscordUsers.GetOrCreate(newOwner);
                 waifu.ClaimerId = newOwnerUser.Id;
 
-                await uow.CompleteAsync().ConfigureAwait(false);
+                await uow.CompleteAsync();
             }
 
             return true;

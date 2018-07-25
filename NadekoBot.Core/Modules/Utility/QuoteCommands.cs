@@ -164,7 +164,7 @@ namespace NadekoBot.Modules.Utility
                         Keyword = keyword,
                         Text = text,
                     });
-                    await uow.CompleteAsync().ConfigureAwait(false);
+                    await uow.CompleteAsync();
                 }
                 await ReplyConfirmLocalized("quote_added").ConfigureAwait(false);
             }
@@ -188,7 +188,7 @@ namespace NadekoBot.Modules.Utility
                     else
                     {
                         uow.Quotes.Remove(q);
-                        await uow.CompleteAsync().ConfigureAwait(false);
+                        await uow.CompleteAsync();
                         success = true;
                         response = GetText("quote_deleted", id);
                     }
@@ -213,7 +213,7 @@ namespace NadekoBot.Modules.Utility
                 {
                     uow.Quotes.RemoveAllByKeyword(Context.Guild.Id, keyword.ToUpperInvariant());
 
-                    await uow.CompleteAsync().ConfigureAwait(false);
+                    await uow.CompleteAsync();
                 }
 
                 await ReplyConfirmLocalized("quotes_deleted", Format.Bold(keyword.SanitizeMentions())).ConfigureAwait(false);

@@ -265,7 +265,7 @@ namespace NadekoBot.Core.Services
                 conf.SendChannelGreetMessage = settings.SendChannelGreetMessage;
                 conf.SendChannelByeMessage = settings.SendChannelByeMessage;
 
-                await uow.CompleteAsync().ConfigureAwait(false);
+                await uow.CompleteAsync();
 
                 var toAdd = GreetSettings.Create(conf);
                 GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
@@ -286,7 +286,7 @@ namespace NadekoBot.Core.Services
                 var toAdd = GreetSettings.Create(conf);
                 GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
 
-                await uow.CompleteAsync().ConfigureAwait(false);
+                await uow.CompleteAsync();
             }
             return enabled;
         }
@@ -324,7 +324,7 @@ namespace NadekoBot.Core.Services
                 var toAdd = GreetSettings.Create(conf);
                 GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
 
-                await uow.CompleteAsync().ConfigureAwait(false);
+                await uow.CompleteAsync();
             }
             return enabled;
         }
@@ -363,7 +363,7 @@ namespace NadekoBot.Core.Services
                 var toAdd = GreetSettings.Create(conf);
                 GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
 
-                await uow.CompleteAsync().ConfigureAwait(false);
+                await uow.CompleteAsync();
             }
             return enabled;
         }
@@ -403,7 +403,7 @@ namespace NadekoBot.Core.Services
                 var toAdd = GreetSettings.Create(conf);
                 GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
 
-                await uow.CompleteAsync().ConfigureAwait(false);
+                await uow.CompleteAsync();
             }
         }
 
@@ -420,7 +420,7 @@ namespace NadekoBot.Core.Services
                 var toAdd = GreetSettings.Create(conf);
                 GuildConfigsCache.AddOrUpdate(id, toAdd, (key, old) => toAdd);
 
-                await uow.CompleteAsync().ConfigureAwait(false);
+                await uow.CompleteAsync();
             }
         }
     }

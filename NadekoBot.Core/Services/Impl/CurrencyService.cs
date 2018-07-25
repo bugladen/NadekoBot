@@ -62,7 +62,7 @@ namespace NadekoBot.Core.Services
             using (var uow = _db.UnitOfWork)
             {
                 InternalChange(userId, userName, discrim, avatar, reason, amount, gamble, uow);
-                await uow.CompleteAsync().ConfigureAwait(false);
+                await uow.CompleteAsync();
             }
         }
 
@@ -122,7 +122,7 @@ namespace NadekoBot.Core.Services
                     if (userIdHashSet.Add(idArray[i]))
                         InternalChange(idArray[i], null, null, null, reasonArray[i], amountArray[i], gamble, uow);
                 }
-                await uow.CompleteAsync().ConfigureAwait(false);
+                await uow.CompleteAsync();
             }
         }
 
@@ -139,7 +139,7 @@ namespace NadekoBot.Core.Services
             using (var uow = _db.UnitOfWork)
             {
                 result = InternalChange(userId, userName, userDiscrim, avatar, reason, -amount, gamble, uow);
-                await uow.CompleteAsync().ConfigureAwait(false);
+                await uow.CompleteAsync();
             }
             return result;
         }

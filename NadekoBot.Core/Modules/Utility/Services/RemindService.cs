@@ -103,7 +103,7 @@ namespace NadekoBot.Modules.Utility.Services
                 using (var uow = _db.UnitOfWork)
                 {
                     uow.Reminders.Remove(r);
-                    await uow.CompleteAsync().ConfigureAwait(false);
+                    await uow.CompleteAsync();
                 }
                 var _ = Task.Run(() =>
                 {

@@ -242,7 +242,7 @@ namespace NadekoBot.Modules.Administration.Services
                 var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiRaidSetting));
 
                 gc.AntiRaidSetting = stats.AntiRaidSettings;
-                await uow.CompleteAsync().ConfigureAwait(false);
+                await uow.CompleteAsync();
             }
 
             return stats;
@@ -317,7 +317,7 @@ namespace NadekoBot.Modules.Administration.Services
                 {
                     gc.AntiSpamSetting = stats.AntiSpamSettings;
                 }
-                await uow.CompleteAsync().ConfigureAwait(false);
+                await uow.CompleteAsync();
             }
             return stats;
         }
@@ -352,7 +352,7 @@ namespace NadekoBot.Modules.Administration.Services
                     added = false;
                 }
 
-                await uow.CompleteAsync().ConfigureAwait(false);
+                await uow.CompleteAsync();
             }
             return added;
         }

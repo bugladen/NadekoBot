@@ -37,7 +37,7 @@ namespace NadekoBot.Modules.Administration.Services
                 var config = uow.GuildConfigs.ForId(guildId, set => set);
                 config.MuteRoleName = name;
                 GuildMuteRoles.AddOrUpdate(guildId, name, (id, old) => name);
-                await uow.CompleteAsync().ConfigureAwait(false);
+                await uow.CompleteAsync();
             }
         }
 
@@ -147,7 +147,7 @@ namespace NadekoBot.Modules.Administration.Services
 
                     config.UnmuteTimers.RemoveWhere(x => x.UserId == usr.Id);
 
-                    await uow.CompleteAsync().ConfigureAwait(false);
+                    await uow.CompleteAsync();
                 }
                 UserMuted(usr, mod, MuteType.All);
             }
@@ -182,7 +182,7 @@ namespace NadekoBot.Modules.Administration.Services
 
                     config.UnmuteTimers.RemoveWhere(x => x.UserId == usrId);
 
-                    await uow.CompleteAsync().ConfigureAwait(false);
+                    await uow.CompleteAsync();
                 }
                 if (usr != null)
                 {

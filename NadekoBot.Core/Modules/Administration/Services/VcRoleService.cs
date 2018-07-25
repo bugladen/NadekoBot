@@ -111,7 +111,7 @@ namespace NadekoBot.Modules.Administration.Services
                 {
                     _log.Warn($"Removing {missingRoles.Count} missing roles from {nameof(VcRoleService)}");
                     uow._context.RemoveRange(missingRoles);
-                    await uow.CompleteAsync().ConfigureAwait(false);
+                    await uow.CompleteAsync();
                 }
             }
         }

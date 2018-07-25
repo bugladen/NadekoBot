@@ -53,7 +53,7 @@ namespace NadekoBot.Modules.CustomReactions
             {
                 uow.CustomReactions.Add(cr);
 
-                await uow.CompleteAsync().ConfigureAwait(false);
+                await uow.CompleteAsync();
             }
 
             if (channel == null)
@@ -101,7 +101,7 @@ namespace NadekoBot.Modules.CustomReactions
                 if (cr != null)
                 {
                     cr.Response = message;
-                    await uow.CompleteAsync().ConfigureAwait(false);
+                    await uow.CompleteAsync();
                 }
             }
 
@@ -303,7 +303,7 @@ namespace NadekoBot.Modules.CustomReactions
                         success = true;
                     }
                     if (success)
-                        await uow.CompleteAsync().ConfigureAwait(false);
+                        await uow.CompleteAsync();
                 }
             }
 
