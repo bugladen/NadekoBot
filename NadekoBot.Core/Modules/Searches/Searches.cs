@@ -784,7 +784,7 @@ namespace NadekoBot.Modules.Searches
         public async Task Videocall(params IGuildUser[] users)
         {
             var allUsrs = users.Append(Context.User);
-            var allUsrsArray = allUsrs.ToArray();
+            var allUsrsArray = allUsrs.Distinct().ToArray();
             var str = allUsrsArray.Aggregate("http://appear.in/", (current, usr) => current + Uri.EscapeUriString(usr.Username[0].ToString()));
             str += new NadekoRandom().Next();
             foreach (var usr in allUsrsArray)
