@@ -212,21 +212,6 @@ namespace NadekoBot.Modules.Administration.Services
                     }
 
                     await logChannel.EmbedAsync(embed).ConfigureAwait(false);
-
-                    //var guildsMemberOf = _client.GetGuilds().Where(g => g.Users.Select(u => u.Id).Contains(before.Id)).ToList();
-                    //foreach (var g in guildsMemberOf)
-                    //{
-                    //    LogSetting logSetting;
-                    //    if (!GuildLogSettings.TryGetValue(g.Id, out logSetting)
-                    //        || (logSetting.UserUpdatedId == null))
-                    //        return;
-
-                    //    ITextChannel logChannel;
-                    //    if ((logChannel = await TryGetLogChannel(g, logSetting, LogType.UserUpdated)) == null)
-                    //        return;
-
-                    //    try { await logChannel.SendMessageAsync(str).ConfigureAwait(false); } catch { }
-                    //}
                 }
                 catch
                 {
