@@ -16,7 +16,6 @@ namespace NadekoBot.Core.Services.Database
         ICustomReactionRepository CustomReactions { get; }
         ICurrencyTransactionsRepository CurrencyTransactions { get; }
         IMusicPlaylistRepository MusicPlaylists { get; }
-        IPokeGameRepository PokeGame { get; }
         IWaifuRepository Waifus { get; }
         IDiscordUserRepository DiscordUsers { get; }
         IWarningsRepository Warnings { get; }

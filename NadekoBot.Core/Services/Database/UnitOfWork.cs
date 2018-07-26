@@ -33,9 +33,6 @@ namespace NadekoBot.Core.Services.Database
         private ICustomReactionRepository _customReactions;
         public ICustomReactionRepository CustomReactions => _customReactions ?? (_customReactions = new CustomReactionsRepository(_context));
 
-        private IPokeGameRepository _pokegame;
-        public IPokeGameRepository PokeGame => _pokegame ?? (_pokegame = new PokeGameRepository(_context));
-
         private IWaifuRepository _waifus;
         public IWaifuRepository Waifus => _waifus ?? (_waifus = new WaifuRepository(_context));
 

@@ -34,7 +34,6 @@ namespace NadekoBot.Core.Services.Database
         public DbSet<MusicPlaylist> MusicPlaylists { get; set; }
         public DbSet<CustomReaction> CustomReactions { get; set; }
         public DbSet<CurrencyTransaction> CurrencyTransactions { get; set; }
-        public DbSet<UserPokeTypes> PokeGame { get; set; }
         public DbSet<WaifuUpdate> WaifuUpdates { get; set; }
         public DbSet<Warning> Warnings { get; set; }
         public DbSet<UserXpStats> UserXpStats { get; set; }
@@ -124,9 +123,6 @@ namespace NadekoBot.Core.Services.Database
                 .HasIndex(c => c.GuildId)
                 .IsUnique();
 
-            //configEntity.Property(x => x.PermissionRole)
-            //    .HasDefaultValue(null);
-
             modelBuilder.Entity<AntiSpamSetting>()
                 .HasOne(x => x.GuildConfig)
                 .WithOne(x => x.AntiSpamSetting);
@@ -177,14 +173,6 @@ namespace NadekoBot.Core.Services.Database
             botConfigEntity.Property(x => x.LastUpdate)
                 .HasDefaultValue(new DateTime(2018, 5, 5, 0, 0, 0, 0, DateTimeKind.Utc));
 
-            //botConfigEntity.Property(x => x.PermissionVersion)
-            //    .HasDefaultValue(2);
-
-            //botConfigEntity
-            //    .HasMany(c => c.ModulePrefixes)
-            //    .WithOne(mp => mp.BotConfig)
-            //    .HasForeignKey(mp => mp.BotConfigId);
-
             #endregion
 
             #region Self Assignable Roles
@@ -219,17 +207,7 @@ namespace NadekoBot.Core.Services.Database
 
 
             #endregion
-
-            #region PokeGame
-            var pokeGameEntity = modelBuilder.Entity<UserPokeTypes>();
-
-            pokeGameEntity
-                .HasIndex(pt => pt.UserId)
-                .IsUnique();
-
-
-            #endregion
-
+            
             #region Waifus
 
             var wi = modelBuilder.Entity<WaifuInfo>();
