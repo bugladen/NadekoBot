@@ -50,7 +50,8 @@ namespace NadekoBot.Modules.Utility.Services
 
         public async Task RefreshPledges()
         {
-            if (string.IsNullOrWhiteSpace(_creds.PatreonAccessToken))
+            if (string.IsNullOrWhiteSpace(_creds.PatreonAccessToken) 
+                || string.IsNullOrWhiteSpace(_creds.PatreonAccessToken))
                 return;
 
             LastUpdate = DateTime.UtcNow;
