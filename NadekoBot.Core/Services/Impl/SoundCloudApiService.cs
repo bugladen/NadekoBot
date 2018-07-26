@@ -78,7 +78,6 @@ namespace NadekoBot.Core.Services.Impl
             using (var http = new HttpClient())
             {
                 var url = await http.GetStringAsync(new Uri($"http://scapi.nadekobot.me/stream/{Id}"));
-
                 return url;
             }
         }
