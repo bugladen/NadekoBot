@@ -204,7 +204,7 @@ namespace NadekoBot.Modules.Xp.Services
                                 if (crew != null)
                                 {
                                     //give the user the reward if it exists
-                                    await _cs.AddAsync(item.Key.User.Id, "Level-up Reward", crew.Amount).ConfigureAwait(false);
+                                    await _cs.AddAsync(item.Key.User.Id, "Level-up Reward", crew.Amount);
                                 }
                             }
                         }
@@ -218,14 +218,14 @@ namespace NadekoBot.Modules.Xp.Services
                         {
                             if (x.NotifyType == XpNotificationType.Dm)
                             {
-                                var chan = await x.User.GetOrCreateDMChannelAsync().ConfigureAwait(false);
+                                var chan = await x.User.GetOrCreateDMChannelAsync();
                                 if (chan != null)
                                     await chan.SendConfirmAsync(_strings.GetText("level_up_dm",
                                         (x.MessageChannel as ITextChannel)?.GuildId,
                                         "xp",
                                         x.User.Mention, Format.Bold(x.Level.ToString()),
                                         Format.Bold((x.MessageChannel as ITextChannel)?.Guild.ToString() ?? "-")))
-                                        .ConfigureAwait(false);
+                                        ;
                             }
                             else // channel
                             {
@@ -233,7 +233,7 @@ namespace NadekoBot.Modules.Xp.Services
                                           (x.MessageChannel as ITextChannel)?.GuildId,
                                           "xp",
                                           x.User.Mention, Format.Bold(x.Level.ToString())))
-                                          .ConfigureAwait(false);
+                                          ;
                             }
                         }
                         else
@@ -241,7 +241,7 @@ namespace NadekoBot.Modules.Xp.Services
                             IMessageChannel chan;
                             if (x.NotifyType == XpNotificationType.Dm)
                             {
-                                chan = await x.User.GetOrCreateDMChannelAsync().ConfigureAwait(false);
+                                chan = await x.User.GetOrCreateDMChannelAsync();
                             }
                             else // channel
                             {
@@ -251,9 +251,9 @@ namespace NadekoBot.Modules.Xp.Services
                                           (x.MessageChannel as ITextChannel)?.GuildId,
                                           "xp",
                                           x.User.Mention, Format.Bold(x.Level.ToString())))
-                                            .ConfigureAwait(false);
+                                            ;
                         }
-                    })).ConfigureAwait(false);
+                    }));
                 }
                 catch (Exception ex)
                 {
@@ -272,7 +272,7 @@ namespace NadekoBot.Modules.Xp.Services
                 {
                     _rewardedUsers.Clear();
 
-                    await Task.Delay(TimeSpan.FromMinutes(_bc.BotConfig.XpMinutesTimeout)).ConfigureAwait(false);
+                    await Task.Delay(TimeSpan.FromMinutes(_bc.BotConfig.XpMinutesTimeout));
                 }
             }, token);
         }
@@ -640,8 +640,8 @@ namespace NadekoBot.Modules.Xp.Services
 
         public async Task<Stream> GenerateImageAsync(IGuildUser user)
         {
-            var stats = await GetUserStatsAsync(user).ConfigureAwait(false);
-            return await GenerateImageAsync(stats).ConfigureAwait(false);
+            var stats = await GetUserStatsAsync(user);
+            return await GenerateImageAsync(stats);
         }
 
 
@@ -796,13 +796,13 @@ namespace NadekoBot.Modules.Xp.Services
                     {
                         var avatarUrl = stats.User.RealAvatarUrl(128);
 
-                        var (succ, data) = await _cache.TryGetImageDataAsync(avatarUrl).ConfigureAwait(false);
+                        var (succ, data) = await _cache.TryGetImageDataAsync(avatarUrl);
                         if (!succ)
                         {
                             _log.Info(avatarUrl);
                             using (var http = _httpFactory.CreateClient())
                             {
-                                var avatarData = await http.GetByteArrayAsync(avatarUrl).ConfigureAwait(false);
+                                var avatarData = await http.GetByteArrayAsync(avatarUrl);
                                 using (var tempDraw = Image.Load(avatarData))
                                 {
                                     tempDraw.Mutate(x => x.Resize(_template.User.Icon.Size.X, _template.User.Icon.Size.Y));
@@ -813,7 +813,7 @@ namespace NadekoBot.Modules.Xp.Services
                                     }
                                 }
                             }
-                            await _cache.SetImageDataAsync(avatarUrl, data).ConfigureAwait(false);
+                            await _cache.SetImageDataAsync(avatarUrl, data);
                         }
                         using (var toDraw = Image.Load(data))
                         {
@@ -835,7 +835,7 @@ namespace NadekoBot.Modules.Xp.Services
                 //club image
                 if (_template.Club.Icon.Show)
                 {
-                    await DrawClubImage(img, stats).ConfigureAwait(false);
+                    await DrawClubImage(img, stats);
                 }
                 img.Mutate(x => x.Resize(_template.OutputSize.X, _template.OutputSize.Y));
                 return img.ToStream();
@@ -899,15 +899,15 @@ namespace NadekoBot.Modules.Xp.Services
                 try
                 {
                     var imgUrl = new Uri(stats.User.Club.ImageUrl);
-                    var (succ, data) = await _cache.TryGetImageDataAsync(imgUrl).ConfigureAwait(false);
+                    var (succ, data) = await _cache.TryGetImageDataAsync(imgUrl);
                     if (!succ)
                     {
                         using (var http = _httpFactory.CreateClient())
-                        using (var temp = await http.GetAsync(imgUrl, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
+                        using (var temp = await http.GetAsync(imgUrl, HttpCompletionOption.ResponseHeadersRead))
                         {
                             if (!temp.IsImage() || temp.GetImageSize() > 11)
                                 return;
-                            var imgData = await temp.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                            var imgData = await temp.Content.ReadAsByteArrayAsync();
                             using (var tempDraw = Image.Load(imgData))
                             {
                                 tempDraw.Mutate(x => x.Resize(_template.Club.Icon.Size.X, _template.Club.Icon.Size.Y));
@@ -919,7 +919,7 @@ namespace NadekoBot.Modules.Xp.Services
                             }
                         }
 
-                        await _cache.SetImageDataAsync(imgUrl, data).ConfigureAwait(false);
+                        await _cache.SetImageDataAsync(imgUrl, data);
                     }
                     using (var toDraw = Image.Load(data))
                     {
