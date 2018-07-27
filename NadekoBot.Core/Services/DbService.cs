@@ -63,6 +63,16 @@ namespace NadekoBot.Core.Services
         {
             var context = new NadekoContext(options);
             context.Database.SetCommandTimeout(60);
+            using (var conn = context.Database.GetDbConnection())
+            {
+                conn.Open();
+                using (var com = conn.CreateCommand())
+                {
+                    com.CommandText = "PRAGMA journal_mode=WAL; PRAGMA synchronous=OFF";
+                    com.ExecuteNonQuery();
+                }
+                conn.Close();
+            }
             return context;
         }
 
