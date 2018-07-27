@@ -9,7 +9,7 @@ namespace NadekoBot.Core.Services.Database.Repositories
     {
         DiscordUser GetOrCreate(ulong userId, string username, string discrim, string avatarId);
         DiscordUser GetOrCreate(IUser original);
-        Task<int> GetUserGlobalRankingAsync(ulong id);
+        int GetUserGlobalRank(ulong id);
         DiscordUser[] GetUsersXpLeaderboardFor(int page);
 
         long GetUserCurrency(ulong userId);
