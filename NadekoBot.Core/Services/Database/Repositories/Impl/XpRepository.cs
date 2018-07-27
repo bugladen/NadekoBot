@@ -50,9 +50,9 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
             }
             return await _set
                 .Where(x => x.GuildId == guildId)
-                .CountAsync(x => x.Xp > (_set
+                .CountAsync(x => (x.Xp + x.AwardedXp) > (_set
                     .Where(y => y.UserId == userId && y.GuildId == guildId)
-                    .Select(y => y.Xp)
+                    .Select(y => y.Xp + y.AwardedXp)
                     .DefaultIfEmpty()
                     .Sum())).ConfigureAwait(false) + 1;
         }
