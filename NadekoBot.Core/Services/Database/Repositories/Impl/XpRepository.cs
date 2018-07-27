@@ -42,7 +42,7 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
         {
             if (!_set.Where(x => x.GuildId == guildId && x.UserId == userId).Any())
             {
-                var cnt = await _set.CountAsync(x => x.GuildId == guildId).ConfigureAwait(false);
+                var cnt = await _set.CountAsync(x => x.GuildId == guildId);
                 if (cnt == 0)
                     return 1;
                 else
@@ -54,7 +54,7 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
                     .Where(y => y.UserId == userId && y.GuildId == guildId)
                     .Select(y => y.Xp + y.AwardedXp)
                     .DefaultIfEmpty()
-                    .Sum())).ConfigureAwait(false) + 1;
+                    .Sum())) + 1;
         }
 
         public void ResetGuildUserXp(ulong userId, ulong guildId)

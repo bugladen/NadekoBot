@@ -208,7 +208,7 @@ namespace NadekoBot.Modules.Xp.Services
                             }
                         }
 
-                        uow.Complete();
+                        await uow.CompleteAsync();
                     }
 
                     await Task.WhenAll(toNotify.Select(async x =>
