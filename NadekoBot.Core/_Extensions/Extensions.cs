@@ -28,6 +28,8 @@ using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.Processing.Drawing;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
+using SixLabors.ImageSharp.Formats;
+using Image = SixLabors.ImageSharp.Image;
 
 namespace NadekoBot.Extensions
 {
@@ -192,10 +194,20 @@ namespace NadekoBot.Extensions
         public static string ToJson<T>(this T any, Formatting formatting = Formatting.Indented) =>
             JsonConvert.SerializeObject(any, formatting);
 
-        public static MemoryStream ToStream(this Image<Rgba32> img)
+        public static MemoryStream ToStream(this Image<Rgba32> img, IImageFormat format = null)
         {
             var imageStream = new MemoryStream();
-            img.SaveAsPng(imageStream, new PngEncoder() { CompressionLevel = 9 });
+            if (format?.Name == "GIF")
+            {
+                img.SaveAsGif(imageStream, new SixLabors.ImageSharp.Formats.Gif.GifEncoder()
+                {
+                    Quantizer = new SixLabors.ImageSharp.Processing.Quantization.OctreeQuantizer(false)
+                });
+            }
+            else
+            {
+                img.SaveAsPng(imageStream, new PngEncoder() { CompressionLevel = 9 });
+            }
             imageStream.Position = 0;
             return imageStream;
         }
@@ -261,17 +273,47 @@ namespace NadekoBot.Extensions
 
         public static Image<Rgba32> Merge(this IEnumerable<Image<Rgba32>> images)
         {
-            var imgs = images.ToArray();
-
-            var canvas = new Image<Rgba32>(imgs.Sum(img => img.Width), imgs.Max(img => img.Height));
-
-            var xOffset = 0;
-            for (int i = 0; i < imgs.Length; i++)
+            return images.Merge(out _);
+        }
+        public static Image<Rgba32> Merge(this IEnumerable<Image<Rgba32>> images, out IImageFormat format)
+        {
+            format = ImageFormats.Png;
+            void DrawFrame(Image<Rgba32>[] imgArray, Image<Rgba32> imgFrame, int frameNumber)
             {
-                canvas.Mutate(x => x.DrawImage(GraphicsOptions.Default, imgs[i], new Point(xOffset, 0)));
-                xOffset += imgs[i].Bounds().Width;
+                var xOffset = 0;
+                for (int i = 0; i < imgArray.Length; i++)
+                {
+                    var frame = imgArray[i].Frames.CloneFrame(frameNumber % imgArray[i].Frames.Count);
+                    imgFrame.Mutate(x => x.DrawImage(GraphicsOptions.Default, frame, new Point(xOffset, 0)));
+                    xOffset += imgArray[i].Bounds().Width;
+                }
             }
 
+            var imgs = images.ToArray();
+            int frames = images.Max(x => x.Frames.Count);
+
+            var width = imgs.Sum(img => img.Width);
+            var height = imgs.Max(img => img.Height);
+            var canvas = new Image<Rgba32>(width, height);
+            if (frames == 1)
+            {
+                DrawFrame(imgs, canvas, 0);
+                return canvas;
+            }
+
+            format = ImageFormats.Gif;
+            for (int j = 0; j < frames; j++)
+            {
+                using (var imgFrame = new Image<Rgba32>(width, height))
+                {
+                    DrawFrame(imgs, imgFrame, j);
+
+                    var frameToAdd = imgFrame.Frames.First();
+                    frameToAdd.MetaData.DisposalMethod = SixLabors.ImageSharp.Formats.Gif.DisposalMethod.RestoreToBackground;
+                    canvas.Frames.AddFrame(frameToAdd);
+                }
+            }
+            canvas.Frames.RemoveFrame(0);
             return canvas;
         }
 

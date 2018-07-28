@@ -12,6 +12,7 @@ using NadekoBot.Core.Common;
 using System;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
+using System.Linq;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -58,8 +59,8 @@ namespace NadekoBot.Modules.Gambling
                         tailCount++;
                     }
                 }
-                using (var img = imgs.Merge())
-                using (var stream = img.ToStream())
+                using (var img = imgs.Merge(out var format))
+                using (var stream = img.ToStream(format))
                 {
                     foreach (var i in imgs)
                     {
@@ -70,7 +71,7 @@ namespace NadekoBot.Modules.Gambling
                         : Format.Bold(Context.User.ToString()) + " " + GetText("flipped", headCount > 0
                             ? Format.Bold(GetText("heads"))
                             : Format.Bold(GetText("tails")));
-                    await Context.Channel.SendFileAsync(stream, $"{count} coins.png", msg).ConfigureAwait(false);
+                    await Context.Channel.SendFileAsync(stream, $"{count} coins.{format.FileExtensions.First()}", msg).ConfigureAwait(false);
                 }
             }
 

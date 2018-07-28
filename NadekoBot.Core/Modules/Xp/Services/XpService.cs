@@ -29,6 +29,7 @@ using SixLabors.ImageSharp.Processing.Text;
 using Newtonsoft.Json;
 using NadekoBot.Core.Modules.Xp.Common;
 using NadekoBot.Common;
+using SixLabors.ImageSharp.Formats;
 
 namespace NadekoBot.Modules.Xp.Services
 {
@@ -638,16 +639,16 @@ namespace NadekoBot.Modules.Xp.Services
             }
         }
 
-        public async Task<Stream> GenerateImageAsync(IGuildUser user)
+        public async Task<(Stream Image, IImageFormat Format)> GenerateXpImageAsync(IGuildUser user)
         {
             var stats = await GetUserStatsAsync(user);
-            return await GenerateImageAsync(stats);
+            return await GenerateXpImageAsync(stats);
         }
 
 
-        public Task<MemoryStream> GenerateImageAsync(FullUserStats stats) => Task.Run(async () =>
+        public Task<(Stream Image, IImageFormat Format)> GenerateXpImageAsync(FullUserStats stats) => Task.Run(async () =>
         {
-            using (var img = Image.Load(_images.XpBackground))
+            using (var img = Image.Load(_images.XpBackground, out var imageFormat))
             {
                 if (_template.User.Name.Show)
                 {
@@ -799,7 +800,6 @@ namespace NadekoBot.Modules.Xp.Services
                         var (succ, data) = await _cache.TryGetImageDataAsync(avatarUrl);
                         if (!succ)
                         {
-                            _log.Info(avatarUrl);
                             using (var http = _httpFactory.CreateClient())
                             {
                                 var avatarData = await http.GetByteArrayAsync(avatarUrl);
@@ -838,7 +838,7 @@ namespace NadekoBot.Modules.Xp.Services
                     await DrawClubImage(img, stats);
                 }
                 img.Mutate(x => x.Resize(_template.OutputSize.X, _template.OutputSize.Y));
-                return img.ToStream();
+                return ((Stream) img.ToStream(imageFormat), imageFormat);
             }
         });
 
