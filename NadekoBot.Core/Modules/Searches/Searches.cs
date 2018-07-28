@@ -44,56 +44,6 @@ namespace NadekoBot.Modules.Searches
             _httpFactory = factory;
         }
 
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        public async Task Crypto(string name)
-        {
-            name = name?.ToUpperInvariant();
-
-            if (string.IsNullOrWhiteSpace(name))
-                return;
-            var cryptos = (await _service.CryptoData().ConfigureAwait(false));
-            var crypto = cryptos
-                ?.FirstOrDefault(x => x.Id.ToUpperInvariant() == name || x.Name.ToUpperInvariant() == name
-                    || x.Symbol.ToUpperInvariant() == name);
-
-            (CryptoData Elem, int Distance)? nearest = null;
-            if (crypto == null)
-            {
-                nearest = cryptos.Select(x => (x, Distance: x.Name.ToUpperInvariant().LevenshteinDistance(name)))
-                    .OrderBy(x => x.Distance)
-                    .Where(x => x.Distance <= 2)
-                    .FirstOrDefault();
-
-                crypto = nearest?.Elem;
-            }
-
-            if (crypto == null)
-            {
-                await ReplyErrorLocalized("crypto_not_found").ConfigureAwait(false);
-                return;
-            }
-
-            if (nearest != null)
-            {
-                var embed = new EmbedBuilder()
-                        .WithTitle(GetText("crypto_not_found"))
-                        .WithDescription(GetText("did_you_mean", Format.Bold($"{crypto.Name} ({crypto.Symbol})")));
-
-                if (!await PromptUserConfirmAsync(embed).ConfigureAwait(false))
-                    return;
-            }
-
-            await Context.Channel.EmbedAsync(new EmbedBuilder()
-                .WithOkColor()
-                .WithTitle($"{crypto.Name} ({crypto.Symbol})")
-                .WithThumbnailUrl($"https://files.coinmarketcap.com/static/img/coins/32x32/{crypto.Id}.png")
-                .AddField(GetText("market_cap"), $"${crypto.Market_Cap_Usd:n0}", true)
-                .AddField(GetText("price"), $"${crypto.Price_Usd}", true)
-                .AddField(GetText("volume_24h"), $"${crypto._24h_Volume_Usd:n0}", true)
-                .AddField(GetText("change_7d_24h"), $"{crypto.Percent_Change_7d}% / {crypto.Percent_Change_24h}%", true)).ConfigureAwait(false);
-        }
-
         //for anonymasen :^)
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Rip([Remainder]IGuildUser usr)
