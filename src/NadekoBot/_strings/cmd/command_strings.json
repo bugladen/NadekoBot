@@ -3125,7 +3125,7 @@
   },
   "autobutts": {
     "Cmd": "autobutts",
-    "Desc": "Posts a butts every X seconds. 20 seconds minimum. Provide no parameters to disable.",
+    "Desc": "Posts a butt every X seconds. 20 seconds minimum. Provide no parameters to disable.",
     "Usage": [
       "{0}autobutts 30",
       "{0}autobutts"

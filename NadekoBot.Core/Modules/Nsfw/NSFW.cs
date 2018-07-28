@@ -27,7 +27,7 @@ namespace NadekoBot.Modules.NSFW
             _httpFactory = factory;
         }
 
-        private async Task InternalHentai(IMessageChannel channel, string tag, bool isAutoHentai)
+        private async Task InternalHentai(IMessageChannel channel, string tag)
         {
             // create a random number generator
             var rng = new NadekoRandom();
@@ -39,8 +39,8 @@ namespace NadekoBot.Modules.NSFW
                 .Skip(3)
                 .ToList();
 
-            // now try to get an image, if it fails return an error, unless it's autohentai
-            // if it's autohentai, keep trying for each provider until one of them is successful, or until 
+            // now try to get an image, if it fails return an error,
+            // keep trying for each provider until one of them is successful, or until 
             // we run out of providers. If we run out, then return an error
             ImageCacherObject img;
             do
@@ -61,9 +61,9 @@ namespace NadekoBot.Modules.NSFW
                     await ReplyErrorLocalized("blacklisted_tag").ConfigureAwait(false);
                     return;
                 }
-                // if i can't find the image and i ran out of providers or it's not autohentai
+                // if i can't find the image and i ran out of providers
                 // return the error
-                if (img == null && (!isAutoHentai || !listOfProviders.Any()))
+                if (img == null && !listOfProviders.Any())
                 {
                     await ReplyErrorLocalized("not_found").ConfigureAwait(false);
                     return;
@@ -137,9 +137,9 @@ namespace NadekoBot.Modules.NSFW
                 try
                 {
                     if (tagsArr == null || tagsArr.Length == 0)
-                        await InternalHentai(Context.Channel, null, true).ConfigureAwait(false);
+                        await InternalHentai(Context.Channel, null).ConfigureAwait(false);
                     else
-                        await InternalHentai(Context.Channel, tagsArr[new NadekoRandom().Next(0, tagsArr.Length)], true).ConfigureAwait(false);
+                        await InternalHentai(Context.Channel, tagsArr[new NadekoRandom().Next(0, tagsArr.Length)]).ConfigureAwait(false);
                 }
                 catch
                 {
@@ -243,7 +243,7 @@ namespace NadekoBot.Modules.NSFW
         [NadekoCommand, Usage, Description, Aliases]
         [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
         public Task Hentai([Remainder] string tag = null) =>
-            InternalHentai(Context.Channel, tag, false);
+            InternalHentai(Context.Channel, tag);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
