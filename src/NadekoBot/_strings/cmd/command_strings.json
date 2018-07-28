@@ -2301,9 +2301,9 @@
   },
   "autohentai": {
     "Cmd": "autohentai",
-    "Desc": "Posts a hentai every X seconds with a random tag from the provided tags. Use `|` to separate tags. 20 seconds minimum. Provide no parameters to disable.",
+    "Desc": "Posts a hentai every X seconds with a random tag from the provided tags. Use `|` to separate tag groups. Random group will be chosen every time the image is sent. Use `+` for multiple tags (max 2 per group). 20 seconds minimum. Provide no parameters to disable.",
     "Usage": [
-      "{0}autohentai 30 yuri|tail|long_hair",
+      "{0}autohentai 30 yuri+kissing|tail+long_hair",
       "{0}autohentai"
     ]
   },

@@ -60,7 +60,7 @@ namespace NadekoBot.Modules.Utility
                     .AddField(fb => fb.WithName(GetText("features")).WithValue(features).WithIsInline(true))
                     .WithColor(NadekoBot.OkColor);
                 if (Uri.IsWellFormedUriString(guild.IconUrl, UriKind.Absolute))
-                    embed.WithImageUrl(guild.IconUrl);
+                    embed.WithThumbnailUrl(guild.IconUrl);
                 if (guild.Emotes.Any())
                 {
                     embed.AddField(fb => 

@@ -27,28 +27,49 @@ namespace NadekoBot.Modules.NSFW
             _httpFactory = factory;
         }
 
-        private async Task InternalHentai(IMessageChannel channel, string tag, bool noError)
+        private async Task InternalHentai(IMessageChannel channel, string tag, bool isAutoHentai)
         {
+            // create a random number generator
             var rng = new NadekoRandom();
-            var arr = Enum.GetValues(typeof(DapiSearchType));
-            var type = (DapiSearchType)arr.GetValue(new NadekoRandom().Next(2, arr.Length));
-            ImageCacherObject img;
-            try
-            {
-                img = await _service.DapiSearch(tag, type, Context.Guild?.Id, true).ConfigureAwait(false);
-            }
-            catch (TagBlacklistedException)
-            {
-                await ReplyErrorLocalized("blacklisted_tag").ConfigureAwait(false);
-                return;
-            }
 
-            if (img == null)
+            // get all of the DAPI search types, except first 3 
+            // which are safebooru (not nsfw), and 2 furry ones 🤢
+            var listOfProviders = Enum.GetValues(typeof(DapiSearchType))
+                .Cast<DapiSearchType>()
+                .Skip(3)
+                .ToList();
+
+            // now try to get an image, if it fails return an error, unless it's autohentai
+            // if it's autohentai, keep trying for each provider until one of them is successful, or until 
+            // we run out of providers. If we run out, then return an error
+            ImageCacherObject img;
+            do
             {
-                if (!noError)
+                // random index of the providers
+                var num = rng.Next(0, listOfProviders.Count);
+                // get the type
+                var type = listOfProviders[num];
+                // remove it 
+                listOfProviders.RemoveAt(num);
+                try
+                {
+                    // get the image
+                    img = await _service.DapiSearch(tag, type, Context.Guild?.Id, true).ConfigureAwait(false);
+                }
+                catch (TagBlacklistedException)
+                {
+                    await ReplyErrorLocalized("blacklisted_tag").ConfigureAwait(false);
+                    return;
+                }
+                // if i can't find the image and i ran out of providers or it's not autohentai
+                // return the error
+                if (img == null && (!isAutoHentai || !listOfProviders.Any()))
+                {
                     await ReplyErrorLocalized("not_found").ConfigureAwait(false);
-                return;
-            }
+                    return;
+                }
+
+            } while (img == null);
 
             await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                 .WithImageUrl(img.FileUrl)

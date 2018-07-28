@@ -269,11 +269,11 @@ namespace NadekoBot.Modules.Searches.Common
     {
         Safebooru,
         E621,
+        Derpibooru,
         Gelbooru,
         Konachan,
         Rule34,
         Yandere,
         Danbooru,
-        Derpibooru,
     }
 }
