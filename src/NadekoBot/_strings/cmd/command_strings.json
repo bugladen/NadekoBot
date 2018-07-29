@@ -2382,7 +2382,7 @@
   },
   "eventstart": {
     "Cmd": "eventstart",
-    "Desc": "Starts one of the events seen on public nadeko. Events: `reaction`",
+    "Desc": "Starts one of the events seen on public nadeko. Events: `reaction`, `gamestatus`",
     "Usage": [
       "{0}eventstart reaction",
       "{0}eventstart reaction -d 1 -a 50 --pot-size 1500"
