@@ -156,6 +156,7 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Events
                 Stopped = true;
                 _client.MessageDeleted -= OnMessageDeleted;
                 _client.MessageReceived -= HandleMessage;
+                _client.SetGameAsync(null);
                 _t.Change(Timeout.Infinite, Timeout.Infinite);
                 _timeout?.Change(Timeout.Infinite, Timeout.Infinite);
                 try { var _ = _msg.DeleteAsync(); } catch { }
