@@ -120,8 +120,8 @@ namespace NadekoBot.Modules.Xp.Services
                                .Select(x => x.GuildId));
 
             _cmd.OnMessageNoTrigger += _cmd_OnMessageNoTrigger;
+        
 
-#if !GLOBAL_NADEKO
             _updateXpTimer = new Timer(async _ =>
             {
                 try
@@ -261,7 +261,6 @@ namespace NadekoBot.Modules.Xp.Services
                     _log.Warn(ex);
                 }
             }, null, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
-#endif
 
             _clearRewardTimerTokenSource = new CancellationTokenSource();
             var token = _clearRewardTimerTokenSource.Token;
