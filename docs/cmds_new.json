@@ -199,7 +199,22 @@
       "Aliases": [
         ".deletewaifus"
       ],
-      "Description": "Deletes everything from WaifuUpdates and WaifuInfo tables.",
+      "Description": "Deletes everything from WaifuUpdates, WaifuItem and WaifuInfo tables.",
+      "Usage": [
+        ".deletewaifus"
+      ],
+      "Submodule": "DangerousCommands",
+      "Module": "Administration",
+      "Options": null,
+      "Requirements": [
+        "Bot Owner Only"
+      ]
+    },
+    {
+      "Aliases": [
+        ".deletewaifu"
+      ],
+      "Description": "Deletes everything from WaifuUpdates, WaifuItem and WaifuInfo tables for the specified user. Also makes specified user's waifus free.",
       "Usage": [
         ".deletewaifus"
       ],
@@ -665,14 +680,14 @@
       "Aliases": [
         ".slowmode"
       ],
-      "Description": "Toggles slowmode. Slowmode deletes any excess messages users type over the specified limit of messages per X seconds. To enable, specify a number of messages (-m) each user can send, and an interval in seconds (-i).  Disable by specifying no parameters.",
+      "Description": "Toggles slowmode. Slowmode deletes any excess messages users type over the specified limit of messages per X seconds. To enable, specify a number of messages (-m) each user can send, and an interval in seconds (-s).  Disable by specifying no parameters.",
       "Usage": [
         ".slowmode -m 1 -s 5",
         ".slowmode"
       ],
       "Submodule": "SlowModeCommands",
       "Module": "Administration",
-      "Options": "--message-count (-m)   Number of messages user can send.  \n--seconds (-s)   Interval in which the user can send the specified number of messages.  ",
+      "Options": "`--message-count` (`-m`)   Number of messages user can send.  \n`--seconds` (`-s`)   Interval in which the user can send the specified number of messages.  ",
       "Requirements": [
         "ManageMessages Server Permission"
       ]
@@ -1733,6 +1748,23 @@
       "Requirements": []
     }
   ],
+  "CryptoCommands": [
+    {
+      "Aliases": [
+        ".crypto",
+        ".c"
+      ],
+      "Description": "Shows basic stats about a cryptocurrency from coinmarketcap.com. You can use either a name or an abbreviation of the currency.",
+      "Usage": [
+        ".c btc",
+        ".c bitcoin"
+      ],
+      "Submodule": "CryptoCommands",
+      "Module": "CryptoCommands",
+      "Options": null,
+      "Requirements": []
+    }
+  ],
   "CustomReactions": [
     {
       "Aliases": [
@@ -2121,7 +2153,7 @@
       ],
       "Submodule": "AnimalRacingCommands",
       "Module": "Gambling",
-      "Options": "--start-time (-s)     ",
+      "Options": "`--start-time` (`-s`)     ",
       "Requirements": []
     },
     {
@@ -2203,21 +2235,21 @@
       ],
       "Submodule": "Connect4Commands",
       "Module": "Gambling",
-      "Options": "--turn-timer (-t)   Turn time in seconds. It has to be between 5 and 60. Default 15.  \n--bet (-b)   Amount you bet. Default 0.  ",
+      "Options": "`--turn-timer` (`-t`)   Turn time in seconds. It has to be between 5 and 60. Default 15.  \n`--bet` (`-b`)   Amount you bet. Default 0.  ",
       "Requirements": []
     },
     {
       "Aliases": [
         ".eventstart"
       ],
-      "Description": "Starts one of the events seen on public nadeko. Events: `reaction`",
+      "Description": "Starts one of the events seen on public nadeko. Events: `reaction`, `gamestatus`",
       "Usage": [
         ".eventstart reaction",
         ".eventstart reaction -d 1 -a 50 --pot-size 1500"
       ],
       "Submodule": "CurrencyEventsCommands",
       "Module": "Gambling",
-      "Options": "--amount (-a)   Amount of currency each user receives.  \n--pot-size (-p)   The maximum amount of currency that can be rewarded. 0 means no limit.  \n--duration (-d)   Number of hours the event should run for. Default 24.  ",
+      "Options": "`--amount` (`-a`)   Amount of currency each user receives.  \n`--pot-size` (`-p`)   The maximum amount of currency that can be rewarded. 0 means no limit.  \n`--duration` (`-d`)   Number of hours the event should run for. Default 24.  ",
       "Requirements": [
         "Bot Owner Only"
       ]
@@ -2661,7 +2693,7 @@
       ],
       "Submodule": "AcropobiaCommands",
       "Module": "Games",
-      "Options": "--submission-time (-s)   Time after which the submissions are closed and voting starts.  \n--vote-time (-v)   Time after which the voting is closed and the winner is declared.  ",
+      "Options": "`--submission-time` (`-s`)   Time after which the submissions are closed and voting starts.  \n`--vote-time` (`-v`)   Time after which the voting is closed and the winner is declared.  ",
       "Requirements": []
     },
     {
@@ -2845,7 +2877,7 @@
       ],
       "Submodule": "SpeedTypingCommands",
       "Module": "Games",
-      "Options": "--start-time (-s)   How long does it take for the race to start. Default 5.  ",
+      "Options": "`--start-time` (`-s`)   How long does it take for the race to start. Default 5.  ",
       "Requirements": []
     },
     {
@@ -2916,7 +2948,7 @@
       ],
       "Submodule": "TicTacToeCommands",
       "Module": "Games",
-      "Options": "--turn-timer (-t)   Turn time in seconds. Default 15.  ",
+      "Options": "`--turn-timer` (`-t`)   Turn time in seconds. Default 15.  ",
       "Requirements": []
     },
     {
@@ -2931,7 +2963,7 @@
       ],
       "Submodule": "TriviaCommands",
       "Module": "Games",
-      "Options": "--pokemon (-p)   Whether it's 'Who's that pokemon?' trivia.  \n--nohint   Don't show any hints.  \n--win-req (-w)   Winning requirement. Set 0 for an infinite game. Default 10.  \n--question-timer (-q)   How long until the question ends. Default 30.  \n--timeout (-t)   Number of questions of inactivity in order stop. Set 0 for never. Default 10.  ",
+      "Options": "`--pokemon` (`-p`)   Whether it's 'Who's that pokemon?' trivia.  \n`--nohint`   Don't show any hints.  \n`--win-req` (`-w`)   Winning requirement. Set 0 for an infinite game. Default 10.  \n`--question-timer` (`-q`)   How long until the question ends. Default 30.  \n`--timeout` (`-t`)   Number of questions of inactivity in order stop. Set 0 for never. Default 10.  ",
       "Requirements": []
     },
     {
@@ -2988,7 +3020,7 @@
       ],
       "Submodule": "Help",
       "Module": "Help",
-      "Options": "--view (-v)   Specifies how to output the list of commands. 0 - Hide commands which you can't use, 1 - Cross out commands which you can't use, 2 - Show all.  ",
+      "Options": "`--view` (`-v`)   Specifies how to output the list of commands. 0 - Hide commands which you can't use, 1 - Cross out commands which you can't use, 2 - Show all.  ",
       "Requirements": []
     },
     {
@@ -3590,9 +3622,9 @@
       "Aliases": [
         ".autohentai"
       ],
-      "Description": "Posts a hentai every X seconds with a random tag from the provided tags. Use `|` to separate tags. 20 seconds minimum. Provide no parameters to disable.",
+      "Description": "Posts a hentai every X seconds with a random tag from the provided tags. Use `|` to separate tag groups. Random group will be chosen every time the image is sent. Use `+` for multiple tags (max 2 per group). 20 seconds minimum. Provide no parameters to disable.",
       "Usage": [
-        ".autohentai 30 yuri|tail|long_hair",
+        ".autohentai 30 yuri+kissing|tail+long_hair",
         ".autohentai"
       ],
       "Submodule": "NSFW",
@@ -3622,7 +3654,7 @@
       "Aliases": [
         ".autobutts"
       ],
-      "Description": "Posts a butts every X seconds. 20 seconds minimum. Provide no parameters to disable.",
+      "Description": "Posts a butt every X seconds. 20 seconds minimum. Provide no parameters to disable.",
       "Usage": [
         ".autobutts 30",
         ".autobutts"
@@ -4306,75 +4338,6 @@
       ]
     }
   ],
-  "Pokemon": [
-    {
-      "Aliases": [
-        ".attack"
-      ],
-      "Description": "Attacks a target with the given move. Use `.movelist` to see a list of moves your type can use.",
-      "Usage": [
-        ".attack \"vine whip\" @someguy"
-      ],
-      "Submodule": "Pokemon",
-      "Module": "Pokemon",
-      "Options": null,
-      "Requirements": []
-    },
-    {
-      "Aliases": [
-        ".movelist",
-        ".ml"
-      ],
-      "Description": "Lists the moves you are able to use",
-      "Usage": [
-        ".ml"
-      ],
-      "Submodule": "Pokemon",
-      "Module": "Pokemon",
-      "Options": null,
-      "Requirements": []
-    },
-    {
-      "Aliases": [
-        ".heal"
-      ],
-      "Description": "Heals someone. Revives those who fainted. Costs one Currency. ",
-      "Usage": [
-        ".heal @someone"
-      ],
-      "Submodule": "Pokemon",
-      "Module": "Pokemon",
-      "Options": null,
-      "Requirements": []
-    },
-    {
-      "Aliases": [
-        ".type"
-      ],
-      "Description": "Get the poketype of the target.",
-      "Usage": [
-        ".type @someone"
-      ],
-      "Submodule": "Pokemon",
-      "Module": "Pokemon",
-      "Options": null,
-      "Requirements": []
-    },
-    {
-      "Aliases": [
-        ".settype"
-      ],
-      "Description": "Set your poketype. Costs one Currency. Provide no parameters to see a list of available types.",
-      "Usage": [
-        ".settype fire",
-        ".settype"
-      ],
-      "Submodule": "Pokemon",
-      "Module": "Pokemon",
-      "Options": null,
-      "Requirements": []
-    }
-  ],
   "Searches": [
     {
       "Aliases": [
@@ -4383,21 +4346,6 @@
       "Description": "Shows top banned champions ordered by ban rate.",
       "Usage": [
         ".lolban"
-      ],
-      "Submodule": "Searches",
-      "Module": "Searches",
-      "Options": null,
-      "Requirements": []
-    },
-    {
-      "Aliases": [
-        ".crypto",
-        ".c"
-      ],
-      "Description": "Shows basic stats about a cryptocurrency from coinmarketcap.com. You can use either a name or an abbreviation of the currency.",
-      "Usage": [
-        ".c btc",
-        ".c bitcoin"
       ],
       "Submodule": "Searches",
       "Module": "Searches",
@@ -6034,7 +5982,7 @@
       ],
       "Submodule": "RepeatCommands",
       "Module": "Utility",
-      "Options": "--message (-m)   Message to be repeated  \n--no-redundant (-n)   Whether the message should be reposted if the last message in the channel is this same message.  \n--interval (-i)   How frequently the repeating message is posted, in minutes.  ",
+      "Options": "`--message` (`-m`)   Message to be repeated  \n`--no-redundant` (`-n`)   Whether the message should be reposted if the last message in the channel is this same message.  \n`--interval` (`-i`)   How frequently the repeating message is posted, in minutes.  ",
       "Requirements": [
         "ManageMessages Server Permission"
       ]
