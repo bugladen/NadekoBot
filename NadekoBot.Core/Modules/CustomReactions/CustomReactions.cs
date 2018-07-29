@@ -290,7 +290,7 @@ namespace NadekoBot.Modules.CustomReactions
                     if ((toDelete.GuildId == null || toDelete.GuildId == 0) && Context.Guild == null)
                     {
                         uow.CustomReactions.Remove(toDelete);
-                        await _service.DelGcr(toDelete.Id).ConfigureAwait(false);
+                        await _service.DelGcr(toDelete.Id);
                         success = true;
                     }
                     else if ((toDelete.GuildId != null && toDelete.GuildId != 0) && Context.Guild.Id == toDelete.GuildId)

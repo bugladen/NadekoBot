@@ -46,10 +46,13 @@ namespace NadekoBot.Modules.Gambling
 
         public long GetCurrency(IUser user)
         {
+            long amount;
             using (var uow = _db.UnitOfWork)
             {
-                return uow.DiscordUsers.GetOrCreate(user).CurrencyAmount;
+                amount = uow.DiscordUsers.GetOrCreate(user).CurrencyAmount;
+                uow.Complete();
             }
+            return amount;
         }
 
         [NadekoCommand, Usage, Description, Aliases]

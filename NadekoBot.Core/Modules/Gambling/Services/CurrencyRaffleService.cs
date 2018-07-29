@@ -42,24 +42,20 @@ namespace NadekoBot.Core.Modules.Gambling.Services
                         : CurrencyRaffleGame.Type.Normal);
                     Games.Add(channelId, crg);
                 }
-                using (var uow = _db.UnitOfWork)
+
+                //remove money, and stop the game if this 
+                // user created it and doesn't have the money
+                if (!await _cs.RemoveAsync(user.Id, "Currency Raffle Join", amount).ConfigureAwait(false))
                 {
-                    //remove money, and stop the game if this 
-                    // user created it and doesn't have the money
-                    if (!await _cs.RemoveAsync(user.Id, "Currency Raffle Join", amount).ConfigureAwait(false))
-                    {
-                        if (newGame)
-                            Games.Remove(channelId);
-                        return (null, JoinErrorType.NotEnoughCurrency);
-                    }
+                    if (newGame)
+                        Games.Remove(channelId);
+                    return (null, JoinErrorType.NotEnoughCurrency);
+                }
 
-                    if (!crg.AddUser(user, amount))
-                    {
-                        await _cs.AddAsync(user.Id, "Curency Raffle Refund", amount).ConfigureAwait(false);
-                        return (null, JoinErrorType.AlreadyJoinedOrInvalidAmount);
-                    }
-
-                    uow.Complete();
+                if (!crg.AddUser(user, amount))
+                {
+                    await _cs.AddAsync(user.Id, "Curency Raffle Refund", amount).ConfigureAwait(false);
+                    return (null, JoinErrorType.AlreadyJoinedOrInvalidAmount);
                 }
                 if (newGame)
                 {

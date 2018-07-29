@@ -128,7 +128,7 @@ namespace NadekoBot.Modules.Administration.Services
             {
                 if (index == 0)
                 {
-                    await uow.Warnings.ForgiveAll(guildId, userId, moderator).ConfigureAwait(false);
+                    await uow.Warnings.ForgiveAll(guildId, userId, moderator);
                 }
                 else
                 {

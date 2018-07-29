@@ -77,15 +77,15 @@ namespace NadekoBot.Modules.Gambling
                         .WithTitle(GetText("waifu_reset_confirm"))
                         .WithDescription(GetText("cost", Format.Bold(price + Bc.BotConfig.CurrencySign)));
 
-                if (!await PromptUserConfirmAsync(embed).ConfigureAwait(false))
+                if (!await PromptUserConfirmAsync(embed))
                     return;
 
-                if (await _service.TryReset(Context.User).ConfigureAwait(false))
+                if (await _service.TryReset(Context.User))
                 {
-                    await ReplyConfirmLocalized("waifu_reset").ConfigureAwait(false);
+                    await ReplyConfirmLocalized("waifu_reset");
                     return;
                 }
-                await ReplyErrorLocalized("waifu_reset_fail").ConfigureAwait(false);
+                await ReplyErrorLocalized("waifu_reset_fail");
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -94,13 +94,13 @@ namespace NadekoBot.Modules.Gambling
             {
                 if (amount < Bc.BotConfig.MinWaifuPrice)
                 {
-                    await ReplyErrorLocalized("waifu_isnt_cheap", Bc.BotConfig.MinWaifuPrice + Bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                    await ReplyErrorLocalized("waifu_isnt_cheap", Bc.BotConfig.MinWaifuPrice + Bc.BotConfig.CurrencySign);
                     return;
                 }
 
                 if (target.Id == Context.User.Id)
                 {
-                    await ReplyErrorLocalized("waifu_not_yourself").ConfigureAwait(false);
+                    await ReplyErrorLocalized("waifu_not_yourself");
                     return;
                 }
 
@@ -115,7 +115,7 @@ namespace NadekoBot.Modules.Gambling
                     {
                         var claimer = uow.DiscordUsers.GetOrCreate(Context.User);
                         var waifu = uow.DiscordUsers.GetOrCreate(target);
-                        if (!await _cs.RemoveAsync(Context.User.Id, "Claimed Waifu", amount, gamble: true).ConfigureAwait(false))
+                        if (!await _cs.RemoveAsync(Context.User.Id, "Claimed Waifu", amount, gamble: true))
                         {
                             result = WaifuClaimResult.NotEnoughFunds;
                         }
@@ -140,7 +140,7 @@ namespace NadekoBot.Modules.Gambling
                     }
                     else if (isAffinity && amount > w.Price * 0.88f)
                     {
-                        if (!await _cs.RemoveAsync(Context.User.Id, "Claimed Waifu", amount, gamble: true).ConfigureAwait(false))
+                        if (!await _cs.RemoveAsync(Context.User.Id, "Claimed Waifu", amount, gamble: true))
                         {
                             result = WaifuClaimResult.NotEnoughFunds;
                         }
@@ -162,7 +162,7 @@ namespace NadekoBot.Modules.Gambling
                     }
                     else if (amount >= w.Price * 1.1f) // if no affinity
                     {
-                        if (!await _cs.RemoveAsync(Context.User.Id, "Claimed Waifu", amount, gamble: true).ConfigureAwait(false))
+                        if (!await _cs.RemoveAsync(Context.User.Id, "Claimed Waifu", amount, gamble: true))
                         {
                             result = WaifuClaimResult.NotEnoughFunds;
                         }
@@ -191,12 +191,12 @@ namespace NadekoBot.Modules.Gambling
 
                 if (result == WaifuClaimResult.InsufficientAmount)
                 {
-                    await ReplyErrorLocalized("waifu_not_enough", Math.Ceiling(w.Price * (isAffinity ? 0.88f : 1.1f))).ConfigureAwait(false);
+                    await ReplyErrorLocalized("waifu_not_enough", Math.Ceiling(w.Price * (isAffinity ? 0.88f : 1.1f)));
                     return;
                 }
                 if (result == WaifuClaimResult.NotEnoughFunds)
                 {
-                    await ReplyErrorLocalized("not_enough", Bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                    await ReplyErrorLocalized("not_enough", Bc.BotConfig.CurrencySign);
                     return;
                 }
                 var msg = GetText("waifu_claimed", 
@@ -206,7 +206,7 @@ namespace NadekoBot.Modules.Gambling
                     msg += "\n" + GetText("waifu_fulfilled", target, w.Price + Bc.BotConfig.CurrencySign);
                 else
                     msg = " " + msg;
-                await Context.Channel.SendConfirmAsync(Context.User.Mention + msg).ConfigureAwait(false);
+                await Context.Channel.SendConfirmAsync(Context.User.Mention + msg);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -214,16 +214,16 @@ namespace NadekoBot.Modules.Gambling
             public async Task WaifuTransfer(IUser waifu, IUser newOwner)
             {
                 if(!await _service.WaifuTransfer(Context.User, waifu.Id, newOwner)
-                    .ConfigureAwait(false))
+                    )
                 {
-                    await ReplyErrorLocalized("waifu_transfer_fail").ConfigureAwait(false);
+                    await ReplyErrorLocalized("waifu_transfer_fail");
                     return;
                 }
 
                 await ReplyConfirmLocalized("waifu_transfer_success",
                     Format.Bold(waifu.ToString()),
                     Format.Bold(Context.User.ToString()),
-                    Format.Bold(newOwner.ToString())).ConfigureAwait(false);
+                    Format.Bold(newOwner.ToString()));
             }
 
             public enum DivorceResult
@@ -267,13 +267,13 @@ namespace NadekoBot.Modules.Gambling
 
                         if (w.Affinity?.UserId == Context.User.Id)
                         {
-                            await _cs.AddAsync(w.Waifu.UserId, "Waifu Compensation", amount, gamble: true).ConfigureAwait(false);
+                            await _cs.AddAsync(w.Waifu.UserId, "Waifu Compensation", amount, gamble: true);
                             w.Price = (int)Math.Floor(w.Price * 0.75f);
                             result = DivorceResult.SucessWithPenalty;
                         }
                         else
                         {
-                            await _cs.AddAsync(Context.User.Id, "Waifu Refund", amount, gamble: true).ConfigureAwait(false);
+                            await _cs.AddAsync(Context.User.Id, "Waifu Refund", amount, gamble: true);
 
                             result = DivorceResult.Success;
                         }
@@ -294,21 +294,21 @@ namespace NadekoBot.Modules.Gambling
 
                 if (result == DivorceResult.SucessWithPenalty)
                 {
-                    await ReplyConfirmLocalized("waifu_divorced_like", Format.Bold(w.Waifu.ToString()), amount + Bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                    await ReplyConfirmLocalized("waifu_divorced_like", Format.Bold(w.Waifu.ToString()), amount + Bc.BotConfig.CurrencySign);
                 }
                 else if (result == DivorceResult.Success)
                 {
-                    await ReplyConfirmLocalized("waifu_divorced_notlike", amount + Bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                    await ReplyConfirmLocalized("waifu_divorced_notlike", amount + Bc.BotConfig.CurrencySign);
                 }
                 else if (result == DivorceResult.NotYourWife)
                 {
-                    await ReplyErrorLocalized("waifu_not_yours").ConfigureAwait(false);
+                    await ReplyErrorLocalized("waifu_not_yours");
                 }
                 else
                 {
                     await ReplyErrorLocalized("waifu_recent_divorce", 
                         Format.Bold(((int)remaining?.TotalHours).ToString()),
-                        Format.Bold(remaining?.Minutes.ToString())).ConfigureAwait(false);
+                        Format.Bold(remaining?.Minutes.ToString()));
                 }
             }
 
@@ -318,7 +318,7 @@ namespace NadekoBot.Modules.Gambling
             {
                 if (u?.Id == Context.User.Id)
                 {
-                    await ReplyErrorLocalized("waifu_egomaniac").ConfigureAwait(false);
+                    await ReplyErrorLocalized("waifu_egomaniac");
                     return;
                 }
                 DiscordUser oldAff = null;
@@ -380,25 +380,25 @@ namespace NadekoBot.Modules.Gambling
                     {
                         await ReplyErrorLocalized("waifu_affinity_cooldown", 
                             Format.Bold(((int)remaining?.TotalHours).ToString()),
-                            Format.Bold(remaining?.Minutes.ToString())).ConfigureAwait(false);
+                            Format.Bold(remaining?.Minutes.ToString()));
                     }
                     else
                     {
-                        await ReplyErrorLocalized("waifu_affinity_already").ConfigureAwait(false);
+                        await ReplyErrorLocalized("waifu_affinity_already");
                     }
                     return;
                 }
                 if (u == null)
                 {
-                    await ReplyConfirmLocalized("waifu_affinity_reset").ConfigureAwait(false);
+                    await ReplyConfirmLocalized("waifu_affinity_reset");
                 }
                 else if (oldAff == null)
                 {
-                    await ReplyConfirmLocalized("waifu_affinity_set", Format.Bold(u.ToString())).ConfigureAwait(false);
+                    await ReplyConfirmLocalized("waifu_affinity_set", Format.Bold(u.ToString()));
                 }
                 else
                 {
-                    await ReplyConfirmLocalized("waifu_affinity_changed", Format.Bold(oldAff.ToString()), Format.Bold(u.ToString())).ConfigureAwait(false);
+                    await ReplyConfirmLocalized("waifu_affinity_changed", Format.Bold(oldAff.ToString()), Format.Bold(u.ToString()));
                 }
             }
 
@@ -419,7 +419,7 @@ namespace NadekoBot.Modules.Gambling
 
                 if (waifus.Count == 0)
                 {
-                    await ReplyConfirmLocalized("waifus_none").ConfigureAwait(false);
+                    await ReplyConfirmLocalized("waifus_none");
                     return;
                 }
                 
@@ -435,7 +435,7 @@ namespace NadekoBot.Modules.Gambling
                     embed.AddField(efb => efb.WithName("#" + ((page * 9) + j + 1) + " - " + w.Price + Bc.BotConfig.CurrencySign).WithValue(w.ToString()).WithIsInline(false));
                 }
 
-                await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                await Context.Channel.EmbedAsync(embed);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -499,7 +499,7 @@ namespace NadekoBot.Modules.Gambling
                     .AddField(efb => efb.WithName(GetText("gifts")).WithValue(itemsStr).WithIsInline(false))
                     .AddField(efb => efb.WithName($"Waifus ({claims.Count})").WithValue(claims.Count == 0 ? nobody : string.Join("\n", claims.OrderBy(x => rng.Next()).Take(30).Select(x => x.Waifu))).WithIsInline(false));
 
-                await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                await Context.Channel.EmbedAsync(embed);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -525,7 +525,7 @@ namespace NadekoBot.Modules.Gambling
                                         .ForEach(x => embed.AddField(f => f.WithName(x.ItemEmoji + " " + x.Item).WithValue(x.Price).WithIsInline(true)));
 
                     return embed;
-                }, Enum.GetValues(typeof(WaifuItem.ItemName)).Length, 9).ConfigureAwait(false);
+                }, Enum.GetValues(typeof(WaifuItem.ItemName)).Length, 9);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -544,9 +544,9 @@ namespace NadekoBot.Modules.Gambling
 
                     //try to buy the item first
 
-                    if (!await _cs.RemoveAsync(Context.User.Id, "Bought waifu item", itemObj.Price, gamble: true).ConfigureAwait(false))
+                    if (!await _cs.RemoveAsync(Context.User.Id, "Bought waifu item", itemObj.Price, gamble: true))
                     {
-                        await ReplyErrorLocalized("not_enough", Bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                        await ReplyErrorLocalized("not_enough", Bc.BotConfig.CurrencySign);
                         return;
                     }
                     if (w == null)
@@ -573,7 +573,7 @@ namespace NadekoBot.Modules.Gambling
                     await uow.CompleteAsync();
                 }
 
-                await ReplyConfirmLocalized("waifu_gift", Format.Bold(item.ToString() + " " +itemObj.ItemEmoji), Format.Bold(waifu.ToString())).ConfigureAwait(false);
+                await ReplyConfirmLocalized("waifu_gift", Format.Bold(item.ToString() + " " +itemObj.ItemEmoji), Format.Bold(waifu.ToString()));
             }
 
 
