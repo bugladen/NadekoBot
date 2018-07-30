@@ -8,5 +8,6 @@ namespace NadekoBot.Core.Services.Database.Repositories
         CustomReaction[] GetGlobalAndFor(IEnumerable<ulong> ids);
         CustomReaction[] ForId(ulong id);
         int ClearFromGuild(ulong id);
+        CustomReaction GetByGuildIdAndInput(ulong? guildId, string input);
     }
 }

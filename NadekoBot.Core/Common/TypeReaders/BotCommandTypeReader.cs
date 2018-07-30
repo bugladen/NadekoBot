@@ -27,7 +27,7 @@ namespace NadekoBot.Common.TypeReaders
 
             input = input.Substring(prefix.Length);
 
-            var cmd = _cmds.Commands.FirstOrDefault(c => 
+            var cmd = _cmds.Commands.FirstOrDefault(c =>
                 c.Aliases.Select(a => a.ToUpperInvariant()).Contains(input));
             if (cmd == null)
                 return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "No such command found."));
@@ -52,20 +52,9 @@ namespace NadekoBot.Common.TypeReaders
 
             var _crs = services.GetService<CustomReactionsService>();
 
-            if (_crs.GlobalReactions.Any(x => x.Trigger.ToUpperInvariant() == input))
+            if (_crs.ReactionExists(context.Guild?.Id, input))
             {
                 return TypeReaderResult.FromSuccess(new CommandOrCrInfo(input, CommandOrCrInfo.Type.Custom));
-            }
-            var guild = context.Guild;
-            if (guild != null)
-            {
-                if (_crs.GuildReactions.TryGetValue(guild.Id, out var crs))
-                {
-                    if (crs.Concat(_crs.GlobalReactions).Any(x => x.Trigger.ToUpperInvariant() == input))
-                    {
-                        return TypeReaderResult.FromSuccess(new CommandOrCrInfo(input, CommandOrCrInfo.Type.Custom));
-                    }
-                }
             }
 
             var cmd = await new CommandTypeReader(_client, _cmds).ReadAsync(context, input, services).ConfigureAwait(false);

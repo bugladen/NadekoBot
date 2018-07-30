@@ -22,6 +22,11 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
                 .ToArray();
         }
 
+        public CustomReaction GetByGuildIdAndInput(ulong? guildId, string input)
+        {
+            return _set.FirstOrDefault(x => x.GuildId == guildId && x.Trigger.ToUpperInvariant() == input);
+        }
+
         /// <summary>
         /// Gets all global custom reactions and custom reactions only for the specified guild ids
         /// </summary>

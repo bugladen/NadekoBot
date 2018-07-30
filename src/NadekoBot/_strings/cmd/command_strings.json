@@ -2216,22 +2216,6 @@
       "{0}hangmanstop"
     ]
   },
-  "crstatsclear": {
-    "Cmd": "crstatsclear",
-    "Desc": "Resets the counters on `{0}crstats`. You can specify a trigger to clear stats only for that trigger.",
-    "Usage": [
-      "{0}crstatsclear",
-      "{0}crstatsclear rng"
-    ]
-  },
-  "crstats": {
-    "Cmd": "crstats",
-    "Desc": "Shows a list of custom reactions and the number of times they have been executed. Paginated with 10 per page. Use `{0}crstatsclear` to reset the counters.",
-    "Usage": [
-      "{0}crstats",
-      "{0}crstats 3"
-    ]
-  },
   "overwatch": {
     "Cmd": "overwatch ow",
     "Desc": "Show's basic stats on a player (competitive rank, playtime, level etc) Region codes are: `eu` `us` `cn` `kr`",
