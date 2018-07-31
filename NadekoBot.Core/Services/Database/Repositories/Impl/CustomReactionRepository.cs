@@ -32,9 +32,15 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
-        public CustomReaction[] GetGlobalAndFor(IEnumerable<ulong> ids)
+        public CustomReaction[] GetFor(IEnumerable<ulong> ids)
         {
-            return _set.Where(x => x.GuildId == null || x.GuildId == 0 || ids.Contains(x.GuildId.Value))
+            return _set.Where(x => ids.Contains(x.GuildId.Value))
+                .ToArray();
+        }
+
+        public CustomReaction[] GetGlobal()
+        {
+            return _set.Where(x => x.GuildId == null)
                 .ToArray();
         }
     }

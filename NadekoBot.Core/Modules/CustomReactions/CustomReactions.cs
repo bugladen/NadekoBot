@@ -34,13 +34,13 @@ namespace NadekoBot.Modules.CustomReactions
             if (string.IsNullOrWhiteSpace(message) || string.IsNullOrWhiteSpace(key))
                 return;
 
-            if ((channel == null && !_creds.IsOwner(Context.User)) || (channel != null && !((IGuildUser)Context.User).GuildPermissions.Administrator))
+            if (!AdminInGuildOrOwnerInDm())
             {
                 await ReplyErrorLocalized("insuff_perms").ConfigureAwait(false);
                 return;
             }
 
-            var cr = _service.AddCustomReaction(Context.Guild?.Id, key, message);
+            var cr = await _service.AddCustomReaction(Context.Guild?.Id, key, message);
 
             await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                 .WithTitle(GetText("new_cust_react"))

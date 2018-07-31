@@ -24,11 +24,9 @@ namespace NadekoBot.Core.Services
             optionsBuilder = new DbContextOptionsBuilder<NadekoContext>();
             optionsBuilder.UseSqlite(builder.ToString(), x => x.SuppressForeignKeyEnforcement());
             migrateOptions = optionsBuilder.Options;
-
-            Setup();
         }
 
-        private void Setup()
+        public void Setup()
         {
             using (var context = new NadekoContext(options))
             {

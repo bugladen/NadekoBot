@@ -85,17 +85,15 @@ namespace NadekoBot.Modules.CustomReactions.Services
                 }
             }, StackExchange.Redis.CommandFlags.FireAndForget);
 
-            //todo split into get global and get for
-            var items = uow.CustomReactions.GetGlobalAndFor(bot.AllGuildConfigs.Select(x => x.GuildId));
-
-            _guildReactions = new ConcurrentDictionary<ulong, ConcurrentDictionary<int, CustomReaction>>(items
-                .Where(g => g.GuildId != null)
+            var guildItems = uow.CustomReactions.GetFor(bot.AllGuildConfigs.Select(x => x.GuildId));
+            _guildReactions = new ConcurrentDictionary<ulong, ConcurrentDictionary<int, CustomReaction>>(guildItems
                 .GroupBy(k => k.GuildId.Value)
                 .ToDictionary(g => g.Key, g => g.ToDictionary(x => x.Id, x => x).ToConcurrent()));
-
-            _globalReactions = items
-                .Where(x => x.GuildId == null)
-                .ToDictionary(x => x.Id, x => x).ToConcurrent();
+            
+            var globalItems = uow.CustomReactions.GetGlobal();
+            _globalReactions = globalItems
+                .ToDictionary(x => x.Id, x => x)
+                .ToConcurrent();
 
             bot.JoinedGuild += Bot_JoinedGuild;
             _client.LeftGuild += _client_LeftGuild;

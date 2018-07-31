@@ -71,6 +71,12 @@ namespace NadekoBot
             Credentials = new BotCredentials();
             Cache = new RedisCache(Credentials, shardId);
             _db = new DbService(Credentials);
+
+            if(shardId == 0)
+            {
+                _db.Setup();
+            }
+
             Client = new DiscordSocketClient(new DiscordSocketConfig
             {
 #if GLOBAL_NADEKO
