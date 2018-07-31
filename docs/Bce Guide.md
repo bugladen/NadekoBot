@@ -91,11 +91,11 @@ __Default is 0__
 Maximum amount of currency a user can gamble with in a single gamble. Set 0 to disable.
 __Default is 0__
 
-## ErrorColor
+## OkColor
 Hex of the color which will show on the left side of the bot's response when a command succesfully executes. Example: https://puu.sh/B0BXd.png
 __Default is 00e584__
 
-## OkColor
+## ErrorColor
 Hex of the color which will show on the left side of the bot's response when a command either errors, or you can't perform some action. Example: https://puu.sh/B0BXs.png
 __Default is ee281f__
 
