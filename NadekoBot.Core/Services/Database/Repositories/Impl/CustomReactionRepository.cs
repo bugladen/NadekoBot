@@ -16,7 +16,7 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
             return _context.Database.ExecuteSqlCommand($"DELETE FROM CustomReactions WHERE GuildId={id};");
         }
 
-        public CustomReaction[] ForId(ulong id)
+        public IEnumerable<CustomReaction> ForId(ulong id)
         {
             return _set.Where(x => x.GuildId == id)
                 .ToArray();
@@ -32,13 +32,13 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
-        public CustomReaction[] GetFor(IEnumerable<ulong> ids)
+        public IEnumerable<CustomReaction> GetFor(IEnumerable<ulong> ids)
         {
             return _set.Where(x => ids.Contains(x.GuildId.Value))
                 .ToArray();
         }
 
-        public CustomReaction[] GetGlobal()
+        public IEnumerable<CustomReaction> GetGlobal()
         {
             return _set.Where(x => x.GuildId == null)
                 .ToArray();

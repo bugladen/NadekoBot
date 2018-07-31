@@ -112,7 +112,7 @@ namespace NadekoBot.Modules.CustomReactions
                                                             str = "📪" + str;
                                                         }
                                                         return str;
-                                                    }))), customReactions.Length, 20)
+                                                    }))), customReactions.Count(), 20)
                                 .ConfigureAwait(false);
         }
 

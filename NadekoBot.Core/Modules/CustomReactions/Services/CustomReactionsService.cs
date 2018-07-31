@@ -16,6 +16,7 @@ using NadekoBot.Modules.Permissions.Common;
 using NadekoBot.Modules.Permissions.Services;
 using NadekoBot.Core.Services.Impl;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace NadekoBot.Modules.CustomReactions.Services
 {
@@ -89,7 +90,7 @@ namespace NadekoBot.Modules.CustomReactions.Services
             _guildReactions = new ConcurrentDictionary<ulong, ConcurrentDictionary<int, CustomReaction>>(guildItems
                 .GroupBy(k => k.GuildId.Value)
                 .ToDictionary(g => g.Key, g => g.ToDictionary(x => x.Id, x => x).ToConcurrent()));
-            
+
             var globalItems = uow.CustomReactions.GetGlobal();
             _globalReactions = globalItems
                 .ToDictionary(x => x.Id, x => x)
@@ -373,15 +374,12 @@ namespace NadekoBot.Modules.CustomReactions.Services
             return cr;
         }
 
-        public CustomReaction[] GetCustomReactions(ulong? guildId)
+        public IEnumerable<CustomReaction> GetCustomReactions(ulong? guildId)
         {
-            CustomReaction[] customReactions;
             if (guildId == null)
-                customReactions = _globalReactions.Values.ToArray();
+                return _globalReactions.Values;
             else
-                customReactions = _guildReactions.GetOrAdd(guildId.Value, new ConcurrentDictionary<int, CustomReaction>()).Values.ToArray();
-
-            return customReactions;
+                return _guildReactions.GetOrAdd(guildId.Value, new ConcurrentDictionary<int, CustomReaction>()).Values;
         }
 
         public CustomReaction GetCustomReaction(ulong? guildId, int id)
