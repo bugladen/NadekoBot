@@ -49,7 +49,7 @@ namespace NadekoBot.Modules.Gambling
                 var result = await _service.WheelOfFortuneSpinAsync(Context.User.Id, amount).ConfigureAwait(false);
 
                 await Context.Channel.SendConfirmAsync(
-Format.Bold($@"{Context.User.ToString()} won: {amount + Bc.BotConfig.CurrencySign}
+Format.Bold($@"{Context.User.ToString()} won: {result.Amount + Bc.BotConfig.CurrencySign}
 
    『{Wof.Multipliers[1]}』   『{Wof.Multipliers[0]}』   『{Wof.Multipliers[7]}』
 
@@ -57,27 +57,6 @@ Format.Bold($@"{Context.User.ToString()} won: {amount + Bc.BotConfig.CurrencySig
 
      『{Wof.Multipliers[3]}』   『{Wof.Multipliers[4]}』   『{Wof.Multipliers[5]}』")).ConfigureAwait(false);
             }
-
-            //[NadekoCommand, Usage, Description, Aliases]
-            //[RequireContext(ContextType.Guild)]
-            //public async Task WofTest(int length = 1000)
-            //{
-            //    var mults = new Dictionary<float, int>();
-            //    for (int i = 0; i < length; i++)
-            //    {
-            //        var x = new Wof();
-            //        if (mults.ContainsKey(x.Multiplier))
-            //            ++mults[x.Multiplier];
-            //        else
-            //            mults.Add(x.Multiplier, 1);
-            //    }
-
-            //    var payout = mults.Sum(x => x.Key * x.Value);
-            //    await Context.Channel.SendMessageAsync($"Total bet: {length}\n" +
-            //        $"Paid out: {payout}\n" +
-            //        $"Total Payout: {payout / length:F3}x")
-            //        .ConfigureAwait(false);
-            //}
         }
     }
 }

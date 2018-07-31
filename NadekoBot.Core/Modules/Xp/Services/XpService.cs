@@ -889,10 +889,10 @@ namespace NadekoBot.Modules.Xp.Services
 
             img.Mutate(x => x.FillPolygon(info.Color,
                 new[] {
-                            new PointF(x1, y1),
-                            new PointF(x3, y3),
-                            new PointF(x4, y4),
-                            new PointF(x2, y2),
+                    new PointF(x1, y1),
+                    new PointF(x3, y3),
+                    new PointF(x4, y4),
+                    new PointF(x2, y2),
                 }));
         }
 
