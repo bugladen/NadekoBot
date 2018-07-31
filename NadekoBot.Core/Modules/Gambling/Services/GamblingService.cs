@@ -1,10 +1,13 @@
-﻿using NadekoBot.Core.Modules.Gambling.Common;
+﻿using NadekoBot.Core.Common;
+using NadekoBot.Core.Modules.Gambling.Common;
 using NadekoBot.Core.Services;
 using NadekoBot.Modules.Gambling.Common.Connect4;
+using NadekoBot.Modules.Gambling.Common.WheelOfFortune;
 using NLog;
 using System;
 using System.Collections.Concurrent;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Gambling.Services
 {
@@ -79,6 +82,11 @@ namespace NadekoBot.Modules.Gambling.Services
             //    uow.Complete();
             //    _log.Info("Refunded {0} users' stakes.", stakes.Length);
             //}
+        }
+
+        public Task<WheelOfFortuneGame.Result> WheelOfFortuneSpinAsync(ulong userId, long bet)
+        {
+            return new WheelOfFortuneGame(userId, bet, _cs).SpinAsync();
         }
     }
 }

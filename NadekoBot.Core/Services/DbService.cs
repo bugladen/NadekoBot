@@ -37,22 +37,9 @@ namespace NadekoBot.Core.Services
                     mContext.SaveChanges();
                     mContext.Dispose();
                 }
+                context.Database.ExecuteSqlCommand("PRAGMA journal_mode=WAL");
                 context.Database.SetCommandTimeout(60);
                 context.EnsureSeedData();
-
-                //set important sqlite stuffs
-                using (var conn = context.Database.GetDbConnection())
-                {
-                    conn.Open();
-
-                    context.Database.ExecuteSqlCommand("PRAGMA journal_mode=WAL");
-                    using (var com = conn.CreateCommand())
-                    {
-                        com.CommandText = "PRAGMA journal_mode=WAL; PRAGMA synchronous=OFF";
-                        com.ExecuteNonQuery();
-                    }
-                    conn.Close();
-                }
                 context.SaveChanges();
             }
         }
@@ -60,16 +47,13 @@ namespace NadekoBot.Core.Services
         public NadekoContext GetDbContext()
         {
             var context = new NadekoContext(options);
+            var conn = context.Database.GetDbConnection();
+            conn.Open();
             context.Database.SetCommandTimeout(60);
-            using (var conn = context.Database.GetDbConnection())
+            using (var com = conn.CreateCommand())
             {
-                conn.Open();
-                using (var com = conn.CreateCommand())
-                {
-                    com.CommandText = "PRAGMA journal_mode=WAL; PRAGMA synchronous=OFF";
-                    com.ExecuteNonQuery();
-                }
-                conn.Close();
+                com.CommandText = "PRAGMA journal_mode=WAL; PRAGMA synchronous=OFF";
+                com.ExecuteNonQuery();
             }
             return context;
         }

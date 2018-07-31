@@ -64,7 +64,7 @@ namespace NadekoBot.Modules.Xp.Services
         private readonly ConcurrentQueue<UserCacheItem> _addMessageXp
             = new ConcurrentQueue<UserCacheItem>();
 
-        private readonly Timer _updateXpTimer;
+        private readonly Task updateXpTask;
         private readonly CancellationTokenSource _clearRewardTimerTokenSource;
         private readonly Task _clearRewardTimer;
         private readonly IHttpClientFactory _httpFactory;
@@ -120,147 +120,151 @@ namespace NadekoBot.Modules.Xp.Services
                                .Select(x => x.GuildId));
 
             _cmd.OnMessageNoTrigger += _cmd_OnMessageNoTrigger;
-        
+
 #if !GLOBAL_NADEKO
-            _updateXpTimer = new Timer(async _ =>
+            updateXpTask = Task.Run(async () =>
             {
-                try
+                while (true)
                 {
-                    var toNotify = new List<(IMessageChannel MessageChannel, IUser User, int Level, XpNotificationType NotifyType, NotifOf NotifOf)>();
-                    var roleRewards = new Dictionary<ulong, List<XpRoleReward>>();
-                    var curRewards = new Dictionary<ulong, List<XpCurrencyReward>>();
-
-                    var toAddTo = new List<UserCacheItem>();
-                    while (_addMessageXp.TryDequeue(out var usr))
-                        toAddTo.Add(usr);
-
-                    var group = toAddTo.GroupBy(x => (GuildId: x.Guild.Id, x.User));
-                    if (toAddTo.Count == 0)
-                        return;
-
-                    using (var uow = _db.UnitOfWork)
+                    await Task.Delay(TimeSpan.FromSeconds(5));
+                    try
                     {
-                        foreach (var item in group)
+                        var toNotify = new List<(IMessageChannel MessageChannel, IUser User, int Level, XpNotificationType NotifyType, NotifOf NotifOf)>();
+                        var roleRewards = new Dictionary<ulong, List<XpRoleReward>>();
+                        var curRewards = new Dictionary<ulong, List<XpCurrencyReward>>();
+
+                        var toAddTo = new List<UserCacheItem>();
+                        while (_addMessageXp.TryDequeue(out var usr))
+                            toAddTo.Add(usr);
+
+                        var group = toAddTo.GroupBy(x => (GuildId: x.Guild.Id, x.User));
+                        if (toAddTo.Count == 0)
+                            return;
+
+                        using (var uow = _db.UnitOfWork)
                         {
-                            var xp = item.Select(x => bc.BotConfig.XpPerMessage).Sum();
-
-                            //1. Mass query discord users and userxpstats and get them from local dict
-                            //2. (better but much harder) Move everything to the database, and get old and new xp
-                            // amounts for every user (in order to give rewards)
-
-                            var usr = uow.Xp.GetOrCreateUser(item.Key.GuildId, item.Key.User.Id);
-                            var du = uow.DiscordUsers.GetOrCreate(item.Key.User);
-
-                            var globalXp = du.TotalXp;
-                            var oldGlobalLevelData = new LevelStats(globalXp);
-                            var newGlobalLevelData = new LevelStats(globalXp + xp);
-
-                            var oldGuildLevelData = new LevelStats(usr.Xp + usr.AwardedXp);
-                            usr.Xp += xp;
-                            du.TotalXp += xp;
-                            if (du.Club != null)
-                                du.Club.Xp += xp;
-                            var newGuildLevelData = new LevelStats(usr.Xp + usr.AwardedXp);
-
-                            if (oldGlobalLevelData.Level < newGlobalLevelData.Level)
+                            foreach (var item in group)
                             {
-                                du.LastLevelUp = DateTime.UtcNow;
-                                var first = item.First();
-                                if (du.NotifyOnLevelUp != XpNotificationType.None)
-                                    toNotify.Add((first.Channel, first.User, newGlobalLevelData.Level, du.NotifyOnLevelUp, NotifOf.Global));
-                            }
+                                var xp = item.Select(x => bc.BotConfig.XpPerMessage).Sum();
 
-                            if (oldGuildLevelData.Level < newGuildLevelData.Level)
-                            {
-                                usr.LastLevelUp = DateTime.UtcNow;
-                                //send level up notification
-                                var first = item.First();
-                                if (usr.NotifyOnLevelUp != XpNotificationType.None)
-                                    toNotify.Add((first.Channel, first.User, newGuildLevelData.Level, usr.NotifyOnLevelUp, NotifOf.Server));
+                                //1. Mass query discord users and userxpstats and get them from local dict
+                                //2. (better but much harder) Move everything to the database, and get old and new xp
+                                // amounts for every user (in order to give rewards)
 
-                                //give role
-                                if (!roleRewards.TryGetValue(usr.GuildId, out var rrews))
+                                var usr = uow.Xp.GetOrCreateUser(item.Key.GuildId, item.Key.User.Id);
+                                var du = uow.DiscordUsers.GetOrCreate(item.Key.User);
+
+                                var globalXp = du.TotalXp;
+                                var oldGlobalLevelData = new LevelStats(globalXp);
+                                var newGlobalLevelData = new LevelStats(globalXp + xp);
+
+                                var oldGuildLevelData = new LevelStats(usr.Xp + usr.AwardedXp);
+                                usr.Xp += xp;
+                                du.TotalXp += xp;
+                                if (du.Club != null)
+                                    du.Club.Xp += xp;
+                                var newGuildLevelData = new LevelStats(usr.Xp + usr.AwardedXp);
+
+                                if (oldGlobalLevelData.Level < newGlobalLevelData.Level)
                                 {
-                                    rrews = uow.GuildConfigs.XpSettingsFor(usr.GuildId).RoleRewards.ToList();
-                                    roleRewards.Add(usr.GuildId, rrews);
+                                    du.LastLevelUp = DateTime.UtcNow;
+                                    var first = item.First();
+                                    if (du.NotifyOnLevelUp != XpNotificationType.None)
+                                        toNotify.Add((first.Channel, first.User, newGlobalLevelData.Level, du.NotifyOnLevelUp, NotifOf.Global));
                                 }
 
-                                if (!curRewards.TryGetValue(usr.GuildId, out var crews))
+                                if (oldGuildLevelData.Level < newGuildLevelData.Level)
                                 {
-                                    crews = uow.GuildConfigs.XpSettingsFor(usr.GuildId).CurrencyRewards.ToList();
-                                    curRewards.Add(usr.GuildId, crews);
-                                }
+                                    usr.LastLevelUp = DateTime.UtcNow;
+                                    //send level up notification
+                                    var first = item.First();
+                                    if (usr.NotifyOnLevelUp != XpNotificationType.None)
+                                        toNotify.Add((first.Channel, first.User, newGuildLevelData.Level, usr.NotifyOnLevelUp, NotifOf.Server));
 
-                                var rrew = rrews.FirstOrDefault(x => x.Level == newGuildLevelData.Level);
-                                if (rrew != null)
-                                {
-                                    var role = first.User.Guild.GetRole(rrew.RoleId);
-                                    if (role != null)
+                                    //give role
+                                    if (!roleRewards.TryGetValue(usr.GuildId, out var rrews))
                                     {
-                                        var __ = first.User.AddRoleAsync(role);
+                                        rrews = uow.GuildConfigs.XpSettingsFor(usr.GuildId).RoleRewards.ToList();
+                                        roleRewards.Add(usr.GuildId, rrews);
+                                    }
+
+                                    if (!curRewards.TryGetValue(usr.GuildId, out var crews))
+                                    {
+                                        crews = uow.GuildConfigs.XpSettingsFor(usr.GuildId).CurrencyRewards.ToList();
+                                        curRewards.Add(usr.GuildId, crews);
+                                    }
+
+                                    var rrew = rrews.FirstOrDefault(x => x.Level == newGuildLevelData.Level);
+                                    if (rrew != null)
+                                    {
+                                        var role = first.User.Guild.GetRole(rrew.RoleId);
+                                        if (role != null)
+                                        {
+                                            var __ = first.User.AddRoleAsync(role);
+                                        }
+                                    }
+                                    //get currency reward for this level
+                                    var crew = crews.FirstOrDefault(x => x.Level == newGuildLevelData.Level);
+                                    if (crew != null)
+                                    {
+                                        //give the user the reward if it exists
+                                        await _cs.AddAsync(item.Key.User.Id, "Level-up Reward", crew.Amount);
                                     }
                                 }
-                                //get currency reward for this level
-                                var crew = crews.FirstOrDefault(x => x.Level == newGuildLevelData.Level);
-                                if (crew != null)
+                            }
+
+                            uow.Complete();
+                        }
+
+                        await Task.WhenAll(toNotify.Select(async x =>
+                        {
+                            if (x.NotifOf == NotifOf.Server)
+                            {
+                                if (x.NotifyType == XpNotificationType.Dm)
                                 {
-                                    //give the user the reward if it exists
-                                    await _cs.AddAsync(item.Key.User.Id, "Level-up Reward", crew.Amount);
+                                    var chan = await x.User.GetOrCreateDMChannelAsync();
+                                    if (chan != null)
+                                        await chan.SendConfirmAsync(_strings.GetText("level_up_dm",
+                                            (x.MessageChannel as ITextChannel)?.GuildId,
+                                            "xp",
+                                            x.User.Mention, Format.Bold(x.Level.ToString()),
+                                            Format.Bold((x.MessageChannel as ITextChannel)?.Guild.ToString() ?? "-")))
+                                            ;
+                                }
+                                else // channel
+                                {
+                                    await x.MessageChannel.SendConfirmAsync(_strings.GetText("level_up_channel",
+                                              (x.MessageChannel as ITextChannel)?.GuildId,
+                                              "xp",
+                                              x.User.Mention, Format.Bold(x.Level.ToString())))
+                                              ;
                                 }
                             }
-                        }
-
-                        await uow.CompleteAsync();
+                            else
+                            {
+                                IMessageChannel chan;
+                                if (x.NotifyType == XpNotificationType.Dm)
+                                {
+                                    chan = await x.User.GetOrCreateDMChannelAsync();
+                                }
+                                else // channel
+                                {
+                                    chan = x.MessageChannel;
+                                }
+                                await chan.SendConfirmAsync(_strings.GetText("level_up_global",
+                                              (x.MessageChannel as ITextChannel)?.GuildId,
+                                              "xp",
+                                              x.User.Mention, Format.Bold(x.Level.ToString())))
+                                                ;
+                            }
+                        }));
                     }
-
-                    await Task.WhenAll(toNotify.Select(async x =>
+                    catch (Exception ex)
                     {
-                        if (x.NotifOf == NotifOf.Server)
-                        {
-                            if (x.NotifyType == XpNotificationType.Dm)
-                            {
-                                var chan = await x.User.GetOrCreateDMChannelAsync();
-                                if (chan != null)
-                                    await chan.SendConfirmAsync(_strings.GetText("level_up_dm",
-                                        (x.MessageChannel as ITextChannel)?.GuildId,
-                                        "xp",
-                                        x.User.Mention, Format.Bold(x.Level.ToString()),
-                                        Format.Bold((x.MessageChannel as ITextChannel)?.Guild.ToString() ?? "-")))
-                                        ;
-                            }
-                            else // channel
-                            {
-                                await x.MessageChannel.SendConfirmAsync(_strings.GetText("level_up_channel",
-                                          (x.MessageChannel as ITextChannel)?.GuildId,
-                                          "xp",
-                                          x.User.Mention, Format.Bold(x.Level.ToString())))
-                                          ;
-                            }
-                        }
-                        else
-                        {
-                            IMessageChannel chan;
-                            if (x.NotifyType == XpNotificationType.Dm)
-                            {
-                                chan = await x.User.GetOrCreateDMChannelAsync();
-                            }
-                            else // channel
-                            {
-                                chan = x.MessageChannel;
-                            }
-                            await chan.SendConfirmAsync(_strings.GetText("level_up_global",
-                                          (x.MessageChannel as ITextChannel)?.GuildId,
-                                          "xp",
-                                          x.User.Mention, Format.Bold(x.Level.ToString())))
-                                            ;
-                        }
-                    }));
+                        _log.Warn(ex);
+                    }
                 }
-                catch (Exception ex)
-                {
-                    _log.Warn(ex);
-                }
-            }, null, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
+            });
 #endif
 
             _clearRewardTimerTokenSource = new CancellationTokenSource();
@@ -838,7 +842,7 @@ namespace NadekoBot.Modules.Xp.Services
                     await DrawClubImage(img, stats);
                 }
                 img.Mutate(x => x.Resize(_template.OutputSize.X, _template.OutputSize.Y));
-                return ((Stream) img.ToStream(imageFormat), imageFormat);
+                return ((Stream)img.ToStream(imageFormat), imageFormat);
             }
         });
 
@@ -945,8 +949,6 @@ namespace NadekoBot.Modules.Xp.Services
 
             if (!_clearRewardTimerTokenSource.IsCancellationRequested)
                 _clearRewardTimerTokenSource.Cancel();
-
-            _updateXpTimer.Change(Timeout.Infinite, Timeout.Infinite);
             _clearRewardTimerTokenSource.Dispose();
             return Task.CompletedTask;
         }

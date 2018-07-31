@@ -7,6 +7,7 @@ using Wof = NadekoBot.Modules.Gambling.Common.WheelOfFortune.WheelOfFortuneGame;
 using NadekoBot.Modules.Gambling.Services;
 using NadekoBot.Core.Modules.Gambling.Common;
 using NadekoBot.Core.Common;
+using System.Collections.Immutable;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -14,6 +15,16 @@ namespace NadekoBot.Modules.Gambling
     {
         public class WheelOfFortuneCommands : GamblingSubmodule<GamblingService>
         {
+            private static readonly ImmutableArray<string> _emojis = new string[] {
+            "⬆",
+            "↖",
+            "⬅",
+            "↙",
+            "⬇",
+            "↘",
+            "➡",
+            "↗" }.ToImmutableArray();
+
             private readonly ICurrencyService _cs;
             private readonly DbService _db;
 
@@ -35,19 +46,14 @@ namespace NadekoBot.Modules.Gambling
                     return;
                 }
 
-                var wof = new Wof();
-
-                amount = (long)(amount * wof.Multiplier);
-
-                if (amount > 0)
-                    await _cs.AddAsync(Context.User.Id, "Wheel Of Fortune - won", amount, gamble: true).ConfigureAwait(false);
+                var result = await _service.WheelOfFortuneSpinAsync(Context.User.Id, amount).ConfigureAwait(false);
 
                 await Context.Channel.SendConfirmAsync(
 Format.Bold($@"{Context.User.ToString()} won: {amount + Bc.BotConfig.CurrencySign}
 
    『{Wof.Multipliers[1]}』   『{Wof.Multipliers[0]}』   『{Wof.Multipliers[7]}』
 
-『{Wof.Multipliers[2]}』      {wof.Emoji}      『{Wof.Multipliers[6]}』
+『{Wof.Multipliers[2]}』      {_emojis[result.Index]}      『{Wof.Multipliers[6]}』
 
      『{Wof.Multipliers[3]}』   『{Wof.Multipliers[4]}』   『{Wof.Multipliers[5]}』")).ConfigureAwait(false);
             }
