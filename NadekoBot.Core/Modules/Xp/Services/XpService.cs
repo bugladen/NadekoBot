@@ -121,7 +121,6 @@ namespace NadekoBot.Modules.Xp.Services
 
             _cmd.OnMessageNoTrigger += _cmd_OnMessageNoTrigger;
 
-#if !GLOBAL_NADEKO
             updateXpTask = Task.Run(async () =>
             {
                 while (true)
@@ -265,7 +264,6 @@ namespace NadekoBot.Modules.Xp.Services
                     }
                 }
             });
-#endif
 
             _clearRewardTimerTokenSource = new CancellationTokenSource();
             var token = _clearRewardTimerTokenSource.Token;

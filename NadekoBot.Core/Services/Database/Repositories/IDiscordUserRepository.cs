@@ -18,5 +18,7 @@ namespace NadekoBot.Core.Services.Database.Repositories
         void RemoveFromMany(List<ulong> ids);
         void CurrencyDecay(float decay, ulong botId);
         long GetCurrencyDecayAmount(float decay);
+        decimal GetTotalCurrency(ulong botId);
+        decimal GetTopOnePercentCurrency(ulong botId);
     }
 }

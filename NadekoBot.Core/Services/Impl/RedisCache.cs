@@ -198,5 +198,24 @@ namespace NadekoBot.Core.Services.Impl
 
             return _db.KeyTimeToLive($"{_redisKey}_ratelimit_{id}_{name}");
         }
+
+        public bool TryGetEconomy(out string data)
+        {
+            var _db = Redis.GetDatabase();
+            if ((data = _db.StringGet($"{_redisKey}_economy")) != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public void SetEconomy(string data)
+        {
+            var _db = Redis.GetDatabase();
+            _db.StringSetAsync($"{_redisKey}_economy",
+                data,
+                expiry: TimeSpan.FromMinutes(3));
+        }
     }
 }

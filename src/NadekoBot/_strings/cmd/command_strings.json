@@ -3401,5 +3401,12 @@
       "{0}updatescheck commit",
       "{0}updatescheck release"
     ]
+  },
+  "economy": {
+    "cmd": "economy",
+    "desc": "Breakdown of the current state of the bot's economy. Updates every 3 minutes.",
+    "usage": [
+      "{0}economy"
+    ]
   }
 }

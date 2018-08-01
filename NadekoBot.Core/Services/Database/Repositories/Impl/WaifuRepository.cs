@@ -46,5 +46,12 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
                     .ToList();
 
         }
+
+        public decimal GetTotalValue()
+        {
+            return _set
+                .Where(x => x.ClaimerId != null)
+                .Sum(x => x.Price);
+        }
     }
 }

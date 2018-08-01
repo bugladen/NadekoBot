@@ -8,5 +8,6 @@ namespace NadekoBot.Core.Services.Database.Repositories
         IList<WaifuInfo> GetTop(int count, int skip = 0);
         WaifuInfo ByWaifuUserId(ulong userId);
         IList<WaifuInfo> ByClaimerUserId(ulong userId);
+        decimal GetTotalValue();
     }
 }

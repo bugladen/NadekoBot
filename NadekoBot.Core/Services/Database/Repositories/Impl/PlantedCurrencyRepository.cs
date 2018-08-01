@@ -11,6 +11,11 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
         {
         }
 
+        public decimal GetTotalPlanted()
+        {
+            return _set.Sum(x => x.Amount);
+        }
+
         public (long Sum, ulong[] MessageIds) RemoveSumAndGetMessageIdsFor(ulong cid, string pass = null)
         {
             pass = pass?.Trim().TrimTo(10, hideDots: true).ToUpperInvariant();

@@ -969,5 +969,12 @@
   "xp_reset_server": "XP of all users on the server has been reset.",
   "searches_distance": "Distance between {0} and {1} is {2}km",
   "gambling_bot_list_awarded": "Awarded {0} to {1} users!",
-  "administration_updates_check_set": "Checking for updates have been set to {0}."
+  "administration_updates_check_set": "Checking for updates have been set to {0}.",
+  "gambling_economy_state": "State of the economy",
+  "gambling_currency_owned": "Total currency owned by users",
+  "gambling_currency_one_percent": "% of currency owned by top 1%",
+  "gambling_currency_planted": "Currency currently planted",
+  "gambling_owned_waifus_total": "Total value of owned waifus",
+  "gambling_bot_currency": "Currency owned by the bot",
+  "gambling_total": "Total"
 }

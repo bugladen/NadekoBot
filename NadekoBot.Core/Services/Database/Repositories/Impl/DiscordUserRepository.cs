@@ -156,5 +156,21 @@ WHERE CurrencyAmount>0 AND UserId!={botId};");
         {
             return (long)_set.Sum(x => Math.Round(x.CurrencyAmount * decay - 0.5));
         }
+
+        public decimal GetTotalCurrency(ulong botId)
+        {
+            return _set
+                .Where(x => x.UserId != botId)
+                .Sum(x => x.CurrencyAmount);
+        }
+
+        public decimal GetTopOnePercentCurrency(ulong botId)
+        {
+            return _set
+                .Where(x => x.UserId != botId)
+                .OrderByDescending(x => x.CurrencyAmount)
+                .Take(_set.Count() / 100 == 0 ? 1 : _set.Count() / 100)
+                .Sum(x => x.CurrencyAmount);
+        }
     }
 }
