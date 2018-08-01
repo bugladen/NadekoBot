@@ -57,7 +57,9 @@ namespace NadekoBot.Extensions
                 tokens[i] = token.Substring(0, 1).ToUpperInvariant() + token.Substring(1);
             }
 
-            return string.Join(" ", tokens);
+            return string.Join(" ", tokens)
+                .Replace(" Of ", " of ")
+                .Replace(" The ", " the ");
         }
 
         /// <summary>

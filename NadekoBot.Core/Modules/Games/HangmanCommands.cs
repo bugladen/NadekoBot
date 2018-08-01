@@ -80,7 +80,7 @@ namespace NadekoBot.Modules.Games
                 {
                     var loseEmbed = new EmbedBuilder().WithTitle($"Hangman Game ({game.TermType}) - Ended")
                                              .WithDescription(Format.Bold("You lose."))
-                                             .AddField(efb => efb.WithName("It was").WithValue(game.Term.Word.ToTitleCase()))
+                                             .AddField(efb => efb.WithName("It was").WithValue(game.Term.GetWord()))
                                              .WithFooter(efb => efb.WithText(string.Join(" ", game.PreviousGuesses)))
                                              .WithErrorColor();
 
@@ -92,7 +92,7 @@ namespace NadekoBot.Modules.Games
 
                 var winEmbed = new EmbedBuilder().WithTitle($"Hangman Game ({game.TermType}) - Ended")
                                              .WithDescription(Format.Bold($"{winner} Won."))
-                                             .AddField(efb => efb.WithName("It was").WithValue(game.Term.Word.ToTitleCase()))
+                                             .AddField(efb => efb.WithName("It was").WithValue(game.Term.GetWord()))
                                              .WithFooter(efb => efb.WithText(string.Join(" ", game.PreviousGuesses)))
                                              .WithOkColor();
 
