@@ -67,7 +67,6 @@ namespace NadekoBot.Modules.Utility
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
             public async Task RemindList(int page = 1)
             {
                 if (--page < 0)
