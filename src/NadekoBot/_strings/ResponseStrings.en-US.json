@@ -976,5 +976,7 @@
   "gambling_currency_planted": "Currency currently planted",
   "gambling_owned_waifus_total": "Total value of owned waifus",
   "gambling_bot_currency": "Currency owned by the bot",
-  "gambling_total": "Total"
+  "gambling_total": "Total",
+  "utility_no_invites": "No invites on this page.",
+  "utility_invite_deleted": "Invite {0} has been deleted."
 }

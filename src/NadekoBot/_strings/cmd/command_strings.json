@@ -2306,11 +2306,26 @@
       "{0}rrc 0 MyLsdRole"
     ]
   },
-  "createinvite": {
-    "Cmd": "createinvite crinv",
+  "invitecreate": {
+    "Cmd": "invitecreate invcr",
     "Desc": "Creates a new invite which has infinite max uses and never expires.",
     "Usage": [
       "{0}crinv"
+    ]
+  },
+  "invitelist": {
+    "Cmd": "invitelist invlist invlst",
+    "Desc": "Lists all invites for this channel. Paginated with 9 per page.",
+    "Usage": [
+      "{0}invitelist",
+      "{0}invlist 3"
+    ]
+  },
+  "invitedelete": {
+    "Cmd": "invitedelete invrm invdel",
+    "Desc": "Deletes an invite on the specified index. Use `{0}invitelist` to see the list of invites.",
+    "Usage": [
+      "{0}invrm 2"
     ]
   },
   "pollstats": {
