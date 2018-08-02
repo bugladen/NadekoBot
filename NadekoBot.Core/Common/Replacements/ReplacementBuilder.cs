@@ -48,6 +48,8 @@ namespace NadekoBot.Common.Replacements
             _reps.TryAdd("%bot.fullname%", () => client.CurrentUser.ToString());
             _reps.TryAdd("%bot.time%", () => DateTime.Now.ToString("HH:mm " + TimeZoneInfo.Local.StandardName.GetInitials()));
             _reps.TryAdd("%bot.discrim%", () => client.CurrentUser.Discriminator);
+            _reps.TryAdd("%bot.id%", () => client.CurrentUser.Id.ToString());
+            _reps.TryAdd("%bot.avatar%", () => client.CurrentUser.RealAvatarUrl()?.ToString());
 
             WithStats(client);
             return this;
