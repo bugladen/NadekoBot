@@ -14,6 +14,9 @@ namespace NadekoBot.Core.Modules.Utility.Services
             [Option('u', "unique", Required = false, Default = false, HelpText = "Not setting this flag will result in bot getting the existing invite with the same settings if it exists, instead of creating a new one.")]
             public bool Unique { get; set; } = false;
 
+            [Option('t', "temporary", Required = false, Default = false, HelpText = "Setting this flag will make the link expire after 24h.")]
+            public bool Temporary { get; set; } = false;
+
             public void NormalizeOptions()
             {
                 if (MaxUses < 0)
