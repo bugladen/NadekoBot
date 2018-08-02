@@ -1892,36 +1892,6 @@
     },
     {
       "Aliases": [
-        ".crstatsclear"
-      ],
-      "Description": "Resets the counters on `.crstats`. You can specify a trigger to clear stats only for that trigger.",
-      "Usage": [
-        ".crstatsclear",
-        ".crstatsclear rng"
-      ],
-      "Submodule": "CustomReactions",
-      "Module": "CustomReactions",
-      "Options": null,
-      "Requirements": [
-        "Bot Owner Only"
-      ]
-    },
-    {
-      "Aliases": [
-        ".crstats"
-      ],
-      "Description": "Shows a list of custom reactions and the number of times they have been executed. Paginated with 10 per page. Use `.crstatsclear` to reset the counters.",
-      "Usage": [
-        ".crstats",
-        ".crstats 3"
-      ],
-      "Submodule": "CustomReactions",
-      "Module": "CustomReactions",
-      "Options": null,
-      "Requirements": []
-    },
-    {
-      "Aliases": [
         ".crclear"
       ],
       "Description": "Deletes all custom reactions on this server.",
@@ -1937,6 +1907,19 @@
     }
   ],
   "Gambling": [
+    {
+      "Aliases": [
+        ".economy"
+      ],
+      "Description": "Breakdown of the current state of the bot's economy. Updates every 3 minutes.",
+      "Usage": [
+        ".economy"
+      ],
+      "Submodule": "Gambling",
+      "Module": "Gambling",
+      "Options": null,
+      "Requirements": []
+    },
     {
       "Aliases": [
         ".timely"
@@ -5520,22 +5503,6 @@
     },
     {
       "Aliases": [
-        ".createinvite",
-        ".crinv"
-      ],
-      "Description": "Creates a new invite which has infinite max uses and never expires.",
-      "Usage": [
-        ".crinv"
-      ],
-      "Submodule": "Utility",
-      "Module": "Utility",
-      "Options": null,
-      "Requirements": [
-        "CreateInstantInvite Channel Permission"
-      ]
-    },
-    {
-      "Aliases": [
         ".stats"
       ],
       "Description": "Shows some basic stats for Nadeko.",
@@ -5752,6 +5719,57 @@
       "Options": null,
       "Requirements": [
         "Bot Owner Only"
+      ]
+    },
+    {
+      "Aliases": [
+        ".invitecreate",
+        ".invcr"
+      ],
+      "Description": "Creates a new invite which has infinite max uses and never expires.",
+      "Usage": [
+        ".crinv"
+      ],
+      "Submodule": "InviteCommands",
+      "Module": "Utility",
+      "Options": "`--max-uses` (`-m`)   Maximum number of times the invite can be used. Default 0 (never).  \n`--unique` (`-u`)   Not setting this flag will result in bot getting the existing invite with the same settings if it exists, instead of creating a new one.  ",
+      "Requirements": [
+        "CreateInstantInvite Channel Permission"
+      ]
+    },
+    {
+      "Aliases": [
+        ".invitelist",
+        ".invlist",
+        ".invlst"
+      ],
+      "Description": "Lists all invites for this channel. Paginated with 9 per page.",
+      "Usage": [
+        ".invitelist",
+        ".invlist 3"
+      ],
+      "Submodule": "InviteCommands",
+      "Module": "Utility",
+      "Options": null,
+      "Requirements": [
+        "ManageChannels Channel Permission"
+      ]
+    },
+    {
+      "Aliases": [
+        ".invitedelete",
+        ".invrm",
+        ".invdel"
+      ],
+      "Description": "Deletes an invite on the specified index. Use `.invitelist` to see the list of invites.",
+      "Usage": [
+        ".invrm 2"
+      ],
+      "Submodule": "InviteCommands",
+      "Module": "Utility",
+      "Options": null,
+      "Requirements": [
+        "ManageChannels Channel Permission"
       ]
     },
     {
