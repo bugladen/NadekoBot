@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,11 @@ namespace NadekoBot.Extensions
     {
         public static T MapJson<T>(this string str)
             => JsonConvert.DeserializeObject<T>(str);
+
+        private static readonly HashSet<char> lettersAndDigits = new HashSet<char>(Enumerable.Range(48, 10)
+            .Concat(Enumerable.Range(65, 26))
+            .Concat(Enumerable.Range(97, 26))
+            .Select(x => (char)x));
 
         public static string StripHTML(this string input)
         {
@@ -154,6 +160,6 @@ namespace NadekoBot.Extensions
             string.Join(glue, txt.Split(' ').Select(x => x.FirstOrDefault()));
 
         public static bool IsAlphaNumeric(this string txt) =>
-            txt.All(c => char.IsLetterOrDigit(c));
+            txt.All(c => lettersAndDigits.Contains(c));
     }
 }
