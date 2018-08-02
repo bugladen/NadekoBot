@@ -13,6 +13,8 @@ Some features have their own specific placeholders which are noted in that featu
 - `%bot.fullname%` - Bot username#discriminator   
 - `%bot.time%` - Bot time (usually the time of the server it's hosted on)   
 - `%bot.discrim%` - Bot's discriminator   
+- `%bot.id%` - Bot's user ID
+- `%bot.avatar%` - Bot's avatar url
 
 **Server placeholders**     
 - `%server.id%` - Server ID   
@@ -57,4 +59,4 @@ Some features have their own specific placeholders which are noted in that featu
 
 **If you're using placeholders in embeds, don't use %user.mention% and %bot.mention% in titles, footers and field names. They will not show properly.**
 
-![img](https://i.imgur.com/Lr2wa3k.png)
+![img](https://puu.sh/B7mgI.png)
