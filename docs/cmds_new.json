@@ -182,11 +182,26 @@
     },
     {
       "Aliases": [
-        ".execsql"
+        ".sqlselect"
+      ],
+      "Description": "sqlselect",
+      "Usage": [
+        "sqlselect"
+      ],
+      "Submodule": "DangerousCommands",
+      "Module": "Administration",
+      "Options": null,
+      "Requirements": [
+        "Bot Owner Only"
+      ]
+    },
+    {
+      "Aliases": [
+        ".sqlexec"
       ],
       "Description": "Executes an sql command and returns the number of affected rows. Dangerous.",
       "Usage": [
-        ".execsql UPDATE DiscordUser SET CurrencyAmount=CurrencyAmount+1234"
+        ".sqlexec UPDATE DiscordUser SET CurrencyAmount=CurrencyAmount+1234"
       ],
       "Submodule": "DangerousCommands",
       "Module": "Administration",
@@ -1380,7 +1395,7 @@
       "Aliases": [
         ".botconfigreload"
       ],
-      "Description": "Reloads bot configuration in case you made changes to the BotConfig table either with .execsql or manually in the .db file.",
+      "Description": "Reloads bot configuration in case you made changes to the BotConfig table either with .sqlexec or manually in the .db file.",
       "Usage": [
         ".botconfigreload"
       ],
@@ -2802,6 +2817,23 @@
       "Options": null,
       "Requirements": [
         "ManageMessages Server Permission"
+      ]
+    },
+    {
+      "Aliases": [
+        ".gencurlist",
+        ".gclist"
+      ],
+      "Description": "Shows the list of server and channel ids where gc is enabled. Paginated with 9 per page.",
+      "Usage": [
+        ".gclist"
+      ],
+      "Submodule": "PlantPickCommands",
+      "Module": "Games",
+      "Options": null,
+      "Requirements": [
+        "ManageMessages Server Permission",
+        "Bot Owner Only"
       ]
     },
     {
@@ -5732,7 +5764,7 @@
       ],
       "Submodule": "InviteCommands",
       "Module": "Utility",
-      "Options": "`--max-uses` (`-m`)   Maximum number of times the invite can be used. Default 0 (never).  \n`--unique` (`-u`)   Not setting this flag will result in bot getting the existing invite with the same settings if it exists, instead of creating a new one.  ",
+      "Options": "`--max-uses` (`-m`)   Maximum number of times the invite can be used. Default 0 (never).  \n`--unique` (`-u`)   Not setting this flag will result in bot getting the existing invite with the same settings if it exists, instead of creating a new one.  \n`--temporary` (`-t`)   Setting this flag will make the link expire after 24h.  ",
       "Requirements": [
         "CreateInstantInvite Channel Permission"
       ]
