@@ -40,13 +40,13 @@ namespace NadekoBot.Modules.Administration
             }
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public Task ExecSql([Remainder]string sql) =>
+            public Task SqlExec([Remainder]string sql) =>
                 InternalExecSql(sql);
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public Task DeleteWaifus() =>
-                ExecSql(DangerousCommandsService.WaifusDeleteSql);
+                SqlExec(DangerousCommandsService.WaifusDeleteSql);
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
@@ -61,17 +61,17 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public Task DeleteCurrency() =>
-                ExecSql(DangerousCommandsService.CurrencyDeleteSql);
+                SqlExec(DangerousCommandsService.CurrencyDeleteSql);
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public Task DeletePlaylists() =>
-                ExecSql(DangerousCommandsService.MusicPlaylistDeleteSql);
+                SqlExec(DangerousCommandsService.MusicPlaylistDeleteSql);
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public Task DeleteExp() =>
-                ExecSql(DangerousCommandsService.XpDeleteSql);
+                SqlExec(DangerousCommandsService.XpDeleteSql);
         }
     }
 }

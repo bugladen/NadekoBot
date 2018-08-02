@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Gambling.Services;
 using Discord.WebSocket;
+using System.Linq;
 
 namespace NadekoBot.Modules.Games
 {
@@ -80,6 +81,31 @@ namespace NadekoBot.Modules.Games
                 {
                     await ReplyConfirmLocalized("curgen_disabled").ConfigureAwait(false);
                 }
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.ManageMessages)]
+            [OwnerOnly]
+            public Task GenCurList(int page = 1)
+            {
+                if (--page < 0)
+                    return Task.CompletedTask;
+                var enabledIn = _service.GetAllGeneratingChannels();
+
+                return Context.SendPaginatedConfirmAsync(page, (cur) =>
+                {
+                    var items = enabledIn.Skip(page * 9).Take(9);
+
+                    if (!items.Any())
+                    {
+                        return new EmbedBuilder().WithErrorColor()
+                            .WithDescription("-");
+                    }
+
+                    return items.Aggregate(new EmbedBuilder().WithOkColor(),
+                        (eb, i) => eb.AddField(i.GuildId.ToString(), i.ChannelId));
+                }, enabledIn.Count(), 9);
             }
         }
     }

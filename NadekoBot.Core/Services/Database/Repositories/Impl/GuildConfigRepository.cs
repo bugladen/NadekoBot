@@ -206,5 +206,19 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
 
             return gc.XpSettings;
         }
+
+        public IEnumerable<GeneratingChannel> GetGeneratingChannels()
+        {
+            return _set
+                .Include(x => x.GenerateCurrencyChannelIds)
+                .Where(x => x.GenerateCurrencyChannelIds.Any())
+                .SelectMany(x => x.GenerateCurrencyChannelIds)
+                .Select(x => new GeneratingChannel()
+                {
+                    ChannelId = x.ChannelId,
+                    GuildId = x.GuildConfig.GuildId
+                })
+                .ToArray();
+        }
     }
 }

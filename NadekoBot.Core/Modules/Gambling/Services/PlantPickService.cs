@@ -5,6 +5,7 @@ using NadekoBot.Common;
 using NadekoBot.Common.Collections;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
+using NadekoBot.Core.Services.Database.Repositories;
 using NadekoBot.Core.Services.Impl;
 using NadekoBot.Extensions;
 using NLog;
@@ -17,6 +18,7 @@ using SixLabors.ImageSharp.Processing.Text;
 using SixLabors.Primitives;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -89,6 +91,16 @@ namespace NadekoBot.Modules.Gambling.Services
             }
             return enabled;
         }
+
+        public IEnumerable<GeneratingChannel> GetAllGeneratingChannels()
+        {
+            using (var uow = _db.UnitOfWork)
+            {
+                var chs = uow.GuildConfigs.GetGeneratingChannels();
+                return chs;
+            }
+        }
+
         /// <summary>
         /// Get a random currency image stream, with an optional password sticked onto it.
         /// </summary>
