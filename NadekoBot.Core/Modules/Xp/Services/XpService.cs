@@ -29,6 +29,7 @@ using SixLabors.ImageSharp.Processing.Text;
 using Newtonsoft.Json;
 using NadekoBot.Core.Modules.Xp.Common;
 using NadekoBot.Common;
+using SixLabors.ImageSharp.Formats;
 
 namespace NadekoBot.Modules.Xp.Services
 {
@@ -63,7 +64,7 @@ namespace NadekoBot.Modules.Xp.Services
         private readonly ConcurrentQueue<UserCacheItem> _addMessageXp
             = new ConcurrentQueue<UserCacheItem>();
 
-        private readonly Timer _updateXpTimer;
+        private readonly Task updateXpTask;
         private readonly CancellationTokenSource _clearRewardTimerTokenSource;
         private readonly Task _clearRewardTimer;
         private readonly IHttpClientFactory _httpFactory;
@@ -120,145 +121,149 @@ namespace NadekoBot.Modules.Xp.Services
 
             _cmd.OnMessageNoTrigger += _cmd_OnMessageNoTrigger;
 
-            _updateXpTimer = new Timer(async _ =>
+            updateXpTask = Task.Run(async () =>
             {
-                try
+                while (true)
                 {
-                    var toNotify = new List<(IMessageChannel MessageChannel, IUser User, int Level, XpNotificationType NotifyType, NotifOf NotifOf)>();
-                    var roleRewards = new Dictionary<ulong, List<XpRoleReward>>();
-                    var curRewards = new Dictionary<ulong, List<XpCurrencyReward>>();
-
-                    var toAddTo = new List<UserCacheItem>();
-                    while (_addMessageXp.TryDequeue(out var usr))
-                        toAddTo.Add(usr);
-
-                    var group = toAddTo.GroupBy(x => (GuildId: x.Guild.Id, x.User));
-                    if (toAddTo.Count == 0)
-                        return;
-
-                    using (var uow = _db.UnitOfWork)
+                    await Task.Delay(TimeSpan.FromSeconds(5));
+                    try
                     {
-                        foreach (var item in group)
+                        var toNotify = new List<(IMessageChannel MessageChannel, IUser User, int Level, XpNotificationType NotifyType, NotifOf NotifOf)>();
+                        var roleRewards = new Dictionary<ulong, List<XpRoleReward>>();
+                        var curRewards = new Dictionary<ulong, List<XpCurrencyReward>>();
+
+                        var toAddTo = new List<UserCacheItem>();
+                        while (_addMessageXp.TryDequeue(out var usr))
+                            toAddTo.Add(usr);
+
+                        var group = toAddTo.GroupBy(x => (GuildId: x.Guild.Id, x.User));
+                        if (toAddTo.Count == 0)
+                            return;
+
+                        using (var uow = _db.UnitOfWork)
                         {
-                            var xp = item.Select(x => bc.BotConfig.XpPerMessage).Sum();
-
-                            //1. Mass query discord users and userxpstats and get them from local dict
-                            //2. (better but much harder) Move everything to the database, and get old and new xp
-                            // amounts for every user (in order to give rewards)
-
-                            var usr = uow.Xp.GetOrCreateUser(item.Key.GuildId, item.Key.User.Id);
-                            var du = uow.DiscordUsers.GetOrCreate(item.Key.User);
-
-                            var globalXp = du.TotalXp;
-                            var oldGlobalLevelData = new LevelStats(globalXp);
-                            var newGlobalLevelData = new LevelStats(globalXp + xp);
-
-                            var oldGuildLevelData = new LevelStats(usr.Xp + usr.AwardedXp);
-                            usr.Xp += xp;
-                            du.TotalXp += xp;
-                            if (du.Club != null)
-                                du.Club.Xp += xp;
-                            var newGuildLevelData = new LevelStats(usr.Xp + usr.AwardedXp);
-
-                            if (oldGlobalLevelData.Level < newGlobalLevelData.Level)
+                            foreach (var item in group)
                             {
-                                du.LastLevelUp = DateTime.UtcNow;
-                                var first = item.First();
-                                if (du.NotifyOnLevelUp != XpNotificationType.None)
-                                    toNotify.Add((first.Channel, first.User, newGlobalLevelData.Level, du.NotifyOnLevelUp, NotifOf.Global));
-                            }
+                                var xp = item.Select(x => bc.BotConfig.XpPerMessage).Sum();
 
-                            if (oldGuildLevelData.Level < newGuildLevelData.Level)
-                            {
-                                usr.LastLevelUp = DateTime.UtcNow;
-                                //send level up notification
-                                var first = item.First();
-                                if (usr.NotifyOnLevelUp != XpNotificationType.None)
-                                    toNotify.Add((first.Channel, first.User, newGuildLevelData.Level, usr.NotifyOnLevelUp, NotifOf.Server));
+                                //1. Mass query discord users and userxpstats and get them from local dict
+                                //2. (better but much harder) Move everything to the database, and get old and new xp
+                                // amounts for every user (in order to give rewards)
 
-                                //give role
-                                if (!roleRewards.TryGetValue(usr.GuildId, out var rrews))
+                                var usr = uow.Xp.GetOrCreateUser(item.Key.GuildId, item.Key.User.Id);
+                                var du = uow.DiscordUsers.GetOrCreate(item.Key.User);
+
+                                var globalXp = du.TotalXp;
+                                var oldGlobalLevelData = new LevelStats(globalXp);
+                                var newGlobalLevelData = new LevelStats(globalXp + xp);
+
+                                var oldGuildLevelData = new LevelStats(usr.Xp + usr.AwardedXp);
+                                usr.Xp += xp;
+                                du.TotalXp += xp;
+                                if (du.Club != null)
+                                    du.Club.Xp += xp;
+                                var newGuildLevelData = new LevelStats(usr.Xp + usr.AwardedXp);
+
+                                if (oldGlobalLevelData.Level < newGlobalLevelData.Level)
                                 {
-                                    rrews = uow.GuildConfigs.XpSettingsFor(usr.GuildId).RoleRewards.ToList();
-                                    roleRewards.Add(usr.GuildId, rrews);
+                                    du.LastLevelUp = DateTime.UtcNow;
+                                    var first = item.First();
+                                    if (du.NotifyOnLevelUp != XpNotificationType.None)
+                                        toNotify.Add((first.Channel, first.User, newGlobalLevelData.Level, du.NotifyOnLevelUp, NotifOf.Global));
                                 }
 
-                                if (!curRewards.TryGetValue(usr.GuildId, out var crews))
+                                if (oldGuildLevelData.Level < newGuildLevelData.Level)
                                 {
-                                    crews = uow.GuildConfigs.XpSettingsFor(usr.GuildId).CurrencyRewards.ToList();
-                                    curRewards.Add(usr.GuildId, crews);
-                                }
+                                    usr.LastLevelUp = DateTime.UtcNow;
+                                    //send level up notification
+                                    var first = item.First();
+                                    if (usr.NotifyOnLevelUp != XpNotificationType.None)
+                                        toNotify.Add((first.Channel, first.User, newGuildLevelData.Level, usr.NotifyOnLevelUp, NotifOf.Server));
 
-                                var rrew = rrews.FirstOrDefault(x => x.Level == newGuildLevelData.Level);
-                                if (rrew != null)
-                                {
-                                    var role = first.User.Guild.GetRole(rrew.RoleId);
-                                    if (role != null)
+                                    //give role
+                                    if (!roleRewards.TryGetValue(usr.GuildId, out var rrews))
                                     {
-                                        var __ = first.User.AddRoleAsync(role);
+                                        rrews = uow.GuildConfigs.XpSettingsFor(usr.GuildId).RoleRewards.ToList();
+                                        roleRewards.Add(usr.GuildId, rrews);
+                                    }
+
+                                    if (!curRewards.TryGetValue(usr.GuildId, out var crews))
+                                    {
+                                        crews = uow.GuildConfigs.XpSettingsFor(usr.GuildId).CurrencyRewards.ToList();
+                                        curRewards.Add(usr.GuildId, crews);
+                                    }
+
+                                    var rrew = rrews.FirstOrDefault(x => x.Level == newGuildLevelData.Level);
+                                    if (rrew != null)
+                                    {
+                                        var role = first.User.Guild.GetRole(rrew.RoleId);
+                                        if (role != null)
+                                        {
+                                            var __ = first.User.AddRoleAsync(role);
+                                        }
+                                    }
+                                    //get currency reward for this level
+                                    var crew = crews.FirstOrDefault(x => x.Level == newGuildLevelData.Level);
+                                    if (crew != null)
+                                    {
+                                        //give the user the reward if it exists
+                                        await _cs.AddAsync(item.Key.User.Id, "Level-up Reward", crew.Amount);
                                     }
                                 }
-                                //get currency reward for this level
-                                var crew = crews.FirstOrDefault(x => x.Level == newGuildLevelData.Level);
-                                if (crew != null)
+                            }
+
+                            uow.Complete();
+                        }
+
+                        await Task.WhenAll(toNotify.Select(async x =>
+                        {
+                            if (x.NotifOf == NotifOf.Server)
+                            {
+                                if (x.NotifyType == XpNotificationType.Dm)
                                 {
-                                    //give the user the reward if it exists
-                                    await _cs.AddAsync(item.Key.User.Id, "Level-up Reward", crew.Amount).ConfigureAwait(false);
+                                    var chan = await x.User.GetOrCreateDMChannelAsync();
+                                    if (chan != null)
+                                        await chan.SendConfirmAsync(_strings.GetText("level_up_dm",
+                                            (x.MessageChannel as ITextChannel)?.GuildId,
+                                            "xp",
+                                            x.User.Mention, Format.Bold(x.Level.ToString()),
+                                            Format.Bold((x.MessageChannel as ITextChannel)?.Guild.ToString() ?? "-")))
+                                            ;
+                                }
+                                else // channel
+                                {
+                                    await x.MessageChannel.SendConfirmAsync(_strings.GetText("level_up_channel",
+                                              (x.MessageChannel as ITextChannel)?.GuildId,
+                                              "xp",
+                                              x.User.Mention, Format.Bold(x.Level.ToString())))
+                                              ;
                                 }
                             }
-                        }
-
-                        uow.Complete();
+                            else
+                            {
+                                IMessageChannel chan;
+                                if (x.NotifyType == XpNotificationType.Dm)
+                                {
+                                    chan = await x.User.GetOrCreateDMChannelAsync();
+                                }
+                                else // channel
+                                {
+                                    chan = x.MessageChannel;
+                                }
+                                await chan.SendConfirmAsync(_strings.GetText("level_up_global",
+                                              (x.MessageChannel as ITextChannel)?.GuildId,
+                                              "xp",
+                                              x.User.Mention, Format.Bold(x.Level.ToString())))
+                                                ;
+                            }
+                        }));
                     }
-
-                    await Task.WhenAll(toNotify.Select(async x =>
+                    catch (Exception ex)
                     {
-                        if (x.NotifOf == NotifOf.Server)
-                        {
-                            if (x.NotifyType == XpNotificationType.Dm)
-                            {
-                                var chan = await x.User.GetOrCreateDMChannelAsync().ConfigureAwait(false);
-                                if (chan != null)
-                                    await chan.SendConfirmAsync(_strings.GetText("level_up_dm",
-                                        (x.MessageChannel as ITextChannel)?.GuildId,
-                                        "xp",
-                                        x.User.Mention, Format.Bold(x.Level.ToString()),
-                                        Format.Bold((x.MessageChannel as ITextChannel)?.Guild.ToString() ?? "-")))
-                                        .ConfigureAwait(false);
-                            }
-                            else // channel
-                            {
-                                await x.MessageChannel.SendConfirmAsync(_strings.GetText("level_up_channel",
-                                          (x.MessageChannel as ITextChannel)?.GuildId,
-                                          "xp",
-                                          x.User.Mention, Format.Bold(x.Level.ToString())))
-                                          .ConfigureAwait(false);
-                            }
-                        }
-                        else
-                        {
-                            IMessageChannel chan;
-                            if (x.NotifyType == XpNotificationType.Dm)
-                            {
-                                chan = await x.User.GetOrCreateDMChannelAsync().ConfigureAwait(false);
-                            }
-                            else // channel
-                            {
-                                chan = x.MessageChannel;
-                            }
-                            await chan.SendConfirmAsync(_strings.GetText("level_up_global",
-                                          (x.MessageChannel as ITextChannel)?.GuildId,
-                                          "xp",
-                                          x.User.Mention, Format.Bold(x.Level.ToString())))
-                                            .ConfigureAwait(false);
-                        }
-                    })).ConfigureAwait(false);
+                        _log.Warn(ex);
+                    }
                 }
-                catch (Exception ex)
-                {
-                    _log.Warn(ex);
-                }
-            }, null, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
+            });
 
             _clearRewardTimerTokenSource = new CancellationTokenSource();
             var token = _clearRewardTimerTokenSource.Token;
@@ -270,7 +275,7 @@ namespace NadekoBot.Modules.Xp.Services
                 {
                     _rewardedUsers.Clear();
 
-                    await Task.Delay(TimeSpan.FromMinutes(_bc.BotConfig.XpMinutesTimeout)).ConfigureAwait(false);
+                    await Task.Delay(TimeSpan.FromMinutes(_bc.BotConfig.XpMinutesTimeout));
                 }
             }, token);
         }
@@ -412,7 +417,7 @@ namespace NadekoBot.Modules.Xp.Services
             {
                 var user = uow.Xp.GetOrCreateUser(guildId, userId);
                 user.NotifyOnLevelUp = type;
-                await uow.CompleteAsync().ConfigureAwait(false);
+                await uow.CompleteAsync();
             }
         }
 
@@ -422,7 +427,7 @@ namespace NadekoBot.Modules.Xp.Services
             {
                 var du = uow.DiscordUsers.GetOrCreate(user);
                 du.NotifyOnLevelUp = type;
-                await uow.CompleteAsync().ConfigureAwait(false);
+                await uow.CompleteAsync();
             }
         }
 
@@ -510,13 +515,10 @@ namespace NadekoBot.Modules.Xp.Services
             {
                 du = uow.DiscordUsers.GetOrCreate(user);
                 totalXp = du.TotalXp;
-                var ranks = await Task.WhenAll(
-                    uow.DiscordUsers.GetUserGlobalRankingAsync(user.Id),
-                    uow.Xp.GetUserGuildRankingAsync(user.Id, user.GuildId));
+                globalRank = uow.DiscordUsers.GetUserGlobalRank(user.Id);
+                guildRank = await uow.Xp.GetUserGuildRankingAsync(user.Id, user.GuildId);
                 stats = uow.Xp.GetOrCreateUser(user.GuildId, user.Id);
-                globalRank = ranks[0];
-                guildRank = ranks[1];
-                uow.Complete();
+                await uow.CompleteAsync();
             }
 
             return new FullUserStats(du,
@@ -639,16 +641,16 @@ namespace NadekoBot.Modules.Xp.Services
             }
         }
 
-        public async Task<Stream> GenerateImageAsync(IGuildUser user)
+        public async Task<(Stream Image, IImageFormat Format)> GenerateXpImageAsync(IGuildUser user)
         {
-            var stats = await GetUserStatsAsync(user).ConfigureAwait(false);
-            return await GenerateImageAsync(stats).ConfigureAwait(false);
+            var stats = await GetUserStatsAsync(user);
+            return await GenerateXpImageAsync(stats);
         }
 
 
-        public Task<MemoryStream> GenerateImageAsync(FullUserStats stats) => Task.Run(async () =>
+        public Task<(Stream Image, IImageFormat Format)> GenerateXpImageAsync(FullUserStats stats) => Task.Run(async () =>
         {
-            using (var img = Image.Load(_images.XpBackground))
+            using (var img = Image.Load(_images.XpBackground, out var imageFormat))
             {
                 if (_template.User.Name.Show)
                 {
@@ -797,13 +799,12 @@ namespace NadekoBot.Modules.Xp.Services
                     {
                         var avatarUrl = stats.User.RealAvatarUrl(128);
 
-                        var (succ, data) = await _cache.TryGetImageDataAsync(avatarUrl).ConfigureAwait(false);
+                        var (succ, data) = await _cache.TryGetImageDataAsync(avatarUrl);
                         if (!succ)
                         {
-                            _log.Info(avatarUrl);
                             using (var http = _httpFactory.CreateClient())
                             {
-                                var avatarData = await http.GetByteArrayAsync(avatarUrl).ConfigureAwait(false);
+                                var avatarData = await http.GetByteArrayAsync(avatarUrl);
                                 using (var tempDraw = Image.Load(avatarData))
                                 {
                                     tempDraw.Mutate(x => x.Resize(_template.User.Icon.Size.X, _template.User.Icon.Size.Y));
@@ -814,7 +815,7 @@ namespace NadekoBot.Modules.Xp.Services
                                     }
                                 }
                             }
-                            await _cache.SetImageDataAsync(avatarUrl, data).ConfigureAwait(false);
+                            await _cache.SetImageDataAsync(avatarUrl, data);
                         }
                         using (var toDraw = Image.Load(data))
                         {
@@ -836,10 +837,10 @@ namespace NadekoBot.Modules.Xp.Services
                 //club image
                 if (_template.Club.Icon.Show)
                 {
-                    await DrawClubImage(img, stats).ConfigureAwait(false);
+                    await DrawClubImage(img, stats);
                 }
                 img.Mutate(x => x.Resize(_template.OutputSize.X, _template.OutputSize.Y));
-                return img.ToStream();
+                return ((Stream)img.ToStream(imageFormat), imageFormat);
             }
         });
 
@@ -886,10 +887,10 @@ namespace NadekoBot.Modules.Xp.Services
 
             img.Mutate(x => x.FillPolygon(info.Color,
                 new[] {
-                            new PointF(x1, y1),
-                            new PointF(x3, y3),
-                            new PointF(x4, y4),
-                            new PointF(x2, y2),
+                    new PointF(x1, y1),
+                    new PointF(x3, y3),
+                    new PointF(x4, y4),
+                    new PointF(x2, y2),
                 }));
         }
 
@@ -900,15 +901,15 @@ namespace NadekoBot.Modules.Xp.Services
                 try
                 {
                     var imgUrl = new Uri(stats.User.Club.ImageUrl);
-                    var (succ, data) = await _cache.TryGetImageDataAsync(imgUrl).ConfigureAwait(false);
+                    var (succ, data) = await _cache.TryGetImageDataAsync(imgUrl);
                     if (!succ)
                     {
                         using (var http = _httpFactory.CreateClient())
-                        using (var temp = await http.GetAsync(imgUrl, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
+                        using (var temp = await http.GetAsync(imgUrl, HttpCompletionOption.ResponseHeadersRead))
                         {
                             if (!temp.IsImage() || temp.GetImageSize() > 11)
                                 return;
-                            var imgData = await temp.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                            var imgData = await temp.Content.ReadAsByteArrayAsync();
                             using (var tempDraw = Image.Load(imgData))
                             {
                                 tempDraw.Mutate(x => x.Resize(_template.Club.Icon.Size.X, _template.Club.Icon.Size.Y));
@@ -920,7 +921,7 @@ namespace NadekoBot.Modules.Xp.Services
                             }
                         }
 
-                        await _cache.SetImageDataAsync(imgUrl, data).ConfigureAwait(false);
+                        await _cache.SetImageDataAsync(imgUrl, data);
                     }
                     using (var toDraw = Image.Load(data))
                     {
@@ -946,8 +947,6 @@ namespace NadekoBot.Modules.Xp.Services
 
             if (!_clearRewardTimerTokenSource.IsCancellationRequested)
                 _clearRewardTimerTokenSource.Cancel();
-
-            _updateXpTimer.Change(Timeout.Infinite, Timeout.Infinite);
             _clearRewardTimerTokenSource.Dispose();
             return Task.CompletedTask;
         }

@@ -217,17 +217,6 @@ namespace NadekoBot.Modules.Utility
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
-        [RequireBotPermission(ChannelPermission.CreateInstantInvite)]
-        [RequireUserPermission(ChannelPermission.CreateInstantInvite)]
-        public async Task CreateInvite()
-        {
-            var invite = await ((ITextChannel)Context.Channel).CreateInviteAsync(0, null, isUnique: true).ConfigureAwait(false);
-
-            await Context.Channel.SendConfirmAsync($"{Context.User.Mention} https://discord.gg/{invite.Code}").ConfigureAwait(false);
-        }
-
-        [NadekoCommand, Usage, Description, Aliases]
         public async Task Stats()
         {
             var ownerIds = string.Join("\n", _creds.OwnerIds);

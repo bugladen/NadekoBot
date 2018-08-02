@@ -95,10 +95,10 @@ namespace NadekoBot.Modules.Help.Services
                 .Cast<OptionAttribute>()
                 .Select(x =>
                 {
-                    var toReturn = $"--{x.LongName}";
+                    var toReturn = $"`--{x.LongName}`";
 
                     if (!string.IsNullOrWhiteSpace(x.ShortName))
-                        toReturn += $" (-{x.ShortName})";
+                        toReturn += $" (`-{x.ShortName}`)";
 
                     toReturn += $"   {x.HelpText}  ";
                     return toReturn;

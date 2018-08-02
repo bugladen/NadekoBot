@@ -155,6 +155,14 @@ namespace NadekoBot.Modules.Music.Common
             }
         }
 
+        public List<SongInfo> ToList()
+        {
+            lock (locker)
+            {
+                return Songs.ToList();
+            }
+        }
+
         public void ResetCurrent()
         {
             lock (locker)

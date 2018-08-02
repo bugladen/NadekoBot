@@ -92,7 +92,7 @@ namespace NadekoBot.Modules.Utility
                     var guildConfig = uow.GuildConfigs.ForId(Context.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
 
                     guildConfig.GuildRepeaters.RemoveWhere(r => r.Id == repeater.Value.Repeater.Id);
-                    await uow.CompleteAsync().ConfigureAwait(false);
+                    await uow.CompleteAsync();
                 }
                 await Context.Channel.SendConfirmAsync(GetText("message_repeater"),
                     GetText("repeater_stopped", index + 1) + $"\n\n{repeater.Value}").ConfigureAwait(false);
@@ -139,7 +139,7 @@ namespace NadekoBot.Modules.Utility
                         return;
                     gc.GuildRepeaters.Add(toAdd);
 
-                    await uow.CompleteAsync().ConfigureAwait(false);
+                    await uow.CompleteAsync();
                 }
 
                 var rep = new RepeatRunner((SocketGuild)Context.Guild, toAdd, _service);

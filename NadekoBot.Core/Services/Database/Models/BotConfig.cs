@@ -40,12 +40,6 @@ namespace NadekoBot.Core.Services.Database.Models
         public float DailyCurrencyDecay { get; set; } = 0;
         public DateTime LastCurrencyDecay { get; set; } = DateTime.MinValue;
         public int MinWaifuPrice { get; set; } = 50;
-        //public HashSet<CommandCost> CommandCosts { get; set; } = new HashSet<CommandCost>();
-
-        /// <summary>I messed up, don't use</summary>
-        [Obsolete("I messed up")]
-        public HashSet<CommandPrice> CommandPrices { get; set; } = new HashSet<CommandPrice>();
-
 
         public HashSet<EightBallResponse> EightBallResponses { get; set; } = new HashSet<EightBallResponse>();
         public HashSet<RaceAnimal> RaceAnimals { get; set; } = new HashSet<RaceAnimal>();
@@ -89,6 +83,7 @@ Nadeko Support Server: https://discord.gg/nadekobot";
         public string UpdateString { get; set; } = "New update has been released.";
         public UpdateCheckType CheckForUpdates { get; set; } = UpdateCheckType.Release;
         public DateTime LastUpdate { get; set; } = new DateTime(2018, 5, 5, 0, 0, 0, DateTimeKind.Utc);
+        public bool CurrencyGenerationPassword { get; set; }
     }
 
     public enum UpdateCheckType

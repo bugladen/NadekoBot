@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <!--<RuntimeFrameworkVersion>2.0.3</RuntimeFrameworkVersion>-->
     <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <ApplicationIcon>nadeko_icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -40,7 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Modules\Pokemon\Common\" />
+    <Folder Include="Modules\Gambling\Common\CurrencyEvents\" />
   </ItemGroup>
   
   <PropertyGroup Condition=" '$(Configuration)' == 'GlobalNadeko' ">

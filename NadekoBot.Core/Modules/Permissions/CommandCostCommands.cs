@@ -77,7 +77,7 @@ namespace NadekoBot.Modules.Permissions
             //            _commandCosts.TryRemove(cmdName, out _);
             //        }
 
-            //        await uow.CompleteAsync().ConfigureAwait(false);
+            //        await uow.CompleteAsync();
             //    }
 
             //    if (cost == 0)

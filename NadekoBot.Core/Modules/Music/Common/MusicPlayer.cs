@@ -181,7 +181,8 @@ namespace NadekoBot.Modules.Music.Common
                     SongBuffer b = null;
                     try
                     {
-                        b = new SongBuffer(await data.Song.Uri().ConfigureAwait(false), data.Song.ProviderType == MusicType.Local);
+                        var streamUrl = await data.Song.Uri().ConfigureAwait(false);
+                        b = new SongBuffer(streamUrl, data.Song.ProviderType == MusicType.Local);
                         //_log.Info("Created buffer, buffering...");
 
                         //var bufferTask = b.StartBuffering(cancelToken);
@@ -311,7 +312,8 @@ namespace NadekoBot.Modules.Music.Common
                                     lock (locker)
                                     {
                                         _log.Info("Next fair song");
-                                        var q = Queue.ToArray().Songs.Shuffle().ToArray();
+                                        var queueList = Queue.ToList();
+                                        var q = queueList.Shuffle().ToArray();
 
                                         bool found = false;
                                         for (var i = 0; i < q.Length; i++) //first try to find a queuer who didn't have their song played recently
@@ -319,7 +321,7 @@ namespace NadekoBot.Modules.Music.Common
                                             var item = q[i];
                                             if (RecentlyPlayedUsers.Add(item.QueuerName)) // if it's found, set current song to that index
                                             {
-                                                Queue.CurrentIndex = i;
+                                                Queue.CurrentIndex = queueList.IndexOf(q[i]);
                                                 found = true;
                                                 break;
                                             }

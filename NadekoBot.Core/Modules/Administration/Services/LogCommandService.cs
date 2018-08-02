@@ -157,7 +157,7 @@ namespace NadekoBot.Modules.Administration.Services
                 logSetting.UserMutedId =
                 logSetting.LogVoicePresenceTTSId = (value ? channelId : (ulong?)null);
 
-                await uow.CompleteAsync().ConfigureAwait(false);
+                await uow.CompleteAsync();
             }
         }
 
@@ -212,21 +212,6 @@ namespace NadekoBot.Modules.Administration.Services
                     }
 
                     await logChannel.EmbedAsync(embed).ConfigureAwait(false);
-
-                    //var guildsMemberOf = _client.GetGuilds().Where(g => g.Users.Select(u => u.Id).Contains(before.Id)).ToList();
-                    //foreach (var g in guildsMemberOf)
-                    //{
-                    //    LogSetting logSetting;
-                    //    if (!GuildLogSettings.TryGetValue(g.Id, out logSetting)
-                    //        || (logSetting.UserUpdatedId == null))
-                    //        return;
-
-                    //    ITextChannel logChannel;
-                    //    if ((logChannel = await TryGetLogChannel(g, logSetting, LogType.UserUpdated)) == null)
-                    //        return;
-
-                    //    try { await logChannel.SendMessageAsync(str).ConfigureAwait(false); } catch { }
-                    //}
                 }
                 catch
                 {
@@ -345,7 +330,7 @@ namespace NadekoBot.Modules.Administration.Services
             return Task.CompletedTask;
         }
 
-        private void MuteCommands_UserMuted(IGuildUser usr, MuteType muteType)
+        private void MuteCommands_UserMuted(IGuildUser usr, IUser mod, MuteType muteType)
         {
             var _ = Task.Run(async () =>
             {
@@ -363,13 +348,13 @@ namespace NadekoBot.Modules.Administration.Services
                     switch (muteType)
                     {
                         case MuteType.Voice:
-                            mutes = "🔇 " + GetText(logChannel.Guild, "xmuted_voice", mutedLocalized);
+                            mutes = "🔇 " + GetText(logChannel.Guild, "xmuted_voice", mutedLocalized, mod.ToString());
                             break;
                         case MuteType.Chat:
-                            mutes = "🔇 " + GetText(logChannel.Guild, "xmuted_text", mutedLocalized);
+                            mutes = "🔇 " + GetText(logChannel.Guild, "xmuted_text", mutedLocalized, mod.ToString());
                             break;
                         case MuteType.All:
-                            mutes = "🔇 " + GetText(logChannel.Guild, "xmuted_text_and_voice", mutedLocalized);
+                            mutes = "🔇 " + GetText(logChannel.Guild, "xmuted_text_and_voice", mutedLocalized, mod.ToString());
                             break;
                     }
 
@@ -387,7 +372,7 @@ namespace NadekoBot.Modules.Administration.Services
             });
         }
 
-        private void MuteCommands_UserUnmuted(IGuildUser usr, MuteType muteType)
+        private void MuteCommands_UserUnmuted(IGuildUser usr, IUser mod, MuteType muteType)
         {
             var _ = Task.Run(async () =>
             {
@@ -406,13 +391,13 @@ namespace NadekoBot.Modules.Administration.Services
                     switch (muteType)
                     {
                         case MuteType.Voice:
-                            mutes = "🔊 " + GetText(logChannel.Guild, "xmuted_voice", unmutedLocalized);
+                            mutes = "🔊 " + GetText(logChannel.Guild, "xmuted_voice", unmutedLocalized, mod.ToString());
                             break;
                         case MuteType.Chat:
-                            mutes = "🔊 " + GetText(logChannel.Guild, "xmuted_text", unmutedLocalized);
+                            mutes = "🔊 " + GetText(logChannel.Guild, "xmuted_text", unmutedLocalized, mod.ToString());
                             break;
                         case MuteType.All:
-                            mutes = "🔊 " + GetText(logChannel.Guild, "xmuted_text_and_voice", unmutedLocalized);
+                            mutes = "🔊 " + GetText(logChannel.Guild, "xmuted_text_and_voice", unmutedLocalized, mod.ToString());
                             break;
                     }
 

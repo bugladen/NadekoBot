@@ -65,8 +65,7 @@ namespace NadekoBot.Modules.Utility
                 Quote quote;
                 using (var uow = _db.UnitOfWork)
                 {
-                    quote =
-                        await uow.Quotes.GetRandomQuoteByKeywordAsync(Context.Guild.Id, keyword).ConfigureAwait(false);
+                    quote = await uow.Quotes.GetRandomQuoteByKeywordAsync(Context.Guild.Id, keyword);
                 }
 
                 if (quote == null)
@@ -98,9 +97,7 @@ namespace NadekoBot.Modules.Utility
                 Quote keywordquote;
                 using (var uow = _db.UnitOfWork)
                 {
-                    keywordquote =
-                        await uow.Quotes.SearchQuoteKeywordTextAsync(Context.Guild.Id, keyword, text)
-                            .ConfigureAwait(false);
+                    keywordquote = await uow.Quotes.SearchQuoteKeywordTextAsync(Context.Guild.Id, keyword, text);
                 }
 
                 if (keywordquote == null)
@@ -142,31 +139,33 @@ namespace NadekoBot.Modules.Utility
                 if (id < 0)
                     return;
 
+                Quote quote;
+
+                var rep = new ReplacementBuilder()
+                    .WithDefault(Context)
+                    .Build();
+
                 using (var uow = _db.UnitOfWork)
                 {
-                    var qfromid = uow.Quotes.GetById(id);
+                    quote = uow.Quotes.GetById(id);
+                }
 
-                    var rep = new ReplacementBuilder()
-                        .WithDefault(Context)
-                        .Build();
+                var infoText = $"`#{quote.Id} added by {quote.AuthorName.SanitizeMentions()}` 🗯️ " + quote.Keyword.ToLowerInvariant().SanitizeMentions() + ":\n";
+                if (quote == null)
+                {
+                    await Context.Channel.SendErrorAsync(GetText("quotes_notfound")).ConfigureAwait(false);
+                }
+                else if (CREmbed.TryParse(quote.Text, out var crembed))
+                {
+                    rep.Replace(crembed);
 
-                    var infoText = $"`#{qfromid.Id} added by {qfromid.AuthorName.SanitizeMentions()}` 🗯️ " + qfromid.Keyword.ToLowerInvariant().SanitizeMentions() + ":\n";
-                    if (qfromid == null)
-                    {
-                        await Context.Channel.SendErrorAsync(GetText("quotes_notfound")).ConfigureAwait(false);
-                    }
-                    else if (CREmbed.TryParse(qfromid.Text, out var crembed))
-                    {
-                        rep.Replace(crembed);
-
-                        await Context.Channel.EmbedAsync(crembed.ToEmbed(), infoText + crembed.PlainText?.SanitizeMentions())
-                            .ConfigureAwait(false);
-                    }
-                    else
-                    {
-                        await Context.Channel.SendMessageAsync(infoText + rep.Replace(qfromid.Text)?.SanitizeMentions())
-                            .ConfigureAwait(false);
-                    }
+                    await Context.Channel.EmbedAsync(crembed.ToEmbed(), infoText + crembed.PlainText?.SanitizeMentions())
+                        .ConfigureAwait(false);
+                }
+                else
+                {
+                    await Context.Channel.SendMessageAsync(infoText + rep.Replace(quote.Text)?.SanitizeMentions())
+                        .ConfigureAwait(false);
                 }
             }
 
@@ -189,7 +188,7 @@ namespace NadekoBot.Modules.Utility
                         Keyword = keyword,
                         Text = text,
                     });
-                    await uow.CompleteAsync().ConfigureAwait(false);
+                    await uow.CompleteAsync();
                 }
                 await ReplyConfirmLocalized("quote_added").ConfigureAwait(false);
             }
@@ -213,7 +212,7 @@ namespace NadekoBot.Modules.Utility
                     else
                     {
                         uow.Quotes.Remove(q);
-                        await uow.CompleteAsync().ConfigureAwait(false);
+                        await uow.CompleteAsync();
                         success = true;
                         response = GetText("quote_deleted", id);
                     }
@@ -238,7 +237,7 @@ namespace NadekoBot.Modules.Utility
                 {
                     uow.Quotes.RemoveAllByKeyword(Context.Guild.Id, keyword.ToUpperInvariant());
 
-                    await uow.CompleteAsync().ConfigureAwait(false);
+                    await uow.CompleteAsync();
                 }
 
                 await ReplyConfirmLocalized("quotes_deleted", Format.Bold(keyword.SanitizeMentions())).ConfigureAwait(false);

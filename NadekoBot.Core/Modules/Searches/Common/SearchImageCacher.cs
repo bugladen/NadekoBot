@@ -130,34 +130,42 @@ namespace NadekoBot.Modules.Searches.Common
                     break;
             }
 
-            if (type == DapiSearchType.Konachan || type == DapiSearchType.Yandere ||
-                type == DapiSearchType.E621 || type == DapiSearchType.Danbooru)
+            try
             {
-                using (var http = _httpFactory.CreateClient().AddFakeHeaders())
+                if (type == DapiSearchType.Konachan || type == DapiSearchType.Yandere ||
+                    type == DapiSearchType.E621 || type == DapiSearchType.Danbooru)
                 {
-                    var data = await http.GetStringAsync(website).ConfigureAwait(false);
-                    return JsonConvert.DeserializeObject<DapiImageObject[]>(data)
-                        .Where(x => x.FileUrl != null)
-                        .Select(x => new ImageCacherObject(x, type))
-                        .ToArray();
+                    using (var http = _httpFactory.CreateClient().AddFakeHeaders())
+                    {
+                        var data = await http.GetStringAsync(website).ConfigureAwait(false);
+                        return JsonConvert.DeserializeObject<DapiImageObject[]>(data)
+                            .Where(x => x.FileUrl != null)
+                            .Select(x => new ImageCacherObject(x, type))
+                            .ToArray();
+                    }
                 }
-            }
 
-            if (type == DapiSearchType.Derpibooru)
+                if (type == DapiSearchType.Derpibooru)
+                {
+                    using (var http = _httpFactory.CreateClient().AddFakeHeaders())
+                    {
+                        var data = await http.GetStringAsync(website).ConfigureAwait(false);
+                        return JsonConvert.DeserializeObject<DerpiContainer>(data)
+                            .Search
+                            .Where(x => !string.IsNullOrWhiteSpace(x.Image))
+                            .Select(x => new ImageCacherObject("https:" + x.Image,
+                                type, x.Tags, x.Score))
+                            .ToArray();
+                    }
+                }
+
+                return (await LoadXmlAsync(website, type).ConfigureAwait(false)).ToArray();
+            }
+            catch (Exception ex)
             {
-                using (var http = _httpFactory.CreateClient().AddFakeHeaders())
-                {
-                    var data = await http.GetStringAsync(website).ConfigureAwait(false);
-                    return JsonConvert.DeserializeObject<DerpiContainer>(data)
-                        .Search
-                        .Where(x => !string.IsNullOrWhiteSpace(x.Image))
-                        .Select(x => new ImageCacherObject("https:" + x.Image,
-                            type, x.Tags, x.Score))
-                        .ToArray();
-                }
+                _log.Warn(ex.Message);
+                return Array.Empty<ImageCacherObject>();
             }
-
-            return (await LoadXmlAsync(website, type).ConfigureAwait(false)).ToArray();
         }
 
         private async Task<ImageCacherObject[]> LoadXmlAsync(string website, DapiSearchType type)
@@ -261,11 +269,11 @@ namespace NadekoBot.Modules.Searches.Common
     {
         Safebooru,
         E621,
+        Derpibooru,
         Gelbooru,
         Konachan,
         Rule34,
         Yandere,
         Danbooru,
-        Derpibooru,
     }
 }

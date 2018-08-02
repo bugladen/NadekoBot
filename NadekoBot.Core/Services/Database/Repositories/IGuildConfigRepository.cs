@@ -17,5 +17,12 @@ namespace NadekoBot.Core.Services.Database.Repositories
         IEnumerable<GuildConfig> Permissionsv2ForAll(List<ulong> include);
         GuildConfig GcWithPermissionsv2For(ulong guildId);
         XpSettings XpSettingsFor(ulong guildId);
+        IEnumerable<GeneratingChannel> GetGeneratingChannels();
+    }
+
+    public class GeneratingChannel
+    {
+        public ulong GuildId { get; set; }
+        public ulong ChannelId { get; set; }
     }
 }

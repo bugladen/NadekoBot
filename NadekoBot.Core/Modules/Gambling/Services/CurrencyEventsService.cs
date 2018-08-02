@@ -104,10 +104,10 @@ namespace NadekoBot.Modules.Gambling.Services
             {
                 ce = new ReactionEvent(_client, _cs, _bc, g, ch, opts, embed);
             }
-            //else if (type == Event.Type.NotRaid)
-            //{
-            //    ce = new NotRaidEvent(_client, _cs, _bc, g, ch, opts, embed);
-            //}
+            else if (type == CurrencyEvent.Type.GameStatus)
+            {
+                ce = new GameStatusEvent(_client, _cs, _bc, g, ch, opts, embed);
+            }
             else
             {
                 return false;

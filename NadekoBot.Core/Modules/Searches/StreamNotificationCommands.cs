@@ -282,7 +282,7 @@ namespace NadekoBot.Modules.Searches
                     var config = uow.GuildConfigs.ForId(Context.Guild.Id, set => set.Include(gc => gc.FollowedStreams));
                     removed = config.FollowedStreams.Remove(fs);
                     if (removed)
-                        await uow.CompleteAsync().ConfigureAwait(false);
+                        await uow.CompleteAsync();
                 }
                 _service.UntrackStream(fs);
                 if (!removed)
@@ -363,7 +363,7 @@ namespace NadekoBot.Modules.Searches
                     uow.GuildConfigs.ForId(channel.Guild.Id, set => set.Include(gc => gc.FollowedStreams))
                                     .FollowedStreams
                                     .Add(fs);
-                    await uow.CompleteAsync().ConfigureAwait(false);
+                    await uow.CompleteAsync();
                 }
 
                 _service.TrackStream(fs);

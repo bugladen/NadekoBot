@@ -182,11 +182,26 @@
     },
     {
       "Aliases": [
-        ".execsql"
+        ".sqlselect"
+      ],
+      "Description": "sqlselect",
+      "Usage": [
+        "sqlselect"
+      ],
+      "Submodule": "DangerousCommands",
+      "Module": "Administration",
+      "Options": null,
+      "Requirements": [
+        "Bot Owner Only"
+      ]
+    },
+    {
+      "Aliases": [
+        ".sqlexec"
       ],
       "Description": "Executes an sql command and returns the number of affected rows. Dangerous.",
       "Usage": [
-        ".execsql UPDATE DiscordUser SET CurrencyAmount=CurrencyAmount+1234"
+        ".sqlexec UPDATE DiscordUser SET CurrencyAmount=CurrencyAmount+1234"
       ],
       "Submodule": "DangerousCommands",
       "Module": "Administration",
@@ -199,7 +214,22 @@
       "Aliases": [
         ".deletewaifus"
       ],
-      "Description": "Deletes everything from WaifuUpdates and WaifuInfo tables.",
+      "Description": "Deletes everything from WaifuUpdates, WaifuItem and WaifuInfo tables.",
+      "Usage": [
+        ".deletewaifus"
+      ],
+      "Submodule": "DangerousCommands",
+      "Module": "Administration",
+      "Options": null,
+      "Requirements": [
+        "Bot Owner Only"
+      ]
+    },
+    {
+      "Aliases": [
+        ".deletewaifu"
+      ],
+      "Description": "Deletes everything from WaifuUpdates, WaifuItem and WaifuInfo tables for the specified user. Also makes specified user's waifus free.",
       "Usage": [
         ".deletewaifus"
       ],
@@ -665,14 +695,14 @@
       "Aliases": [
         ".slowmode"
       ],
-      "Description": "Toggles slowmode. Slowmode deletes any excess messages users type over the specified limit of messages per X seconds. To enable, specify a number of messages (-m) each user can send, and an interval in seconds (-i).  Disable by specifying no parameters.",
+      "Description": "Toggles slowmode. Slowmode deletes any excess messages users type over the specified limit of messages per X seconds. To enable, specify a number of messages (-m) each user can send, and an interval in seconds (-s).  Disable by specifying no parameters.",
       "Usage": [
         ".slowmode -m 1 -s 5",
         ".slowmode"
       ],
       "Submodule": "SlowModeCommands",
       "Module": "Administration",
-      "Options": "--message-count (-m)   Number of messages user can send.  \n--seconds (-s)   Interval in which the user can send the specified number of messages.  ",
+      "Options": "`--message-count` (`-m`)   Number of messages user can send.  \n`--seconds` (`-s`)   Interval in which the user can send the specified number of messages.  ",
       "Requirements": [
         "ManageMessages Server Permission"
       ]
@@ -1365,7 +1395,7 @@
       "Aliases": [
         ".botconfigreload"
       ],
-      "Description": "Reloads bot configuration in case you made changes to the BotConfig table either with .execsql or manually in the .db file.",
+      "Description": "Reloads bot configuration in case you made changes to the BotConfig table either with .sqlexec or manually in the .db file.",
       "Usage": [
         ".botconfigreload"
       ],
@@ -1733,6 +1763,23 @@
       "Requirements": []
     }
   ],
+  "CryptoCommands": [
+    {
+      "Aliases": [
+        ".crypto",
+        ".c"
+      ],
+      "Description": "Shows basic stats about a cryptocurrency from coinmarketcap.com. You can use either a name or an abbreviation of the currency.",
+      "Usage": [
+        ".c btc",
+        ".c bitcoin"
+      ],
+      "Submodule": "CryptoCommands",
+      "Module": "CryptoCommands",
+      "Options": null,
+      "Requirements": []
+    }
+  ],
   "CustomReactions": [
     {
       "Aliases": [
@@ -1860,36 +1907,6 @@
     },
     {
       "Aliases": [
-        ".crstatsclear"
-      ],
-      "Description": "Resets the counters on `.crstats`. You can specify a trigger to clear stats only for that trigger.",
-      "Usage": [
-        ".crstatsclear",
-        ".crstatsclear rng"
-      ],
-      "Submodule": "CustomReactions",
-      "Module": "CustomReactions",
-      "Options": null,
-      "Requirements": [
-        "Bot Owner Only"
-      ]
-    },
-    {
-      "Aliases": [
-        ".crstats"
-      ],
-      "Description": "Shows a list of custom reactions and the number of times they have been executed. Paginated with 10 per page. Use `.crstatsclear` to reset the counters.",
-      "Usage": [
-        ".crstats",
-        ".crstats 3"
-      ],
-      "Submodule": "CustomReactions",
-      "Module": "CustomReactions",
-      "Options": null,
-      "Requirements": []
-    },
-    {
-      "Aliases": [
         ".crclear"
       ],
       "Description": "Deletes all custom reactions on this server.",
@@ -1905,6 +1922,19 @@
     }
   ],
   "Gambling": [
+    {
+      "Aliases": [
+        ".economy"
+      ],
+      "Description": "Breakdown of the current state of the bot's economy. Updates every 3 minutes.",
+      "Usage": [
+        ".economy"
+      ],
+      "Submodule": "Gambling",
+      "Module": "Gambling",
+      "Options": null,
+      "Requirements": []
+    },
     {
       "Aliases": [
         ".timely"
@@ -2121,7 +2151,7 @@
       ],
       "Submodule": "AnimalRacingCommands",
       "Module": "Gambling",
-      "Options": "--start-time (-s)     ",
+      "Options": "`--start-time` (`-s`)     ",
       "Requirements": []
     },
     {
@@ -2203,21 +2233,21 @@
       ],
       "Submodule": "Connect4Commands",
       "Module": "Gambling",
-      "Options": "--turn-timer (-t)   Turn time in seconds. It has to be between 5 and 60. Default 15.  \n--bet (-b)   Amount you bet. Default 0.  ",
+      "Options": "`--turn-timer` (`-t`)   Turn time in seconds. It has to be between 5 and 60. Default 15.  \n`--bet` (`-b`)   Amount you bet. Default 0.  ",
       "Requirements": []
     },
     {
       "Aliases": [
         ".eventstart"
       ],
-      "Description": "Starts one of the events seen on public nadeko. Events: `reaction`",
+      "Description": "Starts one of the events seen on public nadeko. Events: `reaction`, `gamestatus`",
       "Usage": [
         ".eventstart reaction",
         ".eventstart reaction -d 1 -a 50 --pot-size 1500"
       ],
       "Submodule": "CurrencyEventsCommands",
       "Module": "Gambling",
-      "Options": "--amount (-a)   Amount of currency each user receives.  \n--pot-size (-p)   The maximum amount of currency that can be rewarded. 0 means no limit.  \n--duration (-d)   Number of hours the event should run for. Default 24.  ",
+      "Options": "`--amount` (`-a`)   Amount of currency each user receives.  \n`--pot-size` (`-p`)   The maximum amount of currency that can be rewarded. 0 means no limit.  \n`--duration` (`-d`)   Number of hours the event should run for. Default 24.  ",
       "Requirements": [
         "Bot Owner Only"
       ]
@@ -2661,7 +2691,7 @@
       ],
       "Submodule": "AcropobiaCommands",
       "Module": "Games",
-      "Options": "--submission-time (-s)   Time after which the submissions are closed and voting starts.  \n--vote-time (-v)   Time after which the voting is closed and the winner is declared.  ",
+      "Options": "`--submission-time` (`-s`)   Time after which the submissions are closed and voting starts.  \n`--vote-time` (`-v`)   Time after which the voting is closed and the winner is declared.  ",
       "Requirements": []
     },
     {
@@ -2749,9 +2779,10 @@
       "Aliases": [
         ".pick"
       ],
-      "Description": "Picks the currency planted in this channel. 60 seconds cooldown.",
+      "Description": "Picks the currency planted in this channel. If the plant has a password, you need to specify it.",
       "Usage": [
-        ".pick"
+        ".pick",
+        ".pick passwd"
       ],
       "Submodule": "PlantPickCommands",
       "Module": "Games",
@@ -2762,10 +2793,10 @@
       "Aliases": [
         ".plant"
       ],
-      "Description": "Spend an amount of currency to plant it in this channel. Default is 1. (If bot is restarted or crashes, the currency will be lost)",
+      "Description": "Spend an amount of currency to plant it in this channel. Default is 1. You can specify the password after the amount. Password has to be alphanumeric and it will be trimmed down to 10 characters if it's longer.",
       "Usage": [
-        ".plant",
-        ".plant 5"
+        ".plant 5",
+        ".plant 10 meow"
       ],
       "Submodule": "PlantPickCommands",
       "Module": "Games",
@@ -2786,6 +2817,23 @@
       "Options": null,
       "Requirements": [
         "ManageMessages Server Permission"
+      ]
+    },
+    {
+      "Aliases": [
+        ".gencurlist",
+        ".gclist"
+      ],
+      "Description": "Shows the list of server and channel ids where gc is enabled. Paginated with 9 per page.",
+      "Usage": [
+        ".gclist"
+      ],
+      "Submodule": "PlantPickCommands",
+      "Module": "Games",
+      "Options": null,
+      "Requirements": [
+        "ManageMessages Server Permission",
+        "Bot Owner Only"
       ]
     },
     {
@@ -2844,7 +2892,7 @@
       ],
       "Submodule": "SpeedTypingCommands",
       "Module": "Games",
-      "Options": "--start-time (-s)   How long does it take for the race to start. Default 5.  ",
+      "Options": "`--start-time` (`-s`)   How long does it take for the race to start. Default 5.  ",
       "Requirements": []
     },
     {
@@ -2915,7 +2963,7 @@
       ],
       "Submodule": "TicTacToeCommands",
       "Module": "Games",
-      "Options": "--turn-timer (-t)   Turn time in seconds. Default 15.  ",
+      "Options": "`--turn-timer` (`-t`)   Turn time in seconds. Default 15.  ",
       "Requirements": []
     },
     {
@@ -2930,7 +2978,7 @@
       ],
       "Submodule": "TriviaCommands",
       "Module": "Games",
-      "Options": "--pokemon (-p)   Whether it's 'Who's that pokemon?' trivia.  \n--nohint   Don't show any hints.  \n--win-req (-w)   Winning requirement. Set 0 for an infinite game. Default 10.  \n--question-timer (-q)   How long until the question ends. Default 30.  \n--timeout (-t)   Number of questions of inactivity in order stop. Set 0 for never. Default 10.  ",
+      "Options": "`--pokemon` (`-p`)   Whether it's 'Who's that pokemon?' trivia.  \n`--nohint`   Don't show any hints.  \n`--win-req` (`-w`)   Winning requirement. Set 0 for an infinite game. Default 10.  \n`--question-timer` (`-q`)   How long until the question ends. Default 30.  \n`--timeout` (`-t`)   Number of questions of inactivity in order stop. Set 0 for never. Default 10.  ",
       "Requirements": []
     },
     {
@@ -2987,7 +3035,7 @@
       ],
       "Submodule": "Help",
       "Module": "Help",
-      "Options": "--view (-v)   Specifies how to output the list of commands. 0 - Hide commands which you can't use, 1 - Cross out commands which you can't use, 2 - Show all.  ",
+      "Options": "`--view` (`-v`)   Specifies how to output the list of commands. 0 - Hide commands which you can't use, 1 - Cross out commands which you can't use, 2 - Show all.  ",
       "Requirements": []
     },
     {
@@ -3589,9 +3637,9 @@
       "Aliases": [
         ".autohentai"
       ],
-      "Description": "Posts a hentai every X seconds with a random tag from the provided tags. Use `|` to separate tags. 20 seconds minimum. Provide no parameters to disable.",
+      "Description": "Posts a hentai every X seconds with a random tag from the provided tags. Use `|` to separate tag groups. Random group will be chosen every time the image is sent. Use `+` for multiple tags (max 2 per group). 20 seconds minimum. Provide no parameters to disable.",
       "Usage": [
-        ".autohentai 30 yuri|tail|long_hair",
+        ".autohentai 30 yuri+kissing|tail+long_hair",
         ".autohentai"
       ],
       "Submodule": "NSFW",
@@ -3621,7 +3669,7 @@
       "Aliases": [
         ".autobutts"
       ],
-      "Description": "Posts a butts every X seconds. 20 seconds minimum. Provide no parameters to disable.",
+      "Description": "Posts a butt every X seconds. 20 seconds minimum. Provide no parameters to disable.",
       "Usage": [
         ".autobutts 30",
         ".autobutts"
@@ -4305,75 +4353,6 @@
       ]
     }
   ],
-  "Pokemon": [
-    {
-      "Aliases": [
-        ".attack"
-      ],
-      "Description": "Attacks a target with the given move. Use `.movelist` to see a list of moves your type can use.",
-      "Usage": [
-        ".attack \"vine whip\" @someguy"
-      ],
-      "Submodule": "Pokemon",
-      "Module": "Pokemon",
-      "Options": null,
-      "Requirements": []
-    },
-    {
-      "Aliases": [
-        ".movelist",
-        ".ml"
-      ],
-      "Description": "Lists the moves you are able to use",
-      "Usage": [
-        ".ml"
-      ],
-      "Submodule": "Pokemon",
-      "Module": "Pokemon",
-      "Options": null,
-      "Requirements": []
-    },
-    {
-      "Aliases": [
-        ".heal"
-      ],
-      "Description": "Heals someone. Revives those who fainted. Costs one Currency. ",
-      "Usage": [
-        ".heal @someone"
-      ],
-      "Submodule": "Pokemon",
-      "Module": "Pokemon",
-      "Options": null,
-      "Requirements": []
-    },
-    {
-      "Aliases": [
-        ".type"
-      ],
-      "Description": "Get the poketype of the target.",
-      "Usage": [
-        ".type @someone"
-      ],
-      "Submodule": "Pokemon",
-      "Module": "Pokemon",
-      "Options": null,
-      "Requirements": []
-    },
-    {
-      "Aliases": [
-        ".settype"
-      ],
-      "Description": "Set your poketype. Costs one Currency. Provide no parameters to see a list of available types.",
-      "Usage": [
-        ".settype fire",
-        ".settype"
-      ],
-      "Submodule": "Pokemon",
-      "Module": "Pokemon",
-      "Options": null,
-      "Requirements": []
-    }
-  ],
   "Searches": [
     {
       "Aliases": [
@@ -4382,21 +4361,6 @@
       "Description": "Shows top banned champions ordered by ban rate.",
       "Usage": [
         ".lolban"
-      ],
-      "Submodule": "Searches",
-      "Module": "Searches",
-      "Options": null,
-      "Requirements": []
-    },
-    {
-      "Aliases": [
-        ".crypto",
-        ".c"
-      ],
-      "Description": "Shows basic stats about a cryptocurrency from coinmarketcap.com. You can use either a name or an abbreviation of the currency.",
-      "Usage": [
-        ".c btc",
-        ".c bitcoin"
       ],
       "Submodule": "Searches",
       "Module": "Searches",
@@ -4634,20 +4598,6 @@
       "Description": "Searches for a Hearthstone card and shows its image. Takes a while to complete.",
       "Usage": [
         ".hs Ysera"
-      ],
-      "Submodule": "Searches",
-      "Module": "Searches",
-      "Options": null,
-      "Requirements": []
-    },
-    {
-      "Aliases": [
-        ".yodify",
-        ".yoda"
-      ],
-      "Description": "Translates your normal sentences into Yoda styled sentences!",
-      "Usage": [
-        ".yoda my feelings hurt"
       ],
       "Submodule": "Searches",
       "Module": "Searches",
@@ -5585,22 +5535,6 @@
     },
     {
       "Aliases": [
-        ".createinvite",
-        ".crinv"
-      ],
-      "Description": "Creates a new invite which has infinite max uses and never expires.",
-      "Usage": [
-        ".crinv"
-      ],
-      "Submodule": "Utility",
-      "Module": "Utility",
-      "Options": null,
-      "Requirements": [
-        "CreateInstantInvite Channel Permission"
-      ]
-    },
-    {
-      "Aliases": [
         ".stats"
       ],
       "Description": "Shows some basic stats for Nadeko.",
@@ -5821,6 +5755,57 @@
     },
     {
       "Aliases": [
+        ".invitecreate",
+        ".invcr"
+      ],
+      "Description": "Creates a new invite which has infinite max uses and never expires.",
+      "Usage": [
+        ".crinv"
+      ],
+      "Submodule": "InviteCommands",
+      "Module": "Utility",
+      "Options": "`--max-uses` (`-m`)   Maximum number of times the invite can be used. Default 0 (never).  \n`--unique` (`-u`)   Not setting this flag will result in bot getting the existing invite with the same settings if it exists, instead of creating a new one.  \n`--temporary` (`-t`)   Setting this flag will make the link expire after 24h.  ",
+      "Requirements": [
+        "CreateInstantInvite Channel Permission"
+      ]
+    },
+    {
+      "Aliases": [
+        ".invitelist",
+        ".invlist",
+        ".invlst"
+      ],
+      "Description": "Lists all invites for this channel. Paginated with 9 per page.",
+      "Usage": [
+        ".invitelist",
+        ".invlist 3"
+      ],
+      "Submodule": "InviteCommands",
+      "Module": "Utility",
+      "Options": null,
+      "Requirements": [
+        "ManageChannels Channel Permission"
+      ]
+    },
+    {
+      "Aliases": [
+        ".invitedelete",
+        ".invrm",
+        ".invdel"
+      ],
+      "Description": "Deletes an invite on the specified index. Use `.invitelist` to see the list of invites.",
+      "Usage": [
+        ".invrm 2"
+      ],
+      "Submodule": "InviteCommands",
+      "Module": "Utility",
+      "Options": null,
+      "Requirements": [
+        "ManageChannels Channel Permission"
+      ]
+    },
+    {
+      "Aliases": [
         ".parewrel"
       ],
       "Description": "Forces the update of the list of patrons who are eligible for the reward.",
@@ -5950,7 +5935,7 @@
       "Aliases": [
         ".remind"
       ],
-      "Description": "Sends a message to you or a channel after certain amount of time. First parameter is `me`/`here`/'channelname'. Second parameter is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third parameter is a (multiword) message.",
+      "Description": "Sends a message to you or a channel after certain amount of time (max 2 months). First parameter is `me`/`here`/'channelname'. Second parameter is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third parameter is a (multiword) message.",
       "Usage": [
         ".remind me 1d5h Do something",
         ".remind #general 1m Start now!"
@@ -6047,7 +6032,7 @@
       ],
       "Submodule": "RepeatCommands",
       "Module": "Utility",
-      "Options": "--message (-m)   Message to be repeated  \n--no-redundant (-n)   Whether the message should be reposted if the last message in the channel is this same message.  \n--interval (-i)   How frequently the repeating message is posted, in minutes.  ",
+      "Options": "`--message` (`-m`)   Message to be repeated  \n`--no-redundant` (`-n`)   Whether the message should be reposted if the last message in the channel is this same message.  \n`--interval` (`-i`)   How frequently the repeating message is posted, in minutes.  ",
       "Requirements": [
         "ManageMessages Server Permission"
       ]
@@ -6185,7 +6170,8 @@
       ],
       "Description": "Shows your xp stats. Specify the user to show that user's stats instead.",
       "Usage": [
-        ".xp"
+        ".xp",
+        ".xp @someguy"
       ],
       "Submodule": "Xp",
       "Module": "Xp",
@@ -6329,6 +6315,22 @@
       "Options": null,
       "Requirements": [
         "Administrator Server Permission"
+      ]
+    },
+    {
+      "Aliases": [
+        ".xptempreload",
+        ".xptr"
+      ],
+      "Description": "Reloads the xp template file. Xp template file allows you to customize the position and color of elements on the `.xp` card.",
+      "Usage": [
+        ".xptr"
+      ],
+      "Submodule": "Xp",
+      "Module": "Xp",
+      "Options": null,
+      "Requirements": [
+        "Bot Owner Only"
       ]
     },
     {

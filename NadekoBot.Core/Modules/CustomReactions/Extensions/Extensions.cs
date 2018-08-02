@@ -95,8 +95,6 @@ namespace NadekoBot.Modules.CustomReactions.Extensions
         {
             var channel = cr.DmResponse ? await ctx.Author.GetOrCreateDMChannelAsync().ConfigureAwait(false) : ctx.Channel;
 
-            crs.ReactionStats.AddOrUpdate(cr.Trigger, 1, (k, old) => ++old);
-
             if (CREmbed.TryParse(cr.Response, out CREmbed crembed))
             {
                 var trigger = cr.Trigger.ResolveTriggerString(ctx, client);

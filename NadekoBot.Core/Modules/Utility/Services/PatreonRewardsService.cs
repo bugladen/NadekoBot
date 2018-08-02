@@ -50,7 +50,8 @@ namespace NadekoBot.Modules.Utility.Services
 
         public async Task RefreshPledges()
         {
-            if (string.IsNullOrWhiteSpace(_creds.PatreonAccessToken))
+            if (string.IsNullOrWhiteSpace(_creds.PatreonAccessToken)
+                || string.IsNullOrWhiteSpace(_creds.PatreonAccessToken))
                 return;
 
             LastUpdate = DateTime.UtcNow;
@@ -133,9 +134,9 @@ namespace NadekoBot.Modules.Utility.Services
                             AmountRewardedThisMonth = amount,
                         });
 
-                        await _currency.AddAsync(userId, "Patreon reward - new", amount, gamble: true).ConfigureAwait(false);
+                        await _currency.AddAsync(userId, "Patreon reward - new", amount, gamble: true);
 
-                        await uow.CompleteAsync().ConfigureAwait(false);
+                        await uow.CompleteAsync();
                         return amount;
                     }
 
@@ -145,9 +146,9 @@ namespace NadekoBot.Modules.Utility.Services
                         usr.AmountRewardedThisMonth = amount;
                         usr.PatreonUserId = data.User.id;
 
-                        await _currency.AddAsync(userId, "Patreon reward - recurring", amount, gamble: true).ConfigureAwait(false);
+                        await _currency.AddAsync(userId, "Patreon reward - recurring", amount, gamble: true);
 
-                        await uow.CompleteAsync().ConfigureAwait(false);
+                        await uow.CompleteAsync();
                         return amount;
                     }
 
@@ -159,9 +160,9 @@ namespace NadekoBot.Modules.Utility.Services
                         usr.AmountRewardedThisMonth = amount;
                         usr.PatreonUserId = data.User.id;
 
-                        await _currency.AddAsync(usr.UserId, "Patreon reward - update", toAward, gamble: true).ConfigureAwait(false);
+                        await _currency.AddAsync(usr.UserId, "Patreon reward - update", toAward, gamble: true);
 
-                        await uow.CompleteAsync().ConfigureAwait(false);
+                        await uow.CompleteAsync();
                         return toAward;
                     }
                 }

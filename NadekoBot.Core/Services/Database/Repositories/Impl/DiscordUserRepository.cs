@@ -35,16 +35,16 @@ VALUES ({userId}, {username}, {discrim}, {avatarId});
         public DiscordUser GetOrCreate(IUser original)
             => GetOrCreate(original.Id, original.Username, original.Discriminator, original.AvatarId);
 
-        public async Task<int> GetUserGlobalRankingAsync(ulong id)
+        public int GetUserGlobalRank(ulong id)
         {
             if (!_set.Where(y => y.UserId == id).Any())
             {
-                return await _set.CountAsync().ConfigureAwait(false) + 1;
+                return _set.Count() + 1;
             }
-            return await _set.CountAsync(x => x.TotalXp >=
+            return _set.Count(x => x.TotalXp >=
                 _set.Where(y => y.UserId == id)
                     .DefaultIfEmpty()
-                    .Sum(y => y.TotalXp)).ConfigureAwait(false);
+                    .Sum(y => y.TotalXp));
         }
 
         public DiscordUser[] GetUsersXpLeaderboardFor(int page)
@@ -155,6 +155,22 @@ WHERE CurrencyAmount>0 AND UserId!={botId};");
         public long GetCurrencyDecayAmount(float decay)
         {
             return (long)_set.Sum(x => Math.Round(x.CurrencyAmount * decay - 0.5));
+        }
+
+        public decimal GetTotalCurrency(ulong botId)
+        {
+            return _set
+                .Where(x => x.UserId != botId)
+                .Sum(x => x.CurrencyAmount);
+        }
+
+        public decimal GetTopOnePercentCurrency(ulong botId)
+        {
+            return _set
+                .Where(x => x.UserId != botId)
+                .OrderByDescending(x => x.CurrencyAmount)
+                .Take(_set.Count() / 100 == 0 ? 1 : _set.Count() / 100)
+                .Sum(x => x.CurrencyAmount);
         }
     }
 }

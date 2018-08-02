@@ -47,7 +47,8 @@ namespace NadekoBot.Modules.Utility.Common
                     InitialInterval += TimeSpan.FromDays(1);
             }
 
-            _t = new Timer(async (_) => {
+            _t = new Timer(async (_) =>
+            {
 
                 try { await Trigger().ConfigureAwait(false); } catch { }
 
@@ -56,6 +57,13 @@ namespace NadekoBot.Modules.Utility.Common
 
         public async Task Trigger()
         {
+            async Task ChannelMissingError()
+            {
+                _log.Warn("Channel not found. Repeater stopped. ChannelId : {0}", Channel?.Id);
+                Stop();
+                await _mrs.RemoveRepeater(Repeater);
+            }
+
             var toSend = "🔄 " + Repeater.Message;
 
             if (oldMsg != null && !Repeater.NoRedundant)
@@ -73,8 +81,13 @@ namespace NadekoBot.Modules.Utility.Common
 
             try
             {
+                Channel = Channel ?? Guild.GetTextChannel(Repeater.ChannelId);
+
                 if (Channel == null)
-                    Channel = Guild.GetTextChannel(Repeater.ChannelId);
+                {
+                    await ChannelMissingError().ConfigureAwait(false);
+                    return;
+                }
 
 
                 if (Repeater.NoRedundant)
@@ -95,16 +108,14 @@ namespace NadekoBot.Modules.Utility.Common
             }
             catch (HttpException ex) when (ex.HttpCode == System.Net.HttpStatusCode.NotFound)
             {
-                _log.Warn("Channel not found. Repeater stopped. ChannelId : {0}", Channel?.Id);
-                Stop();
-                await _mrs.RemoveRepeater(Repeater);
+                await ChannelMissingError().ConfigureAwait(false);
                 return;
             }
             catch (Exception ex)
             {
                 _log.Warn(ex);
                 Stop();
-                await _mrs.RemoveRepeater(Repeater);
+                await _mrs.RemoveRepeater(Repeater).ConfigureAwait(false);
             }
         }
 

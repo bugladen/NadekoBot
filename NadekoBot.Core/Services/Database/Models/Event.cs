@@ -7,6 +7,7 @@ namespace NadekoBot.Core.Services.Database.Models
         public enum Type
         {
             Reaction,
+            GameStatus,
             //NotRaid,
         }
 

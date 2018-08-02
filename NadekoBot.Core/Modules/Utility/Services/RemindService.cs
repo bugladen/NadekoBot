@@ -78,7 +78,7 @@ namespace NadekoBot.Modules.Utility.Services
                 IMessageChannel ch;
                 if (r.IsPrivate)
                 {
-                    var user = _client.GetGuild(r.ServerId).GetUser(r.ChannelId);
+                    var user = _client.GetUser(r.ChannelId);
                     if (user == null)
                         return;
                     ch = await user.GetOrCreateDMChannelAsync().ConfigureAwait(false);
@@ -103,7 +103,7 @@ namespace NadekoBot.Modules.Utility.Services
                 using (var uow = _db.UnitOfWork)
                 {
                     uow.Reminders.Remove(r);
-                    await uow.CompleteAsync().ConfigureAwait(false);
+                    await uow.CompleteAsync();
                 }
                 var _ = Task.Run(() =>
                 {

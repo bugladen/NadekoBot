@@ -162,7 +162,7 @@
   },
   "slowmode": {
     "Cmd": "slowmode",
-    "Desc": "Toggles slowmode. Slowmode deletes any excess messages users type over the specified limit of messages per X seconds. To enable, specify a number of messages (-m) each user can send, and an interval in seconds (-i).  Disable by specifying no parameters.",
+    "Desc": "Toggles slowmode. Slowmode deletes any excess messages users type over the specified limit of messages per X seconds. To enable, specify a number of messages (-m) each user can send, and an interval in seconds (-s).  Disable by specifying no parameters.",
     "Usage": [
       "{0}slowmode -m 1 -s 5",
       "{0}slowmode"
@@ -1118,17 +1118,18 @@
   },
   "pick": {
     "Cmd": "pick",
-    "Desc": "Picks the currency planted in this channel. 60 seconds cooldown.",
+    "Desc": "Picks the currency planted in this channel. If the plant has a password, you need to specify it.",
     "Usage": [
-      "{0}pick"
+      "{0}pick",
+      "{0}pick passwd"
     ]
   },
   "plant": {
     "Cmd": "plant",
-    "Desc": "Spend an amount of currency to plant it in this channel. Default is 1. (If bot is restarted or crashes, the currency will be lost)",
+    "Desc": "Spend an amount of currency to plant it in this channel. Default is 1. You can specify the password after the amount. Password has to be alphanumeric and it will be trimmed down to 10 characters if it's longer.",
     "Usage": [
-      "{0}plant",
-      "{0}plant 5"
+      "{0}plant 5",
+      "{0}plant 10 meow"
     ]
   },
   "gencurrency": {
@@ -1136,6 +1137,13 @@
     "Desc": "Toggles currency generation on this channel. Every posted message will have chance to spawn currency. Chance is specified by the Bot Owner. (default is 2%)",
     "Usage": [
       "{0}gc"
+    ]
+  },
+  "gencurlist": {
+    "cmd": "gencurlist gclist",
+    "desc": "Shows the list of server and channel ids where gc is enabled. Paginated with 9 per page.",
+    "usage": [
+      "{0}gclist"
     ]
   },
   "leet": {
@@ -2223,22 +2231,6 @@
       "{0}hangmanstop"
     ]
   },
-  "crstatsclear": {
-    "Cmd": "crstatsclear",
-    "Desc": "Resets the counters on `{0}crstats`. You can specify a trigger to clear stats only for that trigger.",
-    "Usage": [
-      "{0}crstatsclear",
-      "{0}crstatsclear rng"
-    ]
-  },
-  "crstats": {
-    "Cmd": "crstats",
-    "Desc": "Shows a list of custom reactions and the number of times they have been executed. Paginated with 10 per page. Use `{0}crstatsclear` to reset the counters.",
-    "Usage": [
-      "{0}crstats",
-      "{0}crstats 3"
-    ]
-  },
   "overwatch": {
     "Cmd": "overwatch ow",
     "Desc": "Show's basic stats on a player (competitive rank, playtime, level etc) Region codes are: `eu` `us` `cn` `kr`",
@@ -2308,9 +2300,9 @@
   },
   "autohentai": {
     "Cmd": "autohentai",
-    "Desc": "Posts a hentai every X seconds with a random tag from the provided tags. Use `|` to separate tags. 20 seconds minimum. Provide no parameters to disable.",
+    "Desc": "Posts a hentai every X seconds with a random tag from the provided tags. Use `|` to separate tag groups. Random group will be chosen every time the image is sent. Use `+` for multiple tags (max 2 per group). 20 seconds minimum. Provide no parameters to disable.",
     "Usage": [
-      "{0}autohentai 30 yuri|tail|long_hair",
+      "{0}autohentai 30 yuri+kissing|tail+long_hair",
       "{0}autohentai"
     ]
   },
@@ -2329,11 +2321,26 @@
       "{0}rrc 0 MyLsdRole"
     ]
   },
-  "createinvite": {
-    "Cmd": "createinvite crinv",
+  "invitecreate": {
+    "Cmd": "invitecreate invcr",
     "Desc": "Creates a new invite which has infinite max uses and never expires.",
     "Usage": [
       "{0}crinv"
+    ]
+  },
+  "invitelist": {
+    "Cmd": "invitelist invlist invlst",
+    "Desc": "Lists all invites for this channel. Paginated with 9 per page.",
+    "Usage": [
+      "{0}invitelist",
+      "{0}invlist 3"
+    ]
+  },
+  "invitedelete": {
+    "Cmd": "invitedelete invrm invdel",
+    "Desc": "Deletes an invite on the specified index. Use `{0}invitelist` to see the list of invites.",
+    "Usage": [
+      "{0}invrm 2"
     ]
   },
   "pollstats": {
@@ -2389,7 +2396,7 @@
   },
   "eventstart": {
     "Cmd": "eventstart",
-    "Desc": "Starts one of the events seen on public nadeko. Events: `reaction`",
+    "Desc": "Starts one of the events seen on public nadeko. Events: `reaction`, `gamestatus`",
     "Usage": [
       "{0}eventstart reaction",
       "{0}eventstart reaction -d 1 -a 50 --pot-size 1500"
@@ -2506,7 +2513,7 @@
   },
   "botconfigreload": {
     "Cmd": "botconfigreload",
-    "Desc": "Reloads bot configuration in case you made changes to the BotConfig table either with .execsql or manually in the .db file.",
+    "Desc": "Reloads bot configuration in case you made changes to the BotConfig table either with .sqlexec or manually in the .db file.",
     "Usage": [
       "{0}botconfigreload"
     ]
@@ -3132,7 +3139,7 @@
   },
   "autobutts": {
     "Cmd": "autobutts",
-    "Desc": "Posts a butts every X seconds. 20 seconds minimum. Provide no parameters to disable.",
+    "Desc": "Posts a butt every X seconds. 20 seconds minimum. Provide no parameters to disable.",
     "Usage": [
       "{0}autobutts 30",
       "{0}autobutts"
@@ -3180,16 +3187,30 @@
       "{0}say hi"
     ]
   },
-  "execsql": {
-    "cmd": "execsql",
-    "desc": "Executes an sql command and returns the number of affected rows. Dangerous.",
+  "sqlexec": {
+    "cmd": "sqlexec",
+    "desc": "Executes provided sql command and returns the number of affected rows. Dangerous.",
     "usage": [
-      "{0}execsql UPDATE DiscordUser SET CurrencyAmount=CurrencyAmount+1234"
+      "{0}sqlexec UPDATE DiscordUser SET CurrencyAmount=CurrencyAmount+1234"
+    ]
+  },
+  "sqlselect": {
+    "cmd": "sqlselect",
+    "desc": "Executes provided sql query and returns the results. Dangerous.",
+    "usage": [
+      "{0}sqlexec UPDATE DiscordUser SET CurrencyAmount=CurrencyAmount+1234"
     ]
   },
   "deletewaifus": {
     "cmd": "deletewaifus",
-    "desc": "Deletes everything from WaifuUpdates and WaifuInfo tables.",
+    "desc": "Deletes everything from WaifuUpdates, WaifuItem and WaifuInfo tables.",
+    "usage": [
+      "{0}deletewaifus"
+    ]
+  },
+  "deletewaifu": {
+    "cmd": "deletewaifu",
+    "desc": "Deletes everything from WaifuUpdates, WaifuItem and WaifuInfo tables for the specified user. Also makes specified user's waifus free.",
     "usage": [
       "{0}deletewaifus"
     ]
@@ -3212,7 +3233,7 @@
     "cmd": "deletexp",
     "desc": "Deletes everything from UserXpStats, Clubs and sets users' TotalXP to 0.",
     "usage": [
-      "{0}execsql UPDATE Currency SET Amount=Amount+1234"
+      "{0}deletexp"
     ]
   },
   "rafflecur": {
@@ -3416,6 +3437,13 @@
     "usage": [
       "{0}updatescheck commit",
       "{0}updatescheck release"
+    ]
+  },
+  "economy": {
+    "cmd": "economy",
+    "desc": "Breakdown of the current state of the bot's economy. Updates every 3 minutes.",
+    "usage": [
+      "{0}economy"
     ]
   }
 }

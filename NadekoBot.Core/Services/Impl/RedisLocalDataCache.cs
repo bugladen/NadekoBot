@@ -72,40 +72,43 @@ namespace NadekoBot.Core.Services.Impl
             }
         }
 
-        public RedisLocalDataCache(ConnectionMultiplexer con, IBotCredentials creds)
+        public RedisLocalDataCache(ConnectionMultiplexer con, IBotCredentials creds, int shardId)
         {
             _con = con;
             _creds = creds;
             _log = LogManager.GetCurrentClassLogger();
-            
-            if (!File.Exists(pokemonListFile))
-            {
-                _log.Warn(pokemonListFile + " is missing. Pokemon abilities not loaded.");
-            }
-            else
-            {
-                Pokemons = JsonConvert.DeserializeObject<Dictionary<string, SearchPokemon>>(File.ReadAllText(pokemonListFile));
-            }
 
-            if (!File.Exists(pokemonAbilitiesFile))
+            if (shardId == 0)
             {
-                _log.Warn(pokemonAbilitiesFile + " is missing. Pokemon abilities not loaded.");
-            }
-            else
-            {
-                PokemonAbilities = JsonConvert.DeserializeObject<Dictionary<string, SearchPokemonAbility>>(File.ReadAllText(pokemonAbilitiesFile));
-            }
+                if (!File.Exists(pokemonListFile))
+                {
+                    _log.Warn(pokemonListFile + " is missing. Pokemon abilities not loaded.");
+                }
+                else
+                {
+                    Pokemons = JsonConvert.DeserializeObject<Dictionary<string, SearchPokemon>>(File.ReadAllText(pokemonListFile));
+                }
 
-            try
-            {
-                TriviaQuestions = JsonConvert.DeserializeObject<TriviaQuestion[]>(File.ReadAllText(questionsFile));
-                PokemonMap = JsonConvert.DeserializeObject<PokemonNameId[]>(File.ReadAllText(pokemonMapPath))
-                        .ToDictionary(x => x.Id, x => x.Name);
-            }
-            catch (Exception ex)
-            {
-                _log.Error(ex);
-                throw;
+                if (!File.Exists(pokemonAbilitiesFile))
+                {
+                    _log.Warn(pokemonAbilitiesFile + " is missing. Pokemon abilities not loaded.");
+                }
+                else
+                {
+                    PokemonAbilities = JsonConvert.DeserializeObject<Dictionary<string, SearchPokemonAbility>>(File.ReadAllText(pokemonAbilitiesFile));
+                }
+
+                try
+                {
+                    TriviaQuestions = JsonConvert.DeserializeObject<TriviaQuestion[]>(File.ReadAllText(questionsFile));
+                    PokemonMap = JsonConvert.DeserializeObject<PokemonNameId[]>(File.ReadAllText(pokemonMapPath))
+                            .ToDictionary(x => x.Id, x => x.Name);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex);
+                    throw;
+                }
             }
         }
 

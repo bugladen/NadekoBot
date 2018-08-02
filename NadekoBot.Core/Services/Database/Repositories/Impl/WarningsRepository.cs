@@ -48,8 +48,7 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
                         x.Forgiven = true;
                         x.ForgivenBy = mod;
                     }
-                })
-                .ConfigureAwait(false);
+                });
         }
 
         public Warning[] GetForGuild(ulong id)

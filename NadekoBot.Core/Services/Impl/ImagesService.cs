@@ -89,6 +89,7 @@ namespace NadekoBot.Core.Services.Impl
         {
             Migrate1();
             Migrate2();
+            Migrate3();
         }
 
         private void Migrate1()
@@ -145,6 +146,36 @@ namespace NadekoBot.Core.Services.Impl
             File.WriteAllText(Path.Combine(_basePath, "images.json"), JsonConvert.SerializeObject(urls, Formatting.Indented));
         }
 
+        private void Migrate3()
+        {
+            var urls = JsonConvert.DeserializeObject<ImageUrls>(
+                    File.ReadAllText(Path.Combine(_basePath, "images.json")));
+
+            if (urls.Version >= 3)
+                return;
+            urls.Version = 3;
+            _log.Info("Migrating images v2 to images v3.");
+
+            var baseStr = "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/currency/";
+
+            var replacementTable = new Dictionary<Uri, Uri>()
+            {
+                {new Uri(baseStr + "0.jpg"), new Uri(baseStr + "0.png") },
+                {new Uri(baseStr + "1.jpg"), new Uri(baseStr + "1.png") },
+                {new Uri(baseStr + "2.jpg"), new Uri(baseStr + "2.png") }
+            };
+
+            if (replacementTable.Keys.Any(x => urls.Currency.Contains(x)))
+            {
+                urls.Currency = urls.Currency.Select(x => replacementTable.TryGetValue(x, out var newUri)
+                    ? newUri
+                    : x).Append(new Uri(baseStr + "3.png"))
+                    .ToArray();
+            }
+
+            File.WriteAllText(Path.Combine(_basePath, "images.json"), JsonConvert.SerializeObject(urls, Formatting.Indented));
+        }
+
         public async Task<bool> AllKeysExist()
         {
             try
@@ -186,15 +217,12 @@ namespace NadekoBot.Core.Services.Impl
 
                     var loadCards = Task.Run(async () =>
                     {
-                        var sw2 = Stopwatch.StartNew();
                         await _db.StringSetAsync(Directory.GetFiles(_cardsPath)
                             .ToDictionary(
                                 x => GetKey("card_" + Path.GetFileNameWithoutExtension(x)),
                                 x => (RedisValue)File.ReadAllBytes(x)) // loads them and creates <name, bytes> pairs to store in redis
                             .ToArray())
                             .ConfigureAwait(false);
-                        sw2.Stop();
-                        _log.Info("Cards loaded in {0:F2}s", sw2.Elapsed.TotalSeconds);
                     });
 
                     await Task.WhenAll(t, loadCards).ConfigureAwait(false);

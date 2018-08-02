@@ -60,7 +60,7 @@ namespace NadekoBot.Modules.Permissions
                         config.CommandCooldowns.Add(cc);
                         localSet.Add(cc);
                     }
-                    await uow.CompleteAsync().ConfigureAwait(false);
+                    await uow.CompleteAsync();
                 }
                 if (secs == 0)
                 {

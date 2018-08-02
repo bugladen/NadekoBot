@@ -7,7 +7,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Discord;
-using Discord.WebSocket;
 using NadekoBot.Common;
 using NadekoBot.Common.Collections;
 using NadekoBot.Extensions;
@@ -38,6 +37,8 @@ namespace NadekoBot.Modules.Games.Services
         private readonly Logger _log;
         private readonly NadekoRandom _rng;
         private readonly ICurrencyService _cs;
+        private readonly FontProvider _fonts;
+
         public string TypingArticlesPath { get; } = "data/typing_articles3.json";
         private readonly CommandHandler _cmdHandler;
 
@@ -56,7 +57,7 @@ namespace NadekoBot.Modules.Games.Services
 
         public GamesService(CommandHandler cmd, IBotConfigProvider bc, NadekoBot bot,
             NadekoStrings strings, IDataCache data, CommandHandler cmdHandler,
-            ICurrencyService cs)
+            ICurrencyService cs, FontProvider fonts)
         {
             _bc = bc;
             _cmd = cmd;
@@ -66,6 +67,7 @@ namespace NadekoBot.Modules.Games.Services
             _log = LogManager.GetCurrentClassLogger();
             _rng = new NadekoRandom();
             _cs = cs;
+            _fonts = fonts;
 
             //8ball
             EightBallResponses = _bc.BotConfig.EightBallResponses.Select(ebr => ebr.Text).ToImmutableArray();
@@ -76,12 +78,6 @@ namespace NadekoBot.Modules.Games.Services
                 GirlRatings.Clear();
 
             }, null, TimeSpan.FromDays(1), TimeSpan.FromDays(1));
-
-            //plantpick
-            _cmd.OnMessageNoTrigger += PotentialFlowerGeneration;
-            GenerationChannels = new ConcurrentHashSet<ulong>(bot
-                .AllGuildConfigs
-                .SelectMany(c => c.GenerateCurrencyChannelIds.Select(obj => obj.ChannelId)));
 
             try
             {
@@ -97,7 +93,6 @@ namespace NadekoBot.Modules.Games.Services
         public async Task Unload()
         {
             _t.Change(Timeout.Infinite, Timeout.Infinite);
-            _cmd.OnMessageNoTrigger -= PotentialFlowerGeneration;
 
             AcrophobiaGames.ForEach(x => x.Value.Dispose());
             AcrophobiaGames.Clear();
@@ -131,93 +126,9 @@ namespace NadekoBot.Modules.Games.Services
 
             File.WriteAllText(TypingArticlesPath, JsonConvert.SerializeObject(TypingArticles));
         }
-
-        public ConcurrentHashSet<ulong> GenerationChannels { get; }
-        //channelid/message
-        public ConcurrentDictionary<ulong, List<IUserMessage>> PlantedFlowers { get; } = new ConcurrentDictionary<ulong, List<IUserMessage>>();
-        //channelId/last generation
-        public ConcurrentDictionary<ulong, DateTime> LastGenerations { get; } = new ConcurrentDictionary<ulong, DateTime>();
-
         private ConcurrentDictionary<ulong, object> _locks { get; } = new ConcurrentDictionary<ulong, object>();
-        public ConcurrentHashSet<ulong> HalloweenAwardedUsers { get; } = new ConcurrentHashSet<ulong>();
-
-        public byte[] GetRandomCurrencyImage()
-        {
-            var rng = new NadekoRandom();
-            return _images.Currency[rng.Next(0, _images.Currency.Count)];
-        }
 
         private string GetText(ITextChannel ch, string key, params object[] rep)
             => _strings.GetText(key, ch.GuildId, "Games".ToLowerInvariant(), rep);
-
-        private Task PotentialFlowerGeneration(IUserMessage imsg)
-        {
-            var msg = imsg as SocketUserMessage;
-            if (msg == null || msg.Author.IsBot)
-                return Task.CompletedTask;
-
-            var channel = imsg.Channel as ITextChannel;
-            if (channel == null)
-                return Task.CompletedTask;
-
-            if (!GenerationChannels.Contains(channel.Id))
-                return Task.CompletedTask;
-
-            var _ = Task.Run(async () =>
-            {
-                try
-                {
-                    var lastGeneration = LastGenerations.GetOrAdd(channel.Id, DateTime.MinValue);
-                    var rng = new NadekoRandom();
-
-                    if (DateTime.UtcNow - TimeSpan.FromSeconds(_bc.BotConfig.CurrencyGenerationCooldown) < lastGeneration) //recently generated in this channel, don't generate again
-                        return;
-
-                    var num = rng.Next(1, 101) + _bc.BotConfig.CurrencyGenerationChance * 100;
-                    if (num > 100 && LastGenerations.TryUpdate(channel.Id, DateTime.UtcNow, lastGeneration))
-                    {
-                        var dropAmount = _bc.BotConfig.CurrencyDropAmount;
-                        var dropAmountMax = _bc.BotConfig.CurrencyDropAmountMax;
-
-                        if (dropAmountMax != null && dropAmountMax > dropAmount)
-                            dropAmount = new NadekoRandom().Next(dropAmount, dropAmountMax.Value + 1);
-
-                        if (dropAmount > 0)
-                        {
-                            var msgs = new IUserMessage[dropAmount];
-                            var prefix = _cmdHandler.GetPrefix(channel.Guild.Id);
-                            var toSend = dropAmount == 1
-                                ? GetText(channel, "curgen_sn", _bc.BotConfig.CurrencySign)
-                                    + " " + GetText(channel, "pick_sn", prefix)
-                                : GetText(channel, "curgen_pl", dropAmount, _bc.BotConfig.CurrencySign)
-                                    + " " + GetText(channel, "pick_pl", prefix);
-                            using (var stream = GetRandomCurrencyImage().ToStream())
-                            {
-                                var sent = await channel.SendFileAsync(stream, "currency_image.png", toSend).ConfigureAwait(false);
-                                msgs[0] = sent;
-                            }
-                            PlantedFlowers.AddOrUpdate(channel.Id, msgs.ToList(), (id, old) => { old.AddRange(msgs); return old; });
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogManager.GetCurrentClassLogger().Warn(ex);
-                }
-            });
-            return Task.CompletedTask;
-        }
-
-        public async Task<bool> GetTreat(ulong userId)
-        {
-            if (_rng.Next(0, 10) != 0)
-            {
-                await _cs.AddAsync(userId, "Halloween 2017 Treat", 10)
-                    .ConfigureAwait(false);
-                return true;
-            }
-
-            return false;
-        }
     }
 }

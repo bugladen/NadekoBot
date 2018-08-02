@@ -22,18 +22,20 @@ namespace NadekoBot.Modules.Gambling
         private readonly ICurrencyService _cs;
         private readonly IDataCache _cache;
         private readonly DiscordSocketClient _client;
+        private readonly IBotConfigProvider _bc;
 
         private string CurrencyName => Bc.BotConfig.CurrencyName;
         private string CurrencyPluralName => Bc.BotConfig.CurrencyPluralName;
         private string CurrencySign => Bc.BotConfig.CurrencySign;
 
         public Gambling(DbService db, ICurrencyService currency,
-            IDataCache cache, DiscordSocketClient client)
+            IDataCache cache, DiscordSocketClient client, IBotConfigProvider bc)
         {
             _db = db;
             _cs = currency;
             _cache = cache;
             _client = client;
+            _bc = bc;
         }
 
         public long GetCurrency(ulong id)
@@ -46,10 +48,29 @@ namespace NadekoBot.Modules.Gambling
 
         public long GetCurrency(IUser user)
         {
+            long amount;
             using (var uow = _db.UnitOfWork)
             {
-                return uow.DiscordUsers.GetOrCreate(user).CurrencyAmount;
+                amount = uow.DiscordUsers.GetOrCreate(user).CurrencyAmount;
+                uow.Complete();
             }
+            return amount;
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        public async Task Economy()
+        {
+            var ec = _service.GetEconomy();
+            var embed = new EmbedBuilder()
+                .WithTitle(GetText("economy_state"))
+                .AddField(GetText("currency_owned"), ec.Cash + _bc.BotConfig.CurrencySign)
+                .AddField(GetText("currency_one_percent"), ((ec.OnePercent / ec.Cash) * 100).ToString("F2") + "%")
+                .AddField(GetText("currency_planted"), ec.Planted + _bc.BotConfig.CurrencySign)
+                .AddField(GetText("owned_waifus_total"), ec.Waifus + _bc.BotConfig.CurrencySign)
+                .AddField(GetText("bot_currency"), ec.Bot + _bc.BotConfig.CurrencySign)
+                .AddField(GetText("total"), ec.Cash + ec.Bot + ec.Planted + ec.Waifus + _bc.BotConfig.CurrencySign);
+
+            await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -411,61 +432,6 @@ namespace NadekoBot.Modules.Gambling
             }
         }
 
-        //[NadekoCommand, Usage, Description, Aliases]
-        //[OwnerOnly]
-        //public Task BrTest(int tests = 1000)
-        //{
-        //    var t = Task.Run(async () =>
-        //    {
-        //        if (tests <= 0)
-        //            return;
-        //        //multi vs how many times it occured
-        //        var dict = new Dictionary<int, int>();
-        //        var generator = new NadekoRandom();
-        //        for (int i = 0; i < tests; i++)
-        //        {
-        //            var rng = generator.Next(0, 101);
-        //            var mult = 0;
-        //            if (rng < 67)
-        //            {
-        //                mult = 0;
-        //            }
-        //            else if (rng < 91)
-        //            {
-        //                mult = 2;
-        //            }
-        //            else if (rng < 100)
-        //            {
-        //                mult = 4;
-        //            }
-        //            else
-        //                mult = 10;
-
-        //            if (dict.ContainsKey(mult))
-        //                dict[mult] += 1;
-        //            else
-        //                dict.Add(mult, 1);
-        //        }
-
-        //        var sb = new StringBuilder();
-        //        const int bet = 1;
-        //        int payout = 0;
-        //        foreach (var key in dict.Keys.OrderByDescending(x => x))
-        //        {
-        //            sb.AppendLine($"x{key} occured {dict[key]} times. {dict[key] * 1.0f / tests * 100}%");
-        //            payout += key * dict[key];
-        //        }
-        //        try
-        //        {
-        //            await Context.Channel.SendConfirmAsync("BetRoll Test Results", sb.ToString(),
-        //                footer: $"Total Bet: {tests * bet} | Payout: {payout * bet} | {payout * 1.0f / tests * 100}%");
-        //        }
-        //        catch { }
-
-        //    });
-        //    return Task.CompletedTask;
-        //}
-
         private async Task InternallBetroll(long amount)
         {
             if (!await CheckBetMandatory(amount).ConfigureAwait(false))
@@ -525,7 +491,7 @@ namespace NadekoBot.Modules.Gambling
 
             var embed = new EmbedBuilder()
                 .WithOkColor()
-                .WithTitle(CurrencySign +" " + GetText("leaderboard"))
+                .WithTitle(CurrencySign + " " + GetText("leaderboard"))
                 .WithFooter(efb => efb.WithText(GetText("page", page)));
 
             if (!richest.Any())

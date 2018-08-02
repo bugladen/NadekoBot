@@ -115,7 +115,7 @@ namespace NadekoBot.Modules.Administration.Services
                 if (s != Administration.State.Inherit)
                     conf.DelMsgOnCmdChannels.Add(obj);
 
-                await uow.CompleteAsync().ConfigureAwait(false);
+                await uow.CompleteAsync();
             }
 
             if (s == Administration.State.Disable)

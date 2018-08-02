@@ -35,6 +35,7 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Events
         private readonly ConcurrentHashSet<ulong> _awardedUsers = new ConcurrentHashSet<ulong>();
         private readonly ConcurrentQueue<ulong> _toAward = new ConcurrentQueue<ulong>();
         private readonly Timer _t;
+        private readonly Timer _timeout = null;
         private readonly bool _noRecentlyJoinedServer;
         private readonly IBotConfigProvider _bc;
         private readonly EventOptions _opts;
@@ -60,6 +61,15 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Events
             _opts = opt;
 
             _t = new Timer(OnTimerTick, null, Timeout.InfiniteTimeSpan, TimeSpan.FromSeconds(2));
+            if (_opts.Hours > 0)
+            {
+                _timeout = new Timer(EventTimeout, null, TimeSpan.FromHours(_opts.Hours), Timeout.InfiniteTimeSpan);
+            }
+        }
+
+        private void EventTimeout(object state)
+        {
+            var _ = StopEvent();
         }
 
         private async void OnTimerTick(object state)
@@ -148,6 +158,7 @@ namespace NadekoBot.Core.Modules.Gambling.Common.Events
                 _client.MessageDeleted -= OnMessageDeleted;
                 _client.ReactionAdded -= HandleReaction;
                 _t.Change(Timeout.Infinite, Timeout.Infinite);
+                _timeout?.Change(Timeout.Infinite, Timeout.Infinite);
                 try { var _ = _msg.DeleteAsync(); } catch { }
                 var os = OnEnded(_guild.Id);
             }

@@ -1,5 +1,6 @@
 ﻿using NadekoBot.Common;
 using Newtonsoft.Json;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -11,6 +12,7 @@ namespace NadekoBot.Modules.Games.Common.ChatterBot
     {
         private readonly string _apiKey;
         private readonly IHttpClientFactory _httpFactory;
+        private readonly Logger _log;
         private string _cs = null;
 
         private string QueryString => $"https://www.cleverbot.com/getreply?key={_apiKey}" +
@@ -22,6 +24,7 @@ namespace NadekoBot.Modules.Games.Common.ChatterBot
         {
             this._apiKey = apiKey;
             this._httpFactory = factory;
+            this._log = LogManager.GetCurrentClassLogger();
         }
 
         public async Task<string> Think(string input)
@@ -29,9 +32,19 @@ namespace NadekoBot.Modules.Games.Common.ChatterBot
             using (var http = _httpFactory.CreateClient())
             {
                 var dataString = await http.GetStringAsync(string.Format(QueryString, input, _cs ?? "")).ConfigureAwait(false);
-                var data = JsonConvert.DeserializeObject<CleverbotResponse>(dataString);
-                _cs = data?.Cs;
-                return data?.Output;
+                try
+                {
+                    var data = JsonConvert.DeserializeObject<CleverbotResponse>(dataString);
+
+                    _cs = data?.Cs;
+                    return data?.Output;
+                }
+                catch
+                {
+                    _log.Warn("Unexpected cleverbot response received: ");
+                    _log.Warn(dataString);
+                    return null;
+                }
             }
         }
     }

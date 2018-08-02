@@ -22,7 +22,7 @@ namespace NadekoBot.Core.Services.Impl
 
         private readonly string _redisKey;
 
-        public RedisCache(IBotCredentials creds)
+        public RedisCache(IBotCredentials creds, int shardId)
         {
             _log = LogManager.GetCurrentClassLogger();
             var conf = ConfigurationOptions.Parse("127.0.0.1");
@@ -30,7 +30,7 @@ namespace NadekoBot.Core.Services.Impl
             Redis = ConnectionMultiplexer.Connect(conf);
             Redis.PreserveAsyncOrder = false;
             LocalImages = new RedisImagesCache(Redis, creds);
-            LocalData = new RedisLocalDataCache(Redis, creds);
+            LocalData = new RedisLocalDataCache(Redis, creds, shardId);
             _redisKey = creds.RedisKey();
         }
 
@@ -197,6 +197,25 @@ namespace NadekoBot.Core.Services.Impl
             }
 
             return _db.KeyTimeToLive($"{_redisKey}_ratelimit_{id}_{name}");
+        }
+
+        public bool TryGetEconomy(out string data)
+        {
+            var _db = Redis.GetDatabase();
+            if ((data = _db.StringGet($"{_redisKey}_economy")) != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public void SetEconomy(string data)
+        {
+            var _db = Redis.GetDatabase();
+            _db.StringSetAsync($"{_redisKey}_economy",
+                data,
+                expiry: TimeSpan.FromMinutes(3));
         }
     }
 	}
