@@ -978,5 +978,7 @@
   "gambling_bot_currency": "Currency owned by the bot",
   "gambling_total": "Total",
   "utility_no_invites": "No invites on this page.",
-  "utility_invite_deleted": "Invite {0} has been deleted."
+  "utility_invite_deleted": "Invite {0} has been deleted.",
+  "administration_group_name_added": "Group #{0} now has a name: {1}",
+  "administration_group_name_removed": "Group #{0} no longer has a name."
 }

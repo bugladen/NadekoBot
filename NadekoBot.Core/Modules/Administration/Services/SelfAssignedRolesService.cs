@@ -1,4 +1,5 @@
 ﻿using Discord;
+using Microsoft.EntityFrameworkCore;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Modules.Xp.Common;
@@ -130,6 +131,42 @@ namespace NadekoBot.Core.Modules.Administration.Services
             return (AssignResult.Assigned, autoDelete, null);
         }
 
+        public async Task<bool> SetNameAsync(ulong guildId, int group, string name)
+        {
+            bool set = false;
+            using (var uow = _db.UnitOfWork)
+            {
+                var gc = uow.GuildConfigs.ForId(guildId, y => y.Include(x => x.SelfAssignableRoleGroupNames));
+                var toUpdate = gc.SelfAssignableRoleGroupNames.FirstOrDefault(x => x.Number == group);
+
+                if (string.IsNullOrWhiteSpace(name))
+                {
+                    if (toUpdate != null)
+                    {
+                        gc.SelfAssignableRoleGroupNames.Remove(toUpdate);
+                    }
+                }
+                else if (toUpdate == null)
+                {
+                    gc.SelfAssignableRoleGroupNames.Add(new GroupName
+                    {
+                        Name = name,
+                        Number = group,
+                    });
+                    set = true;
+                }
+                else
+                {
+                    toUpdate.Name = name;
+                    set = true;
+                }
+
+                await uow.CompleteAsync();
+            }
+
+            return set;
+        }
+
         public async Task<(RemoveResult Result, bool AutoDelete)> Remove(IGuildUser guildUser, IRole role)
         {
             var (autoDelete, _, roles) = GetAdAndRoles(guildUser.Guild.Id);
@@ -211,15 +248,17 @@ namespace NadekoBot.Core.Modules.Administration.Services
             return areExclusive;
         }
 
-        public (bool Exclusive, IEnumerable<(SelfAssignedRole Model, IRole Role)> roles) GetRoles(IGuild guild)
+        public (bool Exclusive, IEnumerable<(SelfAssignedRole Model, IRole Role)> Roles, IDictionary<int, string> GroupNames) GetRoles(IGuild guild)
         {
             var exclusive = false;
 
             IEnumerable<(SelfAssignedRole Model, IRole Role)> roles;
+            IDictionary<int, string> groupNames;
             using (var uow = _db.UnitOfWork)
             {
-                exclusive = uow.GuildConfigs.ForId(guild.Id, set => set)
-                    .ExclusiveSelfAssignedRoles;
+                var gc = uow.GuildConfigs.ForId(guild.Id, set => set.Include(x => x.SelfAssignableRoleGroupNames));
+                exclusive = gc.ExclusiveSelfAssignedRoles;
+                groupNames = gc.SelfAssignableRoleGroupNames.ToDictionary(x => x.Number, x => x.Name);
                 var roleModels = uow.SelfAssignedRoles.GetFromGuild(guild.Id);
                 roles = roleModels
                     .Select(x => (Model: x, Role: guild.GetRole(x.RoleId)));
@@ -227,7 +266,7 @@ namespace NadekoBot.Core.Modules.Administration.Services
                 uow.Complete();
             }
 
-            return (exclusive, roles.Where(x => x.Role != null));
+            return (exclusive, roles.Where(x => x.Role != null), groupNames);
         }
     }
 }
