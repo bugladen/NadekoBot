@@ -228,6 +228,14 @@
       "{0}lsar 2"
     ]
   },
+  "sargn": {
+    "Cmd": "sargn",
+    "Desc": "Sets a self assignable role group name. Provide no name to remove.",
+    "Usage": [
+      "{0}sargn 1 Faction",
+      "{0}sargn 2"
+    ]
+  },
   "tesar": {
     "Cmd": "togglexclsar tesar",
     "Desc": "Toggles whether the self-assigned roles are exclusive. While enabled, users can only have one self-assignable role per group.",
@@ -3198,7 +3206,7 @@
     "cmd": "sqlselect",
     "desc": "Executes provided sql query and returns the results. Dangerous.",
     "usage": [
-      "{0}sqlexec UPDATE DiscordUser SET CurrencyAmount=CurrencyAmount+1234"
+      "{0}sqlselect SELECT * FROM DiscordUser LIMIT 5"
     ]
   },
   "deletewaifus": {

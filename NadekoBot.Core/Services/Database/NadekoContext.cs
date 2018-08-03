@@ -207,7 +207,7 @@ namespace NadekoBot.Core.Services.Database
 
 
             #endregion
-            
+
             #region Waifus
 
             var wi = modelBuilder.Entity<WaifuInfo>();
@@ -328,6 +328,12 @@ namespace NadekoBot.Core.Services.Database
             #region Reminders
             modelBuilder.Entity<Reminder>()
                 .HasIndex(x => x.DateAdded);
+            #endregion
+
+            #region  GroupName
+            modelBuilder.Entity<GroupName>()
+                .HasIndex(x => x.Number)
+                .IsUnique();
             #endregion
         }
     }

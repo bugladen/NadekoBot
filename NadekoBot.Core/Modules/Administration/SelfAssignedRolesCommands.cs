@@ -5,7 +5,6 @@ using Discord;
 using Discord.Commands;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Core.Modules.Administration.Services;
-using NadekoBot.Core.Services;
 using NadekoBot.Extensions;
 
 namespace NadekoBot.Modules.Administration
@@ -67,6 +66,27 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageRoles)]
+            [RequireBotPermission(GuildPermission.ManageRoles)]
+            [Priority(0)]
+            public async Task Sargn(int group, [Remainder] string name = null)
+            {
+                var guser = (IGuildUser)Context.User;
+
+                var set = await _service.SetNameAsync(Context.Guild.Id, group, name).ConfigureAwait(false);
+
+                if (set)
+                {
+                    await ReplyConfirmLocalized("group_name_added", Format.Bold(group.ToString()), Format.Bold(name.ToString())).ConfigureAwait(false);
+                }
+                else
+                {
+                    await ReplyConfirmLocalized("group_name_removed", Format.Bold(group.ToString())).ConfigureAwait(false);
+                }
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.ManageRoles)]
             public async Task Rsar([Remainder] IRole role)
             {
                 var guser = (IGuildUser)Context.User;
@@ -91,7 +111,7 @@ namespace NadekoBot.Modules.Administration
                 if (--page < 0)
                     return;
 
-                var (exclusive, roles) = _service.GetRoles(Context.Guild);
+                var (exclusive, roles, groups) = _service.GetRoles(Context.Guild);
 
                 await Context.SendPaginatedConfirmAsync(page, (cur) =>
                 {
@@ -105,7 +125,17 @@ namespace NadekoBot.Modules.Administration
 
                     foreach (var kvp in roleGroups)
                     {
-                        rolesStr.AppendLine("\t\t\t\t『" + Format.Bold(GetText("self_assign_group", kvp.Key)) + "』");
+                        var groupNameText = "";
+                        if (!groups.TryGetValue(kvp.Key, out var name))
+                        {
+                            groupNameText = Format.Bold(GetText("self_assign_group", kvp.Key));
+                        }
+                        else
+                        {
+                            groupNameText = Format.Bold($"{kvp.Key} - {name.TrimTo(25, true)}");
+                        }
+
+                        rolesStr.AppendLine("\t\t\t\t ⟪" + groupNameText + "⟫");
                         foreach (var (Model, Role) in kvp.AsEnumerable())
                         {
                             if (Role == null)
@@ -114,12 +144,14 @@ namespace NadekoBot.Modules.Administration
                             }
                             else
                             {
+                                // first character is invisible space
                                 if (Model.LevelRequirement == 0)
-                                    rolesStr.AppendLine(Format.Bold(Role.Name));
+                                    rolesStr.AppendLine("‌‌   " + Role.Name);
                                 else
-                                    rolesStr.AppendLine(Format.Bold(Role.Name) + $" (lvl {Model.LevelRequirement}+)");
+                                    rolesStr.AppendLine("‌‌   " + Role.Name + $" (lvl {Model.LevelRequirement}+)");
                             }
                         }
+                        rolesStr.AppendLine();
                     }
 
                     return new EmbedBuilder().WithOkColor()

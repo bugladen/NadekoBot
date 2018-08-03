@@ -184,9 +184,9 @@
       "Aliases": [
         ".sqlselect"
       ],
-      "Description": "sqlselect",
+      "Description": "Executes provided sql query and returns the results. Dangerous.",
       "Usage": [
-        "sqlselect"
+        ".sqlselect SELECT * FROM DiscordUser LIMIT 5"
       ],
       "Submodule": "DangerousCommands",
       "Module": "Administration",
@@ -199,7 +199,7 @@
       "Aliases": [
         ".sqlexec"
       ],
-      "Description": "Executes an sql command and returns the number of affected rows. Dangerous.",
+      "Description": "Executes provided sql command and returns the number of affected rows. Dangerous.",
       "Usage": [
         ".sqlexec UPDATE DiscordUser SET CurrencyAmount=CurrencyAmount+1234"
       ],
@@ -940,6 +940,22 @@
         ".asar Gamer",
         ".asar 1 Alliance",
         ".asar 1 Horde"
+      ],
+      "Submodule": "SelfAssignedRolesCommands",
+      "Module": "Administration",
+      "Options": null,
+      "Requirements": [
+        "ManageRoles Server Permission"
+      ]
+    },
+    {
+      "Aliases": [
+        ".sargn"
+      ],
+      "Description": "Sets a self assignable role group name. Provide no name to remove.",
+      "Usage": [
+        ".sargn 1 Faction",
+        ".sargn 2"
       ],
       "Submodule": "SelfAssignedRolesCommands",
       "Module": "Administration",
