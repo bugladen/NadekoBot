@@ -138,7 +138,7 @@ namespace NadekoBot.Modules.Xp.Services
 
                         var group = toAddTo.GroupBy(x => (GuildId: x.Guild.Id, x.User));
                         if (toAddTo.Count == 0)
-                            return;
+                            continue;
 
                         using (var uow = _db.UnitOfWork)
                         {

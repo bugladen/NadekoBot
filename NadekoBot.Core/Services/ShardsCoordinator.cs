@@ -102,7 +102,10 @@ namespace NadekoBot.Core.Services
             db.KeyDelete(_key + "_shardstats");
 
             _shardProcesses = new Process[_creds.TotalShards];
-            for (int i = 0; i < _creds.TotalShards; i++)
+            var shardIds = Enumerable.Range(1, _creds.TotalShards - 1)
+                .Shuffle()
+                .Prepend(0);
+            foreach (var i in shardIds)
             {
                 //add it to the list of shards which should be started
 #if DEBUG
