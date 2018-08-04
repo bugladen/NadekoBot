@@ -63,12 +63,13 @@ namespace NadekoBot.Modules.Gambling
             var ec = _service.GetEconomy();
             var embed = new EmbedBuilder()
                 .WithTitle(GetText("economy_state"))
-                .AddField(GetText("currency_owned"), ec.Cash + _bc.BotConfig.CurrencySign)
+                .AddField(GetText("currency_owned"), ((ulong)ec.Cash) + _bc.BotConfig.CurrencySign)
                 .AddField(GetText("currency_one_percent"), ((ec.OnePercent / ec.Cash) * 100).ToString("F2") + "%")
-                .AddField(GetText("currency_planted"), ec.Planted + _bc.BotConfig.CurrencySign)
-                .AddField(GetText("owned_waifus_total"), ec.Waifus + _bc.BotConfig.CurrencySign)
+                .AddField(GetText("currency_planted"), ((ulong)ec.Planted) + _bc.BotConfig.CurrencySign)
+                .AddField(GetText("owned_waifus_total"), ((ulong)ec.Waifus) + _bc.BotConfig.CurrencySign)
                 .AddField(GetText("bot_currency"), ec.Bot + _bc.BotConfig.CurrencySign)
-                .AddField(GetText("total"), ec.Cash + ec.Bot + ec.Planted + ec.Waifus + _bc.BotConfig.CurrencySign);
+                .AddField(GetText("total"), ((ulong)(ec.Cash + ec.Bot + ec.Planted + ec.Waifus)) + _bc.BotConfig.CurrencySign)
+                .WithOkColor();
 
             await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
@@ -451,23 +452,27 @@ namespace NadekoBot.Modules.Gambling
             }
             else
             {
+                long win;
                 if (rnd < 91)
                 {
-                    str += GetText("br_win", (amount * Bc.BotConfig.Betroll67Multiplier) + CurrencySign, 66);
+                    win = (long)(amount * Bc.BotConfig.Betroll67Multiplier);
+                    str += GetText("br_win", win + CurrencySign, 66);
                     await _cs.AddAsync(Context.User, "Betroll Gamble",
-                        (int)(amount * Bc.BotConfig.Betroll67Multiplier), false, gamble: true).ConfigureAwait(false);
+                        win, false, gamble: true).ConfigureAwait(false);
                 }
                 else if (rnd < 100)
                 {
-                    str += GetText("br_win", (amount * Bc.BotConfig.Betroll91Multiplier) + CurrencySign, 90);
+                    win = (long)(amount * Bc.BotConfig.Betroll91Multiplier);
+                    str += GetText("br_win", win + CurrencySign, 90);
                     await _cs.AddAsync(Context.User, "Betroll Gamble",
-                        (int)(amount * Bc.BotConfig.Betroll91Multiplier), false, gamble: true).ConfigureAwait(false);
+                        win, false, gamble: true).ConfigureAwait(false);
                 }
                 else
                 {
-                    str += GetText("br_win", (amount * Bc.BotConfig.Betroll100Multiplier) + CurrencySign, 99) + " 👑";
+                    win = (long)(amount * Bc.BotConfig.Betroll100Multiplier);
+                    str += GetText("br_win", win + CurrencySign, 99) + " 👑";
                     await _cs.AddAsync(Context.User, "Betroll Gamble",
-                        (int)(amount * Bc.BotConfig.Betroll100Multiplier), false, gamble: true).ConfigureAwait(false);
+                        win, false, gamble: true).ConfigureAwait(false);
                 }
             }
             await Context.Channel.SendConfirmAsync(str).ConfigureAwait(false);
