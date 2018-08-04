@@ -197,13 +197,11 @@ namespace NadekoBot.Modules.Gambling.Common.Connect4
                         var first = _gameState[i + j * NumberOfRows];
                         if (first != Field.Empty)
                         {
-                            //Console.WriteLine(i + j * NumberOfRows);
                             for (int k = 1; k < 4; k++)
                             {
                                 var next = _gameState[i + k + j * NumberOfRows];
                                 if (next == first)
                                 {
-                                    //Console.WriteLine(i + k + j * NumberOfRows);
                                     if (k == 3)
                                         EndGame(Result.CurrentPlayerWon, CurrentPlayer.UserId);
                                     else
@@ -281,7 +279,6 @@ namespace NadekoBot.Modules.Gambling.Common.Connect4
 
                             if (same == 4)
                             {
-                                Console.WriteLine($"Won top left diagonal starting from {row + col * NumberOfRows}");
                                 EndGame(Result.CurrentPlayerWon, CurrentPlayer.UserId);
                                 break;
                             }
@@ -309,7 +306,6 @@ namespace NadekoBot.Modules.Gambling.Common.Connect4
 
                             if (same == 4)
                             {
-                                Console.WriteLine($"Won top right diagonal starting from {row + col * NumberOfRows}");
                                 EndGame(Result.CurrentPlayerWon, CurrentPlayer.UserId);
                                 break;
                             }

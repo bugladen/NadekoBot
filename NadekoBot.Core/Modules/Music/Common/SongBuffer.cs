@@ -3,6 +3,7 @@ using NLog;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Music.Common
 {
@@ -15,12 +16,14 @@ namespace NadekoBot.Modules.Music.Common
         private readonly Logger _log;
 
         public string SongUri { get; private set; }
+        public TaskCompletionSource<bool> PrebufferingCompleted { get; }
 
         public SongBuffer(string songUri, bool isLocal)
         {
             _log = LogManager.GetCurrentClassLogger();
             this.SongUri = songUri;
             this._isLocal = isLocal;
+            this.PrebufferingCompleted = new TaskCompletionSource<bool>();
 
             try
             {
@@ -89,11 +92,18 @@ Check the guides for your platform on how to setup ffmpeg correctly:
             _buffer.Stop();
             _outStream.Dispose();
             this.p.Dispose();
+            this._buffer.PrebufferingCompleted -= OnPrebufferingCompleted;
         }
 
         public void StartBuffering()
         {
             this._buffer.StartBuffering();
+            this._buffer.PrebufferingCompleted += OnPrebufferingCompleted;
+        }
+
+        private void OnPrebufferingCompleted()
+        {
+            PrebufferingCompleted.SetResult(true);
         }
     }
 }

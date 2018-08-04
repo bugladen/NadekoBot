@@ -359,7 +359,7 @@ namespace NadekoBot.Extensions
             }
             catch (ReflectionTypeLoadException ex)
             {
-                Console.WriteLine(ex.LoaderExceptions[0]);
+                _log.Warn(ex);
                 return Enumerable.Empty<Type>();
             }
             // all types which have INService implementation are services

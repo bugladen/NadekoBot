@@ -186,7 +186,7 @@ namespace NadekoBot
             }
             catch (ReflectionTypeLoadException ex)
             {
-                Console.WriteLine(ex.LoaderExceptions[0]);
+                _log.Warn(ex.LoaderExceptions[0]);
                 return Enumerable.Empty<object>();
             }
             var filteredTypes = allTypes

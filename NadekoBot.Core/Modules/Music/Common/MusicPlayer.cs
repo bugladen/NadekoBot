@@ -209,7 +209,7 @@ namespace NadekoBot.Modules.Music.Common
                             continue;
                         }
                         b.StartBuffering();
-                        await Task.Delay(1000).ConfigureAwait(false);
+                        await Task.WhenAny(Task.Delay(10000), b.PrebufferingCompleted.Task).ConfigureAwait(false);
                         pcm = ac.CreatePCMStream(AudioApplication.Music, bufferMillis: 1);
                         _log.Info("Created pcm stream");
                         OnStarted?.Invoke(this, data);
