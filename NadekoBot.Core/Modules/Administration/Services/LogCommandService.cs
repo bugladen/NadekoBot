@@ -221,7 +221,7 @@ namespace NadekoBot.Modules.Administration.Services
             return Task.CompletedTask;
         }
 
-        public bool Log(ulong gid, ulong cid, LogType type)
+        public bool Log(ulong gid, ulong? cid, LogType type)
         {
             ulong? channelId = null;
             using (var uow = _db.UnitOfWork)

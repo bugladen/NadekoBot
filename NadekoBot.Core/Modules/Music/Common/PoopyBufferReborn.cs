@@ -8,6 +8,8 @@ namespace NadekoBot.Core.Modules.Music.Common
     public class PoopyBufferReborn
     {
         private readonly Stream _inStream;
+        public event Action PrebufferingCompleted;
+        private bool prebuffered = false;
 
         private readonly byte[] _buffer;
 
@@ -47,6 +49,11 @@ namespace NadekoBot.Core.Modules.Music.Common
                 {
                     while (_buffer.Length - ContentLength <= read)
                     {
+                        if(!prebuffered)
+                        {
+                            prebuffered = true;
+                            PrebufferingCompleted();
+                        }
                         await Task.Delay(100).ConfigureAwait(false);
                     }
 

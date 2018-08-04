@@ -75,9 +75,8 @@ namespace NadekoBot.Modules.Games
                         {
                             await nunchi.Input(arg.Author.Id, arg.Author.ToString(), number).ConfigureAwait(false);
                         }
-                        catch (Exception ex)
+                        catch
                         {
-                            Console.WriteLine(ex);
                         }
                     });
                     return Task.CompletedTask;
