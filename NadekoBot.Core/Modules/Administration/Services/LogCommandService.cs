@@ -48,25 +48,27 @@ namespace NadekoBot.Modules.Administration.Services
 
             _timerReference = new Timer(async (state) =>
             {
-                try
-                {
-                    var keys = PresenceUpdates.Keys.ToList();
+                var keys = PresenceUpdates.Keys.ToList();
 
-                    await Task.WhenAll(keys.Select(key =>
+                await Task.WhenAll(keys.Select(key =>
+                {
+                    if (!((SocketGuild)key.Guild).CurrentUser.GetPermissions(key).SendMessages)
+                        return Task.CompletedTask;
+                    if (PresenceUpdates.TryRemove(key, out var msgs))
                     {
-                        if (PresenceUpdates.TryRemove(key, out var msgs))
+                        var title = GetText(key.Guild, "presence_updates");
+                        var desc = string.Join(Environment.NewLine, msgs);
+                        try
                         {
-                            var title = GetText(key.Guild, "presence_updates");
-                            var desc = string.Join(Environment.NewLine, msgs);
                             return key.SendConfirmAsync(title, desc.TrimTo(2048));
                         }
-                        return Task.CompletedTask;
-                    })).ConfigureAwait(false);
-                }
-                catch (Exception ex)
-                {
-                    _log.Warn(ex);
-                }
+                        catch (Exception ex)
+                        {
+                            _log.Warn(ex);
+                        }
+                    }
+                    return Task.CompletedTask;
+                })).ConfigureAwait(false);
             }, null, TimeSpan.FromSeconds(15), TimeSpan.FromSeconds(15));
 
             //_client.MessageReceived += _client_MessageReceived;
