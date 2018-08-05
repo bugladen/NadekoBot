@@ -101,6 +101,11 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public Task DeleteExp() =>
                 SqlExec(DangerousCommandsService.XpDeleteSql);
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [OwnerOnly]
+            public Task DeleteUnusedCrnQ() =>
+                SqlExec(DangerousCommandsService.DeleteUnusedCustomReactionsAndQuotes);
         }
     }
 }
