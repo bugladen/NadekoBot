@@ -3215,6 +3215,13 @@
       "{0}deletewaifus"
     ]
   },
+  "deleteunusedcrnq": {
+    "cmd": "deleteunusedcrnq",
+    "desc": "Deletes all quotes and custom reactions which are older than a week and haven't been used a single time.",
+    "usage": [
+      "{0}deleteunusedcrnq"
+    ]
+  },
   "deletecurrency": {
     "cmd": "deletecurrency",
     "desc": "Deletes everything from Currency and CurrencyTransactions.",
