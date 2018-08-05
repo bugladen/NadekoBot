@@ -29,7 +29,7 @@ If you do not see `credentials.json` you will need to rename `credentials_exampl
 ```
 -----
 #### Creating Discord Bot application
-![img2](http://i.imgur.com/x3jWudH.gif)
+![img2](https://i.imgur.com/Vxxeh2n.gif)
 
 - Go to [the Discord developer application page][DiscordApp].
 - Log in with your Discord account.
@@ -42,7 +42,7 @@ If you do not see `credentials.json` you will need to rename `credentials_exampl
 
 
 #### Inviting your bot to your server 
-![img4](http://i.imgur.com/aFK7InR.gif)
+![img4](https://i.imgur.com/6beUSa5.gif)
 
 - [Invite Guide][Invite Guide]
 - Copy your `Client ID` from your [applications page][DiscordApp].
