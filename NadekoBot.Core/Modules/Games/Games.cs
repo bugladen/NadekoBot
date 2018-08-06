@@ -58,6 +58,11 @@ namespace NadekoBot.Modules.Games
         {
             var gr = _service.GirlRatings.GetOrAdd(usr.Id, GetGirl);
             var img = await gr.Url;
+            if (img == null)
+            {
+                await ReplyErrorLocalized("something_went_wrong").ConfigureAwait(false);
+                return;
+            }
             await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                 .WithTitle("Girl Rating For " + usr)
                 .AddField(efb => efb.WithName("Hot").WithValue(gr.Hot.ToString("F2")).WithIsInline(true))

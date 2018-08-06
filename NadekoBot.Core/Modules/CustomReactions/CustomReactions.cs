@@ -191,8 +191,8 @@ namespace NadekoBot.Modules.CustomReactions
             {
                 await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                     .WithDescription($"#{id}")
-                    .AddField(efb => efb.WithName(GetText("trigger")).WithValue(found.Trigger))
-                    .AddField(efb => efb.WithName(GetText("response")).WithValue(found.Response + "\n```css\n" + found.Response + "```"))
+                    .AddField(efb => efb.WithName(GetText("trigger")).WithValue(found.Trigger.TrimTo(1024)))
+                    .AddField(efb => efb.WithName(GetText("response")).WithValue((found.Response + "\n```css\n" + found.Response).TrimTo(1020) + "```"))
                     ).ConfigureAwait(false);
             }
         }
@@ -213,8 +213,8 @@ namespace NadekoBot.Modules.CustomReactions
                 await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                     .WithTitle(GetText("deleted"))
                     .WithDescription("#" + cr.Id)
-                    .AddField(efb => efb.WithName(GetText("trigger")).WithValue(cr.Trigger))
-                    .AddField(efb => efb.WithName(GetText("response")).WithValue(cr.Response))).ConfigureAwait(false);
+                    .AddField(efb => efb.WithName(GetText("trigger")).WithValue(cr.Trigger.TrimTo(1024)))
+                    .AddField(efb => efb.WithName(GetText("response")).WithValue(cr.Response.TrimTo(1024)))).ConfigureAwait(false);
             }
             else
             {
