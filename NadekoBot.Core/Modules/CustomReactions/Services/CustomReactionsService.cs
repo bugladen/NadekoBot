@@ -30,8 +30,8 @@ namespace NadekoBot.Modules.CustomReactions.Services
             Message,
         }
         //todo move all logic inside and this can become a property
-        private readonly ConcurrentDictionary<int, CustomReaction> _globalReactions;
-        private readonly ConcurrentDictionary<ulong, ConcurrentDictionary<int, CustomReaction>> _guildReactions;
+        private ConcurrentDictionary<int, CustomReaction> _globalReactions;
+        private ConcurrentDictionary<ulong, ConcurrentDictionary<int, CustomReaction>> _guildReactions;
 
         public int Priority => -1;
         public ModuleBehaviorType BehaviorType => ModuleBehaviorType.Executor;
@@ -62,6 +62,10 @@ namespace NadekoBot.Modules.CustomReactions.Services
             _gperm = gperm;
 
             var sub = _cache.Redis.GetSubscriber();
+            sub.Subscribe(_client.CurrentUser.Id + "_crs.reload", (ch, msg) =>
+            {
+                ReloadInternal(bot.GetCurrentGuildConfigs());
+            }, StackExchange.Redis.CommandFlags.FireAndForget);
             sub.Subscribe(_client.CurrentUser.Id + "_gcr.added", (ch, msg) =>
             {
                 var cr = JsonConvert.DeserializeObject<CustomReaction>(msg);
@@ -86,7 +90,23 @@ namespace NadekoBot.Modules.CustomReactions.Services
                 }
             }, StackExchange.Redis.CommandFlags.FireAndForget);
 
-            var guildItems = uow.CustomReactions.GetFor(bot.AllGuildConfigs.Select(x => x.GuildId));
+            ReloadInternal(bot.AllGuildConfigs, uow);
+
+            bot.JoinedGuild += Bot_JoinedGuild;
+            _client.LeftGuild += _client_LeftGuild;
+        }
+
+        private void ReloadInternal(IEnumerable<GuildConfig> allGuildConfigs)
+        {
+            using (var uow = _db.UnitOfWork)
+            {
+                ReloadInternal(allGuildConfigs, uow);
+            }
+        }
+
+        private void ReloadInternal(IEnumerable<GuildConfig> allGuildConfigs, IUnitOfWork uow)
+        {
+            var guildItems = uow.CustomReactions.GetFor(allGuildConfigs.Select(x => x.GuildId));
             _guildReactions = new ConcurrentDictionary<ulong, ConcurrentDictionary<int, CustomReaction>>(guildItems
                 .GroupBy(k => k.GuildId.Value)
                 .ToDictionary(g => g.Key, g => g.ToDictionary(x => x.Id, x => x).ToConcurrent()));
@@ -95,9 +115,6 @@ namespace NadekoBot.Modules.CustomReactions.Services
             _globalReactions = globalItems
                 .ToDictionary(x => x.Id, x => x)
                 .ToConcurrent();
-
-            bot.JoinedGuild += Bot_JoinedGuild;
-            _client.LeftGuild += _client_LeftGuild;
         }
 
         private Task _client_LeftGuild(SocketGuild arg)
@@ -248,6 +265,12 @@ namespace NadekoBot.Modules.CustomReactions.Services
                 }
             }
             return false;
+        }
+
+        public void TriggerReloadCustomReactions()
+        {
+            var sub = _cache.Redis.GetSubscriber();
+            sub.Publish(_client.CurrentUser.Id + "_crs.reload", "");
         }
 
         public async Task<(bool Sucess, bool NewValue)> ToggleCrOptionAsync(int id, CrField field)

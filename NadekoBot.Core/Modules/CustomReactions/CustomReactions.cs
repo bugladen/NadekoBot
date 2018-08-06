@@ -234,6 +234,15 @@ namespace NadekoBot.Modules.CustomReactions
         public Task CrAd(int id)
             => InternalCrEdit(id, CustomReactionsService.CrField.AutoDelete);
 
+        [NadekoCommand, Usage, Description, Aliases]
+        [OwnerOnly]
+        public Task CrsReload()
+        {
+            _service.TriggerReloadCustomReactions();
+
+            return Context.Channel.SendConfirmAsync("👌");
+        }
+
         private async Task InternalCrEdit(int id, CustomReactionsService.CrField option)
         {
             if (!AdminInGuildOrOwnerInDm())

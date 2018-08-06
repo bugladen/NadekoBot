@@ -2629,6 +2629,13 @@
       "{0}crca 44"
     ]
   },
+  "crsreload": {
+    "Cmd": "crsreload",
+    "Desc": "Reloads all custom reactions on all shards. Use this if you've made changes to the database while the bot is running, or used `.deleteunusedcrnq`",
+    "Usage": [
+      "{0}crsreload"
+    ]
+  },
   "aliaslist": {
     "Cmd": "aliaslist cmdmaplist aliases",
     "Desc": "Shows the list of currently set aliases. Paginated.",

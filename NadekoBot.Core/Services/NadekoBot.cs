@@ -72,7 +72,7 @@ namespace NadekoBot
             Cache = new RedisCache(Credentials, shardId);
             _db = new DbService(Credentials);
 
-            if(shardId == 0)
+            if (shardId == 0)
             {
                 _db.Setup();
             }
@@ -134,9 +134,22 @@ namespace NadekoBot
             });
         }
 
+        private List<ulong> GetCurrentGuildIds()
+        {
+            return Client.Guilds.Select(x => x.Id).ToList();
+        }
+
+        public IEnumerable<GuildConfig> GetCurrentGuildConfigs()
+        {
+            using (var uow = _db.UnitOfWork)
+            {
+                return uow.GuildConfigs.GetAllGuildConfigs(GetCurrentGuildIds()).ToImmutableArray();
+            }
+        }
+
         private void AddServices()
         {
-            var startingGuildIdList = Client.Guilds.Select(x => x.Id).ToList();
+            var startingGuildIdList = GetCurrentGuildIds();
 
             //this unit of work will be used for initialization of all modules too, to prevent multiple queries from running
             using (var uow = _db.UnitOfWork)
