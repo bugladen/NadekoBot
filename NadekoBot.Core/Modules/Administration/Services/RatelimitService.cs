@@ -23,7 +23,7 @@ namespace NadekoBot.Modules.Administration.Services
         public class Options : INadekoCommandOptions
         {
             [Option('m', "message-count", Required = false, Default = 1, HelpText = "Number of messages user can send.")]
-            public uint MessageCount { get; set; } = 1;
+            public int MessageCount { get; set; } = 1;
 
             [Option('s', "seconds", Required = false, Default = 5, HelpText = "Interval in which the user can send the specified number of messages.")]
             public int PerSec { get; set; } = 5;
@@ -297,12 +297,14 @@ namespace NadekoBot.Modules.Administration.Services
             return !removed;
         }
 
-        public bool StartSlowmode(ulong id, uint msgCount, int perSec)
+        public bool StartSlowmode(ulong id, int msgCount, int perSec)
         {
+            if (msgCount < 0)
+                return false;
             // create a new ratelimiter object which holds the settings
             var rl = new Slowmoder
             {
-                MaxMessages = msgCount,
+                MaxMessages = (uint)msgCount,
                 PerSeconds = perSec,
             };
             // return whether it's added. If it's not added, the new settings are not applied

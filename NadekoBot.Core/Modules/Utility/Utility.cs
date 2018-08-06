@@ -251,7 +251,7 @@ namespace NadekoBot.Modules.Utility
             if (string.IsNullOrWhiteSpace(result))
                 await ReplyErrorLocalized("showemojis_none").ConfigureAwait(false);
             else
-                await Context.Channel.SendMessageAsync(result).ConfigureAwait(false);
+                await Context.Channel.SendMessageAsync(result.TrimTo(2000)).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]

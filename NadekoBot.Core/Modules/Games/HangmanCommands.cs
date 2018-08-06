@@ -7,6 +7,7 @@ using Discord.WebSocket;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Games.Common.Hangman;
 using NadekoBot.Modules.Games.Services;
+using NadekoBot.Modules.Games.Common.Hangman.Exceptions;
 
 namespace NadekoBot.Modules.Games
 {
@@ -33,7 +34,15 @@ namespace NadekoBot.Modules.Games
             [RequireContext(ContextType.Guild)]
             public async Task Hangman([Remainder]string type = "random")
             {
-                var hm = new Hangman(type, _service.TermPool);
+                Hangman hm;
+                try
+                {
+                    hm = new Hangman(type, _service.TermPool);
+                }
+                catch (TermNotFoundException)
+                {
+                    return;
+                }
 
                 if (!_service.HangmanGames.TryAdd(Context.Channel.Id, hm))
                 {

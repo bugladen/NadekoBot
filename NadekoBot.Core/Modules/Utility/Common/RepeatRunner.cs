@@ -59,7 +59,7 @@ namespace NadekoBot.Modules.Utility.Common
         {
             async Task ChannelMissingError()
             {
-                _log.Warn("Channel not found. Repeater stopped. ChannelId : {0}", Channel?.Id);
+                _log.Warn("Channel not found or insufficient permissions. Repeater stopped. ChannelId : {0}", Channel?.Id);
                 Stop();
                 await _mrs.RemoveRepeater(Repeater);
             }
@@ -100,14 +100,9 @@ namespace NadekoBot.Modules.Utility.Common
                 if (Channel != null)
                     oldMsg = await Channel.SendMessageAsync(toSend.SanitizeMentions()).ConfigureAwait(false);
             }
-            catch (HttpException ex) when (ex.HttpCode == System.Net.HttpStatusCode.Forbidden)
+            catch (HttpException ex)
             {
-                _log.Warn("Missing permissions. Repeater stopped. ChannelId : {0}", Channel?.Id);
-                Stop();
-                return;
-            }
-            catch (HttpException ex) when (ex.HttpCode == System.Net.HttpStatusCode.NotFound)
-            {
+                _log.Warn(ex.Message);
                 await ChannelMissingError().ConfigureAwait(false);
                 return;
             }

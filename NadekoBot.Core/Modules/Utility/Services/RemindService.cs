@@ -12,6 +12,7 @@ using NadekoBot.Core.Services.Impl;
 using NLog;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
+using Discord.Net;
 
 namespace NadekoBot.Modules.Utility.Services
 {
@@ -97,7 +98,7 @@ namespace NadekoBot.Modules.Utility.Services
                     .AddField("By", (await ch.GetUserAsync(r.UserId).ConfigureAwait(false))?.ToString() ?? r.UserId.ToString()),
                     msg: r.Message.SanitizeMentions()).ConfigureAwait(false);
             }
-            catch (Exception ex) { _log.Warn(ex); }
+            catch (Exception ex) { _log.Info(ex.Message + $"({r.Id})"); }
             finally
             {
                 using (var uow = _db.UnitOfWork)
@@ -105,10 +106,7 @@ namespace NadekoBot.Modules.Utility.Services
                     uow.Reminders.Remove(r);
                     await uow.CompleteAsync();
                 }
-                var _ = Task.Run(() =>
-                {
-                    RemoveReminder(r.Id);
-                });
+                RemoveReminder(r.Id);
             }
         }
 

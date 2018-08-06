@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
+using Discord.Net;
 using Discord.WebSocket;
 using Microsoft.EntityFrameworkCore;
 using NadekoBot.Core.Common.TypeReaders.Models;

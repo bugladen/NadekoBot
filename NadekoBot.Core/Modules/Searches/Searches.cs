@@ -694,7 +694,7 @@ namespace NadekoBot.Modules.Searches
             {
                 var result = await http.GetStringAsync("https://en.wikipedia.org//w/api.php?action=query&format=json&prop=info&redirects=1&formatversion=2&inprop=url&titles=" + Uri.EscapeDataString(query)).ConfigureAwait(false);
                 var data = JsonConvert.DeserializeObject<WikipediaApiModel>(result);
-                if (data.Query.Pages[0].Missing)
+                if (data.Query.Pages[0].Missing || string.IsNullOrWhiteSpace(data.Query.Pages[0].FullUrl))
                     await ReplyErrorLocalized("wiki_page_not_found").ConfigureAwait(false);
                 else
                     await Context.Channel.SendMessageAsync(data.Query.Pages[0].FullUrl).ConfigureAwait(false);
@@ -751,6 +751,13 @@ namespace NadekoBot.Modules.Searches
                 usr = (IGuildUser)Context.User;
 
             var avatarUrl = usr.RealAvatarUrl();
+
+            if (avatarUrl == null)
+            {
+                await ReplyErrorLocalized("avatar_none", usr.ToString()).ConfigureAwait(false);
+                return;
+            }
+
             var shortenedAvatarUrl = await _google.ShortenUrl(avatarUrl).ConfigureAwait(false);
             await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                 .AddField(efb => efb.WithName("Username").WithValue(usr.ToString()).WithIsInline(false))

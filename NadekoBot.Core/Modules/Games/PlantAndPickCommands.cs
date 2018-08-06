@@ -35,7 +35,7 @@ namespace NadekoBot.Modules.Games
 
                 if (((SocketGuild)Context.Guild).CurrentUser.GuildPermissions.ManageMessages)
                 {
-                    await Context.Message.DeleteAsync().ConfigureAwait(false);
+                    try { await Context.Message.DeleteAsync().ConfigureAwait(false); } catch { }
                 }
             }
 

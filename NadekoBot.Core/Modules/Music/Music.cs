@@ -718,7 +718,16 @@ namespace NadekoBot.Modules.Music
 
             var mp = await _service.GetOrCreatePlayer(Context).ConfigureAwait(false);
 
-            var plId = (await _google.GetPlaylistIdsByKeywordsAsync(playlist).ConfigureAwait(false)).FirstOrDefault();
+            string plId = null;
+            try
+            {
+                plId = (await _google.GetPlaylistIdsByKeywordsAsync(playlist).ConfigureAwait(false)).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                _log.Warn(ex.Message);
+            }
+
             if (plId == null)
             {
                 await ReplyErrorLocalized("no_search_results").ConfigureAwait(false);
