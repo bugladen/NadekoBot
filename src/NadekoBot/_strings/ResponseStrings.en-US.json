@@ -714,6 +714,7 @@
   "administration_warn_punish_list": "Warning punishment list",
   "administration_warn_punish_rem": "Having {0} warnings will no longer trigger a punishment.",
   "administration_warn_punish_set": "I will apply {0} punishment to users with {1} warnings.",
+  "administration_warn_no_perms": "I can't apply punishment. Missing permissions.",
   "administration_slowmodewl_role_start": "Slowmode will now ignore {0} role.",
   "administration_slowmodewl_role_stop": "Slowmode will no longer ignore {0} role.",
   "administration_slowmodewl_user_start": "Slowmode will now ignore user {0}.",

@@ -6,7 +6,6 @@ using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Core.Services.Impl
@@ -61,7 +60,7 @@ namespace NadekoBot.Core.Services.Impl
         public Task SetAnimeDataAsync(string key, string data)
         {
             var _db = Redis.GetDatabase();
-            return _db.StringSetAsync("anime_" + key, data);
+            return _db.StringSetAsync("anime_" + key, data, expiry: TimeSpan.FromHours(3));
         }
 
         public async Task<(bool Success, string Data)> TryGetNovelDataAsync(string key)
@@ -74,7 +73,7 @@ namespace NadekoBot.Core.Services.Impl
         public Task SetNovelDataAsync(string key, string data)
         {
             var _db = Redis.GetDatabase();
-            return _db.StringSetAsync("novel_" + key, data);
+            return _db.StringSetAsync("novel_" + key, data, expiry: TimeSpan.FromHours(3));
         }
 
         private readonly object timelyLock = new object();
@@ -134,7 +133,7 @@ namespace NadekoBot.Core.Services.Impl
         public Task SetStreamDataAsync(string url, string data)
         {
             var _db = Redis.GetDatabase();
-            return _db.StringSetAsync($"{_redisKey}_stream_{url}", data);
+            return _db.StringSetAsync($"{_redisKey}_stream_{url}", data, expiry: TimeSpan.FromHours(6));
         }
 
         public bool TryGetStreamData(string url, out string dataStr)
