@@ -420,10 +420,10 @@ namespace NadekoBot.Modules.CustomReactions.Services
             using (var uow = _db.UnitOfWork)
             {
                 var cr = uow.CustomReactions.GetById(id);
-                if (cr.GuildId == guildId)
-                    return cr;
-                else
+                if (cr == null || cr.GuildId != guildId)
                     return null;
+                else
+                    return cr;
             }
         }
 

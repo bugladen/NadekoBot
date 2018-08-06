@@ -33,7 +33,13 @@ namespace NadekoBot.Modules.Games
 
                 var poll = _service.CreatePoll(Context.Guild.Id,
                     Context.Channel.Id, arg);
+                if(poll == null)
+                {
+                    await ReplyErrorLocalized("poll_invalid_input").ConfigureAwait(false);
+                    return;
+                }
                 if (_service.StartPoll(poll))
+                {
                     await Context.Channel
                         .EmbedAsync(new EmbedBuilder()
                             .WithTitle(GetText("poll_created", Context.User.ToString()))
@@ -42,8 +48,11 @@ namespace NadekoBot.Modules.Games
                             string.Join("\n", poll.Answers
                                 .Select(x => $"`{x.Index + 1}.` {Format.Bold(x.Text)}"))))
                         .ConfigureAwait(false);
+                }
                 else
+                {
                     await ReplyErrorLocalized("poll_already_running").ConfigureAwait(false);
+                }
             }
 
             [NadekoCommand, Usage, Description, Aliases]

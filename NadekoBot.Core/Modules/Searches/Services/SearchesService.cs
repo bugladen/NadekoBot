@@ -275,8 +275,8 @@ namespace NadekoBot.Modules.Searches.Services
             {
                 var html = document.QuerySelector(".post > .joke-body-wrap > .joke-content");
 
-                var part1 = html.QuerySelector("dt").TextContent;
-                var part2 = html.QuerySelector("dd").TextContent;
+                var part1 = html.QuerySelector("dt")?.TextContent;
+                var part2 = html.QuerySelector("dd")?.TextContent;
 
                 return (part1 + "\n\n" + part2, document.BaseUri);
             }
