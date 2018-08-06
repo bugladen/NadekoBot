@@ -47,7 +47,7 @@ namespace NadekoBot.Modules.Administration.Services
         private readonly Logger _log;
         private readonly DiscordSocketClient _client;
 
-        private Timer _deleteTimer;
+        private readonly Timer _deleteTimer;
         // channels with a queue of messages scheduled for deletion
         public ConcurrentDictionary<(ulong GuildId, ulong ChannelId), ConcurrentQueue<ulong>> SlowmodeToDelete { get; }
             = new ConcurrentDictionary<(ulong, ulong), ConcurrentQueue<ulong>>();
