@@ -68,7 +68,7 @@ namespace NadekoBot.Core.Services.Database.Models
 
         public string MuteRoleName { get; set; }
         public bool CleverbotEnabled { get; set; }
-        public HashSet<Repeater> GuildRepeaters { get; set; } = new HashSet<Repeater>();
+        public List<Repeater> GuildRepeaters { get; set; } = new List<Repeater>();
 
         public AntiRaidSetting AntiRaidSetting { get; set; }
         public AntiSpamSetting AntiSpamSetting { get; set; }
