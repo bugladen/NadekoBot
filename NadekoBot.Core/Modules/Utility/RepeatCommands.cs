@@ -189,7 +189,7 @@ namespace NadekoBot.Modules.Utility
                 {
                     var rep = replist[i];
 
-                    sb.AppendLine($"`{i + 1}.` {rep}");
+                    sb.AppendLine($"`{i + 1}.` {rep.Value}");
                 }
                 var desc = sb.ToString();
 
