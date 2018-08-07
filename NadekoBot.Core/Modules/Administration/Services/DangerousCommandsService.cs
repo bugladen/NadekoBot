@@ -27,10 +27,10 @@ DELETE FROM ClubApplicants;
 DELETE FROM ClubBans;
 DELETE FROM Clubs;";
         public const string DeleteUnusedCustomReactionsAndQuotes = @"DELETE FROM CustomReactions 
-WHERE UseCount=0 AND DateAdded < date('now', '-7 day');
+WHERE UseCount=0 AND (DateAdded < date('now', '-7 day') OR DateAdded is null);
 
 DELETE FROM Quotes 
-WHERE UseCount=0 AND DateAdded < date('now', '-7 day');";
+WHERE UseCount=0 AND (DateAdded < date('now', '-7 day') OR DateAdded is null);";
 
         private readonly DbService _db;
 

@@ -38,7 +38,6 @@ namespace NadekoBot.Core.Services.Database
         public DbSet<Warning> Warnings { get; set; }
         public DbSet<UserXpStats> UserXpStats { get; set; }
         public DbSet<ClubInfo> Clubs { get; set; }
-        public DbSet<LoadedPackage> LoadedPackages { get; set; }
 
         //logging
         public DbSet<LogSetting> LogSettings { get; set; }

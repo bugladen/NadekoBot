@@ -150,7 +150,9 @@ namespace NadekoBot.Modules.Administration.Services
             using (var uow = _db.UnitOfWork)
             {
                 var ps = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.WarnPunishments)).WarnPunishments;
-                ps.RemoveAll(x => x.Count == number);
+                var toDelete = ps.Where(x => x.Count == number);
+
+                uow._context.RemoveRange(toDelete);
 
                 ps.Add(new WarningPunishment()
                 {

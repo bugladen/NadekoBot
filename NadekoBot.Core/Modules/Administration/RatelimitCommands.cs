@@ -56,7 +56,7 @@ namespace NadekoBot.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
             [Priority(0)]
-            public async Task SlowmodeWhitelist(IGuildUser user)
+            public async Task SlowmodeWhitelist([Remainder]IGuildUser user)
             {
                 bool added = _service.ToggleWhitelistUser(user.Guild.Id, user.Id);
 
@@ -70,7 +70,7 @@ namespace NadekoBot.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
             [Priority(1)]
-            public async Task SlowmodeWhitelist(IRole role)
+            public async Task SlowmodeWhitelist([Remainder]IRole role)
             {
                 bool added = _service.ToggleWhitelistRole(role.Guild.Id, role.Id);
 

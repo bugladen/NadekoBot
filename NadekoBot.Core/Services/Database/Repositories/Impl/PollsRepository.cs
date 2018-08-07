@@ -24,8 +24,16 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
                 .Include(x => x.Answers)
                 .Include(x => x.Votes)
                 .FirstOrDefault(x => x.Id == id);
-            p.Votes.Clear();
-            p.Answers.Clear();
+            if (p.Votes != null)
+            {
+                _context.Set<PollVote>().RemoveRange(p.Votes);
+                p.Votes.Clear();
+            }
+            if (p.Answers != null)
+            {
+                _context.Set<PollAnswer>().RemoveRange(p.Answers);
+                p.Answers.Clear();
+            }
             _set.Remove(p);
         }
     }
