@@ -173,10 +173,14 @@ namespace NadekoBot.Modules.Administration.Services
                 {
                     var config = uow.GuildConfigs.ForId(guildId, set => set.Include(gc => gc.MutedUsers)
                         .Include(gc => gc.UnmuteTimers));
-                    config.MutedUsers.Remove(new MutedUserId()
+                    var toRemove = config.MutedUsers.FirstOrDefault(x => x == new MutedUserId()
                     {
                         UserId = usrId
                     });
+                    if (toRemove != null)
+                    {
+                        uow._context.Remove(toRemove);
+                    }
                     if (MutedUsers.TryGetValue(guildId, out ConcurrentHashSet<ulong> muted))
                         muted.TryRemove(usrId);
 

@@ -66,7 +66,9 @@ namespace NadekoBot.Modules.Utility
                             Mapping = mapping,
                             Trigger = trigger
                         };
-                        config.CommandAliases.RemoveWhere(x => x.Trigger == trigger);
+                        var tr = config.CommandAliases.FirstOrDefault(x => x.Trigger == trigger);
+                        if (tr != null)
+                            uow._context.Set<CommandAlias>().Remove(tr);
                         uow.Complete();
                     }
 

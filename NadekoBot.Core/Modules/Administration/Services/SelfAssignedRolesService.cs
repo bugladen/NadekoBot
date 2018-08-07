@@ -143,7 +143,7 @@ namespace NadekoBot.Core.Modules.Administration.Services
                 {
                     if (toUpdate != null)
                     {
-                        gc.SelfAssignableRoleGroupNames.Remove(toUpdate);
+                        uow._context.Set<GroupName>().Remove(toUpdate);
                     }
                 }
                 else if (toUpdate == null)

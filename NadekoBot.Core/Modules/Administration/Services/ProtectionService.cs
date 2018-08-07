@@ -218,7 +218,7 @@ namespace NadekoBot.Modules.Administration.Services
             }
             await OnAntiProtectionTriggered(action, pt, gus).ConfigureAwait(false);
         }
-        
+
         public async Task<AntiRaidStats> StartAntiRaidAsync(ulong guildId, int userThreshold, int seconds, PunishmentAction action)
         {
 
@@ -348,7 +348,9 @@ namespace NadekoBot.Modules.Administration.Services
                 {
                     spam.IgnoredChannels.Remove(obj);
                     if (_antiSpamGuilds.TryGetValue(guildId, out var temp))
-                        temp.AntiSpamSettings.IgnoredChannels.Remove(obj);
+                    {
+                        uow._context.Set<AntiSpamIgnore>().Remove(obj);
+                    }
                     added = false;
                 }
 

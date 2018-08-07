@@ -240,7 +240,9 @@ namespace NadekoBot.Modules.Searches.Services
                     added = true;
                 else
                 {
-                    gc.NsfwBlacklistedTags.Remove(tagObj);
+                    var toRemove = gc.NsfwBlacklistedTags.FirstOrDefault(x => x == tagObj);
+                    if (toRemove != null)
+                        uow._context.Remove(toRemove);
                     added = false;
                 }
                 var newTags = new HashSet<string>(gc.NsfwBlacklistedTags.Select(x => x.Tag));

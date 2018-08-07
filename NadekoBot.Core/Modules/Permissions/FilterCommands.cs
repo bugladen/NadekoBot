@@ -46,7 +46,7 @@ namespace NadekoBot.Modules.Permissions
                     enabled = config.FilterInvites = !config.FilterInvites;
                     await uow.CompleteAsync();
                 }
-                
+
                 if (enabled)
                 {
                     _service.InviteFilteringServers.Add(channel.Guild.Id);
@@ -65,22 +65,26 @@ namespace NadekoBot.Modules.Permissions
             {
                 var channel = (ITextChannel)Context.Channel;
 
-                int removed;
+                FilterChannelId removed;
                 using (var uow = _db.UnitOfWork)
                 {
                     var config = uow.GuildConfigs.ForId(channel.Guild.Id, set => set.Include(gc => gc.FilterInvitesChannelIds));
-                    removed = config.FilterInvitesChannelIds.RemoveWhere(fc => fc.ChannelId == channel.Id);
-                    if (removed == 0)
+                    removed = config.FilterInvitesChannelIds.FirstOrDefault(fc => fc.ChannelId == channel.Id);
+                    if (removed == null)
                     {
                         config.FilterInvitesChannelIds.Add(new FilterChannelId()
                         {
                             ChannelId = channel.Id
                         });
                     }
+                    else
+                    {
+                        uow._context.Remove(removed);
+                    }
                     await uow.CompleteAsync();
                 }
 
-                if (removed == 0)
+                if (removed == null)
                 {
                     _service.InviteFilteringChannels.Add(channel.Id);
                     await ReplyConfirmLocalized("invite_filter_channel_on").ConfigureAwait(false);
@@ -124,22 +128,26 @@ namespace NadekoBot.Modules.Permissions
             {
                 var channel = (ITextChannel)Context.Channel;
 
-                int removed;
+                FilterChannelId removed;
                 using (var uow = _db.UnitOfWork)
                 {
                     var config = uow.GuildConfigs.ForId(channel.Guild.Id, set => set.Include(gc => gc.FilterWordsChannelIds));
-                    removed = config.FilterWordsChannelIds.RemoveWhere(fc => fc.ChannelId == channel.Id);
-                    if (removed == 0)
+                    removed = config.FilterWordsChannelIds.FirstOrDefault(fc => fc.ChannelId == channel.Id);
+                    if (removed == null)
                     {
                         config.FilterWordsChannelIds.Add(new FilterChannelId()
                         {
                             ChannelId = channel.Id
                         });
                     }
+                    else
+                    {
+                        uow._context.Remove(removed);
+                    }
                     await uow.CompleteAsync();
                 }
 
-                if (removed == 0)
+                if (removed == null)
                 {
                     _service.WordFilteringChannels.Add(channel.Id);
                     await ReplyConfirmLocalized("word_filter_channel_on").ConfigureAwait(false);
@@ -162,22 +170,26 @@ namespace NadekoBot.Modules.Permissions
                 if (string.IsNullOrWhiteSpace(word))
                     return;
 
-                int removed;
+                FilteredWord removed;
                 using (var uow = _db.UnitOfWork)
                 {
                     var config = uow.GuildConfigs.ForId(channel.Guild.Id, set => set.Include(gc => gc.FilteredWords));
 
-                    removed = config.FilteredWords.RemoveWhere(fw => fw.Word.Trim().ToLowerInvariant() == word);
+                    removed = config.FilteredWords.FirstOrDefault(fw => fw.Word.Trim().ToLowerInvariant() == word);
 
-                    if (removed == 0)
+                    if (removed == null)
                         config.FilteredWords.Add(new FilteredWord() { Word = word });
+                    else
+                    {
+                        uow._context.Remove(removed);
+                    }
 
                     await uow.CompleteAsync();
                 }
 
                 var filteredWords = _service.ServerFilteredWords.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<string>());
 
-                if (removed == 0)
+                if (removed == null)
                 {
                     filteredWords.Add(word);
                     await ReplyConfirmLocalized("filter_word_add", Format.Code(word)).ConfigureAwait(false);
