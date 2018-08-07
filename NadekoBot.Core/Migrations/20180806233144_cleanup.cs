@@ -24,7 +24,7 @@ DELETE FROM CommandCooldown
 WHERE GuildConfigId is null;
 
 DELETE FROM CustomReactions
-WHERE GuildId='' or GuildId is null;
+WHERE GuildId='';
 
 DELETE FROM DelMsgOnCmdChannel
 WHERE GuildConfigId is null or ChannelId < 1000;
