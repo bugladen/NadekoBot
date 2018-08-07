@@ -49,7 +49,9 @@ namespace NadekoBot.Modules.Utility.Services
             using (var uow = _db.UnitOfWork)
             {
                 var gr = uow.GuildConfigs.ForId(r.GuildId, x => x.Include(y => y.GuildRepeaters)).GuildRepeaters;
-                uow._context.Set<Repeater>().Remove(r);
+                var toDelete = gr.FirstOrDefault(x => x.Id == r.Id);
+                if (toDelete != null)
+                    uow._context.Set<Repeater>().Remove(toDelete);
                 await uow.CompleteAsync();
             }
         }
