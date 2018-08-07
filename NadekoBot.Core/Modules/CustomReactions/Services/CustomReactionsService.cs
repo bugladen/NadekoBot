@@ -184,16 +184,15 @@ namespace NadekoBot.Modules.CustomReactions.Services
                         {
                             if (reaction.Response == "-")
                                 return null;
-
-                            using (var uow = _db.UnitOfWork)
-                            {
-                                var rObj = uow.CustomReactions.GetById(reaction.Id);
-                                if (rObj != null)
-                                {
-                                    rObj.UseCount += 1;
-                                    uow.Complete();
-                                }
-                            }
+                            //using (var uow = _db.UnitOfWork)
+                            //{
+                            //    var rObj = uow.CustomReactions.GetById(reaction.Id);
+                            //    if (rObj != null)
+                            //    {
+                            //        rObj.UseCount += 1;
+                            //        uow.Complete();
+                            //    }
+                            //}
                             return reaction;
                         }
                     }
