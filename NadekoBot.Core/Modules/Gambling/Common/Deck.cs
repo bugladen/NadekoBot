@@ -132,7 +132,7 @@ namespace NadekoBot.Modules.Gambling.Common
                 "🇶",
                 "🇰"
             };
-            private static IReadOnlyDictionary<CardSuit, string> _suitToSuitChar = new Dictionary<CardSuit, string>
+            private static readonly IReadOnlyDictionary<CardSuit, string> _suitToSuitChar = new Dictionary<CardSuit, string>
             {
                 {CardSuit.Diamonds, "♦"},
                 {CardSuit.Clubs, "♣"},
@@ -242,59 +242,47 @@ namespace NadekoBot.Modules.Gambling.Common
 
         private static void InitHandValues()
         {
-            Func<List<Card>, bool> hasPair =
-                                  cards => cards.GroupBy(card => card.Number)
+            bool hasPair(List<Card> cards) => cards.GroupBy(card => card.Number)
                                                 .Count(group => group.Count() == 2) == 1;
-            Func<List<Card>, bool> isPair =
-                                  cards => cards.GroupBy(card => card.Number)
+            bool isPair(List<Card> cards) => cards.GroupBy(card => card.Number)
                                                 .Count(group => group.Count() == 3) == 0
                                            && hasPair(cards);
 
-            Func<List<Card>, bool> isTwoPair =
-                                  cards => cards.GroupBy(card => card.Number)
+            bool isTwoPair(List<Card> cards) => cards.GroupBy(card => card.Number)
                                                 .Count(group => group.Count() == 2) == 2;
 
-            Func<List<Card>, bool> isStraight =
-                cards =>
-                {
-                    if (cards.GroupBy(card => card.Number).Count() != cards.Count())
-                        return false;
-                    var toReturn = (cards.Max(card => (int)card.Number)
-                                        - cards.Min(card => (int)card.Number) == 4);
-                    if (toReturn || cards.All(c => c.Number != 1)) return toReturn;
+            bool isStraight(List<Card> cards)
+            {
+                if (cards.GroupBy(card => card.Number).Count() != cards.Count())
+                    return false;
+                var toReturn = (cards.Max(card => (int)card.Number)
+                                    - cards.Min(card => (int)card.Number) == 4);
+                if (toReturn || cards.All(c => c.Number != 1)) return toReturn;
 
-                    var newCards = cards.Select(c => c.Number == 1 ? new Card(c.Suit, 14) : c);
-                    return (newCards.Max(card => (int)card.Number)
-                            - newCards.Min(card => (int)card.Number) == 4);
-                };
+                var newCards = cards.Select(c => c.Number == 1 ? new Card(c.Suit, 14) : c);
+                return (newCards.Max(card => (int)card.Number)
+                        - newCards.Min(card => (int)card.Number) == 4);
+            }
 
-            Func<List<Card>, bool> hasThreeOfKind =
-                                  cards => cards.GroupBy(card => card.Number)
+            bool hasThreeOfKind(List<Card> cards) => cards.GroupBy(card => card.Number)
                                                 .Any(group => group.Count() == 3);
 
-            Func<List<Card>, bool> isThreeOfKind =
-                                  cards => hasThreeOfKind(cards) && !hasPair(cards);
+            bool isThreeOfKind(List<Card> cards) => hasThreeOfKind(cards) && !hasPair(cards);
 
-            Func<List<Card>, bool> isFlush =
-                                  cards => cards.GroupBy(card => card.Suit).Count() == 1;
+            bool isFlush(List<Card> cards) => cards.GroupBy(card => card.Suit).Count() == 1;
 
-            Func<List<Card>, bool> isFourOfKind =
-                                  cards => cards.GroupBy(card => card.Number)
+            bool isFourOfKind(List<Card> cards) => cards.GroupBy(card => card.Number)
                                                 .Any(group => group.Count() == 4);
 
-            Func<List<Card>, bool> isFullHouse =
-                                  cards => hasPair(cards) && hasThreeOfKind(cards);
+            bool isFullHouse(List<Card> cards) => hasPair(cards) && hasThreeOfKind(cards);
 
-            Func<List<Card>, bool> hasStraightFlush =
-                                  cards => isFlush(cards) && isStraight(cards);
+            bool hasStraightFlush(List<Card> cards) => isFlush(cards) && isStraight(cards);
 
-            Func<List<Card>, bool> isRoyalFlush =
-                                  cards => cards.Min(card => card.Number) == 1 &&
+            bool isRoyalFlush(List<Card> cards) => cards.Min(card => card.Number) == 1 &&
                                            cards.Max(card => card.Number) == 13
                                            && hasStraightFlush(cards);
 
-            Func<List<Card>, bool> isStraightFlush =
-                                  cards => hasStraightFlush(cards) && !isRoyalFlush(cards);
+            bool isStraightFlush(List<Card> cards) => hasStraightFlush(cards) && !isRoyalFlush(cards);
 
             handValues = new Dictionary<string, Func<List<Card>, bool>>
             {

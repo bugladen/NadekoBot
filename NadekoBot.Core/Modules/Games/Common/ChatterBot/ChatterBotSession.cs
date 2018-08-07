@@ -13,7 +13,7 @@ namespace NadekoBot.Modules.Games.Common.ChatterBot
 
         private readonly string _chatterBotId;
         private readonly IHttpClientFactory _httpFactory;
-        private int _botId = 6;
+        private readonly int _botId = 6;
 
         public ChatterBotSession(IHttpClientFactory httpFactory)
         {
@@ -21,7 +21,7 @@ namespace NadekoBot.Modules.Games.Common.ChatterBot
             _httpFactory = httpFactory;
         }
 
-        private string apiEndpoint => "http://api.program-o.com/v2/chatbot/" +
+        private string ApiEndpoint => "http://api.program-o.com/v2/chatbot/" +
                                       $"?bot_id={_botId}&" +
                                       "say={0}&" +
                                       $"convo_id=nadekobot_{_chatterBotId}&" +
@@ -31,7 +31,7 @@ namespace NadekoBot.Modules.Games.Common.ChatterBot
         {
             using (var http = _httpFactory.CreateClient())
             {
-                var res = await http.GetStringAsync(string.Format(apiEndpoint, message)).ConfigureAwait(false);
+                var res = await http.GetStringAsync(string.Format(ApiEndpoint, message)).ConfigureAwait(false);
                 var cbr = JsonConvert.DeserializeObject<ChatterBotResponse>(res);
                 return cbr.BotSay.Replace("<br/>", "\n", StringComparison.InvariantCulture);
             }

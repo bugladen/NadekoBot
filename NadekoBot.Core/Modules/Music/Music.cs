@@ -261,7 +261,8 @@ namespace NadekoBot.Modules.Music
                 total.Minutes,
                 total.Seconds);
             var maxPlaytime = mp.MaxPlaytimeSeconds;
-            Func<int, EmbedBuilder> printAction = curPage =>
+
+            EmbedBuilder printAction(int curPage)
             {
                 var startAt = itemsPerPage * curPage;
                 var number = 0 + startAt;
@@ -310,7 +311,8 @@ namespace NadekoBot.Modules.Music
                     .WithOkColor();
 
                 return embed;
-            };
+            }
+
             await Context.SendPaginatedConfirmAsync(page, printAction, songs.Length,
                 itemsPerPage, false).ConfigureAwait(false);
         }

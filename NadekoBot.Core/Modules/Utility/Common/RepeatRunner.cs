@@ -24,7 +24,6 @@ namespace NadekoBot.Modules.Utility.Common
         public ITextChannel Channel { get; private set; }
         public TimeSpan InitialInterval { get; private set; }
 
-        private IUserMessage oldMsg = null;
         private Timer _t;
 
         public RepeatRunner(SocketGuild guild, Repeater repeater, MessageRepeaterService mrs)
@@ -66,12 +65,16 @@ namespace NadekoBot.Modules.Utility.Common
 
             var toSend = "🔄 " + Repeater.Message;
 
-            if (oldMsg != null && !Repeater.NoRedundant)
+            if (Repeater.LastMessageId != null && !Repeater.NoRedundant)
             {
                 try
                 {
-                    await oldMsg.DeleteAsync().ConfigureAwait(false);
-                    oldMsg = null;
+                    var oldMsg = await Channel.GetMessageAsync(Repeater.LastMessageId.Value).ConfigureAwait(false);
+                    if (oldMsg != null)
+                    {
+                        await oldMsg.DeleteAsync().ConfigureAwait(false);
+                        oldMsg = null;
+                    }
                 }
                 catch
                 {
@@ -89,16 +92,20 @@ namespace NadekoBot.Modules.Utility.Common
                     return;
                 }
 
-
                 if (Repeater.NoRedundant)
                 {
                     var lastMsgInChannel = (await Channel.GetMessagesAsync(2).FlattenAsync().ConfigureAwait(false)).FirstOrDefault();
-                    if (lastMsgInChannel != null && lastMsgInChannel.Id == oldMsg?.Id) //don't send if it's the same message in the channel
+                    if (lastMsgInChannel != null && lastMsgInChannel.Id == Repeater.LastMessageId) //don't send if it's the same message in the channel
                         return;
                 }
 
-                if (Channel != null)
-                    oldMsg = await Channel.SendMessageAsync(toSend.SanitizeMentions()).ConfigureAwait(false);
+                var newMsg = await Channel.SendMessageAsync(toSend.SanitizeMentions()).ConfigureAwait(false);
+
+                if (Repeater.NoRedundant)
+                {
+                    _mrs.SetRepeaterLastMessage(Repeater.Id, newMsg.Id);
+                    Repeater.LastMessageId = newMsg.Id;
+                }
             }
             catch (HttpException ex)
             {
