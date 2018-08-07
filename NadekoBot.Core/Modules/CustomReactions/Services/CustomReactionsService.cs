@@ -260,8 +260,7 @@ namespace NadekoBot.Modules.CustomReactions.Services
                 }
                 catch (Exception ex)
                 {
-                    _log.Warn("Sending CREmbed failed");
-                    _log.Warn(ex);
+                    _log.Warn(ex.Message);
                 }
             }
             return false;
