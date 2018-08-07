@@ -101,6 +101,7 @@ namespace NadekoBot.Modules.CustomReactions.Services
             using (var uow = _db.UnitOfWork)
             {
                 ReloadInternal(allGuildConfigs, uow);
+                uow.Complete();
             }
         }
 
