@@ -127,7 +127,11 @@ namespace NadekoBot.Modules.Administration.Services
             using (var uow = _db.UnitOfWork)
             {
                 var conf = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.VcRoleInfos));
-                conf.VcRoleInfos.RemoveWhere(x => x.VoiceChannelId == vcId); // remove old one
+                var toDelete = conf.VcRoleInfos.FirstOrDefault(x => x.VoiceChannelId == vcId); // remove old one
+                if(toDelete != null)
+                {
+                    uow._context.Remove(toDelete);
+                }
                 conf.VcRoleInfos.Add(new VcRoleInfo()
                 {
                     VoiceChannelId = vcId,

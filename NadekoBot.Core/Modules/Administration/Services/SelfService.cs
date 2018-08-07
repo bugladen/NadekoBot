@@ -389,7 +389,7 @@ namespace NadekoBot.Modules.Administration.Services
 
                 if (cmd != null)
                 {
-                    cmds.Remove(cmd);
+                    uow._context.Remove(cmd);
                     if (_autoCommands.TryGetValue(cmd.GuildId, out var autos))
                         if (autos.TryRemove(cmd.Id, out var timer))
                             timer.Change(Timeout.Infinite, Timeout.Infinite);

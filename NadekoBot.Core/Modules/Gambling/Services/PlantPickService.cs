@@ -83,7 +83,11 @@ namespace NadekoBot.Modules.Gambling.Services
                 }
                 else
                 {
-                    guildConfig.GenerateCurrencyChannelIds.Remove(toAdd);
+                    var toDelete = guildConfig.GenerateCurrencyChannelIds.FirstOrDefault(x => x == toAdd);
+                    if (toDelete != null)
+                    {
+                        uow._context.Remove(toDelete);
+                    }
                     _generationChannels.TryRemove(cid);
                     enabled = false;
                 }

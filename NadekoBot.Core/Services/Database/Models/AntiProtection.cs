@@ -22,7 +22,6 @@ namespace NadekoBot.Core.Services.Database.Models
         public HashSet<AntiSpamIgnore> IgnoredChannels { get; set; } = new HashSet<AntiSpamIgnore>();
     }
 
-
     public enum PunishmentAction
     {
         Mute,

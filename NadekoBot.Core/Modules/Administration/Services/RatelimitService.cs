@@ -238,9 +238,17 @@ namespace NadekoBot.Modules.Administration.Services
                 usrs = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.SlowmodeIgnoredUsers))
                     .SlowmodeIgnoredUsers;
 
+                var toDelete = usrs.FirstOrDefault(x => x == siu);
+                removed = toDelete != null;
                 // try removing - if remove is unsuccessful, add
-                if (!(removed = usrs.Remove(siu)))
+                if (removed)
+                {
+                    uow._context.Remove(toDelete);
+                }
+                else
+                {
                     usrs.Add(siu);
+                }
 
                 uow.Complete();
             }
@@ -275,9 +283,16 @@ namespace NadekoBot.Modules.Administration.Services
             {
                 roles = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.SlowmodeIgnoredRoles))
                     .SlowmodeIgnoredRoles;
-                // try removing the role - if it's not removed, add it
-                if (!(removed = roles.Remove(sir)))
+                var toDelete = roles.FirstOrDefault(x => x == sir);
+                removed = toDelete != null;
+                if (removed)
+                {
+                    uow._context.Remove(toDelete);
+                }
+                else
+                {
                     roles.Add(sir);
+                }
 
                 uow.Complete();
             }

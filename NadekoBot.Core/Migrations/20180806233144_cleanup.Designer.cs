@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NadekoBot.Core.Services.Database;
 
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoContext))]
-    partial class NadekoSqliteContextModelSnapshot : ModelSnapshot
+    [Migration("20180806233144_cleanup")]
+    partial class cleanup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -742,6 +744,24 @@ namespace NadekoBot.Migrations
                     b.HasIndex("LogSettingId");
 
                     b.ToTable("IgnoredVoicePresenceCHannels");
+                });
+
+            modelBuilder.Entity("NadekoBot.Core.Services.Database.Models.LoadedPackage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("BotConfigId");
+
+                    b.Property<DateTime?>("DateAdded");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BotConfigId");
+
+                    b.ToTable("LoadedPackages");
                 });
 
             modelBuilder.Entity("NadekoBot.Core.Services.Database.Models.LogSetting", b =>
@@ -1963,6 +1983,13 @@ namespace NadekoBot.Migrations
                     b.HasOne("NadekoBot.Core.Services.Database.Models.LogSetting", "LogSetting")
                         .WithMany("IgnoredVoicePresenceChannelIds")
                         .HasForeignKey("LogSettingId");
+                });
+
+            modelBuilder.Entity("NadekoBot.Core.Services.Database.Models.LoadedPackage", b =>
+                {
+                    b.HasOne("NadekoBot.Core.Services.Database.Models.BotConfig")
+                        .WithMany("LoadedPackages")
+                        .HasForeignKey("BotConfigId");
                 });
 
             modelBuilder.Entity("NadekoBot.Core.Services.Database.Models.MusicSettings", b =>

@@ -98,7 +98,8 @@ namespace NadekoBot.Modules.Administration.Services
                 if (index >= config.RotatingStatusMessages.Count)
                     return null;
                 msg = config.RotatingStatusMessages[index].Status;
-                config.RotatingStatusMessages.RemoveAt(index);
+                var remove = config.RotatingStatusMessages[index];
+                uow._context.Remove(remove);
                 await uow.CompleteAsync();
             }
 

@@ -101,6 +101,7 @@ namespace NadekoBot.Modules.CustomReactions.Services
             using (var uow = _db.UnitOfWork)
             {
                 ReloadInternal(allGuildConfigs, uow);
+                uow.Complete();
             }
         }
 
@@ -183,16 +184,15 @@ namespace NadekoBot.Modules.CustomReactions.Services
                         {
                             if (reaction.Response == "-")
                                 return null;
-
-                            using (var uow = _db.UnitOfWork)
-                            {
-                                var rObj = uow.CustomReactions.GetById(reaction.Id);
-                                if (rObj != null)
-                                {
-                                    rObj.UseCount += 1;
-                                    uow.Complete();
-                                }
-                            }
+                            //using (var uow = _db.UnitOfWork)
+                            //{
+                            //    var rObj = uow.CustomReactions.GetById(reaction.Id);
+                            //    if (rObj != null)
+                            //    {
+                            //        rObj.UseCount += 1;
+                            //        uow.Complete();
+                            //    }
+                            //}
                             return reaction;
                         }
                     }
@@ -260,8 +260,7 @@ namespace NadekoBot.Modules.CustomReactions.Services
                 }
                 catch (Exception ex)
                 {
-                    _log.Warn("Sending CREmbed failed");
-                    _log.Warn(ex);
+                    _log.Warn(ex.Message);
                 }
             }
             return false;

@@ -103,7 +103,9 @@ namespace NadekoBot.Modules.Permissions
                     using (var uow = _db.UnitOfWork)
                     {
                         var bc = uow.BotConfig.GetOrCreate(set => set.Include(x => x.BlockedCommands));
-                        bc.BlockedCommands.RemoveWhere(x => x.Name == commandName);
+                        var obj = bc.BlockedCommands.FirstOrDefault(x => x.Name == commandName);
+                        if (obj != null)
+                            uow._context.Set<BlockedCmdOrMdl>().Remove(obj);
                         uow.Complete();
                     }
                     await ReplyConfirmLocalized("gcmd_remove", Format.Bold(cmd.Name)).ConfigureAwait(false);
