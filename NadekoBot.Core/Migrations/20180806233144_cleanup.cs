@@ -23,9 +23,6 @@ WHERE GuildConfigId is null;
 DELETE FROM CommandCooldown
 WHERE GuildConfigId is null;
 
-DELETE FROM Currency
-WHERE UserId <= 12345679987654321;
-
 DELETE FROM CustomReactions
 WHERE GuildId='' or GuildId is null;
 
