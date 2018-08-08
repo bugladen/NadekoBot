@@ -56,10 +56,9 @@ namespace NadekoBot.Modules.Gambling.Services
                         _cs.AddAsync(_bot.Client.CurrentUser.Id,
                             "Currency Decay",
                             uow.DiscordUsers.GetCurrencyDecayAmount(decay));
-                        botc.LastCurrencyDecay = DateTime.UtcNow;
+                        _bc.BotConfig.LastCurrencyDecay = botc.LastCurrencyDecay = DateTime.UtcNow;
                         uow.Complete();
                     }
-                    _bc.Reload();
                 }, null, TimeSpan.FromHours(1), TimeSpan.FromHours(1));
             }
 

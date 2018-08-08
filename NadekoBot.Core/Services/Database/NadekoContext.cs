@@ -7,6 +7,7 @@ using System;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Data.Sqlite;
 using System.IO;
+using Microsoft.Extensions.Logging;
 
 namespace NadekoBot.Core.Services.Database
 {
@@ -15,6 +16,7 @@ namespace NadekoBot.Core.Services.Database
         public NadekoContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<NadekoContext>();
+
             var builder = new SqliteConnectionStringBuilder("Data Source=data/NadekoBot.db");
             builder.DataSource = Path.Combine(AppContext.BaseDirectory, builder.DataSource);
             optionsBuilder.UseSqlite(builder.ToString());

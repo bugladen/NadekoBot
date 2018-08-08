@@ -114,11 +114,10 @@ namespace NadekoBot.Modules.Gambling
             using (var uow = _db.UnitOfWork)
             {
                 var bc = uow.BotConfig.GetOrCreate(set => set);
-                bc.TimelyCurrency = num;
-                bc.TimelyCurrencyPeriod = period;
+                _bc.BotConfig.TimelyCurrency = bc.TimelyCurrency = num;
+                _bc.BotConfig.TimelyCurrencyPeriod = bc.TimelyCurrencyPeriod = period;
                 uow.Complete();
             }
-            Bc.Reload();
             if (num == 0)
                 await ReplyConfirmLocalized("timely_set_none").ConfigureAwait(false);
             else

@@ -192,7 +192,7 @@ namespace NadekoBot.Modules.Administration.Services
                 uow.Complete();
             }
 
-            _bc.Reload();
+            _bc.BotConfig.LastUpdate = dt;
         }
 
         private async Task<string> GetNewRelease()
@@ -214,7 +214,7 @@ namespace NadekoBot.Modules.Administration.Services
             using (var uow = _db.UnitOfWork)
             {
                 var bc = uow.BotConfig.GetOrCreate(set => set);
-                bc.CheckForUpdates = type;
+                _bc.BotConfig.CheckForUpdates = bc.CheckForUpdates = type;
                 uow.Complete();
             }
 
@@ -222,8 +222,6 @@ namespace NadekoBot.Modules.Administration.Services
             {
                 _updateTimer.Change(Timeout.Infinite, Timeout.Infinite);
             }
-
-            _bc.Reload();
         }
 
         private Timer TimerFromStartupCommand(StartupCommand x)
@@ -464,10 +462,9 @@ namespace NadekoBot.Modules.Administration.Services
             using (var uow = _db.UnitOfWork)
             {
                 var config = uow.BotConfig.GetOrCreate(set => set);
-                config.ForwardMessages = !config.ForwardMessages;
+                _bc.BotConfig.ForwardMessages = config.ForwardMessages = !config.ForwardMessages;
                 uow.Complete();
             }
-            _bc.Reload();
         }
 
         public void Restart()
@@ -495,10 +492,9 @@ namespace NadekoBot.Modules.Administration.Services
             using (var uow = _db.UnitOfWork)
             {
                 var config = uow.BotConfig.GetOrCreate(set => set);
-                config.ForwardToAllOwners = !config.ForwardToAllOwners;
+                _bc.BotConfig.ForwardToAllOwners = config.ForwardToAllOwners = !config.ForwardToAllOwners;
                 uow.Complete();
             }
-            _bc.Reload();
         }
 
         public IEnumerable<ShardComMessage> GetAllShardStatuses()

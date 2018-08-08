@@ -51,7 +51,7 @@ namespace NadekoBot.Modules.Administration.Services
                 {
                     try
                     {
-                        bcp.Reload();
+                        // bcp.Reload();
 
                         var state = (TimerState)objState;
                         if (!BotConfig.RotatingStatuses)
@@ -100,10 +100,9 @@ namespace NadekoBot.Modules.Administration.Services
                 msg = config.RotatingStatusMessages[index].Status;
                 var remove = config.RotatingStatusMessages[index];
                 uow._context.Remove(remove);
+                _bcp.BotConfig.RotatingStatusMessages = config.RotatingStatusMessages;
                 await uow.CompleteAsync();
             }
-
-            _bcp.Reload();
 
             return msg;
         }
@@ -115,10 +114,9 @@ namespace NadekoBot.Modules.Administration.Services
                 var config = uow.BotConfig.GetOrCreate(set => set.Include(x => x.RotatingStatusMessages));
                 var toAdd = new PlayingStatus { Status = status, Type = t };
                 config.RotatingStatusMessages.Add(toAdd);
+                _bcp.BotConfig.RotatingStatusMessages = config.RotatingStatusMessages;
                 await uow.CompleteAsync();
             }
-
-            _bcp.Reload();
         }
 
         public bool ToggleRotatePlaying()
