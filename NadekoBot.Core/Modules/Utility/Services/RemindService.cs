@@ -13,6 +13,7 @@ using NLog;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using Discord.Net;
+using Microsoft.EntityFrameworkCore;
 
 namespace NadekoBot.Modules.Utility.Services
 {
@@ -103,8 +104,8 @@ namespace NadekoBot.Modules.Utility.Services
             {
                 using (var uow = _db.UnitOfWork)
                 {
-                    uow.Reminders.Remove(r);
-                    await uow.CompleteAsync();
+                    uow._context.Database.ExecuteSqlCommand($"DELETE FROM Reminders WHERE Id={r.Id};");
+                    uow.Complete();
                 }
                 RemoveReminder(r.Id);
             }
