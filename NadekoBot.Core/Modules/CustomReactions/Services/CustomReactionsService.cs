@@ -219,49 +219,49 @@ namespace NadekoBot.Modules.CustomReactions.Services
 
         public async Task<bool> RunBehavior(DiscordSocketClient client, IGuild guild, IUserMessage msg)
         {
-            // maybe this message is a custom reaction
-            var cr = await Task.Run(() => TryGetCustomReaction(msg)).ConfigureAwait(false);
-            if (cr != null)
-            {
-                try
-                {
-                    if (_gperm.BlockedModules.Contains("ActualCustomReactions"))
-                    {
-                        return true;
-                    }
+            //// maybe this message is a custom reaction
+            //var cr = await Task.Run(() => TryGetCustomReaction(msg)).ConfigureAwait(false);
+            //if (cr != null)
+            //{
+            //    try
+            //    {
+            //        if (_gperm.BlockedModules.Contains("ActualCustomReactions"))
+            //        {
+            //            return true;
+            //        }
 
-                    if (guild is SocketGuild sg)
-                    {
-                        var pc = _perms.GetCacheFor(guild.Id);
-                        if (!pc.Permissions.CheckPermissions(msg, cr.Trigger, "ActualCustomReactions",
-                            out int index))
-                        {
-                            if (pc.Verbose)
-                            {
-                                var returnMsg = _strings.GetText("trigger", guild.Id,
-                                    "Permissions".ToLowerInvariant(),
-                                    index + 1,
-                                    Format.Bold(pc.Permissions[index].GetCommand(_cmd.GetPrefix(guild),
-                                    (SocketGuild)guild)));
-                                try { await msg.Channel.SendErrorAsync(returnMsg).ConfigureAwait(false); } catch { }
-                                _log.Info(returnMsg);
-                            }
-                            return true;
-                        }
-                    }
-                    await cr.Send(msg, _client, this).ConfigureAwait(false);
+            //        if (guild is SocketGuild sg)
+            //        {
+            //            var pc = _perms.GetCacheFor(guild.Id);
+            //            if (!pc.Permissions.CheckPermissions(msg, cr.Trigger, "ActualCustomReactions",
+            //                out int index))
+            //            {
+            //                if (pc.Verbose)
+            //                {
+            //                    var returnMsg = _strings.GetText("trigger", guild.Id,
+            //                        "Permissions".ToLowerInvariant(),
+            //                        index + 1,
+            //                        Format.Bold(pc.Permissions[index].GetCommand(_cmd.GetPrefix(guild),
+            //                        (SocketGuild)guild)));
+            //                    try { await msg.Channel.SendErrorAsync(returnMsg).ConfigureAwait(false); } catch { }
+            //                    _log.Info(returnMsg);
+            //                }
+            //                return true;
+            //            }
+            //        }
+            //        await cr.Send(msg, _client, this).ConfigureAwait(false);
 
-                    if (cr.AutoDeleteTrigger)
-                    {
-                        try { await msg.DeleteAsync().ConfigureAwait(false); } catch { }
-                    }
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    _log.Warn(ex.Message);
-                }
-            }
+            //        if (cr.AutoDeleteTrigger)
+            //        {
+            //            try { await msg.DeleteAsync().ConfigureAwait(false); } catch { }
+            //        }
+            //        return true;
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        _log.Warn(ex.Message);
+            //    }
+            //}
             return false;
         }
 
