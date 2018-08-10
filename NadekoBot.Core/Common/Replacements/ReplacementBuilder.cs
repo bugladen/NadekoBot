@@ -33,10 +33,20 @@ namespace NadekoBot.Common.Replacements
         public ReplacementBuilder WithDefault(ICommandContext ctx) =>
             WithDefault(ctx.User, ctx.Channel, ctx.Guild as SocketGuild, (DiscordSocketClient)ctx.Client);
 
-        public ReplacementBuilder WithClient(DiscordSocketClient client)
+        public ReplacementBuilder WithMention(DiscordSocketClient client)
         {
             /*OBSOLETE*/
             _reps.TryAdd("%mention%", () => $"<@{client.CurrentUser.Id}>");
+            /*NEW*/
+            _reps.TryAdd("%bot.mention%", () => client.CurrentUser.Mention);
+            return this;
+        }
+
+        public ReplacementBuilder WithClient(DiscordSocketClient client)
+        {
+            WithMention(client);
+
+            /*OBSOLETE*/
             _reps.TryAdd("%shardid%", () => client.ShardId.ToString());
             _reps.TryAdd("%time%", () => DateTime.Now.ToString("HH:mm " + TimeZoneInfo.Local.StandardName.GetInitials()));
 
@@ -44,7 +54,6 @@ namespace NadekoBot.Common.Replacements
             _reps.TryAdd("%bot.status%", () => client.Status.ToString());
             _reps.TryAdd("%bot.latency%", () => client.Latency.ToString());
             _reps.TryAdd("%bot.name%", () => client.CurrentUser.Username);
-            _reps.TryAdd("%bot.mention%", () => client.CurrentUser.Mention);
             _reps.TryAdd("%bot.fullname%", () => client.CurrentUser.ToString());
             _reps.TryAdd("%bot.time%", () => DateTime.Now.ToString("HH:mm " + TimeZoneInfo.Local.StandardName.GetInitials()));
             _reps.TryAdd("%bot.discrim%", () => client.CurrentUser.Discriminator);

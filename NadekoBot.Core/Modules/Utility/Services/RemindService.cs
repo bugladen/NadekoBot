@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using NadekoBot.Extensions;
@@ -12,7 +11,6 @@ using NadekoBot.Core.Services.Impl;
 using NLog;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
-using Discord.Net;
 using Microsoft.EntityFrameworkCore;
 
 namespace NadekoBot.Modules.Utility.Services
