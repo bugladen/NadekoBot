@@ -84,7 +84,7 @@ namespace NadekoBot
 #else
                 MessageCacheSize = 50,
 #endif
-                LogLevel = LogSeverity.Info,
+                LogLevel = LogSeverity.Warning,
                 ConnectionTimeout = int.MaxValue,
                 TotalShards = Credentials.TotalShards,
                 ShardId = shardId,
