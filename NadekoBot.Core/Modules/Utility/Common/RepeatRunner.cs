@@ -64,24 +64,6 @@ namespace NadekoBot.Modules.Utility.Common
             }
 
             var toSend = "🔄 " + Repeater.Message;
-
-            if (Repeater.LastMessageId != null && !Repeater.NoRedundant)
-            {
-                try
-                {
-                    var oldMsg = await Channel.GetMessageAsync(Repeater.LastMessageId.Value).ConfigureAwait(false);
-                    if (oldMsg != null)
-                    {
-                        await oldMsg.DeleteAsync().ConfigureAwait(false);
-                        oldMsg = null;
-                    }
-                }
-                catch
-                {
-                    // ignored
-                }
-            }
-
             try
             {
                 Channel = Channel ?? Guild.GetTextChannel(Repeater.ChannelId);
@@ -97,6 +79,25 @@ namespace NadekoBot.Modules.Utility.Common
                     var lastMsgInChannel = (await Channel.GetMessagesAsync(2).FlattenAsync().ConfigureAwait(false)).FirstOrDefault();
                     if (lastMsgInChannel != null && lastMsgInChannel.Id == Repeater.LastMessageId) //don't send if it's the same message in the channel
                         return;
+                }
+
+                // if the message needs to be send
+                // delete previous message if it exists
+                try
+                {
+                    if (Repeater.LastMessageId != null)
+                    {
+                        var oldMsg = await Channel.GetMessageAsync(Repeater.LastMessageId.Value).ConfigureAwait(false);
+                        if (oldMsg != null)
+                        {
+                            await oldMsg.DeleteAsync().ConfigureAwait(false);
+                            oldMsg = null;
+                        }
+                    }
+                }
+                catch
+                {
+                    // ignored
                 }
 
                 var newMsg = await Channel.SendMessageAsync(toSend.SanitizeMentions()).ConfigureAwait(false);

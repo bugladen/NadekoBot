@@ -12,11 +12,12 @@ using NadekoBot.Extensions;
 using NadekoBot.Core.Services.Database;
 using NadekoBot.Core.Services;
 using NadekoBot.Modules.CustomReactions.Extensions;
-using NadekoBot.Modules.Permissions.Common;
 using NadekoBot.Modules.Permissions.Services;
 using NadekoBot.Core.Services.Impl;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using NadekoBot.Modules.Permissions.Common;
+using System.Diagnostics;
 
 namespace NadekoBot.Modules.CustomReactions.Services
 {

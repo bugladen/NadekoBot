@@ -104,28 +104,31 @@ namespace NadekoBot.Core.Services
             _shardProcesses = new Process[_creds.TotalShards];
             var shardIds = Enumerable.Range(1, _creds.TotalShards - 1)
                 .Shuffle()
-                .Prepend(0);
-            foreach (var i in shardIds)
+                .Prepend(0)
+                .ToArray();
+            for (var i = 0; i < shardIds.Length; i++)
             {
+                var id = shardIds[i];
                 //add it to the list of shards which should be started
+                _log.Info("Shard {0} is starting. {1}/{2}", id, i + 1, shardIds.Count());
 #if DEBUG
-                if (i > 0)
-                    _shardStartQueue.Enqueue(i);
+                if (id > 0)
+                    _shardStartQueue.Enqueue(id);
                 else
-                    _shardProcesses[i] = Process.GetCurrentProcess();
+                    _shardProcesses[id] = Process.GetCurrentProcess();
 #else
                 _shardStartQueue.Enqueue(i);
 #endif
                 //set the shard's initial state in redis cache
                 var msg = _defaultShardState.Clone();
-                msg.ShardId = i;
+                msg.ShardId = id;
                 //this is to avoid the shard coordinator thinking that
                 //the shard is unresponsive while starting up
                 var delay = 45;
 #if GLOBAL_NADEKO
                 delay = 180;
 #endif
-                msg.Time = DateTime.UtcNow + TimeSpan.FromSeconds(delay * (i + 1));
+                msg.Time = DateTime.UtcNow + TimeSpan.FromSeconds(delay * (id + 1));
                 db.ListRightPush(_key + "_shardstats",
                     JsonConvert.SerializeObject(msg),
                     flags: CommandFlags.FireAndForget);
@@ -243,7 +246,7 @@ namespace NadekoBot.Core.Services
                         //and this is an auto-restart
                         if (tsc.Task.IsCompleted)
                         {
-                            _log.Warn("Auto-restarting shard {0}", id);
+                            _log.Warn("Auto-restarting shard {0}, {1} more in queue.", id, _shardStartQueue.Count);
                         }
                         var rem = _shardProcesses[id];
                         if (rem != null)
@@ -281,7 +284,8 @@ namespace NadekoBot.Core.Services
                         var all = db.ListRange(_creds.RedisKey() + "_shardstats")
                            .Select(x => JsonConvert.DeserializeObject<ShardComMessage>(x));
                         var statuses = all
-                           .Where(x => x.Time < DateTime.UtcNow - TimeSpan.FromSeconds(30));
+                           .Where(x => x.Time < DateTime.UtcNow - TimeSpan.FromSeconds(30))
+                           .ToArray();
 
                         if (!statuses.Any())
                         {
@@ -299,8 +303,9 @@ namespace NadekoBot.Core.Services
                         }
                         else
                         {
-                            foreach (var s in statuses)
+                            for (var i = 0; i < statuses.Length; i++)
                             {
+                                var s = statuses[i];
                                 OnStop(s.ShardId);
                                 _shardStartQueue.Enqueue(s.ShardId);
 

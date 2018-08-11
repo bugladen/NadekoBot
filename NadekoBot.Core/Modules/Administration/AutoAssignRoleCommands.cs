@@ -23,6 +23,9 @@ namespace NadekoBot.Modules.Administration
                 var guser = (IGuildUser)Context.User;
                 if (role != null)
                 {
+                    if (role.Id == Context.Guild.EveryoneRole.Id)
+                        return;
+
                     // the user can't aar the role which is higher or equal to his highest role
                     if (Context.User.Id != guser.Guild.OwnerId && guser.GetRoles().Max(x => x.Position) <= role.Position)
                         return;
