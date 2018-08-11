@@ -1,7 +1,6 @@
 using Discord;
 using Discord.Commands;
 using NadekoBot.Extensions;
-using NadekoBot.Core.Services;
 using System.Threading.Tasks;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Administration.Services;
@@ -12,7 +11,7 @@ namespace NadekoBot.Modules.Administration
     public partial class Administration
     {
         [Group]
-        public class SlowModeCommands : NadekoSubmodule<SlowmodeService>
+        public class SlowmodeCommands : NadekoSubmodule<SlowmodeService>
         {
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]

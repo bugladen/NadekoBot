@@ -110,7 +110,6 @@ namespace NadekoBot.Core.Services
             {
                 var id = shardIds[i];
                 //add it to the list of shards which should be started
-                _log.Info("Shard {0} is starting. {1}/{2}", id, i + 1, shardIds.Count());
 #if DEBUG
                 if (id > 0)
                     _shardStartQueue.Enqueue(id);
@@ -248,6 +247,10 @@ namespace NadekoBot.Core.Services
                         {
                             _log.Warn("Auto-restarting shard {0}, {1} more in queue.", id, _shardStartQueue.Count);
                         }
+                        else
+                        {
+                            _log.Warn("Starting shard {0}, {1} more in queue.", id, _shardStartQueue.Count - 1);
+                        }
                         var rem = _shardProcesses[id];
                         if (rem != null)
                         {
@@ -260,7 +263,7 @@ namespace NadekoBot.Core.Services
                         }
                         _shardProcesses[id] = StartShard(id);
                         _shardStartQueue.TryDequeue(out var __);
-                        await Task.Delay(6000).ConfigureAwait(false);
+                        await Task.Delay(10000).ConfigureAwait(false);
                     }
                     tsc.TrySetResult(true);
                     await Task.Delay(6000).ConfigureAwait(false);

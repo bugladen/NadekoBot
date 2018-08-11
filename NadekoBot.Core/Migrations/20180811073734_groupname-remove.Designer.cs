@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NadekoBot.Core.Services.Database;
 
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoContext))]
-    partial class NadekoSqliteContextModelSnapshot : ModelSnapshot
+    [Migration("20180811073734_groupname-remove")]
+    partial class groupnameremove
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -594,27 +596,6 @@ namespace NadekoBot.Migrations
                     b.HasIndex("GuildConfigId");
 
                     b.ToTable("GCChannelId");
-                });
-
-            modelBuilder.Entity("NadekoBot.Core.Services.Database.Models.GroupName", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime?>("DateAdded");
-
-                    b.Property<int>("GuildConfigId");
-
-                    b.Property<string>("Name");
-
-                    b.Property<int>("Number");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GuildConfigId", "Number")
-                        .IsUnique();
-
-                    b.ToTable("GroupName");
                 });
 
             modelBuilder.Entity("NadekoBot.Core.Services.Database.Models.GuildConfig", b =>
@@ -1929,14 +1910,6 @@ namespace NadekoBot.Migrations
                     b.HasOne("NadekoBot.Core.Services.Database.Models.GuildConfig", "GuildConfig")
                         .WithMany("GenerateCurrencyChannelIds")
                         .HasForeignKey("GuildConfigId");
-                });
-
-            modelBuilder.Entity("NadekoBot.Core.Services.Database.Models.GroupName", b =>
-                {
-                    b.HasOne("NadekoBot.Core.Services.Database.Models.GuildConfig", "GuildConfig")
-                        .WithMany("SelfAssignableRoleGroupNames")
-                        .HasForeignKey("GuildConfigId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("NadekoBot.Core.Services.Database.Models.GuildConfig", b =>
