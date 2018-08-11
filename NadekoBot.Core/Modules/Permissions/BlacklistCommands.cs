@@ -81,11 +81,14 @@ namespace NadekoBot.Modules.Permissions
                     }
                     else
                     {
-                        var obj = uow.BotConfig
+                        var objs = uow.BotConfig
                             .GetOrCreate(set => set.Include(x => x.Blacklist))
-                            .Blacklist.FirstOrDefault(bi => bi.ItemId == id && bi.Type == type);
-                        if (obj != null)
-                            uow._context.Set<BlacklistItem>().Remove(obj);
+                            .Blacklist
+                            .Where(bi => bi.ItemId == id && bi.Type == type);
+
+                        if (objs.Any())
+                            uow._context.Set<BlacklistItem>().RemoveRange(objs);
+
                         if (type == BlacklistType.Server)
                         {
                             BlacklistedGuilds.TryRemove(id);

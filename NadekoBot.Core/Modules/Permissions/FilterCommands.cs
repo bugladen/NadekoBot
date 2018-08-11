@@ -69,13 +69,15 @@ namespace NadekoBot.Modules.Permissions
                 using (var uow = _db.UnitOfWork)
                 {
                     var config = uow.GuildConfigs.ForId(channel.Guild.Id, set => set.Include(gc => gc.FilterInvitesChannelIds));
-                    removed = config.FilterInvitesChannelIds.FirstOrDefault(fc => fc.ChannelId == channel.Id);
+                    var match = new FilterChannelId()
+                    {
+                        ChannelId = channel.Id
+                    };
+                    removed = config.FilterInvitesChannelIds.FirstOrDefault(fc => fc.Equals(match));
+
                     if (removed == null)
                     {
-                        config.FilterInvitesChannelIds.Add(new FilterChannelId()
-                        {
-                            ChannelId = channel.Id
-                        });
+                        config.FilterInvitesChannelIds.Add(match);
                     }
                     else
                     {
@@ -132,13 +134,15 @@ namespace NadekoBot.Modules.Permissions
                 using (var uow = _db.UnitOfWork)
                 {
                     var config = uow.GuildConfigs.ForId(channel.Guild.Id, set => set.Include(gc => gc.FilterWordsChannelIds));
-                    removed = config.FilterWordsChannelIds.FirstOrDefault(fc => fc.ChannelId == channel.Id);
+
+                    var match = new FilterChannelId()
+                    {
+                        ChannelId = channel.Id
+                    };
+                    removed = config.FilterWordsChannelIds.FirstOrDefault(fc => fc.Equals(match));
                     if (removed == null)
                     {
-                        config.FilterWordsChannelIds.Add(new FilterChannelId()
-                        {
-                            ChannelId = channel.Id
-                        });
+                        config.FilterWordsChannelIds.Add(match);
                     }
                     else
                     {

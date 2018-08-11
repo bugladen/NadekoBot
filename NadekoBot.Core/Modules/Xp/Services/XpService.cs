@@ -595,7 +595,7 @@ namespace NadekoBot.Modules.Xp.Services
                 {
                     roles.TryRemove(rId);
 
-                    var toDelete = xpSetting.ExclusionList.FirstOrDefault(x => x == excludeObj);
+                    var toDelete = xpSetting.ExclusionList.FirstOrDefault(x => x.Equals(excludeObj));
                     if (toDelete != null)
                     {
                         uow._context.Remove(toDelete);
