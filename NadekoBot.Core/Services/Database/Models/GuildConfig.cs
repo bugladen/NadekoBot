@@ -1,6 +1,7 @@
 ﻿using NadekoBot.Common.Collections;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NadekoBot.Core.Services.Database.Models
 {
@@ -103,6 +104,9 @@ namespace NadekoBot.Core.Services.Database.Models
 
     public class GroupName : DbEntity
     {
+        public int GuildConfigId { get; set; }
+        public GuildConfig GuildConfig { get; set; }
+
         public int Number { get; set; }
         public string Name { get; set; }
     }

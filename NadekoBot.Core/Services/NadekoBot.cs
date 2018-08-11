@@ -358,8 +358,10 @@ namespace NadekoBot
         {
             try
             {
-                File.WriteAllText("test", "test");
-                File.Delete("test");
+                var rng = new NadekoRandom().Next(100000, 1000000);
+                var str = rng.ToString();
+                File.WriteAllText(str, str);
+                File.Delete(str);
             }
             catch
             {

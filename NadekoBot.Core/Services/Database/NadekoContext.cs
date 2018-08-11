@@ -333,8 +333,13 @@ namespace NadekoBot.Core.Services.Database
 
             #region  GroupName
             modelBuilder.Entity<GroupName>()
-                .HasIndex(x => x.Number)
+                .HasIndex(x => new { x.GuildConfigId, x.Number })
                 .IsUnique();
+
+            modelBuilder.Entity<GroupName>()
+                .HasOne(x => x.GuildConfig)
+                .WithMany(x => x.SelfAssignableRoleGroupNames)
+                .IsRequired();
             #endregion
         }
     }
