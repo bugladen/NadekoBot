@@ -6,6 +6,9 @@ using System.Linq;
 using NadekoBot.Core.Services.Database.Models;
 using System.Collections.Generic;
 using NadekoBot.Core.Modules.Gambling.Common.Waifu;
+using NLog;
+using System.Diagnostics;
+using NadekoBot.Core.Services.Database.Repositories;
 
 namespace NadekoBot.Modules.Gambling.Services
 {
@@ -14,7 +17,7 @@ namespace NadekoBot.Modules.Gambling.Services
         public class FullWaifuInfo
         {
             public WaifuInfo Waifu { get; set; }
-            public IList<WaifuInfo> Claims { get; set; }
+            public IEnumerable<string> Claims { get; set; }
             public int Divorces { get; set; }
         }
 
@@ -22,6 +25,7 @@ namespace NadekoBot.Modules.Gambling.Services
         private readonly ICurrencyService _cs;
         private readonly IBotConfigProvider _bc;
         private readonly IDataCache _cache;
+        private readonly Logger _log;
 
         public WaifuService(DbService db, ICurrencyService cs, IBotConfigProvider bc, IDataCache cache)
         {
@@ -29,6 +33,7 @@ namespace NadekoBot.Modules.Gambling.Services
             _cs = cs;
             _bc = bc;
             _cache = cache;
+            _log = LogManager.GetCurrentClassLogger();
         }
 
         public async Task<bool> WaifuTransfer(IUser owner, ulong waifuId, IUser newOwner)
@@ -264,7 +269,7 @@ namespace NadekoBot.Modules.Gambling.Services
             return (oldAff, success, remaining);
         }
 
-        public IList<WaifuInfo> GetTopWaifusAtPage(int page)
+        public IEnumerable<WaifuInfo> GetTopWaifusAtPage(int page)
         {
             using (var uow = _db.UnitOfWork)
             {
@@ -360,51 +365,53 @@ namespace NadekoBot.Modules.Gambling.Services
             return true;
         }
 
-        public async Task<FullWaifuInfo> GetFullWaifuInfoAsync(IGuildUser target)
+        public async Task<WaifuInfoStats> GetFullWaifuInfoAsync(IGuildUser target)
         {
-            FullWaifuInfo fwi;
             using (var uow = _db.UnitOfWork)
             {
-                var w = uow.Waifus.ByWaifuUserId(target.Id);
-                var claims = uow.Waifus.ByClaimerUserId(target.Id);
-                var divorces = uow._context.WaifuUpdates.Count(x => x.Old != null &&
-                    x.Old.UserId == target.Id &&
-                    x.UpdateType == WaifuUpdateType.Claimed &&
-                    x.New == null);
-                if (w == null)
-                {
-                    uow.Waifus.Add(w = new WaifuInfo()
-                    {
-                        Affinity = null,
-                        Claimer = null,
-                        Price = 1,
-                        Waifu = uow.DiscordUsers.GetOrCreate(target),
-                    });
-                }
-                fwi = new FullWaifuInfo
-                {
-                    Waifu = w,
-                    Claims = claims,
-                    Divorces = divorces
-                };
+                return uow.Waifus.GetWaifuInfo(target.Id);
+                //var sw = Stopwatch.StartNew();
+                //var w = uow.Waifus.ByWaifuUserId(target.Id);
+                //sw.Stop();
+                //_log.Info("waifu = {0}", sw.Elapsed.TotalSeconds.ToString("F3"));
 
-                w.Waifu.Username = target.Username;
-                w.Waifu.Discriminator = target.Discriminator;
-                await uow.CompleteAsync();
+                //sw.Restart();
+                //var claims = uow.Waifus.GetWaifuNames(target.Id);
+                //sw.Stop();
+                //_log.Info("claims = {0}", sw.Elapsed.TotalSeconds.ToString("F3"));
+
+                //sw.Restart();
+                //var divorces = uow._context.WaifuUpdates.Count(x => x.Old != null &&
+                //    x.Old.UserId == target.Id &&
+                //    x.UpdateType == WaifuUpdateType.Claimed &&
+                //    x.New == null);
+                //sw.Stop();
+                //_log.Info("divorces = {0}", sw.Elapsed.TotalSeconds.ToString("F3"));
+                //if (w == null)
+                //{
+                //    uow.Waifus.Add(w = new WaifuInfo()
+                //    {
+                //        Affinity = null,
+                //        Claimer = null,
+                //        Price = 1,
+                //        Waifu = uow.DiscordUsers.GetOrCreate(target),
+                //    });
+                //}
+                //fwi = new FullWaifuInfo
+                //{
+                //    Waifu = w,
+                //    Claims = claims,
+                //    Divorces = divorces
+                //};
+
+                //w.Waifu.Username = target.Username;
+                //w.Waifu.Discriminator = target.Discriminator;
+                //await uow.CompleteAsync();
             }
-
-            return fwi;
         }
 
-
-        public WaifuProfileTitle GetClaimTitle(ulong userId)
+        public string GetClaimTitle(int count)
         {
-            int count;
-            using (var uow = _db.UnitOfWork)
-            {
-                count = uow.Waifus.ByClaimerUserId(userId).Count;
-            }
-
             ClaimTitle title;
             if (count == 0)
                 title = ClaimTitle.Lonely;
@@ -431,20 +438,11 @@ namespace NadekoBot.Modules.Gambling.Services
             else
                 title = ClaimTitle.Harem_God;
 
-            return new WaifuProfileTitle(count, title.ToString().Replace('_', ' '));
+            return title.ToString().Replace('_', ' ');
         }
 
-        public WaifuProfileTitle GetAffinityTitle(ulong userId)
+        public string GetAffinityTitle(int count)
         {
-            int count;
-            using (var uow = _db.UnitOfWork)
-            {
-                count = uow._context.WaifuUpdates
-                    .Where(w => w.User.UserId == userId && w.UpdateType == WaifuUpdateType.AffinityChanged && w.New != null)
-                    .GroupBy(x => x.New)
-                    .Count();
-            }
-
             AffinityTitle title;
             if (count < 1)
                 title = AffinityTitle.Pure;
@@ -467,7 +465,7 @@ namespace NadekoBot.Modules.Gambling.Services
             else
                 title = AffinityTitle.Harlot;
 
-            return new WaifuProfileTitle(count, title.ToString().Replace('_', ' '));
+            return title.ToString().Replace('_', ' ');
         }
     }
 }

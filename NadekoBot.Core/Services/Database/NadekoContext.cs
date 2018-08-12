@@ -7,7 +7,6 @@ using System;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Data.Sqlite;
 using System.IO;
-using Microsoft.Extensions.Logging;
 
 namespace NadekoBot.Core.Services.Database
 {
@@ -217,6 +216,8 @@ namespace NadekoBot.Core.Services.Database
 
             wi.HasIndex(x => x.Price);
             wi.HasIndex(x => x.ClaimerId);
+
+            var wu = modelBuilder.Entity<WaifuUpdate>();
             #endregion
 
             #region DiscordUser
