@@ -46,7 +46,6 @@ namespace NadekoBot.Core.Services.Database.Models
 
         public override bool Equals(object obj)
         {
-
             if (!(obj is StreamRoleBlacklistedUser x))
                 return false;
 

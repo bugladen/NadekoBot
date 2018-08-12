@@ -95,7 +95,7 @@ namespace NadekoBot.Modules.Utility.Services
 
                     if (action == AddRemove.Rem)
                     {
-                        var toDelete = streamRoleSettings.Whitelist.FirstOrDefault(x => x == userObj);
+                        var toDelete = streamRoleSettings.Whitelist.FirstOrDefault(x => x.Equals(userObj));
                         if (toDelete != null)
                         {
                             uow._context.Remove(toDelete);
@@ -115,7 +115,7 @@ namespace NadekoBot.Modules.Utility.Services
 
                     if (action == AddRemove.Rem)
                     {
-                        var toRemove = streamRoleSettings.Blacklist.FirstOrDefault(x => x == userObj);
+                        var toRemove = streamRoleSettings.Blacklist.FirstOrDefault(x => x.Equals(userObj));
                         if (toRemove != null)
                         {
                             success = true;

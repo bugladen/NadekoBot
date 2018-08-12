@@ -100,7 +100,9 @@ namespace NadekoBot.Modules.Utility
                             Mapping = mapping,
                             Trigger = trigger
                         };
-                        config.CommandAliases.RemoveWhere(x => x.Trigger == trigger);
+                        var toRemove = config.CommandAliases.Where(x => x.Trigger == trigger);
+                        if (toRemove.Any())
+                            uow._context.Remove(toRemove);
                         config.CommandAliases.Add(toAdd);
                         uow.Complete();
                     }

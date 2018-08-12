@@ -280,7 +280,7 @@ namespace NadekoBot.Modules.Searches
                 using (var uow = _db.UnitOfWork)
                 {
                     var config = uow.GuildConfigs.ForId(Context.Guild.Id, set => set.Include(gc => gc.FollowedStreams));
-                    removed = config.FollowedStreams.FirstOrDefault(x => x == fs);
+                    removed = config.FollowedStreams.FirstOrDefault(x => x.Equals(fs));
                     if (removed != null)
                     {
                         uow._context.Remove(removed);

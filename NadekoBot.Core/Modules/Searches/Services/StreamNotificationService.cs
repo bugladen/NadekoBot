@@ -23,8 +23,9 @@ namespace NadekoBot.Modules.Searches.Services
 {
     public class StreamNotificationService : INService
     {
+#if !GLOBAL_NADEKO && !DEBUG
         private bool _firstStreamNotifPass = true;
-
+#endif
         private readonly DbService _db;
         private readonly DiscordSocketClient _client;
         private readonly NadekoStrings _strings;
@@ -35,7 +36,8 @@ namespace NadekoBot.Modules.Searches.Services
         private readonly Random _rng = new NadekoRandom();
         private readonly ConcurrentDictionary<
             (FollowedStream.FType Type, string Username),
-            ConcurrentHashSet<(ulong GuildId, FollowedStream fs)>> _followedStreams;
+            ConcurrentHashSet<(ulong GuildId, FollowedStream fs)>> _followedStreams 
+                = new ConcurrentDictionary<(FollowedStream.FType Type, string Username), ConcurrentHashSet<(ulong GuildId, FollowedStream fs)>>();
         private readonly ConcurrentHashSet<ulong> _yesOffline = new ConcurrentHashSet<ulong>();
 
         public StreamNotificationService(NadekoBot bot, DbService db, DiscordSocketClient client,
@@ -50,7 +52,7 @@ namespace NadekoBot.Modules.Searches.Services
             _http.DefaultRequestHeaders.TryAddWithoutValidation("Client-ID", _creds.TwitchClientId);
             _log = LogManager.GetCurrentClassLogger();
 
-#if !GLOBAL_NADEKO
+#if !GLOBAL_NADEKO && !DEBUG
             _followedStreams = bot.AllGuildConfigs
                 .SelectMany(x => x.FollowedStreams)
                 .GroupBy(x => (x.Type, x.Username))
@@ -62,7 +64,6 @@ namespace NadekoBot.Modules.Searches.Services
                 .Select(x => x.GuildId));
 
             _cache.SubscribeToStreamUpdates(OnStreamsUpdated);
-
             if (_client.ShardId == 0)
             {
                 var _ = Task.Run(async () =>

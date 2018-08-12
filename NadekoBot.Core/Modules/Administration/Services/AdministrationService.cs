@@ -111,7 +111,7 @@ namespace NadekoBot.Modules.Administration.Services
                     ChannelId = chId,
                     State = s == Administration.State.Enable,
                 };
-                var del = conf.DelMsgOnCmdChannels.FirstOrDefault(x => x == obj);
+                var del = conf.DelMsgOnCmdChannels.FirstOrDefault(x => x.Equals(obj));
                 if (s != Administration.State.Inherit)
                     conf.DelMsgOnCmdChannels.Add(obj);
                 else
