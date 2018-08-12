@@ -3,10 +3,8 @@ using Discord.Commands;
 using NadekoBot.Extensions;
 using NadekoBot.Core.Services.Database.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Gambling.Services;
 using NadekoBot.Core.Modules.Gambling.Common.Waifu;
@@ -175,7 +173,10 @@ namespace NadekoBot.Modules.Gambling
                 if (page < 0)
                     return;
 
-                IEnumerable<WaifuInfo> waifus = _service.GetTopWaifusAtPage(page);
+                if (page > 100)
+                    page = 100;
+                
+                var waifus = _service.GetTopWaifusAtPage(page);
 
                 if (waifus.Count() == 0)
                 {
@@ -203,15 +204,8 @@ namespace NadekoBot.Modules.Gambling
             {
                 if (target == null)
                     target = (IGuildUser)Context.User;
-
-                var sw = Stopwatch.StartNew();
-
-                var wi = await _service.GetFullWaifuInfoAsync(target).ConfigureAwait(false);
+                var wi = _service.GetFullWaifuInfoAsync(target);
                 var affInfo = _service.GetAffinityTitle(wi.AffinityCount);
-                sw.Stop();
-                _log.Info("1 = {0}", sw.Elapsed.TotalSeconds.ToString("F3"));
-
-                //var rng = new NadekoRandom();
 
                 var nobody = GetText("nobody");
                 var i = 0;
@@ -223,8 +217,6 @@ namespace NadekoBot.Modules.Gambling
                         .Select(x => $"{x.Key} x{x.Count(),-3}")
                         .GroupBy(x => i++ / 2)
                         .Select(x => string.Join(" ", x)));
-
-                //sw.Restart();
 
                 var embed = new EmbedBuilder()
                     .WithOkColor()
@@ -275,7 +267,6 @@ namespace NadekoBot.Modules.Gambling
                     return;
 
                 var itemObj = WaifuItem.GetItemObject(item, Bc.BotConfig.WaifuGiftMultiplier);
-
                 bool sucess = await _service.GiftWaifuAsync(Context.User.Id, waifu, itemObj);
 
                 if (sucess)

@@ -26,7 +26,7 @@ namespace NadekoBot.Core.Services
             builder.DataSource = Path.Combine(AppContext.BaseDirectory, builder.DataSource);
 
             var optionsBuilder = new DbContextOptionsBuilder<NadekoContext>()
-                //.UseLoggerFactory(_loggerFactory)
+                .UseLoggerFactory(_loggerFactory)
                 ;
             optionsBuilder.UseSqlite(builder.ToString());
             options = optionsBuilder.Options;

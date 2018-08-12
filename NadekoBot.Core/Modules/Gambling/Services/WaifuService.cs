@@ -9,6 +9,7 @@ using NadekoBot.Core.Modules.Gambling.Common.Waifu;
 using NLog;
 using System.Diagnostics;
 using NadekoBot.Core.Services.Database.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace NadekoBot.Modules.Gambling.Services
 {
@@ -269,7 +270,7 @@ namespace NadekoBot.Modules.Gambling.Services
             return (oldAff, success, remaining);
         }
 
-        public IEnumerable<WaifuInfo> GetTopWaifusAtPage(int page)
+        public IEnumerable<WaifuLbResult> GetTopWaifusAtPage(int page)
         {
             using (var uow = _db.UnitOfWork)
             {
@@ -331,7 +332,7 @@ namespace NadekoBot.Modules.Gambling.Services
         {
             using (var uow = _db.UnitOfWork)
             {
-                var w = uow.Waifus.ByWaifuUserId(giftedWaifu.Id);
+                var w = uow.Waifus.ByWaifuUserId(giftedWaifu.Id, set => set.Include(x => x.Items));
 
                 //try to buy the item first
 
@@ -348,9 +349,6 @@ namespace NadekoBot.Modules.Gambling.Services
                         Price = 1,
                         Waifu = uow.DiscordUsers.GetOrCreate(giftedWaifu),
                     });
-
-                    w.Waifu.Username = giftedWaifu.Username;
-                    w.Waifu.Discriminator = giftedWaifu.Discriminator;
                 }
                 w.Items.Add(itemObj);
                 if (w.Claimer?.UserId == from)
@@ -365,48 +363,11 @@ namespace NadekoBot.Modules.Gambling.Services
             return true;
         }
 
-        public async Task<WaifuInfoStats> GetFullWaifuInfoAsync(IGuildUser target)
+        public WaifuInfoStats GetFullWaifuInfoAsync(IGuildUser target)
         {
             using (var uow = _db.UnitOfWork)
             {
                 return uow.Waifus.GetWaifuInfo(target.Id);
-                //var sw = Stopwatch.StartNew();
-                //var w = uow.Waifus.ByWaifuUserId(target.Id);
-                //sw.Stop();
-                //_log.Info("waifu = {0}", sw.Elapsed.TotalSeconds.ToString("F3"));
-
-                //sw.Restart();
-                //var claims = uow.Waifus.GetWaifuNames(target.Id);
-                //sw.Stop();
-                //_log.Info("claims = {0}", sw.Elapsed.TotalSeconds.ToString("F3"));
-
-                //sw.Restart();
-                //var divorces = uow._context.WaifuUpdates.Count(x => x.Old != null &&
-                //    x.Old.UserId == target.Id &&
-                //    x.UpdateType == WaifuUpdateType.Claimed &&
-                //    x.New == null);
-                //sw.Stop();
-                //_log.Info("divorces = {0}", sw.Elapsed.TotalSeconds.ToString("F3"));
-                //if (w == null)
-                //{
-                //    uow.Waifus.Add(w = new WaifuInfo()
-                //    {
-                //        Affinity = null,
-                //        Claimer = null,
-                //        Price = 1,
-                //        Waifu = uow.DiscordUsers.GetOrCreate(target),
-                //    });
-                //}
-                //fwi = new FullWaifuInfo
-                //{
-                //    Waifu = w,
-                //    Claims = claims,
-                //    Divorces = divorces
-                //};
-
-                //w.Waifu.Username = target.Username;
-                //w.Waifu.Discriminator = target.Discriminator;
-                //await uow.CompleteAsync();
             }
         }
 

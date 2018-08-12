@@ -12,13 +12,19 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
         {
         }
 
-        public WaifuInfo ByWaifuUserId(ulong userId)
+        public WaifuInfo ByWaifuUserId(ulong userId, Func<DbSet<WaifuInfo>, IQueryable<WaifuInfo>> includes = null)
         {
-            return _set.Include(wi => wi.Waifu)
-                        .Include(wi => wi.Affinity)
-                        .Include(wi => wi.Claimer)
-                        .Include(wi => wi.Items)
-                        .FirstOrDefault(wi => wi.Waifu.UserId == userId);
+            if (includes == null)
+            {
+                return _set.Include(wi => wi.Waifu)
+                            .Include(wi => wi.Affinity)
+                            .Include(wi => wi.Claimer)
+                            .Include(wi => wi.Items)
+                            .FirstOrDefault(wi => wi.Waifu.UserId == userId);
+            }
+
+            return includes(_set)
+                .FirstOrDefault(wi => wi.Waifu.UserId == userId);
         }
 
         public IEnumerable<string> GetWaifuNames(ulong userId)
@@ -37,18 +43,29 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
 
         }
 
-        public IEnumerable<WaifuInfo> GetTop(int count, int skip = 0)
+        public IEnumerable<WaifuLbResult> GetTop(int count, int skip = 0)
         {
             if (count < 0)
                 throw new ArgumentOutOfRangeException(nameof(count));
             if (count == 0)
-                return new List<WaifuInfo>();
+                return new List<WaifuLbResult>();
+
             return _set.Include(wi => wi.Waifu)
                         .Include(wi => wi.Affinity)
                         .Include(wi => wi.Claimer)
                     .OrderByDescending(wi => wi.Price)
                     .Skip(skip)
                     .Take(count)
+                    .Select(x => new WaifuLbResult
+                    {
+                        Affinity = x.Affinity == null ? null : x.Affinity.Username,
+                        AffinityDiscrim = x.Affinity == null ? null : x.Affinity.Discriminator,
+                        Claimer = x.Claimer == null ? null : x.Claimer.Username,
+                        ClaimerDiscrim = x.Claimer == null ? null : x.Claimer.Discriminator,
+                        Username = x.Waifu.Username,
+                        Discrim = x.Waifu.Discriminator,
+                        Price = x.Price,
+                    })
                     .ToList();
 
         }

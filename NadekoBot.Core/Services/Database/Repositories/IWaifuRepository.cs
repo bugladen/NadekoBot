@@ -1,12 +1,15 @@
-﻿using NadekoBot.Core.Services.Database.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using NadekoBot.Core.Services.Database.Models;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NadekoBot.Core.Services.Database.Repositories
 {
     public interface IWaifuRepository : IRepository<WaifuInfo>
     {
-        IEnumerable<WaifuInfo> GetTop(int count, int skip = 0);
-        WaifuInfo ByWaifuUserId(ulong userId);
+        IEnumerable<WaifuLbResult> GetTop(int count, int skip = 0);
+        WaifuInfo ByWaifuUserId(ulong userId, Func<DbSet<WaifuInfo>, IQueryable<WaifuInfo>> includes = null);
         IEnumerable<string> GetWaifuNames(ulong userId);
         decimal GetTotalValue();
         int AffinityCount(ulong userId);
