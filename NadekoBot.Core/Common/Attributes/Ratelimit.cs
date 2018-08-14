@@ -15,7 +15,7 @@ namespace NadekoBot.Core.Common.Attributes
 
         public RatelimitAttribute(int seconds)
         {
-            if (seconds < 0)
+            if (seconds <= 0)
                 throw new ArgumentOutOfRangeException(nameof(seconds));
 
             Seconds = seconds;
@@ -33,7 +33,6 @@ namespace NadekoBot.Core.Common.Attributes
                 return Task.FromResult(PreconditionResult.FromSuccess());
 
             var msgContent = $"You can use this command again in {rem.Value.TotalSeconds:F2} seconds.";
-            var _ = Task.Run(() => context.Channel.SendErrorAsync(msgContent));
 
             return Task.FromResult(PreconditionResult.FromError(msgContent));
         }

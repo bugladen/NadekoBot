@@ -516,7 +516,7 @@ namespace NadekoBot.Modules.Xp.Services
                 du = uow.DiscordUsers.GetOrCreate(user);
                 totalXp = du.TotalXp;
                 globalRank = uow.DiscordUsers.GetUserGlobalRank(user.Id);
-                guildRank = await uow.Xp.GetUserGuildRankingAsync(user.Id, user.GuildId);
+                guildRank = uow.Xp.GetUserGuildRanking(user.Id, user.GuildId);
                 stats = uow.Xp.GetOrCreateUser(user.GuildId, user.Id);
                 await uow.CompleteAsync();
             }
