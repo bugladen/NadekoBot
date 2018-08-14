@@ -7,7 +7,6 @@ using NadekoBot.Core.Services.Database.Models;
 using System.Collections.Generic;
 using NadekoBot.Core.Modules.Gambling.Common.Waifu;
 using NLog;
-using System.Diagnostics;
 using NadekoBot.Core.Services.Database.Repositories;
 using Microsoft.EntityFrameworkCore;
 

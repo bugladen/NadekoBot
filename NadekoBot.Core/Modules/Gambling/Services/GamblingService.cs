@@ -122,6 +122,7 @@ namespace NadekoBot.Modules.Gambling.Services
                 planted = uow.PlantedCurrency.GetTotalPlanted();
                 waifus = uow.Waifus.GetTotalValue();
                 bot = uow.DiscordUsers.GetUserCurrency(_client.CurrentUser.Id);
+                cash = cash - bot;
             }
 
             var result = new EconomyResult
