@@ -1,34 +1,34 @@
 using Discord;
 using Discord.WebSocket;
+using NadekoBot.Common;
 using NadekoBot.Common.Collections;
-using NadekoBot.Extensions;
-using NadekoBot.Modules.Xp.Common;
+using NadekoBot.Core.Modules.Xp.Common;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Core.Services.Impl;
+using NadekoBot.Extensions;
+using NadekoBot.Modules.Xp.Common;
+using Newtonsoft.Json;
 using NLog;
+using SixLabors.Fonts;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.Processing.Drawing;
+using SixLabors.ImageSharp.Processing.Drawing.Brushes;
+using SixLabors.ImageSharp.Processing.Drawing.Pens;
+using SixLabors.ImageSharp.Processing.Text;
+using SixLabors.ImageSharp.Processing.Transforms;
+using SixLabors.Primitives;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Image = SixLabors.ImageSharp.Image;
-using SixLabors.Fonts;
-using System.IO;
-using SixLabors.Primitives;
-using System.Net.Http;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing.Drawing.Pens;
-using SixLabors.ImageSharp.Processing.Drawing.Brushes;
-using SixLabors.ImageSharp.Processing;
-using SixLabors.ImageSharp.Processing.Drawing;
-using SixLabors.ImageSharp.Processing.Transforms;
-using SixLabors.ImageSharp.Processing.Text;
-using Newtonsoft.Json;
-using NadekoBot.Core.Modules.Xp.Common;
-using NadekoBot.Common;
-using SixLabors.ImageSharp.Formats;
 
 namespace NadekoBot.Modules.Xp.Services
 {
@@ -133,7 +133,7 @@ namespace NadekoBot.Modules.Xp.Services
                         var group = toAddTo.GroupBy(x => (GuildId: x.Guild.Id, x.User));
                         if (toAddTo.Count == 0)
                             continue;
-                        
+
                         using (var uow = _db.UnitOfWork)
                         {
                             foreach (var item in group)
@@ -927,6 +927,24 @@ namespace NadekoBot.Modules.Xp.Services
         {
             _cmd.OnMessageNoTrigger -= _cmd_OnMessageNoTrigger;
             return Task.CompletedTask;
+        }
+
+        public void XpReset(ulong guildId, ulong userId)
+        {
+            using (var uow = _db.UnitOfWork)
+            {
+                uow.Xp.ResetGuildUserXp(userId, guildId);
+                uow.Complete();
+            }
+        }
+
+        public void XpReset(ulong guildId)
+        {
+            using (var uow = _db.UnitOfWork)
+            {
+                uow.Xp.ResetGuildXp(guildId);
+                uow.Complete();
+            }
         }
     }
 }

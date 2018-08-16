@@ -1,11 +1,10 @@
 ﻿using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using NadekoBot.Common.Attributes;
+using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Xp.Common;
 using NadekoBot.Modules.Xp.Services;
-using NadekoBot.Core.Services.Database.Models;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,12 +17,10 @@ namespace NadekoBot.Modules.Xp
         public class Club : NadekoSubmodule<ClubService>
         {
             private readonly XpService _xps;
-            private readonly DiscordSocketClient _client;
 
-            public Club(XpService xps, DiscordSocketClient client)
+            public Club(XpService xps)
             {
                 _xps = xps;
-                _client = client;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
