@@ -1,18 +1,18 @@
 using Discord;
 using Discord.Commands;
-using NadekoBot.Extensions;
-using NadekoBot.Core.Services;
-using System.Threading.Tasks;
 using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
-using Image = SixLabors.ImageSharp.Image;
-using NadekoBot.Core.Modules.Gambling.Common;
-using NadekoBot.Modules.Gambling.Services;
 using NadekoBot.Core.Common;
-using System;
+using NadekoBot.Core.Modules.Gambling.Common;
+using NadekoBot.Core.Services;
+using NadekoBot.Extensions;
+using NadekoBot.Modules.Gambling.Services;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
+using System;
 using System.Linq;
+using System.Threading.Tasks;
+using Image = SixLabors.ImageSharp.Image;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -100,7 +100,7 @@ namespace NadekoBot.Modules.Gambling
                 BetFlipGuess result;
                 Uri imageToSend;
                 var coins = _images.ImageUrls.Coins;
-                if (rng.Next(0, 2) == 1)
+                if (rng.Next(0, 1000) <= 499)
                 {
                     imageToSend = coins.Heads[rng.Next(0, coins.Heads.Length)];
                     result = BetFlipGuess.Heads;

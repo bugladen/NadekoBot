@@ -11,7 +11,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Image = SixLabors.ImageSharp.Image;
 using SixLabors.Fonts;
@@ -58,15 +57,10 @@ namespace NadekoBot.Modules.Xp.Services
         private readonly ConcurrentHashSet<ulong> _excludedServers
             = new ConcurrentHashSet<ulong>();
 
-        private readonly ConcurrentHashSet<ulong> _rewardedUsers
-            = new ConcurrentHashSet<ulong>();
-
         private readonly ConcurrentQueue<UserCacheItem> _addMessageXp
             = new ConcurrentQueue<UserCacheItem>();
 
         private readonly Task updateXpTask;
-        private readonly CancellationTokenSource _clearRewardTimerTokenSource;
-        private readonly Task _clearRewardTimer;
         private readonly IHttpClientFactory _httpFactory;
         private XpTemplate _template;
 
@@ -139,7 +133,7 @@ namespace NadekoBot.Modules.Xp.Services
                         var group = toAddTo.GroupBy(x => (GuildId: x.Guild.Id, x.User));
                         if (toAddTo.Count == 0)
                             continue;
-
+                        
                         using (var uow = _db.UnitOfWork)
                         {
                             foreach (var item in group)
@@ -264,20 +258,6 @@ namespace NadekoBot.Modules.Xp.Services
                     }
                 }
             });
-
-            _clearRewardTimerTokenSource = new CancellationTokenSource();
-            var token = _clearRewardTimerTokenSource.Token;
-            //just a first line, in order to prevent queries. But since other shards can try to do this too,
-            //i'll check in the db too.
-            _clearRewardTimer = Task.Run(async () =>
-            {
-                while (!token.IsCancellationRequested)
-                {
-                    _rewardedUsers.Clear();
-
-                    await Task.Delay(TimeSpan.FromMinutes(_bc.BotConfig.XpMinutesTimeout));
-                }
-            }, token);
         }
 
         private void InternalReloadXpTemplate()
@@ -500,7 +480,7 @@ namespace NadekoBot.Modules.Xp.Services
 
             return r.StringSet(key,
                 true,
-                TimeSpan.FromMinutes(_bc.BotConfig.XpMinutesTimeout),
+                TimeSpan.FromSeconds(_bc.BotConfig.XpMinutesTimeout),
                 StackExchange.Redis.When.NotExists);
         }
 
@@ -946,10 +926,6 @@ namespace NadekoBot.Modules.Xp.Services
         public Task Unload()
         {
             _cmd.OnMessageNoTrigger -= _cmd_OnMessageNoTrigger;
-
-            if (!_clearRewardTimerTokenSource.IsCancellationRequested)
-                _clearRewardTimerTokenSource.Cancel();
-            _clearRewardTimerTokenSource.Dispose();
             return Task.CompletedTask;
         }
     }
