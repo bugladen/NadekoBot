@@ -34,7 +34,7 @@ function GitHub-Release($versionNumber) {
 
     # sz 'a' '-mx3' $target $source
 
-    .\rcedit-x64.exe "src\NadekoBot\bin\Release\netcoreapp2.0\win7-x64\nadekobot.exe" --set-icon "src\NadekoBot\bin\Release\netcoreapp2.0\win7-x64\nadeko_icon.ico"
+    .\rcedit-x64.exe "src\NadekoBot\bin\Release\netcoreapp2.1\win7-x64\nadekobot.exe" --set-icon "src\NadekoBot\bin\Release\netcoreapp2.1\win7-x64\nadeko_icon.ico"
 
     & "C:\Program Files (x86)\Inno Setup 5\iscc.exe" "/O+" ".\NadekoBot.iss"
 
