@@ -161,7 +161,7 @@ WHERE CurrencyAmount>0 AND UserId!={botId};");
             return (long)_set.Sum(x => Math.Round(x.CurrencyAmount * decay - 0.5));
         }
 
-        public decimal GetTotalCurrency(ulong botId)
+        public decimal GetTotalCurrency()
         {
             return _set
                 .Sum(x => x.CurrencyAmount);

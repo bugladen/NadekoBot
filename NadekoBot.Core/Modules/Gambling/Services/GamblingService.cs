@@ -117,7 +117,7 @@ namespace NadekoBot.Modules.Gambling.Services
 
             using (var uow = _db.UnitOfWork)
             {
-                cash = uow.DiscordUsers.GetTotalCurrency(_client.CurrentUser.Id);
+                cash = uow.DiscordUsers.GetTotalCurrency();
                 onePercent = uow.DiscordUsers.GetTopOnePercentCurrency(_client.CurrentUser.Id);
                 planted = uow.PlantedCurrency.GetTotalPlanted();
                 waifus = uow.Waifus.GetTotalValue();

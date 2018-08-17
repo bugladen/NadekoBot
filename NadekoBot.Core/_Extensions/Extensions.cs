@@ -1,35 +1,33 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Microsoft.Extensions.DependencyInjection;
+using NadekoBot.Common;
+using NadekoBot.Common.Collections;
+using NadekoBot.Core.Services;
 using Newtonsoft.Json;
+using NLog;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats;
+using SixLabors.ImageSharp.Formats.Png;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.Primitives;
+using SixLabors.Shapes;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Numerics;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using NadekoBot.Common.Collections;
-using SixLabors.Primitives;
-using NadekoBot.Common;
-using NadekoBot.Core.Services;
-using SixLabors.Shapes;
-using System.Numerics;
-using System.Diagnostics;
-using NLog;
-using System.Net.Http.Headers;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Formats.Png;
-using SixLabors.ImageSharp.Processing;
-using SixLabors.ImageSharp.Processing.Drawing;
-using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
-using SixLabors.ImageSharp.Formats;
-using Image = SixLabors.ImageSharp.Image;
 
 namespace NadekoBot.Extensions
 {
@@ -199,10 +197,7 @@ namespace NadekoBot.Extensions
             var imageStream = new MemoryStream();
             if (format?.Name == "GIF")
             {
-                img.SaveAsGif(imageStream, new SixLabors.ImageSharp.Formats.Gif.GifEncoder()
-                {
-                    Quantizer = new SixLabors.ImageSharp.Processing.Quantization.OctreeQuantizer(false)
-                });
+                img.SaveAsGif(imageStream);
             }
             else
             {

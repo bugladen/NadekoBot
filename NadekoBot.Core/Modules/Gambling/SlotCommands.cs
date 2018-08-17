@@ -16,7 +16,6 @@ using NadekoBot.Core.Modules.Gambling.Common;
 using NadekoBot.Core.Common;
 using Image = SixLabors.ImageSharp.Image;
 using SixLabors.ImageSharp.Processing;
-using SixLabors.ImageSharp.Processing.Drawing;
 using SixLabors.ImageSharp;
 
 namespace NadekoBot.Modules.Gambling
