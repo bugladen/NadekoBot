@@ -212,9 +212,29 @@ namespace NadekoBot.Core.Services.Impl
         public void SetEconomy(string data)
         {
             var _db = Redis.GetDatabase();
-            _db.StringSetAsync($"{_redisKey}_economy",
+            _db.StringSet($"{_redisKey}_economy",
                 data,
                 expiry: TimeSpan.FromMinutes(3));
+        }
+
+        public async Task<TOut> GetOrAddCachedDataAsync<TParam, TOut>(string key, Func<TParam, Task<TOut>> factory, TParam param, TimeSpan expiry)
+        {
+            var _db = Redis.GetDatabase();
+
+            RedisValue data = await _db.StringGetAsync(key).ConfigureAwait(false);
+            if (!data.HasValue)
+            {
+                var obj = await factory(param).ConfigureAwait(false);
+
+                if (obj == default)
+                    return default;
+
+                await _db.StringSetAsync(key, JsonConvert.SerializeObject(obj),
+                    expiry: expiry).ConfigureAwait(false);
+
+                return obj;
+            }
+            return (TOut)JsonConvert.DeserializeObject(data, typeof(TOut));
         }
     }
 }
