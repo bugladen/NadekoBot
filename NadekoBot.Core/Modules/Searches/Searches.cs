@@ -50,8 +50,7 @@ namespace NadekoBot.Modules.Searches
             var av = usr.RealAvatarUrl();
             if (av == null)
                 return;
-            using (var pic = await _service.GetRipPictureAsync(usr.Nickname ?? usr.Username, av).ConfigureAwait(false))
-            using (var picStream = pic.ToStream())
+            using (var picStream = await _service.GetRipPictureAsync(usr.Nickname ?? usr.Username, av).ConfigureAwait(false))
             {
                 await Context.Channel.SendFileAsync(
                     picStream,
@@ -111,15 +110,9 @@ namespace NadekoBot.Modules.Searches
                 return;
 
             var embed = new EmbedBuilder();
-            string response;
             try
             {
-                using (var http = _httpFactory.CreateClient())
-                {
-                    response = await http.GetStringAsync($"http://api.openweathermap.org/data/2.5/weather?q={query}&appid=42cd627dd60debf25a5739e50a217d74&units=metric").ConfigureAwait(false);
-                }
-                var data = JsonConvert.DeserializeObject<WeatherData>(response);
-
+                var data = await _service.GetWeatherDataAsync(query).ConfigureAwait(false);
                 Func<double, double> f = StandardConversions.CelsiusToFahrenheit;
 
                 embed
@@ -146,22 +139,20 @@ namespace NadekoBot.Modules.Searches
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Time([Remainder] string arg)
         {
-            if (string.IsNullOrWhiteSpace(arg) || string.IsNullOrWhiteSpace(_creds.GoogleApiKey))
+            if (string.IsNullOrWhiteSpace(arg))
                 return;
-
-            using (var http = _httpFactory.CreateClient())
+            if (string.IsNullOrWhiteSpace(_creds.GoogleApiKey))
             {
-                var res = await http.GetStringAsync($"https://maps.googleapis.com/maps/api/geocode/json?address={arg}&key={_creds.GoogleApiKey}").ConfigureAwait(false);
-                var obj = JsonConvert.DeserializeObject<GeolocationResult>(res);
-
-                var currentSeconds = DateTime.UtcNow.UnixTimestamp();
-                var timeRes = await http.GetStringAsync($"https://maps.googleapis.com/maps/api/timezone/json?location={obj.Results[0].Geometry.Location.Lat},{obj.Results[0].Geometry.Location.Lng}&timestamp={currentSeconds}&key={_creds.GoogleApiKey}").ConfigureAwait(false);
-                var timeObj = JsonConvert.DeserializeObject<TimeZoneResult>(timeRes);
-
-                var time = DateTime.UtcNow.AddSeconds(timeObj.DstOffset + timeObj.RawOffset);
-
-                await ReplyConfirmLocalized("time", Format.Bold(obj.Results[0].FormattedAddress), Format.Code(time.ToString("HH:mm")), timeObj.TimeZoneName).ConfigureAwait(false);
+                await ReplyErrorLocalized("google_api_key_missing").ConfigureAwait(false);
+                return;
             }
+
+            var data = await _service.GetTimeDataAsync(arg).ConfigureAwait(false);
+
+            await ReplyConfirmLocalized("time",
+                Format.Bold(data.Address),
+                Format.Code(data.Time.ToString("HH:mm")),
+                data.TimeZoneName).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -194,35 +185,35 @@ namespace NadekoBot.Modules.Searches
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task RandomCat()
+        public Task RandomCat()
         {
-            await Context.Channel.EmbedAsync(new EmbedBuilder()
-                .WithOkColor()
-                .WithImageUrl("https://nadeko-pictures.nyc3.digitaloceanspaces.com/cats/" + _rng.Next(1, 773).ToString("000") + ".png")).ConfigureAwait(false);
+            return InternalRandomImage(SearchesService.ImageTag.Cat);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task RandomDog()
+        public Task RandomDog()
         {
-            await Context.Channel.EmbedAsync(new EmbedBuilder()
-                .WithOkColor()
-                .WithImageUrl("https://nadeko-pictures.nyc3.digitaloceanspaces.com/dogs/" + _rng.Next(1, 750).ToString("000") + ".png")).ConfigureAwait(false);
+            return InternalRandomImage(SearchesService.ImageTag.Dog);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task RandomFood()
+        public Task RandomFood()
         {
-            await Context.Channel.EmbedAsync(new EmbedBuilder()
-                .WithOkColor()
-                .WithImageUrl("https://nadeko-pictures.nyc3.digitaloceanspaces.com/food/" + _rng.Next(1, 883).ToString("000") + ".png")).ConfigureAwait(false);
+            return InternalRandomImage(SearchesService.ImageTag.Food);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task RandomBird()
+        public Task RandomBird()
         {
-            await Context.Channel.EmbedAsync(new EmbedBuilder()
+            return InternalRandomImage(SearchesService.ImageTag.Bird);
+        }
+
+        public Task InternalRandomImage(SearchesService.ImageTag tag)
+        {
+            var url = _service.GetRandomImageUrl(tag);
+            return Context.Channel.EmbedAsync(new EmbedBuilder()
                 .WithOkColor()
-                .WithImageUrl("https://nadeko-pictures.nyc3.digitaloceanspaces.com/birds/" + _rng.Next(1, 883).ToString("000") + ".png")).ConfigureAwait(false);
+                .WithImageUrl(url));
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -358,11 +349,11 @@ namespace NadekoBot.Modules.Searches
             }
 
             await Context.Channel.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
-                                                           .AddField(efb => efb.WithName(GetText("original_url"))
-                                                                               .WithValue($"<{arg}>"))
-                                                            .AddField(efb => efb.WithName(GetText("short_url"))
-                                                                                .WithValue($"<{shortened}>")))
-                                                            .ConfigureAwait(false);
+                                    .AddField(efb => efb.WithName(GetText("original_url"))
+                                                        .WithValue($"<{arg}>"))
+                                    .AddField(efb => efb.WithName(GetText("short_url"))
+                                                        .WithValue($"<{shortened}>")))
+                                    .ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -432,42 +423,27 @@ namespace NadekoBot.Modules.Searches
         [NadekoCommand, Usage, Description, Aliases]
         public async Task MagicTheGathering([Remainder] string search)
         {
-            if (string.IsNullOrWhiteSpace(search))
+            if (!await ValidateQuery(Context.Channel, search))
                 return;
 
             await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
-            using (var http = _httpFactory.CreateClient())
-            {
-                http.DefaultRequestHeaders.Clear();
-                var response = await http.GetStringAsync($"https://api.magicthegathering.io/v1/cards?name={Uri.EscapeUriString(search)}")
-                    .ConfigureAwait(false);
-                try
-                {
-                    var items = JObject.Parse(response)["cards"].ToArray();
-                    if (items == null || items.Length == 0)
-                        throw new KeyNotFoundException("Cannot find a card by that name");
-                    var item = items[new NadekoRandom().Next(0, items.Length)];
-                    var name = item["name"].ToString();
-                    var storeUrl = await _google.ShortenUrl($"https://shop.tcgplayer.com/productcatalog/product/show?newSearch=false&ProductType=All&IsProductNameExact=false&ProductName={Uri.EscapeUriString(name)}").ConfigureAwait(false);
-                    var cost = item["manaCost"].ToString();
-                    var desc = item["text"].ToString();
-                    var types = string.Join(",\n", item["types"].ToObject<string[]>());
-                    var img = item["imageUrl"].ToString();
-                    var embed = new EmbedBuilder().WithOkColor()
-                                    .WithTitle(name)
-                                    .WithDescription(desc)
-                                    .WithImageUrl(img)
-                                    .AddField(efb => efb.WithName(GetText("store_url")).WithValue(storeUrl).WithIsInline(true))
-                                    .AddField(efb => efb.WithName(GetText("cost")).WithValue(cost).WithIsInline(true))
-                                    .AddField(efb => efb.WithName(GetText("types")).WithValue(types).WithIsInline(true));
+            var card = await _service.GetMtgCardAsync(search).ConfigureAwait(false);
 
-                    await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
-                }
-                catch
-                {
-                    await ReplyErrorLocalized("card_not_found").ConfigureAwait(false);
-                }
+            if (card == null)
+            {
+                await ReplyErrorLocalized("card_not_found").ConfigureAwait(false);
+                return;
             }
+
+            var embed = new EmbedBuilder().WithOkColor()
+                .WithTitle(card.Name)
+                .WithDescription(card.Description)
+                .WithImageUrl(card.ImageUrl)
+                .AddField(efb => efb.WithName(GetText("store_url")).WithValue(card.StoreUrl).WithIsInline(true))
+                .AddField(efb => efb.WithName(GetText("cost")).WithValue(card.ManaCost).WithIsInline(true))
+                .AddField(efb => efb.WithName(GetText("types")).WithValue(card.Types).WithIsInline(true));
+
+            await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -843,7 +819,11 @@ namespace NadekoBot.Modules.Searches
 
         public async Task<bool> ValidateQuery(IMessageChannel ch, string query)
         {
-            if (!string.IsNullOrWhiteSpace(query)) return true;
+            if (!string.IsNullOrWhiteSpace(query))
+            {
+                return true;
+            }
+
             await ch.SendErrorAsync(GetText("specify_search_params")).ConfigureAwait(false);
             return false;
         }

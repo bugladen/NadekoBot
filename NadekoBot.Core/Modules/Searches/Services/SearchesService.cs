@@ -1,29 +1,31 @@
-﻿using Discord;
+﻿using AngleSharp;
+using Discord;
 using Discord.WebSocket;
-using NadekoBot.Extensions;
+using Microsoft.EntityFrameworkCore;
+using NadekoBot.Common;
+using NadekoBot.Core.Modules.Searches.Common;
 using NadekoBot.Core.Services;
+using NadekoBot.Core.Services.Database.Models;
+using NadekoBot.Core.Services.Impl;
+using NadekoBot.Extensions;
+using NadekoBot.Modules.Searches.Common;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NLog;
+using SixLabors.Fonts;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.Primitives;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
-using NadekoBot.Modules.Searches.Common;
-using NadekoBot.Core.Services.Database.Models;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using System.Net.Http;
-using Newtonsoft.Json.Linq;
-using AngleSharp;
 using System.Threading;
+using System.Threading.Tasks;
 using Image = SixLabors.ImageSharp.Image;
-using SixLabors.Primitives;
-using SixLabors.Fonts;
-using NadekoBot.Core.Services.Impl;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
 
 namespace NadekoBot.Modules.Searches.Services
 {
@@ -37,6 +39,8 @@ namespace NadekoBot.Modules.Searches.Services
         private readonly IImageCache _imgs;
         private readonly IDataCache _cache;
         private readonly FontProvider _fonts;
+        private readonly IBotCredentials _creds;
+        private readonly NadekoRandom _rng;
 
         public ConcurrentDictionary<ulong, bool> TranslatedChannels { get; } = new ConcurrentDictionary<ulong, bool>();
         // (userId, channelId)
@@ -55,7 +59,7 @@ namespace NadekoBot.Modules.Searches.Services
 
         public SearchesService(DiscordSocketClient client, IGoogleApiService google,
             DbService db, NadekoBot bot, IDataCache cache, IHttpClientFactory factory,
-            FontProvider fonts)
+            FontProvider fonts, IBotCredentials creds)
         {
             _httpFactory = factory;
             _client = client;
@@ -65,6 +69,8 @@ namespace NadekoBot.Modules.Searches.Services
             _imgs = cache.LocalImages;
             _cache = cache;
             _fonts = fonts;
+            _creds = creds;
+            _rng = new NadekoRandom();
 
             _blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>(
                 bot.AllGuildConfigs.ToDictionary(
@@ -118,8 +124,19 @@ namespace NadekoBot.Modules.Searches.Services
                 _log.Warn("data/magicitems.json is missing. Magic items are not loaded.");
         }
 
-        public async Task<Image<Rgba32>> GetRipPictureAsync(string text, Uri imgUrl)
+        public async Task<Stream> GetRipPictureAsync(string text, Uri imgUrl)
         {
+            byte[] data = await _cache.GetOrAddCachedDataAsync($"nadeko_rip_{text}_{imgUrl}",
+                GetRipPictureFactory,
+                (text, imgUrl),
+                TimeSpan.FromDays(1)).ConfigureAwait(false);
+
+            return data.ToStream();
+        }
+
+        public async Task<byte[]> GetRipPictureFactory((string text, Uri imgUrl) arg)
+        {
+            var (text, imgUrl) = arg;
             var (succ, data) = await _cache.TryGetImageDataAsync(imgUrl).ConfigureAwait(false);
             if (!succ)
             {
@@ -144,44 +161,144 @@ namespace NadekoBot.Modules.Searches.Services
                         }
                     }
                 }
-
                 await _cache.SetImageDataAsync(imgUrl, data).ConfigureAwait(false);
             }
-            var bg = Image.Load(_imgs.Rip.ToArray());
+            using (var bg = Image.Load(_imgs.Rip.ToArray()))
+            {
+                //avatar 82, 139
+                if (data != null)
+                {
+                    using (var avatar = Image.Load(data))
+                    {
+                        avatar.Mutate(x => x.Resize(85, 85));
+                        bg.Mutate(x => x
+                            .DrawImage(GraphicsOptions.Default,
+                                avatar,
+                                new Point(82, 139)));
+                    }
+                }
+                //text 63, 241
+                bg.Mutate(x => x.DrawText(
+                    new TextGraphicsOptions()
+                    {
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        WrapTextWidth = 190,
+                    },
+                    text,
+                    _fonts.NotoSans.CreateFont(20, FontStyle.Bold),
+                    Rgba32.Black,
+                    new PointF(25, 225)));
 
-            //avatar 82, 139
+                //flowa
+                using (var flowers = Image.Load(_imgs.RipOverlay.ToArray()))
+                {
+                    bg.Mutate(x => x.DrawImage(GraphicsOptions.Default,
+                        flowers,
+                        new Point(0, 0)));
+                }
+
+                return bg.ToStream().ToArray();
+            }
+        }
+
+        public Task<WeatherData> GetWeatherDataAsync(string query)
+        {
+            query = query.ToLowerInvariant();
+
+            return _cache.GetOrAddCachedDataAsync($"nadeko_weather_{query}",
+                GetWeatherDataFactory,
+                query,
+                expiry: TimeSpan.FromHours(3));
+        }
+
+        private async Task<WeatherData> GetWeatherDataFactory(string query)
+        {
+            using (var http = _httpFactory.CreateClient())
+            {
+                var data = await http.GetStringAsync($"http://api.openweathermap.org/data/2.5/weather?" +
+                    $"q={query}&" +
+                    $"appid=42cd627dd60debf25a5739e50a217d74&" +
+                    $"units=metric").ConfigureAwait(false);
+
+                return JsonConvert.DeserializeObject<WeatherData>(data);
+            }
+        }
+
+        public async Task<TimeData> GetTimeDataAsync(string arg)
+        {
+            var db = _cache.Redis.GetDatabase();
+            string data = await db.StringGetAsync($"nadeko_time_{arg}").ConfigureAwait(false);
+
             if (data != null)
             {
-                using (var avatar = Image.Load(data))
-                {
-                    avatar.Mutate(x => x.Resize(85, 85));
-                    bg.Mutate(x => x
-                        .DrawImage(GraphicsOptions.Default,
-                            avatar,
-                            new Point(82, 139)));
-                }
+                return JsonConvert.DeserializeObject<TimeData>(data);
             }
-            //text 63, 241
-            bg.Mutate(x => x.DrawText(
-                new TextGraphicsOptions()
-                {
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    WrapTextWidth = 190,
-                },
-                text,
-                _fonts.NotoSans.CreateFont(20, FontStyle.Bold),
-                Rgba32.Black,
-                new PointF(25, 225)));
 
-            //flowa
-            using (var flowers = Image.Load(_imgs.RipOverlay.ToArray()))
+            using (var http = _httpFactory.CreateClient())
             {
-                bg.Mutate(x => x.DrawImage(GraphicsOptions.Default,
-                    flowers,
-                    new Point(0, 0)));
+                var res = await http.GetStringAsync($"https://maps.googleapis.com/maps/api/geocode/json?address={arg}&key={_creds.GoogleApiKey}").ConfigureAwait(false);
+                var obj = JsonConvert.DeserializeObject<GeolocationResult>(res);
+                if (obj == null)
+                {
+                    _log.Warn("Geocode lookup failed for {0}", arg);
+                    return null;
+                }
+                var currentSeconds = DateTime.UtcNow.UnixTimestamp();
+                var timeRes = await http.GetStringAsync($"https://maps.googleapis.com/maps/api/timezone/json?location={obj.Results[0].Geometry.Location.Lat},{obj.Results[0].Geometry.Location.Lng}&timestamp={currentSeconds}&key={_creds.GoogleApiKey}").ConfigureAwait(false);
+
+                var timeObj = JsonConvert.DeserializeObject<TimeZoneResult>(timeRes);
+
+                var time = DateTime.UtcNow.AddSeconds(timeObj.DstOffset + timeObj.RawOffset);
+
+                var toReturn = new TimeData
+                {
+                    Address = obj.Results[0].FormattedAddress,
+                    Time = time,
+                    TimeZoneName = timeObj.TimeZoneName,
+                };
+
+                await db.StringSetAsync($"nadeko_time_{arg}",
+                    JsonConvert.SerializeObject(toReturn),
+                    expiry: TimeSpan.FromMinutes(30));
+
+                return toReturn;
+            }
+        }
+
+        public enum ImageTag
+        {
+            Food,
+            Dog,
+            Cat,
+            Bird
+        }
+
+        public string GetRandomImageUrl(ImageTag tag)
+        {
+            var subpath = tag.ToString().ToLowerInvariant();
+
+            int max;
+            switch (tag)
+            {
+                case ImageTag.Food:
+                    max = 773;
+                    break;
+                case ImageTag.Dog:
+                    max = 750;
+                    break;
+                case ImageTag.Cat:
+                    max = 883;
+                    break;
+                case ImageTag.Bird:
+                    max = 883;
+                    break;
+                default:
+                    max = 100;
+                    break;
             }
 
-            return bg;
+            return $"https://nadeko-pictures.nyc3.digitaloceanspaces.com/{subpath}/" +
+                _rng.Next(1, max).ToString("000") + ".png";
         }
 
         public async Task<string> Translate(string langs, string text = null)
@@ -302,6 +419,69 @@ namespace NadekoBot.Modules.Searches.Services
 
             _imageCacher.Clear();
             return Task.CompletedTask;
+        }
+
+        public async Task<MtgData> GetMtgCardAsync(string search)
+        {
+            search = search.ToLowerInvariant();
+            var data = await _cache.GetOrAddCachedDataAsync($"nadeko_mtg_{search}",
+                GetMtgCardFactory,
+                search,
+                TimeSpan.FromDays(1)).ConfigureAwait(false);
+
+            if (data == null || data.Length == 0)
+                return null;
+
+            return data[_rng.Next(0, data.Length)];
+        }
+
+        private async Task<MtgData[]> GetMtgCardFactory(string search)
+        {
+            async Task<MtgData> GetMtgDataAsync(MtgResponse.Data card)
+            {
+                string storeUrl;
+                try
+                {
+                    storeUrl = await _google.ShortenUrl($"https://shop.tcgplayer.com/productcatalog/product/show?" +
+                        $"newSearch=false&" +
+                        $"ProductType=All&" +
+                        $"IsProductNameExact=false&" +
+                        $"ProductName={Uri.EscapeUriString(card.Name)}").ConfigureAwait(false);
+                }
+                catch { storeUrl = "<url can't be found>"; }
+
+                return new MtgData
+                {
+                    Description = card.Text,
+                    Name = card.Name,
+                    ImageUrl = card.ImageUrl,
+                    StoreUrl = storeUrl,
+                    Types = string.Join(",\n", card.Types),
+                    ManaCost = card.ManaCost,
+                };
+            }
+
+            using (var http = _httpFactory.CreateClient())
+            {
+                http.DefaultRequestHeaders.Clear();
+                var response = await http.GetStringAsync($"https://api.magicthegathering.io/v1/cards?name={Uri.EscapeUriString(search)}")
+                    .ConfigureAwait(false);
+
+                var responseObject = JsonConvert.DeserializeObject<MtgResponse>(response);
+
+                if (responseObject == null || responseObject.Cards.Count == 0)
+                    return new MtgData[0];
+
+                var tasks = new List<Task<MtgData>>(responseObject.Cards.Count);
+                for (int i = 0; i < responseObject.Cards.Count; i++)
+                {
+                    var card = responseObject.Cards[i];
+
+                    tasks.Add(GetMtgDataAsync(card));
+                }
+
+                return await Task.WhenAll(tasks).ConfigureAwait(false);
+            }
         }
     }
 }
