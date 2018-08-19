@@ -215,53 +215,68 @@ namespace NadekoBot.Modules.Searches.Services
         {
             using (var http = _httpFactory.CreateClient())
             {
-                var data = await http.GetStringAsync($"http://api.openweathermap.org/data/2.5/weather?" +
-                    $"q={query}&" +
-                    $"appid=42cd627dd60debf25a5739e50a217d74&" +
-                    $"units=metric").ConfigureAwait(false);
+                try
+                {
+                    var data = await http.GetStringAsync($"http://api.openweathermap.org/data/2.5/weather?" +
+                        $"q={query}&" +
+                        $"appid=42cd627dd60debf25a5739e50a217d74&" +
+                        $"units=metric").ConfigureAwait(false);
 
-                return JsonConvert.DeserializeObject<WeatherData>(data);
+                    if (data == null)
+                        return null;
+
+                    return JsonConvert.DeserializeObject<WeatherData>(data);
+                }
+                catch (Exception ex)
+                {
+                    _log.Warn(ex.Message);
+                    return null;
+                }
             }
         }
 
-        public async Task<TimeData> GetTimeDataAsync(string arg)
+        public Task<TimeData> GetTimeDataAsync(string arg)
         {
-            var db = _cache.Redis.GetDatabase();
-            string data = await db.StringGetAsync($"nadeko_time_{arg}").ConfigureAwait(false);
+            return _cache.GetOrAddCachedDataAsync($"nadeko_time_{arg}",
+                GetTimeDataFactory,
+                arg,
+                TimeSpan.FromMinutes(5));
+        }
 
-            if (data != null)
+        private async Task<TimeData> GetTimeDataFactory(string arg)
+        {
+            try
             {
-                return JsonConvert.DeserializeObject<TimeData>(data);
-            }
-
-            using (var http = _httpFactory.CreateClient())
-            {
-                var res = await http.GetStringAsync($"https://maps.googleapis.com/maps/api/geocode/json?address={arg}&key={_creds.GoogleApiKey}").ConfigureAwait(false);
-                var obj = JsonConvert.DeserializeObject<GeolocationResult>(res);
-                if (obj?.Results == null || obj.Results.Length == 0)
+                using (var http = _httpFactory.CreateClient())
                 {
-                    _log.Warn("Geocode lookup failed for {0}", arg);
-                    return null;
+                    var res = await http.GetStringAsync($"https://maps.googleapis.com/maps/api/geocode/json?address={arg}&key={_creds.GoogleApiKey}").ConfigureAwait(false);
+                    var obj = JsonConvert.DeserializeObject<GeolocationResult>(res);
+                    if (obj?.Results == null || obj.Results.Length == 0)
+                    {
+                        _log.Warn("Geocode lookup failed for {0}", arg);
+                        return null;
+                    }
+                    var currentSeconds = DateTime.UtcNow.UnixTimestamp();
+                    var timeRes = await http.GetStringAsync($"https://maps.googleapis.com/maps/api/timezone/json?location={obj.Results[0].Geometry.Location.Lat},{obj.Results[0].Geometry.Location.Lng}&timestamp={currentSeconds}&key={_creds.GoogleApiKey}").ConfigureAwait(false);
+
+                    var timeObj = JsonConvert.DeserializeObject<TimeZoneResult>(timeRes);
+
+                    var time = DateTime.UtcNow.AddSeconds(timeObj.DstOffset + timeObj.RawOffset);
+
+                    var toReturn = new TimeData
+                    {
+                        Address = obj.Results[0].FormattedAddress,
+                        Time = time,
+                        TimeZoneName = timeObj.TimeZoneName,
+                    };
+
+                    return toReturn;
                 }
-                var currentSeconds = DateTime.UtcNow.UnixTimestamp();
-                var timeRes = await http.GetStringAsync($"https://maps.googleapis.com/maps/api/timezone/json?location={obj.Results[0].Geometry.Location.Lat},{obj.Results[0].Geometry.Location.Lng}&timestamp={currentSeconds}&key={_creds.GoogleApiKey}").ConfigureAwait(false);
-
-                var timeObj = JsonConvert.DeserializeObject<TimeZoneResult>(timeRes);
-
-                var time = DateTime.UtcNow.AddSeconds(timeObj.DstOffset + timeObj.RawOffset);
-
-                var toReturn = new TimeData
-                {
-                    Address = obj.Results[0].FormattedAddress,
-                    Time = time,
-                    TimeZoneName = timeObj.TimeZoneName,
-                };
-
-                await db.StringSetAsync($"nadeko_time_{arg}",
-                    JsonConvert.SerializeObject(toReturn),
-                    expiry: TimeSpan.FromMinutes(5));
-
-                return toReturn;
+            }
+            catch (Exception ex)
+            {
+                _log.Warn(ex);
+                return null;
             }
         }
 
@@ -506,7 +521,9 @@ namespace NadekoBot.Modules.Searches.Services
                     var objs = JsonConvert.DeserializeObject<HearthstoneCardData[]>(response);
                     if (objs == null || objs.Length == 0)
                         return null;
-                    var data = objs.FirstOrDefault(x => x.Collectible);
+                    var data = objs.FirstOrDefault(x => x.Collectible)
+                        ?? objs.FirstOrDefault(x => !string.IsNullOrEmpty(x.PlayerClass))
+                        ?? objs.FirstOrDefault();
                     if (data == null)
                         return null;
                     if (!string.IsNullOrWhiteSpace(data.Img))

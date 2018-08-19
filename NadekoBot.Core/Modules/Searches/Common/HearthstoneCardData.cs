@@ -8,5 +8,6 @@
 
         public string Img { get; set; }
         public string ImgGold { get; set; }
+        public string PlayerClass { get; set; }
     }
 }
