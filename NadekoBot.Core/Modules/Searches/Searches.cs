@@ -415,7 +415,7 @@ namespace NadekoBot.Modules.Searches
 
             if (card == null)
             {
-                await ReplyErrorLocalized("error_occured").ConfigureAwait(false);
+                await ReplyErrorLocalized("card_not_found").ConfigureAwait(false);
                 return;
             }
             var embed = new EmbedBuilder().WithOkColor()
