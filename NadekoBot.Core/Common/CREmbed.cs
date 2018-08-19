@@ -1,7 +1,7 @@
-using System;
 using Discord;
 using NadekoBot.Extensions;
 using Newtonsoft.Json;
+using System;
 
 namespace NadekoBot.Common
 {
@@ -73,7 +73,7 @@ namespace NadekoBot.Common
         public static bool TryParse(string input, out CREmbed embed)
         {
             embed = null;
-            if (string.IsNullOrWhiteSpace(input))
+            if (string.IsNullOrWhiteSpace(input) || !input.Trim().StartsWith('{'))
                 return false;
 
             try
