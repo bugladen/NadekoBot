@@ -20,7 +20,6 @@ using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using SixLabors.Primitives;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -170,30 +169,37 @@ namespace NadekoBot.Modules.Searches
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task Imdb([Remainder] string query = null)
+        public async Task Movie([Remainder] string query = null)
         {
             if (!(await ValidateQuery(Context.Channel, query).ConfigureAwait(false))) return;
             await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
 
-            var movie = await OmdbProvider.FindMovie(query, _google, _httpFactory).ConfigureAwait(false);
+            var movie = await _service.GetMovieDataAsync(query).ConfigureAwait(false);
             if (movie == null)
             {
                 await ReplyErrorLocalized("imdb_fail").ConfigureAwait(false);
                 return;
             }
-            await Context.Channel.EmbedAsync(movie.GetEmbed()).ConfigureAwait(false);
+            await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                .WithTitle(movie.Title)
+                .WithUrl($"http://www.imdb.com/title/{movie.ImdbId}/")
+                .WithDescription(movie.Plot.TrimTo(1000))
+                .AddField(efb => efb.WithName("Rating").WithValue(movie.ImdbRating).WithIsInline(true))
+                .AddField(efb => efb.WithName("Genre").WithValue(movie.Genre).WithIsInline(true))
+                .AddField(efb => efb.WithName("Year").WithValue(movie.Year).WithIsInline(true))
+                .WithImageUrl(movie.Poster)).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         public Task RandomCat()
         {
-            return InternalRandomImage(SearchesService.ImageTag.Cat);
+            return InternalRandomImage(SearchesService.ImageTag.Cats);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         public Task RandomDog()
         {
-            return InternalRandomImage(SearchesService.ImageTag.Dog);
+            return InternalRandomImage(SearchesService.ImageTag.Dogs);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -205,7 +211,7 @@ namespace NadekoBot.Modules.Searches
         [NadekoCommand, Usage, Description, Aliases]
         public Task RandomBird()
         {
-            return InternalRandomImage(SearchesService.ImageTag.Bird);
+            return InternalRandomImage(SearchesService.ImageTag.Birds);
         }
 
         public Task InternalRandomImage(SearchesService.ImageTag tag)
@@ -218,61 +224,6 @@ namespace NadekoBot.Modules.Searches
 
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Image([Remainder] string terms = null)
-        {
-            var oterms = terms?.Trim();
-            if (string.IsNullOrWhiteSpace(oterms))
-                return;
-
-            terms = WebUtility.UrlEncode(oterms).Replace(' ', '+');
-
-            try
-            {
-                var res = await _google.GetImageAsync(oterms).ConfigureAwait(false);
-                var embed = new EmbedBuilder()
-                    .WithOkColor()
-                    .WithAuthor(eab => eab.WithName(GetText("image_search_for") + " " + oterms.TrimTo(50))
-                        .WithUrl("https://www.google.rs/search?q=" + terms + "&source=lnms&tbm=isch")
-                        .WithIconUrl("http://i.imgur.com/G46fm8J.png"))
-                    .WithDescription(res.Link)
-                    .WithImageUrl(res.Link)
-                    .WithTitle(Context.User.ToString());
-                await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
-            }
-            catch
-            {
-                _log.Warn("Falling back to Imgur search.");
-
-                var fullQueryLink = $"http://imgur.com/search?q={ terms }";
-                var config = Configuration.Default.WithDefaultLoader();
-                using (var document = await BrowsingContext.New(config).OpenAsync(fullQueryLink).ConfigureAwait(false))
-                {
-                    var elems = document.QuerySelectorAll("a.image-list-link");
-
-                    if (!elems.Any())
-                        return;
-
-                    var img = (elems.FirstOrDefault()?.Children?.FirstOrDefault() as IHtmlImageElement);
-
-                    if (img?.Source == null)
-                        return;
-
-                    var source = img.Source.Replace("b.", ".", StringComparison.InvariantCulture);
-
-                    var embed = new EmbedBuilder()
-                        .WithOkColor()
-                        .WithAuthor(eab => eab.WithName(GetText("image_search_for") + " " + oterms.TrimTo(50))
-                            .WithUrl(fullQueryLink)
-                            .WithIconUrl("http://s.imgur.com/images/logo-1200-630.jpg?"))
-                        .WithDescription(source)
-                        .WithImageUrl(source)
-                        .WithTitle(Context.User.ToString());
-                    await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
-                }
-            }
-        }
-
-        [NadekoCommand, Usage, Description, Aliases]
-        public async Task RandomImage([Remainder] string terms = null)
         {
             var oterms = terms?.Trim();
             if (string.IsNullOrWhiteSpace(oterms))
@@ -450,7 +401,7 @@ namespace NadekoBot.Modules.Searches
         public async Task Hearthstone([Remainder] string name)
         {
             var arg = name;
-            if (string.IsNullOrWhiteSpace(arg))
+            if (!await ValidateQuery(Context.Channel, name).ConfigureAwait(false))
                 return;
 
             if (string.IsNullOrWhiteSpace(_creds.MashapeKey))
@@ -460,44 +411,20 @@ namespace NadekoBot.Modules.Searches
             }
 
             await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
-            using (var http = _httpFactory.CreateClient())
+            var card = await _service.GetHearthstoneCardDataAsync(name).ConfigureAwait(false);
+
+            if (card == null)
             {
-                http.DefaultRequestHeaders.Clear();
-                http.DefaultRequestHeaders.Add("X-Mashape-Key", _creds.MashapeKey);
-                var response = await http.GetStringAsync($"https://omgvamp-hearthstone-v1.p.mashape.com/cards/search/{Uri.EscapeUriString(arg)}")
-                    .ConfigureAwait(false);
-                try
-                {
-                    var items = JArray.Parse(response).Shuffle().ToList();
-                    var images = new List<Image<Rgba32>>();
-                    if (items == null)
-                        throw new KeyNotFoundException("Cannot find a card by that name");
-                    foreach (var item in items.Where(item => item.HasValues && item["img"] != null).Take(4))
-                    {
-                        var arr = await http.GetByteArrayAsync(item["img"].ToString()).ConfigureAwait(false);
-                        images.Add(SixLabors.ImageSharp.Image.Load(arr));
-                    }
-                    string msg = null;
-                    if (items.Count > 4)
-                    {
-                        msg = GetText("hs_over_x", 4);
-                    }
-                    using (var img = images.Merge())
-                    using (var ms = img.ToStream())
-                    {
-                        foreach (var i in images)
-                        {
-                            i.Dispose();
-                        }
-                        await Context.Channel.SendFileAsync(ms, arg + ".png", msg).ConfigureAwait(false);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    _log.Error(ex);
-                    await ReplyErrorLocalized("error_occured").ConfigureAwait(false);
-                }
+                await ReplyErrorLocalized("error_occured").ConfigureAwait(false);
+                return;
             }
+            var embed = new EmbedBuilder().WithOkColor()
+                .WithImageUrl(card.Img);
+
+            if (!string.IsNullOrWhiteSpace(card.Flavor))
+                embed.WithDescription(card.Flavor);
+
+            await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]

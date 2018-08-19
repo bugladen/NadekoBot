@@ -19,6 +19,7 @@
     <PackageReference Include="Google.Apis.Urlshortener.v1" Version="1.35.1.138" />
     <PackageReference Include="Google.Apis.YouTube.v3" Version="1.35.1.1226" />
     <PackageReference Include="Google.Apis.Customsearch.v1" Version="1.35.1.1301" />
+    <PackageReference Include="Html2Markdown" Version="3.2.1.341" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.1" />

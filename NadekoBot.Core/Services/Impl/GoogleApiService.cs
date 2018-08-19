@@ -13,6 +13,7 @@ using System.Net.Http;
 using System.Net;
 using Newtonsoft.Json.Linq;
 using NadekoBot.Extensions;
+using Google;
 
 namespace NadekoBot.Core.Services.Impl
 {
@@ -132,6 +133,10 @@ namespace NadekoBot.Core.Services.Impl
             {
                 var response = await sh.Url.Insert(new Url { LongUrl = url }).ExecuteAsync().ConfigureAwait(false);
                 return response.Id;
+            }
+            catch (GoogleApiException ex) when (ex.HttpStatusCode == HttpStatusCode.Forbidden)
+            {
+                return url;
             }
             catch (Exception ex)
             {

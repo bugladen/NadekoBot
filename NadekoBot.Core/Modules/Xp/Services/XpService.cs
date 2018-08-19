@@ -216,16 +216,14 @@ namespace NadekoBot.Modules.Xp.Services
                                             (x.MessageChannel as ITextChannel)?.GuildId,
                                             "xp",
                                             x.User.Mention, Format.Bold(x.Level.ToString()),
-                                            Format.Bold((x.MessageChannel as ITextChannel)?.Guild.ToString() ?? "-")))
-                                            ;
+                                            Format.Bold((x.MessageChannel as ITextChannel)?.Guild.ToString() ?? "-")));
                                 }
                                 else // channel
                                 {
                                     await x.MessageChannel.SendConfirmAsync(_strings.GetText("level_up_channel",
                                               (x.MessageChannel as ITextChannel)?.GuildId,
                                               "xp",
-                                              x.User.Mention, Format.Bold(x.Level.ToString())))
-                                              ;
+                                              x.User.Mention, Format.Bold(x.Level.ToString())));
                                 }
                             }
                             else
@@ -242,8 +240,7 @@ namespace NadekoBot.Modules.Xp.Services
                                 await chan.SendConfirmAsync(_strings.GetText("level_up_global",
                                               (x.MessageChannel as ITextChannel)?.GuildId,
                                               "xp",
-                                              x.User.Mention, Format.Bold(x.Level.ToString())))
-                                                ;
+                                              x.User.Mention, Format.Bold(x.Level.ToString())));
                             }
                         }));
                     }

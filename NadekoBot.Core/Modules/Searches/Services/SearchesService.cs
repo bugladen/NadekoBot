@@ -203,7 +203,7 @@ namespace NadekoBot.Modules.Searches.Services
 
         public Task<WeatherData> GetWeatherDataAsync(string query)
         {
-            query = query.ToLowerInvariant();
+            query = query.Trim().ToLowerInvariant();
 
             return _cache.GetOrAddCachedDataAsync($"nadeko_weather_{query}",
                 GetWeatherDataFactory,
@@ -238,7 +238,7 @@ namespace NadekoBot.Modules.Searches.Services
             {
                 var res = await http.GetStringAsync($"https://maps.googleapis.com/maps/api/geocode/json?address={arg}&key={_creds.GoogleApiKey}").ConfigureAwait(false);
                 var obj = JsonConvert.DeserializeObject<GeolocationResult>(res);
-                if (obj == null)
+                if (obj?.Results == null || obj.Results.Length == 0)
                 {
                     _log.Warn("Geocode lookup failed for {0}", arg);
                     return null;
@@ -259,7 +259,7 @@ namespace NadekoBot.Modules.Searches.Services
 
                 await db.StringSetAsync($"nadeko_time_{arg}",
                     JsonConvert.SerializeObject(toReturn),
-                    expiry: TimeSpan.FromMinutes(30));
+                    expiry: TimeSpan.FromMinutes(5));
 
                 return toReturn;
             }
@@ -268,9 +268,9 @@ namespace NadekoBot.Modules.Searches.Services
         public enum ImageTag
         {
             Food,
-            Dog,
-            Cat,
-            Bird
+            Dogs,
+            Cats,
+            Birds
         }
 
         public string GetRandomImageUrl(ImageTag tag)
@@ -283,14 +283,14 @@ namespace NadekoBot.Modules.Searches.Services
                 case ImageTag.Food:
                     max = 773;
                     break;
-                case ImageTag.Dog:
+                case ImageTag.Dogs:
                     max = 750;
                     break;
-                case ImageTag.Cat:
-                    max = 883;
+                case ImageTag.Cats:
+                    max = 773;
                     break;
-                case ImageTag.Bird:
-                    max = 883;
+                case ImageTag.Birds:
+                    max = 578;
                     break;
                 default:
                     max = 100;
@@ -423,7 +423,7 @@ namespace NadekoBot.Modules.Searches.Services
 
         public async Task<MtgData> GetMtgCardAsync(string search)
         {
-            search = search.ToLowerInvariant();
+            search = search.Trim().ToLowerInvariant();
             var data = await _cache.GetOrAddCachedDataAsync($"nadeko_mtg_{search}",
                 GetMtgCardFactory,
                 search,
@@ -481,6 +481,73 @@ namespace NadekoBot.Modules.Searches.Services
                 }
 
                 return await Task.WhenAll(tasks).ConfigureAwait(false);
+            }
+        }
+
+        public Task<HearthstoneCardData> GetHearthstoneCardDataAsync(string name)
+        {
+            name = name.ToLowerInvariant();
+            return _cache.GetOrAddCachedDataAsync($"nadeko_hearthstone_{name}",
+                HearthstoneCardDataFactory,
+                name,
+                TimeSpan.FromDays(1));
+        }
+
+        private async Task<HearthstoneCardData> HearthstoneCardDataFactory(string name)
+        {
+            using (var http = _httpFactory.CreateClient())
+            {
+                http.DefaultRequestHeaders.Clear();
+                http.DefaultRequestHeaders.Add("X-Mashape-Key", _creds.MashapeKey);
+                try
+                {
+                    var response = await http.GetStringAsync($"https://omgvamp-hearthstone-v1.p.mashape.com/" +
+                        $"cards/search/{Uri.EscapeUriString(name)}").ConfigureAwait(false);
+                    var objs = JsonConvert.DeserializeObject<HearthstoneCardData[]>(response);
+                    if (objs == null || objs.Length == 0)
+                        return null;
+                    var data = objs.FirstOrDefault(x => x.Collectible);
+                    if (data == null)
+                        return null;
+                    if (!string.IsNullOrWhiteSpace(data.Img))
+                    {
+                        data.Img = await _google.ShortenUrl(data.Img).ConfigureAwait(false);
+                    }
+                    if (!string.IsNullOrWhiteSpace(data.Text))
+                    {
+                        var converter = new Html2Markdown.Converter();
+                        data.Text = converter.Convert(data.Text);
+                    }
+                    return data;
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex);
+                    return null;
+                }
+            }
+        }
+
+        public Task<OmdbMovie> GetMovieDataAsync(string name)
+        {
+            name = name.Trim().ToLowerInvariant();
+            return _cache.GetOrAddCachedDataAsync($"nadeko_movie_{name}",
+                GetMovieDataFactory,
+                name,
+                TimeSpan.FromDays(1));
+        }
+
+        private async Task<OmdbMovie> GetMovieDataFactory(string name)
+        {
+            using (var http = _httpFactory.CreateClient())
+            {
+                var res = await http.GetStringAsync(string.Format("https://omdbapi.nadekobot.me/?t={0}&y=&plot=full&r=json",
+                    name.Trim().Replace(' ', '+'))).ConfigureAwait(false);
+                var movie = JsonConvert.DeserializeObject<OmdbMovie>(res);
+                if (movie?.Title == null)
+                    return null;
+                movie.Poster = await _google.ShortenUrl(movie.Poster).ConfigureAwait(false);
+                return movie;
             }
         }
     }
