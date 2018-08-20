@@ -539,7 +539,7 @@ namespace NadekoBot.Modules.Searches.Services
                 }
                 catch (Exception ex)
                 {
-                    _log.Error(ex);
+                    _log.Error(ex.Message);
                     return null;
                 }
             }

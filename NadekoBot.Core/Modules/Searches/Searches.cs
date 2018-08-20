@@ -120,8 +120,7 @@ namespace NadekoBot.Modules.Searches
             {
                 Func<double, double> f = StandardConversions.CelsiusToFahrenheit;
 
-                embed
-                    .AddField(fb => fb.WithName("🌍 " + Format.Bold(GetText("location"))).WithValue($"[{data.Name + ", " + data.Sys.Country}](https://openweathermap.org/city/{data.Id})").WithIsInline(true))
+                embed.AddField(fb => fb.WithName("🌍 " + Format.Bold(GetText("location"))).WithValue($"[{data.Name + ", " + data.Sys.Country}](https://openweathermap.org/city/{data.Id})").WithIsInline(true))
                     .AddField(fb => fb.WithName("📏 " + Format.Bold(GetText("latlong"))).WithValue($"{data.Coord.Lat}, {data.Coord.Lon}").WithIsInline(true))
                     .AddField(fb => fb.WithName("☁ " + Format.Bold(GetText("condition"))).WithValue(string.Join(", ", data.Weather.Select(w => w.Main))).WithIsInline(true))
                     .AddField(fb => fb.WithName("😓 " + Format.Bold(GetText("humidity"))).WithValue($"{data.Main.Humidity}%").WithIsInline(true))
@@ -197,28 +196,16 @@ namespace NadekoBot.Modules.Searches
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public Task RandomCat()
-        {
-            return InternalRandomImage(SearchesService.ImageTag.Cats);
-        }
+        public Task RandomCat() => InternalRandomImage(SearchesService.ImageTag.Cats);
 
         [NadekoCommand, Usage, Description, Aliases]
-        public Task RandomDog()
-        {
-            return InternalRandomImage(SearchesService.ImageTag.Dogs);
-        }
+        public Task RandomDog() => InternalRandomImage(SearchesService.ImageTag.Dogs);
 
         [NadekoCommand, Usage, Description, Aliases]
-        public Task RandomFood()
-        {
-            return InternalRandomImage(SearchesService.ImageTag.Food);
-        }
+        public Task RandomFood() => InternalRandomImage(SearchesService.ImageTag.Food);
 
         [NadekoCommand, Usage, Description, Aliases]
-        public Task RandomBird()
-        {
-            return InternalRandomImage(SearchesService.ImageTag.Birds);
-        }
+        public Task RandomBird() => InternalRandomImage(SearchesService.ImageTag.Birds);
 
         private Task InternalRandomImage(SearchesService.ImageTag tag)
         {
