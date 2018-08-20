@@ -1,35 +1,29 @@
 using Discord;
 using Discord.WebSocket;
+using NadekoBot.Common;
 using NadekoBot.Common.Collections;
-using NadekoBot.Extensions;
-using NadekoBot.Modules.Xp.Common;
+using NadekoBot.Core.Modules.Xp.Common;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Core.Services.Impl;
+using NadekoBot.Extensions;
+using NadekoBot.Modules.Xp.Common;
+using Newtonsoft.Json;
 using NLog;
+using SixLabors.Fonts;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.Primitives;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Threading;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Image = SixLabors.ImageSharp.Image;
-using SixLabors.Fonts;
-using System.IO;
-using SixLabors.Primitives;
-using System.Net.Http;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing.Drawing.Pens;
-using SixLabors.ImageSharp.Processing.Drawing.Brushes;
-using SixLabors.ImageSharp.Processing;
-using SixLabors.ImageSharp.Processing.Drawing;
-using SixLabors.ImageSharp.Processing.Transforms;
-using SixLabors.ImageSharp.Processing.Text;
-using Newtonsoft.Json;
-using NadekoBot.Core.Modules.Xp.Common;
-using NadekoBot.Common;
-using SixLabors.ImageSharp.Formats;
 
 namespace NadekoBot.Modules.Xp.Services
 {
@@ -58,15 +52,10 @@ namespace NadekoBot.Modules.Xp.Services
         private readonly ConcurrentHashSet<ulong> _excludedServers
             = new ConcurrentHashSet<ulong>();
 
-        private readonly ConcurrentHashSet<ulong> _rewardedUsers
-            = new ConcurrentHashSet<ulong>();
-
         private readonly ConcurrentQueue<UserCacheItem> _addMessageXp
             = new ConcurrentQueue<UserCacheItem>();
 
         private readonly Task updateXpTask;
-        private readonly CancellationTokenSource _clearRewardTimerTokenSource;
-        private readonly Task _clearRewardTimer;
         private readonly IHttpClientFactory _httpFactory;
         private XpTemplate _template;
 
@@ -227,16 +216,14 @@ namespace NadekoBot.Modules.Xp.Services
                                             (x.MessageChannel as ITextChannel)?.GuildId,
                                             "xp",
                                             x.User.Mention, Format.Bold(x.Level.ToString()),
-                                            Format.Bold((x.MessageChannel as ITextChannel)?.Guild.ToString() ?? "-")))
-                                            ;
+                                            Format.Bold((x.MessageChannel as ITextChannel)?.Guild.ToString() ?? "-")));
                                 }
                                 else // channel
                                 {
                                     await x.MessageChannel.SendConfirmAsync(_strings.GetText("level_up_channel",
                                               (x.MessageChannel as ITextChannel)?.GuildId,
                                               "xp",
-                                              x.User.Mention, Format.Bold(x.Level.ToString())))
-                                              ;
+                                              x.User.Mention, Format.Bold(x.Level.ToString())));
                                 }
                             }
                             else
@@ -253,8 +240,7 @@ namespace NadekoBot.Modules.Xp.Services
                                 await chan.SendConfirmAsync(_strings.GetText("level_up_global",
                                               (x.MessageChannel as ITextChannel)?.GuildId,
                                               "xp",
-                                              x.User.Mention, Format.Bold(x.Level.ToString())))
-                                                ;
+                                              x.User.Mention, Format.Bold(x.Level.ToString())));
                             }
                         }));
                     }
@@ -264,20 +250,6 @@ namespace NadekoBot.Modules.Xp.Services
                     }
                 }
             });
-
-            _clearRewardTimerTokenSource = new CancellationTokenSource();
-            var token = _clearRewardTimerTokenSource.Token;
-            //just a first line, in order to prevent queries. But since other shards can try to do this too,
-            //i'll check in the db too.
-            _clearRewardTimer = Task.Run(async () =>
-            {
-                while (!token.IsCancellationRequested)
-                {
-                    _rewardedUsers.Clear();
-
-                    await Task.Delay(TimeSpan.FromMinutes(_bc.BotConfig.XpMinutesTimeout));
-                }
-            }, token);
         }
 
         private void InternalReloadXpTemplate()
@@ -500,7 +472,7 @@ namespace NadekoBot.Modules.Xp.Services
 
             return r.StringSet(key,
                 true,
-                TimeSpan.FromMinutes(_bc.BotConfig.XpMinutesTimeout),
+                TimeSpan.FromSeconds(_bc.BotConfig.XpMinutesTimeout),
                 StackExchange.Redis.When.NotExists);
         }
 
@@ -516,7 +488,7 @@ namespace NadekoBot.Modules.Xp.Services
                 du = uow.DiscordUsers.GetOrCreate(user);
                 totalXp = du.TotalXp;
                 globalRank = uow.DiscordUsers.GetUserGlobalRank(user.Id);
-                guildRank = await uow.Xp.GetUserGuildRankingAsync(user.Id, user.GuildId);
+                guildRank = uow.Xp.GetUserGuildRanking(user.Id, user.GuildId);
                 stats = uow.Xp.GetOrCreateUser(user.GuildId, user.Id);
                 await uow.CompleteAsync();
             }
@@ -946,11 +918,25 @@ namespace NadekoBot.Modules.Xp.Services
         public Task Unload()
         {
             _cmd.OnMessageNoTrigger -= _cmd_OnMessageNoTrigger;
-
-            if (!_clearRewardTimerTokenSource.IsCancellationRequested)
-                _clearRewardTimerTokenSource.Cancel();
-            _clearRewardTimerTokenSource.Dispose();
             return Task.CompletedTask;
+        }
+
+        public void XpReset(ulong guildId, ulong userId)
+        {
+            using (var uow = _db.UnitOfWork)
+            {
+                uow.Xp.ResetGuildUserXp(userId, guildId);
+                uow.Complete();
+            }
+        }
+
+        public void XpReset(ulong guildId)
+        {
+            using (var uow = _db.UnitOfWork)
+            {
+                uow.Xp.ResetGuildXp(guildId);
+                uow.Complete();
+            }
         }
     }
 }

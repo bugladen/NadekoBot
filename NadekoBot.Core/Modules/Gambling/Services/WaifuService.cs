@@ -7,9 +7,9 @@ using NadekoBot.Core.Services.Database.Models;
 using System.Collections.Generic;
 using NadekoBot.Core.Modules.Gambling.Common.Waifu;
 using NLog;
-using System.Diagnostics;
 using NadekoBot.Core.Services.Database.Repositories;
 using Microsoft.EntityFrameworkCore;
+using NadekoBot.Core.Common;
 
 namespace NadekoBot.Modules.Gambling.Services
 {
@@ -330,16 +330,14 @@ namespace NadekoBot.Modules.Gambling.Services
 
         public async Task<bool> GiftWaifuAsync(ulong from, IUser giftedWaifu, WaifuItem itemObj)
         {
+            if (!await _cs.RemoveAsync(from, "Bought waifu item", itemObj.Price, gamble: true))
+            {
+                return false;
+            }
+
             using (var uow = _db.UnitOfWork)
             {
                 var w = uow.Waifus.ByWaifuUserId(giftedWaifu.Id, set => set.Include(x => x.Items));
-
-                //try to buy the item first
-
-                if (!await _cs.RemoveAsync(from, "Bought waifu item", itemObj.Price, gamble: true))
-                {
-                    return false;
-                }
                 if (w == null)
                 {
                     uow.Waifus.Add(w = new WaifuInfo()

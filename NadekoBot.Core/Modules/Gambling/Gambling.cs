@@ -1,18 +1,19 @@
 ﻿using Discord;
 using Discord.Commands;
-using NadekoBot.Extensions;
-using System.Linq;
-using System.Threading.Tasks;
-using NadekoBot.Core.Services;
-using NadekoBot.Core.Services.Database.Models;
-using System.Collections.Generic;
+using Discord.WebSocket;
 using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
-using System;
-using NadekoBot.Modules.Gambling.Services;
-using NadekoBot.Core.Modules.Gambling.Common;
-using Discord.WebSocket;
 using NadekoBot.Core.Common;
+using NadekoBot.Core.Modules.Gambling.Common;
+using NadekoBot.Core.Services;
+using NadekoBot.Core.Services.Database.Models;
+using NadekoBot.Extensions;
+using NadekoBot.Modules.Gambling.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -46,29 +47,23 @@ namespace NadekoBot.Modules.Gambling
             }
         }
 
-        public long GetCurrency(IUser user)
-        {
-            long amount;
-            using (var uow = _db.UnitOfWork)
-            {
-                amount = uow.DiscordUsers.GetOrCreate(user).CurrencyAmount;
-                uow.Complete();
-            }
-            return amount;
-        }
-
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Economy()
         {
             var ec = _service.GetEconomy();
+            decimal onePercent = 0;
+            if (ec.Cash > 0)
+            {
+                onePercent = ec.OnePercent / ec.Cash;
+            }
             var embed = new EmbedBuilder()
                 .WithTitle(GetText("economy_state"))
-                .AddField(GetText("currency_owned"), ((ulong)ec.Cash) + _bc.BotConfig.CurrencySign)
-                .AddField(GetText("currency_one_percent"), ((ec.OnePercent / ec.Cash) * 100).ToString("F2") + "%")
-                .AddField(GetText("currency_planted"), ((ulong)ec.Planted) + _bc.BotConfig.CurrencySign)
-                .AddField(GetText("owned_waifus_total"), ((ulong)ec.Waifus) + _bc.BotConfig.CurrencySign)
+                .AddField(GetText("currency_owned"), ((BigInteger)ec.Cash) + _bc.BotConfig.CurrencySign)
+                .AddField(GetText("currency_one_percent"), (onePercent * 100).ToString("F2") + "%")
+                .AddField(GetText("currency_planted"), ((BigInteger)ec.Planted) + _bc.BotConfig.CurrencySign)
+                .AddField(GetText("owned_waifus_total"), ((BigInteger)ec.Waifus) + _bc.BotConfig.CurrencySign)
                 .AddField(GetText("bot_currency"), ec.Bot + _bc.BotConfig.CurrencySign)
-                .AddField(GetText("total"), ((ulong)(ec.Cash + ec.Bot + ec.Planted + ec.Waifus)) + _bc.BotConfig.CurrencySign)
+                .AddField(GetText("total"), ((BigInteger)(ec.Cash + ec.Bot + ec.Planted + ec.Waifus)) + _bc.BotConfig.CurrencySign)
                 .WithOkColor();
 
             await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
@@ -160,10 +155,8 @@ namespace NadekoBot.Modules.Gambling
         [Priority(1)]
         public async Task Cash([Remainder] IUser user = null)
         {
-            if (user == null)
-                await ConfirmLocalized("has", Format.Bold(Context.User.ToString()), $"{GetCurrency(Context.User)} {CurrencySign}").ConfigureAwait(false);
-            else
-                await ReplyConfirmLocalized("has", Format.Bold(user.ToString()), $"{GetCurrency(user)} {CurrencySign}").ConfigureAwait(false);
+            user = user ?? Context.User;
+            await ReplyConfirmLocalized("has", Format.Bold(user.ToString()), $"{GetCurrency(user.Id)} {CurrencySign}").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]

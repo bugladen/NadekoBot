@@ -38,23 +38,23 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
                 .ToArray();
         }
 
-        public async Task<int> GetUserGuildRankingAsync(ulong userId, ulong guildId)
+        public int GetUserGuildRanking(ulong userId, ulong guildId)
         {
-            if (!_set.Where(x => x.GuildId == guildId && x.UserId == userId).Any())
-            {
-                var cnt = await _set.CountAsync(x => x.GuildId == guildId);
-                if (cnt == 0)
-                    return 1;
-                else
-                    return cnt;
-            }
-            return await _set
-                .Where(x => x.GuildId == guildId)
-                .CountAsync(x => (x.Xp + x.AwardedXp) > (_set
-                    .Where(y => y.UserId == userId && y.GuildId == guildId)
-                    .Select(y => y.Xp + y.AwardedXp)
-                    .DefaultIfEmpty()
-                    .Sum())) + 1;
+            //            @"SELECT COUNT(*) + 1
+            //FROM UserXpStats
+            //WHERE GuildId = @p1 AND ((Xp + AwardedXp) > (SELECT Xp + AwardedXp
+            //	FROM UserXpStats
+            //	WHERE UserId = @p2 AND GuildId = @p1
+            //	LIMIT 1));";
+
+            return _set
+                .Where(x => x.GuildId == guildId && ((x.Xp + x.AwardedXp) >
+                    (_set
+                        .Where(y => y.UserId == userId && y.GuildId == guildId)
+                        .Select(y => y.Xp + y.AwardedXp)
+                        .FirstOrDefault())
+                ))
+                .Count() + 1;
         }
 
         public void ResetGuildUserXp(ulong userId, ulong guildId)

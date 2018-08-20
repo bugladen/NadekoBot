@@ -1,11 +1,10 @@
 ﻿using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using NadekoBot.Common.Attributes;
+using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Xp.Common;
 using NadekoBot.Modules.Xp.Services;
-using NadekoBot.Core.Services.Database.Models;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,12 +17,10 @@ namespace NadekoBot.Modules.Xp
         public class Club : NadekoSubmodule<ClubService>
         {
             private readonly XpService _xps;
-            private readonly DiscordSocketClient _client;
 
-            public Club(XpService xps, DiscordSocketClient client)
+            public Club(XpService xps)
             {
                 _xps = xps;
-                _client = client;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -120,6 +117,17 @@ namespace NadekoBot.Modules.Xp
                 }
 
                 var lvl = new LevelStats(club.Xp);
+                var users = club.Users
+                    .OrderByDescending(x =>
+                    {
+                        var l = new LevelStats(x.TotalXp).Level;
+                        if (club.OwnerId == x.Id)
+                            return int.MaxValue;
+                        else if (x.IsClubAdmin)
+                            return int.MaxValue / 2 + l;
+                        else
+                            return l;
+                    });
 
                 await Context.SendPaginatedConfirmAsync(0, (page) =>
                 {
@@ -130,23 +138,13 @@ namespace NadekoBot.Modules.Xp
                         .AddField("Description", string.IsNullOrWhiteSpace(club.Description) ? "-" : club.Description, false)
                         .AddField("Owner", club.Owner.ToString(), true)
                         .AddField("Level Req.", club.MinimumLevelReq.ToString(), true)
-                        .AddField("Members", string.Join("\n", club.Users
-                            .OrderByDescending(x =>
-                            {
-                                var l = new LevelStats(x.TotalXp).Level;
-                                if (club.OwnerId == x.Id)
-                                    return int.MaxValue;
-                                else if (x.IsClubAdmin)
-                                    return int.MaxValue / 2 + l;
-                                else
-                                    return l;
-                            })
+                        .AddField("Members", string.Join("\n", users
                             .Skip(page * 10)
                             .Take(10)
                             .Select(x =>
                             {
                                 var l = new LevelStats(x.TotalXp);
-                                var lvlStr = Format.Bold($" 『{l.Level}』");
+                                var lvlStr = Format.Bold($" ⟪{l.Level}⟫");
                                 if (club.OwnerId == x.Id)
                                     return x.ToString() + "🌟" + lvlStr;
                                 else if (x.IsClubAdmin)

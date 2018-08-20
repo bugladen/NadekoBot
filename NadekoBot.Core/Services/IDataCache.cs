@@ -31,5 +31,7 @@ namespace NadekoBot.Core.Services
         Task PublishStreamUpdates(List<StreamResponse> toPublish);
         bool TryGetEconomy(out string data);
         void SetEconomy(string data);
+
+        Task<TOut> GetOrAddCachedDataAsync<TParam, TOut>(string key, Func<TParam, Task<TOut>> factory, TParam param, TimeSpan expiry);
     }
 }

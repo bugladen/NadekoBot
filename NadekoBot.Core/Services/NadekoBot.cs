@@ -156,6 +156,10 @@ namespace NadekoBot
             {
                 var sw = Stopwatch.StartNew();
 
+                var _bot = Client.CurrentUser;
+
+                uow.DiscordUsers.EnsureCreated(_bot.Id, _bot.Username, _bot.Discriminator, _bot.AvatarId);
+
                 AllGuildConfigs = uow.GuildConfigs.GetAllGuildConfigs(startingGuildIdList).ToImmutableArray();
 
                 IBotConfigProvider botConfigProvider = new BotConfigProvider(_db, _botConfig, Cache);

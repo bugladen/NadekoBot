@@ -3,10 +3,9 @@ using Discord.Commands;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Core.Modules.Searches.Services;
 using NadekoBot.Extensions;
-using NadekoBot.Modules;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Core.Modules.Searches
+namespace NadekoBot.Modules.Searches
 {
     public partial class Searches
     {

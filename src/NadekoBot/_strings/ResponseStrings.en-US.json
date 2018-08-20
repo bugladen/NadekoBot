@@ -522,6 +522,7 @@
   "searches_on_hold": "On-hold",
   "searches_original_url": "Original url",
   "searches_osu_api_key": "An osu! API key is required.",
+  "searches_google_api_key_missing": "Google API Key required in order to use this feature.",
   "searches_osu_failed": "Failed retrieving osu! signature.",
   "searches_over_x": "Found over {0} images. Showing random {0}.",
   "searches_ow_user_not_found": "User not found! Please check the Region and BattleTag before trying again.",
