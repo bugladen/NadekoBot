@@ -102,9 +102,6 @@ WHERE UserId = (SELECT Id from DiscordUser WHERE UserId={userId}) AND
         public WaifuInfoStats GetWaifuInfo(ulong userId)
         {
             return _set
-                //.Include(x => x.Waifu)
-                //.Where(x => x.Waifu.UserId == userId)
-                //.Include(w => w.Items)
                 .Where(w => w.WaifuId == _context.Set<DiscordUser>()
                     .Where(u => u.UserId == userId)
                     .Select(u => u.Id).FirstOrDefault())

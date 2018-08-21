@@ -1,15 +1,14 @@
 ﻿using Discord;
-using NadekoBot.Core.Services;
-using System.Threading.Tasks;
-using System;
-using System.Linq;
-using NadekoBot.Core.Services.Database.Models;
-using System.Collections.Generic;
-using NadekoBot.Core.Modules.Gambling.Common.Waifu;
-using NLog;
-using NadekoBot.Core.Services.Database.Repositories;
 using Microsoft.EntityFrameworkCore;
-using NadekoBot.Core.Common;
+using NadekoBot.Core.Modules.Gambling.Common.Waifu;
+using NadekoBot.Core.Services;
+using NadekoBot.Core.Services.Database.Models;
+using NadekoBot.Core.Services.Database.Repositories;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Gambling.Services
 {
@@ -365,7 +364,24 @@ namespace NadekoBot.Modules.Gambling.Services
         {
             using (var uow = _db.UnitOfWork)
             {
-                return uow.Waifus.GetWaifuInfo(target.Id);
+                var wi = uow.Waifus.GetWaifuInfo(target.Id);
+                if (wi == null)
+                {
+                    var w = new WaifuInfoStats
+                    {
+                        AffinityCount = 0,
+                        AffinityName = null,
+                        ClaimCount = 0,
+                        ClaimerName = null,
+                        Claims30 = new List<string>(),
+                        DivorceCount = 0,
+                        FullName = target.ToString(),
+                        Items = new List<WaifuItem>(),
+                        Price = 1
+                    };
+                }
+
+                return wi;
             }
         }
 
