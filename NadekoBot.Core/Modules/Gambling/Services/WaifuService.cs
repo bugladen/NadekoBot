@@ -367,7 +367,7 @@ namespace NadekoBot.Modules.Gambling.Services
                 var wi = uow.Waifus.GetWaifuInfo(target.Id);
                 if (wi == null)
                 {
-                    var w = new WaifuInfoStats
+                    wi = new WaifuInfoStats
                     {
                         AffinityCount = 0,
                         AffinityName = null,
