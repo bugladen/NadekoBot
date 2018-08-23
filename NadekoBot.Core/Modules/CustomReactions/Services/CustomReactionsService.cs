@@ -49,7 +49,7 @@ namespace NadekoBot.Modules.CustomReactions.Services
         private readonly GlobalPermissionService _gperm;
 
         public CustomReactionsService(PermissionService perms, DbService db, NadekoStrings strings,
-            DiscordSocketClient client, CommandHandler cmd, IBotConfigProvider bc, IUnitOfWork uow,
+            DiscordSocketClient client, CommandHandler cmd, IBotConfigProvider bc,
             IDataCache cache, GlobalPermissionService gperm, NadekoBot bot)
         {
             _log = LogManager.GetCurrentClassLogger();
@@ -91,7 +91,7 @@ namespace NadekoBot.Modules.CustomReactions.Services
                 }
             }, StackExchange.Redis.CommandFlags.FireAndForget);
 
-            ReloadInternal(bot.AllGuildConfigs, uow);
+            ReloadInternal(bot.AllGuildConfigs);
 
             bot.JoinedGuild += Bot_JoinedGuild;
             _client.LeftGuild += _client_LeftGuild;
@@ -107,7 +107,7 @@ namespace NadekoBot.Modules.CustomReactions.Services
 
         private void ReloadInternal(IEnumerable<GuildConfig> allGuildConfigs, IUnitOfWork uow)
         {
-            var guildItems = uow.CustomReactions.GetFor(allGuildConfigs.Select(x => x.GuildId));
+            var guildItems = uow.CustomReactions.GetFor(allGuildConfigs.Select(x => x.GuildId)).ToList();
             _guildReactions = new ConcurrentDictionary<ulong, ConcurrentDictionary<int, CustomReaction>>(guildItems
                 .GroupBy(k => k.GuildId.Value)
                 .ToDictionary(g => g.Key, g => g.ToDictionary(x => x.Id, x => x).ToConcurrent()));
