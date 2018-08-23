@@ -1,14 +1,14 @@
 ﻿using Discord;
 using Discord.Commands;
-using NadekoBot.Extensions;
-using NadekoBot.Core.Services;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Common.TypeReaders;
-using NadekoBot.Modules.Permissions.Services;
+using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
-using Microsoft.EntityFrameworkCore;
+using NadekoBot.Extensions;
+using NadekoBot.Modules.Permissions.Services;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Permissions
 {
@@ -73,7 +73,7 @@ namespace NadekoBot.Modules.Permissions
                         var bc = uow.BotConfig.GetOrCreate(set => set.Include(x => x.BlockedModules));
                         var mdls = bc.BlockedModules.Where(x => x.Name == moduleName);
                         if (mdls.Any())
-                            uow._context.Remove(mdls);
+                            uow._context.Remove(mdls.ToArray());
                         uow.Complete();
                     }
                     await ReplyConfirmLocalized("gmod_remove", Format.Bold(module.Name)).ConfigureAwait(false);
@@ -107,7 +107,7 @@ namespace NadekoBot.Modules.Permissions
                         var bc = uow.BotConfig.GetOrCreate(set => set.Include(x => x.BlockedCommands));
                         var objs = bc.BlockedCommands.Where(x => x.Name == commandName);
                         if (objs.Any())
-                            uow._context.Remove(objs);
+                            uow._context.Remove(objs.ToArray());
                         uow.Complete();
                     }
                     await ReplyConfirmLocalized("gcmd_remove", Format.Bold(cmd.Name)).ConfigureAwait(false);

@@ -12,6 +12,7 @@ using SixLabors.ImageSharp.Formats;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.Processing.Drawing;
 using SixLabors.Primitives;
 using SixLabors.Shapes;
 using System;
