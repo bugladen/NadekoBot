@@ -73,7 +73,7 @@ namespace NadekoBot.Modules.Permissions
                         var bc = uow.BotConfig.GetOrCreate(set => set.Include(x => x.BlockedModules));
                         var mdls = bc.BlockedModules.Where(x => x.Name == moduleName);
                         if (mdls.Any())
-                            uow._context.Remove(mdls.ToArray());
+                            uow._context.RemoveRange(mdls.ToArray());
                         uow.Complete();
                     }
                     await ReplyConfirmLocalized("gmod_remove", Format.Bold(module.Name)).ConfigureAwait(false);
@@ -107,7 +107,7 @@ namespace NadekoBot.Modules.Permissions
                         var bc = uow.BotConfig.GetOrCreate(set => set.Include(x => x.BlockedCommands));
                         var objs = bc.BlockedCommands.Where(x => x.Name == commandName);
                         if (objs.Any())
-                            uow._context.Remove(objs.ToArray());
+                            uow._context.RemoveRange(objs.ToArray());
                         uow.Complete();
                     }
                     await ReplyConfirmLocalized("gcmd_remove", Format.Bold(cmd.Name)).ConfigureAwait(false);
