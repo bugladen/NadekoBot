@@ -477,7 +477,7 @@ namespace NadekoBot.Modules.Xp.Services
 
             return r.StringSet(key,
                 true,
-                TimeSpan.FromSeconds(_bc.BotConfig.XpMinutesTimeout),
+                TimeSpan.FromMinutes(_bc.BotConfig.XpMinutesTimeout),
                 StackExchange.Redis.When.NotExists);
         }
 
