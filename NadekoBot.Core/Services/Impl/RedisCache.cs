@@ -30,7 +30,7 @@ namespace NadekoBot.Core.Services.Impl
             var conf = ConfigurationOptions.Parse(creds.RedisOptions);
 
             Redis = ConnectionMultiplexer.Connect(conf);
-            _redisEndpoint = conf.EndPoints.First();
+            _redisEndpoint = Redis.GetEndPoints().First();
             Redis.PreserveAsyncOrder = false;
             LocalImages = new RedisImagesCache(Redis, creds);
             LocalData = new RedisLocalDataCache(Redis, creds, shardId);
