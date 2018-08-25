@@ -65,7 +65,8 @@ namespace NadekoBot.Core.Services.Impl
                 if (string.IsNullOrWhiteSpace(Token))
                 {
                     _log.Error("Token is missing from credentials.json or Environment varibles. Add it and restart the program.");
-                    Console.ReadKey();
+                    if (!Console.IsInputRedirected)
+                        Console.ReadKey();
                     Environment.Exit(3);
                 }
                 OwnerIds = data.GetSection("OwnerIds").GetChildren().Select(c => ulong.Parse(c.Value)).ToImmutableArray();
