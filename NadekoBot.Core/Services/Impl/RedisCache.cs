@@ -27,12 +27,7 @@ namespace NadekoBot.Core.Services.Impl
         {
             _log = LogManager.GetCurrentClassLogger();
 
-            ConfigurationOptions conf;
-
-            if (!string.IsNullOrWhiteSpace(creds.RedisOptions))
-                conf = ConfigurationOptions.Parse(creds.RedisOptions);
-            else
-                conf = ConfigurationOptions.Parse("127.0.0.1,syncTimeout=3000");
+            var conf = ConfigurationOptions.Parse(creds.RedisOptions);
 
             Redis = ConnectionMultiplexer.Connect(conf);
             _redisEndpoint = conf.EndPoints.First();

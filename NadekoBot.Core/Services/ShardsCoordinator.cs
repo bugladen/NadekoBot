@@ -79,11 +79,7 @@ namespace NadekoBot.Core.Services
 
             _key = _creds.RedisKey();
 
-            ConfigurationOptions conf;
-            if (!string.IsNullOrWhiteSpace(_creds.RedisOptions))
-                conf = ConfigurationOptions.Parse(_creds.RedisOptions);
-            else
-                conf = ConfigurationOptions.Parse("127.0.0.1:6379,syncTimeout=3000");
+            var conf = ConfigurationOptions.Parse(_creds.RedisOptions);
             _redis = ConnectionMultiplexer.Connect(conf);
 
             var imgCache = new RedisImagesCache(_redis, _creds); //reload images into redis

@@ -44,7 +44,7 @@ namespace NadekoBot.Core.Services.Impl
         public string VotesUrl { get; }
         public string VotesToken { get; }
         public string BotListToken { get; }
-        public string RedisOptions { get; }
+        public string RedisOptions { get; } = "127.0.0.1,syncTimeout=3000";
 
         public BotCredentials()
         {
@@ -80,7 +80,8 @@ namespace NadekoBot.Core.Services.Impl
                 CleverbotApiKey = data[nameof(CleverbotApiKey)];
                 MiningProxyUrl = data[nameof(MiningProxyUrl)];
                 MiningProxyCreds = data[nameof(MiningProxyCreds)];
-                RedisOptions = data[nameof(RedisOptions)];
+                if (!string.IsNullOrWhiteSpace(data[nameof(RedisOptions)]))
+                    RedisOptions = data[nameof(RedisOptions)];
 
                 VotesToken = data[nameof(VotesToken)];
                 VotesUrl = data[nameof(VotesUrl)];
