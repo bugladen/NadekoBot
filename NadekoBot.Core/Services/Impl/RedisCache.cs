@@ -24,8 +24,14 @@ namespace NadekoBot.Core.Services.Impl
         public RedisCache(IBotCredentials creds, int shardId)
         {
             _log = LogManager.GetCurrentClassLogger();
-            var conf = ConfigurationOptions.Parse("127.0.0.1");
-            conf.SyncTimeout = 3000;
+
+            ConfigurationOptions conf;
+
+            if (!string.IsNullOrWhiteSpace(creds.RedisOptions))
+                conf = ConfigurationOptions.Parse(creds.RedisOptions);
+            else
+                conf = ConfigurationOptions.Parse("127.0.0.1,syncTimeout=3000");
+
             Redis = ConnectionMultiplexer.Connect(conf);
             Redis.PreserveAsyncOrder = false;
             LocalImages = new RedisImagesCache(Redis, creds);
