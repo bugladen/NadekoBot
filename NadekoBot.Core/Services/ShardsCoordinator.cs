@@ -78,7 +78,13 @@ namespace NadekoBot.Core.Services
             _log.Info("Starting NadekoBot v" + StatsService.BotVersion);
 
             _key = _creds.RedisKey();
-            _redis = ConnectionMultiplexer.Connect("127.0.0.1");
+
+            ConfigurationOptions conf;
+            if (!string.IsNullOrWhiteSpace(_creds.RedisOptions))
+                conf = ConfigurationOptions.Parse(_creds.RedisOptions);
+            else
+                conf = ConfigurationOptions.Parse("127.0.0.1:6379,syncTimeout=3000");
+            _redis = ConnectionMultiplexer.Connect(conf);
 
             var imgCache = new RedisImagesCache(_redis, _creds); //reload images into redis
             if (!imgCache.AllKeysExist().GetAwaiter().GetResult()) // but only if the keys don't exist. If images exist, you have to reload them manually
