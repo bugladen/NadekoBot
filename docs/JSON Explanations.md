@@ -25,6 +25,7 @@ If you do not see `credentials.json` you will need to rename `credentials_exampl
   "ShardRunArguments": "",
   "ShardRunPort": null,
   "TwitchClientId": null,
+  "RedisOptions": null
 }
 ```
 -----
@@ -172,6 +173,9 @@ It should look like:
 - **TotalShards** 
 	- Required if the bot will be connected to more than 1500 servers. 
 	- Most likely unnecessary to change until your bot is added to more than 1500 servers.
+- **RedisOptions**
+	- Required if the Redis instance is not on localhost or on non-default port.
+	- You can find all available options [here](https://stackexchange.github.io/StackExchange.Redis/Configuration.html).
 - **RestartCommand**
 	- Required if you want to be able to use `.restart` command
 	- It requires command, and arguments to the command which to execute right before bot stops
