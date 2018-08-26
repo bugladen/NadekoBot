@@ -81,6 +81,10 @@ namespace NadekoBot.Core.Services.Impl
                 CleverbotApiKey = data[nameof(CleverbotApiKey)];
                 MiningProxyUrl = data[nameof(MiningProxyUrl)];
                 MiningProxyCreds = data[nameof(MiningProxyCreds)];
+                if (!string.IsNullOrWhiteSpace(data[nameof(RedisOptions)]))
+                    RedisOptions = data[nameof(RedisOptions)];
+                else
+                    RedisOptions = "127.0.0.1,syncTimeout=3000";
 
                 VotesToken = data[nameof(VotesToken)];
                 VotesUrl = data[nameof(VotesUrl)];
