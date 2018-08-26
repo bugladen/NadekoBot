@@ -25,7 +25,7 @@ If you do not see `credentials.json` you will need to rename `credentials_exampl
   "ShardRunArguments": "",
   "ShardRunPort": null,
   "TwitchClientId": null,
-  "RedisOptions": "127.0.0.1,name=nadeko"
+  "RedisOptions": null
 }
 ```
 -----
