@@ -18,10 +18,10 @@ namespace NadekoBot.Core.Modules.Gambling.Services
         private readonly IBotCredentials _creds;
         private readonly HttpClient _http;
         private readonly DbService _db;
-        private readonly CurrencyService _cs;
+        private readonly ICurrencyService _cs;
         private readonly Task _reqTask;
 
-        public WebMiningService(NadekoBot nadeko,IBotCredentials creds, DbService db, CurrencyService cs,
+        public WebMiningService(NadekoBot nadeko, IBotCredentials creds, DbService db, ICurrencyService cs,
             IHttpClientFactory http)
         {
             _log = LogManager.GetCurrentClassLogger();
@@ -66,8 +66,8 @@ namespace NadekoBot.Core.Modules.Gambling.Services
                 }
 
                 var filtered = data.Where(x => x.Amount > 0 && ulong.TryParse(x.User, out _)).ToArray();
-                await _cs.AddBulkAsync(filtered.Select(x => ulong.Parse(x.User)), 
-                    filtered.Select(x => "Mining payout"), 
+                await _cs.AddBulkAsync(filtered.Select(x => ulong.Parse(x.User)),
+                    filtered.Select(x => "Mining payout"),
                     filtered.Select(x => (long)x.Amount), true);
             }
             catch (Exception ex)

@@ -1794,23 +1794,6 @@
       "Requirements": []
     }
   ],
-  "CryptoCommands": [
-    {
-      "Aliases": [
-        ".crypto",
-        ".c"
-      ],
-      "Description": "Shows basic stats about a cryptocurrency from coinmarketcap.com. You can use either a name or an abbreviation of the currency.",
-      "Usage": [
-        ".c btc",
-        ".c bitcoin"
-      ],
-      "Submodule": "CryptoCommands",
-      "Module": "CryptoCommands",
-      "Options": null,
-      "Requirements": []
-    }
-  ],
   "CustomReactions": [
     {
       "Aliases": [
@@ -2459,7 +2442,7 @@
       "Aliases": [
         ".shopadd"
       ],
-      "Description": "Adds an item to the shop by specifying type price and name. Available types are role and list.",
+      "Description": "Adds an item to the shop by specifying type price and name. Available types are role and list. 90% of currency from each purchase will be received by the user who added the item to the shop.",
       "Usage": [
         ".shopadd role 1000 Rich"
       ],
@@ -2665,6 +2648,19 @@
       "Description": "Bets a certain amount of currency on the wheel of fortune. Wheel can stop on one of many different multipliers. Won amount is rounded down to the nearest whole number.",
       "Usage": [
         ".wheel 10"
+      ],
+      "Submodule": "WheelOfFortuneCommands",
+      "Module": "Gambling",
+      "Options": null,
+      "Requirements": []
+    },
+    {
+      "Aliases": [
+        ".wheeltest"
+      ],
+      "Description": "wheeltest",
+      "Usage": [
+        "wheeltest"
       ],
       "Submodule": "WheelOfFortuneCommands",
       "Module": "Gambling",
@@ -4484,8 +4480,9 @@
     },
     {
       "Aliases": [
-        ".imdb",
-        ".omdb"
+        ".movie",
+        ".omdb",
+        ".imdb"
       ],
       "Description": "Queries omdb for movies or series, show first result.",
       "Usage": [
@@ -4556,20 +4553,7 @@
     {
       "Aliases": [
         ".image",
-        ".img"
-      ],
-      "Description": "Pulls the first image found using a search parameter. Use `.rimg` for different results.",
-      "Usage": [
-        ".img cute kitten"
-      ],
-      "Submodule": "Searches",
-      "Module": "Searches",
-      "Options": null,
-      "Requirements": []
-    },
-    {
-      "Aliases": [
-        ".randomimage",
+        ".img",
         ".rimg"
       ],
       "Description": "Pulls a random image using a search parameter.",
@@ -4774,19 +4758,6 @@
     },
     {
       "Aliases": [
-        ".videocall"
-      ],
-      "Description": "Creates a private <http://www.appear.in> video call link for you and other mentioned people. The link is sent to mentioned people via a private message.",
-      "Usage": [
-        ".videocall \"@the First\" \"@Xyz\""
-      ],
-      "Submodule": "Searches",
-      "Module": "Searches",
-      "Options": null,
-      "Requirements": []
-    },
-    {
-      "Aliases": [
         ".avatar",
         ".av"
       ],
@@ -4878,6 +4849,21 @@
         ".mq Shingeki no kyojin"
       ],
       "Submodule": "AnimeSearchCommands",
+      "Module": "Searches",
+      "Options": null,
+      "Requirements": []
+    },
+    {
+      "Aliases": [
+        ".crypto",
+        ".c"
+      ],
+      "Description": "Shows basic stats about a cryptocurrency from coinmarketcap.com. You can use either a name or an abbreviation of the currency.",
+      "Usage": [
+        ".c btc",
+        ".c bitcoin"
+      ],
+      "Submodule": "CryptoCommands",
       "Module": "Searches",
       "Options": null,
       "Requirements": []

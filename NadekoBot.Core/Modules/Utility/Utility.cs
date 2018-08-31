@@ -1,19 +1,19 @@
 using Discord;
 using Discord.Commands;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Text;
-using NadekoBot.Extensions;
-using NadekoBot.Core.Services.Impl;
-using System.Net.Http;
-using System.Collections.Generic;
-using Newtonsoft.Json;
 using Discord.WebSocket;
-using System.Diagnostics;
 using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Core.Services;
+using NadekoBot.Core.Services.Impl;
+using NadekoBot.Extensions;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Utility
 {
@@ -274,7 +274,7 @@ namespace NadekoBot.Modules.Utility
             await Context.Channel.EmbedAsync(guilds.Aggregate(new EmbedBuilder().WithOkColor(),
                                      (embed, g) => embed.AddField(efb => efb.WithName(g.Name)
                                                                            .WithValue(
-                                             GetText("listservers", g.Id, g.Users.Count,
+                                             GetText("listservers", g.Id, g.MemberCount,
                                                  g.OwnerId))
                                                                            .WithIsInline(false))))
                          .ConfigureAwait(false);
