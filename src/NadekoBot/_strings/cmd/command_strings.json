@@ -2786,7 +2786,7 @@
   },
   "shopadd": {
     "Cmd": "shopadd",
-    "Desc": "Adds an item to the shop by specifying type price and name. Available types are role and list.",
+    "Desc": "Adds an item to the shop by specifying type price and name. Available types are role and list. 90% of currency from each purchase will be received by the user who added the item to the shop.",
     "Usage": [
       "{0}shopadd role 1000 Rich"
     ]
