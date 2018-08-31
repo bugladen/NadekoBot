@@ -1,15 +1,15 @@
 ﻿#if !GLOBAL_NADEKO
 using Discord;
 using Discord.Commands;
-using NadekoBot.Extensions;
-using NadekoBot.Core.Services.Database.Models;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Common.TypeReaders.Models;
+using NadekoBot.Core.Services.Database.Models;
+using NadekoBot.Extensions;
 using NadekoBot.Modules.Administration.Services;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using static NadekoBot.Modules.Administration.Services.LogCommandService;
 
 namespace NadekoBot.Modules.Administration
@@ -49,7 +49,7 @@ namespace NadekoBot.Modules.Administration
 
                 var removed = _service.LogIgnore(Context.Guild.Id, Context.Channel.Id);
 
-                if (removed)
+                if (!removed)
                     await ReplyConfirmLocalized("log_ignore", Format.Bold(channel.Mention + "(" + channel.Id + ")")).ConfigureAwait(false);
                 else
                     await ReplyConfirmLocalized("log_not_ignore", Format.Bold(channel.Mention + "(" + channel.Id + ")")).ConfigureAwait(false);
