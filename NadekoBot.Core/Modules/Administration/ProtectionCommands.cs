@@ -1,12 +1,12 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Administration.Common;
 using NadekoBot.Modules.Administration.Services;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -20,7 +20,7 @@ namespace NadekoBot.Modules.Administration
             [RequireUserPermission(GuildPermission.Administrator)]
             public Task AntiRaid()
             {
-                if(_service.TryStopAntiRaid(Context.Guild.Id))
+                if (_service.TryStopAntiRaid(Context.Guild.Id))
                 {
                     return ReplyConfirmLocalized("prot_disable", "Anti-Raid");
                 }
@@ -59,7 +59,7 @@ namespace NadekoBot.Modules.Administration
             [Priority(1)]
             public Task AntiSpam()
             {
-                if(_service.TryStopAntiSpam(Context.Guild.Id))
+                if (_service.TryStopAntiSpam(Context.Guild.Id))
                 {
                     return ReplyConfirmLocalized("prot_disable", "Anti-Spam");
                 }
@@ -78,12 +78,12 @@ namespace NadekoBot.Modules.Administration
                 if (messageCount < 2 || messageCount > 10)
                     return;
 
-                if (time < 0 || time > 60 * 12)
+                if (time < 0 || time > 60 * 60 * 12)
                     return;
 
                 var stats = await _service.StartAntiSpamAsync(Context.Guild.Id, messageCount, time, action).ConfigureAwait(false);
 
-                await Context.Channel.SendConfirmAsync(GetText("prot_enable", "Anti-Spam"), 
+                await Context.Channel.SendConfirmAsync(GetText("prot_enable", "Anti-Spam"),
                     $"{Context.User.Mention} {GetAntiSpamString(stats)}").ConfigureAwait(false);
             }
 
