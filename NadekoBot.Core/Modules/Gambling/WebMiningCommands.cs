@@ -1,4 +1,5 @@
-﻿using NadekoBot.Core.Modules.Gambling.Services;
+﻿#if GLOBAL_NADEKO
+using NadekoBot.Core.Modules.Gambling.Services;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -10,3 +11,4 @@ namespace NadekoBot.Modules.Gambling
         }
     }
 }
+#endif
