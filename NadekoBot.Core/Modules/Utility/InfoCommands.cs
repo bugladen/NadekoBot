@@ -68,7 +68,8 @@ namespace NadekoBot.Modules.Utility
                         .WithValue(string.Join(" ", guild.Emotes
                             .Shuffle()
                             .Take(20)
-                            .Select(e => $"{e.Name} {e.ToString()}"))));
+                            .Select(e => $"{e.Name} {e.ToString()}"))
+                            .TrimTo(1020)));
                 }
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
