@@ -70,6 +70,10 @@ namespace NadekoBot.Modules.Gambling.Services
             using (var uow = _db.UnitOfWork)
             {
                 var waifu = uow.Waifus.ByWaifuUserId(user.Id);
+
+                if (waifu == null)
+                    return _bc.BotConfig.MinWaifuPrice;
+
                 var divorces = uow._context.WaifuUpdates.Count(x => x.Old != null &&
                         x.Old.UserId == user.Id &&
                         x.UpdateType == WaifuUpdateType.Claimed &&
