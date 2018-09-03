@@ -90,6 +90,7 @@ namespace NadekoBot
                 ShardId = shardId,
                 AlwaysDownloadUsers = false,
             });
+
             CommandService = new CommandService(new CommandServiceConfig()
             {
                 CaseSensitiveCommands = false,
