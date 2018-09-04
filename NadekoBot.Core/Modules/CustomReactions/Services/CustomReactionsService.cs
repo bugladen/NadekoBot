@@ -1,23 +1,22 @@
 ﻿using Discord;
 using Discord.WebSocket;
-using NadekoBot.Core.Services.Database.Models;
-using NLog;
-using System.Collections.Concurrent;
-using System.Linq;
-using System;
-using System.Threading.Tasks;
 using NadekoBot.Common;
 using NadekoBot.Common.ModuleBehaviors;
-using NadekoBot.Extensions;
-using NadekoBot.Core.Services.Database;
 using NadekoBot.Core.Services;
-using NadekoBot.Modules.CustomReactions.Extensions;
-using NadekoBot.Modules.Permissions.Services;
+using NadekoBot.Core.Services.Database;
+using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Core.Services.Impl;
-using Newtonsoft.Json;
-using System.Collections.Generic;
+using NadekoBot.Extensions;
+using NadekoBot.Modules.CustomReactions.Extensions;
 using NadekoBot.Modules.Permissions.Common;
-using System.Diagnostics;
+using NadekoBot.Modules.Permissions.Services;
+using Newtonsoft.Json;
+using NLog;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.CustomReactions.Services
 {
@@ -379,6 +378,9 @@ namespace NadekoBot.Modules.CustomReactions.Services
             using (var uow = _db.UnitOfWork)
             {
                 cr = uow.CustomReactions.GetById(id);
+
+                if (cr.GuildId != guildId)
+                    return null;
 
                 if (cr != null)
                 {
