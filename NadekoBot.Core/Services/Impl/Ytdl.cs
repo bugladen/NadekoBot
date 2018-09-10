@@ -28,6 +28,8 @@ namespace NadekoBot.Core.Services.Impl
                 },
             })
             {
+                _log.Debug($"Executing {process.StartInfo.FileName} {process.StartInfo.Arguments}");
+
                 process.Start();
                 var str = await process.StandardOutput.ReadToEndAsync().ConfigureAwait(false);
                 var err = await process.StandardError.ReadToEndAsync().ConfigureAwait(false);
