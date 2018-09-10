@@ -15,6 +15,11 @@ namespace NadekoBot.Core.Services.Impl
 
         public async Task<string> GetDataAsync(string url)
         {
+            // escape the minus on the video argument
+            // to prevent youtube-dl to handle it like an argument
+            if (url != null && url.StartsWith("-"))
+                url = '\\' + url;
+
             using (Process process = new Process()
             {
                 StartInfo = new ProcessStartInfo()
