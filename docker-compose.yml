@@ -1,0 +1,15 @@
+version: "3.5"
+services:
+  nadeko:
+    build: .
+    depends_on:
+      - redis
+    volumes:
+      - ./credentials.json:/app/credentials.json:ro
+      - ./data:/app/data
+  redis:
+    image: redis:alpine
+    ports:
+      - 6380:6379
+    sysctls:
+      net.core.somaxconn: 511
