@@ -1,12 +1,12 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using Discord;
 using Discord.Commands;
-using NadekoBot.Core.Services;
-using Discord;
-using NadekoBot.Extensions;
 using Discord.WebSocket;
 using NadekoBot.Common.Attributes;
+using NadekoBot.Core.Services;
+using NadekoBot.Extensions;
 using NadekoBot.Modules.CustomReactions.Services;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.CustomReactions
 {
@@ -245,6 +245,7 @@ namespace NadekoBot.Modules.CustomReactions
 
         private async Task InternalCrEdit(int id, CustomReactionsService.CrField option)
         {
+            var cr = _service.GetCustomReaction(Context.Guild?.Id, id);
             if (!AdminInGuildOrOwnerInDm())
             {
                 await ReplyErrorLocalized("insuff_perms").ConfigureAwait(false);

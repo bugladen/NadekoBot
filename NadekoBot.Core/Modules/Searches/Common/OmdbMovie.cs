@@ -9,13 +9,5 @@
         public string Genre { get; set; }
         public string Plot { get; set; }
         public string Poster { get; set; }
-
-        public override string ToString() =>
-$@"`Title:` {Title}
-`Year:` {Year}
-`Rating:` {ImdbRating}
-`Genre:` {Genre}
-`Link:` http://www.imdb.com/title/{ImdbId}/
-`Plot:` {Plot}";
     }
 }

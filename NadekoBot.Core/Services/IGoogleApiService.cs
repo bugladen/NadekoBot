@@ -15,7 +15,7 @@ namespace NadekoBot.Core.Services
         Task<IEnumerable<string>> GetRelatedVideosAsync(string url, int count = 1);
         Task<IEnumerable<string>> GetPlaylistTracksAsync(string playlistId, int count = 50);
         Task<IReadOnlyDictionary<string, TimeSpan>> GetVideoDurationsAsync(IEnumerable<string> videoIds);
-        Task<ImageResult> GetImageAsync(string query, int start = 1);
+        Task<ImageResult> GetImageAsync(string query);
         Task<string> Translate(string sourceText, string sourceLanguage, string targetLanguage);
 
         //todo remove this overload

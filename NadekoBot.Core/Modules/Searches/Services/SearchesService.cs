@@ -486,14 +486,17 @@ namespace NadekoBot.Modules.Searches.Services
                     .ConfigureAwait(false);
 
                 var responseObject = JsonConvert.DeserializeObject<MtgResponse>(response);
-
-                if (responseObject == null || responseObject.Cards.Count == 0)
+                if (responseObject == null)
                     return new MtgData[0];
 
-                var tasks = new List<Task<MtgData>>(responseObject.Cards.Count);
-                for (int i = 0; i < responseObject.Cards.Count; i++)
+                var cards = responseObject.Cards.Take(5).ToArray();
+                if (cards.Length == 0)
+                    return new MtgData[0];
+
+                var tasks = new List<Task<MtgData>>(cards.Length);
+                for (int i = 0; i < cards.Length; i++)
                 {
-                    var card = responseObject.Cards[i];
+                    var card = cards[i];
 
                     tasks.Add(GetMtgDataAsync(card));
                 }
