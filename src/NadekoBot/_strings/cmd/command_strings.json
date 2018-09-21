@@ -1760,7 +1760,7 @@
   },
   "hentai": {
     "Cmd": "hentai",
-    "Desc": "Shows a hentai image from a random website (gelbooru or danbooru or konachan or atfbooru or yandere) with a given tag. Tag is optional but preferred. Only 1 tag allowed.",
+    "Desc": "Shows a hentai image from a random website (gelbooru, danbooru, konachan or yandere) with a given tag. Tag is optional but preferred. Only 1 tag allowed.",
     "Usage": [
       "{0}hentai yuri"
     ]

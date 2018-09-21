@@ -334,6 +334,11 @@ namespace NadekoBot.Modules.Searches.Services
 
         public Task<ImageCacherObject> DapiSearch(string tag, DapiSearchType type, ulong? guild, bool isExplicit = false)
         {
+            if (!(tag is null) && (tag.Contains("loli") || tag.Contains("shota")))
+            {
+                return null;
+            }
+
             if (guild.HasValue)
             {
                 var blacklistedTags = GetBlacklistedTags(guild.Value);
