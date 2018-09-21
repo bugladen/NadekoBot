@@ -944,7 +944,7 @@
     "administration_anti_spam_not_running": "La fonctionnalité Anti-spam n'est pas activée.",
     "administration_adsarm_enable": "La suppression automatique des réponses `{0}iam` et `{0}iamn`a été activée.",
     "administration_adsarm_disable": "Le bot ne supprimera plus les réponses `{0}iam` et `{0}iamn`.",
-    "help_module_not_found_or_cant_exec": "Soit la commande n'existe pas, soit vous ne pouvez exécuter aucune des commandes du module spécifié.",
+    "help_module_not_found_or_cant_exec": "Soit la commande n'existe pas, soit vous ne pouvez exécuter aucunes des commandes du module spécifié.",
     "help_requires": "Requiert",
     "permissions_permrole_not_set": "Le rôle permission n'est pas défini.",
     "permissions_permrole_reset": "Le rôle permission est réinitialisé.",
@@ -970,8 +970,8 @@
     "administration_images_loading": "Les images seront rechargées d'ci quelques secondes.",
     "gambling_flip_results": "A jeté {0} pièces. {1} faces, {2} pile.",
     "gambling_cards_left": "{0} cartes restantes dans le paquet.",
-    "xp_template_reloaded": "Le modèle Xp a été rechargé",
+    "xp_template_reloaded": "Le modèle Xp a été rechargé.",
     "gambling_new_gamestatus_event": "Écrivez le code secret dans n'importe quel salon pour recevoir {1}\n{2} restants pour être récompensé.",
     "gambling_event_duration_footer": "Cet événement est actif pendant encore {0} heures.",
-    "gambling_event_title": "L'événement {0} a démarré!"
+    "gambling_event_title": "L'événement {0} a démarré !"
 }
