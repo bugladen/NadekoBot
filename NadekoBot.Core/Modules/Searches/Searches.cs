@@ -103,6 +103,7 @@ namespace NadekoBot.Modules.Searches
         public Task Say([Remainder]string message) =>
             Say((ITextChannel)Context.Channel, message);
 
+        // done in 3.0
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Weather([Remainder] string query)
         {
@@ -136,6 +137,7 @@ namespace NadekoBot.Modules.Searches
             await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
+        // done in 3.0
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Time([Remainder] string query)
         {
@@ -155,7 +157,7 @@ namespace NadekoBot.Modules.Searches
                 Format.Code(data.Time.ToString("HH:mm")),
                 data.TimeZoneName).ConfigureAwait(false);
         }
-
+        // done in 3.0
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Youtube([Remainder] string query = null)
         {
@@ -172,6 +174,7 @@ namespace NadekoBot.Modules.Searches
             await Context.Channel.SendMessageAsync(result).ConfigureAwait(false);
         }
 
+        // done in 3.0
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Movie([Remainder] string query = null)
         {
@@ -196,18 +199,23 @@ namespace NadekoBot.Modules.Searches
                 .WithImageUrl(movie.Poster)).ConfigureAwait(false);
         }
 
+        // done in 3.0
         [NadekoCommand, Usage, Description, Aliases]
         public Task RandomCat() => InternalRandomImage(SearchesService.ImageTag.Cats);
 
+        // done in 3.0
         [NadekoCommand, Usage, Description, Aliases]
         public Task RandomDog() => InternalRandomImage(SearchesService.ImageTag.Dogs);
 
+        // done in 3.0
         [NadekoCommand, Usage, Description, Aliases]
         public Task RandomFood() => InternalRandomImage(SearchesService.ImageTag.Food);
 
+        // done in 3.0
         [NadekoCommand, Usage, Description, Aliases]
         public Task RandomBird() => InternalRandomImage(SearchesService.ImageTag.Birds);
 
+        // done in 3.0
         private Task InternalRandomImage(SearchesService.ImageTag tag)
         {
             var url = _service.GetRandomImageUrl(tag);
@@ -216,6 +224,7 @@ namespace NadekoBot.Modules.Searches
                 .WithImageUrl(url));
         }
 
+        // done in 3.0
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Image([Remainder] string query = null)
         {
@@ -225,7 +234,7 @@ namespace NadekoBot.Modules.Searches
             query = WebUtility.UrlEncode(oterms).Replace(' ', '+');
             try
             {
-                var res = await _google.GetImageAsync(oterms, new NadekoRandom().Next(0, 50)).ConfigureAwait(false);
+                var res = await _google.GetImageAsync(oterms).ConfigureAwait(false);
                 var embed = new EmbedBuilder()
                     .WithOkColor()
                     .WithAuthor(eab => eab.WithName(GetText("image_search_for") + " " + oterms.TrimTo(50))
@@ -279,6 +288,7 @@ namespace NadekoBot.Modules.Searches
                            .ConfigureAwait(false);
         }
 
+        // done in 3.0
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Shorten([Remainder] string query)
         {
@@ -301,6 +311,7 @@ namespace NadekoBot.Modules.Searches
                                     .ConfigureAwait(false);
         }
 
+        // done in 3.0
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Google([Remainder] string query = null)
         {
@@ -359,12 +370,12 @@ namespace NadekoBot.Modules.Searches
                             $"[{Format.Bold(res?.Title)}]({(await _google.ShortenUrl(res?.Link).ConfigureAwait(false))})\n{res?.Text?.TrimTo(400 - res.Value.Title.Length - res.Value.Link.Length)}\n\n"))
                         .ConfigureAwait(false);
                     var descStr = string.Concat(desc);
-                    _log.Info(descStr.Length);
                     await Context.Channel.EmbedAsync(embed.WithDescription(descStr)).ConfigureAwait(false);
                 }
             }
         }
 
+        // done in 3.0
         [NadekoCommand, Usage, Description, Aliases]
         public async Task MagicTheGathering([Remainder] string search)
         {
@@ -391,6 +402,7 @@ namespace NadekoBot.Modules.Searches
             await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
+        // done in 3.0
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Hearthstone([Remainder] string name)
         {
@@ -421,6 +433,7 @@ namespace NadekoBot.Modules.Searches
             await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
+        // done in 3.0
         [NadekoCommand, Usage, Description, Aliases]
         public async Task UrbanDict([Remainder] string query = null)
         {
@@ -462,6 +475,7 @@ namespace NadekoBot.Modules.Searches
 
         }
 
+        // done in 3.0
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Define([Remainder] string word)
         {
@@ -498,6 +512,7 @@ namespace NadekoBot.Modules.Searches
             }
         }
 
+        // done in 3.0
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Hashtag([Remainder] string query)
         {
@@ -539,6 +554,7 @@ namespace NadekoBot.Modules.Searches
             }
         }
 
+        // done in 3.0
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Catfact()
         {
@@ -553,6 +569,7 @@ namespace NadekoBot.Modules.Searches
             }
         }
 
+        //done in 3.0
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Revav([Remainder] IGuildUser usr = null)
@@ -567,6 +584,7 @@ namespace NadekoBot.Modules.Searches
             await Context.Channel.SendConfirmAsync($"https://images.google.com/searchbyimage?image_url={av}").ConfigureAwait(false);
         }
 
+        //done in 3.0
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Revimg([Remainder] string imageLink = null)
         {
@@ -581,6 +599,7 @@ namespace NadekoBot.Modules.Searches
         public Task Safebooru([Remainder] string tag = null)
             => InternalDapiCommand(Context.Message, tag, DapiSearchType.Safebooru);
 
+        // done in 3.0
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Wiki([Remainder] string query = null)
         {
@@ -628,6 +647,7 @@ namespace NadekoBot.Modules.Searches
             }
         }
 
+        // done in 3.0
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Avatar([Remainder] IGuildUser usr = null)
@@ -651,6 +671,7 @@ namespace NadekoBot.Modules.Searches
                 .WithImageUrl(avatarUrl.ToString()), Context.User.Mention).ConfigureAwait(false);
         }
 
+        // done in 3.0
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Wikia(string target, [Remainder] string query)
         {
@@ -680,6 +701,7 @@ namespace NadekoBot.Modules.Searches
             }
         }
 
+        // done in 3.0
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Bible(string book, string chapterAndVerse)
@@ -734,7 +756,7 @@ namespace NadekoBot.Modules.Searches
                 return true;
             }
 
-            await ch.SendErrorAsync(GetText("specify_search_params")).ConfigureAwait(false);
+            await ErrorLocalized("specify_search_params").ConfigureAwait(false);
             return false;
         }
     }
