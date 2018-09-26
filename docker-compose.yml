@@ -9,8 +9,14 @@ services:
     volumes:
       - ./credentials.json:/app/credentials.json:ro
       - ./data:/app/data
+    labels:
+      "com.centurylinklabs.watchtower.enable": "true"
   redis:
     image: redis:alpine
     sysctls:
       net.core.somaxconn: 511
-
+  #watchtower:
+  #  image: v2tec/watchtower
+  #  volumes:
+  #    - /var/run/docker.sock:/var/run/docker.sock
+  #  command: --interval 86400 --cleanup --label-enable

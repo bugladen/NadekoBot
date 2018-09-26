@@ -51,6 +51,8 @@ docker rm _nadeko
 docker-compose up -d nadeko
 ```
 
+By default, the bot will automatically restart with the Docker daemon with the instruction `restart: unless-stopped`.
+
 You can see what's going on with the following command. This is very recommanded the first time you run the bot or if something goes south to help you diagnose the issue:
 
 ```
@@ -60,6 +62,10 @@ docker-compose logs -ft --tail=50 nadeko
 ## Watchtower
 
 Watchtower is a small utility that monitors Docker containers and update them if a new release is available on the upstream. It can be used to automatically update Nadeko.
+
+You will find a configuration sample on the `docker-compose.yml`. You just have to remove the comment symbol and then `docker-compose up -d watchtower` to spin it up.
+
+WARNING: as the docker.sock is mount into this container, this means in fact that this container have a full control not only on all containers but also on your computer. You can read more [here](https://www.projectatomic.io/blog/2015/08/why-we-dont-let-non-root-users-run-docker-in-centos-fedora-or-rhel/)
 
 ### Additional Info
 If you have any issues with the docker setup, please ping willy_sunny by typing <@113540879297302528> in #help channel on our [Discord server](https://discordapp.com/invite/nadekobot), or dm him directly, but indicate you are using the docker.
