@@ -2,6 +2,8 @@ version: "3.5"
 services:
   nadeko:
     build: .
+    #image: kwoth/nadeko
+    restart: unless-stopped
     depends_on:
       - redis
     volumes:
@@ -11,3 +13,4 @@ services:
     image: redis:alpine
     sysctls:
       net.core.somaxconn: 511
+
