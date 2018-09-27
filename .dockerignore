@@ -1,0 +1,7 @@
+.vscode
+.vs
+data
+credentials.json
+_libs
+*.dll
+*.so

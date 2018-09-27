@@ -1,20 +1,40 @@
-FROM microsoft/dotnet:sdk
-MAINTAINER Poag <poag@gany.net>
+FROM microsoft/dotnet:2.1-sdk-alpine AS build
 
-WORKDIR /opt/
+COPY . /nadekoBot
 
-#Install required software
-RUN echo "deb http://www.deb-multimedia.org jessie main non-free" | tee /etc/apt/sources.list.d/debian-backports.list \
-	&& apt-get update \
-	&& apt-get install -y --force-yes deb-multimedia-keyring \
-	&& apt-get update \
-	&& apt-get install -y git libopus0 opus-tools libopus-dev libsodium-dev ffmpeg
+WORKDIR /nadekoBot/src/NadekoBot
+RUN set -ex; \
+    dotnet restore; \
+    dotnet build -c Release; \
+    dotnet publish -c Release -o /app
 
-#Download and install stable version of Nadeko
-RUN curl -L https://github.com/Kwoth/NadekoBot-BashScript/raw/master/nadeko_installer_latest.sh | sh \
-	&& curl -L https://github.com/Kwoth/NadekoBot-BashScript/raw/master/nadeko_autorestart.sh > nadeko.sh \
-	&& chmod 755 nadeko.sh
+WORKDIR /app
+RUN set -ex; \
+    rm libopus.so libsodium.dll libsodium.so opus.dll; \
+    find . -type f -exec chmod -x {} \;; \
+    rm -R runtimes/win* runtimes/osx* runtimes/linux-*
 
-VOLUME ["/opt"]
+FROM microsoft/dotnet:2.1-runtime-alpine AS runtime
+WORKDIR /app
+COPY --from=build /app /app
+RUN set -ex; \
+    echo '@edge http://dl-cdn.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories; \
+    echo '@edge http://dl-cdn.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories; \
+    apk add --no-cache \
+        ffmpeg \
+        youtube-dl@edge \
+        libsodium \
+        opus; \
+    adduser -D nadeko; \
+    chown nadeko /app; \
+    chmod u+w /app; \
+    install -d -o nadeko -g nadeko -m 755 /app/data
 
-CMD ["/opt/nadeko.sh"]
+# workaround for the runtime to find the native libs loaded through DllImport
+RUN set -ex; \
+    ln -s /usr/lib/libopus.so.0 /app/libopus.so; \
+    ln -s /usr/lib/libsodium.so.23 /app/libsodium.so
+
+VOLUME [ "/app/data" ]
+USER nadeko
+CMD ["dotnet", "/app/NadekoBot.dll"]

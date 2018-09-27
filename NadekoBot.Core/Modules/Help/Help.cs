@@ -1,20 +1,20 @@
-﻿using Discord.Commands;
-using NadekoBot.Extensions;
-using System.Linq;
-using Discord;
-using NadekoBot.Core.Services;
-using System.Threading.Tasks;
-using System;
-using System.IO;
-using System.Collections.Generic;
-using NadekoBot.Common.Attributes;
-using NadekoBot.Modules.Help.Services;
-using NadekoBot.Modules.Permissions.Services;
+﻿using Discord;
+using Discord.Commands;
 using NadekoBot.Common;
+using NadekoBot.Common.Attributes;
 using NadekoBot.Common.Replacements;
-using Newtonsoft.Json;
 using NadekoBot.Core.Common;
 using NadekoBot.Core.Modules.Help.Common;
+using NadekoBot.Core.Services;
+using NadekoBot.Extensions;
+using NadekoBot.Modules.Help.Services;
+using NadekoBot.Modules.Permissions.Services;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Help
 {
@@ -163,7 +163,7 @@ namespace NadekoBot.Modules.Help
         [Priority(0)]
         public async Task H([Remainder] string fail)
         {
-            var prefixless = _cmds.Commands.FirstOrDefault(x => x.Name.ToLowerInvariant() == fail);
+            var prefixless = _cmds.Commands.FirstOrDefault(x => x.Aliases.Any(cmdName => cmdName.ToLowerInvariant() == fail));
             if (prefixless != null)
             {
                 await H(prefixless).ConfigureAwait(false);
