@@ -127,7 +127,7 @@ The script will:
 
 - create the nadeko's directory
 - download the [docker-compose.yml](https://raw.githubusercontent.com/Kwoth/NadekoBot/1.9/docker-compose.yml) that describe how to run the containers
-- edit the docker-compose.yml from developer configuration to end-user configuration
+- convert the docker-compose.yml from developer configuration to end-user configuration
 - edit the docker-compose.yml to specify full path instead of relative path
 - create and start the containers
 
@@ -143,7 +143,7 @@ docker-compose logs -ft --tail=50 nadeko
 
 ## Watchtower
 
-Watchtower is a small utility that monitors Docker containers and update them if a new release is available on the upstream. It can be used to automatically update Nadeko.
+Watchtower is a small utility that monitors Docker containers and updates them if a new release is available on the upstream. It can be used to automatically update Nadeko.
 
 You will find a configuration sample on the `docker-compose.yml`. You just have to remove the comment symbol and then `docker-compose up -d watchtower` to spin it up.
 
