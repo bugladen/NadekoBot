@@ -9,6 +9,10 @@ services:
     volumes:
       - ./credentials.json:/app/credentials.json:ro
       - ./data:/app/data
+    environment:
+      NadekoBot_RedisOptions: redis,name=nadeko
+      NadekoBot_ShardRunCommand: dotnet
+      NadekoBot_ShardRunArguments: NadekoBot.dll {0} {1}
     labels:
       "com.centurylinklabs.watchtower.enable": "true"
   redis:
