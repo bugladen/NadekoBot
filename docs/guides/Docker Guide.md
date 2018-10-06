@@ -1,4 +1,5 @@
 # Setting up NadekoBot on Docker
+
 Nadeko is written in C# and Discord.Net. For more information visit <https://github.com/Kwoth/NadekoBot>
 
 ## Before you start
@@ -18,16 +19,13 @@ For Mac [[Download Link](https://download.docker.com/mac/stable/DockerToolbox.pk
 
 ## Prerequisites
 
-- [Docker](https://store.docker.com/search?type=edition&offering=community) or [Docker Toolbox](https://www.docker.com/products/docker-toolbox).
-- [Create Discord Bot application](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#creating-discord-bot-application) and [Invite the bot to your server](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#inviting-your-bot-to-your-server). 
-- Have your [credentials.json](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-your-credentials) in your home folder. To go to your home folder on ...
-- Linux: **cd ~**
-- Mac: **⌘ + Shift + H**
-- Windows: Enter **%userprofile%** in your address bar
+1. [Docker](https://store.docker.com/search?type=edition&offering=community) or [Docker Toolbox](https://www.docker.com/products/docker-toolbox).
+2. [Create Discord Bot application](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#creating-discord-bot-application) and [Invite the bot to your server](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#inviting-your-bot-to-your-server).
+3. Have your [credentials.json](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-your-credentials) ready. See the next section to get a default credentials.json.
 
 ## Get a default credentials.json
 
-You can use this section to get a blank credentials.json on your. You then just have to edit the file with the Discord identifiers you got from the prerequisites.
+You can use this section to get a blank credentials.json. You then just have to edit the file with the Discord identifiers you got from the prerequisites.
 
 ### Windows
 
@@ -59,7 +57,7 @@ echo Your blank credentials.json has been downloaded here: /tmp/credentials.json
 
 ## Start the bot
 
-- Creates an empty folder. It will contain all Nadeko's data, including the credentials.json.
+- Creates an empty folder. It will contain all Nadeko's datas, including the credentials.json.
 
 ### Windows
 
