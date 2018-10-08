@@ -41,7 +41,7 @@ docker rm _nadeko
 ## Start the bot
 
 - Creates an empty folder. It will contain all Nadeko's data, including the credentials.json
-- Download the file [docker-compose.yml](https://raw.githubusercontent.com/Kwoth/NadekoBot/1.9/Dockerfile/docker-compose.yml) and place it on the previously created folder.
+- Download the file [docker-compose.yml](https://raw.githubusercontent.com/Kwoth/NadekoBot/1.9/docker-compose.yml) and place it on the previously created folder.
 - Edit the `docker-compose.yml` by uncommenting the line `image:` and commenting the line `build:`
 - Put your credentials.json in this folder
 - Open a command line, go to the folder with this command line: `cd "your_folder"`
