@@ -28820,16 +28820,16 @@
         "heightm": 2.4,
         "weightkg": 230,
         "color": "Black",
-        "eggGroups": [
-            "Undiscovered"
+        "eggGroups":
+	    "Undiscovered"
         ],
-		"otherFormes": [
-			"necrozmaduskmane",
-			"necrozmadawnwings",
-			"necrozmaultra"
-		]
+	"otherFormes": [
+	    "necrozmaduskmane",
+	    "necrozmadawnwings",
+	    "necrozmaultra"
+	]
     },
-	"necrozmaduskmane": {
+    "necrozmaduskmane": {
         "num": 800,
         "species": "Dusk Mane Necrozma",
         "baseSpecies": "Necrozma",
@@ -28837,7 +28837,7 @@
         "formeLetter": "M",
         "types": [
             "Psychic",
-			"Steel"
+	    "Steel"
         ],
         "gender": "N",
         "baseStats": {
@@ -28858,7 +28858,7 @@
             "Undiscovered"
         ]
     },
-	"necrozmadawnwings": {
+    "necrozmadawnwings": {
         "num": 800,
         "species": "Dawn Wings Necrozma",
         "baseSpecies": "Necrozma",
@@ -28866,7 +28866,7 @@
         "formeLetter": "W",
         "types": [
             "Psychic",
-			"Ghost"
+	    "Ghost"
         ],
         "gender": "N",
         "baseStats": {
@@ -28887,7 +28887,7 @@
             "Undiscovered"
         ]
     },
-	"necrozmaultra": {
+    "necrozmaultra": {
         "num": 800,
         "species": "Ultra Necrozma",
         "baseSpecies": "Necrozma",
@@ -28895,7 +28895,7 @@
         "formeLetter": "U",
         "types": [
             "Psychic",
-			"Dragon"
+	    "Dragon"
         ],
         "gender": "N",
         "baseStats": {
@@ -28971,12 +28971,12 @@
             "Undiscovered"
         ]
     },
-	"poipole": {
+    "poipole": {
         "num": 803,
         "species": "Poipole",
         "types": [
             "Dragon",
-			"Poison"
+	    "Poison"
         ],
         "gender": "N",
         "baseStats": {
@@ -28993,19 +28993,19 @@
         "heightm": 0.6,
         "weightkg": 1.8,
         "color": "Purple",
-		"evos": [
-			"Naganadel"
-		],
+	"evos": [
+		"Naganadel"
+	],
         "eggGroups": [
             "Undiscovered"
         ]
     },
-	"naganadel": {
+    "naganadel": {
         "num": 804,
         "species": "Naganadel",
         "types": [
             "Dragon",
-			"Poison"
+	    "Poison"
         ],
         "gender": "N",
         "baseStats": {
@@ -29022,19 +29022,19 @@
         "heightm": 3.6,
         "weightkg": 150,
         "color": "Purple",
-		"prevo": "Poipole",
-		"evoLevel": 2,
-		"evoMove": "Dragon Pulse",
+	"prevo": "Poipole",
+	"evoLevel": 2,
+	"evoMove": "Dragon Pulse",
         "eggGroups": [
             "Undiscovered"
         ]
     },
-	"stakataka": {
+    "stakataka": {
         "num": 805,
         "species": "Stakataka",
         "types": [
             "Rock",
-			"Steel"
+	    "Steel"
         ],
         "gender": "N",
         "baseStats": {
@@ -29055,15 +29055,15 @@
             "Undiscovered"
         ]
     },
-	"blacephalon": {
-		"num": 806,
-		"species": "Blacephalon",
-		"types": [
-			"Ghost",
-			"Fire"
-		],
-		"gender": "N",
-		"baseStats": {
+    "blacephalon": {
+	"num": 806,
+	"species": "Blacephalon",
+	"types": [
+		"Ghost",
+		"Fire"
+	],
+	"gender": "N",
+	"baseStats": {
             "hp": 53,
             "atk": 127,
             "def": 53,
@@ -29071,7 +29071,7 @@
             "spd": 79,
             "spe": 107
         },
-		"abilities": {
+	"abilities": {
             "0": "Beast Boost"
         },
         "heightm": 1.8,
@@ -29081,7 +29081,7 @@
             "Undiscovered"
         ]
     },
-	"zeraora": {
+    "zeraora": {
         "num": 807,
         "species": "Zeraora",
         "types": [
