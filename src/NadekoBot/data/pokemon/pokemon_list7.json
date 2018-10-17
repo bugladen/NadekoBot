@@ -28820,7 +28820,7 @@
         "heightm": 2.4,
         "weightkg": 230,
         "color": "Black",
-        "eggGroups":
+        "eggGroups": [
 	    "Undiscovered"
         ],
 	"otherFormes": [
