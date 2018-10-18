@@ -28993,7 +28993,7 @@
         "heightm": 0.6,
         "weightkg": 1.8,
         "color": "Purple",
-	"evos": [
+        "evos": [
             "Naganadel"
 	],
         "eggGroups": [
@@ -29022,9 +29022,9 @@
         "heightm": 3.6,
         "weightkg": 150,
         "color": "Purple",
-	"prevo": "Poipole",
-	"evoLevel": 2,
-	"evoMove": "Dragon Pulse",
+        "prevo": "Poipole",
+        "evoLevel": 2,
+        "evoMove": "Dragon Pulse",
         "eggGroups": [
             "Undiscovered"
         ]
