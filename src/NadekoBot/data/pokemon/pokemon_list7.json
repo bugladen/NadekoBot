@@ -28824,9 +28824,9 @@
 	    "Undiscovered"
         ],
 	"otherFormes": [
-	    "necrozmaduskmane",
-	    "necrozmadawnwings",
-	    "necrozmaultra"
+            "necrozmaduskmane",
+            "necrozmadawnwings",
+            "necrozmaultra"
 	]
     },
     "necrozmaduskmane": {
@@ -28837,7 +28837,7 @@
         "formeLetter": "M",
         "types": [
             "Psychic",
-	    "Steel"
+            "Steel"
         ],
         "gender": "N",
         "baseStats": {
@@ -28866,7 +28866,7 @@
         "formeLetter": "W",
         "types": [
             "Psychic",
-	    "Ghost"
+            "Ghost"
         ],
         "gender": "N",
         "baseStats": {
@@ -28895,7 +28895,7 @@
         "formeLetter": "U",
         "types": [
             "Psychic",
-	    "Dragon"
+            "Dragon"
         ],
         "gender": "N",
         "baseStats": {
@@ -28976,7 +28976,7 @@
         "species": "Poipole",
         "types": [
             "Dragon",
-	    "Poison"
+            "Poison"
         ],
         "gender": "N",
         "baseStats": {
@@ -28994,7 +28994,7 @@
         "weightkg": 1.8,
         "color": "Purple",
 	"evos": [
-		"Naganadel"
+            "Naganadel"
 	],
         "eggGroups": [
             "Undiscovered"
@@ -29005,7 +29005,7 @@
         "species": "Naganadel",
         "types": [
             "Dragon",
-	    "Poison"
+            "Poison"
         ],
         "gender": "N",
         "baseStats": {
@@ -29034,7 +29034,7 @@
         "species": "Stakataka",
         "types": [
             "Rock",
-	    "Steel"
+            "Steel"
         ],
         "gender": "N",
         "baseStats": {
@@ -29059,8 +29059,8 @@
 	"num": 806,
 	"species": "Blacephalon",
 	"types": [
-		"Ghost",
-		"Fire"
+            "Ghost",
+            "Fire"
 	],
 	"gender": "N",
 	"baseStats": {
