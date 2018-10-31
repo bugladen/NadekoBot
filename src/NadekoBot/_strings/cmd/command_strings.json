@@ -2322,7 +2322,7 @@
     "Cmd": "invitecreate invcr",
     "Desc": "Creates a new invite which has infinite max uses and never expires.",
     "Usage": [
-      "{0}crinv"
+      "{0}invcr"
     ]
   },
   "invitelist": {
