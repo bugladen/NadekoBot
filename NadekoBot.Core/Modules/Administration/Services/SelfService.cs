@@ -63,8 +63,11 @@ namespace NadekoBot.Modules.Administration.Services
             _cache = cache;
             _imgs = cache.LocalImages;
             _httpFactory = factory;
+            var sub = _redis.GetSubscriber();
             if (_client.ShardId == 0)
             {
+                sub.Subscribe(_creds.RedisKey() + "_reload_images",
+                    delegate { _imgs.Reload(); }, CommandFlags.FireAndForget);
                 _updateTimer = new Timer(async _ =>
                 {
                     try
@@ -91,10 +94,6 @@ namespace NadekoBot.Modules.Administration.Services
                     }
                 }, null, TimeSpan.FromHours(8), TimeSpan.FromHours(8));
             }
-
-            var sub = _redis.GetSubscriber();
-            sub.Subscribe(_creds.RedisKey() + "_reload_images",
-                delegate { _imgs.Reload(); }, CommandFlags.FireAndForget);
             sub.Subscribe(_creds.RedisKey() + "_reload_bot_config",
                 delegate { _bc.Reload(); }, CommandFlags.FireAndForget);
             sub.Subscribe(_creds.RedisKey() + "_leave_guild", async (ch, v) =>
