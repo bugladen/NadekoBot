@@ -160,14 +160,6 @@
       "{0}rmpl"
     ]
   },
-  "slowmode": {
-    "Cmd": "slowmode",
-    "Desc": "Toggles slowmode. Slowmode deletes any excess messages users type over the specified limit of messages per X seconds. To enable, specify a number of messages (-m) each user can send, and an interval in seconds (-s).  Disable by specifying no parameters.",
-    "Usage": [
-      "{0}slowmode -m 1 -s 5",
-      "{0}slowmode"
-    ]
-  },
   "vcrolelist": {
     "Cmd": "vcrolelist",
     "Desc": "Shows a list of currently set voice channel roles.",
@@ -2228,14 +2220,6 @@
       "{0}hangmanstop"
     ]
   },
-  "overwatch": {
-    "Cmd": "overwatch ow",
-    "Desc": "Show's basic stats on a player (competitive rank, playtime, level etc) Region codes are: `eu` `us` `cn` `kr`",
-    "Usage": [
-      "{0}ow us Battletag#1337",
-      "{0}overwatch eu Battletag#2016"
-    ]
-  },
   "acro": {
     "Cmd": "acrophobia acro",
     "Desc": "Starts an Acrophobia game.",
@@ -2764,14 +2748,6 @@
     "Desc": "Ping the bot to see if there are latency issues.",
     "Usage": [
       "{0}ping"
-    ]
-  },
-  "slowmodewhitelist": {
-    "Cmd": "slowmodewl",
-    "Desc": "Ignores a role or a user from the slowmode feature.",
-    "Usage": [
-      "{0}slowmodewl SomeRole",
-      "{0}slowmodewl AdminDude"
     ]
   },
   "time": {
