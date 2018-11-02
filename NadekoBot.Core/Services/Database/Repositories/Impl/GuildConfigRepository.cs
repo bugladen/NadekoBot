@@ -37,6 +37,7 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
                 .Include(gc => gc.MutedUsers)
                 .Include(gc => gc.CommandAliases)
                 .Include(gc => gc.UnmuteTimers)
+                .Include(gc => gc.UnbanTimer)
                 .Include(gc => gc.VcRoleInfos)
                 .Include(gc => gc.GenerateCurrencyChannelIds)
                 .Include(gc => gc.FilterInvitesChannelIds)
