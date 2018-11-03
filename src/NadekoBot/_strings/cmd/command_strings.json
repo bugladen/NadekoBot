@@ -3303,13 +3303,6 @@
       "{0}poel"
     ]
   },
-  "pathofexileitem": {
-    "cmd": "pathofexileitem poei",
-    "desc": "Searches for a Path of Exile item from the Path of Exile GamePedia.",
-    "usage": [
-      "{0}poei \"Quill Rain\""
-    ]
-  },
   "pathofexilecurrency": {
     "cmd": "pathofexilecurrency poec",
     "desc": "Returns the chaos equivalent of a given currency or exchange rate between two currencies.",
