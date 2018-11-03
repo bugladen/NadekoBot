@@ -967,6 +967,13 @@
         "rating": 3.5,
         "num": 30
     },
+    "neuroforce": {
+	"shortDesc": "Multiplies the power of super effective moves by 1.25.",
+	"id": "neuroforce",
+	"name": "Neuroforce",
+	"rating": 3.5,
+	"num": 233
+    },
     "noguard": {
         "shortDesc": "Every move used by or against this Pokemon will always hit.",
         "id": "noguard",
