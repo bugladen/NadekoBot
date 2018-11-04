@@ -334,10 +334,17 @@ namespace NadekoBot.Modules.Searches.Services
 
         public Task<ImageCacherObject> DapiSearch(string tag, DapiSearchType type, ulong? guild, bool isExplicit = false)
         {
-            if (!(tag is null) && (tag.Contains("loli") || tag.Contains("shota")))
+            tag = tag ?? "";
+            if (string.IsNullOrWhiteSpace(tag)
+                && (tag.Contains("loli") || tag.Contains("shota")))
             {
                 return null;
             }
+
+            var tags = tag
+                .Split('+')
+                .Select(x => x.ToLowerInvariant().Replace(' ', '_'))
+                .ToArray();
 
             if (guild.HasValue)
             {
@@ -345,13 +352,13 @@ namespace NadekoBot.Modules.Searches.Services
 
                 var cacher = _imageCacher.GetOrAdd(guild.Value, (key) => new SearchImageCacher(_httpFactory));
 
-                return cacher.GetImage(tag, isExplicit, type, blacklistedTags);
+                return cacher.GetImage(tags, isExplicit, type, blacklistedTags);
             }
             else
             {
                 var cacher = _imageCacher.GetOrAdd(guild ?? 0, (key) => new SearchImageCacher(_httpFactory));
 
-                return cacher.GetImage(tag, isExplicit, type);
+                return cacher.GetImage(tags, isExplicit, type);
             }
         }
 

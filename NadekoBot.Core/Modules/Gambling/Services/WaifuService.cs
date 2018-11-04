@@ -369,6 +369,7 @@ namespace NadekoBot.Modules.Gambling.Services
         {
             using (var uow = _db.UnitOfWork)
             {
+                var du = uow.DiscordUsers.GetOrCreate(target);
                 var wi = uow.Waifus.GetWaifuInfo(target.Id);
                 if (wi == null)
                 {

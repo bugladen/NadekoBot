@@ -1,8 +1,8 @@
-﻿using NadekoBot.Core.Services.Database.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using NadekoBot.Core.Services.Database.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 
 namespace NadekoBot.Core.Services.Database.Repositories.Impl
 {
@@ -101,6 +101,10 @@ WHERE UserId = (SELECT Id from DiscordUser WHERE UserId={userId}) AND
 
         public WaifuInfoStats GetWaifuInfo(ulong userId)
         {
+            _context.Database.ExecuteSqlCommand($@"
+INSERT OR IGNORE INTO WaifuInfo (AffinityId, ClaimerId, Price, WaifuId)
+VALUES ({null}, {null}, {1}, (SELECT Id FROM DiscordUser WHERE UserId={userId}));");
+
             return _set
                 .Where(w => w.WaifuId == _context.Set<DiscordUser>()
                     .Where(u => u.UserId == userId)

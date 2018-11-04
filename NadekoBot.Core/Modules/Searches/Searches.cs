@@ -139,6 +139,7 @@ namespace NadekoBot.Modules.Searches
 
         // done in 3.0
         [NadekoCommand, Usage, Description, Aliases]
+        [NoPublicBot]
         public async Task Time([Remainder] string query)
         {
             if (!await ValidateQuery(Context.Channel, query).ConfigureAwait(false))
@@ -157,6 +158,7 @@ namespace NadekoBot.Modules.Searches
                 Format.Code(data.Time.ToString("HH:mm")),
                 data.TimeZoneName).ConfigureAwait(false);
         }
+
         // done in 3.0
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Youtube([Remainder] string query = null)

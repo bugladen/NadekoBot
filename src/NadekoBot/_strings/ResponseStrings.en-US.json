@@ -803,7 +803,6 @@
   "administration_warnings_list": "List of all warned users on the server",
   "customreactions_redacted_too_long": "Redacted because it's too long.",
   "nsfw_blacklisted_tag_list": "List of blacklisted tags:",
-  "nsfw_blacklisted_tag": "One or more tags you've used are blacklisted",
   "nsfw_blacklisted_tag_add": "Nsfw tag {0} is now blacklisted.",
   "nsfw_blacklisted_tag_remove": "Nsfw tag {0} is no longer blacklisted.",
   "gambling_waifu_gift": "Gifted {0} to {1}",

@@ -14,13 +14,19 @@ namespace NadekoBot.Core.Modules.Utility.Services
             [Option('u', "unique", Required = false, Default = false, HelpText = "Not setting this flag will result in bot getting the existing invite with the same settings if it exists, instead of creating a new one.")]
             public bool Unique { get; set; } = false;
 
-            [Option('t', "temporary", Required = false, Default = false, HelpText = "Setting this flag will make the link expire after 24h.")]
+            [Option('t', "temporary", Required = false, Default = false, HelpText = "If this flag is set, the user will be kicked from the guild once they close their client.")]
             public bool Temporary { get; set; } = false;
+
+            [Option('e', "expire", Required = false, Default = 0, HelpText = "Time in seconds to expire the invite. Default 0 (no expiry).")]
+            public int Expire { get; set; } = 0;
 
             public void NormalizeOptions()
             {
                 if (MaxUses < 0)
                     MaxUses = 0;
+
+                if (Expire < 0)
+                    Expire = 0;
             }
         }
     }

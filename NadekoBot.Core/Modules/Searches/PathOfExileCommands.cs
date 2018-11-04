@@ -1,19 +1,18 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using NadekoBot.Extensions;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Core.Modules.Searches.Common;
-using Newtonsoft.Json;
-using AngleSharp.Parser.Html;
+using NadekoBot.Extensions;
 using NadekoBot.Modules.Searches.Services;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Searches
 {
@@ -224,185 +223,88 @@ namespace NadekoBot.Modules.Searches
                 }
             }
 
-            [NadekoCommand, Usage, Description, Aliases]
-            public async Task PathOfExileItem(string itemName)
+            private Dictionary<string, string> currencyDictionary = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
             {
-                if (string.IsNullOrWhiteSpace(itemName))
-                {
-                    await Context.Channel.SendErrorAsync("Please provide an item name.").ConfigureAwait(false);
-                    return;
-                }
-
-                try
-                {
-                    using (var http = _httpFactory.CreateClient())
-                    {
-                        var url = new Uri($"{_pogsURL}{itemName}");
-                        var itemNameJson = JArray.Parse($"{await http.GetStringAsync(url).ConfigureAwait(false)}");
-                        var parsedName = itemNameJson[1][0].ToString().Replace(" ", "_", StringComparison.InvariantCulture);
-                        var fullQueryLink = "https://pathofexile.gamepedia.com/" + parsedName;
-
-                        url = new Uri($"{_pogURL}{parsedName}");
-                        var obj = JObject.Parse(await http.GetStringAsync(url).ConfigureAwait(false));
-
-                        var infoboxProperty = obj["query"]["data"].Values<JObject>()
-                                                              .Where(i => i["property"].Value<string>() == "Has_infobox_HTML")
-                                                              .FirstOrDefault();
-                        var infobox = infoboxProperty["dataitem"][0]["item"].ToString();
-
-                        // Vessel of Vinktar has multiple variants; separate pages for each but same image.
-                        if (parsedName.Contains("Vessel_of_Vinktar"))
-                        {
-                            parsedName = Regex.Replace(parsedName, @" ?\(.*?\)", string.Empty);
-                            parsedName = parsedName.Remove(parsedName.Length - 1);
-                        }
-
-                        url = new Uri($"{_pogiURL}{parsedName}_inventory_icon.png");
-                        var img = JObject.Parse(await http.GetStringAsync(url).ConfigureAwait(false));
-
-                        var imgContainer = img.Descendants()
-                            .OfType<JProperty>()
-                            .Where(p => p.Name == "url")
-                            .Select(p => p.Parent)
-                            .ToList();
-
-                        var imgUrl = imgContainer[0]["url"].ToString();
-                        var imageUrl = imgUrl ?? "http://icecream.me/uploads/870b03f36b59cc16ebfe314ef2dde781.png";
-
-                        var parser = new HtmlParser();
-                        infobox = Regex.Replace(infobox, @"[\[\]']+", "");
-                        var document = parser.Parse(infobox);
-
-                        var itemStats = document.QuerySelector("span.item-box.-unique");
-                        var names = itemStats.QuerySelector("span.header.-double").InnerHtml.Split("<br>");
-                        var itemInformation = itemStats.QuerySelector("span.item-stats");
-                        var itemImplicits = itemStats.QuerySelector("span.group").InnerHtml.Replace("<br>", "\n", StringComparison.InvariantCulture);
-                        var itemModsList = itemInformation.QuerySelectorAll("span.group.-mod");
-
-                        var itemModsBuilder = new System.Text.StringBuilder();
-                        foreach (var span in itemModsList)
-                        {
-                            itemModsBuilder.Append(span.InnerHtml.Replace("<br>", "\n", StringComparison.InvariantCulture));
-                            itemModsBuilder.Append("\n");
-                        }
-
-                        var flavorText = String.Empty;
-                        if (itemInformation.QuerySelector("span.group.-flavour") != null)
-                        {
-                            flavorText = "*" + itemInformation.QuerySelector("span.group.-flavour").InnerHtml.Replace("<br>", "\n", StringComparison.InvariantCulture) + "*\n";
-                        }
-
-                        itemImplicits = Regex.Replace(itemImplicits, "<.*?>", String.Empty);
-                        var itemMods = Regex.Replace(itemModsBuilder.ToString(), "<.*?>", String.Empty);
-
-                        var itemInfobox = new System.Text.StringBuilder();
-                        itemInfobox.AppendLine($"{names[1]}\n");
-                        itemInfobox.AppendLine($"{itemImplicits}\n");
-                        itemInfobox.AppendLine($"{itemModsBuilder}");
-                        itemInfobox.AppendLine($"{flavorText}");
-
-                        var embed = new EmbedBuilder()
-                            .WithAuthor(eau => eau.WithName($"{itemName.ToTitleCase()}")
-                            .WithUrl(fullQueryLink)
-                            .WithIconUrl("https://web.poecdn.com/image/favicon/ogimage.png"))
-                            .WithDescription(itemInfobox.ToString())
-                            .WithImageUrl(imageUrl)
-                            .WithOkColor();
-
-                        await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
-                    }
-                }
-                catch
-                {
-                    var eembed = new EmbedBuilder()
-                                    .WithDescription(GetText("pog_not_found"))
-                                    .WithErrorColor();
-                    await Context.Channel.EmbedAsync(eembed).ConfigureAwait(false);
-                }
-            }
-
-            Dictionary<string, string> currencyDictionary = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
-                {
-                    {"Chaos Orb", "Chaos Orb" },
-                    {"Orb of Alchemy", "Orb of Alchemy" },
-                    {"Jeweller's Orb", "Jeweller's Orb" },
-                    {"Exalted Orb", "Exalted Orb" },
-                    {"Mirror of Kalandra", "Mirror of Kalandra" },
-                    {"Vaal Orb", "Vaal Orb" },
-                    {"Orb of Alteration", "Orb of Alteration" },
-                    {"Orb of Scouring", "Orb of Scouring" },
-                    {"Divine Orb", "Divine Orb" },
-                    {"Orb of Annulment", "Orb of Annulment" },
-                    {"Master Cartographer's Sextant", "Master Cartographer's Sextant" },
-                    {"Journeyman Cartographer's Sextant", "Journeyman Cartographer's Sextant" },
-                    {"Apprentice Cartographer's Sextant", "Apprentice Cartographer's Sextant" },
-                    {"Blessed Orb", "Blessed Orb" },
-                    {"Orb of Regret", "Orb of Regret" },
-                    {"Gemcutter's Prism", "Gemcutter's Prism" },
-                    {"Glassblower's Bauble", "Glassblower's Bauble" },
-                    {"Orb of Fusing", "Orb of Fusing" },
-                    {"Cartographer's Chisel", "Cartographer's Chisel" },
-                    {"Chromatic Orb", "Chromatic Orb" },
-                    {"Orb of Augmentation", "Orb of Augmentation" },
-                    {"Blacksmith's Whetstone", "Blacksmith's Whetstone" },
-                    {"Orb of Transmutation", "Orb of Transmutation" },
-                    {"Armourer's Scrap", "Armourer's Scrap" },
-                    {"Scroll of Wisdom", "Scroll of Wisdom" },
-                    {"Regal Orb", "Regal Orb" },
-                    {"Chaos", "Chaos Orb" },
-                    {"Alch", "Orb of Alchemy" },
-                    {"Alchs", "Orb of Alchemy" },
-                    {"Jews", "Jeweller's Orb" },
-                    {"Jeweller", "Jeweller's Orb" },
-                    {"Jewellers", "Jeweller's Orb" },
-                    {"Jeweller's", "Jeweller's Orb" },
-                    {"X", "Exalted Orb" },
-                    {"Ex", "Exalted Orb" },
-                    {"Exalt", "Exalted Orb" },
-                    {"Exalts", "Exalted Orb" },
-                    {"Mirror", "Mirror of Kalandra" },
-                    {"Mirrors", "Mirror of Kalandra" },
-                    {"Vaal", "Vaal Orb" },
-                    {"Alt", "Orb of Alteration" },
-                    {"Alts", "Orb of Alteration" },
-                    {"Scour", "Orb of Scouring" },
-                    {"Scours", "Orb of Scouring" },
-                    {"Divine", "Divine Orb" },
-                    {"Annul", "Orb of Annulment" },
-                    {"Annulment", "Orb of Annulment" },
-                    {"Master Sextant", "Master Cartographer's Sextant" },
-                    {"Journeyman Sextant", "Journeyman Cartographer's Sextant" },
-                    {"Apprentice Sextant", "Apprentice Cartographer's Sextant" },
-                    {"Blessed", "Blessed Orb" },
-                    {"Regret", "Orb of Regret" },
-                    {"Regrets", "Orb of Regret" },
-                    {"Gcp", "Gemcutter's Prism" },
-                    {"Glassblowers", "Glassblower's Bauble" },
-                    {"Glassblower's", "Glassblower's Bauble" },
-                    {"Fusing", "Orb of Fusing" },
-                    {"Fuses", "Orb of Fusing" },
-                    {"Fuse", "Orb of Fusing" },
-                    {"Chisel", "Cartographer's Chisel" },
-                    {"Chisels", "Cartographer's Chisel" },
-                    {"Chance", "Orb of Chance" },
-                    {"Chances", "Orb of Chance" },
-                    {"Chrome", "Chromatic Orb" },
-                    {"Chromes", "Chromatic Orb" },
-                    {"Aug", "Orb of Augmentation" },
-                    {"Augmentation", "Orb of Augmentation" },
-                    {"Augment", "Orb of Augmentation" },
-                    {"Augments", "Orb of Augmentation" },
-                    {"Whetstone", "Blacksmith's Whetstone" },
-                    {"Whetstones", "Blacksmith's Whetstone" },
-                    {"Transmute", "Orb of Transmutation" },
-                    {"Transmutes", "Orb of Transmutation" },
-                    {"Armourers", "Armourer's Scrap" },
-                    {"Armourer's", "Armourer's Scrap" },
-                    {"Wisdom Scroll", "Scroll of Wisdom" },
-                    {"Wisdom Scrolls", "Scroll of Wisdom" },
-                    {"Regal", "Regal Orb" },
-                    {"Regals", "Regal Orb" }
-                };
+                {"Chaos Orb", "Chaos Orb" },
+                {"Orb of Alchemy", "Orb of Alchemy" },
+                {"Jeweller's Orb", "Jeweller's Orb" },
+                {"Exalted Orb", "Exalted Orb" },
+                {"Mirror of Kalandra", "Mirror of Kalandra" },
+                {"Vaal Orb", "Vaal Orb" },
+                {"Orb of Alteration", "Orb of Alteration" },
+                {"Orb of Scouring", "Orb of Scouring" },
+                {"Divine Orb", "Divine Orb" },
+                {"Orb of Annulment", "Orb of Annulment" },
+                {"Master Cartographer's Sextant", "Master Cartographer's Sextant" },
+                {"Journeyman Cartographer's Sextant", "Journeyman Cartographer's Sextant" },
+                {"Apprentice Cartographer's Sextant", "Apprentice Cartographer's Sextant" },
+                {"Blessed Orb", "Blessed Orb" },
+                {"Orb of Regret", "Orb of Regret" },
+                {"Gemcutter's Prism", "Gemcutter's Prism" },
+                {"Glassblower's Bauble", "Glassblower's Bauble" },
+                {"Orb of Fusing", "Orb of Fusing" },
+                {"Cartographer's Chisel", "Cartographer's Chisel" },
+                {"Chromatic Orb", "Chromatic Orb" },
+                {"Orb of Augmentation", "Orb of Augmentation" },
+                {"Blacksmith's Whetstone", "Blacksmith's Whetstone" },
+                {"Orb of Transmutation", "Orb of Transmutation" },
+                {"Armourer's Scrap", "Armourer's Scrap" },
+                {"Scroll of Wisdom", "Scroll of Wisdom" },
+                {"Regal Orb", "Regal Orb" },
+                {"Chaos", "Chaos Orb" },
+                {"Alch", "Orb of Alchemy" },
+                {"Alchs", "Orb of Alchemy" },
+                {"Jews", "Jeweller's Orb" },
+                {"Jeweller", "Jeweller's Orb" },
+                {"Jewellers", "Jeweller's Orb" },
+                {"Jeweller's", "Jeweller's Orb" },
+                {"X", "Exalted Orb" },
+                {"Ex", "Exalted Orb" },
+                {"Exalt", "Exalted Orb" },
+                {"Exalts", "Exalted Orb" },
+                {"Mirror", "Mirror of Kalandra" },
+                {"Mirrors", "Mirror of Kalandra" },
+                {"Vaal", "Vaal Orb" },
+                {"Alt", "Orb of Alteration" },
+                {"Alts", "Orb of Alteration" },
+                {"Scour", "Orb of Scouring" },
+                {"Scours", "Orb of Scouring" },
+                {"Divine", "Divine Orb" },
+                {"Annul", "Orb of Annulment" },
+                {"Annulment", "Orb of Annulment" },
+                {"Master Sextant", "Master Cartographer's Sextant" },
+                {"Journeyman Sextant", "Journeyman Cartographer's Sextant" },
+                {"Apprentice Sextant", "Apprentice Cartographer's Sextant" },
+                {"Blessed", "Blessed Orb" },
+                {"Regret", "Orb of Regret" },
+                {"Regrets", "Orb of Regret" },
+                {"Gcp", "Gemcutter's Prism" },
+                {"Glassblowers", "Glassblower's Bauble" },
+                {"Glassblower's", "Glassblower's Bauble" },
+                {"Fusing", "Orb of Fusing" },
+                {"Fuses", "Orb of Fusing" },
+                {"Fuse", "Orb of Fusing" },
+                {"Chisel", "Cartographer's Chisel" },
+                {"Chisels", "Cartographer's Chisel" },
+                {"Chance", "Orb of Chance" },
+                {"Chances", "Orb of Chance" },
+                {"Chrome", "Chromatic Orb" },
+                {"Chromes", "Chromatic Orb" },
+                {"Aug", "Orb of Augmentation" },
+                {"Augmentation", "Orb of Augmentation" },
+                {"Augment", "Orb of Augmentation" },
+                {"Augments", "Orb of Augmentation" },
+                {"Whetstone", "Blacksmith's Whetstone" },
+                {"Whetstones", "Blacksmith's Whetstone" },
+                {"Transmute", "Orb of Transmutation" },
+                {"Transmutes", "Orb of Transmutation" },
+                {"Armourers", "Armourer's Scrap" },
+                {"Armourer's", "Armourer's Scrap" },
+                {"Wisdom Scroll", "Scroll of Wisdom" },
+                {"Wisdom Scrolls", "Scroll of Wisdom" },
+                {"Regal", "Regal Orb" },
+                {"Regals", "Regal Orb" }
+            };
 
             private string ShortCurrencyName(string str)
             {

@@ -94,7 +94,13 @@ namespace NadekoBot.Modules.Administration
             {
                 var added = await _service.AntiSpamIgnoreAsync(Context.Guild.Id, Context.Channel.Id).ConfigureAwait(false);
 
-                await ReplyConfirmLocalized(added ? "spam_ignore" : "spam_not_ignore", "Anti-Spam").ConfigureAwait(false);
+                if(added is null)
+                {
+                    await ReplyErrorLocalized("anti_spam_not_running").ConfigureAwait(false);
+                    return;
+                }
+
+                await ReplyConfirmLocalized(added.Value ? "spam_ignore" : "spam_not_ignore", "Anti-Spam").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -114,12 +120,12 @@ namespace NadekoBot.Modules.Administration
 
                 if (spam != null)
                     embed.AddField(efb => efb.WithName("Anti-Spam")
-                        .WithValue(GetAntiSpamString(spam))
+                        .WithValue(GetAntiSpamString(spam).TrimTo(1024))
                         .WithIsInline(true));
 
                 if (raid != null)
                     embed.AddField(efb => efb.WithName("Anti-Raid")
-                        .WithValue(GetAntiRaidString(raid))
+                        .WithValue(GetAntiRaidString(raid).TrimTo(1024))
                         .WithIsInline(true));
 
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);

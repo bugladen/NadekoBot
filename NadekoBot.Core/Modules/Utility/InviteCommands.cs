@@ -26,7 +26,7 @@ namespace NadekoBot.Modules.Utility
                     return;
 
                 var ch = (ITextChannel)Context.Channel;
-                var invite = await ch.CreateInviteAsync(0, opts.MaxUses, isTemporary: opts.Temporary, isUnique: opts.Unique).ConfigureAwait(false);
+                var invite = await ch.CreateInviteAsync(opts.Expire, opts.MaxUses, isTemporary: opts.Temporary, isUnique: opts.Unique).ConfigureAwait(false);
 
                 await Context.Channel.SendConfirmAsync($"{Context.User.Mention} https://discord.gg/{invite.Code}").ConfigureAwait(false);
             }

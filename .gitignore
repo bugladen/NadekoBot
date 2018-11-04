@@ -6,6 +6,10 @@ command_errors*.txt
 src/NadekoBot/Command Errors*.txt
 
 src/NadekoBot/credentials.json
+# these 2 are used for migrations
+NadekoBot.Core/credentials.json
+NadekoBot.Core/credentials_example.json
+
 src/NadekoBot/data/NadekoBot.db
 src/NadekoBot/data/musicdata
 
