@@ -19,9 +19,9 @@ namespace NadekoBot.Core.Services.Impl
 
         private IDatabase _db => _con.GetDatabase();
 
-        private const string pokemonAbilitiesFile = "data/pokemon/pokemon_abilities7.json";
-        private const string pokemonListFile = "data/pokemon/pokemon_list7.json";
-        private const string pokemonMapPath = "data/pokemon/name-id_map4.json";
+        private const string pokemonAbilitiesFile = "data/pokemon/pokemon_abilities.json";
+        private const string pokemonListFile = "data/pokemon/pokemon_list.json";
+        private const string pokemonMapPath = "data/pokemon/name-id_map.json";
         private const string questionsFile = "data/trivia_questions.json";
 
         public IReadOnlyDictionary<string, SearchPokemon> Pokemons

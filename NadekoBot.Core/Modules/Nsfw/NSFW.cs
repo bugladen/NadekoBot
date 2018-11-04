@@ -1,18 +1,17 @@
 ﻿using Discord;
 using Discord.Commands;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using NadekoBot.Extensions;
-using System.Threading;
 using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Common.Collections;
+using NadekoBot.Extensions;
 using NadekoBot.Modules.Searches.Common;
 using NadekoBot.Modules.Searches.Services;
-using NadekoBot.Modules.Searches.Exceptions;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Linq;
 using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.NSFW
 {
@@ -51,17 +50,9 @@ namespace NadekoBot.Modules.NSFW
                 var type = listOfProviders[num];
                 // remove it 
                 listOfProviders.RemoveAt(num);
-                try
-                {
-                    // get the image
-                    img = await _service.DapiSearch(tag, type, Context.Guild?.Id, true).ConfigureAwait(false);
-                }
-                catch (TagBlacklistedException)
-                {
-                    await ReplyErrorLocalized("blacklisted_tag").ConfigureAwait(false);
-                    return;
-                }
-                // if i can't find the image and i ran out of providers
+                // get the image
+                img = await _service.DapiSearch(tag, type, Context.Guild?.Id, true).ConfigureAwait(false);
+                // if i can't find the image, ran out of providers, or tag is blacklisted
                 // return the error
                 if (img == null && !listOfProviders.Any())
                 {
@@ -382,15 +373,8 @@ namespace NadekoBot.Modules.NSFW
         public async Task InternalDapiCommand(string tag, DapiSearchType type, bool forceExplicit)
         {
             ImageCacherObject imgObj;
-            try
-            {
-                imgObj = await _service.DapiSearch(tag, type, Context.Guild?.Id, forceExplicit).ConfigureAwait(false);
-            }
-            catch (TagBlacklistedException)
-            {
-                await ReplyErrorLocalized("blacklisted_tag").ConfigureAwait(false);
-                return;
-            }
+
+            imgObj = await _service.DapiSearch(tag, type, Context.Guild?.Id, forceExplicit).ConfigureAwait(false);
 
             if (imgObj == null)
                 await ReplyErrorLocalized("not_found").ConfigureAwait(false);

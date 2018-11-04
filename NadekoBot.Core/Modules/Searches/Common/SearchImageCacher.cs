@@ -1,4 +1,8 @@
-﻿using System;
+﻿using NadekoBot.Common;
+using NadekoBot.Extensions;
+using Newtonsoft.Json;
+using NLog;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,10 +10,6 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
-using NadekoBot.Common;
-using NadekoBot.Extensions;
-using Newtonsoft.Json;
-using NLog;
 
 namespace NadekoBot.Modules.Searches.Common
 {
@@ -30,28 +30,33 @@ namespace NadekoBot.Modules.Searches.Common
             _httpFactory = factory;
         }
 
-        public async Task<ImageCacherObject> GetImage(string tag, bool forceExplicit, DapiSearchType type,
+        public async Task<ImageCacherObject> GetImage(string[] tags, bool forceExplicit, DapiSearchType type,
             HashSet<string> blacklistedTags = null)
         {
-            tag = tag?.ToLowerInvariant();
+            tags = tags.Select(tag => tag?.ToLowerInvariant()).ToArray();
 
             blacklistedTags = blacklistedTags ?? new HashSet<string>();
 
+            if (tags.Any(x => blacklistedTags.Contains(x)))
+            {
+                return null;
+            }
+
             if (type == DapiSearchType.E621)
-                tag = tag?.Replace("yuri", "female/female", StringComparison.InvariantCulture);
+                tags = tags.Select(tag => tag?.Replace("yuri", "female/female", StringComparison.InvariantCulture))
+                    .ToArray();
 
             var _lock = GetLock(type);
             await _lock.WaitAsync().ConfigureAwait(false);
             try
             {
                 ImageCacherObject[] imgs;
-                if (!string.IsNullOrWhiteSpace(tag))
+                if (tags.Any())
                 {
-                    imgs = _cache.Where(x => x.Tags.IsSupersetOf(tag.Split('+')) && x.SearchType == type && (!forceExplicit || x.Rating == "e")).ToArray();
+                    imgs = _cache.Where(x => x.Tags.IsSupersetOf(tags) && x.SearchType == type && (!forceExplicit || x.Rating == "e")).ToArray();
                 }
                 else
                 {
-                    tag = null;
                     imgs = _cache.Where(x => x.SearchType == type).ToArray();
                 }
                 imgs = imgs.Where(x => x.Tags.All(t => !blacklistedTags.Contains(t))).ToArray();
@@ -68,7 +73,7 @@ namespace NadekoBot.Modules.Searches.Common
                 }
                 else
                 {
-                    var images = await DownloadImages(tag, forceExplicit, type).ConfigureAwait(false);
+                    var images = await DownloadImages(tags, forceExplicit, type).ConfigureAwait(false);
                     images = images
                         .Where(x => x.Tags.All(t => !blacklistedTags.Contains(t)))
                         .ToArray();
@@ -96,9 +101,10 @@ namespace NadekoBot.Modules.Searches.Common
             return _locks.GetOrAdd(type, _ => new SemaphoreSlim(1, 1));
         }
 
-        public async Task<ImageCacherObject[]> DownloadImages(string tag, bool isExplicit, DapiSearchType type)
+        public async Task<ImageCacherObject[]> DownloadImages(string[] tags, bool isExplicit, DapiSearchType type)
         {
-            tag = tag?.Replace(" ", "_", StringComparison.InvariantCulture).ToLowerInvariant();
+            var tag = "rating%3Aexplicit+";
+            tag += string.Join('+', tags.Select(x => x.Replace(" ", "_", StringComparison.InvariantCulture).ToLowerInvariant()));
             if (isExplicit)
                 tag = "rating%3Aexplicit+" + tag;
             var website = "";
