@@ -23,7 +23,7 @@ namespace NadekoBot.Modules.Searches.Services
 {
     public class StreamNotificationService : INService
     {
-#if !GLOBAL_NADEKO && !DEBUG
+#if !GLOBAL_NADEKO
         private bool _firstStreamNotifPass = true;
 #endif
         private readonly DbService _db;
@@ -52,7 +52,7 @@ namespace NadekoBot.Modules.Searches.Services
             _http.DefaultRequestHeaders.TryAddWithoutValidation("Client-ID", _creds.TwitchClientId);
             _log = LogManager.GetCurrentClassLogger();
 
-#if !GLOBAL_NADEKO && !DEBUG
+#if !GLOBAL_NADEKO
             _followedStreams = bot.AllGuildConfigs
                 .SelectMany(x => x.FollowedStreams)
                 .GroupBy(x => (x.Type, x.Username))
