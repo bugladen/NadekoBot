@@ -1,49 +1,33 @@
 ## Setting up NadekoBot on Linux
 
-**Setting up NadekoBot on Linux Digital Ocean Droplet**			
-If you want Nadeko to play music for you 24/7 without having to hosting it on your PC and want to keep it cheap, reliable and convenient as possible, you can try Nadeko on Linux Digital Ocean Droplet using the link [DigitalOcean](http://m.do.co/c/46b4d3d44795/) (and using this link will be supporting Nadeko and will give you **$10 credit**)
+| Table of Contents |
+|:-------------|
+| [Getting Started] |
+| [Downloading and Installing the Prerequisites] |
+| [Installing Nadeko] |
+| [Setting up, Running and Updating Nadeko with pm2] |
+| [Running Nadeko on tmux] |
+| [Making Nadeko persist upon system restarts (tmux)] |
+| [Setting up Nadeko on a VPS (Digital Ocean)] |
+| [Setting up WinSCP] |
 
-**Operating System Compatibility**
-It is recommended that you get **Ubuntu 16.04**, as there have been nearly no problems with it. Also, **32-bit systems are incompatible**.
+#### Operating System Compatibility
+It is recommended that you use **Ubuntu 16.04**, as there have been nearly no problems with it. Also, **32-bit systems are incompatible**.
 
-Compatible operating systems:
-- Ubuntu: 14.04, 16.04, 16.10, 17.04, 17.10
-- Debian 8
-- CentOS 7
-
-
-**Setting up NadekoBot**			
-Assuming you have followed the link above to setup an account and Droplet with 64bit OS in Digital Ocean and got the `IP address and root password (in email)` to login, its time to get started.
-
-**Go through this whole guide before setting up Nadeko**
-
-#### Prerequisites
-- Download [PuTTY](http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html)
-- Download [WinSCP](https://winscp.net/eng/download.php) *(optional)*
-- Create and Invite the bot.
-	- Read here how to [create a Discord Bot application and invite it.](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#creating-discord-bot-application)
-
-#### Starting up
-
-- **Open PuTTY.exe** that you downloaded before, and paste or enter your `IP address` and then click **Open**.
-If you entered your Droplets IP address correctly, it should show **login as:** in a newly opened window.
-- Now for **login as:**, type `root` and press enter.
-- It should then, ask for password, type the `root password` you have received in your **email address registered with Digital Ocean**, then press Enter.
-
-If you are running your VPS/ droplet for the first time, it will most likely ask you to change your VPS root password, to do that, type the **password you received through email** it won't show any changes on the screen like `******` when password is being typed, press Enter once done. 			
-Type a **new password**, press Enter and type the **new password** again and you're done.			
-**Write down and save the new password somewhere safe.**				
-After you've done that, you are ready to use your VPS.
+##### Compatible operating systems:
+- Ubuntu: 14.04, 16.04, 16.10, 17.04, 17.10, 18.04
+- Mint: 17, 18
+- Debian: 8, 9
+- CentOS: 7
 
 
-#### Getting NadekoBot
-##### Part I - Downloading the installer
-Use the following command to get and run `linuxAIO.sh`		
-(Remember **Do Not** rename the file **linuxAIO.sh**)
+#### Getting Started
+- Use the following command to get and run the **`linuxAIO.sh`** installer		
+  - (PS: **Do Not** rename the **`linuxAIO.sh`** file)
 
 `cd ~ && wget -N https://github.com/Kwoth/NadekoBot-BashScript/raw/1.9/linuxAIO.sh && bash linuxAIO.sh`
 
-You should see these following options after using the above command:
+You should see the main menu with the following options:
 
 ```
 1. Download NadekoBot
@@ -55,193 +39,208 @@ You should see these following options after using the above command:
 7. Start Nadeko in pm2 (complete option 6 first)
 8. Exit
 ```
-##### Part II - Downloading Nadekobot prerequisites
+#### Downloading and Installing the Prerequisites
 
-**If** you are running NadekoBot for the first time on your system and never had any *prerequisites* installed and have Ubuntu, Debian or CentOS, Press `4` and `enter` key, then `y` when you see the following:
+- **If** you are running NadekoBot for the first time on your system and never had any *prerequisites* installed, press `4` and `enter` key, then `y` once you see the following:
 ```
 Welcome to NadekoBot Auto Prerequisites Installer.
 Would you like to continue?
 ```
-That will install all the prerequisites your system need to run NadekoBot.			
-(Optional) **If** you want to install it manually, you can try finding it [here.](https://github.com/Kwoth/NadekoBot-BashScript/blob/1.9/nadekoautoinstaller.sh)
+- That will install all prerequisites your system needs in order to run NadekoBot.			
+  - (Optional) **If** you prefer to install them manually, you can try finding them [here](https://github.com/Kwoth/NadekoBot-BashScript/blob/1.9/nadekoautoinstaller.sh).
 
-Once *prerequisites* finish installing,
+Once it finishes, the installer should automatically take you back to the main menu.
 
-##### Part III - Installing Nadeko
-Choose `1` to get the **most updated build of NadekoBot** 
+#### Installing Nadeko
+- Choose Option `1` to get the **most updated build of NadekoBot**. When installation is complete, you will see the options again.
 
-and then press `enter` key.	
+- If you haven't [set up your Discord bot application](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#creating-discord-bot-application) and [invited the bot to your server](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#inviting-your-bot-to-your-server) yet, do it now.
+  - Only the ClientID, Bot Token and OwnerID are required. Everything else is optional.
+  - The Google API Key is required if you want Nadeko to play music.
 
-When installation is complete, you will see the options again.
+- Once you have acquired them, choose Option `5` to set up your credentials.
+  - You will be asked to enter your credentials. Just follow the on-screen instructions and enter them as requested. (*i.e.* If you are asked to insert the **Bot's Token**, then just copy and paste the **Bot's Token** and hit `Enter`. Rinse and repeat until it's over.)
+  - If you want to skip any optional information, just press `Enter` without typing/pasting anything.
+	
+Once you're done with the credentials, you should be taken back to the main menu.
 
-Next, check out:
-##### Part IV - Setting up credentials
+##### Checking if Nadeko is working
+- Choose Option `2` to **Run Nadeko (Normally)**.
+- Check in your Discord server if your new bot is working properly. Once you're done testing, type `.die` to shut it down and return to the main menu.
+	
+You can now choose Option `3` and have Nadeko run with auto restart. It will work just fine, however it's strongly advised that you use Nadeko with a process manager like pm2 or tmux, as they will keep Nadeko running in the background, freeing up your terminal for other tasks.
 
-- [1. Set up credentials.json](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-credentialsjson-file)
-- [2. Get the Google API](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-your-api-keys)
+---
 
-You will need the following for the next step:
-![botimg](https://cdn.discordapp.com/attachments/251504306010849280/276455844223123457/Capture.PNG)
+#### Setting up, Running and Updating Nadeko with [pm2](https://github.com/Unitech/pm2/blob/master/README.md) [strongly recommended]
 
-- **Bot's Client ID** and **Bot's ID** (both are same) [(*required)](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-credentialsjson-file)
-- **Bot's Token** (not client secret) [(*required)](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-credentialsjson-file)
-- Your **Discord userID** [(*required)](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-credentialsjson-file)
-- **Google Api Key** [(optional)](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-your-api-keys)
-- **LoL Api Key** [(optional)](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-your-api-keys)
-- **Mashape Key** [(optional)](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-your-api-keys)
-- **Osu Api Key** [(optional)](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-your-api-keys)
-
-Once you have acquired them, press `5` to **Set up credentials.json**
-
-You will be asked to enter the required informations, just follow the on-screen instructions and enter the required information.		
-*i.e* If you are asked **Bot's Token**, then just copy and paste or type the **Bot's Token** and press `enter` key.
-
-(If you want to skip any optional infos, just press `enter` key without typing/pasting anything.)		
-Once done,		
-##### Part V - Checking if Nadeko is working
-You should see the options again.	
-Next, press `2` to **Run Nadeko (Normally)**.
-Check in your discord server if your new bot is working properly.	
-
-#### Part VI - Setup, Running Nadeko and Updating with [pm2](https://github.com/Unitech/pm2/blob/master/README.md) [strongly recommended]
-
-**If you followed Part V and started Nadeko, make sure to exit the bot by using `.die` if it is running in your server, and/or by pressing `8` in the console to exit.** 
-
-You may be presented with the installer main menu from Step I. If not, simply download it again as described in the following section.
-
-Nadeko can be run using [pm2](https://github.com/Unitech/pm2), a process manager that seamlessly handles keeping your bot up. Besides this, it handles disconnections and shutdowns gracefully, ensuring any leftover processes are properly killed. It also persists on server restart, so you can restart your server or VPS/computer and pm2 will manage the startup of your bot. Lastly, there is proper error logging and overall logging. These are just a few features of pm2, and it is a great way to run Nadeko with stability.
+Nadeko can be run using [pm2](https://github.com/Unitech/pm2), a process manager that seamlessly handles keeping your bot up. Besides, it handles disconnections and shutdowns gracefully, ensuring any leftover processes are properly killed. It also persists on server restart, so you can restart your server or computer and pm2 will manage the startup of your bot. Lastly, there is proper error logging and overall logging. These are just a few features of pm2, and it is a great way to run Nadeko with stability.
 
 ##### Setting up pm2/NodeJS for Nadeko
+**Before proceeding, make sure your bot is not running by either running `.die` in your Discord server or exiting the process with `Ctrl+C`.** 
 
-> If you already have NodeJS and pm2 installed on your system, you can skip the *Option 6* for installing pm2 which is a one-time thing. Scroll down to see startup instructions.
+You may be presented with the installer main menu once you shut your bot down. If not, simply run `bash linuxAIO.sh`.
 
-There is an automated script built in the Nadeko installer so installation and startup is a breeze. You may already have the `linuxAIO.sh` file downloaded from the first step, but you should download it again to keep up to date for potential changes in the installer. Download `linuxAIO.sh`:
+- Run Option `6` to install NodeJS and pm2.
+  - If you already have NodeJS and pm2 installed on your system, you can skip this step (which is a one-time thing).
 
-`cd ~ && wget -N https://github.com/Kwoth/NadekoBot-BashScript/raw/1.9/linuxAIO.sh`
-
-We can then run the script: `sudo bash linuxAIO.sh` and you will be presented with the normal Nadeko installer options.
-
-**Make sure you have installed Nadeko with the first option [1] before doing this, and also have installed the prerequisites with step [4].** 
-
-Simply choose **Option 6** to setup pm2 and install it along with NodeJS. This will update your NodeJS so there's no harm running it even if you have NodeJS on your system. It will also install pm2 and then exit to the installer menu again.
-
-##### Running Nadeko with pm2 and Updating Nadeko within pm2
-
-Once you are done installing pm2 with NodeJS, then you can select **Option 7** which will bring you to a menu of choices. These are the normal choices you have for running Nadeko. 
-
-- [1] Start with auto-restart with `.die` and no auto-update.
-- [2] Start with auto-restart with `.die` *and* auto-update on restart as well.
-- [3] Run normally without any auto-restart or auto-update functionality.
-
-Simply choose one of these and Nadeko will start in pm2! If you did everything correctly, you can run the following to check your Nadeko setup:
+- There is an automated script built in the installer so installation and startup is a breeze. Just select Option `7` to bring you to a menu of choices. These are the normal choices you have for running Nadeko. 
+```
+[1] Start with auto-restart with .die and no auto-update.
+[2] Start with auto-restart with .die and auto-update on restart as well.
+[3] Run normally without any auto-restart or auto-update functionality.
+```
+- Simply choose one of these and Nadeko will start in pm2! If you did everything correctly, you can run the following to check your Nadeko setup:
 
 `sudo pm2 status` to see all pm2 processes
 
 `sudo pm2 info Nadeko` information about Nadeko 
 
-`sudo pm2 logs Nadeko` to view real-time logs of Nadeko (you can do `sudo pm2 logs Nadeko --lines <number>`) (number = how many lines you wish to output) for viewing more lines of the log. The logfile is also stored and presented at the top of these commands.
+`sudo pm2 logs Nadeko` to view real-time logs of Nadeko, or
+		
+`sudo pm2 logs Nadeko --lines number` (**number** = how many lines you wish to output) to see a specific amount of lines of the log. The logfile is also stored and presented at the top of these commands
 
-> **Updating Nadeko within pm2:**
+##### Updating Nadeko with pm2
+- If you have set up Nadeko with auto-update, simply run `.die` on your Discord server. That's it!
+- If you have set up Nadeko with **no** auto-update:
+  - Shut your bot down with `sudo pm2 stop Nadeko`
+  - Open the installer with `bash linuxAIO.sh` and choose Option `1`
+  - Once it's done, exit the installer with Option `8` and run `sudo pm2 restart Nadeko`
+    - You can watch your bot going online with `sudo pm2 logs Nadeko`
 
-**If you don't auto-update Nadeko and manually do, one simply needs to run the linuxAIO.sh script: `sudo sh linuxAIO.sh` as we normally would and choose [1] Download NadekoBot, then after downloading is complete/build is done, just `pm2 restart Nadeko` -- that's all!** 
+---
 
-**NOTE:**  If you did the pm2 setup, you are done! You do not need to follow the startup instructions later in the guide, as we've used the script and pm2 to start Nadeko up already. Wasn't that easy? :-)
+#### Running Nadeko on tmux [if you don't want to use pm2]
+**Before proceeding, make sure your bot is not running by either running `.die` in your Discord server or exiting the process with `Ctrl+C`.** 
+If you are presented with the installer main menu, exit it by choosing Option `8`.
 
-
-**Some other useful pm2 commands:**
-
-`sudo pm2 startup && sudo pm2 save` will setup pm2 to persist even on system reboot by saving the process ID information as a system service. Just need to do this once if you wish.
-
-`sudo pm2 stop Nadeko` will stop Nadeko properly and ensure it is shut down. `sudo pm2 restart Nadeko` will restart Nadeko properly as well, shutting it down first and promptly restarting.
-
-
-This is the recommended way to keep Nadeko running smoothly.
-
-#### Part VII - Running Nadeko on tmux [if you wish not to use pm2]
-
-If your bot is working properly in your server, type `.die` to **shut down the bot**, then press `8` on the console to **exit**.
-Next, [Run your bot again with **tmux**.](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#running-nadekobot)	
-
-[Check this when you need to **restart** your **NadekoBot** anytime later along with tmux session.](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#restarting-nadeko)
-
-##### Running NadekoBot
-
-**Create a new Session:**
-
-- `tmux new -s nadeko`  
+- Create a new session: `tmux new -s nadeko`  
   
-The above command will create a new session named **nadeko** *(you can replace “nadeko” with anything you prefer and remember its your session name)* so you can run the bot in background without having to keep the PuTTY running.
+The above command will create a new session named **nadeko** *(you can replace “nadeko” with anything you prefer, it's your session name)*.
 
-**Next, we need to run `linuxAIO.sh` in order to get the latest running scripts with patches:**
+- Run the installer: `bash linuxAIO.sh`
 
-- `cd ~ && wget -N https://github.com/Kwoth/NadekoBot-BashScript/raw/1.9/linuxAIO.sh && bash linuxAIO.sh`
+- Choose `2` to **Run NadekoBot normally.**
+  - **NOTE**: With this option, if you use `.die` in Discord, the bot will shut down and stay offline until you manually run it again.
 
-**From the options,**
+- Choose `3` to **Run NadekoBot with Auto Restart.**
+  - **NOTE**: With this option, the bot will auto run if you use `.die`, making it to function as restart.
 
-Choose `2` to **Run NadekoBot normally.**		
-**NOTE:** With option `2` (Running normally), if you use `.die` [command](http://nadekobot.readthedocs.io/en/latest/Commands%20List/#administration) in discord. The bot will shut down and will stay offline until you manually run it again. (best if you want to check the bot.)
-
-Choose `3` to **Run NadekoBot with Auto Restart.**	
-**NOTE:** With option `3` (Running with Auto Restart), bot will auto run if you use `.die` [command](http://nadekobot.readthedocs.io/en/latest/Commands%20List/#administration) making the command `.die` to function as restart.	
-
-It will show you the following options: 
+You will be shown the following options: 
 ```
 1. Run Auto Restart normally without Updating.
 2. Run Auto Restart and update NadekoBot.
 3. Exit
 ```
 
-- With option `1. Run Auto Restart normally without Updating.` Bot will restart on `die` command and will not be downloading the latest build available.
-- With option `2. Run Auto Restart and update NadekoBot.` Bot will restart and download the latest build of bot available everytime `die` command is used.
+- With option `1. Run Auto Restart normally without Updating`, the bot will restart on `.die` command and will not download the latest build available.
+- With option `2. Run Auto Restart and update NadekoBot`, the bot will restart and download the latest build available everytime the `.die` command is used.
 
-**Remember** that, while running with Auto Restart, you will need to [close the tmux session](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#restarting-nadeko) to stop the bot completely.
+**Now check your Discord server, the bot should be online**
 
-**Now check your Discord, the bot should be online**
-
-Next to **move the bot to background** and to do that, press **CTRL+B, release, D** (that will detach the nadeko session using TMUX) and you can finally close **PuTTY**.
-
-#### Restarting Nadeko
-
-**Restarting NadekoBot:**
-
-**If** you have chosen option `2` to **Run Nadeko with Auto Restart** from Nadeko's `linuxAIO.sh` *[(you got it from this step)](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#getting-nadekobot)*	
-You can simply type `.die` in the server you have your NadekoBot to make her restart.
-
-**Restarting Nadeko with the Server:**
-
-Open **PuTTY** and login as you have before, type `reboot` and press Enter.
-
-**Restarting Manually:**
-
-- Kill your previous session, check with `tmux ls`
-- `tmux kill-session -t nadeko` (don't forget to replace "nadeko" to what ever you named your bot's session)
-- [Run the bot again.](http://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#running-nadekobot)
+- To move the bot to the background, press **Ctrl+B**, release the keys then hit **D**. That will detach the session, allowing you to finally close the terminal window and not worry about having your bot shut down in the process.
 
 #### Updating Nadeko
-
-- Connect to the terminal through **PuTTY**.
-- `tmux kill-session -t nadeko` (don't forget to replace **nadeko** in the command with the name of your bot's session)
-- Make sure the bot is **not** running.
-- `tmux new -s nadeko` (**nadeko** is the name of the session)
-- `cd ~ && wget -N https://github.com/Kwoth/NadekoBot-BashScript/raw/1.9/linuxAIO.sh && bash linuxAIO.sh`
-- Choose `1` to update the bot with **latest build** available.
-- Next, choose either `2` or `3` to run the bot again with **normally** or **auto restart** respectively.
-- Done.
+- If you're running Nadeko with auto-update, just type `.die` in your Discord server. That's it!
+- If you're running Nadeko with **no** auto-update:
+  - Kill your previous session.
+    - Check the session name with `tmux ls`
+    - Kill with `tmux kill-session -t nadeko` (don't forget to replace "nadeko" with whatever you named your bot's session).
+  - Create a new session: `tmux new -s nadeko`
+  - Run this command: `cd ~ && wget -N https://github.com/Kwoth/NadekoBot-BashScript/raw/1.9/linuxAIO.sh && bash linuxAIO.sh`
+  - Choose Option `1` to download the most up to date version of Nadeko.
+  - Once it's done, choose Option `2` or `3` and detach the session by pressing **Ctrl+B**, release then **D**.
 
 #### Additional Information
 
-##### Setting up Music
+- If you want to **see the active sessions**, run `tmux ls`. That will give you the list of the currently running sessions.
+- If you want to **switch to/see a specific session**, type `tmux a -t nadeko` (**nadeko** is the name of the session we created before so, replace **“nadeko”** with the session name you have created).
+  - If you want to go through the log, press **Ctrl+B**, release the keys then hit **Page Up** or **Page Down** to navigate.
+  - Don't forget to always detach from the session by pressing **Ctrl+B** then **D** once you're done.
+- If you want **create** a new session, run `tmux new -s nadeko`. If you want to **kill it**, run `tmux kill-session -t nadeko`
 
-To set up Nadeko for music and Google API Keys, follow [Setting up your API keys.][setup music]
+#### Making Nadeko persist upon system restarts (tmux - For Advanced Users)
+This procedure is completely optional. We'll be using [*systemd*](https://en.wikipedia.org/wiki/Systemd) to handle Nadeko during system shutdowns and reboots.
 
-##### tmux
+1. Start off by downloading the necessary scripts:
+	- `cd ~ && wget https://raw.githubusercontent.com/Kaoticz/NadekoBot-BashScript/1.9k/nadeko.service`
+	- `cd ~ && wget https://raw.githubusercontent.com/Kwoth/NadekoBot-BashScript/1.9/NadekoARN.sh`
+	- `cd ~ && wget https://raw.githubusercontent.com/Kwoth/NadekoBot-BashScript/1.9/NadekoARU_Latest.sh`
 
-- If you want to **see the sessions** after logging back again, type `tmux ls`, and that will give you the list of sessions running.
-- If you want to **switch to/ see that session**, type `tmux a -t nadeko` (**nadeko** is the name of the session we created before so, replace **“nadeko”** with the session name you created.)
-- If you want to **kill** NadekoBot **session**, type `tmux kill-session -t nadeko`
+2. If you **are** logged in as `root` and **don't want** Nadeko to auto-update, ignore the procedures below and go straight to step 3.
+	- Let's edit the script *systemd* is going to use to start Nadeko: `nano nadeko.service`
+	- You should see the following:
+```css
+[Unit]
+Description=NadekoBot 
 
-##### Setting up SFTP
+[Service]
+WorkingDirectory=/root
+User=root
+Type=forking
+ExecStart=/usr/bin/tmux new-session -s Nadeko -d '/bin/sh NadekoARN.sh'
+ExecStop=/bin/sleep 2
 
+[Install]
+WantedBy=multi-user.target
+```
+- Change `/root` from *"WorkingDirectory"* to the directory that contains your NadekoBot folder.
+	- For example, if your  bot is located in `/home/username/NadekoBot`, you should change `/root` to `/home/username`.
+- Change `root` from *"User"* to whatever username you're using.
+- **Optional:** If you want Nadeko to auto-update upon restarts, change `NadekoARN.sh` to `NadekoARU_Latest.sh`.
+- Once you're done, press `Ctrl+X` to exit nano, type `y` to confirm the changes and `Enter` to go back to the terminal.
+  
+3. Now the script needs to be moved to where *systemd* stores their services. On Ubuntu, it's usually in `/etc/systemd/system`. If you are not using Ubuntu and are unsure about where *systemd* stores stuff, [Google is your best friend](https://www.google.com/ "MaybeGoogle :^)").
+	- To do that, run this command: `sudo mv nadeko.service /etc/systemd/system/nadeko.service`
+
+4. Now it's time to reload *systemd*, so it loads our new script up: `sudo systemctl daemon-reload`
+5. Set the script to run upon system reboots: `sudo systemctl enable nadeko`
+6. Start Nadeko on the current session: `sudo systemctl start nadeko`
+
+And that's it. Every time your system restarts, *systemd* should automatically startup your bot with tmux. If everything has gone well, you should be able to see Nadeko on the list of processes being handled by tmux by running the `tmux ls` command.
+
+#### Managing Nadeko on tmux with systemd
+Here is a list of useful commands if you intend on managing Nadeko with *systemd*.
+- `tmux ls` - lists all processes managed by tmux.
+- `tmux a -t Nadeko` - shows Nadeko's log (press `Ctrl+B` then `D` to exit).
+- `sudo systemctl start nadeko` - starts Nadeko, if it has been stoped.
+- `sudo systemctl restart nadeko` - restarts Nadeko. Can be used while the bot is being run.
+- `sudo systemctl stop nadeko` - completely shuts Nadeko down.
+- `sudo systemctl enable nadeko` - makes Nadeko start automatically upon system reboots.
+- `sudo systemctl disable nadeko` - stops Nadeko from starting automatically upon system reboots. 
+- `sudo systemctl status nadeko` - shows some information about your bot (press `Ctrl+C` to exit).
+
+---
+
+### Setting up Nadeko on a Linux VPS (Digital Ocean Droplet)			
+If you want Nadeko to play music for you 24/7 without having to hosting it on your PC and want to keep it cheap, reliable and convenient as possible, you can try Nadeko on Linux Digital Ocean Droplet using the link [DigitalOcean](http://m.do.co/c/46b4d3d44795/) (by using this link, you will get **$10 credit** and also support Nadeko)
+
+**Setting up NadekoBot**			
+Assuming you have followed the link above to setup an account and a Droplet with a 64-bit operational system on Digital Ocean and got the `IP address and root password (in your e-mail)` to login, it's time to get started.
+
+**Go through this whole guide before setting up Nadeko**
+
+#### Prerequisites
+- Download [PuTTY](http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html)
+- Download [WinSCP](https://winscp.net/eng/download.php) *(optional)*
+- Create and Invite the bot.
+	- Read here how to [create a Discord Bot application and invite it.](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#creating-discord-bot-application)
+	
+#### Starting up
+
+- **Open PuTTY** and paste or enter your `IP address` and then click **Open**.
+If you entered your Droplets IP address correctly, it should show **login as:** in a newly opened window.
+- Now for **login as:**, type `root` and press enter.
+- It should then ask for a password. Type the `root password` you have received in your e-mail address, then press Enter.
+
+If you are running your droplet for the first time, it will most likely ask you to change your root password. To do that, copy the **password you've received by e-mail** and paste it on PuTTY.
+- To paste, just right-click the window (it won't show any changes on the screen), then press Enter. 			
+Type a **new password** somewhere, copy and paste it on PuTTY. Press Enter then paste it again.			
+**Save the new password somewhere safe.**				
+After that, your droplet should be ready for use. [Follow the guide from the beginning](https://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#getting-started) to set Nadeko up on your newly created VPS.
+
+##### Setting up WinSCP
+WinSCP is useful for transfering files between a local system (your computer) and a remote system (your VPS). To set it up:
 - Open **WinSCP**
 - Click on **New Site** (top-left corner).
 - On the right-hand side, you should see **File Protocol** above a drop-down selection menu.
@@ -250,19 +249,13 @@ To set up Nadeko for music and Google API Keys, follow [Setting up your API keys
 - In **Username:** type `root`
 - In **Password:** type `the new root password (you changed at the start)`
 - Click on **Login**, it should connect.
-- It should show you the NadekoBot folder which was created by git earlier on the right-hand side window.
-- Open that folder, then open the `src` folder, followed by another `NadekoBot` folder and you should see `credentials.json` there.
+- If everything goes well, you should see the NadekoBot folder which was created by Git earlier on the right-hand side window. You should now be able to download and upload files to your VPS.
 
-##### Setting up credentials.json
-
-- Copy the `credentials.json` to desktop
-- EDIT it as it is guided here: [Setting up credentials.json][setup credentials]
-- Paste/put it back in the folder once done. `(Using WinSCP)`
-- **If** you already have Nadeko 1.3.x setup and have `credentials.json` and `NadekoBot.db`, you can just copy and paste the `credentials.json` to `NadekoBot/src/NadekoBot` and `NadekoBot.db` to `NadekoBot/src/NadekoBot/bin/Release/netcoreapp2.0/data` using WinSCP.			
-**Or** follow the [Upgrading Guide.][upgrading]
-
-
-[img7]: https://cdn.discordapp.com/attachments/251504306010849280/251505766370902016/setting_up_credentials.gif
-[setup credentials]: http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-credentialsjson-file
-[setup music]: http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-your-api-keys
-[upgrading]: http://nadekobot.readthedocs.io/en/latest/guides/Upgrading%20Guide/
+[Getting Started]: https://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#getting-started
+[Downloading and Installing the Prerequisites]: https://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#downloading-and-installing-the-prerequisites
+[Installing Nadeko]: https://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#installing-nadeko
+[Setting up, Running and Updating Nadeko with pm2]: https://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#setting-up-running-and-updating-nadeko-with-pm2-strongly-recommended
+[Running Nadeko on tmux]: https://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#running-nadeko-on-tmux-if-you-dont-want-to-use-pm2
+[Making Nadeko persist upon system restarts (tmux)]: https://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#making-nadeko-persist-upon-system-restarts-tmux---for-advanced-users
+[Setting up Nadeko on a VPS (Digital Ocean)]: https://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#setting-up-nadeko-on-a-linux-vps-digital-ocean-droplet
+[Setting up WinSCP]: https://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#setting-up-winscp
