@@ -15,7 +15,7 @@ Some features have their own specific placeholders which are noted in that featu
 - `%bot.fullname%` - Bot username#discriminator   
 - `%bot.time%` - Bot time (usually the time of the server it's hosted on)   
 - `%bot.discrim%` - Bot's discriminator   
-- `%bot.id%` - Bot's user ID
+- `%bot.id%` - Bot's user ID   
 - `%bot.avatar%` - Bot's avatar url
 
 **Server placeholders**     
@@ -59,8 +59,8 @@ Some features have their own specific placeholders which are noted in that featu
 - `%music.playing%` - Current song name   
 
 **Miscellaneous placeholders**      
-- `%rngX-Y%` - Returns a random number between X and Y 
-- `%target%` - Returns anything the user has written after the trigger **(only works on custom reactions)**
-- `%img:stuff%` - Returns an `imgur.com` search for "stuff" **(only works on custom reactions)**
+- `%rngX-Y%` - Returns a random number between X and Y   
+- `%target%` - Returns anything the user has written after the trigger **(only works on custom reactions)**   
+- `%img:stuff%` - Returns an `imgur.com` search for "stuff" **(only works on custom reactions)**   
 
 ![img](https://puu.sh/B7mgI.png)

@@ -14,18 +14,18 @@
 ### Installing with the CLI Installer
 This is the recommended way of installing Nadeko from source. If you don't want to use the installer, skip to [Installing Nadeko Manually](https://nadekobot.readthedocs.io/en/latest/guides/From%20Source/#installing-nadeko-manually).
 
-#### Prerequisites (CLI)
+#### Prerequisites (CLI)  
 - Windows 7 or later
 - [dotNET core 2.1 SDK][dotNET] (restart Windows after installation)
 - [Git] (select [this option](https://i.imgur.com/zlWVTsi.png) during the installation process)
-- Redis  
-  - Windows 64 bit: Download and install the [latest msi][Redis]. Don't forget to [add it to the path environment variable](https://i.imgur.com/uUby6Xw.png) during the installation process.
-  - Windows 32 bit: Skip this step  
-- [Create a Discord Bot application](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#creating-discord-bot-application) and [invite the bot to your server](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#inviting-your-bot-to-your-server).  
+- Redis
+    - Windows 64 bit: Download and install the [latest msi][Redis]. Don't forget to [add it to the path environment variable](https://i.imgur.com/uUby6Xw.png) during the installation process.
+    - Windows 32 bit: Skip this step 
+- [Create a Discord Bot application](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#creating-discord-bot-application) and [invite the bot to your server](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#inviting-your-bot-to-your-server).
 
-**Optional**
-
+**Optional**  
 If you want Nadeko to play music, do the following:
+
 - Install [Visual C++ 2010 (x86)] and [Visual C++ 2017] (both are required - restart Windows after installation)
 - [youtube-dl] - Click on `Windows.exe` (on the top left corner) and download the file. Then move it to **`C:\youtube-dl`**. If the folder `youtube-dl` doesn't exist, create one.
 
@@ -54,14 +54,14 @@ If you want Nadeko to play music, do the following:
 ```
 - Run Option `1` to download Nadeko (type 1 and press Enter). Once it's done, it should take you back to the main menu.
 - Run Option `4` to [set up your credentials](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/). Paste the info as requested.
-  - **If your Windows is 32-bit**, run Option `14` now. Otherwise, ignore this step.
+    - **If your Windows is 32-bit**, run Option `14` now. Otherwise, ignore this step.
 - Nadeko should be ready to launch. Run Option `2` to test it out. If everything goes well, Nadeko should appear as online on your Discord server and respond to commands. Once you're done with testing, type **`.die`** to shut it down and return to the installer's main menu.
 
 
 If you don't want the music features, you can launch Nadeko with Option `3` and have fun with your newly created bot. Otherwise, follow the steps below.
 
 - If you haven't downloaded **`youtube-dl.exe`** and moved it to **`C:\youtube-dl`** yet, then do it now.
-  - **If your Windows is 32-bit**, run Option `13`. Otherwise, ignore this step.
+    - **If your Windows is 32-bit**, run Option `13`. Otherwise, ignore this step.
 - Run Option `5` to download **`ffmpeg`**.
 - Run Option `9` to add **`youtube-dl.exe`** to your system's path environment variable.
 - That's it. You're done. Launch Nadeko with Option `3` and have fun sharing music with your friends.
@@ -78,14 +78,14 @@ This is the *"hard"* way of installing Nadeko. If you're here, we are assuming y
 - Windows 7 or later
 - [dotNET core 2.1 SDK][dotNET] (restart Windows after installation)
 - [Git] (select [this option](https://i.imgur.com/zlWVTsi.png) during the installation process)
-- Redis  
-  - Windows 64 bit: Download and install the [latest msi][Redis]. Don't forget to [add it to the path environment variable](https://i.imgur.com/uUby6Xw.png) during the installation process.
-  - Windows 32 bit: Download [redis-server.exe](https://github.com/MaybeGoogle/NadekoFiles/blob/master/x86%20Prereqs/redis-server.exe?raw=true) and store it somewhere accessible.  
-- [Create a Discord Bot application](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#creating-discord-bot-application) and [invite the bot to your server](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#inviting-your-bot-to-your-server).  
+- Redis
+    - Windows 64 bit: Download and install the [latest msi][Redis]. Don't forget to [add it to the path environment variable](https://i.imgur.com/uUby6Xw.png) during the installation process.
+    - Windows 32 bit: Download [redis-server.exe](https://github.com/MaybeGoogle/NadekoFiles/blob/master/x86%20Prereqs/redis-server.exe?raw=true) and store it somewhere accessible.
+- [Create a Discord Bot application](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#creating-discord-bot-application) and [invite the bot to your server](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#inviting-your-bot-to-your-server).
 
-**Optional**
+**Optional**  
+If you want Nadeko to play music, do the following:  
 
-If you want Nadeko to play music, do the following:
 - [Notepad++] (makes it easier to edit your credentials)
 - Install [Visual C++ 2010 (x86)] and [Visual C++ 2017] (both are required - restart Windows after installation)
 - [youtube-dl] - Click on `Windows.exe` (on the top left corner) and download the file. Store it somewhere accessible.
@@ -115,30 +115,33 @@ If you want Nadeko to play music, do the following:
 ---
 
 ### Updating Nadeko  
-**If you have not made custom edits to the source code.**
-- If you're using the CLI installer, shut your bot down and run Option `1`. That's it.
-- If you've installed manually, open command prompt (`cmd.exe`)
-- Move to Nadeko's root folder:
-- `cd NadekoBot`
-- Update Nadeko:
-- `git pull` 
+**If you have not made custom edits to the source code.**  
 
-**If you have made custom edits to the source code.**
-- Open command prompt (`cmd.exe`)
-- Move to Nadeko's root folder:
-- `cd NadekoBot`
-- Stash your changes:
-- `git stash save "give me a nice name dd-mm-yyyy"` or just `git stash`
-- Update Nadeko:
-- `git pull`
-- Apply your stash:
-- `git stash apply` or `git stash apply stash@{n}` (where `n` is the ID of the stash)
+  - If you're using the CLI installer, shut your bot down and run Option `1`. That's it.  
+  - If you've installed manually, open command prompt (`cmd.exe`)  
+  - Move to Nadeko's root folder:  
+  - `cd NadekoBot`  
+  - Update Nadeko:  
+  - `git pull`   
 
-Other useful commands:
-  - `git status` to check the changes you've made
-  - `git stash list` to see the list of saved stashes and their corresponding ID
-  - `git stash drop stash@{n}` to delete a specific stash
-  - `git stash pop stash@{n}` to apply and delete a specific stash
+**If you have made custom edits to the source code.**  
+
+- Open command prompt (`cmd.exe`)  
+- Move to Nadeko's root folder:  
+- `cd NadekoBot`  
+- Stash your changes:  
+- `git stash save "give me a nice name dd-mm-yyyy"` or just `git stash`  
+- Update Nadeko:  
+- `git pull`  
+- Apply your stash:  
+- `git stash apply` or `git stash apply stash@{n}` (where `n` is the ID of the stash)  
+
+Other useful commands:  
+
+- `git status` to check the changes you've made  
+- `git stash list` to see the list of saved stashes and their corresponding ID  
+- `git stash drop stash@{n}` to delete a specific stash  
+- `git stash pop stash@{n}` to apply and delete a specific stash  
 
 [Notepad++]: https://notepad-plus-plus.org/
 [dotNET]: https://www.microsoft.com/net/download/

@@ -12,7 +12,7 @@
 | [Setting up WinSCP] |
 
 #### Operating System Compatibility
-It is recommended that you use **Ubuntu 16.04**, as there have been nearly no problems with it. Also, **32-bit systems are incompatible**.
+It is recommended that you use **Ubuntu 16.04**, as there have been nearly no problems with it. Music features are currently not working on CentOS. Also, **32-bit systems are incompatible**.
 
 ##### Compatible operating systems:
 - Ubuntu: 14.04, 16.04, 16.10, 17.04, 17.10, 18.04
@@ -55,8 +55,8 @@ Once it finishes, the installer should automatically take you back to the main m
 - Choose Option `1` to get the **most updated build of NadekoBot**. When installation is complete, you will see the options again.
 
 - If you haven't [set up your Discord bot application](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#creating-discord-bot-application) and [invited the bot to your server](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#inviting-your-bot-to-your-server) yet, do it now.
-  - Only the ClientID, Bot Token and OwnerID are required. Everything else is optional.
-  - The Google API Key is required if you want Nadeko to play music.
+    - Only the ClientID, Bot Token and OwnerID are required. Everything else is optional.
+    - The Google API Key is required if you want Nadeko to play music.
 
 - Once you have acquired them, choose Option `5` to set up your credentials.
   - You will be asked to enter your credentials. Just follow the on-screen instructions and enter them as requested. (*i.e.* If you are asked to insert the **Bot's Token**, then just copy and paste the **Bot's Token** and hit `Enter`. Rinse and repeat until it's over.)
@@ -200,7 +200,8 @@ WantedBy=multi-user.target
 And that's it. Every time your system restarts, *systemd* should automatically startup your bot with tmux. If everything has gone well, you should be able to see Nadeko on the list of processes being handled by tmux by running the `tmux ls` command.
 
 #### Managing Nadeko on tmux with systemd
-Here is a list of useful commands if you intend on managing Nadeko with *systemd*.
+Here is a list of useful commands if you intend on managing Nadeko with *systemd*.  
+
 - `tmux ls` - lists all processes managed by tmux.
 - `tmux a -t Nadeko` - shows Nadeko's log (press `Ctrl+B` then `D` to exit).
 - `sudo systemctl start nadeko` - starts Nadeko, if it has been stoped.
@@ -223,8 +224,7 @@ Assuming you have followed the link above to setup an account and a Droplet with
 #### Prerequisites
 - Download [PuTTY](http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html)
 - Download [WinSCP](https://winscp.net/eng/download.php) *(optional)*
-- Create and Invite the bot.
-	- Read here how to [create a Discord Bot application and invite it.](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#creating-discord-bot-application)
+- [Create and invite the bot](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#creating-discord-bot-application).
 	
 #### Starting up
 
@@ -233,14 +233,17 @@ If you entered your Droplets IP address correctly, it should show **login as:** 
 - Now for **login as:**, type `root` and press enter.
 - It should then ask for a password. Type the `root password` you have received in your e-mail address, then press Enter.
 
-If you are running your droplet for the first time, it will most likely ask you to change your root password. To do that, copy the **password you've received by e-mail** and paste it on PuTTY.
-- To paste, just right-click the window (it won't show any changes on the screen), then press Enter. 			
-Type a **new password** somewhere, copy and paste it on PuTTY. Press Enter then paste it again.			
-**Save the new password somewhere safe.**				
+   If you are running your droplet for the first time, it will most likely ask you to change your root password. To do that, copy the **password you've received by e-mail** and paste it on PuTTY.  
+   - To paste, just right-click the window (it won't show any changes on the screen), then press Enter.
+
+- Type a **new password** somewhere, copy and paste it on PuTTY. Press Enter then paste it again.
+**Save the new password somewhere safe.**
+
 After that, your droplet should be ready for use. [Follow the guide from the beginning](https://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#getting-started) to set Nadeko up on your newly created VPS.
 
 ##### Setting up WinSCP
 WinSCP is useful for transfering files between a local system (your computer) and a remote system (your VPS). To set it up:
+
 - Open **WinSCP**
 - Click on **New Site** (top-left corner).
 - On the right-hand side, you should see **File Protocol** above a drop-down selection menu.
@@ -256,6 +259,6 @@ WinSCP is useful for transfering files between a local system (your computer) an
 [Installing Nadeko]: https://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#installing-nadeko
 [Setting up, Running and Updating Nadeko with pm2]: https://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#setting-up-running-and-updating-nadeko-with-pm2-strongly-recommended
 [Running Nadeko on tmux]: https://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#running-nadeko-on-tmux-if-you-dont-want-to-use-pm2
-[Making Nadeko persist upon system restarts (tmux)]: https://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#making-nadeko-persist-upon-system-restarts-tmux---for-advanced-users
+[Making Nadeko persist upon system restarts (tmux)]: https://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#making-nadeko-persist-upon-system-restarts-tmux-for-advanced-users
 [Setting up Nadeko on a VPS (Digital Ocean)]: https://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#setting-up-nadeko-on-a-linux-vps-digital-ocean-droplet
 [Setting up WinSCP]: https://nadekobot.readthedocs.io/en/latest/guides/Linux%20Guide/#setting-up-winscp
