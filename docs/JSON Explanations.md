@@ -55,7 +55,7 @@ If you don't see a `credentials.json` file, you will need to rename `credentials
 
 #### Setting up credentials.json file
 - **For Windows (Updater)**: the `credentials.json` file is located in the `C:\Program Files\NadekoBot\system` folder.
-  - Note: there is a shortcut as well in `C:\Program Files\NadekoBot`, for easier access.		
+    - Note: there is a shortcut as well in `C:\Program Files\NadekoBot`, for easier access.
 - **For Windows (Source), Linux and OSX**: the `credentials.json` file is located in the `NadekoBot/src/NadekoBot` folder.
 
 ##### Getting Client ID:
@@ -84,7 +84,7 @@ It should look like this:
 
 - Go to your Discord server and attempt to mention yourself, but put a backslash at the start: 			
 *(to make it slightly easier, add the backslash after you type the mention out)*
-- For examplem, the message `\@fearnlj01#3535` will appear as `<@145521851676884992>` after you send the message. 
+- For example, the message `\@fearnlj01#3535` will appear as `<@145521851676884992>` after you send the message. 
 - The message will appear as a mention if done correctly. Copy the numbers from it **`145521851676884992`** and replace the 0 on the `OwnerIds` section with your user ID.
 - Save the `credentials.json` file.
 - If done correctly, you should now be the bot owner. You can add multiple owners by seperating each owner ID with a comma within the square brackets.
@@ -192,12 +192,12 @@ For Windows (Source), Linux or OSX, add this to your `credentials.json`
 -----
 
 ## Database
-
 Nadeko saves all settings and data in the database file `NadekoBot.db`, located in:
+
 - Windows (Updater): `C:\Program Files\NadekoBot\system\data`
 - Windows (Source), Linux and OSX: `NadekoBot/src/NadekoBot/bin/Release/netcoreapp2.1/data/NadekoBot.db`
 
-In order to open the database file you will need [SQLite Browser](http://sqlitebrowser.org/).
+In order to open it you will need [SQLite Browser](http://sqlitebrowser.org/).
 
 *NOTE: You don't have to worry if you don't have the `NadekoBot.db` file, it gets automatically created once you successfully run the bot for the first time.*		
 
