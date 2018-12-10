@@ -248,7 +248,7 @@ namespace NadekoBot.Core.Services.Database
 
             #region PatreonRewards
             var pr = modelBuilder.Entity<RewardedUser>();
-            pr.HasIndex(x => x.UserId)
+            pr.HasIndex(x => x.PatreonUserId)
                 .IsUnique();
             #endregion
 

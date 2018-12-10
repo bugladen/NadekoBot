@@ -134,9 +134,9 @@ namespace NadekoBot.Modules.Utility.Services
                             AmountRewardedThisMonth = amount,
                         });
 
-                        await _currency.AddAsync(userId, "Patreon reward - new", amount, gamble: true);
-
                         await uow.CompleteAsync();
+
+                        await _currency.AddAsync(userId, "Patreon reward - new", amount, gamble: true);
                         return amount;
                     }
 
@@ -144,11 +144,11 @@ namespace NadekoBot.Modules.Utility.Services
                     {
                         usr.LastReward = now;
                         usr.AmountRewardedThisMonth = amount;
-                        usr.PatreonUserId = data.User.id;
-
-                        await _currency.AddAsync(userId, "Patreon reward - recurring", amount, gamble: true);
+                        usr.UserId = userId;
 
                         await uow.CompleteAsync();
+
+                        await _currency.AddAsync(userId, "Patreon reward - recurring", amount, gamble: true);
                         return amount;
                     }
 
@@ -158,11 +158,10 @@ namespace NadekoBot.Modules.Utility.Services
 
                         usr.LastReward = now;
                         usr.AmountRewardedThisMonth = amount;
-                        usr.PatreonUserId = data.User.id;
+                        usr.UserId = userId;
+                        await uow.CompleteAsync();
 
                         await _currency.AddAsync(usr.UserId, "Patreon reward - update", toAward, gamble: true);
-
-                        await uow.CompleteAsync();
                         return toAward;
                     }
                 }

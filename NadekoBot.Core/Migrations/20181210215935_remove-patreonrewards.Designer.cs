@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NadekoBot.Core.Services.Database;
 
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoContext))]
-    partial class NadekoSqliteContextModelSnapshot : ModelSnapshot
+    [Migration("20181210215935_remove-patreonrewards")]
+    partial class removepatreonrewards
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1233,29 +1235,6 @@ namespace NadekoBot.Migrations
                     b.HasIndex("GuildConfigId");
 
                     b.ToTable("GuildRepeater");
-                });
-
-            modelBuilder.Entity("NadekoBot.Core.Services.Database.Models.RewardedUser", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AmountRewardedThisMonth");
-
-                    b.Property<DateTime?>("DateAdded");
-
-                    b.Property<DateTime>("LastReward");
-
-                    b.Property<string>("PatreonUserId");
-
-                    b.Property<ulong>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PatreonUserId")
-                        .IsUnique();
-
-                    b.ToTable("RewardedUsers");
                 });
 
             modelBuilder.Entity("NadekoBot.Core.Services.Database.Models.SelfAssignedRole", b =>
