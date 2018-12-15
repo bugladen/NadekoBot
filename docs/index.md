@@ -37,5 +37,5 @@ If you want to contribute, be sure to PR on the current **[default][repo]** bran
 [NadekoBot Server]: https://discord.gg/nadekobot
 [GitLab]: https://gitlab.com/Kwoth/nadekobot
 [Issues]: https://gitlab.com/Kwoth/nadekobot/issues
-[repo]: https://gitlab.com/Kwoth/nadekobot
+[repo]: https://gitlab.com/Kwoth/nadekobot/tree/1.9
 [cmd_list]: https://nadekobot.me/commands
