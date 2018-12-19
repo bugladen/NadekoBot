@@ -24,6 +24,7 @@ namespace NadekoBot.Modules.Games.Common
             [Option('t', "turn-timer", Required = false, Default = 15, HelpText = "Turn time in seconds. Default 15.")]
             public int TurnTimer { get; set; } = 15;
         }
+
         enum Phase
         {
             Starting,

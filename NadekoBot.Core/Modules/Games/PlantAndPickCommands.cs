@@ -15,54 +15,54 @@ namespace NadekoBot.Modules.Games
         public class PlantPickCommands : NadekoSubmodule<PlantPickService>
         {
 
-            [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
-            public async Task Pick(string pass = null)
-            {
-                if (!string.IsNullOrWhiteSpace(pass) && !pass.IsAlphaNumeric())
-                {
-                    return;
-                }
+            //[NadekoCommand, Usage, Description, Aliases]
+            //[RequireContext(ContextType.Guild)]
+            //public async Task Pick(string pass = null)
+            //{
+            //    if (!string.IsNullOrWhiteSpace(pass) && !pass.IsAlphaNumeric())
+            //    {
+            //        return;
+            //    }
 
-                var picked = await _service.PickAsync(Context.Guild.Id, (ITextChannel)Context.Channel, Context.User.Id, pass);
+            //    var picked = await _service.PickAsync(Context.Guild.Id, (ITextChannel)Context.Channel, Context.User.Id, pass);
 
-                if (picked > 0)
-                {
-                    var msg = await ReplyConfirmLocalized("picked", picked + Bc.BotConfig.CurrencySign)
-                       .ConfigureAwait(false);
-                    msg.DeleteAfter(10);
-                }
+            //    if (picked > 0)
+            //    {
+            //        var msg = await ReplyConfirmLocalized("picked", picked + Bc.BotConfig.CurrencySign)
+            //           .ConfigureAwait(false);
+            //        msg.DeleteAfter(10);
+            //    }
 
-                if (((SocketGuild)Context.Guild).CurrentUser.GuildPermissions.ManageMessages)
-                {
-                    try { await Context.Message.DeleteAsync().ConfigureAwait(false); } catch { }
-                }
-            }
+            //    if (((SocketGuild)Context.Guild).CurrentUser.GuildPermissions.ManageMessages)
+            //    {
+            //        try { await Context.Message.DeleteAsync().ConfigureAwait(false); } catch { }
+            //    }
+            //}
 
-            [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
-            public async Task Plant(int amount = 1, string pass = null)
-            {
-                if (amount < 1)
-                    return;
+            //[NadekoCommand, Usage, Description, Aliases]
+            //[RequireContext(ContextType.Guild)]
+            //public async Task Plant(int amount = 1, string pass = null)
+            //{
+            //    if (amount < 1)
+            //        return;
 
-                if (!string.IsNullOrWhiteSpace(pass) && !pass.IsAlphaNumeric())
-                {
-                    return;
-                }
+            //    if (!string.IsNullOrWhiteSpace(pass) && !pass.IsAlphaNumeric())
+            //    {
+            //        return;
+            //    }
 
-                var success = await _service.PlantAsync(Context.Guild.Id, Context.Channel, Context.User.Id, Context.User.ToString(), amount, pass);
-                if (!success)
-                {
-                    await ReplyErrorLocalized("not_enough", Bc.BotConfig.CurrencySign).ConfigureAwait(false);
-                    return;
-                }
+            //    var success = await _service.PlantAsync(Context.Guild.Id, Context.Channel, Context.User.Id, Context.User.ToString(), amount, pass);
+            //    if (!success)
+            //    {
+            //        await ReplyErrorLocalized("not_enough", Bc.BotConfig.CurrencySign).ConfigureAwait(false);
+            //        return;
+            //    }
 
-                if (((SocketGuild)Context.Guild).CurrentUser.GuildPermissions.ManageMessages)
-                {
-                    await Context.Message.DeleteAsync().ConfigureAwait(false);
-                }
-            }
+            //    if (((SocketGuild)Context.Guild).CurrentUser.GuildPermissions.ManageMessages)
+            //    {
+            //        await Context.Message.DeleteAsync().ConfigureAwait(false);
+            //    }
+            //}
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]

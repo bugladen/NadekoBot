@@ -57,11 +57,12 @@ namespace NadekoBot.Modules.Gambling.Services
             _rng = new NadekoRandom();
             _client = client;
 
-            cmd.OnMessageNoTrigger += PotentialFlowerGeneration;
+            _generationChannels = new ConcurrentHashSet<ulong>();
+            //cmd.OnMessageNoTrigger += PotentialFlowerGeneration;
 
-            _generationChannels = new ConcurrentHashSet<ulong>(bot
-                .AllGuildConfigs
-                .SelectMany(c => c.GenerateCurrencyChannelIds.Select(obj => obj.ChannelId)));
+            //_generationChannels = new ConcurrentHashSet<ulong>(bot
+            //    .AllGuildConfigs
+            //    .SelectMany(c => c.GenerateCurrencyChannelIds.Select(obj => obj.ChannelId)));
         }
 
         private string GetText(ulong gid, string key, params object[] rep)
