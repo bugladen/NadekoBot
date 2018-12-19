@@ -1,15 +1,15 @@
-﻿using NadekoBot.Core.Services.Impl;
-using NLog;
-using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using NadekoBot.Common.Collections;
 using NadekoBot.Common.ShardCom;
-using StackExchange.Redis;
-using Newtonsoft.Json;
+using NadekoBot.Core.Services.Impl;
 using NadekoBot.Extensions;
-using NadekoBot.Common.Collections;
-using System.Linq;
+using Newtonsoft.Json;
+using NLog;
+using StackExchange.Redis;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Core.Services
 {
@@ -104,9 +104,15 @@ namespace NadekoBot.Core.Services
             db.KeyDelete(_key + "_shardstats");
 
             _shardProcesses = new Process[_creds.TotalShards];
-            var shardIds = Enumerable.Range(1, _creds.TotalShards - 1)
+
+            var shardIdsEnum = Enumerable.Range(1, _creds.TotalShards - 1)
                 .Shuffle()
                 .Prepend(0)
+#if GLOBAL_NADEKO
+                .Prepend(64)
+#endif
+                ;
+            var shardIds = shardIdsEnum
                 .ToArray();
             for (var i = 0; i < shardIds.Length; i++)
             {
