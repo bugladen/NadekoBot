@@ -107,10 +107,10 @@ namespace NadekoBot.Core.Services
 
             var shardIdsEnum = Enumerable.Range(1, _creds.TotalShards - 1)
                 .Shuffle()
-                .Prepend(0)
 #if GLOBAL_NADEKO
                 .Prepend(64)
 #endif
+                .Prepend(0)
                 ;
             var shardIds = shardIdsEnum
                 .ToArray();
