@@ -106,6 +106,7 @@ namespace NadekoBot.Core.Services
             _shardProcesses = new Process[_creds.TotalShards];
 
 #if GLOBAL_NADEKO
+<<<<<<< HEAD
             var shardIdsEnum = Enumerable.Range(1, 63)
                 .Concat(Enumerable.Range(65, _creds.TotalShards - 65))
                 .Shuffle()
