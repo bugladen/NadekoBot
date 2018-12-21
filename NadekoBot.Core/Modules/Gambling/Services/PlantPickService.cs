@@ -41,6 +41,7 @@ namespace NadekoBot.Modules.Gambling.Services
         public readonly ConcurrentHashSet<ulong> _generationChannels = new ConcurrentHashSet<ulong>();
         //channelId/last generation
         public ConcurrentDictionary<ulong, DateTime> LastGenerations { get; } = new ConcurrentDictionary<ulong, DateTime>();
+        private readonly object pickLock = new object();
 
         public PlantPickService(DbService db, CommandHandler cmd, NadekoBot bot, NadekoStrings strings,
             IDataCache cache, FontProvider fonts, IBotConfigProvider bc, ICurrencyService cs,
@@ -57,12 +58,11 @@ namespace NadekoBot.Modules.Gambling.Services
             _rng = new NadekoRandom();
             _client = client;
 
-            _generationChannels = new ConcurrentHashSet<ulong>();
-            //cmd.OnMessageNoTrigger += PotentialFlowerGeneration;
+            cmd.OnMessageNoTrigger += PotentialFlowerGeneration;
 
-            //_generationChannels = new ConcurrentHashSet<ulong>(bot
-            //    .AllGuildConfigs
-            //    .SelectMany(c => c.GenerateCurrencyChannelIds.Select(obj => obj.ChannelId)));
+            _generationChannels = new ConcurrentHashSet<ulong>(bot
+                .AllGuildConfigs
+                .SelectMany(c => c.GenerateCurrencyChannelIds.Select(obj => obj.ChannelId)));
         }
 
         private string GetText(ulong gid, string key, params object[] rep)
@@ -257,7 +257,11 @@ namespace NadekoBot.Modules.Gambling.Services
             {
                 // this method will sum all plants with that password, 
                 // remove them, and get messageids of the removed plants
-                (amount, ids) = uow.PlantedCurrency.RemoveSumAndGetMessageIdsFor(ch.Id, pass);
+                lock (pickLock)
+                {
+                    (amount, ids) = uow.PlantedCurrency.RemoveSumAndGetMessageIdsFor(ch.Id, pass);
+                }
+
                 if (amount > 0)
                 {
                     // give the picked currency to the user
