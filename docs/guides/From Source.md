@@ -15,7 +15,7 @@
 This is the recommended way of installing Nadeko from source. If you don't want to use the installer, skip to [Installing Nadeko Manually](https://nadekobot.readthedocs.io/en/latest/guides/From%20Source/#installing-nadeko-manually).
 
 #### Prerequisites (CLI)  
-- Windows 7 or later
+- Windows 8 or later
 - [dotNET core 2.1 SDK][dotNET] (restart Windows after installation)
 - [Git] (select [this option](https://i.imgur.com/zlWVTsi.png) during the installation process)
 - Redis
@@ -144,7 +144,7 @@ Other useful commands:
 - `git stash pop stash@{n}` to apply and delete a specific stash  
 
 [Notepad++]: https://notepad-plus-plus.org/
-[dotNET]: https://www.microsoft.com/net/download/
+[dotNET]: https://www.microsoft.com/net/download/dotnet-core/2.1
 [Redis]: https://github.com/MicrosoftArchive/redis/releases/tag/win-3.0.504
 [Git]: https://git-scm.com/downloads
 [Visual C++ 2010 (x86)]: https://download.microsoft.com/download/1/6/5/165255E7-1014-4D0A-B094-B6A430A6BFFC/vcredist_x86.exe
