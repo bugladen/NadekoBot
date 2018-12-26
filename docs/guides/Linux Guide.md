@@ -162,13 +162,17 @@ You will be shown the following options:
 #### Making Nadeko persist upon system restarts (tmux - For Advanced Users)
 This procedure is completely optional. We'll be using [*systemd*](https://en.wikipedia.org/wiki/Systemd) to handle Nadeko during system shutdowns and reboots.
 
-1. Start off by downloading the necessary scripts:
-	- `cd ~ && wget https://raw.githubusercontent.com/Kaoticz/NadekoBot-BashScript/1.9k/nadeko.service`
-	- `cd ~ && wget https://raw.githubusercontent.com/Kwoth/NadekoBot-BashScript/1.9/NadekoARN.sh`
-	- `cd ~ && wget https://raw.githubusercontent.com/Kwoth/NadekoBot-BashScript/1.9/NadekoARU_Latest.sh`
+**1.** Start off by downloading the necessary scripts:
 
-2. If you **are** logged in as `root` and **don't want** Nadeko to auto-update, ignore the procedures below and go straight to step 3.
-	- Let's edit the script *systemd* is going to use to start Nadeko: `nano nadeko.service`
+- `cd ~ && wget https://raw.githubusercontent.com/Kaoticz/NadekoBot-BashScript/1.9k/nadeko.service`
+- `cd ~ && wget https://raw.githubusercontent.com/Kwoth/NadekoBot-BashScript/1.9/NadekoARN.sh`
+- `cd ~ && wget https://raw.githubusercontent.com/Kwoth/NadekoBot-BashScript/1.9/NadekoARU_Latest.sh`
+
+**2.** If you **are** logged in as `root` and **don't want** Nadeko to auto-update, ignore the procedures below and go straight to step 3.
+
+---
+
+- Let's edit the script *systemd* is going to use to start Nadeko: `nano nadeko.service`
 	- You should see the following:
 ```css
 [Unit]
@@ -189,13 +193,18 @@ WantedBy=multi-user.target
 - Change `root` from *"User"* to whatever username you're using.
 - **Optional:** If you want Nadeko to auto-update upon restarts, change `NadekoARN.sh` to `NadekoARU_Latest.sh`.
 - Once you're done, press `Ctrl+X` to exit nano, type `y` to confirm the changes and `Enter` to go back to the terminal.
-  
-3. Now the script needs to be moved to where *systemd* stores their services. On Ubuntu, it's usually in `/etc/systemd/system`. If you are not using Ubuntu and are unsure about where *systemd* stores stuff, [Google is your best friend](https://www.google.com/ "MaybeGoogle :^)").
-	- To do that, run this command: `sudo mv nadeko.service /etc/systemd/system/nadeko.service`
 
-4. Now it's time to reload *systemd*, so it loads our new script up: `sudo systemctl daemon-reload`
-5. Set the script to run upon system reboots: `sudo systemctl enable nadeko`
-6. Start Nadeko on the current session: `sudo systemctl start nadeko`
+---
+
+**3.** Now the script needs to be moved to where *systemd* stores their services. On Ubuntu, it's usually in `/etc/systemd/system`. If you are not using Ubuntu and are unsure about where *systemd* stores stuff, [Google is your best friend](https://www.google.com/ "MaybeGoogle :^)").
+
+- To do that, run this command: `sudo mv nadeko.service /etc/systemd/system/nadeko.service`
+
+**4.** Now it's time to reload *systemd*, so it loads our new script up: `sudo systemctl daemon-reload`
+
+**5.** Set the script to run upon system restarts: `sudo systemctl enable nadeko`
+
+**6.** Start Nadeko on the current session: `sudo systemctl start nadeko`
 
 And that's it. Every time your system restarts, *systemd* should automatically startup your bot with tmux. If everything has gone well, you should be able to see Nadeko on the list of processes being handled by tmux by running the `tmux ls` command.
 
@@ -233,7 +242,8 @@ If you entered your Droplets IP address correctly, it should show **login as:** 
 - Now for **login as:**, type `root` and press enter.
 - It should then ask for a password. Type the `root password` you have received in your e-mail address, then press Enter.
 
-   If you are running your droplet for the first time, it will most likely ask you to change your root password. To do that, copy the **password you've received by e-mail** and paste it on PuTTY.  
+   If you are running your droplet for the first time, it will most likely ask you to change your root password. To do that, copy the **password you've received by e-mail** and paste it on PuTTY.
+
    - To paste, just right-click the window (it won't show any changes on the screen), then press Enter.
 
 - Type a **new password** somewhere, copy and paste it on PuTTY. Press Enter then paste it again.
