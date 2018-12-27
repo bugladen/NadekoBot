@@ -69,7 +69,7 @@ This step-by-step will assume you choose %LOCALAPPDATA%\Nadeko to store the Nade
 ```powershell
 # you can modify thoses variables
 $workdir="$env:LOCALAPPDATA\Nadeko"
-$url_dc="https://raw.githubusercontent.com/Kwoth/NadekoBot/1.9/docker-compose.yml"
+$url_dc="https://gitlab.com/Kwoth/nadekobot/raw/1.9/docker-compose.yml"
 
 # please do not modify thoses variables
 $dc="$workdir\docker-compose.yml"
@@ -103,7 +103,7 @@ This step-by-step will assume you choose $HOME/nadeko to store the Nadeko's data
 ```bash
 # you can modify thoses variables
 workdir="$HOME/nadeko"
-url_dc="https://raw.githubusercontent.com/Kwoth/NadekoBot/1.9/docker-compose.yml"
+url_dc="https://gitlab.com/Kwoth/nadekobot/raw/1.9/docker-compose.yml"
 
 # please do not modify thoses variables
 dc="$workdir/docker-compose.yml"
@@ -124,7 +124,7 @@ cd "$workdir"
 The script will:
 
 - create the nadeko's directory
-- download the [docker-compose.yml](https://raw.githubusercontent.com/Kwoth/NadekoBot/1.9/docker-compose.yml) that describe how to run the containers
+- download the [docker-compose.yml](https://gitlab.com/Kwoth/nadekobot/raw/1.9/docker-compose.yml) that describe how to run the containers
 - convert the docker-compose.yml from developer configuration to end-user configuration
 - edit the docker-compose.yml to specify full path instead of relative path
 - create and start the containers
