@@ -287,21 +287,6 @@
     },
     {
       "Aliases": [
-        ".deleteunusedcrnq"
-      ],
-      "Description": "Deletes all quotes and custom reactions which are older than a week and haven't been used a single time.",
-      "Usage": [
-        ".deleteunusedcrnq"
-      ],
-      "Submodule": "DangerousCommands",
-      "Module": "Administration",
-      "Options": null,
-      "Requirements": [
-        "Bot Owner Only"
-      ]
-    },
-    {
-      "Aliases": [
         ".gvc"
       ],
       "Description": "Toggles game voice channel feature in the voice channel you're currently in. Users who join the game voice channel will get automatically redirected to the voice channel with the name of their current game, if it exists. Can't move users to channels that the bot has no connect permission for. One per server.",
@@ -694,12 +679,16 @@
         ".prune",
         ".clear"
       ],
-      "Description": "`.prune` removes all Nadeko's messages in the last 100 messages. `.prune X` removes last `X` number of messages from the channel (up to 100). `.prune @Someone` removes all Someone's messages in the last 100 messages. `.prune @Someone X` removes last `X` number of 'Someone's' messages in the channel.",
+      "Description": "`.prune` removes all Nadeko's messages in the last 100 messages. `.prune X` removes last `X` number of messages from the channel (up to 100). `.prune @Someone` removes all Someone's messages in the last 100 messages. `.prune @Someone X` removes last `X` number of 'Someone's' messages in the channel. You can use the `-s` / `--safe` parameter at the end to only prune messages that are not pinned.",
       "Usage": [
         ".prune",
+        ".prune -s",
         ".prune 5",
+        ".prune 5 --safe",
         ".prune @Someone",
-        ".prune @Someone X"
+        ".prune @Someone --safe",
+        ".prune @Someone X",
+        ".prune @Someone X -s"
       ],
       "Submodule": "PruneCommands",
       "Module": "Administration",
@@ -1526,38 +1515,6 @@
       "Options": null,
       "Requirements": [
         "ManageServer Server Permission"
-      ]
-    },
-    {
-      "Aliases": [
-        ".slowmode"
-      ],
-      "Description": "Toggles slowmode. Slowmode deletes any excess messages users type over the specified limit of messages per X seconds. To enable, specify a number of messages (-m) each user can send, and an interval in seconds (-s).  Disable by specifying no parameters.",
-      "Usage": [
-        ".slowmode -m 1 -s 5",
-        ".slowmode"
-      ],
-      "Submodule": "SlowmodeCommands",
-      "Module": "Administration",
-      "Options": "`--message-count` (`-m`)   Number of messages user can send.  \n`--seconds` (`-s`)   Interval in which the user can send the specified number of messages.  ",
-      "Requirements": [
-        "ManageMessages Server Permission"
-      ]
-    },
-    {
-      "Aliases": [
-        ".slowmodewl"
-      ],
-      "Description": "Ignores a role or a user from the slowmode feature.",
-      "Usage": [
-        ".slowmodewl SomeRole",
-        ".slowmodewl AdminDude"
-      ],
-      "Submodule": "SlowmodeCommands",
-      "Module": "Administration",
-      "Options": null,
-      "Requirements": [
-        "ManageMessages Server Permission"
       ]
     },
     {
@@ -2653,19 +2610,6 @@
       "Module": "Gambling",
       "Options": null,
       "Requirements": []
-    },
-    {
-      "Aliases": [
-        ".wheeltest"
-      ],
-      "Description": "wheeltest",
-      "Usage": [
-        "wheeltest"
-      ],
-      "Submodule": "WheelOfFortuneCommands",
-      "Module": "Gambling",
-      "Options": null,
-      "Requirements": []
     }
   ],
   "Games": [
@@ -2787,19 +2731,6 @@
         ".hangmanstop"
       ],
       "Submodule": "HangmanCommands",
-      "Module": "Games",
-      "Options": null,
-      "Requirements": []
-    },
-    {
-      "Aliases": [
-        ".leet"
-      ],
-      "Description": "Converts a text to leetspeak with 6 (1-6) severity levels",
-      "Usage": [
-        ".leet 3 Hello"
-      ],
-      "Submodule": "LeetCommands",
       "Module": "Games",
       "Options": null,
       "Requirements": []
@@ -3727,7 +3658,7 @@
       "Aliases": [
         ".hentai"
       ],
-      "Description": "Shows a hentai image from a random website (gelbooru or danbooru or konachan or atfbooru or yandere) with a given tag. Tag is optional but preferred. Only 1 tag allowed.",
+      "Description": "Shows a hentai image from a random website (gelbooru, danbooru, konachan or yandere) with a given tag. Tag is optional but preferred. Only 1 tag allowed.",
       "Usage": [
         ".hentai yuri"
       ],
@@ -5054,21 +4985,6 @@
     },
     {
       "Aliases": [
-        ".overwatch",
-        ".ow"
-      ],
-      "Description": "Show's basic stats on a player (competitive rank, playtime, level etc) Region codes are: `eu` `us` `cn` `kr`",
-      "Usage": [
-        ".ow us Battletag#1337",
-        ".overwatch eu Battletag#2016"
-      ],
-      "Submodule": "OverwatchCommands",
-      "Module": "Searches",
-      "Options": null,
-      "Requirements": []
-    },
-    {
-      "Aliases": [
         ".pathofexile",
         ".poe"
       ],
@@ -5103,20 +5019,6 @@
       "Description": "Returns the chaos equivalent of a given currency or exchange rate between two currencies.",
       "Usage": [
         ".poec Standard \"Mirror of Kalandra\""
-      ],
-      "Submodule": "PathOfExileCommands",
-      "Module": "Searches",
-      "Options": null,
-      "Requirements": []
-    },
-    {
-      "Aliases": [
-        ".pathofexileitem",
-        ".poei"
-      ],
-      "Description": "Searches for a Path of Exile item from the Path of Exile GamePedia.",
-      "Usage": [
-        ".poei \"Quill Rain\""
       ],
       "Submodule": "PathOfExileCommands",
       "Module": "Searches",
@@ -5792,11 +5694,11 @@
       ],
       "Description": "Creates a new invite which has infinite max uses and never expires.",
       "Usage": [
-        ".crinv"
+        ".invcr"
       ],
       "Submodule": "InviteCommands",
       "Module": "Utility",
-      "Options": "`--max-uses` (`-m`)   Maximum number of times the invite can be used. Default 0 (never).  \n`--unique` (`-u`)   Not setting this flag will result in bot getting the existing invite with the same settings if it exists, instead of creating a new one.  \n`--temporary` (`-t`)   Setting this flag will make the link expire after 24h.  ",
+      "Options": "`--max-uses` (`-m`)   Maximum number of times the invite can be used. Default 0 (never).  \n`--unique` (`-u`)   Not setting this flag will result in bot getting the existing invite with the same settings if it exists, instead of creating a new one.  \n`--temporary` (`-t`)   If this flag is set, the user will be kicked from the guild once they close their client.  \n`--expire` (`-e`)   Time in seconds to expire the invite. Default 0 (no expiry).  ",
       "Requirements": [
         "CreateInstantInvite Channel Permission"
       ]
