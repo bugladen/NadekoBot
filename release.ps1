@@ -1,14 +1,5 @@
-function GitHub-Release($versionNumber) {
-    [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12
-    $ErrorActionPreference = "Stop"
-
-    git pull
-    git push #making sure commit id exists on remote
-
-    $nl = [Environment]::NewLine
-    $env:NADEKOBOT_INSTALL_VERSION = $versionNumber
-    $gitHubApiKey = $env:GITHUB_API_KEY
-    $commitId = git rev-parse HEAD
+function Get-Changelog()
+{
     $lastTag = git describe --tags --abbrev=0
     $tag = "$lastTag..HEAD"
 
@@ -19,10 +10,26 @@ function GitHub-Release($versionNumber) {
 
     $cl2 = $clArr | where { "$_" -like "*Merge pull request*" }
     $changelog = "## Changes$nl$changelog"
-    if ($cl2 -ne $null) {
+    if ($null -ne $cl2) {
         $cl2 = [string]::join([Environment]::NewLine, $cl2)
         $changelog = $changelog + "$nl ## Pull Requests Merged$nl$cl2"
     }
+}
+
+function GitHub-Release($versionNumber) {
+    [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12
+    $ErrorActionPreference = "Stop"
+
+    git pull
+    git push #making sure commit id exists on remote
+
+    $nl = [Environment]::NewLine
+    $env:NADEKOBOT_INSTALL_VERSION = $versionNumber
+    $gitHubApiKey = $env:GITHUB_API_KEY
+    
+    $commitId = git rev-parse HEAD
+
+    $changelog = Get-Changelog
 
     Write-Host $changelog 
 
@@ -43,8 +50,8 @@ function GitHub-Release($versionNumber) {
     $auth = 'Basic ' + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes($gitHubApiKey + ":x-oauth-basic"));
     Write-Host $changelog
     $result = GitHubMake-Release $versionNumber $commitId $TRUE $gitHubApiKey $auth "" "$changelog"
-    $releaseId = $result | Select -ExpandProperty id
-    $uploadUri = $result | Select -ExpandProperty upload_url
+    $releaseId = $result | Select-Object -ExpandProperty id
+    $uploadUri = $result | Select-Object -ExpandProperty upload_url
     $uploadUri = $uploadUri -creplace '\{\?name,label\}', "?name=$artifact"
     Write-Host $releaseId $uploadUri
     $uploadFile = [Environment]::GetFolderPath('MyDocuments') + "\projekti\NadekoInstallerOutput\$artifact"
