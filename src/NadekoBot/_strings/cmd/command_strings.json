@@ -873,17 +873,17 @@
     ]
   },
   "addquote": {
-    "Cmd": ".",
+    "Cmd": "qadd",
     "Desc": "Adds a new quote with the specified name and message.",
     "Usage": [
-      "{0}. sayhi Hi"
+      "{0}qadd sayhi Hi"
     ]
   },
   "showquote": {
-    "Cmd": "..",
+    "Cmd": "qshow",
     "Desc": "Shows a random quote with a specified name.",
     "Usage": [
-      "{0}.. abc"
+      "{0}qshow abc"
     ]
   },
   "quotesearch": {
@@ -905,6 +905,14 @@
     "Desc": "Deletes a quote with the specified ID. You have to be either server Administrator or the creator of the quote to delete it.",
     "Usage": [
       "{0}qdel 123456"
+    ]
+  },
+  "listquoteskeyword": {
+    "Cmd": "listquoteskeyword liqukwd",
+    "Desc": "Lists all quotes on the server matching a specific keyword. 15 Per page. An optional page number can be used at the end if there are many quotes.",
+    "Usage": [
+      "{0}listquoteskeyword keyword",
+      "{0}liqukwd keyword 3"
     ]
   },
   "draw": {

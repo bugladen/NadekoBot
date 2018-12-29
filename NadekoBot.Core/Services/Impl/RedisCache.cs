@@ -1,4 +1,4 @@
-﻿using NadekoBot.Extensions;
+using NadekoBot.Extensions;
 using NadekoBot.Modules.Searches.Common;
 using Newtonsoft.Json;
 using NLog;
@@ -241,4 +241,4 @@ namespace NadekoBot.Core.Services.Impl
             return (TOut)JsonConvert.DeserializeObject(data, typeof(TOut));
         }
     }
-}
+	}

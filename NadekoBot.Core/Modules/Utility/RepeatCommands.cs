@@ -137,7 +137,7 @@ namespace NadekoBot.Modules.Utility
                 {
                     var gc = uow.GuildConfigs.ForId(Context.Guild.Id, set => set.Include(x => x.GuildRepeaters));
 
-                    if (gc.GuildRepeaters.Count >= 5)
+                    if (gc.GuildRepeaters.Count >= 100)
                         return;
                     gc.GuildRepeaters.Add(toAdd);
 

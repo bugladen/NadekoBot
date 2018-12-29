@@ -360,3 +360,7 @@ __pycache__/
 
 ### VisualStudio Patch ###
 build/
+
+NadekoBot.Core/Services/Database/Repositories/Impl/QuoteRepository.cs
+
+NadekoBot.Core/Services/Database/Repositories/IQuoteRepository.cs
