@@ -1,11 +1,11 @@
 using Discord;
 using Discord.Commands;
-using NadekoBot.Extensions;
-using System.Threading.Tasks;
-using NadekoBot.Common.Attributes;
-using NadekoBot.Modules.Gambling.Services;
 using Discord.WebSocket;
+using NadekoBot.Common.Attributes;
+using NadekoBot.Extensions;
+using NadekoBot.Modules.Gambling.Services;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Games
 {
@@ -14,7 +14,6 @@ namespace NadekoBot.Modules.Games
         [Group]
         public class PlantPickCommands : NadekoSubmodule<PlantPickService>
         {
-
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Pick(string pass = null)

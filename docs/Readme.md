@@ -9,7 +9,7 @@
 
 ###Music on the public Nadeko
 
-- In case you got Nadeko in your server by the invitation from **Carbonitex**, our **GitHub** invite or **help (.h)**, music is disabled.
+- In case you got Nadeko in your server by the invitation from **Carbonitex**, our **GitLab** invite or **help (.h)**, music is disabled.
 - Music is **disabled** due to large maintenance expenses, unless Kwoth is **testing** music module.
 - If you want to have music module on your server, you will have to **host** the bot on your PC, or any of the external servers.
 - How to **host** the bot, check the **guides** on the left side.

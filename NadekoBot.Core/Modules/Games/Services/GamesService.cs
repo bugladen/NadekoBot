@@ -1,4 +1,16 @@
-﻿using System;
+﻿using Discord;
+using NadekoBot.Common;
+using NadekoBot.Core.Services;
+using NadekoBot.Core.Services.Impl;
+using NadekoBot.Extensions;
+using NadekoBot.Modules.Games.Common;
+using NadekoBot.Modules.Games.Common.Acrophobia;
+using NadekoBot.Modules.Games.Common.Hangman;
+using NadekoBot.Modules.Games.Common.Nunchi;
+using NadekoBot.Modules.Games.Common.Trivia;
+using Newtonsoft.Json;
+using NLog;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -6,19 +18,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Discord;
-using NadekoBot.Common;
-using NadekoBot.Common.Collections;
-using NadekoBot.Extensions;
-using NadekoBot.Modules.Games.Common;
-using NadekoBot.Core.Services;
-using NadekoBot.Core.Services.Impl;
-using Newtonsoft.Json;
-using NLog;
-using NadekoBot.Modules.Games.Common.Acrophobia;
-using NadekoBot.Modules.Games.Common.Hangman;
-using NadekoBot.Modules.Games.Common.Trivia;
-using NadekoBot.Modules.Games.Common.Nunchi;
 
 namespace NadekoBot.Modules.Games.Services
 {

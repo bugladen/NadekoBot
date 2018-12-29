@@ -223,6 +223,8 @@ namespace NadekoBot.Modules.Utility.Services
             {
                 var streamRoleSettings = uow.GuildConfigs.GetStreamRoleSettings(guild.Id);
                 streamRoleSettings.Enabled = false;
+                streamRoleSettings.AddRoleId = 0;
+                streamRoleSettings.FromRoleId = 0;
                 await uow.CompleteAsync();
             }
 
@@ -245,7 +247,11 @@ namespace NadekoBot.Modules.Utility.Services
                 {
                     addRole = addRole ?? user.Guild.GetRole(setting.AddRoleId);
                     if (addRole == null)
-                        throw new StreamRoleNotFoundException();
+                    {
+                        await StopStreamRole(user.Guild).ConfigureAwait(false);
+                        _log.Warn("Stream role in server {0} no longer exists. Stopping.", setting.AddRoleId);
+                        return;
+                    }
 
                     //check if he doesn't have addrole already, to avoid errors
                     if (!user.RoleIds.Contains(setting.AddRoleId))

@@ -6,7 +6,7 @@ To invite public NadekoBot to your server, click on the image bellow:
 
 In case you need any help, hop on the [NadekoBot Server][NadekoBot Server], where we can provide support.
 
-NadekoBot is an open source project, and it can be found on our [GitHub][GitHub] page.
+NadekoBot is an open source project, and it can be found on our [GitLab][GitLab] page.
 
 Here you can read current [Issues][Issues].
 
@@ -35,7 +35,7 @@ If you want to contribute, be sure to PR on the current **[default][repo]** bran
 
 [img]: https://cdn.discordapp.com/attachments/202743183774318593/210580315381563392/discord.png
 [NadekoBot Server]: https://discord.gg/nadekobot
-[GitHub]: https://github.com/Kwoth/NadekoBot
-[Issues]: https://github.com/Kwoth/NadekoBot/issues
-[repo]: https://github.com/Kwoth/NadekoBot
+[GitLab]: https://gitlab.com/Kwoth/nadekobot
+[Issues]: https://gitlab.com/Kwoth/nadekobot/issues
+[repo]: https://gitlab.com/Kwoth/nadekobot/tree/1.9
 [cmd_list]: https://nadekobot.me/commands
