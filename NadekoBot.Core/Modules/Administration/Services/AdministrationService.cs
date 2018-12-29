@@ -150,14 +150,9 @@ namespace NadekoBot.Modules.Administration.Services
 
         public async Task EditMessage(ICommandContext context, ulong messageId, string text)
         {
-            var msgs = await context.Channel.GetMessagesAsync().FlattenAsync()
-                   .ConfigureAwait(false);
+            var msg = await context.Channel.GetMessageAsync(messageId);
 
-            IUserMessage msg = (IUserMessage)msgs.FirstOrDefault(x => x.Id == messageId
-                && x.Author.Id == context.Client.CurrentUser.Id
-                && x is IUserMessage);
-
-            if (msg == null)
+            if (!(msg is IUserMessage umsg) || msg.Author.Id != context.Client.CurrentUser.Id)
                 return;
 
             var rep = new ReplacementBuilder()
@@ -167,7 +162,7 @@ namespace NadekoBot.Modules.Administration.Services
             if (CREmbed.TryParse(text, out var crembed))
             {
                 rep.Replace(crembed);
-                await msg.ModifyAsync(x =>
+                await umsg.ModifyAsync(x =>
                 {
                     x.Embed = crembed.ToEmbed().Build();
                     x.Content = crembed.PlainText?.SanitizeMentions() ?? "";
@@ -175,7 +170,7 @@ namespace NadekoBot.Modules.Administration.Services
             }
             else
             {
-                await msg.ModifyAsync(x => x.Content = text.SanitizeMentions())
+                await umsg.ModifyAsync(x => x.Content = text.SanitizeMentions())
                     .ConfigureAwait(false);
             }
         }

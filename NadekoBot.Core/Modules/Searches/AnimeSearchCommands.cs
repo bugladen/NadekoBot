@@ -30,7 +30,8 @@ namespace NadekoBot.Modules.Searches
                     return;
                 }
 
-                var embed = new EmbedBuilder().WithColor(NadekoBot.OkColor)
+                var embed = new EmbedBuilder()
+                    .WithOkColor()
                     .WithDescription(novelData.Description.Replace("<br>", Environment.NewLine, StringComparison.InvariantCulture))
                     .WithTitle(novelData.Title)
                     .WithUrl(novelData.Link)
@@ -96,23 +97,13 @@ namespace NadekoBot.Modules.Searches
                         .AddField(efb => efb.WithName(MalInfoToEmoji(info[1].Item1) + " " + info[1].Item1).WithValue(info[1].Item2.TrimTo(20)).WithIsInline(true));
                     if (info.Count > 2)
                         embed.AddField(efb => efb.WithName(MalInfoToEmoji(info[2].Item1) + " " + info[2].Item1).WithValue(info[2].Item2.TrimTo(20)).WithIsInline(true));
-                    //if(info.Count > 3)
-                    //    embed.AddField(efb => efb.WithName(MalInfoToEmoji(info[3].Item1) + " " + info[3].Item1).WithValue(info[3].Item2).WithIsInline(true))
+
                     embed
                         .WithDescription($@"
 ** https://myanimelist.net/animelist/{ name } **
 
 **{GetText("top_3_fav_anime")}**
 {favAnime}"
-
-    //**[Manga List](https://myanimelist.net/mangalist/{name})**
-    //💚`Reading:` {stats[5]}
-    //💙`Completed:` {stats[6]}
-    //💔`Dropped:` {stats[8]}
-    //⚪`Plan to read:` {stats[9]}
-
-    //**Top 3 Favorite Manga:**
-    //{favManga}"
 
     )
                         .WithUrl(fullQueryLink)
@@ -159,7 +150,8 @@ namespace NadekoBot.Modules.Searches
                     return;
                 }
 
-                var embed = new EmbedBuilder().WithColor(NadekoBot.OkColor)
+                var embed = new EmbedBuilder()
+                    .WithOkColor()
                     .WithDescription(animeData.Synopsis.Replace("<br>", Environment.NewLine, StringComparison.InvariantCulture))
                     .WithTitle(animeData.TitleEnglish)
                     .WithUrl(animeData.Link)
@@ -186,7 +178,8 @@ namespace NadekoBot.Modules.Searches
                     return;
                 }
 
-                var embed = new EmbedBuilder().WithColor(NadekoBot.OkColor)
+                var embed = new EmbedBuilder()
+                    .WithOkColor()
                     .WithDescription(mangaData.Synopsis.Replace("<br>", Environment.NewLine, StringComparison.InvariantCulture))
                     .WithTitle(mangaData.TitleEnglish)
                     .WithUrl(mangaData.Link)

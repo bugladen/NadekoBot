@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Discord.WebSocket;
+using NadekoBot.Core.Services;
+using NadekoBot.Core.Services.Database.Models;
+using NadekoBot.Modules.Utility.Common.Patreon;
+using Newtonsoft.Json;
+using NLog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Discord.WebSocket;
-using NadekoBot.Modules.Utility.Common.Patreon;
-using NadekoBot.Core.Services;
-using NadekoBot.Core.Services.Database.Models;
-using Newtonsoft.Json;
-using NLog;
 
 namespace NadekoBot.Modules.Utility.Services
 {
@@ -112,60 +112,62 @@ namespace NadekoBot.Modules.Utility.Services
             var now = DateTime.UtcNow;
             try
             {
-                var data = _pledges?.FirstOrDefault(x => x.User.attributes?.social_connections?.discord?.user_id == userId.ToString());
+                var datas = _pledges?.Where(x => x.User.attributes?.social_connections?.discord?.user_id == userId.ToString())
+                    ?? Enumerable.Empty<PatreonUserAndReward>();
 
-                if (data == null)
-                    return 0;
-
-                var amount = (int)(data.Reward.attributes.amount_cents * _bc.BotConfig.PatreonCurrencyPerCent);
-
-                using (var uow = _db.UnitOfWork)
+                foreach (var data in datas)
                 {
-                    var users = uow._context.Set<RewardedUser>();
-                    var usr = users.FirstOrDefault(x => x.PatreonUserId == data.User.id);
+                    var amount = (int)(data.Reward.attributes.amount_cents * _bc.BotConfig.PatreonCurrencyPerCent);
 
-                    if (usr == null)
+                    using (var uow = _db.UnitOfWork)
                     {
-                        users.Add(new RewardedUser()
+                        var users = uow._context.Set<RewardedUser>();
+                        var usr = users.FirstOrDefault(x => x.PatreonUserId == data.User.id);
+
+                        if (usr == null)
                         {
-                            UserId = userId,
-                            PatreonUserId = data.User.id,
-                            LastReward = now,
-                            AmountRewardedThisMonth = amount,
-                        });
+                            users.Add(new RewardedUser()
+                            {
+                                UserId = userId,
+                                PatreonUserId = data.User.id,
+                                LastReward = now,
+                                AmountRewardedThisMonth = amount,
+                            });
 
-                        await _currency.AddAsync(userId, "Patreon reward - new", amount, gamble: true);
+                            await uow.CompleteAsync();
 
-                        await uow.CompleteAsync();
-                        return amount;
+                            await _currency.AddAsync(userId, "Patreon reward - new", amount, gamble: true);
+                            return amount;
+                        }
+
+                        if (usr.LastReward.Month != now.Month)
+                        {
+                            usr.LastReward = now;
+                            usr.AmountRewardedThisMonth = amount;
+                            usr.UserId = userId;
+
+                            await uow.CompleteAsync();
+
+                            await _currency.AddAsync(userId, "Patreon reward - recurring", amount, gamble: true);
+                            return amount;
+                        }
+
+                        if (usr.AmountRewardedThisMonth < amount)
+                        {
+                            var toAward = amount - usr.AmountRewardedThisMonth;
+
+                            usr.LastReward = now;
+                            usr.AmountRewardedThisMonth = amount;
+                            usr.UserId = userId;
+                            await uow.CompleteAsync();
+
+                            await _currency.AddAsync(usr.UserId, "Patreon reward - update", toAward, gamble: true);
+                            return toAward;
+                        }
                     }
-
-                    if (usr.LastReward.Month != now.Month)
-                    {
-                        usr.LastReward = now;
-                        usr.AmountRewardedThisMonth = amount;
-                        usr.PatreonUserId = data.User.id;
-
-                        await _currency.AddAsync(userId, "Patreon reward - recurring", amount, gamble: true);
-
-                        await uow.CompleteAsync();
-                        return amount;
-                    }
-
-                    if (usr.AmountRewardedThisMonth < amount)
-                    {
-                        var toAward = amount - usr.AmountRewardedThisMonth;
-
-                        usr.LastReward = now;
-                        usr.AmountRewardedThisMonth = amount;
-                        usr.PatreonUserId = data.User.id;
-
-                        await _currency.AddAsync(usr.UserId, "Patreon reward - update", toAward, gamble: true);
-
-                        await uow.CompleteAsync();
-                        return toAward;
-                    }
+                    return 0;
                 }
+
                 return 0;
             }
             finally

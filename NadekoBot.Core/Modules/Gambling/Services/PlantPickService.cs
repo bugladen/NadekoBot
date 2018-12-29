@@ -21,6 +21,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Image = SixLabors.ImageSharp.Image;
 
@@ -41,6 +42,7 @@ namespace NadekoBot.Modules.Gambling.Services
         public readonly ConcurrentHashSet<ulong> _generationChannels = new ConcurrentHashSet<ulong>();
         //channelId/last generation
         public ConcurrentDictionary<ulong, DateTime> LastGenerations { get; } = new ConcurrentDictionary<ulong, DateTime>();
+        private readonly SemaphoreSlim pickLock = new SemaphoreSlim(1, 1);
 
         public PlantPickService(DbService db, CommandHandler cmd, NadekoBot bot, NadekoStrings strings,
             IDataCache cache, FontProvider fonts, IBotConfigProvider bc, ICurrencyService cs,
@@ -250,30 +252,41 @@ namespace NadekoBot.Modules.Gambling.Services
 
         public async Task<long> PickAsync(ulong gid, ITextChannel ch, ulong uid, string pass)
         {
-            long amount;
-            ulong[] ids;
-            using (var uow = _db.UnitOfWork)
-            {
-                // this method will sum all plants with that password, 
-                // remove them, and get messageids of the removed plants
-                (amount, ids) = uow.PlantedCurrency.RemoveSumAndGetMessageIdsFor(ch.Id, pass);
-                if (amount > 0)
-                {
-                    // give the picked currency to the user
-                    await _cs.AddAsync(uid, "Picked currency", amount, gamble: false);
-                }
-                uow.Complete();
-            }
-
+            await pickLock.WaitAsync();
             try
             {
-                // delete all of the plant messages which have just been picked
-                var _ = ch.DeleteMessagesAsync(ids);
-            }
-            catch { }
+                long amount;
+                ulong[] ids;
+                using (var uow = _db.UnitOfWork)
+                {
+                    // this method will sum all plants with that password, 
+                    // remove them, and get messageids of the removed plants
 
-            // return the amount of currency the user picked
-            return amount;
+                    (amount, ids) = uow.PlantedCurrency.RemoveSumAndGetMessageIdsFor(ch.Id, pass);
+
+
+                    if (amount > 0)
+                    {
+                        // give the picked currency to the user
+                        await _cs.AddAsync(uid, "Picked currency", amount, gamble: false);
+                    }
+                    uow.Complete();
+                }
+
+                try
+                {
+                    // delete all of the plant messages which have just been picked
+                    var _ = ch.DeleteMessagesAsync(ids);
+                }
+                catch { }
+
+                // return the amount of currency the user picked
+                return amount;
+            }
+            finally
+            {
+                pickLock.Release();
+            }
         }
 
         public async Task<ulong?> SendPlantMessageAsync(ulong gid, IMessageChannel ch, string user, long amount, string pass)

@@ -47,7 +47,7 @@ A dialog box will open asking if you want to install `xcode-select`. Select inst
 Choose `1. Download NadekoBot`
 Once Installation is completed you should see the options again.	
 
-Find and edit the `credentials.json` according to this [guide](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-credentialsjson-file).
+Choose Option 5 to set up your credentials according to this [guide](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-credentialsjson-file), or find and edit the `credentials.json` file manually.
 
 Choose `6` (exit) if you would like to pause. Otherwise, continue. 
 
@@ -62,7 +62,7 @@ If you shut down the bot with `.die`, it will stay offline until you manually ru
 
 `3. Run Nadeko with Auto Restart`
 
-If you shut down the bot with `.die`, it will stay restart automatically. To stop the bot, stop the bot proccess (close terminal)
+If you shut down the bot with `.die`, it will restart automatically. To stop the bot, stop the bot proccess (close the terminal)
 
 Option 3 will show you some more options: 
 
