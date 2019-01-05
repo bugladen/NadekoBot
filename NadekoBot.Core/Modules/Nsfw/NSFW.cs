@@ -67,6 +67,7 @@ namespace NadekoBot.Modules.NSFW
                 .WithDescription($"[{GetText("tag")}: {tag}]({img})"))
                 .ConfigureAwait(false);
         }
+
         private async Task InternalBoobs(IMessageChannel Channel)
         {
             try
@@ -308,7 +309,7 @@ namespace NadekoBot.Modules.NSFW
                 JToken obj;
                 using (var http = _httpFactory.CreateClient())
                 {
-                    obj = JArray.Parse(await http.GetStringAsync($"http://api.oboobs.ru/boobs/{new NadekoRandom().Next(0, 10330)}").ConfigureAwait(false))[0];
+                    obj = JArray.Parse(await http.GetStringAsync($"http://api.oboobs.ru/boobs/{new NadekoRandom().Next(0, 12000)}").ConfigureAwait(false))[0];
                 }
                 await Context.Channel.SendMessageAsync($"http://media.oboobs.ru/{obj["preview"]}").ConfigureAwait(false);
             }
@@ -327,7 +328,7 @@ namespace NadekoBot.Modules.NSFW
                 JToken obj;
                 using (var http = _httpFactory.CreateClient())
                 {
-                    obj = JArray.Parse(await http.GetStringAsync($"http://api.obutts.ru/butts/{new NadekoRandom().Next(0, 4335)}").ConfigureAwait(false))[0];
+                    obj = JArray.Parse(await http.GetStringAsync($"http://api.obutts.ru/butts/{new NadekoRandom().Next(0, 6100)}").ConfigureAwait(false))[0];
                 }
                 await Context.Channel.SendMessageAsync($"http://media.obutts.ru/{obj["preview"]}").ConfigureAwait(false);
             }
