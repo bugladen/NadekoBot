@@ -4,4 +4,4 @@
 2. Keep 1 Merge Request to a single feature.
 3. Explain what you did in the MR message.
 
-Thanks for all your help ^_^
+Thanks for all your help ^\_^
