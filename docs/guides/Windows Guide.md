@@ -1,35 +1,37 @@
 ## Setting Up NadekoBot on Windows With the Updater
 
-|Table of Contents|
-| :------------- |
-| [Prerequisites](https://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#prerequisites)     |
-| [Setup](https://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#setup)      |
-| [Starting the Bot](https://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#starting-the-bot) |
-| [Updating Nadeko](https://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#updating-nadeko) |
-| [Manually Installing the Prerequisites from the Updater](https://nadekobot.readthedocs.io/en/latest/guides/Windows%20Guide/#if-the-updater-fails-to-install-the-prerequisites-for-any-reason) |
+| Table of Contents                                                                                                                                                                             |
+| :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Prerequisites](#prerequisites)                                                                                             |
+| [Setup](#setup)                                                                                                             |
+| [Starting the Bot](#starting-the-bot)                                                                                       |
+| [Updating Nadeko](#updating-nadeko)                                                                                         |
+| [Manually Installing the Prerequisites from the Updater](#if-the-updater-fails-to-install-the-prerequisites-for-any-reason) |
 
 *Note: If you want to make changes to Nadeko's source code, please follow the [From Source][SourceGuide] guide instead.*
 
 *If you have Windows 7 or a 32-bit system, please refer to the [From Source][SourceGuide] or [Docker][DockerGuide] guides.*
-#### Prerequisites 
+
+#### Prerequisites
+
 - Windows 8 or later (64-bit)
 - [dotNET Core 2.1 SDK][dotNET] (restart Windows after installation)
 - [Redis][Redis] (supplied with the updater)
 - [Create a Discord Bot application](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#creating-discord-bot-application) and [invite the bot to your server](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#inviting-your-bot-to-your-server).
 
 **Optional**
+
 - [Notepad++] (makes it easier to edit your credentials)
 - [Visual C++ 2010 (x86)] and [Visual C++ 2017 (x64)] (both are required if you want Nadeko to play music - restart Windows after installation)
 
+#### Setup
 
-#### Setup 
 - Download and run the [NadekoBot Updater][Updater].
-- <img src="https://i.imgur.com/1g58bo1.png" 
-alt="NadekoBot Updater Window" width="495" height="395" border="10"/>
+- <img src="https://i.imgur.com/1g58bo1.png" alt="NadekoBot Updater Window" width="495" height="395" border="10"/>
 - Click on **`Install Redis`** to install Redis.
 - Select this option during the Redis installation:
 - ![Redis Path](https://i.imgur.com/uUby6Xw.png "Redis PATH")
-- Click on **`Install ffmpeg`** and **`Install youtube-dl`** if you want music features.  
+- Click on **`Install ffmpeg`** and **`Install youtube-dl`** if you want music features.
 - Click on **`Update`** and go through the installation wizard to install Nadeko.
 - When installation is finished, make sure the **`Open credentials.json`** option is checked.
 
@@ -38,17 +40,20 @@ alt="NadekoBot Updater Window" width="495" height="395" border="10"/>
 - [Set up the credentials.json](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-credentialsjson-file) file.
 
 #### Starting the bot
+
 - Either click on **`Launch Bot`** button in the updater or run the bot via its desktop shortcut.
 
 #### Updating Nadeko
-- Make sure Nadeko is closed and not running 			
-(Run `.die` in a connected server to ensure it's not running).
+
+- Make sure Nadeko is closed and not running  
+  (Run `.die` in a connected server to ensure it's not running).
 - Open NadekoBot Updater
 - If updates are available, you will be able to click on the Update button
 - Launch the bot
 - You've updated and are running again, easy as that!
 
 #### If the updater fails to install the prerequisites for any reason
+
 You can still install them manually:
 
 - [Redis Installer](https://github.com/MicrosoftArchive/redis/releases/tag/win-3.0.504) - Download and run the **`.msi`** file
