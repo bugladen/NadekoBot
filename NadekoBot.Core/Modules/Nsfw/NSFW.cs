@@ -56,7 +56,7 @@ namespace NadekoBot.Modules.NSFW
                 // return the error
                 if (img == null && !listOfProviders.Any())
                 {
-                    await ReplyErrorLocalized("not_found").ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("not_found").ConfigureAwait(false);
                     return;
                 }
 
@@ -115,7 +115,7 @@ namespace NadekoBot.Modules.NSFW
                 if (!_service.AutoHentaiTimers.TryRemove(Context.Channel.Id, out t)) return;
 
                 t.Change(Timeout.Infinite, Timeout.Infinite); //proper way to disable the timer
-                await ReplyConfirmLocalized("stopped").ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("stopped").ConfigureAwait(false);
                 return;
             }
 
@@ -145,7 +145,7 @@ namespace NadekoBot.Modules.NSFW
                 return t;
             });
 
-            await ReplyConfirmLocalized("autohentai_started",
+            await ReplyConfirmLocalizedAsync("autohentai_started",
                 interval,
                 string.Join(", ", tagsArr)).ConfigureAwait(false);
         }
@@ -163,7 +163,7 @@ namespace NadekoBot.Modules.NSFW
                 if (!_service.AutoBoobTimers.TryRemove(Context.Channel.Id, out t)) return;
 
                 t.Change(Timeout.Infinite, Timeout.Infinite); //proper way to disable the timer
-                await ReplyConfirmLocalized("stopped").ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("stopped").ConfigureAwait(false);
                 return;
             }
 
@@ -188,7 +188,7 @@ namespace NadekoBot.Modules.NSFW
                 return t;
             });
 
-            await ReplyConfirmLocalized("started", interval).ConfigureAwait(false);
+            await ReplyConfirmLocalizedAsync("started", interval).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -203,7 +203,7 @@ namespace NadekoBot.Modules.NSFW
                 if (!_service.AutoButtTimers.TryRemove(Context.Channel.Id, out t)) return;
 
                 t.Change(Timeout.Infinite, Timeout.Infinite); //proper way to disable the timer
-                await ReplyConfirmLocalized("stopped").ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("stopped").ConfigureAwait(false);
                 return;
             }
 
@@ -228,7 +228,7 @@ namespace NadekoBot.Modules.NSFW
                 return t;
             });
 
-            await ReplyConfirmLocalized("started", interval).ConfigureAwait(false);
+            await ReplyConfirmLocalizedAsync("started", interval).ConfigureAwait(false);
         }
 #endif
 
@@ -253,7 +253,7 @@ namespace NadekoBot.Modules.NSFW
                 var linksEnum = images?.Where(l => l != null).ToArray();
                 if (images == null || !linksEnum.Any())
                 {
-                    await ReplyErrorLocalized("not_found").ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("not_found").ConfigureAwait(false);
                     return;
                 }
 
@@ -356,9 +356,9 @@ namespace NadekoBot.Modules.NSFW
                 var added = _service.ToggleBlacklistedTag(Context.Guild.Id, tag);
 
                 if (added)
-                    await ReplyConfirmLocalized("blacklisted_tag_add", tag).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("blacklisted_tag_add", tag).ConfigureAwait(false);
                 else
-                    await ReplyConfirmLocalized("blacklisted_tag_remove", tag).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("blacklisted_tag_remove", tag).ConfigureAwait(false);
             }
         }
 
@@ -378,7 +378,7 @@ namespace NadekoBot.Modules.NSFW
             imgObj = await _service.DapiSearch(tag, type, Context.Guild?.Id, forceExplicit).ConfigureAwait(false);
 
             if (imgObj == null)
-                await ReplyErrorLocalized("not_found").ConfigureAwait(false);
+                await ReplyErrorLocalizedAsync("not_found").ConfigureAwait(false);
             else
             {
                 var embed = new EmbedBuilder().WithOkColor()

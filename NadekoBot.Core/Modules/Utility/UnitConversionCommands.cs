@@ -43,12 +43,12 @@ namespace NadekoBot.Modules.Utility
                 var targetUnit = _service.Units.FirstOrDefault(x => x.Triggers.Select(y => y.ToUpperInvariant()).Contains(target.ToUpperInvariant()));
                 if (originUnit == null || targetUnit == null)
                 {
-                    await ReplyErrorLocalized("convert_not_found", Format.Bold(origin), Format.Bold(target)).ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("convert_not_found", Format.Bold(origin), Format.Bold(target)).ConfigureAwait(false);
                     return;
                 }
                 if (originUnit.UnitType != targetUnit.UnitType)
                 {
-                    await ReplyErrorLocalized("convert_type_error", Format.Bold(originUnit.Triggers.First()), Format.Bold(targetUnit.Triggers.First())).ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("convert_type_error", Format.Bold(originUnit.Triggers.First()), Format.Bold(targetUnit.Triggers.First())).ConfigureAwait(false);
                     return;
                 }
                 decimal res;

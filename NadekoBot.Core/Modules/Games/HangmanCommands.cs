@@ -47,7 +47,7 @@ namespace NadekoBot.Modules.Games
                 if (!_service.HangmanGames.TryAdd(Context.Channel.Id, hm))
                 {
                     hm.Dispose();
-                    await ReplyErrorLocalized("hangman_running").ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("hangman_running").ConfigureAwait(false);
                     return;
                 }
                 hm.OnGameEnded += Hm_OnGameEnded;
@@ -136,7 +136,7 @@ namespace NadekoBot.Modules.Games
                 if (_service.HangmanGames.TryRemove(Context.Channel.Id, out var removed))
                 {
                     await removed.Stop().ConfigureAwait(false);
-                    await ReplyConfirmLocalized("hangman_stopped").ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("hangman_stopped").ConfigureAwait(false);
                 }
             }
         }

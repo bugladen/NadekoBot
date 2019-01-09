@@ -30,7 +30,7 @@ namespace NadekoBot.Modules.Permissions
             public async Task FwClear()
             {
                 _service.ClearFilteredWords(Context.Guild.Id);
-                await ReplyConfirmLocalized("fw_cleared").ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("fw_cleared").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -50,12 +50,12 @@ namespace NadekoBot.Modules.Permissions
                 if (enabled)
                 {
                     _service.InviteFilteringServers.Add(channel.Guild.Id);
-                    await ReplyConfirmLocalized("invite_filter_server_on").ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("invite_filter_server_on").ConfigureAwait(false);
                 }
                 else
                 {
                     _service.InviteFilteringServers.TryRemove(channel.Guild.Id);
-                    await ReplyConfirmLocalized("invite_filter_server_off").ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("invite_filter_server_off").ConfigureAwait(false);
                 }
             }
 
@@ -89,12 +89,12 @@ namespace NadekoBot.Modules.Permissions
                 if (removed == null)
                 {
                     _service.InviteFilteringChannels.Add(channel.Id);
-                    await ReplyConfirmLocalized("invite_filter_channel_on").ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("invite_filter_channel_on").ConfigureAwait(false);
                 }
                 else
                 {
                     _service.InviteFilteringChannels.TryRemove(channel.Id);
-                    await ReplyConfirmLocalized("invite_filter_channel_off").ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("invite_filter_channel_off").ConfigureAwait(false);
                 }
             }
 
@@ -115,12 +115,12 @@ namespace NadekoBot.Modules.Permissions
                 if (enabled)
                 {
                     _service.WordFilteringServers.Add(channel.Guild.Id);
-                    await ReplyConfirmLocalized("word_filter_server_on").ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("word_filter_server_on").ConfigureAwait(false);
                 }
                 else
                 {
                     _service.WordFilteringServers.TryRemove(channel.Guild.Id);
-                    await ReplyConfirmLocalized("word_filter_server_off").ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("word_filter_server_off").ConfigureAwait(false);
                 }
             }
 
@@ -154,12 +154,12 @@ namespace NadekoBot.Modules.Permissions
                 if (removed == null)
                 {
                     _service.WordFilteringChannels.Add(channel.Id);
-                    await ReplyConfirmLocalized("word_filter_channel_on").ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("word_filter_channel_on").ConfigureAwait(false);
                 }
                 else
                 {
                     _service.WordFilteringChannels.TryRemove(channel.Id);
-                    await ReplyConfirmLocalized("word_filter_channel_off").ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("word_filter_channel_off").ConfigureAwait(false);
                 }
             }
 
@@ -196,12 +196,12 @@ namespace NadekoBot.Modules.Permissions
                 if (removed == null)
                 {
                     filteredWords.Add(word);
-                    await ReplyConfirmLocalized("filter_word_add", Format.Code(word)).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("filter_word_add", Format.Code(word)).ConfigureAwait(false);
                 }
                 else
                 {
                     filteredWords.TryRemove(word);
-                    await ReplyConfirmLocalized("filter_word_remove", Format.Code(word)).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("filter_word_remove", Format.Code(word)).ConfigureAwait(false);
                 }
             }
 

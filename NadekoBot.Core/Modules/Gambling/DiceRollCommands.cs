@@ -91,7 +91,7 @@ namespace NadekoBot.Modules.Gambling
             {
                 if (num < 1 || num > 30)
                 {
-                    await ReplyErrorLocalized("dice_invalid_number", 1, 30).ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("dice_invalid_number", 1, 30).ConfigureAwait(false);
                     return;
                 }
 
@@ -203,7 +203,7 @@ namespace NadekoBot.Modules.Gambling
                         .ToArray();
                     if (arr[0] > arr[1])
                     {
-                        await ReplyErrorLocalized("second_larger_than_first").ConfigureAwait(false);
+                        await ReplyErrorLocalizedAsync("second_larger_than_first").ConfigureAwait(false);
                         return;
                     }
                     rolled = new NadekoRandom().Next(arr[0], arr[1] + 1);
@@ -213,7 +213,7 @@ namespace NadekoBot.Modules.Gambling
                     rolled = new NadekoRandom().Next(0, int.Parse(range) + 1);
                 }
 
-                await ReplyConfirmLocalized("dice_rolled", Format.Bold(rolled.ToString())).ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("dice_rolled", Format.Bold(rolled.ToString())).ConfigureAwait(false);
             }
 
             private Image<Rgba32> GetDice(int num)

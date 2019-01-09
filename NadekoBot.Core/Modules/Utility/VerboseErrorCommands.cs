@@ -18,9 +18,9 @@ namespace NadekoBot.Modules.Utility
                 var state = _service.ToggleVerboseErrors(Context.Guild.Id);
 
                 if (state)
-                    await ReplyConfirmLocalized("verbose_errors_enabled").ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("verbose_errors_enabled").ConfigureAwait(false);
                 else
-                    await ReplyConfirmLocalized("verbose_errors_disabled").ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("verbose_errors_disabled").ConfigureAwait(false);
             }
         }
     }

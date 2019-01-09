@@ -27,7 +27,7 @@ namespace NadekoBot.Modules.Administration
 
                 if (vc == null || vc.GuildId != user.GuildId)
                 {
-                    await ReplyErrorLocalized("must_be_in_voice").ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("must_be_in_voice").ConfigureAwait(false);
                     return;
                 }
 
@@ -35,13 +35,13 @@ namespace NadekoBot.Modules.Administration
                 {
                     if (_service.RemoveVcRole(Context.Guild.Id, vc.Id))
                     {
-                        await ReplyConfirmLocalized("vcrole_removed", Format.Bold(vc.Name)).ConfigureAwait(false);
+                        await ReplyConfirmLocalizedAsync("vcrole_removed", Format.Bold(vc.Name)).ConfigureAwait(false);
                     }
                 }
                 else
                 {
                     _service.AddVcRole(Context.Guild.Id, role, vc.Id);
-                    await ReplyConfirmLocalized("vcrole_added", Format.Bold(vc.Name), Format.Bold(role.Name)).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("vcrole_added", Format.Bold(vc.Name), Format.Bold(role.Name)).ConfigureAwait(false);
                 }
             }
 

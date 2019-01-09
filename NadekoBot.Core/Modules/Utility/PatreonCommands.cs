@@ -46,7 +46,7 @@ namespace NadekoBot.Modules.Utility
 
                 if (DateTime.UtcNow.Day < 5)
                 {
-                    await ReplyErrorLocalized("clpa_too_early").ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("clpa_too_early").ConfigureAwait(false);
                     return;
                 }
                 int amount = 0;
@@ -61,7 +61,7 @@ namespace NadekoBot.Modules.Utility
 
                 if (amount > 0)
                 {
-                    await ReplyConfirmLocalized("clpa_success", amount + Bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("clpa_success", amount + Bc.BotConfig.CurrencySign).ConfigureAwait(false);
                     return;
                 }
                 var rem = (_service.Interval - (DateTime.UtcNow - _service.LastUpdate));

@@ -115,9 +115,9 @@ namespace NadekoBot.Modules.Help
             if (!cmds.Any())
             {
                 if (opts.View != CommandsOptions.ViewType.Hide)
-                    await ReplyErrorLocalized("module_not_found").ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("module_not_found").ConfigureAwait(false);
                 else
-                    await ReplyErrorLocalized("module_not_found_or_cant_exec").ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("module_not_found_or_cant_exec").ConfigureAwait(false);
                 return;
             }
             var i = 0;
@@ -170,7 +170,7 @@ namespace NadekoBot.Modules.Help
                 return;
             }
 
-            await ReplyErrorLocalized("command_not_found").ConfigureAwait(false);
+            await ReplyErrorLocalizedAsync("command_not_found").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -226,13 +226,13 @@ namespace NadekoBot.Modules.Help
                     });
             }
             File.WriteAllText("../../docs/cmds_new.json", JsonConvert.SerializeObject(cmdData, Formatting.Indented));
-            await ReplyConfirmLocalized("commandlist_regen").ConfigureAwait(false);
+            await ReplyConfirmLocalizedAsync("commandlist_regen").ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Guide()
         {
-            await ConfirmLocalized("guide",
+            await ConfirmLocalizedAsync("guide",
                 "https://nadekobot.me/commands",
                 "http://nadekobot.readthedocs.io/en/latest/").ConfigureAwait(false);
         }
@@ -240,7 +240,7 @@ namespace NadekoBot.Modules.Help
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Donate()
         {
-            await ReplyConfirmLocalized("donate", PatreonUrl, PaypalUrl).ConfigureAwait(false);
+            await ReplyConfirmLocalizedAsync("donate", PatreonUrl, PaypalUrl).ConfigureAwait(false);
         }
 
         private string GetRemarks(string[] arr)

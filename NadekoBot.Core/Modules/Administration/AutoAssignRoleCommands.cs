@@ -31,12 +31,12 @@ namespace NadekoBot.Modules.Administration
                         return;
 
                     _service.EnableAar(Context.Guild.Id, role.Id);
-                    await ReplyConfirmLocalized("aar_enabled").ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("aar_enabled").ConfigureAwait(false);
                 }
                 else
                 {
                     _service.DisableAar(Context.Guild.Id);
-                    await ReplyConfirmLocalized("aar_disabled").ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("aar_disabled").ConfigureAwait(false);
                     return;
                 }
             }

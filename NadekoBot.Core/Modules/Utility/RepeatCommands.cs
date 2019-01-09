@@ -43,7 +43,7 @@ namespace NadekoBot.Modules.Utility
                 index -= 1;
                 if (!_service.Repeaters.TryGetValue(Context.Guild.Id, out var rep))
                 {
-                    await ReplyErrorLocalized("repeat_invoke_none").ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("repeat_invoke_none").ConfigureAwait(false);
                     return;
                 }
 
@@ -51,7 +51,7 @@ namespace NadekoBot.Modules.Utility
 
                 if (index >= repList.Count)
                 {
-                    await ReplyErrorLocalized("index_out_of_range").ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("index_out_of_range").ConfigureAwait(false);
                     return;
                 }
                 var repeater = repList[index];
@@ -79,7 +79,7 @@ namespace NadekoBot.Modules.Utility
 
                 if (index >= repeaterList.Count)
                 {
-                    await ReplyErrorLocalized("index_out_of_range").ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("index_out_of_range").ConfigureAwait(false);
                     return;
                 }
 
@@ -178,7 +178,7 @@ namespace NadekoBot.Modules.Utility
                     return;
                 if (!_service.Repeaters.TryGetValue(Context.Guild.Id, out var repRunners))
                 {
-                    await ReplyConfirmLocalized("repeaters_none").ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("repeaters_none").ConfigureAwait(false);
                     return;
                 }
 

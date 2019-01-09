@@ -40,7 +40,7 @@ namespace NadekoBot.Modules.Administration
             [RequireContext(ContextType.Guild)]
             public async Task Timezone()
             {
-                await ReplyConfirmLocalized("timezone_guild", _service.GetTimeZoneOrUtc(Context.Guild.Id)).ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("timezone_guild", _service.GetTimeZoneOrUtc(Context.Guild.Id)).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -54,7 +54,7 @@ namespace NadekoBot.Modules.Administration
 
                 if (tz == null)
                 {
-                    await ReplyErrorLocalized("timezone_not_found").ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("timezone_not_found").ConfigureAwait(false);
                     return;
                 }
                 _service.SetTimeZone(Context.Guild.Id, tz);

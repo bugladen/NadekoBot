@@ -60,7 +60,7 @@ namespace NadekoBot.Modules.Games
             var img = await gr.Url;
             if (img == null)
             {
-                await ReplyErrorLocalized("something_went_wrong").ConfigureAwait(false);
+                await ReplyErrorLocalizedAsync("something_went_wrong").ConfigureAwait(false);
                 return;
             }
             await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()

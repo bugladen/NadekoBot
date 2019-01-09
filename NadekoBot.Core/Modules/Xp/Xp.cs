@@ -86,9 +86,9 @@ namespace NadekoBot.Modules.Xp
             _service.SetRoleReward(Context.Guild.Id, level, role?.Id);
 
             if (role == null)
-                await ReplyConfirmLocalized("role_reward_cleared", level).ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("role_reward_cleared", level).ConfigureAwait(false);
             else
-                await ReplyConfirmLocalized("role_reward_added", level, Format.Bold(role.ToString())).ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("role_reward_added", level, Format.Bold(role.ToString())).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -102,9 +102,9 @@ namespace NadekoBot.Modules.Xp
             _service.SetCurrencyReward(Context.Guild.Id, level, amount);
 
             if (amount == 0)
-                await ReplyConfirmLocalized("cur_reward_cleared", level, Bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("cur_reward_cleared", level, Bc.BotConfig.CurrencySign).ConfigureAwait(false);
             else
-                await ReplyConfirmLocalized("cur_reward_added", level, Format.Bold(amount + Bc.BotConfig.CurrencySign)).ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("cur_reward_added", level, Format.Bold(amount + Bc.BotConfig.CurrencySign)).ConfigureAwait(false);
         }
 
         public enum NotifyPlace
@@ -134,7 +134,7 @@ namespace NadekoBot.Modules.Xp
         {
             var ex = _service.ToggleExcludeServer(Context.Guild.Id);
 
-            await ReplyConfirmLocalized((ex ? "excluded" : "not_excluded"), Format.Bold(Context.Guild.ToString())).ConfigureAwait(false);
+            await ReplyConfirmLocalizedAsync((ex ? "excluded" : "not_excluded"), Format.Bold(Context.Guild.ToString())).ConfigureAwait(false);
         }
 
         public enum Role { Role };
@@ -146,7 +146,7 @@ namespace NadekoBot.Modules.Xp
         {
             var ex = _service.ToggleExcludeRole(Context.Guild.Id, role.Id);
 
-            await ReplyConfirmLocalized((ex ? "excluded" : "not_excluded"), Format.Bold(role.ToString())).ConfigureAwait(false);
+            await ReplyConfirmLocalizedAsync((ex ? "excluded" : "not_excluded"), Format.Bold(role.ToString())).ConfigureAwait(false);
         }
 
         public enum Channel { Channel };
@@ -161,7 +161,7 @@ namespace NadekoBot.Modules.Xp
 
             var ex = _service.ToggleExcludeChannel(Context.Guild.Id, channel.Id);
 
-            await ReplyConfirmLocalized((ex ? "excluded" : "not_excluded"), Format.Bold(channel.ToString())).ConfigureAwait(false);
+            await ReplyConfirmLocalizedAsync((ex ? "excluded" : "not_excluded"), Format.Bold(channel.ToString())).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -269,7 +269,7 @@ namespace NadekoBot.Modules.Xp
             _service.AddXp(userId, Context.Guild.Id, amount);
             var usr = ((SocketGuild)Context.Guild).GetUser(userId)?.ToString()
                 ?? userId.ToString();
-            await ReplyConfirmLocalized("modified", Format.Bold(usr), Format.Bold(amount.ToString())).ConfigureAwait(false);
+            await ReplyConfirmLocalizedAsync("modified", Format.Bold(usr), Format.Bold(amount.ToString())).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -285,7 +285,7 @@ namespace NadekoBot.Modules.Xp
         {
             _service.ReloadXpTemplate();
             await Task.Delay(1000).ConfigureAwait(false);
-            await ReplyConfirmLocalized("template_reloaded").ConfigureAwait(false);
+            await ReplyConfirmLocalizedAsync("template_reloaded").ConfigureAwait(false);
         }
     }
 }
