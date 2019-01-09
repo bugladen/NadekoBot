@@ -1,33 +1,37 @@
-##Custom Reactions
-###Important
-*	For modifying **global** custom reactions, the ones which will work across all the servers your bot is connected to, you **must** be a Bot Owner.  
-You must also use the commands for adding, deleting and listing these reactions in a direct message with the bot.  
-*	For modifying **local** custom reactions, the ones which will only work on the server that they are added on, it is required to have the **Administrator** permission.  
-You must also use the commands for adding, deleting and listing these reactions in the server you want the custom reactions to work on.  
+## Custom Reactions
 
-###Commands and Their Use
-| Command Name | Description | Example |
-|:------------:|-------------|---------|
-|`.acr`|Add a custom reaction with a trigger and a response. Running this command in a server requries the Administrator permission. Running this command in DM is Bot Owner only, and adds a new global custom reaction. Guide [here](http://nadekobot.readthedocs.io/en/1.0/Custom%20Reactions/)|`.acr "hello" Hi there, %user%!`|
-|`.lcr`|Lists a page of global or server custom reactions (15 reactions per page). Running this command in a DM will list the global custom reactions, while running it in a server will list that server's custom reactions.|`.lcr 1`|
-|`.dcr`|Deletes a custom reaction based on the provided index. Running this command in a server requires the Administrator permission. Running this command in DM is Bot Owner only, and will delete a global custom reaction.|`.dcr 5`|
+### Important
 
+- For modifying **global** custom reactions, the ones which will work across all the servers your bot is connected to, you **must** be a Bot Owner.  
+  You must also use the commands for adding, deleting and listing these reactions in a direct message with the bot.
+- For modifying **local** custom reactions, the ones which will only work on the server that they are added on, it is required to have the **Administrator** permission.  
+  You must also use the commands for adding, deleting and listing these reactions in the server you want the custom reactions to work on.
 
-####Now that we know the commands let's take a look at an example of adding a command with `.acr`,  
-`.acr "Nice Weather" It sure is, %user%!`  
+### Commands and Their Use
 
-This command can be split into two different arguments:  
+| Command Name | Description                                                                                                                                                                                                                                                                                | Example                          |
+| :----------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------- |
+|    `.acr`    | Add a custom reaction with a trigger and a response. Running this command in a server requries the Administrator permission. Running this command in DM is Bot Owner only, and adds a new global custom reaction. | `.acr "hello" Hi there, %user%!` |
+|    `.lcr`    | Lists a page of global or server custom reactions (15 reactions per page). Running this command in a DM will list the global custom reactions, while running it in a server will list that server's custom reactions.                                                                      | `.lcr 1`                         |
+|    `.dcr`    | Deletes a custom reaction based on the provided index. Running this command in a server requires the Administrator permission. Running this command in DM is Bot Owner only, and will delete a global custom reaction.                                                                     | `.dcr 5`                         |
 
-* 	 The trigger, `"Nice Weather"`  
-* 	 And the response, `It sure is, %user%!`  
+#### Now that we know the commands let's take a look at an example of adding a command with `.acr`,
 
-An important thing to note about the triger is that, to be more than one word, we had to wrap it with quotation marks, `"Like this"` otherwise, only the first word would have been recognised as the trigger, and the second word would have been recognised as part of the response.  
+`.acr "Nice Weather" It sure is, %user%!`
 
-There's no special requirement for the formatting of the response, so we could just write it in exactly the same way we want it to respond, albeit with a placeholder - which will be explained in this next section.  
+This command can be split into two different arguments:
 
-Now, if that command was ran in a server, anyone on that server can make the bot mention them, saying `It sure is, @Username` anytime they say "Nice Weather". If the command is ran in a direct message with the bot, then the custom reaction can be used on every server the bot is connected to.  
+- The trigger, `"Nice Weather"`
+- And the response, `It sure is, %user%!`
 
-###Block global Custom Reactions
+An important thing to note about the triger is that, to be more than one word, we had to wrap it with quotation marks, `"Like this"` otherwise, only the first word would have been recognised as the trigger, and the second word would have been recognised as part of the response.
+
+There's no special requirement for the formatting of the response, so we could just write it in exactly the same way we want it to respond, albeit with a placeholder - which will be explained in this next section.
+
+Now, if that command was ran in a server, anyone on that server can make the bot mention them, saying `It sure is, @Username` anytime they say "Nice Weather". If the command is ran in a direct message with the bot, then the custom reaction can be used on every server the bot is connected to.
+
+### Block global Custom Reactions
+
 If you want to disable some global custom reactions which you do not like, and you do not want to remove them or you are not the bot owner you can do so by adding a new Custom Reaction with the same trigger on your server, and set the response to `-`.
 
 For example:
@@ -35,5 +39,6 @@ For example:
 
 Now if you try to trigger `/o/`, it won't print anything.
 
-###Placeholders!
+### Placeholders!
+
 To learn about placeholders, go [here](Placeholders.md)

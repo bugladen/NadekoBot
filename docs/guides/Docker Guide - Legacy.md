@@ -1,21 +1,25 @@
 # Setting up NadekoBot on Docker
-Nadeko is written in C# and Discord.Net for more information visit <https://github.com/Kwoth/NadekoBot>
+
+Nadeko is written in C# and Discord.Net for more information visit <https://gitlab.com/Kwoth/nadekobot>
 
 ## Before you start ...
 
 ... If your PC falls under any of the following cases, please grab Docker Toolbox instead.
 
 For Windows [[Download Link](https://download.docker.com/win/stable/DockerToolbox.exe)]
+
 - Any Windows version without Hyper-V Support
 - Windows 10 Home Edition
 - Windows 8 and earlier
 
 For Mac [[Download Link](https://download.docker.com/mac/stable/DockerToolbox.pkg)]
+
 - Any version between 10.8 “Mountain Lion” and 10.10.2 "Yosemite"
 
 ## Prerequisites
+
 - [Docker](https://store.docker.com/search?type=edition&offering=community) or [Docker Toolbox](https://www.docker.com/products/docker-toolbox).
-- [Create Discord Bot application](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#creating-discord-bot-application) and [Invite the bot to your server](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#inviting-your-bot-to-your-server). 
+- [Create Discord Bot application](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#creating-discord-bot-application) and [Invite the bot to your server](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#inviting-your-bot-to-your-server).
 - Have your [credentials.json](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#setting-up-your-credentials) in your home folder. To go to your home folder on ...
 - Linux: **cd ~**
 - Mac: **⌘ + Shift + H**
@@ -82,9 +86,9 @@ This will delete the bot container, along with any of its settings inside. (That
 
 **Command:** `docker create --name=nadeko -v /nadeko/conf:/root/nadeko -v /nadeko/data/:/opt/NadekoBot/src/NadekoBot/bin/Release/netcoreapp2.1/data willysunny/nadecker:latest`
 
-This command will build a new nadekobot container based on the files we've pulled from **__Step 1__**.
+This command will build a new nadekobot container based on the files we've pulled from **Step 1**.
 
-And it will link two folders from your local drive and store the data within. Namely your **__credentials.json__**, which is saved under **__/nadeko/conf__**,  and **__NadekoBot.db__**, which is saved under **__/nadeko/data__**.
+And it will link two folders from your local drive and store the data within. Namely your **credentials.json**, which is saved under **/nadeko/conf**, and **NadekoBot.db**, which is saved under **/nadeko/data**.
 
 However, in the case if you did not create the folders before hand, or if you were using Windows and did not set up permission right, no files will be generated. (This is why there's the fool-proof steps 3, 4, 7 and 8)
 
@@ -107,6 +111,7 @@ As I've been saying, this is yet another redundent step, just to make the whole 
 This would start the bot and attach the output of the bot on screen, similiar to you running `docker logs -f nadeko` after the bot has started.
 
 ### Additional Info
+
 If you have any issues with the docker setup, please ping willy_sunny by typing <@113540879297302528> in #help channel on our [Discord server](https://discordapp.com/invite/nadekobot), or dm him directly, but indicate you are using the docker.
 
-For information about configuring your bot or its functionality, please check the [documentation](http://nadekobot.readthedocs.io/en/latest).
+For information about configuring your bot or its functionality, please check the [documentation](https://nadekobot.readthedocs.io/en/latest).

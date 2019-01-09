@@ -1,6 +1,6 @@
 # Setting up NadekoBot on Docker
 
-Nadeko is written in C# and Discord.Net. For more information visit <https://github.com/Kwoth/NadekoBot>
+Nadeko is written in C# and Discord.Net. For more information visit <https://gitlab.com/Kwoth/nadekobot>
 
 ## Before you start
 
@@ -41,7 +41,7 @@ docker rm temp_nadeko
 echo Your blank credentials.json has been downloaded here: %TEMP%\credentials.json
 ```
 
-### Linux and other *NIX systems
+### Linux and other \*NIX systems
 
 - Open your favorite terminal
 - Copy/paste the following commands
@@ -151,4 +151,4 @@ WARNING: as the docker.sock is mount into this container, this means in fact tha
 
 If you have any issues with the docker setup, you can request some assistance in the in #help channel on our [Discord server](https://discordapp.com/invite/nadekobot), but indicate you are using the docker. As a last resort, you can ping the maintainer @Veovis in the #help channel.
 
-For information about configuring your bot or its functionality, please check the [documentation](http://nadekobot.readthedocs.io/en/latest).
+For information about configuring your bot or its functionality, please check the [documentation](https://nadekobot.readthedocs.io/en/latest).
