@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -37,6 +38,7 @@ namespace NadekoBot.Modules.Games.Services
         private readonly NadekoRandom _rng;
         private readonly ICurrencyService _cs;
         private readonly FontProvider _fonts;
+        private readonly IHttpClientFactory _httpFactory;
 
         public string TypingArticlesPath { get; } = "data/typing_articles3.json";
         private readonly CommandHandler _cmdHandler;
@@ -52,11 +54,24 @@ namespace NadekoBot.Modules.Games.Services
         public ConcurrentDictionary<ulong, TriviaGame> RunningTrivias { get; } = new ConcurrentDictionary<ulong, TriviaGame>();
         public Dictionary<ulong, TicTacToe> TicTacToeGames { get; } = new Dictionary<ulong, TicTacToe>();
         public ConcurrentDictionary<ulong, TypingGame> RunningContests { get; } = new ConcurrentDictionary<ulong, TypingGame>();
-        public ConcurrentDictionary<ulong, NunchiGame> NunchiGames { get; } = new ConcurrentDictionary<ulong, Common.Nunchi.NunchiGame>();
+        public ConcurrentDictionary<ulong, NunchiGame> NunchiGames { get; } = new ConcurrentDictionary<ulong, NunchiGame>();
+
+        public AsyncLazy<RatingTexts> Ratings { get; }
+
+        public class RatingTexts
+        {
+            public string Nog { get; set; }
+            public string Tra { get; set; }
+            public string Fun { get; set; }
+            public string Uni { get; set; }
+            public string Wif { get; set; }
+            public string Dat { get; set; }
+            public string Dan { get; set; }
+        }
 
         public GamesService(CommandHandler cmd, IBotConfigProvider bc, NadekoBot bot,
             NadekoStrings strings, IDataCache data, CommandHandler cmdHandler,
-            ICurrencyService cs, FontProvider fonts)
+            ICurrencyService cs, FontProvider fonts, IHttpClientFactory httpFactory)
         {
             _bc = bc;
             _cmd = cmd;
@@ -67,6 +82,9 @@ namespace NadekoBot.Modules.Games.Services
             _rng = new NadekoRandom();
             _cs = cs;
             _fonts = fonts;
+            _httpFactory = httpFactory;
+
+            Ratings = new AsyncLazy<RatingTexts>(GetRatingTexts);
 
             //8ball
             EightBallResponses = _bc.BotConfig.EightBallResponses.Select(ebr => ebr.Text).ToImmutableArray();
@@ -86,6 +104,15 @@ namespace NadekoBot.Modules.Games.Services
             {
                 _log.Warn("Error while loading typing articles {0}", ex.ToString());
                 TypingArticles = new List<TypingArticle>();
+            }
+        }
+
+        private async Task<RatingTexts> GetRatingTexts()
+        {
+            using (var http = _httpFactory.CreateClient())
+            {
+                var text = await http.GetStringAsync("https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/rategirl/rates.json");
+                return JsonConvert.DeserializeObject<RatingTexts>(text);
             }
         }
 
