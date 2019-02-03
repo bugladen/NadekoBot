@@ -16,4 +16,6 @@ DATA=/app/data
 [ -f "$DATA/hangman3.json" ] && [ ! -e "$DATA/hangman.json" ] && \
     mv "$DATA/hangman3.json" "$DATA/hangman.json"
 
+rsync -rv --ignore-existing $DATA-default/ $DATA/
+
 exec dotnet /app/NadekoBot.dll
