@@ -37,4 +37,6 @@ RUN set -ex; \
 
 VOLUME [ "/app/data" ]
 USER nadeko
-CMD ["dotnet", "/app/NadekoBot.dll"]
+
+COPY docker-entrypoint.sh /
+CMD ["/docker-entrypoint.sh"]
