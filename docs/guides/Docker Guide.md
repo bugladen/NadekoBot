@@ -81,7 +81,7 @@ If (!(Test-Path "$workdir")) {
 Invoke-WebRequest -Uri "$url_dc" -OutFile "$dc"
 cat "$dc" | %{ $_ -replace '#image: kwoth','image: kwoth' } | %{ $_ -replace 'build:','#build:' } > "$dc.tmp"
 Move-Item "$dc.tmp" "$dc" -Force
-cat "$dc" | %{ $_ -replace '- ./([^:]*):', "- `"$workdir\`$1`":" } > "$dc.tmp"
+cat "$dc" | %{ $_ -replace '- ./([^:]*):', "- $workdir\`$1:" } > "$dc.tmp"
 Move-Item "$dc.tmp" "$dc" -Force
 
 # start
@@ -112,7 +112,7 @@ dc="$workdir/docker-compose.yml"
 mkdir -p "$workdir"
 wget -O "$dc" "$url_dc"
 sed -i -e 's/#\(image: kwoth\)/\1/' -e '/build:/d' "$dc"
-sed -i -e 's%- ./\([^:]*\):%- "'$workdir'/\1":%g' $dc
+sed -i -e 's%- ./\([^:]*\):%- '$workdir'/\1:%g' $dc
 
 # start
 cd "$workdir"
