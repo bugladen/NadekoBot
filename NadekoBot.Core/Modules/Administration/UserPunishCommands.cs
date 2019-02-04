@@ -296,18 +296,9 @@ namespace NadekoBot.Modules.Administration
                 {
                     await Context.Guild.AddBanAsync(userId, 7, Context.User.ToString() + " | " + msg);
 
-                    if (!string.IsNullOrWhiteSpace(msg))
-                    {
-                        try
-                        {
-                            await user.SendErrorAsync(GetText("bandm", Format.Bold(Context.Guild.Name), msg)).ConfigureAwait(false);
-                        }
-                        catch { }
-                    }
-
                     await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                             .WithTitle("⛔️ " + GetText("banned_user"))
-                            .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true)))
+                            .AddField(efb => efb.WithName("ID").WithValue(userId.ToString()).WithIsInline(true)))
                         .ConfigureAwait(false);
                 }
                 else
