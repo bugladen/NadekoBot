@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using NadekoBot.Common;
@@ -12,6 +6,11 @@ using NadekoBot.Core.Services;
 using NadekoBot.Extensions;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Image = SixLabors.ImageSharp.Image;
 
 namespace NadekoBot.Modules.Gambling
@@ -50,12 +49,6 @@ namespace NadekoBot.Modules.Gambling
                         $"dice.{format.FileExtensions.First()}",
                         Format.Bold(Context.User.ToString()) + " " + GetText("dice_rolled", Format.Code(gen.ToString()))).ConfigureAwait(false);
                 }
-            }
-
-            public enum RollOrderType
-            {
-                Ordered,
-                Unordered
             }
 
             [NadekoCommand, Usage, Description, Aliases]
