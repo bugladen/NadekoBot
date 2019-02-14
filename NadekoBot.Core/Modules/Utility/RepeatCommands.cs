@@ -1,21 +1,21 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using Microsoft.EntityFrameworkCore;
-using NadekoBot.Extensions;
+using NadekoBot.Common.Attributes;
+using NadekoBot.Common.TypeReaders;
+using NadekoBot.Core.Common;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
+using NadekoBot.Extensions;
+using NadekoBot.Modules.Utility.Common;
+using NadekoBot.Modules.Utility.Services;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Discord.WebSocket;
-using NadekoBot.Common.Attributes;
-using NadekoBot.Common.TypeReaders;
-using NadekoBot.Modules.Utility.Common;
-using NadekoBot.Modules.Utility.Services;
-using NadekoBot.Core.Common;
-using System.Collections.Generic;
 
 namespace NadekoBot.Modules.Utility
 {
@@ -120,7 +120,7 @@ namespace NadekoBot.Modules.Utility
 
                 var (opts, _) = OptionsParser.ParseFrom(new Repeater.Options(), options);
 
-                if (string.IsNullOrWhiteSpace(opts.Message))
+                if (string.IsNullOrWhiteSpace(opts.Message) || opts.Interval == 25001)
                     return;
 
                 var toAdd = new Repeater()
