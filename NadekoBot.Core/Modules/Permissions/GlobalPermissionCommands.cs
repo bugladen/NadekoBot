@@ -32,7 +32,7 @@ namespace NadekoBot.Modules.Permissions
             {
                 if (!_service.BlockedModules.Any() && !_service.BlockedCommands.Any())
                 {
-                    await ReplyErrorLocalized("lgp_none").ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("lgp_none").ConfigureAwait(false);
                     return;
                 }
 
@@ -63,7 +63,7 @@ namespace NadekoBot.Modules.Permissions
                         });
                         uow.Complete();
                     }
-                    await ReplyConfirmLocalized("gmod_add", Format.Bold(module.Name)).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("gmod_add", Format.Bold(module.Name)).ConfigureAwait(false);
                     return;
                 }
                 else if (_service.BlockedModules.TryRemove(moduleName))
@@ -76,7 +76,7 @@ namespace NadekoBot.Modules.Permissions
                             uow._context.RemoveRange(mdls.ToArray());
                         uow.Complete();
                     }
-                    await ReplyConfirmLocalized("gmod_remove", Format.Bold(module.Name)).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("gmod_remove", Format.Bold(module.Name)).ConfigureAwait(false);
                     return;
                 }
             }
@@ -97,7 +97,7 @@ namespace NadekoBot.Modules.Permissions
                         });
                         uow.Complete();
                     }
-                    await ReplyConfirmLocalized("gcmd_add", Format.Bold(cmd.Name)).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("gcmd_add", Format.Bold(cmd.Name)).ConfigureAwait(false);
                     return;
                 }
                 else if (_service.BlockedCommands.TryRemove(commandName))
@@ -110,7 +110,7 @@ namespace NadekoBot.Modules.Permissions
                             uow._context.RemoveRange(objs.ToArray());
                         uow.Complete();
                     }
-                    await ReplyConfirmLocalized("gcmd_remove", Format.Bold(cmd.Name)).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("gcmd_remove", Format.Bold(cmd.Name)).ConfigureAwait(false);
                     return;
                 }
             }

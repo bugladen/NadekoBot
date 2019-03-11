@@ -31,7 +31,7 @@ namespace NadekoBot.Core.Services.Impl
         {
             using (var uow = _db.UnitOfWork)
             {
-                var bc = uow.BotConfig.GetOrCreate(set => set);
+                var bc = uow.BotConfig.GetOrCreate();
                 switch (type)
                 {
                     case BotConfigEditType.CurrencyGenerationChance:

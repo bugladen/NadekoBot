@@ -54,7 +54,7 @@ namespace NadekoBot.Modules.Searches
                     }
                     catch (Exception ex)
                     {
-                        await ReplyErrorLocalized("osu_failed").ConfigureAwait(false);
+                        await ReplyErrorLocalizedAsync("osu_failed").ConfigureAwait(false);
                         _log.Warn(ex);
                     }
                 }
@@ -65,7 +65,7 @@ namespace NadekoBot.Modules.Searches
             {
                 if (string.IsNullOrWhiteSpace(_creds.OsuApiKey))
                 {
-                    await ReplyErrorLocalized("osu_api_key").ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("osu_api_key").ConfigureAwait(false);
                     return;
                 }
 
@@ -89,7 +89,7 @@ namespace NadekoBot.Modules.Searches
                 }
                 catch (Exception ex)
                 {
-                    await ReplyErrorLocalized("something_went_wrong").ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("something_went_wrong").ConfigureAwait(false);
                     _log.Warn(ex);
                 }
             }
@@ -138,7 +138,7 @@ namespace NadekoBot.Modules.Searches
                     }
                     catch (Exception ex)
                     {
-                        await ReplyErrorLocalized("something_went_wrong").ConfigureAwait(false);
+                        await ReplyErrorLocalizedAsync("something_went_wrong").ConfigureAwait(false);
                         _log.Warn(ex);
                     }
 

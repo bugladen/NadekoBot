@@ -43,7 +43,7 @@ namespace NadekoBot.Modules.Gambling
                     {
                         try
                         {
-                            await ReplyErrorLocalized("no_more_cards").ConfigureAwait(false);
+                            await ReplyErrorLocalizedAsync("no_more_cards").ConfigureAwait(false);
                         }
                         catch
                         {
@@ -118,7 +118,7 @@ namespace NadekoBot.Modules.Gambling
                             return c;
                         });
 
-                await ReplyConfirmLocalized("deck_reshuffled").ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("deck_reshuffled").ConfigureAwait(false);
             }
         }
     }

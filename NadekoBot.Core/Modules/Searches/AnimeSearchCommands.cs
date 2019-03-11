@@ -26,7 +26,7 @@ namespace NadekoBot.Modules.Searches
 
                 if (novelData == null)
                 {
-                    await ReplyErrorLocalized("failed_finding_novel").ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("failed_finding_novel").ConfigureAwait(false);
                     return;
                 }
 
@@ -146,7 +146,7 @@ namespace NadekoBot.Modules.Searches
 
                 if (animeData == null)
                 {
-                    await ReplyErrorLocalized("failed_finding_anime").ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("failed_finding_anime").ConfigureAwait(false);
                     return;
                 }
 
@@ -174,7 +174,7 @@ namespace NadekoBot.Modules.Searches
 
                 if (mangaData == null)
                 {
-                    await ReplyErrorLocalized("failed_finding_manga").ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("failed_finding_manga").ConfigureAwait(false);
                     return;
                 }
 

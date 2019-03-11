@@ -1,14 +1,14 @@
-﻿using System.Collections.Concurrent;
-using System.Linq;
-using System.Threading.Tasks;
-using Discord.WebSocket;
-using NadekoBot.Modules.Utility.Common;
+﻿using Discord.WebSocket;
+using Microsoft.EntityFrameworkCore;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System;
+using NadekoBot.Modules.Utility.Common;
 using NLog;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Utility.Services
 {
@@ -29,29 +29,33 @@ namespace NadekoBot.Modules.Utility.Services
             var _ = Task.Run(async () =>
             {
                 await bot.Ready.Task.ConfigureAwait(false);
-                try
-                {
-                    Repeaters = new ConcurrentDictionary<ulong, ConcurrentDictionary<int, RepeatRunner>>(
-                        bot.AllGuildConfigs
-                            .Select(gc =>
+                Repeaters = new ConcurrentDictionary<ulong, ConcurrentDictionary<int, RepeatRunner>>(
+                    bot.AllGuildConfigs
+                        .Select(gc =>
+                        {
+                            try
                             {
                                 var guild = client.GetGuild(gc.GuildId);
-                                if (guild == null)
+                                if (guild is null)
                                     return (0, null);
-                                return (gc.GuildId, new ConcurrentDictionary<int, RepeatRunner>(gc.GuildRepeaters
-                                    .Select(gr => new KeyValuePair<int, RepeatRunner>(gr.Id, new RepeatRunner(guild, gr, this)))
-                                    .Where(x => x.Value.Guild != null)));
-                            })
-                            .Where(x => x.Item2 != null)
-                            .ToDictionary(x => x.GuildId, x => x.Item2));
 
-                    RepeaterReady = true;
-                }
-                catch (Exception ex)
-                {
-                    _log.Error("Failed to load repeaters on shard {0}.", bot.Client.ShardId);
-                    _log.Error(ex);
-                }
+                                gc.GuildRepeaters
+                                        .Select(gr => new KeyValuePair<int, RepeatRunner>(gr.Id, new RepeatRunner(guild, gr, this)))
+                                        .Where(x => x.Value.Guild != null);
+
+                                return (gc.GuildId, new ConcurrentDictionary<int, RepeatRunner>());
+                            }
+                            catch (Exception ex)
+                            {
+                                _log.Error("Failed to load repeaters on Guild {0}.", gc.GuildId);
+                                _log.Error(ex);
+                                return (0, null);
+                            }
+                        })
+                        .Where(x => x.Item2 != null)
+                        .ToDictionary(x => x.GuildId, x => x.Item2));
+
+                RepeaterReady = true;
             });
         }
 

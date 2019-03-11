@@ -34,7 +34,7 @@ namespace NadekoBot.Modules.Searches
                 }
                 catch
                 {
-                    await ReplyErrorLocalized("bad_input_format").ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("bad_input_format").ConfigureAwait(false);
                 }
             }
 
@@ -76,18 +76,18 @@ namespace NadekoBot.Modules.Searches
                 if (autoDelete == AutoDeleteAutoTranslate.Del)
                 {
                     _searches.TranslatedChannels.AddOrUpdate(channel.Id, true, (key, val) => true);
-                    await ReplyConfirmLocalized("atl_ad_started").ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("atl_ad_started").ConfigureAwait(false);
                     return;
                 }
                 
                 if (_searches.TranslatedChannels.TryRemove(channel.Id, out _))
                 {
-                    await ReplyConfirmLocalized("atl_stopped").ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("atl_stopped").ConfigureAwait(false);
                     return;
                 }
                 if (_searches.TranslatedChannels.TryAdd(channel.Id, autoDelete == AutoDeleteAutoTranslate.Del))
                 {
-                    await ReplyConfirmLocalized("atl_started").ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("atl_started").ConfigureAwait(false);
                 }
             }
 
@@ -100,7 +100,7 @@ namespace NadekoBot.Modules.Searches
                 if (string.IsNullOrWhiteSpace(langs))
                 {
                     if (_searches.UserLanguages.TryRemove(ucp, out langs))
-                        await ReplyConfirmLocalized("atl_removed").ConfigureAwait(false);
+                        await ReplyConfirmLocalizedAsync("atl_removed").ConfigureAwait(false);
                     return;
                 }
 
@@ -112,13 +112,13 @@ namespace NadekoBot.Modules.Searches
 
                 if (!_google.Languages.Contains(from) || !_google.Languages.Contains(to))
                 {
-                    await ReplyErrorLocalized("invalid_lang").ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("invalid_lang").ConfigureAwait(false);
                     return;
                 }
 
                 _searches.UserLanguages.AddOrUpdate(ucp, langs, (key, val) => langs);
 
-                await ReplyConfirmLocalized("atl_set", from, to).ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("atl_set", from, to).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]

@@ -1,21 +1,21 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using Microsoft.EntityFrameworkCore;
-using NadekoBot.Extensions;
+using NadekoBot.Common.Attributes;
+using NadekoBot.Common.TypeReaders;
+using NadekoBot.Core.Common;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
+using NadekoBot.Extensions;
+using NadekoBot.Modules.Utility.Common;
+using NadekoBot.Modules.Utility.Services;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Discord.WebSocket;
-using NadekoBot.Common.Attributes;
-using NadekoBot.Common.TypeReaders;
-using NadekoBot.Modules.Utility.Common;
-using NadekoBot.Modules.Utility.Services;
-using NadekoBot.Core.Common;
-using System.Collections.Generic;
 
 namespace NadekoBot.Modules.Utility
 {
@@ -43,7 +43,7 @@ namespace NadekoBot.Modules.Utility
                 index -= 1;
                 if (!_service.Repeaters.TryGetValue(Context.Guild.Id, out var rep))
                 {
-                    await ReplyErrorLocalized("repeat_invoke_none").ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("repeat_invoke_none").ConfigureAwait(false);
                     return;
                 }
 
@@ -51,7 +51,7 @@ namespace NadekoBot.Modules.Utility
 
                 if (index >= repList.Count)
                 {
-                    await ReplyErrorLocalized("index_out_of_range").ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("index_out_of_range").ConfigureAwait(false);
                     return;
                 }
                 var repeater = repList[index];
@@ -79,7 +79,7 @@ namespace NadekoBot.Modules.Utility
 
                 if (index >= repeaterList.Count)
                 {
-                    await ReplyErrorLocalized("index_out_of_range").ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("index_out_of_range").ConfigureAwait(false);
                     return;
                 }
 
@@ -120,7 +120,7 @@ namespace NadekoBot.Modules.Utility
 
                 var (opts, _) = OptionsParser.ParseFrom(new Repeater.Options(), options);
 
-                if (string.IsNullOrWhiteSpace(opts.Message))
+                if (string.IsNullOrWhiteSpace(opts.Message) || opts.Interval == 25001)
                     return;
 
                 var toAdd = new Repeater()
@@ -178,7 +178,7 @@ namespace NadekoBot.Modules.Utility
                     return;
                 if (!_service.Repeaters.TryGetValue(Context.Guild.Id, out var repRunners))
                 {
-                    await ReplyConfirmLocalized("repeaters_none").ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("repeaters_none").ConfigureAwait(false);
                     return;
                 }
 

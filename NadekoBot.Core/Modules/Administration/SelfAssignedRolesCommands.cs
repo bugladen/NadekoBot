@@ -24,11 +24,11 @@ namespace NadekoBot.Modules.Administration
 
                 if (newVal)
                 {
-                    await ReplyConfirmLocalized("adsarm_enable", Prefix).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("adsarm_enable", Prefix).ConfigureAwait(false);
                 }
                 else
                 {
-                    await ReplyConfirmLocalized("adsarm_disable", Prefix).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("adsarm_disable", Prefix).ConfigureAwait(false);
                 }
             }
 
@@ -55,11 +55,11 @@ namespace NadekoBot.Modules.Administration
 
                 if (succ)
                 {
-                    await ReplyConfirmLocalized("role_added", Format.Bold(role.Name), Format.Bold(group.ToString())).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("role_added", Format.Bold(role.Name), Format.Bold(group.ToString())).ConfigureAwait(false);
                 }
                 else
                 {
-                    await ReplyErrorLocalized("role_in_list", Format.Bold(role.Name)).ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("role_in_list", Format.Bold(role.Name)).ConfigureAwait(false);
                 }
             }
 
@@ -76,11 +76,11 @@ namespace NadekoBot.Modules.Administration
 
                 if (set)
                 {
-                    await ReplyConfirmLocalized("group_name_added", Format.Bold(group.ToString()), Format.Bold(name.ToString())).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("group_name_added", Format.Bold(group.ToString()), Format.Bold(name.ToString())).ConfigureAwait(false);
                 }
                 else
                 {
-                    await ReplyConfirmLocalized("group_name_removed", Format.Bold(group.ToString())).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("group_name_removed", Format.Bold(group.ToString())).ConfigureAwait(false);
                 }
             }
 
@@ -96,11 +96,11 @@ namespace NadekoBot.Modules.Administration
                 bool success = _service.RemoveSar(role.Guild.Id, role.Id);
                 if (!success)
                 {
-                    await ReplyErrorLocalized("self_assign_not").ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("self_assign_not").ConfigureAwait(false);
                 }
                 else
                 {
-                    await ReplyConfirmLocalized("self_assign_rem", Format.Bold(role.Name)).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("self_assign_rem", Format.Bold(role.Name)).ConfigureAwait(false);
                 }
             }
 
@@ -171,9 +171,9 @@ namespace NadekoBot.Modules.Administration
             {
                 bool areExclusive = _service.ToggleEsar(Context.Guild.Id);
                 if (areExclusive)
-                    await ReplyConfirmLocalized("self_assign_excl").ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("self_assign_excl").ConfigureAwait(false);
                 else
-                    await ReplyConfirmLocalized("self_assign_no_excl").ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("self_assign_no_excl").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -189,11 +189,11 @@ namespace NadekoBot.Modules.Administration
 
                 if (!succ)
                 {
-                    await ReplyErrorLocalized("self_assign_not").ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("self_assign_not").ConfigureAwait(false);
                     return;
                 }
 
-                await ReplyConfirmLocalized("self_assign_level_req",
+                await ReplyConfirmLocalizedAsync("self_assign_level_req",
                     Format.Bold(role.Name),
                     Format.Bold(level.ToString())).ConfigureAwait(false);
             }
@@ -209,23 +209,23 @@ namespace NadekoBot.Modules.Administration
                 IUserMessage msg;
                 if (result == SelfAssignedRolesService.AssignResult.Err_Not_Assignable)
                 {
-                    msg = await ReplyErrorLocalized("self_assign_not").ConfigureAwait(false);
+                    msg = await ReplyErrorLocalizedAsync("self_assign_not").ConfigureAwait(false);
                 }
                 else if (result == SelfAssignedRolesService.AssignResult.Err_Lvl_Req)
                 {
-                    msg = await ReplyErrorLocalized("self_assign_not_level", Format.Bold(extra.ToString())).ConfigureAwait(false);
+                    msg = await ReplyErrorLocalizedAsync("self_assign_not_level", Format.Bold(extra.ToString())).ConfigureAwait(false);
                 }
                 else if (result == SelfAssignedRolesService.AssignResult.Err_Already_Have)
                 {
-                    msg = await ReplyErrorLocalized("self_assign_already", Format.Bold(role.Name)).ConfigureAwait(false);
+                    msg = await ReplyErrorLocalizedAsync("self_assign_already", Format.Bold(role.Name)).ConfigureAwait(false);
                 }
                 else if (result == SelfAssignedRolesService.AssignResult.Err_Not_Perms)
                 {
-                    msg = await ReplyErrorLocalized("self_assign_perms").ConfigureAwait(false);
+                    msg = await ReplyErrorLocalizedAsync("self_assign_perms").ConfigureAwait(false);
                 }
                 else
                 {
-                    msg = await ReplyConfirmLocalized("self_assign_success", Format.Bold(role.Name)).ConfigureAwait(false);
+                    msg = await ReplyConfirmLocalizedAsync("self_assign_success", Format.Bold(role.Name)).ConfigureAwait(false);
                 }
 
                 if (autoDelete)
@@ -246,19 +246,19 @@ namespace NadekoBot.Modules.Administration
                 IUserMessage msg;
                 if (result == SelfAssignedRolesService.RemoveResult.Err_Not_Assignable)
                 {
-                    msg = await ReplyErrorLocalized("self_assign_not").ConfigureAwait(false);
+                    msg = await ReplyErrorLocalizedAsync("self_assign_not").ConfigureAwait(false);
                 }
                 else if (result == SelfAssignedRolesService.RemoveResult.Err_Not_Have)
                 {
-                    msg = await ReplyErrorLocalized("self_assign_not_have", Format.Bold(role.Name)).ConfigureAwait(false);
+                    msg = await ReplyErrorLocalizedAsync("self_assign_not_have", Format.Bold(role.Name)).ConfigureAwait(false);
                 }
                 else if (result == SelfAssignedRolesService.RemoveResult.Err_Not_Perms)
                 {
-                    msg = await ReplyErrorLocalized("self_assign_perms").ConfigureAwait(false);
+                    msg = await ReplyErrorLocalizedAsync("self_assign_perms").ConfigureAwait(false);
                 }
                 else
                 {
-                    msg = await ReplyConfirmLocalized("self_assign_remove", Format.Bold(role.Name)).ConfigureAwait(false);
+                    msg = await ReplyConfirmLocalizedAsync("self_assign_remove", Format.Bold(role.Name)).ConfigureAwait(false);
                 }
 
                 if (autoDelete)

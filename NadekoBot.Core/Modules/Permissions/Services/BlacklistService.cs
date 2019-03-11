@@ -1,19 +1,15 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.WebSocket;
-using NadekoBot.Common.Collections;
 using NadekoBot.Common.ModuleBehaviors;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Permissions.Services
 {
     public class BlacklistService : IEarlyBehavior, INService
     {
-        public ConcurrentHashSet<ulong> BlacklistedUsers { get; }
-        public ConcurrentHashSet<ulong> BlacklistedGuilds { get; }
-        public ConcurrentHashSet<ulong> BlacklistedChannels { get; }
+        private readonly IBotConfigProvider _bc;
 
         public int Priority => -100;
 
@@ -21,15 +17,27 @@ namespace NadekoBot.Modules.Permissions.Services
 
         public BlacklistService(IBotConfigProvider bc)
         {
+            _bc = bc;
             var blacklist = bc.BotConfig.Blacklist;
-            BlacklistedUsers = new ConcurrentHashSet<ulong>(blacklist.Where(bi => bi.Type == BlacklistType.User).Select(c => c.ItemId));
-            BlacklistedGuilds = new ConcurrentHashSet<ulong>(blacklist.Where(bi => bi.Type == BlacklistType.Server).Select(c => c.ItemId));
-            BlacklistedChannels = new ConcurrentHashSet<ulong>(blacklist.Where(bi => bi.Type == BlacklistType.Channel).Select(c => c.ItemId));
         }
 
-        public Task<bool> RunBehavior(DiscordSocketClient _, IGuild guild, IUserMessage usrMsg)
-            => Task.FromResult((guild != null && BlacklistedGuilds.Contains(guild.Id)) ||
-                BlacklistedChannels.Contains(usrMsg.Channel.Id) ||
-                BlacklistedUsers.Contains(usrMsg.Author.Id));
+        public async Task<bool> RunBehavior(DiscordSocketClient _, IGuild guild, IUserMessage usrMsg)
+        {
+            await Task.Yield();
+            var blItems = _bc.BotConfig.Blacklist;
+            foreach (var bl in blItems)
+            {
+                if (guild != null && bl.Type == BlacklistType.Server && bl.ItemId == guild.Id)
+                    return true;
+
+                if (bl.Type == BlacklistType.Channel && bl.ItemId == usrMsg.Channel.Id)
+                    return true;
+
+                if (bl.Type == BlacklistType.User && bl.ItemId == usrMsg.Author.Id)
+                    return true;
+            }
+
+            return false;
+        }
     }
 }

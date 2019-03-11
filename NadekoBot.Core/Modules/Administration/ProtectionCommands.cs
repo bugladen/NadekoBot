@@ -22,11 +22,11 @@ namespace NadekoBot.Modules.Administration
             {
                 if (_service.TryStopAntiRaid(Context.Guild.Id))
                 {
-                    return ReplyConfirmLocalized("prot_disable", "Anti-Raid");
+                    return ReplyConfirmLocalizedAsync("prot_disable", "Anti-Raid");
                 }
                 else
                 {
-                    return ReplyErrorLocalized("anti_raid_not_running");
+                    return ReplyErrorLocalizedAsync("anti_raid_not_running");
                 }
             }
 
@@ -37,13 +37,13 @@ namespace NadekoBot.Modules.Administration
             {
                 if (userThreshold < 2 || userThreshold > 30)
                 {
-                    await ReplyErrorLocalized("raid_cnt", 2, 30).ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("raid_cnt", 2, 30).ConfigureAwait(false);
                     return;
                 }
 
                 if (seconds < 2 || seconds > 300)
                 {
-                    await ReplyErrorLocalized("raid_time", 2, 300).ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("raid_time", 2, 300).ConfigureAwait(false);
                     return;
                 }
 
@@ -61,11 +61,11 @@ namespace NadekoBot.Modules.Administration
             {
                 if (_service.TryStopAntiSpam(Context.Guild.Id))
                 {
-                    return ReplyConfirmLocalized("prot_disable", "Anti-Spam");
+                    return ReplyConfirmLocalizedAsync("prot_disable", "Anti-Spam");
                 }
                 else
                 {
-                    return ReplyErrorLocalized("anti_spam_not_running");
+                    return ReplyErrorLocalizedAsync("anti_spam_not_running");
                 }
             }
 
@@ -96,11 +96,11 @@ namespace NadekoBot.Modules.Administration
 
                 if(added is null)
                 {
-                    await ReplyErrorLocalized("anti_spam_not_running").ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("anti_spam_not_running").ConfigureAwait(false);
                     return;
                 }
 
-                await ReplyConfirmLocalized(added.Value ? "spam_ignore" : "spam_not_ignore", "Anti-Spam").ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync(added.Value ? "spam_ignore" : "spam_not_ignore", "Anti-Spam").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -111,7 +111,7 @@ namespace NadekoBot.Modules.Administration
 
                 if (spam == null && raid == null)
                 {
-                    await ReplyConfirmLocalized("prot_none").ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("prot_none").ConfigureAwait(false);
                     return;
                 }
 

@@ -51,7 +51,7 @@ namespace NadekoBot.Modules.Searches
             catch (Exception ex)
             {
                 _log.Warn(ex);
-                await ReplyErrorLocalized("something_went_wrong").ConfigureAwait(false);
+                await ReplyErrorLocalizedAsync("something_went_wrong").ConfigureAwait(false);
             }
         }
     }

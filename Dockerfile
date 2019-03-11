@@ -24,11 +24,13 @@ RUN set -ex; \
         ffmpeg \
         youtube-dl@edge \
         libsodium \
-        opus; \
+        opus \
+        rsync; \
     adduser -D nadeko; \
     chown nadeko /app; \
     chmod u+w /app; \
-    install -d -o nadeko -g nadeko -m 755 /app/data
+    mv /app/data /app/data-default; \
+    install -d -o nadeko -g nadeko -m 755 /app/data;
 
 # workaround for the runtime to find the native libs loaded through DllImport
 RUN set -ex; \
@@ -37,4 +39,6 @@ RUN set -ex; \
 
 VOLUME [ "/app/data" ]
 USER nadeko
-CMD ["dotnet", "/app/NadekoBot.dll"]
+
+COPY docker-entrypoint.sh /
+CMD ["/docker-entrypoint.sh"]

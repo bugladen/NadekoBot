@@ -47,19 +47,19 @@ namespace NadekoBot.Modules.Gambling
                     if (!await bj.Join(Context.User, amount).ConfigureAwait(false))
                     {
                         _service.Games.TryRemove(Context.Channel.Id, out _);
-                        await ReplyErrorLocalized("not_enough", Bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                        await ReplyErrorLocalizedAsync("not_enough", Bc.BotConfig.CurrencySign).ConfigureAwait(false);
                         return;
                     }
                     bj.StateUpdated += Bj_StateUpdated;
                     bj.GameEnded += Bj_GameEnded;
                     bj.Start();
 
-                    await ReplyConfirmLocalized("bj_created").ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("bj_created").ConfigureAwait(false);
                 }
                 else
                 {
                     if (await bj.Join(Context.User, amount).ConfigureAwait(false))
-                        await ReplyConfirmLocalized("bj_joined").ConfigureAwait(false);
+                        await ReplyConfirmLocalizedAsync("bj_joined").ConfigureAwait(false);
                     else
                     {
                         _log.Info($"{Context.User} can't join a blackjack game as it's in " + bj.State.ToString() + " state already.");
@@ -180,7 +180,7 @@ namespace NadekoBot.Modules.Gambling
                 {
                     if (!await bj.Double(Context.User).ConfigureAwait(false))
                     {
-                        await ReplyErrorLocalized("not_enough", Bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                        await ReplyErrorLocalizedAsync("not_enough", Bc.BotConfig.CurrencySign).ConfigureAwait(false);
                     }
                 }
 

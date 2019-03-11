@@ -22,19 +22,19 @@ namespace NadekoBot.Modules.Administration
 
                 if (vch == null)
                 {
-                    await ReplyErrorLocalized("not_in_voice").ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("not_in_voice").ConfigureAwait(false);
                     return;
                 }
                 var id = _service.ToggleGameVoiceChannel(Context.Guild.Id, vch.Id);
 
                 if (id == null)
                 {
-                    await ReplyConfirmLocalized("gvc_disabled").ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("gvc_disabled").ConfigureAwait(false);
                 }
                 else
                 {
                     _service.GameVoiceChannels.Add(vch.Id);
-                    await ReplyConfirmLocalized("gvc_enabled", Format.Bold(vch.Name)).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("gvc_enabled", Format.Bold(vch.Name)).ConfigureAwait(false);
                 }
             }
         }

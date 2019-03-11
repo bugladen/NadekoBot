@@ -98,7 +98,7 @@ Nadeko Support Server: https://discord.gg/nadekobot";
             (obj as BlockedCmdOrMdl)?.Name?.ToUpperInvariant() == Name.ToUpperInvariant();
 
         public override int GetHashCode() =>
-            Name.GetHashCode(System.StringComparison.InvariantCulture);
+            Name.GetHashCode(StringComparison.InvariantCulture);
     }
 
     public enum ConsoleOutputType

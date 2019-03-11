@@ -19,12 +19,12 @@ namespace NadekoBot.Core.Modules.Gambling.Common
             }
             if (amount < Bc.BotConfig.MinBet)
             {
-                await ReplyErrorLocalized("min_bet_limit", Format.Bold(Bc.BotConfig.MinBet.ToString()) + Bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                await ReplyErrorLocalizedAsync("min_bet_limit", Format.Bold(Bc.BotConfig.MinBet.ToString()) + Bc.BotConfig.CurrencySign).ConfigureAwait(false);
                 return false;
             }
             if (Bc.BotConfig.MaxBet > 0 && amount > Bc.BotConfig.MaxBet)
             {
-                await ReplyErrorLocalized("max_bet_limit", Format.Bold(Bc.BotConfig.MaxBet.ToString()) + Bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                await ReplyErrorLocalizedAsync("max_bet_limit", Format.Bold(Bc.BotConfig.MaxBet.ToString()) + Bc.BotConfig.CurrencySign).ConfigureAwait(false);
                 return false;
             }
             return true;

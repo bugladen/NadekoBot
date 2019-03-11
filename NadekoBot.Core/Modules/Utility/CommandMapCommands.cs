@@ -34,7 +34,7 @@ namespace NadekoBot.Modules.Utility
             public async Task AliasesClear()
             {
                 var count = _service.ClearAliases(Context.Guild.Id);
-                await ReplyConfirmLocalized("aliases_cleared", count).ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("aliases_cleared", count).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -54,7 +54,7 @@ namespace NadekoBot.Modules.Utility
                     if (!_service.AliasMaps.TryGetValue(Context.Guild.Id, out var maps) ||
                         !maps.TryRemove(trigger, out _))
                     {
-                        await ReplyErrorLocalized("alias_remove_fail", Format.Code(trigger)).ConfigureAwait(false);
+                        await ReplyErrorLocalizedAsync("alias_remove_fail", Format.Code(trigger)).ConfigureAwait(false);
                         return;
                     }
 
@@ -72,7 +72,7 @@ namespace NadekoBot.Modules.Utility
                         uow.Complete();
                     }
 
-                    await ReplyConfirmLocalized("alias_removed", Format.Code(trigger)).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("alias_removed", Format.Code(trigger)).ConfigureAwait(false);
                     return;
                 }
                 _service.AliasMaps.AddOrUpdate(Context.Guild.Id, (_) =>
@@ -110,7 +110,7 @@ namespace NadekoBot.Modules.Utility
                     return map;
                 });
 
-                await ReplyConfirmLocalized("alias_added", Format.Code(trigger), Format.Code(mapping)).ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("alias_added", Format.Code(trigger), Format.Code(mapping)).ConfigureAwait(false);
             }
 
 
@@ -126,7 +126,7 @@ namespace NadekoBot.Modules.Utility
 
                 if (!_service.AliasMaps.TryGetValue(Context.Guild.Id, out var maps) || !maps.Any())
                 {
-                    await ReplyErrorLocalized("aliases_none").ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("aliases_none").ConfigureAwait(false);
                     return;
                 }
 

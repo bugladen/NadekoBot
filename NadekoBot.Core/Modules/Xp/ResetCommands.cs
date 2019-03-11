@@ -32,7 +32,7 @@ namespace NadekoBot.Modules.Xp
 
                 _service.XpReset(Context.Guild.Id, userId);
 
-                await ReplyConfirmLocalized("reset_user", userId).ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("reset_user", userId).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -49,7 +49,7 @@ namespace NadekoBot.Modules.Xp
 
                 _service.XpReset(Context.Guild.Id);
 
-                await ReplyConfirmLocalized("reset_server").ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("reset_server").ConfigureAwait(false);
             }
         }
     }

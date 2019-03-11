@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using NadekoBot.Common;
@@ -12,6 +6,11 @@ using NadekoBot.Core.Services;
 using NadekoBot.Extensions;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Image = SixLabors.ImageSharp.Image;
 
 namespace NadekoBot.Modules.Gambling
@@ -52,12 +51,6 @@ namespace NadekoBot.Modules.Gambling
                 }
             }
 
-            public enum RollOrderType
-            {
-                Ordered,
-                Unordered
-            }
-
             [NadekoCommand, Usage, Description, Aliases]
             [Priority(1)]
             public async Task Roll(int num)
@@ -91,7 +84,7 @@ namespace NadekoBot.Modules.Gambling
             {
                 if (num < 1 || num > 30)
                 {
-                    await ReplyErrorLocalized("dice_invalid_number", 1, 30).ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("dice_invalid_number", 1, 30).ConfigureAwait(false);
                     return;
                 }
 
@@ -203,7 +196,7 @@ namespace NadekoBot.Modules.Gambling
                         .ToArray();
                     if (arr[0] > arr[1])
                     {
-                        await ReplyErrorLocalized("second_larger_than_first").ConfigureAwait(false);
+                        await ReplyErrorLocalizedAsync("second_larger_than_first").ConfigureAwait(false);
                         return;
                     }
                     rolled = new NadekoRandom().Next(arr[0], arr[1] + 1);
@@ -213,7 +206,7 @@ namespace NadekoBot.Modules.Gambling
                     rolled = new NadekoRandom().Next(0, int.Parse(range) + 1);
                 }
 
-                await ReplyConfirmLocalized("dice_rolled", Format.Bold(rolled.ToString())).ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("dice_rolled", Format.Bold(rolled.ToString())).ConfigureAwait(false);
             }
 
             private Image<Rgba32> GetDice(int num)
