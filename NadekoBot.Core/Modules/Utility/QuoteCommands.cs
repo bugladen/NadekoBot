@@ -134,7 +134,7 @@ namespace NadekoBot.Modules.Utility
                             string.Join("\n", quotes.Select(q => $"`#{q.Id}` {Format.Bold(q.Keyword.SanitizeMentions()),-20} by {q.AuthorName.SanitizeMentions()}")))
                         .ConfigureAwait(false);
                 else
-                    await ReplyErrorLocalized("quotes_page_none").ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("quotes_page_none").ConfigureAwait(false);
 	    }
 
             [NadekoCommand, Usage, Description, Aliases]
