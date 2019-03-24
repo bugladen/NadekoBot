@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Linq;
-using System.Text.RegularExpressions;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Administration.Services;
 using NadekoBot.Modules.Music.Services;
+using System;
+using System.Collections.Concurrent;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace NadekoBot.Common.Replacements
 {
@@ -113,7 +113,7 @@ namespace NadekoBot.Common.Replacements
             _reps.TryAdd("%channel.mention%", () => (ch as ITextChannel)?.Mention ?? "#" + ch.Name);
             _reps.TryAdd("%channel.name%", () => ch.Name);
             _reps.TryAdd("%channel.id%", () => ch.Id.ToString());
-            _reps.TryAdd("%channel.created%", () => ch.CreatedAt.ToString("HH:mm dd.MM.YYYY"));
+            _reps.TryAdd("%channel.created%", () => ch.CreatedAt.ToString("HH:mm dd.MM.yyyy"));
             _reps.TryAdd("%channel.nsfw%", () => (ch as ITextChannel)?.IsNsfw.ToString() ?? "-");
             _reps.TryAdd("%channel.topic%", () => (ch as ITextChannel)?.Topic ?? "-");
             return this;
