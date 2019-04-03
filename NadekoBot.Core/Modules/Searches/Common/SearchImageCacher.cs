@@ -117,7 +117,7 @@ namespace NadekoBot.Modules.Searches.Common
             switch (type)
             {
                 case DapiSearchType.Safebooru:
-                    website = $"https://safebooru.org/index.php?page=dapi&s=post&q=index&limit=1000&tags=yuri+kissing&json=1";
+                    website = $"https://safebooru.org/index.php?page=dapi&s=post&q=index&limit=1000&tags={tag}&json=1";
                     break;
                 case DapiSearchType.E621:
                     website = $"https://e621.net/post/index.json?limit=1000&tags={tag}";
