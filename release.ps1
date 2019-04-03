@@ -16,6 +16,20 @@ function Get-Changelog()
     }
 }
 
+function Build-Installer($versionNumber)
+{
+    $env:NADEKOBOT_INSTALL_VERSION = $versionNumber
+
+    dotnet publish -c Release --runtime win7-x64
+    .\rcedit-x64.exe "src\NadekoBot\bin\Release\netcoreapp2.1\win7-x64\nadekobot.exe" --set-icon "src\NadekoBot\bin\Release\netcoreapp2.1\win7-x64\nadeko_icon.ico"
+
+    & "C:\Program Files (x86)\Inno Setup 5\iscc.exe" "/O+" ".\NadekoBot.iss"
+
+    $path = [Environment]::GetFolderPath('MyDocuments') + "\projekti\NadekoInstallerOutput\NadekoBot-setup-$versionNumber.exe";
+    $dest = [Environment]::GetFolderPath('MyDocuments') + "\projekti\NadekoInstallerOutput\nadekobot-setup.exe";
+    Move-Item -Path $path -Destination $dest -Force
+}
+
 function GitHub-Release($versionNumber) {
     [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12
     $ErrorActionPreference = "Stop"
@@ -33,7 +47,6 @@ function GitHub-Release($versionNumber) {
 
     Write-Host $changelog 
 
-    dotnet publish -c Release --runtime win7-x64
 
     # set-alias sz "$env:ProgramFiles\7-Zip\7z.exe" 
     # $source = "src\NadekoBot\bin\Release\PublishOutput\win7-x64" 
@@ -41,12 +54,8 @@ function GitHub-Release($versionNumber) {
 
     # sz 'a' '-mx3' $target $source
 
-    .\rcedit-x64.exe "src\NadekoBot\bin\Release\netcoreapp2.1\win7-x64\nadekobot.exe" --set-icon "src\NadekoBot\bin\Release\netcoreapp2.1\win7-x64\nadeko_icon.ico"
-
-    & "C:\Program Files (x86)\Inno Setup 5\iscc.exe" "/O+" ".\NadekoBot.iss"
-
-    $artifact = "NadekoBot-setup-$versionNumber.exe";
-
+    Build-Installer
+    $artifact = "nadekobot-setup.exe";
     $auth = 'Basic ' + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes($gitHubApiKey + ":x-oauth-basic"));
     Write-Host $changelog
     $result = GitHubMake-Release $versionNumber $commitId $TRUE $gitHubApiKey $auth "" "$changelog"
