@@ -26,7 +26,7 @@ function Build-Installer($versionNumber)
     & "C:\Program Files (x86)\Inno Setup 5\iscc.exe" "/O+" ".\NadekoBot.iss"
 
     $path = [Environment]::GetFolderPath('MyDocuments') + "\projekti\NadekoInstallerOutput\NadekoBot-setup-$versionNumber.exe";
-    $dest = [Environment]::GetFolderPath('MyDocuments') + "\projekti\NadekoInstallerOutput\nadekobot-setup.exe";
+    $dest = [Environment]::GetFolderPath('MyDocuments') + "\projekti\NadekoInstallerOutput\nadeko-setup.exe";
     Move-Item -Path $path -Destination $dest -Force
 }
 
