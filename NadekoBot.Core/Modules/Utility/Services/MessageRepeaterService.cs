@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
+using NadekoBot.Extensions;
 using NadekoBot.Modules.Utility.Common;
 using NLog;
 using System;
@@ -16,9 +17,9 @@ namespace NadekoBot.Modules.Utility.Services
     {
         private readonly DbService _db;
         private readonly Logger _log;
+        private readonly NadekoBot _bot;
+        private readonly DiscordSocketClient _client;
 
-        //messagerepeater
-        //guildid/RepeatRunners
         public ConcurrentDictionary<ulong, ConcurrentDictionary<int, RepeatRunner>> Repeaters { get; set; }
         public bool RepeaterReady { get; private set; }
 
@@ -26,37 +27,50 @@ namespace NadekoBot.Modules.Utility.Services
         {
             _db = db;
             _log = LogManager.GetCurrentClassLogger();
-            var _ = Task.Run(async () =>
+            _bot = bot;
+            _client = client;
+            var _ = LoadRepeaters();
+        }
+
+        private async Task LoadRepeaters()
+        {
+            await _bot.Ready.Task.ConfigureAwait(false);
+#if GLOBAL_NADEKO
+            await Task.Delay(30000);
+#endif
+            _log.Info("Loading message repeaters on shard {ShardId}.", _client.ShardId);
+
+            var repeaters = new Dictionary<ulong, ConcurrentDictionary<int, RepeatRunner>>();
+            var toDelete = new List<Repeater>();
+            foreach (var gc in _bot.AllGuildConfigs)
             {
-                await bot.Ready.Task.ConfigureAwait(false);
-                Repeaters = new ConcurrentDictionary<ulong, ConcurrentDictionary<int, RepeatRunner>>(
-                    bot.AllGuildConfigs
-                        .Select(gc =>
-                        {
-                            try
-                            {
-                                var guild = client.GetGuild(gc.GuildId);
-                                if (guild is null)
-                                    return (0, null);
+                try
+                {
+                    var guild = _client.GetGuild(gc.GuildId);
+                    if (guild is null)
+                    {
+                        _log.Info("Unable to find guild {GuildId} for message repeaters. Removing.", gc.GuildId);
+                        toDelete.AddRange(gc.GuildRepeaters);
+                        continue;
+                    }
 
-                                gc.GuildRepeaters
-                                        .Select(gr => new KeyValuePair<int, RepeatRunner>(gr.Id, new RepeatRunner(guild, gr, this)))
-                                        .Where(x => x.Value.Guild != null);
+                    var idToRepeater = gc.GuildRepeaters
+                        .Select(gr => new KeyValuePair<int, RepeatRunner>(gr.Id, new RepeatRunner(guild, gr, this)))
+                        .ToDictionary(x => x.Key, y => y.Value)
+                        .ToConcurrent();
 
-                                return (gc.GuildId, new ConcurrentDictionary<int, RepeatRunner>());
-                            }
-                            catch (Exception ex)
-                            {
-                                _log.Error("Failed to load repeaters on Guild {0}.", gc.GuildId);
-                                _log.Error(ex);
-                                return (0, null);
-                            }
-                        })
-                        .Where(x => x.Item2 != null)
-                        .ToDictionary(x => x.GuildId, x => x.Item2));
 
-                RepeaterReady = true;
-            });
+                    repeaters.TryAdd(gc.GuildId, idToRepeater);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error("Failed to load repeaters on Guild {0}.", gc.GuildId);
+                    _log.Error(ex);
+                }
+            }
+
+            Repeaters = repeaters.ToConcurrent();
+            RepeaterReady = true;
         }
 
         public async Task RemoveRepeater(Repeater r)

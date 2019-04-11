@@ -1,14 +1,13 @@
 ﻿using Discord;
 using Discord.Commands;
-using NadekoBot.Extensions;
+using NadekoBot.Common.Attributes;
+using NadekoBot.Core.Modules.Gambling.Common.Waifu;
 using NadekoBot.Core.Services.Database.Models;
+using NadekoBot.Extensions;
+using NadekoBot.Modules.Gambling.Services;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using NadekoBot.Common.Attributes;
-using NadekoBot.Modules.Gambling.Services;
-using NadekoBot.Core.Modules.Gambling.Common.Waifu;
-using System.Diagnostics;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -175,7 +174,7 @@ namespace NadekoBot.Modules.Gambling
 
                 if (page > 100)
                     page = 100;
-                
+
                 var waifus = _service.GetTopWaifusAtPage(page);
 
                 if (waifus.Count() == 0)

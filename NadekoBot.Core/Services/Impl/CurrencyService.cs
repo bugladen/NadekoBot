@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.WebSocket;
-using System.Collections.Generic;
-using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Core.Services.Database;
+using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Extensions;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Core.Services
 {
