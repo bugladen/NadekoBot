@@ -38,7 +38,7 @@ If your problem or suggestion is not there, feel free to request/notify us about
 
 **Answer:** You can see the description and usage of certain commands by using `.h command` **i.e** `.h .sm`.
 
-The whole list of commands can be found [here](https://nadekobot.me/commands "Command List")
+The whole list of commands can be found [here](https://nadeko.bot/commands "Command List")
 
 ### Question 7: Music isn't working?
 
@@ -73,8 +73,6 @@ The whole list of commands can be found [here](https://nadekobot.me/commands "Co
 ---
 
 **Answer:** You need to use oauth link to add it to you server, just copy your **CLIENT ID** (that's in the same [Developer page](https://discordapp.com/developers/applications/me) where you brought your token) and replace `12345678` in the link below: **https://discordapp.com/oauth2/authorize?client_id=`12345678`&scope=bot&permissions=66186303**
-
-Follow this Detailed [Guide](https://tukimoop.pw/s/guide.html).
 
 ### Question 12: I'm building NadekoBot from source, but I get hundreds of (namespace) errors without changing anything!?
 

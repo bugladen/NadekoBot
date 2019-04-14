@@ -61,7 +61,7 @@ You can still install them manually:
     - If that still fails, move the `ffmpeg.exe` file to **`C:\Program Files\NadekoBot\system`**.
 - [youtube-dl] - Click on `Windows.exe` (on the top left corner) and download the file. Then move it to **`C:\Program Files\NadekoBot\system`**.
 
-[Updater]: https://download.nadekobot.me/
+[Updater]: https://dl.nadeko.bot/
 [Notepad++]: https://notepad-plus-plus.org/
 [dotNET]: https://www.microsoft.com/net/download/dotnet-core/2.1
 [Redis]: https://github.com/MicrosoftArchive/redis/releases/download/win-3.0.504/Redis-x64-3.0.504.msi

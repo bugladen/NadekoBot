@@ -91,4 +91,4 @@ Yes, there is a way, in one easy command!
 
 *-- Thanks to @applemac for providing the template for this guide*
 
-[Commands List]: https://www.nadekobot.me/commands
+[Commands List]: https://nadeko.bot/commands

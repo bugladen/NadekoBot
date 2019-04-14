@@ -233,7 +233,7 @@ namespace NadekoBot.Modules.Help
         public async Task Guide()
         {
             await ConfirmLocalizedAsync("guide",
-                "https://nadekobot.me/commands",
+                "https://nadeko.bot/commands",
                 "http://nadekobot.readthedocs.io/en/latest/").ConfigureAwait(false);
         }
 
