@@ -15,7 +15,7 @@ namespace NadekoBot.Core.Services.Database.Models
         public int TotalXp { get; set; }
         public DateTime LastLevelUp { get; set; } = DateTime.UtcNow;
         public DateTime LastXpGain { get; set; } = DateTime.MinValue;
-        public XpNotificationType NotifyOnLevelUp { get; set; }
+        public XpNotificationLocation NotifyOnLevelUp { get; set; }
 
         public long CurrencyAmount { get; set; }
 
