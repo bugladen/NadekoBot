@@ -39,4 +39,4 @@ If you want to contribute, be sure to PR on the current **[default][repo]** bran
 [GitLab]: https://gitlab.com/Kwoth/nadekobot
 [Issues]: https://gitlab.com/Kwoth/nadekobot/issues
 [repo]: https://gitlab.com/Kwoth/nadekobot/tree/1.9
-[cmd_list]: https://nadekobot.me/commands
+[cmd_list]: https://nadeko.bot/commands
