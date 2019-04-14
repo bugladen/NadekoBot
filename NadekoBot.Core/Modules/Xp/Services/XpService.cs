@@ -122,7 +122,7 @@ namespace NadekoBot.Modules.Xp.Services
                     await Task.Delay(TimeSpan.FromSeconds(5));
                     try
                     {
-                        var toNotify = new List<(IMessageChannel MessageChannel, IUser User, int Level, XpNotificationType NotifyType, NotifOf NotifOf)>();
+                        var toNotify = new List<(IMessageChannel MessageChannel, IUser User, int Level, XpNotificationLocation NotifyType, NotifOf NotifOf)>();
                         var roleRewards = new Dictionary<ulong, List<XpRoleReward>>();
                         var curRewards = new Dictionary<ulong, List<XpCurrencyReward>>();
 
@@ -162,7 +162,7 @@ namespace NadekoBot.Modules.Xp.Services
                                 {
                                     du.LastLevelUp = DateTime.UtcNow;
                                     var first = item.First();
-                                    if (du.NotifyOnLevelUp != XpNotificationType.None)
+                                    if (du.NotifyOnLevelUp != XpNotificationLocation.None)
                                         toNotify.Add((first.Channel, first.User, newGlobalLevelData.Level, du.NotifyOnLevelUp, NotifOf.Global));
                                 }
 
@@ -171,7 +171,7 @@ namespace NadekoBot.Modules.Xp.Services
                                     usr.LastLevelUp = DateTime.UtcNow;
                                     //send level up notification
                                     var first = item.First();
-                                    if (usr.NotifyOnLevelUp != XpNotificationType.None)
+                                    if (usr.NotifyOnLevelUp != XpNotificationLocation.None)
                                         toNotify.Add((first.Channel, first.User, newGuildLevelData.Level, usr.NotifyOnLevelUp, NotifOf.Server));
 
                                     //give role
@@ -213,7 +213,7 @@ namespace NadekoBot.Modules.Xp.Services
                         {
                             if (x.NotifOf == NotifOf.Server)
                             {
-                                if (x.NotifyType == XpNotificationType.Dm)
+                                if (x.NotifyType == XpNotificationLocation.Dm)
                                 {
                                     var chan = await x.User.GetOrCreateDMChannelAsync();
                                     if (chan != null)
@@ -234,7 +234,7 @@ namespace NadekoBot.Modules.Xp.Services
                             else
                             {
                                 IMessageChannel chan;
-                                if (x.NotifyType == XpNotificationType.Dm)
+                                if (x.NotifyType == XpNotificationLocation.Dm)
                                 {
                                     chan = await x.User.GetOrCreateDMChannelAsync();
                                 }
@@ -388,7 +388,7 @@ namespace NadekoBot.Modules.Xp.Services
             }
         }
 
-        public async Task ChangeNotificationType(ulong userId, ulong guildId, XpNotificationType type)
+        public async Task ChangeNotificationType(ulong userId, ulong guildId, XpNotificationLocation type)
         {
             using (var uow = _db.UnitOfWork)
             {
@@ -398,7 +398,7 @@ namespace NadekoBot.Modules.Xp.Services
             }
         }
 
-        public async Task ChangeNotificationType(IUser user, XpNotificationType type)
+        public async Task ChangeNotificationType(IUser user, XpNotificationLocation type)
         {
             using (var uow = _db.UnitOfWork)
             {

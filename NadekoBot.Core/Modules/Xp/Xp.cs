@@ -2,11 +2,11 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Common.Attributes;
+using NadekoBot.Core.Services;
+using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Xp.Common;
 using NadekoBot.Modules.Xp.Services;
-using NadekoBot.Core.Services;
-using NadekoBot.Core.Services.Database.Models;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -116,7 +116,7 @@ namespace NadekoBot.Modules.Xp
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task XpNotify(NotifyPlace place = NotifyPlace.Guild, XpNotificationType type = XpNotificationType.Channel)
+        public async Task XpNotify(NotifyPlace place = NotifyPlace.Guild, XpNotificationLocation type = XpNotificationLocation.Channel)
         {
             if (place == NotifyPlace.Guild)
                 await _service.ChangeNotificationType(Context.User.Id, Context.Guild.Id, type).ConfigureAwait(false);
@@ -210,7 +210,7 @@ namespace NadekoBot.Modules.Xp
                 {
                     for (int i = 0; i < users.Length; i++)
                     {
-                        var levelStats = LevelStats.FromXp(users[i].Xp + users[i].AwardedXp);
+                        var levelStats = new LevelStats(users[i].Xp + users[i].AwardedXp);
                         var user = ((SocketGuild)Context.Guild).GetUser(users[i].UserId);
 
                         var userXpData = users[i];
@@ -251,7 +251,7 @@ namespace NadekoBot.Modules.Xp
                     var user = users[i];
                     embed.AddField(
                         $"#{(i + 1 + page * 9)} {(user.ToString())}",
-                        $"{GetText("level_x", LevelStats.FromXp(users[i].TotalXp).Level)} - {users[i].TotalXp}xp");
+                        $"{GetText("level_x", new LevelStats(users[i].TotalXp).Level)} - {users[i].TotalXp}xp");
                 }
             }
 
