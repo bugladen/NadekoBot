@@ -149,6 +149,6 @@ WARNING: as the docker.sock is mount into this container, this means in fact tha
 
 ## Additional informations
 
-If you have any issues with the docker setup, you can request some assistance in the in #help channel on our [Discord server](https://discordapp.com/invite/nadekobot), but indicate you are using the docker. As a last resort, you can ping the maintainer @Veovis in the #help channel.
+If you have any issues with the docker setup, you can request some assistance in the in #help channel on our [Discord server](https://discord.nadeko.bot/), but indicate you are using the docker. As a last resort, you can ping the maintainer @Veovis in the #help channel.
 
 For information about configuring your bot or its functionality, please check the [documentation](https://nadekobot.readthedocs.io/en/latest).
