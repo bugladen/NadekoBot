@@ -53,7 +53,7 @@ For a specific command help, use `{1}h CommandName` (for example {1}h {1}q)
 
 
 **LIST OF COMMANDS CAN BE FOUND ON THIS LINK**
-<https://nadekobot.me/commands>
+<https://nadeko.bot/commands>
 
 
 Nadeko Support Server: https://discord.gg/nadekobot";

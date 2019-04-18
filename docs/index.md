@@ -2,7 +2,7 @@
 
 To invite public NadekoBot to your server, click on the image bellow:
 
-[![img][img]](https://discordapp.com/oauth2/authorize?client_id=170254782546575360&scope=bot&permissions=66186303)
+[![img][img]](https://invite.nadeko.bot/)
 
 In case you need any help, hop on the [NadekoBot Server][NadekoBot Server], where we can provide support.
 
@@ -35,7 +35,7 @@ If you want to contribute, be sure to PR on the current **[default][repo]** bran
 - [Donate](Donate.md)
 
 [img]: https://cdn.discordapp.com/attachments/202743183774318593/210580315381563392/discord.png
-[NadekoBot Server]: https://discord.gg/nadekobot
+[NadekoBot Server]: https://discord.nadeko.bot/
 [GitLab]: https://gitlab.com/Kwoth/nadekobot
 [Issues]: https://gitlab.com/Kwoth/nadekobot/issues
 [repo]: https://gitlab.com/Kwoth/nadekobot/tree/1.9

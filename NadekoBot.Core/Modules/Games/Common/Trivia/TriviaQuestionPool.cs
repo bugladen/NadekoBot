@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using NadekoBot.Common;
-using NadekoBot.Extensions;
+﻿using NadekoBot.Common;
 using NadekoBot.Core.Services;
+using NadekoBot.Extensions;
+using System.Collections.Generic;
 
 namespace NadekoBot.Modules.Games.Common.Trivia
 {
@@ -29,11 +29,11 @@ namespace NadekoBot.Modules.Games.Common.Trivia
             if (isPokemon)
             {
                 var num = _rng.Next(1, maxPokemonId + 1);
-                return new TriviaQuestion("Who's That Pokémon?", 
+                return new TriviaQuestion("Who's That Pokémon?",
                     Map[num].ToTitleCase(),
                     "Pokemon",
-                    $@"http://nadekobot.me/images/pokemon/shadows/{num}.png",
-                    $@"http://nadekobot.me/images/pokemon/real/{num}.png");
+                    $@"http://nadeko.bot/images/pokemon/shadows/{num}.png",
+                    $@"http://nadeko.bot/images/pokemon/real/{num}.png");
             }
             TriviaQuestion randomQuestion;
             while (exclude.Contains(randomQuestion = Pool[_rng.Next(0, Pool.Length)])) ;

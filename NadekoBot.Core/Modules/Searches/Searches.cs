@@ -306,11 +306,11 @@ namespace NadekoBot.Modules.Searches
             }
 
             await Context.Channel.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
-                                    .AddField(efb => efb.WithName(GetText("original_url"))
-                                                        .WithValue($"<{query}>"))
-                                    .AddField(efb => efb.WithName(GetText("short_url"))
-                                                        .WithValue($"<{shortened}>")))
-                                    .ConfigureAwait(false);
+                .AddField(efb => efb.WithName(GetText("original_url"))
+                                    .WithValue($"<{query}>"))
+                .AddField(efb => efb.WithName(GetText("short_url"))
+                                    .WithValue($"<{shortened}>")))
+                .ConfigureAwait(false);
         }
 
         // done in 3.0
