@@ -112,6 +112,6 @@ This would start the bot and attach the output of the bot on screen, similiar to
 
 ### Additional Info
 
-If you have any issues with the docker setup, please ping willy_sunny by typing <@113540879297302528> in #help channel on our [Discord server](https://discordapp.com/invite/nadekobot), or dm him directly, but indicate you are using the docker.
+If you have any issues with the docker setup, please ping willy_sunny by typing <@113540879297302528> in #help channel on our [Discord server](https://discord.nadeko.bot/), or dm him directly, but indicate you are using the docker.
 
 For information about configuring your bot or its functionality, please check the [documentation](https://nadekobot.readthedocs.io/en/latest).
