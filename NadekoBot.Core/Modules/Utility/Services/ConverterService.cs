@@ -1,16 +1,16 @@
-﻿using System;
+﻿using Discord.WebSocket;
+using NadekoBot.Core.Services;
+using NadekoBot.Extensions;
+using NadekoBot.Modules.Utility.Common;
+using Newtonsoft.Json;
+using NLog;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Discord.WebSocket;
-using NadekoBot.Core.Services;
-using Newtonsoft.Json;
-using NLog;
-using NadekoBot.Modules.Utility.Common;
-using NadekoBot.Extensions;
 
 namespace NadekoBot.Modules.Utility.Services
 {
@@ -50,7 +50,7 @@ namespace NadekoBot.Modules.Utility.Services
         {
             using (var http = _httpFactory.CreateClient())
             {
-                var res = await http.GetStringAsync("https://convertapi.nadekobot.me/latest").ConfigureAwait(false);
+                var res = await http.GetStringAsync("https://convertapi.nadeko.bot/latest").ConfigureAwait(false);
                 return JsonConvert.DeserializeObject<Rates>(res);
             }
         }

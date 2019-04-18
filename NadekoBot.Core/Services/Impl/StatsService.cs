@@ -218,7 +218,7 @@ namespace NadekoBot.Core.Services.Impl
                             content.Headers.Clear();
                             content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
 
-                            using (await http.PostAsync(new Uri("https://selfstats.nadekobot.me/"), content).ConfigureAwait(false)) { }
+                            using (await http.PostAsync(new Uri("https://selfstats.nadeko.bot/"), content).ConfigureAwait(false)) { }
                         }
                     }
                 }
