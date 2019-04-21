@@ -122,7 +122,7 @@ namespace NadekoBot.Modules.Xp
                 await _service.ChangeNotificationType(Context.User.Id, Context.Guild.Id, type).ConfigureAwait(false);
             else
                 await _service.ChangeNotificationType(Context.User, type).ConfigureAwait(false);
-            await Context.Channel.SendConfirmAsync("👌").ConfigureAwait(false);
+            await Context.OkAsync().ConfigureAwait(false);
         }
 
         public enum Server { Server };
