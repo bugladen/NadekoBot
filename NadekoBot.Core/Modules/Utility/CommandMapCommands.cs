@@ -30,7 +30,7 @@ namespace NadekoBot.Modules.Utility
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public async Task AliasesClear()
             {
                 var count = _service.ClearAliases(Context.Guild.Id);
@@ -38,9 +38,9 @@ namespace NadekoBot.Modules.Utility
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireUserPermission(GuildPermission.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             [RequireContext(ContextType.Guild)]
-            public async Task Alias(string trigger, [Remainder] string mapping = null)
+            public async Task Alias(string trigger, [Leftover] string mapping = null)
             {
                 var channel = (ITextChannel)Context.Channel;
 

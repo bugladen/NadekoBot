@@ -37,7 +37,7 @@ namespace NadekoBot.Modules.Gambling
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task WaifuClaim(int amount, [Remainder]IUser target)
+            public async Task WaifuClaim(int amount, [Leftover]IUser target)
             {
                 if (amount < Bc.BotConfig.MinWaifuPrice)
                 {
@@ -93,12 +93,12 @@ namespace NadekoBot.Modules.Gambling
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [Priority(0)]
-            public Task Divorce([Remainder]IGuildUser target) => Divorce(target.Id);
+            public Task Divorce([Leftover]IGuildUser target) => Divorce(target.Id);
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [Priority(1)]
-            public async Task Divorce([Remainder]ulong targetId)
+            public async Task Divorce([Leftover]ulong targetId)
             {
                 if (targetId == Context.User.Id)
                     return;
@@ -127,7 +127,7 @@ namespace NadekoBot.Modules.Gambling
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task WaifuClaimerAffinity([Remainder]IGuildUser u = null)
+            public async Task WaifuClaimerAffinity([Leftover]IGuildUser u = null)
             {
                 if (u?.Id == Context.User.Id)
                 {
@@ -199,7 +199,7 @@ namespace NadekoBot.Modules.Gambling
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task WaifuInfo([Remainder]IGuildUser target = null)
+            public async Task WaifuInfo([Leftover]IGuildUser target = null)
             {
                 if (target == null)
                     target = (IGuildUser)Context.User;
@@ -260,7 +260,7 @@ namespace NadekoBot.Modules.Gambling
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [Priority(0)]
-            public async Task WaifuGift(WaifuItem.ItemName item, [Remainder] IUser waifu)
+            public async Task WaifuGift(WaifuItem.ItemName item, [Leftover] IUser waifu)
             {
                 if (waifu.Id == Context.User.Id)
                     return;

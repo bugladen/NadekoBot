@@ -23,7 +23,7 @@ namespace NadekoBot.Modules.Games
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             public async Task Cleverbot()
             {
                 var channel = (ITextChannel)Context.Channel;

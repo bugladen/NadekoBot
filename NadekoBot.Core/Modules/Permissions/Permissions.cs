@@ -47,9 +47,9 @@ namespace NadekoBot.Modules.Permissions
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.Administrator)]
+        [UserPerm(GuildPermission.Administrator)]
         [Priority(0)]
-        public async Task PermRole([Remainder] IRole role = null)
+        public async Task PermRole([Leftover] IRole role = null)
         {
             if (role != null && role == role.Guild.EveryoneRole)
                 return;
@@ -84,7 +84,7 @@ namespace NadekoBot.Modules.Permissions
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.Administrator)]
+        [UserPerm(GuildPermission.Administrator)]
         [Priority(1)]
         public async Task PermRole(Reset _)
         {
@@ -272,7 +272,7 @@ namespace NadekoBot.Modules.Permissions
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task UsrCmd(CommandOrCrInfo command, PermissionAction action, [Remainder] IGuildUser user)
+        public async Task UsrCmd(CommandOrCrInfo command, PermissionAction action, [Leftover] IGuildUser user)
         {
             await _service.AddPermissions(Context.Guild.Id, new Permissionv2
             {
@@ -302,7 +302,7 @@ namespace NadekoBot.Modules.Permissions
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task UsrMdl(ModuleOrCrInfo module, PermissionAction action, [Remainder] IGuildUser user)
+        public async Task UsrMdl(ModuleOrCrInfo module, PermissionAction action, [Leftover] IGuildUser user)
         {
             await _service.AddPermissions(Context.Guild.Id, new Permissionv2
             {
@@ -331,7 +331,7 @@ namespace NadekoBot.Modules.Permissions
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task RoleCmd(CommandOrCrInfo command, PermissionAction action, [Remainder] IRole role)
+        public async Task RoleCmd(CommandOrCrInfo command, PermissionAction action, [Leftover] IRole role)
         {
             if (role == role.Guild.EveryoneRole)
                 return;
@@ -364,7 +364,7 @@ namespace NadekoBot.Modules.Permissions
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task RoleMdl(ModuleOrCrInfo module, PermissionAction action, [Remainder] IRole role)
+        public async Task RoleMdl(ModuleOrCrInfo module, PermissionAction action, [Leftover] IRole role)
         {
             if (role == role.Guild.EveryoneRole)
                 return;
@@ -397,7 +397,7 @@ namespace NadekoBot.Modules.Permissions
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task ChnlCmd(CommandOrCrInfo command, PermissionAction action, [Remainder] ITextChannel chnl)
+        public async Task ChnlCmd(CommandOrCrInfo command, PermissionAction action, [Leftover] ITextChannel chnl)
         {
             await _service.AddPermissions(Context.Guild.Id, new Permissionv2
             {
@@ -427,7 +427,7 @@ namespace NadekoBot.Modules.Permissions
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task ChnlMdl(ModuleOrCrInfo module, PermissionAction action, [Remainder] ITextChannel chnl)
+        public async Task ChnlMdl(ModuleOrCrInfo module, PermissionAction action, [Leftover] ITextChannel chnl)
         {
             await _service.AddPermissions(Context.Guild.Id, new Permissionv2
             {
@@ -456,7 +456,7 @@ namespace NadekoBot.Modules.Permissions
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task AllChnlMdls(PermissionAction action, [Remainder] ITextChannel chnl)
+        public async Task AllChnlMdls(PermissionAction action, [Leftover] ITextChannel chnl)
         {
             await _service.AddPermissions(Context.Guild.Id, new Permissionv2
             {
@@ -481,7 +481,7 @@ namespace NadekoBot.Modules.Permissions
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task AllRoleMdls(PermissionAction action, [Remainder] IRole role)
+        public async Task AllRoleMdls(PermissionAction action, [Leftover] IRole role)
         {
             if (role == role.Guild.EveryoneRole)
                 return;
@@ -509,7 +509,7 @@ namespace NadekoBot.Modules.Permissions
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task AllUsrMdls(PermissionAction action, [Remainder] IUser user)
+        public async Task AllUsrMdls(PermissionAction action, [Leftover] IUser user)
         {
             await _service.AddPermissions(Context.Guild.Id, new Permissionv2
             {

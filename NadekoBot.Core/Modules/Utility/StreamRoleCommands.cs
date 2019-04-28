@@ -13,8 +13,8 @@ namespace NadekoBot.Modules.Utility
         public class StreamRoleCommands : NadekoSubmodule<StreamRoleService>
         {
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireBotPermission(GuildPermission.ManageRoles)]
-            [RequireUserPermission(GuildPermission.ManageRoles)]
+            [BotPerm(GuildPermission.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
             [RequireContext(ContextType.Guild)]
             public async Task StreamRole(IRole fromRole, IRole addRole)
             {
@@ -24,8 +24,8 @@ namespace NadekoBot.Modules.Utility
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireBotPermission(GuildPermission.ManageRoles)]
-            [RequireUserPermission(GuildPermission.ManageRoles)]
+            [BotPerm(GuildPermission.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
             [RequireContext(ContextType.Guild)]
             public async Task StreamRole()
             {
@@ -34,10 +34,10 @@ namespace NadekoBot.Modules.Utility
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireBotPermission(GuildPermission.ManageRoles)]
-            [RequireUserPermission(GuildPermission.ManageRoles)]
+            [BotPerm(GuildPermission.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
             [RequireContext(ContextType.Guild)]
-            public async Task StreamRoleKeyword([Remainder]string keyword = null)
+            public async Task StreamRoleKeyword([Leftover]string keyword = null)
             {
                 string kw = await this._service.SetKeyword(Context.Guild, keyword).ConfigureAwait(false);
                 
@@ -48,10 +48,10 @@ namespace NadekoBot.Modules.Utility
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireBotPermission(GuildPermission.ManageRoles)]
-            [RequireUserPermission(GuildPermission.ManageRoles)]
+            [BotPerm(GuildPermission.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
             [RequireContext(ContextType.Guild)]
-            public async Task StreamRoleBlacklist(AddRemove action, [Remainder] IGuildUser user)
+            public async Task StreamRoleBlacklist(AddRemove action, [Leftover] IGuildUser user)
             {
                 var success = await this._service.ApplyListAction(StreamRoleListType.Blacklist, Context.Guild, action, user.Id, user.ToString())
                     .ConfigureAwait(false);
@@ -69,10 +69,10 @@ namespace NadekoBot.Modules.Utility
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireBotPermission(GuildPermission.ManageRoles)]
-            [RequireUserPermission(GuildPermission.ManageRoles)]
+            [BotPerm(GuildPermission.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
             [RequireContext(ContextType.Guild)]
-            public async Task StreamRoleWhitelist(AddRemove action, [Remainder] IGuildUser user)
+            public async Task StreamRoleWhitelist(AddRemove action, [Leftover] IGuildUser user)
             {
                 var success = await this._service.ApplyListAction(StreamRoleListType.Whitelist, Context.Guild, action, user.Id, user.ToString())
                     .ConfigureAwait(false);

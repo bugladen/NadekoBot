@@ -17,8 +17,8 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageRoles)]
-            public async Task AutoAssignRole([Remainder] IRole role = null)
+            [UserPerm(GuildPermission.ManageRoles)]
+            public async Task AutoAssignRole([Leftover] IRole role = null)
             {
                 var guser = (IGuildUser)Context.User;
                 if (role != null)

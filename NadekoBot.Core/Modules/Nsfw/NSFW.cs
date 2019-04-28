@@ -105,7 +105,7 @@ namespace NadekoBot.Modules.NSFW
         [NadekoCommand, Usage, Description, Aliases]
         [RequireNsfw]
         [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(ChannelPermission.ManageMessages)]
+        [UserPerm(ChannelPermission.ManageMessages)]
         public async Task AutoHentai(int interval = 0, string tags = null)
         {
             Timer t;
@@ -153,7 +153,7 @@ namespace NadekoBot.Modules.NSFW
         [NadekoCommand, Usage, Description, Aliases]
         [RequireNsfw]
         [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(ChannelPermission.ManageMessages)]
+        [UserPerm(ChannelPermission.ManageMessages)]
         public async Task AutoBoobs(int interval = 0)
         {
             Timer t;
@@ -193,7 +193,7 @@ namespace NadekoBot.Modules.NSFW
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-        [RequireUserPermission(ChannelPermission.ManageMessages)]
+        [UserPerm(ChannelPermission.ManageMessages)]
         public async Task AutoButts(int interval = 0)
         {
             Timer t;
@@ -234,12 +234,12 @@ namespace NadekoBot.Modules.NSFW
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-        public Task Hentai([Remainder] string tag = null) =>
+        public Task Hentai([Leftover] string tag = null) =>
             InternalHentai(Context.Channel, tag);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-        public async Task HentaiBomb([Remainder] string tag = null)
+        public async Task HentaiBomb([Leftover] string tag = null)
         {
             if (!_hentaiBombBlacklist.Add(Context.Guild?.Id ?? Context.User.Id))
                 return;
@@ -267,37 +267,37 @@ namespace NadekoBot.Modules.NSFW
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-        public Task Yandere([Remainder] string tag = null)
+        public Task Yandere([Leftover] string tag = null)
             => InternalDapiCommand(tag, DapiSearchType.Yandere, false);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-        public Task Konachan([Remainder] string tag = null)
+        public Task Konachan([Leftover] string tag = null)
             => InternalDapiCommand(tag, DapiSearchType.Konachan, false);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-        public Task E621([Remainder] string tag = null)
+        public Task E621([Leftover] string tag = null)
             => InternalDapiCommand(tag, DapiSearchType.E621, false);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-        public Task Rule34([Remainder] string tag = null)
+        public Task Rule34([Leftover] string tag = null)
             => InternalDapiCommand(tag, DapiSearchType.Rule34, false);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-        public Task Danbooru([Remainder] string tag = null)
+        public Task Danbooru([Leftover] string tag = null)
             => InternalDapiCommand(tag, DapiSearchType.Danbooru, false);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-        public Task Gelbooru([Remainder] string tag = null)
+        public Task Gelbooru([Leftover] string tag = null)
             => InternalDapiCommand(tag, DapiSearchType.Gelbooru, false);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-        public Task Derpibooru([Remainder] string tag = null)
+        public Task Derpibooru([Leftover] string tag = null)
             => InternalDapiCommand(tag, DapiSearchType.Derpibooru, false);
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -340,8 +340,8 @@ namespace NadekoBot.Modules.NSFW
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.ManageMessages)]
-        public async Task NsfwTagBlacklist([Remainder] string tag = null)
+        [UserPerm(GuildPermission.ManageMessages)]
+        public async Task NsfwTagBlacklist([Leftover] string tag = null)
         {
             if (string.IsNullOrWhiteSpace(tag))
             {

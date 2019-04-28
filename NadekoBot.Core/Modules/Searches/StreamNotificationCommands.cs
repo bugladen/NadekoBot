@@ -31,8 +31,8 @@ namespace NadekoBot.Modules.Searches
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageMessages)]
-            public Task Smashcast([Remainder] string username) =>
+            [UserPerm(GuildPermission.ManageMessages)]
+            public Task Smashcast([Leftover] string username) =>
                 smashcastRegex.IsMatch(username)
                 ? StreamAdd(username)
                 : TrackStream((ITextChannel)Context.Channel,
@@ -41,8 +41,8 @@ namespace NadekoBot.Modules.Searches
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageMessages)]
-            public Task Twitch([Remainder] string username) =>
+            [UserPerm(GuildPermission.ManageMessages)]
+            public Task Twitch([Leftover] string username) =>
                 twitchRegex.IsMatch(username)
                 ? StreamAdd(username)
                 : TrackStream((ITextChannel)Context.Channel,
@@ -51,8 +51,8 @@ namespace NadekoBot.Modules.Searches
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageMessages)]
-            public Task Picarto([Remainder] string username) =>
+            [UserPerm(GuildPermission.ManageMessages)]
+            public Task Picarto([Leftover] string username) =>
                 picartoRegex.IsMatch(username)
                 ? StreamAdd(username)
                 : TrackStream((ITextChannel)Context.Channel,
@@ -61,8 +61,8 @@ namespace NadekoBot.Modules.Searches
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageMessages)]
-            public Task Mixer([Remainder] string username) =>
+            [UserPerm(GuildPermission.ManageMessages)]
+            public Task Mixer([Leftover] string username) =>
                 mixerRegex.IsMatch(username)
                 ? StreamAdd(username)
                 : TrackStream((ITextChannel)Context.Channel,
@@ -88,7 +88,7 @@ namespace NadekoBot.Modules.Searches
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             public async Task StreamAdd(string link)
             {
                 var streamRegexes = new(Func<string, Task> Func, Regex Regex)[]
@@ -114,7 +114,7 @@ namespace NadekoBot.Modules.Searches
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             [Priority(0)]
             public async Task StreamRemove(string link)
             {
@@ -141,7 +141,7 @@ namespace NadekoBot.Modules.Searches
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public async Task StreamsClear()
             {
                 var count = _service.ClearAllStreams(Context.Guild.Id);
@@ -204,7 +204,7 @@ namespace NadekoBot.Modules.Searches
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             public async Task StreamOffline()
             {
                 var newValue = _service.ToggleStreamOffline(Context.Guild.Id);
@@ -220,8 +220,8 @@ namespace NadekoBot.Modules.Searches
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageMessages)]
-            public async Task StreamMessage(string url, [Remainder] string message)
+            [UserPerm(GuildPermission.ManageMessages)]
+            public async Task StreamMessage(string url, [Leftover] string message)
             {
                 if (!GetNameAndType(url, out var info))
                 {
@@ -262,9 +262,9 @@ namespace NadekoBot.Modules.Searches
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             [Priority(1)]
-            public async Task StreamRemove(FollowedStream.FType type, [Remainder] string username)
+            public async Task StreamRemove(FollowedStream.FType type, [Leftover] string username)
             {
                 username = username.ToLowerInvariant().Trim();
 
@@ -301,7 +301,7 @@ namespace NadekoBot.Modules.Searches
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task CheckStream(FollowedStream.FType platform, [Remainder] string username)
+            public async Task CheckStream(FollowedStream.FType platform, [Leftover] string username)
             {
                 var stream = username?.Trim();
                 if (string.IsNullOrWhiteSpace(stream))

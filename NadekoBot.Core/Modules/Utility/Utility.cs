@@ -57,7 +57,7 @@ namespace NadekoBot.Modules.Utility
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task WhosPlaying([Remainder] string game)
+        public async Task WhosPlaying([Leftover] string game)
         {
             game = game?.Trim().ToUpperInvariant();
             if (string.IsNullOrWhiteSpace(game))
@@ -89,7 +89,7 @@ namespace NadekoBot.Modules.Utility
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task InRole([Remainder] IRole role)
+        public async Task InRole([Leftover] IRole role)
         {
             var rng = new NadekoRandom();
             var usrs = (await Context.Guild.GetUsersAsync().ConfigureAwait(false)).ToArray();
@@ -126,7 +126,7 @@ namespace NadekoBot.Modules.Utility
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task UserId([Remainder] IGuildUser target = null)
+        public async Task UserId([Leftover] IGuildUser target = null)
         {
             var usr = target ?? Context.User;
             await ReplyConfirmLocalizedAsync("userid", "🆔", Format.Bold(usr.ToString()),
@@ -135,7 +135,7 @@ namespace NadekoBot.Modules.Utility
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task RoleId([Remainder] IRole role)
+        public async Task RoleId([Leftover] IRole role)
         {
             await ReplyConfirmLocalizedAsync("roleid", "🆔", Format.Bold(role.ToString()),
                 Format.Code(role.Id.ToString())).ConfigureAwait(false);
@@ -204,7 +204,7 @@ namespace NadekoBot.Modules.Utility
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task ChannelTopic([Remainder]ITextChannel channel = null)
+        public async Task ChannelTopic([Leftover]ITextChannel channel = null)
         {
             if (channel == null)
                 channel = (ITextChannel)Context.Channel;
@@ -242,7 +242,7 @@ namespace NadekoBot.Modules.Utility
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task Showemojis([Remainder] string _) // need to have the parameter so that the message.tags gets populated
+        public async Task Showemojis([Leftover] string _) // need to have the parameter so that the message.tags gets populated
         {
             var tags = Context.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(t => (Emote)t.Value);
 

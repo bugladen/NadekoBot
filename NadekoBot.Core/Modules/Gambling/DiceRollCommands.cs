@@ -185,7 +185,7 @@ namespace NadekoBot.Modules.Gambling
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            public async Task NRoll([Remainder] string range)
+            public async Task NRoll([Leftover] string range)
             {
                 int rolled;
                 if (range.Contains("-"))

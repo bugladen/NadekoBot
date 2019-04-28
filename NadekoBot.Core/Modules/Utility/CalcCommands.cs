@@ -15,7 +15,7 @@ namespace NadekoBot.Modules.Utility
         public class CalcCommands : NadekoSubmodule
         {
             [NadekoCommand, Usage, Description, Aliases]
-            public async Task Calculate([Remainder] string expression)
+            public async Task Calculate([Leftover] string expression)
             {
                 var expr = new NCalc.Expression(expression, NCalc.EvaluateOptions.IgnoreCase | NCalc.EvaluateOptions.NoCache);
                 expr.EvaluateParameter += Expr_EvaluateParameter;

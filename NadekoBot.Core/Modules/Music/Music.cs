@@ -143,7 +143,7 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Play([Remainder] string query = null)
+        public async Task Play([Leftover] string query = null)
         {
             var mp = await _service.GetOrCreatePlayer(Context).ConfigureAwait(false);
             if (string.IsNullOrWhiteSpace(query))
@@ -167,7 +167,7 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public Task Queue([Remainder] string query)
+        public Task Queue([Leftover] string query)
             => InternalPlay(query, forceplay: false);
 
         private async Task InternalPlay(string query, bool forceplay)
@@ -183,7 +183,7 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task QueueNext([Remainder] string query)
+        public async Task QueueNext([Leftover] string query)
         {
             var mp = await _service.GetOrCreatePlayer(Context).ConfigureAwait(false);
             var songInfo = await _service.ResolveSong(query, Context.User.ToString()).ConfigureAwait(false);
@@ -196,7 +196,7 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task QueueSearch([Remainder] string query)
+        public async Task QueueSearch([Leftover] string query)
         {
             var videos = (await _google.GetVideoInfosByKeywordAsync(query, 5).ConfigureAwait(false))
                 .ToArray();
@@ -380,7 +380,7 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Defvol([Remainder] int val)
+        public async Task Defvol([Leftover] int val)
         {
             if (val < 0 || val > 100)
             {
@@ -438,7 +438,7 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Playlists([Remainder] int num = 1)
+        public async Task Playlists([Leftover] int num = 1)
         {
             if (num <= 0)
                 return;
@@ -460,7 +460,7 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task DeletePlaylist([Remainder] int id)
+        public async Task DeletePlaylist([Leftover] int id)
         {
             var success = false;
             try
@@ -520,7 +520,7 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Save([Remainder] string name)
+        public async Task Save([Leftover] string name)
         {
             var mp = await _service.GetOrCreatePlayer(Context).ConfigureAwait(false);
 
@@ -557,7 +557,7 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Load([Remainder] int id)
+        public async Task Load([Leftover] int id)
         {
             if (!PlaylistLoadBlacklist.Add(Context.Guild.Id))
                 return;
@@ -637,7 +637,7 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task SoundCloudQueue([Remainder] string query)
+        public async Task SoundCloudQueue([Leftover] string query)
         {
             var mp = await _service.GetOrCreatePlayer(Context).ConfigureAwait(false);
             var song = await _service.ResolveSong(query, Context.User.ToString(), MusicType.Soundcloud).ConfigureAwait(false);
@@ -646,7 +646,7 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task SoundCloudPl([Remainder] string pl)
+        public async Task SoundCloudPl([Leftover] string pl)
         {
             pl = pl?.Trim();
 
@@ -713,7 +713,7 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Playlist([Remainder] string playlist)
+        public async Task Playlist([Leftover] string playlist)
         {
             if (string.IsNullOrWhiteSpace(playlist))
                 return;
@@ -773,7 +773,7 @@ namespace NadekoBot.Modules.Music
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
-        public async Task Local([Remainder] string path)
+        public async Task Local([Leftover] string path)
         {
             var mp = await _service.GetOrCreatePlayer(Context).ConfigureAwait(false);
             var song = await _service.ResolveSong(path, Context.User.ToString(), MusicType.Local).ConfigureAwait(false);
@@ -783,7 +783,7 @@ namespace NadekoBot.Modules.Music
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
-        public async Task LocalPl([Remainder] string dirPath)
+        public async Task LocalPl([Leftover] string dirPath)
         {
             if (string.IsNullOrWhiteSpace(dirPath))
                 return;
@@ -834,7 +834,7 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task MoveSong([Remainder] string fromto)
+        public async Task MoveSong([Leftover] string fromto)
         {
             if (string.IsNullOrWhiteSpace(fromto))
                 return;
@@ -944,7 +944,7 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.ManageMessages)]
+        [UserPerm(GuildPermission.ManageMessages)]
         public async Task SetMusicChannel()
         {
             var mp = await _service.GetOrCreatePlayer(Context).ConfigureAwait(false);
@@ -957,7 +957,7 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.ManageMessages)]
+        [UserPerm(GuildPermission.ManageMessages)]
         public async Task UnsetMusicChannel()
         {
             var mp = await _service.GetOrCreatePlayer(Context).ConfigureAwait(false);

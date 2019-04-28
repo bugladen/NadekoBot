@@ -35,7 +35,7 @@ namespace NadekoBot.Modules.Utility
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             public async Task RepeatInvoke(int index)
             {
                 if (!_service.RepeaterReady)
@@ -63,7 +63,7 @@ namespace NadekoBot.Modules.Utility
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             public async Task RepeatRemove(int index)
             {
                 if (!_service.RepeaterReady)
@@ -102,7 +102,7 @@ namespace NadekoBot.Modules.Utility
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             [NadekoOptions(typeof(Repeater.Options))]
             [Priority(0)]
             public Task Repeat(params string[] options)
@@ -110,7 +110,7 @@ namespace NadekoBot.Modules.Utility
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             [NadekoOptions(typeof(Repeater.Options))]
             [Priority(1)]
             public async Task Repeat(GuildDateTime dt, params string[] options)
@@ -171,7 +171,7 @@ namespace NadekoBot.Modules.Utility
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             public async Task RepeatList()
             {
                 if (!_service.RepeaterReady)

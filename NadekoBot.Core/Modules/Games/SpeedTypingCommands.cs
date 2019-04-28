@@ -67,7 +67,7 @@ namespace NadekoBot.Modules.Games
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [OwnerOnly]
-            public async Task Typeadd([Remainder] string text)
+            public async Task Typeadd([Leftover] string text)
             {
                 var channel = (ITextChannel)Context.Channel;
                 if (string.IsNullOrWhiteSpace(text))

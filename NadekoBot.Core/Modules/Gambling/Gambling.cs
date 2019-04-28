@@ -128,7 +128,7 @@ namespace NadekoBot.Modules.Gambling
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Raffle([Remainder] IRole role = null)
+        public async Task Raffle([Leftover] IRole role = null)
         {
             role = role ?? Context.Guild.EveryoneRole;
 
@@ -144,7 +144,7 @@ namespace NadekoBot.Modules.Gambling
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task RaffleAny([Remainder] IRole role = null)
+        public async Task RaffleAny([Leftover] IRole role = null)
         {
             role = role ?? Context.Guild.EveryoneRole;
 
@@ -160,7 +160,7 @@ namespace NadekoBot.Modules.Gambling
 
         [NadekoCommand, Usage, Description, Aliases]
         [Priority(1)]
-        public async Task Cash([Remainder] IUser user = null)
+        public async Task Cash([Leftover] IUser user = null)
         {
             user = user ?? Context.User;
             await ConfirmLocalizedAsync("has", Format.Bold(user.ToString()), $"{GetCurrency(user.Id)} {CurrencySign}").ConfigureAwait(false);
@@ -174,7 +174,7 @@ namespace NadekoBot.Modules.Gambling
         [NadekoCommand, Usage, Description, Aliases]
         [OwnerOnly]
         [Priority(0)]
-        public Task CurrencyTransactions([Remainder] IUser usr) =>
+        public Task CurrencyTransactions([Leftover] IUser usr) =>
             InternalCurrencyTransactions(usr.Id, 1);
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -222,7 +222,7 @@ namespace NadekoBot.Modules.Gambling
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [Priority(0)]
-        public async Task Give(ShmartNumber amount, IGuildUser receiver, [Remainder] string msg = null)
+        public async Task Give(ShmartNumber amount, IGuildUser receiver, [Leftover] string msg = null)
         {
             if (amount <= 0 || Context.User.Id == receiver.Id || receiver.IsBot)
                 return;
@@ -240,27 +240,27 @@ namespace NadekoBot.Modules.Gambling
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [Priority(1)]
-        public Task Give(ShmartNumber amount, [Remainder] IGuildUser receiver)
+        public Task Give(ShmartNumber amount, [Leftover] IGuildUser receiver)
             => Give(amount, receiver, null);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
         [Priority(0)]
-        public Task Award(ShmartNumber amount, IGuildUser usr, [Remainder] string msg) =>
+        public Task Award(ShmartNumber amount, IGuildUser usr, [Leftover] string msg) =>
             Award(amount, usr.Id, msg);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
         [Priority(1)]
-        public Task Award(ShmartNumber amount, [Remainder] IGuildUser usr) =>
+        public Task Award(ShmartNumber amount, [Leftover] IGuildUser usr) =>
             Award(amount, usr.Id);
 
         [NadekoCommand, Usage, Description, Aliases]
         [OwnerOnly]
         [Priority(2)]
-        public async Task Award(ShmartNumber amount, ulong usrId, [Remainder] string msg = null)
+        public async Task Award(ShmartNumber amount, ulong usrId, [Leftover] string msg = null)
         {
             if (amount <= 0)
                 return;
@@ -276,7 +276,7 @@ namespace NadekoBot.Modules.Gambling
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
         [Priority(2)]
-        public async Task Award(ShmartNumber amount, [Remainder] IRole role)
+        public async Task Award(ShmartNumber amount, [Leftover] IRole role)
         {
             var users = (await Context.Guild.GetUsersAsync().ConfigureAwait(false))
                                .Where(u => u.GetRoles().Contains(role))
@@ -297,7 +297,7 @@ namespace NadekoBot.Modules.Gambling
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
-        public async Task Take(ShmartNumber amount, [Remainder] IGuildUser user)
+        public async Task Take(ShmartNumber amount, [Leftover] IGuildUser user)
         {
             if (amount <= 0)
                 return;
@@ -312,7 +312,7 @@ namespace NadekoBot.Modules.Gambling
 
         [NadekoCommand, Usage, Description, Aliases]
         [OwnerOnly]
-        public async Task Take(ShmartNumber amount, [Remainder] ulong usrId)
+        public async Task Take(ShmartNumber amount, [Leftover] ulong usrId)
         {
             if (amount <= 0)
                 return;

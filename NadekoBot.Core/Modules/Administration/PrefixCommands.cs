@@ -20,9 +20,9 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             [Priority(0)]
-            public new async Task Prefix([Remainder]string prefix)
+            public new async Task Prefix([Leftover]string prefix)
             {
                 if (string.IsNullOrWhiteSpace(prefix))
                     return;
@@ -35,7 +35,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task DefPrefix([Remainder]string prefix = null)
+            public async Task DefPrefix([Leftover]string prefix = null)
             {
                 if (string.IsNullOrWhiteSpace(prefix))
                 {

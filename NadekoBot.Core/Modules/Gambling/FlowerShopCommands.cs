@@ -203,9 +203,9 @@ namespace NadekoBot.Modules.Gambling
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.Administrator)]
-            [RequireBotPermission(GuildPermission.ManageRoles)]
-            public async Task ShopAdd(Role _, int price, [Remainder] IRole role)
+            [UserPerm(GuildPermission.Administrator)]
+            [BotPerm(GuildPermission.ManageRoles)]
+            public async Task ShopAdd(Role _, int price, [Leftover] IRole role)
             {
                 var entry = new ShopEntry()
                 {
@@ -233,8 +233,8 @@ namespace NadekoBot.Modules.Gambling
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.Administrator)]
-            public async Task ShopAdd(List _, int price, [Remainder]string name)
+            [UserPerm(GuildPermission.Administrator)]
+            public async Task ShopAdd(List _, int price, [Leftover]string name)
             {
                 var entry = new ShopEntry()
                 {
@@ -261,8 +261,8 @@ namespace NadekoBot.Modules.Gambling
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.Administrator)]
-            public async Task ShopListAdd(int index, [Remainder] string itemText)
+            [UserPerm(GuildPermission.Administrator)]
+            public async Task ShopListAdd(int index, [Leftover] string itemText)
             {
                 index -= 1;
                 if (index < 0)
@@ -300,7 +300,7 @@ namespace NadekoBot.Modules.Gambling
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public async Task ShopRemove(int index)
             {
                 index -= 1;

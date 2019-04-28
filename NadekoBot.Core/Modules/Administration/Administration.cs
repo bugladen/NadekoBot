@@ -1,13 +1,11 @@
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Administration.Services;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -17,8 +15,8 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.Administrator)]
-        [RequireBotPermission(GuildPermission.ManageMessages)]
+        [UserPerm(GuildPermission.Administrator)]
+        [BotPerm(GuildPermission.ManageMessages)]
         [Priority(2)]
         public async Task Delmsgoncmd(List _)
         {
@@ -50,8 +48,8 @@ namespace NadekoBot.Modules.Administration
         public enum Server { Server }
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.Administrator)]
-        [RequireBotPermission(GuildPermission.ManageMessages)]
+        [UserPerm(GuildPermission.Administrator)]
+        [BotPerm(GuildPermission.ManageMessages)]
         [Priority(1)]
         public async Task Delmsgoncmd(Server _ = Server.Server)
         {
@@ -72,16 +70,16 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.Administrator)]
-        [RequireBotPermission(GuildPermission.ManageMessages)]
+        [UserPerm(GuildPermission.Administrator)]
+        [BotPerm(GuildPermission.ManageMessages)]
         [Priority(0)]
         public Task Delmsgoncmd(Channel _, State s, ITextChannel ch)
             => Delmsgoncmd(_, s, ch.Id);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.Administrator)]
-        [RequireBotPermission(GuildPermission.ManageMessages)]
+        [UserPerm(GuildPermission.Administrator)]
+        [BotPerm(GuildPermission.ManageMessages)]
         [Priority(1)]
         public async Task Delmsgoncmd(Channel _, State s, ulong? chId = null)
         {
@@ -104,19 +102,18 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.DeafenMembers)]
-        [RequireBotPermission(GuildPermission.DeafenMembers)]
+        [UserPerm(GuildPermission.DeafenMembers)]
+        [BotPerm(GuildPermission.DeafenMembers)]
         public async Task Deafen(params IGuildUser[] users)
         {
             await _service.DeafenUsers(true, users).ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("deafen").ConfigureAwait(false);
-
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.DeafenMembers)]
-        [RequireBotPermission(GuildPermission.DeafenMembers)]
+        [UserPerm(GuildPermission.DeafenMembers)]
+        [BotPerm(GuildPermission.DeafenMembers)]
         public async Task UnDeafen(params IGuildUser[] users)
         {
             await _service.DeafenUsers(false, users).ConfigureAwait(false);
@@ -125,9 +122,9 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.ManageChannels)]
-        [RequireBotPermission(GuildPermission.ManageChannels)]
-        public async Task DelVoiChanl([Remainder] IVoiceChannel voiceChannel)
+        [UserPerm(GuildPermission.ManageChannels)]
+        [BotPerm(GuildPermission.ManageChannels)]
+        public async Task DelVoiChanl([Leftover] IVoiceChannel voiceChannel)
         {
             await voiceChannel.DeleteAsync().ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("delvoich", Format.Bold(voiceChannel.Name)).ConfigureAwait(false);
@@ -135,9 +132,9 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.ManageChannels)]
-        [RequireBotPermission(GuildPermission.ManageChannels)]
-        public async Task CreatVoiChanl([Remainder] string channelName)
+        [UserPerm(GuildPermission.ManageChannels)]
+        [BotPerm(GuildPermission.ManageChannels)]
+        public async Task CreatVoiChanl([Leftover] string channelName)
         {
             var ch = await Context.Guild.CreateVoiceChannelAsync(channelName).ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("createvoich", Format.Bold(ch.Name)).ConfigureAwait(false);
@@ -145,9 +142,9 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.ManageChannels)]
-        [RequireBotPermission(GuildPermission.ManageChannels)]
-        public async Task DelTxtChanl([Remainder] ITextChannel toDelete)
+        [UserPerm(GuildPermission.ManageChannels)]
+        [BotPerm(GuildPermission.ManageChannels)]
+        public async Task DelTxtChanl([Leftover] ITextChannel toDelete)
         {
             await toDelete.DeleteAsync().ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("deltextchan", Format.Bold(toDelete.Name)).ConfigureAwait(false);
@@ -155,9 +152,9 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.ManageChannels)]
-        [RequireBotPermission(GuildPermission.ManageChannels)]
-        public async Task CreaTxtChanl([Remainder] string channelName)
+        [UserPerm(GuildPermission.ManageChannels)]
+        [BotPerm(GuildPermission.ManageChannels)]
+        public async Task CreaTxtChanl([Leftover] string channelName)
         {
             var txtCh = await Context.Guild.CreateTextChannelAsync(channelName).ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("createtextchan", Format.Bold(txtCh.Name)).ConfigureAwait(false);
@@ -165,9 +162,9 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.ManageChannels)]
-        [RequireBotPermission(GuildPermission.ManageChannels)]
-        public async Task SetTopic([Remainder] string topic = null)
+        [UserPerm(GuildPermission.ManageChannels)]
+        [BotPerm(GuildPermission.ManageChannels)]
+        public async Task SetTopic([Leftover] string topic = null)
         {
             var channel = (ITextChannel)Context.Channel;
             topic = topic ?? "";
@@ -177,9 +174,9 @@ namespace NadekoBot.Modules.Administration
         }
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.ManageChannels)]
-        [RequireBotPermission(GuildPermission.ManageChannels)]
-        public async Task SetChanlName([Remainder] string name)
+        [UserPerm(GuildPermission.ManageChannels)]
+        [BotPerm(GuildPermission.ManageChannels)]
+        public async Task SetChanlName([Leftover] string name)
         {
             var channel = (ITextChannel)Context.Channel;
             await channel.ModifyAsync(c => c.Name = name).ConfigureAwait(false);
@@ -188,8 +185,8 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.ManageMessages)]
-        public async Task Edit(ulong messageId, [Remainder] string text)
+        [UserPerm(GuildPermission.ManageMessages)]
+        public async Task Edit(ulong messageId, [Leftover] string text)
         {
             if (string.IsNullOrWhiteSpace(text))
                 return;

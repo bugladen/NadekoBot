@@ -26,8 +26,8 @@ namespace NadekoBot.Modules.Searches
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageMessages)]
-            public async Task Feed(string url, [Remainder] ITextChannel channel = null)
+            [UserPerm(GuildPermission.ManageMessages)]
+            public async Task Feed(string url, [Leftover] ITextChannel channel = null)
             {
                 var success = Uri.TryCreate(url, UriKind.Absolute, out var uri) &&
                     (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);
@@ -64,7 +64,7 @@ namespace NadekoBot.Modules.Searches
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             public async Task FeedRemove(int index)
             {
                 if (_service.RemoveFeed(Context.Guild.Id, --index))
@@ -77,7 +77,7 @@ namespace NadekoBot.Modules.Searches
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             public async Task FeedList()
             {
                 var feeds = _service.GetFeeds(Context.Guild.Id);

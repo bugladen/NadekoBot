@@ -35,7 +35,7 @@ namespace NadekoBot.Modules.Utility
 
             [NadekoCommand, Usage, Description, Aliases]
             [Priority(1)]
-            public async Task Remind(MeOrHere meorhere, StoopidTime time, [Remainder] string message)
+            public async Task Remind(MeOrHere meorhere, StoopidTime time, [Leftover] string message)
             {
                 ulong target;
                 target = meorhere == MeOrHere.Me ? Context.User.Id : Context.Channel.Id;
@@ -47,9 +47,9 @@ namespace NadekoBot.Modules.Utility
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             [Priority(0)]
-            public async Task Remind(ITextChannel channel, StoopidTime time, [Remainder] string message)
+            public async Task Remind(ITextChannel channel, StoopidTime time, [Leftover] string message)
             {
                 var perms = ((IGuildUser)Context.User).GetPermissions((ITextChannel)channel);
                 if (!perms.SendMessages || !perms.ViewChannel)
@@ -138,7 +138,7 @@ namespace NadekoBot.Modules.Utility
                 }
             }
 
-            public async Task<bool> RemindInternal(ulong targetId, bool isPrivate, TimeSpan ts, [Remainder] string message)
+            public async Task<bool> RemindInternal(ulong targetId, bool isPrivate, TimeSpan ts, [Leftover] string message)
             {
                 var time = DateTime.UtcNow + ts;
 
@@ -183,7 +183,7 @@ namespace NadekoBot.Modules.Utility
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task RemindTemplate([Remainder] string arg)
+            public async Task RemindTemplate([Leftover] string arg)
             {
                 if (string.IsNullOrWhiteSpace(arg))
                     return;

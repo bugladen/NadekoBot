@@ -161,7 +161,7 @@ namespace NadekoBot.Modules.Help
 
         [NadekoCommand, Usage, Description, Aliases]
         [Priority(0)]
-        public async Task H([Remainder] string fail)
+        public async Task H([Leftover] string fail)
         {
             var prefixless = _cmds.Commands.FirstOrDefault(x => x.Aliases.Any(cmdName => cmdName.ToLowerInvariant() == fail));
             if (prefixless != null)
@@ -175,7 +175,7 @@ namespace NadekoBot.Modules.Help
 
         [NadekoCommand, Usage, Description, Aliases]
         [Priority(1)]
-        public async Task H([Remainder] CommandInfo com = null)
+        public async Task H([Leftover] CommandInfo com = null)
         {
             var channel = Context.Channel;
 

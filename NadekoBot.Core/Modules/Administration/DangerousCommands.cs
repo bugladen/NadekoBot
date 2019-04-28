@@ -42,7 +42,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public Task SqlSelect([Remainder]string sql)
+            public Task SqlSelect([Leftover]string sql)
             {
                 var result = _service.SelectSql(sql);
 
@@ -69,7 +69,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public Task SqlExec([Remainder]string sql) =>
+            public Task SqlExec([Leftover]string sql) =>
                 InternalExecSql(sql);
 
             [NadekoCommand, Usage, Description, Aliases]

@@ -55,7 +55,7 @@ namespace NadekoBot.Modules.Utility
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task ShowQuote([Remainder] string keyword)
+            public async Task ShowQuote([Leftover] string keyword)
             {
                 if (string.IsNullOrWhiteSpace(keyword))
                     return;
@@ -92,7 +92,7 @@ namespace NadekoBot.Modules.Utility
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task QuoteSearch(string keyword, [Remainder] string text)
+            public async Task QuoteSearch(string keyword, [Leftover] string text)
             {
                 if (string.IsNullOrWhiteSpace(keyword) || string.IsNullOrWhiteSpace(text))
                     return;
@@ -156,7 +156,7 @@ namespace NadekoBot.Modules.Utility
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task AddQuote(string keyword, [Remainder] string text)
+            public async Task AddQuote(string keyword, [Leftover] string text)
             {
                 if (string.IsNullOrWhiteSpace(keyword) || string.IsNullOrWhiteSpace(text))
                     return;
@@ -210,8 +210,8 @@ namespace NadekoBot.Modules.Utility
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.Administrator)]
-            public async Task DelAllQuotes([Remainder] string keyword)
+            [UserPerm(GuildPermission.Administrator)]
+            public async Task DelAllQuotes([Leftover] string keyword)
             {
                 if (string.IsNullOrWhiteSpace(keyword))
                     return;

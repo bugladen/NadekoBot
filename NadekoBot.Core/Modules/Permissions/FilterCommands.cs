@@ -26,7 +26,7 @@ namespace NadekoBot.Modules.Permissions
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public async Task FwClear()
             {
                 _service.ClearFilteredWords(Context.Guild.Id);
@@ -165,7 +165,7 @@ namespace NadekoBot.Modules.Permissions
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task FilterWord([Remainder] string word)
+            public async Task FilterWord([Leftover] string word)
             {
                 var channel = (ITextChannel)Context.Channel;
 

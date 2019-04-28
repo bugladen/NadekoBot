@@ -28,7 +28,7 @@ namespace NadekoBot.Modules.CustomReactions
                 || (Context.Guild != null && ((IGuildUser)Context.User).GuildPermissions.Administrator);
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task AddCustReact(string key, [Remainder] string message)
+        public async Task AddCustReact(string key, [Leftover] string message)
         {
             var channel = Context.Channel as ITextChannel;
             if (string.IsNullOrWhiteSpace(message) || string.IsNullOrWhiteSpace(key))
@@ -51,7 +51,7 @@ namespace NadekoBot.Modules.CustomReactions
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task EditCustReact(int id, [Remainder] string message)
+        public async Task EditCustReact(int id, [Leftover] string message)
         {
             var channel = Context.Channel as ITextChannel;
             if (string.IsNullOrWhiteSpace(message) || id < 0)
@@ -270,7 +270,7 @@ namespace NadekoBot.Modules.CustomReactions
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.Administrator)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task CrClear()
         {
             if (await PromptUserConfirmAsync(new EmbedBuilder()

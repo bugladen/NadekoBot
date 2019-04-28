@@ -30,7 +30,7 @@ namespace NadekoBot.Modules.Searches
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            public async Task Osu(string usr, [Remainder] string mode = null)
+            public async Task Osu(string usr, [Leftover] string mode = null)
             {
                 if (string.IsNullOrWhiteSpace(usr))
                     return;
@@ -61,7 +61,7 @@ namespace NadekoBot.Modules.Searches
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            public async Task Osub([Remainder] string map)
+            public async Task Osub([Leftover] string map)
             {
                 if (string.IsNullOrWhiteSpace(_creds.OsuApiKey))
                 {
@@ -95,7 +95,7 @@ namespace NadekoBot.Modules.Searches
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            public async Task Osu5(string user, [Remainder] string mode = null)
+            public async Task Osu5(string user, [Leftover] string mode = null)
             {
                 var channel = (ITextChannel)Context.Channel;
                 if (string.IsNullOrWhiteSpace(_creds.OsuApiKey))

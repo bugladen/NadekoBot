@@ -24,9 +24,9 @@ namespace NadekoBot.Modules.Games
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireUserPermission(GuildPermission.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             [RequireContext(ContextType.Guild)]
-            public async Task Poll([Remainder] string arg)
+            public async Task Poll([Leftover] string arg)
             {
                 if (string.IsNullOrWhiteSpace(arg))
                     return;
@@ -56,7 +56,7 @@ namespace NadekoBot.Modules.Games
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireUserPermission(GuildPermission.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             [RequireContext(ContextType.Guild)]
             public async Task PollStats()
             {
@@ -67,7 +67,7 @@ namespace NadekoBot.Modules.Games
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireUserPermission(GuildPermission.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             [RequireContext(ContextType.Guild)]
             public async Task Pollend()
             {

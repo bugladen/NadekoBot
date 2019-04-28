@@ -24,7 +24,7 @@ namespace NadekoBot.Modules.Searches
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            public async Task Translate(string langs, [Remainder] string text = null)
+            public async Task Translate(string langs, [Leftover] string text = null)
             {
                 try
                 {
@@ -40,7 +40,7 @@ namespace NadekoBot.Modules.Searches
 
             //[NadekoCommand, Usage, Description, Aliases]
             //[OwnerOnly]
-            //public async Task Obfuscate([Remainder] string txt)
+            //public async Task Obfuscate([Leftover] string txt)
             //{
             //    var lastItem = "en";
             //    foreach (var item in _google.Languages.Except(new[] { "en" }).Where(x => x.Length < 4))
@@ -67,7 +67,7 @@ namespace NadekoBot.Modules.Searches
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             [OwnerOnly]
             public async Task AutoTranslate(AutoDeleteAutoTranslate autoDelete = AutoDeleteAutoTranslate.Nodel)
             {
@@ -93,7 +93,7 @@ namespace NadekoBot.Modules.Searches
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task AutoTransLang([Remainder] string langs = null)
+            public async Task AutoTransLang([Leftover] string langs = null)
             {
                 var ucp = (Context.User.Id, Context.Channel.Id);
 

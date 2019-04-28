@@ -20,7 +20,7 @@ namespace NadekoBot.Modules.Permissions
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public async Task ResetPermissions()
             {
                 await _service.ResetPermissions(Context.Guild.Id).ConfigureAwait(false);

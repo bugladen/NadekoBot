@@ -45,8 +45,8 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.Administrator)]
-            public async Task Timezone([Remainder] string id)
+            [UserPerm(GuildPermission.Administrator)]
+            public async Task Timezone([Leftover] string id)
             {
                 TimeZoneInfo tz;
                 try { tz = TimeZoneInfo.FindSystemTimeZoneById(id); } catch { tz = null; }

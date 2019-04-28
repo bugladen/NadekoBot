@@ -25,7 +25,7 @@ namespace NadekoBot.Modules.Xp
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Experience([Remainder]IUser user = null)
+        public async Task Experience([Leftover]IUser user = null)
         {
             user = user ?? Context.User;
             await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
@@ -76,9 +76,9 @@ namespace NadekoBot.Modules.Xp
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireUserPermission(GuildPermission.ManageRoles)]
+        [UserPerm(GuildPermission.ManageRoles)]
         [RequireContext(ContextType.Guild)]
-        public async Task XpRoleReward(int level, [Remainder] IRole role = null)
+        public async Task XpRoleReward(int level, [Leftover] IRole role = null)
         {
             if (level < 1)
                 return;
@@ -129,7 +129,7 @@ namespace NadekoBot.Modules.Xp
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.Administrator)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task XpExclude(Server _)
         {
             var ex = _service.ToggleExcludeServer(Context.Guild.Id);
@@ -140,9 +140,9 @@ namespace NadekoBot.Modules.Xp
         public enum Role { Role };
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireUserPermission(GuildPermission.ManageRoles)]
+        [UserPerm(GuildPermission.ManageRoles)]
         [RequireContext(ContextType.Guild)]
-        public async Task XpExclude(Role _, [Remainder] IRole role)
+        public async Task XpExclude(Role _, [Leftover] IRole role)
         {
             var ex = _service.ToggleExcludeRole(Context.Guild.Id, role.Id);
 
@@ -152,9 +152,9 @@ namespace NadekoBot.Modules.Xp
         public enum Channel { Channel };
 
         [NadekoCommand, Usage, Description, Aliases]
-        [RequireUserPermission(GuildPermission.ManageChannels)]
+        [UserPerm(GuildPermission.ManageChannels)]
         [RequireContext(ContextType.Guild)]
-        public async Task XpExclude(Channel _, [Remainder] ITextChannel channel = null)
+        public async Task XpExclude(Channel _, [Leftover] ITextChannel channel = null)
         {
             if (channel == null)
                 channel = (ITextChannel)Context.Channel;
@@ -260,7 +260,7 @@ namespace NadekoBot.Modules.Xp
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.Administrator)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task XpAdd(int amount, ulong userId)
         {
             if (amount == 0)
@@ -274,8 +274,8 @@ namespace NadekoBot.Modules.Xp
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.Administrator)]
-        public Task XpAdd(int amount, [Remainder] IGuildUser user)
+        [UserPerm(GuildPermission.Administrator)]
+        public Task XpAdd(int amount, [Leftover] IGuildUser user)
             => XpAdd(amount, user.Id);
 
         [NadekoCommand, Usage, Description, Aliases]

@@ -28,7 +28,7 @@ namespace NadekoBot.Modules.Searches
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            public async Task Pokemon([Remainder] string pokemon = null)
+            public async Task Pokemon([Leftover] string pokemon = null)
             {
                 pokemon = pokemon?.Trim().ToUpperInvariant();
                 if (string.IsNullOrWhiteSpace(pokemon))
@@ -53,7 +53,7 @@ namespace NadekoBot.Modules.Searches
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            public async Task PokemonAbility([Remainder] string ability = null)
+            public async Task PokemonAbility([Leftover] string ability = null)
             {
                 ability = ability?.Trim().ToUpperInvariant().Replace(" ", "", StringComparison.InvariantCulture);
                 if (string.IsNullOrWhiteSpace(ability))
