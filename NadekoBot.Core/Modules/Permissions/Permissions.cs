@@ -30,7 +30,7 @@ namespace NadekoBot.Modules.Permissions
         {
             using (var uow = _db.UnitOfWork)
             {
-                var config = uow.GuildConfigs.GcWithPermissionsv2For(Context.Guild.Id);
+                var config = uow.GuildConfigs.GcWithPermissionsv2For(ctx.Guild.Id);
                 config.VerbosePermissions = action.Value;
                 await uow.CompleteAsync();
                 _service.UpdateCache(config);
@@ -56,9 +56,9 @@ namespace NadekoBot.Modules.Permissions
             
             if (role == null)
             {
-                var cache = _service.GetCacheFor(Context.Guild.Id);
+                var cache = _service.GetCacheFor(ctx.Guild.Id);
                 if (!ulong.TryParse(cache.PermRole, out var roleId) ||
-                    (role = ((SocketGuild)Context.Guild).GetRole(roleId)) == null)
+                    (role = ((SocketGuild)ctx.Guild).GetRole(roleId)) == null)
                 {
                     await ReplyConfirmLocalizedAsync("permrole_not_set", Format.Bold(cache.PermRole)).ConfigureAwait(false);
                 }
@@ -71,7 +71,7 @@ namespace NadekoBot.Modules.Permissions
 
             using (var uow = _db.UnitOfWork)
             {
-                var config = uow.GuildConfigs.GcWithPermissionsv2For(Context.Guild.Id);
+                var config = uow.GuildConfigs.GcWithPermissionsv2For(ctx.Guild.Id);
                 config.PermissionRole = role.Id.ToString();
                 uow.Complete();
                 _service.UpdateCache(config);
@@ -90,7 +90,7 @@ namespace NadekoBot.Modules.Permissions
         {
             using (var uow = _db.UnitOfWork)
             {
-                var config = uow.GuildConfigs.GcWithPermissionsv2For(Context.Guild.Id);
+                var config = uow.GuildConfigs.GcWithPermissionsv2For(ctx.Guild.Id);
                 config.PermissionRole = null;
                 await uow.CompleteAsync();
                 _service.UpdateCache(config);
@@ -108,7 +108,7 @@ namespace NadekoBot.Modules.Permissions
 
             IList<Permissionv2> perms;
 
-            if (_service.Cache.TryGetValue(Context.Guild.Id, out var permCache))
+            if (_service.Cache.TryGetValue(ctx.Guild.Id, out var permCache))
             {
                 perms = permCache.Permissions.Source.ToList();
             }
@@ -125,13 +125,13 @@ namespace NadekoBot.Modules.Permissions
                                  .Select(p =>
                                  {
                                      var str =
-                                         $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(Prefix, (SocketGuild)Context.Guild))}";
+                                         $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(Prefix, (SocketGuild)ctx.Guild))}";
                                      if (p.Index == 0)
                                          str += $" [{GetText("uneditable")}]";
                                      return str;
                                  }));
 
-            await Context.Channel.SendMessageAsync(toSend).ConfigureAwait(false);
+            await ctx.Channel.SendMessageAsync(toSend).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -146,7 +146,7 @@ namespace NadekoBot.Modules.Permissions
                 Permissionv2 p;
                 using (var uow = _db.UnitOfWork)
                 {
-                    var config = uow.GuildConfigs.GcWithPermissionsv2For(Context.Guild.Id);
+                    var config = uow.GuildConfigs.GcWithPermissionsv2For(ctx.Guild.Id);
                     var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
                     p = permsCol[index];
                     permsCol.RemoveAt(index);
@@ -156,7 +156,7 @@ namespace NadekoBot.Modules.Permissions
                 }
                 await ReplyConfirmLocalizedAsync("removed",
                     index + 1,
-                    Format.Code(p.GetCommand(Prefix, (SocketGuild)Context.Guild))).ConfigureAwait(false);
+                    Format.Code(p.GetCommand(Prefix, (SocketGuild)ctx.Guild))).ConfigureAwait(false);
             }
             catch (IndexOutOfRangeException)
             {
@@ -177,7 +177,7 @@ namespace NadekoBot.Modules.Permissions
                     Permissionv2 fromPerm;
                     using (var uow = _db.UnitOfWork)
                     {
-                        var config = uow.GuildConfigs.GcWithPermissionsv2For(Context.Guild.Id);
+                        var config = uow.GuildConfigs.GcWithPermissionsv2For(ctx.Guild.Id);
                         var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
 
                         var fromFound = from < permsCol.Count;
@@ -202,7 +202,7 @@ namespace NadekoBot.Modules.Permissions
                         _service.UpdateCache(config);
                     }
                     await ReplyConfirmLocalizedAsync("moved_permission",
-                            Format.Code(fromPerm.GetCommand(Prefix, (SocketGuild)Context.Guild)),
+                            Format.Code(fromPerm.GetCommand(Prefix, (SocketGuild)ctx.Guild)),
                             ++from,
                             ++to)
                         .ConfigureAwait(false);
@@ -219,7 +219,7 @@ namespace NadekoBot.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task SrvrCmd(CommandOrCrInfo command, PermissionAction action)
         {
-            await _service.AddPermissions(Context.Guild.Id, new Permissionv2
+            await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.Server,
                 PrimaryTargetId = 0,
@@ -247,7 +247,7 @@ namespace NadekoBot.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task SrvrMdl(ModuleOrCrInfo module, PermissionAction action)
         {
-            await _service.AddPermissions(Context.Guild.Id, new Permissionv2
+            await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.Server,
                 PrimaryTargetId = 0,
@@ -274,7 +274,7 @@ namespace NadekoBot.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task UsrCmd(CommandOrCrInfo command, PermissionAction action, [Leftover] IGuildUser user)
         {
-            await _service.AddPermissions(Context.Guild.Id, new Permissionv2
+            await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.User,
                 PrimaryTargetId = user.Id,
@@ -304,7 +304,7 @@ namespace NadekoBot.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task UsrMdl(ModuleOrCrInfo module, PermissionAction action, [Leftover] IGuildUser user)
         {
-            await _service.AddPermissions(Context.Guild.Id, new Permissionv2
+            await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.User,
                 PrimaryTargetId = user.Id,
@@ -336,7 +336,7 @@ namespace NadekoBot.Modules.Permissions
             if (role == role.Guild.EveryoneRole)
                 return;
 
-            await _service.AddPermissions(Context.Guild.Id, new Permissionv2
+            await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.Role,
                 PrimaryTargetId = role.Id,
@@ -369,7 +369,7 @@ namespace NadekoBot.Modules.Permissions
             if (role == role.Guild.EveryoneRole)
                 return;
 
-            await _service.AddPermissions(Context.Guild.Id, new Permissionv2
+            await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.Role,
                 PrimaryTargetId = role.Id,
@@ -399,7 +399,7 @@ namespace NadekoBot.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task ChnlCmd(CommandOrCrInfo command, PermissionAction action, [Leftover] ITextChannel chnl)
         {
-            await _service.AddPermissions(Context.Guild.Id, new Permissionv2
+            await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.Channel,
                 PrimaryTargetId = chnl.Id,
@@ -429,7 +429,7 @@ namespace NadekoBot.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task ChnlMdl(ModuleOrCrInfo module, PermissionAction action, [Leftover] ITextChannel chnl)
         {
-            await _service.AddPermissions(Context.Guild.Id, new Permissionv2
+            await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.Channel,
                 PrimaryTargetId = chnl.Id,
@@ -458,7 +458,7 @@ namespace NadekoBot.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task AllChnlMdls(PermissionAction action, [Leftover] ITextChannel chnl)
         {
-            await _service.AddPermissions(Context.Guild.Id, new Permissionv2
+            await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.Channel,
                 PrimaryTargetId = chnl.Id,
@@ -486,7 +486,7 @@ namespace NadekoBot.Modules.Permissions
             if (role == role.Guild.EveryoneRole)
                 return;
 
-            await _service.AddPermissions(Context.Guild.Id, new Permissionv2
+            await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.Role,
                 PrimaryTargetId = role.Id,
@@ -511,7 +511,7 @@ namespace NadekoBot.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task AllUsrMdls(PermissionAction action, [Leftover] IUser user)
         {
-            await _service.AddPermissions(Context.Guild.Id, new Permissionv2
+            await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.User,
                 PrimaryTargetId = user.Id,
@@ -548,13 +548,13 @@ namespace NadekoBot.Modules.Permissions
             var allowUser = new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.User,
-                PrimaryTargetId = Context.User.Id,
+                PrimaryTargetId = ctx.User.Id,
                 SecondaryTarget = SecondaryPermissionType.AllModules,
                 SecondaryTargetName = "*",
                 State = true,
             };
 
-            await _service.AddPermissions(Context.Guild.Id,
+            await _service.AddPermissions(ctx.Guild.Id,
                 newPerm,
                 allowUser).ConfigureAwait(false);
 

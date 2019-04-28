@@ -26,13 +26,13 @@ namespace NadekoBot.Modules.Games
             [UserPerm(GuildPermission.ManageMessages)]
             public async Task Cleverbot()
             {
-                var channel = (ITextChannel)Context.Channel;
+                var channel = (ITextChannel)ctx.Channel;
 
                 if (_service.ChatterBotGuilds.TryRemove(channel.Guild.Id, out _))
                 {
                     using (var uow = _db.UnitOfWork)
                     {
-                        uow.GuildConfigs.SetCleverbotEnabled(Context.Guild.Id, false);
+                        uow.GuildConfigs.SetCleverbotEnabled(ctx.Guild.Id, false);
                         await uow.CompleteAsync();
                     }
                     await ReplyConfirmLocalizedAsync("cleverbot_disabled").ConfigureAwait(false);
@@ -43,7 +43,7 @@ namespace NadekoBot.Modules.Games
 
                 using (var uow = _db.UnitOfWork)
                 {
-                    uow.GuildConfigs.SetCleverbotEnabled(Context.Guild.Id, true);
+                    uow.GuildConfigs.SetCleverbotEnabled(ctx.Guild.Id, true);
                     await uow.CompleteAsync();
                 }
 

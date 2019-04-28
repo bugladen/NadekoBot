@@ -46,21 +46,21 @@ namespace NadekoBot.Modules.Administration
                 if (cmdText.StartsWith(Prefix + "die", StringComparison.InvariantCulture))
                     return;
 
-                var guser = ((IGuildUser)Context.User);
+                var guser = ((IGuildUser)ctx.User);
                 var cmd = new StartupCommand()
                 {
                     CommandText = cmdText,
-                    ChannelId = Context.Channel.Id,
-                    ChannelName = Context.Channel.Name,
-                    GuildId = Context.Guild?.Id,
-                    GuildName = Context.Guild?.Name,
+                    ChannelId = ctx.Channel.Id,
+                    ChannelName = ctx.Channel.Name,
+                    GuildId = ctx.Guild?.Id,
+                    GuildName = ctx.Guild?.Name,
                     VoiceChannelId = guser.VoiceChannel?.Id,
                     VoiceChannelName = guser.VoiceChannel?.Name,
                     Interval = 0,
                 };
                 _service.AddNewAutoCommand(cmd);
 
-                await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                     .WithTitle(GetText("scadd"))
                     .AddField(efb => efb.WithName(GetText("server"))
                         .WithValue(cmd.GuildId == null ? $"-" : $"{cmd.GuildName}/{cmd.GuildId}").WithIsInline(true))
@@ -82,14 +82,14 @@ namespace NadekoBot.Modules.Administration
                 if (interval < 5)
                     return;
 
-                var guser = ((IGuildUser)Context.User);
+                var guser = ((IGuildUser)ctx.User);
                 var cmd = new StartupCommand()
                 {
                     CommandText = cmdText,
-                    ChannelId = Context.Channel.Id,
-                    ChannelName = Context.Channel.Name,
-                    GuildId = Context.Guild?.Id,
-                    GuildName = Context.Guild?.Name,
+                    ChannelId = ctx.Channel.Id,
+                    ChannelName = ctx.Channel.Name,
+                    GuildId = ctx.Guild?.Id,
+                    GuildName = ctx.Guild?.Name,
                     VoiceChannelId = guser.VoiceChannel?.Id,
                     VoiceChannelName = guser.VoiceChannel?.Name,
                     Interval = interval,
@@ -117,7 +117,7 @@ namespace NadekoBot.Modules.Administration
                 }
                 else
                 {
-                    await Context.Channel.SendConfirmAsync(
+                    await ctx.Channel.SendConfirmAsync(
                         text: string.Join("\n", scmds
                         .Select(x => $@"```css
 #{x.Index}
@@ -148,7 +148,7 @@ namespace NadekoBot.Modules.Administration
                 }
                 else
                 {
-                    await Context.Channel.SendConfirmAsync(
+                    await ctx.Channel.SendConfirmAsync(
                         text: string.Join("\n", scmds
                         .Select(x => $@"```css
 #{x.Index}
@@ -173,10 +173,10 @@ namespace NadekoBot.Modules.Administration
             {
                 if (miliseconds <= 0)
                     return;
-                Context.Message.DeleteAfter(0);
+                ctx.Message.DeleteAfter(0);
                 try
                 {
-                    var msg = await Context.Channel.SendConfirmAsync($"⏲ {miliseconds}ms")
+                    var msg = await ctx.Channel.SendConfirmAsync($"⏲ {miliseconds}ms")
                         .ConfigureAwait(false);
                     msg.DeleteAfter(miliseconds / 1000);
                 }
@@ -257,7 +257,7 @@ namespace NadekoBot.Modules.Administration
                     })
                     .ToArray();
 
-                await Context.SendPaginatedConfirmAsync(page, (curPage) =>
+                await ctx.SendPaginatedConfirmAsync(page, (curPage) =>
                 {
 
                     var str = string.Join("\n", allShardStrings.Skip(25 * curPage).Take(25));
@@ -352,7 +352,7 @@ namespace NadekoBot.Modules.Administration
             {
                 if (string.IsNullOrWhiteSpace(newNick))
                     return;
-                var curUser = await Context.Guild.GetCurrentUserAsync().ConfigureAwait(false);
+                var curUser = await ctx.Guild.GetCurrentUserAsync().ConfigureAwait(false);
                 await curUser.ModifyAsync(u => u.Nickname = newNick).ConfigureAwait(false);
 
                 await ReplyConfirmLocalizedAsync("bot_nick", Format.Bold(newNick) ?? "-").ConfigureAwait(false);

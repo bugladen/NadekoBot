@@ -42,11 +42,11 @@ namespace NadekoBot.Modules.Gambling
 
                 var newBj = new Blackjack(_cs, _db);
                 Blackjack bj;
-                if (newBj == (bj = _service.Games.GetOrAdd(Context.Channel.Id, newBj)))
+                if (newBj == (bj = _service.Games.GetOrAdd(ctx.Channel.Id, newBj)))
                 {
-                    if (!await bj.Join(Context.User, amount).ConfigureAwait(false))
+                    if (!await bj.Join(ctx.User, amount).ConfigureAwait(false))
                     {
-                        _service.Games.TryRemove(Context.Channel.Id, out _);
+                        _service.Games.TryRemove(ctx.Channel.Id, out _);
                         await ReplyErrorLocalizedAsync("not_enough", Bc.BotConfig.CurrencySign).ConfigureAwait(false);
                         return;
                     }
@@ -58,20 +58,20 @@ namespace NadekoBot.Modules.Gambling
                 }
                 else
                 {
-                    if (await bj.Join(Context.User, amount).ConfigureAwait(false))
+                    if (await bj.Join(ctx.User, amount).ConfigureAwait(false))
                         await ReplyConfirmLocalizedAsync("bj_joined").ConfigureAwait(false);
                     else
                     {
-                        _log.Info($"{Context.User} can't join a blackjack game as it's in " + bj.State.ToString() + " state already.");
+                        _log.Info($"{ctx.User} can't join a blackjack game as it's in " + bj.State.ToString() + " state already.");
                     }
                 }
 
-                await Context.Message.DeleteAsync().ConfigureAwait(false);
+                await ctx.Message.DeleteAsync().ConfigureAwait(false);
             }
 
             private Task Bj_GameEnded(Blackjack arg)
             {
-                _service.Games.TryRemove(Context.Channel.Id, out _);
+                _service.Games.TryRemove(ctx.Channel.Id, out _);
                 return Task.CompletedTask;
             }
 
@@ -135,7 +135,7 @@ namespace NadekoBot.Modules.Gambling
                             full = "💰 " + full;
                         embed.AddField(full, cStr);
                     }
-                    _msg = await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                    _msg = await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
                 }
                 catch
                 {
@@ -169,22 +169,22 @@ namespace NadekoBot.Modules.Gambling
 
             public async Task InternalBlackJack(BjAction a)
             {
-                if (!_service.Games.TryGetValue(Context.Channel.Id, out var bj))
+                if (!_service.Games.TryGetValue(ctx.Channel.Id, out var bj))
                     return;
 
                 if (a == BjAction.Hit)
-                    await bj.Hit(Context.User).ConfigureAwait(false);
+                    await bj.Hit(ctx.User).ConfigureAwait(false);
                 else if (a == BjAction.Stand)
-                    await bj.Stand(Context.User).ConfigureAwait(false);
+                    await bj.Stand(ctx.User).ConfigureAwait(false);
                 else if (a == BjAction.Double)
                 {
-                    if (!await bj.Double(Context.User).ConfigureAwait(false))
+                    if (!await bj.Double(ctx.User).ConfigureAwait(false))
                     {
                         await ReplyErrorLocalizedAsync("not_enough", Bc.BotConfig.CurrencySign).ConfigureAwait(false);
                     }
                 }
 
-                await Context.Message.DeleteAsync().ConfigureAwait(false);
+                await ctx.Message.DeleteAsync().ConfigureAwait(false);
             }
         }
     }

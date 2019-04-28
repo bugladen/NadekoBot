@@ -16,7 +16,7 @@ namespace NadekoBot.Modules.Utility
             [UserPerm(Discord.GuildPermission.ManageMessages)]
             public async Task VerboseError()
             {
-                var state = _service.ToggleVerboseErrors(Context.Guild.Id);
+                var state = _service.ToggleVerboseErrors(ctx.Guild.Id);
 
                 if (state)
                     await ReplyConfirmLocalizedAsync("verbose_errors_enabled").ConfigureAwait(false);

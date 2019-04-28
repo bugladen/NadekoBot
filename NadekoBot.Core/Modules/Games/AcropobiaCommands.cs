@@ -31,7 +31,7 @@ namespace NadekoBot.Modules.Games
             public async Task Acro(params string[] args)
             {
                 var (options, _) = OptionsParser.ParseFrom(new AcrophobiaGame.Options(), args);
-                var channel = (ITextChannel)Context.Channel;
+                var channel = (ITextChannel)ctx.Channel;
 
                 var game = new AcrophobiaGame(options);
                 if (_service.AcrophobiaGames.TryAdd(channel.Id, game))
@@ -59,7 +59,7 @@ namespace NadekoBot.Modules.Games
 
                 Task _client_MessageReceived(SocketMessage msg)
                 {
-                    if (msg.Channel.Id != Context.Channel.Id)
+                    if (msg.Channel.Id != ctx.Channel.Id)
                         return Task.CompletedTask;
 
                     var _ = Task.Run(async () =>
@@ -85,12 +85,12 @@ namespace NadekoBot.Modules.Games
                         .WithDescription(GetText("acro_started", Format.Bold(string.Join(".", game.StartingLetters))))
                         .WithFooter(efb => efb.WithText(GetText("acro_started_footer", game.Opts.SubmissionTime)));
 
-                return Context.Channel.EmbedAsync(embed);
+                return ctx.Channel.EmbedAsync(embed);
             }
 
             private Task Game_OnUserVoted(string user)
             {
-                return Context.Channel.SendConfirmAsync(
+                return ctx.Channel.SendConfirmAsync(
                     GetText("acrophobia"),
                     GetText("acro_vote_cast", Format.Bold(user)));
             }
@@ -99,12 +99,12 @@ namespace NadekoBot.Modules.Games
             {
                 if (submissions.Length == 0)
                 {
-                    await Context.Channel.SendErrorAsync(GetText("acrophobia"), GetText("acro_ended_no_sub")).ConfigureAwait(false);
+                    await ctx.Channel.SendErrorAsync(GetText("acrophobia"), GetText("acro_ended_no_sub")).ConfigureAwait(false);
                     return;
                 }
                 if (submissions.Length == 1)
                 {
-                    await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                    await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                             .WithDescription(
                                 GetText("acro_winner_only",
                                     Format.Bold(submissions.First().Key.UserName)))
@@ -124,14 +124,14 @@ $@"--
 --"))
                         .WithFooter(efb => efb.WithText(GetText("acro_vote")));
 
-                await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
             private async Task Game_OnEnded(AcrophobiaGame game, ImmutableArray<KeyValuePair<AcrophobiaUser, int>> votes)
             {
                 if (!votes.Any() || votes.All(x => x.Value == 0))
                 {
-                    await Context.Channel.SendErrorAsync(GetText("acrophobia"), GetText("acro_no_votes_cast")).ConfigureAwait(false);
+                    await ctx.Channel.SendErrorAsync(GetText("acrophobia"), GetText("acro_no_votes_cast")).ConfigureAwait(false);
                     return;
                 }
                 var table = votes.OrderByDescending(v => v.Value);
@@ -142,7 +142,7 @@ $@"--
                         Format.Bold(winner.Value.ToString())))
                     .WithFooter(efb => efb.WithText(winner.Key.Input));
 
-                await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
         }
     }

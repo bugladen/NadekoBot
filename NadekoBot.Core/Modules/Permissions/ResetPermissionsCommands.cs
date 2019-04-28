@@ -23,7 +23,7 @@ namespace NadekoBot.Modules.Permissions
             [UserPerm(GuildPermission.Administrator)]
             public async Task ResetPermissions()
             {
-                await _service.ResetPermissions(Context.Guild.Id).ConfigureAwait(false);
+                await _service.ResetPermissions(ctx.Guild.Id).ConfigureAwait(false);
                 await ReplyConfirmLocalizedAsync("perms_reset").ConfigureAwait(false);
             }
 

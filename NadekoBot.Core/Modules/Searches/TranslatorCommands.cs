@@ -28,9 +28,9 @@ namespace NadekoBot.Modules.Searches
             {
                 try
                 {
-                    await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
+                    await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
                     var translation = await _searches.Translate(langs, text).ConfigureAwait(false);
-                    await Context.Channel.SendConfirmAsync(GetText("translation") + " " + langs, translation).ConfigureAwait(false);
+                    await ctx.Channel.SendConfirmAsync(GetText("translation") + " " + langs, translation).ConfigureAwait(false);
                 }
                 catch
                 {
@@ -46,7 +46,7 @@ namespace NadekoBot.Modules.Searches
             //    foreach (var item in _google.Languages.Except(new[] { "en" }).Where(x => x.Length < 4))
             //    {
             //        var txt2 = await _searches.Translate(lastItem + ">" + item, txt);
-            //        await Context.Channel.EmbedAsync(new EmbedBuilder()
+            //        await ctx.Channel.EmbedAsync(new EmbedBuilder()
             //            .WithOkColor()
             //            .WithTitle(lastItem + ">" + item)
             //            .AddField("Input", txt)
@@ -56,7 +56,7 @@ namespace NadekoBot.Modules.Searches
             //        lastItem = item;
             //    }
             //    txt = await _searches.Translate(lastItem + ">en", txt);
-            //    await Context.Channel.SendConfirmAsync("Final output:\n\n" + txt);
+            //    await ctx.Channel.SendConfirmAsync("Final output:\n\n" + txt);
             //}
 
             public enum AutoDeleteAutoTranslate
@@ -71,7 +71,7 @@ namespace NadekoBot.Modules.Searches
             [OwnerOnly]
             public async Task AutoTranslate(AutoDeleteAutoTranslate autoDelete = AutoDeleteAutoTranslate.Nodel)
             {
-                var channel = (ITextChannel)Context.Channel;
+                var channel = (ITextChannel)ctx.Channel;
 
                 if (autoDelete == AutoDeleteAutoTranslate.Del)
                 {
@@ -95,7 +95,7 @@ namespace NadekoBot.Modules.Searches
             [RequireContext(ContextType.Guild)]
             public async Task AutoTransLang([Leftover] string langs = null)
             {
-                var ucp = (Context.User.Id, Context.Channel.Id);
+                var ucp = (ctx.User.Id, ctx.Channel.Id);
 
                 if (string.IsNullOrWhiteSpace(langs))
                 {
@@ -125,7 +125,7 @@ namespace NadekoBot.Modules.Searches
             [RequireContext(ContextType.Guild)]
             public async Task Translangs()
             {
-                await Context.Channel.SendTableAsync(_google.Languages, str => $"{str,-15}", 3).ConfigureAwait(false);
+                await ctx.Channel.SendTableAsync(_google.Languages, str => $"{str,-15}", 3).ConfigureAwait(false);
             }
 
         }

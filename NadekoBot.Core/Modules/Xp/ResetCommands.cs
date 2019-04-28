@@ -30,7 +30,7 @@ namespace NadekoBot.Modules.Xp
                 if (!await PromptUserConfirmAsync(embed).ConfigureAwait(false))
                     return;
 
-                _service.XpReset(Context.Guild.Id, userId);
+                _service.XpReset(ctx.Guild.Id, userId);
 
                 await ReplyConfirmLocalizedAsync("reset_user", userId).ConfigureAwait(false);
             }
@@ -47,7 +47,7 @@ namespace NadekoBot.Modules.Xp
                 if (!await PromptUserConfirmAsync(embed).ConfigureAwait(false))
                     return;
 
-                _service.XpReset(Context.Guild.Id);
+                _service.XpReset(ctx.Guild.Id);
 
                 await ReplyConfirmLocalizedAsync("reset_server").ConfigureAwait(false);
             }

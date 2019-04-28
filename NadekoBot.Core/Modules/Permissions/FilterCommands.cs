@@ -29,7 +29,7 @@ namespace NadekoBot.Modules.Permissions
             [UserPerm(GuildPermission.Administrator)]
             public async Task FwClear()
             {
-                _service.ClearFilteredWords(Context.Guild.Id);
+                _service.ClearFilteredWords(ctx.Guild.Id);
                 await ReplyConfirmLocalizedAsync("fw_cleared").ConfigureAwait(false);
             }
 
@@ -37,7 +37,7 @@ namespace NadekoBot.Modules.Permissions
             [RequireContext(ContextType.Guild)]
             public async Task SrvrFilterInv()
             {
-                var channel = (ITextChannel)Context.Channel;
+                var channel = (ITextChannel)ctx.Channel;
 
                 bool enabled;
                 using (var uow = _db.UnitOfWork)
@@ -63,7 +63,7 @@ namespace NadekoBot.Modules.Permissions
             [RequireContext(ContextType.Guild)]
             public async Task ChnlFilterInv()
             {
-                var channel = (ITextChannel)Context.Channel;
+                var channel = (ITextChannel)ctx.Channel;
 
                 FilterChannelId removed;
                 using (var uow = _db.UnitOfWork)
@@ -102,7 +102,7 @@ namespace NadekoBot.Modules.Permissions
             [RequireContext(ContextType.Guild)]
             public async Task SrvrFilterWords()
             {
-                var channel = (ITextChannel)Context.Channel;
+                var channel = (ITextChannel)ctx.Channel;
 
                 bool enabled;
                 using (var uow = _db.UnitOfWork)
@@ -128,7 +128,7 @@ namespace NadekoBot.Modules.Permissions
             [RequireContext(ContextType.Guild)]
             public async Task ChnlFilterWords()
             {
-                var channel = (ITextChannel)Context.Channel;
+                var channel = (ITextChannel)ctx.Channel;
 
                 FilterChannelId removed;
                 using (var uow = _db.UnitOfWork)
@@ -167,7 +167,7 @@ namespace NadekoBot.Modules.Permissions
             [RequireContext(ContextType.Guild)]
             public async Task FilterWord([Leftover] string word)
             {
-                var channel = (ITextChannel)Context.Channel;
+                var channel = (ITextChannel)ctx.Channel;
 
                 word = word?.Trim().ToLowerInvariant();
 
@@ -213,13 +213,13 @@ namespace NadekoBot.Modules.Permissions
                 if (page < 0)
                     return;
 
-                var channel = (ITextChannel)Context.Channel;
+                var channel = (ITextChannel)ctx.Channel;
 
                 _service.ServerFilteredWords.TryGetValue(channel.Guild.Id, out var fwHash);
 
                 var fws = fwHash.ToArray();
 
-                await Context.SendPaginatedConfirmAsync(page,
+                await ctx.SendPaginatedConfirmAsync(page,
                     (curPage) => new EmbedBuilder()
                         .WithTitle(GetText("filter_word_list"))
                         .WithDescription(string.Join("\n", fws.Skip(curPage * 10).Take(10)))

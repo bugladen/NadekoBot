@@ -26,7 +26,7 @@ namespace NadekoBot.Modules.Utility
                                                                          efb.WithName(g.Key.ToTitleCase())
                                                                          .WithValue(String.Join(", ", g.Select(x => x.Triggers.FirstOrDefault())
                                                                                                        .OrderBy(x => x)))));
-                await Context.Channel.EmbedAsync(res).ConfigureAwait(false);
+                await ctx.Channel.EmbedAsync(res).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -90,7 +90,7 @@ namespace NadekoBot.Modules.Utility
                 }
                 res = Math.Round(res, 4);
 
-                await Context.Channel.SendConfirmAsync(GetText("convert", value, originUnit.Triggers.Last(), res, targetUnit.Triggers.Last())).ConfigureAwait(false);
+                await ctx.Channel.SendConfirmAsync(GetText("convert", value, originUnit.Triggers.Last(), res, targetUnit.Triggers.Last())).ConfigureAwait(false);
             }
         }
     }

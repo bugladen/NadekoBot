@@ -39,7 +39,7 @@ namespace NadekoBot.Modules.Searches
                     if (kvp.Key.ToUpperInvariant() == pokemon.ToUpperInvariant())
                     {
                         var p = kvp.Value;
-                        await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                        await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                             .WithTitle(kvp.Key.ToTitleCase())
                             .WithDescription(p.BaseStats.ToString())
                             .WithThumbnailUrl($"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/{p.Id.ToString("000")}.png")
@@ -62,7 +62,7 @@ namespace NadekoBot.Modules.Searches
                 {
                     if (kvp.Key.ToUpperInvariant() == ability)
                     {
-                        await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                        await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                             .WithTitle(kvp.Value.Name)
                             .WithDescription(string.IsNullOrWhiteSpace(kvp.Value.Desc)
                                 ? kvp.Value.ShortDesc

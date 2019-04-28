@@ -45,7 +45,7 @@ namespace NadekoBot.Modules.Searches
 
                 if (string.IsNullOrWhiteSpace(usr))
                 {
-                    await Context.Channel.SendErrorAsync("Please provide an account name.").ConfigureAwait(false);
+                    await ctx.Channel.SendErrorAsync("Please provide an account name.").ConfigureAwait(false);
                     return;
                 }
 
@@ -65,7 +65,7 @@ namespace NadekoBot.Modules.Searches
                                     .WithDescription(GetText("account_not_found"))
                                     .WithErrorColor();
 
-                    await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                    await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
                     return;
                 }
 
@@ -74,7 +74,7 @@ namespace NadekoBot.Modules.Searches
                     characters.RemoveAll(c => c.League != league);
                 }
 
-                await Context.SendPaginatedConfirmAsync(page, (curPage) =>
+                await ctx.SendPaginatedConfirmAsync(page, (curPage) =>
                 {
                     var embed = new EmbedBuilder()
                                     .WithAuthor(eau => eau.WithName($"Characters on {usr}'s account")
@@ -126,7 +126,7 @@ namespace NadekoBot.Modules.Searches
                         .WithDescription(GetText("leagues_not_found"))
                         .WithErrorColor();
 
-                    await Context.Channel.EmbedAsync(eembed).ConfigureAwait(false);
+                    await ctx.Channel.EmbedAsync(eembed).ConfigureAwait(false);
                     return;
                 }
 
@@ -148,7 +148,7 @@ namespace NadekoBot.Modules.Searches
 
                 embed.WithDescription(sb.ToString());
 
-                await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -156,12 +156,12 @@ namespace NadekoBot.Modules.Searches
             {
                 if (string.IsNullOrWhiteSpace(leagueName))
                 {
-                    await Context.Channel.SendErrorAsync("Please provide league name.").ConfigureAwait(false);
+                    await ctx.Channel.SendErrorAsync("Please provide league name.").ConfigureAwait(false);
                     return;
                 }
                 if (string.IsNullOrWhiteSpace(currencyName))
                 {
-                    await Context.Channel.SendErrorAsync("Please provide currency name.").ConfigureAwait(false);
+                    await ctx.Channel.SendErrorAsync("Please provide currency name.").ConfigureAwait(false);
                     return;
                 }
 
@@ -210,7 +210,7 @@ namespace NadekoBot.Modules.Searches
                             .AddField(efb => efb.WithName($"{cleanConvert} Equivalent").WithValue(chaosEquivalent / conversionEquivalent).WithIsInline(true))
                             .WithOkColor();
 
-                        await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                        await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
                     }
                 }
                 catch
@@ -219,7 +219,7 @@ namespace NadekoBot.Modules.Searches
                         .WithDescription(GetText("ninja_not_found"))
                         .WithErrorColor();
 
-                    await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                    await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
                 }
             }
 

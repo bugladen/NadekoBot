@@ -41,7 +41,7 @@ namespace NadekoBot.Modules.Utility
                 if (!_service.RepeaterReady)
                     return;
                 index -= 1;
-                if (!_service.Repeaters.TryGetValue(Context.Guild.Id, out var rep))
+                if (!_service.Repeaters.TryGetValue(ctx.Guild.Id, out var rep))
                 {
                     await ReplyErrorLocalizedAsync("repeat_invoke_none").ConfigureAwait(false);
                     return;
@@ -58,7 +58,7 @@ namespace NadekoBot.Modules.Utility
                 repeater.Value.Reset();
                 await repeater.Value.Trigger().ConfigureAwait(false);
 
-                try { await Context.Message.AddReactionAsync(new Emoji("🔄")).ConfigureAwait(false); } catch { }
+                try { await ctx.Message.AddReactionAsync(new Emoji("🔄")).ConfigureAwait(false); } catch { }
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -72,7 +72,7 @@ namespace NadekoBot.Modules.Utility
                     return;
                 index -= 1;
 
-                if (!_service.Repeaters.TryGetValue(Context.Guild.Id, out var rep))
+                if (!_service.Repeaters.TryGetValue(ctx.Guild.Id, out var rep))
                     return;
 
                 var repeaterList = rep.ToList();
@@ -89,14 +89,14 @@ namespace NadekoBot.Modules.Utility
 
                 using (var uow = _db.UnitOfWork)
                 {
-                    var guildConfig = uow.GuildConfigs.ForId(Context.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
+                    var guildConfig = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
 
                     var item = guildConfig.GuildRepeaters.FirstOrDefault(r => r.Id == repeater.Value.Repeater.Id);
                     if (item != null)
                         guildConfig.GuildRepeaters.Remove(item);
                     await uow.CompleteAsync();
                 }
-                await Context.Channel.SendConfirmAsync(GetText("message_repeater"),
+                await ctx.Channel.SendConfirmAsync(GetText("message_repeater"),
                     GetText("repeater_stopped", index + 1) + $"\n\n{repeater.Value}").ConfigureAwait(false);
             }
 
@@ -125,8 +125,8 @@ namespace NadekoBot.Modules.Utility
 
                 var toAdd = new Repeater()
                 {
-                    ChannelId = Context.Channel.Id,
-                    GuildId = Context.Guild.Id,
+                    ChannelId = ctx.Channel.Id,
+                    GuildId = ctx.Guild.Id,
                     Interval = TimeSpan.FromMinutes(opts.Interval),
                     Message = opts.Message,
                     NoRedundant = opts.NoRedundant,
@@ -135,7 +135,7 @@ namespace NadekoBot.Modules.Utility
 
                 using (var uow = _db.UnitOfWork)
                 {
-                    var gc = uow.GuildConfigs.ForId(Context.Guild.Id, set => set.Include(x => x.GuildRepeaters));
+                    var gc = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set.Include(x => x.GuildRepeaters));
 
                     if (gc.GuildRepeaters.Count >= 5)
                         return;
@@ -144,9 +144,9 @@ namespace NadekoBot.Modules.Utility
                     await uow.CompleteAsync();
                 }
 
-                var rep = new RepeatRunner((SocketGuild)Context.Guild, toAdd, _service);
+                var rep = new RepeatRunner((SocketGuild)ctx.Guild, toAdd, _service);
 
-                _service.Repeaters.AddOrUpdate(Context.Guild.Id,
+                _service.Repeaters.AddOrUpdate(ctx.Guild.Id,
                     new ConcurrentDictionary<int, RepeatRunner>(new[] { new KeyValuePair<int, RepeatRunner>(toAdd.Id, rep) }), (key, old) =>
                   {
                       old.TryAdd(rep.Repeater.Id, rep);
@@ -161,9 +161,9 @@ namespace NadekoBot.Modules.Utility
                         Format.Bold(rep.InitialInterval.Minutes.ToString()));
                 }
 
-                await Context.Channel.SendConfirmAsync(
+                await ctx.Channel.SendConfirmAsync(
                     "🔁 " + GetText("repeater",
-                        Format.Bold(((IGuildUser)Context.User).GuildPermissions.MentionEveryone ? rep.Repeater.Message : rep.Repeater.Message.SanitizeMentions()),
+                        Format.Bold(((IGuildUser)ctx.User).GuildPermissions.MentionEveryone ? rep.Repeater.Message : rep.Repeater.Message.SanitizeMentions()),
                         Format.Bold(rep.Repeater.Interval.Days.ToString()),
                         Format.Bold(rep.Repeater.Interval.Hours.ToString()),
                         Format.Bold(rep.Repeater.Interval.Minutes.ToString())) + " " + secondPart).ConfigureAwait(false);
@@ -176,7 +176,7 @@ namespace NadekoBot.Modules.Utility
             {
                 if (!_service.RepeaterReady)
                     return;
-                if (!_service.Repeaters.TryGetValue(Context.Guild.Id, out var repRunners))
+                if (!_service.Repeaters.TryGetValue(ctx.Guild.Id, out var repRunners))
                 {
                     await ReplyConfirmLocalizedAsync("repeaters_none").ConfigureAwait(false);
                     return;
@@ -196,7 +196,7 @@ namespace NadekoBot.Modules.Utility
                 if (string.IsNullOrWhiteSpace(desc))
                     desc = GetText("no_active_repeaters");
 
-                await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                         .WithTitle(GetText("list_of_repeaters"))
                         .WithDescription(desc))
                     .ConfigureAwait(false);

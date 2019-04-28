@@ -29,7 +29,7 @@ namespace NadekoBot.Modules.Utility
             [RequireContext(ContextType.Guild)]
             public async Task ServerInfo(string guildName = null)
             {
-                var channel = (ITextChannel)Context.Channel;
+                var channel = (ITextChannel)ctx.Channel;
                 guildName = guildName?.ToUpperInvariant();
                 SocketGuild guild;
                 if (string.IsNullOrWhiteSpace(guildName))
@@ -71,14 +71,14 @@ namespace NadekoBot.Modules.Utility
                             .Select(e => $"{e.Name} {e.ToString()}"))
                             .TrimTo(1020)));
                 }
-                await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task ChannelInfo(ITextChannel channel = null)
             {
-                var ch = channel ?? (ITextChannel)Context.Channel;
+                var ch = channel ?? (ITextChannel)ctx.Channel;
                 if (ch == null)
                     return;
                 var createdAt = new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(ch.Id >> 22);
@@ -90,14 +90,14 @@ namespace NadekoBot.Modules.Utility
                     .AddField(fb => fb.WithName(GetText("created_at")).WithValue($"{createdAt:dd.MM.yyyy HH:mm}").WithIsInline(true))
                     .AddField(fb => fb.WithName(GetText("users")).WithValue(usercount.ToString()).WithIsInline(true))
                     .WithColor(NadekoBot.OkColor);
-                await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task UserInfo(IGuildUser usr = null)
             {
-                var user = usr ?? Context.User as IGuildUser;
+                var user = usr ?? ctx.User as IGuildUser;
 
                 if (user == null)
                     return;
@@ -117,7 +117,7 @@ namespace NadekoBot.Modules.Utility
                 var av = user.RealAvatarUrl();
                 if (av != null && av.IsAbsoluteUri)
                     embed.WithThumbnailUrl(av.ToString());
-                await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -142,7 +142,7 @@ namespace NadekoBot.Modules.Utility
                         kvp.Value / _stats.GetUptime().TotalSeconds, kvp.Value));
                 }
 
-                await Context.Channel.EmbedAsync(new EmbedBuilder()
+                await ctx.Channel.EmbedAsync(new EmbedBuilder()
                     .WithTitle(GetText("activity_page", page + 1))
                     .WithOkColor()
                     .WithFooter(efb => efb.WithText(GetText("activity_users_total",

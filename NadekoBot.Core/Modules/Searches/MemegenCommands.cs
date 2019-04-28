@@ -45,7 +45,7 @@ namespace NadekoBot.Modules.Searches
                     var data = JsonConvert.DeserializeObject<Dictionary<string, string>>(rawJson)
                         .Select(kvp => Path.GetFileName(kvp.Value));
 
-                    await Context.Channel.SendTableAsync(data, x => $"{x,-15}", 3).ConfigureAwait(false);
+                    await ctx.Channel.SendTableAsync(data, x => $"{x,-15}", 3).ConfigureAwait(false);
                 }
             }
 
@@ -54,7 +54,7 @@ namespace NadekoBot.Modules.Searches
             {
                 var top = Replace(topText);
                 var bot = Replace(botText);
-                await Context.Channel.SendMessageAsync($"http://memegen.link/{meme}/{top}/{bot}.jpg")
+                await ctx.Channel.SendMessageAsync($"http://memegen.link/{meme}/{top}/{bot}.jpg")
                     .ConfigureAwait(false);
             }
 

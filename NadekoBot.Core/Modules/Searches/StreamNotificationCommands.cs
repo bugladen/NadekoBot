@@ -35,7 +35,7 @@ namespace NadekoBot.Modules.Searches
             public Task Smashcast([Leftover] string username) =>
                 smashcastRegex.IsMatch(username)
                 ? StreamAdd(username)
-                : TrackStream((ITextChannel)Context.Channel,
+                : TrackStream((ITextChannel)ctx.Channel,
                     username,
                     FollowedStream.FType.Smashcast);
 
@@ -45,7 +45,7 @@ namespace NadekoBot.Modules.Searches
             public Task Twitch([Leftover] string username) =>
                 twitchRegex.IsMatch(username)
                 ? StreamAdd(username)
-                : TrackStream((ITextChannel)Context.Channel,
+                : TrackStream((ITextChannel)ctx.Channel,
                     username,
                     FollowedStream.FType.Twitch);
 
@@ -55,7 +55,7 @@ namespace NadekoBot.Modules.Searches
             public Task Picarto([Leftover] string username) =>
                 picartoRegex.IsMatch(username)
                 ? StreamAdd(username)
-                : TrackStream((ITextChannel)Context.Channel,
+                : TrackStream((ITextChannel)ctx.Channel,
                     username,
                     FollowedStream.FType.Picarto);
 
@@ -65,7 +65,7 @@ namespace NadekoBot.Modules.Searches
             public Task Mixer([Leftover] string username) =>
                 mixerRegex.IsMatch(username)
                 ? StreamAdd(username)
-                : TrackStream((ITextChannel)Context.Channel,
+                : TrackStream((ITextChannel)ctx.Channel,
                     username,
                     FollowedStream.FType.Mixer);
 
@@ -144,7 +144,7 @@ namespace NadekoBot.Modules.Searches
             [UserPerm(GuildPermission.Administrator)]
             public async Task StreamsClear()
             {
-                var count = _service.ClearAllStreams(Context.Guild.Id);
+                var count = _service.ClearAllStreams(ctx.Guild.Id);
                 await ReplyConfirmLocalizedAsync("streams_cleared", count).ConfigureAwait(false);
             }
 
@@ -161,11 +161,11 @@ namespace NadekoBot.Modules.Searches
                 using (var uow = _db.UnitOfWork)
                 {
                     var all = uow.GuildConfigs
-                                 .ForId(Context.Guild.Id,
+                                 .ForId(ctx.Guild.Id,
                                       set => set.Include(gc => gc.FollowedStreams))
                                  .FollowedStreams;
 
-                    var toRemove = all.Where(x => ((SocketGuild)Context.Guild).GetTextChannel(x.ChannelId) == null);
+                    var toRemove = all.Where(x => ((SocketGuild)ctx.Guild).GetTextChannel(x.ChannelId) == null);
                     streams = all.Except(toRemove);
                     if (toRemove.Any())
                     {
@@ -177,7 +177,7 @@ namespace NadekoBot.Modules.Searches
                         uow.Complete();
                     }
                 }
-                await Context.SendPaginatedConfirmAsync(page, async (cur) =>
+                await ctx.SendPaginatedConfirmAsync(page, async (cur) =>
                 {
                     var thisPage = streams.Skip(cur * 15).Take(15);
                     if (!thisPage.Any())
@@ -189,7 +189,7 @@ namespace NadekoBot.Modules.Searches
 
                     var text = string.Join("\n", await Task.WhenAll(thisPage.Select(async snc =>
                     {
-                        var ch = await Context.Guild.GetTextChannelAsync(snc.ChannelId).ConfigureAwait(false);
+                        var ch = await ctx.Guild.GetTextChannelAsync(snc.ChannelId).ConfigureAwait(false);
                         return string.Format("{0}'s stream on {1} channel. 【{2}】",
                             Format.Code(snc.Username),
                             Format.Bold(ch?.Name ?? "deleted-channel"),
@@ -207,7 +207,7 @@ namespace NadekoBot.Modules.Searches
             [UserPerm(GuildPermission.ManageMessages)]
             public async Task StreamOffline()
             {
-                var newValue = _service.ToggleStreamOffline(Context.Guild.Id);
+                var newValue = _service.ToggleStreamOffline(ctx.Guild.Id);
                 if (newValue)
                 {
                     await ReplyConfirmLocalizedAsync("stream_off_enabled").ConfigureAwait(false);
@@ -228,7 +228,7 @@ namespace NadekoBot.Modules.Searches
                     await ReplyErrorLocalizedAsync("stream_not_exist").ConfigureAwait(false);
                     return;
                 }
-                if (!_service.SetStreamMessage(Context.Guild.Id, info.Value.Item1, info.Value.Item2, message))
+                if (!_service.SetStreamMessage(ctx.Guild.Id, info.Value.Item1, info.Value.Item2, message))
                 {
                     await ReplyConfirmLocalizedAsync("stream_not_following").ConfigureAwait(false);
                     return;
@@ -270,8 +270,8 @@ namespace NadekoBot.Modules.Searches
 
                 var fs = new FollowedStream()
                 {
-                    GuildId = Context.Guild.Id,
-                    ChannelId = Context.Channel.Id,
+                    GuildId = ctx.Guild.Id,
+                    ChannelId = ctx.Channel.Id,
                     Username = username,
                     Type = type
                 };
@@ -279,7 +279,7 @@ namespace NadekoBot.Modules.Searches
                 FollowedStream removed;
                 using (var uow = _db.UnitOfWork)
                 {
-                    var config = uow.GuildConfigs.ForId(Context.Guild.Id, set => set.Include(gc => gc.FollowedStreams));
+                    var config = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set.Include(gc => gc.FollowedStreams));
                     removed = config.FollowedStreams.FirstOrDefault(x => x.Equals(fs));
                     if (removed != null)
                     {

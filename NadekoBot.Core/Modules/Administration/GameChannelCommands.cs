@@ -18,14 +18,14 @@ namespace NadekoBot.Modules.Administration
             [BotPerm(GuildPermission.MoveMembers)]
             public async Task GameVoiceChannel()
             {
-                var vch = ((IGuildUser)Context.User).VoiceChannel;
+                var vch = ((IGuildUser)ctx.User).VoiceChannel;
 
                 if (vch == null)
                 {
                     await ReplyErrorLocalizedAsync("not_in_voice").ConfigureAwait(false);
                     return;
                 }
-                var id = _service.ToggleGameVoiceChannel(Context.Guild.Id, vch.Id);
+                var id = _service.ToggleGameVoiceChannel(ctx.Guild.Id, vch.Id);
 
                 if (id == null)
                 {

@@ -33,7 +33,7 @@ namespace NadekoBot.Modules.Utility
             [UserPerm(GuildPermission.Administrator)]
             public async Task AliasesClear()
             {
-                var count = _service.ClearAliases(Context.Guild.Id);
+                var count = _service.ClearAliases(ctx.Guild.Id);
                 await ReplyConfirmLocalizedAsync("aliases_cleared", count).ConfigureAwait(false);
             }
 
@@ -42,7 +42,7 @@ namespace NadekoBot.Modules.Utility
             [RequireContext(ContextType.Guild)]
             public async Task Alias(string trigger, [Leftover] string mapping = null)
             {
-                var channel = (ITextChannel)Context.Channel;
+                var channel = (ITextChannel)ctx.Channel;
 
                 if (string.IsNullOrWhiteSpace(trigger))
                     return;
@@ -51,7 +51,7 @@ namespace NadekoBot.Modules.Utility
 
                 if (string.IsNullOrWhiteSpace(mapping))
                 {
-                    if (!_service.AliasMaps.TryGetValue(Context.Guild.Id, out var maps) ||
+                    if (!_service.AliasMaps.TryGetValue(ctx.Guild.Id, out var maps) ||
                         !maps.TryRemove(trigger, out _))
                     {
                         await ReplyErrorLocalizedAsync("alias_remove_fail", Format.Code(trigger)).ConfigureAwait(false);
@@ -60,7 +60,7 @@ namespace NadekoBot.Modules.Utility
 
                     using (var uow = _db.UnitOfWork)
                     {
-                        var config = uow.GuildConfigs.ForId(Context.Guild.Id, set => set.Include(x => x.CommandAliases));
+                        var config = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases));
                         var toAdd = new CommandAlias()
                         {
                             Mapping = mapping,
@@ -75,11 +75,11 @@ namespace NadekoBot.Modules.Utility
                     await ReplyConfirmLocalizedAsync("alias_removed", Format.Code(trigger)).ConfigureAwait(false);
                     return;
                 }
-                _service.AliasMaps.AddOrUpdate(Context.Guild.Id, (_) =>
+                _service.AliasMaps.AddOrUpdate(ctx.Guild.Id, (_) =>
                 {
                     using (var uow = _db.UnitOfWork)
                     {
-                        var config = uow.GuildConfigs.ForId(Context.Guild.Id, set => set.Include(x => x.CommandAliases));
+                        var config = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases));
                         config.CommandAliases.Add(new CommandAlias()
                         {
                             Mapping = mapping,
@@ -94,7 +94,7 @@ namespace NadekoBot.Modules.Utility
                 {
                     using (var uow = _db.UnitOfWork)
                     {
-                        var config = uow.GuildConfigs.ForId(Context.Guild.Id, set => set.Include(x => x.CommandAliases));
+                        var config = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases));
                         var toAdd = new CommandAlias()
                         {
                             Mapping = mapping,
@@ -118,13 +118,13 @@ namespace NadekoBot.Modules.Utility
             [RequireContext(ContextType.Guild)]
             public async Task AliasList(int page = 1)
             {
-                var channel = (ITextChannel)Context.Channel;
+                var channel = (ITextChannel)ctx.Channel;
                 page -= 1;
 
                 if (page < 0)
                     return;
 
-                if (!_service.AliasMaps.TryGetValue(Context.Guild.Id, out var maps) || !maps.Any())
+                if (!_service.AliasMaps.TryGetValue(ctx.Guild.Id, out var maps) || !maps.Any())
                 {
                     await ReplyErrorLocalizedAsync("aliases_none").ConfigureAwait(false);
                     return;
@@ -132,7 +132,7 @@ namespace NadekoBot.Modules.Utility
 
                 var arr = maps.ToArray();
 
-                await Context.SendPaginatedConfirmAsync(page, (curPage) =>
+                await ctx.SendPaginatedConfirmAsync(page, (curPage) =>
                 {
                     return new EmbedBuilder().WithOkColor()
                     .WithTitle(GetText("alias_list"))

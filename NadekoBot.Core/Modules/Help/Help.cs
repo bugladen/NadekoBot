@@ -65,14 +65,14 @@ namespace NadekoBot.Modules.Help
                                          .Where(m => !_perms.BlockedModules.Contains(m.Key.Name.ToLowerInvariant()))
                                          .Select(m => "• " + m.Key.Name)
                                          .OrderBy(s => s)));
-            await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+            await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         [NadekoOptionsAttribute(typeof(CommandsOptions))]
         public async Task Commands(string module = null, params string[] args)
         {
-            var channel = Context.Channel;
+            var channel = ctx.Channel;
 
             var (opts, _) = OptionsParser.ParseFrom(new CommandsOptions(), args);
 
@@ -156,7 +156,7 @@ namespace NadekoBot.Modules.Help
                 }
             }
             embed.WithFooter(GetText("commands_instr", Prefix));
-            await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+            await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -177,18 +177,18 @@ namespace NadekoBot.Modules.Help
         [Priority(1)]
         public async Task H([Leftover] CommandInfo com = null)
         {
-            var channel = Context.Channel;
+            var channel = ctx.Channel;
 
             if (com == null)
             {
                 IMessageChannel ch = channel is ITextChannel
-                    ? await ((IGuildUser)Context.User).GetOrCreateDMChannelAsync().ConfigureAwait(false)
+                    ? await ((IGuildUser)ctx.User).GetOrCreateDMChannelAsync().ConfigureAwait(false)
                     : channel;
                 await ch.EmbedAsync(GetHelpStringEmbed()).ConfigureAwait(false);
                 return;
             }
 
-            var embed = _service.GetCommandHelp(com, Context.Guild);
+            var embed = _service.GetCommandHelp(com, ctx.Guild);
             await channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 

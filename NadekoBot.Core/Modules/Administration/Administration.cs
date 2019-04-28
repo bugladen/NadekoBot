@@ -20,8 +20,8 @@ namespace NadekoBot.Modules.Administration
         [Priority(2)]
         public async Task Delmsgoncmd(List _)
         {
-            var guild = (SocketGuild)Context.Guild;
-            var (enabled, channels) = _service.GetDelMsgOnCmdData(Context.Guild.Id);
+            var guild = (SocketGuild)ctx.Guild;
+            var (enabled, channels) = _service.GetDelMsgOnCmdData(ctx.Guild.Id);
 
             var embed = new EmbedBuilder()
                 .WithOkColor()
@@ -42,7 +42,7 @@ namespace NadekoBot.Modules.Administration
 
             embed.AddField(GetText("channel_delmsgoncmd"), str);
 
-            await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+            await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
         public enum Server { Server }
@@ -53,14 +53,14 @@ namespace NadekoBot.Modules.Administration
         [Priority(1)]
         public async Task Delmsgoncmd(Server _ = Server.Server)
         {
-            if (_service.ToggleDeleteMessageOnCommand(Context.Guild.Id))
+            if (_service.ToggleDeleteMessageOnCommand(ctx.Guild.Id))
             {
-                _service.DeleteMessagesOnCommand.Add(Context.Guild.Id);
+                _service.DeleteMessagesOnCommand.Add(ctx.Guild.Id);
                 await ReplyConfirmLocalizedAsync("delmsg_on").ConfigureAwait(false);
             }
             else
             {
-                _service.DeleteMessagesOnCommand.TryRemove(Context.Guild.Id);
+                _service.DeleteMessagesOnCommand.TryRemove(ctx.Guild.Id);
                 await ReplyConfirmLocalizedAsync("delmsg_off").ConfigureAwait(false);
             }
         }
@@ -83,8 +83,8 @@ namespace NadekoBot.Modules.Administration
         [Priority(1)]
         public async Task Delmsgoncmd(Channel _, State s, ulong? chId = null)
         {
-            var actualChId = chId ?? Context.Channel.Id;
-            await _service.SetDelMsgOnCmdState(Context.Guild.Id, actualChId, s).ConfigureAwait(false);
+            var actualChId = chId ?? ctx.Channel.Id;
+            await _service.SetDelMsgOnCmdState(ctx.Guild.Id, actualChId, s).ConfigureAwait(false);
 
             if (s == State.Disable)
             {
@@ -136,7 +136,7 @@ namespace NadekoBot.Modules.Administration
         [BotPerm(GuildPermission.ManageChannels)]
         public async Task CreatVoiChanl([Leftover] string channelName)
         {
-            var ch = await Context.Guild.CreateVoiceChannelAsync(channelName).ConfigureAwait(false);
+            var ch = await ctx.Guild.CreateVoiceChannelAsync(channelName).ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("createvoich", Format.Bold(ch.Name)).ConfigureAwait(false);
         }
 
@@ -156,7 +156,7 @@ namespace NadekoBot.Modules.Administration
         [BotPerm(GuildPermission.ManageChannels)]
         public async Task CreaTxtChanl([Leftover] string channelName)
         {
-            var txtCh = await Context.Guild.CreateTextChannelAsync(channelName).ConfigureAwait(false);
+            var txtCh = await ctx.Guild.CreateTextChannelAsync(channelName).ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("createtextchan", Format.Bold(txtCh.Name)).ConfigureAwait(false);
         }
 
@@ -166,7 +166,7 @@ namespace NadekoBot.Modules.Administration
         [BotPerm(GuildPermission.ManageChannels)]
         public async Task SetTopic([Leftover] string topic = null)
         {
-            var channel = (ITextChannel)Context.Channel;
+            var channel = (ITextChannel)ctx.Channel;
             topic = topic ?? "";
             await channel.ModifyAsync(c => c.Topic = topic).ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("set_topic").ConfigureAwait(false);
@@ -178,7 +178,7 @@ namespace NadekoBot.Modules.Administration
         [BotPerm(GuildPermission.ManageChannels)]
         public async Task SetChanlName([Leftover] string name)
         {
-            var channel = (ITextChannel)Context.Channel;
+            var channel = (ITextChannel)ctx.Channel;
             await channel.ModifyAsync(c => c.Name = name).ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("set_channel_name").ConfigureAwait(false);
         }

@@ -20,7 +20,7 @@ namespace NadekoBot.Modules.Administration
             [BotPerm(GuildPermission.ManageMessages)]
             public async Task AdSarm()
             {
-                var newVal = _service.ToggleAdSarm(Context.Guild.Id);
+                var newVal = _service.ToggleAdSarm(ctx.Guild.Id);
 
                 if (newVal)
                 {
@@ -47,11 +47,11 @@ namespace NadekoBot.Modules.Administration
             [Priority(0)]
             public async Task Asar(int group, [Leftover] IRole role)
             {
-                var guser = (IGuildUser)Context.User;
-                if (Context.User.Id != guser.Guild.OwnerId && guser.GetRoles().Max(x => x.Position) <= role.Position)
+                var guser = (IGuildUser)ctx.User;
+                if (ctx.User.Id != guser.Guild.OwnerId && guser.GetRoles().Max(x => x.Position) <= role.Position)
                     return;
 
-                var succ = _service.AddNew(Context.Guild.Id, role, group);
+                var succ = _service.AddNew(ctx.Guild.Id, role, group);
 
                 if (succ)
                 {
@@ -70,9 +70,9 @@ namespace NadekoBot.Modules.Administration
             [Priority(0)]
             public async Task Sargn(int group, [Leftover] string name = null)
             {
-                var guser = (IGuildUser)Context.User;
+                var guser = (IGuildUser)ctx.User;
 
-                var set = await _service.SetNameAsync(Context.Guild.Id, group, name).ConfigureAwait(false);
+                var set = await _service.SetNameAsync(ctx.Guild.Id, group, name).ConfigureAwait(false);
 
                 if (set)
                 {
@@ -89,8 +89,8 @@ namespace NadekoBot.Modules.Administration
             [UserPerm(GuildPermission.ManageRoles)]
             public async Task Rsar([Leftover] IRole role)
             {
-                var guser = (IGuildUser)Context.User;
-                if (Context.User.Id != guser.Guild.OwnerId && guser.GetRoles().Max(x => x.Position) <= role.Position)
+                var guser = (IGuildUser)ctx.User;
+                if (ctx.User.Id != guser.Guild.OwnerId && guser.GetRoles().Max(x => x.Position) <= role.Position)
                     return;
 
                 bool success = _service.RemoveSar(role.Guild.Id, role.Id);
@@ -111,9 +111,9 @@ namespace NadekoBot.Modules.Administration
                 if (--page < 0)
                     return;
 
-                var (exclusive, roles, groups) = _service.GetRoles(Context.Guild);
+                var (exclusive, roles, groups) = _service.GetRoles(ctx.Guild);
 
-                await Context.SendPaginatedConfirmAsync(page, (cur) =>
+                await ctx.SendPaginatedConfirmAsync(page, (cur) =>
                 {
                     var rolesStr = new StringBuilder();
                     var roleGroups = roles
@@ -169,7 +169,7 @@ namespace NadekoBot.Modules.Administration
             [BotPerm(GuildPermission.ManageRoles)]
             public async Task Tesar()
             {
-                bool areExclusive = _service.ToggleEsar(Context.Guild.Id);
+                bool areExclusive = _service.ToggleEsar(ctx.Guild.Id);
                 if (areExclusive)
                     await ReplyConfirmLocalizedAsync("self_assign_excl").ConfigureAwait(false);
                 else
@@ -185,7 +185,7 @@ namespace NadekoBot.Modules.Administration
                 if (level < 0)
                     return;
 
-                bool succ = _service.SetLevelReq(Context.Guild.Id, role, level);
+                bool succ = _service.SetLevelReq(ctx.Guild.Id, role, level);
 
                 if (!succ)
                 {
@@ -202,7 +202,7 @@ namespace NadekoBot.Modules.Administration
             [RequireContext(ContextType.Guild)]
             public async Task Iam([Leftover] IRole role)
             {
-                var guildUser = (IGuildUser)Context.User;
+                var guildUser = (IGuildUser)ctx.User;
 
                 var (result, autoDelete, extra) = await _service.Assign(guildUser, role).ConfigureAwait(false);
 
@@ -231,7 +231,7 @@ namespace NadekoBot.Modules.Administration
                 if (autoDelete)
                 {
                     msg.DeleteAfter(3);
-                    Context.Message.DeleteAfter(3);
+                    ctx.Message.DeleteAfter(3);
                 }
             }
 
@@ -239,7 +239,7 @@ namespace NadekoBot.Modules.Administration
             [RequireContext(ContextType.Guild)]
             public async Task Iamnot([Leftover] IRole role)
             {
-                var guildUser = (IGuildUser)Context.User;
+                var guildUser = (IGuildUser)ctx.User;
 
                 var (result, autoDelete) = await _service.Remove(guildUser, role).ConfigureAwait(false);
 
@@ -264,7 +264,7 @@ namespace NadekoBot.Modules.Administration
                 if (autoDelete)
                 {
                     msg.DeleteAfter(3);
-                    Context.Message.DeleteAfter(3);
+                    ctx.Message.DeleteAfter(3);
                 }
             }
         }
