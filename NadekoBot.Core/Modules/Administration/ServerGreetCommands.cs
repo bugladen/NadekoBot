@@ -126,7 +126,7 @@ namespace NadekoBot.Modules.Administration
             [UserPerm(GuildPermission.ManageGuild)]
             public Task ByeMsg()
             {
-                var byeMsg = _service.GetByteMessage(ctx.Guild.Id);
+                var byeMsg = _service.GetByeMessage(ctx.Guild.Id);
                 return ReplyConfirmLocalizedAsync("byemsg_cur", byeMsg?.SanitizeMentions());
             }
 

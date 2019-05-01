@@ -1,14 +1,14 @@
 ﻿using Discord;
 using Discord.WebSocket;
-using NadekoBot.Extensions;
+using NadekoBot.Common;
+using NadekoBot.Common.Replacements;
 using NadekoBot.Core.Services.Database.Models;
+using NadekoBot.Extensions;
 using NLog;
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
-using NadekoBot.Common;
-using NadekoBot.Common.Replacements;
 
 namespace NadekoBot.Core.Services
 {
@@ -212,7 +212,7 @@ namespace NadekoBot.Core.Services
             return Task.CompletedTask;
         }
 
-        public string GetByteMessage(ulong gid)
+        public string GetByeMessage(ulong gid)
         {
             using (var uow = _db.GetGetDbContext())
             {
