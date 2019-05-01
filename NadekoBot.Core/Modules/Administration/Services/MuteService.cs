@@ -128,7 +128,7 @@ namespace NadekoBot.Modules.Administration.Services
         {
             if (type == MuteType.All)
             {
-                await usr.ModifyAsync(x => x.Mute = true).ConfigureAwait(false);
+                try { await usr.ModifyAsync(x => x.Mute = true).ConfigureAwait(false); } catch { }
                 var muteRole = await GetMuteRole(usr.Guild).ConfigureAwait(false);
                 if (!usr.RoleIds.Contains(muteRole.Id))
                     await usr.AddRoleAsync(muteRole).ConfigureAwait(false);
@@ -153,8 +153,12 @@ namespace NadekoBot.Modules.Administration.Services
             }
             else if (type == MuteType.Voice)
             {
-                await usr.ModifyAsync(x => x.Mute = true).ConfigureAwait(false);
-                UserMuted(usr, mod, MuteType.Voice);
+                try
+                {
+                    await usr.ModifyAsync(x => x.Mute = true).ConfigureAwait(false);
+                    UserMuted(usr, mod, MuteType.Voice);
+                }
+                catch { }
             }
             else if (type == MuteType.Chat)
             {
@@ -200,8 +204,12 @@ namespace NadekoBot.Modules.Administration.Services
             {
                 if (usr == null)
                     return;
-                await usr.ModifyAsync(x => x.Mute = false).ConfigureAwait(false);
-                UserUnmuted(usr, mod, MuteType.Voice);
+                try
+                {
+                    await usr.ModifyAsync(x => x.Mute = false).ConfigureAwait(false);
+                    UserUnmuted(usr, mod, MuteType.Voice);
+                }
+                catch { }
             }
             else if (type == MuteType.Chat)
             {

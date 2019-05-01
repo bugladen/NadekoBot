@@ -47,8 +47,9 @@ namespace NadekoBot.Modules.Administration
                     await _service.MuteUser(user, ctx.User).ConfigureAwait(false);
                     await ReplyConfirmLocalizedAsync("user_muted", Format.Bold(user.ToString())).ConfigureAwait(false);
                 }
-                catch
+                catch (Exception ex)
                 {
+                    Console.WriteLine(ex.ToString());
                     await ReplyErrorLocalizedAsync("mute_error").ConfigureAwait(false);
                 }
             }
@@ -101,8 +102,9 @@ namespace NadekoBot.Modules.Administration
                     await _service.MuteUser(user, ctx.User, MuteType.Chat).ConfigureAwait(false);
                     await ReplyConfirmLocalizedAsync("user_chat_mute", Format.Bold(user.ToString())).ConfigureAwait(false);
                 }
-                catch
+                catch (Exception ex)
                 {
+                    Console.WriteLine(ex.ToString());
                     await ReplyErrorLocalizedAsync("mute_error").ConfigureAwait(false);
                 }
             }
