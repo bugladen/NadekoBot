@@ -377,7 +377,7 @@ namespace NadekoBot.Modules.Searches.Services
             };
 
             bool added;
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetGetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(y => y.NsfwBlacklistedTags));
                 if (gc.NsfwBlacklistedTags.Add(tagObj))
@@ -393,7 +393,7 @@ namespace NadekoBot.Modules.Searches.Services
                 var newTags = new HashSet<string>(gc.NsfwBlacklistedTags.Select(x => x.Tag));
                 _blacklistedTags.AddOrUpdate(guildId, newTags, delegate { return newTags; });
 
-                uow.Complete();
+                uow.SaveChanges();
             }
             return added;
         }

@@ -43,7 +43,7 @@ namespace NadekoBot.Modules.Permissions
                     return;
                 }
 
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetGetDbContext())
                 {
                     var config = uow.GuildConfigs.ForId(channel.Guild.Id, set => set.Include(gc => gc.CommandCooldowns));
                     var localSet = CommandCooldowns.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<CommandCooldown>());
@@ -62,7 +62,7 @@ namespace NadekoBot.Modules.Permissions
                         config.CommandCooldowns.Add(cc);
                         localSet.Add(cc);
                     }
-                    await uow.CompleteAsync();
+                    await uow.SaveChangesAsync();
                 }
                 if (secs == 0)
                 {

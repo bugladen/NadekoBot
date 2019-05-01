@@ -48,7 +48,7 @@ namespace NadekoBot.Modules.Gambling
 
         public string GetCurrency(ulong id)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetGetDbContext())
             {
                 return n(uow.DiscordUsers.GetUserCurrency(id));
             }
@@ -113,12 +113,12 @@ namespace NadekoBot.Modules.Gambling
         {
             if (num < 0 || period < 0)
                 return;
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetGetDbContext())
             {
                 var bc = uow.BotConfig.GetOrCreate(set => set);
                 _bc.BotConfig.TimelyCurrency = bc.TimelyCurrency = num;
                 _bc.BotConfig.TimelyCurrencyPeriod = bc.TimelyCurrencyPeriod = period;
-                uow.Complete();
+                uow.SaveChanges();
             }
             if (num == 0)
                 await ReplyConfirmLocalizedAsync("timely_set_none").ConfigureAwait(false);
@@ -189,7 +189,7 @@ namespace NadekoBot.Modules.Gambling
                 return;
 
             var trs = new List<CurrencyTransaction>();
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetGetDbContext())
             {
                 trs = uow.CurrencyTransactions.GetPageFor(userId, page);
             }
@@ -488,7 +488,7 @@ namespace NadekoBot.Modules.Gambling
                 return;
 
             List<DiscordUser> richest;
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetGetDbContext())
             {
                 richest = uow.DiscordUsers.GetTopRichest(_client.CurrentUser.Id, 9, 9 * (page - 1)).ToList();
             }

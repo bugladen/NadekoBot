@@ -58,7 +58,7 @@ namespace NadekoBot.Modules.Utility
                         return;
                     }
 
-                    using (var uow = _db.UnitOfWork)
+                    using (var uow = _db.GetGetDbContext())
                     {
                         var config = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases));
                         var toAdd = new CommandAlias()
@@ -69,7 +69,7 @@ namespace NadekoBot.Modules.Utility
                         var tr = config.CommandAliases.FirstOrDefault(x => x.Trigger == trigger);
                         if (tr != null)
                             uow._context.Set<CommandAlias>().Remove(tr);
-                        uow.Complete();
+                        uow.SaveChanges();
                     }
 
                     await ReplyConfirmLocalizedAsync("alias_removed", Format.Code(trigger)).ConfigureAwait(false);
@@ -77,7 +77,7 @@ namespace NadekoBot.Modules.Utility
                 }
                 _service.AliasMaps.AddOrUpdate(ctx.Guild.Id, (_) =>
                 {
-                    using (var uow = _db.UnitOfWork)
+                    using (var uow = _db.GetGetDbContext())
                     {
                         var config = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases));
                         config.CommandAliases.Add(new CommandAlias()
@@ -85,14 +85,14 @@ namespace NadekoBot.Modules.Utility
                             Mapping = mapping,
                             Trigger = trigger
                         });
-                        uow.Complete();
+                        uow.SaveChanges();
                     }
                     return new ConcurrentDictionary<string, string>(new Dictionary<string, string>() {
                         {trigger.Trim().ToLowerInvariant(), mapping.ToLowerInvariant() },
                     });
                 }, (_, map) =>
                 {
-                    using (var uow = _db.UnitOfWork)
+                    using (var uow = _db.GetGetDbContext())
                     {
                         var config = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases));
                         var toAdd = new CommandAlias()
@@ -104,7 +104,7 @@ namespace NadekoBot.Modules.Utility
                         if (toRemove.Any())
                             uow._context.RemoveRange(toRemove.ToArray());
                         config.CommandAliases.Add(toAdd);
-                        uow.Complete();
+                        uow.SaveChanges();
                     }
                     map.AddOrUpdate(trigger, mapping, (key, old) => mapping);
                     return map;

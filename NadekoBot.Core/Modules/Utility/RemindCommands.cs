@@ -77,7 +77,7 @@ namespace NadekoBot.Modules.Utility
                     .WithTitle(GetText("reminder_list"));
 
                 List<Reminder> rems;
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetGetDbContext())
                 {
                     rems = uow.Reminders.RemindersFor(ctx.User.Id, page)
                         .ToList();
@@ -114,7 +114,7 @@ namespace NadekoBot.Modules.Utility
                 var embed = new EmbedBuilder();
 
                 Reminder rem = null;
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetGetDbContext())
                 {
                     var rems = uow.Reminders.RemindersFor(ctx.User.Id, index / 10)
                         .ToList();
@@ -123,7 +123,7 @@ namespace NadekoBot.Modules.Utility
                     {
                         rem = rems[index];
                         uow.Reminders.Remove(rem);
-                        uow.Complete();
+                        uow.SaveChanges();
                     }
                 }
 
@@ -155,10 +155,10 @@ namespace NadekoBot.Modules.Utility
                     ServerId = ctx.Guild?.Id ?? 0
                 };
 
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetGetDbContext())
                 {
                     uow.Reminders.Add(rem);
-                    await uow.CompleteAsync();
+                    await uow.SaveChangesAsync();
                 }
 
                 var gTime = ctx.Guild == null ?
@@ -188,10 +188,10 @@ namespace NadekoBot.Modules.Utility
                 if (string.IsNullOrWhiteSpace(arg))
                     return;
 
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetGetDbContext())
                 {
                     uow.BotConfig.GetOrCreate(set => set).RemindMessageFormat = arg.Trim();
-                    await uow.CompleteAsync();
+                    await uow.SaveChangesAsync();
                 }
 
                 await ReplyConfirmLocalizedAsync("remind_template").ConfigureAwait(false);

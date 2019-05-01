@@ -158,7 +158,7 @@ namespace NadekoBot.Modules.Searches
                 }
 
                 IEnumerable<FollowedStream> streams;
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetGetDbContext())
                 {
                     var all = uow.GuildConfigs
                                  .ForId(ctx.Guild.Id,
@@ -174,7 +174,7 @@ namespace NadekoBot.Modules.Searches
                             _service.UntrackStream(r);
                         }
                         uow._context.RemoveRange(toRemove);
-                        uow.Complete();
+                        uow.SaveChanges();
                     }
                 }
                 await ctx.SendPaginatedConfirmAsync(page, async (cur) =>
@@ -277,7 +277,7 @@ namespace NadekoBot.Modules.Searches
                 };
 
                 FollowedStream removed;
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetGetDbContext())
                 {
                     var config = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set.Include(gc => gc.FollowedStreams));
                     removed = config.FollowedStreams.FirstOrDefault(x => x.Equals(fs));
@@ -285,7 +285,7 @@ namespace NadekoBot.Modules.Searches
                     {
                         uow._context.Remove(removed);
                     }
-                    await uow.CompleteAsync();
+                    await uow.SaveChangesAsync();
                 }
                 _service.UntrackStream(fs);
                 if (removed == null)
@@ -361,12 +361,12 @@ namespace NadekoBot.Modules.Searches
                     return;
                 }
 
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetGetDbContext())
                 {
                     uow.GuildConfigs.ForId(channel.Guild.Id, set => set.Include(gc => gc.FollowedStreams))
                                     .FollowedStreams
                                     .Add(fs);
-                    await uow.CompleteAsync();
+                    await uow.SaveChangesAsync();
                 }
 
                 _service.TrackStream(fs);

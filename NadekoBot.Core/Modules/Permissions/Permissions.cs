@@ -28,11 +28,11 @@ namespace NadekoBot.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task Verbose(PermissionAction action)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetGetDbContext())
             {
                 var config = uow.GuildConfigs.GcWithPermissionsv2For(ctx.Guild.Id);
                 config.VerbosePermissions = action.Value;
-                await uow.CompleteAsync();
+                await uow.SaveChangesAsync();
                 _service.UpdateCache(config);
             }
             if (action.Value)
@@ -69,11 +69,11 @@ namespace NadekoBot.Modules.Permissions
                 return;
             }
 
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetGetDbContext())
             {
                 var config = uow.GuildConfigs.GcWithPermissionsv2For(ctx.Guild.Id);
                 config.PermissionRole = role.Id.ToString();
-                uow.Complete();
+                uow.SaveChanges();
                 _service.UpdateCache(config);
             }
 
@@ -88,11 +88,11 @@ namespace NadekoBot.Modules.Permissions
         [Priority(1)]
         public async Task PermRole(Reset _)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetGetDbContext())
             {
                 var config = uow.GuildConfigs.GcWithPermissionsv2For(ctx.Guild.Id);
                 config.PermissionRole = null;
-                await uow.CompleteAsync();
+                await uow.SaveChangesAsync();
                 _service.UpdateCache(config);
             }
 
@@ -144,14 +144,14 @@ namespace NadekoBot.Modules.Permissions
             try
             {
                 Permissionv2 p;
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetGetDbContext())
                 {
                     var config = uow.GuildConfigs.GcWithPermissionsv2For(ctx.Guild.Id);
                     var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
                     p = permsCol[index];
                     permsCol.RemoveAt(index);
                     uow._context.Remove(p);
-                    await uow.CompleteAsync();
+                    await uow.SaveChangesAsync();
                     _service.UpdateCache(config);
                 }
                 await ReplyConfirmLocalizedAsync("removed",
@@ -175,7 +175,7 @@ namespace NadekoBot.Modules.Permissions
                 try
                 {
                     Permissionv2 fromPerm;
-                    using (var uow = _db.UnitOfWork)
+                    using (var uow = _db.GetGetDbContext())
                     {
                         var config = uow.GuildConfigs.GcWithPermissionsv2For(ctx.Guild.Id);
                         var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
@@ -198,7 +198,7 @@ namespace NadekoBot.Modules.Permissions
 
                         permsCol.RemoveAt(from);
                         permsCol.Insert(to, fromPerm);
-                        await uow.CompleteAsync();
+                        await uow.SaveChangesAsync();
                         _service.UpdateCache(config);
                     }
                     await ReplyConfirmLocalizedAsync("moved_permission",

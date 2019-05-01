@@ -40,11 +40,11 @@ namespace NadekoBot.Modules.Permissions
                 var channel = (ITextChannel)ctx.Channel;
 
                 bool enabled;
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetGetDbContext())
                 {
                     var config = uow.GuildConfigs.ForId(channel.Guild.Id, set => set);
                     enabled = config.FilterInvites = !config.FilterInvites;
-                    await uow.CompleteAsync();
+                    await uow.SaveChangesAsync();
                 }
 
                 if (enabled)
@@ -66,7 +66,7 @@ namespace NadekoBot.Modules.Permissions
                 var channel = (ITextChannel)ctx.Channel;
 
                 FilterChannelId removed;
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetGetDbContext())
                 {
                     var config = uow.GuildConfigs.ForId(channel.Guild.Id, set => set.Include(gc => gc.FilterInvitesChannelIds));
                     var match = new FilterChannelId()
@@ -83,7 +83,7 @@ namespace NadekoBot.Modules.Permissions
                     {
                         uow._context.Remove(removed);
                     }
-                    await uow.CompleteAsync();
+                    await uow.SaveChangesAsync();
                 }
 
                 if (removed == null)
@@ -105,11 +105,11 @@ namespace NadekoBot.Modules.Permissions
                 var channel = (ITextChannel)ctx.Channel;
 
                 bool enabled;
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetGetDbContext())
                 {
                     var config = uow.GuildConfigs.ForId(channel.Guild.Id, set => set);
                     enabled = config.FilterWords = !config.FilterWords;
-                    await uow.CompleteAsync();
+                    await uow.SaveChangesAsync();
                 }
 
                 if (enabled)
@@ -131,7 +131,7 @@ namespace NadekoBot.Modules.Permissions
                 var channel = (ITextChannel)ctx.Channel;
 
                 FilterChannelId removed;
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetGetDbContext())
                 {
                     var config = uow.GuildConfigs.ForId(channel.Guild.Id, set => set.Include(gc => gc.FilterWordsChannelIds));
 
@@ -148,7 +148,7 @@ namespace NadekoBot.Modules.Permissions
                     {
                         uow._context.Remove(removed);
                     }
-                    await uow.CompleteAsync();
+                    await uow.SaveChangesAsync();
                 }
 
                 if (removed == null)
@@ -175,7 +175,7 @@ namespace NadekoBot.Modules.Permissions
                     return;
 
                 FilteredWord removed;
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetGetDbContext())
                 {
                     var config = uow.GuildConfigs.ForId(channel.Guild.Id, set => set.Include(gc => gc.FilteredWords));
 
@@ -188,7 +188,7 @@ namespace NadekoBot.Modules.Permissions
                         uow._context.Remove(removed);
                     }
 
-                    await uow.CompleteAsync();
+                    await uow.SaveChangesAsync();
                 }
 
                 var filteredWords = _service.ServerFilteredWords.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<string>());

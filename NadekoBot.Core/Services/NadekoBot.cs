@@ -97,12 +97,12 @@ namespace NadekoBot
                 DefaultRunMode = RunMode.Sync,
             });
 
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetGetDbContext())
             {
                 _botConfig = uow.BotConfig.GetOrCreate();
                 OkColor = new Color(Convert.ToUInt32(_botConfig.OkColor, 16));
                 ErrorColor = new Color(Convert.ToUInt32(_botConfig.ErrorColor, 16));
-                uow.Complete();
+                uow.SaveChanges();
             }
 
             SetupShard(parentProcessId);
@@ -142,7 +142,7 @@ namespace NadekoBot
 
         public IEnumerable<GuildConfig> GetCurrentGuildConfigs()
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetGetDbContext())
             {
                 return uow.GuildConfigs.GetAllGuildConfigs(GetCurrentGuildIds()).ToImmutableArray();
             }
@@ -153,7 +153,7 @@ namespace NadekoBot
             var startingGuildIdList = GetCurrentGuildIds();
 
             //this unit of work will be used for initialization of all modules too, to prevent multiple queries from running
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetGetDbContext())
             {
                 var sw = Stopwatch.StartNew();
 
@@ -285,7 +285,7 @@ namespace NadekoBot
             var _ = Task.Run(async () =>
             {
                 GuildConfig gc;
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetGetDbContext())
                 {
                     gc = uow.GuildConfigs.ForId(arg.Id);
                 }

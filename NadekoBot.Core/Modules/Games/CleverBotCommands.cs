@@ -30,10 +30,10 @@ namespace NadekoBot.Modules.Games
 
                 if (_service.ChatterBotGuilds.TryRemove(channel.Guild.Id, out _))
                 {
-                    using (var uow = _db.UnitOfWork)
+                    using (var uow = _db.GetGetDbContext())
                     {
                         uow.GuildConfigs.SetCleverbotEnabled(ctx.Guild.Id, false);
-                        await uow.CompleteAsync();
+                        await uow.SaveChangesAsync();
                     }
                     await ReplyConfirmLocalizedAsync("cleverbot_disabled").ConfigureAwait(false);
                     return;
@@ -41,10 +41,10 @@ namespace NadekoBot.Modules.Games
 
                 _service.ChatterBotGuilds.TryAdd(channel.Guild.Id, new Lazy<IChatterBotSession>(() => _service.CreateSession(), true));
 
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetGetDbContext())
                 {
                     uow.GuildConfigs.SetCleverbotEnabled(ctx.Guild.Id, true);
-                    await uow.CompleteAsync();
+                    await uow.SaveChangesAsync();
                 }
 
                 await ReplyConfirmLocalizedAsync("cleverbot_enabled").ConfigureAwait(false);

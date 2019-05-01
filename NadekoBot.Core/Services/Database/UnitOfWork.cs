@@ -59,10 +59,10 @@ namespace NadekoBot.Core.Services.Database
             _context = context;
         }
 
-        public int Complete() =>
+        public int SaveChanges() =>
             _context.SaveChanges();
 
-        public Task<int> CompleteAsync() =>
+        public Task<int> SaveChangesAsync() =>
             _context.SaveChangesAsync();
 
         public void Dispose()

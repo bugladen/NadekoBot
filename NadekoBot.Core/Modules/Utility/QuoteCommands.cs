@@ -40,7 +40,7 @@ namespace NadekoBot.Modules.Utility
                     return;
 
                 IEnumerable<Quote> quotes;
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetGetDbContext())
                 {
                     quotes = uow.Quotes.GetGroup(ctx.Guild.Id, page, order);
                 }
@@ -63,7 +63,7 @@ namespace NadekoBot.Modules.Utility
                 keyword = keyword.ToUpperInvariant();
 
                 Quote quote;
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetGetDbContext())
                 {
                     quote = await uow.Quotes.GetRandomQuoteByKeywordAsync(ctx.Guild.Id, keyword);
                     //if (quote != null)
@@ -100,7 +100,7 @@ namespace NadekoBot.Modules.Utility
                 keyword = keyword.ToUpperInvariant();
 
                 Quote keywordquote;
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetGetDbContext())
                 {
                     keywordquote = await uow.Quotes.SearchQuoteKeywordTextAsync(ctx.Guild.Id, keyword, text);
                 }
@@ -125,7 +125,7 @@ namespace NadekoBot.Modules.Utility
                     .WithDefault(Context)
                     .Build();
 
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetGetDbContext())
                 {
                     quote = uow.Quotes.GetById(id);
                     if (quote.GuildId != ctx.Guild.Id)
@@ -163,7 +163,7 @@ namespace NadekoBot.Modules.Utility
 
                 keyword = keyword.ToUpperInvariant();
 
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetGetDbContext())
                 {
                     uow.Quotes.Add(new Quote
                     {
@@ -173,7 +173,7 @@ namespace NadekoBot.Modules.Utility
                         Keyword = keyword,
                         Text = text,
                     });
-                    await uow.CompleteAsync();
+                    await uow.SaveChangesAsync();
                 }
                 await ReplyConfirmLocalizedAsync("quote_added").ConfigureAwait(false);
             }
@@ -186,7 +186,7 @@ namespace NadekoBot.Modules.Utility
 
                 var success = false;
                 string response;
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetGetDbContext())
                 {
                     var q = uow.Quotes.GetById(id);
 
@@ -197,7 +197,7 @@ namespace NadekoBot.Modules.Utility
                     else
                     {
                         uow.Quotes.Remove(q);
-                        await uow.CompleteAsync();
+                        await uow.SaveChangesAsync();
                         success = true;
                         response = GetText("quote_deleted", id);
                     }
@@ -218,11 +218,11 @@ namespace NadekoBot.Modules.Utility
 
                 keyword = keyword.ToUpperInvariant();
 
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetGetDbContext())
                 {
                     uow.Quotes.RemoveAllByKeyword(ctx.Guild.Id, keyword.ToUpperInvariant());
 
-                    await uow.CompleteAsync();
+                    await uow.SaveChangesAsync();
                 }
 
                 await ReplyConfirmLocalizedAsync("quotes_deleted", Format.Bold(keyword.SanitizeMentions())).ConfigureAwait(false);

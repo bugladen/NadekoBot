@@ -48,7 +48,7 @@ namespace NadekoBot.Modules.Gambling
                 if (--page < 0)
                     return;
                 List<ShopEntry> entries;
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetGetDbContext())
                 {
                     entries = new IndexedCollection<ShopEntry>(uow.GuildConfigs.ForId(ctx.Guild.Id,
                         set => set.Include(x => x.ShopEntries)
@@ -82,14 +82,14 @@ namespace NadekoBot.Modules.Gambling
                 if (index < 0)
                     return;
                 ShopEntry entry;
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetGetDbContext())
                 {
                     var config = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set
                         .Include(x => x.ShopEntries)
                         .ThenInclude(x => x.Items));
                     var entries = new IndexedCollection<ShopEntry>(config.ShopEntries);
                     entry = entries.ElementAtOrDefault(index);
-                    uow.Complete();
+                    uow.SaveChanges();
                 }
 
                 if (entry == null)
@@ -146,10 +146,10 @@ namespace NadekoBot.Modules.Gambling
 
                     if (await _cs.RemoveAsync(ctx.User.Id, $"Shop purchase - {entry.Type}", entry.Price).ConfigureAwait(false))
                     {
-                        using (var uow = _db.UnitOfWork)
+                        using (var uow = _db.GetGetDbContext())
                         {
                             var x = uow._context.Set<ShopEntryItem>().Remove(item);
-                            uow.Complete();
+                            uow.SaveChanges();
                         }
                         try
                         {
@@ -170,7 +170,7 @@ namespace NadekoBot.Modules.Gambling
                             await _cs.AddAsync(ctx.User.Id,
                                 $"Shop error refund - {entry.Name}",
                                 entry.Price).ConfigureAwait(false);
-                            using (var uow = _db.UnitOfWork)
+                            using (var uow = _db.GetGetDbContext())
                             {
                                 var entries = new IndexedCollection<ShopEntry>(uow.GuildConfigs.ForId(ctx.Guild.Id,
                                     set => set.Include(x => x.ShopEntries)
@@ -180,7 +180,7 @@ namespace NadekoBot.Modules.Gambling
                                 {
                                     if (entry.Items.Add(item))
                                     {
-                                        uow.Complete();
+                                        uow.SaveChanges();
                                     }
                                 }
                             }
@@ -216,7 +216,7 @@ namespace NadekoBot.Modules.Gambling
                     RoleId = role.Id,
                     RoleName = role.Name
                 };
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetGetDbContext())
                 {
                     var entries = new IndexedCollection<ShopEntry>(uow.GuildConfigs.ForId(ctx.Guild.Id,
                         set => set.Include(x => x.ShopEntries)
@@ -225,7 +225,7 @@ namespace NadekoBot.Modules.Gambling
                         entry
                     };
                     uow.GuildConfigs.ForId(ctx.Guild.Id, set => set).ShopEntries = entries;
-                    uow.Complete();
+                    uow.SaveChanges();
                 }
                 await ctx.Channel.EmbedAsync(EntryToEmbed(entry)
                     .WithTitle(GetText("shop_item_add"))).ConfigureAwait(false);
@@ -244,7 +244,7 @@ namespace NadekoBot.Modules.Gambling
                     AuthorId = ctx.User.Id,
                     Items = new HashSet<ShopEntryItem>(),
                 };
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetGetDbContext())
                 {
                     var entries = new IndexedCollection<ShopEntry>(uow.GuildConfigs.ForId(ctx.Guild.Id,
                         set => set.Include(x => x.ShopEntries)
@@ -253,7 +253,7 @@ namespace NadekoBot.Modules.Gambling
                         entry
                     };
                     uow.GuildConfigs.ForId(ctx.Guild.Id, set => set).ShopEntries = entries;
-                    uow.Complete();
+                    uow.SaveChanges();
                 }
                 await ctx.Channel.EmbedAsync(EntryToEmbed(entry)
                     .WithTitle(GetText("shop_item_add"))).ConfigureAwait(false);
@@ -274,7 +274,7 @@ namespace NadekoBot.Modules.Gambling
                 ShopEntry entry;
                 bool rightType = false;
                 bool added = false;
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetGetDbContext())
                 {
                     var entries = new IndexedCollection<ShopEntry>(uow.GuildConfigs.ForId(ctx.Guild.Id,
                         set => set.Include(x => x.ShopEntries)
@@ -284,7 +284,7 @@ namespace NadekoBot.Modules.Gambling
                     {
                         if (added = entry.Items.Add(item))
                         {
-                            uow.Complete();
+                            uow.SaveChanges();
                         }
                     }
                 }
@@ -307,7 +307,7 @@ namespace NadekoBot.Modules.Gambling
                 if (index < 0)
                     return;
                 ShopEntry removed;
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetGetDbContext())
                 {
                     var config = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set
                         .Include(x => x.ShopEntries)
@@ -319,7 +319,7 @@ namespace NadekoBot.Modules.Gambling
                     {
                         uow._context.RemoveRange(removed.Items);
                         uow._context.Remove(removed);
-                        uow.Complete();
+                        uow.SaveChanges();
                     }
                 }
 

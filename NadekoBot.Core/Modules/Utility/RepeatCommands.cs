@@ -87,14 +87,14 @@ namespace NadekoBot.Modules.Utility
                 if (rep.TryRemove(repeater.Value.Repeater.Id, out var runner))
                     runner.Stop();
 
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetGetDbContext())
                 {
                     var guildConfig = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
 
                     var item = guildConfig.GuildRepeaters.FirstOrDefault(r => r.Id == repeater.Value.Repeater.Id);
                     if (item != null)
                         guildConfig.GuildRepeaters.Remove(item);
-                    await uow.CompleteAsync();
+                    await uow.SaveChangesAsync();
                 }
                 await ctx.Channel.SendConfirmAsync(GetText("message_repeater"),
                     GetText("repeater_stopped", index + 1) + $"\n\n{repeater.Value}").ConfigureAwait(false);
@@ -133,7 +133,7 @@ namespace NadekoBot.Modules.Utility
                     StartTimeOfDay = dt?.InputTimeUtc.TimeOfDay,
                 };
 
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetGetDbContext())
                 {
                     var gc = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set.Include(x => x.GuildRepeaters));
 
@@ -141,7 +141,7 @@ namespace NadekoBot.Modules.Utility
                         return;
                     gc.GuildRepeaters.Add(toAdd);
 
-                    await uow.CompleteAsync();
+                    await uow.SaveChangesAsync();
                 }
 
                 var rep = new RepeatRunner((SocketGuild)ctx.Guild, toAdd, _service);
