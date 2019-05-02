@@ -23,11 +23,11 @@ function Build-Installer($versionNumber)
     dotnet publish -c Release --runtime win7-x64
     .\rcedit-x64.exe "src\NadekoBot\bin\Release\netcoreapp2.1\win7-x64\nadekobot.exe" --set-icon "src\NadekoBot\bin\Release\netcoreapp2.1\win7-x64\nadeko_icon.ico"
 
-    & "C:\Program Files (x86)\Inno Setup 5\iscc.exe" "/O+" ".\NadekoBot.iss"
+    & "iscc.exe" "/O+" ".\NadekoBot.iss"
 
-    $path = [Environment]::GetFolderPath('MyDocuments') + "\projekti\NadekoInstallerOutput\NadekoBot-setup-$versionNumber.exe";
-    $dest = [Environment]::GetFolderPath('MyDocuments') + "\projekti\NadekoInstallerOutput\nadeko-setup.exe";
-    Move-Item -Path $path -Destination $dest -Force
+    $path = [Environment]::GetFolderPath('MyDocuments') + "\_projekti\NadekoInstallerOutput\NadekoBot-setup-$versionNumber.exe";
+    $dest = [Environment]::GetFolderPath('MyDocuments') + "\_projekti\NadekoInstallerOutput\nadeko-setup.exe";
+    Copy-Item -Path $path -Destination $dest -Force
 }
 
 function GitHub-Release($versionNumber) {
