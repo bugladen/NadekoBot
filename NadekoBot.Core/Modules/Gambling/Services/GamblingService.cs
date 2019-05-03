@@ -46,7 +46,7 @@ namespace NadekoBot.Modules.Gambling.Services
                     if (decay <= 0)
                         return;
 
-                    using (var uow = _db.GetGetDbContext())
+                    using (var uow = _db.GetDbContext())
                     {
                         var botc = uow.BotConfig.GetOrCreate();
                         //once every 24 hours
@@ -115,7 +115,7 @@ namespace NadekoBot.Modules.Gambling.Services
             decimal waifus;
             long bot;
 
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 cash = uow.DiscordUsers.GetTotalCurrency();
                 onePercent = uow.DiscordUsers.GetTopOnePercentCurrency(_client.CurrentUser.Id);

@@ -65,7 +65,7 @@ namespace NadekoBot.Modules.Administration.Services
 
         public void SetTimeZone(ulong guildId, TimeZoneInfo tz)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guildId, set => set);
 

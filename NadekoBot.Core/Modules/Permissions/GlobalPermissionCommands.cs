@@ -54,7 +54,7 @@ namespace NadekoBot.Modules.Permissions
                 var moduleName = module.Name.ToLowerInvariant();
                 if (_service.BlockedModules.Add(moduleName))
                 {
-                    using (var uow = _db.GetGetDbContext())
+                    using (var uow = _db.GetDbContext())
                     {
                         var bc = uow.BotConfig.GetOrCreate(set => set.Include(x => x.BlockedModules));
                         bc.BlockedModules.Add(new BlockedCmdOrMdl
@@ -68,7 +68,7 @@ namespace NadekoBot.Modules.Permissions
                 }
                 else if (_service.BlockedModules.TryRemove(moduleName))
                 {
-                    using (var uow = _db.GetGetDbContext())
+                    using (var uow = _db.GetDbContext())
                     {
                         var bc = uow.BotConfig.GetOrCreate(set => set.Include(x => x.BlockedModules));
                         var mdls = bc.BlockedModules.Where(x => x.Name == moduleName);
@@ -88,7 +88,7 @@ namespace NadekoBot.Modules.Permissions
                 var commandName = cmd.Name.ToLowerInvariant();
                 if (_service.BlockedCommands.Add(commandName))
                 {
-                    using (var uow = _db.GetGetDbContext())
+                    using (var uow = _db.GetDbContext())
                     {
                         var bc = uow.BotConfig.GetOrCreate(set => set.Include(x => x.BlockedCommands));
                         bc.BlockedCommands.Add(new BlockedCmdOrMdl
@@ -102,7 +102,7 @@ namespace NadekoBot.Modules.Permissions
                 }
                 else if (_service.BlockedCommands.TryRemove(commandName))
                 {
-                    using (var uow = _db.GetGetDbContext())
+                    using (var uow = _db.GetDbContext())
                     {
                         var bc = uow.BotConfig.GetOrCreate(set => set.Include(x => x.BlockedCommands));
                         var objs = bc.BlockedCommands.Where(x => x.Name == commandName);

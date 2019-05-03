@@ -40,7 +40,7 @@ namespace NadekoBot.Modules.Utility
                     return;
 
                 IEnumerable<Quote> quotes;
-                using (var uow = _db.GetGetDbContext())
+                using (var uow = _db.GetDbContext())
                 {
                     quotes = uow.Quotes.GetGroup(ctx.Guild.Id, page, order);
                 }
@@ -63,7 +63,7 @@ namespace NadekoBot.Modules.Utility
                 keyword = keyword.ToUpperInvariant();
 
                 Quote quote;
-                using (var uow = _db.GetGetDbContext())
+                using (var uow = _db.GetDbContext())
                 {
                     quote = await uow.Quotes.GetRandomQuoteByKeywordAsync(ctx.Guild.Id, keyword);
                     //if (quote != null)
@@ -100,7 +100,7 @@ namespace NadekoBot.Modules.Utility
                 keyword = keyword.ToUpperInvariant();
 
                 Quote keywordquote;
-                using (var uow = _db.GetGetDbContext())
+                using (var uow = _db.GetDbContext())
                 {
                     keywordquote = await uow.Quotes.SearchQuoteKeywordTextAsync(ctx.Guild.Id, keyword, text);
                 }
@@ -125,7 +125,7 @@ namespace NadekoBot.Modules.Utility
                     .WithDefault(Context)
                     .Build();
 
-                using (var uow = _db.GetGetDbContext())
+                using (var uow = _db.GetDbContext())
                 {
                     quote = uow.Quotes.GetById(id);
                     if (quote.GuildId != ctx.Guild.Id)
@@ -163,7 +163,7 @@ namespace NadekoBot.Modules.Utility
 
                 keyword = keyword.ToUpperInvariant();
 
-                using (var uow = _db.GetGetDbContext())
+                using (var uow = _db.GetDbContext())
                 {
                     uow.Quotes.Add(new Quote
                     {
@@ -186,7 +186,7 @@ namespace NadekoBot.Modules.Utility
 
                 var success = false;
                 string response;
-                using (var uow = _db.GetGetDbContext())
+                using (var uow = _db.GetDbContext())
                 {
                     var q = uow.Quotes.GetById(id);
 
@@ -210,7 +210,7 @@ namespace NadekoBot.Modules.Utility
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.Administrator)]
+            [UserPerm(GuildPerm.Administrator)]
             public async Task DelAllQuotes([Leftover] string keyword)
             {
                 if (string.IsNullOrWhiteSpace(keyword))
@@ -218,7 +218,7 @@ namespace NadekoBot.Modules.Utility
 
                 keyword = keyword.ToUpperInvariant();
 
-                using (var uow = _db.GetGetDbContext())
+                using (var uow = _db.GetDbContext())
                 {
                     uow.Quotes.RemoveAllByKeyword(ctx.Guild.Id, keyword.ToUpperInvariant());
 

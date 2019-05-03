@@ -94,7 +94,7 @@ namespace NadekoBot.Core.Services
             if (string.IsNullOrWhiteSpace(prefix))
                 throw new ArgumentNullException(nameof(prefix));
 
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 uow.BotConfig.GetOrCreate(set => set).DefaultPrefix = prefix;
                 uow.SaveChanges();
@@ -109,7 +109,7 @@ namespace NadekoBot.Core.Services
             if (guild == null)
                 throw new ArgumentNullException(nameof(guild));
 
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
                 gc.Prefix = prefix;

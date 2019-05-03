@@ -119,7 +119,7 @@ namespace NadekoBot.Modules.Utility.Services
                 {
                     var amount = (int)(data.Reward.attributes.amount_cents * _bc.BotConfig.PatreonCurrencyPerCent);
 
-                    using (var uow = _db.GetGetDbContext())
+                    using (var uow = _db.GetDbContext())
                     {
                         var users = uow._context.Set<RewardedUser>();
                         var usr = users.FirstOrDefault(x => x.PatreonUserId == data.User.id);

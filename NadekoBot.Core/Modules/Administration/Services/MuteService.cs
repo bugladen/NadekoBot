@@ -32,7 +32,7 @@ namespace NadekoBot.Modules.Administration.Services
 
         public async Task SetMuteRoleAsync(ulong guildId, string name)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var config = uow.GuildConfigs.ForId(guildId, set => set);
                 config.MuteRoleName = name;
@@ -133,7 +133,7 @@ namespace NadekoBot.Modules.Administration.Services
                 if (!usr.RoleIds.Contains(muteRole.Id))
                     await usr.AddRoleAsync(muteRole).ConfigureAwait(false);
                 StopTimer(usr.GuildId, usr.Id, TimerType.Mute);
-                using (var uow = _db.GetGetDbContext())
+                using (var uow = _db.GetDbContext())
                 {
                     var config = uow.GuildConfigs.ForId(usr.Guild.Id,
                         set => set.Include(gc => gc.MutedUsers)
@@ -173,7 +173,7 @@ namespace NadekoBot.Modules.Administration.Services
             if (type == MuteType.All)
             {
                 StopTimer(guildId, usrId, TimerType.Mute);
-                using (var uow = _db.GetGetDbContext())
+                using (var uow = _db.GetDbContext())
                 {
                     var config = uow.GuildConfigs.ForId(guildId, set => set.Include(gc => gc.MutedUsers)
                         .Include(gc => gc.UnmuteTimers));
@@ -268,7 +268,7 @@ namespace NadekoBot.Modules.Administration.Services
         public async Task TimedMute(IGuildUser user, IUser mod, TimeSpan after)
         {
             await MuteUser(user, mod).ConfigureAwait(false); // mute the user. This will also remove any previous unmute timers
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var config = uow.GuildConfigs.ForId(user.GuildId, set => set.Include(x => x.UnmuteTimers));
                 config.UnmuteTimers.Add(new UnmuteTimer()
@@ -284,7 +284,7 @@ namespace NadekoBot.Modules.Administration.Services
         public async Task TimedBan(IGuildUser user, TimeSpan after, string reason)
         {
             await user.Guild.AddBanAsync(user.Id, 0, reason).ConfigureAwait(false);
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var config = uow.GuildConfigs.ForId(user.GuildId, set => set.Include(x => x.UnbanTimer));
                 config.UnbanTimer.Add(new UnbanTimer()
@@ -361,7 +361,7 @@ namespace NadekoBot.Modules.Administration.Services
 
         private void RemoveTimerFromDb(ulong guildId, ulong userId, TimerType type)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 object toDelete;
                 if (type == TimerType.Mute)

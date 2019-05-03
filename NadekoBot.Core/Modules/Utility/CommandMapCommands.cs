@@ -30,7 +30,7 @@ namespace NadekoBot.Modules.Utility
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.Administrator)]
+            [UserPerm(GuildPerm.Administrator)]
             public async Task AliasesClear()
             {
                 var count = _service.ClearAliases(ctx.Guild.Id);
@@ -38,7 +38,7 @@ namespace NadekoBot.Modules.Utility
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [UserPerm(GuildPermission.Administrator)]
+            [UserPerm(GuildPerm.Administrator)]
             [RequireContext(ContextType.Guild)]
             public async Task Alias(string trigger, [Leftover] string mapping = null)
             {
@@ -58,7 +58,7 @@ namespace NadekoBot.Modules.Utility
                         return;
                     }
 
-                    using (var uow = _db.GetGetDbContext())
+                    using (var uow = _db.GetDbContext())
                     {
                         var config = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases));
                         var toAdd = new CommandAlias()
@@ -77,7 +77,7 @@ namespace NadekoBot.Modules.Utility
                 }
                 _service.AliasMaps.AddOrUpdate(ctx.Guild.Id, (_) =>
                 {
-                    using (var uow = _db.GetGetDbContext())
+                    using (var uow = _db.GetDbContext())
                     {
                         var config = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases));
                         config.CommandAliases.Add(new CommandAlias()
@@ -92,7 +92,7 @@ namespace NadekoBot.Modules.Utility
                     });
                 }, (_, map) =>
                 {
-                    using (var uow = _db.GetGetDbContext())
+                    using (var uow = _db.GetDbContext())
                     {
                         var config = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases));
                         var toAdd = new CommandAlias()

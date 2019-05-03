@@ -76,7 +76,7 @@ namespace NadekoBot.Modules.Xp
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [UserPerm(GuildPermission.ManageRoles)]
+        [UserPerm(GuildPerm.ManageRoles)]
         [RequireContext(ContextType.Guild)]
         public async Task XpRoleReward(int level, [Leftover] IRole role = null)
         {
@@ -129,7 +129,7 @@ namespace NadekoBot.Modules.Xp
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
+        [UserPerm(GuildPerm.Administrator)]
         public async Task XpExclude(Server _)
         {
             var ex = _service.ToggleExcludeServer(ctx.Guild.Id);
@@ -140,7 +140,7 @@ namespace NadekoBot.Modules.Xp
         public enum Role { Role };
 
         [NadekoCommand, Usage, Description, Aliases]
-        [UserPerm(GuildPermission.ManageRoles)]
+        [UserPerm(GuildPerm.ManageRoles)]
         [RequireContext(ContextType.Guild)]
         public async Task XpExclude(Role _, [Leftover] IRole role)
         {
@@ -152,7 +152,7 @@ namespace NadekoBot.Modules.Xp
         public enum Channel { Channel };
 
         [NadekoCommand, Usage, Description, Aliases]
-        [UserPerm(GuildPermission.ManageChannels)]
+        [UserPerm(GuildPerm.ManageChannels)]
         [RequireContext(ContextType.Guild)]
         public async Task XpExclude(Channel _, [Leftover] ITextChannel channel = null)
         {
@@ -260,7 +260,7 @@ namespace NadekoBot.Modules.Xp
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
+        [UserPerm(GuildPerm.Administrator)]
         public async Task XpAdd(int amount, ulong userId)
         {
             if (amount == 0)
@@ -274,7 +274,7 @@ namespace NadekoBot.Modules.Xp
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
+        [UserPerm(GuildPerm.Administrator)]
         public Task XpAdd(int amount, [Leftover] IGuildUser user)
             => XpAdd(amount, user.Id);
 

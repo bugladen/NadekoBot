@@ -105,7 +105,7 @@ namespace NadekoBot.Modules.NSFW
         [NadekoCommand, Usage, Description, Aliases]
         [RequireNsfw]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(ChannelPermission.ManageMessages)]
+        [UserPerm(ChannelPerm.ManageMessages)]
         public async Task AutoHentai(int interval = 0, string tags = null)
         {
             Timer t;
@@ -153,7 +153,7 @@ namespace NadekoBot.Modules.NSFW
         [NadekoCommand, Usage, Description, Aliases]
         [RequireNsfw]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(ChannelPermission.ManageMessages)]
+        [UserPerm(ChannelPerm.ManageMessages)]
         public async Task AutoBoobs(int interval = 0)
         {
             Timer t;
@@ -193,7 +193,7 @@ namespace NadekoBot.Modules.NSFW
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-        [UserPerm(ChannelPermission.ManageMessages)]
+        [UserPerm(ChannelPerm.ManageMessages)]
         public async Task AutoButts(int interval = 0)
         {
             Timer t;
@@ -340,7 +340,7 @@ namespace NadekoBot.Modules.NSFW
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageMessages)]
+        [UserPerm(GuildPerm.ManageMessages)]
         public async Task NsfwTagBlacklist([Leftover] string tag = null)
         {
             if (string.IsNullOrWhiteSpace(tag))

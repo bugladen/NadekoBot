@@ -16,8 +16,8 @@ namespace NadekoBot.Modules.Utility
         {
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [BotPerm(ChannelPermission.CreateInstantInvite)]
-            [UserPerm(ChannelPermission.CreateInstantInvite)]
+            [BotPerm(ChannelPerm.CreateInstantInvite)]
+            [UserPerm(ChannelPerm.CreateInstantInvite)]
             [NadekoOptions(typeof(InviteService.Options))]
             public async Task InviteCreate(params string[] args)
             {
@@ -33,8 +33,8 @@ namespace NadekoBot.Modules.Utility
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [BotPerm(ChannelPermission.ManageChannels)]
-            [UserPerm(ChannelPermission.ManageChannels)]
+            [BotPerm(ChannelPerm.ManageChannels)]
+            [UserPerm(ChannelPerm.ManageChannels)]
             public async Task InviteList(int page = 1, [Leftover]ITextChannel ch = null)
             {
                 if (--page < 0)
@@ -63,8 +63,8 @@ namespace NadekoBot.Modules.Utility
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [BotPerm(ChannelPermission.ManageChannels)]
-            [UserPerm(ChannelPermission.ManageChannels)]
+            [BotPerm(ChannelPerm.ManageChannels)]
+            [UserPerm(ChannelPerm.ManageChannels)]
             public async Task InviteDelete(int index)
             {
                 if (--index < 0)

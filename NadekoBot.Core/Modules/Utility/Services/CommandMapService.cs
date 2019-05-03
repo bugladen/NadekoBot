@@ -40,7 +40,7 @@ namespace NadekoBot.Modules.Utility.Services
             AliasMaps.TryRemove(guildId, out _);
 
             int count;
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.CommandAliases));
                 count = gc.CommandAliases.Count;

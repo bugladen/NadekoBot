@@ -63,7 +63,7 @@ namespace NadekoBot.Modules.Searches
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageMessages)]
+        [UserPerm(GuildPerm.ManageMessages)]
         [Priority(1)]
         public async Task Say(ITextChannel channel, [Leftover]string message)
         {
@@ -98,7 +98,7 @@ namespace NadekoBot.Modules.Searches
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageMessages)]
+        [UserPerm(GuildPerm.ManageMessages)]
         [Priority(0)]
         public Task Say([Leftover]string message) =>
             Say((ITextChannel)ctx.Channel, message);

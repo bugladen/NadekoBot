@@ -155,7 +155,7 @@ namespace NadekoBot.Modules.Administration.Services
 
         public bool Add(ulong id, ReactionRoleMessage rrm)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(id, set => set
                     .Include(x => x.ReactionRoleMessages)
@@ -173,7 +173,7 @@ namespace NadekoBot.Modules.Administration.Services
 
         public void Remove(ulong id, int index)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(id, 
                     set => set.Include(x => x.ReactionRoleMessages)

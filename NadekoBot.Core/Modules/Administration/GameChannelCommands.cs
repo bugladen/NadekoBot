@@ -14,8 +14,8 @@ namespace NadekoBot.Modules.Administration
         {
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.Administrator)]
-            [BotPerm(GuildPermission.MoveMembers)]
+            [UserPerm(GuildPerm.Administrator)]
+            [BotPerm(GuildPerm.MoveMembers)]
             public async Task GameVoiceChannel()
             {
                 var vch = ((IGuildUser)ctx.User).VoiceChannel;

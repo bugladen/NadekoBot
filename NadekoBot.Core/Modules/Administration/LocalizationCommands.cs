@@ -58,7 +58,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.Administrator)]
+            [UserPerm(GuildPerm.Administrator)]
             [Priority(1)]
             public async Task LanguageSet(string name)
             {

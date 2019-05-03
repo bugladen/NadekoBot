@@ -55,7 +55,7 @@ namespace NadekoBot.Modules.Permissions
                 if (action == AddRemove.Add && _creds.OwnerIds.Contains(id))
                     return;
 
-                using (var uow = _db.GetGetDbContext())
+                using (var uow = _db.GetDbContext())
                 {
                     if (action == AddRemove.Add)
                     {

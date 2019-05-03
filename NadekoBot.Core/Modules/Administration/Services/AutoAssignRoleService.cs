@@ -106,7 +106,7 @@ namespace NadekoBot.Modules.Administration.Services
 
         public void EnableAar(ulong guildId, ulong roleId)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guildId, set => set);
                 gc.AutoAssignRoleId = roleId;
@@ -119,7 +119,7 @@ namespace NadekoBot.Modules.Administration.Services
 
         public void DisableAar(ulong guildId)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guildId, set => set);
                 gc.AutoAssignRoleId = 0;

@@ -15,8 +15,8 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
-        [BotPerm(GuildPermission.ManageMessages)]
+        [UserPerm(GuildPerm.Administrator)]
+        [BotPerm(GuildPerm.ManageMessages)]
         [Priority(2)]
         public async Task Delmsgoncmd(List _)
         {
@@ -48,8 +48,8 @@ namespace NadekoBot.Modules.Administration
         public enum Server { Server }
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
-        [BotPerm(GuildPermission.ManageMessages)]
+        [UserPerm(GuildPerm.Administrator)]
+        [BotPerm(GuildPerm.ManageMessages)]
         [Priority(1)]
         public async Task Delmsgoncmd(Server _ = Server.Server)
         {
@@ -70,16 +70,16 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
-        [BotPerm(GuildPermission.ManageMessages)]
+        [UserPerm(GuildPerm.Administrator)]
+        [BotPerm(GuildPerm.ManageMessages)]
         [Priority(0)]
         public Task Delmsgoncmd(Channel _, State s, ITextChannel ch)
             => Delmsgoncmd(_, s, ch.Id);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
-        [BotPerm(GuildPermission.ManageMessages)]
+        [UserPerm(GuildPerm.Administrator)]
+        [BotPerm(GuildPerm.ManageMessages)]
         [Priority(1)]
         public async Task Delmsgoncmd(Channel _, State s, ulong? chId = null)
         {
@@ -102,8 +102,8 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.DeafenMembers)]
-        [BotPerm(GuildPermission.DeafenMembers)]
+        [UserPerm(GuildPerm.DeafenMembers)]
+        [BotPerm(GuildPerm.DeafenMembers)]
         public async Task Deafen(params IGuildUser[] users)
         {
             await _service.DeafenUsers(true, users).ConfigureAwait(false);
@@ -112,8 +112,8 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.DeafenMembers)]
-        [BotPerm(GuildPermission.DeafenMembers)]
+        [UserPerm(GuildPerm.DeafenMembers)]
+        [BotPerm(GuildPerm.DeafenMembers)]
         public async Task UnDeafen(params IGuildUser[] users)
         {
             await _service.DeafenUsers(false, users).ConfigureAwait(false);
@@ -122,8 +122,8 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageChannels)]
-        [BotPerm(GuildPermission.ManageChannels)]
+        [UserPerm(GuildPerm.ManageChannels)]
+        [BotPerm(GuildPerm.ManageChannels)]
         public async Task DelVoiChanl([Leftover] IVoiceChannel voiceChannel)
         {
             await voiceChannel.DeleteAsync().ConfigureAwait(false);
@@ -132,8 +132,8 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageChannels)]
-        [BotPerm(GuildPermission.ManageChannels)]
+        [UserPerm(GuildPerm.ManageChannels)]
+        [BotPerm(GuildPerm.ManageChannels)]
         public async Task CreatVoiChanl([Leftover] string channelName)
         {
             var ch = await ctx.Guild.CreateVoiceChannelAsync(channelName).ConfigureAwait(false);
@@ -142,8 +142,8 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageChannels)]
-        [BotPerm(GuildPermission.ManageChannels)]
+        [UserPerm(GuildPerm.ManageChannels)]
+        [BotPerm(GuildPerm.ManageChannels)]
         public async Task DelTxtChanl([Leftover] ITextChannel toDelete)
         {
             await toDelete.DeleteAsync().ConfigureAwait(false);
@@ -152,8 +152,8 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageChannels)]
-        [BotPerm(GuildPermission.ManageChannels)]
+        [UserPerm(GuildPerm.ManageChannels)]
+        [BotPerm(GuildPerm.ManageChannels)]
         public async Task CreaTxtChanl([Leftover] string channelName)
         {
             var txtCh = await ctx.Guild.CreateTextChannelAsync(channelName).ConfigureAwait(false);
@@ -162,8 +162,8 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageChannels)]
-        [BotPerm(GuildPermission.ManageChannels)]
+        [UserPerm(GuildPerm.ManageChannels)]
+        [BotPerm(GuildPerm.ManageChannels)]
         public async Task SetTopic([Leftover] string topic = null)
         {
             var channel = (ITextChannel)ctx.Channel;
@@ -174,8 +174,8 @@ namespace NadekoBot.Modules.Administration
         }
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageChannels)]
-        [BotPerm(GuildPermission.ManageChannels)]
+        [UserPerm(GuildPerm.ManageChannels)]
+        [BotPerm(GuildPerm.ManageChannels)]
         public async Task SetChanlName([Leftover] string name)
         {
             var channel = (ITextChannel)ctx.Channel;
@@ -185,7 +185,7 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageMessages)]
+        [UserPerm(GuildPerm.ManageMessages)]
         public async Task Edit(ulong messageId, [Leftover] string text)
         {
             if (string.IsNullOrWhiteSpace(text))

@@ -56,7 +56,7 @@ namespace NadekoBot.Core.Services
                 throw new ArgumentException("You can't add negative amounts. Use RemoveAsync method for that.", nameof(amount));
             }
 
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 InternalChange(userId, userName, discrim, avatar, reason, amount, gamble, uow);
                 await uow.SaveChangesAsync();
@@ -99,7 +99,7 @@ namespace NadekoBot.Core.Services
                 throw new ArgumentException("Cannot perform bulk operation. Arrays are not of equal length.");
 
             var userIdHashSet = new HashSet<ulong>(idArray.Length);
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 for (int i = 0; i < idArray.Length; i++)
                 {
@@ -119,7 +119,7 @@ namespace NadekoBot.Core.Services
             }
 
             bool result;
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 result = InternalChange(userId, userName, userDiscrim, avatar, reason, -amount, gamble, uow);
                 await uow.SaveChangesAsync();

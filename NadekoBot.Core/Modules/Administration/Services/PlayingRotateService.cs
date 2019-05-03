@@ -91,7 +91,7 @@ namespace NadekoBot.Modules.Administration.Services
                 throw new ArgumentOutOfRangeException(nameof(index));
 
             string msg;
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var config = uow.BotConfig.GetOrCreate(set => set.Include(x => x.RotatingStatusMessages));
 
@@ -109,7 +109,7 @@ namespace NadekoBot.Modules.Administration.Services
 
         public async Task AddPlaying(ActivityType t, string status)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var config = uow.BotConfig.GetOrCreate(set => set.Include(x => x.RotatingStatusMessages));
                 var toAdd = new PlayingStatus { Status = status, Type = t };
@@ -122,7 +122,7 @@ namespace NadekoBot.Modules.Administration.Services
         public bool ToggleRotatePlaying()
         {
             bool enabled;
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var config = uow.BotConfig.GetOrCreate(set => set);
 

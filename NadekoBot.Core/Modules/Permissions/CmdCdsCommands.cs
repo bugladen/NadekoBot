@@ -43,7 +43,7 @@ namespace NadekoBot.Modules.Permissions
                     return;
                 }
 
-                using (var uow = _db.GetGetDbContext())
+                using (var uow = _db.GetDbContext())
                 {
                     var config = uow.GuildConfigs.ForId(channel.Guild.Id, set => set.Include(gc => gc.CommandCooldowns));
                     var localSet = CommandCooldowns.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<CommandCooldown>());

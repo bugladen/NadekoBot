@@ -55,7 +55,7 @@ namespace NadekoBot.Modules.Games.Common
                 var _ = OnVoted?.Invoke(msg, usr);
             }
             finally { _locker.Release(); }
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var trackedPoll = uow.Polls.GetById(Poll.Id);
                 trackedPoll.Votes.Add(voteObj);

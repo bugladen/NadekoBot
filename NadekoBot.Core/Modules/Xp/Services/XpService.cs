@@ -134,7 +134,7 @@ namespace NadekoBot.Modules.Xp.Services
                         if (toAddTo.Count == 0)
                             continue;
 
-                        using (var uow = _db.GetGetDbContext())
+                        using (var uow = _db.GetDbContext())
                         {
                             foreach (var item in group)
                             {
@@ -286,7 +286,7 @@ namespace NadekoBot.Modules.Xp.Services
 
         public void SetCurrencyReward(ulong guildId, int level, int amount)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var settings = uow.GuildConfigs.XpSettingsFor(guildId);
 
@@ -320,7 +320,7 @@ namespace NadekoBot.Modules.Xp.Services
 
         public IEnumerable<XpCurrencyReward> GetCurrencyRewards(ulong id)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 return uow.GuildConfigs.XpSettingsFor(id)
                     .CurrencyRewards
@@ -330,7 +330,7 @@ namespace NadekoBot.Modules.Xp.Services
 
         public IEnumerable<XpRoleReward> GetRoleRewards(ulong id)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 return uow.GuildConfigs.XpSettingsFor(id)
                     .RoleRewards
@@ -340,7 +340,7 @@ namespace NadekoBot.Modules.Xp.Services
 
         public void SetRoleReward(ulong guildId, int level, ulong? roleId)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var settings = uow.GuildConfigs.XpSettingsFor(guildId);
 
@@ -374,7 +374,7 @@ namespace NadekoBot.Modules.Xp.Services
 
         public UserXpStats[] GetUserXps(ulong guildId, int page)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 return uow.Xp.GetUsersFor(guildId, page);
             }
@@ -382,7 +382,7 @@ namespace NadekoBot.Modules.Xp.Services
 
         public DiscordUser[] GetUserXps(int page)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 return uow.DiscordUsers.GetUsersXpLeaderboardFor(page);
             }
@@ -390,7 +390,7 @@ namespace NadekoBot.Modules.Xp.Services
 
         public async Task ChangeNotificationType(ulong userId, ulong guildId, XpNotificationLocation type)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var user = uow.Xp.GetOrCreateUser(guildId, userId);
                 user.NotifyOnLevelUp = type;
@@ -400,7 +400,7 @@ namespace NadekoBot.Modules.Xp.Services
 
         public async Task ChangeNotificationType(IUser user, XpNotificationLocation type)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var du = uow.DiscordUsers.GetOrCreate(user);
                 du.NotifyOnLevelUp = type;
@@ -439,7 +439,7 @@ namespace NadekoBot.Modules.Xp.Services
 
         public void AddXp(ulong userId, ulong guildId, int amount)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var usr = uow.Xp.GetOrCreateUser(guildId, userId);
 
@@ -488,7 +488,7 @@ namespace NadekoBot.Modules.Xp.Services
             int totalXp;
             int globalRank;
             int guildRank;
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 du = uow.DiscordUsers.GetOrCreate(user);
                 totalXp = du.TotalXp;
@@ -529,7 +529,7 @@ namespace NadekoBot.Modules.Xp.Services
 
         public bool ToggleExcludeServer(ulong id)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var xpSetting = uow.GuildConfigs.XpSettingsFor(id);
                 if (_excludedServers.Add(id))
@@ -549,7 +549,7 @@ namespace NadekoBot.Modules.Xp.Services
         public bool ToggleExcludeRole(ulong guildId, ulong rId)
         {
             var roles = _excludedRoles.GetOrAdd(guildId, _ => new ConcurrentHashSet<ulong>());
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var xpSetting = uow.GuildConfigs.XpSettingsFor(guildId);
                 var excludeObj = new ExcludedItem
@@ -587,7 +587,7 @@ namespace NadekoBot.Modules.Xp.Services
         public bool ToggleExcludeChannel(ulong guildId, ulong chId)
         {
             var channels = _excludedChannels.GetOrAdd(guildId, _ => new ConcurrentHashSet<ulong>());
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var xpSetting = uow.GuildConfigs.XpSettingsFor(guildId);
                 var excludeObj = new ExcludedItem
@@ -928,7 +928,7 @@ namespace NadekoBot.Modules.Xp.Services
 
         public void XpReset(ulong guildId, ulong userId)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 uow.Xp.ResetGuildUserXp(userId, guildId);
                 uow.SaveChanges();
@@ -937,7 +937,7 @@ namespace NadekoBot.Modules.Xp.Services
 
         public void XpReset(ulong guildId)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 uow.Xp.ResetGuildXp(guildId);
                 uow.SaveChanges();

@@ -32,8 +32,8 @@ namespace NadekoBot.Modules.Administration
             // prune x
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(ChannelPermission.ManageMessages)]
-            [BotPerm(ChannelPermission.ManageMessages)]
+            [UserPerm(ChannelPerm.ManageMessages)]
+            [BotPerm(ChannelPerm.ManageMessages)]
             [Priority(1)]
             public async Task Prune(int count, string parameter = null)
             {
@@ -52,8 +52,8 @@ namespace NadekoBot.Modules.Administration
             //prune @user [x]
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(ChannelPermission.ManageMessages)]
-            [BotPerm(ChannelPermission.ManageMessages)]
+            [UserPerm(ChannelPerm.ManageMessages)]
+            [BotPerm(ChannelPerm.ManageMessages)]
             [Priority(0)]
             public Task Prune(IGuildUser user, int count = 100, string parameter = null)
                 => Prune(user.Id, count, parameter);
@@ -61,8 +61,8 @@ namespace NadekoBot.Modules.Administration
             //prune userid [x]
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(ChannelPermission.ManageMessages)]
-            [BotPerm(ChannelPermission.ManageMessages)]
+            [UserPerm(ChannelPerm.ManageMessages)]
+            [BotPerm(ChannelPerm.ManageMessages)]
             [Priority(0)]
             public async Task Prune(ulong userId, int count = 100, string parameter = null)
             {

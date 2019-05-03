@@ -19,7 +19,7 @@ namespace NadekoBot.Modules.Permissions.Services
 
         public async Task ResetPermissions(ulong guildId)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var config = uow.GuildConfigs.GcWithPermissionsv2For(guildId);
                 config.Permissions = Permissionv2.GetDefaultPermlist;
@@ -30,7 +30,7 @@ namespace NadekoBot.Modules.Permissions.Services
 
         public async Task ResetGlobalPermissions()
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var gc = uow.BotConfig.GetOrCreate();
                 gc.BlockedCommands.Clear();

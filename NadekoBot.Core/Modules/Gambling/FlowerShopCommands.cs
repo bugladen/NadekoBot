@@ -48,7 +48,7 @@ namespace NadekoBot.Modules.Gambling
                 if (--page < 0)
                     return;
                 List<ShopEntry> entries;
-                using (var uow = _db.GetGetDbContext())
+                using (var uow = _db.GetDbContext())
                 {
                     entries = new IndexedCollection<ShopEntry>(uow.GuildConfigs.ForId(ctx.Guild.Id,
                         set => set.Include(x => x.ShopEntries)
@@ -82,7 +82,7 @@ namespace NadekoBot.Modules.Gambling
                 if (index < 0)
                     return;
                 ShopEntry entry;
-                using (var uow = _db.GetGetDbContext())
+                using (var uow = _db.GetDbContext())
                 {
                     var config = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set
                         .Include(x => x.ShopEntries)
@@ -146,7 +146,7 @@ namespace NadekoBot.Modules.Gambling
 
                     if (await _cs.RemoveAsync(ctx.User.Id, $"Shop purchase - {entry.Type}", entry.Price).ConfigureAwait(false))
                     {
-                        using (var uow = _db.GetGetDbContext())
+                        using (var uow = _db.GetDbContext())
                         {
                             var x = uow._context.Set<ShopEntryItem>().Remove(item);
                             uow.SaveChanges();
@@ -170,7 +170,7 @@ namespace NadekoBot.Modules.Gambling
                             await _cs.AddAsync(ctx.User.Id,
                                 $"Shop error refund - {entry.Name}",
                                 entry.Price).ConfigureAwait(false);
-                            using (var uow = _db.GetGetDbContext())
+                            using (var uow = _db.GetDbContext())
                             {
                                 var entries = new IndexedCollection<ShopEntry>(uow.GuildConfigs.ForId(ctx.Guild.Id,
                                     set => set.Include(x => x.ShopEntries)
@@ -203,8 +203,8 @@ namespace NadekoBot.Modules.Gambling
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.Administrator)]
-            [BotPerm(GuildPermission.ManageRoles)]
+            [UserPerm(GuildPerm.Administrator)]
+            [BotPerm(GuildPerm.ManageRoles)]
             public async Task ShopAdd(Role _, int price, [Leftover] IRole role)
             {
                 var entry = new ShopEntry()
@@ -216,7 +216,7 @@ namespace NadekoBot.Modules.Gambling
                     RoleId = role.Id,
                     RoleName = role.Name
                 };
-                using (var uow = _db.GetGetDbContext())
+                using (var uow = _db.GetDbContext())
                 {
                     var entries = new IndexedCollection<ShopEntry>(uow.GuildConfigs.ForId(ctx.Guild.Id,
                         set => set.Include(x => x.ShopEntries)
@@ -233,7 +233,7 @@ namespace NadekoBot.Modules.Gambling
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.Administrator)]
+            [UserPerm(GuildPerm.Administrator)]
             public async Task ShopAdd(List _, int price, [Leftover]string name)
             {
                 var entry = new ShopEntry()
@@ -244,7 +244,7 @@ namespace NadekoBot.Modules.Gambling
                     AuthorId = ctx.User.Id,
                     Items = new HashSet<ShopEntryItem>(),
                 };
-                using (var uow = _db.GetGetDbContext())
+                using (var uow = _db.GetDbContext())
                 {
                     var entries = new IndexedCollection<ShopEntry>(uow.GuildConfigs.ForId(ctx.Guild.Id,
                         set => set.Include(x => x.ShopEntries)
@@ -261,7 +261,7 @@ namespace NadekoBot.Modules.Gambling
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.Administrator)]
+            [UserPerm(GuildPerm.Administrator)]
             public async Task ShopListAdd(int index, [Leftover] string itemText)
             {
                 index -= 1;
@@ -274,7 +274,7 @@ namespace NadekoBot.Modules.Gambling
                 ShopEntry entry;
                 bool rightType = false;
                 bool added = false;
-                using (var uow = _db.GetGetDbContext())
+                using (var uow = _db.GetDbContext())
                 {
                     var entries = new IndexedCollection<ShopEntry>(uow.GuildConfigs.ForId(ctx.Guild.Id,
                         set => set.Include(x => x.ShopEntries)
@@ -300,14 +300,14 @@ namespace NadekoBot.Modules.Gambling
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.Administrator)]
+            [UserPerm(GuildPerm.Administrator)]
             public async Task ShopRemove(int index)
             {
                 index -= 1;
                 if (index < 0)
                     return;
                 ShopEntry removed;
-                using (var uow = _db.GetGetDbContext())
+                using (var uow = _db.GetDbContext())
                 {
                     var config = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set
                         .Include(x => x.ShopEntries)

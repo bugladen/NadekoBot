@@ -38,7 +38,7 @@ namespace NadekoBot.Core.Modules.Administration.Services
 
         public bool AddNew(ulong guildId, IRole role, int group)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var roles = uow.SelfAssignedRoles.GetFromGuild(guildId);
                 if (roles.Any(s => s.RoleId == role.Id && s.GuildId == role.Guild.Id))
@@ -60,7 +60,7 @@ namespace NadekoBot.Core.Modules.Administration.Services
         public bool ToggleAdSarm(ulong guildId)
         {
             bool newval;
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var config = uow.GuildConfigs.ForId(guildId, set => set);
                 newval = config.AutoDeleteSelfAssignedRoleMessages = !config.AutoDeleteSelfAssignedRoleMessages;
@@ -72,7 +72,7 @@ namespace NadekoBot.Core.Modules.Administration.Services
         public async Task<(AssignResult Result, bool AutoDelete, object extra)> Assign(IGuildUser guildUser, IRole role)
         {
             LevelStats userLevelData;
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var stats = uow.Xp.GetOrCreateUser(guildUser.Guild.Id, guildUser.Id);
                 userLevelData = new LevelStats(stats.Xp + stats.AwardedXp);
@@ -134,7 +134,7 @@ namespace NadekoBot.Core.Modules.Administration.Services
         public async Task<bool> SetNameAsync(ulong guildId, int group, string name)
         {
             bool set = false;
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guildId, y => y.Include(x => x.SelfAssignableRoleGroupNames));
                 var toUpdate = gc.SelfAssignableRoleGroupNames.FirstOrDefault(x => x.Number == group);
@@ -192,7 +192,7 @@ namespace NadekoBot.Core.Modules.Administration.Services
         public bool RemoveSar(ulong guildId, ulong roleId)
         {
             bool success;
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 success = uow.SelfAssignedRoles.DeleteByGuildAndRoleId(guildId, roleId);
                 uow.SaveChanges();
@@ -202,7 +202,7 @@ namespace NadekoBot.Core.Modules.Administration.Services
 
         public (bool AutoDelete, bool Exclusive, IEnumerable<SelfAssignedRole>) GetAdAndRoles(ulong guildId)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guildId, set => set);
                 var autoDelete = gc.AutoDeleteSelfAssignedRoleMessages;
@@ -215,7 +215,7 @@ namespace NadekoBot.Core.Modules.Administration.Services
 
         public bool SetLevelReq(ulong guildId, IRole role, int level)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var roles = uow.SelfAssignedRoles.GetFromGuild(guildId);
                 var sar = roles.FirstOrDefault(x => x.RoleId == role.Id);
@@ -236,7 +236,7 @@ namespace NadekoBot.Core.Modules.Administration.Services
         public bool ToggleEsar(ulong guildId)
         {
             bool areExclusive;
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var config = uow.GuildConfigs.ForId(guildId, set => set);
 
@@ -252,7 +252,7 @@ namespace NadekoBot.Core.Modules.Administration.Services
 
             IEnumerable<(SelfAssignedRole Model, IRole Role)> roles;
             IDictionary<int, string> groupNames;
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guild.Id, set => set.Include(x => x.SelfAssignableRoleGroupNames));
                 exclusive = gc.ExclusiveSelfAssignedRoles;

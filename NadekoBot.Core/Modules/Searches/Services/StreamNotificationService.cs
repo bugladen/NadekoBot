@@ -82,7 +82,7 @@ namespace NadekoBot.Modules.Searches.Services
                             await _cache.ClearAllStreamData().ConfigureAwait(false);
                             // get a list of streams which are followed right now.
                             IEnumerable<FollowedStream> fss;
-                            using (var uow = _db.GetGetDbContext())
+                            using (var uow = _db.GetDbContext())
                             {
                                 fss = uow.GuildConfigs.GetFollowedStreams()
                                     .Distinct(fs => (fs.Type, fs.Username.ToLowerInvariant()));
@@ -167,7 +167,7 @@ namespace NadekoBot.Modules.Searches.Services
         public int ClearAllStreams(ulong guildId)
         {
             int count;
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.FollowedStreams));
                 count = gc.FollowedStreams.Count;
@@ -246,7 +246,7 @@ namespace NadekoBot.Modules.Searches.Services
         {
             name = name.ToLowerInvariant();
             IEnumerable<FollowedStream> streams;
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 streams = uow.GuildConfigs
                     .ForId(guildId, set => set.Include(x => x.FollowedStreams))
@@ -270,7 +270,7 @@ namespace NadekoBot.Modules.Searches.Services
         public bool ToggleStreamOffline(ulong guildId)
         {
             bool val;
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var config = uow.GuildConfigs
                     .ForId(guildId, set => set);

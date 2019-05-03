@@ -16,8 +16,8 @@ namespace NadekoBot.Modules.Administration
         public class VcRoleCommands : NadekoSubmodule<VcRoleService>
         {
             [NadekoCommand, Usage, Description, Aliases]
-            [UserPerm(GuildPermission.ManageRoles)]
-            [BotPerm(GuildPermission.ManageRoles)]
+            [UserPerm(GuildPerm.ManageRoles)]
+            [BotPerm(GuildPerm.ManageRoles)]
             [RequireContext(ContextType.Guild)]
             public async Task VcRole([Leftover]IRole role = null)
             {

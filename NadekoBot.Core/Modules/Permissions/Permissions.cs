@@ -28,7 +28,7 @@ namespace NadekoBot.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task Verbose(PermissionAction action)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var config = uow.GuildConfigs.GcWithPermissionsv2For(ctx.Guild.Id);
                 config.VerbosePermissions = action.Value;
@@ -47,7 +47,7 @@ namespace NadekoBot.Modules.Permissions
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
+        [UserPerm(GuildPerm.Administrator)]
         [Priority(0)]
         public async Task PermRole([Leftover] IRole role = null)
         {
@@ -69,7 +69,7 @@ namespace NadekoBot.Modules.Permissions
                 return;
             }
 
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var config = uow.GuildConfigs.GcWithPermissionsv2For(ctx.Guild.Id);
                 config.PermissionRole = role.Id.ToString();
@@ -84,11 +84,11 @@ namespace NadekoBot.Modules.Permissions
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
+        [UserPerm(GuildPerm.Administrator)]
         [Priority(1)]
         public async Task PermRole(Reset _)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var config = uow.GuildConfigs.GcWithPermissionsv2For(ctx.Guild.Id);
                 config.PermissionRole = null;
@@ -144,7 +144,7 @@ namespace NadekoBot.Modules.Permissions
             try
             {
                 Permissionv2 p;
-                using (var uow = _db.GetGetDbContext())
+                using (var uow = _db.GetDbContext())
                 {
                     var config = uow.GuildConfigs.GcWithPermissionsv2For(ctx.Guild.Id);
                     var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
@@ -175,7 +175,7 @@ namespace NadekoBot.Modules.Permissions
                 try
                 {
                     Permissionv2 fromPerm;
-                    using (var uow = _db.GetGetDbContext())
+                    using (var uow = _db.GetDbContext())
                     {
                         var config = uow.GuildConfigs.GcWithPermissionsv2For(ctx.Guild.Id);
                         var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);

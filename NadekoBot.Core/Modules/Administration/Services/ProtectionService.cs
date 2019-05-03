@@ -237,7 +237,7 @@ namespace NadekoBot.Modules.Administration.Services
 
             _antiRaidGuilds.AddOrUpdate(guildId, stats, (key, old) => stats);
 
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiRaidSetting));
 
@@ -252,7 +252,7 @@ namespace NadekoBot.Modules.Administration.Services
         {
             if (_antiRaidGuilds.TryRemove(guildId, out _))
             {
-                using (var uow = _db.GetGetDbContext())
+                using (var uow = _db.GetDbContext())
                 {
                     var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiRaidSetting));
 
@@ -269,7 +269,7 @@ namespace NadekoBot.Modules.Administration.Services
             if (_antiSpamGuilds.TryRemove(guildId, out var removed))
             {
                 removed.UserStats.ForEach(x => x.Value.Dispose());
-                using (var uow = _db.GetGetDbContext())
+                using (var uow = _db.GetDbContext())
                 {
                     var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiSpamSetting)
                         .ThenInclude(x => x.IgnoredChannels));
@@ -303,7 +303,7 @@ namespace NadekoBot.Modules.Administration.Services
                 return stats;
             });
 
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiSpamSetting));
 
@@ -329,7 +329,7 @@ namespace NadekoBot.Modules.Administration.Services
                 ChannelId = channelId
             };
             bool added;
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiSpamSetting).ThenInclude(x => x.IgnoredChannels));
                 var spam = gc.AntiSpamSetting;

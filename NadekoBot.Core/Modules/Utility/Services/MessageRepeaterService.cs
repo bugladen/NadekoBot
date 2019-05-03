@@ -75,7 +75,7 @@ namespace NadekoBot.Modules.Utility.Services
 
         public async Task RemoveRepeater(Repeater r)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var gr = uow.GuildConfigs.ForId(r.GuildId, x => x.Include(y => y.GuildRepeaters)).GuildRepeaters;
                 var toDelete = gr.FirstOrDefault(x => x.Id == r.Id);
@@ -87,7 +87,7 @@ namespace NadekoBot.Modules.Utility.Services
 
         public void SetRepeaterLastMessage(int repeaterId, ulong lastMsgId)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 uow._context.Database.ExecuteSqlCommand($@"UPDATE GuildRepeater SET 
                     LastMessageId={lastMsgId} WHERE Id={repeaterId}");

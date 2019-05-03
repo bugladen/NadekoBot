@@ -40,7 +40,7 @@ namespace NadekoBot.Modules.Utility.Services
             _db = db;
 
             List<Reminder> reminders;
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 reminders = uow.Reminders.GetIncludedReminders(guilds).ToList();
             }
@@ -100,7 +100,7 @@ namespace NadekoBot.Modules.Utility.Services
             catch (Exception ex) { _log.Info(ex.Message + $"({r.Id})"); }
             finally
             {
-                using (var uow = _db.GetGetDbContext())
+                using (var uow = _db.GetDbContext())
                 {
                     uow._context.Database.ExecuteSqlCommand($"DELETE FROM Reminders WHERE Id={r.Id};");
                     uow.SaveChanges();

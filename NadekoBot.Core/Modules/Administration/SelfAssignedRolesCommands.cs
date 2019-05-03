@@ -16,8 +16,8 @@ namespace NadekoBot.Modules.Administration
         {
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.ManageMessages)]
-            [BotPerm(GuildPermission.ManageMessages)]
+            [UserPerm(GuildPerm.ManageMessages)]
+            [BotPerm(GuildPerm.ManageMessages)]
             public async Task AdSarm()
             {
                 var newVal = _service.ToggleAdSarm(ctx.Guild.Id);
@@ -34,16 +34,16 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.ManageRoles)]
-            [BotPerm(GuildPermission.ManageRoles)]
+            [UserPerm(GuildPerm.ManageRoles)]
+            [BotPerm(GuildPerm.ManageRoles)]
             [Priority(1)]
             public Task Asar([Leftover] IRole role) =>
                 Asar(0, role);
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.ManageRoles)]
-            [BotPerm(GuildPermission.ManageRoles)]
+            [UserPerm(GuildPerm.ManageRoles)]
+            [BotPerm(GuildPerm.ManageRoles)]
             [Priority(0)]
             public async Task Asar(int group, [Leftover] IRole role)
             {
@@ -65,8 +65,8 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.ManageRoles)]
-            [BotPerm(GuildPermission.ManageRoles)]
+            [UserPerm(GuildPerm.ManageRoles)]
+            [BotPerm(GuildPerm.ManageRoles)]
             [Priority(0)]
             public async Task Sargn(int group, [Leftover] string name = null)
             {
@@ -86,7 +86,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.ManageRoles)]
+            [UserPerm(GuildPerm.ManageRoles)]
             public async Task Rsar([Leftover] IRole role)
             {
                 var guser = (IGuildUser)ctx.User;
@@ -165,8 +165,8 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.ManageRoles)]
-            [BotPerm(GuildPermission.ManageRoles)]
+            [UserPerm(GuildPerm.ManageRoles)]
+            [BotPerm(GuildPerm.ManageRoles)]
             public async Task Tesar()
             {
                 bool areExclusive = _service.ToggleEsar(ctx.Guild.Id);
@@ -178,8 +178,8 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.ManageRoles)]
-            [BotPerm(GuildPermission.ManageRoles)]
+            [UserPerm(GuildPerm.ManageRoles)]
+            [BotPerm(GuildPerm.ManageRoles)]
             public async Task RoleLevelReq(int level, [Leftover] IRole role)
             {
                 if (level < 0)

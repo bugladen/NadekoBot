@@ -270,7 +270,7 @@ namespace NadekoBot.Modules.CustomReactions
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
+        [UserPerm(GuildPerm.Administrator)]
         public async Task CrClear()
         {
             if (await PromptUserConfirmAsync(new EmbedBuilder()

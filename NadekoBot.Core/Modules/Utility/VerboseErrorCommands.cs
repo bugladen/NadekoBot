@@ -13,7 +13,7 @@ namespace NadekoBot.Modules.Utility
         {
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(Discord.GuildPermission.ManageMessages)]
+            [UserPerm(GuildPerm.ManageMessages)]
             public async Task VerboseError()
             {
                 var state = _service.ToggleVerboseErrors(ctx.Guild.Id);

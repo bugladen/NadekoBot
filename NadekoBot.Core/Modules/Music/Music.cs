@@ -387,7 +387,7 @@ namespace NadekoBot.Modules.Music
                 await ReplyErrorLocalizedAsync("volume_input_invalid").ConfigureAwait(false);
                 return;
             }
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 uow.GuildConfigs.ForId(ctx.Guild.Id, set => set).DefaultMusicVolume = val / 100.0f;
                 uow.SaveChanges();
@@ -445,7 +445,7 @@ namespace NadekoBot.Modules.Music
 
             List<MusicPlaylist> playlists;
 
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 playlists = uow.MusicPlaylists.GetPlaylistsOnPage(num);
             }
@@ -465,7 +465,7 @@ namespace NadekoBot.Modules.Music
             var success = false;
             try
             {
-                using (var uow = _db.GetGetDbContext())
+                using (var uow = _db.GetDbContext())
                 {
                     var pl = uow.MusicPlaylists.GetById(id);
 
@@ -499,7 +499,7 @@ namespace NadekoBot.Modules.Music
                 return;
 
             MusicPlaylist mpl;
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 mpl = uow.MusicPlaylists.GetWithSongs(id);
             }
@@ -534,7 +534,7 @@ namespace NadekoBot.Modules.Music
                 }).ToList();
 
             MusicPlaylist playlist;
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 playlist = new MusicPlaylist
                 {
@@ -565,7 +565,7 @@ namespace NadekoBot.Modules.Music
             {
                 var mp = await _service.GetOrCreatePlayer(Context).ConfigureAwait(false);
                 MusicPlaylist mpl;
-                using (var uow = _db.GetGetDbContext())
+                using (var uow = _db.GetDbContext())
                 {
                     mpl = uow.MusicPlaylists.GetWithSongs(id);
                 }
@@ -944,7 +944,7 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageMessages)]
+        [UserPerm(GuildPerm.ManageMessages)]
         public async Task SetMusicChannel()
         {
             var mp = await _service.GetOrCreatePlayer(Context).ConfigureAwait(false);
@@ -957,7 +957,7 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageMessages)]
+        [UserPerm(GuildPerm.ManageMessages)]
         public async Task UnsetMusicChannel()
         {
             var mp = await _service.GetOrCreatePlayer(Context).ConfigureAwait(false);

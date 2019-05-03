@@ -4,11 +4,11 @@ namespace Discord
 {
     public class UserPermAttribute : RequireUserPermissionAttribute
     {
-        public UserPermAttribute(GuildPermission permission) : base(permission)
+        public UserPermAttribute(GuildPerm permission) : base((GuildPermission)permission)
         {
         }
 
-        public UserPermAttribute(ChannelPermission permission) : base(permission)
+        public UserPermAttribute(ChannelPerm permission) : base((ChannelPermission)permission)
         {
         }
     }

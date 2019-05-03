@@ -81,7 +81,7 @@ namespace NadekoBot.Modules.Utility.Services
             userName.ThrowIfNull(nameof(userName));
 
             bool success = false;
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var streamRoleSettings = uow.GuildConfigs.GetStreamRoleSettings(guild.Id);
 
@@ -146,7 +146,7 @@ namespace NadekoBot.Modules.Utility.Services
         {
             keyword = keyword?.Trim()?.ToLowerInvariant();
 
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var streamRoleSettings = uow.GuildConfigs.GetStreamRoleSettings(guild.Id);
 
@@ -170,7 +170,7 @@ namespace NadekoBot.Modules.Utility.Services
                 return outSetting.Keyword;
 
             StreamRoleSettings setting;
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 setting = uow.GuildConfigs.GetStreamRoleSettings(guildId);
             }
@@ -192,7 +192,7 @@ namespace NadekoBot.Modules.Utility.Services
             addRole.ThrowIfNull(nameof(addRole));
 
             StreamRoleSettings setting;
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var streamRoleSettings = uow.GuildConfigs.GetStreamRoleSettings(fromRole.Guild.Id);
 
@@ -219,7 +219,7 @@ namespace NadekoBot.Modules.Utility.Services
         /// <param name="guildId">Guild's Id</param>
         public async Task StopStreamRole(IGuild guild, bool cleanup = false)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var streamRoleSettings = uow.GuildConfigs.GetStreamRoleSettings(guild.Id);
                 streamRoleSettings.Enabled = false;

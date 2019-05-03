@@ -65,7 +65,7 @@ namespace NadekoBot.Modules.Games
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.ManageMessages)]
+            [UserPerm(GuildPerm.ManageMessages)]
 #if GLOBAL_NADEKO
             [OwnerOnly]
 #endif
@@ -84,7 +84,7 @@ namespace NadekoBot.Modules.Games
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.ManageMessages)]
+            [UserPerm(GuildPerm.ManageMessages)]
             [OwnerOnly]
             public Task GenCurList(int page = 1)
             {

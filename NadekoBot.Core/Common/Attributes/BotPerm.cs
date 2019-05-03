@@ -4,11 +4,11 @@ namespace Discord
 {
     public class BotPermAttribute : RequireBotPermissionAttribute
     {
-        public BotPermAttribute(GuildPermission permission) : base(permission)
+        public BotPermAttribute(GuildPerm permission) : base((GuildPermission)permission)
         {
         }
 
-        public BotPermAttribute(ChannelPermission permission) : base(permission)
+        public BotPermAttribute(ChannelPerm permission) : base((ChannelPermission)permission)
         {
         }
     }

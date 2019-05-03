@@ -184,7 +184,7 @@ namespace NadekoBot.Modules.Administration.Services
 
         private void SetNewLastUpdate(DateTime dt)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var bc = uow.BotConfig.GetOrCreate(set => set);
                 bc.LastUpdate = dt;
@@ -210,7 +210,7 @@ namespace NadekoBot.Modules.Administration.Services
 
         public void SetUpdateCheck(UpdateCheckType type)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var bc = uow.BotConfig.GetOrCreate(set => set);
                 _bc.BotConfig.CheckForUpdates = bc.CheckForUpdates = type;
@@ -250,7 +250,7 @@ namespace NadekoBot.Modules.Administration.Services
 
         public void AddNewAutoCommand(StartupCommand cmd)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 uow.BotConfig
                    .GetOrCreate(set => set.Include(x => x.StartupCommands))
@@ -269,7 +269,7 @@ namespace NadekoBot.Modules.Administration.Services
 
         public IEnumerable<StartupCommand> GetStartupCommands()
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 return uow.BotConfig
                    .GetOrCreate(set => set.Include(x => x.StartupCommands))
@@ -376,7 +376,7 @@ namespace NadekoBot.Modules.Administration.Services
 
         public bool RemoveStartupCommand(int index, out StartupCommand cmd)
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var cmds = uow.BotConfig
                    .GetOrCreate(set => set.Include(x => x.StartupCommands))
@@ -426,7 +426,7 @@ namespace NadekoBot.Modules.Administration.Services
 
         public void ClearStartupCommands()
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 uow.BotConfig
                    .GetOrCreate(set => set.Include(x => x.StartupCommands))
@@ -458,7 +458,7 @@ namespace NadekoBot.Modules.Administration.Services
 
         public void ForwardMessages()
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var config = uow.BotConfig.GetOrCreate(set => set);
                 _bc.BotConfig.ForwardMessages = config.ForwardMessages = !config.ForwardMessages;
@@ -488,7 +488,7 @@ namespace NadekoBot.Modules.Administration.Services
 
         public void ForwardToAll()
         {
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var config = uow.BotConfig.GetOrCreate(set => set);
                 _bc.BotConfig.ForwardToAllOwners = config.ForwardToAllOwners = !config.ForwardToAllOwners;

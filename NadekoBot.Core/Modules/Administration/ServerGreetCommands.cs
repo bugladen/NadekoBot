@@ -14,7 +14,7 @@ namespace NadekoBot.Modules.Administration
         {
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.ManageGuild)]
+            [UserPerm(GuildPerm.ManageGuild)]
             public async Task GreetDel(int timer = 30)
             {
                 if (timer < 0 || timer > 600)
@@ -30,7 +30,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.ManageGuild)]
+            [UserPerm(GuildPerm.ManageGuild)]
             public async Task Greet()
             {
                 var enabled = await _service.SetGreet(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
@@ -43,7 +43,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.ManageGuild)]
+            [UserPerm(GuildPerm.ManageGuild)]
             public Task GreetMsg()
             {
                 string greetMsg = _service.GetGreetMsg(ctx.Guild.Id);
@@ -52,7 +52,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.ManageGuild)]
+            [UserPerm(GuildPerm.ManageGuild)]
             public async Task GreetMsg([Leftover] string text)
             {
                 if (string.IsNullOrWhiteSpace(text))
@@ -70,7 +70,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.ManageGuild)]
+            [UserPerm(GuildPerm.ManageGuild)]
             public async Task GreetDm()
             {
                 var enabled = await _service.SetGreetDm(ctx.Guild.Id).ConfigureAwait(false);
@@ -83,7 +83,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.ManageGuild)]
+            [UserPerm(GuildPerm.ManageGuild)]
             public Task GreetDmMsg()
             {
                 var dmGreetMsg = _service.GetDmGreetMsg(ctx.Guild.Id);
@@ -92,7 +92,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.ManageGuild)]
+            [UserPerm(GuildPerm.ManageGuild)]
             public async Task GreetDmMsg([Leftover] string text = null)
             {
                 if (string.IsNullOrWhiteSpace(text))
@@ -110,7 +110,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.ManageGuild)]
+            [UserPerm(GuildPerm.ManageGuild)]
             public async Task Bye()
             {
                 var enabled = await _service.SetBye(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
@@ -123,7 +123,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.ManageGuild)]
+            [UserPerm(GuildPerm.ManageGuild)]
             public Task ByeMsg()
             {
                 var byeMsg = _service.GetByeMessage(ctx.Guild.Id);
@@ -132,7 +132,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.ManageGuild)]
+            [UserPerm(GuildPerm.ManageGuild)]
             public async Task ByeMsg([Leftover] string text)
             {
                 if (string.IsNullOrWhiteSpace(text))
@@ -150,7 +150,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.ManageGuild)]
+            [UserPerm(GuildPerm.ManageGuild)]
             public async Task ByeDel(int timer = 30)
             {
                 await _service.SetByeDel(ctx.Guild.Id, timer).ConfigureAwait(false);

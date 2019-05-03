@@ -63,7 +63,7 @@ namespace NadekoBot.Modules.Administration.Services
         public ulong? ToggleGameVoiceChannel(ulong guildId, ulong vchId)
         {
             ulong? id;
-            using (var uow = _db.GetGetDbContext())
+            using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guildId, set => set);
 

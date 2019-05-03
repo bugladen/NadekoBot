@@ -47,7 +47,7 @@ namespace NadekoBot.Modules.Utility
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.ManageMessages)]
+            [UserPerm(GuildPerm.ManageMessages)]
             [Priority(0)]
             public async Task Remind(ITextChannel channel, StoopidTime time, [Leftover] string message)
             {
@@ -77,7 +77,7 @@ namespace NadekoBot.Modules.Utility
                     .WithTitle(GetText("reminder_list"));
 
                 List<Reminder> rems;
-                using (var uow = _db.GetGetDbContext())
+                using (var uow = _db.GetDbContext())
                 {
                     rems = uow.Reminders.RemindersFor(ctx.User.Id, page)
                         .ToList();
@@ -114,7 +114,7 @@ namespace NadekoBot.Modules.Utility
                 var embed = new EmbedBuilder();
 
                 Reminder rem = null;
-                using (var uow = _db.GetGetDbContext())
+                using (var uow = _db.GetDbContext())
                 {
                     var rems = uow.Reminders.RemindersFor(ctx.User.Id, index / 10)
                         .ToList();
@@ -155,7 +155,7 @@ namespace NadekoBot.Modules.Utility
                     ServerId = ctx.Guild?.Id ?? 0
                 };
 
-                using (var uow = _db.GetGetDbContext())
+                using (var uow = _db.GetDbContext())
                 {
                     uow.Reminders.Add(rem);
                     await uow.SaveChangesAsync();
@@ -188,7 +188,7 @@ namespace NadekoBot.Modules.Utility
                 if (string.IsNullOrWhiteSpace(arg))
                     return;
 
-                using (var uow = _db.GetGetDbContext())
+                using (var uow = _db.GetDbContext())
                 {
                     uow.BotConfig.GetOrCreate(set => set).RemindMessageFormat = arg.Trim();
                     await uow.SaveChangesAsync();
