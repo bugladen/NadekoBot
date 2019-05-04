@@ -45,7 +45,7 @@ namespace NadekoBot.Modules.Administration.Services
 
         public (bool DelMsgOnCmd, IEnumerable<DelMsgOnCmdChannel> channels) GetDelMsgOnCmdData(ulong guildId)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var conf = uow.GuildConfigs.ForId(guildId,
                     set => set.Include(x => x.DelMsgOnCmdChannels));
@@ -81,19 +81,19 @@ namespace NadekoBot.Modules.Administration.Services
         public bool ToggleDeleteMessageOnCommand(ulong guildId)
         {
             bool enabled;
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var conf = uow.GuildConfigs.ForId(guildId, set => set);
                 enabled = conf.DeleteMessageOnCommand = !conf.DeleteMessageOnCommand;
 
-                uow.Complete();
+                uow.SaveChanges();
             }
             return enabled;
         }
 
         public async Task SetDelMsgOnCmdState(ulong guildId, ulong chId, Administration.State s)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var conf = uow.GuildConfigs.ForId(guildId,
                     set => set.Include(x => x.DelMsgOnCmdChannels));
@@ -114,7 +114,7 @@ namespace NadekoBot.Modules.Administration.Services
                     }
                 }
 
-                await uow.CompleteAsync();
+                await uow.SaveChangesAsync();
             }
 
             if (s == Administration.State.Disable)

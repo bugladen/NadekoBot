@@ -1,26 +1,26 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using NadekoBot.Core.Services;
-using NadekoBot.Core.Services.Impl;
-using NLog;
-using System;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using System.Collections.Immutable;
-using System.Diagnostics;
-using NadekoBot.Core.Services.Database.Models;
-using System.Threading;
-using System.IO;
-using NadekoBot.Extensions;
-using System.Collections.Generic;
+using Microsoft.Extensions.DependencyInjection;
 using NadekoBot.Common;
 using NadekoBot.Common.ShardCom;
-using StackExchange.Redis;
+using NadekoBot.Core.Services;
+using NadekoBot.Core.Services.Database.Models;
+using NadekoBot.Core.Services.Impl;
+using NadekoBot.Extensions;
 using Newtonsoft.Json;
-using Microsoft.Extensions.DependencyInjection;
+using NLog;
+using StackExchange.Redis;
+using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Net.Http;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace NadekoBot
 {
@@ -97,12 +97,12 @@ namespace NadekoBot
                 DefaultRunMode = RunMode.Sync,
             });
 
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 _botConfig = uow.BotConfig.GetOrCreate();
                 OkColor = new Color(Convert.ToUInt32(_botConfig.OkColor, 16));
                 ErrorColor = new Color(Convert.ToUInt32(_botConfig.ErrorColor, 16));
-                uow.Complete();
+                uow.SaveChanges();
             }
 
             SetupShard(parentProcessId);
@@ -142,7 +142,7 @@ namespace NadekoBot
 
         public IEnumerable<GuildConfig> GetCurrentGuildConfigs()
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 return uow.GuildConfigs.GetAllGuildConfigs(GetCurrentGuildIds()).ToImmutableArray();
             }
@@ -153,7 +153,7 @@ namespace NadekoBot
             var startingGuildIdList = GetCurrentGuildIds();
 
             //this unit of work will be used for initialization of all modules too, to prevent multiple queries from running
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var sw = Stopwatch.StartNew();
 
@@ -285,7 +285,7 @@ namespace NadekoBot
             var _ = Task.Run(async () =>
             {
                 GuildConfig gc;
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetDbContext())
                 {
                     gc = uow.GuildConfigs.ForId(arg.Id);
                 }

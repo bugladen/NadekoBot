@@ -7,17 +7,18 @@
 AppName=NadekoBot
 AppVersion={#version}
 AppPublisher=Kwoth
-DefaultDirName={pf}\NadekoBot
+DefaultDirName={commonpf}\NadekoBot
 DefaultGroupName=NadekoBot
 UninstallDisplayIcon={app}\{#sysfolder}\nadeko_icon.ico
 Compression=lzma2
 SolidCompression=yes
-OutputDir=userdocs:projekti/NadekoInstallerOutput
+OutputDir=userdocs:_projekti/NadekoInstallerOutput
 OutputBaseFilename=NadekoBot-setup-{#version}
 AppReadmeFile=http://nadekobot.readthedocs.io/en/latest/Commands%20List/
 ArchitecturesInstallIn64BitMode=x64
 UsePreviousSetupType=no
 DisableWelcomePage=no
+WizardStyle=modern
 
 [Files]
 ;install 
@@ -72,7 +73,7 @@ Root: "HKLM"; Subkey: "SOFTWARE\NadekoBot"; \
     Flags: deletevalue uninsdeletekeyifempty uninsdeletevalue;
 
 [Messages]
-WelcomeLabel2=IMPORTANT! READ BELOW!%n%nIt is recommended that you CLOSE any ANTI VIRUS before continuing.%n%nYou can only update v1.4 or newer.%n%nDo not select your old NadekoBot folder as an install path if it's not 1.4 or newer.
+WelcomeLabel2=Hello, if you have any issues, join https://discord.nadeko.bot and ask for help in #help channel.%n%nIt is recommended that you CLOSE any ANTI VIRUS before continuing.
 
 ;ask the user if they want to delete all settings
 [Code]

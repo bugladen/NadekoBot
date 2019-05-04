@@ -119,7 +119,7 @@ namespace NadekoBot.Modules.Utility.Services
                 {
                     var amount = (int)(data.Reward.attributes.amount_cents * _bc.BotConfig.PatreonCurrencyPerCent);
 
-                    using (var uow = _db.UnitOfWork)
+                    using (var uow = _db.GetDbContext())
                     {
                         var users = uow._context.Set<RewardedUser>();
                         var usr = users.FirstOrDefault(x => x.PatreonUserId == data.User.id);
@@ -134,7 +134,7 @@ namespace NadekoBot.Modules.Utility.Services
                                 AmountRewardedThisMonth = amount,
                             });
 
-                            await uow.CompleteAsync();
+                            await uow.SaveChangesAsync();
 
                             await _currency.AddAsync(userId, "Patreon reward - new", amount, gamble: true);
                             return amount;
@@ -146,7 +146,7 @@ namespace NadekoBot.Modules.Utility.Services
                             usr.AmountRewardedThisMonth = amount;
                             usr.UserId = userId;
 
-                            await uow.CompleteAsync();
+                            await uow.SaveChangesAsync();
 
                             await _currency.AddAsync(userId, "Patreon reward - recurring", amount, gamble: true);
                             return amount;
@@ -159,7 +159,7 @@ namespace NadekoBot.Modules.Utility.Services
                             usr.LastReward = now;
                             usr.AmountRewardedThisMonth = amount;
                             usr.UserId = userId;
-                            await uow.CompleteAsync();
+                            await uow.SaveChangesAsync();
 
                             await _currency.AddAsync(usr.UserId, "Patreon reward - update", toAward, gamble: true);
                             return toAward;

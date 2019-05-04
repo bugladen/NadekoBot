@@ -70,11 +70,11 @@ namespace NadekoBot.Core.Services.Impl
                 return;
             }
 
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guildId, set => set);
                 gc.Locale = ci.Name;
-                uow.Complete();
+                uow.SaveChanges();
             }
 
             GuildCultureInfos.AddOrUpdate(guildId, ci, (id, old) => ci);
@@ -88,22 +88,22 @@ namespace NadekoBot.Core.Services.Impl
 
             if (GuildCultureInfos.TryRemove(guildId, out var _))
             {
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetDbContext())
                 {
                     var gc = uow.GuildConfigs.ForId(guildId, set => set);
                     gc.Locale = null;
-                    uow.Complete();
+                    uow.SaveChanges();
                 }
             }
         }
 
         public void SetDefaultCulture(CultureInfo ci)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var bc = uow.BotConfig.GetOrCreate(set => set);
                 bc.Locale = ci.Name;
-                uow.Complete();
+                uow.SaveChanges();
             }
             DefaultCultureInfo = ci;
         }

@@ -26,7 +26,7 @@ namespace NadekoBot.Modules.Xp.Services
             //must be lvl 5 and must not be in a club already
 
             club = null;
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var du = uow.DiscordUsers.GetOrCreate(user);
                 uow._context.SaveChanges();
@@ -50,7 +50,7 @@ namespace NadekoBot.Modules.Xp.Services
                 uow._context.Set<ClubApplicants>()
                     .RemoveRange(uow._context.Set<ClubApplicants>().Where(x => x.UserId == du.Id));
                 club = du.Club;
-                uow.Complete();
+                uow.SaveChanges();
             }
 
             return true;
@@ -59,7 +59,7 @@ namespace NadekoBot.Modules.Xp.Services
         public ClubInfo TransferClub(IUser from, IUser newOwner)
         {
             ClubInfo club;
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 club = uow.Clubs.GetByOwner(from.Id);
                 var newOwnerUser = uow.DiscordUsers.GetOrCreate(newOwner);
@@ -72,7 +72,7 @@ namespace NadekoBot.Modules.Xp.Services
                 club.Owner.IsClubAdmin = true; // old owner will stay as admin
                 newOwnerUser.IsClubAdmin = true;
                 club.Owner = newOwnerUser;
-                uow.Complete();
+                uow.SaveChanges();
             }
             return club;
         }
@@ -80,7 +80,7 @@ namespace NadekoBot.Modules.Xp.Services
         public bool ToggleAdmin(IUser owner, IUser toAdmin)
         {
             bool newState;
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var club = uow.Clubs.GetByOwner(owner.Id);
                 var adminUser = uow.DiscordUsers.GetOrCreate(toAdmin);
@@ -93,14 +93,14 @@ namespace NadekoBot.Modules.Xp.Services
                     return true;
 
                 newState = adminUser.IsClubAdmin = !adminUser.IsClubAdmin;
-                uow.Complete();
+                uow.SaveChanges();
             }
             return newState;
         }
 
         public ClubInfo GetClubByMember(IUser user)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 return uow.Clubs.GetByMember(user.Id);
             }
@@ -118,7 +118,7 @@ namespace NadekoBot.Modules.Xp.Services
                 }
             }
 
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var club = uow.Clubs.GetByOwner(ownerUserId, set => set);
 
@@ -126,7 +126,7 @@ namespace NadekoBot.Modules.Xp.Services
                     return false;
 
                 club.ImageUrl = url.ToString();
-                uow.Complete();
+                uow.SaveChanges();
             }
 
             return true;
@@ -145,7 +145,7 @@ namespace NadekoBot.Modules.Xp.Services
             if (string.IsNullOrWhiteSpace(name))
                 return false;
 
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 club = uow.Clubs.GetByName(name, discrim);
                 if (club == null)
@@ -157,7 +157,7 @@ namespace NadekoBot.Modules.Xp.Services
 
         public bool ApplyToClub(IUser user, ClubInfo club)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var du = uow.DiscordUsers.GetOrCreate(user);
                 uow._context.SaveChanges();
@@ -180,7 +180,7 @@ namespace NadekoBot.Modules.Xp.Services
 
                 uow._context.Set<ClubApplicants>().Add(app);
 
-                uow.Complete();
+                uow.SaveChanges();
             }
             return true;
         }
@@ -188,7 +188,7 @@ namespace NadekoBot.Modules.Xp.Services
         public bool AcceptApplication(ulong clubOwnerUserId, string userName, out DiscordUser discordUser)
         {
             discordUser = null;
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var club = uow.Clubs.GetByOwnerOrAdmin(clubOwnerUserId);
                 if (club == null)
@@ -207,14 +207,14 @@ namespace NadekoBot.Modules.Xp.Services
                     .RemoveRange(uow._context.Set<ClubApplicants>().Where(x => x.UserId == applicant.User.Id));
 
                 discordUser = applicant.User;
-                uow.Complete();
+                uow.SaveChanges();
             }
             return true;
         }
 
         public ClubInfo GetClubWithBansAndApplications(ulong ownerUserId)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 return uow.Clubs.GetByOwnerOrAdmin(ownerUserId);
             }
@@ -222,7 +222,7 @@ namespace NadekoBot.Modules.Xp.Services
 
         public bool LeaveClub(IUser user)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var du = uow.DiscordUsers.GetOrCreate(user);
                 if (du.Club == null || du.Club.OwnerId == du.Id)
@@ -230,7 +230,7 @@ namespace NadekoBot.Modules.Xp.Services
 
                 du.Club = null;
                 du.IsClubAdmin = false;
-                uow.Complete();
+                uow.SaveChanges();
             }
             return true;
         }
@@ -240,14 +240,14 @@ namespace NadekoBot.Modules.Xp.Services
             if (level < 5)
                 return false;
 
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var club = uow.Clubs.GetByOwner(userId);
                 if (club == null)
                     return false;
 
                 club.MinimumLevelReq = level;
-                uow.Complete();
+                uow.SaveChanges();
             }
 
             return true;
@@ -255,14 +255,14 @@ namespace NadekoBot.Modules.Xp.Services
 
         public bool ChangeClubDescription(ulong userId, string desc)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var club = uow.Clubs.GetByOwner(userId);
                 if (club == null)
                     return false;
 
                 club.Description = desc?.TrimTo(150, true);
-                uow.Complete();
+                uow.SaveChanges();
             }
 
             return true;
@@ -270,21 +270,21 @@ namespace NadekoBot.Modules.Xp.Services
 
         public bool Disband(ulong userId, out ClubInfo club)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 club = uow.Clubs.GetByOwner(userId);
                 if (club == null)
                     return false;
 
                 uow.Clubs.Remove(club);
-                uow.Complete();
+                uow.SaveChanges();
             }
             return true;
         }
 
         public bool Ban(ulong bannerId, string userName, out ClubInfo club)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 club = uow.Clubs.GetByOwnerOrAdmin(bannerId);
                 if (club == null)
@@ -309,7 +309,7 @@ namespace NadekoBot.Modules.Xp.Services
                 if (app != null)
                     club.Applicants.Remove(app);
 
-                uow.Complete();
+                uow.SaveChanges();
             }
 
             return true;
@@ -317,7 +317,7 @@ namespace NadekoBot.Modules.Xp.Services
 
         public bool UnBan(ulong ownerUserId, string userName, out ClubInfo club)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 club = uow.Clubs.GetByOwnerOrAdmin(ownerUserId);
                 if (club == null)
@@ -328,7 +328,7 @@ namespace NadekoBot.Modules.Xp.Services
                     return false;
 
                 club.Bans.Remove(ban);
-                uow.Complete();
+                uow.SaveChanges();
             }
 
             return true;
@@ -336,7 +336,7 @@ namespace NadekoBot.Modules.Xp.Services
 
         public bool Kick(ulong kickerId, string userName, out ClubInfo club)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 club = uow.Clubs.GetByOwnerOrAdmin(kickerId);
                 if (club == null)
@@ -353,7 +353,7 @@ namespace NadekoBot.Modules.Xp.Services
                 var app = club.Applicants.FirstOrDefault(x => x.UserId == usr.Id);
                 if (app != null)
                     club.Applicants.Remove(app);
-                uow.Complete();
+                uow.SaveChanges();
             }
 
             return true;
@@ -364,7 +364,7 @@ namespace NadekoBot.Modules.Xp.Services
             if (page < 0)
                 throw new ArgumentOutOfRangeException(nameof(page));
 
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 return uow.Clubs.GetClubLeaderboardPage(page);
             }

@@ -30,7 +30,7 @@ namespace NadekoBot.Modules.Searches
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            public async Task Osu(string usr, [Remainder] string mode = null)
+            public async Task Osu(string usr, [Leftover] string mode = null)
             {
                 if (string.IsNullOrWhiteSpace(usr))
                     return;
@@ -47,7 +47,7 @@ namespace NadekoBot.Modules.Searches
                         http.AddFakeHeaders();
                         using (var res = await http.GetStreamAsync(new Uri($"http://lemmmy.pw/osusig/sig.php?uname={ usr }&flagshadow&xpbar&xpbarhex&pp=2&mode={m}")).ConfigureAwait(false))
                         {
-                            await Context.Channel.SendFileAsync(res, $"{usr}.png", $"🎧 **{GetText("profile_link")}** " +
+                            await ctx.Channel.SendFileAsync(res, $"{usr}.png", $"🎧 **{GetText("profile_link")}** " +
                                 $"<https://new.ppy.sh/u/{Uri.EscapeDataString(usr)}>\n" +
                                 $"`Image provided by https://lemmmy.pw/osusig`").ConfigureAwait(false);
                         }
@@ -61,7 +61,7 @@ namespace NadekoBot.Modules.Searches
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            public async Task Osub([Remainder] string map)
+            public async Task Osub([Leftover] string map)
             {
                 if (string.IsNullOrWhiteSpace(_creds.OsuApiKey))
                 {
@@ -84,7 +84,7 @@ namespace NadekoBot.Modules.Searches
                         var time = TimeSpan.FromSeconds(double.Parse($"{obj["total_length"]}")).ToString(@"mm\:ss");
                         sb.AppendLine($"{obj["artist"]} - {obj["title"]}, mapped by {obj["creator"]}. https://osu.ppy.sh/s/{obj["beatmapset_id"]}");
                         sb.AppendLine($"{starRating} stars, {obj["bpm"]} BPM | AR{obj["diff_approach"]}, CS{obj["diff_size"]}, OD{obj["diff_overall"]} | Length: {time}");
-                        await Context.Channel.SendMessageAsync(sb.ToString()).ConfigureAwait(false);
+                        await ctx.Channel.SendMessageAsync(sb.ToString()).ConfigureAwait(false);
                     }
                 }
                 catch (Exception ex)
@@ -95,9 +95,9 @@ namespace NadekoBot.Modules.Searches
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            public async Task Osu5(string user, [Remainder] string mode = null)
+            public async Task Osu5(string user, [Leftover] string mode = null)
             {
-                var channel = (ITextChannel)Context.Channel;
+                var channel = (ITextChannel)ctx.Channel;
                 if (string.IsNullOrWhiteSpace(_creds.OsuApiKey))
                 {
                     await channel.SendErrorAsync("An osu! API key is required.").ConfigureAwait(false);

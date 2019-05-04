@@ -237,12 +237,12 @@ namespace NadekoBot.Modules.Administration.Services
 
             _antiRaidGuilds.AddOrUpdate(guildId, stats, (key, old) => stats);
 
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiRaidSetting));
 
                 gc.AntiRaidSetting = stats.AntiRaidSettings;
-                await uow.CompleteAsync();
+                await uow.SaveChangesAsync();
             }
 
             return stats;
@@ -252,12 +252,12 @@ namespace NadekoBot.Modules.Administration.Services
         {
             if (_antiRaidGuilds.TryRemove(guildId, out _))
             {
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetDbContext())
                 {
                     var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiRaidSetting));
 
                     gc.AntiRaidSetting = null;
-                    uow.Complete();
+                    uow.SaveChanges();
                 }
                 return true;
             }
@@ -269,13 +269,13 @@ namespace NadekoBot.Modules.Administration.Services
             if (_antiSpamGuilds.TryRemove(guildId, out var removed))
             {
                 removed.UserStats.ForEach(x => x.Value.Dispose());
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetDbContext())
                 {
                     var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiSpamSetting)
                         .ThenInclude(x => x.IgnoredChannels));
 
                     gc.AntiSpamSetting = null;
-                    uow.Complete();
+                    uow.SaveChanges();
                 }
                 return true;
             }
@@ -303,7 +303,7 @@ namespace NadekoBot.Modules.Administration.Services
                 return stats;
             });
 
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiSpamSetting));
 
@@ -317,7 +317,7 @@ namespace NadekoBot.Modules.Administration.Services
                 {
                     gc.AntiSpamSetting = stats.AntiSpamSettings;
                 }
-                await uow.CompleteAsync();
+                await uow.SaveChangesAsync();
             }
             return stats;
         }
@@ -329,7 +329,7 @@ namespace NadekoBot.Modules.Administration.Services
                 ChannelId = channelId
             };
             bool added;
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiSpamSetting).ThenInclude(x => x.IgnoredChannels));
                 var spam = gc.AntiSpamSetting;
@@ -355,7 +355,7 @@ namespace NadekoBot.Modules.Administration.Services
                     added = false;
                 }
 
-                await uow.CompleteAsync();
+                await uow.SaveChangesAsync();
             }
             return added;
         }

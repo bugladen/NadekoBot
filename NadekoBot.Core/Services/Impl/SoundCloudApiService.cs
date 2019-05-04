@@ -51,7 +51,7 @@ namespace NadekoBot.Core.Services.Impl
                 response = await http.GetStringAsync(new Uri($"https://scapi.nadeko.bot/tracks?q={Uri.EscapeDataString(query)}")).ConfigureAwait(false);
             }
 
-            var responseObj = JsonConvert.DeserializeObject<SoundCloudVideo[]>(response).Where(s => s.Streamable).FirstOrDefault();
+            var responseObj = JsonConvert.DeserializeObject<SoundCloudVideo[]>(response).Where(s => s.Streamable is true).FirstOrDefault();
             if (responseObj?.Kind != "track")
                 throw new InvalidOperationException("Query yielded no results.");
 
@@ -67,7 +67,7 @@ namespace NadekoBot.Core.Services.Impl
         public string Title { get; set; } = "";
         [JsonIgnore]
         public string FullName => User.Name + " - " + Title;
-        public bool Streamable { get; set; } = false;
+        public bool? Streamable { get; set; } = false;
         public int Duration { get; set; }
         [JsonProperty("permalink_url")]
         public string TrackLink { get; set; } = "";

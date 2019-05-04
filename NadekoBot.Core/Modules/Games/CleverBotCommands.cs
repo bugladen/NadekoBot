@@ -23,17 +23,17 @@ namespace NadekoBot.Modules.Games
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageMessages)]
+            [UserPerm(GuildPerm.ManageMessages)]
             public async Task Cleverbot()
             {
-                var channel = (ITextChannel)Context.Channel;
+                var channel = (ITextChannel)ctx.Channel;
 
                 if (_service.ChatterBotGuilds.TryRemove(channel.Guild.Id, out _))
                 {
-                    using (var uow = _db.UnitOfWork)
+                    using (var uow = _db.GetDbContext())
                     {
-                        uow.GuildConfigs.SetCleverbotEnabled(Context.Guild.Id, false);
-                        await uow.CompleteAsync();
+                        uow.GuildConfigs.SetCleverbotEnabled(ctx.Guild.Id, false);
+                        await uow.SaveChangesAsync();
                     }
                     await ReplyConfirmLocalizedAsync("cleverbot_disabled").ConfigureAwait(false);
                     return;
@@ -41,10 +41,10 @@ namespace NadekoBot.Modules.Games
 
                 _service.ChatterBotGuilds.TryAdd(channel.Guild.Id, new Lazy<IChatterBotSession>(() => _service.CreateSession(), true));
 
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetDbContext())
                 {
-                    uow.GuildConfigs.SetCleverbotEnabled(Context.Guild.Id, true);
-                    await uow.CompleteAsync();
+                    uow.GuildConfigs.SetCleverbotEnabled(ctx.Guild.Id, true);
+                    await uow.SaveChangesAsync();
                 }
 
                 await ReplyConfirmLocalizedAsync("cleverbot_enabled").ConfigureAwait(false);

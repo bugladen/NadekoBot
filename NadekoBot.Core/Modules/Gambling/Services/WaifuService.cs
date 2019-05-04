@@ -40,7 +40,7 @@ namespace NadekoBot.Modules.Gambling.Services
         {
             if (owner.Id == newOwner.Id || waifuId == newOwner.Id)
                 return false;
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var waifu = uow.Waifus.ByWaifuUserId(waifuId);
                 var ownerUser = uow.DiscordUsers.GetOrCreate(owner);
@@ -59,7 +59,7 @@ namespace NadekoBot.Modules.Gambling.Services
                 var newOwnerUser = uow.DiscordUsers.GetOrCreate(newOwner);
                 waifu.ClaimerId = newOwnerUser.Id;
 
-                await uow.CompleteAsync();
+                await uow.SaveChangesAsync();
             }
 
             return true;
@@ -67,7 +67,7 @@ namespace NadekoBot.Modules.Gambling.Services
 
         public int GetResetPrice(IUser user)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var waifu = uow.Waifus.ByWaifuUserId(user.Id);
 
@@ -89,7 +89,7 @@ namespace NadekoBot.Modules.Gambling.Services
 
         public async Task<bool> TryReset(IUser user)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var price = GetResetPrice(user);
                 if (!await _cs.RemoveAsync(user.Id, "Waifu Reset", price, gamble: true))
@@ -119,7 +119,7 @@ namespace NadekoBot.Modules.Gambling.Services
 
                 //wives stay though
 
-                uow.Complete();
+                uow.SaveChanges();
             }
             return true;
         }
@@ -129,7 +129,7 @@ namespace NadekoBot.Modules.Gambling.Services
             WaifuClaimResult result;
             WaifuInfo w;
             bool isAffinity;
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 w = uow.Waifus.ByWaifuUserId(target.Id);
                 isAffinity = (w?.Affinity?.UserId == user.Id);
@@ -208,7 +208,7 @@ namespace NadekoBot.Modules.Gambling.Services
                     result = WaifuClaimResult.InsufficientAmount;
 
 
-                await uow.CompleteAsync();
+                await uow.SaveChangesAsync();
             }
 
             return (w, isAffinity, result);
@@ -219,7 +219,7 @@ namespace NadekoBot.Modules.Gambling.Services
             DiscordUser oldAff = null;
             var success = false;
             TimeSpan? remaining = null;
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var w = uow.Waifus.ByWaifuUserId(user.Id);
                 var newAff = target == null ? null : uow.DiscordUsers.GetOrCreate(target);
@@ -267,7 +267,7 @@ namespace NadekoBot.Modules.Gambling.Services
                     });
                 }
 
-                await uow.CompleteAsync();
+                await uow.SaveChangesAsync();
             }
 
             return (oldAff, success, remaining);
@@ -275,7 +275,7 @@ namespace NadekoBot.Modules.Gambling.Services
 
         public IEnumerable<WaifuLbResult> GetTopWaifusAtPage(int page)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 return uow.Waifus.GetTop(9, page * 9);
             }
@@ -287,7 +287,7 @@ namespace NadekoBot.Modules.Gambling.Services
             TimeSpan? remaining = null;
             long amount = 0;
             WaifuInfo w = null;
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 w = uow.Waifus.ByWaifuUserId(targetId);
                 var now = DateTime.UtcNow;
@@ -325,7 +325,7 @@ namespace NadekoBot.Modules.Gambling.Services
                     });
                 }
 
-                await uow.CompleteAsync();
+                await uow.SaveChangesAsync();
             }
 
             return (w, result, amount, remaining);
@@ -338,7 +338,7 @@ namespace NadekoBot.Modules.Gambling.Services
                 return false;
             }
 
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var w = uow.Waifus.ByWaifuUserId(giftedWaifu.Id, set => set.Include(x => x.Items)
                     .Include(x => x.Claimer));
@@ -360,14 +360,14 @@ namespace NadekoBot.Modules.Gambling.Services
                 else
                     w.Price += itemObj.Price / 2;
 
-                await uow.CompleteAsync();
+                await uow.SaveChangesAsync();
             }
             return true;
         }
 
         public WaifuInfoStats GetFullWaifuInfoAsync(IGuildUser target)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var du = uow.DiscordUsers.GetOrCreate(target);
                 var wi = uow.Waifus.GetWaifuInfo(target.Id);

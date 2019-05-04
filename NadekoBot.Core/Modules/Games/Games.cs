@@ -29,7 +29,7 @@ namespace NadekoBot.Modules.Games
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task Choose([Remainder] string list = null)
+        public async Task Choose([Leftover] string list = null)
         {
             if (string.IsNullOrWhiteSpace(list))
                 return;
@@ -37,17 +37,17 @@ namespace NadekoBot.Modules.Games
             if (listArr.Length < 2)
                 return;
             var rng = new NadekoRandom();
-            await Context.Channel.SendConfirmAsync("🤔", listArr[rng.Next(0, listArr.Length)]).ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync("🤔", listArr[rng.Next(0, listArr.Length)]).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        public async Task EightBall([Remainder] string question = null)
+        public async Task EightBall([Leftover] string question = null)
         {
             if (string.IsNullOrWhiteSpace(question))
                 return;
 
-            await Context.Channel.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
-                .WithDescription(Context.User.ToString())
+            await ctx.Channel.EmbedAsync(new EmbedBuilder().WithColor(NadekoBot.OkColor)
+                .WithDescription(ctx.User.ToString())
                 .AddField(efb => efb.WithName("❓ " + GetText("question")).WithValue(question).WithIsInline(false))
                 .AddField(efb => efb.WithName("🎱 " + GetText("8ball")).WithValue(_service.EightBallResponses[new NadekoRandom().Next(0, _service.EightBallResponses.Length)]).WithIsInline(false))).ConfigureAwait(false);
         }
@@ -63,7 +63,7 @@ namespace NadekoBot.Modules.Games
                 await ReplyErrorLocalizedAsync("something_went_wrong").ConfigureAwait(false);
                 return;
             }
-            await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+            await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                 .WithTitle("Girl Rating For " + usr)
                 .AddField(efb => efb.WithName("Hot").WithValue(gr.Hot.ToString("F2")).WithIsInline(true))
                 .AddField(efb => efb.WithName("Crazy").WithValue(gr.Crazy.ToString("F2")).WithIsInline(true))
@@ -136,7 +136,7 @@ namespace NadekoBot.Modules.Games
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Linux(string guhnoo, string loonix)
         {
-            await Context.Channel.SendConfirmAsync(
+            await ctx.Channel.SendConfirmAsync(
 $@"I'd just like to interject for moment. What you're refering to as {loonix}, is in fact, {guhnoo}/{loonix}, or as I've recently taken to calling it, {guhnoo} plus {loonix}. {loonix} is not an operating system unto itself, but rather another free component of a fully functioning {guhnoo} system made useful by the {guhnoo} corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX.
 
 Many computer users run a modified version of the {guhnoo} system every day, without realizing it. Through a peculiar turn of events, the version of {guhnoo} which is widely used today is often called {loonix}, and many of its users are not aware that it is basically the {guhnoo} system, developed by the {guhnoo} Project.

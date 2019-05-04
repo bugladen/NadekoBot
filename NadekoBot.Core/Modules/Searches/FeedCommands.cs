@@ -26,14 +26,14 @@ namespace NadekoBot.Modules.Searches
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageMessages)]
-            public async Task Feed(string url, [Remainder] ITextChannel channel = null)
+            [UserPerm(GuildPerm.ManageMessages)]
+            public async Task Feed(string url, [Leftover] ITextChannel channel = null)
             {
                 var success = Uri.TryCreate(url, UriKind.Absolute, out var uri) &&
                     (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);
                 if (success)
                 {
-                    channel = channel ?? (ITextChannel)Context.Channel;
+                    channel = channel ?? (ITextChannel)ctx.Channel;
                     using (var xmlReader = XmlReader.Create(url, new XmlReaderSettings() { Async = true }))
                     {
                         var reader = new RssFeedReader(xmlReader);
@@ -50,7 +50,7 @@ namespace NadekoBot.Modules.Searches
 
                     if (success)
                     {
-                        success = _service.AddFeed(Context.Guild.Id, channel.Id, url);
+                        success = _service.AddFeed(ctx.Guild.Id, channel.Id, url);
                         if (success)
                         {
                             await ReplyConfirmLocalizedAsync("feed_added").ConfigureAwait(false);
@@ -64,10 +64,10 @@ namespace NadekoBot.Modules.Searches
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageMessages)]
+            [UserPerm(GuildPerm.ManageMessages)]
             public async Task FeedRemove(int index)
             {
-                if (_service.RemoveFeed(Context.Guild.Id, --index))
+                if (_service.RemoveFeed(ctx.Guild.Id, --index))
                 {
                     await ReplyConfirmLocalizedAsync("feed_removed").ConfigureAwait(false);
                 }
@@ -77,21 +77,21 @@ namespace NadekoBot.Modules.Searches
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageMessages)]
+            [UserPerm(GuildPerm.ManageMessages)]
             public async Task FeedList()
             {
-                var feeds = _service.GetFeeds(Context.Guild.Id);
+                var feeds = _service.GetFeeds(ctx.Guild.Id);
 
                 if (!feeds.Any())
                 {
-                    await Context.Channel.EmbedAsync(new EmbedBuilder()
+                    await ctx.Channel.EmbedAsync(new EmbedBuilder()
                         .WithOkColor()
                         .WithDescription(GetText("feed_no_feed")))
                         .ConfigureAwait(false);
                     return;
                 }
 
-                await Context.SendPaginatedConfirmAsync(0, (cur) =>
+                await ctx.SendPaginatedConfirmAsync(0, (cur) =>
                 {
                     var embed = new EmbedBuilder()
                        .WithOkColor();

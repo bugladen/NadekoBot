@@ -19,18 +19,18 @@ namespace NadekoBot.Modules.Permissions.Services
 
         public async Task ResetPermissions(ulong guildId)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var config = uow.GuildConfigs.GcWithPermissionsv2For(guildId);
                 config.Permissions = Permissionv2.GetDefaultPermlist;
-                await uow.CompleteAsync();
+                await uow.SaveChangesAsync();
                 _perms.UpdateCache(config);
             }
         }
 
         public async Task ResetGlobalPermissions()
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var gc = uow.BotConfig.GetOrCreate();
                 gc.BlockedCommands.Clear();
@@ -38,7 +38,7 @@ namespace NadekoBot.Modules.Permissions.Services
 
                 _globalPerms.BlockedCommands.Clear();
                 _globalPerms.BlockedModules.Clear();
-                await uow.CompleteAsync();
+                await uow.SaveChangesAsync();
             }
         }
     }

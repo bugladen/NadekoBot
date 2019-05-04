@@ -28,7 +28,7 @@ namespace NadekoBot.Modules.Administration
                     .ToArray();
                 var timezonesPerPage = 20;
 
-                await Context.SendPaginatedConfirmAsync(page,
+                await ctx.SendPaginatedConfirmAsync(page,
                     (curPage) => new EmbedBuilder()
                         .WithOkColor()
                         .WithTitle(GetText("timezones_available"))
@@ -40,13 +40,13 @@ namespace NadekoBot.Modules.Administration
             [RequireContext(ContextType.Guild)]
             public async Task Timezone()
             {
-                await ReplyConfirmLocalizedAsync("timezone_guild", _service.GetTimeZoneOrUtc(Context.Guild.Id)).ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("timezone_guild", _service.GetTimeZoneOrUtc(ctx.Guild.Id)).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.Administrator)]
-            public async Task Timezone([Remainder] string id)
+            [UserPerm(GuildPerm.Administrator)]
+            public async Task Timezone([Leftover] string id)
             {
                 TimeZoneInfo tz;
                 try { tz = TimeZoneInfo.FindSystemTimeZoneById(id); } catch { tz = null; }
@@ -57,9 +57,9 @@ namespace NadekoBot.Modules.Administration
                     await ReplyErrorLocalizedAsync("timezone_not_found").ConfigureAwait(false);
                     return;
                 }
-                _service.SetTimeZone(Context.Guild.Id, tz);
+                _service.SetTimeZone(ctx.Guild.Id, tz);
 
-                await Context.Channel.SendConfirmAsync(tz.ToString()).ConfigureAwait(false);
+                await ctx.Channel.SendConfirmAsync(tz.ToString()).ConfigureAwait(false);
             }
         }
     }

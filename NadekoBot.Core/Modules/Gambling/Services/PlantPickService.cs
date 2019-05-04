@@ -72,7 +72,7 @@ namespace NadekoBot.Modules.Gambling.Services
         public bool ToggleCurrencyGeneration(ulong gid, ulong cid)
         {
             bool enabled;
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var guildConfig = uow.GuildConfigs.ForId(gid, set => set.Include(gc => gc.GenerateCurrencyChannelIds));
 
@@ -93,14 +93,14 @@ namespace NadekoBot.Modules.Gambling.Services
                     _generationChannels.TryRemove(cid);
                     enabled = false;
                 }
-                uow.Complete();
+                uow.SaveChanges();
             }
             return enabled;
         }
 
         public IEnumerable<GeneratingChannel> GetAllGeneratingChannels()
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var chs = uow.GuildConfigs.GetGeneratingChannels();
                 return chs;
@@ -257,7 +257,7 @@ namespace NadekoBot.Modules.Gambling.Services
             {
                 long amount;
                 ulong[] ids;
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetDbContext())
                 {
                     // this method will sum all plants with that password, 
                     // remove them, and get messageids of the removed plants
@@ -270,7 +270,7 @@ namespace NadekoBot.Modules.Gambling.Services
                         // give the picked currency to the user
                         await _cs.AddAsync(uid, "Picked currency", amount, gamble: false);
                     }
-                    uow.Complete();
+                    uow.SaveChanges();
                 }
 
                 try
@@ -351,7 +351,7 @@ namespace NadekoBot.Modules.Gambling.Services
 
         private async Task AddPlantToDatabase(ulong gid, ulong cid, ulong uid, ulong mid, long amount, string pass)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 uow.PlantedCurrency.Add(new PlantedCurrency
                 {
@@ -362,7 +362,7 @@ namespace NadekoBot.Modules.Gambling.Services
                     UserId = uid,
                     MessageId = mid,
                 });
-                await uow.CompleteAsync();
+                await uow.SaveChangesAsync();
             }
         }
     }

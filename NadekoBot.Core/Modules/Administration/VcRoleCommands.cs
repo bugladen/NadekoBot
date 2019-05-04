@@ -16,12 +16,12 @@ namespace NadekoBot.Modules.Administration
         public class VcRoleCommands : NadekoSubmodule<VcRoleService>
         {
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireUserPermission(GuildPermission.ManageRoles)]
-            [RequireBotPermission(GuildPermission.ManageRoles)]
+            [UserPerm(GuildPerm.ManageRoles)]
+            [BotPerm(GuildPerm.ManageRoles)]
             [RequireContext(ContextType.Guild)]
-            public async Task VcRole([Remainder]IRole role = null)
+            public async Task VcRole([Leftover]IRole role = null)
             {
-                var user = (IGuildUser)Context.User;
+                var user = (IGuildUser)ctx.User;
 
                 var vc = user.VoiceChannel;
 
@@ -33,14 +33,14 @@ namespace NadekoBot.Modules.Administration
 
                 if (role == null)
                 {
-                    if (_service.RemoveVcRole(Context.Guild.Id, vc.Id))
+                    if (_service.RemoveVcRole(ctx.Guild.Id, vc.Id))
                     {
                         await ReplyConfirmLocalizedAsync("vcrole_removed", Format.Bold(vc.Name)).ConfigureAwait(false);
                     }
                 }
                 else
                 {
-                    _service.AddVcRole(Context.Guild.Id, role, vc.Id);
+                    _service.AddVcRole(ctx.Guild.Id, role, vc.Id);
                     await ReplyConfirmLocalizedAsync("vcrole_added", Format.Bold(vc.Name), Format.Bold(role.Name)).ConfigureAwait(false);
                 }
             }
@@ -49,9 +49,9 @@ namespace NadekoBot.Modules.Administration
             [RequireContext(ContextType.Guild)]
             public async Task VcRoleList()
             {
-                var guild = (SocketGuild)Context.Guild;
+                var guild = (SocketGuild)ctx.Guild;
                 string text;
-                if (_service.VcRoles.TryGetValue(Context.Guild.Id, out ConcurrentDictionary<ulong, IRole> roles))
+                if (_service.VcRoles.TryGetValue(ctx.Guild.Id, out ConcurrentDictionary<ulong, IRole> roles))
                 {
                     if (!roles.Any())
                     {
@@ -67,7 +67,7 @@ namespace NadekoBot.Modules.Administration
                 {
                     text = GetText("no_vcroles");
                 }
-                await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                         .WithTitle(GetText("vc_role_list"))
                         .WithDescription(text))
                     .ConfigureAwait(false);

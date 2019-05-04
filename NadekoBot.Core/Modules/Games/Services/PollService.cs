@@ -74,10 +74,10 @@ namespace NadekoBot.Modules.Games.Services
             var pr = new PollRunner(_db,  p);
             if (ActivePolls.TryAdd(p.GuildId, pr))
             {
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetDbContext())
                 {
                     uow.Polls.Add(p);
-                    uow.Complete();
+                    uow.SaveChanges();
                 }
 
                 pr.OnVoted += Pr_OnVoted;
@@ -91,10 +91,10 @@ namespace NadekoBot.Modules.Games.Services
             if (ActivePolls.TryRemove(guildId, out var pr))
             {
                 pr.OnVoted -= Pr_OnVoted;
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetDbContext())
                 {
                     uow.Polls.RemovePoll(pr.Poll.Id);
-                    uow.Complete();
+                    uow.SaveChanges();
                 }
                 return pr.Poll;
             }

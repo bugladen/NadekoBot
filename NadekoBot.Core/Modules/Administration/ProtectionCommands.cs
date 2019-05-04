@@ -17,10 +17,10 @@ namespace NadekoBot.Modules.Administration
         {
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.Administrator)]
+            [UserPerm(GuildPerm.Administrator)]
             public Task AntiRaid()
             {
-                if (_service.TryStopAntiRaid(Context.Guild.Id))
+                if (_service.TryStopAntiRaid(ctx.Guild.Id))
                 {
                     return ReplyConfirmLocalizedAsync("prot_disable", "Anti-Raid");
                 }
@@ -32,7 +32,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.Administrator)]
+            [UserPerm(GuildPerm.Administrator)]
             public async Task AntiRaid(int userThreshold, int seconds = 10, PunishmentAction action = PunishmentAction.Mute)
             {
                 if (userThreshold < 2 || userThreshold > 30)
@@ -47,19 +47,19 @@ namespace NadekoBot.Modules.Administration
                     return;
                 }
 
-                var stats = await _service.StartAntiRaidAsync(Context.Guild.Id, userThreshold, seconds, action).ConfigureAwait(false);
+                var stats = await _service.StartAntiRaidAsync(ctx.Guild.Id, userThreshold, seconds, action).ConfigureAwait(false);
 
-                await Context.Channel.SendConfirmAsync(GetText("prot_enable", "Anti-Raid"), $"{Context.User.Mention} {GetAntiRaidString(stats)}")
+                await ctx.Channel.SendConfirmAsync(GetText("prot_enable", "Anti-Raid"), $"{ctx.User.Mention} {GetAntiRaidString(stats)}")
                         .ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.Administrator)]
+            [UserPerm(GuildPerm.Administrator)]
             [Priority(1)]
             public Task AntiSpam()
             {
-                if (_service.TryStopAntiSpam(Context.Guild.Id))
+                if (_service.TryStopAntiSpam(ctx.Guild.Id))
                 {
                     return ReplyConfirmLocalizedAsync("prot_disable", "Anti-Spam");
                 }
@@ -71,7 +71,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.Administrator)]
+            [UserPerm(GuildPerm.Administrator)]
             [Priority(0)]
             public async Task AntiSpam(int messageCount, PunishmentAction action = PunishmentAction.Mute, int time = 0)
             {
@@ -81,18 +81,18 @@ namespace NadekoBot.Modules.Administration
                 if (time < 0 || time > 60 * 60 * 12)
                     return;
 
-                var stats = await _service.StartAntiSpamAsync(Context.Guild.Id, messageCount, time, action).ConfigureAwait(false);
+                var stats = await _service.StartAntiSpamAsync(ctx.Guild.Id, messageCount, time, action).ConfigureAwait(false);
 
-                await Context.Channel.SendConfirmAsync(GetText("prot_enable", "Anti-Spam"),
-                    $"{Context.User.Mention} {GetAntiSpamString(stats)}").ConfigureAwait(false);
+                await ctx.Channel.SendConfirmAsync(GetText("prot_enable", "Anti-Spam"),
+                    $"{ctx.User.Mention} {GetAntiSpamString(stats)}").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.Administrator)]
+            [UserPerm(GuildPerm.Administrator)]
             public async Task AntispamIgnore()
             {
-                var added = await _service.AntiSpamIgnoreAsync(Context.Guild.Id, Context.Channel.Id).ConfigureAwait(false);
+                var added = await _service.AntiSpamIgnoreAsync(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
 
                 if(added is null)
                 {
@@ -107,7 +107,7 @@ namespace NadekoBot.Modules.Administration
             [RequireContext(ContextType.Guild)]
             public async Task AntiList()
             {
-                var (spam, raid) = _service.GetAntiStats(Context.Guild.Id);
+                var (spam, raid) = _service.GetAntiStats(ctx.Guild.Id);
 
                 if (spam == null && raid == null)
                 {
@@ -128,7 +128,7 @@ namespace NadekoBot.Modules.Administration
                         .WithValue(GetAntiRaidString(raid).TrimTo(1024))
                         .WithIsInline(true));
 
-                await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
 

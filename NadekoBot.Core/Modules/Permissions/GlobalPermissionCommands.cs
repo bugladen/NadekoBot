@@ -44,7 +44,7 @@ namespace NadekoBot.Modules.Permissions
                 if (_service.BlockedCommands.Any())
                     embed.AddField(efb => efb.WithName(GetText("blocked_commands")).WithValue(string.Join("\n", _service.BlockedCommands)).WithIsInline(false));
 
-                await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -54,27 +54,27 @@ namespace NadekoBot.Modules.Permissions
                 var moduleName = module.Name.ToLowerInvariant();
                 if (_service.BlockedModules.Add(moduleName))
                 {
-                    using (var uow = _db.UnitOfWork)
+                    using (var uow = _db.GetDbContext())
                     {
                         var bc = uow.BotConfig.GetOrCreate(set => set.Include(x => x.BlockedModules));
                         bc.BlockedModules.Add(new BlockedCmdOrMdl
                         {
                             Name = moduleName,
                         });
-                        uow.Complete();
+                        uow.SaveChanges();
                     }
                     await ReplyConfirmLocalizedAsync("gmod_add", Format.Bold(module.Name)).ConfigureAwait(false);
                     return;
                 }
                 else if (_service.BlockedModules.TryRemove(moduleName))
                 {
-                    using (var uow = _db.UnitOfWork)
+                    using (var uow = _db.GetDbContext())
                     {
                         var bc = uow.BotConfig.GetOrCreate(set => set.Include(x => x.BlockedModules));
                         var mdls = bc.BlockedModules.Where(x => x.Name == moduleName);
                         if (mdls.Any())
                             uow._context.RemoveRange(mdls.ToArray());
-                        uow.Complete();
+                        uow.SaveChanges();
                     }
                     await ReplyConfirmLocalizedAsync("gmod_remove", Format.Bold(module.Name)).ConfigureAwait(false);
                     return;
@@ -88,27 +88,27 @@ namespace NadekoBot.Modules.Permissions
                 var commandName = cmd.Name.ToLowerInvariant();
                 if (_service.BlockedCommands.Add(commandName))
                 {
-                    using (var uow = _db.UnitOfWork)
+                    using (var uow = _db.GetDbContext())
                     {
                         var bc = uow.BotConfig.GetOrCreate(set => set.Include(x => x.BlockedCommands));
                         bc.BlockedCommands.Add(new BlockedCmdOrMdl
                         {
                             Name = commandName,
                         });
-                        uow.Complete();
+                        uow.SaveChanges();
                     }
                     await ReplyConfirmLocalizedAsync("gcmd_add", Format.Bold(cmd.Name)).ConfigureAwait(false);
                     return;
                 }
                 else if (_service.BlockedCommands.TryRemove(commandName))
                 {
-                    using (var uow = _db.UnitOfWork)
+                    using (var uow = _db.GetDbContext())
                     {
                         var bc = uow.BotConfig.GetOrCreate(set => set.Include(x => x.BlockedCommands));
                         var objs = bc.BlockedCommands.Where(x => x.Name == commandName);
                         if (objs.Any())
                             uow._context.RemoveRange(objs.ToArray());
-                        uow.Complete();
+                        uow.SaveChanges();
                     }
                     await ReplyConfirmLocalizedAsync("gcmd_remove", Format.Bold(cmd.Name)).ConfigureAwait(false);
                     return;

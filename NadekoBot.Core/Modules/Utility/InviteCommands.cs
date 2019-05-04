@@ -16,8 +16,8 @@ namespace NadekoBot.Modules.Utility
         {
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireBotPermission(ChannelPermission.CreateInstantInvite)]
-            [RequireUserPermission(ChannelPermission.CreateInstantInvite)]
+            [BotPerm(ChannelPerm.CreateInstantInvite)]
+            [UserPerm(ChannelPerm.CreateInstantInvite)]
             [NadekoOptions(typeof(InviteService.Options))]
             public async Task InviteCreate(params string[] args)
             {
@@ -25,25 +25,25 @@ namespace NadekoBot.Modules.Utility
                 if (!success)
                     return;
 
-                var ch = (ITextChannel)Context.Channel;
+                var ch = (ITextChannel)ctx.Channel;
                 var invite = await ch.CreateInviteAsync(opts.Expire, opts.MaxUses, isTemporary: opts.Temporary, isUnique: opts.Unique).ConfigureAwait(false);
 
-                await Context.Channel.SendConfirmAsync($"{Context.User.Mention} https://discord.gg/{invite.Code}").ConfigureAwait(false);
+                await ctx.Channel.SendConfirmAsync($"{ctx.User.Mention} https://discord.gg/{invite.Code}").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireBotPermission(ChannelPermission.ManageChannels)]
-            [RequireUserPermission(ChannelPermission.ManageChannels)]
-            public async Task InviteList(int page = 1, [Remainder]ITextChannel ch = null)
+            [BotPerm(ChannelPerm.ManageChannels)]
+            [UserPerm(ChannelPerm.ManageChannels)]
+            public async Task InviteList(int page = 1, [Leftover]ITextChannel ch = null)
             {
                 if (--page < 0)
                     return;
-                var channel = ch ?? (ITextChannel)Context.Channel;
+                var channel = ch ?? (ITextChannel)ctx.Channel;
 
                 var invites = await channel.GetInvitesAsync().ConfigureAwait(false);
 
-                await Context.SendPaginatedConfirmAsync(page, (cur) =>
+                await ctx.SendPaginatedConfirmAsync(page, (cur) =>
                 {
                     var i = 1;
                     var invs = invites.Skip(cur * 9).Take(9);
@@ -63,13 +63,13 @@ namespace NadekoBot.Modules.Utility
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireBotPermission(ChannelPermission.ManageChannels)]
-            [RequireUserPermission(ChannelPermission.ManageChannels)]
+            [BotPerm(ChannelPerm.ManageChannels)]
+            [UserPerm(ChannelPerm.ManageChannels)]
             public async Task InviteDelete(int index)
             {
                 if (--index < 0)
                     return;
-                var ch = (ITextChannel)Context.Channel;
+                var ch = (ITextChannel)ctx.Channel;
 
                 var invites = await ch.GetInvitesAsync().ConfigureAwait(false);
 

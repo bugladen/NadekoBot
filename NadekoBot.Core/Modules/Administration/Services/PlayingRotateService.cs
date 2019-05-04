@@ -91,7 +91,7 @@ namespace NadekoBot.Modules.Administration.Services
                 throw new ArgumentOutOfRangeException(nameof(index));
 
             string msg;
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var config = uow.BotConfig.GetOrCreate(set => set.Include(x => x.RotatingStatusMessages));
 
@@ -101,7 +101,7 @@ namespace NadekoBot.Modules.Administration.Services
                 var remove = config.RotatingStatusMessages[index];
                 uow._context.Remove(remove);
                 _bcp.BotConfig.RotatingStatusMessages = config.RotatingStatusMessages;
-                await uow.CompleteAsync();
+                await uow.SaveChangesAsync();
             }
 
             return msg;
@@ -109,25 +109,25 @@ namespace NadekoBot.Modules.Administration.Services
 
         public async Task AddPlaying(ActivityType t, string status)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var config = uow.BotConfig.GetOrCreate(set => set.Include(x => x.RotatingStatusMessages));
                 var toAdd = new PlayingStatus { Status = status, Type = t };
                 config.RotatingStatusMessages.Add(toAdd);
                 _bcp.BotConfig.RotatingStatusMessages = config.RotatingStatusMessages;
-                await uow.CompleteAsync();
+                await uow.SaveChangesAsync();
             }
         }
 
         public bool ToggleRotatePlaying()
         {
             bool enabled;
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var config = uow.BotConfig.GetOrCreate(set => set);
 
                 enabled = config.RotatingStatuses = !config.RotatingStatuses;
-                uow.Complete();
+                uow.SaveChanges();
             }
             return enabled;
         }

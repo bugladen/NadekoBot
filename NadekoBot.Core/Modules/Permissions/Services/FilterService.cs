@@ -40,7 +40,7 @@ namespace NadekoBot.Modules.Permissions.Services
 
         public void ClearFilteredWords(ulong guildId)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guildId,
                     set => set.Include(x => x.FilteredWords)
@@ -58,7 +58,7 @@ namespace NadekoBot.Modules.Permissions.Services
                 gc.FilteredWords.Clear();
                 gc.FilterWordsChannelIds.Clear();
 
-                uow.Complete();
+                uow.SaveChanges();
             }
         }
 

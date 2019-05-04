@@ -55,11 +55,11 @@ namespace NadekoBot.Modules.Games.Common
                 var _ = OnVoted?.Invoke(msg, usr);
             }
             finally { _locker.Release(); }
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var trackedPoll = uow.Polls.GetById(Poll.Id);
                 trackedPoll.Votes.Add(voteObj);
-                uow.Complete();
+                uow.SaveChanges();
             }
             return true;
         }

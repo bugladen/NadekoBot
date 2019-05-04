@@ -32,21 +32,21 @@ namespace NadekoBot.Modules.Administration
                     }
 
                     var res = await _service.ExecuteSql(sql).ConfigureAwait(false);
-                    await Context.Channel.SendConfirmAsync(res.ToString()).ConfigureAwait(false);
+                    await ctx.Channel.SendConfirmAsync(res.ToString()).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
-                    await Context.Channel.SendErrorAsync(ex.ToString()).ConfigureAwait(false);
+                    await ctx.Channel.SendErrorAsync(ex.ToString()).ConfigureAwait(false);
                 }
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public Task SqlSelect([Remainder]string sql)
+            public Task SqlSelect([Leftover]string sql)
             {
                 var result = _service.SelectSql(sql);
 
-                return Context.SendPaginatedConfirmAsync(0, (cur) =>
+                return ctx.SendPaginatedConfirmAsync(0, (cur) =>
                 {
                     var items = result.Results.Skip(cur * 20).Take(20);
 
@@ -69,7 +69,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public Task SqlExec([Remainder]string sql) =>
+            public Task SqlExec([Leftover]string sql) =>
                 InternalExecSql(sql);
 
             [NadekoCommand, Usage, Description, Aliases]

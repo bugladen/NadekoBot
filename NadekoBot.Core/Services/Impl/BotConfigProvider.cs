@@ -21,7 +21,7 @@ namespace NadekoBot.Core.Services.Impl
 
         public void Reload()
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 BotConfig = uow.BotConfig.GetOrCreate();
             }
@@ -29,7 +29,7 @@ namespace NadekoBot.Core.Services.Impl
 
         public bool Edit(BotConfigEditType type, string newValue)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var bc = uow.BotConfig.GetOrCreate();
                 switch (type)
@@ -219,7 +219,7 @@ namespace NadekoBot.Core.Services.Impl
                 }
 
                 BotConfig = bc;
-                uow.Complete();
+                uow.SaveChanges();
             }
             return true;
         }

@@ -55,7 +55,7 @@ namespace NadekoBot.Modules.Permissions
                 if (action == AddRemove.Add && _creds.OwnerIds.Contains(id))
                     return;
 
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetDbContext())
                 {
                     if (action == AddRemove.Add)
                     {
@@ -72,7 +72,7 @@ namespace NadekoBot.Modules.Permissions
                         if (objs.Any())
                             uow._context.Set<BlacklistItem>().RemoveRange(objs);
                     }
-                    await uow.CompleteAsync();
+                    await uow.SaveChangesAsync();
                 }
 
                 if (action == AddRemove.Add)

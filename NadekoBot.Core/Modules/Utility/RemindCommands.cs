@@ -35,11 +35,11 @@ namespace NadekoBot.Modules.Utility
 
             [NadekoCommand, Usage, Description, Aliases]
             [Priority(1)]
-            public async Task Remind(MeOrHere meorhere, StoopidTime time, [Remainder] string message)
+            public async Task Remind(MeOrHere meorhere, StoopidTime time, [Leftover] string message)
             {
                 ulong target;
-                target = meorhere == MeOrHere.Me ? Context.User.Id : Context.Channel.Id;
-                if (!await RemindInternal(target, meorhere == MeOrHere.Me || Context.Guild == null, time.Time, message).ConfigureAwait(false))
+                target = meorhere == MeOrHere.Me ? ctx.User.Id : ctx.Channel.Id;
+                if (!await RemindInternal(target, meorhere == MeOrHere.Me || ctx.Guild == null, time.Time, message).ConfigureAwait(false))
                 {
                     await ReplyErrorLocalizedAsync("remind_too_long").ConfigureAwait(false);
                 }
@@ -47,11 +47,11 @@ namespace NadekoBot.Modules.Utility
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageMessages)]
+            [UserPerm(GuildPerm.ManageMessages)]
             [Priority(0)]
-            public async Task Remind(ITextChannel channel, StoopidTime time, [Remainder] string message)
+            public async Task Remind(ITextChannel channel, StoopidTime time, [Leftover] string message)
             {
-                var perms = ((IGuildUser)Context.User).GetPermissions((ITextChannel)channel);
+                var perms = ((IGuildUser)ctx.User).GetPermissions((ITextChannel)channel);
                 if (!perms.SendMessages || !perms.ViewChannel)
                 {
                     await ReplyErrorLocalizedAsync("cant_read_or_send").ConfigureAwait(false);
@@ -77,9 +77,9 @@ namespace NadekoBot.Modules.Utility
                     .WithTitle(GetText("reminder_list"));
 
                 List<Reminder> rems;
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetDbContext())
                 {
-                    rems = uow.Reminders.RemindersFor(Context.User.Id, page)
+                    rems = uow.Reminders.RemindersFor(ctx.User.Id, page)
                         .ToList();
                 }
 
@@ -101,7 +101,7 @@ namespace NadekoBot.Modules.Utility
                 }
 
                 embed.AddPaginatedFooter(page + 1, null);
-                await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -114,16 +114,16 @@ namespace NadekoBot.Modules.Utility
                 var embed = new EmbedBuilder();
 
                 Reminder rem = null;
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetDbContext())
                 {
-                    var rems = uow.Reminders.RemindersFor(Context.User.Id, index / 10)
+                    var rems = uow.Reminders.RemindersFor(ctx.User.Id, index / 10)
                         .ToList();
 
                     if (rems.Count > index)
                     {
                         rem = rems[index];
                         uow.Reminders.Remove(rem);
-                        uow.Complete();
+                        uow.SaveChanges();
                     }
                 }
 
@@ -138,7 +138,7 @@ namespace NadekoBot.Modules.Utility
                 }
             }
 
-            public async Task<bool> RemindInternal(ulong targetId, bool isPrivate, TimeSpan ts, [Remainder] string message)
+            public async Task<bool> RemindInternal(ulong targetId, bool isPrivate, TimeSpan ts, [Leftover] string message)
             {
                 var time = DateTime.UtcNow + ts;
 
@@ -151,24 +151,24 @@ namespace NadekoBot.Modules.Utility
                     IsPrivate = isPrivate,
                     When = time,
                     Message = message,
-                    UserId = Context.User.Id,
-                    ServerId = Context.Guild?.Id ?? 0
+                    UserId = ctx.User.Id,
+                    ServerId = ctx.Guild?.Id ?? 0
                 };
 
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetDbContext())
                 {
                     uow.Reminders.Add(rem);
-                    await uow.CompleteAsync();
+                    await uow.SaveChangesAsync();
                 }
 
-                var gTime = Context.Guild == null ?
+                var gTime = ctx.Guild == null ?
                     time :
-                    TimeZoneInfo.ConvertTime(time, _tz.GetTimeZoneOrUtc(Context.Guild.Id));
+                    TimeZoneInfo.ConvertTime(time, _tz.GetTimeZoneOrUtc(ctx.Guild.Id));
                 try
                 {
-                    await Context.Channel.SendConfirmAsync(
+                    await ctx.Channel.SendConfirmAsync(
                         "⏰ " + GetText("remind",
-                            Format.Bold(!isPrivate ? $"<#{targetId}>" : Context.User.Username),
+                            Format.Bold(!isPrivate ? $"<#{targetId}>" : ctx.User.Username),
                             Format.Bold(message.SanitizeMentions()),
                             $"{ts.Days}d {ts.Hours}h {ts.Minutes}min",
                             gTime, gTime)).ConfigureAwait(false);
@@ -183,15 +183,15 @@ namespace NadekoBot.Modules.Utility
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task RemindTemplate([Remainder] string arg)
+            public async Task RemindTemplate([Leftover] string arg)
             {
                 if (string.IsNullOrWhiteSpace(arg))
                     return;
 
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetDbContext())
                 {
                     uow.BotConfig.GetOrCreate(set => set).RemindMessageFormat = arg.Trim();
-                    await uow.CompleteAsync();
+                    await uow.SaveChangesAsync();
                 }
 
                 await ReplyConfirmLocalizedAsync("remind_template").ConfigureAwait(false);

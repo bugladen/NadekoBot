@@ -14,28 +14,28 @@ namespace NadekoBot.Modules.Administration
             [Priority(1)]
             public new async Task Prefix()
             {
-                await ReplyConfirmLocalizedAsync("prefix_current", Format.Code(CmdHandler.GetPrefix(Context.Guild))).ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("prefix_current", Format.Code(CmdHandler.GetPrefix(ctx.Guild))).ConfigureAwait(false);
                 return;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.Administrator)]
+            [UserPerm(GuildPerm.Administrator)]
             [Priority(0)]
-            public new async Task Prefix([Remainder]string prefix)
+            public new async Task Prefix([Leftover]string prefix)
             {
                 if (string.IsNullOrWhiteSpace(prefix))
                     return;
 
                 var oldPrefix = base.Prefix;
-                var newPrefix = CmdHandler.SetPrefix(Context.Guild, prefix);
+                var newPrefix = CmdHandler.SetPrefix(ctx.Guild, prefix);
 
                 await ReplyConfirmLocalizedAsync("prefix_new", Format.Code(oldPrefix), Format.Code(newPrefix)).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task DefPrefix([Remainder]string prefix = null)
+            public async Task DefPrefix([Leftover]string prefix = null)
             {
                 if (string.IsNullOrWhiteSpace(prefix))
                 {

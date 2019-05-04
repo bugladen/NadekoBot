@@ -45,7 +45,7 @@ namespace NadekoBot.Modules.Searches
                         eb.AddField(efb => efb.WithName(champName).WithValue(((double)lChamp["banRate"] * 100).ToString("F2") + "%").WithIsInline(true));
                     }
 
-                    await Context.Channel.EmbedAsync(eb, Format.Italics(trashTalk[new NadekoRandom().Next(0, trashTalk.Length)])).ConfigureAwait(false);
+                    await ctx.Channel.EmbedAsync(eb, Format.Italics(trashTalk[new NadekoRandom().Next(0, trashTalk.Length)])).ConfigureAwait(false);
                 }
             }
             catch (Exception ex)

@@ -98,7 +98,7 @@ namespace NadekoBot.Modules.Administration.Services
         public bool LogIgnore(ulong gid, ulong cid)
         {
             int removed = 0;
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var config = uow.GuildConfigs.LogSettingsFor(gid);
                 LogSetting logSetting = GuildLogSettings.GetOrAdd(gid, (id) => config.LogSetting);
@@ -110,7 +110,7 @@ namespace NadekoBot.Modules.Administration.Services
                     logSetting.IgnoredChannels.Add(toAdd);
                     config.LogSetting.IgnoredChannels.Add(toAdd);
                 }
-                uow.Complete();
+                uow.SaveChanges();
             }
             return removed > 0;
         }
@@ -139,7 +139,7 @@ namespace NadekoBot.Modules.Administration.Services
         public async Task LogServer(ulong guildId, ulong channelId, bool value)
         {
             LogSetting logSetting;
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 logSetting = uow.GuildConfigs.LogSettingsFor(guildId).LogSetting;
                 GuildLogSettings.AddOrUpdate(guildId, (id) => logSetting, (id, old) => logSetting);
@@ -159,7 +159,7 @@ namespace NadekoBot.Modules.Administration.Services
                 logSetting.UserMutedId =
                 logSetting.LogVoicePresenceTTSId = (value ? channelId : (ulong?)null);
 
-                await uow.CompleteAsync();
+                await uow.SaveChangesAsync();
             }
         }
 
@@ -226,7 +226,7 @@ namespace NadekoBot.Modules.Administration.Services
         public bool Log(ulong gid, ulong? cid, LogType type)
         {
             ulong? channelId = null;
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var logSetting = uow.GuildConfigs.LogSettingsFor(gid).LogSetting;
                 GuildLogSettings.AddOrUpdate(gid, (id) => logSetting, (id, old) => logSetting);
@@ -279,7 +279,7 @@ namespace NadekoBot.Modules.Administration.Services
                         break;
                 }
 
-                uow.Complete();
+                uow.SaveChanges();
             }
 
             return channelId != null;
@@ -1064,7 +1064,7 @@ namespace NadekoBot.Modules.Administration.Services
 
         private void UnsetLogSetting(ulong guildId, LogType logChannelType)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var newLogSetting = uow.GuildConfigs.LogSettingsFor(guildId).LogSetting;
                 switch (logChannelType)
@@ -1116,7 +1116,7 @@ namespace NadekoBot.Modules.Administration.Services
                         break;
                 }
                 GuildLogSettings.AddOrUpdate(guildId, newLogSetting, (gid, old) => newLogSetting);
-                uow.Complete();
+                uow.SaveChanges();
             }
         }
     }

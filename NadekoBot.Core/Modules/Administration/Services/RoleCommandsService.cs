@@ -155,7 +155,7 @@ namespace NadekoBot.Modules.Administration.Services
 
         public bool Add(ulong id, ReactionRoleMessage rrm)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(id, set => set
                     .Include(x => x.ReactionRoleMessages)
@@ -166,14 +166,14 @@ namespace NadekoBot.Modules.Administration.Services
                 _models.AddOrUpdate(id, 
                     gc.ReactionRoleMessages, 
                     delegate { return gc.ReactionRoleMessages; });
-                uow.Complete();
+                uow.SaveChanges();
             }
             return true;
         }
 
         public void Remove(ulong id, int index)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(id, 
                     set => set.Include(x => x.ReactionRoleMessages)
@@ -184,7 +184,7 @@ namespace NadekoBot.Modules.Administration.Services
                 _models.AddOrUpdate(id,
                     gc.ReactionRoleMessages,
                     delegate { return gc.ReactionRoleMessages; });
-                uow.Complete();
+                uow.SaveChanges();
             }
         }
     }

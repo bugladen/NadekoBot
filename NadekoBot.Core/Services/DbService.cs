@@ -53,7 +53,7 @@ namespace NadekoBot.Core.Services
             }
         }
 
-        public NadekoContext GetDbContext()
+        private NadekoContext GetDbContextInternal()
         {
             var context = new NadekoContext(options);
             context.Database.SetCommandTimeout(60);
@@ -67,7 +67,6 @@ namespace NadekoBot.Core.Services
             return context;
         }
 
-        public IUnitOfWork UnitOfWork =>
-            new UnitOfWork(GetDbContext());
+        public IUnitOfWork GetDbContext() => new UnitOfWork(GetDbContextInternal());
     }
 }

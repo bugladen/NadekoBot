@@ -23,7 +23,7 @@ namespace NadekoBot.Modules.Games
                     return;
                 }
 
-                var picked = await _service.PickAsync(Context.Guild.Id, (ITextChannel)Context.Channel, Context.User.Id, pass);
+                var picked = await _service.PickAsync(ctx.Guild.Id, (ITextChannel)ctx.Channel, ctx.User.Id, pass);
 
                 if (picked > 0)
                 {
@@ -32,9 +32,9 @@ namespace NadekoBot.Modules.Games
                     msg.DeleteAfter(10);
                 }
 
-                if (((SocketGuild)Context.Guild).CurrentUser.GuildPermissions.ManageMessages)
+                if (((SocketGuild)ctx.Guild).CurrentUser.GuildPermissions.ManageMessages)
                 {
-                    try { await Context.Message.DeleteAsync().ConfigureAwait(false); } catch { }
+                    try { await ctx.Message.DeleteAsync().ConfigureAwait(false); } catch { }
                 }
             }
 
@@ -50,28 +50,28 @@ namespace NadekoBot.Modules.Games
                     return;
                 }
 
-                var success = await _service.PlantAsync(Context.Guild.Id, Context.Channel, Context.User.Id, Context.User.ToString(), amount, pass);
+                var success = await _service.PlantAsync(ctx.Guild.Id, ctx.Channel, ctx.User.Id, ctx.User.ToString(), amount, pass);
                 if (!success)
                 {
                     await ReplyErrorLocalizedAsync("not_enough", Bc.BotConfig.CurrencySign).ConfigureAwait(false);
                     return;
                 }
 
-                if (((SocketGuild)Context.Guild).CurrentUser.GuildPermissions.ManageMessages)
+                if (((SocketGuild)ctx.Guild).CurrentUser.GuildPermissions.ManageMessages)
                 {
-                    await Context.Message.DeleteAsync().ConfigureAwait(false);
+                    await ctx.Message.DeleteAsync().ConfigureAwait(false);
                 }
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageMessages)]
+            [UserPerm(GuildPerm.ManageMessages)]
 #if GLOBAL_NADEKO
             [OwnerOnly]
 #endif
             public async Task GenCurrency()
             {
-                bool enabled = _service.ToggleCurrencyGeneration(Context.Guild.Id, Context.Channel.Id);
+                bool enabled = _service.ToggleCurrencyGeneration(ctx.Guild.Id, ctx.Channel.Id);
                 if (enabled)
                 {
                     await ReplyConfirmLocalizedAsync("curgen_enabled").ConfigureAwait(false);
@@ -84,7 +84,7 @@ namespace NadekoBot.Modules.Games
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageMessages)]
+            [UserPerm(GuildPerm.ManageMessages)]
             [OwnerOnly]
             public Task GenCurList(int page = 1)
             {
@@ -92,7 +92,7 @@ namespace NadekoBot.Modules.Games
                     return Task.CompletedTask;
                 var enabledIn = _service.GetAllGeneratingChannels();
 
-                return Context.SendPaginatedConfirmAsync(page, (cur) =>
+                return ctx.SendPaginatedConfirmAsync(page, (cur) =>
                 {
                     var items = enabledIn.Skip(page * 9).Take(9);
 

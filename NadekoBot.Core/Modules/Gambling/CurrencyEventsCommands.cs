@@ -41,8 +41,8 @@ namespace NadekoBot.Modules.Gambling
             public async Task EventStart(CurrencyEvent.Type ev, params string[] options)
             {
                 var (opts, _) = OptionsParser.ParseFrom(new EventOptions(), options);
-                if (!await _service.TryCreateEventAsync(Context.Guild.Id,
-                    Context.Channel.Id,
+                if (!await _service.TryCreateEventAsync(ctx.Guild.Id,
+                    ctx.Channel.Id,
                     ev,
                     opts,
                     GetEmbed

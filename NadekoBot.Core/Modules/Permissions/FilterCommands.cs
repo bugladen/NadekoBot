@@ -26,10 +26,10 @@ namespace NadekoBot.Modules.Permissions
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.Administrator)]
+            [UserPerm(GuildPerm.Administrator)]
             public async Task FwClear()
             {
-                _service.ClearFilteredWords(Context.Guild.Id);
+                _service.ClearFilteredWords(ctx.Guild.Id);
                 await ReplyConfirmLocalizedAsync("fw_cleared").ConfigureAwait(false);
             }
 
@@ -37,14 +37,14 @@ namespace NadekoBot.Modules.Permissions
             [RequireContext(ContextType.Guild)]
             public async Task SrvrFilterInv()
             {
-                var channel = (ITextChannel)Context.Channel;
+                var channel = (ITextChannel)ctx.Channel;
 
                 bool enabled;
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetDbContext())
                 {
                     var config = uow.GuildConfigs.ForId(channel.Guild.Id, set => set);
                     enabled = config.FilterInvites = !config.FilterInvites;
-                    await uow.CompleteAsync();
+                    await uow.SaveChangesAsync();
                 }
 
                 if (enabled)
@@ -63,10 +63,10 @@ namespace NadekoBot.Modules.Permissions
             [RequireContext(ContextType.Guild)]
             public async Task ChnlFilterInv()
             {
-                var channel = (ITextChannel)Context.Channel;
+                var channel = (ITextChannel)ctx.Channel;
 
                 FilterChannelId removed;
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetDbContext())
                 {
                     var config = uow.GuildConfigs.ForId(channel.Guild.Id, set => set.Include(gc => gc.FilterInvitesChannelIds));
                     var match = new FilterChannelId()
@@ -83,7 +83,7 @@ namespace NadekoBot.Modules.Permissions
                     {
                         uow._context.Remove(removed);
                     }
-                    await uow.CompleteAsync();
+                    await uow.SaveChangesAsync();
                 }
 
                 if (removed == null)
@@ -102,14 +102,14 @@ namespace NadekoBot.Modules.Permissions
             [RequireContext(ContextType.Guild)]
             public async Task SrvrFilterWords()
             {
-                var channel = (ITextChannel)Context.Channel;
+                var channel = (ITextChannel)ctx.Channel;
 
                 bool enabled;
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetDbContext())
                 {
                     var config = uow.GuildConfigs.ForId(channel.Guild.Id, set => set);
                     enabled = config.FilterWords = !config.FilterWords;
-                    await uow.CompleteAsync();
+                    await uow.SaveChangesAsync();
                 }
 
                 if (enabled)
@@ -128,10 +128,10 @@ namespace NadekoBot.Modules.Permissions
             [RequireContext(ContextType.Guild)]
             public async Task ChnlFilterWords()
             {
-                var channel = (ITextChannel)Context.Channel;
+                var channel = (ITextChannel)ctx.Channel;
 
                 FilterChannelId removed;
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetDbContext())
                 {
                     var config = uow.GuildConfigs.ForId(channel.Guild.Id, set => set.Include(gc => gc.FilterWordsChannelIds));
 
@@ -148,7 +148,7 @@ namespace NadekoBot.Modules.Permissions
                     {
                         uow._context.Remove(removed);
                     }
-                    await uow.CompleteAsync();
+                    await uow.SaveChangesAsync();
                 }
 
                 if (removed == null)
@@ -165,9 +165,9 @@ namespace NadekoBot.Modules.Permissions
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task FilterWord([Remainder] string word)
+            public async Task FilterWord([Leftover] string word)
             {
-                var channel = (ITextChannel)Context.Channel;
+                var channel = (ITextChannel)ctx.Channel;
 
                 word = word?.Trim().ToLowerInvariant();
 
@@ -175,7 +175,7 @@ namespace NadekoBot.Modules.Permissions
                     return;
 
                 FilteredWord removed;
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetDbContext())
                 {
                     var config = uow.GuildConfigs.ForId(channel.Guild.Id, set => set.Include(gc => gc.FilteredWords));
 
@@ -188,7 +188,7 @@ namespace NadekoBot.Modules.Permissions
                         uow._context.Remove(removed);
                     }
 
-                    await uow.CompleteAsync();
+                    await uow.SaveChangesAsync();
                 }
 
                 var filteredWords = _service.ServerFilteredWords.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<string>());
@@ -213,13 +213,13 @@ namespace NadekoBot.Modules.Permissions
                 if (page < 0)
                     return;
 
-                var channel = (ITextChannel)Context.Channel;
+                var channel = (ITextChannel)ctx.Channel;
 
                 _service.ServerFilteredWords.TryGetValue(channel.Guild.Id, out var fwHash);
 
                 var fws = fwHash.ToArray();
 
-                await Context.SendPaginatedConfirmAsync(page,
+                await ctx.SendPaginatedConfirmAsync(page,
                     (curPage) => new EmbedBuilder()
                         .WithTitle(GetText("filter_word_list"))
                         .WithDescription(string.Join("\n", fws.Skip(curPage * 10).Take(10)))

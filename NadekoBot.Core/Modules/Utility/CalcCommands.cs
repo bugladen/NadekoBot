@@ -15,15 +15,15 @@ namespace NadekoBot.Modules.Utility
         public class CalcCommands : NadekoSubmodule
         {
             [NadekoCommand, Usage, Description, Aliases]
-            public async Task Calculate([Remainder] string expression)
+            public async Task Calculate([Leftover] string expression)
             {
                 var expr = new NCalc.Expression(expression, NCalc.EvaluateOptions.IgnoreCase | NCalc.EvaluateOptions.NoCache);
                 expr.EvaluateParameter += Expr_EvaluateParameter;
                 var result = expr.Evaluate();
                 if (!expr.HasErrors())
-                    await Context.Channel.SendConfirmAsync("⚙ " + GetText("result"), result.ToString()).ConfigureAwait(false);
+                    await ctx.Channel.SendConfirmAsync("⚙ " + GetText("result"), result.ToString()).ConfigureAwait(false);
                 else
-                    await Context.Channel.SendErrorAsync("⚙ " + GetText("error"), expr.Error).ConfigureAwait(false);
+                    await ctx.Channel.SendErrorAsync("⚙ " + GetText("error"), expr.Error).ConfigureAwait(false);
             }
 
             private static void Expr_EvaluateParameter(string name, NCalc.ParameterArgs args)
@@ -55,7 +55,7 @@ namespace NadekoBot.Modules.Utility
                         "GetHashCode",
                         "GetType"
                     });
-                await Context.Channel.SendConfirmAsync(GetText("calcops", Prefix), string.Join(", ", selection)).ConfigureAwait(false);
+                await ctx.Channel.SendConfirmAsync(GetText("calcops", Prefix), string.Join(", ", selection)).ConfigureAwait(false);
             }
         }
 

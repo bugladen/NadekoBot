@@ -32,12 +32,12 @@ namespace NadekoBot.Modules.Administration.Services
 
         public async Task SetMuteRoleAsync(ulong guildId, string name)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var config = uow.GuildConfigs.ForId(guildId, set => set);
                 config.MuteRoleName = name;
                 GuildMuteRoles.AddOrUpdate(guildId, name, (id, old) => name);
-                await uow.CompleteAsync();
+                await uow.SaveChangesAsync();
             }
         }
 
@@ -128,12 +128,12 @@ namespace NadekoBot.Modules.Administration.Services
         {
             if (type == MuteType.All)
             {
-                await usr.ModifyAsync(x => x.Mute = true).ConfigureAwait(false);
+                try { await usr.ModifyAsync(x => x.Mute = true).ConfigureAwait(false); } catch { }
                 var muteRole = await GetMuteRole(usr.Guild).ConfigureAwait(false);
                 if (!usr.RoleIds.Contains(muteRole.Id))
                     await usr.AddRoleAsync(muteRole).ConfigureAwait(false);
                 StopTimer(usr.GuildId, usr.Id, TimerType.Mute);
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetDbContext())
                 {
                     var config = uow.GuildConfigs.ForId(usr.Guild.Id,
                         set => set.Include(gc => gc.MutedUsers)
@@ -147,14 +147,18 @@ namespace NadekoBot.Modules.Administration.Services
 
                     config.UnmuteTimers.RemoveWhere(x => x.UserId == usr.Id);
 
-                    await uow.CompleteAsync();
+                    await uow.SaveChangesAsync();
                 }
                 UserMuted(usr, mod, MuteType.All);
             }
             else if (type == MuteType.Voice)
             {
-                await usr.ModifyAsync(x => x.Mute = true).ConfigureAwait(false);
-                UserMuted(usr, mod, MuteType.Voice);
+                try
+                {
+                    await usr.ModifyAsync(x => x.Mute = true).ConfigureAwait(false);
+                    UserMuted(usr, mod, MuteType.Voice);
+                }
+                catch { }
             }
             else if (type == MuteType.Chat)
             {
@@ -169,7 +173,7 @@ namespace NadekoBot.Modules.Administration.Services
             if (type == MuteType.All)
             {
                 StopTimer(guildId, usrId, TimerType.Mute);
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetDbContext())
                 {
                     var config = uow.GuildConfigs.ForId(guildId, set => set.Include(gc => gc.MutedUsers)
                         .Include(gc => gc.UnmuteTimers));
@@ -187,7 +191,7 @@ namespace NadekoBot.Modules.Administration.Services
 
                     config.UnmuteTimers.RemoveWhere(x => x.UserId == usrId);
 
-                    await uow.CompleteAsync();
+                    await uow.SaveChangesAsync();
                 }
                 if (usr != null)
                 {
@@ -200,8 +204,12 @@ namespace NadekoBot.Modules.Administration.Services
             {
                 if (usr == null)
                     return;
-                await usr.ModifyAsync(x => x.Mute = false).ConfigureAwait(false);
-                UserUnmuted(usr, mod, MuteType.Voice);
+                try
+                {
+                    await usr.ModifyAsync(x => x.Mute = false).ConfigureAwait(false);
+                    UserUnmuted(usr, mod, MuteType.Voice);
+                }
+                catch { }
             }
             else if (type == MuteType.Chat)
             {
@@ -260,7 +268,7 @@ namespace NadekoBot.Modules.Administration.Services
         public async Task TimedMute(IGuildUser user, IUser mod, TimeSpan after)
         {
             await MuteUser(user, mod).ConfigureAwait(false); // mute the user. This will also remove any previous unmute timers
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var config = uow.GuildConfigs.ForId(user.GuildId, set => set.Include(x => x.UnmuteTimers));
                 config.UnmuteTimers.Add(new UnmuteTimer()
@@ -268,7 +276,7 @@ namespace NadekoBot.Modules.Administration.Services
                     UserId = user.Id,
                     UnmuteAt = DateTime.UtcNow + after,
                 }); // add teh unmute timer to the database
-                uow.Complete();
+                uow.SaveChanges();
             }
             StartUn_Timer(user.GuildId, user.Id, after, TimerType.Mute); // start the timer
         }
@@ -276,7 +284,7 @@ namespace NadekoBot.Modules.Administration.Services
         public async Task TimedBan(IGuildUser user, TimeSpan after, string reason)
         {
             await user.Guild.AddBanAsync(user.Id, 0, reason).ConfigureAwait(false);
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var config = uow.GuildConfigs.ForId(user.GuildId, set => set.Include(x => x.UnbanTimer));
                 config.UnbanTimer.Add(new UnbanTimer()
@@ -284,7 +292,7 @@ namespace NadekoBot.Modules.Administration.Services
                     UserId = user.Id,
                     UnbanAt = DateTime.UtcNow + after,
                 }); // add teh unmute timer to the database
-                uow.Complete();
+                uow.SaveChanges();
             }
             StartUn_Timer(user.GuildId, user.Id, after, TimerType.Ban); // start the timer
         }
@@ -353,7 +361,7 @@ namespace NadekoBot.Modules.Administration.Services
 
         private void RemoveTimerFromDb(ulong guildId, ulong userId, TimerType type)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 object toDelete;
                 if (type == TimerType.Mute)
@@ -370,7 +378,7 @@ namespace NadekoBot.Modules.Administration.Services
                 {
                     uow._context.Remove(toDelete);
                 }
-                uow.Complete();
+                uow.SaveChanges();
             }
         }
     }

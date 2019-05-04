@@ -39,28 +39,28 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.Administrator)]
+            [UserPerm(GuildPerm.Administrator)]
             [OwnerOnly]
-            public async Task StartupCommandAdd([Remainder] string cmdText)
+            public async Task StartupCommandAdd([Leftover] string cmdText)
             {
                 if (cmdText.StartsWith(Prefix + "die", StringComparison.InvariantCulture))
                     return;
 
-                var guser = ((IGuildUser)Context.User);
+                var guser = ((IGuildUser)ctx.User);
                 var cmd = new StartupCommand()
                 {
                     CommandText = cmdText,
-                    ChannelId = Context.Channel.Id,
-                    ChannelName = Context.Channel.Name,
-                    GuildId = Context.Guild?.Id,
-                    GuildName = Context.Guild?.Name,
+                    ChannelId = ctx.Channel.Id,
+                    ChannelName = ctx.Channel.Name,
+                    GuildId = ctx.Guild?.Id,
+                    GuildName = ctx.Guild?.Name,
                     VoiceChannelId = guser.VoiceChannel?.Id,
                     VoiceChannelName = guser.VoiceChannel?.Name,
                     Interval = 0,
                 };
                 _service.AddNewAutoCommand(cmd);
 
-                await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                     .WithTitle(GetText("scadd"))
                     .AddField(efb => efb.WithName(GetText("server"))
                         .WithValue(cmd.GuildId == null ? $"-" : $"{cmd.GuildName}/{cmd.GuildId}").WithIsInline(true))
@@ -72,9 +72,9 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.Administrator)]
+            [UserPerm(GuildPerm.Administrator)]
             [OwnerOnly]
-            public async Task AutoCommandAdd(int interval, [Remainder] string cmdText)
+            public async Task AutoCommandAdd(int interval, [Leftover] string cmdText)
             {
                 if (cmdText.StartsWith(Prefix + "die", StringComparison.InvariantCulture))
                     return;
@@ -82,14 +82,14 @@ namespace NadekoBot.Modules.Administration
                 if (interval < 5)
                     return;
 
-                var guser = ((IGuildUser)Context.User);
+                var guser = ((IGuildUser)ctx.User);
                 var cmd = new StartupCommand()
                 {
                     CommandText = cmdText,
-                    ChannelId = Context.Channel.Id,
-                    ChannelName = Context.Channel.Name,
-                    GuildId = Context.Guild?.Id,
-                    GuildName = Context.Guild?.Name,
+                    ChannelId = ctx.Channel.Id,
+                    ChannelName = ctx.Channel.Name,
+                    GuildId = ctx.Guild?.Id,
+                    GuildName = ctx.Guild?.Name,
                     VoiceChannelId = guser.VoiceChannel?.Id,
                     VoiceChannelName = guser.VoiceChannel?.Name,
                     Interval = interval,
@@ -117,7 +117,7 @@ namespace NadekoBot.Modules.Administration
                 }
                 else
                 {
-                    await Context.Channel.SendConfirmAsync(
+                    await ctx.Channel.SendConfirmAsync(
                         text: string.Join("\n", scmds
                         .Select(x => $@"```css
 #{x.Index}
@@ -148,7 +148,7 @@ namespace NadekoBot.Modules.Administration
                 }
                 else
                 {
-                    await Context.Channel.SendConfirmAsync(
+                    await ctx.Channel.SendConfirmAsync(
                         text: string.Join("\n", scmds
                         .Select(x => $@"```css
 #{x.Index}
@@ -173,10 +173,10 @@ namespace NadekoBot.Modules.Administration
             {
                 if (miliseconds <= 0)
                     return;
-                Context.Message.DeleteAfter(0);
+                ctx.Message.DeleteAfter(0);
                 try
                 {
-                    var msg = await Context.Channel.SendConfirmAsync($"⏲ {miliseconds}ms")
+                    var msg = await ctx.Channel.SendConfirmAsync($"⏲ {miliseconds}ms")
                         .ConfigureAwait(false);
                     msg.DeleteAfter(miliseconds / 1000);
                 }
@@ -187,9 +187,9 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.Administrator)]
+            [UserPerm(GuildPerm.Administrator)]
             [OwnerOnly]
-            public async Task StartupCommandRemove([Remainder] int index)
+            public async Task StartupCommandRemove([Leftover] int index)
             {
                 if (!_service.RemoveStartupCommand(index, out _))
                     await ReplyErrorLocalizedAsync("scrm_fail").ConfigureAwait(false);
@@ -199,7 +199,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.Administrator)]
+            [UserPerm(GuildPerm.Administrator)]
             [OwnerOnly]
             public async Task StartupCommandsClear()
             {
@@ -257,7 +257,7 @@ namespace NadekoBot.Modules.Administration
                     })
                     .ToArray();
 
-                await Context.SendPaginatedConfirmAsync(page, (curPage) =>
+                await ctx.SendPaginatedConfirmAsync(page, (curPage) =>
                 {
 
                     var str = string.Join("\n", allShardStrings.Skip(25 * curPage).Take(25));
@@ -290,7 +290,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public Task Leave([Remainder] string guildStr)
+            public Task Leave([Leftover] string guildStr)
             {
                 return _service.LeaveGuild(guildStr);
             }
@@ -328,7 +328,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task SetName([Remainder] string newName)
+            public async Task SetName([Leftover] string newName)
             {
                 if (string.IsNullOrWhiteSpace(newName))
                     return;
@@ -346,23 +346,23 @@ namespace NadekoBot.Modules.Administration
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireUserPermission(GuildPermission.ManageNicknames)]
+            [UserPerm(GuildPerm.ManageNicknames)]
             [Priority(0)]
-            public async Task SetNick([Remainder] string newNick = null)
+            public async Task SetNick([Leftover] string newNick = null)
             {
                 if (string.IsNullOrWhiteSpace(newNick))
                     return;
-                var curUser = await Context.Guild.GetCurrentUserAsync().ConfigureAwait(false);
+                var curUser = await ctx.Guild.GetCurrentUserAsync().ConfigureAwait(false);
                 await curUser.ModifyAsync(u => u.Nickname = newNick).ConfigureAwait(false);
 
                 await ReplyConfirmLocalizedAsync("bot_nick", Format.Bold(newNick) ?? "-").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            [RequireBotPermission(GuildPermission.ManageNicknames)]
-            [RequireUserPermission(GuildPermission.ManageNicknames)]
+            [BotPerm(GuildPerm.ManageNicknames)]
+            [UserPerm(GuildPerm.ManageNicknames)]
             [Priority(1)]
-            public async Task SetNick(IGuildUser gu, [Remainder] string newNick = null)
+            public async Task SetNick(IGuildUser gu, [Leftover] string newNick = null)
             {
                 await gu.ModifyAsync(u => u.Nickname = newNick).ConfigureAwait(false);
 
@@ -371,7 +371,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task SetStatus([Remainder] SettableUserStatus status)
+            public async Task SetStatus([Leftover] SettableUserStatus status)
             {
                 await _client.SetStatusAsync(SettableUserStatusToUserStatus(status)).ConfigureAwait(false);
 
@@ -380,7 +380,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task SetAvatar([Remainder] string img = null)
+            public async Task SetAvatar([Leftover] string img = null)
             {
                 var success = await _service.SetAvatar(img);
 
@@ -392,7 +392,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task SetGame(ActivityType type, [Remainder] string game = null)
+            public async Task SetGame(ActivityType type, [Leftover] string game = null)
             {
                 var rep = new ReplacementBuilder()
                     .WithDefault(Context)
@@ -405,7 +405,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task SetStream(string url, [Remainder] string name = null)
+            public async Task SetStream(string url, [Leftover] string name = null)
             {
                 name = name ?? "";
 
@@ -416,7 +416,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task Send(string where, [Remainder] string msg = null)
+            public async Task Send(string where, [Leftover] string msg = null)
             {
                 if (string.IsNullOrWhiteSpace(msg))
                     return;

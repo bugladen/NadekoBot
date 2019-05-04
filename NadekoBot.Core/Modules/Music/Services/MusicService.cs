@@ -83,7 +83,7 @@ namespace NadekoBot.Modules.Music.Services
         {
             return _defaultVolumes.GetOrAdd(guildId, (id) =>
             {
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetDbContext())
                 {
                     return uow.GuildConfigs.ForId(guildId, set => set).DefaultMusicVolume;
                 }
@@ -257,11 +257,11 @@ namespace NadekoBot.Modules.Music.Services
         public bool ToggleAutoDc(ulong id)
         {
             bool val;
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(id, set => set);
                 val = gc.AutoDcFromVc = !gc.AutoDcFromVc;
-                uow.Complete();
+                uow.SaveChanges();
             }
 
             if (val)
@@ -279,21 +279,21 @@ namespace NadekoBot.Modules.Music.Services
 
         public void SetMusicChannel(ulong guildId, ulong? cid)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var ms = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.MusicSettings)).MusicSettings;
                 ms.MusicChannelId = cid;
-                uow.Complete();
+                uow.SaveChanges();
             }
         }
 
         public void SetSongAutoDelete(ulong guildId, bool val)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var ms = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.MusicSettings)).MusicSettings;
                 ms.SongAutoDelete = val;
-                uow.Complete();
+                uow.SaveChanges();
             }
         }
     }

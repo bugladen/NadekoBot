@@ -67,11 +67,11 @@ namespace NadekoBot.Modules.Gambling
                         i.Dispose();
                     }
                     var msg = count != 1
-                        ? Format.Bold(Context.User.ToString()) + " " + GetText("flip_results", count, headCount, tailCount)
-                        : Format.Bold(Context.User.ToString()) + " " + GetText("flipped", headCount > 0
+                        ? Format.Bold(ctx.User.ToString()) + " " + GetText("flip_results", count, headCount, tailCount)
+                        : Format.Bold(ctx.User.ToString()) + " " + GetText("flipped", headCount > 0
                             ? Format.Bold(GetText("heads"))
                             : Format.Bold(GetText("tails")));
-                    await Context.Channel.SendFileAsync(stream, $"{count} coins.{format.FileExtensions.First()}", msg).ConfigureAwait(false);
+                    await ctx.Channel.SendFileAsync(stream, $"{count} coins.{format.FileExtensions.First()}", msg).ConfigureAwait(false);
                 }
             }
 
@@ -91,7 +91,7 @@ namespace NadekoBot.Modules.Gambling
                 if (!await CheckBetMandatory(amount).ConfigureAwait(false) || amount == 1)
                     return;
 
-                var removed = await _cs.RemoveAsync(Context.User, "Betflip Gamble", amount, false, gamble: true).ConfigureAwait(false);
+                var removed = await _cs.RemoveAsync(ctx.User, "Betflip Gamble", amount, false, gamble: true).ConfigureAwait(false);
                 if (!removed)
                 {
                     await ReplyErrorLocalizedAsync("not_enough", Bc.BotConfig.CurrencyPluralName).ConfigureAwait(false);
@@ -115,15 +115,15 @@ namespace NadekoBot.Modules.Gambling
                 if (guess == result)
                 {
                     var toWin = (long)(amount * Bc.BotConfig.BetflipMultiplier);
-                    str = Format.Bold(Context.User.ToString()) + " " + GetText("flip_guess", toWin + Bc.BotConfig.CurrencySign);
-                    await _cs.AddAsync(Context.User, "Betflip Gamble", toWin, false, gamble: true).ConfigureAwait(false);
+                    str = Format.Bold(ctx.User.ToString()) + " " + GetText("flip_guess", toWin + Bc.BotConfig.CurrencySign);
+                    await _cs.AddAsync(ctx.User, "Betflip Gamble", toWin, false, gamble: true).ConfigureAwait(false);
                 }
                 else
                 {
-                    str = Context.User.Mention + " " + GetText("better_luck");
+                    str = ctx.User.Mention + " " + GetText("better_luck");
                 }
 
-                await Context.Channel.EmbedAsync(new EmbedBuilder()
+                await ctx.Channel.EmbedAsync(new EmbedBuilder()
                     .WithDescription(str)
                     .WithOkColor()
                     .WithImageUrl(imageToSend.ToString())).ConfigureAwait(false);

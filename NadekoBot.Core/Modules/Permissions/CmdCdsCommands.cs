@@ -36,14 +36,14 @@ namespace NadekoBot.Modules.Permissions
             [RequireContext(ContextType.Guild)]
             public async Task CmdCooldown(CommandInfo command, int secs)
             {
-                var channel = (ITextChannel)Context.Channel;
+                var channel = (ITextChannel)ctx.Channel;
                 if (secs < 0 || secs > 3600)
                 {
                     await ReplyErrorLocalizedAsync("invalid_second_param_between", 0, 3600).ConfigureAwait(false);
                     return;
                 }
 
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetDbContext())
                 {
                     var config = uow.GuildConfigs.ForId(channel.Guild.Id, set => set.Include(gc => gc.CommandCooldowns));
                     var localSet = CommandCooldowns.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<CommandCooldown>());
@@ -62,7 +62,7 @@ namespace NadekoBot.Modules.Permissions
                         config.CommandCooldowns.Add(cc);
                         localSet.Add(cc);
                     }
-                    await uow.CompleteAsync();
+                    await uow.SaveChangesAsync();
                 }
                 if (secs == 0)
                 {
@@ -83,7 +83,7 @@ namespace NadekoBot.Modules.Permissions
             [RequireContext(ContextType.Guild)]
             public async Task AllCmdCooldowns()
             {
-                var channel = (ITextChannel)Context.Channel;
+                var channel = (ITextChannel)ctx.Channel;
                 var localSet = CommandCooldowns.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<CommandCooldown>());
 
                 if (!localSet.Any())

@@ -41,7 +41,7 @@ DELETE FROM Clubs;";
         public async Task<int> ExecuteSql(string sql)
         {
             int res;
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 res = await uow._context.Database.ExecuteSqlCommandAsync(sql);
             }
@@ -62,7 +62,7 @@ DELETE FROM Clubs;";
                 Results = new List<string[]>(),
             };
 
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var conn = uow._context.Database.GetDbConnection();
                 using (var cmd = conn.CreateCommand())

@@ -26,11 +26,11 @@ namespace NadekoBot.Modules.Permissions
 
             //    if (!prices.Any())
             //    {
-            //        await Context.Channel.SendConfirmAsync(GetText("no_costs")).ConfigureAwait(false);
+            //        await ctx.Channel.SendConfirmAsync(GetText("no_costs")).ConfigureAwait(false);
             //        return;
             //    }
 
-            //    await Context.Channel.SendPaginatedConfirmAsync(page, (curPage) => {
+            //    await ctx.Channel.SendPaginatedConfirmAsync(page, (curPage) => {
             //        var embed = new EmbedBuilder().WithOkColor()
             //            .WithTitle(GetText("command_costs"));
             //        var current = prices.Skip((curPage - 1) * 9)
@@ -81,9 +81,9 @@ namespace NadekoBot.Modules.Permissions
             //    }
 
             //    if (cost == 0)
-            //        await Context.Channel.SendConfirmAsync($"Removed the cost from the {Format.Bold(cmd.Name)} command.").ConfigureAwait(false);
+            //        await ctx.Channel.SendConfirmAsync($"Removed the cost from the {Format.Bold(cmd.Name)} command.").ConfigureAwait(false);
             //    else
-            //        await Context.Channel.SendConfirmAsync($"{Format.Bold(cmd.Name)} now costs {cost}{NadekoBot.BotConfig.CurrencySign} to run.").ConfigureAwait(false);
+            //        await ctx.Channel.SendConfirmAsync($"{Format.Bold(cmd.Name)} now costs {cost}{NadekoBot.BotConfig.CurrencySign} to run.").ConfigureAwait(false);
             //}
         }
     }

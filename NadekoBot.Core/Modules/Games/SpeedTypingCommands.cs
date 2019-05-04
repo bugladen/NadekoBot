@@ -33,7 +33,7 @@ namespace NadekoBot.Modules.Games
             public async Task TypeStart(params string[] args)
             {
                 var (options, _) = OptionsParser.ParseFrom(new TypingGame.Options(), args);
-                var channel = (ITextChannel)Context.Channel;
+                var channel = (ITextChannel)ctx.Channel;
 
                 var game = _service.RunningContests.GetOrAdd(channel.Guild.Id, id => new TypingGame(_games, _client, channel, Prefix, options));
 
@@ -54,7 +54,7 @@ namespace NadekoBot.Modules.Games
             [RequireContext(ContextType.Guild)]
             public async Task TypeStop()
             {
-                var channel = (ITextChannel)Context.Channel;
+                var channel = (ITextChannel)ctx.Channel;
                 if (_service.RunningContests.TryRemove(channel.Guild.Id, out TypingGame game))
                 {
                     await game.Stop().ConfigureAwait(false);
@@ -67,13 +67,13 @@ namespace NadekoBot.Modules.Games
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [OwnerOnly]
-            public async Task Typeadd([Remainder] string text)
+            public async Task Typeadd([Leftover] string text)
             {
-                var channel = (ITextChannel)Context.Channel;
+                var channel = (ITextChannel)ctx.Channel;
                 if (string.IsNullOrWhiteSpace(text))
                     return;
 
-                _games.AddTypingArticle(Context.User, text);                
+                _games.AddTypingArticle(ctx.User, text);                
 
                 await channel.SendConfirmAsync("Added new article for typing game.").ConfigureAwait(false);
             }
@@ -82,7 +82,7 @@ namespace NadekoBot.Modules.Games
             [RequireContext(ContextType.Guild)]
             public async Task Typelist(int page = 1)
             {
-                var channel = (ITextChannel)Context.Channel;
+                var channel = (ITextChannel)ctx.Channel;
 
                 if (page < 1)
                     return;
@@ -91,7 +91,7 @@ namespace NadekoBot.Modules.Games
 
                 if (!articles.Any())
                 {
-                    await channel.SendErrorAsync($"{Context.User.Mention} `No articles found on that page.`").ConfigureAwait(false);
+                    await channel.SendErrorAsync($"{ctx.User.Mention} `No articles found on that page.`").ConfigureAwait(false);
                     return;
                 }
                 var i = (page - 1) * 15;
@@ -104,7 +104,7 @@ namespace NadekoBot.Modules.Games
             [OwnerOnly]
             public async Task Typedel(int index)
             {
-                var channel = (ITextChannel)Context.Channel;
+                var channel = (ITextChannel)ctx.Channel;
 
                 index -= 1;
                 if (index < 0 || index >= _games.TypingArticles.Count)

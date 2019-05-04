@@ -28,7 +28,7 @@ namespace NadekoBot.Modules.Searches
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            public async Task Pokemon([Remainder] string pokemon = null)
+            public async Task Pokemon([Leftover] string pokemon = null)
             {
                 pokemon = pokemon?.Trim().ToUpperInvariant();
                 if (string.IsNullOrWhiteSpace(pokemon))
@@ -39,7 +39,7 @@ namespace NadekoBot.Modules.Searches
                     if (kvp.Key.ToUpperInvariant() == pokemon.ToUpperInvariant())
                     {
                         var p = kvp.Value;
-                        await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                        await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                             .WithTitle(kvp.Key.ToTitleCase())
                             .WithDescription(p.BaseStats.ToString())
                             .WithThumbnailUrl($"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/{p.Id.ToString("000")}.png")
@@ -53,7 +53,7 @@ namespace NadekoBot.Modules.Searches
             }
 
             [NadekoCommand, Usage, Description, Aliases]
-            public async Task PokemonAbility([Remainder] string ability = null)
+            public async Task PokemonAbility([Leftover] string ability = null)
             {
                 ability = ability?.Trim().ToUpperInvariant().Replace(" ", "", StringComparison.InvariantCulture);
                 if (string.IsNullOrWhiteSpace(ability))
@@ -62,7 +62,7 @@ namespace NadekoBot.Modules.Searches
                 {
                     if (kvp.Key.ToUpperInvariant() == ability)
                     {
-                        await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                        await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                             .WithTitle(kvp.Value.Name)
                             .WithDescription(string.IsNullOrWhiteSpace(kvp.Value.Desc)
                                 ? kvp.Value.ShortDesc

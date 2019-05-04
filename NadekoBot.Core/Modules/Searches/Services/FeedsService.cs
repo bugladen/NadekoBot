@@ -136,7 +136,7 @@ namespace NadekoBot.Modules.Searches.Services
 
         public List<FeedSub> GetFeeds(ulong guildId)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 return uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.FeedSubs))
                     .FeedSubs
@@ -155,7 +155,7 @@ namespace NadekoBot.Modules.Searches.Services
                 Url = rssFeed.Trim().ToLowerInvariant(),
             };
 
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.FeedSubs));
 
@@ -180,7 +180,7 @@ namespace NadekoBot.Modules.Searches.Services
                     });
                 }
 
-                uow.Complete();
+                uow.SaveChanges();
             }
 
             return true;
@@ -191,7 +191,7 @@ namespace NadekoBot.Modules.Searches.Services
             if (index < 0)
                 return false;
 
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var items = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.FeedSubs))
                     .FeedSubs
@@ -207,7 +207,7 @@ namespace NadekoBot.Modules.Searches.Services
                     return old;
                 });
                 uow._context.Remove(toRemove);
-                uow.Complete();
+                uow.SaveChanges();
             }
             return true;
         }

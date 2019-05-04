@@ -51,7 +51,7 @@ namespace NadekoBot.Modules.NSFW
                 // remove it 
                 listOfProviders.RemoveAt(num);
                 // get the image
-                img = await _service.DapiSearch(tag, type, Context.Guild?.Id, true).ConfigureAwait(false);
+                img = await _service.DapiSearch(tag, type, ctx.Guild?.Id, true).ConfigureAwait(false);
                 // if i can't find the image, ran out of providers, or tag is blacklisted
                 // return the error
                 if (img == null && !listOfProviders.Any())
@@ -105,14 +105,14 @@ namespace NadekoBot.Modules.NSFW
         [NadekoCommand, Usage, Description, Aliases]
         [RequireNsfw]
         [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(ChannelPermission.ManageMessages)]
+        [UserPerm(ChannelPerm.ManageMessages)]
         public async Task AutoHentai(int interval = 0, string tags = null)
         {
             Timer t;
 
             if (interval == 0)
             {
-                if (!_service.AutoHentaiTimers.TryRemove(Context.Channel.Id, out t)) return;
+                if (!_service.AutoHentaiTimers.TryRemove(ctx.Channel.Id, out t)) return;
 
                 t.Change(Timeout.Infinite, Timeout.Infinite); //proper way to disable the timer
                 await ReplyConfirmLocalizedAsync("stopped").ConfigureAwait(false);
@@ -129,9 +129,9 @@ namespace NadekoBot.Modules.NSFW
                 try
                 {
                     if (tagsArr == null || tagsArr.Length == 0)
-                        await InternalHentai(Context.Channel, null).ConfigureAwait(false);
+                        await InternalHentai(ctx.Channel, null).ConfigureAwait(false);
                     else
-                        await InternalHentai(Context.Channel, tagsArr[new NadekoRandom().Next(0, tagsArr.Length)]).ConfigureAwait(false);
+                        await InternalHentai(ctx.Channel, tagsArr[new NadekoRandom().Next(0, tagsArr.Length)]).ConfigureAwait(false);
                 }
                 catch
                 {
@@ -139,7 +139,7 @@ namespace NadekoBot.Modules.NSFW
                 }
             }, null, interval * 1000, interval * 1000);
 
-            _service.AutoHentaiTimers.AddOrUpdate(Context.Channel.Id, t, (key, old) =>
+            _service.AutoHentaiTimers.AddOrUpdate(ctx.Channel.Id, t, (key, old) =>
             {
                 old.Change(Timeout.Infinite, Timeout.Infinite);
                 return t;
@@ -153,14 +153,14 @@ namespace NadekoBot.Modules.NSFW
         [NadekoCommand, Usage, Description, Aliases]
         [RequireNsfw]
         [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(ChannelPermission.ManageMessages)]
+        [UserPerm(ChannelPerm.ManageMessages)]
         public async Task AutoBoobs(int interval = 0)
         {
             Timer t;
 
             if (interval == 0)
             {
-                if (!_service.AutoBoobTimers.TryRemove(Context.Channel.Id, out t)) return;
+                if (!_service.AutoBoobTimers.TryRemove(ctx.Channel.Id, out t)) return;
 
                 t.Change(Timeout.Infinite, Timeout.Infinite); //proper way to disable the timer
                 await ReplyConfirmLocalizedAsync("stopped").ConfigureAwait(false);
@@ -174,7 +174,7 @@ namespace NadekoBot.Modules.NSFW
             {
                 try
                 {
-                    await InternalBoobs(Context.Channel).ConfigureAwait(false);
+                    await InternalBoobs(ctx.Channel).ConfigureAwait(false);
                 }
                 catch
                 {
@@ -182,7 +182,7 @@ namespace NadekoBot.Modules.NSFW
                 }
             }, null, interval * 1000, interval * 1000);
 
-            _service.AutoBoobTimers.AddOrUpdate(Context.Channel.Id, t, (key, old) =>
+            _service.AutoBoobTimers.AddOrUpdate(ctx.Channel.Id, t, (key, old) =>
             {
                 old.Change(Timeout.Infinite, Timeout.Infinite);
                 return t;
@@ -193,14 +193,14 @@ namespace NadekoBot.Modules.NSFW
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-        [RequireUserPermission(ChannelPermission.ManageMessages)]
+        [UserPerm(ChannelPerm.ManageMessages)]
         public async Task AutoButts(int interval = 0)
         {
             Timer t;
 
             if (interval == 0)
             {
-                if (!_service.AutoButtTimers.TryRemove(Context.Channel.Id, out t)) return;
+                if (!_service.AutoButtTimers.TryRemove(ctx.Channel.Id, out t)) return;
 
                 t.Change(Timeout.Infinite, Timeout.Infinite); //proper way to disable the timer
                 await ReplyConfirmLocalizedAsync("stopped").ConfigureAwait(false);
@@ -214,7 +214,7 @@ namespace NadekoBot.Modules.NSFW
             {
                 try
                 {
-                    await InternalButts(Context.Channel).ConfigureAwait(false);
+                    await InternalButts(ctx.Channel).ConfigureAwait(false);
                 }
                 catch
                 {
@@ -222,7 +222,7 @@ namespace NadekoBot.Modules.NSFW
                 }
             }, null, interval * 1000, interval * 1000);
 
-            _service.AutoButtTimers.AddOrUpdate(Context.Channel.Id, t, (key, old) =>
+            _service.AutoButtTimers.AddOrUpdate(ctx.Channel.Id, t, (key, old) =>
             {
                 old.Change(Timeout.Infinite, Timeout.Infinite);
                 return t;
@@ -234,21 +234,21 @@ namespace NadekoBot.Modules.NSFW
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-        public Task Hentai([Remainder] string tag = null) =>
-            InternalHentai(Context.Channel, tag);
+        public Task Hentai([Leftover] string tag = null) =>
+            InternalHentai(ctx.Channel, tag);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-        public async Task HentaiBomb([Remainder] string tag = null)
+        public async Task HentaiBomb([Leftover] string tag = null)
         {
-            if (!_hentaiBombBlacklist.Add(Context.Guild?.Id ?? Context.User.Id))
+            if (!_hentaiBombBlacklist.Add(ctx.Guild?.Id ?? ctx.User.Id))
                 return;
             try
             {
-                var images = await Task.WhenAll(_service.DapiSearch(tag, DapiSearchType.Gelbooru, Context.Guild?.Id, true),
-                                                _service.DapiSearch(tag, DapiSearchType.Danbooru, Context.Guild?.Id, true),
-                                                _service.DapiSearch(tag, DapiSearchType.Konachan, Context.Guild?.Id, true),
-                                                _service.DapiSearch(tag, DapiSearchType.Yandere, Context.Guild?.Id, true)).ConfigureAwait(false);
+                var images = await Task.WhenAll(_service.DapiSearch(tag, DapiSearchType.Gelbooru, ctx.Guild?.Id, true),
+                                                _service.DapiSearch(tag, DapiSearchType.Danbooru, ctx.Guild?.Id, true),
+                                                _service.DapiSearch(tag, DapiSearchType.Konachan, ctx.Guild?.Id, true),
+                                                _service.DapiSearch(tag, DapiSearchType.Yandere, ctx.Guild?.Id, true)).ConfigureAwait(false);
 
                 var linksEnum = images?.Where(l => l != null).ToArray();
                 if (images == null || !linksEnum.Any())
@@ -257,47 +257,47 @@ namespace NadekoBot.Modules.NSFW
                     return;
                 }
 
-                await Context.Channel.SendMessageAsync(string.Join("\n\n", linksEnum.Select(x => x.FileUrl))).ConfigureAwait(false);
+                await ctx.Channel.SendMessageAsync(string.Join("\n\n", linksEnum.Select(x => x.FileUrl))).ConfigureAwait(false);
             }
             finally
             {
-                _hentaiBombBlacklist.TryRemove(Context.Guild?.Id ?? Context.User.Id);
+                _hentaiBombBlacklist.TryRemove(ctx.Guild?.Id ?? ctx.User.Id);
             }
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-        public Task Yandere([Remainder] string tag = null)
+        public Task Yandere([Leftover] string tag = null)
             => InternalDapiCommand(tag, DapiSearchType.Yandere, false);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-        public Task Konachan([Remainder] string tag = null)
+        public Task Konachan([Leftover] string tag = null)
             => InternalDapiCommand(tag, DapiSearchType.Konachan, false);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-        public Task E621([Remainder] string tag = null)
+        public Task E621([Leftover] string tag = null)
             => InternalDapiCommand(tag, DapiSearchType.E621, false);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-        public Task Rule34([Remainder] string tag = null)
+        public Task Rule34([Leftover] string tag = null)
             => InternalDapiCommand(tag, DapiSearchType.Rule34, false);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-        public Task Danbooru([Remainder] string tag = null)
+        public Task Danbooru([Leftover] string tag = null)
             => InternalDapiCommand(tag, DapiSearchType.Danbooru, false);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-        public Task Gelbooru([Remainder] string tag = null)
+        public Task Gelbooru([Leftover] string tag = null)
             => InternalDapiCommand(tag, DapiSearchType.Gelbooru, false);
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-        public Task Derpibooru([Remainder] string tag = null)
+        public Task Derpibooru([Leftover] string tag = null)
             => InternalDapiCommand(tag, DapiSearchType.Derpibooru, false);
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -311,11 +311,11 @@ namespace NadekoBot.Modules.NSFW
                 {
                     obj = JArray.Parse(await http.GetStringAsync($"http://api.oboobs.ru/boobs/{new NadekoRandom().Next(0, 12000)}").ConfigureAwait(false))[0];
                 }
-                await Context.Channel.SendMessageAsync($"http://media.oboobs.ru/{obj["preview"]}").ConfigureAwait(false);
+                await ctx.Channel.SendMessageAsync($"http://media.oboobs.ru/{obj["preview"]}").ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                await Context.Channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
             }
         }
 
@@ -330,23 +330,23 @@ namespace NadekoBot.Modules.NSFW
                 {
                     obj = JArray.Parse(await http.GetStringAsync($"http://api.obutts.ru/butts/{new NadekoRandom().Next(0, 6100)}").ConfigureAwait(false))[0];
                 }
-                await Context.Channel.SendMessageAsync($"http://media.obutts.ru/{obj["preview"]}").ConfigureAwait(false);
+                await ctx.Channel.SendMessageAsync($"http://media.obutts.ru/{obj["preview"]}").ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                await Context.Channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
             }
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.ManageMessages)]
-        public async Task NsfwTagBlacklist([Remainder] string tag = null)
+        [UserPerm(GuildPerm.ManageMessages)]
+        public async Task NsfwTagBlacklist([Leftover] string tag = null)
         {
             if (string.IsNullOrWhiteSpace(tag))
             {
-                var blTags = _service.GetBlacklistedTags(Context.Guild.Id);
-                await Context.Channel.SendConfirmAsync(GetText("blacklisted_tag_list"),
+                var blTags = _service.GetBlacklistedTags(ctx.Guild.Id);
+                await ctx.Channel.SendConfirmAsync(GetText("blacklisted_tag_list"),
                     blTags.Any()
                     ? string.Join(", ", blTags)
                     : "-").ConfigureAwait(false);
@@ -354,7 +354,7 @@ namespace NadekoBot.Modules.NSFW
             else
             {
                 tag = tag.Trim().ToLowerInvariant();
-                var added = _service.ToggleBlacklistedTag(Context.Guild.Id, tag);
+                var added = _service.ToggleBlacklistedTag(ctx.Guild.Id, tag);
 
                 if (added)
                     await ReplyConfirmLocalizedAsync("blacklisted_tag_add", tag).ConfigureAwait(false);
@@ -369,21 +369,21 @@ namespace NadekoBot.Modules.NSFW
         public Task NsfwClearCache()
         {
             _service.ClearCache();
-            return Context.Channel.SendConfirmAsync("👌");
+            return ctx.Channel.SendConfirmAsync("👌");
         }
 
         public async Task InternalDapiCommand(string tag, DapiSearchType type, bool forceExplicit)
         {
             ImageCacherObject imgObj;
 
-            imgObj = await _service.DapiSearch(tag, type, Context.Guild?.Id, forceExplicit).ConfigureAwait(false);
+            imgObj = await _service.DapiSearch(tag, type, ctx.Guild?.Id, forceExplicit).ConfigureAwait(false);
 
             if (imgObj == null)
                 await ReplyErrorLocalizedAsync("not_found").ConfigureAwait(false);
             else
             {
                 var embed = new EmbedBuilder().WithOkColor()
-                    .WithDescription($"{Context.User} [{tag ?? "url"}]({imgObj}) ")
+                    .WithDescription($"{ctx.User} [{tag ?? "url"}]({imgObj}) ")
                     .WithFooter(efb => efb.WithText(type.ToString()));
 
                 if (Uri.IsWellFormedUriString(imgObj.FileUrl, UriKind.Absolute))
@@ -391,7 +391,7 @@ namespace NadekoBot.Modules.NSFW
                 else
                     _log.Error($"Image link from {type} is not a proper Url: {imgObj.FileUrl}");
 
-                await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
         }
     }

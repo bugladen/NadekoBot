@@ -31,17 +31,17 @@ namespace NadekoBot.Modules.Gambling
                     return;
                 async Task OnEnded(IUser arg, long won)
                 {
-                    await Context.Channel.SendConfirmAsync(GetText("rafflecur_ended", Bc.BotConfig.CurrencyName, Format.Bold(arg.ToString()), won + Bc.BotConfig.CurrencySign)).ConfigureAwait(false);
+                    await ctx.Channel.SendConfirmAsync(GetText("rafflecur_ended", Bc.BotConfig.CurrencyName, Format.Bold(arg.ToString()), won + Bc.BotConfig.CurrencySign)).ConfigureAwait(false);
                 }
-                var res = await _service.JoinOrCreateGame(Context.Channel.Id,
-                    Context.User, amount, mixed, OnEnded)
+                var res = await _service.JoinOrCreateGame(ctx.Channel.Id,
+                    ctx.User, amount, mixed, OnEnded)
                         .ConfigureAwait(false);
 
                 if (res.Item1 != null)
                 {
-                    await Context.Channel.SendConfirmAsync(GetText("rafflecur", res.Item1.GameType.ToString()),
+                    await ctx.Channel.SendConfirmAsync(GetText("rafflecur", res.Item1.GameType.ToString()),
                         string.Join("\n", res.Item1.Users.Select(x => $"{x.DiscordUser} ({x.Amount})")),
-                        footer: GetText("rafflecur_joined", Context.User.ToString())).ConfigureAwait(false);
+                        footer: GetText("rafflecur_joined", ctx.User.ToString())).ConfigureAwait(false);
                 }
                 else
                 {

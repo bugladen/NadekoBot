@@ -59,13 +59,13 @@ namespace NadekoBot.Modules.Utility.Services
         public bool ToggleVerboseErrors(ulong guildId)
         {
             bool enabled;
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guildId, set => set);
 
                 enabled = gc.VerboseErrors = !gc.VerboseErrors;
 
-                uow.Complete();
+                uow.SaveChanges();
 
                 if (gc.VerboseErrors)
                     guildsEnabled.Add(guildId);

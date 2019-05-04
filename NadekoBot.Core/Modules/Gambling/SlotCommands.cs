@@ -108,7 +108,7 @@ namespace NadekoBot.Modules.Gambling
                     .AddField(efb => efb.WithName("Paid Out").WithValue(paid.ToString()).WithIsInline(true))
                     .WithFooter(efb => efb.WithText($"Payout Rate: {paid * 1.0 / bet * 100:f4}%"));
 
-                await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -136,14 +136,14 @@ namespace NadekoBot.Modules.Gambling
                     sb.AppendLine($"x{key} occured {dict[key]} times. {dict[key] * 1.0f / tests * 100}%");
                     payout += key * dict[key];
                 }
-                await Context.Channel.SendConfirmAsync("Slot Test Results", sb.ToString(),
+                await ctx.Channel.SendConfirmAsync("Slot Test Results", sb.ToString(),
                     footer: $"Total Bet: {tests * bet} | Payout: {payout * bet} | {payout * 1.0f / tests * 100}%").ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             public async Task Slot(ShmartNumber amount)
             {
-                if (!_runningUsers.Add(Context.User.Id))
+                if (!_runningUsers.Add(ctx.User.Id))
                     return;
                 try
                 {
@@ -156,7 +156,7 @@ namespace NadekoBot.Modules.Gambling
                         return;
                     }
 
-                    if (!await _cs.RemoveAsync(Context.User, "Slot Machine", amount, false, gamble: true).ConfigureAwait(false))
+                    if (!await _cs.RemoveAsync(ctx.User, "Slot Machine", amount, false, gamble: true).ConfigureAwait(false))
                     {
                         await ReplyErrorLocalizedAsync("not_enough", Bc.BotConfig.CurrencySign).ConfigureAwait(false);
                         return;
@@ -203,7 +203,7 @@ namespace NadekoBot.Modules.Gambling
                         var msg = GetText("better_luck");
                         if (result.Multiplier != 0)
                         {
-                            await _cs.AddAsync(Context.User, $"Slot Machine x{result.Multiplier}", amount * result.Multiplier, false, gamble: true).ConfigureAwait(false);
+                            await _cs.AddAsync(ctx.User, $"Slot Machine x{result.Multiplier}", amount * result.Multiplier, false, gamble: true).ConfigureAwait(false);
                             Interlocked.Add(ref _totalPaidOut, amount * result.Multiplier);
                             if (result.Multiplier == 1)
                                 msg = GetText("slot_single", Bc.BotConfig.CurrencySign, 1);
@@ -217,7 +217,7 @@ namespace NadekoBot.Modules.Gambling
 
                         using (var imgStream = bgImage.ToStream())
                         {
-                            await Context.Channel.SendFileAsync(imgStream, "result.png", Context.User.Mention + " " + msg + $"\n`{GetText("slot_bet")}:`{amount} `{GetText("won")}:` {amount * result.Multiplier}{Bc.BotConfig.CurrencySign}").ConfigureAwait(false);
+                            await ctx.Channel.SendFileAsync(imgStream, "result.png", ctx.User.Mention + " " + msg + $"\n`{GetText("slot_bet")}:`{amount} `{GetText("won")}:` {amount * result.Multiplier}{Bc.BotConfig.CurrencySign}").ConfigureAwait(false);
                         }
                     }
                 }
@@ -226,7 +226,7 @@ namespace NadekoBot.Modules.Gambling
                     var _ = Task.Run(async () =>
                     {
                         await Task.Delay(1500).ConfigureAwait(false);
-                        _runningUsers.Remove(Context.User.Id);
+                        _runningUsers.Remove(ctx.User.Id);
                     });
                 }
             }

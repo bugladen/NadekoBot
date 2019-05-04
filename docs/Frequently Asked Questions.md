@@ -28,9 +28,9 @@
 
 ---
 
-**Answer:** First, check [issues](https://gitlab.com/Kwoth/nadekobot/issues "GitLab NadekoBot Issues"), then check the [suggestions](https://feathub.com/Kwoth/NadekoBot).
+**Answer:** First, check [issues](https://gitlab.com/Kwoth/nadekobot/issues "GitLab NadekoBot Issues"), then check the [suggestions](https://nadeko.bot/suggest).
 
-If your problem or suggestion is not there, feel free to request/notify us about it either in the Issues section of GitLab for issues or on feathub for suggestions.
+If your problem or suggestion is not there, feel free to request/notify us about it either in the Issues section of GitLab for issues or on [suggestions page](https://nadeko.bot/suggest) for suggestions.
 
 ### Question 6: How do I use this command?
 

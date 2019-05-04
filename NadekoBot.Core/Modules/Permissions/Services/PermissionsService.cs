@@ -30,7 +30,7 @@ namespace NadekoBot.Modules.Permissions.Services
             _cmd = cmd;
             _strings = strings;
 
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 foreach (var x in uow.GuildConfigs.Permissionsv2ForAll(client.Guilds.ToArray().Select(x => x.Id).ToList()))
                 {
@@ -48,7 +48,7 @@ namespace NadekoBot.Modules.Permissions.Services
         {
             if (!Cache.TryGetValue(guildId, out var pc))
             {
-                using (var uow = _db.UnitOfWork)
+                using (var uow = _db.GetDbContext())
                 {
                     var config = uow.GuildConfigs.ForId(guildId,
                         set => set.Include(x => x.Permissions));
@@ -63,7 +63,7 @@ namespace NadekoBot.Modules.Permissions.Services
 
         public async Task AddPermissions(ulong guildId, params Permissionv2[] perms)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var config = uow.GuildConfigs.GcWithPermissionsv2For(guildId);
                 //var orderedPerms = new PermissionsCollection<Permissionv2>(config.Permissions);
@@ -73,7 +73,7 @@ namespace NadekoBot.Modules.Permissions.Services
                     perm.Index = ++max;
                     config.Permissions.Add(perm);
                 }
-                await uow.CompleteAsync();
+                await uow.SaveChangesAsync();
                 UpdateCache(config);
             }
         }

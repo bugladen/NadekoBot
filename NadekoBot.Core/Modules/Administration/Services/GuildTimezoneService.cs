@@ -65,12 +65,12 @@ namespace NadekoBot.Modules.Administration.Services
 
         public void SetTimeZone(ulong guildId, TimeZoneInfo tz)
         {
-            using (var uow = _db.UnitOfWork)
+            using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guildId, set => set);
 
                 gc.TimeZoneId = tz?.Id;
-                uow.Complete();
+                uow.SaveChanges();
 
                 if (tz == null)
                     _timezones.TryRemove(guildId, out tz);

@@ -17,7 +17,7 @@ namespace NadekoBot.Modules.Searches
         public class AnimeSearchCommands : NadekoSubmodule<AnimeSearchService>
         {
             [NadekoCommand, Usage, Description, Aliases]
-            public async Task Novel([Remainder] string query)
+            public async Task Novel([Leftover] string query)
             {
                 if (string.IsNullOrWhiteSpace(query))
                     return;
@@ -40,12 +40,12 @@ namespace NadekoBot.Modules.Searches
                     .AddField(efb => efb.WithName(GetText("status")).WithValue(novelData.Status).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("genres")).WithValue(string.Join(" ", novelData.Genres.Any() ? novelData.Genres : new[] { "none" })).WithIsInline(true))
                     .WithFooter(efb => efb.WithText(GetText("score") + " " + novelData.Score));
-                await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [Priority(0)]
-            public async Task Mal([Remainder] string name)
+            public async Task Mal([Leftover] string name)
             {
                 if (string.IsNullOrWhiteSpace(name))
                     return;
@@ -109,7 +109,7 @@ namespace NadekoBot.Modules.Searches
                         .WithUrl(fullQueryLink)
                         .WithImageUrl(imageUrl);
 
-                    await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                    await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
                 }
             }
 
@@ -137,7 +137,7 @@ namespace NadekoBot.Modules.Searches
             public Task Mal(IGuildUser usr) => Mal(usr.Username);
 
             [NadekoCommand, Usage, Description, Aliases]
-            public async Task Anime([Remainder] string query)
+            public async Task Anime([Leftover] string query)
             {
                 if (string.IsNullOrWhiteSpace(query))
                     return;
@@ -160,12 +160,12 @@ namespace NadekoBot.Modules.Searches
                     .AddField(efb => efb.WithName(GetText("status")).WithValue(animeData.AiringStatus.ToString()).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("genres")).WithValue(string.Join(",\n", animeData.Genres.Any() ? animeData.Genres : new[] { "none" })).WithIsInline(true))
                     .WithFooter(efb => efb.WithText(GetText("score") + " " + animeData.AverageScore + " / 100"));
-                await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Manga([Remainder] string query)
+            public async Task Manga([Leftover] string query)
             {
                 if (string.IsNullOrWhiteSpace(query))
                     return;
@@ -189,7 +189,7 @@ namespace NadekoBot.Modules.Searches
                     .AddField(efb => efb.WithName(GetText("genres")).WithValue(string.Join(",\n", mangaData.Genres.Any() ? mangaData.Genres : new[] { "none" })).WithIsInline(true))
                     .WithFooter(efb => efb.WithText(GetText("score") + " " + mangaData.AverageScore + " / 100"));
 
-                await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
         }
     }

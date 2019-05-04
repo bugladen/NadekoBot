@@ -14,13 +14,13 @@ namespace NadekoBot.Modules.Administration
         {
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageGuild)]
+            [UserPerm(GuildPerm.ManageGuild)]
             public async Task GreetDel(int timer = 30)
             {
                 if (timer < 0 || timer > 600)
                     return;
 
-                await _service.SetGreetDel(Context.Guild.Id, timer).ConfigureAwait(false);
+                await _service.SetGreetDel(ctx.Guild.Id, timer).ConfigureAwait(false);
 
                 if (timer > 0)
                     await ReplyConfirmLocalizedAsync("greetdel_on", timer).ConfigureAwait(false);
@@ -30,10 +30,10 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageGuild)]
+            [UserPerm(GuildPerm.ManageGuild)]
             public async Task Greet()
             {
-                var enabled = await _service.SetGreet(Context.Guild.Id, Context.Channel.Id).ConfigureAwait(false);
+                var enabled = await _service.SetGreet(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
 
                 if (enabled)
                     await ReplyConfirmLocalizedAsync("greet_on").ConfigureAwait(false);
@@ -43,17 +43,17 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageGuild)]
+            [UserPerm(GuildPerm.ManageGuild)]
             public Task GreetMsg()
             {
-                string greetMsg = _service.GetGreetMsg(Context.Guild.Id);
+                string greetMsg = _service.GetGreetMsg(ctx.Guild.Id);
                 return ReplyConfirmLocalizedAsync("greetmsg_cur", greetMsg?.SanitizeMentions());
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageGuild)]
-            public async Task GreetMsg([Remainder] string text)
+            [UserPerm(GuildPerm.ManageGuild)]
+            public async Task GreetMsg([Leftover] string text)
             {
                 if (string.IsNullOrWhiteSpace(text))
                 {
@@ -61,7 +61,7 @@ namespace NadekoBot.Modules.Administration
                     return;                    
                 }
 
-                var sendGreetEnabled = _service.SetGreetMessage(Context.Guild.Id, ref text);
+                var sendGreetEnabled = _service.SetGreetMessage(ctx.Guild.Id, ref text);
 
                 await ReplyConfirmLocalizedAsync("greetmsg_new").ConfigureAwait(false);
                 if (!sendGreetEnabled)
@@ -70,10 +70,10 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageGuild)]
+            [UserPerm(GuildPerm.ManageGuild)]
             public async Task GreetDm()
             {
-                var enabled = await _service.SetGreetDm(Context.Guild.Id).ConfigureAwait(false);
+                var enabled = await _service.SetGreetDm(ctx.Guild.Id).ConfigureAwait(false);
 
                 if (enabled)
                     await ReplyConfirmLocalizedAsync("greetdm_on").ConfigureAwait(false);
@@ -83,17 +83,17 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageGuild)]
+            [UserPerm(GuildPerm.ManageGuild)]
             public Task GreetDmMsg()
             {
-                var dmGreetMsg = _service.GetDmGreetMsg(Context.Guild.Id);
+                var dmGreetMsg = _service.GetDmGreetMsg(ctx.Guild.Id);
                 return ReplyConfirmLocalizedAsync("greetdmmsg_cur", dmGreetMsg?.SanitizeMentions());
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageGuild)]
-            public async Task GreetDmMsg([Remainder] string text = null)
+            [UserPerm(GuildPerm.ManageGuild)]
+            public async Task GreetDmMsg([Leftover] string text = null)
             {
                 if (string.IsNullOrWhiteSpace(text))
                 {
@@ -101,7 +101,7 @@ namespace NadekoBot.Modules.Administration
                     return;
                 }
 
-                var sendGreetEnabled = _service.SetGreetDmMessage(Context.Guild.Id, ref text);
+                var sendGreetEnabled = _service.SetGreetDmMessage(ctx.Guild.Id, ref text);
 
                 await ReplyConfirmLocalizedAsync("greetdmmsg_new").ConfigureAwait(false);
                 if (!sendGreetEnabled)
@@ -110,10 +110,10 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageGuild)]
+            [UserPerm(GuildPerm.ManageGuild)]
             public async Task Bye()
             {
-                var enabled = await _service.SetBye(Context.Guild.Id, Context.Channel.Id).ConfigureAwait(false);
+                var enabled = await _service.SetBye(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
 
                 if (enabled)
                     await ReplyConfirmLocalizedAsync("bye_on").ConfigureAwait(false);
@@ -123,17 +123,17 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageGuild)]
+            [UserPerm(GuildPerm.ManageGuild)]
             public Task ByeMsg()
             {
-                var byeMsg = _service.GetByteMessage(Context.Guild.Id);
+                var byeMsg = _service.GetByeMessage(ctx.Guild.Id);
                 return ReplyConfirmLocalizedAsync("byemsg_cur", byeMsg?.SanitizeMentions());
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageGuild)]
-            public async Task ByeMsg([Remainder] string text)
+            [UserPerm(GuildPerm.ManageGuild)]
+            public async Task ByeMsg([Leftover] string text)
             {
                 if (string.IsNullOrWhiteSpace(text))
                 {
@@ -141,7 +141,7 @@ namespace NadekoBot.Modules.Administration
                     return;
                 }
 
-                var sendByeEnabled = _service.SetByeMessage(Context.Guild.Id, ref text);
+                var sendByeEnabled = _service.SetByeMessage(ctx.Guild.Id, ref text);
 
                 await ReplyConfirmLocalizedAsync("byemsg_new").ConfigureAwait(false);
                 if (!sendByeEnabled)
@@ -150,10 +150,10 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.ManageGuild)]
+            [UserPerm(GuildPerm.ManageGuild)]
             public async Task ByeDel(int timer = 30)
             {
-                await _service.SetByeDel(Context.Guild.Id, timer).ConfigureAwait(false);
+                await _service.SetByeDel(ctx.Guild.Id, timer).ConfigureAwait(false);
 
                 if (timer > 0)
                     await ReplyConfirmLocalizedAsync("byedel_on", timer).ConfigureAwait(false);
