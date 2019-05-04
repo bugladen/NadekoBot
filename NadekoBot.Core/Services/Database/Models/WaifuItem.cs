@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace NadekoBot.Core.Services.Database.Models
 {
@@ -47,6 +47,18 @@ namespace NadekoBot.Core.Services.Database.Models
             Cake, //2000
             Watermelon,//1000
             Dress, //4000
+            Bouquet, //225
+            Tangerine, //275
+            Eightball, //350
+            Doughnut, //420
+            Strawberry, //450
+            Snowman, //950
+            Turtle, //1750
+            Dizzy, //3800
+            Ferriswheel, //5500
+            Unicorn, //6500
+            Teddy, //11697
+            Ufo, //68669
         }
 
         public WaifuItem()
@@ -99,14 +111,29 @@ namespace NadekoBot.Core.Services.Database.Models
                 case ItemName.Chocolate:
                     wi = new WaifuItem("🍫", 200, itemName);
                     break;
+                case ItemName.Bouquet:
+                    wi = new WaifuItem("💐", 225, itemName);
+                    break;
+                case ItemName.Tangerine:
+                    wi = new WaifuItem("🍊", 275, itemName);
+                    break;
                 case ItemName.Icecream:
                     wi = new WaifuItem("🍦", 250, itemName);
                     break;
                 case ItemName.Sushi:
                     wi = new WaifuItem("🍣", 300, itemName);
                     break;
+                case ItemName.Eightball:
+                    wi = new WaifuItem("🎱", 350, itemName);
+                    break;
                 case ItemName.Rice:
                     wi = new WaifuItem("🍚", 400, itemName);
+                    break;
+                case ItemName.Doughnut:
+                    wi = new WaifuItem("🍩", 420, itemName);
+                    break;
+                case ItemName.Strawberry:
+                    wi = new WaifuItem("🍓", 450, itemName);
                     break;
                 case ItemName.Watermelon:
                     wi = new WaifuItem("🍉", 500, itemName);
@@ -117,11 +144,17 @@ namespace NadekoBot.Core.Services.Database.Models
                 case ItemName.MovieTicket:
                     wi = new WaifuItem("🎟", 800, itemName);
                     break;
+                case ItemName.Snowman:
+                    wi = new WaifuItem("⛄", 950, itemName);
+                    break;
                 case ItemName.Cake:
                     wi = new WaifuItem("🍰", 1000, itemName);
                     break;
                 case ItemName.Book:
                     wi = new WaifuItem("📔", 1500, itemName);
+                    break;
+                case ItemName.Turtle:
+                    wi = new WaifuItem("🐢", 1750, itemName);
                     break;
                 case ItemName.Cat:
                     wi = new WaifuItem("🐱", 2000, itemName);
@@ -138,6 +171,9 @@ namespace NadekoBot.Core.Services.Database.Models
                 case ItemName.Purse:
                     wi = new WaifuItem("👛", 3500, itemName);
                     break;
+                case ItemName.Dizzy:
+                    wi = new WaifuItem("💫", 3800, itemName);
+                    break;
                 case ItemName.Iphone:
                     wi = new WaifuItem("📱", 4000, itemName);
                     break;
@@ -146,6 +182,12 @@ namespace NadekoBot.Core.Services.Database.Models
                     break;
                 case ItemName.Laptop:
                     wi = new WaifuItem("💻", 5000, itemName);
+                    break;
+                case ItemName.Ferriswheel:
+                    wi = new WaifuItem("🎡", 5500, itemName);
+                    break;
+                case ItemName.Unicorn:
+                    wi = new WaifuItem("🦄", 6500, itemName);
                     break;
                 case ItemName.Violin:
                     wi = new WaifuItem("🎻", 7500, itemName);
@@ -158,6 +200,9 @@ namespace NadekoBot.Core.Services.Database.Models
                     break;
                 case ItemName.Ring:
                     wi = new WaifuItem("💍", 10000, itemName);
+                    break;
+                case ItemName.Teddy:
+                    wi = new WaifuItem("🧸", 11697, itemName);
                     break;
                 case ItemName.Yacht:
                     wi = new WaifuItem("🛳", 12000, itemName);
@@ -173,6 +218,9 @@ namespace NadekoBot.Core.Services.Database.Models
                     break;
                 case ItemName.Moon:
                     wi = new WaifuItem("🌕", 50000, itemName);
+                    break;
+                case ItemName.Ufo:
+                    wi = new WaifuItem("🛸", 66669, itemName);
                     break;
                 default:
                     throw new ArgumentException("Item is not implemented", nameof(itemName));
