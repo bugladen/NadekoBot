@@ -1,39 +1,10 @@
 ## Setting up your Credentials
 
-If you don't see a `credentials.json` file, you will need to rename `credentials_example.json` to `credentials.json`.
-
-**This is how the `credentials.json` looks like with all the APIs:**
-
-```json
-{
-  "ClientId": 179372110000358912,
-  "Token": "MTc5MzcyXXX2MDI1ODY3MjY0.ChKs4g.I8J_R9XX0t-QY-0PzXXXiN0-7vo",
-  "OwnerIds": [
-    105635123466156544,
-    105635123566156544,
-    105635123666156544
-  ],
-  "LoLApiKey": "6e99ecf36f0000095b0a3ccfe35df45f",
-  "GoogleApiKey": "AIzaSyDSci1sdlWQOWNVj1vlXxxxxxbk0oWMEzM",
-  "MashapeKey": "4UrKpcWXc2mshS8RKi00000y8Kf5p1Q8kI6jsn32bmd8oVWiY7",
-  "OsuApiKey": "4c8c8fdff8e1234581725db27fd140a7d93320d6",
-  "CleverbotApiKey": "",
-  "Db": null,
-  "TotalShards": 1,
-  "PatreonAccessToken": "",
-  "PatreonCampaignId": "334038",
-  "RestartCommand": null,
-  "ShardRunCommand": "",
-  "ShardRunArguments": "",
-  "ShardRunPort": null,
-  "TwitchClientId": null,
-  "RedisOptions": null
-}
-```
+This document aims to guide you through the process of creating a Discord account for your bot (the Discord Bot application), inviting that account into your Discord server and setting up the credentials necessary for the bot installed on your computer to be able to log into that account.
 
 ---
 
-#### Creating Discord Bot application
+#### Creating the Discord Bot application
 
 ![img2](https://i.imgur.com/Vxxeh2n.gif)
 
@@ -196,6 +167,41 @@ For Windows (Source), Linux or OSX, add this to your `credentials.json`
     "Cmd": "dotnet",
     "Args": "run -c Release"
 },
+```
+
+---
+
+#### End Result
+
+**This is an example of how the `credentials.json` looks like with multiple owners, the restart command (optional) and all the API keys (also optional):**
+
+```json
+{
+  "ClientId": 179372110000358912,
+  "Token": "MTc5MzcyXXX2MDI1ODY3MjY0.ChKs4g.I8J_R9XX0t-QY-0PzXXXiN0-7vo",
+  "OwnerIds": [
+        105635123466156544,
+        145521851676884992,
+        341420590009417729
+  ],
+  "LoLApiKey": "6e99ecf36f0000095b0a3ccfe35df45f",
+  "GoogleApiKey": "AIzaSyDSci1sdlWQOWNVj1vlXxxxxxbk0oWMEzM",
+  "MashapeKey": "4UrKpcWXc2mshS8RKi00000y8Kf5p1Q8kI6jsn32bmd8oVWiY7",
+  "OsuApiKey": "4c8c8fdff8e1234581725db27fd140a7d93320d6",
+  "CleverbotApiKey": "",
+  "Db": null,
+  "TotalShards": 1,
+  "PatreonAccessToken": "",
+  "PatreonCampaignId": "334038",
+  "RestartCommand": {
+    "Cmd": "NadekoBot.exe"
+	},
+  "ShardRunCommand": "",
+  "ShardRunArguments": "",
+  "ShardRunPort": null,
+  "TwitchClientId": null,
+  "RedisOptions": null
+}
 ```
 
 ---
