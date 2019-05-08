@@ -1,6 +1,6 @@
 # Permissions Overview
 
-Have you ever felt confused or even overwhelmed when trying to set Nadeko's permissions? In this guide we will be explaining how to use the permission commands correctly and even cover a few common questions! Every command we discuss here can be found in the [Commands List].
+Have you ever felt confused or even overwhelmed when trying to set Nadeko's permissions? In this guide we will be explaining **how to use the permission commands correctly** and even **cover a few common questions**! Every command we discuss here can be found in the [Commands List].
 
 ## Why do we use the Permissions Commands?
 
