@@ -128,10 +128,14 @@ namespace NadekoBot.Modules.Games.Common.Nunchi
                         else // else just start the new round without the user who was the last
                         {
                             var failure = _participants.Except(_passed).First();
+
+                            OnUserGuessed?.Invoke(this);
                             EndRound(failure);
+                            return;
                         }
                     }
-                    var __ = OnUserGuessed?.Invoke(this);
+
+                   OnUserGuessed?.Invoke(this);
                 }
                 else
                 {
