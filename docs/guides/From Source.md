@@ -16,7 +16,8 @@ This is the recommended way of installing Nadeko from source. If you don't want 
 
 #### Prerequisites (CLI)
 
-- Windows 8 or later
+- Windows 7 or later
+    - If you are on Windows 7, you must update [PowerShell].
 - [dotNET core 2.1 SDK][dotNET] (restart Windows after installation)
 - [Git] (select [this option](https://i.imgur.com/zlWVTsi.png) during the installation process)
 - Redis
@@ -35,7 +36,7 @@ If you want Nadeko to play music, do the following:
 
 - Download the [CLI installer](https://cdn.discordapp.com/attachments/287982972664020994/416782797420888074/NadekoInstaller.zip). Move it to where you want Nadeko's files to be.
 - Right click the file and extract it.
-- Right click the **`NadekoInstaller.bat`** file and open it as Administrator
+- Right click the **`NadekoInstaller.bat`** file and open it as Administrator.
 - After the admin check, you should see main menu with the options below:
 
 ```
@@ -53,7 +54,8 @@ If you want Nadeko to play music, do the following:
 12. Install Git. (Opens Website)
 13. Copy libsodium and opus dll files for 32bit users. (Required for 32bit, Music)
 14. Download and run redis-server for 32bit users. (32bit)
-15. To exit
+15. [NEW] NadekoBot Extensions
+16. To exit
 ```
 
 - Run Option `1` to download Nadeko (type 1 and press Enter). Once it's done, it should take you back to the main menu.
@@ -155,6 +157,7 @@ Other useful commands:
 - `git stash pop stash@{n}` to apply and delete a specific stash
 
 [Notepad++]: https://notepad-plus-plus.org/
+[PowerShell]: https://www.microsoft.com/en-us/download/details.aspx?id=54616
 [dotNET]: https://www.microsoft.com/net/download/dotnet-core/2.1
 [Redis]: https://github.com/MicrosoftArchive/redis/releases/tag/win-3.0.504
 [Git]: https://git-scm.com/downloads

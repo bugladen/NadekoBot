@@ -13,7 +13,7 @@
 
 #### Operating System Compatibility
 
-It is recommended that you use **Ubuntu 16.04**, as there have been nearly no problems with it. Music features are currently not working on CentOS. Also, **32-bit systems are incompatible**.
+It is recommended that you use **Ubuntu 16.04**, as there have been nearly no problems with it. Music features are currently not working on Debian and CentOS. Also, **32-bit systems are incompatible**.
 
 ##### Compatible operating systems:
 
@@ -51,14 +51,14 @@ Welcome to NadekoBot Auto Prerequisites Installer.
 Would you like to continue?
 ```
 
-- That will install all prerequisites your system needs in order to run NadekoBot.
+- This will install all prerequisites your system needs in order to run NadekoBot.
     - (Optional) **If** you prefer to install them manually, you can try finding them [here](https://github.com/Kwoth/NadekoBot-BashScript/blob/1.9/nadekoautoinstaller.sh).
 
 Once it finishes, the installer should automatically take you back to the main menu.
 
 #### Installing Nadeko
 
-- Choose Option `1` to get the **most updated build of NadekoBot**. When installation is complete, you will see the options again.
+- Choose Option `1` to get the **most updated build of NadekoBot**. When the installation is complete, you will see the options again.
 - If you haven't [set up your Discord bot application](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#creating-discord-bot-application) and [invited the bot to your server](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/#inviting-your-bot-to-your-server) yet, do it now.
     - Only the ClientID, Bot Token and OwnerID are required. Everything else is optional.
     - The Google API Key is required if you want Nadeko to play music.
