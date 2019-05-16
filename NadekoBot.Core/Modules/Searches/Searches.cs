@@ -665,10 +665,9 @@ namespace NadekoBot.Modules.Searches
                 return;
             }
 
-            var shortenedAvatarUrl = await _google.ShortenUrl(avatarUrl).ConfigureAwait(false);
             await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                 .AddField(efb => efb.WithName("Username").WithValue(usr.ToString()).WithIsInline(false))
-                .AddField(efb => efb.WithName("Avatar Url").WithValue(shortenedAvatarUrl).WithIsInline(false))
+                .AddField(efb => efb.WithName("Avatar Url").WithValue(avatarUrl).WithIsInline(false))
                 .WithThumbnailUrl(avatarUrl.ToString())
                 .WithImageUrl(avatarUrl.ToString()), ctx.User.Mention).ConfigureAwait(false);
         }
