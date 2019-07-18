@@ -1,4 +1,4 @@
-﻿using Discord;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Common.Attributes;
@@ -161,7 +161,7 @@ namespace NadekoBot.Modules.Administration
                             return (usr?.ToString() ?? x.Key.ToString()) + $" | {total} ({all} - {forgiven})";
                         });
 
-                    return new EmbedBuilder()
+                    return new EmbedBuilder().WithOkColor()
                         .WithTitle(GetText("warnings_list"))
                         .WithDescription(string.Join("\n", ws));
                 }, warnings.Length, 15).ConfigureAwait(false);
