@@ -55,12 +55,12 @@ Emoji of your currency. You can use server emojis, though occasionally it will f
 
 ## DmHelpString
 
-The string which will be sent whenever someone DMs the bot. Supports [embeds][1]. How it looks: [https://puu.sh/B0BLV.png](https://puu.sh/B0BLV.png)  
+The string which will be sent whenever someone DMs the bot. Supports embeds. How it looks: [https://puu.sh/B0BLV.png](https://puu.sh/B0BLV.png)  
 **Default is "Use `.h` for help"**
 
 ## HelpString
 
-The strings which will be sent whenever someone types `.h`. Supports [embeds][1]. You can also use {0} placeholder which will be replaced with your bot's client id, and {1} placeholder which will be replaced with your bot's prefix. How it looks: [https://puu.sh/B0BMa.png](https://puu.sh/B0BMa.png)  
+The strings which will be sent whenever someone types `.h`. Supports embeds. You can also use {0} placeholder which will be replaced with your bot's client id, and {1} placeholder which will be replaced with your bot's prefix. How it looks: [https://puu.sh/B0BMa.png](https://puu.sh/B0BMa.png)  
 **Default is too long to type out (check the screenshot)**
 
 ## CurrencyDropAmount
@@ -147,5 +147,3 @@ Whether the bot will see if there are updates available. The patch notes will be
 
 You need this only if you have a patreon page, and you've specified the PatreonCampaignId and PatreonAccessToken in credentials.json. This value is the amount of currency the users will get with `.clparew` for each cent they've pledged. Also make sure your patreon is set to charge upfront, otherwise people will be able to pledge, claim reward and unpledge without getting charged.  
 **Default is 1**
-
-[1]: Embed%20Guide "Embed guide"
