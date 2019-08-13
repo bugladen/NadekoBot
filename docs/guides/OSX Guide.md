@@ -5,11 +5,10 @@
 | [Prerequisites]                                         |
 | [Installing Homebrew]                                   |
 | [Downloading and Running Nadeko]                        |
-| [Setting up, Running and Updating Nadeko with pm2]      |
+| [Running Nadeko with the Terminal closed]      |
 | [Using Nadeko with pm2 (easiest method)]                |
 | [Using Nadeko with tmux (if you don't want to use pm2)] |
 | [Doing a clean reinstall]                               |
-| [Help! My music isn't working!]                         |
 
 #### Prerequisites
 
@@ -166,3 +165,12 @@ If music still isn't working, try reinstalling ffmpeg:
 - `brew prune` (Remove dead symlinks from Homebrewâ€™s prefix)
 - `brew doctor` (Check your Homebrew installation for common issues)
 - Then try `brew install ffmpeg` again.
+ 
+
+[Prerequisites]: #prerequisites
+[Installing Homebrew]: #installing-homebrew
+[Downloading and Running Nadeko]: #downloading-and-running-nadeko
+[Running Nadeko with the Terminal closed]: #running-nadekobot-with-the-terminal-closed
+[Using Nadeko with pm2 (easiest method)]: #using-nadeko-with-pm2-easiest-method
+[Using Nadeko with tmux (if you don't want to use pm2)]: #using-nadeko-with-tmux-if-you-dont-want-to-use-pm2
+[Doing a clean reinstall]: #doing-a-clean-reinstall
