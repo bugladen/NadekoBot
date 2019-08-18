@@ -1,5 +1,5 @@
 ﻿using AngleSharp;
-using AngleSharp.Dom.Html;
+using AngleSharp.Html.Dom;
 using Discord;
 using Discord.WebSocket;
 using NadekoBot.Common;

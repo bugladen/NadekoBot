@@ -18,7 +18,6 @@ using NadekoBot.Core.Services.Database.Models;
 using System.Threading;
 using System.Collections.Concurrent;
 using System;
-using Octokit;
 using System.Net.Http;
 
 namespace NadekoBot.Modules.Administration.Services
@@ -159,29 +158,29 @@ namespace NadekoBot.Modules.Administration.Services
 
         }
 
-        private async Task<string> GetNewCommit()
-        {
-            var client = new GitHubClient(new ProductHeaderValue("nadekobot"));
-            var lu = _bc.BotConfig.LastUpdate;
-            var commits = await client.Repository.Commit.GetAll("Kwoth", "NadekoBot", new CommitRequest()
-            {
-                Since = lu,
-            }).ConfigureAwait(false);
+        //private async Task<string> GetNewCommit()
+        //{
+        //    var client = new GitHubClient(new ProductHeaderValue("nadekobot"));
+        //    var lu = _bc.BotConfig.LastUpdate;
+        //    var commits = await client.Repository.Commit.GetAll("Kwoth", "NadekoBot", new CommitRequest()
+        //    {
+        //        Since = lu,
+        //    }).ConfigureAwait(false);
 
-            commits = commits.Where(x => x.Commit.Committer.Date.UtcDateTime > lu)
-                .Take(10)
-                .ToList();
+        //    commits = commits.Where(x => x.Commit.Committer.Date.UtcDateTime > lu)
+        //        .Take(10)
+        //        .ToList();
 
-            if (!commits.Any())
-                return null;
+        //    if (!commits.Any())
+        //        return null;
 
-            SetNewLastUpdate(commits[0].Commit.Committer.Date.UtcDateTime);
+        //    SetNewLastUpdate(commits[0].Commit.Committer.Date.UtcDateTime);
 
-            var newCommits = commits
-                .Select(x => $"[{x.Sha.TrimTo(6, true)}]({x.HtmlUrl})  {x.Commit.Message.TrimTo(50)}");
+        //    var newCommits = commits
+        //        .Select(x => $"[{x.Sha.TrimTo(6, true)}]({x.HtmlUrl})  {x.Commit.Message.TrimTo(50)}");
 
-            return string.Join('\n', newCommits);
-        }
+        //    return string.Join('\n', newCommits);
+        //}
 
         private void SetNewLastUpdate(DateTime dt)
         {
@@ -195,19 +194,19 @@ namespace NadekoBot.Modules.Administration.Services
             _bc.BotConfig.LastUpdate = dt;
         }
 
-        private async Task<string> GetNewRelease()
-        {
-            var client = new GitHubClient(new ProductHeaderValue("nadekobot"));
-            var lu = _bc.BotConfig.LastUpdate;
-            var release = (await client.Repository.Release.GetAll("Kwoth", "NadekoBot").ConfigureAwait(false)).FirstOrDefault();
+        //private async Task<string> GetNewRelease()
+        //{
+        //    var client = new GitHubClient(new ProductHeaderValue("nadekobot"));
+        //    var lu = _bc.BotConfig.LastUpdate;
+        //    var release = (await client.Repository.Release.GetAll("Kwoth", "NadekoBot").ConfigureAwait(false)).FirstOrDefault();
 
-            if (release == null || release.CreatedAt.UtcDateTime <= lu)
-                return null;
+        //    if (release == null || release.CreatedAt.UtcDateTime <= lu)
+        //        return null;
 
-            SetNewLastUpdate(release.CreatedAt.UtcDateTime);
+        //    SetNewLastUpdate(release.CreatedAt.UtcDateTime);
 
-            return Format.Bold(release.Name) + "\n\n" + release.Body.TrimTo(1500);
-        }
+        //    return Format.Bold(release.Name) + "\n\n" + release.Body.TrimTo(1500);
+        //}
 
         public void SetUpdateCheck(UpdateCheckType type)
         {
