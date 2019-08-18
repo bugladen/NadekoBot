@@ -44,7 +44,7 @@ namespace NadekoBot.Modules.Administration.Services
         private readonly IDataCache _cache;
         private readonly IImageCache _imgs;
         private readonly IHttpClientFactory _httpFactory;
-        private readonly Timer _updateTimer;
+        //private readonly Timer _updateTimer;
 
         public SelfService(DiscordSocketClient client, NadekoBot bot, CommandHandler cmdHandler, DbService db,
             IBotConfigProvider bc, ILocalization localization, NadekoStrings strings, IBotCredentials creds,
@@ -68,31 +68,32 @@ namespace NadekoBot.Modules.Administration.Services
             {
                 sub.Subscribe(_creds.RedisKey() + "_reload_images",
                     delegate { _imgs.Reload(); }, CommandFlags.FireAndForget);
-                _updateTimer = new Timer(async _ =>
-                {
-                    try
-                    {
-                        var ch = ownerChannels?.Values.FirstOrDefault();
 
-                        if (ch == null) // no owner channels
-                            return;
+                //_updateTimer = new Timer(async _ =>
+                //{
+                //    try
+                //    {
+                //        var ch = ownerChannels?.Values.FirstOrDefault();
 
-                        var cfo = _bc.BotConfig.CheckForUpdates;
-                        if (cfo == UpdateCheckType.None)
-                            return;
+                //        if (ch == null) // no owner channels
+                //            return;
 
-                        string data;
-                        if ((cfo == UpdateCheckType.Commit && (data = await GetNewCommit().ConfigureAwait(false)) != null)
-                            || (cfo == UpdateCheckType.Release && (data = await GetNewRelease().ConfigureAwait(false)) != null))
-                        {
-                            await ch.SendConfirmAsync("New Bot Update", data).ConfigureAwait(false);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        _log.Warn(ex);
-                    }
-                }, null, TimeSpan.FromHours(8), TimeSpan.FromHours(8));
+                //        var cfo = _bc.BotConfig.CheckForUpdates;
+                //        if (cfo == UpdateCheckType.None)
+                //            return;
+
+                //        string data;
+                //        if ((cfo == UpdateCheckType.Commit && (data = await GetNewCommit().ConfigureAwait(false)) != null)
+                //            || (cfo == UpdateCheckType.Release && (data = await GetNewRelease().ConfigureAwait(false)) != null))
+                //        {
+                //            await ch.SendConfirmAsync("New Bot Update", data).ConfigureAwait(false);
+                //        }
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        _log.Warn(ex);
+                //    }
+                //}, null, TimeSpan.FromHours(8), TimeSpan.FromHours(8));
             }
             sub.Subscribe(_creds.RedisKey() + "_reload_bot_config",
                 delegate { _bc.Reload(); }, CommandFlags.FireAndForget);
@@ -217,10 +218,10 @@ namespace NadekoBot.Modules.Administration.Services
                 uow.SaveChanges();
             }
 
-            if (type == UpdateCheckType.None)
-            {
-                _updateTimer.Change(Timeout.Infinite, Timeout.Infinite);
-            }
+            //if (type == UpdateCheckType.None)
+            //{
+            //    _updateTimer.Change(Timeout.Infinite, Timeout.Infinite);
+            //}
         }
 
         private Timer TimerFromStartupCommand(StartupCommand x)
