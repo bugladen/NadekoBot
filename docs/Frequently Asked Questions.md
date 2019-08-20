@@ -4,7 +4,7 @@
 
 ---
 
-**Answer:** Send Nadeko a Direct Message with `.h` and follow the link or simply [click here](https://invite.nadeko.bot/).
+**Answer:** Send Nadeko a Direct Message with `.h` and follow the link or simply [click here](https://invite.nadeko.bot/).  
 Only users with **Manage Server permission** can add bots to a server.
 
 ### Question 2: I want to change permissions, but it isn't working!
@@ -23,7 +23,7 @@ Only users with **Manage Server permission** can add bots to a server.
 
 ---
 
-**Answer:** On public Nadeko, you can get NadekoFlowers by [voting](https://discordbots.org/bot/nadeko/vote) for her on DiscordBots.com or donating money on [Patreon](https://patreon.com/nadekobot) or [PayPal](https://paypal.me/Kwoth). You can also gamble with potential profit with `.betflip`, `.betroll` and other gambling commands.
+**Answer:** On public Nadeko, you can get NadekoFlowers by [voting](https://discordbots.org/bot/nadeko/vote) for her on DiscordBots.com or donating money on [Patreon](https://patreon.com/nadekobot) or [PayPal](https://paypal.me/Kwoth). You can also gamble with potential profit with `.betflip`, `.betroll` and other gambling commands.  
 
 On self-hosts, you can also get NadekoFlowers by picking them up after they have been generated with `.gc` or planted by someone else, clicking on reaction events or typing `.timely` (assuming the bot owner has set a timely reward).
 

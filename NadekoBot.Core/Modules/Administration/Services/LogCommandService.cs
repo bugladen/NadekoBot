@@ -498,14 +498,17 @@ namespace NadekoBot.Modules.Administration.Services
                                 var diffRoles = after.Roles.Where(r => !before.Roles.Contains(r)).Select(r => r.Name);
                                 embed.WithAuthor(eab => eab.WithName("⚔ " + GetText(logChannel.Guild, "user_role_add")))
                                     .WithDescription(string.Join(", ", diffRoles).SanitizeMentions());
+
+                                await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                             }
                             else if (before.Roles.Count > after.Roles.Count)
                             {
                                 var diffRoles = before.Roles.Where(r => !after.Roles.Contains(r)).Select(r => r.Name);
                                 embed.WithAuthor(eab => eab.WithName("⚔ " + GetText(logChannel.Guild, "user_role_rem")))
                                     .WithDescription(string.Join(", ", diffRoles).SanitizeMentions());
+
+                                await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                             }
-                            await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                         }
                     }
 

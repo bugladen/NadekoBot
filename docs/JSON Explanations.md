@@ -195,7 +195,7 @@ For Windows (Source), Linux or OSX, add this to your `credentials.json`
   "PatreonCampaignId": "334038",
   "RestartCommand": {
     "Cmd": "NadekoBot.exe"
-        },
+	},
   "ShardRunCommand": "",
   "ShardRunArguments": "",
   "ShardRunPort": null,

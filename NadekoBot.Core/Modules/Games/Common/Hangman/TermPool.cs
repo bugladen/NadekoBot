@@ -38,8 +38,6 @@ namespace NadekoBot.Modules.Games.Common.Hangman
 
             if (type == "random")
             {
-                var keys = Data.Keys.ToArray();
-
                 type = Data.Keys.ToArray()[rng.Next(0, Data.Keys.Count())];
             }
             if (!Data.TryGetValue(type, out var termTypes) || termTypes.Length == 0)

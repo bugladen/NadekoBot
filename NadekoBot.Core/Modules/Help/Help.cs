@@ -69,7 +69,7 @@ namespace NadekoBot.Modules.Help
         }
 
         [NadekoCommand, Usage, Description, Aliases]
-        [NadekoOptionsAttribute(typeof(CommandsOptions))]
+        [NadekoOptions(typeof(CommandsOptions))]
         public async Task Commands(string module = null, params string[] args)
         {
             var channel = ctx.Channel;
@@ -91,7 +91,7 @@ namespace NadekoBot.Modules.Help
 
             // check preconditions for all commands, but only if it's not 'all'
             // because all will show all commands anyway, no need to check
-            HashSet<CommandInfo> succ = new HashSet<CommandInfo>();
+            var succ = new HashSet<CommandInfo>();
             if (opts.View != CommandsOptions.ViewType.All)
             {
                 succ = new HashSet<CommandInfo>((await Task.WhenAll(cmds.Select(async x =>
