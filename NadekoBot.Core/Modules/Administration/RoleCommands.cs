@@ -17,7 +17,7 @@ namespace NadekoBot.Modules.Administration
     {
         public class RoleCommands : NadekoSubmodule<RoleCommandsService>
         {
-            public enum Excl { Excl }
+            public enum Exclude { Excl }
 
             public async Task InternalReactionRoles(bool exclusive, params string[] input)
             {
@@ -106,7 +106,7 @@ namespace NadekoBot.Modules.Administration
             [UserPerm(GuildPerm.ManageRoles)]
             [BotPerm(GuildPerm.ManageRoles)]
             [Priority(1)]
-            public Task ReactionRoles(Excl _, params string[] input) =>
+            public Task ReactionRoles(Exclude _, params string[] input) =>
                 InternalReactionRoles(true, input);
 
             [NadekoCommand, Usage, Description, Aliases]
