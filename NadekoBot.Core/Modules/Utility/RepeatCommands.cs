@@ -93,7 +93,10 @@ namespace NadekoBot.Modules.Utility
 
                     var item = guildConfig.GuildRepeaters.FirstOrDefault(r => r.Id == repeater.Value.Repeater.Id);
                     if (item != null)
+                    {
                         guildConfig.GuildRepeaters.Remove(item);
+                        uow._context.Remove(item);
+                    }
                     await uow.SaveChangesAsync();
                 }
                 await ctx.Channel.SendConfirmAsync(GetText("message_repeater"),

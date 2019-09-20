@@ -17,6 +17,7 @@ using NadekoBot.Extensions;
 using NadekoBot.Modules.Searches.Common;
 using NadekoBot.Modules.Searches.Common.Exceptions;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NLog;
 
 namespace NadekoBot.Modules.Searches.Services
@@ -30,8 +31,8 @@ namespace NadekoBot.Modules.Searches.Services
         private readonly DiscordSocketClient _client;
         private readonly NadekoStrings _strings;
         private readonly IDataCache _cache;
-        private readonly HttpClient _http;
         private readonly Logger _log;
+        private readonly IHttpClientFactory _httpFactory;
         private readonly IBotCredentials _creds;
         private readonly Random _rng = new NadekoRandom();
         private readonly ConcurrentDictionary<
@@ -48,9 +49,8 @@ namespace NadekoBot.Modules.Searches.Services
             _strings = strings;
             _cache = cache;
             _creds = creds;
-            _http = factory.CreateClient();
-            _http.DefaultRequestHeaders.TryAddWithoutValidation("Client-ID", _creds.TwitchClientId);
             _log = LogManager.GetCurrentClassLogger();
+            _httpFactory = factory;
 
 #if !GLOBAL_NADEKO
             _followedStreams = bot.AllGuildConfigs
@@ -182,63 +182,78 @@ namespace NadekoBot.Modules.Searches.Services
             string url = string.Empty;
             Type type = null;
             username = username.ToLowerInvariant();
-            switch (t)
+            using (var http = _httpFactory.CreateClient())
             {
-                case FollowedStream.FType.Twitch:
-                    url = $"https://api.twitch.tv/kraken/streams/{Uri.EscapeUriString(username)}";
-                    type = typeof(TwitchResponse);
-                    break;
-                case FollowedStream.FType.Smashcast:
-                    url = $"https://api.smashcast.tv/user/{username}";
-                    type = typeof(SmashcastResponse);
-                    break;
-                case FollowedStream.FType.Mixer:
-                    url = $"https://mixer.com/api/v1/channels/{username}";
-                    type = typeof(MixerResponse);
-                    break;
-                case FollowedStream.FType.Picarto:
-                    url = $"https://api.picarto.tv/v1/channel/name/{username}";
-                    type = typeof(PicartoResponse);
-                    break;
-                default:
-                    break;
-            }
-            try
-            {
-                if (checkCache && _cache.TryGetStreamData(url, out string dataStr))
-                    return JsonConvert.DeserializeObject<StreamResponse>(dataStr);
-
-                var response = await _http.GetAsync(url).ConfigureAwait(false);
-                if (!response.IsSuccessStatusCode)
-                    throw new StreamNotFoundException($"Stream Not Found: {username} [{type.Name}]");
-                var responseStr = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                var data = JsonConvert.DeserializeObject(responseStr, type) as IStreamResponse;
-                data.ApiUrl = url;
-                var sr = new StreamResponse
+                switch (t)
                 {
-                    ApiUrl = data.ApiUrl,
-                    Followers = data.Followers,
-                    Game = data.Game,
-                    Icon = data.Icon,
-                    Live = data.Live,
-                    Name = data.Name ?? username.ToLowerInvariant(),
-                    StreamType = data.StreamType,
-                    Title = data.Title,
-                    Viewers = data.Viewers,
-                    Preview = data.Preview,
-                };
-                await _cache.SetStreamDataAsync(url, JsonConvert.SerializeObject(sr)).ConfigureAwait(false);
-                return sr;
-            }
-            catch (StreamNotFoundException ex)
-            {
-                _log.Warn(ex.Message);
-                return null;
-            }
-            catch (Exception ex)
-            {
-                _log.Warn(ex.Message);
-                return null;
+                    case FollowedStream.FType.Twitch:
+
+                        http.DefaultRequestHeaders.TryAddWithoutValidation("Accept", "application/vnd.twitchtv.v5");
+                        http.DefaultRequestHeaders.TryAddWithoutValidation("Client-ID", _creds.TwitchClientId);
+
+                        var twitchurl = $"https://api.twitch.tv/kraken/users?login={Uri.EscapeUriString(username)}";
+                        var fullUseridData = await http.GetStringAsync(twitchurl);
+                        var data = JObject.Parse(fullUseridData)["users"].ToArray().FirstOrDefault();
+                        if(data is default(JToken))
+                        {
+                            throw new StreamNotFoundException($"Stream Not Found: {username} [{type.Name}]");
+                        }
+
+                        url = $"https://api.twitch.tv/kraken/streams/{ data["_id"] }";
+                        type = typeof(TwitchResponse);
+                        break;
+                    case FollowedStream.FType.Smashcast:
+                        url = $"https://api.smashcast.tv/user/{username}";
+                        type = typeof(SmashcastResponse);
+                        break;
+                    case FollowedStream.FType.Mixer:
+                        url = $"https://mixer.com/api/v1/channels/{username}";
+                        type = typeof(MixerResponse);
+                        break;
+                    case FollowedStream.FType.Picarto:
+                        url = $"https://api.picarto.tv/v1/channel/name/{username}";
+                        type = typeof(PicartoResponse);
+                        break;
+                    default:
+                        break;
+                }
+                try
+                {
+                    if (checkCache && _cache.TryGetStreamData(url, out string dataStr))
+                        return JsonConvert.DeserializeObject<StreamResponse>(dataStr);
+
+                    var response = await http.GetAsync(url).ConfigureAwait(false);
+                    if (!response.IsSuccessStatusCode)
+                        throw new StreamNotFoundException($"Stream Not Found: {username} [{type.Name}]");
+                    var responseStr = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    var data = JsonConvert.DeserializeObject(responseStr, type) as IStreamResponse;
+                    data.ApiUrl = url;
+                    var sr = new StreamResponse
+                    {
+                        ApiUrl = data.ApiUrl,
+                        Followers = data.Followers,
+                        Game = data.Game,
+                        Icon = data.Icon,
+                        Live = data.Live,
+                        Name = data.Name ?? username.ToLowerInvariant(),
+                        StreamType = data.StreamType,
+                        Title = data.Title,
+                        Viewers = data.Viewers,
+                        Preview = data.Preview,
+                    };
+                    await _cache.SetStreamDataAsync(url, JsonConvert.SerializeObject(sr)).ConfigureAwait(false);
+                    return sr;
+                }
+                catch (StreamNotFoundException ex)
+                {
+                    _log.Warn(ex.Message);
+                    return null;
+                }
+                catch (Exception ex)
+                {
+                    _log.Warn(ex.Message);
+                    return null;
+                }
             }
         }
 
