@@ -25,90 +25,29 @@ function Build-Installer($versionNumber)
 
     & "iscc.exe" "/O+" ".\NadekoBot.iss"
 
-    $path = [Environment]::GetFolderPath('MyDocuments') + "\_projekti\NadekoInstallerOutput\NadekoBot-setup-$versionNumber.exe";
-    $dest = [Environment]::GetFolderPath('MyDocuments') + "\_projekti\NadekoInstallerOutput\nadeko-setup.exe";
-    Copy-Item -Path $path -Destination $dest -Force
+    $path = [Environment]::GetFolderPath('MyDocuments') + "\_projekti\NadekoInstallerOutput\$versionNumber\nadeko-setup-$versionNumber.exe";
+    Copy-Item -Path $path -Destination $dest -Force -ErrorAction Stop
+
+	return $path
 }
 
-function GitHub-Release($versionNumber) {
-    [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12
-    $ErrorActionPreference = "Stop"
+function DigitaloceanRelease($versionNumber) {	
 
-    git pull
-    git push #making sure commit id exists on remote
+	# pull the changes if they exist
+	git pull
+	# attempt to build teh installer
+	# $path = Build-Installer $versionNumber
 
-    $nl = [Environment]::NewLine
-    $env:NADEKOBOT_INSTALL_VERSION = $versionNumber
-    $gitHubApiKey = $env:GITHUB_API_KEY
-    
-    $commitId = git rev-parse HEAD
-
+	# get changelog before tagging
     $changelog = Get-Changelog
+	# tag the release
+	& (git tag, g$tag)
 
-    Write-Host $changelog 
+	# print out the changelog to the console
+    Write-Host $changelog 	
 
+	$jsonReleaseFile = "[{""VersionName"": ""$versionNumber"", ""DownloadLink"": ""https://nadeko-pictures.nyc3.digitaloceanspaces.com/releases/nadeko-setup-$versionNumber.exe"", ""Changelog"": ""$changelog""}]"
 
-    # set-alias sz "$env:ProgramFiles\7-Zip\7z.exe" 
-    # $source = "src\NadekoBot\bin\Release\PublishOutput\win7-x64" 
-    # $target = "src\NadekoBot\bin\Release\PublishOutput\NadekoBot.7z"
-
-    # sz 'a' '-mx3' $target $source
-
-    Build-Installer
-    $artifact = "nadekobot-setup.exe";
-    $auth = 'Basic ' + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes($gitHubApiKey + ":x-oauth-basic"));
-    Write-Host $changelog
-    $result = GitHubMake-Release $versionNumber $commitId $TRUE $gitHubApiKey $auth "" "$changelog"
-    $releaseId = $result | Select-Object -ExpandProperty id
-    $uploadUri = $result | Select-Object -ExpandProperty upload_url
-    $uploadUri = $uploadUri -creplace '\{\?name,label\}', "?name=$artifact"
-    Write-Host $releaseId $uploadUri
-    $uploadFile = [Environment]::GetFolderPath('MyDocuments') + "\projekti\NadekoInstallerOutput\$artifact"
-
-    $uploadParams = @{
-        Uri         = $uploadUri;
-        Method      = 'POST';
-        Headers     = @{
-            Authorization = $auth;
-        }
-        ContentType = 'application/x-msdownload';
-        InFile      = $uploadFile
-    }
-
-    Write-Host 'Uploading artifact'
-    $result = Invoke-RestMethod @uploadParams
-    Write-Host 'Artifact upload finished.'
-    $result = GitHubMake-Release $versionNumber $commitId $FALSE $gitHubApiKey $auth "$releaseId"
-    git pull
-    Write-Host 'Done 🎉'
-}
-
-function GitHubMake-Release($versionNumber, $commitId, $draft, $gitHubApiKey, $auth, $releaseId, $body) {
-    $releaseId = If ($releaseId -eq "") {""} Else {"/" + $releaseId};
-
-    Write-Host $versionNumber
-    Write-Host $commitId
-    Write-Host $draft
-    Write-Host $releaseId
-    Write-Host $body
-
-    $releaseData = @{
-        tag_name         = $versionNumber;
-        target_commitish = $commitId;
-        name             = [string]::Format("NadekoBot v{0}", $versionNumber);
-        body             = $body;
-        draft            = $draft;
-        prerelease       = $releaseId -ne "";
-    }
-
-    $releaseParams = @{
-        Uri         = "https://api.github.com/repos/Kwoth/NadekoBot/releases" + $releaseId;
-        Method      = 'POST';
-        Headers     = @{
-            Authorization = $auth;
-        }
-        ContentType = 'application/json';
-        Body        = (ConvertTo-Json $releaseData -Compress)
-    }
-    return Invoke-RestMethod @releaseParams
+	$releaseJsonOutPath = [Environment]::GetFolderPath('MyDocuments') + "\_projekti\NadekoInstallerOutput\$versionNumber\"
+	New-Item -Path $releaseJsonOutPath -Value $jsonReleaseFile -Name "releases.json" -Force
 }

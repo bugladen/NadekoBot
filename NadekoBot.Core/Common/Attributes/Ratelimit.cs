@@ -7,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace NadekoBot.Core.Common.Attributes
 {
-    //todo why is this unused?
     [AttributeUsage(AttributeTargets.Method)]
     public sealed class RatelimitAttribute : PreconditionAttribute
     {
