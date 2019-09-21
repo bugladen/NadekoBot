@@ -38,7 +38,6 @@ namespace NadekoBot.Modules.Utility
             [Priority(0)]
             public async Task Convert(string origin, string target, decimal value)
             {
-                //todo why am i selecting them every time?
                 var originUnit = _service.Units.FirstOrDefault(x => x.Triggers.Select(y => y.ToUpperInvariant()).Contains(origin.ToUpperInvariant()));
                 var targetUnit = _service.Units.FirstOrDefault(x => x.Triggers.Select(y => y.ToUpperInvariant()).Contains(target.ToUpperInvariant()));
                 if (originUnit == null || targetUnit == null)

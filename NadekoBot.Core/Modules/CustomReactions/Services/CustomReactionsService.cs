@@ -29,7 +29,7 @@ namespace NadekoBot.Modules.CustomReactions.Services
             ContainsAnywhere,
             Message,
         }
-        //todo move all logic inside and this can become a property
+
         private ConcurrentDictionary<int, CustomReaction> _globalReactions;
         private ConcurrentDictionary<ulong, ConcurrentDictionary<int, CustomReaction>> _guildReactions;
 
