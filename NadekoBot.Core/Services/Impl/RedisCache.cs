@@ -221,7 +221,7 @@ namespace NadekoBot.Core.Services.Impl
                 expiry: TimeSpan.FromMinutes(3));
         }
 
-        public async Task<TOut> GetOrAddCachedDataAsync<TParam, TOut>(string key, Func<TParam, Task<TOut>> factory, TParam param, TimeSpan expiry)
+        public async Task<TOut> GetOrAddCachedDataAsync<TParam, TOut>(string key, Func<TParam, Task<TOut>> factory, TParam param, TimeSpan expiry) where TOut : class
         {
             var _db = Redis.GetDatabase();
 
@@ -230,7 +230,7 @@ namespace NadekoBot.Core.Services.Impl
             {
                 var obj = await factory(param).ConfigureAwait(false);
 
-                if (obj is null)
+                if (obj == null)
                     return default(TOut);
 
                 await _db.StringSetAsync(key, JsonConvert.SerializeObject(obj),
