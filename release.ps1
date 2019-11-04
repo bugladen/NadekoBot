@@ -20,6 +20,7 @@ function Build-Installer($versionNumber)
 {
     $env:NADEKOBOT_INSTALL_VERSION = $versionNumber
 
+	dotnet clean
     dotnet publish -c Release --runtime win7-x64
     .\rcedit-x64.exe "src\NadekoBot\bin\Release\netcoreapp2.1\win7-x64\nadekobot.exe" --set-icon "src\NadekoBot\bin\Release\netcoreapp2.1\win7-x64\nadeko_icon.ico"
 
@@ -36,12 +37,12 @@ function DigitaloceanRelease($versionNumber) {
 	# pull the changes if they exist
 	git pull
 	# attempt to build teh installer
-	# $path = Build-Installer $versionNumber
+	$path = Build-Installer $versionNumber
 
 	# get changelog before tagging
     $changelog = Get-Changelog
 	# tag the release
-	& (git tag, g$tag)
+	# & (git tag, $tag)
 
 	# print out the changelog to the console
     Write-Host $changelog 	

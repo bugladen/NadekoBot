@@ -32,6 +32,6 @@ namespace NadekoBot.Core.Services
         bool TryGetEconomy(out string data);
         void SetEconomy(string data);
 
-        Task<TOut> GetOrAddCachedDataAsync<TParam, TOut>(string key, Func<TParam, Task<TOut>> factory, TParam param, TimeSpan expiry);
+        Task<TOut> GetOrAddCachedDataAsync<TParam, TOut>(string key, Func<TParam, Task<TOut>> factory, TParam param, TimeSpan expiry) where TOut : class;
     }
 }

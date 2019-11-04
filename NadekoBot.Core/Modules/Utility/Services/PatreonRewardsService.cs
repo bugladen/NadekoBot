@@ -115,6 +115,7 @@ namespace NadekoBot.Modules.Utility.Services
                 var datas = _pledges?.Where(x => x.User.attributes?.social_connections?.discord?.user_id == userId.ToString())
                     ?? Enumerable.Empty<PatreonUserAndReward>();
 
+                var totalAmount = 0;
                 foreach (var data in datas)
                 {
                     var amount = (int)(data.Reward.attributes.amount_cents * _bc.BotConfig.PatreonCurrencyPerCent);
@@ -128,7 +129,6 @@ namespace NadekoBot.Modules.Utility.Services
                         {
                             users.Add(new RewardedUser()
                             {
-                                UserId = userId,
                                 PatreonUserId = data.User.id,
                                 LastReward = now,
                                 AmountRewardedThisMonth = amount,
@@ -137,19 +137,20 @@ namespace NadekoBot.Modules.Utility.Services
                             await uow.SaveChangesAsync();
 
                             await _currency.AddAsync(userId, "Patreon reward - new", amount, gamble: true);
-                            return amount;
+                            totalAmount += amount;
+                            continue;
                         }
 
                         if (usr.LastReward.Month != now.Month)
                         {
                             usr.LastReward = now;
                             usr.AmountRewardedThisMonth = amount;
-                            usr.UserId = userId;
 
                             await uow.SaveChangesAsync();
 
                             await _currency.AddAsync(userId, "Patreon reward - recurring", amount, gamble: true);
-                            return amount;
+                            totalAmount += amount;
+                            continue;
                         }
 
                         if (usr.AmountRewardedThisMonth < amount)
@@ -158,17 +159,16 @@ namespace NadekoBot.Modules.Utility.Services
 
                             usr.LastReward = now;
                             usr.AmountRewardedThisMonth = amount;
-                            usr.UserId = userId;
                             await uow.SaveChangesAsync();
 
-                            await _currency.AddAsync(usr.UserId, "Patreon reward - update", toAward, gamble: true);
-                            return toAward;
+                            await _currency.AddAsync(userId, "Patreon reward - update", toAward, gamble: true);
+                            totalAmount += toAward;
+                            continue;
                         }
                     }
-                    return 0;
                 }
 
-                return 0;
+                return totalAmount;
             }
             finally
             {
