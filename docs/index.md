@@ -19,7 +19,6 @@ If you want to contribute, be sure to PR on the current **[default][repo]** bran
     - [Windows Guide](guides/Windows Guide.md)
     - [Linux Guide](guides/Linux Guide.md)
     - [OSX Guide](guides/OSX Guide.md)
-    - [Docker Guide](guides/Docker Guide.md)
     - [From Source](guides/From Source.md)
 - Commands
     - [Readme](Readme.md)

@@ -10,7 +10,7 @@
 
 *Note: If you want to make changes to Nadeko's source code, please follow the [From Source][SourceGuide] guide instead.*
 
-*If you have Windows 7 or a 32-bit system, please refer to the [From Source][SourceGuide] or [Docker][DockerGuide] guides.*
+*If you have Windows 7 or a 32-bit system, please refer to the [From Source][SourceGuide] guide.*
 
 #### Prerequisites
 
@@ -68,6 +68,5 @@ You can still install them manually:
 [Visual C++ 2010 (x86)]: https://download.microsoft.com/download/1/6/5/165255E7-1014-4D0A-B094-B6A430A6BFFC/vcredist_x86.exe
 [Visual C++ 2017 (x64)]: https://aka.ms/vs/15/release/vc_redist.x64.exe
 [SourceGuide]: https://nadekobot.readthedocs.io/en/latest/guides/From%20Source/
-[DockerGuide]: https://nadekobot.readthedocs.io/en/latest/guides/Docker%20Guide/
 [ffmpeg]: https://ffmpeg.zeranoe.com/builds/
 [youtube-dl]: https://rg3.github.io/youtube-dl/download.html
