@@ -1,0 +1,23 @@
+site_name: NadekoBot
+pages:
+- Home: index.md
+- About: about.md
+- Guides:
+    - Windows Guide: guides/Windows Guide.md
+    - Linux Guide: guides/Linux Guide.md
+    - OSX Guide: guides/OSX Guide.md
+    - From Source: guides/From Source.md
+- Commands:
+    - Readme: Readme.md
+    - Commands List: Commands List.md
+- Features Explained:
+    - JSON Explanations: JSON Explanations.md
+    - Permissions System: Permissions System.md
+    - Custom Reactions: Custom Reactions.md
+    - Placeholders: Placeholders.md
+    - Bot Config: Bce Guide.md
+- Frequently Asked Questions: Frequently Asked Questions.md
+- Contribution Guide: Contribution Guide.md
+- ❤ Donate ❤: Donate.md
+
+theme: readthedocs
